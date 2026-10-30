@@ -8,10 +8,12 @@ This guide takes one person from an unconfigured organization to a weekly lifecy
 3. Accept existing findings with a baseline.
 4. Read the reports the workflow leaves behind.
 5. Send the recurring digest to Slack or Teams.
+6. Offer the per-repository starter from the organization's `.github` repository.
+7. Open adoption pull requests at scale (optional).
 
-The scan itself stays local. The reusable workflow lists repositories and downloads artifacts through the GitHub API; each scan checks out one repository and reads its files and Evergreen's bundled data, with no network access.
+The scan itself stays local. The organization-scan workflow lists repositories and downloads artifacts through the GitHub API; each scan checks out one repository and reads its files and Evergreen's bundled data, with no network access. Per-repository adoption uses one `uses:` line that calls the reusable scan workflow.
 
-> **Version.** The reusable workflow and the `org:rollout` tool first ship in `v0.8.0`. The examples below call `@v0.8.0`. Until that tag exists, call `@main` only to try the workflow, then replace it with the release tag before relying on it.
+> **Version.** The reusable workflows and the `org:rollout` tool first ship in `v0.8.0`. The examples below call `@v0.8.0`. Until that tag exists, call `@main` only to try a workflow, then replace it with the release tag before relying on it.
 
 ## Before you start
 
@@ -195,7 +197,18 @@ npx evergreen-deprecation scan . --baseline .evergreen-baseline.json --baseline-
 
 ### Wire the baseline into the per-repository workflow
 
-The baseline only takes effect where a workflow passes it to the Action. Add one input to the Evergreen workflow in that repository:
+The baseline only takes effect where a workflow passes it to the Action or the reusable workflow. Prefer one `uses:` line that calls the reusable workflow:
+
+```yaml
+jobs:
+  lifecycle:
+    uses: arminazimi/evergreen/.github/workflows/evergreen-reusable.yml@v0.8.0
+    with:
+      baseline: .evergreen-baseline.json
+      fail-on-severity: high
+```
+
+Or pass the same inputs on the Action step directly:
 
 ```yaml
 - uses: arminazimi/evergreen@v0.8.0
@@ -204,7 +217,7 @@ The baseline only takes effect where a workflow passes it to the Action. Add one
     fail-on-severity: high
 ```
 
-The reusable organization workflow does not pass a `baseline` input: it scans each repository with the Action's defaults and reports every finding. Use it with `fail-on-severity: none` as the inventory and digest, and use the per-repository workflow above for the pull-request gate. This is also the workflow created by the adoption pull requests in [step 6](#6-open-adoption-pull-requests-at-scale); add the `baseline` line to that file when you accept its first report.
+The organization-wide scan workflow (`org-scan.yml`) does not pass a `baseline` input: it scans each repository with the Action's defaults and reports every finding. Use it with `fail-on-severity: none` as the inventory and digest, and use the per-repository workflow above for the pull-request gate. This is also the workflow created by the adoption pull requests in [step 7](#7-open-adoption-pull-requests-at-scale); add the `baseline` line to that file when you accept its first report.
 
 A shared baseline can be combined with the repository's own on the command line:
 
@@ -363,9 +376,46 @@ gh workflow run evergreen-org-scan.yml --repo your-org/your-ops-repo
 
 The workflow truncates the digest to Slack's 3,000-character section limit, adding a `…truncated` marker. Keep the channel to the summary and use the artifacts or the [rollup page](#optional-publish-one-page) for the full list.
 
-## 6. Open adoption pull requests at scale
+## 6. Offer the starter from the organization's `.github` repository
 
-The reusable workflow covers the organization on a schedule. To put a pull-request workflow in every repository, Evergreen can open the adoption pull requests for you. Evergreen lands best as one reviewed change per repository. The rollout tool (`tools/org-rollout.ts`) turns that into a single step: it lists the target repositories, shows exactly what it would change, and only opens pull requests when you explicitly ask for it. Nothing is ever pushed directly to a default branch, and scans stay offline: the tool's own network calls are GitHub API calls, never repository analysis.
+So each repository can add Evergreen from the Actions **New workflow** gallery instead of pasting YAML by hand, put the starter in the organization's [`.github` repository](https://docs.github.com/en/actions/sharing-automations/creating-workflow-templates-for-your-organization):
+
+1. Create `your-org/.github` if it does not exist.
+2. Copy both files from [`templates/workflows/`](../templates/workflows/) into that repository:
+
+```text
+workflow-templates/evergreen.yml
+workflow-templates/evergreen.properties.json
+```
+
+3. Commit them on the default branch. The next time someone opens **Actions → New workflow** in a repository of the organization, **Evergreen lifecycle scan** appears in the list.
+
+The starter is one job with one `uses:` line. It calls [`.github/workflows/evergreen-reusable.yml`](../.github/workflows/evergreen-reusable.yml) on pull requests, pushes to the default branch, a weekly schedule, and `workflow_dispatch`, with `contents: read` only:
+
+```yaml
+name: Evergreen
+
+on:
+  pull_request:
+  push:
+    branches: [$default-branch]
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle:
+    uses: arminazimi/evergreen/.github/workflows/evergreen-reusable.yml@v0.8.0
+```
+
+`$default-branch` is GitHub's placeholder; it becomes the repository's real default branch when someone creates the workflow from the gallery. Until `v0.8.0` is tagged, replace `@v0.8.0` with `@main` in the copy under `workflow-templates/`, then pin the release tag before relying on it. To accept existing findings later, add `with: baseline: .evergreen-baseline.json` on that job (see [step 3](#3-accept-existing-findings-with-a-baseline)). Inputs, outputs, and the permission boundary are documented under [Reusable workflow](GITHUB_ACTION.md#reusable-workflow-one-uses-line).
+
+## 7. Open adoption pull requests at scale
+
+The organization-scan workflow covers every repository on a schedule. To put a pull-request workflow in every repository without waiting for each team to open the gallery, Evergreen can open the adoption pull requests for you. Evergreen lands best as one reviewed change per repository. The rollout tool (`tools/org-rollout.ts`) turns that into a single step: it lists the target repositories, shows exactly what it would change, and only opens pull requests when you explicitly ask for it. Nothing is ever pushed directly to a default branch, and scans stay offline: the tool's own network calls are GitHub API calls, never repository analysis.
 
 Run it from a checkout of this repository:
 

@@ -1,0 +1,6 @@
+{
+  "name": "Evergreen lifecycle scan",
+  "description": "Scan for deprecations, end-of-life runtimes, and retired GitHub Actions. One uses: line per repository.",
+  "iconName": "octicon pulse",
+  "categories": ["Dependency management", "Code Scanning", "Automation"]
+}

@@ -1,0 +1,23 @@
+# Starter for an organization's `.github` repository.
+# Copy this file and evergreen.properties.json into that repository under
+# `workflow-templates/` so every repository can add Evergreen from the Actions
+# "New workflow" gallery with one `uses:` line.
+#
+# Until v0.8.0 is tagged, replace @v0.8.0 with @main to try the workflow.
+
+name: Evergreen
+
+on:
+  pull_request:
+  push:
+    branches: [$default-branch]
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle:
+    uses: arminazimi/evergreen/.github/workflows/evergreen-reusable.yml@v0.8.0

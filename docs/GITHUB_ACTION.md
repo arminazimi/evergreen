@@ -27,6 +27,55 @@ jobs:
 
 Version tags provide stable release references. Pin a full commit SHA when your threat model requires immutable third-party action references.
 
+## Reusable workflow (one `uses:` line)
+
+Organizations that want the same scan in every repository without copying checkout and Action steps can call the reusable workflow instead. It checks out the caller, runs Evergreen with the common inputs, and needs only `contents: read`. The Action version is pinned inside the workflow file, so pinning the workflow pins the scanner.
+
+```yaml
+name: Evergreen
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle:
+    uses: arminazimi/evergreen/.github/workflows/evergreen-reusable.yml@v0.8.0
+    with:
+      baseline: .evergreen-baseline.json
+      fail-on-severity: high
+```
+
+> **Version.** The reusable workflow first ships in `v0.8.0`. Until that tag exists, call `@main` only to try it, then replace it with the release tag before relying on it.
+
+Every workflow input is optional and matches the Action default of the same name. Pass only what you need to change:
+
+| Workflow input | Default | Meaning |
+| --- | --- | --- |
+| `path` | `.` | Repository root or subdirectory to scan. |
+| `paths` | empty | Multi-line list of directories or globs relative to `path`. |
+| `baseline` | empty | Baseline path relative to `path`. |
+| `baseline-warn-days` | `14` | Warn when a baseline suppression expires within this many days. |
+| `on-expired` | `resurface` | `resurface` or `fail` after a suppression's `expires` day. |
+| `min-support-days` | empty | Warn on lines whose support ends within this many days. |
+| `fail-on-severity` | `high` | Lowest failing level: `none`, `info`, `low`, `medium`, `high`, or `critical`. |
+| `mode` | `scan` | `scan` or `diff` (diff fetches full history for the base and head SHAs). |
+| `annotations` | empty | `changed`, `all`, or `none`; empty keeps the Action default. |
+| `report-name` | `evergreen-report` | Artifact name when `upload-report` is true. |
+| `upload-report` | `true` | Upload the JSON report as an Actions artifact. |
+| `attribution` | `true` | Credit Evergreen in the job summary. |
+
+The workflow exposes the same result outputs as the Action (`report-path`, `finding-count`, `has-new-findings`, `highest-severity`, `next-eol-date`, `findings-json`) so a later job can branch on them. Features that need write permissions — `pr-comment`, `suggest-fixes`, `commands`, `fix-pr`, `tracking-issue`, `upload-sarif`, `upload-badge` — stay on the Action step above; the reusable workflow keeps the minimal `contents: read` permission set.
+
+For an organization `.github` repository that offers the starter in the Actions "New workflow" gallery, copy [`templates/workflows/`](../templates/workflows/) into that repository's `workflow-templates/` directory. See [Organization rollout](ORG_ROLLOUT.md#offer-the-starter-from-the-organizations-github-repository).
+
 ### SHA-pinned actions
 
 For the first-party actions covered by Evergreen, a full 40-character commit pin is classified in this order:

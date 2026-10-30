@@ -1,0 +1,144 @@
+# Reusable per-repository scan. Call it with one `uses:` line so every repository
+# shares the same checkout, Action pin, inputs, and permissions.
+#
+#   jobs:
+#     lifecycle:
+#       uses: arminazimi/evergreen/.github/workflows/evergreen-reusable.yml@v0.8.0
+#
+# The scan stays offline. Only `contents: read` is required. Features that need
+# write permissions (pull-request comments, SARIF upload, fix pull requests) stay
+# on the Action itself — see docs/GITHUB_ACTION.md.
+
+name: Evergreen
+
+on:
+  workflow_call:
+    inputs:
+      path:
+        description: Repository root or subdirectory to scan. Defaults to the checked-out repository.
+        required: false
+        default: .
+        type: string
+      paths:
+        description: >-
+          Multi-line list of directories or globs (for example packages/*) relative to path.
+          Each match is scanned in one run. Leave empty to scan only path.
+        required: false
+        default: ""
+        type: string
+      baseline:
+        description: >-
+          Optional baseline path relative to path. Leave empty to report every finding.
+        required: false
+        default: ""
+        type: string
+      baseline-warn-days:
+        description: Warn when a baseline suppression expires within this many days (0 to 365).
+        required: false
+        default: "14"
+        type: string
+      on-expired:
+        description: >-
+          What a baseline suppression does after its expires date: resurface (its finding is
+          reported again) or fail (also fail the job).
+        required: false
+        default: resurface
+        type: string
+      min-support-days:
+        description: >-
+          Warn (medium severity) on lines whose support ends within this many days. Leave empty
+          to report only what the data already marks.
+        required: false
+        default: ""
+        type: string
+      fail-on-severity:
+        description: Lowest severity that fails the job (none, info, low, medium, high, or critical).
+        required: false
+        default: high
+        type: string
+      mode:
+        description: >-
+          scan (default) scans the checked-out tree. diff compares the pull request base and head
+          and fails only on findings the pull request introduces.
+        required: false
+        default: scan
+        type: string
+      annotations:
+        description: >-
+          Which findings become workflow annotations: changed, all, or none. Leave empty for the
+          Action default (all in scan mode, changed in diff mode).
+        required: false
+        default: ""
+        type: string
+      report-name:
+        description: Artifact name for the JSON report when upload-report is true.
+        required: false
+        default: evergreen-report
+        type: string
+      upload-report:
+        description: Upload the JSON report to GitHub Actions artifacts.
+        required: false
+        default: true
+        type: boolean
+      attribution:
+        description: Add one line to the job summary that credits Evergreen.
+        required: false
+        default: true
+        type: boolean
+    outputs:
+      report-path:
+        description: Absolute runner path to the generated JSON report.
+        value: ${{ jobs.scan.outputs.report-path }}
+      finding-count:
+        description: Number of findings remaining after baseline comparison.
+        value: ${{ jobs.scan.outputs.finding-count }}
+      has-new-findings:
+        description: '"true" when findings remain after baseline comparison, otherwise "false".'
+        value: ${{ jobs.scan.outputs.has-new-findings }}
+      highest-severity:
+        description: Highest remaining severity, or empty when there are none.
+        value: ${{ jobs.scan.outputs.highest-severity }}
+      next-eol-date:
+        description: Earliest end-of-life date among remaining findings, or empty.
+        value: ${{ jobs.scan.outputs.next-eol-date }}
+      findings-json:
+        description: Remaining findings as one compact JSON array.
+        value: ${{ jobs.scan.outputs.findings-json }}
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: Scan repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    outputs:
+      report-path: ${{ steps.evergreen.outputs.report-path }}
+      finding-count: ${{ steps.evergreen.outputs.finding-count }}
+      has-new-findings: ${{ steps.evergreen.outputs.has-new-findings }}
+      highest-severity: ${{ steps.evergreen.outputs.highest-severity }}
+      next-eol-date: ${{ steps.evergreen.outputs.next-eol-date }}
+      findings-json: ${{ steps.evergreen.outputs.findings-json }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Diff mode archives base and head SHAs from git objects, so fetch their history.
+          fetch-depth: ${{ inputs.mode == 'diff' && 0 || 1 }}
+      - id: evergreen
+        uses: arminazimi/evergreen@a0225978d6fae230468cf7efd47d4b1b3a4cbc33 # v0.7.1
+        with:
+          path: ${{ inputs.path }}
+          paths: ${{ inputs.paths }}
+          baseline: ${{ inputs.baseline }}
+          baseline-warn-days: ${{ inputs.baseline-warn-days }}
+          on-expired: ${{ inputs.on-expired }}
+          min-support-days: ${{ inputs.min-support-days }}
+          fail-on-severity: ${{ inputs.fail-on-severity }}
+          mode: ${{ inputs.mode }}
+          annotations: ${{ inputs.annotations }}
+          report-name: ${{ inputs.report-name }}
+          upload-report: ${{ inputs.upload-report }}
+          attribution: ${{ inputs.attribution }}
