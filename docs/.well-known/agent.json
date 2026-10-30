@@ -59,6 +59,12 @@
       "name": "Forecast repository",
       "description": "List dated end-of-life events in the next months that affect findings in this repository.",
       "tags": ["forecast", "end-of-life", "mcp"]
+    },
+    {
+      "id": "plan_migrations",
+      "name": "Plan migrations",
+      "description": "Return a migration plan with waves of independent tasks a coordinating agent can hand out.",
+      "tags": ["plan", "migration", "waves", "mcp"]
     }
   ]
 }

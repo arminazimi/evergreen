@@ -35,6 +35,8 @@ import { renderReceiptMarkdown } from "./receipt-markdown.js";
 import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
 import { renderForecastTimeline } from "./forecast-timeline.js";
+import { buildPlan } from "./plan-build.js";
+import { renderPlanText } from "./plan-render.js";
 import { applyOnBranch } from "./fix/git.js";
 import { planFixReport, planFixes, renderPatches } from "./fix/index.js";
 import { renderVerification, verifyFix } from "./fix/verify.js";
@@ -90,6 +92,7 @@ Usage:
   evergreen scan [path] --no-cache   # bypass the scan cache and re-scan all files fresh
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--timeline | --json]   # what reaches end of life next, by month
+  evergreen plan [path] [--json] [--wave <n>]   # migration waves from a scan; --wave prints one zero-based wave
   evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age
   evergreen lookup <product> [version] [--json]   # support status, end-of-life date, and evidence for a product
   evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]   # print README markup for the published badge
@@ -781,7 +784,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "badge" && command !== "receipt") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "plan" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "badge" && command !== "receipt") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -832,6 +835,7 @@ async function main(rawArgs: string[]): Promise<number> {
     "--on-expired",
     "--all",
     "--months",
+    "--wave",
     "--owners",
     "--ignore",
     "--only",
@@ -1181,6 +1185,36 @@ async function main(rawArgs: string[]): Promise<number> {
       return 0;
     }
     process.stdout.write(`${json ? JSON.stringify(forecast, null, 2) : renderForecastText(forecast)}\n`);
+    return 0;
+  }
+  if (command === "plan") {
+    const planUsage = "Usage: evergreen plan [path] [--json] [--wave <n>]";
+    const planFlags = new Set(["--json", "--wave", "--data-version", "--no-cache"]);
+    const unknownPlanFlag = args.slice(1).find((argument) => argument.startsWith("-") && !planFlags.has(argument));
+    if (unknownPlanFlag !== undefined || positional.length > 1) return fail("usage", planUsage);
+    const waveFlag = args.includes("--wave");
+    const waveValue = optionValue("--wave");
+    if (waveFlag && (waveValue === undefined || waveValue.startsWith("-"))) {
+      return fail("usage", "--wave needs a zero-based wave index.", `\n${planUsage}`);
+    }
+    const wave = waveValue === undefined ? undefined : Number(waveValue);
+    if (waveValue !== undefined && (!Number.isInteger(wave) || (wave as number) < 0)) {
+      return fail("usage", "--wave must be a whole number >= 0.");
+    }
+    const plan = buildPlan(await scanRepository(pathArgument, builtInDetectors, { noCache }));
+    if (wave !== undefined && (plan.waves.length === 0 || wave >= plan.waves.length)) {
+      return fail(
+        "usage",
+        plan.waves.length === 0
+          ? "--wave is out of range: the plan has no waves."
+          : `--wave is out of range: expected 0..${plan.waves.length - 1}.`,
+      );
+    }
+    if (json) {
+      process.stdout.write(`${JSON.stringify(plan, null, 2)}\n`);
+      return 0;
+    }
+    process.stdout.write(`${renderPlanText(plan, wave)}\n`);
     return 0;
   }
   if (command === "fix") {

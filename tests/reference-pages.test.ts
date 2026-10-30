@@ -30,6 +30,7 @@ import {
   ruleUrl,
   write,
 } from "../tools/build-reference-pages.js";
+import { answerPageEntries } from "../tools/build-answer-pages.js";
 
 const temporaryRoots: string[] = [];
 
@@ -229,16 +230,19 @@ test("every rule page answers status, date, and replacement first, then offers e
   }
 });
 
-test("the sitemap lists the site, the lookup page, the index, and every rule once, with the review date", async () => {
+test("the sitemap lists the site, the lookup page, both indexes, every rule, and every answer page once", async () => {
   const registries = await loadRegistries();
   const sitemap = renderSitemap(registries);
+  const answers = answerPageEntries(registries);
   const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]!);
   assert.equal(new Set(locations).size, locations.length);
   assert.deepEqual(locations, [...locations].sort());
   assert.ok(locations.includes(`${SITE_URL}/`));
   assert.ok(locations.includes(lookupUrl()));
   assert.ok(locations.includes(`${SITE_URL}/rules/`));
-  assert.equal(locations.length, registries.reduce((sum, item) => sum + item.rules.length, 0) + 3);
+  assert.ok(locations.includes(`${SITE_URL}/eol/`));
+  for (const page of answers) assert.ok(locations.includes(page.loc), page.loc);
+  assert.equal(locations.length, registries.reduce((sum, item) => sum + item.rules.length, 0) + answers.length + 4);
   assert.match(sitemap, /<url><loc>[^<]+<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod><\/url>/);
   assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
   assert.ok(sitemap.length < 50_000_000 && locations.length < 50_000);
