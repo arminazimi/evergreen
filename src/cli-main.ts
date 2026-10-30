@@ -28,7 +28,10 @@ import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, installSetupSkills, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
-import type { ScanSelection, Severity } from "./domain.js";
+import type { ScanResult, ScanSelection, Severity } from "./domain.js";
+import { parseBoundedJson, readBoundedFile } from "./package-files.js";
+import { buildReceipt } from "./receipt.js";
+import { renderReceiptMarkdown } from "./receipt-markdown.js";
 import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
 import { renderForecastTimeline } from "./forecast-timeline.js";
@@ -92,6 +95,7 @@ Usage:
   evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]   # print README markup for the published badge
   evergreen badge [path] --shields   # print shields.io endpoint JSON for the current scan
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
+  evergreen receipt [path] --before <scan.json> [--format markdown|json] [--fail-on-introduced]   # what a change resolved, left, or introduced; never runs a command
   evergreen scan [path] --by-owner [--json]   # group findings by CODEOWNERS owner; files with no owner are listed as unowned
   evergreen rollup <report.json>... [--owners <file>] [--json | --html]   # merge saved scan reports by product and owner; reads files only
   evergreen renovate-preset [path]   # print Renovate packageRules for replacements and runtime pins; does not edit config
@@ -677,6 +681,90 @@ async function badge(args: string[]): Promise<number> {
   }
 }
 
+function isJsonObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/** Why one entry of a saved scan's `findings` does not match the scan output contract, or undefined when it does. */
+function scanFindingProblem(value: unknown): string | undefined {
+  if (!isJsonObject(value)) return "the entry is not an object.";
+  for (const field of ["id", "ruleId", "detector", "title", "summary"]) {
+    if (typeof value[field] !== "string") return `"${field}" is missing or not a string.`;
+  }
+  if (!severityValues.includes(value.severity as Severity)) return `"severity" is not one of ${severityValues.join(", ")}.`;
+  if (!isJsonObject(value.location) || typeof value.location.path !== "string") return `"location.path" is missing or not a string.`;
+  const line = value.location.line;
+  if (line !== undefined && (!Number.isInteger(line) || (line as number) < 1)) return `"location.line" is not a positive integer.`;
+  if (!Array.isArray(value.sources)) return `"sources" is missing or not an array.`;
+  if (value.migration !== undefined) {
+    if (!isJsonObject(value.migration)) return `"migration" is not an object.`;
+    const verification = value.migration.verification;
+    if (verification !== undefined) {
+      if (!Array.isArray(verification)) return `"migration.verification" is not an array.`;
+      for (let index = 0; index < verification.length; index += 1) {
+        const command = verification[index];
+        if (!isJsonObject(command) || typeof command.command !== "string" || typeof command.purpose !== "string") {
+          return `"migration.verification[${index}]" is not an object with command and purpose strings.`;
+        }
+      }
+    }
+  }
+  return undefined;
+}
+
+/** Why the saved scan's `data` does not match the scan output contract, or undefined when it does. */
+function scanDataProblem(value: unknown): string | undefined {
+  if (!isJsonObject(value)) return `"data" is not an object.`;
+  if (value.source !== "bundled" && value.source !== "cache" && value.source !== "pinned") return `"data.source" is not bundled, cache, or pinned.`;
+  if (typeof value.version !== "string") return `"data.version" is missing or not a string.`;
+  if (value.createdAt !== null && typeof value.createdAt !== "string") return `"data.createdAt" is neither a string nor null.`;
+  if (typeof value.reviewedThrough !== "string") return `"data.reviewedThrough" is missing or not a string.`;
+  if (!Number.isInteger(value.ageDays) || (value.ageDays as number) < 0) return `"data.ageDays" is not a non-negative integer.`;
+  if (typeof value.stale !== "boolean") return `"data.stale" is missing or not a boolean.`;
+  return undefined;
+}
+
+/** Why a document is not an `evergreen.scan.v1` report, or undefined when it matches the contract. */
+function scanReportProblem(value: unknown): string | undefined {
+  if (!isJsonObject(value)) return "the document is not a JSON object.";
+  if (value.schemaVersion !== "evergreen.scan.v1") return `"schemaVersion" is not "evergreen.scan.v1".`;
+  if (typeof value.root !== "string") return `"root" is missing or not a string.`;
+  if (typeof value.scannedAt !== "string") return `"scannedAt" is missing or not a string.`;
+  if (!Array.isArray(value.diagnostics) || value.diagnostics.some((entry) => typeof entry !== "string")) {
+    return `"diagnostics" is missing or not an array of strings.`;
+  }
+  if (!Array.isArray(value.findings)) return `"findings" is missing or not an array.`;
+  for (let index = 0; index < value.findings.length; index += 1) {
+    const problem = scanFindingProblem(value.findings[index]);
+    if (problem !== undefined) return `findings[${index}] ${problem}`;
+  }
+  if (value.data !== undefined) {
+    const problem = scanDataProblem(value.data);
+    if (problem !== undefined) return problem;
+  }
+  return undefined;
+}
+
+/**
+ * Reads the `--before` file as untrusted input: the same size and nesting bounds the package-file parsers
+ * apply, then a check against the scan output contract. Returns the reason it cannot be used, or the report.
+ */
+async function readReceiptBaseline(path: string): Promise<ScanResult | string> {
+  let read: Awaited<ReturnType<typeof readBoundedFile>>;
+  try {
+    read = await readBoundedFile(path);
+  } catch (error) {
+    return `${path} could not be read (${(error as Error).message}).`;
+  }
+  if (read === undefined) return `${path} does not exist.`;
+  if (read.skipped) return `${path}: ${read.skipped.detail}.`;
+  const parsed = parseBoundedJson(read.contents);
+  if (parsed === undefined) return `${path} is not valid JSON.`;
+  if (parsed.skipped) return `${path}: ${parsed.skipped.detail}.`;
+  const problem = scanReportProblem(parsed.value);
+  return problem === undefined ? (parsed.value as ScanResult) : `${path} is not an evergreen.scan.v1 report: ${problem}`;
+}
+
 async function main(rawArgs: string[]): Promise<number> {
   debugErrors = rawArgs.includes("--debug");
   const args = rawArgs.filter((argument) => argument !== "--debug");
@@ -693,7 +781,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "badge") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "badge" && command !== "receipt") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -749,6 +837,7 @@ async function main(rawArgs: string[]): Promise<number> {
     "--only",
     "--exclude",
     "--report-base-url",
+    "--before",
   ]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
@@ -866,7 +955,10 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
     return fail("usage", "check supports --json and --format text|json only.");
   }
-  if ((format === "markdown" || format === "junit" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || (format === "html" && command !== "rollup") || format === "slack" || format === "teams" || format === "webhook") && command !== "scan") {
+  if (command === "receipt" && format !== undefined && format !== "markdown" && format !== "json") {
+    return fail("usage", "receipt supports --format markdown|json only.");
+  }
+  if ((format === "markdown" || format === "junit" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || (format === "html" && command !== "rollup") || format === "slack" || format === "teams" || format === "webhook") && command !== "scan" && command !== "receipt") {
     return fail("usage", `--format ${format} is only available for the scan command.`);
   }
   if (demo && command !== "scan") {
@@ -1049,6 +1141,21 @@ async function main(rawArgs: string[]): Promise<number> {
   if (!demo) {
     const rootProblem = await repositoryRootProblem(pathArgument);
     if (rootProblem) return failActionable("usage", rootProblem);
+  }
+  if (command === "receipt") {
+    const receiptUsage = "Usage: evergreen receipt [path] --before <scan.json> [--format markdown|json] [--fail-on-introduced]";
+    const beforeIndex = args.indexOf("--before");
+    const beforePath = beforeIndex === -1 ? undefined : args[beforeIndex + 1];
+    if (beforePath === undefined || beforePath.startsWith("-")) return fail("usage", receiptUsage);
+    if (positional.length > 1) return fail("usage", receiptUsage);
+    const before = await readReceiptBaseline(resolve(beforePath));
+    if (typeof before === "string") return fail("usage", `Cannot use --before: ${before}`, `\n${receiptUsage}`);
+    const receipt = buildReceipt(before, await scanRepository(resolve(pathArgument), builtInDetectors, { noCache }));
+    process.stdout.write(json ? `${JSON.stringify(receipt, null, 2)}\n` : renderReceiptMarkdown(receipt));
+    if (args.includes("--fail-on-introduced") && receipt.counts.introduced > 0) {
+      return fail("policy", `${receipt.counts.introduced} finding${receipt.counts.introduced === 1 ? "" : "s"} introduced (--fail-on-introduced).`);
+    }
+    return 0;
   }
   const scanGate = optionValue("--fail-on") ?? config?.failOn ?? "none";
   if (command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {

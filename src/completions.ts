@@ -19,6 +19,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "lookup", flags: ["--json"], example: "evergreen lookup node 18" },
   { name: "badge", flags: ["--snippet", "--repo", "--branch", "--shields"], example: "evergreen badge . --snippet markdown" },
   { name: "diff", flags: ["--json", "--data-version"], example: "evergreen diff main..HEAD" },
+  { name: "receipt", flags: ["--before", "--format", "--fail-on-introduced", "--json"], example: "evergreen receipt . --before before.json" },
   { name: "rollup", flags: ["--owners", "--json", "--html", "--format"], example: "evergreen rollup reports/*.json --owners owners.json --html" },
   { name: "renovate-preset", flags: ["--data-version"], example: "evergreen renovate-preset ." },
   { name: "dependabot-config", flags: ["--data-version"], example: "evergreen dependabot-config ." },
@@ -61,7 +62,7 @@ _evergreen() {
     --format) COMPREPLY=($(compgen -W "${formats}" -- "$cur")); return ;;
     --fail-on) COMPREPLY=($(compgen -W "${severities}" -- "$cur")); return ;;
     --on-expired) COMPREPLY=($(compgen -W "resurface fail" -- "$cur")); return ;;
-    --file|--output|--baseline|--all) COMPREPLY=($(compgen -f -- "$cur")); return ;;
+    --file|--output|--baseline|--all|--before) COMPREPLY=($(compgen -f -- "$cur")); return ;;
   esac
   case "$command" in
     completions) opts="${completionShells.join(" ")}" ;;
@@ -94,7 +95,7 @@ _evergreen() {
     --format) compadd ${formats}; return ;;
     --fail-on) compadd ${severities}; return ;;
     --on-expired) compadd resurface fail; return ;;
-    --file|--output|--baseline|--all) _files; return ;;
+    --file|--output|--baseline|--all|--before) _files; return ;;
   esac
   case "$words[2]" in
     completions) compadd ${completionShells.join(" ")} ;;
