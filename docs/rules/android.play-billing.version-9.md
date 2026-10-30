@@ -67,6 +67,10 @@ The `android` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../
 - [Google Play Billing Library 7 is past its deprecation deadline](android.play-billing.version-7.html)
 - [Google Play Billing Library 8 reaches its new-app and update deadline on 2027-08-31](android.play-billing.version-8.html)
 
+### Same ecosystem
+
+- [Google Play requires targetSdk 35+ for existing phone and tablet apps](android.target-sdk.existing.default-below-35.html)
+
 
 ## Data
 
