@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://arminazimi.github.io/evergreen/</loc></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/</loc></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/amazon-eks.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/azure-kubernetes-service.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/bun.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/composer-laravel-framework.html</loc><lastmod>2026-10-23</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/dart.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/deno.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/django.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-alpine.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-caddy.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-clickhouse.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-debian.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-drupal.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-golang.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-mariadb.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-mysql.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-node.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-postgres.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-python.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-redis.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-ruby.html</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-traefik.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-ubuntu.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/dotnet.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/elixir.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/erlang.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/golang.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/google-cloud-sql-postgresql.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/google-kubernetes-engine.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/ios.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/java.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/maven-com-android-billingclient-billing.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/maven-org-springframework-boot-spring-boot.html</loc><lastmod>2026-10-25</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/mysql.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/next.html</loc><lastmod>2026-10-25</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/node-sass.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/nodejs.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/npm-angular-core.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/php.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/postgresql.html</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/powershell.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/python.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/rails.html</loc><lastmod>2026-10-23</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/react-native.html</loc><lastmod>2026-10-23</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/redis.html</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/ruby.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/rust.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/scala.html</loc><lastmod>2026-10-27</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/terraform.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/vue.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/xcode.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/lookup.html</loc></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/</loc></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-5.html</loc><lastmod>2026-10-19</lastmod></url>
