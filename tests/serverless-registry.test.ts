@@ -26,9 +26,9 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/serverless.json", "utf8"))).rules;
 }
 
-test("the serverless registry has six valid rules that cite the vendor runtime tables", async () => {
+test("the serverless registry has seven valid rules that cite the vendor runtime tables", async () => {
   const all = await rules();
-  assert.equal(all.length, 6);
+  assert.equal(all.length, 7);
   assert.deepEqual(
     all.map((rule) => rule.id).sort(),
     Object.keys(SOURCE_DEADLINES).sort(),
