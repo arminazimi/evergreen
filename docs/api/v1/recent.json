@@ -14,6 +14,19 @@
       "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01"
     },
     {
+      "deadline": "2026-10-21",
+      "ecosystem": "terraform",
+      "event": "end-of-support",
+      "observedAt": "2026-10-30",
+      "path": "products/generic-terraform.json",
+      "productId": "generic-terraform",
+      "purl": "pkg:generic/terraform",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "terraform.cli.end-of-support-1.15",
+      "severity": "medium",
+      "title": "Terraform CLI 1.15 is no longer a supported release line"
+    },
+    {
       "deadline": "2022-11-10",
       "ecosystem": "database",
       "event": "end-of-life",
@@ -1253,30 +1266,6 @@
       "ruleId": "nodejs.symbol.module.createrequirefrompath",
       "severity": "high",
       "title": "Module.createRequireFromPath has been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.parent",
-      "severity": "low",
-      "title": "Module.parent is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.register",
-      "severity": "medium",
-      "title": "Module.register is deprecated"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

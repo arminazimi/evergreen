@@ -1923,11 +1923,11 @@
         "end-of-support"
       ],
       "id": "generic-terraform",
-      "latestReview": "2026-10-21",
+      "latestReview": "2026-10-30",
       "name": "terraform",
       "path": "products/generic-terraform.json",
       "purl": "pkg:generic/terraform",
-      "rules": 5,
+      "rules": 6,
       "type": "generic"
     },
     {
@@ -4372,7 +4372,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 517,
+  "rules": 519,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4402,7 +4402,7 @@
     {
       "path": "types/generic.json",
       "products": 85,
-      "rules": 291,
+      "rules": 292,
       "type": "generic"
     },
     {
