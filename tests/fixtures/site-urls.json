@@ -23,6 +23,11 @@
   "https://arminazimi.github.io/evergreen/compare/endoflife-date.html",
   "https://arminazimi.github.io/evergreen/compare/renovate.html",
   "https://arminazimi.github.io/evergreen/COMPATIBILITY.html",
+  "https://arminazimi.github.io/evergreen/compatibility/android.html",
+  "https://arminazimi.github.io/evergreen/compatibility/ci-runner-images.html",
+  "https://arminazimi.github.io/evergreen/compatibility/cpp.html",
+  "https://arminazimi.github.io/evergreen/compatibility/php.html",
+  "https://arminazimi.github.io/evergreen/compatibility/ruby.html",
   "https://arminazimi.github.io/evergreen/CONTRIBUTE.html",
   "https://arminazimi.github.io/evergreen/dashboard/",
   "https://arminazimi.github.io/evergreen/dashboard/README.html",
@@ -51,6 +56,8 @@
   "https://arminazimi.github.io/evergreen/DEMO.html",
   "https://arminazimi.github.io/evergreen/DETECTORS.html",
   "https://arminazimi.github.io/evergreen/detectors/",
+  "https://arminazimi.github.io/evergreen/detectors/authoring-contracts.html",
+  "https://arminazimi.github.io/evergreen/detectors/authoring-layouts.html",
   "https://arminazimi.github.io/evergreen/detectors/container.html",
   "https://arminazimi.github.io/evergreen/detectors/dart.html",
   "https://arminazimi.github.io/evergreen/detectors/database.html",
@@ -869,5 +876,9 @@
   "https://arminazimi.github.io/evergreen/TERMS.html",
   "https://arminazimi.github.io/evergreen/THREAT_MODEL.html",
   "https://arminazimi.github.io/evergreen/UPGRADE_CHECK.html",
-  "https://arminazimi.github.io/evergreen/VALIDATION.html"
+  "https://arminazimi.github.io/evergreen/VALIDATION.html",
+  "https://arminazimi.github.io/evergreen/validation/corpus.html",
+  "https://arminazimi.github.io/evergreen/validation/differential-testing.html",
+  "https://arminazimi.github.io/evergreen/validation/ecosystems.html",
+  "https://arminazimi.github.io/evergreen/validation/running-the-corpus.html"
 ]
