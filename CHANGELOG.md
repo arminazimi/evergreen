@@ -30,6 +30,7 @@
 - Add a Cursor rule that tells the agent to check a dependency with the `check_dependency` MCP tool or `evergreen check` before adding it, documented alongside the hooks. (#1274)
 - Add a GitHub Copilot instructions file that tells the agent to check a dependency with the `check_dependency` MCP tool or `evergreen check` before adding it, documented alongside the hooks. (#1275)
 - Add a codemod that rewrites the exact Node.js API renames `os.tmpDir`, `path._makeLong`, `async_hooks.currentId`, `async_hooks.triggerId`, and `crypto.Hash`/`crypto.Hmac` called without `new`, refusing every other shape with a reason. (#1827)
+- Add a codemod that rewrites the removed Node.js `util.is*` type checks to the native expressions Node.js names, keeping the cross-realm `util.types` check for dates and regular expressions, and refusing `util.isError` and every call it cannot reproduce exactly. (#1826)
 - Add a codemod that rewrites the removed `imp.reload`, `imp.new_module`, `imp.get_magic`, `imp.get_tag`, `imp.cache_from_source`, and `imp.source_from_cache` to their `importlib`, `types`, and `sys` equivalents, and drops `import imp` when no use remains. (#1830)
 - Add `evergreen forecast --svg`, with `--animate` to grow a bar from today to each event in date order and pulse the today marker twice, for a README or a slide. (#1853)
 - Add a findings treemap to the `--format html` report: directories and files are sized by severity-weighted finding count, colored by the highest severity, and link to that file's findings. (#1851)
