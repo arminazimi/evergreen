@@ -1,0 +1,7 @@
+{
+  "name": "floor-conflict",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  }
+}

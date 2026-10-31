@@ -1,0 +1,8 @@
+{
+  "image": "node",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "none"
+    }
+  }
+}

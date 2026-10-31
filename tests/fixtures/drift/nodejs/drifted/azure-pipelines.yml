@@ -1,0 +1,15 @@
+trigger: none
+
+jobs:
+  - job: test
+    container: node:18
+    steps:
+      - script: npm test
+
+stages:
+  - stage: publish
+    jobs:
+      - job: publish
+        container: node:18
+        steps:
+          - script: npm publish
