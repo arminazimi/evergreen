@@ -105,6 +105,14 @@ inputs:
       pull requests from forks are skipped because their token is read-only.
     required: false
     default: "false"
+  agent-authors:
+    description: >-
+      Comma-separated logins whose pull requests get the agent section in the pull request comment. In diff
+      mode the comment then lists the stale choices the pull request introduced, with each replacement and
+      evidence link. Set to none to turn the section off. The default covers the Copilot coding agent,
+      Jules, Devin, OpenAI Codex cloud, and Claude.
+    required: false
+    default: "Copilot, google-labs-jules[bot], devin-ai-integration[bot], chatgpt-codex-connector[bot], claude[bot]"
   github-token:
     description: Token used to post the pull request comment, command reply, or fix suggestions, to open, update, or close the fix pull request, and to update the tracking issue.
     required: false
@@ -181,6 +189,7 @@ runs:
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
         INPUT_PR-COMMENT: ${{ inputs.pr-comment }}
         INPUT_SUGGEST-FIXES: ${{ inputs.suggest-fixes }}
+        INPUT_AGENT-AUTHORS: ${{ inputs.agent-authors }}
         INPUT_COMMANDS: ${{ inputs.commands }}
         INPUT_FIX-PR: ${{ inputs.fix-pr }}
         INPUT_TRACKING-ISSUE: ${{ inputs.tracking-issue }}

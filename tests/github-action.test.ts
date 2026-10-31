@@ -7,7 +7,9 @@ import { after, test } from "node:test";
 
 import { parse as parseYaml } from "yaml";
 
-import { parseChangedLines, renderSummary, runGitHubAction, selectChangedAnnotations } from "../src/github-action.js";
+import { DEFAULT_AGENT_AUTHORS } from "../src/agent-pr.js";
+import { parseChangedLines, PR_COMMENT_MARKER, renderComment, renderSummary, runGitHubAction, selectChangedAnnotations } from "../src/github-action.js";
+import { upsertPullRequestComment } from "../src/pr-comment.js";
 import type { Finding } from "../src/domain.js";
 
 const temporaryRoots: string[] = [];
@@ -298,6 +300,67 @@ test("diff mode annotates findings on changed lines and leaves out the rest by d
   const none = await runGitHubAction({ ...base, annotations: "none" });
   assert.deepEqual(none.annotations, []);
   assert.equal(none.unannotated, 0);
+});
+
+test("diff mode flags the stale choices an agent-authored pull request introduced", async () => {
+  const { root, base, head } = await repositoryWithAddedFinding();
+  const reportPath = join(root, ".runner", "evergreen-report.json");
+  const run = (options: { pullRequestAuthor?: string; agentAuthors?: string; range?: string }) =>
+    runGitHubAction({
+      root,
+      reportPath,
+      mode: "diff",
+      diffRange: options.range ?? `${base}..${head}`,
+      failOnSeverity: "none",
+      ...(options.pullRequestAuthor === undefined ? {} : { pullRequestAuthor: options.pullRequestAuthor }),
+      ...(options.agentAuthors === undefined ? {} : { agentAuthors: options.agentAuthors }),
+    });
+
+  const agent = await run({ pullRequestAuthor: "Copilot" });
+  assert.equal(agent.agent?.author, "Copilot");
+  assert.deepEqual(agent.agent?.findings.map((entry) => entry.id), agent.result.findings.map((entry) => entry.id));
+  const body = renderComment(agent.result.findings, agent.gateFailed, agent.gate, agent.result.data, false, agent.result.suppressions, agent.diff, agent.packages, undefined, agent.agent);
+  assert.ok(body.includes("## Stale choices this agent introduced"), body);
+  assert.ok(body.includes("`.github/workflows/ci.yml:4`"), body);
+  assert.ok(body.includes("actions/checkout@v5 or later"), body);
+  assert.ok(body.includes("Replace these and push again; Evergreen will re-check."), body);
+  assert.ok(body.indexOf("## Stale choices this agent introduced") < body.indexOf("| Severity | Findings |"), "the section opens the comment");
+  assert.equal(body.split(PR_COMMENT_MARKER).length - 1, 1, "the section stays in the one Evergreen comment");
+
+  assert.equal((await run({ pullRequestAuthor: "octocat" })).agent, undefined, "human authors get no section");
+  assert.equal((await run({ pullRequestAuthor: "Copilot", agentAuthors: "none" })).agent, undefined, "none turns it off");
+  assert.equal((await run({ pullRequestAuthor: "my-agent[bot]", agentAuthors: "my-agent[bot]" })).agent?.author, "my-agent[bot]");
+  assert.equal((await run({ pullRequestAuthor: "Copilot", range: `${head}..${base}` })).agent, undefined, "a pull request that introduced nothing gets no section");
+});
+
+test("an agent comment re-run updates the same comment instead of posting another", async () => {
+  const introduced = [datedFinding("a.high:package.json:3", "high", "High one", "package.json", undefined, 3)];
+  const body = renderComment(introduced, false, "high", undefined, false, undefined, undefined, undefined, undefined, { author: "Copilot", findings: introduced });
+  assert.ok(body.startsWith(`${PR_COMMENT_MARKER}\n## Evergreen`));
+
+  const calls: string[] = [];
+  let existing: Array<{ id: number; body: string }> = [];
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = (async (_url: string | URL | Request, init?: RequestInit) => {
+    const method = init?.method ?? "GET";
+    calls.push(method);
+    if (method === "POST") existing = [...existing, { id: 1, body: JSON.parse(String(init?.body)).body }];
+    return new Response(JSON.stringify(method === "GET" ? existing : {}), { status: 200 });
+  }) as typeof fetch;
+  try {
+    const target = { apiUrl: "https://api.github.com", repository: "o/r", pullRequest: 7, token: "t" };
+    assert.equal(await upsertPullRequestComment(target, body), "created");
+    assert.equal(await upsertPullRequestComment(target, body), "updated");
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+  assert.deepEqual(calls, ["GET", "POST", "GET", "PATCH"]);
+});
+
+test("action.yml declares agent-authors with the known agents and passes it to the scan step", async () => {
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  assert.equal(action.inputs["agent-authors"]?.default, DEFAULT_AGENT_AUTHORS.join(", "));
+  assert.equal(action.runs.steps[0]?.env?.["INPUT_AGENT-AUTHORS"], "${{ inputs.agent-authors }}");
 });
 
 test("the diff summary counts the findings left out of the annotations and links the report", async () => {

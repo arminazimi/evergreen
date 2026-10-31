@@ -172,6 +172,7 @@ does not provide a `with` entry.
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
 | `upload-badge` | `false` | Generate a Shields.io endpoint JSON and a branded SVG badge, and upload both as the `evergreen-badge` artifact (14 days). |
 | `pr-comment` | `false` | Set to `true` to post one summary comment on pull requests (counts and the top findings). Re-runs update the same comment. Needs `pull-requests: write`. |
+| `agent-authors` | `Copilot, google-labs-jules[bot], devin-ai-integration[bot], chatgpt-codex-connector[bot], claude[bot]` | Comma-separated logins treated as coding agents. In diff mode, when the pull request author matches, the comment adds the **Stale choices this agent introduced** section. Set to `none` to turn it off. Matching ignores case and a leading `@`. |
 | `suggest-fixes` | `false` | In diff mode, post one review whose `suggestion` blocks apply the deterministic fixes for findings on lines the pull request changed. Re-runs update the same review. Needs `pull-requests: write`; pull requests from forks are skipped. |
 | `commands` | `false` | Set to `true` to answer `/evergreen explain` and `/evergreen ignore` comments when the workflow runs on `issue_comment`. Replies only to owners, members, and collaborators. Needs `pull-requests: write`. |
 | `fix-pr` | `false` | Set to `true` to open or update one pull request on `evergreen/fixes` with every deterministic fix, and close it when nothing is left to fix. Runs only on `schedule` and `workflow_dispatch` events. Needs `contents: write` and `pull-requests: write`. See [scheduled fix pull request](#scheduled-fix-pull-request). |
@@ -261,6 +262,12 @@ steps:
 ```
 
 Pull requests from forks get a read-only token, so the comment cannot be posted there: the Action logs a warning and the scan result is unaffected.
+
+### Agent-authored pull requests
+
+When `mode: diff` and the pull request author is a coding agent, the comment also carries a **Stale choices this agent introduced** section. It lists each finding the pull request introduced with its `path:line`, rule title, replacement, and evidence link, and closes with the line the agent can act on: "Replace these and push again; Evergreen will re-check." The comment is still the one Evergreen comment, updated on re-runs; a second comment is never posted.
+
+`agent-authors` takes a comma-separated list of logins. The default covers GitHub's Copilot coding agent (`Copilot`), Jules (`google-labs-jules[bot]`), Devin (`devin-ai-integration[bot]`), OpenAI Codex cloud (`chatgpt-codex-connector[bot]`), and Claude (`claude[bot]`). Matching ignores case and a leading `@`. Set `agent-authors: none` to turn the section off, or name the logins your agents author with. The author comes from the event payload, so no extra request is made; scans stay offline.
 
 ### Comment commands
 

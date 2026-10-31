@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add a **Stale choices this agent introduced** section to the Action's pull request comment when a coding agent opened the pull request: diff mode lists each introduced finding with its `path:line`, replacement, and evidence, and asks the agent to replace them and push again. `agent-authors` names the logins (Copilot, Jules, Devin, OpenAI Codex cloud, and Claude by default), and `none` turns the section off. (#1887)
 - Add a Google Cloud importer to `evergreen inventory`. It reads `gcloud functions list`, `gcloud app versions list`, `gcloud container clusters list`, and `gcloud run services list` output; it calls no cloud API and reads only the files given to it. (#1877)
 - Add an AWS Lambda importer to `evergreen inventory`, which reads the exports the cloud tools already produce and names the JSON Pointer each claim rests on. The importer covers `aws lambda list-functions --output json`, and `registry/serverless.json` now has a sourced rule for every runtime the AWS Lambda runtimes page dates. (#1874)
 - Add an AWS importer to `evergreen inventory` for RDS instances, Aurora clusters, and ElastiCache clusters from `aws rds describe-*` and `aws elasticache describe-cache-clusters` exports. It reads only the files given and never calls a provider API. The first importer reads `aws rds describe-db-instances`, `aws rds describe-db-clusters`, and `aws elasticache describe-cache-clusters` output for RDS, Aurora, and ElastiCache engines. (#1875)
