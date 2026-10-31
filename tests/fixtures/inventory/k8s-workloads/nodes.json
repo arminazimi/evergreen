@@ -1,0 +1,49 @@
+{
+  "apiVersion": "v1",
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  },
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Node",
+      "metadata": {
+        "name": "ip-10-0-0-12.ec2.internal",
+        "uid": "9d0f7f4e-1a1b-4f2e-9c3d-00000000000b",
+        "creationTimestamp": "2025-09-01T08:00:00Z"
+      },
+      "status": {
+        "nodeInfo": {
+          "kubeletVersion": "v1.27.3"
+        },
+        "addresses": [
+          {
+            "type": "InternalIP",
+            "address": "10.0.0.12"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Node",
+      "metadata": {
+        "name": "ip-10-0-0-13.ec2.internal",
+        "uid": "9d0f7f4e-1a1b-4f2e-9c3d-00000000000c",
+        "creationTimestamp": "2025-09-01T08:00:00Z"
+      },
+      "status": {
+        "nodeInfo": {
+          "kubeletVersion": "v1.27.3"
+        },
+        "addresses": [
+          {
+            "type": "InternalIP",
+            "address": "10.0.0.13"
+          }
+        ]
+      }
+    }
+  ]
+}

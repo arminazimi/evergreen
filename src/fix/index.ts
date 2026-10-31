@@ -1,5 +1,6 @@
 import type { Finding, ScanResult } from "../domain.js";
 import { renameCodemodsFixer } from "./codemods/index.js";
+import { nodeBufferFixer } from "./codemods/node-buffer.js";
 import { dockerfileBaseImageFixer } from "./dockerfile.js";
 import { githubActionsUsesFixer } from "./github-actions.js";
 import { goModFixer } from "./go-mod.js";
@@ -48,10 +49,10 @@ export interface FixPlan {
   refusals: FixRefusal[];
 }
 
-export { dockerfileBaseImageFixer, githubActionsUsesFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, renameCodemodsFixer, runtimePinsFixer, pythonFixer };
+export { dockerfileBaseImageFixer, githubActionsUsesFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, nodeBufferFixer, renameCodemodsFixer, runtimePinsFixer, pythonFixer };
 
 /** Every fixer Evergreen ships, in the order their patches are printed. */
-export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer, pythonFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, dockerfileBaseImageFixer, renameCodemodsFixer];
+export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer, pythonFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, dockerfileBaseImageFixer, renameCodemodsFixer, nodeBufferFixer];
 
 /**
  * Plans every fixer over a scan and returns the patches with the fixer that produced them, ordered by file, along with
