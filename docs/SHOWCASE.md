@@ -4,7 +4,19 @@ title: Showcase
 
 # Showcase
 
-Short, copy-pasteable ways to show what Evergreen found. Every command runs locally against files on disk; nothing is uploaded and no scan uses the network. The examples use the deliberately outdated project at `examples/demo` in this repository.
+Short, copy-pasteable ways to show what Evergreen found. Every command runs locally against files on disk; nothing is uploaded and no scan uses the network. Unless a section names another project, the examples use the deliberately outdated project at `examples/demo` in this repository.
+
+## Live countdown
+
+```bash
+npx evergreen-deprecation countdown examples/gallery --as-of 2026-10-25
+```
+
+Prints one row per dated deadline that affects the project: the subject, a bar scaled to the remaining time in a two-year window, and the time left until 00:00 UTC on the deadline. Bars are green over 180 days, yellow from 30 to 180, red under 30, and dim once the date has passed. Rows are sorted by deadline, and `--limit` keeps the soonest ten by default.
+
+On a terminal the frame redraws once per second for six seconds and stops on the final frame. `--once` prints one frame, `--no-animation` keeps one static frame, and piping the output prints one plain frame. `--json` prints the same rows with `subject`, `deadline`, `remainingSeconds`, `ruleId`, and `location`, so a script can chart or gate on them.
+
+The example uses `examples/gallery`, which has upcoming deadlines across container, runtime, and package rules. `docs/demos/countdown.tape` records the animation with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/countdown.tape`.
 
 ## Mermaid support windows
 
