@@ -1,0 +1,31 @@
+{
+    "_readme": [
+        "Fixture: a production package, a dev package, and platform pins that exclude PHP 8.4."
+    ],
+    "packages": [
+        {
+            "name": "acme/http-client",
+            "version": "2.1.0",
+            "require": {
+                "php": "^7.4",
+                "psr/http-client": "^1.0"
+            }
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "acme/test-helper",
+            "version": "3.0.0",
+            "require": {
+                "php": ">=8.5"
+            }
+        }
+    ],
+    "platform": {
+        "php": ">=8.5"
+    },
+    "platform-overrides": {
+        "php": "8.5.0"
+    },
+    "plugin-api-version": "2.6.0"
+}

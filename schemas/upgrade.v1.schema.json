@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/upgrade.v1.schema.json",
+  "title": "Evergreen upgrade report v1",
+  "description": "Whether a repository can move to a target runtime, answered from files already in the repository.",
+  "type": "object",
+  "required": ["schemaVersion", "target", "verdict", "analyzers", "issues"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "evergreen.upgrade.v1" },
+    "target": {
+      "type": "object",
+      "required": ["runtime", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "runtime": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "verdict": {
+      "enum": ["ready", "blocked", "unknown"],
+      "description": "blocked when any blocker; unknown when no analyzer applied; ready otherwise. unknown is not a statement that the upgrade is safe."
+    },
+    "analyzers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Ids of the analyzers that applied to this repository and target, sorted."
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["analyzer", "level", "subject", "path", "reason", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "analyzer": { "type": "string", "minLength": 1 },
+          "level": {
+            "enum": ["blocker", "warning", "unknown"],
+            "description": "blocker: will not install or run on the target. warning: works but is deprecated there. unknown: the evidence needed is missing."
+          },
+          "subject": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "line": { "type": "integer", "minimum": 1 },
+          "reason": { "type": "string", "minLength": 1 },
+          "evidence": {
+            "type": "object",
+            "required": ["kind", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "kind": { "enum": ["lockfile", "manifest", "rule"] },
+              "value": { "type": "string", "minLength": 1, "description": "The exact value as written in the file, or a lifecycle rule id." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

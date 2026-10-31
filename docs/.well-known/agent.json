@@ -55,6 +55,12 @@
       "tags": ["dependency", "check", "guardrail", "mcp"]
     },
     {
+      "id": "check_upgrade",
+      "name": "Check upgrade",
+      "description": "Answer from repository files whether a project can move to a target runtime, with exact evidence. unknown means no evidence, not safety.",
+      "tags": ["upgrade", "runtime", "readiness", "mcp"]
+    },
+    {
       "id": "forecast_repository",
       "name": "Forecast repository",
       "description": "List dated end-of-life events in the next months that affect findings in this repository.",

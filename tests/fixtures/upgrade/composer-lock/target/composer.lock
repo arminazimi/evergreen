@@ -1,0 +1,11 @@
+{
+    "packages": [
+        {
+            "name": "acme/http-client",
+            "version": "2.1.0",
+            "require": {
+                "php": ">=8.4.50"
+            }
+        }
+    ]
+}

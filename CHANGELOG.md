@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `evergreen upgrade-check --to <runtime@version>` and the `check_upgrade` MCP tool, which answer from lockfiles and manifests whether a project can move to a target runtime. (#1865)
+- Add the Composer analyzer to `upgrade-check`: it reads `require.php` constraints in `composer.lock` and `composer.json` and reports blockers, dev warnings, and unknowns with exact evidence and line numbers. (#1865)
 - Add `evergreen inventory <file>...`, which reports the lifecycle of what the cloud and cluster tools' exports say is deployed, reading only the files given and never calling a provider API. The first importer reads `kubectl get deploy,sts,ds,cronjob,job,pod -A -o json` output and reports end-of-life images and removed API versions at the exact pointer each claim rests on. (#1871)
 - Make bare `evergreen init` ask what to set up: it detects the repository's CI provider and agent hosts, shows the plan, and with one confirmation (or `--yes` for scripts) writes a GitHub Actions workflow, the pre-push hook, and the Evergreen agent section; GitLab repositories get the component include to add. (`#1266`)
 - Add a Claude Code PreToolUse hook that blocks npm, pnpm, yarn, pip, and uv installs of packages Evergreen marks as deprecated or end-of-life. (#1273)

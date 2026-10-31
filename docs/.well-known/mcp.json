@@ -61,6 +61,10 @@
       "description": "Check one package, and optionally one version, against Evergreen's lifecycle rules before adding it. Pass a Package URL such as pkg:npm/request@2.88.2. no-data means Evergreen has no rule for the package, not that it is safe."
     },
     {
+      "name": "check_upgrade",
+      "description": "Answer from repository files whether a project can move to a target runtime. An unknown verdict means no evidence was found, not that the upgrade is safe."
+    },
+    {
       "name": "forecast_repository",
       "description": "Run a fresh local scan and list what reaches a dated end of life in the next months, grouped by month. Only events that carry an authoritative date are listed."
     },

@@ -1,0 +1,18 @@
+{
+    "_readme": [
+        "Example: acme/http-client@2.1.0 declares require.php ^7.4, which excludes PHP 8.4."
+    ],
+    "packages": [
+        {
+            "name": "acme/http-client",
+            "version": "2.1.0",
+            "require": {
+                "php": "^7.4"
+            }
+        }
+    ],
+    "platform": {
+        "php": ">=8.1"
+    },
+    "plugin-api-version": "2.6.0"
+}
