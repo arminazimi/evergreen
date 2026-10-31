@@ -1,0 +1,20 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./docs/_site",
+      "url": [
+        "http://localhost/",
+        "http://localhost/rules/nodejs.runtime.eol-18.html",
+        "http://localhost/VALIDATION.html"
+      ],
+      "numberOfRuns": 1
+    },
+    "assert": {
+      "assertions": {
+        "resource-summary:document:size": ["error", { "maxNumericValue": 40960 }],
+        "total-byte-weight": ["error", { "maxNumericValue": 163840 }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 2500 }]
+      }
+    }
+  }
+}
