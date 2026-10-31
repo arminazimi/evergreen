@@ -281,6 +281,36 @@ jobs:
         working-directory: docs
         run: bundle exec jekyll build --baseurl ""
 
+  # Seaworthy verifies the built site: internal links, agent-readable structure, accessibility.
+  # It is pre-alpha and has no release tag yet, so it is consumed by commit pin; v0.0.0 is the
+  # package version at that pin. The run reports every finding, including the ones the theme and
+  # pages already have, so it is report-only until the site is clean; then set `threshold: error`
+  # and a broken internal link fails CI.
+  seaworthy:
+    name: seaworthy (built site)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: docs
+      - name: Build the documentation site
+        working-directory: docs
+        # Keep the deployed base path (/evergreen) so internal links resolve as they do on Pages.
+        run: bundle exec jekyll build
+      - uses: arminazimi/seaworthy@8ed721eb222562251b3b901bab0ad7b8ff67c5ef # v0.0.0
+        with:
+          site: docs/_site
+          threshold: none
+          sarif: seaworthy.sarif
+
   self-scan:
     if: github.event_name != 'pull_request'
     name: self-scan (fail on new findings)
@@ -392,7 +422,7 @@ jobs:
   ci-ok:
     name: ci-ok
     if: always()
-    needs: [changes, check, docs, check-cross-os, self-scan, perf-budget, lighthouse, coverage-badge]
+    needs: [changes, check, docs, seaworthy, check-cross-os, self-scan, perf-budget, lighthouse, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
