@@ -175,6 +175,7 @@ A Package URL with no rule is reported as `no-data`; when a PURL has rules but n
 | Importer | Reads | Export command |
 | --- | --- | --- |
 | `aws-rds` | AWS RDS instances, Aurora clusters, and ElastiCache cache clusters | `aws rds describe-db-instances`, `aws rds describe-db-clusters`, `aws elasticache describe-cache-clusters` |
+| `terraform-state` | Terraform state from `terraform show -json` or a raw `terraform.tfstate` v4 file | `terraform show -json` |
 
 ## AWS RDS, Aurora, and ElastiCache
 
@@ -309,3 +310,84 @@ Cloud Run has no managed language runtime. The importer reads only container ima
 **Fixtures**
 
 `tests/fixtures/inventory/gcp/` holds one sanitized sample per document type, and `examples/inventory/` holds two runnable samples. Each follows the JSON the commands above print, reduced to the fields this importer reads, with every project id, number, service account, URL, IP address, and environment value replaced by a placeholder. No `gcloud` CLI version is recorded because the contributor who added this importer had no Google Cloud project to capture exports from; the shapes follow the documented JSON output of the commands above rather than a recorded response.
+
+## Terraform state
+
+The `terraform-state` importer reads the values Terraform recorded for deployed resources. It accepts two shapes:
+
+```bash
+# the state JSON `terraform show -json` prints
+terraform show -json > state.json
+
+# or the raw state file itself
+evergreen inventory state.json terraform.tfstate
+```
+
+The first shape is state JSON: `format_version` plus `values.root_module`. The second is the raw state file: `version: 4` plus `resources`. Plan JSON (`planned_values.root_module`) is not read, because it describes a proposed change rather than what is deployed. The importer does not read `*.tf` source files; the Terraform detector already does that.
+
+**Fields read**
+
+Every module under `values.root_module`, including `child_modules` at any depth, and every resource instance is walked. In raw state, every entry of `resources` and every instance of `instances` is walked. Data sources and deposed objects are skipped.
+
+| Resource type | Attribute | PURL | Version |
+| --- | --- | --- | --- |
+| `aws_lambda_function` | `runtime` | `pkg:generic/aws-lambda-runtime/<runtime>` | the runtime ID |
+| `aws_db_instance`, `aws_rds_cluster`, `aws_elasticache_cluster`, `aws_elasticache_replication_group` | `engine`, `engine_version` | the AWS engine table below | `engine_version` |
+| `aws_eks_cluster` | `version` | `pkg:generic/amazon-eks` | `version` |
+| `google_container_cluster` | `master_version` | `pkg:generic/google-gke` | `master_version` |
+| `google_cloudfunctions_function` | `runtime` | `pkg:generic/google-cloud-functions-runtime/<runtime>` | none: the runtime is part of the PURL |
+| `google_cloudfunctions2_function` | `build_config[0].runtime` | `pkg:generic/google-cloud-functions-runtime/<runtime>` | none: the runtime is part of the PURL |
+| `azurerm_kubernetes_cluster` | `kubernetes_version` | `pkg:generic/azure-aks` | `kubernetes_version` |
+| `azurerm_linux_function_app` | `site_config[0].application_stack` | `pkg:generic/azure-app-service/<stack>` | the stack version |
+
+Nothing else in the state is copied. ARNs, resource ids, endpoints, provider configurations, outputs, tags, environment variables, and Terraform or provider versions are never read or reported. A value that is missing, empty, not a string, or not a release-shaped value is skipped, never guessed.
+
+**Resource and pointer**
+
+`resource` is `<type>.<name>`, with `[index]` for `count` and `["key"]` for `for_each`, such as `aws_lambda_function.worker[0]` or `aws_lambda_function.api["green"]`. A nested resource keeps the same form; the module path is in the JSON Pointer, not in `resource`. Every pointer resolves to the exact string the item's version came from: `/values/root_module/resources/<i>/values/<attribute>` for state JSON, or `/resources/<i>/instances/<j>/attributes/<attribute>` for raw state, with `child_modules` segments in between.
+
+**Engines and PURLs**
+
+The engine mapping is the one the AWS RDS importer uses, so a deployed engine and a described engine are checked against the same rules:
+
+| AWS engine | Provider PURL | Upstream PURL |
+| --- | --- | --- |
+| `postgres` | `pkg:generic/aws-rds/postgres` | `pkg:generic/postgresql` |
+| `mysql` | `pkg:generic/aws-rds/mysql` | `pkg:generic/mysql` |
+| `aurora-postgresql` | `pkg:generic/aws-aurora/postgresql` | `pkg:generic/postgresql` |
+| `aurora-mysql`, `aurora` | `pkg:generic/aws-aurora/mysql` | none |
+| `redis` | `pkg:generic/aws-elasticache/redis` | `pkg:generic/redis` |
+
+Unknown engines, including `mariadb`, `sqlserver-*`, `oracle-*`, `db2-*`, `memcached`, and `valkey`, produce no item and no claim.
+
+The Linux Function App stack reads the managed version fields of `application_stack` and maps each one to its own item:
+
+| Field | PURL |
+| --- | --- |
+| `dotnet_version` | `pkg:generic/azure-app-service/dotnet` |
+| `dotnet_isolated_version` | `pkg:generic/azure-app-service/dotnet-isolated` |
+| `java_version` | `pkg:generic/azure-app-service/java` |
+| `node_version` | `pkg:generic/azure-app-service/node` |
+| `python_version` | `pkg:generic/azure-app-service/python` |
+| `powershell_core_version` | `pkg:generic/azure-app-service/powershell` |
+
+A leading `~` in a Node.js version is Azure's release-line notation, so `~18` is reported at version `18`. `use_custom_runtime` and a `docker` image mean the runtime is not a managed stack, so they produce no item.
+
+**Rules matched**
+
+- `registry/database.json`: RDS, Aurora, and ElastiCache engine rules, the same rules the AWS RDS importer uses.
+- `registry/kubernetes.json`: GKE minor-version rules.
+- `registry/serverless.json`: AWS Lambda and Google Cloud Functions runtime rules.
+
+`pkg:generic/amazon-eks` currently has rules in `registry/terraform.json` for the Terraform source detector; they are not in the registry this importer reads, so an EKS cluster is reported as `no-data` until the EKS importer's `registry/kubernetes.json` rules land. `pkg:generic/azure-aks` and `pkg:generic/azure-app-service/<stack>` are emitted ahead of their Azure importer rules and report `no-data` for now. `no-data` is never a statement that the version is safe.
+
+**What is not judged**
+
+- Terraform plan JSON, `*.tf` source, module outputs, and provider configurations: this importer reads state values only.
+- Deposed instances: only current instances are reported.
+- Resource types and attributes beyond the table above, including EKS node groups, RDS proxy endpoints, and functions deployed outside the listed resource types.
+- Whether the state is current, whether it matches the configuration, or whether a remote backend is reachable. Evergreen reads only the file you pass and never runs Terraform.
+
+**Fixtures**
+
+`tests/fixtures/inventory/terraform-state/` holds one sample of each format, including nested modules and `count` and `for_each` instances, with every account id, ARN, subscription id, project number, hostname, and environment value replaced by a placeholder. `examples/inventory/terraform-state.json` is a runnable sample in the `terraform show -json` shape. They were assembled from the documented state shape of Terraform 1.9 rather than captured from a live state; no Terraform CLI version is recorded.

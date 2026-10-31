@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add a Terraform state importer to `evergreen inventory`. It reads `terraform show -json` state output and raw `terraform.tfstate` v4 files for Lambda runtimes, RDS, Aurora, and ElastiCache engines, EKS, GKE, and AKS control-plane versions, Cloud Functions runtimes, and Linux Function App stacks, at the exact JSON Pointer each value came from. It reads only the files given to it and never runs Terraform or calls a provider. (#1870)
 - Add a Google Cloud importer to `evergreen inventory`. It reads `gcloud functions list`, `gcloud app versions list`, `gcloud container clusters list`, and `gcloud run services list` output; it calls no cloud API and reads only the files given to it. (#1877)
 - Add an AWS Lambda importer to `evergreen inventory`, which reads the exports the cloud tools already produce and names the JSON Pointer each claim rests on. The importer covers `aws lambda list-functions --output json`, and `registry/serverless.json` now has a sourced rule for every runtime the AWS Lambda runtimes page dates. (#1874)
 - Add an AWS importer to `evergreen inventory` for RDS instances, Aurora clusters, and ElastiCache clusters from `aws rds describe-*` and `aws elasticache describe-cache-clusters` exports. It reads only the files given and never calls a provider API. The first importer reads `aws rds describe-db-instances`, `aws rds describe-db-clusters`, and `aws elasticache describe-cache-clusters` output for RDS, Aurora, and ElastiCache engines. (#1875)
