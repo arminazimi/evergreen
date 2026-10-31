@@ -11,6 +11,7 @@ hosted service.
 
 ## Start here
 
+- [Persian (فارسی)](fa/index.md)
 - [Five-step quickstart](QUICKSTART.md)
 - [90-second demo](DEMO.md)
 - [CLI reference](CLI.md)
