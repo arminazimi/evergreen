@@ -96,6 +96,11 @@ if (selection.entries.length === 0) {
   process.exit(0);
 }
 
+// The corpus expectations are recorded against the bundled lifecycle data, as CI runs it. A downloaded data
+// cache in the user's cache directory would change the findings and report false MISSING entries, so point
+// the data directory at a path that does not exist unless the caller chose one on purpose.
+process.env.EVERGREEN_DATA_DIR ??= join(tmpdir(), `evergreen-corpus-no-data-cache-${process.pid}`);
+
 const offline = process.argv.includes("--offline");
 const warmOnly = process.argv.includes("--warm");
 if ((offline || warmOnly) && !cacheDir) {

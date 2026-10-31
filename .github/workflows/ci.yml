@@ -219,15 +219,17 @@ jobs:
           upload-sarif: ${{ github.event_name == 'push' }}
           upload-badge: ${{ github.event_name == 'push' }}
 
-  # Windows and macOS run on main and in the merge queue, not on pull requests: those runners are
-  # scarce and held every pull request behind a pile of merges. The Linux-only steps stay in `check`.
+  # Windows runs on code pull requests too, so a path-separator or line-ending bug is caught before the merge
+  # instead of turning main red after a stack of merges. macOS runs on main and in the merge queue only: that
+  # runner is scarce. The Linux-only steps stay in `check`.
   check-cross-os:
-    if: github.event_name != 'pull_request'
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.docs_only != 'true'
     name: check (${{ matrix.os }}, node ${{ matrix.node }})
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
+        os: ${{ fromJSON(github.event_name == 'pull_request' && '["windows-latest"]' || '["windows-latest","macos-latest"]') }}
         node: [24]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20

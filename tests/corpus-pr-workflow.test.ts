@@ -15,10 +15,11 @@ const text = await readFile(resolve(".github/workflows/corpus-pr.yml"), "utf8");
 const workflow = parse(text) as Workflow;
 const job = workflow.jobs.corpus!;
 
-test("it runs on pushes to main, only for relevant paths, and never on pull_request_target", () => {
-  assert.deepEqual(Object.keys(workflow.on), ["push"]);
+test("it runs on pushes to main and on pull requests, only for relevant paths, and never on pull_request_target", () => {
+  assert.deepEqual(Object.keys(workflow.on), ["push", "pull_request"]);
   assert.ok(workflow.on.push!.paths!.includes("registry/**"));
   assert.ok(workflow.on.push!.paths!.includes("src/**"));
+  assert.deepEqual(workflow.on.pull_request!.paths, workflow.on.push!.paths);
 });
 
 test("it has read-only permissions and no secrets", () => {
@@ -32,7 +33,7 @@ test("the base commit reaches the shell only through an environment variable", (
     assert.ok(!/\$\{\{/.test(step.run!), `an expression is interpolated into a run script: ${step.name ?? step.run}`);
   }
   const check = job.steps.find((step) => step.run?.includes("--changed"))!;
-  assert.equal(check.env?.BASE_SHA, "${{ github.event.before }}");
+  assert.equal(check.env?.BASE_SHA, "${{ github.event.pull_request.base.sha || github.event.before }}");
   assert.match(check.run!, /--changed "\$BASE_SHA"/);
 });
 

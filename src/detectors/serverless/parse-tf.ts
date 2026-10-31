@@ -46,6 +46,8 @@ export interface RuntimeDeclaration {
   value: string;
   /** One-based line of the attribute value. */
   line: number;
+  /** The cloud whose runtime ids apply, when the declaration says so: AWS and Cloud Functions share some ids. */
+  platform?: "aws" | "gcp";
 }
 
 function blankNonNewlines(text: string): string {
@@ -322,6 +324,7 @@ export function parseTf(contents: string): RuntimeDeclaration[] {
       const body = blockBody(masked, header.openBrace);
       if (!body) return [];
       const [start, end] = body;
+      const firstOfResource = declarations.length;
 
       if (header.type === "aws_lambda_function" || header.type === "google_cloudfunctions_function") {
         collectDirectAttributes(contents, masked, start, end, new Set(["runtime"]), declarations);
@@ -336,6 +339,8 @@ export function parseTf(contents: string): RuntimeDeclaration[] {
           }
         }
       }
+      const platform = header.type === "aws_lambda_function" ? "aws" : header.type.startsWith("google_") ? "gcp" : undefined;
+      if (platform) for (const declaration of declarations.slice(firstOfResource)) declaration.platform = platform;
       if (declarations.length >= MAXIMUM_DECLARATIONS) break;
     }
 
