@@ -282,10 +282,10 @@ jobs:
         run: bundle exec jekyll build --baseurl ""
 
   # Seaworthy verifies the built site: internal links, agent-readable structure, accessibility.
-  # It is pre-alpha and has no release tag yet, so it is consumed by commit pin; v0.0.0 is the
-  # package version at that pin. The run reports every finding, including the ones the theme and
-  # pages already have, so it is report-only until the site is clean; then set `threshold: error`
-  # and a broken internal link fails CI.
+  # It is pre-alpha with no release or tag yet, so its CLI is built from a commit pin here.
+  # The run reports every finding, including the ones the theme and pages already have, so it is
+  # report-only until the site is clean; then pass `--fail-on error` and a broken internal link
+  # fails CI.
   seaworthy:
     name: seaworthy (built site)
     runs-on: ubuntu-latest
@@ -305,11 +305,26 @@ jobs:
         working-directory: docs
         # Keep the deployed base path (/evergreen) so internal links resolve as they do on Pages.
         run: bundle exec jekyll build
-      - uses: arminazimi/seaworthy@8ed721eb222562251b3b901bab0ad7b8ff67c5ef # v0.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          site: docs/_site
-          threshold: none
-          sarif: seaworthy.sarif
+          repository: arminazimi/seaworthy
+          ref: 8ed721eb222562251b3b901bab0ad7b8ff67c5ef
+          path: .seaworthy-cli
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Build Seaworthy from source
+        working-directory: .seaworthy-cli
+        run: npm ci && npm run build --silent
+      - name: Verify the built site
+        run: node .seaworthy-cli/packages/verify/dist/src/cli.js verify docs/_site --format sarif --out seaworthy.sarif --fail-on none
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always() && hashFiles('seaworthy.sarif') != ''
+        with:
+          name: seaworthy-sarif
+          path: seaworthy.sarif
+          retention-days: 14
 
   self-scan:
     if: github.event_name != 'pull_request'
