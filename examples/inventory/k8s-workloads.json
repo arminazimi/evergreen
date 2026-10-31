@@ -1,0 +1,70 @@
+{
+  "apiVersion": "v1",
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  },
+  "items": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "web",
+        "namespace": "shop",
+        "creationTimestamp": "2026-08-01T09:12:44Z"
+      },
+      "spec": {
+        "replicas": 2,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "web",
+                "image": "node:18.19.0"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "StatefulSet",
+      "metadata": {
+        "name": "db",
+        "namespace": "shop",
+        "creationTimestamp": "2026-06-11T07:03:10Z"
+      },
+      "spec": {
+        "serviceName": "db",
+        "replicas": 1,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "postgres",
+                "image": "postgres:13.4"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1beta1",
+      "kind": "Ingress",
+      "metadata": {
+        "name": "web",
+        "namespace": "shop",
+        "creationTimestamp": "2026-03-01T08:00:00Z"
+      },
+      "spec": {
+        "rules": [
+          {
+            "host": "shop.example.com"
+          }
+        ]
+      }
+    }
+  ]
+}

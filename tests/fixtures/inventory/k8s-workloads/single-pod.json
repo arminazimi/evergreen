@@ -1,0 +1,18 @@
+{
+  "apiVersion": "v1",
+  "kind": "Pod",
+  "metadata": {
+    "name": "single",
+    "namespace": "shop",
+    "uid": "9d0f7f4e-1a1b-4f2e-9c3d-00000000000d",
+    "creationTimestamp": "2026-04-19T18:25:00Z"
+  },
+  "spec": {
+    "containers": [
+      {
+        "name": "app",
+        "image": "node:18.19.0"
+      }
+    ]
+  }
+}
