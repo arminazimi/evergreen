@@ -2,7 +2,7 @@
   "schemaVersion": "evergreen.corpus-snapshot.v1",
   "detectors": {
     "android": {
-      "findings": 9,
+      "findings": 10,
       "repositories": 7
     },
     "ci-images": {
@@ -10,44 +10,44 @@
       "repositories": 7
     },
     "container": {
-      "findings": 74,
-      "repositories": 38
+      "findings": 187,
+      "repositories": 69
     },
     "cpp": {
-      "findings": 18,
-      "repositories": 13
+      "findings": 19,
+      "repositories": 14
     },
     "dart": {
       "findings": 8,
       "repositories": 4
     },
     "database": {
-      "findings": 16,
-      "repositories": 11
+      "findings": 18,
+      "repositories": 13
     },
     "dotnet": {
       "findings": 304,
       "repositories": 20
     },
     "github-actions": {
-      "findings": 986,
-      "repositories": 172
+      "findings": 1213,
+      "repositories": 208
     },
     "go": {
-      "findings": 54,
-      "repositories": 21
+      "findings": 111,
+      "repositories": 51
     },
     "java": {
       "findings": 61,
       "repositories": 14
     },
     "kubernetes": {
-      "findings": 71,
-      "repositories": 12
+      "findings": 80,
+      "repositories": 14
     },
     "nodejs": {
-      "findings": 278,
-      "repositories": 66
+      "findings": 322,
+      "repositories": 74
     },
     "npm": {
       "findings": 100,
@@ -58,32 +58,36 @@
       "repositories": 4
     },
     "python": {
-      "findings": 74,
-      "repositories": 64
+      "findings": 128,
+      "repositories": 82
     },
     "ruby": {
       "findings": 24,
       "repositories": 14
     },
     "rust": {
-      "findings": 18,
-      "repositories": 12
+      "findings": 63,
+      "repositories": 37
+    },
+    "scala": {
+      "findings": 2,
+      "repositories": 1
     },
     "serverless": {
-      "findings": 26,
-      "repositories": 14
+      "findings": 160,
+      "repositories": 18
     },
     "shell": {
       "findings": 12,
       "repositories": 5
     },
     "swift": {
-      "findings": 16,
-      "repositories": 11
+      "findings": 20,
+      "repositories": 12
     },
     "terraform": {
-      "findings": 7,
-      "repositories": 5
+      "findings": 38,
+      "repositories": 8
     }
   }
 }

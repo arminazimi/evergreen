@@ -15,8 +15,8 @@ test("thresholds name every shipped detector and enforce precision of at least 0
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
   assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // The Android, ci-images, container, C and C++, Go, PHP, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["android", "ci-images", "container", "cpp", "dart", "database", "deno", "elixir", "go", "php", "ruby", "rust", "scala", "shell", "terraform"].includes(name), name);
+    // The Android, ci-images, container, C and C++, PHP, Ruby, Scala, shell, and Terraform detectors are experimental: they are scored and reported, but not enforced yet.
+    assert.equal(threshold.stable, !["android", "ci-images", "container", "cpp", "dart", "database", "deno", "elixir", "php", "ruby", "scala", "shell", "terraform"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });

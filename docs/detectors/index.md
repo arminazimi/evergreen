@@ -14,10 +14,10 @@ Each page documents one ecosystem detector: what it reads, what it reports, and 
 | [Deno and Bun](deno.md) | Exact runtime pins in `deno.json(c)`, `bunfig.toml`, `.bun-version` | Experimental |
 | [.NET](dotnet.md) | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, `packages.lock.json` | Beta |
 | [Elixir and Mix](elixir.md) | `.tool-versions`, `mix.exs`, `mix.lock` | Experimental |
-| [Go](go.md) | `go.mod` and `go.work` directives and direct require | Experimental |
+| [Go](go.md) | `go.mod` and `go.work` directives and direct require | Supported |
 | [Java and Kotlin (JVM)](java.md) | `pom.xml`, Gradle, `.java-version`, `.sdkmanrc`, `.tool-versions`, Maven deps | Beta |
 | [Kubernetes APIs](kubernetes.md) | `apiVersion`/`kind` in YAML, Helm templates, kustomization | Beta |
-| [Rust](rust.md) | `rust-toolchain(.toml)`, `Cargo.toml`, `Cargo.lock` | Experimental |
+| [Rust](rust.md) | `rust-toolchain(.toml)`, `Cargo.toml`, `Cargo.lock` | Supported |
 | [Scala and sbt](scala.md) | `.scala-version`, `build.sbt`, `project/build.properties` | Experimental |
 | [Serverless runtimes](serverless.md) | SAM/CloudFormation Runtime, `serverless.yml`, Terraform runtimes | Beta |
 | [Shell and PowerShell](shell.md) | `#Requires -Version`, `PowerShellVersion`, powershell image tags | Experimental |

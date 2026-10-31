@@ -146,6 +146,26 @@ Five public repositories at pinned commits cover the `ci-images` detector: `oatp
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the CI image ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line. The Azure dates come from the [hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule) and the [Azure DevOps blog deprecation plan](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/), not from these repositories. All five were chosen knowing their image labels, so each records `selection: "targeted"`.
 
+## Go corpus
+
+Issue #1892 added 31 Go entries: 24 blind and seven targeted. The targeted entries exercise multi-module repositories: `minio/minio` (twelve `go.mod` files, including five toolchain pins), `etcd-io/etcd` (five modules requiring the deprecated `github.com/golang/protobuf`), `hashicorp/vault` (three modules with the same requirement), `moby/moby` (four modules), `cli/cli` (a test module), and `containerd/containerd` (one module). `prometheus/prometheus` is a targeted zero-finding companion: it declares Go modules but no release line or module rule applies at the pin.
+
+The blind rule, fixed on 2026-11-01 before Evergreen ran on these additions: GitHub repository search for `language:go stars:>=500 archived:false pushed:2023-01-01..2024-12-31`, sorted by stars descending. Walk the results in order and keep each repository whose default branch contains at least one `go.mod`, skipping repositories with more than 20 `Dockerfile*` files so that image findings do not crowd out the Go coverage. Take the first 24, whatever Evergreen reports for them. They are, in order: `FiloSottile/mkcert`, `ehang-io/nps`, `go-kit/kit`, `mislav/hub`, `gorilla/mux`, `matryer/xbar`, `bcicen/ctop`, `jmoiron/sqlx`, `julienschmidt/httprouter`, `sqshq/sampler`, `gophish/gophish`, `robfig/cron`, `golang/groupcache`, `revel/revel`, `bxcodec/go-clean-arch`, `gcla/termshark`, `sjwhitworth/golearn`, `dinedal/textql`, `akavel/up`, `apex/up`, `XiaoMi/soar`, `kelseyhightower/confd`, `smartystreets/goconvey`, and `p4gefau1t/trojan-go`. The search skipped `peterq/pan-light` (44 Dockerfiles) and `therecipe/qt` (71). The query returns different results on another day, so the pinned list above, not a re-run, is the record.
+
+Ground truth: every finding in these repositories, from every detector, was read at its pinned line and recorded with a `maintainer-review` note naming the path and line. The Go release dates come from the [Go release policy](https://go.dev/doc/devel/release), the module deprecation from the module's `pkg.go.dev` page, and the other detectors' facts from their own vendor sources. Nothing in these entries is taken from Evergreen's output.
+
+Across the 43 Go corpus entries, 39 have expected Go findings, four have none, and 31 of the 43 were selected blind (72%). A narrowed run of both ecosystems on 2026-11-01 reported 71 expected Go findings, 71 true positives, no false positives, and no false negatives. The full run the same day reported all 111 Go findings the corpus expects across every ecosystem, with no false positives and no false negatives.
+
+## Rust corpus
+
+Issue #1892 added 66 Rust entries: 46 blind and 20 targeted. The targeted rule, fixed on 2026-11-01: GitHub code search for `atty`, `ansi_term`, `failure`, and `tempdir` in `Cargo.toml`, deduplicated by repository and restricted to 200–2000 stars, sorted by stars descending; take the first 20 repositories not already in the corpus. They are: `Macchina-CLI/macchina`, `PaddiM8/kalker`, `mike-engel/jwt-cli`, `NixOS/nix-index`, `rabite0/hunter`, `dduan/tre`, `starcoinorg/starcoin`, `koute/cargo-web`, `clog-tool/clog-cli`, `pop-os/popsicle`, `paritytech/parity-bitcoin`, `chmln/handlr`, `gsquire/topngx`, `dwisiswant0/ppfuzz`, `Isona/dirble`, `sitkevij/hex`, `sit-fyi/sit`, `elkowar/pipr`, `jez/as-tree`, and `rust-lang/team`. The star cap keeps the sample to projects similar in scale to the rest of the corpus; the code search returns different results on another day, so the pinned list is the record.
+
+The blind rule, fixed on the same date: GitHub repository search for `language:rust stars:>=300 archived:false pushed:2020-01-01..2022-06-30`, sorted by stars descending. Walk the results in order and keep each repository whose default branch contains a `Cargo.toml`; take the first 46, whatever Evergreen reports for them. They are, in order: `mit-pdos/noria`, `PistonDevelopers/conrod`, `nickel-org/nickel.rs`, `Kintaro/wtftw`, `rajasekarv/vega`, `zhuowei/nft_ptr`, `amethyst/legion`, `dimforge/nphysics`, `mesalock-linux/mesalink`, `tensorbase/tensorbase`, `lpxxn/rust-design-pattern`, `PumpkinDB/PumpkinDB`, `willdoescode/nat`, `ihciah/clean-dns-bpf`, `archseer/enigma`, `wubx/rust-in-databend`, `bwasty/learn-opengl-rs`, `spacejam/rio`, `Esc4iCEscEsc/skanuvaty`, `tsgates/rust.ko`, `headcrab-rs/headcrab`, `nachoparker/dutree`, `rustodon/rustodon`, `d-unsed/ruru`, `sciter-sdk/rust-sciter`, `bheisler/RustaCUDA`, `DanielKeep/cargo-script`, `raphlinus/font-rs`, `murarth/ketos`, `skyward-finance/contracts`, `h3r2tic/cornell-mcray`, `imager-io/imager`, `TimUntersberger/nog`, `ringbahn/ringbahn`, `altdesktop/i3-style`, `KOBA789/relly`, `rom1v/autoadb`, `TaKO8Ki/frum`, `crazymykl/rust-koans`, `quadrupleslap/scrap`, `tokio-rs/tokio-core`, `maciejkula/rustlearn`, `howardwu/wagyu`, `withoutboats/fehler`, `mathall/rim`, and `zackradisic/aussieplusplus`.
+
+Ground truth: every finding in these repositories, from every detector, was read at its pinned line and recorded with a `maintainer-review` note naming the path and line. Crate status comes from the [RustSec advisory database](https://rustsec.org/), the toolchain dates from the [Rust release policy](https://www.rust-lang.org/policies/security), and the other detectors' facts from their own vendor sources.
+
+Across the 78 Rust corpus entries, 36 have expected Rust findings, 28 have no findings at all, and 53 of the 78 were selected blind (68%). A narrowed run of both ecosystems on 2026-11-01 reported 61 expected Rust findings, 61 true positives, no false positives, and no false negatives. The full run the same day reported all 63 Rust findings the corpus expects across every ecosystem, with no false positives and no false negatives.
+
 ## The 300-repository corpus
 
 The corpus now has 300 repositories: the 189 earlier entries and 111 added in one pass, every one with `selection: "blind"`. They fill the ecosystems that had the fewest repositories: container, Go, Rust, Ruby, PHP, Android, C/C++, CI runner images, Dart, Terraform, database runtimes, and shell got seven each, and serverless, GitHub Actions, and Swift got nine each.
@@ -482,7 +502,7 @@ Measured on 456 pinned repositories at commit `c7b4e14` on 2026-10-24. Regenerat
 | dotnet | Beta | 304 | 0 | 0 | 1.000 | 1.000 |
 | elixir | Experimental | — | — | — | — | — |
 | github-actions | Supported | 986 | 0 | 0 | 1.000 | 1.000 |
-| go | Experimental | 54 | 0 | 0 | 1.000 | 1.000 |
+| go | Supported | 54 | 0 | 0 | 1.000 | 1.000 |
 | java | Beta | 61 | 0 | 0 | 1.000 | 1.000 |
 | kubernetes | Beta | 71 | 0 | 0 | 1.000 | 1.000 |
 | nodejs | Supported | 305 | 0 | 0 | 1.000 | 1.000 |
@@ -490,7 +510,7 @@ Measured on 456 pinned repositories at commit `c7b4e14` on 2026-10-24. Regenerat
 | php | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |
 | python | Supported | 74 | 0 | 0 | 1.000 | 1.000 |
 | ruby | Experimental | 24 | 0 | 0 | 1.000 | 1.000 |
-| rust | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
+| rust | Supported | 18 | 0 | 0 | 1.000 | 1.000 |
 | scala | Experimental | — | — | — | — | — |
 | serverless | Beta | 26 | 0 | 0 | 1.000 | 1.000 |
 | shell | Experimental | 12 | 0 | 0 | 1.000 | 1.000 |

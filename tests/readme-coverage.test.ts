@@ -12,31 +12,33 @@ const rows = new Map(
   [...table.matchAll(/^\| \*\*([^*]+)\*\* \| (.+?) \| (.+?) \|$/gm)].map((match) => [match[1]!, { reads: match[2]!, reports: match[3]! }] as const),
 );
 
-test("the coverage table names the four shipped ecosystems", () => {
-  assert.deepEqual([...rows.keys()], ["GitHub Actions", "Node.js", "npm", "Python"]);
+test("the coverage table names the shipped ecosystems", () => {
+  assert.deepEqual([...rows.keys()], ["Go", "GitHub Actions", "Node.js", "npm", "Python", "Rust"]);
 });
 
 test("every file the table says Evergreen reads appears in that detector's source", async () => {
   const sources = {
+    Go: await read("src/detectors/go/index.ts"),
     "GitHub Actions": await read("src/detectors/github-actions.ts"),
     "Node.js": await read("src/detectors/npm.ts"),
     npm: await read("src/detectors/npm.ts"),
     Python: await read("src/detectors/python.ts"),
+    Rust: await read("src/detectors/rust/index.ts"),
   } as const;
   for (const [ecosystem, { reads }] of rows) {
     const files = [...reads.matchAll(/`([^`]+)`/g)].map((match) => match[1]!).filter((name) => /[.\-]/.test(name) || name === "volta");
-    assert.ok(files.length >= (ecosystem === "GitHub Actions" ? 1 : 3), ecosystem);
+    assert.ok(files.length >= (ecosystem === "GitHub Actions" ? 1 : ecosystem === "Go" ? 2 : 3), ecosystem);
     const source = sources[ecosystem as keyof typeof sources];
     for (const file of files) {
       // Patterns such as requirements*.txt and .github/workflows/*.yml are checked by their stable part.
-      const stable = file.replace(/^\.github\/workflows\/\*\.yml$/, ".github").replace(/\*\.txt$/, "").replace(/\*\.yml$/, "");
+      const stable = file.replace(/^\.github\/workflows\/\*\.yml$/, ".github").replace(/\*\.txt$/, "").replace(/\*\.yml$/, "").replace(/\(\.toml\)$/, "");
       assert.ok(source.includes(stable.split("/")[0]!), `${ecosystem}: the README says it reads ${file}, but ${stable} is not in its detector`);
     }
   }
 });
 
 test("each ecosystem in the table has a registry with rules", async () => {
-  for (const registry of ["github-actions", "nodejs", "npm", "python"]) {
+  for (const registry of ["go", "github-actions", "nodejs", "npm", "python", "rust"]) {
     const rules = (JSON.parse(await read(`registry/${registry}.json`)) as { rules: unknown[] }).rules;
     assert.ok(rules.length > 0, registry);
   }

@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-24",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 460
+    "repositories": 557
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -87,8 +87,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 49,
-        "expectedFindings": 124,
+        "repositoriesWithFindings": 69,
+        "expectedFindings": 187,
         "zeroFindingRepositories": 1,
         "repositories": 12,
         "blindRepositories": 7
@@ -110,8 +110,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 13,
-        "expectedFindings": 18,
+        "repositoriesWithFindings": 14,
+        "expectedFindings": 19,
         "zeroFindingRepositories": 1,
         "repositories": 12,
         "blindRepositories": 8
@@ -156,8 +156,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 12,
-        "expectedFindings": 17,
+        "repositoriesWithFindings": 13,
+        "expectedFindings": 18,
         "zeroFindingRepositories": 2,
         "repositories": 12,
         "blindRepositories": 8
@@ -236,8 +236,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 172,
-        "expectedFindings": 986,
+        "repositoriesWithFindings": 208,
+        "expectedFindings": 1213,
         "zeroFindingRepositories": 4,
         "repositories": 34,
         "blindRepositories": 23
@@ -245,11 +245,11 @@
     },
     {
       "id": "go",
-      "level": "experimental",
-      "earnedLevel": "beta",
+      "level": "stable",
+      "earnedLevel": "stable",
       "precisionFloor": {
         "value": 0.95,
-        "enforced": false
+        "enforced": true
       },
       "run": {
         "truePositives": 54,
@@ -259,11 +259,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 21,
-        "expectedFindings": 54,
-        "zeroFindingRepositories": 3,
-        "repositories": 12,
-        "blindRepositories": 7
+        "repositoriesWithFindings": 51,
+        "expectedFindings": 111,
+        "zeroFindingRepositories": 4,
+        "repositories": 43,
+        "blindRepositories": 31
       }
     },
     {
@@ -305,8 +305,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 13,
-        "expectedFindings": 73,
+        "repositoriesWithFindings": 14,
+        "expectedFindings": 80,
         "zeroFindingRepositories": 2,
         "repositories": 19,
         "blindRepositories": 12
@@ -328,8 +328,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 73,
-        "expectedFindings": 320,
+        "repositoriesWithFindings": 74,
+        "expectedFindings": 322,
         "zeroFindingRepositories": 18,
         "repositories": 78,
         "blindRepositories": 52
@@ -429,11 +429,11 @@
     },
     {
       "id": "rust",
-      "level": "experimental",
-      "earnedLevel": "experimental",
+      "level": "stable",
+      "earnedLevel": "stable",
       "precisionFloor": {
         "value": 0.95,
-        "enforced": false
+        "enforced": true
       },
       "run": {
         "truePositives": 18,
@@ -443,11 +443,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 12,
-        "expectedFindings": 18,
-        "zeroFindingRepositories": 1,
-        "repositories": 12,
-        "blindRepositories": 7
+        "repositoriesWithFindings": 37,
+        "expectedFindings": 63,
+        "zeroFindingRepositories": 28,
+        "repositories": 78,
+        "blindRepositories": 53
       }
     },
     {
@@ -529,8 +529,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 11,
-        "expectedFindings": 16,
+        "repositoriesWithFindings": 12,
+        "expectedFindings": 20,
         "zeroFindingRepositories": 5,
         "repositories": 22,
         "blindRepositories": 16
@@ -539,7 +539,7 @@
     {
       "id": "terraform",
       "level": "experimental",
-      "earnedLevel": "experimental",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": false
@@ -552,8 +552,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 7,
-        "expectedFindings": 16,
+        "repositoriesWithFindings": 8,
+        "expectedFindings": 38,
         "zeroFindingRepositories": 2,
         "repositories": 12,
         "blindRepositories": 7

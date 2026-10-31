@@ -51,8 +51,8 @@
       "minPrecision": 0.95
     },
     "go": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "java": {
@@ -96,8 +96,8 @@
       "minPrecision": 0.95
     },
     "rust": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "scala": {

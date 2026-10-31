@@ -1,6 +1,6 @@
 # Rust
 
-The `rust` detector reports Rust toolchains that no longer receive fixes and direct dependencies on crates that are no longer maintained, as declared in `Cargo.toml`, `Cargo.lock`, and `rust-toolchain(.toml)`. It is **experimental**: it is scored on the [public corpus](../VALIDATION.md) but not yet held to the precision floor that stable detectors are. The reasoning is in [Decision 0011](../decisions/0011-rust-detector.md).
+The `rust` detector reports Rust toolchains that no longer receive fixes and direct dependencies on crates that are no longer maintained, as declared in `Cargo.toml`, `Cargo.lock`, and `rust-toolchain(.toml)`. It is **supported**: it is scored on the [public corpus](../VALIDATION.md) and held to the corpus precision and recall floors. The reasoning is in [Decision 0011](../decisions/0011-rust-detector.md).
 
 ## What it reads
 
@@ -15,7 +15,7 @@ It walks the repository up to eight directories deep (at most 500 matching files
 
 ## What it reports
 
-- A toolchain pinned to an exact release (`1.70`, `1.70.0`) that is older than the newest stable release. Rust supports only the most recent stable release, so a line loses support the day the next one ships ([Rust security policy](https://www.rust-lang.org/policies/security)). Reported at **medium** severity.
+- A toolchain pinned to an exact release (`1.70`, `1.70.0`) that is older than the newest stable release. Rust supports only the most recent stable release, so a line loses support the day the next one ships ([Rust security policy](https://www.rust-lang.org/policies/security)). The rule covers releases older than 1.99 today. Reported at **medium** severity.
 - A direct dependency on a crate the [RustSec advisory database](https://github.com/rustsec/advisory-db) marks as unmaintained or deprecated (`failure`, `tempdir`, `atty`, and `ansi_term` today), at the `Cargo.toml` line that declares it. This is a lifecycle fact, not a vulnerability report.
 - Where the crate is imported or called in the repository's Rust sources, the finding lists those files and lines as usages and an impact summary.
 - A resolved version in `Cargo.lock` that crates.io has yanked, when the registry has a rule for it. There are no such rules yet; they are added after review of the importer's drafts.
@@ -30,6 +30,7 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 - Dependencies declared with `path`, `git`, or `workspace = true`, or with a version that is not a literal string, are skipped: there is no crates.io version to judge.
 - Transitive dependencies, vulnerability advisories, license policy, Cargo features, and `cfg` tables other than the dependency tables.
 - Malformed or oversized files (over 1 MiB, or a line over 4,096 characters) produce nothing, not partial results.
+- Crates without a reviewed RustSec rule, even when the crate is archived or its repository is inactive.
 
 ## Known limits and false-positive boundaries
 
@@ -44,4 +45,4 @@ The rules are in `registry/rust.json` and ship in the [data bundle](../DATA.md).
 
 ## Validation
 
-Five public repositories at pinned commits are in the corpus: four that depended on an abandoned crate until their maintainers moved on (hyperfine, wasm-pack, just, dust) and one with no findings (fd). Their expected findings were reviewed by hand against the files at that commit, and each note links the maintainers' own migration commit. Precision is measured on those five repositories only, which is why the detector is not yet stable.
+The corpus holds 78 pinned Rust repositories: 36 with reviewed Rust findings, 28 with no findings at all, and 14 with findings only from other detectors. Their 61 expected Rust findings were reviewed by hand against the files at the pinned commit, and the notes cite the RustSec advisory or the Rust release policy rather than Evergreen's output. One other ecosystem's entry also declares Rust crates, so the corpus expects 63 Rust findings in total. Of the 78 Rust entries, 53 were selected blind (68%). The full-corpus run on 2026-11-01 reported 63 true positives, no false positives, and no false negatives; the method and evidence counts are in [Validation](../VALIDATION.md).
