@@ -1,8 +1,12 @@
 ---
 title: "Ruby 2.7 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 2.7 as eol: normal maintenance ended on 2022-04-01 and the branch reached end-of-life on 2023-03-31."
+layout: doc
+permalink: "/rules/ruby.runtime.eol-2.7.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.7.html"
 image: "/assets/og/ruby.runtime.eol-2.7.svg"
+review_date: "2026-10-18"
+last_modified_at: "2026-10-18"
 json_twin: "/rules/ruby.runtime.eol-2.7.json"
 ---
 

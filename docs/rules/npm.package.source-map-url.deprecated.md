@@ -1,8 +1,12 @@
 ---
 title: "source-map-url is deprecated — dates, impact, migration"
 description: "The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments."
+layout: doc
+permalink: "/rules/npm.package.source-map-url.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html"
 image: "/assets/og/npm.package.source-map-url.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.source-map-url.deprecated.json"
 ---
 

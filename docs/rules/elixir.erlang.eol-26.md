@@ -1,8 +1,12 @@
 ---
 title: "Erlang/OTP 26 no longer receives security updates — dates, impact, migration"
 description: "Erlang/OTP supports the last three major releases with security updates. OTP 26 left that window when OTP 29 shipped on 2026-05-13, so the release no longer receives security updates from the…"
+layout: doc
+permalink: "/rules/elixir.erlang.eol-26.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/elixir.erlang.eol-26.html"
 image: "/assets/og/elixir.erlang.eol-26.svg"
+review_date: "2026-10-26"
+last_modified_at: "2026-10-26"
 json_twin: "/rules/elixir.erlang.eol-26.json"
 ---
 

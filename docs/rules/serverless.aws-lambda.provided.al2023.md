@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda OS-only runtime provided.al2023 runtime reaches end of life on 2029-06-30 — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists provided.al2023 as supported with a projected deprecation date of 2029-06-30."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.provided.al2023.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.provided.al2023.html"
 image: "/assets/og/serverless.aws-lambda.provided.al2023.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.provided.al2023.json"
 ---
 

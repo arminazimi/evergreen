@@ -1,8 +1,12 @@
 ---
 title: "Apache ZooKeeper image release lines 3.7 and older are end-of-life — dates, impact, migration"
 description: "These Apache ZooKeeper release lines no longer receive fixes from the vendor."
+layout: doc
+permalink: "/rules/container.zookeeper.eol-3.7-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html"
 image: "/assets/og/container.zookeeper.eol-3.7-and-older.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/container.zookeeper.eol-3.7-and-older.json"
 ---
 

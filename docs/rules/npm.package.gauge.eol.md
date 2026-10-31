@@ -1,8 +1,12 @@
 ---
 title: "gauge is no longer supported — dates, impact, migration"
 description: "npm states that the gauge package is no longer supported."
+layout: doc
+permalink: "/rules/npm.package.gauge.eol.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html"
 image: "/assets/og/npm.package.gauge.eol.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.gauge.eol.json"
 ---
 

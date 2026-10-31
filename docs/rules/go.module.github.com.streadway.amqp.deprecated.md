@@ -1,8 +1,12 @@
 ---
 title: "github.com/streadway/amqp is deprecated — dates, impact, migration"
 description: "The latest github.com/streadway/amqp module declares: \"Consider using the github.com/rabbitmq/amqp091-go package instead.\""
+layout: doc
+permalink: "/rules/go.module.github.com.streadway.amqp.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.github.com.streadway.amqp.deprecated.html"
 image: "/assets/og/go.module.github.com.streadway.amqp.deprecated.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/go.module.github.com.streadway.amqp.deprecated.json"
 ---
 

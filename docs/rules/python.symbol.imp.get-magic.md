@@ -1,8 +1,12 @@
 ---
 title: "Imp.get_magic has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.get_magic, so using it raises an error."
+layout: doc
+permalink: "/rules/python.symbol.imp.get-magic.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.get-magic.html"
 image: "/assets/og/python.symbol.imp.get-magic.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.imp.get-magic.json"
 ---
 

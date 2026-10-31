@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda .NET Core 2.1 runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists dotnetcore2.1 under Deprecated runtimes with deprecation date 2022-01-05. AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.dotnetcore2.1.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.dotnetcore2.1.html"
 image: "/assets/og/serverless.aws-lambda.dotnetcore2.1.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.dotnetcore2.1.json"
 ---
 

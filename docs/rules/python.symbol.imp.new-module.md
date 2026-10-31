@@ -1,8 +1,12 @@
 ---
 title: "Imp.new_module has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.new_module, so using it raises an error."
+layout: doc
+permalink: "/rules/python.symbol.imp.new-module.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.new-module.html"
 image: "/assets/og/python.symbol.imp.new-module.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.imp.new-module.json"
 ---
 

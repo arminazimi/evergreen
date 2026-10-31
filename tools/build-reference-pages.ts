@@ -53,6 +53,8 @@ export const ruleUrl = (id: string) => `${SITE_URL}/rules/${id}.html`;
 /** The machine-readable twin of a rule page, published beside it. */
 export const ruleDataUrl = (id: string) => `${SITE_URL}/rules/${id}.json`;
 const ruleDataPath = (id: string) => `/rules/${id}.json`;
+/** The page's permalink: the same URL the page had before the Slipway layout. */
+const rulePagePath = (id: string) => `/rules/${id}.html`;
 const dataUrl = (ecosystem: string) => `${REPOSITORY_URL}/blob/main/registry/${ecosystem}.json`;
 
 /** A rule as an `evergreen.rule.v1` document: the same facts the page renders, for agents that read JSON. */
@@ -285,8 +287,12 @@ export function renderRulePage(
     "---",
     `title: ${yaml(pageTitle(rule))}`,
     `description: ${yaml(description(rule))}`,
+    "layout: doc",
+    `permalink: ${yaml(rulePagePath(rule.id))}`,
     `canonical_url: ${yaml(ruleUrl(rule.id))}`,
     `image: ${yaml(ruleOgImagePath(rule.id))}`,
+    `review_date: ${yaml(rule.provenance.reviewedAt)}`,
+    `last_modified_at: ${yaml(rule.provenance.reviewedAt)}`,
     `json_twin: ${yaml(ruleDataPath(rule.id))}`,
     "---",
     "",
@@ -769,6 +775,8 @@ export function renderIndex(registries: readonly RegistryV2[]): string {
     "---",
     'title: "Lifecycle reference — end of life, removed, and deprecated components"',
     'description: "One page per lifecycle rule: status, affected versions, dates, sources, migration, and the detector that reads it."',
+    "layout: doc",
+    `permalink: ${yaml("/rules/")}`,
     `canonical_url: ${yaml(`${SITE_URL}/rules/`)}`,
     `image: ${yaml(DEFAULT_OG_IMAGE_PATH)}`,
     "---",

@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions Go 1.24 runtime is deprecated — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists Go 1.24 (runtime ID go124) as deprecated on 2026-09-02 and scheduled for decommission on 2027-03-02."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.go124.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.go124.html"
 image: "/assets/og/serverless.google-cloud-functions.go124.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.go124.json"
 ---
 

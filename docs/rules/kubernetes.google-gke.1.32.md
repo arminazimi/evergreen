@@ -1,8 +1,12 @@
 ---
 title: "GKE 1.32 cluster is past end of standard support — dates, impact, migration"
 description: "The GKE release schedule lists GKE 1.32 with end of standard support on 2026-04-27 and end of extended support on 2027-02-11."
+layout: doc
+permalink: "/rules/kubernetes.google-gke.1.32.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.google-gke.1.32.html"
 image: "/assets/og/kubernetes.google-gke.1.32.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/kubernetes.google-gke.1.32.json"
 ---
 

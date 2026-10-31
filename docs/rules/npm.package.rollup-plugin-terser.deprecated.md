@@ -1,8 +1,12 @@
 ---
 title: "rollup-plugin-terser is deprecated — dates, impact, migration"
 description: "npm marks rollup-plugin-terser as deprecated: \"This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser\""
+layout: doc
+permalink: "/rules/npm.package.rollup-plugin-terser.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html"
 image: "/assets/og/npm.package.rollup-plugin-terser.deprecated.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/npm.package.rollup-plugin-terser.deprecated.json"
 ---
 

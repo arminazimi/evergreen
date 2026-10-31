@@ -154,7 +154,11 @@ test("a page states status, versions, dates, sources, freshness, migration, and 
   });
   const page = renderRulePage(fixture, 180);
   assert.match(page, /^---\ntitle: "Demo 1 is end of life — dates, impact, migration"\n/);
+  assert.match(page, /^layout: doc$/m);
+  assert.match(page, /^permalink: "\/rules\/demo\.thing\.eol-1\.html"$/m);
   assert.match(page, /canonical_url: "https:\/\/arminazimi\.github\.io\/evergreen\/rules\/demo\.thing\.eol-1\.html"/);
+  assert.match(page, /^review_date: "2026-10-02"$/m);
+  assert.match(page, /^last_modified_at: "2026-10-02"$/m);
   assert.match(page, /image: "\/assets\/og\/demo\.thing\.eol-1\.svg"/);
   // The first paragraph answers status, date, and replacement, with the source linked.
   assert.match(
@@ -210,10 +214,24 @@ test("titles are unique, follow the search-friendly pattern, and every page name
       assert.equal(titles.has(title), false, `${entry.id} repeats the title of ${titles.get(title)}`);
       titles.set(title, entry.id);
       assert.ok(page.includes(`canonical_url: "${ruleUrl(entry.id)}"`), entry.id);
+      assert.ok(page.includes(`permalink: "/rules/${entry.id}.html"`), entry.id);
+      assert.ok(page.includes("layout: doc"), entry.id);
       assert.ok(page.includes(`image: "/assets/og/${entry.id}.svg"`), entry.id);
       assert.ok(entry.title.length > 0 && JSON.parse(title).length <= 120, `${entry.id}: the title is too long for a search result`);
     }
   }
+});
+
+test("the index uses the Slipway doc layout and keeps its URL", () => {
+  const index = renderIndex([registry([rule()])]);
+  const frontMatter = parse(index.slice(4, index.indexOf("\n---\n", 4))) as {
+    layout: string;
+    permalink: string;
+    canonical_url: string;
+  };
+  assert.equal(frontMatter.layout, "doc");
+  assert.equal(frontMatter.permalink, "/rules/");
+  assert.equal(frontMatter.canonical_url, `${SITE_URL}/rules/`);
 });
 
 test("every rule page answers status, date, and replacement first, then offers evergreen check", async () => {
@@ -430,13 +448,21 @@ test("every rule field is rendered in its context and escaped there", () => {
   const frontMatter = parse(page.slice(4, page.indexOf("\n---\n", 4))) as {
     title: string;
     description: string;
+    layout: string;
+    permalink: string;
     canonical_url: string;
     image: string;
+    review_date: string;
+    last_modified_at: string;
   };
   assert.equal(frontMatter.title, pageTitle(fixture));
   assert.equal(frontMatter.description, fixture.summary);
+  assert.equal(frontMatter.layout, "doc");
+  assert.equal(frontMatter.permalink, "/rules/demo.thing.eol-1.html");
   assert.equal(frontMatter.canonical_url, ruleUrl(fixture.id));
   assert.equal(frontMatter.image, `/assets/og/${fixture.id}.svg`);
+  assert.equal(frontMatter.review_date, fixture.provenance.reviewedAt);
+  assert.equal(frontMatter.last_modified_at, fixture.provenance.reviewedAt);
 
   // Prose is HTML-escaped, so a rule can never inject markup into the page.
   assert.match(page, /^# Demo 1 &lt;script&gt;alert\(1\)&lt;\/script&gt; \| upgrade$/m);

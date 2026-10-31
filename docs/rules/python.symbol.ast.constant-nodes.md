@@ -1,8 +1,12 @@
 ---
 title: "ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated — dates, impact, migration"
 description: "Python deprecates the ast.Num, ast.Str, ast.Bytes, ast.NameConstant and ast.Ellipsis node classes since 3.8; they emit a DeprecationWarning and are listed for removal in 3.14."
+layout: doc
+permalink: "/rules/python.symbol.ast.constant-nodes.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html"
 image: "/assets/og/python.symbol.ast.constant-nodes.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.ast.constant-nodes.json"
 ---
 

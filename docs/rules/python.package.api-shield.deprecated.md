@@ -1,8 +1,12 @@
 ---
 title: "api-shield is deprecated — dates, impact, migration"
 description: "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name."
+layout: doc
+permalink: "/rules/python.package.api-shield.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html"
 image: "/assets/og/python.package.api-shield.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.api-shield.deprecated.json"
 ---
 

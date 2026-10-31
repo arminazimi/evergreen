@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions Python 3.7 runtime is end-of-life — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists Python 3.7 (runtime ID python37) as deprecated on 2024-01-30 and decommissioned on 2025-01-30."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.python37.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.python37.html"
 image: "/assets/og/serverless.google-cloud-functions.python37.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.python37.json"
 ---
 

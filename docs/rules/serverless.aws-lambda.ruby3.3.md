@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda Ruby 3.3 runtime reaches end of life on 2027-03-31 — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists ruby3.3 as supported with a projected deprecation date of 2027-03-31. After that date AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.ruby3.3.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby3.3.html"
 image: "/assets/og/serverless.aws-lambda.ruby3.3.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.ruby3.3.json"
 ---
 

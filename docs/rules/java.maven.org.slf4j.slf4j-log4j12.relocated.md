@@ -1,8 +1,12 @@
 ---
 title: "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j — dates, impact, migration"
 description: "The POM of org.slf4j:slf4j-log4j12 2.1.0-alpha1 declares a relocation to org.slf4j:slf4j-reload4j."
+layout: doc
+permalink: "/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html"
 image: "/assets/og/java.maven.org.slf4j.slf4j-log4j12.relocated.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.json"
 ---
 

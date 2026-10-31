@@ -1,8 +1,12 @@
 ---
 title: "Google Play Billing Library 5 is past its deprecation deadline — dates, impact, migration"
 description: "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle."
+layout: doc
+permalink: "/rules/android.play-billing.version-5.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-5.html"
 image: "/assets/og/android.play-billing.version-5.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/android.play-billing.version-5.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "inflight is deprecated — dates, impact, migration"
 description: "npm states that inflight is unsupported, leaks memory, and recommends lru-cache for keyed request coalescing."
+layout: doc
+permalink: "/rules/npm.package.inflight.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html"
 image: "/assets/og/npm.package.inflight.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.inflight.deprecated.json"
 ---
 

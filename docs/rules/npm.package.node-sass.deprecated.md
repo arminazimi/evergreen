@@ -1,8 +1,12 @@
 ---
 title: "node-sass is deprecated — dates, impact, migration"
 description: "npm marks node-sass as deprecated: \"Node Sass is no longer supported. Please use `sass` or `sass-embedded` instead.\""
+layout: doc
+permalink: "/rules/npm.package.node-sass.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.deprecated.html"
 image: "/assets/og/npm.package.node-sass.deprecated.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/npm.package.node-sass.deprecated.json"
 ---
 

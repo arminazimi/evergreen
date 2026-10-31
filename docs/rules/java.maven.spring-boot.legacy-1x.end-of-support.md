@@ -1,8 +1,12 @@
 ---
 title: "Spring Boot 1.x is out of open-source support — dates, impact, migration"
 description: "Spring Boot 1.x has reached the end of its open-source support lifecycle. Upgrade to a supported Spring Boot 4.x line; assess the 1.x-to-4.x migration in stages because it crosses multiple major…"
+layout: doc
+permalink: "/rules/java.maven.spring-boot.legacy-1x.end-of-support.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html"
 image: "/assets/og/java.maven.spring-boot.legacy-1x.end-of-support.svg"
+review_date: "2026-10-25"
+last_modified_at: "2026-10-25"
 json_twin: "/rules/java.maven.spring-boot.legacy-1x.end-of-support.json"
 ---
 
