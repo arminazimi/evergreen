@@ -2850,6 +2850,26 @@ blocked: dart@3.5 (1 blocker, 0 warnings, 0 unknown)
 pubspec.lock:12  resolved package set  The resolved package set requires Dart >=3.6.0 <4.0.0, which excludes 3.5.0.  [lockfile >=3.6.0 <4.0.0]
 ```
 
+## npm lockfile
+
+Runtime: `nodejs`. Applies when `package-lock.json` or `npm-shrinkwrap.json` exists with `lockfileVersion` 2 or 3. A version 1 lockfile is reported as one `unknown` issue because it does not record package `engines`.
+
+- Files read: `package-lock.json` and `npm-shrinkwrap.json`. Each issue names the file it came from.
+- Fields read: `lockfileVersion`; for each `packages["node_modules/..."]` entry, `version`, `engines.node`, `dev`, and `devOptional`.
+- Version syntax: semver ranges in `engines.node`, tested with `semver.satisfies` and `includePrerelease: false`. A bare target major such as `22` is tested as `22.0.0`; the bundled lifecycle data does not list per-minor Node.js releases.
+- Levels: `blocker` for a production dependency whose range excludes the target; `warning` for an entry marked `dev: true` or `devOptional: true`; `unknown` for an `engines.node` value that is not a valid semver range.
+- Evidence: `engines.node: <range as written>`, at the line of the `engines` key.
+- Deduplication: identical name, version, and range across nested paths keep the first path.
+
+```bash
+evergreen upgrade-check --to nodejs@22 examples/upgrade/npm-lock
+```
+
+```text
+nodejs@22: blocked (1 blockers, 0 warnings, 0 unknown)
+package-lock.json:16  sharp@0.30.7  sharp@0.30.7 declares engines.node ">=14.0.0 <17", which excludes Node.js 22.  [lockfile: engines.node: >=14.0.0 <17]
+```
+
 ## pnpm lockfile
 
 Runtime: `nodejs`. Applies when `pnpm-lock.yaml` exists with `lockfileVersion` 6.x or 9.x.
