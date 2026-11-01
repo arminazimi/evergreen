@@ -1,19 +1,50 @@
 name: Mutation
 
+# The command test runner re-runs the focused test suite for every mutant, so the full
+# scope is split across a matrix of jobs and each job caps its own runtime. Incremental
+# mode turns a repeat run into a check of the files that changed since the cached run,
+# and the nightly schedule keeps that cache warm. Mutation testing is too slow to gate
+# pull requests on, so it runs on a schedule and on demand.
+
 on:
   schedule:
-    # Nightly.
-    - cron: "47 4 * * *"
+    - cron: "47 4 * * *" # Nightly.
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: mutation-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   mutation:
-    name: mutation score
+    name: mutation (${{ matrix.shard }})
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # Each shard mutates at most about 600 mutants, and the serial test command takes a
+    # few seconds per mutant at four workers. That leaves a wide margin under this cap;
+    # the previous single job was cancelled at 90 minutes.
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shard: engine
+            mutate: src/engine.ts
+            hash: src/engine.ts
+          - shard: baseline
+            mutate: src/baseline.ts
+            hash: src/baseline.ts
+          - shard: diff
+            mutate: src/diff.ts
+            hash: src/diff.ts
+          - shard: vers-maven
+            mutate: "src/vers/maven.ts,src/vers/semver.ts"
+            hash: src/vers/**/*.ts
+          - shard: vers-formats
+            mutate: "src/vers/gem.ts,src/vers/nuget.ts,src/vers/pep440.ts"
+            hash: src/vers/**/*.ts
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -23,22 +54,44 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Run mutation testing on the core engine
-        run: npm run test:mutation
-      - name: Publish mutation score and survivors
-        if: always() && hashFiles('artifacts/mutation-report.json') != ''
+      - name: Restore the incremental mutation cache
+        id: incremental-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: reports/stryker-incremental-${{ matrix.shard }}.json
+          key: stryker-incremental-${{ matrix.shard }}-${{ hashFiles(matrix.hash, 'stryker.config.json', 'package-lock.json') }}
+          restore-keys: |
+            stryker-incremental-${{ matrix.shard }}-
+      - name: Run mutation testing on ${{ matrix.shard }}
+        id: run
+        env:
+          MUTATE: ${{ matrix.mutate }}
+          SHARD: ${{ matrix.shard }}
         run: |
-          node <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+          start=$(date +%s)
+          set +e
+          npm run test:mutation -- \
+            --mutate "$MUTATE" \
+            --incrementalFile "reports/stryker-incremental-${SHARD}.json"
+          status=$?
+          set -e
+          echo "seconds=$(( $(date +%s) - start ))" >> "$GITHUB_OUTPUT"
+          exit "$status"
+      - name: Write the shard summary
+        if: always() && hashFiles('artifacts/mutation-report.json') != ''
+        env:
+          SHARD: ${{ matrix.shard }}
+          DURATION_SECONDS: ${{ steps.run.outputs.seconds }}
+        run: |
+          node <<'EOF'
           const fs = require("node:fs");
+          const shard = process.env.SHARD;
+          const runtimeSeconds = Number(process.env.DURATION_SECONDS || "0");
           const report = JSON.parse(
             fs.readFileSync("artifacts/mutation-report.json", "utf8"),
           );
-          const rows = [];
-          for (const [file, value] of Object.entries(report.files ?? {})) {
-            for (const mutant of value.mutants ?? []) {
-              rows.push({ file, mutant });
-            }
-          }
+
           const counts = {
             Killed: 0,
             Survived: 0,
@@ -48,48 +101,213 @@ jobs:
             CompileError: 0,
             Ignored: 0,
           };
-          for (const { mutant } of rows) {
-            if (Object.hasOwn(counts, mutant.status)) {
-              counts[mutant.status] += 1;
+          const survivors = [];
+          let total = 0;
+          for (const [file, value] of Object.entries(report.files ?? {})) {
+            for (const mutant of value.mutants ?? []) {
+              total += 1;
+              if (Object.hasOwn(counts, mutant.status)) counts[mutant.status] += 1;
+              if (mutant.status === "Survived" || mutant.status === "NoCoverage") {
+                survivors.push({ file, mutant });
+              }
             }
           }
+
           const detected = counts.Killed + counts.Timeout;
           const undetected = counts.Survived + counts.NoCoverage;
           const scored = detected + undetected;
           const score =
             scored === 0 ? null : Math.round((detected / scored) * 10000) / 100;
-          const survivors = rows.filter(
-            ({ mutant }) =>
-              mutant.status === "Survived" || mutant.status === "NoCoverage",
+
+          fs.writeFileSync(
+            "artifacts/mutation-shard.json",
+            JSON.stringify(
+              {
+                shard,
+                runtimeSeconds,
+                total,
+                killed: counts.Killed,
+                survived: counts.Survived,
+                noCoverage: counts.NoCoverage,
+                timeout: counts.Timeout,
+                runtimeError: counts.RuntimeError,
+                compileError: counts.CompileError,
+                ignored: counts.Ignored,
+                score,
+              },
+              null,
+              2,
+            ),
           );
 
-          console.log("## Mutation score");
-          console.log("");
-          console.log("| Metric | Value |");
-          console.log("| --- | ---: |");
-          console.log(
-            `| Score | ${score === null ? "n/a" : `${score.toFixed(2)}%`} |`,
+          const lines = [];
+          lines.push(`### Mutation shard: \`${shard}\``, "");
+          lines.push("| Metric | Value |", "| --- | ---: |");
+          lines.push(`| Score | ${score === null ? "n/a" : `${score.toFixed(2)}%`} |`);
+          lines.push(`| Mutants | ${total} |`);
+          lines.push(`| Killed | ${counts.Killed} |`);
+          lines.push(`| Survived | ${counts.Survived} |`);
+          lines.push(`| No coverage | ${counts.NoCoverage} |`);
+          lines.push(`| Timeout | ${counts.Timeout} |`);
+          lines.push(`| Runtime error | ${counts.RuntimeError} |`);
+          lines.push(`| Compile error | ${counts.CompileError} |`);
+          lines.push(`| Runtime | ${runtimeSeconds} s |`);
+          lines.push(
+            "",
+            `Survivors: ${survivors.length}. The full list is in the \`mutation-report-${shard}\` artifact.`,
           );
-          console.log(`| Mutants | ${rows.length} |`);
-          console.log(`| Killed | ${counts.Killed} |`);
-          console.log(`| Survived | ${counts.Survived} |`);
-          console.log(`| No coverage | ${counts.NoCoverage} |`);
-          console.log(`| Timeout | ${counts.Timeout} |`);
-          console.log(`| Runtime error | ${counts.RuntimeError} |`);
-          console.log(`| Compile error | ${counts.CompileError} |`);
-          console.log("");
-          console.log("## Surviving mutants");
-          console.log("");
+          fs.appendFileSync(
+            process.env.GITHUB_STEP_SUMMARY,
+            `${lines.join("\n")}\n`,
+          );
+          EOF
+      - name: Save the incremental mutation cache
+        if: always() && steps.incremental-cache.outputs.cache-hit != 'true' && hashFiles(format('reports/stryker-incremental-{0}.json', matrix.shard)) != ''
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: reports/stryker-incremental-${{ matrix.shard }}.json
+          key: stryker-incremental-${{ matrix.shard }}-${{ hashFiles(matrix.hash, 'stryker.config.json', 'package-lock.json') }}
+      - name: Upload the mutation report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: mutation-report-${{ matrix.shard }}
+          path: artifacts
+          if-no-files-found: warn
+          retention-days: 30
+
+  report:
+    name: mutation report
+    needs: mutation
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download the shard reports
+        continue-on-error: true
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          pattern: mutation-report-*
+          path: shards
+      - name: Publish the combined mutation score
+        run: |
+          node <<'EOF'
+          const fs = require("node:fs");
+          const path = require("node:path");
+
+          const root = "shards";
+          const shards = [];
+          if (fs.existsSync(root)) {
+            for (const name of fs.readdirSync(root).sort()) {
+              const artifacts = path.join(root, name, "artifacts");
+              const metaPath = path.join(artifacts, "mutation-shard.json");
+              const reportPath = path.join(artifacts, "mutation-report.json");
+              if (!fs.existsSync(metaPath) || !fs.existsSync(reportPath)) continue;
+              shards.push({
+                meta: JSON.parse(fs.readFileSync(metaPath, "utf8")),
+                report: JSON.parse(fs.readFileSync(reportPath, "utf8")),
+              });
+            }
+          }
+          if (shards.length === 0) {
+            console.error("No mutation shard reports were found.");
+            process.exit(1);
+          }
+
+          const merged = { files: {} };
+          const survivors = [];
+          const totals = {
+            total: 0,
+            killed: 0,
+            survived: 0,
+            noCoverage: 0,
+            timeout: 0,
+            runtimeError: 0,
+            compileError: 0,
+            ignored: 0,
+            runtimeSeconds: 0,
+          };
+          for (const { meta, report } of shards) {
+            for (const [file, value] of Object.entries(report.files ?? {})) {
+              merged.files[file] = merged.files[file] ?? { mutants: [] };
+              merged.files[file].mutants.push(...(value.mutants ?? []));
+              for (const mutant of value.mutants ?? []) {
+                if (mutant.status === "Survived" || mutant.status === "NoCoverage") {
+                  survivors.push({ file, mutant });
+                }
+              }
+            }
+            for (const key of Object.keys(totals)) {
+              if (key !== "runtimeSeconds") {
+                totals[key] += Number(meta[key] ?? 0);
+              }
+            }
+            totals.runtimeSeconds += Number(meta.runtimeSeconds ?? 0);
+          }
+
+          const detected = totals.killed + totals.timeout;
+          const undetected = totals.survived + totals.noCoverage;
+          const scored = detected + undetected;
+          const score =
+            scored === 0 ? null : Math.round((detected / scored) * 10000) / 100;
+
+          fs.mkdirSync("artifacts", { recursive: true });
+          fs.writeFileSync("artifacts/mutation-report.json", JSON.stringify(merged));
+
+          const lines = [];
+          lines.push("## Mutation score", "");
+          lines.push("| Metric | Value |", "| --- | ---: |");
+          lines.push(`| Score | ${score === null ? "n/a" : `${score.toFixed(2)}%`} |`);
+          lines.push(`| Mutants | ${totals.total} |`);
+          lines.push(`| Killed | ${totals.killed} |`);
+          lines.push(`| Survived | ${totals.survived} |`);
+          lines.push(`| No coverage | ${totals.noCoverage} |`);
+          lines.push(`| Timeout | ${totals.timeout} |`);
+          lines.push(`| Runtime error | ${totals.runtimeError} |`);
+          lines.push(`| Compile error | ${totals.compileError} |`);
+          lines.push(`| Runtime (sum of shards) | ${totals.runtimeSeconds} s |`);
+          lines.push("", "### Shards", "");
+          lines.push(
+            "| Shard | Score | Mutants | Runtime |",
+            "| --- | ---: | ---: | ---: |",
+          );
+          for (const { meta } of shards) {
+            const shardScore =
+              meta.score === null || meta.score === undefined
+                ? "n/a"
+                : `${Number(meta.score).toFixed(2)}%`;
+            lines.push(
+              `| ${meta.shard} | ${shardScore} | ${meta.total} | ${meta.runtimeSeconds} s |`,
+            );
+          }
+          lines.push("", "### Surviving mutants", "");
           if (survivors.length === 0) {
-            console.log("None.");
+            lines.push("None.");
           } else {
-            console.log("| File | Line | Mutator | Status |");
-            console.log("| --- | ---: | --- | --- |");
-            for (const { file, mutant } of survivors) {
+            lines.push("| File | Line | Mutator | Status |", "| --- | ---: | --- | --- |");
+            for (const { file, mutant } of survivors.slice(0, 100)) {
               const line = mutant.location?.start?.line ?? "?";
-              console.log(
+              lines.push(
                 `| \`${file}\` | ${line} | ${mutant.mutatorName} | ${mutant.status} |`,
               );
             }
+            if (survivors.length > 100) {
+              lines.push(
+                "",
+                `Showing the first 100 of ${survivors.length} survivors; the rest are in the JSON artifact.`,
+              );
+            }
           }
+          fs.appendFileSync(
+            process.env.GITHUB_STEP_SUMMARY,
+            `${lines.join("\n")}\n`,
+          );
           EOF
+      - name: Upload the combined mutation report
+        if: always() && hashFiles('artifacts/mutation-report.json') != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: mutation-report-combined
+          path: artifacts
+          if-no-files-found: warn
+          retention-days: 30
