@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "evergreen.test-time-budget.v1",
+  "totalMs": 3000000,
+  "perFileMs": 300000,
+  "note": "Budgets are in summed testcase milliseconds from the JUnit report and are sized for the slowest CI runner. Baseline on 2026-11-01 (node 24, #2190): suite 15m16s ubuntu, 17m36s macOS, 29m47s Windows; the slowest file was 2m31s on Windows. These ceilings allow about 1.5x on the worst suite and about 2x on the worst file. Raise a limit only in the pull request that knowingly accepts the slowdown."
+}
