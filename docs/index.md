@@ -10,7 +10,7 @@ Evergreen finds the runtimes, packages, and GitHub Actions in a repository that 
 npx evergreen-deprecation scan .
 ```
 
-Node.js 22 or newer. [Install](INSTALL.md) covers npm, Docker, standalone binaries, and the GitHub Action; the [90-second demo](DEMO.md) runs this scan on a deliberately outdated project and reports five findings:
+Node.js 22 or newer. Start with [Install](INSTALL.md) (npm, Action, MCP, plugins, Docker, Homebrew), then the [90-second demo](DEMO.md) on a deliberately outdated project:
 
 ```text
 Found 5 lifecycle risks. The most urgent:
@@ -22,6 +22,7 @@ Found 5 lifecycle risks. The most urgent:
 
 ## Try it
 
+- [Install](INSTALL.md): one page for every channel — npm, Action, MCP, plugins, Docker, and Homebrew.
 - [Five-step quickstart](QUICKSTART.md): from the first scan to a baseline in CI.
 - [90-second demo](DEMO.md): a deliberately outdated project, scanned, explained, and turned into migration context.
 - [CLI reference](CLI.md): every command, flag, shell completion, and exit code.
