@@ -7,9 +7,9 @@ import type { RegistryV2 } from "../../src/registry.js";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { PHP_PACKAGE_CANDIDATES } from "../../tools/importers/php-candidates.js";
 import {
-  COMPOSER_PACKAGE_NAME,
   abandonedRuleId,
   importAbandonedPackages,
+  isComposerPackageName,
   metadataUrl,
   packagePageUrl,
   phpPackagistAbandonedImporter,
@@ -48,7 +48,68 @@ function activeFiles(overrides: Record<string, unknown> = {}): Record<string, un
 
 test("the candidate list is sorted, distinct, and holds Composer package names", () => {
   assert.deepEqual([...PHP_PACKAGE_CANDIDATES], [...new Set(PHP_PACKAGE_CANDIDATES)].sort());
-  for (const name of PHP_PACKAGE_CANDIDATES) assert.match(name, COMPOSER_PACKAGE_NAME);
+  for (const name of PHP_PACKAGE_CANDIDATES) assert.ok(isComposerPackageName(name), name);
+});
+
+test("Composer package names allow lowercase runs, single separators, and a doubled hyphen in the name", () => {
+  for (const name of [
+    "monolog/monolog",
+    "swiftmailer/swiftmailer",
+    "a/b",
+    "0/0",
+    "vendor-1/package_2",
+    "vendor.name/package.name",
+    "vendor_name/package-name",
+    "vendor/package--name",
+    "a1b2c3/d4e5f6",
+  ]) {
+    assert.ok(isComposerPackageName(name), name);
+  }
+  for (const name of [
+    "",
+    "no-slash",
+    "vendor/",
+    "/package",
+    "vendor//package",
+    "vendor/package/",
+    "-vendor/package",
+    "vendor/-package",
+    "vendor/package-",
+    "vendor/package--",
+    "vendor/pa..ckage",
+    "vendor/pa-_ckage",
+    "vendor/pa--_ckage",
+    "Vendor/package",
+    "vendor/Package",
+    "vendor/pack age",
+    "vendor/päckage",
+  ]) {
+    assert.equal(isComposerPackageName(name), false, name);
+  }
+});
+
+test("a pathological package name is checked in linear time", () => {
+  const attack = `${"a".repeat(31)}!`;
+  const started = performance.now();
+  const accepted = isComposerPackageName(attack);
+  const elapsed = performance.now() - started;
+  assert.equal(accepted, false);
+  assert.ok(elapsed < 1000, `a 32-character attack took ${elapsed.toFixed(1)}ms`);
+});
+
+test("a pathological abandonment replacement is summarized in linear time", async () => {
+  const attack = `${"a".repeat(31)}!`;
+  const files = {
+    [metadataUrl("vendor/package")]: metadata("vendor/package", [
+      { name: "vendor/package", version: "1.0.0", abandoned: attack },
+    ]),
+  };
+  const started = performance.now();
+  const result = await importAbandonedPackages(context(files), ["vendor/package"]);
+  const elapsed = performance.now() - started;
+  assert.equal(result.rules.length, 1);
+  assert.match(result.rules[0]!.summary, /points to a+!\.$/u);
+  assert.ok(elapsed < 1000, `a 32-character replacement took ${elapsed.toFixed(1)}ms`);
 });
 
 test("drafts abandoned rules from the real recording, including a flag with no replacement", async () => {
