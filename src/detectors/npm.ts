@@ -144,10 +144,17 @@ function addEdges(graph: DependencyGraph, from: string, ...sections: Array<Recor
 }
 
 function parsePackageLock(contents: string, { versions: target, graph }: LockData): void {
-  const lock = JSON.parse(contents) as {
+  let lock: {
     packages?: Record<string, { name?: string; version?: string; dependencies?: Record<string, unknown>; optionalDependencies?: Record<string, unknown> }>;
     dependencies?: Record<string, unknown>;
   };
+  try {
+    lock = JSON.parse(contents) as typeof lock;
+  } catch {
+    // A lockfile that does not parse resolves nothing; it never fails the scan.
+    return;
+  }
+  if (!lock || typeof lock !== "object") return;
 
   for (const [path, metadata] of Object.entries(lock.packages ?? {})) {
     const name = metadata.name ?? packageNameFromNodeModulesPath(path);
@@ -185,7 +192,13 @@ function packageFromPnpmKey(rawKey: string): { name: string; version: string } |
 function parsePnpmLock(contents: string, { versions: target, graph }: LockData): void {
   for (const document of parseAllDocuments(contents)) {
     if (document.errors.length > 0) continue;
-    const lock = document.toJS() as { packages?: Record<string, unknown>; snapshots?: Record<string, unknown> } | null;
+    let lock: { packages?: Record<string, unknown>; snapshots?: Record<string, unknown> } | null;
+    try {
+      lock = document.toJS() as typeof lock;
+    } catch {
+      // An unresolved alias is a damaged document: skip it like any other parse error.
+      continue;
+    }
     for (const entries of [lock?.packages ?? {}, lock?.snapshots ?? {}]) {
       for (const [key, entry] of Object.entries(entries)) {
         const parsed = packageFromPnpmKey(key);
