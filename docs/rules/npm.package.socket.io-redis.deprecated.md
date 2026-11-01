@@ -1,8 +1,12 @@
 ---
 title: "socket.io-redis is deprecated — dates, impact, migration"
 description: "npm marks socket.io-redis as deprecated: \"This package has been renamed to '@socket.io/redis-adapter', please see the migration guide here:…"
+layout: doc
+permalink: "/rules/npm.package.socket.io-redis.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html"
 image: "/assets/og/npm.package.socket.io-redis.deprecated.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/npm.package.socket.io-redis.deprecated.json"
 ---
 

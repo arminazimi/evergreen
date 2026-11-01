@@ -1,8 +1,12 @@
 ---
 title: "Go 1.24 is no longer supported — dates, impact, migration"
 description: "The Go release policy supports a major release until two newer major releases exist. Go 1.24 support ended when Go 1.26 was released."
+layout: doc
+permalink: "/rules/go.runtime.end-of-support-1.24.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.24.html"
 image: "/assets/og/go.runtime.end-of-support-1.24.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/go.runtime.end-of-support-1.24.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "enum is archived on PyPI — dates, impact, migration"
 description: "PyPI marks enum as archived: the project does not expect to be updated in the future."
+layout: doc
+permalink: "/rules/python.package.enum.archived.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.enum.archived.html"
 image: "/assets/og/python.package.enum.archived.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/python.package.enum.archived.json"
 ---
 

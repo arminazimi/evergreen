@@ -1,8 +1,12 @@
 ---
 title: "ValidatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the admissionregistration.k8s.io/v1beta1 API version of ValidatingWebhookConfiguration is no longer served as of v1.22, which was released on…"
+layout: doc
+permalink: "/rules/kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed.html"
 image: "/assets/og/kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed.json"
 ---
 

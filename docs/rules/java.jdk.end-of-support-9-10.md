@@ -1,8 +1,12 @@
 ---
 title: "Java 9 and 10 are no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 9 and 10 as non-LTS releases whose Premier Support ended between March 2018 and September 2018."
+layout: doc
+permalink: "/rules/java.jdk.end-of-support-9-10.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html"
 image: "/assets/og/java.jdk.end-of-support-9-10.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/java.jdk.end-of-support-9-10.json"
 ---
 

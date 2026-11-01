@@ -1,8 +1,12 @@
 ---
 title: "mondobrain is no longer maintained — dates, impact, migration"
 description: "The maintainer yanked mondobrain releases because the project is no longer maintained and recommends datawhys."
+layout: doc
+permalink: "/rules/python.package.mondobrain.eol.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html"
 image: "/assets/og/python.package.mondobrain.eol.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.mondobrain.eol.json"
 ---
 

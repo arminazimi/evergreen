@@ -1,8 +1,12 @@
 ---
 title: "Apache CouchDB image release lines 3.3 and older are end-of-life — dates, impact, migration"
 description: "The CouchDB project publishes CVE fixes only for the current release series and its immediate predecessor, so these older release lines receive no security fixes by policy."
+layout: doc
+permalink: "/rules/container.couchdb.eol-3.3-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html"
 image: "/assets/og/container.couchdb.eol-3.3-and-older.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/container.couchdb.eol-3.3-and-older.json"
 ---
 

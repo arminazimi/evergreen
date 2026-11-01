@@ -1,8 +1,12 @@
 ---
 title: "Alpine Linux 3.20 and older are end-of-life — dates, impact, migration"
 description: "Alpine Linux 3.20, the newest release this range covers, stopped receiving security updates on 2026-04-01; older release branches ended earlier. Each branch is supported for about two years."
+layout: doc
+permalink: "/rules/container.host-alpine.eol-3.20-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.host-alpine.eol-3.20-and-older.html"
 image: "/assets/og/container.host-alpine.eol-3.20-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/container.host-alpine.eol-3.20-and-older.json"
 ---
 

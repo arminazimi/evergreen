@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda Node.js 8.10 runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists nodejs8.10 under Deprecated runtimes with deprecation date 2020-03-06. AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.nodejs8.10.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs8.10.html"
 image: "/assets/og/serverless.aws-lambda.nodejs8.10.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.nodejs8.10.json"
 ---
 

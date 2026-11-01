@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda .NET 10 runtime reaches end of life on 2028-11-14 — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists dotnet10 as supported with a projected deprecation date of 2028-11-14. After that date AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.dotnet10.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.dotnet10.html"
 image: "/assets/og/serverless.aws-lambda.dotnet10.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.dotnet10.json"
 ---
 

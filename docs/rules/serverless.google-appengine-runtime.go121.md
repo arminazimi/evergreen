@@ -1,8 +1,12 @@
 ---
 title: "App Engine Go 1.21 runtime is past end of support — dates, impact, migration"
 description: "The App Engine standard environment runtime support schedule lists Go 1.21 (runtime ID go121) with end of support on 2026-03-03 and deprecation on 2027-03-03."
+layout: doc
+permalink: "/rules/serverless.google-appengine-runtime.go121.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.go121.html"
 image: "/assets/og/serverless.google-appengine-runtime.go121.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-appengine-runtime.go121.json"
 ---
 

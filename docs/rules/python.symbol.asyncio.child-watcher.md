@@ -1,8 +1,12 @@
 ---
 title: "asyncio child watcher functions are deprecated — dates, impact, migration"
 description: "Python 3.12 deprecates asyncio.set_child_watcher() and asyncio.get_child_watcher(), to be removed in Python 3.14; the event loop now uses the best available child watcher for each platform."
+layout: doc
+permalink: "/rules/python.symbol.asyncio.child-watcher.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.child-watcher.html"
 image: "/assets/og/python.symbol.asyncio.child-watcher.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.asyncio.child-watcher.json"
 ---
 

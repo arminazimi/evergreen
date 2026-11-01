@@ -1,8 +1,12 @@
 ---
 title: "@npmcli/move-file is deprecated — dates, impact, migration"
 description: "npm states that @npmcli/move-file functionality moved to @npmcli/fs."
+layout: doc
+permalink: "/rules/npm.package.npmcli-move-file.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html"
 image: "/assets/og/npm.package.npmcli-move-file.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.npmcli-move-file.deprecated.json"
 ---
 

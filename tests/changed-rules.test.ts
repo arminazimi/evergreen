@@ -271,8 +271,9 @@ const workflowText = await readFile(resolve(".github/workflows/rules.yml"), "utf
 const workflow = parse(workflowText) as Workflow;
 const workflowJob = workflow.jobs.rules!;
 
-test("the rules workflow runs on pushes to main for rule and fixture changes only", () => {
-  assert.deepEqual(Object.keys(workflow.on), ["push"]);
+test("the rules workflow runs on pushes to main and on pull requests for rule and fixture changes only", () => {
+  assert.deepEqual(Object.keys(workflow.on), ["push", "pull_request"]);
+  assert.deepEqual(workflow.on.pull_request!.paths, workflow.on.push!.paths);
   const paths = workflow.on.push!.paths!;
   for (const path of ["registry/**", "tests/fixtures/**", "src/rule-lint.ts", "src/rule-test.ts", "tools/changed-rules.ts", ".github/workflows/rules.yml"]) {
     assert.ok(paths.includes(path), path);
@@ -291,7 +292,7 @@ test("the base commit reaches the rules shell only through an environment variab
     assert.ok(!/\$\{\{/.test(step.run!), `an expression is interpolated into a run script: ${step.name ?? step.run}`);
   }
   const check = workflowJob.steps.find((step) => step.run?.includes("changed-rules"))!;
-  assert.equal(check.env?.BASE_SHA, "${{ github.event.before }}");
+  assert.equal(check.env?.BASE_SHA, "${{ github.event.pull_request.base.sha || github.event.before }}");
   assert.match(check.run!, /git fetch --no-tags origin "\$BASE_SHA"/);
   assert.match(check.run!, /--base "\$BASE_SHA"/);
   assert.match(check.run!, /--summary "\$GITHUB_STEP_SUMMARY"/);

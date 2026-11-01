@@ -1,8 +1,12 @@
 ---
 title: "App Engine Node.js 20 runtime is past end of support — dates, impact, migration"
 description: "The App Engine standard environment runtime support schedule lists Node.js 20 (runtime ID nodejs20) with end of support on 2026-04-30 and deprecation on 2027-04-30."
+layout: doc
+permalink: "/rules/serverless.google-appengine-runtime.nodejs20.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.nodejs20.html"
 image: "/assets/og/serverless.google-appengine-runtime.nodejs20.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-appengine-runtime.nodejs20.json"
 ---
 

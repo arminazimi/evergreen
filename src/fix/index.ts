@@ -5,6 +5,7 @@ import { nodeRenamesFixer } from "./codemods/node-renames.js";
 import { pythonImpFixer } from "./codemods/python-imp.js";
 import { terraformLegacyFixer } from "./codemods/terraform-legacy.js";
 import { nodeBufferFixer } from "./codemods/node-buffer.js";
+import { nodeUtilIsFixer } from "./codemods/node-util-is.js";
 import { dockerfileBaseImageFixer } from "./dockerfile.js";
 import { githubActionsUsesFixer } from "./github-actions.js";
 import { goModFixer } from "./go-mod.js";
@@ -53,10 +54,10 @@ export interface FixPlan {
   refusals: FixRefusal[];
 }
 
-export { dockerfileBaseImageFixer, githubActionsUsesFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, nodeBufferFixer, renameCodemodsFixer, runtimePinsFixer, pythonFixer, terraformLegacyFixer, pythonImpFixer, nodeRenamesFixer, dockerfileLegacyFixer };
+export { dockerfileBaseImageFixer, githubActionsUsesFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, nodeBufferFixer, nodeUtilIsFixer, renameCodemodsFixer, runtimePinsFixer, pythonFixer, terraformLegacyFixer, pythonImpFixer, nodeRenamesFixer, dockerfileLegacyFixer };
 
 /** Every fixer Evergreen ships, in the order their patches are printed. */
-export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer, pythonFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, dockerfileBaseImageFixer, renameCodemodsFixer, nodeBufferFixer, terraformLegacyFixer, pythonImpFixer, nodeRenamesFixer, dockerfileLegacyFixer];
+export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer, pythonFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, dockerfileBaseImageFixer, renameCodemodsFixer, nodeBufferFixer, terraformLegacyFixer, pythonImpFixer, nodeRenamesFixer, dockerfileLegacyFixer, nodeUtilIsFixer];
 
 /**
  * Plans every fixer over a scan and returns the patches with the fixer that produced them, ordered by file, along with

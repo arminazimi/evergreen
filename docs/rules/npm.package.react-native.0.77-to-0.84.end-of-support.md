@@ -1,8 +1,12 @@
 ---
 title: "React Native 0.77 through 0.84 are unsupported — dates, impact, migration"
 description: "The React Native release schedule lists the 0.77.x through 0.84.x minor series as Unsupported."
+layout: doc
+permalink: "/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html"
 image: "/assets/og/npm.package.react-native.0.77-to-0.84.end-of-support.svg"
+review_date: "2026-10-23"
+last_modified_at: "2026-10-23"
 json_twin: "/rules/npm.package.react-native.0.77-to-0.84.end-of-support.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions Ruby 2.7 runtime is end-of-life — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists Ruby 2.7 (runtime ID ruby27) as deprecated on 2024-01-30 and decommissioned on 2025-01-30."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.ruby27.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.ruby27.html"
 image: "/assets/og/serverless.google-cloud-functions.ruby27.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.ruby27.json"
 ---
 

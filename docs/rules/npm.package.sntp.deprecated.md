@@ -1,8 +1,12 @@
 ---
 title: "sntp is deprecated — dates, impact, migration"
 description: "npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported."
+layout: doc
+permalink: "/rules/npm.package.sntp.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html"
 image: "/assets/og/npm.package.sntp.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.sntp.deprecated.json"
 ---
 

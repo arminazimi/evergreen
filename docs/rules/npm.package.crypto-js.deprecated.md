@@ -1,8 +1,12 @@
 ---
 title: "crypto-js is deprecated — dates, impact, migration"
 description: "npm marks crypto-js as deprecated: \"Active development of CryptoJS has been discontinued. This library is no longer maintained.\""
+layout: doc
+permalink: "/rules/npm.package.crypto-js.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html"
 image: "/assets/og/npm.package.crypto-js.deprecated.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/npm.package.crypto-js.deprecated.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "Red Hat Enterprise Linux 7 and older are past maintenance support — dates, impact, migration"
 description: "RHEL 7 reached the end of its maintenance support phase on 2024-06-30, and older releases ended earlier. The Extended Life Cycle Support add-on is a separate paid subscription."
+layout: doc
+permalink: "/rules/container.host-rhel.eol-7-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.host-rhel.eol-7-and-older.html"
 image: "/assets/og/container.host-rhel.eol-7-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/container.host-rhel.eol-7-and-older.json"
 ---
 

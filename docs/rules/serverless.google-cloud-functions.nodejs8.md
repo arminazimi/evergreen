@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions Node.js 8 runtime is end-of-life — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists Node.js 8 (runtime ID nodejs8) as deprecated on 2020-06-05 and decommissioned later. Google no longer provides maintenance for that runtime."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.nodejs8.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.nodejs8.html"
 image: "/assets/og/serverless.google-cloud-functions.nodejs8.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.nodejs8.json"
 ---
 

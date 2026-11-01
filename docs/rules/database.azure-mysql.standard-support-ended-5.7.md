@@ -1,8 +1,12 @@
 ---
 title: "Azure Database for MySQL 5.7 is past standard support — dates, impact, migration"
 description: "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7."
+layout: doc
+permalink: "/rules/database.azure-mysql.standard-support-ended-5.7.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html"
 image: "/assets/og/database.azure-mysql.standard-support-ended-5.7.svg"
+review_date: "2026-10-26"
+last_modified_at: "2026-10-26"
 json_twin: "/rules/database.azure-mysql.standard-support-ended-5.7.json"
 ---
 

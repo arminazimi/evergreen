@@ -1,8 +1,12 @@
 ---
 title: ".NET 8 reaches end of support on 2026-11-10 — dates, impact, migration"
 description: ".NET 8 (Long Term Support) is scheduled to reach the end of its support on 2026-11-10, according to Microsoft's releases index."
+layout: doc
+permalink: "/rules/dotnet.runtime.end-of-support-8.0.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-8.0.html"
 image: "/assets/og/dotnet.runtime.end-of-support-8.0.svg"
+review_date: "2026-10-18"
+last_modified_at: "2026-10-18"
 json_twin: "/rules/dotnet.runtime.end-of-support-8.0.json"
 ---
 

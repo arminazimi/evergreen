@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { test } from "node:test";
@@ -12,19 +12,23 @@ import {
   formatChange,
   formatSkillsInstallsReport,
   goatCounterSource,
+  MAXIMUM_LANDING_PAGES,
   parseContributorMetrics,
   parseDownloads,
   parseGoatCounter,
+  parseLandingPages,
   parseMcpRegistry,
   parseScorecard,
   parseSkillsInstalls,
   previousMonth,
   readPreviousSnapshot,
   SCHEMA_VERSION,
+  SEARCH_CONSOLE_SOURCE,
+  searchConsoleInputPath,
   SERVICE_REPORTS,
   SKILLS_SH_SOURCE,
 } from "../tools/adoption-metrics.js";
-import type { Fetcher, Metric, Snapshot } from "../tools/adoption-metrics.js";
+import type { Fetcher, LandingPage, Metric, Snapshot } from "../tools/adoption-metrics.js";
 
 /** Trimmed skills.sh repository page: total installs plus the per-Skill table. */
 const SAVED_SKILLS_SH_PAGE = `<!DOCTYPE html><html><body><main>
@@ -322,6 +326,108 @@ test("docs traffic is unavailable, never zero, when GoatCounter is not configure
   );
   assert.equal(invalid.metrics.docsPageViews!.status, "unavailable");
   assert.match((invalid.metrics.docsPageViews as { reason: string }).reason, /not a valid GoatCounter site code/);
+});
+
+test("reads the maintainer's Search Console landing pages, largest first and capped at ten", () => {
+  const pages = Array.from({ length: 12 }, (_, index) => ({
+    page: `/page-${String(index).padStart(2, "0")}`,
+    clicks: index,
+    impressions: 100,
+  }));
+  const metric = parseLandingPages(200, JSON.stringify({ pages }), SEARCH_CONSOLE_SOURCE);
+  assert.equal(metric.status, "ok");
+  assert.equal((metric as { value: number }).value, MAXIMUM_LANDING_PAGES);
+  assert.deepEqual(
+    (metric as { pages: LandingPage[] }).pages.map((page) => page.page),
+    ["/page-11", "/page-10", "/page-09", "/page-08", "/page-07", "/page-06", "/page-05", "/page-04", "/page-03", "/page-02"],
+  );
+  assert.equal(metric.source, SEARCH_CONSOLE_SOURCE);
+});
+
+test("breaks landing-page ties by impressions and then page", () => {
+  const metric = parseLandingPages(
+    200,
+    JSON.stringify({
+      pages: [
+        { page: "/b", clicks: 1, impressions: 2 },
+        { page: "/a", clicks: 1, impressions: 2 },
+        { page: "/c", clicks: 1, impressions: 9 },
+      ],
+    }),
+    SEARCH_CONSOLE_SOURCE,
+  );
+  assert.deepEqual((metric as { pages: LandingPage[] }).pages.map((page) => page.page), ["/c", "/a", "/b"]);
+});
+
+test("reports landing pages as unavailable when the file is missing or invalid", () => {
+  const missing = parseLandingPages(404, "", SEARCH_CONSOLE_SOURCE);
+  assert.equal(missing.status, "unavailable");
+  assert.match((missing as { reason: string }).reason, /has not entered/);
+  assert.equal(parseLandingPages(500, "", SEARCH_CONSOLE_SOURCE).status, "unavailable");
+  assert.equal(parseLandingPages(200, "not json", SEARCH_CONSOLE_SOURCE).status, "unavailable");
+  assert.equal(parseLandingPages(200, "{}", SEARCH_CONSOLE_SOURCE).status, "unavailable");
+  assert.equal(parseLandingPages(200, '{"pages":[]}', SEARCH_CONSOLE_SOURCE).status, "unavailable");
+  const invalidInputs: unknown[] = [
+    [{ page: "", clicks: 1, impressions: 1 }],
+    [{ page: "/a", clicks: -1, impressions: 1 }],
+    [{ page: "/a", clicks: 1.5, impressions: 1 }],
+    [{ page: "/a", clicks: 1, impressions: "2" }],
+    [{ page: "/a", clicks: 1 }],
+    [null],
+    [
+      { page: "/a", clicks: 1, impressions: 2 },
+      { page: "/a", clicks: 3, impressions: 4 },
+    ],
+  ];
+  for (const pages of invalidInputs) {
+    const metric = parseLandingPages(200, JSON.stringify({ pages }), SEARCH_CONSOLE_SOURCE);
+    assert.equal(metric.status, "unavailable", JSON.stringify(pages));
+  }
+});
+
+test("reads the Search Console file named after the snapshot's month", () => {
+  assert.equal(searchConsoleInputPath("2026-10-28", "/tmp/console"), resolve("/tmp/console", "2026-10.json"));
+});
+
+test("collect records the month's Search Console landing pages from the maintainer's file", async () => {
+  const tmp = await mkdtemp(resolve(tmpdir(), "evergreen-landing-pages-"));
+  try {
+    const adoptionDir = resolve(tmp, "adoption");
+    const consoleDir = resolve(tmp, "search-console");
+    await mkdir(consoleDir, { recursive: true });
+    await writeFile(
+      resolve(consoleDir, "2026-10.json"),
+      JSON.stringify({
+        pages: [
+          { page: "https://example.test/RULES.html", clicks: 7, impressions: 80 },
+          { page: "https://example.test/", clicks: 9, impressions: 200 },
+        ],
+      }),
+    );
+    const fetcher: Fetcher = async () => ({ status: 404, text: "" });
+
+    const snapshot = await collect("2026-10-28", fetcher, undefined, adoptionDir);
+    const metric = snapshot.metrics.searchConsoleLandingPages as {
+      status: string;
+      value: number;
+      pages: LandingPage[];
+      source: string;
+    };
+    assert.equal(metric.status, "ok");
+    assert.equal(metric.value, 2);
+    assert.deepEqual(metric.pages, [
+      { page: "https://example.test/", clicks: 9, impressions: 200 },
+      { page: "https://example.test/RULES.html", clicks: 7, impressions: 80 },
+    ]);
+    assert.equal(metric.source, SEARCH_CONSOLE_SOURCE);
+
+    const nextMonth = await collect("2026-11-02", fetcher, undefined, adoptionDir);
+    const missing = nextMonth.metrics.searchConsoleLandingPages as { status: string; reason: string };
+    assert.equal(missing.status, "unavailable");
+    assert.match(missing.reason, /has not entered/);
+  } finally {
+    await rm(tmp, { recursive: true, force: true });
+  }
 });
 
 test("without a token the code-search metrics are unavailable, never zero", async () => {
