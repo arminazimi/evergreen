@@ -1,0 +1,10 @@
+version = 1
+requires-python = ">=3.12"
+
+[[package]]
+name = "twisted"
+version = "24.3.0"
+resolution-markers = [
+    "python_full_version < '3.13'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/twisted-24.3.0.tar.gz", hash = "sha256:9", size = 1 }

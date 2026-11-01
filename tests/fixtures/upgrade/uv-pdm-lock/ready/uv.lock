@@ -1,0 +1,17 @@
+version = 1
+requires-python = ">=3.9"
+
+[[package]]
+name = "anyio"
+version = "4.3.0"
+sdist = { url = "https://files.pythonhosted.org/packages/anyio-4.3.0.tar.gz", hash = "sha256:f1842ab5e95e0e88", size = 159672 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/anyio-4.3.0-py3-none-any.whl", hash = "sha256:048e76b", size = 85584 },
+]
+
+[[package]]
+name = "cryptography"
+version = "42.0.5"
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cryptography-42.0.5-cp39-abi3-macosx_10_12_universal2.whl", hash = "sha256:e", size = 1 },
+]

@@ -1,0 +1,32 @@
+version = 1
+requires-python = ">=3.9"
+
+[[package]]
+name = "numpy"
+version = "1.26.4"
+resolution-markers = [
+    "python_full_version < '3.9'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/numpy-1.26.4.tar.gz", hash = "sha256:a", size = 1 }
+
+[[package]]
+name = "markupsafe"
+version = "2.1.5"
+resolution-markers = [
+    "python_full_version < '3.9'",
+]
+
+[[package]]
+name = "markupsafe"
+version = "3.0.2"
+resolution-markers = [
+    "python_full_version >= '3.9'",
+]
+
+[[package]]
+name = "weird"
+version = "0.9.0"
+resolution-markers = [
+    "python_version ~= '3.9'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/weird-0.9.0.tar.gz", hash = "sha256:b", size = 1 }

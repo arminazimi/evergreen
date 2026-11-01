@@ -1,0 +1,10 @@
+version = 1
+requires-python = ">=3.8,<3.13"
+
+[[package]]
+name = "anyio"
+version = "4.3.0"
+sdist = { url = "https://files.pythonhosted.org/packages/anyio-4.3.0.tar.gz", hash = "sha256:f1842ab5e95e0e88", size = 159672 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/anyio-4.3.0-py3-none-any.whl", hash = "sha256:048e76b", size = 85584 },
+]

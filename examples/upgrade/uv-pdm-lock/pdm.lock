@@ -1,0 +1,10 @@
+[[package]]
+name = "black"
+version = "24.3.0"
+requires_python = ">=3.9,<3.13"
+summary = "The uncompromising code formatter."
+groups = ["dev"]
+
+[metadata]
+groups = ["default", "dev"]
+lock_version = "4.0.1"

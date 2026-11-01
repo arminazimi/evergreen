@@ -1,0 +1,6 @@
+[[package]]
+name = "legacy"
+version = "1.0.0"
+requires_python = "banana"
+summary = "A package with an unknown constraint."
+groups = ["default"]

@@ -1,0 +1,10 @@
+version = 1
+requires-python = ">=3.8"
+
+[[package]]
+name = "pybind"
+version = "2.11.1"
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/pybind-2.11.1-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:c", size = 1 },
+    { url = "https://files.pythonhosted.org/packages/pybind-2.11.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:d", size = 1 },
+]
