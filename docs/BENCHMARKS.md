@@ -1,5 +1,126 @@
 # Benchmarks
 
+## Agent migration benchmark
+
+The agent migration benchmark measures whether a coding agent resolves a real lifecycle finding, and whether the finding's [migration packet](MIGRATION_PACKETS.md) changes that outcome. It runs every task twice — once from a bare task prompt and once from the packet prompt — in separate worktrees at the task's pinned commit.
+
+This page publishes the task set, the two arms, the scoring rules, and the reproduction commands. It deliberately contains no estimated numbers: the measured per-agent results are not recorded in this repository yet.
+
+### Run metadata
+
+| Field | Value |
+|---|---|
+| Page published | 2026-11-01 |
+| Benchmark implementation at | commit `1acd0968` |
+| Measured run | none recorded |
+| Agents and model versions measured | none recorded |
+
+A measured run needs real agent hosts and local clones of the pinned repositories. It is tracked separately in [#1534](https://github.com/arminazimi/evergreen/issues/1534), which will publish the per-agent tables and link them here.
+
+### Task set
+
+The 20 tasks live in [`benchmarks/agent-migrations/tasks.json`](../benchmarks/agent-migrations/tasks.json). Each task pins a public repository and commit, one finding (`ruleId`, path, and line) that a scan of that commit reports, an expected end state, at least one verification command, and the real migration commit used as evidence.
+
+| Group | Tasks |
+|---|---|
+| Rust crates (`atty`, `ansi_term`) | `hyperfine-atty`, `just-ansi-term`, `dust-ansi-term`, `wasm-pack-atty` |
+| Go runtime and container image | `bubbletea-go`, `caddy-go`, `lazygit-go`, `lazygit-go-image`, `node-exporter-go` |
+| .NET runtime | `sloth-dotnet`, `sourcelink-dotnet` |
+| Node.js container image | `homepage-node-image` |
+| Node.js CI workflows | `lighthouse-node`, `paperhanger-node` |
+| PHP and Ruby runtimes | `behat-php`, `packwerk-ruby` |
+| npm packages and Node.js | `auth0-request`, `outline-koa-router`, `fork-corner-node-sass`, `outline-crypto-js` |
+
+The expected end state is checked with regular expressions over the named files: each `mustNotMatch` must be absent and each `mustMatch` must be present. The verification commands are the project's own build or test commands, such as `cargo test --all --locked`, `go build ./...`, `dotnet build`, `docker build .`, or `yarn tsc`; they run in the migrated worktree.
+
+### The two arms
+
+| Arm | Prompt |
+|---|---|
+| `baseline` | The task title, rule id, and finding location, with an instruction to make the smallest change and run the verification commands. No packet. |
+| `packet` | A fresh offline scan of the worktree must report the same rule at the same path and line. The harness then builds the finding's migration packet (affected files and usages, constraints, pinned runtimes, and verification commands) and renders it as the agent prompt. |
+
+Both prompts are written to a temporary file outside the worktree and its path is exported as `EVERGREEN_MIGRATION_PROMPT_FILE`, so the agent command does not need to embed a multi-line prompt in `argv`. The harness never fetches; the repository must already contain the pinned commit. Each arm gets its own detached `git worktree`, which is removed after the run unless `--keep-worktrees` is passed.
+
+For each arm the harness records the agent exit code, wall-clock duration, diff and changed files, the expected-end-state checks, and every verification command's exit code and duration. A condition is unsuccessful when the agent exits non-zero, a check fails, verification fails, or the run errors (for example, when the fresh scan does not report the finding).
+
+### How a migration is scored
+
+[`benchmarks/agent-migrations/score.ts`](../benchmarks/agent-migrations/score.ts) applies three objective criteria. A migration succeeds only when all three hold:
+
+1. **Finding resolved** — every expected-end-state check passed.
+2. **Verification passed** — every task verification command exited 0.
+3. **No unrelated changes** — every path in the captured diff is allowed.
+
+The allowed set is the finding path, every expected-end-state check path, optional caller-supplied related paths (typically the packet's affected files), and companion lockfiles next to those paths (`Cargo.lock` next to `Cargo.toml`, `go.sum` next to `go.mod`, and the npm, Composer, Bundler, and other companion lockfiles listed in `score.ts`). Scoring is pure and offline: it does not invoke the agent, scan, or use the network.
+
+Rates are fractions of attempts: success rate, finding-resolved rate, verification-passed rate, and no-unrelated-changes rate, rounded to four decimal places. `rateByCondition` groups the scored conditions into the `baseline` and `packet` arms; `summarizeScores` aggregates any list of scores. The scoring unit tests cover each criterion, companion lockfiles, related paths, and baseline-versus-packet rates.
+
+When scoring a `packet` run, pass the packet's affected files as `relatedPaths` if the migration legitimately edits usage sites that the end-state checks do not name; otherwise those edits count as unrelated changes.
+
+### Results per agent
+
+There are no result rows to publish yet. As of 2026-11-01, `benchmarks/agent-migrations/` contains the task set, the harness, and the scorer, but no result file from a real agent. The repository's discovery metrics in `metrics/discovery/` measure whether agent hosts recommend Evergreen; they are not migration results.
+
+When real runs exist, each row will record the agent and its version, the model and its version, the arm, attempts, successes, success rate, and the three criteria's counts and rates. Runs are not filtered: every failure and timeout is published with the row. The fake adapters used by the tests exercise the harness offline; they are not measurements, and CI never calls a model.
+
+### Reproduction
+
+Requires Node.js 22 or newer, network access to clone the pinned repositories, and the toolchains the tasks verify with (Rust, Go, Docker, .NET, PHP, Ruby, Node.js, Bun, and Yarn as applicable).
+
+```bash
+npm ci
+npm run build --silent
+
+# List the task ids.
+node dist/benchmarks/agent-migrations/run.js --list
+
+# Clone one pinned repository, then run both arms with a real agent.
+git clone https://github.com/sharkdp/hyperfine ~/src/hyperfine
+node dist/benchmarks/agent-migrations/run.js \
+  --task hyperfine-atty \
+  --repository ~/src/hyperfine \
+  --agent-name claude-code \
+  --agent-command 'my-agent "$EVERGREEN_MIGRATION_PROMPT_FILE"' \
+  --output artifacts/agent-migrations/hyperfine-atty-claude-code.json
+
+# One arm only, with explicit timeouts.
+node dist/benchmarks/agent-migrations/run.js \
+  --task hyperfine-atty \
+  --repository ~/src/hyperfine \
+  --condition packet \
+  --agent-name claude-code \
+  --agent-command 'my-agent "$EVERGREEN_MIGRATION_PROMPT_FILE"' \
+  --timeout-ms 1800000 \
+  --verification-timeout-ms 1800000
+```
+
+Replace `my-agent` with the host's non-interactive command; the prompt file path is in `EVERGREEN_MIGRATION_PROMPT_FILE`. Repeat per task, cloning the repository named in `tasks.json` so that its pinned commit is present. `--json` prints the full per-condition result instead of the summary. The command exits 0 when the run completes, even when the migration itself fails, so score the saved JSON rather than the exit code.
+
+After saving a run, compute its rates with the scorer:
+
+```bash
+node --input-type=module -e '
+import { readFileSync } from "node:fs";
+import { loadMigrationTasks } from "./dist/benchmarks/agent-migrations/run.js";
+import { scoreMigrationRun, rateByCondition } from "./dist/benchmarks/agent-migrations/score.js";
+const [resultPath, taskId] = process.argv.slice(1);
+const result = JSON.parse(readFileSync(resultPath, "utf8"));
+const task = loadMigrationTasks().tasks.find((candidate) => candidate.id === taskId);
+if (task === undefined) throw new Error(`unknown task: ${taskId}`);
+console.log(JSON.stringify(rateByCondition(scoreMigrationRun(task, result).conditions), null, 2));
+' artifacts/agent-migrations/hyperfine-atty-claude-code.json hyperfine-atty
+```
+
+### Artefacts
+
+- Task definitions: [`benchmarks/agent-migrations/tasks.json`](../benchmarks/agent-migrations/tasks.json)
+- Harness and agent adapters: [`benchmarks/agent-migrations/run.ts`](../benchmarks/agent-migrations/run.ts)
+- Scoring rules and rates: [`benchmarks/agent-migrations/score.ts`](../benchmarks/agent-migrations/score.ts)
+- Packet construction and prompt: [`src/migration-packet.ts`](../src/migration-packet.ts), [`src/migration-prompt.ts`](../src/migration-prompt.ts), [`src/runtime-pin.ts`](../src/runtime-pin.ts)
+- Tests: [`tests/agent-migration-tasks.test.ts`](../tests/agent-migration-tasks.test.ts), [`tests/agent-migrations-run.test.ts`](../tests/agent-migrations-run.test.ts), [`tests/agent-migrations-score.test.ts`](../tests/agent-migrations-score.test.ts)
+- Plan-arm timings and guardrail outcomes use a separate proof page; see [#1534](https://github.com/arminazimi/evergreen/issues/1534).
+
 ## Source usage analysis
 
 Run `npm run benchmark:usage` to generate 200 TypeScript files in a temporary repository and scan them as one batch. Every file contains one aliased package import, one real method call, one comment lookalike, and one string lookalike.
