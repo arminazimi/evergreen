@@ -1,0 +1,53 @@
+{
+  "repository": "nmacawile/rails-chat-api",
+  "commit": "b39beefb1427ba1d4e382aed090391bfab9bb826",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `ruby-2.7.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM ruby:2.7.8-alpine AS builder`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:10 at this commit: `FROM ruby:2.7.8-alpine AS runner`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile:4 at this commit: `ruby '2.7.8'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "Gemfile.lock",
+      "line": 222,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile.lock:222 at this commit: `ruby 2.7.4p191`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

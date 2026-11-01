@@ -1,0 +1,17 @@
+{
+  "repository": "JPCERTCC/MalConfScan",
+  "commit": "19ec0d145535a6a4cfd37c0960114f455a8c343e",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.package.pycrypto.obsolete",
+      "path": "requirements.txt",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read requirements.txt:2 at this commit: `pycrypto`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

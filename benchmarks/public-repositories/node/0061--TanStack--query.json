@@ -1,0 +1,161 @@
+{
+  "repository": "TanStack/query",
+  "commit": "a636462b853438903567c9907c188a068021c633",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "examples/solid/solid-start-streaming/package.json",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of examples/solid/solid-start-streaming/package.json reads `\"node\": \">=18\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "examples/solid/solid-start-streaming/package.json",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of examples/solid/solid-start-streaming/package.json reads `\"node\": \">=18\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "examples/solid/solid-start-streaming/package.json",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: the Node.js range on line 22 of examples/solid/solid-start-streaming/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+      }
+    },
+    {
+      "ruleId": "npm.package.next.14.support-end",
+      "path": "integrations/react-next-14/package.json",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of integrations/react-next-14/package.json reads `\"next\": \"^14.2.33\"` under dependencies. Next.js 14's two-year window ended 2025-10-26 (https://nextjs.org/support-policy)."
+      }
+    },
+    {
+      "ruleId": "npm.package.next.15.support-end",
+      "path": "integrations/react-next-15/package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of integrations/react-next-15/package.json reads `\"next\": \"^15.4.8\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/auto-refetching/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/auto-refetching/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/basic-persister/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/basic-persister/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/basic/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/basic/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/devtools-panel/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/devtools-panel/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/infinite-query-with-max-pages/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/infinite-query-with-max-pages/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/optimistic-updates/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/optimistic-updates/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/pagination/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/pagination/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/query-options-from-a-service/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/query-options-from-a-service/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/router/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/router/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/rxjs/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/rxjs/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "examples/angular/simple/package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of examples/angular/simple/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    },
+    {
+      "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "path": "integrations/angular-cli-20/package.json",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of integrations/angular-cli-20/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
+      }
+    }
+  ]
+}

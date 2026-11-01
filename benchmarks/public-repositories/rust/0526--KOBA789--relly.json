@@ -1,0 +1,26 @@
+{
+  "repository": "KOBA789/relly",
+  "commit": "9094b86b14edc262356184987f48329ea314f72f",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/actionlint.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 14 of .github/workflows/actionlint.yaml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 21 of .github/workflows/ci.yaml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    }
+  ]
+}

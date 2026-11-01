@@ -1,0 +1,170 @@
+{
+  "repository": "RajitPaul11/terraform_aws",
+  "commit": "35f2bd314397b2aff2db48b0499cd24078811edb",
+  "ecosystem": "database",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "AWS_EKS_RDS/rds.tf",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read AWS_EKS_RDS/rds.tf:35 at this commit: `engine_version = \"5.7\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 190,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:190 at this commit: `engine_version = \"5.7\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "Multi-Tier-Architecture_Vpc/main.tf",
+      "line": 164,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Architecture_Vpc/main.tf:164 at this commit: `engine_version = \"5.7\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "EC2_EBS_Attach/ebs_attach.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read EC2_EBS_Attach/ebs_attach.tf:4 at this commit: `instance_id = \"${ aws_instance.ec2ins.id }\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "EC2_EBS_Attach/ebs_attach.tf",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read EC2_EBS_Attach/ebs_attach.tf:5 at this commit: `volume_id = \"${aws_ebs_volume.ebsvol.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 167,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:167 at this commit: `subnet_id = \"${aws_subnet.pubsub.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:59 at this commit: `gateway_id = \"${aws_internet_gateway.myigw.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:65 at this commit: `subnet_id = \"${aws_subnet.pubsub.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:66 at this commit: `route_table_id = \"${aws_route_table.mypubroute.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:84 at this commit: `gateway_id = \"${aws_nat_gateway.mynatgw.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:89 at this commit: `route_table_id = \"${aws_route_table.myprivroute.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 91,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:91 at this commit: `subnet_id = \"${aws_subnet.privsub.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 95,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:95 at this commit: `route_table_id = \"${aws_route_table.myprivroute.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:97 at this commit: `subnet_id = \"${aws_subnet.priv2sub.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Architecture_Vpc/main.tf",
+      "line": 141,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Architecture_Vpc/main.tf:141 at this commit: `subnet_id = \"${aws_subnet.pubsub.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Architecture_Vpc/main.tf",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Architecture_Vpc/main.tf:58 at this commit: `gateway_id = \"${aws_internet_gateway.myigw.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Architecture_Vpc/main.tf",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Architecture_Vpc/main.tf:64 at this commit: `subnet_id = \"${aws_subnet.pubsub.id}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Multi-Tier-Architecture_Vpc/main.tf",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Multi-Tier-Architecture_Vpc/main.tf:65 at this commit: `route_table_id = \"${aws_route_table.myroute.id}\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

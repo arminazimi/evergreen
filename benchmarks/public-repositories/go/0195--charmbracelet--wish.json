@@ -1,0 +1,7 @@
+{
+  "repository": "charmbracelet/wish",
+  "commit": "2af05484795152f53d9ad10b5be5748a4bec3c95",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,18 @@
+{
+  "repository": "dr-m/crc32_simd",
+  "commit": "aaa329cff5e5697b184be5cb7b073ec2d18f908f",
+  "ecosystem": "cpp",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/dr-m/crc32_simd/commit/1c640d4960b2dd48d2a520fab73b6120fc7500af",
+        "note": "Pinned to the parent of the maintainer's commit \"Update CMAKE_MINIMUM_REQUIRED for CMake 4.0\": line 1 of CMakeLists.txt declares CMAKE_MINIMUM_REQUIRED(VERSION 3.1), below the policy version removed by CMake 4.0; the commit changes it to VERSION 3.1...3.10."
+      }
+    }
+  ]
+}

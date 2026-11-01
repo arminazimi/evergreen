@@ -1,0 +1,53 @@
+{
+  "repository": "ql4b/cloudless-infra",
+  "commit": "59241edde408783f5e1d830d5e6d8b47a6288ba2",
+  "ecosystem": "terraform",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:27 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-terraform.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:30 at this commit: `uses: hashicorp/setup-terraform@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:50 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:55 at this commit: `uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release.yml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of .github/workflows/release.yml reads node-version: 22, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

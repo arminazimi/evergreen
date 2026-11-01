@@ -1,0 +1,44 @@
+{
+  "repository": "tani/cheeriogs",
+  "commit": "129e0949ac277e8896226bc6763b43f3b04c9135",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/node.js.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/node.js.yml:11 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/node.js.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/node.js.yml:13 at this commit: `uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/node.js.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/node.js.yml:16 at this commit: `- uses: actions/cache@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/node.js.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/node.js.yml:15 at this commit: `node-version: 14.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

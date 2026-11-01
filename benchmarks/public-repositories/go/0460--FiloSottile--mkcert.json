@@ -1,0 +1,62 @@
+{
+  "repository": "FiloSottile/mkcert",
+  "commit": "1c1dc4ed27ed5936046b6398d39cab4d657a2d8e",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 11 of .github/workflows/release.yml at this commit: `uses: actions/setup-go@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 15 of .github/workflows/release.yml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 26 of .github/workflows/release.yml at this commit: `uses: actions/github-script@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 13 of .github/workflows/test.yml at this commit: `uses: actions/setup-go@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 17 of .github/workflows/test.yml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of go.mod at this commit: `go 1.18`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.18 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

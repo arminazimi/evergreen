@@ -1,0 +1,17 @@
+{
+  "repository": "strambc/fof-ct-linkml",
+  "commit": "6ebc7d01cae21ebb816756727ef9f356cc9bb4c9",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/strambc/fof-ct-linkml/commit/e0f029a6b0a4bef8c7b18d62a74444dfaeddb906"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "cli/cli",
+  "commit": "9490d204a2ba95434153dedce99898ce9f281426",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": ".github/codeql/tests/unsanitized-response-to-terminal/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of .github/codeql/tests/unsanitized-response-to-terminal/go.mod at this commit: `go 1.25.0`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.25.0 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

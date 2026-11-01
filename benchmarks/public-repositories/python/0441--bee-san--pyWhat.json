@@ -1,0 +1,26 @@
+{
+  "repository": "bee-san/pyWhat",
+  "commit": "dfa9372694ce1ce234b78abd623bfe4c13e03d9c",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM python:3.10-alpine`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:11 at this commit: `python = \"^3.7\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

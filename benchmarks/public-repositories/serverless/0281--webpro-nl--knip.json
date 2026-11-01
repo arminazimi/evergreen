@@ -1,0 +1,89 @@
+{
+  "repository": "webpro-nl/knip",
+  "commit": "3601c6e32afef3d1d76a3944e540225da5190b9b",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/integration.yml",
+      "line": 254,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/integration.yml:254 at this commit: `uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/integration.yml",
+      "line": 268,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/integration.yml:268 at this commit: `- uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/integration.yml",
+      "line": 273,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/integration.yml:273 at this commit: `- uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "packages/knip/package.json",
+      "line": 122,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/knip/package.json:122 at this commit: `\"node\": \"^20.19.0 || >=22.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "packages/language-server/package.json",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/language-server/package.json:30 at this commit: `\"node\": \"^20.19.0 || >=22.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "packages/mcp-server/package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/mcp-server/package.json:40 at this commit: `\"node\": \"^20.19.0 || >=22.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/ci-legacy-5.0.4.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci-legacy-5.0.4.yml:42 at this commit: `- 20`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci-legacy-5.0.4.yml",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 43 of .github/workflows/ci-legacy-5.0.4.yml reads - 22, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci-legacy-latest.yml",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 43 of .github/workflows/ci-legacy-latest.yml reads node-version: 22, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

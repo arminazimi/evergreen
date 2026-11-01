@@ -1,0 +1,7 @@
+{
+  "repository": "spatie/db-dumper",
+  "commit": "c968c8c93d4532caa6cab82ae56df10fbbdef9c6",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

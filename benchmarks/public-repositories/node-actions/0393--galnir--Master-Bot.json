@@ -1,0 +1,98 @@
+{
+  "repository": "galnir/Master-Bot",
+  "commit": "cb023bee70d6d96b4692b35c4dc49051f58e9fba",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:8 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM --platform=linux/amd64 node:18-slim`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "apps/bot/package.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read apps/bot/package.json:18 at this commit: `\"node\": \">=v18.16.1\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "apps/bot/package.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read apps/bot/package.json:18 at this commit: `\"node\": \">=v18.16.1\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "apps/bot/package.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read apps/bot/package.json:18 at this commit: `\"node\": \">=v18.16.1\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.next.14.support-end",
+      "path": "apps/dashboard/package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read apps/dashboard/package.json:36 at this commit: `\"next\": \"^14.0.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:5 at this commit: `\"node\": \">=v20.0.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.next.14.support-end",
+      "path": "packages/auth/package.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/auth/package.json:18 at this commit: `\"next\": \"^14.0.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:4 at this commit: `ENV NEXT_TELEMETRY_DISABLED 1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:9 at this commit: `ENV PORT 3000`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

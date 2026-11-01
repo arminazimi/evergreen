@@ -1,0 +1,26 @@
+{
+  "repository": "DanielKeep/cargo-script",
+  "commit": "614e60e5932e218ebff1e471303eb0d59870d03b",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 47 of Cargo.toml at this commit: `atty = \"0.2.2\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "Cargo.toml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 52 of Cargo.toml at this commit: `tempdir = \"0.3.5\"`. The RustSec advisory database lists tempdir as unmaintained (https://rustsec.org/advisories/RUSTSEC-2018-0017.html)."
+      }
+    }
+  ]
+}

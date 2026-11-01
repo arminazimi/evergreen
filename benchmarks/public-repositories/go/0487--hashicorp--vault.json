@@ -1,0 +1,341 @@
+{
+  "repository": "hashicorp/vault",
+  "commit": "75b8e801d231a09f69547c0ad24011799c08a349",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 24 of Dockerfile at this commit: `FROM ubuntu:focal AS builder`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/target_ec2_fleet/main.tf",
+      "line": 114,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 114 of enos/modules/target_ec2_fleet/main.tf at this commit: `\"${var.cluster_tag_key}\" = local.cluster_name`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/target_ec2_instances/main.tf",
+      "line": 242,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 242 of enos/modules/target_ec2_instances/main.tf at this commit: `\"${var.cluster_tag_key}\" = local.cluster_name`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/target_ec2_spot_fleet/main.tf",
+      "line": 197,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 197 of enos/modules/target_ec2_spot_fleet/main.tf at this commit: `\"${var.cluster_tag_key}\" = local.cluster_name`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/aws/aws.tf",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 50 of enos/modules/verify_secrets_engines/modules/read/aws/aws.tf at this commit: `AWS_REGION              = \"${var.create_state.aws.region}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/aws/aws.tf",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 51 of enos/modules/verify_secrets_engines/modules/read/aws/aws.tf at this commit: `MOUNT                   = \"${var.create_state.aws.mount}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/aws/aws.tf",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 52 of enos/modules/verify_secrets_engines/modules/read/aws/aws.tf at this commit: `AWS_USER_NAME           = \"${var.create_state.aws.aws_user_name}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/aws/aws.tf",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 53 of enos/modules/verify_secrets_engines/modules/read/aws/aws.tf at this commit: `AWS_ACCESS_KEY_ID       = \"${var.create_state.aws.aws_access_key}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/aws/aws.tf",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 54 of enos/modules/verify_secrets_engines/modules/read/aws/aws.tf at this commit: `AWS_SECRET_ACCESS_KEY   = \"${var.create_state.aws.aws_secret_key}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/aws/aws.tf",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 55 of enos/modules/verify_secrets_engines/modules/read/aws/aws.tf at this commit: `VAULT_AWS_ROLE          = \"${var.create_state.aws.vault_aws_role}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 127,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 127 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `MOUNT             = \"${var.create_state.ldap.ldap_mount}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 128,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 128 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `LDAP_SERVER       = \"${var.create_state.ldap.host.private_ip}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 129,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 129 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `LDAP_PORT         = \"${var.create_state.ldap.port}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 130,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 130 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `LDAP_USERNAME     = \"${var.create_state.ldap.username}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 131,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 131 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `LDAP_ADMIN_PW     = \"${var.create_state.ldap.pw}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 722,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 722 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `MOUNT             = \"${var.create_state.ldap.ldap_mount}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 723,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 723 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `LDAP_SERVER       = \"${var.create_state.ldap.host.private_ip}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 724,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 724 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `LDAP_PORT         = \"${var.create_state.ldap.port}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 725,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 725 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `LDAP_USERNAME     = \"${var.create_state.ldap.username}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf",
+      "line": 726,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 726 of enos/modules/verify_secrets_engines/modules/read/ldap/ldap.tf at this commit: `LDAP_ADMIN_PW     = \"${var.create_state.ldap.pw}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/pki.tf",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 10 of enos/modules/verify_secrets_engines/modules/read/pki.tf at this commit: `AUTH_PATH         = \"${var.create_state.auth.userpass.path}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/pki.tf",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 11 of enos/modules/verify_secrets_engines/modules/read/pki.tf at this commit: `USERNAME          = \"${var.create_state.auth.userpass.user.name}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "enos/modules/verify_secrets_engines/modules/read/pki.tf",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of enos/modules/verify_secrets_engines/modules/read/pki.tf at this commit: `PASSWORD          = \"${var.create_state.auth.userpass.user.password}\"`. HashiCorp's release notes hashicorp/terraform release v0.12.14 (https://github.com/hashicorp/terraform/releases/tag/v0.12.14) mark this interpolation-only form as legacy syntax."
+      }
+    },
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "go.mod",
+      "line": 101,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 101 of go.mod at this commit: `github.com/golang/protobuf v1.5.4`. The module page at https://pkg.go.dev/github.com/golang/protobuf marks github.com/golang/protobuf deprecated in favour of google.golang.org/protobuf, which is why the require line is retired."
+      }
+    },
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "internalshared/go.mod",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 31 of internalshared/go.mod at this commit: `github.com/golang/protobuf v1.5.4`. The module page at https://pkg.go.dev/github.com/golang/protobuf marks github.com/golang/protobuf deprecated in favour of google.golang.org/protobuf, which is why the require line is retired."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "scripts/cross/Dockerfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 4 of scripts/cross/Dockerfile at this commit: `FROM debian:buster`. The vendor lifecycle record Debian LTS (https://wiki.debian.org/LTS) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "scripts/cross/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 27 of scripts/cross/Dockerfile at this commit: `ENV GOVERSION 1.13.8`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "scripts/cross/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 32 of scripts/cross/Dockerfile at this commit: `ENV GOPATH /gopath`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "scripts/cross/Dockerfile",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 33 of scripts/cross/Dockerfile at this commit: `ENV GOROOT /goroot`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "scripts/cross/Dockerfile",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 34 of scripts/cross/Dockerfile at this commit: `ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "scripts/docker/Dockerfile",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 21 of scripts/docker/Dockerfile at this commit: `FROM alpine:3.13`. The vendor lifecycle record Alpine Linux releases (https://alpinelinux.org/releases/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "scripts/docker/Dockerfile.ui",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of scripts/docker/Dockerfile.ui at this commit: `FROM debian:buster AS builder`. The vendor lifecycle record Debian LTS (https://wiki.debian.org/LTS) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "scripts/docker/Dockerfile.ui",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 33 of scripts/docker/Dockerfile.ui at this commit: `ENV GOPATH /go`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "scripts/docker/Dockerfile.ui",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 34 of scripts/docker/Dockerfile.ui at this commit: `ENV GOROOT /goroot`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "scripts/docker/Dockerfile.ui",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 35 of scripts/docker/Dockerfile.ui at this commit: `ENV PATH $GOROOT/bin:$GOPATH/bin:$PATH`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "scripts/docker/Dockerfile.ui",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 44 of scripts/docker/Dockerfile.ui at this commit: `FROM alpine:3.13`. The vendor lifecycle record Alpine Linux releases (https://alpinelinux.org/releases/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "sdk/go.mod",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 14 of sdk/go.mod at this commit: `github.com/golang/protobuf v1.5.4`. The module page at https://pkg.go.dev/github.com/golang/protobuf marks github.com/golang/protobuf deprecated in favour of google.golang.org/protobuf, which is why the require line is retired."
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "repository": "charmbracelet/bubbletea",
+  "commit": "73b6d91ac1c3854dd4af046ab5f9e51d3b3b4290",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "examples/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of examples/go.mod is `go 1.25.8`, a Go release line that no longer receives fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "go.mod",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/charmbracelet/bubbletea/commit/657aaae216e3f87df09b60959a9fe5de7b2ca419."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "tutorials/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of tutorials/go.mod is `go 1.24.2`, a Go release line that no longer receives fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "tutorials/go.mod",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of tutorials/go.mod is `toolchain go1.24.10`, a Go release line that no longer receives fixes."
+      }
+    }
+  ]
+}

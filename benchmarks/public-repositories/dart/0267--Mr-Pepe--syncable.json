@@ -1,0 +1,17 @@
+{
+  "repository": "Mr-Pepe/syncable",
+  "commit": "e7224998363ac8d8318f2bfdf63c0f0c444fe0ac",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish_to_pub.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish_to_pub.yml:15 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

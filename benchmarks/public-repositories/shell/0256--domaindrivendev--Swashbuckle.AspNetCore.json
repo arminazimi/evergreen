@@ -1,0 +1,26 @@
+{
+  "repository": "domaindrivendev/Swashbuckle.AspNetCore",
+  "commit": "819734d42ad5bd0305b04f36aee7ec7cea01b7f1",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/build.yml",
+      "line": 86,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:86 at this commit: `8.0.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": ".github/workflows/build.yml",
+      "line": 87,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:87 at this commit: `9.0.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

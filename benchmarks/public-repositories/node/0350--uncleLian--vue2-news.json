@@ -1,0 +1,62 @@
+{
+  "repository": "uncleLian/vue2-news",
+  "commit": "1c198d96059b6c51d78259d45ce2bc563df305b7",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:20 at this commit: `\"vue\": \"^2.5.13\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:28 at this commit: `\"babel-eslint\": \"^7.1.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:72 at this commit: `\"node\": \">= 4.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:72 at this commit: `\"node\": \">= 4.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:72 at this commit: `\"node\": \">= 4.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:72 at this commit: `\"node\": \">= 4.0.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

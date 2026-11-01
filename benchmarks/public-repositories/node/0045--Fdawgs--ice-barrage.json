@@ -1,0 +1,44 @@
+{
+  "repository": "Fdawgs/ice-barrage",
+  "commit": "d842b983d031675de736bfdbdb28798c071ebba5",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".nvmrc",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea"
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea"
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/ci.yml",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:43 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 43 of .github/workflows/ci.yml reads node-version: [20, 22, 24, 26], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

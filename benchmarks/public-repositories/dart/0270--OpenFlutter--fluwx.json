@@ -1,0 +1,26 @@
+{
+  "repository": "OpenFlutter/fluwx",
+  "commit": "aa89699635f24947f036b9139336beaedb7a8271",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/build_test.yml",
+      "line": 174,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build_test.yml:174 at this commit: `uses: actions/setup-java@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/build_test.yml",
+      "line": 199,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build_test.yml:199 at this commit: `uses: actions/setup-java@v3`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

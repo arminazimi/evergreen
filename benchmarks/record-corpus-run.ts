@@ -11,6 +11,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { promisify } from "node:util";
 
+import { loadPublicCorpus } from "./public-corpus.js";
 import { assertRecordable, buildFullRunRecord, findFilterFlag, withLastFullRun } from "./record-run.js";
 import type { RecordableReport } from "./record-run.js";
 import type { Thresholds } from "./thresholds.js";
@@ -35,7 +36,7 @@ if (dirty) fail(`Refusing to record: the working tree has uncommitted changes, s
 const commit = (await run("git", ["rev-parse", "--short", "HEAD"])).stdout.trim();
 const date = new Date().toISOString().slice(0, 10);
 
-const corpus = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: unknown[] };
+const corpus = await loadPublicCorpus();
 const directory = await mkdtemp(join(tmpdir(), "evergreen-record-"));
 try {
   const reportPath = join(directory, "report.json");

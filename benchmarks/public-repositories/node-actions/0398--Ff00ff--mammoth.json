@@ -1,0 +1,98 @@
+{
+  "repository": "Ff00ff/mammoth",
+  "commit": "8122afe43425c135a1dd8f0cd22606fb0e0a994d",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/automerge.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/automerge.yml:7 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/feature.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/feature.yml:18 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/feature.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/feature.yml:20 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/master.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/master.yml:14 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/master.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/master.yml:15 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "workspaces/mammoth-cli/package.json",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "workspaces/mammoth-cli/package.json",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "workspaces/mammoth-cli/package.json",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "workspaces/mammoth-cli/package.json",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/master.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/master.yml:17 at this commit: `node-version: 16`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

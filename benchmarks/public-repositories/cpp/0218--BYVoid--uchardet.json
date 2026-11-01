@@ -1,0 +1,17 @@
+{
+  "repository": "BYVoid/uchardet",
+  "commit": "4e685757780cb3c652fc6c9ec759f62888969ec9",
+  "ecosystem": "cpp",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read CMakeLists.txt:2 at this commit: `cmake_minimum_required(VERSION 2.8.5)`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

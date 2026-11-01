@@ -1,0 +1,53 @@
+{
+  "repository": "Shopify/mobile-buy-sdk-ios",
+  "commit": "350c914d8beea856026807cbd3effc73aaf8b7cd",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:16 at this commit: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/deploy.yml:15 at this commit: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:12 at this commit: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:27 at this commit: `uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:13 at this commit: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

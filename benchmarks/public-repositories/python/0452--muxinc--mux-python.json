@@ -1,0 +1,71 @@
+{
+  "repository": "muxinc/mux-python",
+  "commit": "496f62c3a3e395715a2905fbd6fc40415130838d",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yaml:15 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yaml:17 at this commit: `uses: actions/setup-python@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yaml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yaml:15 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/release.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yaml:17 at this commit: `uses: actions/setup-python@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .tool-versions:1 at this commit: `python 3.8.13`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .tool-versions:2 at this commit: `java zulu-16.32.15`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:2 at this commit: the envlist tests on py27; Python 2.7 is below the rule's affected range (<3.10) and is past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

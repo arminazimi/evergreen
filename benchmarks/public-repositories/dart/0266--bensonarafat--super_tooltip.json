@@ -1,0 +1,35 @@
+{
+  "repository": "bensonarafat/super_tooltip",
+  "commit": "2ff16a10885258c924bc798b7fa2243e1f471f3f",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dart.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dart.yml:14 at this commit: `- uses: actions/checkout@v3.5.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/dart.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dart.yml:15 at this commit: `- uses: actions/setup-java@v3.11.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:16 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

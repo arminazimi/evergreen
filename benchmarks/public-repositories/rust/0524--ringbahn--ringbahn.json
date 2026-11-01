@@ -1,0 +1,7 @@
+{
+  "repository": "ringbahn/ringbahn",
+  "commit": "08e6464e64d8cc92e4af837dfe96778c85fc401c",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

@@ -256,11 +256,11 @@ The `scala` detector is **experimental**: its level is recorded as `experimental
 
 ## Database runtimes detector
 
-The `database` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted cases and one blind, zero-finding repository, with ground truth from the vendors' lifecycle sources. Supported files, declaration forms, matching rules, and limits are documented in [Database runtimes](detectors/database.md). Its lifecycle rules are in `registry/database.json` and ship in the [data bundle](DATA.md).
+The `database` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories/`: four targeted cases and one blind, zero-finding repository, with ground truth from the vendors' lifecycle sources. Supported files, declaration forms, matching rules, and limits are documented in [Database runtimes](detectors/database.md). Its lifecycle rules are in `registry/database.json` and ship in the [data bundle](DATA.md).
 
 ## Shell and PowerShell detector
 
-The `shell` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted cases and one blind, zero-finding repository. Each expected finding was checked by reading its line at the pinned commit against Microsoft's PowerShell support lifecycle, independently of Evergreen output. Supported files, declaration forms, matching rules, and limits are documented in [Shell and PowerShell](detectors/shell.md). Its lifecycle rules are in `registry/shell.json` and ship in the [data bundle](DATA.md).
+The `shell` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories/`: four targeted cases and one blind, zero-finding repository. Each expected finding was checked by reading its line at the pinned commit against Microsoft's PowerShell support lifecycle, independently of Evergreen output. Supported files, declaration forms, matching rules, and limits are documented in [Shell and PowerShell](detectors/shell.md). Its lifecycle rules are in `registry/shell.json` and ship in the [data bundle](DATA.md).
 
 ## Terraform detector
 

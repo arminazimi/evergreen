@@ -1,0 +1,116 @@
+{
+  "repository": "rustwasm/wasm-pack",
+  "commit": "62ab39cf82ec4d358c1f08f348cd0dc44768f412",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of Cargo.toml declares `atty = \"0.2.14\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/rustwasm/wasm-pack/commit/650936bbdd4849b8473f5c0273c02f8bb7ff5492 ('Remove unmaintained dependency atty in favor of stdlib')."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/book.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/book.yml reads `- uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/book.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/book.yml reads `uses: actions/cache@v3`, which github-actions.cache.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 41 of .github/workflows/release.yml reads `- uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 103 of .github/workflows/release.yml reads `uses: actions/upload-artifact@v1`, which github-actions.upload-artifact.retired reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 130,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 130 of .github/workflows/release.yml reads `uses: actions/download-artifact@v2`, which github-actions.download-artifact.retired reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 135,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 135 of .github/workflows/release.yml reads `uses: actions/download-artifact@v2`, which github-actions.download-artifact.retired reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 140,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 140 of .github/workflows/release.yml reads `uses: actions/download-artifact@v2`, which github-actions.download-artifact.retired reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 145,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 145 of .github/workflows/release.yml reads `uses: actions/download-artifact@v2`, which github-actions.download-artifact.retired reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 31 of .github/workflows/test.yml reads `- uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 39 of .github/workflows/test.yml reads `- uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 42 of .github/workflows/test.yml reads `uses: actions/cache@v3`, which github-actions.cache.node20 reports."
+      }
+    }
+  ]
+}

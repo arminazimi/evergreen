@@ -3,8 +3,9 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { CORPUS_PATH, SNAPSHOT_PATH, snapshotDrops, snapshotFrom } from "../benchmarks/corpus-snapshot.js";
+import { SNAPSHOT_PATH, snapshotDrops, snapshotFrom } from "../benchmarks/corpus-snapshot.js";
 import type { CorpusSnapshot } from "../benchmarks/corpus-snapshot.js";
+import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 
 const corpus = {
   repositories: [
@@ -31,7 +32,7 @@ test("losing an expected finding is a drop, and growth is not", () => {
 });
 
 test("the committed corpus has not lost any finding the snapshot records", async () => {
-  const current = snapshotFrom(JSON.parse(await readFile(resolve(CORPUS_PATH), "utf8")));
+  const current = snapshotFrom(await loadPublicCorpus());
   const committed = JSON.parse(await readFile(resolve(SNAPSHOT_PATH), "utf8")) as CorpusSnapshot;
   assert.equal(committed.schemaVersion, "evergreen.corpus-snapshot.v1");
   assert.deepEqual(snapshotDrops(current, committed), []);

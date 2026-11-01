@@ -1,0 +1,17 @@
+{
+  "repository": "hustlei/QssStylesheetEditor",
+  "commit": "41116d1b66f2cf33eb8172158cf1a63bcc042bb1",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:23 at this commit: python_requires='>=3.0.*, <4'; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

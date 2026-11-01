@@ -1,0 +1,7 @@
+{
+  "repository": "pacman82/odbc2parquet",
+  "commit": "e1b93b538ac875404d5fe7f7be9a3fb0dfb73a73",
+  "ecosystem": "database",
+  "selection": "blind",
+  "expected": []
+}

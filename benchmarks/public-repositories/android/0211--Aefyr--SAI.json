@@ -1,0 +1,17 @@
+{
+  "repository": "Aefyr/SAI",
+  "commit": "55505d231b1390e824d1cc0c8f4fa35fd4677105",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.stale.node20",
+      "path": ".github/workflows/stale.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/stale.yml:13 at this commit: `- uses: actions/stale@v1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

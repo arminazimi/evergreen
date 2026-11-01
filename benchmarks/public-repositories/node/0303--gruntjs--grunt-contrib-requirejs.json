@@ -1,0 +1,44 @@
+{
+  "repository": "gruntjs/grunt-contrib-requirejs",
+  "commit": "0c3e99f689a95102deb76a7e86daf4737f791afc",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:12 at this commit: `\"node\": \">=0.10.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:12 at this commit: `\"node\": \">=0.10.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:12 at this commit: `\"node\": \">=0.10.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:12 at this commit: `\"node\": \">=0.10.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

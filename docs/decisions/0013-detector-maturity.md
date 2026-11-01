@@ -54,7 +54,7 @@ Exit criteria that mention maturity should say "at the level in the thresholds f
 
 ## Applying it to today's detectors
 
-Counts are from `benchmarks/public-repositories.json` on 2026-10-19 (90 repositories). Precision and recall are from the full run recorded in `benchmarks/thresholds.json` (`lastFullRun`): 85 repositories on commit `b19a781`, 336 reported findings, 336 true positives, 0 false positives, 0 false negatives.
+Counts are from `benchmarks/public-repositories/` on 2026-10-19 (90 repositories). Precision and recall are from the full run recorded in `benchmarks/thresholds.json` (`lastFullRun`): 85 repositories on commit `b19a781`, 336 reported findings, 336 true positives, 0 false positives, 0 false negatives.
 
 | Detector | Level today | Repositories with findings | Expected findings | Zero-finding repositories | Meets |
 |---|---|---|---|---|---|

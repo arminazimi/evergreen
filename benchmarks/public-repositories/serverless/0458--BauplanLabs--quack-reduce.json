@@ -1,0 +1,7 @@
+{
+  "repository": "BauplanLabs/quack-reduce",
+  "commit": "aac1326941c16e5131d20be1751ad29664def698",
+  "ecosystem": "serverless",
+  "selection": "targeted",
+  "expected": []
+}

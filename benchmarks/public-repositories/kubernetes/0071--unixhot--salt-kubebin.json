@@ -1,0 +1,143 @@
+{
+  "repository": "unixhot/salt-kubebin",
+  "commit": "9f545ee1f3115b3ff6fa8390cf74e85caf244aa1",
+  "ecosystem": "kubernetes",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "example/cronjob.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of example/cronjob.yaml reads `apiVersion: batch/v1beta1` and the next line reads `kind: CronJob`. The Kubernetes Deprecated API Migration Guide says this API version of CronJob is no longer served as of v1.25."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "addons/Ingress-traefic/ui.yaml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of addons/Ingress-traefic/ui.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress` in the second document of the file. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "addons/ingress/traefik-ui.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of addons/ingress/traefik-ui.yml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress` in the second document of the file. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "example/nginx-ingress.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of example/nginx-ingress.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress`. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "addons/heapster/grafana.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of addons/heapster/grafana.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "addons/heapster/heapster.yaml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of addons/heapster/heapster.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "addons/heapster/influxdb.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of addons/heapster/influxdb.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "addons/Ingress-traefic/traefik-ds.yaml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of addons/Ingress-traefic/traefik-ds.yaml reads `apiVersion: extensions/v1beta1` and the previous line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "addons/ingress/daemonset.yml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of addons/ingress/daemonset.yml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "addons/Ingress-traefic/traefik-deployment.yaml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of addons/Ingress-traefic/traefik-deployment.yaml reads `apiVersion: extensions/v1beta1` and the previous line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "addons/Kube-dns/kube-dns.yaml",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 59 of addons/Kube-dns/kube-dns.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "addons/coredns/coredns.yaml",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 69 of addons/coredns/coredns.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "addons/Ingress-traefic/traefik-rbac.yaml",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of addons/Ingress-traefic/traefik-rbac.yaml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRole`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRole is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "addons/Ingress-traefic/traefik-rbac.yaml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 27 of addons/Ingress-traefic/traefik-rbac.yaml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRoleBinding`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRoleBinding is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "addons/ingress/ingress-rbac.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of addons/ingress/ingress-rbac.yml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRoleBinding`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRoleBinding is no longer served as of v1.22."
+      }
+    }
+  ]
+}

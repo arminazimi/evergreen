@@ -9,7 +9,7 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 557 pinned repositories (3122 expected findings). The last full corpus run was commit `114f19b` on 2026-11-01 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 557 pinned repositories (3122 expected findings). The last full corpus run was commit `114f19b` on 2026-11-01 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
@@ -365,4 +365,4 @@ Measured on the public corpus of 557 pinned repositories (3122 expected findings
 
 ## Limits
 
-Counts come from expected findings in `benchmarks/public-repositories.json`, joined to bundled rules in `registry/`. Scans never use the network. A product with no corpus finding does not appear here.
+Counts come from expected findings in `benchmarks/public-repositories/`, joined to bundled rules in `registry/`. Scans never use the network. A product with no corpus finding does not appear here.

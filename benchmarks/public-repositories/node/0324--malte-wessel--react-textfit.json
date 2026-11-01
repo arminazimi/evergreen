@@ -1,0 +1,26 @@
+{
+  "repository": "malte-wessel/react-textfit",
+  "commit": "fc7aa18e61a2397fcef838dc8b16c8dc027dce26",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:34 at this commit: `\"babel-eslint\": \"^4.1.5\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-preset-es2015.deprecated",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"babel-preset-es2015\": \"^6.24.1\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "doctrine/annotations",
+  "commit": "17815fb6b2f4c3c701ba2abdf2c6c97b219fb2e4",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

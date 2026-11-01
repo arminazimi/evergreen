@@ -1,0 +1,125 @@
+{
+  "repository": "moditect/jfrunit",
+  "commit": "b676511be0506a8653358060eb2fdb4fe27873a3",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/build.yml reads `uses: actions/cache@v2`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/release.yml reads `uses: actions/cache@v2`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/trigger.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/trigger.yml reads `uses: actions/cache@v2`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/trigger.yml",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 58 of .github/workflows/trigger.yml reads `uses: actions/cache@v2`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/build.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/trigger.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/trigger.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/trigger.yml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of .github/workflows/trigger.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/build.yml reads `uses: actions/setup-java@v2`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 31 of .github/workflows/release.yml reads `uses: actions/setup-java@v2`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/trigger.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/trigger.yml reads `uses: actions/setup-java@v2`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/trigger.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 52 of .github/workflows/trigger.yml reads `uses: actions/setup-java@v2`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 50 of pom.xml reads `<java.version>16</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

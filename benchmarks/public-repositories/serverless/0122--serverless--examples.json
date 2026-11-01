@@ -1,0 +1,1061 @@
+{
+  "repository": "serverless/examples",
+  "commit": "71d6720f68e1f25ee02bbef7c3e843591870639a",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-bedrock-agentcore/javascript/langgraph-comprehensive/serverless.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-bedrock-agentcore/javascript/langgraph-comprehensive/serverless.yml:25 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-bedrock-agentcore/javascript/langgraph-gateway/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-bedrock-agentcore/javascript/langgraph-gateway/serverless.yml:12 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-bedrock-agentcore/javascript/langgraph-multi-gateway/serverless.yml:12 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-bedrock-agentcore/javascript/langgraph-multi-gateway/serverless.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-bedrock-agentcore/javascript/langgraph-multi-gateway/serverless.yml:16 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-bedrock-agentcore/javascript/mcp-server-lambda-tools/serverless.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-bedrock-agentcore/javascript/mcp-server-lambda-tools/serverless.yml:14 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-bedrock-agentcore/python/langgraph-gateway/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-bedrock-agentcore/python/langgraph-gateway/serverless.yml:12 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-bedrock-agentcore/python/langgraph-multi-gateway/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-bedrock-agentcore/python/langgraph-multi-gateway/serverless.yml:12 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-bedrock-agentcore/python/langgraph-multi-gateway/serverless.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-bedrock-agentcore/python/langgraph-multi-gateway/serverless.yml:16 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.dotnet10",
+      "path": "aws-dotnet-rest-api-with-dynamodb/src/DotNetServerless.Lambda/serverless.yml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-dotnet-rest-api-with-dynamodb/src/DotNetServerless.Lambda/serverless.yml:9 at this commit: `runtime: dotnet10`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-ffmpeg-layer/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ffmpeg-layer/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "aws-golang-auth-examples/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-golang-auth-examples/serverless.yml:7 at this commit: `runtime: provided.al2023`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "aws-golang-googlemap/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-golang-googlemap/serverless.yml:7 at this commit: `runtime: provided.al2023`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "aws-golang-http-get-post/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-golang-http-get-post/serverless.yml:7 at this commit: `runtime: provided.al2023`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "aws-golang-rest-api-with-dynamodb/serverless.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-golang-rest-api-with-dynamodb/serverless.yml:8 at this commit: `runtime: provided.al2023`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "aws-golang-s3-file-replicator/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-golang-s3-file-replicator/serverless.yml:12 at this commit: `runtime: provided.al2023`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "aws-golang-simple-http-endpoint/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-golang-simple-http-endpoint/serverless.yml:6 at this commit: `runtime: provided.al2023`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.java25",
+      "path": "aws-java-simple-http-endpoint/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-java-simple-http-endpoint/serverless.yml:6 at this commit: `runtime: java25`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-multiple-runtime/serverless.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-multiple-runtime/serverless.yml:11 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-multiple-runtime/serverless.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-multiple-runtime/serverless.yml:18 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-alexa-skill/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-alexa-skill/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-auth0-cognito-custom-authorizers-api/serverless.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-auth0-cognito-custom-authorizers-api/serverless.yml:8 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-auth0-custom-authorizers-api/serverless.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-auth0-custom-authorizers-api/serverless.yml:11 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-dynamic-image-resizer/serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-dynamic-image-resizer/serverless.yml:10 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-dynamodb-stream-processing/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-dynamodb-stream-processing/serverless.yml:12 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-env-variables-encrypted-in-a-file/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-env-variables-encrypted-in-a-file/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-env-variables/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-env-variables/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-esm-esbuild/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-esm-esbuild/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-express-api/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-express-api/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-express-dynamodb-api/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-express-dynamodb-api/serverless.yml:12 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-fetch-file-and-store-in-s3/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-fetch-file-and-store-in-s3/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-github-webhook-listener/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-github-webhook-listener/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-graphql-api-with-dynamodb/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-graphql-api-with-dynamodb/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-http-api-dynamodb-local/serverless.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-http-api-dynamodb-local/serverless.yml:23 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-http-api-dynamodb/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-http-api-dynamodb/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-http-api-mongodb/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-http-api-mongodb/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-http-api-typescript-dynamodb/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-http-api-typescript-dynamodb/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-http-api-typescript/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-http-api-typescript/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-http-api/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-http-api/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-iot-event/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-iot-event/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-mongodb-atlas/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-mongodb-atlas/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-puppeteer/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-puppeteer/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-recursive-function/serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-recursive-function/serverless.yml:10 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-rekognition-analysis-s3-image/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-rekognition-analysis-s3-image/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-rest-api-mongodb/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-rest-api-mongodb/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-rest-api-typescript-simple/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-rest-api-typescript-simple/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-rest-api-typescript/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-rest-api-typescript/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-rest-api-with-dynamodb-and-offline/serverless.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-rest-api-with-dynamodb-and-offline/serverless.yml:24 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-rest-api-with-dynamodb/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-rest-api-with-dynamodb/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-rest-api/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-rest-api/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-s3-file-replicator/serverless.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-s3-file-replicator/serverless.yml:16 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-scheduled-cron/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-scheduled-cron/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-self-managed-code-storage/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-self-managed-code-storage/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-serve-dynamic-html-via-http-endpoint/serverless.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-serve-dynamic-html-via-http-endpoint/serverless.yml:8 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-serverless-gong/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-serverless-gong/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-ses-receive-email-body/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-ses-receive-email-body/serverless.yml:12 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-ses-receive-email-header/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-ses-receive-email-header/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-shared-gateway/gateway/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-shared-gateway/gateway/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-shared-gateway/products/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-shared-gateway/products/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-shared-gateway/transactions/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-shared-gateway/transactions/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-shared-gateway/users/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-shared-gateway/users/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-signed-uploads/serverless.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-signed-uploads/serverless.yml:15 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-simple-http-endpoint/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-simple-http-endpoint/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-simple-transcribe-s3/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-simple-transcribe-s3/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-single-page-app-via-cloudfront/serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-single-page-app-via-cloudfront/serverless.yml:10 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-sqs-worker/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-sqs-worker/serverless.yml:6 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-stripe-integration/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-stripe-integration/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-telegram-echo-bot/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-telegram-echo-bot/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-text-analysis-via-sns-post-processing/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-text-analysis-via-sns-post-processing/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-twilio-send-text-message/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-twilio-send-text-message/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-typescript-apollo-lambda/serverless.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-typescript-apollo-lambda/serverless.yml:14 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-typescript-kinesis/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-typescript-kinesis/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-typescript-nest/serverless.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-typescript-nest/serverless.yml:25 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-typescript-rest-api-with-dynamodb/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-typescript-rest-api-with-dynamodb/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-typescript-sqs-standard/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-typescript-sqs-standard/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-upload-to-s3-and-postprocess/serverless.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-upload-to-s3-and-postprocess/serverless.yml:11 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node-websockets-authorizers/serverless.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node-websockets-authorizers/serverless.yml:8 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "aws-node/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-node/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-alexa-skill/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-alexa-skill/serverless.yml:7 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-auth0-custom-authorizers-api/serverless.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-auth0-custom-authorizers-api/serverless.yml:25 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-flask-api/serverless.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-flask-api/serverless.yml:18 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-flask-dynamodb-api/serverless.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-flask-dynamodb-api/serverless.yml:26 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-http-api-with-dynamodb/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-http-api-with-dynamodb/serverless.yml:6 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-http-api-with-pynamodb/serverless.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-http-api-with-pynamodb/serverless.yml:25 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-http-api/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-http-api/serverless.yml:6 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.13",
+      "path": "aws-python-line-echo-bot/serverless.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-line-echo-bot/serverless.yml:11 at this commit: `runtime: python3.13`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-pynamodb-s3-sigurl/serverless.yml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-pynamodb-s3-sigurl/serverless.yml:54 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-rest-api-with-dynamodb/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-rest-api-with-dynamodb/serverless.yml:7 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-rest-api-with-pymongo/serverless.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-rest-api-with-pymongo/serverless.yml:15 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-rest-api-with-pynamodb/serverless.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-rest-api-with-pynamodb/serverless.yml:26 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-rest-api/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-rest-api/serverless.yml:7 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-scheduled-cron/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-scheduled-cron/serverless.yml:7 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-simple-http-endpoint/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-simple-http-endpoint/serverless.yml:6 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-sqs-worker/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-sqs-worker/serverless.yml:6 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python-telegram-bot/serverless.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python-telegram-bot/serverless.yml:11 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.14",
+      "path": "aws-python/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-python/serverless.yml:7 at this commit: `runtime: python3.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.ruby4.0",
+      "path": "aws-ruby-cron-with-dynamodb/serverless.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ruby-cron-with-dynamodb/serverless.yml:8 at this commit: `runtime: ruby4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.ruby4.0",
+      "path": "aws-ruby-line-bot/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ruby-line-bot/serverless.yml:7 at this commit: `runtime: ruby4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.ruby4.0",
+      "path": "aws-ruby-simple-http-endpoint/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ruby-simple-http-endpoint/serverless.yml:6 at this commit: `runtime: ruby4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.ruby4.0",
+      "path": "aws-ruby-sinatra-dynamodb-api/serverless.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ruby-sinatra-dynamodb-api/serverless.yml:16 at this commit: `runtime: ruby4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.ruby4.0",
+      "path": "aws-ruby-sqs-with-dynamodb/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ruby-sqs-with-dynamodb/serverless.yml:7 at this commit: `runtime: ruby4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.ruby4.0",
+      "path": "aws-ruby-step-functions-express/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ruby-step-functions-express/serverless.yml:7 at this commit: `runtime: ruby4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.ruby4.0",
+      "path": "aws-ruby-step-functions-with-callback/serverless.yml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ruby-step-functions-with-callback/serverless.yml:8 at this commit: `runtime: ruby4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.ruby4.0",
+      "path": "aws-ruby-step-functions/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-ruby-step-functions/serverless.yml:7 at this commit: `runtime: ruby4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "aws-rust-simple-http-endpoint/serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws-rust-simple-http-endpoint/serverless.yml:6 at this commit: `runtime: provided.al2023`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "compose-multiframework/sam/template.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read compose-multiframework/sam/template.yml:14 at this commit: `Runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "compose-multiframework/traditional/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read compose-multiframework/traditional/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "compose-shared-services/api/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read compose-shared-services/api/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "compose-shared-services/worker/serverless.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read compose-shared-services/worker/serverless.yml:7 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs22.x",
+      "path": "mcp/custom/express-web-adapter/serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mcp/custom/express-web-adapter/serverless.yml:10 at this commit: `runtime: nodejs22.x # the MCP SDK v2 requires Node.js 20+`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs22.x",
+      "path": "mcp/custom/function-url/serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mcp/custom/function-url/serverless.yml:10 at this commit: `runtime: nodejs22.x # the MCP SDK v2 requires Node.js 20+`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs22.x",
+      "path": "mcp/custom/hono/serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mcp/custom/hono/serverless.yml:10 at this commit: `runtime: nodejs22.x # the MCP SDK v2 requires Node.js 20+`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs22.x",
+      "path": "mcp/custom/rest-api/serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mcp/custom/rest-api/serverless.yml:10 at this commit: `runtime: nodejs22.x # the MCP SDK v2 requires Node.js 20+`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "mcp/minimal/serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mcp/minimal/serverless.yml:10 at this commit: `runtime: nodejs24.x # the MCP SDK requires Node.js 20 or newer`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "mcp/oauth-authorizer/serverless.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mcp/oauth-authorizer/serverless.yml:13 at this commit: `runtime: nodejs24.x # the MCP SDK requires Node.js 20 or newer`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "mcp/oauth-cognito/serverless.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mcp/oauth-cognito/serverless.yml:12 at this commit: `runtime: nodejs24.x # the MCP SDK requires Node.js 20 or newer`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "mcp/oauth-in-module/serverless.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read mcp/oauth-in-module/serverless.yml:15 at this commit: `runtime: nodejs24.x # the MCP SDK requires Node.js 20 or newer`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs24.x",
+      "path": "sandboxes/self-hosted-webhook/serverless.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read sandboxes/self-hosted-webhook/serverless.yml:17 at this commit: `runtime: nodejs24.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

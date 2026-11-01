@@ -4,8 +4,11 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
+import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
+
 async function corpusAndValidator() {
-  const corpus = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8"));
+  // The schema exercises mutate fields that the harness types omit (groundTruthSource) or narrow (ecosystem).
+  const corpus = (await loadPublicCorpus()) as any;
   const schema = JSON.parse(await readFile(resolve("schemas/public-validation.v1.schema.json"), "utf8"));
   return { corpus, validate: new Ajv2020({ allErrors: true }).compile(schema) };
 }
@@ -48,9 +51,7 @@ test("repository uniqueness remains a semantic check", async () => {
 });
 
 test("the public validation corpus is pinned, balanced, and audited", async () => {
-  const corpus = JSON.parse(
-    await readFile(resolve("benchmarks/public-repositories.json"), "utf8"),
-  ) as {
+  const corpus = (await loadPublicCorpus()) as {
     schemaVersion: string;
     repositories: Array<{
       repository: string;
@@ -72,7 +73,7 @@ test("the public validation corpus is pinned, balanced, and audited", async () =
 });
 
 test("every mined corpus entry cites a reviewed migration or a recorded maintainer review", async () => {
-  const corpus = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as {
+  const corpus = (await loadPublicCorpus()) as unknown as {
     repositories: Array<{
       repository: string;
       commit: string;
@@ -122,7 +123,7 @@ test("every mined corpus entry cites a reviewed migration or a recorded maintain
 });
 
 test("the corpus covers every shipped ecosystem with positive and zero-finding repositories", async () => {
-  const corpus = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as {
+  const corpus = (await loadPublicCorpus()) as {
     repositories: Array<{ ecosystem: string; expected: Array<{ ruleId: string }> }>;
   };
   assert.ok(corpus.repositories.length >= 50);

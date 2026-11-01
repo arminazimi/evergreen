@@ -1,0 +1,17 @@
+{
+  "repository": "jobbyphp/jobby",
+  "commit": "a02846de7056fa648e299c9ba426e7f73a9e26cb",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "path": "composer.json",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of composer.json reads `\"swiftmailer/swiftmailer\": \"^5.4|^6.0\"`. Packagist marks swiftmailer/swiftmailer abandoned and suggests symfony/mailer; the Symfony blog set Swiftmailer's end of maintenance for the end of November 2021."
+      }
+    }
+  ]
+}

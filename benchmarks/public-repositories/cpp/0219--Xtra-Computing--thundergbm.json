@@ -1,0 +1,26 @@
+{
+  "repository": "Xtra-Computing/thundergbm",
+  "commit": "e3f824e4bdeba9230f4230b121f87119f63c425c",
+  "ecosystem": "cpp",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read CMakeLists.txt:2 at this commit: `cmake_minimum_required(VERSION 3.4)`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read CMakeLists.txt:4 at this commit: `cmake_minimum_required(VERSION 2.8)`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

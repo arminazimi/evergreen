@@ -1,0 +1,7 @@
+{
+  "repository": "nsidc/vagrant-vsphere",
+  "commit": "afa71819e11ee18ae4c9d28570fd0a5377f7a620",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": []
+}

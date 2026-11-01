@@ -17,6 +17,7 @@ import { pathToFileURL } from "node:url";
 
 import type { LandingPage, Snapshot } from "./adoption-metrics.js";
 
+import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 import { getCapabilityManifest } from "../src/capabilities.js";
 import { REGISTRY_V2_SCHEMA_VERSION } from "../src/registry.js";
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
@@ -208,21 +209,15 @@ export function collectEcosystemMetrics(): EcosystemMetrics {
   };
 }
 
-/** Collects public benchmark corpus metrics from benchmarks/public-repositories.json. */
-export async function collectCorpusMetrics(corpusPath = "benchmarks/public-repositories.json"): Promise<CorpusMetrics> {
+/** Collects public benchmark corpus metrics from benchmarks/public-repositories/. */
+export async function collectCorpusMetrics(root = "."): Promise<CorpusMetrics> {
   const byEcosystem: Record<string, { repositories: number; expectedFindings: number }> = {};
   const bySelection: Record<string, number> = {};
   let totalRepositories = 0;
   let totalExpectedFindings = 0;
 
   try {
-    const raw = JSON.parse(await readFile(corpusPath, "utf8")) as {
-      repositories?: Array<{
-        ecosystem?: string;
-        selection?: string;
-        expected?: unknown[];
-      }>;
-    };
+    const raw = await loadPublicCorpus(root);
 
     if (Array.isArray(raw.repositories)) {
       for (const repo of raw.repositories) {
@@ -511,7 +506,7 @@ export async function collectReportData(options: CollectReportOptions = {}): Pro
   const [rules, ecosystems, corpus, adoption] = await Promise.all([
     collectRuleMetrics(join(root, "registry"), month),
     Promise.resolve(collectEcosystemMetrics()),
-    collectCorpusMetrics(join(root, "benchmarks", "public-repositories.json")),
+    collectCorpusMetrics(root),
     collectAdoptionMetrics({ adoptionDir: join(root, "metrics", "adoption"), month }),
   ]);
 

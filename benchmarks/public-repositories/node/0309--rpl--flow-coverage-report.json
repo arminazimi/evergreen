@@ -1,0 +1,53 @@
+{
+  "repository": "rpl/flow-coverage-report",
+  "commit": "835f0a6c978525747055419930ee97ec90505d57",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:16 at this commit: `\"node\": \">=10.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:16 at this commit: `\"node\": \">=10.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:16 at this commit: `\"node\": \">=10.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:16 at this commit: `\"node\": \">=10.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:69 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

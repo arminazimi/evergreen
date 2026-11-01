@@ -1,0 +1,32 @@
+{
+  "repository": "encode/httpx",
+  "commit": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test-suite.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    }
+  ]
+}

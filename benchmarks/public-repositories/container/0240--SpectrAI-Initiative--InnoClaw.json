@@ -1,0 +1,35 @@
+{
+  "repository": "SpectrAI-Initiative/InnoClaw",
+  "commit": "67231f373deac3db29f685985a5632b6c0eb0f08",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-25",
+      "path": ".github/workflows/ci.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:22 at this commit: `node-version: [24, 25]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-25",
+      "path": ".github/workflows/daily-summary.yml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/daily-summary.yml:44 at this commit: `node-version: '25'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-25",
+      "path": ".github/workflows/readme-whats-new.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/readme-whats-new.yml:49 at this commit: `node-version: '25'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

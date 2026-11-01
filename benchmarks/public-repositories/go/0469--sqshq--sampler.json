@@ -1,0 +1,26 @@
+{
+  "repository": "sqshq/sampler",
+  "commit": "9bc7ba732d31f32a917ad4b5605f00b76ebe0891",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of Dockerfile at this commit: `FROM ubuntu:focal`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of go.mod at this commit: `go 1.17`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.17 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

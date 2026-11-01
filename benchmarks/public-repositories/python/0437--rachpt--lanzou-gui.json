@@ -1,0 +1,17 @@
+{
+  "repository": "rachpt/lanzou-gui",
+  "commit": "e776633ee80a690994f08908cddbd4714896a2c7",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:17 at this commit: python_requires=\">=3.6\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

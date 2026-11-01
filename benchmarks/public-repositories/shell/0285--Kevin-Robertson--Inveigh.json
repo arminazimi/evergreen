@@ -1,0 +1,89 @@
+{
+  "repository": "Kevin-Robertson/Inveigh",
+  "commit": "7aea2e7213c9e89ad13fb132d048cf589c6a03f7",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dev.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dev.yml:18 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/dev.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dev.yml:21 at this commit: `uses: actions/setup-dotnet@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/dev.yml",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dev.yml:63 at this commit: `uses: softprops/action-gh-release@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/dev.yml",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/dev.yml:73 at this commit: `uses: softprops/action-gh-release@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:17 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:20 at this commit: `uses: actions/setup-dotnet@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:61 at this commit: `uses: softprops/action-gh-release@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:66 at this commit: `uses: softprops/action-gh-release@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "Inveigh/Protocols/Quiddity/Quiddity/Quiddity.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Inveigh/Protocols/Quiddity/Quiddity/Quiddity.csproj:4 at this commit: `<TargetFrameworks>net35;net462;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

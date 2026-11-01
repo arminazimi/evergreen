@@ -1,0 +1,17 @@
+{
+  "repository": "zolabar/trendPy",
+  "commit": "117f2086f5e1ff6fb3535187ce16c2c62f527e33",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "runtime.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read runtime.txt:1 at this commit: `python-3.8.13`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "repository": "Jackett/Jackett",
+  "commit": "9ce4f3973e6232199465e0230b018103db4bca03",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/DateTimeRoutines/DateTimeRoutines.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/DateTimeRoutines/DateTimeRoutines.csproj:4 at this commit: `<TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Jackett.Common/Jackett.Common.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Jackett.Common/Jackett.Common.csproj:4 at this commit: `<TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Jackett.IntegrationTests/Jackett.IntegrationTests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Jackett.IntegrationTests/Jackett.IntegrationTests.csproj:4 at this commit: `<TargetFrameworks>net9.0;net471</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Jackett.Server/Jackett.Server.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Jackett.Server/Jackett.Server.csproj:5 at this commit: `<TargetFrameworks>net9.0;net471</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Jackett.Service/Jackett.Service.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Jackett.Service/Jackett.Service.csproj:4 at this commit: `<TargetFramework>net9.0-windows</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Jackett.Test/Jackett.Test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Jackett.Test/Jackett.Test.csproj:4 at this commit: `<TargetFrameworks>net9.0;net471</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Jackett.Tray/Jackett.Tray.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Jackett.Tray/Jackett.Tray.csproj:4 at this commit: `<TargetFramework>net9.0-windows</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Jackett.Updater/Jackett.Updater.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Jackett.Updater/Jackett.Updater.csproj:4 at this commit: `<TargetFrameworks>net9.0;net471</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/issuebot.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/issuebot.yml:29 at this commit: `node-version: '18.x'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

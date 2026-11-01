@@ -1,0 +1,35 @@
+{
+  "repository": "vinifmor/bauh",
+  "commit": "b1ea479a3aed504e0ddc329f2474e9a93331927c",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:9 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "linux_dist/appimage/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of linux_dist/appimage/Dockerfile reads `FROM debian:bullseye-slim`, a Debian release line past its end-of-life."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:35 at this commit: python_requires=\">=3.5\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

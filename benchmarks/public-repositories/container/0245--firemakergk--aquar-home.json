@@ -1,0 +1,26 @@
+{
+  "repository": "firemakergk/aquar-home",
+  "commit": "ee1a452e9b68dbb901a58845148d79299881d64f",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:2 at this commit: `FROM node:16-slim as builder`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:15 at this commit: `FROM node:16-slim`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

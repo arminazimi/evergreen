@@ -1,0 +1,7 @@
+{
+  "repository": "skax-ca/iac-module-library",
+  "commit": "4700b98df00e093f0e0008b4fb9be92a7cec8c63",
+  "ecosystem": "terraform",
+  "selection": "blind",
+  "expected": []
+}

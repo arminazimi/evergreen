@@ -1,0 +1,62 @@
+{
+  "repository": "Isona/dirble",
+  "commit": "e2dea9f16dee2ba208b455f6fa61ca109bf9de2b",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 15 of .github/workflows/build.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 36 of .github/workflows/build.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 56 of .github/workflows/build.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 78,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 78 of .github/workflows/build.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 17 of Cargo.toml at this commit: `atty = \"0.2.11\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "Dockerfile",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of Dockerfile at this commit: `FROM debian:stretch`. The vendor lifecycle record Debian LTS (https://wiki.debian.org/LTS) lists this image release line as end-of-life."
+      }
+    }
+  ]
+}

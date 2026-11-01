@@ -1,0 +1,7 @@
+{
+  "repository": "archseer/enigma",
+  "commit": "b69c4a361dda1779ebed9280fb0919776abc3e9b",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

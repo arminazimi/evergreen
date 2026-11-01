@@ -1,0 +1,7 @@
+{
+  "repository": "kubernetes-up-and-running/examples",
+  "commit": "f1667ca4ce84383be46b468ca8cccf2eab078fe7",
+  "ecosystem": "kubernetes",
+  "selection": "targeted",
+  "expected": []
+}

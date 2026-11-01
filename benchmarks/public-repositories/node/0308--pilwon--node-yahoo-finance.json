@@ -1,0 +1,26 @@
+{
+  "repository": "pilwon/node-yahoo-finance",
+  "commit": "b220c2e80c2d9cbab599bd25426136d339dd63f4",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.request.deprecated",
+      "path": "package.json",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:35 at this commit: `\"request\": \"^2.88.2\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.request-promise.deprecated",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"request-promise\": \"^4.2.6\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

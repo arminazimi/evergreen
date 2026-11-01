@@ -1,0 +1,44 @@
+{
+  "repository": "lpereira/lwan",
+  "commit": "6a7b4ca7e05551bc1342718745e44a13c9ac1d2c",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/cifuzz.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/cifuzz.yml:22 at this commit: `uses: actions/upload-artifact@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/container-images.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/container-images.yml:21 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "Containerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of Containerfile reads `FROM docker.io/library/alpine:3.14.2 AS build`, an Alpine release line past its end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "Containerfile",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of Containerfile reads `FROM docker.io/library/alpine:3.14.2`, an Alpine release line past its end-of-life."
+      }
+    }
+  ]
+}

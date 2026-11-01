@@ -1,0 +1,26 @@
+{
+  "repository": "babylonhealth/Stevenson",
+  "commit": "e7f5aa102a37fa617fe534a6072f04fd3fb08df8",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.xcode.app-store-below-15",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `11.6`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "web.Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of web.Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+      }
+    }
+  ]
+}

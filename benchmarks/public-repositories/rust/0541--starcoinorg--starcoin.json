@@ -1,0 +1,386 @@
+{
+  "repository": "starcoinorg/starcoin",
+  "commit": "57559ea1a32c3af5a81d84668c9d4a40511991ed",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/benchmark_pr.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 26 of .github/workflows/benchmark_pr.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/benchmark.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 13 of .github/workflows/benchmark.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/benchmark.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 28 of .github/workflows/benchmark.yml at this commit: `uses: actions/upload-artifact@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build_test.yml",
+      "line": 90,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 90 of .github/workflows/build_test.yml at this commit: `uses: actions/checkout@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_docker_build.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 11 of .github/workflows/ci_docker_build.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/ci_docker_build.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 24 of .github/workflows/ci_docker_build.yml at this commit: `uses: docker/setup-buildx-action@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/ci_docker_build.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 28 of .github/workflows/ci_docker_build.yml at this commit: `uses: docker/login-action@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/ci_docker_build.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 33 of .github/workflows/ci_docker_build.yml at this commit: `uses: docker/login-action@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/ci_docker_build.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 39 of .github/workflows/ci_docker_build.yml at this commit: `uses: docker/build-push-action@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_monitor_scaler.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 14 of .github/workflows/ci_monitor_scaler.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codecov.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 13 of .github/workflows/codecov.yml at this commit: `uses: actions/checkout@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/dependabot_auto_merge.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 18 of .github/workflows/dependabot_auto_merge.yml at this commit: `uses: actions/github-script@v7`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/docker_build.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 16 of .github/workflows/docker_build.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/docker_build.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 29 of .github/workflows/docker_build.yml at this commit: `uses: docker/setup-buildx-action@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/docker_build.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 33 of .github/workflows/docker_build.yml at this commit: `uses: docker/login-action@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/docker_build.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 38 of .github/workflows/docker_build.yml at this commit: `uses: docker/login-action@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/docker_build.yml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 44 of .github/workflows/docker_build.yml at this commit: `uses: docker/build-push-action@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release_asset.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 23 of .github/workflows/release_asset.yml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release_asset.yml",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 63 of .github/workflows/release_asset.yml at this commit: `uses: actions/upload-artifact@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release_asset.yml",
+      "line": 98,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 98 of .github/workflows/release_asset.yml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release_asset.yml",
+      "line": 119,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 119 of .github/workflows/release_asset.yml at this commit: `uses: actions/upload-artifact@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/security_audit.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 15 of .github/workflows/security_audit.yml at this commit: `- uses: actions/checkout@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/sync_blocks.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 14 of .github/workflows/sync_blocks.yml at this commit: `uses: actions/checkout@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tps_benchmark.yml",
+      "line": 75,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 75 of .github/workflows/tps_benchmark.yml at this commit: `uses: actions/checkout@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/tps_benchmark.yml",
+      "line": 212,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 212 of .github/workflows/tps_benchmark.yml at this commit: `uses: actions/upload-artifact@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/update-networks-submodule.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 17 of .github/workflows/update-networks-submodule.yml at this commit: `uses: actions/checkout@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 298,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 298 of Cargo.toml at this commit: `atty = \"0.2.14\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ci/Dockerfile",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 11 of docker/ci/Dockerfile at this commit: `ENV DOTNET_ROOT \"${HOME}/.dotnet\"`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ci/Dockerfile",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of docker/ci/Dockerfile at this commit: `ENV Z3_EXE \"${HOME}/bin/z3\"`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ci/Dockerfile",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 14 of docker/ci/Dockerfile at this commit: `ENV CVC5_EXE \"${HOME}/bin/cvc5\"`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ci/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 15 of docker/ci/Dockerfile at this commit: `ENV BOOGIE_EXE \"${DOTNET_ROOT}/tools/boogie\"`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ci/Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 16 of docker/ci/Dockerfile at this commit: `ENV PATH \"${HOME}/.cargo/bin:/usr/lib/golang/bin:${HOME}/bin:${DOTNET_ROOT}:${DOTNET_ROOT}/tools:$PATH\"`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of docker/Dockerfile at this commit: `FROM ubuntu:bionic AS builder`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 44 of docker/Dockerfile at this commit: `FROM ubuntu:bionic`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "kube/manifest/aws/eks-admin-service-account.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 7 of kube/manifest/aws/eks-admin-service-account.yaml at this commit: `apiVersion: rbac.authorization.k8s.io/v1beta1`. The Kubernetes Deprecated API Migration Guide Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/) records this API version as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed",
+      "path": "kube/manifest/runner/actions-runner-controller.yaml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 8 of kube/manifest/runner/actions-runner-controller.yaml at this commit: `apiVersion: apiextensions.k8s.io/v1beta1`. The Kubernetes Deprecated API Migration Guide Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/) records this API version as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed",
+      "path": "kube/manifest/runner/actions-runner-controller.yaml",
+      "line": 237,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 237 of kube/manifest/runner/actions-runner-controller.yaml at this commit: `apiVersion: apiextensions.k8s.io/v1beta1`. The Kubernetes Deprecated API Migration Guide Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/) records this API version as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed",
+      "path": "kube/manifest/runner/actions-runner-controller.yaml",
+      "line": 2779,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 2779 of kube/manifest/runner/actions-runner-controller.yaml at this commit: `apiVersion: apiextensions.k8s.io/v1beta1`. The Kubernetes Deprecated API Migration Guide Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/) records this API version as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed",
+      "path": "kube/manifest/runner/actions-runner-controller.yaml",
+      "line": 5316,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 5316 of kube/manifest/runner/actions-runner-controller.yaml at this commit: `apiVersion: apiextensions.k8s.io/v1beta1`. The Kubernetes Deprecated API Migration Guide Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/) records this API version as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed",
+      "path": "kube/manifest/runner/actions-runner-controller.yaml",
+      "line": 8043,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 8043 of kube/manifest/runner/actions-runner-controller.yaml at this commit: `apiVersion: admissionregistration.k8s.io/v1beta1`. The Kubernetes Deprecated API Migration Guide Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/) records this API version as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed",
+      "path": "kube/manifest/runner/actions-runner-controller.yaml",
+      "line": 8105,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 8105 of kube/manifest/runner/actions-runner-controller.yaml at this commit: `apiVersion: admissionregistration.k8s.io/v1beta1`. The Kubernetes Deprecated API Migration Guide Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/) records this API version as removed."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain.toml",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 5 of rust-toolchain.toml at this commit: `channel = \"1.93.1\"`. The Rust project supports only its current stable release (https://releases.rs/); this pinned toolchain is outside that window."
+      }
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "repository": "n8henrie/pycookiecheat",
+  "commit": "eed8f7411fd498344a7c95592893828a42d20414",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/python-package.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/python-package.yml:25 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/python-package.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/python-package.yml:27 at this commit: `uses: actions/setup-python@v5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/python-publish.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/python-publish.yml:13 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/python-publish.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/python-publish.yml:15 at this commit: `uses: actions/setup-python@v5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": ".python-version",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:3 at this commit: `3.10.7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:4 at this commit: `3.9.13`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:5 at this commit: `3.8.13`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:6 at this commit: `3.7.13`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

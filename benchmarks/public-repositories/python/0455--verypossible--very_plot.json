@@ -1,0 +1,26 @@
+{
+  "repository": "verypossible/very_plot",
+  "commit": "7fafb3bd5d26a2ec7dea98b6edfb392658e589ea",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .tool-versions:1 at this commit: `python 3.8.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:4 at this commit: `description = \"Python plotting tools for Very\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

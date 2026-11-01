@@ -1,0 +1,26 @@
+{
+  "repository": "dartgfx/gpux",
+  "commit": "42a30ae6d526455bbf5057a27840c989ba153a10",
+  "ecosystem": "dart",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "packages/naga/native/rust-toolchain.toml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/naga/native/rust-toolchain.toml:2 at this commit: `channel = \"1.87.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "packages/wgpu/native/rust-toolchain.toml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/wgpu/native/rust-toolchain.toml:6 at this commit: `channel = \"1.92.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

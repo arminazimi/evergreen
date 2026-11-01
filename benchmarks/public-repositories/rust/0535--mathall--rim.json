@@ -1,0 +1,7 @@
+{
+  "repository": "mathall/rim",
+  "commit": "5e073ba58d79306fa3a7135554f70370a6ec9fca",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

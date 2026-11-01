@@ -1,0 +1,17 @@
+{
+  "repository": "mesalock-linux/mesalink",
+  "commit": "ef12dd6339e42a37a2c24fa4b8f0a3ce155563a5",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 9 of CMakeLists.txt at this commit: `cmake_minimum_required(VERSION 3.0)`. CMake 4.0 release notes (compatibility older than 3.5 removed) (https://cmake.org/cmake/help/latest/release/4.0.html) is the upstream record for this declaration."
+      }
+    }
+  ]
+}

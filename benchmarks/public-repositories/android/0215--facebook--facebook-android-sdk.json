@@ -1,0 +1,35 @@
+{
+  "repository": "facebook/facebook-android-sdk",
+  "commit": "c656f342d75a0182f1e9d17e50dab3daa4c50fcf",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/needs-attention.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/needs-attention.yml:12 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.stale.node20",
+      "path": ".github/workflows/stale.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/stale.yml:10 at this commit: `- uses: actions/stale@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "android.play-billing.version-8",
+      "path": "facebook-core/build.gradle.kts",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read facebook-core/build.gradle.kts:60 at this commit: `testImplementation(\"com.android.billingclient:billing:8.0.0\")`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

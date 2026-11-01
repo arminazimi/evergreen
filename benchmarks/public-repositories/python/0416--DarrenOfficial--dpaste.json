@@ -1,0 +1,125 @@
+{
+  "repository": "DarrenOfficial/dpaste",
+  "commit": "64068f7a78158a09babd5880f1384610ffc710c8",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/docker.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/docker.yml:14 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/docker.yml",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/docker.yml:51 at this commit: `uses: docker/login-action@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/docker.yml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/docker.yml:57 at this commit: `uses: docker/build-push-action@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".node-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .node-version:1 at this commit: `12.22.12`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:1 at this commit: `3.8.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:24 at this commit: `FROM python:3.10 as build`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.uglify-es.deprecated",
+      "path": "package.json",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:8 at this commit: `\"uglify-es\": \"3.3.10\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.cfg",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.cfg:35 at this commit: python_requires = >=3.8; the floor still admits release lines 3.8-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "tox.ini",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:7 at this commit: the envlist tests on py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:7 at this commit: the envlist also tests on py38 and py39; those lines are past end of life (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:2 at this commit: `3.7.5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:3 at this commit: `3.6.9`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .python-version:4 at this commit: `3.5.8`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

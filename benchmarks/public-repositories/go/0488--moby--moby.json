@@ -1,0 +1,53 @@
+{
+  "repository": "moby/moby",
+  "commit": "9aa9edfa787e08bb2da31694cd8a402876f32232",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "api/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of api/go.mod at this commit: `go 1.24`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.24 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "api/scripts/swagger-spec/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of api/scripts/swagger-spec/go.mod at this commit: `go 1.24`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.24 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "client/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of client/go.mod at this commit: `go 1.24`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.24 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.simple",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 59 of Dockerfile.simple at this commit: `ENV AUTO_GOPATH 1`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "man/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of man/go.mod at this commit: `go 1.19`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.19 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

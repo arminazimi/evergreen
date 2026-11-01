@@ -1,0 +1,17 @@
+{
+  "repository": "apex/up",
+  "commit": "66dbf6d5e8362e1bb008213845a6e01f95917f59",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 73 of go.mod at this commit: `go 1.13`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.13 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

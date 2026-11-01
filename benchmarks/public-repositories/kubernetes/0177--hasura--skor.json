@@ -1,0 +1,80 @@
+{
+  "repository": "hasura/skor",
+  "commit": "b3f02e3ec7202ae086c08e4f88c611821531af60",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:2 at this commit: `MAINTAINER vamshi@hasura.io`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:17 at this commit: `ENV DBNAME \"postgres\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:18 at this commit: `ENV PGUSER \"postgres\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:19 at this commit: `ENV PGPASS \"''\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:20 at this commit: `ENV PGHOST \"localhost\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:21 at this commit: `ENV PGPORT 5432`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:22 at this commit: `ENV WEBHOOKURL \"http://localhost:5000\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:23 at this commit: `ENV LOG_LEVEL \"2\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

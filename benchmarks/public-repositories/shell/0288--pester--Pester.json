@@ -1,0 +1,35 @@
+{
+  "repository": "pester/Pester",
+  "commit": "98e56d65da1642a7158992b50ded240c42a3ac18",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "global.json",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read global.json:4 at this commit: `\"version\": \"8.0.100\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/csharp/Pester/Pester.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/csharp/Pester/Pester.csproj:4 at this commit: `<TargetFrameworks>net8.0;net462</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/csharp/PesterTests/PesterTests.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/csharp/PesterTests/PesterTests.csproj:5 at this commit: `<TargetFramework>net8.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

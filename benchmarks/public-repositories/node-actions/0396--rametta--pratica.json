@@ -1,0 +1,17 @@
+{
+  "repository": "rametta/pratica",
+  "commit": "f9a438a26a29514fa07a939dd666680b7bab4539",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:15 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

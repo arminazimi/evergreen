@@ -1,0 +1,134 @@
+{
+  "repository": "lbdremy/solr-node-client",
+  "commit": "c1a2f2a3ec233a19f84b061eb01ff4ae718d14ef",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/integration-tests.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/integration-tests.yml:26 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/integration-tests.yml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/integration-tests.yml:31 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/linting.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/linting.yml:25 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/linting.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/linting.yml:30 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/solr-legacy.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/solr-legacy.yml:26 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/solr-legacy.yml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/solr-legacy.yml:31 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:24 at this commit: `\"node\": \">= 12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:24 at this commit: `\"node\": \">= 12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:24 at this commit: `\"node\": \">= 12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:24 at this commit: `\"node\": \">= 12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.request.deprecated",
+      "path": "package.json",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:32 at this commit: `\"request\": \"^2.88.2\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/integration-tests.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/integration-tests.yml:22 at this commit: `node-version: [16.x, 14.x, 12.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/linting.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/linting.yml:21 at this commit: `node-version: [16.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/solr-legacy.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/solr-legacy.yml:22 at this commit: `node-version: [16.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

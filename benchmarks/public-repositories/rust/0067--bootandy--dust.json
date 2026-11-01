@@ -1,0 +1,53 @@
+{
+  "repository": "bootandy/dust",
+  "commit": "6c20fae3e8bc63922e2f97dae1bdcf1512b1a255",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of Cargo.toml declares `ansi_term = \"0.12\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/bootandy/dust/commit/d39224d6707e7bc890ff546b2da793a5b46a2160 ('deps: switch from ansi_term to nu_ansi_term')."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v1`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 70 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v1`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 135,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 135 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v1`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 297,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 297 of .github/workflows/CICD.yml reads `uses: softprops/action-gh-release@v1`, which github-actions.action-gh-release.node20 reports."
+      }
+    }
+  ]
+}

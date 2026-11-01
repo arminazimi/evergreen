@@ -1,0 +1,53 @@
+{
+  "repository": "Dimi20cen/peario",
+  "commit": "18ed1e0550a5bd4dc6905344bf99ed6a5b9e2841",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/build.yml reads uses: actions/checkout@v2"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/release.yml reads uses: actions/checkout@v2"
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/Dimi20cen/peario/commit/667ffbf195df203851b2e8bf7902a9ab74548994"
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 37 of package.json declares `\"babel-eslint\": \"^10.0.3\"`, a package npm marks as deprecated in favour of @babel/eslint-parser."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:41 at this commit: `\"node-sass\": \"^9.0.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

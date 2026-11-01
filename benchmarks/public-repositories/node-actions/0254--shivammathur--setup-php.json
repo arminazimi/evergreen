@@ -1,0 +1,17 @@
+{
+  "repository": "shivammathur/setup-php",
+  "commit": "3bdfe21000ea9539e3a94c4f692f984b24fa97e0",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".node-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .node-version:1 at this commit: `20`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "repository": "AnimeKaizoku/EnterpriseALRobot",
+  "commit": "884aec1242d34e1f42ab0420618c1152dd1221f9",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:3 at this commit: `FROM python:3.10-slim-buster`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "runtime.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read runtime.txt:1 at this commit: `python-3.8.3`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

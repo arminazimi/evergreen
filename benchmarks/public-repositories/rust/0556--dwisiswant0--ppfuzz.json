@@ -1,0 +1,89 @@
+{
+  "repository": "dwisiswant0/ppfuzz",
+  "commit": "80982ec3984dd2ae4ab16a701e39aaee8027f9be",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 14 of .github/workflows/build.yaml at this commit: `uses: actions/checkout@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pr.yaml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 10 of .github/workflows/pr.yaml at this commit: `uses: actions/checkout@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-publish.yaml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 48 of .github/workflows/release-publish.yaml at this commit: `uses: actions/checkout@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release-publish.yaml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 57 of .github/workflows/release-publish.yaml at this commit: `uses: actions/cache@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release-publish.yaml",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 103 of .github/workflows/release-publish.yaml at this commit: `uses: softprops/action-gh-release@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-publish.yaml",
+      "line": 114,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 114 of .github/workflows/release-publish.yaml at this commit: `uses: actions/checkout@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release-publish.yaml",
+      "line": 117,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 117 of .github/workflows/release-publish.yaml at this commit: `uses: actions/cache@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/security-audit.yaml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 11 of .github/workflows/security-audit.yaml at this commit: `uses: actions/checkout@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 23 of Cargo.toml at this commit: `atty = \"0.2\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    }
+  ]
+}

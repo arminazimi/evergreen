@@ -1,0 +1,17 @@
+{
+  "repository": "urschrei/hexagrams",
+  "commit": "5690a18712e4a91f3331f96e34bc6d33af4c85f9",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "runtime.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read runtime.txt:1 at this commit: `python-3.8.3`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

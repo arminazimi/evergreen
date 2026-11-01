@@ -62,7 +62,8 @@ test("the labeller reads Action majors and Node.js versions from the text alone"
 
 test("every held-out repository is blind, pinned, and not in the main corpus; the recorded result matches the set", async () => {
   const held = JSON.parse(await readFile(resolve("benchmarks/held-out-repositories.json"), "utf8")) as { scope: string[]; repositories: Array<{ repository: string; commit: string; selection: string; expected: unknown[] }> };
-  const main = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: Array<{ repository: string }> };
+  const { loadPublicCorpus } = await import("../benchmarks/public-corpus.js");
+  const main = await loadPublicCorpus();
   const taken = new Set(main.repositories.map((entry) => entry.repository.toLowerCase()));
   assert.ok(held.repositories.length >= 15);
   for (const entry of held.repositories) {

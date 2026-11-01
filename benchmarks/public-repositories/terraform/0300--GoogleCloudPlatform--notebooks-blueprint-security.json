@@ -1,0 +1,80 @@
+{
+  "repository": "GoogleCloudPlatform/notebooks-blueprint-security",
+  "commit": "6deb8834472fbb69948a75d111a791a29b65a010",
+  "ecosystem": "terraform",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "main.tf",
+      "line": 195,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read main.tf:195 at this commit: `    \"${data.google_project.trusted_data.number}\",`; the whole string is one interpolation with no other text, so it is the deprecated interpolation-only form."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "main.tf",
+      "line": 196,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read main.tf:196 at this commit: `    \"${data.google_project.trusted_analytics.number}\",`; the whole string is one interpolation with no other text, so it is the deprecated interpolation-only form."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "main.tf",
+      "line": 197,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read main.tf:197 at this commit: `    \"${data.google_project.trusted_kms.number}\",`; the whole string is one interpolation with no other text, so it is the deprecated interpolation-only form."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "outputs.tf",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read outputs.tf:63 at this commit: `    \"${data.google_project.trusted_data.number}\",`; the whole string is one interpolation with no other text, so it is the deprecated interpolation-only form."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "outputs.tf",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read outputs.tf:64 at this commit: `    \"${data.google_project.trusted_analytics.number}\",`; the whole string is one interpolation with no other text, so it is the deprecated interpolation-only form."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "outputs.tf",
+      "line": 65,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read outputs.tf:65 at this commit: `    \"${data.google_project.trusted_kms.number}\",`; the whole string is one interpolation with no other text, so it is the deprecated interpolation-only form."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "test/setup/bq.tf",
+      "line": 81,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/setup/bq.tf:81 at this commit: `      table_id          = \"${local.pii_table_id}\",`; the whole string is one interpolation with no other text, so it is the deprecated interpolation-only form."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "test/setup/bq.tf",
+      "line": 147,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/setup/bq.tf:147 at this commit: `    table_id   = \"${local.pii_table_id}\"`; the whole string is one interpolation with no other text, so it is the deprecated interpolation-only form."
+      }
+    }
+  ]
+}

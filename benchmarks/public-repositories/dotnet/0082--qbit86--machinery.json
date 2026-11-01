@@ -1,0 +1,35 @@
+{
+  "repository": "qbit86/machinery",
+  "commit": "1215446db597a3930c9ebf86aee260683ebf2ad7",
+  "ecosystem": "dotnet",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "samples/Machinery.ContextDemo/Machinery.ContextDemo.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of samples/Machinery.ContextDemo/Machinery.ContextDemo.csproj reads `<TargetFramework>netcoreapp3.1</TargetFramework>`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved it in https://github.com/qbit86/machinery/commit/305a8367eec4c20f99ceef1055d0261bbefc1762 ('Update target framework from net5.0 to net6.0 in demo projects')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "samples/Machinery.PolymorphicReferenceStateDemo/Machinery.PolymorphicReferenceStateDemo.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of samples/Machinery.PolymorphicReferenceStateDemo/Machinery.PolymorphicReferenceStateDemo.csproj reads `<TargetFramework>net5.0</TargetFramework>`, a release line whose support ended on 2022-05-10 according to Microsoft's releases index. The maintainers moved it in https://github.com/qbit86/machinery/commit/305a8367eec4c20f99ceef1055d0261bbefc1762 ('Update target framework from net5.0 to net6.0 in demo projects')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "samples/Machinery.PolymorphicValueStateDemo/Machinery.PolymorphicValueStateDemo.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of samples/Machinery.PolymorphicValueStateDemo/Machinery.PolymorphicValueStateDemo.csproj reads `<TargetFramework>net5.0</TargetFramework>`, a release line whose support ended on 2022-05-10 according to Microsoft's releases index. The maintainers moved it in https://github.com/qbit86/machinery/commit/305a8367eec4c20f99ceef1055d0261bbefc1762 ('Update target framework from net5.0 to net6.0 in demo projects')."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "NixOS/nix-index",
+  "commit": "fb369a3ed3a3ea76963757aff508347014c0da35",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 33 of Cargo.toml at this commit: `atty = \"0.2.14\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    }
+  ]
+}

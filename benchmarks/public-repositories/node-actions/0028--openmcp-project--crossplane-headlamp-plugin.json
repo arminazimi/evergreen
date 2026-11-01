@@ -1,0 +1,35 @@
+{
+  "repository": "openmcp-project/crossplane-headlamp-plugin",
+  "commit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/e2e-tests.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/e2e-tests.yml:22 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/release.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:37 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/unit-tests.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/unit-tests.yml:17 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

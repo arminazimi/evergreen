@@ -1,0 +1,53 @@
+{
+  "repository": "smartcrabai/paperhanger",
+  "commit": "2bb7ab4c344692f8549aef8441edafc9af614450",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/build-and-push.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/build-and-push.yml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 66 of .github/workflows/build-and-push.yml reads uses: docker/setup-buildx-action@v3, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/build-and-push.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/build-and-push.yml reads node-version: 22.19.0, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/ci.yml reads node-version: 22.19.0, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

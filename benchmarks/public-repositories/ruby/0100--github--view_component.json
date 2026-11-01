@@ -1,0 +1,17 @@
+{
+  "repository": "github/view_component",
+  "commit": "98f060fa7429b7dbb3f6f16a65cd92d02717cfd2",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `2.7.1`, a Ruby 2.7 pin. The Ruby maintenance branches page marks Ruby 2.7 as end of life (security maintenance ended 2023-03-31)."
+      }
+    }
+  ]
+}

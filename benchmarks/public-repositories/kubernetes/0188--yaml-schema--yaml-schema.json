@@ -1,0 +1,161 @@
+{
+  "repository": "yaml-schema/yaml-schema",
+  "commit": "d7b7e16f9e8aae9016aa7f3fc71d8559945c2380",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/build.yaml",
+      "line": 146,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 146 of .github/workflows/build.yaml reads `uses: softprops/action-gh-release@v2`, a release the GitHub Actions rule github-actions.action-gh-release.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/build.yaml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 31 of .github/workflows/build.yaml reads `uses: actions/cache@v4`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/build.yaml",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 68 of .github/workflows/build.yaml reads `uses: actions/cache@v4`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yaml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of .github/workflows/build.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yaml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 66 of .github/workflows/build.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-tests.yaml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/ci-tests.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-tests.yaml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 37 of .github/workflows/ci-tests.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-tests.yaml",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 47 of .github/workflows/ci-tests.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-tests.yaml",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 59 of .github/workflows/ci-tests.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/claude-code-review.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/claude-code-review.yml reads `uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/claude.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of .github/workflows/claude.yml reads `uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish-crates.yaml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 27 of .github/workflows/publish-crates.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/update-homebrew-tap.yaml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of .github/workflows/update-homebrew-tap.yaml reads `uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/build.yaml",
+      "line": 140,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 140 of .github/workflows/build.yaml reads `uses: actions/download-artifact@v4`, a release the GitHub Actions rule github-actions.download-artifact.retired covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/build.yaml",
+      "line": 127,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 127 of .github/workflows/build.yaml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/claude-code-review.yml",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 60 of .github/workflows/claude-code-review.yml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/claude.yml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 66 of .github/workflows/claude.yml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "repository": "pytest-dev/pytest",
+  "commit": "c9c19f8e62c12834ad83193a1869cc82fe9c700e",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 27 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "tox.ini",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:7 at this commit: the envlist includes py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "tox.ini",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:14 at this commit: the envlist includes py310 factored environments (pexpect, xdist, twisted24, twisted25, asynctest, numpy, pluggymain, pylib); Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "tox.ini",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:18 at this commit: the envlist includes py310-freeze; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

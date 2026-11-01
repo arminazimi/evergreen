@@ -1,0 +1,53 @@
+{
+  "repository": "xunit/xunit.analyzers",
+  "commit": "5332ac88e46ad223bc44a0675439e3607be838eb",
+  "ecosystem": "dotnet",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/compat/xunit.analyzers.latest.tests/xunit.analyzers.latest.tests.csproj",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of src/compat/xunit.analyzers.latest.tests/xunit.analyzers.latest.tests.csproj reads `<TargetFrameworks>net8.0;net472</TargetFrameworks>`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity (net472 is .NET Framework and is not judged). There is no maintainer migration yet; the source is the vendor's announced date."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/xunit.analyzers.tests/xunit.analyzers.tests.csproj",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of src/xunit.analyzers.tests/xunit.analyzers.tests.csproj reads `<TargetFrameworks>net8.0;net472</TargetFrameworks>`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity (net472 is .NET Framework and is not judged). There is no maintainer migration yet; the source is the vendor's announced date."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/ci-signed.yaml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/ci-signed.yaml reads `8.0.x` in the `dotnet-version` input of `actions/setup-dotnet`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity. There is no maintainer migration yet; the source is the vendor's announced date."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/ci-unsigned.yaml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 27 of .github/workflows/ci-unsigned.yaml reads `8.0.x` in the `dotnet-version` input of `actions/setup-dotnet`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity. There is no maintainer migration yet; the source is the vendor's announced date."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/pull-request.yaml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 28 of .github/workflows/pull-request.yaml reads `8.0.x` in the `dotnet-version` input of `actions/setup-dotnet`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity. There is no maintainer migration yet; the source is the vendor's announced date."
+      }
+    }
+  ]
+}

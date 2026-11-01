@@ -1,0 +1,17 @@
+{
+  "repository": "CuteSurtr/NeedlemanWunschLean",
+  "commit": "7aaff9d59b1ce98fca3ee6e55899c558e2c01d46",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lean_action_ci.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/CuteSurtr/NeedlemanWunschLean/commit/90162967c2931a0eb4a0105da3f18ee0dac840bc"
+      }
+    }
+  ]
+}

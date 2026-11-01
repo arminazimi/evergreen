@@ -1,0 +1,7 @@
+{
+  "repository": "helm/helm",
+  "commit": "9b88efd62a6908fb11215f8e8b50c3c62a246df0",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": []
+}

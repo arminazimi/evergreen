@@ -1,0 +1,35 @@
+{
+  "repository": "shenweichen/GraphEmbedding",
+  "commit": "1027d10292de4dab266aec78bc54c6f6b220a04c",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:55 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:58 at this commit: `uses: actions/setup-python@v5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:28 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

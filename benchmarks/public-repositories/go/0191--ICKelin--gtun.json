@@ -1,0 +1,62 @@
+{
+  "repository": "ICKelin/gtun",
+  "commit": "c16fb72d72c773362aad78bb36e695d9569959c6",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/docker-image.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/docker-image.yml:16 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/go.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/go.yml:17 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/go.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/go.yml:20 at this commit: `uses: actions/setup-go@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.22",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go.mod:3 at this commit: `go 1.22`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker-build/gtun/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of docker-build/gtun/Dockerfile reads `FROM ubuntu:20.04`, an Ubuntu release line past its end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker-build/gtund/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of docker-build/gtund/Dockerfile reads `FROM ubuntu:20.04`, an Ubuntu release line past its end-of-life."
+      }
+    }
+  ]
+}

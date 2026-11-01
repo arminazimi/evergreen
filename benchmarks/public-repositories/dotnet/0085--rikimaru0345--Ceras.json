@@ -1,0 +1,44 @@
+{
+  "repository": "rikimaru0345/Ceras",
+  "commit": "de8798b368ea3983e9113be9a8db51ee6e9eda26",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.1",
+      "path": "samples/BinaryDemo/BinaryDemo.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of samples/BinaryDemo/BinaryDemo.csproj reads `<TargetFramework>netcoreapp2.1</TargetFramework>`; the 2.1 line is a release line whose support ended on 2021-08-21 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.2",
+      "path": "samples/LiveTesting/LiveTesting.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of samples/LiveTesting/LiveTesting.csproj reads `<TargetFrameworks>net47;netcoreapp2.2;</TargetFrameworks>`; the 2.2 line is a release line whose support ended on 2019-12-23 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.1",
+      "path": "samples/NetworkExample/NetworkExample.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of samples/NetworkExample/NetworkExample.csproj reads `<TargetFramework>netcoreapp2.1</TargetFramework>`; the 2.1 line is a release line whose support ended on 2021-08-21 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-2.2",
+      "path": "tests/Ceras.Test/Ceras.Test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of tests/Ceras.Test/Ceras.Test.csproj reads `<TargetFrameworks>net452;net47;netcoreapp2.2;</TargetFrameworks>`; the 2.2 line is a release line whose support ended on 2019-12-23 according to Microsoft's releases index."
+      }
+    }
+  ]
+}

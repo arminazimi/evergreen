@@ -1,0 +1,7 @@
+{
+  "repository": "laravel/laravel",
+  "commit": "e90c74ca717e9082d7463a2db50814fe565a3e44",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": []
+}

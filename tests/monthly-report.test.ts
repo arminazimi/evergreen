@@ -87,28 +87,34 @@ test("collectEcosystemMetrics returns ecosystems from capability manifest", () =
 
 test("collectCorpusMetrics parses repository counts and expected findings", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "evergreen-test-corpus-"));
-  const corpusFile = join(tempDir, "corpus.json");
   try {
-    const mockCorpus = {
-      schemaVersion: "evergreen.public-validation.v1",
-      repositories: [
-        {
-          repository: "org/repo-a",
-          ecosystem: "node",
-          selection: "targeted",
-          expected: [{ ruleId: "r1" }, { ruleId: "r2" }],
-        },
-        {
-          repository: "org/repo-b",
-          ecosystem: "python",
-          selection: "blind",
-          expected: [{ ruleId: "r3" }],
-        },
-      ],
-    };
-    await writeFile(corpusFile, JSON.stringify(mockCorpus));
+    const nodeDir = join(tempDir, "benchmarks", "public-repositories", "node");
+    const pythonDir = join(tempDir, "benchmarks", "public-repositories", "python");
+    const { mkdir } = await import("node:fs/promises");
+    await mkdir(nodeDir, { recursive: true });
+    await mkdir(pythonDir, { recursive: true });
+    await writeFile(
+      join(nodeDir, "0000--org--repo-a.json"),
+      `${JSON.stringify({
+        repository: "org/repo-a",
+        commit: "a".repeat(40),
+        ecosystem: "node",
+        selection: "targeted",
+        expected: [{ ruleId: "r1", path: "package.json", groundTruthSource: { kind: "maintainer-review", note: "package.json" } }, { ruleId: "r2", path: "package.json", groundTruthSource: { kind: "maintainer-review", note: "package.json" } }],
+      }, null, 2)}\n`,
+    );
+    await writeFile(
+      join(pythonDir, "0001--org--repo-b.json"),
+      `${JSON.stringify({
+        repository: "org/repo-b",
+        commit: "b".repeat(40),
+        ecosystem: "python",
+        selection: "blind",
+        expected: [{ ruleId: "r3", path: "pyproject.toml", groundTruthSource: { kind: "maintainer-review", note: "pyproject.toml" } }],
+      }, null, 2)}\n`,
+    );
 
-    const metrics = await collectCorpusMetrics(corpusFile);
+    const metrics = await collectCorpusMetrics(tempDir);
     assert.equal(metrics.totalRepositories, 2);
     assert.equal(metrics.totalExpectedFindings, 3);
     assert.equal(metrics.byEcosystem["node"]?.repositories, 1);
@@ -123,7 +129,7 @@ test("collectCorpusMetrics parses repository counts and expected findings", asyn
 });
 
 test("collectCorpusMetrics handles missing or invalid corpus path gracefully", async () => {
-  const metrics = await collectCorpusMetrics("invalid-corpus-path.json");
+  const metrics = await collectCorpusMetrics("invalid-corpus-path");
   assert.equal(metrics.totalRepositories, 0);
   assert.equal(metrics.totalExpectedFindings, 0);
   assert.deepEqual(metrics.byEcosystem, {});

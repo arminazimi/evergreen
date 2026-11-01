@@ -1,0 +1,17 @@
+{
+  "repository": "karimnaaji/vectiler",
+  "commit": "f9bd89e9446a91c26aa26d135646327d9b715e13",
+  "ecosystem": "cpp",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 2.8.7)`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "qgindi/LibreAutomate",
+  "commit": "0ee67843a2bd1a2d7412935a2f235496b8557c3d",
+  "ecosystem": "dotnet",
+  "selection": "targeted",
+  "expected": []
+}

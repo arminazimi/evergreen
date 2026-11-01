@@ -1,0 +1,17 @@
+{
+  "repository": "amigoscode/login-registration-backend",
+  "commit": "cdcda175982e23a3607e76ed9e7e80adeeafb5e4",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>15</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

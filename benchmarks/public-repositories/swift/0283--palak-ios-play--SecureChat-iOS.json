@@ -1,0 +1,17 @@
+{
+  "repository": "palak-ios-play/SecureChat-iOS",
+  "commit": "2e53db22e39f959744c68f5c425e8fc69e01cc02",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `3.2.2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

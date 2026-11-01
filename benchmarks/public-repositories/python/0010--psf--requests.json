@@ -1,0 +1,26 @@
+{
+  "repository": "psf/requests",
+  "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:2 at this commit: the envlist tests on py310 environments; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

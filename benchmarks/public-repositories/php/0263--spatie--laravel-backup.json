@@ -1,0 +1,7 @@
+{
+  "repository": "spatie/laravel-backup",
+  "commit": "956cec9685e0a6910b31b6df852d896e44ea0dba",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

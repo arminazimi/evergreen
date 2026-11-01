@@ -1,0 +1,26 @@
+{
+  "repository": "acode/copenhagen",
+  "commit": "a7f288047e24a1aad719ed4b30ffc495831013c8",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:9 at this commit: `\"node-sass\": \"^6.0.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:9 at this commit: `\"node-sass\": \"^6.0.1\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "piomin/sample-spring-reactive",
+  "commit": "a3338559767512f932c8439d96ec0d5cd2449fbb",
+  "ecosystem": "java",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>19</java.version>`, a compile level of JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

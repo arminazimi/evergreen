@@ -1,5 +1,4 @@
-import { readFile, rm } from "node:fs/promises";
-import { resolve } from "node:path";
+import { rm } from "node:fs/promises";
 
 import {
   assertSafeCacheDir,
@@ -9,7 +8,7 @@ import {
   resolveCorpusCacheDir,
   type CorpusCacheListing,
 } from "./corpus-cache.js";
-import type { CorpusRepositoryEntry } from "./corpus-harness.js";
+import { loadPublicCorpus } from "./public-corpus.js";
 
 const megabytes = (bytes: number): string => `${(bytes / 1_000_000).toFixed(1)} MB`;
 
@@ -40,7 +39,7 @@ try {
   fail(error instanceof Error ? error.message : String(error));
 }
 
-const corpus = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: CorpusRepositoryEntry[] };
+const corpus = await loadPublicCorpus();
 const currentKeys = new Set(corpus.repositories.map((entry) => corpusCacheKey(entry)));
 const listings = await listCorpusCache(cacheDir);
 const stale = listings.filter((entry) => !currentKeys.has(entry.name));

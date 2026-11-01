@@ -1,0 +1,53 @@
+{
+  "repository": "paritytech/parity-bitcoin",
+  "commit": "bf58a0d80ec196b99c9cf46b623b0a779af020f2",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "db/Cargo.toml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 19 of db/Cargo.toml at this commit: `tempdir = \"0.3\"`. The RustSec advisory database lists tempdir as unmaintained (https://rustsec.org/advisories/RUSTSEC-2018-0017.html)."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker/hub/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of docker/hub/Dockerfile at this commit: `FROM ubuntu:xenial`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/hub/Dockerfile",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 8 of docker/hub/Dockerfile at this commit: `ENV RUST_BACKTRACE 1`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker/ubuntu/Dockerfile",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 37 of docker/ubuntu/Dockerfile at this commit: `FROM ubuntu:bionic AS run`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "logs/Cargo.toml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 7 of logs/Cargo.toml at this commit: `ansi_term = \"0.9\"`. The RustSec advisory database lists ansi-term as unmaintained (https://rustsec.org/advisories/RUSTSEC-2021-0139.html)."
+      }
+    }
+  ]
+}

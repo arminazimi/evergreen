@@ -1,0 +1,17 @@
+{
+  "repository": "inikep/lizard",
+  "commit": "d3becc7e80d3eb01147c2f63bed2e23fac533f19",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "cmake_unofficial/CMakeLists.txt",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cmake_unofficial/CMakeLists.txt:9 at this commit: `cmake_minimum_required (VERSION 2.6)`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

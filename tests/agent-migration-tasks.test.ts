@@ -3,6 +3,8 @@ import { readdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
+import { loadPublicCorpusSync } from "../benchmarks/public-corpus.js";
+
 interface TaskCheck {
   path: string;
   mustNotMatch?: string;
@@ -36,9 +38,7 @@ function tasksFile(): TasksFile {
 }
 
 function corpus(): CorpusRepository[] {
-  return (JSON.parse(readFileSync(resolve("benchmarks/public-repositories.json"), "utf8")) as {
-    repositories: CorpusRepository[];
-  }).repositories;
+  return loadPublicCorpusSync().repositories as CorpusRepository[];
 }
 
 function registryRuleIds(): Set<string> {

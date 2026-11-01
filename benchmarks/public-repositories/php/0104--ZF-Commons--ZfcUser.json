@@ -1,0 +1,17 @@
+{
+  "repository": "ZF-Commons/ZfcUser",
+  "commit": "eaf4b5460da6f85e99c83d1dfd3d57715b22bad3",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "php.package.zendframework.zend-stdlib.abandoned",
+      "path": "composer.json",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 45 of composer.json reads `\"zendframework/zend-stdlib\": \"~2.1\"`. Packagist marks zendframework/zend-stdlib abandoned and suggests laminas/laminas-stdlib; the Laminas Project announced Zend Framework packages were archived when the project moved to Laminas."
+      }
+    }
+  ]
+}

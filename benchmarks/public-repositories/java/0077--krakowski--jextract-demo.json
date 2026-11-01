@@ -1,0 +1,17 @@
+{
+  "repository": "krakowski/jextract-demo",
+  "commit": "f439799e5de999b50161db125fd06e584c073e60",
+  "ecosystem": "java",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "build.gradle.kts",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of build.gradle.kts reads `languageVersion.set(JavaLanguageVersion.of(22))`, the Gradle toolchain JDK 22, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded and the Temurin support page lists as EOSL."
+      }
+    }
+  ]
+}

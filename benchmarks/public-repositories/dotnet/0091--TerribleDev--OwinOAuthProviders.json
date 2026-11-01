@@ -1,0 +1,7 @@
+{
+  "repository": "TerribleDev/OwinOAuthProviders",
+  "commit": "8b382b0429aeb656f54149ab6f3472dd559ae12f",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "expected": []
+}

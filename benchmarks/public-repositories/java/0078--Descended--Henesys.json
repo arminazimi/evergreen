@@ -1,0 +1,17 @@
+{
+  "repository": "Descended/Henesys",
+  "commit": "b10f1bd910c227b546727fb71c7239a636807b18",
+  "ecosystem": "java",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "java.maven.mysql.mysql-connector-java.relocated",
+      "path": "pom.xml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of pom.xml reads `<version>8.0.33</version>` for the dependency `mysql:mysql-connector-java` declared on lines 44 to 45. The artifact's own 8.0.33 POM on Maven Central declares a relocation to `com.mysql:mysql-connector-j`."
+      }
+    }
+  ]
+}

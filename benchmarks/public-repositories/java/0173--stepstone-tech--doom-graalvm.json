@@ -1,0 +1,17 @@
+{
+  "repository": "stepstone-tech/doom-graalvm",
+  "commit": "e8517e7e307580336c0eac51dfc75fdea6bc46a1",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of pom.xml reads `<java.version>19</java.version>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

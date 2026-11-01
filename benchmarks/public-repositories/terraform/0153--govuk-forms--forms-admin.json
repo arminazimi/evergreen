@@ -1,0 +1,26 @@
+{
+  "repository": "govuk-forms/forms-admin",
+  "commit": "435fec7f942a8563398389262f383012b8e0822b",
+  "ecosystem": "terraform",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "terraform.cli.end-of-support-1.13",
+      "path": ".review_apps/.terraform-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .review_apps/.terraform-version reads `1.13.5`, an exact Terraform 1.13.5 pin. Terraform 1.13 stopped being one of the two most recent release lines when Terraform 1.15.0 shipped on 2026-04-29 (https://github.com/hashicorp/terraform/releases/tag/v1.15.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+      }
+    },
+    {
+      "ruleId": "terraform.cli.end-of-support-1.13",
+      "path": ".review_apps/site.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of .review_apps/site.tf reads `required_version = \"~> 1.13.5\"`, which admits only Terraform 1.13.x patch releases. Terraform 1.13 stopped being one of the two most recent release lines when Terraform 1.15.0 shipped on 2026-04-29 (https://github.com/hashicorp/terraform/releases/tag/v1.15.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+      }
+    }
+  ]
+}

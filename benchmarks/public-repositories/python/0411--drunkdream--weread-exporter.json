@@ -1,0 +1,17 @@
+{
+  "repository": "drunkdream/weread-exporter",
+  "commit": "80a9ccb01647951cfac70f4554eb7741089f0263",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:36 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

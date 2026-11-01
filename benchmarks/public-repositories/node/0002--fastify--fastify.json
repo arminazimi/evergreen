@@ -1,0 +1,17 @@
+{
+  "repository": "fastify/fastify",
+  "commit": "f736849a10a9b2ca57fb09437feb8294cda76234",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/ci.yml",
+      "line": 133,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:133 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

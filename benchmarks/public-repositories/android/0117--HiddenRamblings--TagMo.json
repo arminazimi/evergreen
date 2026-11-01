@@ -1,0 +1,36 @@
+{
+  "repository": "HiddenRamblings/TagMo",
+  "commit": "d4e8246c9f087db70f2ad159a831f851127f033c",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "android.play-billing.version-8",
+      "path": "app/build.gradle",
+      "line": 150,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+        "note": "Reviewed independently at this commit: line 150 of app/build.gradle pins com.android.billingclient:billing:8.0.0; Google's Play Billing deprecation timeline records the version 8 support window and its 2027 deadline."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "app/libs/CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of app/libs/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "app/libs/free-reflection/CMakeLists.txt",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of app/libs/free-reflection/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0."
+      }
+    }
+  ]
+}

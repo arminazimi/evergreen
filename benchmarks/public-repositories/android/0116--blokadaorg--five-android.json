@@ -1,0 +1,18 @@
+{
+  "repository": "blokadaorg/five-android",
+  "commit": "99b572218a1c0f2b9d4fd152e34ad6b1b95d6767",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "android.play-billing.version-6",
+      "path": "app/build.gradle",
+      "line": 231,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+        "note": "Reviewed independently at this commit: line 231 of app/build.gradle pins com.android.billingclient:billing:6.2.1; Google's Play Billing deprecation timeline says version 6 can no longer be used for new releases."
+      }
+    }
+  ]
+}

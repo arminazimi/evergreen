@@ -1,0 +1,71 @@
+{
+  "repository": "replicate/cog",
+  "commit": "9b9f63390c08a2d1110956d50476331cdadd27e2",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yaml",
+      "line": 172,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yaml:172 at this commit: `uses: actions/upload-artifact@v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yaml",
+      "line": 204,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yaml:204 at this commit: `uses: actions/upload-artifact@v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yaml",
+      "line": 235,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yaml:235 at this commit: `uses: actions/upload-artifact@v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release-build.yaml",
+      "line": 246,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-build.yaml:246 at this commit: `uses: actions/upload-artifact@v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release-build.yaml",
+      "line": 294,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-build.yaml:294 at this commit: `uses: actions/upload-artifact@v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:19 at this commit: `requires-python = \">=3.10\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.21",
+      "path": "test-helpers/https-server/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test-helpers/https-server/go.mod:3 at this commit: `go 1.21`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

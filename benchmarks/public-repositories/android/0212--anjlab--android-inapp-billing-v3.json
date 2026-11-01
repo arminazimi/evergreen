@@ -1,0 +1,17 @@
+{
+  "repository": "anjlab/android-inapp-billing-v3",
+  "commit": "9ebae1976f4a047664a47b27263a63a659c09bc5",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "android.play-billing.version-9",
+      "path": "library/build.gradle",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read library/build.gradle:47 at this commit: `api 'com.android.billingclient:billing:9.1.0'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

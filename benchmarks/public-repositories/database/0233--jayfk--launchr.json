@@ -1,0 +1,53 @@
+{
+  "repository": "jayfk/launchr",
+  "commit": "2ca1d09bf4e107f8a9a6c716d4c1a8d18672fe56",
+  "ecosystem": "database",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "docker-compose.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:23 at this commit: `image: \"postgres:13.1\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-13",
+      "path": "docker-compose.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:23 at this commit: `image: \"postgres:13.1\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "docker/app/dev/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker/app/dev/Dockerfile:1 at this commit: `FROM python:3.9-slim-buster`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/app/dev/Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker/app/dev/Dockerfile:3 at this commit: `ENV PYTHONUNBUFFERED 1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/app/dev/Dockerfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker/app/dev/Dockerfile:4 at this commit: `ENV PYTHONDONTWRITEBYTECODE 1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

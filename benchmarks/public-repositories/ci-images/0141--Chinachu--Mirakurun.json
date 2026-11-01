@@ -1,0 +1,58 @@
+{
+  "repository": "Chinachu/Mirakurun",
+  "commit": "563a9e703061866c38847f4e5395447afa51ca72",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+        "note": "Reviewed at this commit: line 36 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+        "note": "Reviewed at this commit: line 70 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+        "note": "Reviewed at this commit: line 107 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 137,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+        "note": "Reviewed at this commit: line 137 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+      }
+    },
+    {
+      "ruleId": "npm.package.tslint.deprecated",
+      "path": "package.json",
+      "line": 116,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.npmjs.com/package/tslint",
+        "note": "Reviewed at this commit: line 116 of package.json depends on tslint ^6.1.3. npm marks tslint deprecated in favor of ESLint (https://www.npmjs.com/package/tslint)."
+      }
+    }
+  ]
+}

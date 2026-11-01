@@ -1,0 +1,107 @@
+{
+  "repository": "dotnet/sourcelink",
+  "commit": "40a5327a26ef250235be54143138325aedd35b79",
+  "ecosystem": "dotnet",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/Microsoft.Build.StandardCI/Microsoft.Build.StandardCI.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/Microsoft.Build.StandardCI/Microsoft.Build.StandardCI.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/Microsoft.Build.Tasks.Git/Microsoft.Build.Tasks.Git.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/Microsoft.Build.Tasks.Git/Microsoft.Build.Tasks.Git.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.AzureDevOpsServer.Git/Microsoft.SourceLink.AzureDevOpsServer.Git.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.AzureDevOpsServer.Git/Microsoft.SourceLink.AzureDevOpsServer.Git.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.AzureRepos.Git/Microsoft.SourceLink.AzureRepos.Git.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.AzureRepos.Git/Microsoft.SourceLink.AzureRepos.Git.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.Bitbucket.Git/Microsoft.SourceLink.Bitbucket.Git.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.Bitbucket.Git/Microsoft.SourceLink.Bitbucket.Git.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.Common/Microsoft.SourceLink.Common.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.Common/Microsoft.SourceLink.Common.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.Gitea/Microsoft.SourceLink.Gitea.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.Gitea/Microsoft.SourceLink.Gitea.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.Gitee/Microsoft.SourceLink.Gitee.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.Gitee/Microsoft.SourceLink.Gitee.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.GitHub/Microsoft.SourceLink.GitHub.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.GitHub/Microsoft.SourceLink.GitHub.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.GitLab/Microsoft.SourceLink.GitLab.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.GitLab/Microsoft.SourceLink.GitLab.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "src/SourceLink.GitWeb/Microsoft.SourceLink.GitWeb.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of src/SourceLink.GitWeb/Microsoft.SourceLink.GitWeb.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+      }
+    }
+  ]
+}

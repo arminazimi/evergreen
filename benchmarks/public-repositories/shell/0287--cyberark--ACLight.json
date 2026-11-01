@@ -1,0 +1,7 @@
+{
+  "repository": "cyberark/ACLight",
+  "commit": "0a68a65acecab0a8fb583321b5fa830ca0ea6f24",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "haltakov/natural-language-image-search",
+  "commit": "280f4736686b4436aa73c9219a7c4a9669ae78f0",
+  "ecosystem": "serverless",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "unsplash-proxy/serverless.yml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of unsplash-proxy/serverless.yml reads `runtime: python3.8` under `provider:`. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    }
+  ]
+}

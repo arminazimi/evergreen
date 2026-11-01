@@ -1,0 +1,44 @@
+{
+  "repository": "bjdash/apic",
+  "commit": "bc6434a7d22bc18cab58c1b7a389897aafe35bec",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.angular.core.v18-and-older.end-of-support",
+      "path": "package.json",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:27 at this commit: `\"@angular/core\": \"^13.3.9\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.crypto-js.deprecated",
+      "path": "package.json",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:37 at this commit: `\"crypto-js\": \"^4.1.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.protractor.deprecated",
+      "path": "package.json",
+      "line": 78,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:78 at this commit: `\"protractor\": \"~7.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.tslint.deprecated",
+      "path": "package.json",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:80 at this commit: `\"tslint\": \"^6.1.3\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

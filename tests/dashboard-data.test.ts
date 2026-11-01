@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
 
+import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 import { countEvidence, earnedLevel } from "../benchmarks/thresholds.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 import {
@@ -15,13 +16,11 @@ import {
   renderDashboardData,
   OUTPUT_FILE,
 } from "../tools/build-dashboard-data.js";
-import type { CorpusRepository } from "../tools/build-dashboard-data.js";
 
 const execute = promisify(execFile);
 const script = resolve("dist/tools/build-dashboard-data.js");
 const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
-const corpus = (JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: CorpusRepository[] })
-  .repositories;
+const corpus = (await loadPublicCorpus()).repositories;
 const runDate = thresholds.lastFullRun!.date;
 const build = (today = runDate) => buildDashboardData({ thresholds, corpus, today });
 
@@ -151,7 +150,8 @@ test("the definitions cover every metric, name a committed source, and the limit
   assert.deepEqual(Object.keys(data.definitions), keys);
   for (const [key, definition] of Object.entries(data.definitions)) {
     assert.ok(definition.label && definition.meaning && definition.computation, key);
-    await readFile(resolve(definition.source), "utf8");
+    const source = await stat(resolve(definition.source));
+    assert.ok(source.isFile() || source.isDirectory(), `${key} source ${definition.source}`);
   }
   assert.equal(
     data.limitations[0],

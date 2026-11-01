@@ -1,0 +1,26 @@
+{
+  "repository": "phmatray/claude-deck",
+  "commit": "d1325af2d9d883d86288312079d1bca012ee10c2",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/ci.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:32 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/release-please.yml",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-please.yml:80 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

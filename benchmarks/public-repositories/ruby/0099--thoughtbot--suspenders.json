@@ -1,0 +1,26 @@
+{
+  "repository": "thoughtbot/suspenders",
+  "commit": "484729486cc986af84ab43b1ffd20793ded7537a",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/main.yml reads `- uses: actions/checkout@v4`"
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.2.2`, a Ruby 3.2 pin. The Ruby maintenance branches page marks Ruby 3.2 as end of life (security maintenance ended 2026-04-01). Maintainers later raised the pin in https://github.com/thoughtbot/suspenders/commit/6df98d3e7dac5fa95612424f75039d6e35e1f0cb."
+      }
+    }
+  ]
+}

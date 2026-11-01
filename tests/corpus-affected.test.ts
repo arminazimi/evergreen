@@ -12,7 +12,7 @@ import {
   REGISTRY_ECOSYSTEMS,
   SHARED_FILE_ECOSYSTEMS,
 } from "../benchmarks/corpus-affected.js";
-import type { CorpusRepositoryEntry } from "../benchmarks/corpus-harness.js";
+import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 
 const names = (paths: string[]) => affectedEcosystems(paths).map((entry) => entry.ecosystem);
@@ -46,6 +46,12 @@ test("a shared-file change runs the ecosystems that depend on it", () => {
   assert.deepEqual(names(["src/detectors/index.ts"]), [...CORPUS_ECOSYSTEMS]);
 });
 
+test("editing one corpus repository file runs only that ecosystem", () => {
+  assert.deepEqual(names(["benchmarks/public-repositories/php/0102--laravel--laravel.json"]), ["php"]);
+  assert.deepEqual(names(["benchmarks/public-repositories/node/0000--expressjs--express.json"]), ["node"]);
+  assert.deepEqual(names(["benchmarks/public-corpus.ts"]), [...CORPUS_ECOSYSTEMS]);
+});
+
 test("unrelated and no-corpus paths map to nothing", () => {
   assert.deepEqual(names(["docs/VALIDATION.md", "src/cli.ts", "tests/fixtures/unlisted/x"]), []);
   assert.deepEqual(describeAffected([], 3), ["No corpus ecosystem is affected by the 3 changed files; nothing to run."]);
@@ -70,7 +76,7 @@ test("--changed takes an optional base", () => {
 });
 
 test("every corpus ecosystem and every built-in detector is covered by the map", async () => {
-  const corpus = JSON.parse(await readFile("benchmarks/public-repositories.json", "utf8")) as { repositories: CorpusRepositoryEntry[] };
+  const corpus = await loadPublicCorpus();
   const used = new Set(corpus.repositories.map((entry) => entry.ecosystem));
   const mapped = new Set([...Object.values(DETECTOR_ECOSYSTEMS), ...Object.values(REGISTRY_ECOSYSTEMS)].flat());
   for (const ecosystem of used) assert.ok(mapped.has(ecosystem), `corpus ecosystem ${ecosystem} is not reachable from any detector or registry path`);

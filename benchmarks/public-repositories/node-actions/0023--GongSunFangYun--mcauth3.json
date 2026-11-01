@@ -1,0 +1,53 @@
+{
+  "repository": "GongSunFangYun/mcauth3",
+  "commit": "769857cab1e0fef95e84d0685df3a8d28333b241",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/python-package.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/python-package.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/python-package.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/python-package.yml reads uses: actions/setup-python@v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/python-package.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 42 of .github/workflows/python-package.yml reads uses: actions/setup-python@v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+      }
+    }
+  ]
+}

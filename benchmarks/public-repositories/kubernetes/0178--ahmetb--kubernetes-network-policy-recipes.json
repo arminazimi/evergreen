@@ -1,0 +1,7 @@
+{
+  "repository": "ahmetb/kubernetes-network-policy-recipes",
+  "commit": "11f5018e269359d9f900ae3b5c2e94c306623053",
+  "ecosystem": "kubernetes",
+  "selection": "targeted",
+  "expected": []
+}

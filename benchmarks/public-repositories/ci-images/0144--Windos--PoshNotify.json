@@ -1,0 +1,7 @@
+{
+  "repository": "Windos/PoshNotify",
+  "commit": "039de20fe5099a97c2a1e3b04c1885a84bc2ac98",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": []
+}

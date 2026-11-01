@@ -1,0 +1,7 @@
+{
+  "repository": "dimforge/nphysics",
+  "commit": "65aa85c5470a5da85e0c13652ce58400ae2e2201",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

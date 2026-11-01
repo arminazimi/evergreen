@@ -1,0 +1,17 @@
+{
+  "repository": "fanchangyong/deershare",
+  "commit": "3a28439b492921c09fbcc4ca5d3958162242f8b5",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM node:16`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

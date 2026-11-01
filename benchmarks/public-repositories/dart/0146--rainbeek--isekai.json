@@ -1,0 +1,125 @@
+{
+  "repository": "rainbeek/isekai",
+  "commit": "840bfbef8efac0b49dba839dc80a3369caa02a3f",
+  "ecosystem": "dart",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/cd_dev.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/cd_dev.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/cd_dev.yml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 66 of .github/workflows/cd_dev.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/cd_regular-beta-release.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/cd_regular-beta-release.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_code.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_code.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 42 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_code.yml",
+      "line": 78,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 78 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_code.yml",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 107 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_code.yml",
+      "line": 142,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 142 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_dependabot.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 28 of .github/workflows/ci_dependabot.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci_pr.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 27 of .github/workflows/ci_pr.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.3.0`, an Xcode 16 pin. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later since April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-3.8",
+      "path": "pubspec.lock",
+      "line": 1158,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1158 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-3.8",
+      "path": "pubspec.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+      }
+    }
+  ]
+}

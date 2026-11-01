@@ -1,0 +1,161 @@
+{
+  "repository": "Gerapy/Gerapy",
+  "commit": "f2c2a9772a718cb7879e0b6db002b7cfda7c4156",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:24 at this commit: `uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:26 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build_docker_image_master.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build_docker_image_master.yml:14 at this commit: `uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/build_docker_image_master.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build_docker_image_master.yml:18 at this commit: `uses: actions/setup-node@v2.3.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build_docker_image_release.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build_docker_image_release.yml:11 at this commit: `uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/build_docker_image_release.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build_docker_image_release.yml:15 at this commit: `uses: actions/setup-node@v2.3.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/codeql-analysis.yml:41 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM python:3.10-slim AS build`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:17 at this commit: `FROM python:3.10-slim`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.package.django-2.2.eol",
+      "path": "pyproject.toml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:4 at this commit: `description = \"Distributed Crawler Management Framework Based on Scrapy, Scrapyd, Scrapyd-Client, Scrapyd-API, Django and Vue.js.\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:13 at this commit: `# Trove classifiers - https://packaging.python.org/specifications/core-metadata/#metadata-classifier`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:19 at this commit: `ENV GERAPY_HOME_DIR ${GERAPY_HOME_DIR:-/home/gerapy}`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:20 at this commit: `ENV GERAPY_GROUP ${GERAPY_GROUP:-gerapy}`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:21 at this commit: `ENV GERAPY_GID ${GERAPY_GID:-10000}`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:22 at this commit: `ENV GERAPY_USER ${GERAPY_USER:-gerapy}`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:23 at this commit: `ENV GERAPY_UID ${GERAPY_UID:-10000}`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:24 at this commit: `ENV GERAPY_PORT ${GERAPY_PORT:-8000}`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "serverlesspub/imagemagick-aws-lambda-2",
+  "commit": "141ce4cd7543001b3f7742e51ca30ccb73c84596",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs10.x",
+      "path": "example/template.yaml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read example/template.yaml:31 at this commit: `Runtime: nodejs10.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

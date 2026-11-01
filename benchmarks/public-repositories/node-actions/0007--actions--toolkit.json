@@ -1,0 +1,26 @@
+{
+  "repository": "actions/toolkit",
+  "commit": "7e25f67e8fd17369aa21e6e816ac99654106e0dc",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/update-github.yaml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of .github/workflows/update-github.yaml reads uses: actions/github-script@v6, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/unit-tests.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/unit-tests.yml:23 at this commit: `node-version: [20.x, 24.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

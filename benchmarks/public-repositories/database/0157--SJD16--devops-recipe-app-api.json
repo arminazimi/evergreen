@@ -1,0 +1,107 @@
+{
+  "repository": "SJD16/devops-recipe-app-api",
+  "commit": "58bfbd28ade524aa896618b9f2a148f017404397",
+  "ecosystem": "database",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "docker-compose.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of docker-compose.yml is `image: postgres:13-alpine`, an image release line the vendor has ended (PostgreSQL versioning policy, https://www.postgresql.org/support/versioning/)."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of Dockerfile is `FROM python:3.9-alpine3.13`, an image release line the vendor has ended (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-12",
+      "path": "infra/deploy/database.tf",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 43 of infra/deploy/database.tf reads `engine_version             = \"12.22\"`, PostgreSQL 12, which the PostgreSQL versioning policy lists as unsupported (final release 2024-11-21; https://www.postgresql.org/support/versioning/)."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-13",
+      "path": "docker-compose.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of docker-compose.yml reads `image: postgres:13-alpine`, PostgreSQL 13, which the PostgreSQL versioning policy lists as unsupported (final release 2025-11-13; https://www.postgresql.org/support/versioning/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/deploy.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/destroy.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/destroy.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test-and-lint.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/test-and-lint.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test-and-lint.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of .github/workflows/test-and-lint.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/test-and-lint.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/test-and-lint.yml reads `uses: docker/login-action@v3`, which github-actions.login-action.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/test-and-lint.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of .github/workflows/test-and-lint.yml reads `uses: docker/login-action@v3`, which github-actions.login-action.node20 reports."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:4 at this commit: `ENV PYTHONUNBUFFERED 1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "repository": "Off-World-Live/obs-spout2-plugin",
+  "commit": "02e5667d831566174380cd1ad9703f2949f95132",
+  "ecosystem": "cpp",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-project.yaml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-project.yaml:23 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-project.yaml",
+      "line": 82,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-project.yaml:82 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/build-project.yaml",
+      "line": 124,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-project.yaml:124 at this commit: `uses: actions/upload-artifact@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/check-format.yaml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/check-format.yaml:8 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/push.yaml",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/push.yaml:59 at this commit: `uses: actions/download-artifact@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/push.yaml",
+      "line": 106,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/push.yaml:106 at this commit: `uses: softprops/action-gh-release@9d7c94cfd0a1f3ed45544c887983e9fa900f0564`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

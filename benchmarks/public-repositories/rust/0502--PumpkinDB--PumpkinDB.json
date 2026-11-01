@@ -1,0 +1,44 @@
+{
+  "repository": "PumpkinDB/PumpkinDB",
+  "commit": "f37b0b586357cafd2fd0eba8bea9072665af0b00",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 31 of Dockerfile at this commit: `FROM ubuntu:16.04`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "pumpkindb_engine/Cargo.toml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 28 of pumpkindb_engine/Cargo.toml at this commit: `tempdir = \"0.3.5\"`. The RustSec advisory database lists tempdir as unmaintained (https://rustsec.org/advisories/RUSTSEC-2018-0017.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "pumpkindb_term/Cargo.toml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 20 of pumpkindb_term/Cargo.toml at this commit: `ansi_term = \"0.9.0\"`. The RustSec advisory database lists ansi-term as unmaintained (https://rustsec.org/advisories/RUSTSEC-2021-0139.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "tests/doctests/Cargo.toml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 14 of tests/doctests/Cargo.toml at this commit: `tempdir = \"0.3.5\"`. The RustSec advisory database lists tempdir as unmaintained (https://rustsec.org/advisories/RUSTSEC-2018-0017.html)."
+      }
+    }
+  ]
+}

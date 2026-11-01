@@ -1,0 +1,89 @@
+{
+  "repository": "shepherd44/helm-charts",
+  "commit": "760766f9d968cef10a1e76ffdc1f82ea92f9028f",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 31 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 97,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 97 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 165,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 165 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 198,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 198 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-oci.yaml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of .github/workflows/release-oci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-verify.yaml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/release-verify.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 43 of .github/workflows/ci.yaml reads `- uses: actions/setup-python@v5`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 205,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 205 of .github/workflows/ci.yaml reads `- uses: actions/setup-python@v5`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/release-verify.yaml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/release-verify.yaml reads `- uses: actions/setup-python@v5`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "repository": "Swinject/Swinject",
+  "commit": "b685b549fe4d8ae265fc7a2f27d0789720425d69",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/Pod Lint.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/Pod Lint.yml:17 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/Project Testing.yml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/Project Testing.yml:41 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/SPM Testing.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/SPM Testing.yml:17 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

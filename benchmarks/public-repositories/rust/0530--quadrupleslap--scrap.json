@@ -1,0 +1,7 @@
+{
+  "repository": "quadrupleslap/scrap",
+  "commit": "de3cd4cd8610f1cac7f80e29f59dbdb93ffefc6d",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

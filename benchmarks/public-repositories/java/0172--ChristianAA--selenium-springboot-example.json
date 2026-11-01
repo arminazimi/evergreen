@@ -1,0 +1,62 @@
+{
+  "repository": "ChristianAA/selenium-springboot-example",
+  "commit": "ddff135b662affb350288451b8195516554ffd19",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/daily-test.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/daily-test.yml reads `uses: actions/checkout@v3`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/daily-test.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/daily-test.yml reads `uses: actions/setup-java@v3`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/daily-test.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of .github/workflows/daily-test.yml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of pom.xml reads `<java.version>18</java.version>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of pom.xml reads `<source>18</source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of pom.xml reads `<target>18</target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

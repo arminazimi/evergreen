@@ -1,0 +1,35 @@
+{
+  "repository": "KaitoJD/btchess",
+  "commit": "82955bba0451935d34aba92d56fc045ea3076597",
+  "ecosystem": "dart",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/pr_check.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of .github/workflows/pr_check.yml reads uses: actions/github-script@v6, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-3.8",
+      "path": "pubspec.lock",
+      "line": 1220,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1220 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-3.8",
+      "path": "pubspec.yaml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+      }
+    }
+  ]
+}

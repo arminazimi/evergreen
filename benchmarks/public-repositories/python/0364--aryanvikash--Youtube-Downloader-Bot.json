@@ -1,0 +1,17 @@
+{
+  "repository": "aryanvikash/Youtube-Downloader-Bot",
+  "commit": "9910023d39d39b5f44963be43f0d5f40f7905d8d",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "runtime.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read runtime.txt:1 at this commit: `python-3.8.7`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

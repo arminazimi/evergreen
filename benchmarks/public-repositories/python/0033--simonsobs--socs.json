@@ -1,0 +1,17 @@
+{
+  "repository": "simonsobs/socs",
+  "commit": "4413b27a567feee21a9e331bc60497c8458448aa",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/simonsobs/socs/commit/f22f0b56a89d463b3357034d353020e3bdb2f62b"
+      }
+    }
+  ]
+}

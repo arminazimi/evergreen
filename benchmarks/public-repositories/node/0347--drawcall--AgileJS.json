@@ -1,0 +1,44 @@
+{
+  "repository": "drawcall/AgileJS",
+  "commit": "f6c46d25d0566456cb0c0c9a93a531d876b797b4",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:26 at this commit: `\"babel-eslint\": \"^8.2.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-preset-es2015.deprecated",
+      "path": "package.json",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:27 at this commit: `\"babel-preset-es2015\": \"^6.24.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.rollup-plugin-babel.deprecated",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"rollup-plugin-babel\": \"^3.0.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.uglify-es.deprecated",
+      "path": "package.json",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:41 at this commit: `\"uglify-es\": \"^3.3.9\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

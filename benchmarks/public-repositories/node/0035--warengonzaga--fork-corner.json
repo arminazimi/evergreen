@@ -1,0 +1,26 @@
+{
+  "repository": "warengonzaga/fork-corner",
+  "commit": "996156beb522c2cbb10f735d8a92d884178e1a42",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/warengonzaga/fork-corner/commit/e9d93d63eea6ec48acae00eb9c484631e9cdbf83"
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:41 at this commit: `\"node-sass\": \"^5.0.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

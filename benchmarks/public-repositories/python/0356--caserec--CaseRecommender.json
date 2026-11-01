@@ -1,0 +1,7 @@
+{
+  "repository": "caserec/CaseRecommender",
+  "commit": "779bc5dd91ff704ce60c0f3fafd07e2eba689dd7",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

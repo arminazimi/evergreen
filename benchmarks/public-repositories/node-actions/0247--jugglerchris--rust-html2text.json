@@ -1,0 +1,44 @@
+{
+  "repository": "jugglerchris/rust-html2text",
+  "commit": "3164eb0d303b63fe66848bd7842e93ac31078ae5",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:18 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/jekyll-gh-pages.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/jekyll-gh-pages.yml:26 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.configure-pages.node20",
+      "path": ".github/workflows/jekyll-gh-pages.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/jekyll-gh-pages.yml:28 at this commit: `uses: actions/configure-pages@v5`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.deploy-pages.node20",
+      "path": ".github/workflows/jekyll-gh-pages.yml",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/jekyll-gh-pages.yml:56 at this commit: `uses: actions/deploy-pages@v4`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

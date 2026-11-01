@@ -49,5 +49,5 @@ Each finding carries its rule's sources, replacement, migration steps, and verif
 
 ## Evidence
 
-Five public repositories are pinned in `benchmarks/public-repositories.json` under the `shell` ecosystem: four targeted repositories with `#Requires -Version` declarations on retired releases and one blind, zero-finding repository. Each expected finding is a reviewed line at the pinned commit, checked against Microsoft's lifecycle table and not against Evergreen output. Precision on this corpus does not establish coverage of the unsupported forms above.
+Five public repositories are pinned in `benchmarks/public-repositories/` under the `shell` ecosystem: four targeted repositories with `#Requires -Version` declarations on retired releases and one blind, zero-finding repository. Each expected finding is a reviewed line at the pinned commit, checked against Microsoft's lifecycle table and not against Evergreen output. Precision on this corpus does not establish coverage of the unsupported forms above.
 {% endraw %}

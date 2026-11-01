@@ -1,0 +1,44 @@
+{
+  "repository": "casey/just",
+  "commit": "0363b25013c193ea67ed7fea87946142393e2b21",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of Cargo.toml declares `ansi_term = \"0.12.0\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/casey/just/commit/49b5f3ba78fd58df66e72ca292700e8992aa0a1a ('Switch from ansi_term to nu_ansi_term')."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yaml",
+      "line": 127,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 127 of .github/workflows/release.yaml reads `uses: softprops/action-gh-release@v2.6.1`, which github-actions.action-gh-release.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yaml",
+      "line": 137,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 137 of .github/workflows/release.yaml reads `uses: softprops/action-gh-release@v2.6.1`, which github-actions.action-gh-release.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yaml",
+      "line": 185,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 185 of .github/workflows/release.yaml reads `uses: softprops/action-gh-release@v2.6.1`, which github-actions.action-gh-release.node20 reports."
+      }
+    }
+  ]
+}

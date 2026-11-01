@@ -1,0 +1,17 @@
+{
+  "repository": "Swizec/lambda-screenshot-as-a-service",
+  "commit": "8873c4f4ad9ed95e58186ff11798d07a023210dc",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "serverless.yml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of serverless.yml reads `runtime: nodejs14.x` under `provider:`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    }
+  ]
+}

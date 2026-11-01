@@ -1,0 +1,17 @@
+{
+  "repository": "ZeroSharp/serverless-php",
+  "commit": "20fb85d0afc01b04c6646bf4b958b2929b778ad2",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "serverless.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serverless.yml:22 at this commit: `runtime: nodejs14.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "d-unsed/ruru",
+  "commit": "587f1c40b741c5e62bf9bf8736c0158f8cd5210e",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

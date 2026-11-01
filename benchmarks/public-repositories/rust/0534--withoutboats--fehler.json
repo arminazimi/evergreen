@@ -1,0 +1,7 @@
+{
+  "repository": "withoutboats/fehler",
+  "commit": "cc7b192f935bd27c30f1bc4ee6dd2a5aed53b900",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

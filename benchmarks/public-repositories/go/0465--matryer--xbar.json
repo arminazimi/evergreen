@@ -1,0 +1,125 @@
+{
+  "repository": "matryer/xbar",
+  "commit": "d624239058997c80118eaebe2e7f8331b3c765e0",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy-xbarappcom.yaml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 16 of .github/workflows/deploy-xbarappcom.yaml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/deploy-xbarappcom.yaml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 21 of .github/workflows/deploy-xbarappcom.yaml at this commit: `uses: actions/setup-go@v3`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "app/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of app/go.mod at this commit: `go 1.16`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.16 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "archive/bitbar/App/Vendor/DateTools/Examples/DateToolsExample/DateToolsExample.xcodeproj/project.pbxproj",
+      "line": 735,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 735 of archive/bitbar/App/Vendor/DateTools/Examples/DateToolsExample/DateToolsExample.xcodeproj/project.pbxproj at this commit: `IPHONEOS_DEPLOYMENT_TARGET = 7.0;`. Apple's published requirement iOS and iPadOS minimum system requirements — App Store upcoming requirements (https://developer.apple.com/news/upcoming-requirements/?id=0992026a) applies to this pinned Xcode version."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "archive/bitbar/App/Vendor/DateTools/Examples/DateToolsExample/DateToolsExample.xcodeproj/project.pbxproj",
+      "line": 749,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 749 of archive/bitbar/App/Vendor/DateTools/Examples/DateToolsExample/DateToolsExample.xcodeproj/project.pbxproj at this commit: `IPHONEOS_DEPLOYMENT_TARGET = 7.0;`. Apple's published requirement iOS and iPadOS minimum system requirements — App Store upcoming requirements (https://developer.apple.com/news/upcoming-requirements/?id=0992026a) applies to this pinned Xcode version."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "archive/bitbar/App/Vendor/DateTools/Tests/DateToolsTests/DateToolsTests.xcodeproj/project.pbxproj",
+      "line": 467,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 467 of archive/bitbar/App/Vendor/DateTools/Tests/DateToolsTests/DateToolsTests.xcodeproj/project.pbxproj at this commit: `IPHONEOS_DEPLOYMENT_TARGET = 7.0;`. Apple's published requirement iOS and iPadOS minimum system requirements — App Store upcoming requirements (https://developer.apple.com/news/upcoming-requirements/?id=0992026a) applies to this pinned Xcode version."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "archive/bitbar/App/Vendor/DateTools/Tests/DateToolsTests/DateToolsTests.xcodeproj/project.pbxproj",
+      "line": 481,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 481 of archive/bitbar/App/Vendor/DateTools/Tests/DateToolsTests/DateToolsTests.xcodeproj/project.pbxproj at this commit: `IPHONEOS_DEPLOYMENT_TARGET = 7.0;`. Apple's published requirement iOS and iPadOS minimum system requirements — App Store upcoming requirements (https://developer.apple.com/news/upcoming-requirements/?id=0992026a) applies to this pinned Xcode version."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "pkg/metadata/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of pkg/metadata/go.mod at this commit: `go 1.15`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.15 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "pkg/plugins/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of pkg/plugins/go.mod at this commit: `go 1.15`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.15 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "pkg/update/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of pkg/update/go.mod at this commit: `go 1.16`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.16 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.22",
+      "path": "tools/sitegen/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of tools/sitegen/go.mod at this commit: `go 1.22`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.22 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "tools/xbarmdcheck/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of tools/xbarmdcheck/go.mod at this commit: `go 1.16`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.16 line is older than both and receives no security fixes."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "xbarapp.com/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of xbarapp.com/go.mod at this commit: `go 1.19`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.19 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

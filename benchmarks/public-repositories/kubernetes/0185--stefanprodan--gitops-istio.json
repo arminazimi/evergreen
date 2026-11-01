@@ -1,0 +1,53 @@
+{
+  "repository": "stefanprodan/gitops-istio",
+  "commit": "3851e1802537cd5f7f833b05502f6db1f4528f47",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/analyze.yaml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/analyze.yaml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/e2e.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/e2e.yaml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/inject-sidecar.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/inject-sidecar.yaml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/update-istio.yaml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/update-istio.yaml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/inject-sidecar.yaml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of .github/workflows/inject-sidecar.yaml reads `- uses: \"actions/setup-python@v2\"`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+      }
+    }
+  ]
+}

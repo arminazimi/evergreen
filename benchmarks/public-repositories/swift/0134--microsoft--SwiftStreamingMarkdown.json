@@ -1,0 +1,17 @@
+{
+  "repository": "microsoft/SwiftStreamingMarkdown",
+  "commit": "95bb755a9b23a1aea8682b9ebc912cb72b176c95",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.0`, an Xcode 16 pin. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later since April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    }
+  ]
+}

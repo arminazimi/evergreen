@@ -1,0 +1,80 @@
+{
+  "repository": "nestjsx/crud",
+  "commit": "d6d3c4ebd844d543ab71b494d424660c448a9d42",
+  "ecosystem": "database",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.mysql.eol-8.0-and-older",
+      "path": "docker-compose.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of docker-compose.yml is `image: mysql:5.7`, an image release line the vendor has ended (https://endoflife.date/mysql)."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "docker-compose.yml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of docker-compose.yml is `image: postgres:11.5`, an image release line the vendor has ended (PostgreSQL versioning policy, https://www.postgresql.org/support/versioning/)."
+      }
+    },
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "docker-compose.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of docker-compose.yml reads `image: mysql:5.7`, MySQL 5.7, which reached end of life on 2023-10-31 (MySQL lifecycle, https://www.mysql.com/support/supportedplatforms/database.html; https://endoflife.date/mysql)."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-11",
+      "path": "docker-compose.yml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of docker-compose.yml reads `image: postgres:11.5`, PostgreSQL 11, which the PostgreSQL versioning policy lists as unsupported (final release 2023-11-09; https://www.postgresql.org/support/versioning/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/release.yml reads `uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tests.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/tests.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 112,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 112 of .github/workflows/release.yml reads `uses: actions/github-script@0.8.0`, which github-actions.github-script.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+      }
+    }
+  ]
+}

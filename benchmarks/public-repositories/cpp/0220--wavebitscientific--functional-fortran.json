@@ -1,0 +1,26 @@
+{
+  "repository": "wavebitscientific/functional-fortran",
+  "commit": "2457a66531b3b803db36928fec21d74a20434830",
+  "ecosystem": "cpp",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:25 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read CMakeLists.txt:2 at this commit: `cmake_minimum_required(VERSION 2.8 FATAL_ERROR)`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

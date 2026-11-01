@@ -1,0 +1,35 @@
+{
+  "repository": "ashokatechmin/Messcat",
+  "commit": "a732456db4828ce5bcaba25a1ec2af585927d3ea",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/deploy.yml:21 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/update-data.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/update-data.yml:18 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "serverless.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serverless.yml:22 at this commit: `runtime: nodejs14.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

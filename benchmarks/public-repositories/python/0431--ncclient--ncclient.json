@@ -1,0 +1,44 @@
+{
+  "repository": "ncclient/ncclient",
+  "commit": "937ce511474634826ee085e61412354aff4565bb",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/check.yaml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/check.yaml:41 at this commit: `- uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:36 at this commit: `requires-python = \">=3.7\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "tox.ini",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:3 at this commit: the envlist tests on py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:3 at this commit: the envlist also tests on py38 and py39; those lines are past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

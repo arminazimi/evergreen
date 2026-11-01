@@ -1,0 +1,17 @@
+{
+  "repository": "Toola-bakery/Toola",
+  "commit": "573151f1784accefd9a982ab5e495416277703ea",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "serverless/serverless.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serverless/serverless.yml:11 at this commit: `runtime: nodejs14.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

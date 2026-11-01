@@ -1,0 +1,35 @@
+{
+  "repository": "dflemstr/rq",
+  "commit": "eb2f033051f7068cb2a6a85dac9e47204cc88cf2",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Cargo.toml:28 at this commit: `ansi_term = \"0.12.1\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Cargo.toml:29 at this commit: `atty = \"0.2.14\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "Cargo.toml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Cargo.toml:34 at this commit: `failure = \"0.1.8\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

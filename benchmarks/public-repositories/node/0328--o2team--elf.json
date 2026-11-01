@@ -1,0 +1,62 @@
+{
+  "repository": "o2team/elf",
+  "commit": "ae49a2afd6ee03d82ee688b6d1c5ad8b5d1936fb",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:12 at this commit: `\"node\": \">=6\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:12 at this commit: `\"node\": \">=6\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:12 at this commit: `\"node\": \">=6\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:12 at this commit: `\"node\": \">=6\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:51 at this commit: `\"node-sass\": \"4.14.1\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:51 at this commit: `\"node-sass\": \"4.14.1\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

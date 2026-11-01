@@ -34,7 +34,7 @@ jobs:
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ env.EVERGREEN_CORPUS_CACHE }}
-          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories.json') }}
+          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories/**') }}
           restore-keys: |
             corpus-checkouts-
       # Refuses to record a partial or failing run; the step then fails and no pull request is opened.

@@ -1,0 +1,143 @@
+{
+  "repository": "livgust/covid-vaccine-scrapers",
+  "commit": "3433936c5a6400aa6406cec61b977e0b6768aadd",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "template.yaml",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 73 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "template.yaml",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 107 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "template.yaml",
+      "line": 137,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 137 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "template.yaml",
+      "line": 162,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 162 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "template.yaml",
+      "line": 188,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 188 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "template.yaml",
+      "line": 220,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 220 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "template.yaml",
+      "line": 254,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 254 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of package.json reads `\"node\": \">= 14.0.0\"`, a Node.js range that includes release line 18, which has ended."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of package.json reads `\"node\": \">= 14.0.0\"`, a Node.js range that includes release line 19, which has ended."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of package.json reads `\"node\": \">= 14.0.0\"`, a Node.js range that includes release line 20, which has ended."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of package.json reads `\"node\": \">= 14.0.0\"`, a Node.js range that includes legacy release lines past end of support."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/nodejs.yaml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/nodejs.yaml reads uses: actions/checkout@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/prod_deploy.yaml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/prod_deploy.yaml reads uses: actions/checkout@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/nodejs.yaml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/nodejs.yaml reads uses: actions/setup-node@v1, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/nodejs.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/nodejs.yaml:14 at this commit: `node-version: [14.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

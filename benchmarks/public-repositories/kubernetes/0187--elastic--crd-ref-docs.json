@@ -1,0 +1,62 @@
+{
+  "repository": "elastic/crd-ref-docs",
+  "commit": "fdfed81f54d565946e44564623a57ac2c11f3b06",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/release.yml reads `uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/build.yml reads `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/release.yml reads `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "test/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of test/go.mod reads `go 1.20`, a release the GitHub Actions rule go.runtime.end-of-support-1.20-and-older covers."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of go.mod reads `go 1.25.0`, a release the GitHub Actions rule go.runtime.end-of-support-1.25 covers."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "go.mod",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of go.mod reads `toolchain go1.25.6`, a release the GitHub Actions rule go.runtime.end-of-support-1.25 covers."
+      }
+    }
+  ]
+}

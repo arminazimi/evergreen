@@ -1,0 +1,35 @@
+{
+  "repository": "knrt10/kubernetes-basicLearning",
+  "commit": "5a50f7cc6100f210e7b8211aa56e5a459a807cc7",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of Dockerfile reads `FROM node:8`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "kubia-unhealthy/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of kubia-unhealthy/Dockerfile reads `FROM node:8`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+      }
+    },
+    {
+      "ruleId": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+      "path": "kubia-ingress.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of kubia-ingress.yaml reads `apiVersion: networking.k8s.io/v1beta1` on a `kind: ingress` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+      }
+    }
+  ]
+}

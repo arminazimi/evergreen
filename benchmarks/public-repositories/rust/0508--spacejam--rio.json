@@ -1,0 +1,7 @@
+{
+  "repository": "spacejam/rio",
+  "commit": "319f7fb04014aa88540c3539bd97d5a0006a1eb9",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

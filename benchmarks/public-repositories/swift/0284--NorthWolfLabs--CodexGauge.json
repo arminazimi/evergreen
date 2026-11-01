@@ -1,0 +1,44 @@
+{
+  "repository": "NorthWolfLabs/CodexGauge",
+  "commit": "f8f15322dc40cfd8af6cf8aebae9daf9c648f111",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yml",
+      "line": 143,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:143 at this commit: `uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 154,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:154 at this commit: `uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 218,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:218 at this commit: `uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 359,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release.yml:359 at this commit: `uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

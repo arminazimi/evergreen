@@ -1,0 +1,7 @@
+{
+  "repository": "facebook/docusaurus",
+  "commit": "7b6826b8476167008640cfb71105b9bb6c4f99f9",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": []
+}

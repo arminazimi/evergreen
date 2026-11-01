@@ -1,0 +1,170 @@
+{
+  "repository": "umami-software/umami",
+  "commit": "43499eb4fd0b1d617f6f052174f1da6f21653892",
+  "ecosystem": "container",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of Dockerfile is FROM node:16-alpine AS deps, an image release line the vendor has ended."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of Dockerfile is FROM node:16-alpine AS builder, an image release line the vendor has ended."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of Dockerfile is ENV DATABASE_TYPE $DATABASE_TYPE, the space-separated legacy form that Docker's LegacyKeyValueFormat build check flags. The value is one variable reference, so key=\"$DATABASE_TYPE\" keeps it."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of Dockerfile is ENV BASE_PATH $BASE_PATH, the space-separated legacy form that Docker's LegacyKeyValueFormat build check flags. The value is one variable reference, so key=\"$BASE_PATH\" keeps it."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of Dockerfile is ENV NEXT_TELEMETRY_DISABLED 1, the space-separated legacy form that Docker's LegacyKeyValueFormat build check flags. The value is a literal 1, so key=value would not change it."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of Dockerfile is FROM node:16-alpine AS runner, an image release line the vendor has ended."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of Dockerfile is ENV NODE_ENV production, the space-separated legacy form that Docker's LegacyKeyValueFormat build check flags. The value is a literal word, so key=value would not change it."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of Dockerfile is ENV NEXT_TELEMETRY_DISABLED 1, the space-separated legacy form that Docker's LegacyKeyValueFormat build check flags. The value is a literal 1, so key=value would not change it."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 53 of Dockerfile is ENV PORT 3000, the space-separated legacy form that Docker's LegacyKeyValueFormat build check flags. The value is a literal port number, so key=value would not change it."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "docker-compose.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of docker-compose.yml is image: postgres:12-alpine, an image release line the vendor has ended. The maintainers moved it to postgres:15-alpine in https://github.com/umami-software/umami/commit/01559c4c63e805dc2416112d8deba6b2ea0d98b2."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-12",
+      "path": "docker-compose.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of docker-compose.yml is image: postgres:12-alpine, PostgreSQL 12, which the PostgreSQL versioning policy lists as unsupported (final release 2024-11-21). The maintainers moved it to postgres:15-alpine in https://github.com/umami-software/umami/commit/01559c4c63e805dc2416112d8deba6b2ea0d98b2."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/cd-manual.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/cd-manual.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/cd.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/cd.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 31 of .github/workflows/ci.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "npm.package.next.13.support-end",
+      "path": "package.json",
+      "line": 92,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 92 of package.json reads `\"next\": \"^13.2.3\"` under dependencies. Next.js 13 is listed under Unsupported Versions in the support policy (https://nextjs.org/support-policy)."
+      }
+    },
+    {
+      "ruleId": "npm.package.react-beautiful-dnd.deprecated",
+      "path": "package.json",
+      "line": 98,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed 2026-10-19 at this pinned commit, package.json line 98: react-beautiful-dnd is declared as ^13.1.0; npm explicitly deprecates matching version 13.1.1 (https://registry.npmjs.org/react-beautiful-dnd/13.1.1)."
+      }
+    },
+    {
+      "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+      "path": "package.json",
+      "line": 140,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed 2026-10-19 at this pinned commit, package.json line 140: rollup-plugin-terser is declared as ^7.0.2; npm explicitly deprecates matching version 7.0.2 (https://registry.npmjs.org/rollup-plugin-terser/7.0.2)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "prometheus/prometheus",
+  "commit": "ef78ff64267724c8ecd1a1283cad49b365a8b67f",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": []
+}

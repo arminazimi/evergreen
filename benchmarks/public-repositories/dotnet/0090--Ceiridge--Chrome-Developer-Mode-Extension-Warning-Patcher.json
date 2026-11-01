@@ -1,0 +1,80 @@
+{
+  "repository": "Ceiridge/Chrome-Developer-Mode-Extension-Warning-Patcher",
+  "commit": "936977542ecfb025b784cd457fcbfd7dffbe5f5c",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/buildandrelease.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of .github/workflows/buildandrelease.yml reads `- uses: actions/checkout@v2`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/buildandrelease.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 42 of .github/workflows/buildandrelease.yml reads `uses: actions/setup-dotnet@v3`; actions/setup-dotnet v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/buildandrelease.yml",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 63 of .github/workflows/buildandrelease.yml reads `- uses: actions/upload-artifact@v2`; releases of actions/upload-artifact below v7 use a retired artifact service or JavaScript runtime."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/buildandrelease.yml",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 68 of .github/workflows/buildandrelease.yml reads `- uses: actions/upload-artifact@v2`; releases of actions/upload-artifact below v7 use a retired artifact service or JavaScript runtime."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "ChromeDevExtWarningPatcher/ChromeDevExtWarningPatcher.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of ChromeDevExtWarningPatcher/ChromeDevExtWarningPatcher.csproj reads `<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "ChromeDllInjector/ChromeDllInjector.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of ChromeDllInjector/ChromeDllInjector.csproj reads `<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "ChromeDllInjectorBuildZipper/ChromeDllInjectorBuildZipper.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of ChromeDllInjectorBuildZipper/ChromeDllInjectorBuildZipper.csproj reads `<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": ".github/workflows/buildandrelease.yml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 44 of .github/workflows/buildandrelease.yml reads `dotnet-version: '6.0.x'` for `actions/setup-dotnet`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+      }
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "repository": "Kalpa-Services/mmg-wp-plugin",
+  "commit": "d9983d87b94800042d30cd098ae55fc8e7a5bfeb",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/phpcs.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/phpcs.yml reads `uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/phpunit.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/phpunit.yml reads `- uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/release.yml reads `- uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of .github/workflows/release.yml reads `- uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/phpcs.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 37 of .github/workflows/phpcs.yml reads `uses: actions/github-script@v6`; actions/github-script v8 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/phpunit.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of .github/workflows/phpunit.yml reads `uses: actions/github-script@v6`; actions/github-script v8 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of .github/workflows/release.yml reads `uses: actions/setup-go@v4`; actions/setup-go v6.2.0 is the first release that declares node24, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of composer.json reads `\"php\": \"7.4\"` under config.platform. The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 2022-11-28."
+      }
+    }
+  ]
+}

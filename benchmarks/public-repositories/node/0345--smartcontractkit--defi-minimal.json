@@ -1,0 +1,7 @@
+{
+  "repository": "smartcontractkit/defi-minimal",
+  "commit": "d25b2b4fa4fbc0968162aab4fe0808fd2f75452f",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

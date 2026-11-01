@@ -1,0 +1,17 @@
+{
+  "repository": "sharpjs/Sharp.BlobStorage",
+  "commit": "b0c237c81b0b7a85f4e092f774d92760c04d1793",
+  "ecosystem": "dotnet",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "path": "Sharp.BlobStorage.Azure.Tests/Sharp.BlobStorage.Azure.Tests.csproj",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 31 of Sharp.BlobStorage.Azure.Tests/Sharp.BlobStorage.Azure.Tests.csproj reads `<PackageReference Include=\"WindowsAzure.Storage\" Version=\"9.3.1\" />`; NuGet marks every version of WindowsAzure.Storage deprecated (Legacy, obsolete as of 2023-03-31, replacement Azure.Storage.Common). The maintainers replaced it in https://github.com/sharpjs/Sharp.BlobStorage/commit/26833317d776b12bd1db04adb21e72cd746adf2c ('Replace WindowsAzure.Storage with Azure.Storage.Blobs')."
+      }
+    }
+  ]
+}

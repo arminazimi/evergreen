@@ -57,4 +57,4 @@ Each finding carries its rule's sources, replacement, migration steps, and verif
 
 ## Evidence
 
-Five public repositories are pinned in `benchmarks/public-repositories.json` under the `database` ecosystem: four targeted repositories with Compose or Terraform declarations and one blind, zero-finding repository. Their ground truth cites the vendors' lifecycle sources, not Evergreen output. Precision on this corpus does not establish coverage of the unsupported forms above.
+Five public repositories are pinned in `benchmarks/public-repositories/` under the `database` ecosystem: four targeted repositories with Compose or Terraform declarations and one blind, zero-finding repository. Their ground truth cites the vendors' lifecycle sources, not Evergreen output. Precision on this corpus does not establish coverage of the unsupported forms above.

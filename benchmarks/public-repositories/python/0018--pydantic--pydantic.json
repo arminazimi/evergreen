@@ -1,0 +1,26 @@
+{
+  "repository": "pydantic/pydantic",
+  "commit": "44d5e1e8fc8198ecd0083a00a05e099aba0423ab",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pydantic-core/pyproject.toml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 8 of pydantic-core/pyproject.toml reads `requires-python = '>=3.10'`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 45 of pyproject.toml reads `requires-python = '>=3.10'`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+      }
+    }
+  ]
+}

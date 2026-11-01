@@ -1,0 +1,422 @@
+{
+  "repository": "microsoft/FASTER",
+  "commit": "332ea7da532a688acf648ee60c4f63a1caeaf1f7",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 107,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:107 at this commit: `vmImage: ubuntu-22.04`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 133,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:133 at this commit: `vmImage: ubuntu-20.04`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/benchmark/FASTER.benchmark.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/benchmark/FASTER.benchmark.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/performance/BenchmarkDotNet/BenchmarkDotNetTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/performance/BenchmarkDotNet/BenchmarkDotNetTests.csproj:3 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/playground/AsyncStress/AsyncStress.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/playground/AsyncStress/AsyncStress.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/playground/CacheStoreConcurrent/CacheStoreConcurrent.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/playground/CacheStoreConcurrent/CacheStoreConcurrent.csproj:6 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/playground/ClassRecoveryDurability/ClassRecoveryDurability.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/playground/ClassRecoveryDurability/ClassRecoveryDurability.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/playground/FasterLogMLSDTest/FasterLogStress.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/playground/FasterLogMLSDTest/FasterLogStress.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/playground/MemoryDb/MemoryDb.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/playground/MemoryDb/MemoryDb.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/playground/SumStore/SumStore.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/playground/SumStore/SumStore.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/playground/TstRunner/TstRunner.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/playground/TstRunner/TstRunner.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/benchmark/FASTER.benchmark/FASTER.benchmark.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/benchmark/FASTER.benchmark/FASTER.benchmark.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/samples/FixedLenClient/FixedLenClient.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/samples/FixedLenClient/FixedLenClient.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/samples/FixedLenServer/FixedLenServer.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/samples/FixedLenServer/FixedLenServer.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/samples/VarLenClient/VarLenClient.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/samples/VarLenClient/VarLenClient.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/samples/VarLenServer/VarLenServer.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/samples/VarLenServer/VarLenServer.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "cs/remote/src/FASTER.client/FASTER.client.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/src/FASTER.client/FASTER.client.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/src/FASTER.client/FASTER.client.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/src/FASTER.client/FASTER.client.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "cs/remote/src/FASTER.common/FASTER.common.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/src/FASTER.common/FASTER.common.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/src/FASTER.common/FASTER.common.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/src/FASTER.common/FASTER.common.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "cs/remote/src/FASTER.server/FASTER.server.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/src/FASTER.server/FASTER.server.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/src/FASTER.server/FASTER.server.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/src/FASTER.server/FASTER.server.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "cs/remote/test/FASTER.remote.test/FASTER.remote.test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/test/FASTER.remote.test/FASTER.remote.test.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/remote/test/FASTER.remote.test/FASTER.remote.test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/remote/test/FASTER.remote.test/FASTER.remote.test.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/AzureBackedStore/AzureBackedStore.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/AzureBackedStore/AzureBackedStore.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/CacheStore/CacheStore.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/CacheStore/CacheStore.csproj:6 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/EpvsSample/EpvsSample.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/EpvsSample/EpvsSample.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/FasterLogPubSub/FasterLogPubSub.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/FasterLogPubSub/FasterLogPubSub.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/FasterLogSample/FasterLogSample.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/FasterLogSample/FasterLogSample.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/HelloWorld/HelloWorld.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/HelloWorld/HelloWorld.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/ReadAddress/VersionedRead.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/ReadAddress/VersionedRead.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/ResizableCacheStore/ResizableCacheStore.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/ResizableCacheStore/ResizableCacheStore.csproj:6 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/SecondaryReaderStore/SecondaryReaderStore.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/SecondaryReaderStore/SecondaryReaderStore.csproj:6 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/StoreAsyncApi/StoreAsyncApi.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/StoreAsyncApi/StoreAsyncApi.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/StoreCheckpointRecover/StoreCheckpointRecover.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/StoreCheckpointRecover/StoreCheckpointRecover.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/StoreCustomTypes/StoreCustomTypes.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/StoreCustomTypes/StoreCustomTypes.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/StoreDiskReadBenchmark/StoreDiskReadBenchmark.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/StoreDiskReadBenchmark/StoreDiskReadBenchmark.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/StoreLogCompaction/StoreLogCompaction.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/StoreLogCompaction/StoreLogCompaction.csproj:6 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/samples/StoreVarLenTypes/StoreVarLenTypes.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/samples/StoreVarLenTypes/StoreVarLenTypes.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "cs/src/core/FASTER.core.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/src/core/FASTER.core.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/src/core/FASTER.core.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/src/core/FASTER.core.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "cs/src/devices/AzureStorageDevice/FASTER.devices.AzureStorageDevice.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/src/devices/AzureStorageDevice/FASTER.devices.AzureStorageDevice.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/src/devices/AzureStorageDevice/FASTER.devices.AzureStorageDevice.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/src/devices/AzureStorageDevice/FASTER.devices.AzureStorageDevice.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/stress/FASTER.stress.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/stress/FASTER.stress.csproj:5 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "cs/test/FASTER.test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/test/FASTER.test.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "cs/test/FASTER.test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cs/test/FASTER.test.csproj:4 at this commit: `<TargetFrameworks>net7.0;net6.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

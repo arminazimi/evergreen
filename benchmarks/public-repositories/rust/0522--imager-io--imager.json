@@ -1,0 +1,17 @@
+{
+  "repository": "imager-io/imager",
+  "commit": "244df6721db203ba04d28391318395e9f195bf6d",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "imager/Dockerfile",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 44 of imager/Dockerfile at this commit: `FROM ubuntu:18.04 as runtime`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    }
+  ]
+}

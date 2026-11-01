@@ -1,0 +1,296 @@
+{
+  "repository": "jzyong/GameServer4j",
+  "commit": "a8bb3edfe065292f3f2497a9185188f03936210f",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "docs/archive/game-cluster/pom.xml",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 60 of docs/archive/game-cluster/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "docs/archive/game-cluster/pom.xml",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 61 of docs/archive/game-cluster/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "docs/archive/game-db/build.sbt",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of docs/archive/game-db/build.sbt reads `scalaVersion := \"2.11.1\"`, a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "docs/archive/game-engine/pom.xml",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 84 of docs/archive/game-engine/pom.xml reads `<source>13</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "docs/archive/game-engine/pom.xml",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 85 of docs/archive/game-engine/pom.xml reads `<target>13</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-api/pom.xml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of game-api/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-api/pom.xml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of game-api/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-gate/pom.xml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of game-gate/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-gate/pom.xml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of game-gate/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-hall/pom.xml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 32 of game-hall/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-hall/pom.xml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of game-hall/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-manage/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of game-manage/pom.xml reads `<java.version>14</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-manage/pom.xml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of game-manage/pom.xml reads `<maven.compiler.source>14</maven.compiler.source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-manage/pom.xml",
+      "line": 101,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 101 of game-manage/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-manage/pom.xml",
+      "line": 102,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 102 of game-manage/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-message/pom.xml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 44 of game-message/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-message/pom.xml",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 45 of game-message/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-res/archive/game-cluster/pom.xml",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 60 of game-res/archive/game-cluster/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-res/archive/game-cluster/pom.xml",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 61 of game-res/archive/game-cluster/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "game-res/archive/game-db/build.sbt",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of game-res/archive/game-db/build.sbt reads `scalaVersion := \"2.11.1\"`, a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-res/archive/game-engine/pom.xml",
+      "line": 84,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 84 of game-res/archive/game-engine/pom.xml reads `<source>13</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "game-res/archive/game-engine/pom.xml",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 85 of game-res/archive/game-engine/pom.xml reads `<target>13</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of pom.xml reads `<java.version>14</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of pom.xml reads `<maven.compiler.source>14</maven.compiler.source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "line": 74,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 74 of pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "line": 75,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 75 of pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docs/archive/game-cluster/Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docs/archive/game-cluster/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/mmo-cluster/lib`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "game-api/Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read game-api/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/game-api/lib`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "game-gate/Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read game-gate/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/game-gate/lib`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "game-hall/Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read game-hall/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/game-hall/lib`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "game-manage/Dockerfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read game-manage/Dockerfile:6 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/game-manage/lib`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "game-res/archive/game-cluster/Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read game-res/archive/game-cluster/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/mmo-cluster/lib`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

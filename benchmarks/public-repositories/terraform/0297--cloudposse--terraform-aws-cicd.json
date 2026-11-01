@@ -1,0 +1,17 @@
+{
+  "repository": "cloudposse/terraform-aws-cicd",
+  "commit": "835b3d04cd612750622e46efed52625c34f6c41d",
+  "ecosystem": "terraform",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "test/src/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/src/go.mod:3 at this commit: `go 1.17`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

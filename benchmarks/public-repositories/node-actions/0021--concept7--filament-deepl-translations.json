@@ -1,0 +1,44 @@
+{
+  "repository": "concept7/filament-deepl-translations",
+  "commit": "0633cdc97ffd6c74e6f3fd32d1c1e6c0364739eb",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/fix-php-code-style-issues.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/phpstan.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/run-tests.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/update-changelog.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3"
+      }
+    }
+  ]
+}

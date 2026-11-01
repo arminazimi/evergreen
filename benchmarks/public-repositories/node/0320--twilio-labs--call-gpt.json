@@ -1,0 +1,7 @@
+{
+  "repository": "twilio-labs/call-gpt",
+  "commit": "db0aecda0058f222bfc26ad626d831c365ecfcea",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

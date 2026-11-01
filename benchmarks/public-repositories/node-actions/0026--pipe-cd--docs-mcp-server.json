@@ -1,0 +1,62 @@
+{
+  "repository": "pipe-cd/docs-mcp-server",
+  "commit": "b34cde6b925cd00e024e92f4b3e3521ecf35c6e5",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/prepare-release.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-package.yaml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/prepare-release.yaml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-package.yaml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+      }
+    }
+  ]
+}

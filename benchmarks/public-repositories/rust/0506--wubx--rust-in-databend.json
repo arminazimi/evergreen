@@ -1,0 +1,7 @@
+{
+  "repository": "wubx/rust-in-databend",
+  "commit": "319305d39c9415936a62880126484dd3047acdf7",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

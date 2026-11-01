@@ -1,0 +1,44 @@
+{
+  "repository": "Shopify/packwerk",
+  "commit": "75ce7c728fcba075eb939a7af194fc4287513a75",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 34 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.0",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.0.4`, a Ruby 3.0 pin. The Ruby maintenance branches page marks Ruby 3.0 as end of life (security maintenance ended 2024-04-23). Maintainers later raised the pin in https://github.com/Shopify/packwerk/commit/3a988a04c99a1723c5eb133c31083bc736332d02."
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "repository": "cookiecutter/cookiecutter",
+  "commit": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of .github/workflows/publish.yml reads uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0, a SHA pin of a release below the supported v7."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/tests.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 49 of .github/workflows/tests.yml reads uses: astral-sh/setup-uv@v6, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+      }
+    }
+  ]
+}

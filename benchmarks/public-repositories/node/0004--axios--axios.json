@@ -1,0 +1,152 @@
+{
+  "repository": "axios/axios",
+  "commit": "43968f294eaf79dabf0fcc2c05fd9add6a4faf12",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/release-branch.yml",
+      "line": 150,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-branch.yml:150 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/release-branch.yml",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-branch.yml:72 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/run-ci.yml",
+      "line": 148,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-ci.yml:148 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/run-ci.yml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-ci.yml:70 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/release-branch.yml",
+      "line": 111,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-branch.yml:111 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/release-branch.yml",
+      "line": 189,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-branch.yml:189 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/run-ci.yml",
+      "line": 109,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-ci.yml:109 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/run-ci.yml",
+      "line": 187,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-ci.yml:187 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/release-branch.yml",
+      "line": 150,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-branch.yml:150 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/release-branch.yml",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-branch.yml:72 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/run-ci.yml",
+      "line": 148,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-ci.yml:148 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/run-ci.yml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-ci.yml:70 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-branch.yml",
+      "line": 111,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 111 of .github/workflows/release-branch.yml reads node-version: [20, 22, 24, 26], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/release-branch.yml",
+      "line": 189,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 189 of .github/workflows/release-branch.yml reads node-version: [20, 22, 24, 26], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/run-ci.yml",
+      "line": 109,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 109 of .github/workflows/run-ci.yml reads node-version: [20, 22, 24, 26], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/run-ci.yml",
+      "line": 187,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 187 of .github/workflows/run-ci.yml reads node-version: [20, 22, 24, 26], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

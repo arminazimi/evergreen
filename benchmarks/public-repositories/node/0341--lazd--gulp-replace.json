@@ -1,0 +1,44 @@
+{
+  "repository": "lazd/gulp-replace",
+  "commit": "474b1e71e3b13ba16a64c199ec4679dff63969eb",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

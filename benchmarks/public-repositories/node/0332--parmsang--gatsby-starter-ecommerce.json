@@ -1,0 +1,17 @@
+{
+  "repository": "parmsang/gatsby-starter-ecommerce",
+  "commit": "989b595f8c71b74cdb3f927942df95ce476f0642",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

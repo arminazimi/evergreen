@@ -9,10 +9,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { loadPublicCorpus, PUBLIC_CORPUS_DIR } from "./public-corpus.js";
 import { detectorOf } from "./thresholds.js";
 
 export const SNAPSHOT_PATH = "benchmarks/corpus-snapshot.json";
-export const CORPUS_PATH = "benchmarks/public-repositories.json";
+export const CORPUS_PATH = PUBLIC_CORPUS_DIR;
 
 export interface CorpusSnapshot {
   schemaVersion: "evergreen.corpus-snapshot.v1";
@@ -65,7 +66,7 @@ async function readJson<T>(path: string): Promise<T> {
 }
 
 export async function main(argv: readonly string[] = process.argv.slice(2)): Promise<number> {
-  const current = snapshotFrom(await readJson<CorpusFile>(CORPUS_PATH));
+  const current = snapshotFrom(await loadPublicCorpus());
   if (argv.includes("--write")) {
     await writeFile(resolve(SNAPSHOT_PATH), `${JSON.stringify(current, null, 2)}\n`);
     console.log(`Wrote ${SNAPSHOT_PATH}.`);

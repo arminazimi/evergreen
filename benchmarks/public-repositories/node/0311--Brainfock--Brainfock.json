@@ -1,0 +1,53 @@
+{
+  "repository": "Brainfock/Brainfock",
+  "commit": "0474cae83902539012afc22ab148f6b1ef4bbf82",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".nvmrc",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .nvmrc:1 at this commit: `v4.0.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:35 at this commit: `\"node\": \"^4.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:41 at this commit: `\"babel-eslint\": \"^7.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-preset-es2015.deprecated",
+      "path": "package.json",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:49 at this commit: `\"babel-preset-es2015\": \"^6.3.13\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.gulp-util.deprecated",
+      "path": "package.json",
+      "line": 90,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:90 at this commit: `\"gulp-util\": \"^3.0.7\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

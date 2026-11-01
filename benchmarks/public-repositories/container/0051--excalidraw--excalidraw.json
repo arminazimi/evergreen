@@ -1,0 +1,350 @@
+{
+  "repository": "excalidraw/excalidraw",
+  "commit": "1caec99b290c75cda05385e637138998807a65ae",
+  "ecosystem": "container",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": ".codesandbox/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .codesandbox/Dockerfile is FROM node:18-bullseye, an image release line the vendor has ended. The maintainers changed it in the same commit in https://github.com/excalidraw/excalidraw/commit/b1c6bfcf40cba255d208d8d525060684b10cb3cc."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of Dockerfile is FROM --platform=${BUILDPLATFORM} node:18 AS build, an image release line the vendor has ended. The maintainers moved it off node:18 in https://github.com/excalidraw/excalidraw/commit/b1c6bfcf40cba255d208d8d525060684b10cb3cc."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/with-script-in-browser/.codesandbox/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of examples/with-script-in-browser/.codesandbox/Dockerfile is FROM node:18-bullseye, an image release line the vendor has ended."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/autorelease-excalidraw.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/autorelease-excalidraw.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/autorelease-excalidraw.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/autorelease-excalidraw.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-docker.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/build-docker.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lint.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of .github/workflows/lint.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/lint.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/lint.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/locales-coverage.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/locales-coverage.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/locales-coverage.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/locales-coverage.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish-docker.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/publish-docker.yml reads `uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/publish-docker.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/publish-docker.yml reads `uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2`, which github-actions.login-action.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/publish-docker.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/publish-docker.yml reads `uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3`, which github-actions.setup-qemu-action.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/publish-docker.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/publish-docker.yml reads `uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3`, which github-actions.setup-buildx-action.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/publish-docker.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of .github/workflows/publish-docker.yml reads `uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5`, which github-actions.build-push-action.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/sentry-production.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/sentry-production.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/sentry-production.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/sentry-production.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/size-limit.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/size-limit.yml reads `uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/size-limit.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/size-limit.yml reads `uses: actions/setup-node@v3`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test-coverage-pr.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/test-coverage-pr.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/test-coverage-pr.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/test-coverage-pr.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of .github/workflows/test.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/test.yml reads `uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 47 of package.json reads `\"node\": \">=18.0.0\"`, which nodejs.runtime.eol-18 reports."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 47 of package.json reads `\"node\": \">=18.0.0\"`, which nodejs.runtime.eol-20 reports."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "excalidraw-app/package.json",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of excalidraw-app/package.json reads `\"node\": \">=18.0.0\"` under engines.node in a workspace package, a range that includes a Node.js release line that has ended. Found once workspace packages were scanned."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "excalidraw-app/package.json",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of excalidraw-app/package.json reads `\"node\": \">=18.0.0\"` under engines.node in a workspace package, a range that includes a Node.js release line that has ended. Found once workspace packages were scanned."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: the Node.js range on line 47 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "excalidraw-app/package.json",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: the Node.js range on line 26 of excalidraw-app/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+      }
+    },
+    {
+      "ruleId": "npm.package.types.socket.io-client.deprecated",
+      "path": "package.json",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed 2026-10-19 at this pinned commit, package.json line 19: @types/socket.io-client is declared as 3.0.0; npm explicitly deprecates matching version 3.0.0 (https://registry.npmjs.org/@types%2fsocket.io-client/3.0.0)."
+      }
+    },
+    {
+      "ruleId": "npm.package.next.14.support-end",
+      "path": "examples/with-nextjs/package.json",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of examples/with-nextjs/package.json reads `\"next\": \"14.1\"` under dependencies. Next.js 14 is listed under Unsupported Versions in the support policy (https://nextjs.org/support-policy)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/autorelease-excalidraw.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/autorelease-excalidraw.yml:18 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/lint.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/lint.yml:15 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/locales-coverage.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/locales-coverage.yml:20 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/sentry-production.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/sentry-production.yml:16 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/size-limit.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/size-limit.yml:17 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/test-coverage-pr.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test-coverage-pr.yml:17 at this commit: `node-version: \"20.x\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/test.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:15 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

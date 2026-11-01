@@ -1,0 +1,26 @@
+{
+  "repository": "remarkjs/remark-toc",
+  "commit": "9d0e2764ce3b5a8276e3cdee36c56ff6eecf7477",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:10 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/main.yml:11 at this commit: `- uses: actions/setup-node@v3`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

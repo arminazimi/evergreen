@@ -44,7 +44,7 @@ npm run build:dashboard    # writes data.json
 npm run check:dashboard    # fails if data.json is out of date
 ```
 
-The build reads `benchmarks/thresholds.json` and `benchmarks/public-repositories.json`, never the clock or the
+The build reads `benchmarks/thresholds.json` and `benchmarks/public-repositories/`, never the clock or the
 network. Its reference day is the date of the last full run, so the committed file does not change on its own.
 
 ## What the page shows

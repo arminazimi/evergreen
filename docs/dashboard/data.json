@@ -2,12 +2,12 @@
   "schemaVersion": "evergreen.dashboard-data.v1",
   "referenceDay": "2026-11-01",
   "corpus": {
-    "file": "benchmarks/public-repositories.json",
+    "file": "benchmarks/public-repositories",
     "repositories": 557
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
-    "corpus": "benchmarks/public-repositories.json",
+    "corpus": "benchmarks/public-repositories",
     "decision": "docs/decisions/0013-detector-maturity.md"
   },
   "run": {
@@ -645,19 +645,19 @@
       "label": "Repositories with findings",
       "meaning": "Corpus repositories with at least one expected finding of this detector.",
       "computation": "countEvidence() in benchmarks/thresholds.ts over the corpus entries' expected findings, grouped by the first segment of the rule id.",
-      "source": "benchmarks/public-repositories.json"
+      "source": "benchmarks/public-repositories"
     },
     "expectedFindings": {
       "label": "Expected findings",
       "meaning": "Findings of this detector that the corpus lists as expected.",
       "computation": "countEvidence() in benchmarks/thresholds.ts: the number of expected findings whose rule id belongs to the detector.",
-      "source": "benchmarks/public-repositories.json"
+      "source": "benchmarks/public-repositories"
     },
     "zeroFindingRepositories": {
       "label": "Zero-finding repositories",
       "meaning": "Corpus repositories of the detector's ecosystem that have no expected findings at all, so a report there would be a false positive.",
       "computation": "countEvidence() in benchmarks/thresholds.ts: entries of the detector's corpus ecosystems with an empty expected list. Detectors that read the same ecosystem share this count.",
-      "source": "benchmarks/public-repositories.json"
+      "source": "benchmarks/public-repositories"
     },
     "runAge": {
       "label": "Run age",

@@ -1,0 +1,197 @@
+{
+  "repository": "vladannovi1234/ecommerce-springboot-react",
+  "commit": "d71a50af1c30d0faa3a2028c76e5c79e560ae80d",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "api-gateway/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of api-gateway/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "api-gateway/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of api-gateway/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "auth-service/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of auth-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "auth-service/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of auth-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "cart-service/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of cart-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "cart-service/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of cart-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "catalog-service/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of catalog-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "catalog-service/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of catalog-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "commons/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of commons/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "commons/pom.xml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of commons/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "config-service/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of config-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "config-service/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of config-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "customer-service/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of customer-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "customer-service/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of customer-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "discovery-server/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of discovery-server/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "discovery-server/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of discovery-server/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "image-service/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of image-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "image-service/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of image-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "order-service/pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of order-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "order-service/pom.xml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of order-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of pom.xml reads `<java.version>19</java.version>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "repository": "keycard-tech/keycard-go",
+  "commit": "b08c0f5f516e03c15671038426f3c700504454ba",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.22",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go.mod:3 at this commit: `go 1.22`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "integration/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read integration/go.mod:3 at this commit: `go 1.25.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

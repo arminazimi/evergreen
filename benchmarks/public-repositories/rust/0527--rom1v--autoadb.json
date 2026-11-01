@@ -1,0 +1,7 @@
+{
+  "repository": "rom1v/autoadb",
+  "commit": "7f8402983603a9854bf618a384f679a17cd85e2d",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

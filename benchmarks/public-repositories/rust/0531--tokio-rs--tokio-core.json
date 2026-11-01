@@ -1,0 +1,7 @@
+{
+  "repository": "tokio-rs/tokio-core",
+  "commit": "fdba3f18370c67ec0c99c119157ad8e25be99fd9",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

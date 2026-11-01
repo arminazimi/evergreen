@@ -1,0 +1,53 @@
+{
+  "repository": "auth0/db-connections-templates",
+  "commit": "d169ed32e87f5d42fece97e83fd83cd9c66d5bcb",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/semgrep.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/semgrep.yml reads - uses: actions/checkout@v3"
+      }
+    },
+    {
+      "ruleId": "npm.package.request.deprecated",
+      "path": "package.json",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/auth0/db-connections-templates/commit/db86c626d9b8b4ca4f5770918100286741b52ef9"
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/node-tests.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/node-tests.yml:17 at this commit: `node-version: [12, 16, 18, 22]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/node-tests.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/node-tests.yml:17 at this commit: `node-version: [12, 16, 18, 22]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/node-tests.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/node-tests.yml reads node-version: [12, 16, 18, 22], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

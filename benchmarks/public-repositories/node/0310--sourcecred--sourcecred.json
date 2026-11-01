@@ -1,0 +1,98 @@
+{
+  "repository": "sourcecred/sourcecred",
+  "commit": "3da222ebe44c110f265063cfa99316ed5c1fa0b3",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/generate-docs.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/generate-docs.yml:12 at this commit: `- uses: actions/checkout@v2.3.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "packages/grainIntegration-merkle/package.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/grainIntegration-merkle/package.json:18 at this commit: `\"babel-eslint\": \"^10.0.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "packages/sourcecred/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/sourcecred/Dockerfile:1 at this commit: `FROM node:12`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.lodash-isequal.deprecated",
+      "path": "packages/sourcecred/package.json",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/sourcecred/package.json:51 at this commit: `\"lodash.isequal\": \"^4.5.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "packages/sourcecred/package.json",
+      "line": 82,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/sourcecred/package.json:82 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "packages/sourcecred/package.json",
+      "line": 146,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "packages/sourcecred/package.json",
+      "line": 146,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "packages/sourcecred/package.json",
+      "line": 146,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "packages/sourcecred/package.json",
+      "line": 146,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "packages/sourcecred/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read packages/sourcecred/Dockerfile:15 at this commit: `ENV SOURCECRED_DIRECTORY ${SOURCECRED_DEFAULT_DIRECTORY}`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

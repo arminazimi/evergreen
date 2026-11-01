@@ -1,0 +1,17 @@
+{
+  "repository": "LAION-AI/natural_voice_assistant",
+  "commit": "c12a1a71e16f8433f3f32e2bc5840f1d5f04099e",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.package.typing.archived",
+      "path": "requirements.txt",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read requirements.txt:14 at this commit: `typing`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

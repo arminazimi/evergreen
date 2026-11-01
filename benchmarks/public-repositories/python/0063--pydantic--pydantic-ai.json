@@ -1,0 +1,7 @@
+{
+  "repository": "pydantic/pydantic-ai",
+  "commit": "11025a1f395d29dbe50af2b30f7429574b9a79c1",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": []
+}

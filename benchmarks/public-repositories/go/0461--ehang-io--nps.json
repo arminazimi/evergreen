@@ -1,0 +1,152 @@
+{
+  "repository": "ehang-io/nps",
+  "commit": "ab648d6f0c618c690a7a79948a7ebd686e1cdafc",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 16 of .github/workflows/release.yml at this commit: `uses: actions/setup-go@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 21 of .github/workflows/release.yml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 34 of .github/workflows/release.yml at this commit: `uses: softprops/action-gh-release@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 80,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 80 of .github/workflows/release.yml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 86,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 86 of .github/workflows/release.yml at this commit: `uses: softprops/action-gh-release@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 100,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 100 of .github/workflows/release.yml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 111,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 111 of .github/workflows/release.yml at this commit: `uses: softprops/action-gh-release@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 125,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 125 of .github/workflows/release.yml at this commit: `uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 129,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 129 of .github/workflows/release.yml at this commit: `uses: docker/setup-qemu-action@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 131,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 131 of .github/workflows/release.yml at this commit: `uses: docker/setup-buildx-action@v1`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 133,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 133 of .github/workflows/release.yml at this commit: `uses: actions/cache@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 145,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 145 of .github/workflows/release.yml at this commit: `uses: docker/build-push-action@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 155,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 155 of .github/workflows/release.yml at this commit: `uses: docker/build-push-action@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Dockerfile.npc",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of Dockerfile.npc at this commit: `FROM golang:1.15 as builder`. The vendor lifecycle record Go release policy (vendor) (https://go.dev/doc/devel/release#policy) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Dockerfile.nps",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of Dockerfile.nps at this commit: `FROM golang:1.15 as builder`. The vendor lifecycle record Go release policy (vendor) (https://go.dev/doc/devel/release#policy) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of go.mod at this commit: `go 1.15`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.15 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

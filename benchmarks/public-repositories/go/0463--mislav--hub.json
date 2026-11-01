@@ -1,0 +1,80 @@
+{
+  "repository": "mislav/hub",
+  "commit": "5c547ed804368763064e51f3990851e267e88edd",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of .github/workflows/ci.yml at this commit: `- uses: actions/checkout@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 21 of .github/workflows/ci.yml at this commit: `uses: actions/setup-go@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of .github/workflows/release.yml at this commit: `- uses: actions/checkout@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 15 of .github/workflows/release.yml at this commit: `uses: actions/setup-go@v4`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of Dockerfile at this commit: `FROM ruby:2.6`. The vendor lifecycle record Ruby maintenance branches (https://www.ruby-lang.org/en/downloads/branches/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 22 of Dockerfile at this commit: `ENV LANG C.UTF-8`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 23 of Dockerfile at this commit: `ENV USER app`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of go.mod at this commit: `go 1.11`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.11 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

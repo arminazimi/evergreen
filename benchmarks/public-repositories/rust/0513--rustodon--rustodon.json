@@ -1,0 +1,35 @@
+{
+  "repository": "rustodon/rustodon",
+  "commit": "6d873c4e75948512630baa75482afa8d307f99b3",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "Cargo.toml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 14 of Cargo.toml at this commit: `failure = \"0.1.6\"`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "docker-compose.yml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 4 of docker-compose.yml at this commit: `image: postgres:10-alpine`. The vendor lifecycle record PostgreSQL versioning policy (https://www.postgresql.org/support/versioning/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-10",
+      "path": "docker-compose.yml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 4 of docker-compose.yml at this commit: `image: postgres:10-alpine`. PostgreSQL versioning policy (https://www.postgresql.org/support/versioning/) is the upstream record for this declaration."
+      }
+    }
+  ]
+}

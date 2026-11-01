@@ -18,6 +18,7 @@ import { fetchWith } from "./corpus-fetch.js";
 import type { FetchStrategy } from "./corpus-fetch.js";
 import { inBatches, resolveCorpusConcurrency } from "./corpus-harness.js";
 import type { CorpusRepositoryEntry } from "./corpus-harness.js";
+import { loadPublicCorpus } from "./public-corpus.js";
 
 interface Measurement {
   strategy: FetchStrategy;
@@ -38,7 +39,7 @@ if (!["shallow", "sparse", "tarball"].includes(strategy)) throw new Error(`Unkno
 const limit = flag("--limit") === undefined ? undefined : Number(flag("--limit"));
 const concurrency = resolveCorpusConcurrency();
 
-const corpus = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: CorpusRepositoryEntry[] };
+const corpus = await loadPublicCorpus();
 const entries = limit === undefined ? corpus.repositories : corpus.repositories.slice(0, limit);
 const root = await mkdtemp(join(tmpdir(), `evergreen-fetch-${strategy}-`));
 

@@ -1,0 +1,17 @@
+{
+  "repository": "miguelgrinberg/Flask-Migrate",
+  "commit": "bce4d35a0c61d2516c76744a1f168bc6af26d55e",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:15 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

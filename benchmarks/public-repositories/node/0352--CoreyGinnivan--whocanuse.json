@@ -1,0 +1,17 @@
+{
+  "repository": "CoreyGinnivan/whocanuse",
+  "commit": "0471f5209f05cd32464ecc9955366128fe24e987",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.next.12.support-end",
+      "path": "package.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:18 at this commit: `\"next\": \"^12.1.5\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

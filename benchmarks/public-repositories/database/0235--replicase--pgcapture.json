@@ -1,0 +1,98 @@
+{
+  "repository": "replicase/pgcapture",
+  "commit": "e9f4d88d4be1f12bddd72c86bbecfeddc9ea2c62",
+  "ecosystem": "database",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/go-binary-release.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/go-binary-release.yml:16 at this commit: `uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/go-binary-release.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/go-binary-release.yml:20 at this commit: `uses: softprops/action-gh-release@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Dockerfile.build",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.build:1 at this commit: `FROM golang:1.24-bullseye`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go.mod:3 at this commit: `go 1.24.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "go.mod",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go.mod:11 at this commit: `github.com/golang/protobuf v1.5.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "hack/postgres/11/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read hack/postgres/11/Dockerfile:1 at this commit: `FROM postgres:11-alpine`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "hack/postgres/12/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read hack/postgres/12/Dockerfile:1 at this commit: `FROM postgres:12-alpine`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "hack/postgres/13/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read hack/postgres/13/Dockerfile:1 at this commit: `FROM postgres:13-alpine`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "hack/postgres/96/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read hack/postgres/96/Dockerfile:1 at this commit: `FROM postgres:9.6-alpine`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-14-and-older",
+      "path": "hack/postgres/14/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of hack/postgres/14/Dockerfile reads FROM postgres:14-alpine, an image on PostgreSQL 14, which is scheduled to reach end-of-life on 2026-11-12."
+      }
+    }
+  ]
+}

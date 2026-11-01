@@ -1,0 +1,71 @@
+{
+  "repository": "sitkevij/hex",
+  "commit": "f4812dd815bf23aac14eb61a96de4d52a6c13d7d",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/debian-artifact.yml",
+      "line": 168,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 168 of .github/workflows/debian-artifact.yml at this commit: `uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/docker-publish.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 38 of .github/workflows/docker-publish.yml at this commit: `uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/docker-publish.yml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 41 of .github/workflows/docker-publish.yml at this commit: `uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/docker-publish.yml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 44 of .github/workflows/docker-publish.yml at this commit: `uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/docker-publish.yml",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 51 of .github/workflows/docker-publish.yml at this commit: `uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5.4.0`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "github-actions.stale.node20",
+      "path": ".github/workflows/stale.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 16 of .github/workflows/stale.yml at this commit: `- uses: actions/stale@1160a2240286f5da8ec72b1c0816ce2481aabf84 # v8.0.0`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    },
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 37 of Cargo.toml at this commit: `ansi_term = \"=0.12.1\"`. The RustSec advisory database lists ansi-term as unmaintained (https://rustsec.org/advisories/RUSTSEC-2021-0139.html)."
+      }
+    }
+  ]
+}

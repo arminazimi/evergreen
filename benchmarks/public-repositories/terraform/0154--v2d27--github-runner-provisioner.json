@@ -1,0 +1,44 @@
+{
+  "repository": "v2d27/github-runner-provisioner",
+  "commit": "902bffe9155c6c67cb4ab06d98db80d12777621a",
+  "ecosystem": "terraform",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "infrastructure/modules/github-runner-on-aws/lambda.tf",
+      "line": 102,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read infrastructure/modules/github-runner-on-aws/lambda.tf:102 at this commit: `runtime          = \"provided.al2023\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "infrastructure/modules/github-runner-on-aws/lambda.tf",
+      "line": 138,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read infrastructure/modules/github-runner-on-aws/lambda.tf:138 at this commit: `runtime          = \"provided.al2023\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "infrastructure/modules/github-runner-on-aws/lambda.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read infrastructure/modules/github-runner-on-aws/lambda.tf:21 at this commit: `runtime          = \"provided.al2023\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2023",
+      "path": "infrastructure/modules/github-runner-on-aws/lambda.tf",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read infrastructure/modules/github-runner-on-aws/lambda.tf:59 at this commit: `runtime          = \"provided.al2023\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

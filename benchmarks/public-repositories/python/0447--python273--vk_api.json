@@ -1,0 +1,35 @@
+{
+  "repository": "python273/vk_api",
+  "commit": "ceaeca0ea9cfe72041a2d0d4afb9e7428ce2ef8d",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/python-publish.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/python-publish.yml:11 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/python-publish.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/python-publish.yml:13 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:10 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

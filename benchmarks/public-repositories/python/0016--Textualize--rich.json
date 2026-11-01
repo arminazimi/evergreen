@@ -1,0 +1,83 @@
+{
+  "repository": "Textualize/rich",
+  "commit": "9d8f9a372cc5916fd4781fec207ced7ddac2f08f",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codeql.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codespell.yml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/newissue.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pythonpackage.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/readmechanged.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/pythonpackage.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/pythonpackage.yml reads uses: actions/setup-python@v5, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "tox.ini",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:6 at this commit: the envlist tests on py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:6 at this commit: the envlist tests on py38 and py39; both lines are past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

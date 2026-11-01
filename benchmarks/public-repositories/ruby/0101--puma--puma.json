@@ -1,0 +1,17 @@
+{
+  "repository": "puma/puma",
+  "commit": "d53529399bc250915374eebe3ae54dd9fd9a6cb0",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "benchmarks/local/sinatra/Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of benchmarks/local/sinatra/Gemfile reads `ruby \"3.2.0\"`, a Gemfile ruby directive for Ruby 3.2. The Ruby maintenance branches page marks Ruby 3.2 as end of life (security maintenance ended 2026-04-01)."
+      }
+    }
+  ]
+}

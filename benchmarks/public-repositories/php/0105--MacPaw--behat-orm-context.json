@@ -1,0 +1,89 @@
+{
+  "repository": "MacPaw/behat-orm-context",
+  "commit": "3c4108601b840ed114d6e2c8a8f107a1778b70e5",
+  "ecosystem": "php",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 59 of .github/workflows/ci.yaml reads `- uses: actions/cache@v4`; actions/cache v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 78,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 78 of .github/workflows/ci.yaml reads `uses: actions/cache@v4`; actions/cache v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of .github/workflows/ci.yaml reads `uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/security.yaml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/security.yaml reads `uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/static-analysis.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/static-analysis.yaml reads `uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/static-analysis.yaml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 32 of .github/workflows/static-analysis.yaml reads `uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/static-analysis.yaml",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 50 of .github/workflows/static-analysis.yaml reads `uses: actions/checkout@v4`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "line": 82,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 82 of composer.json reads `\"php\": \"7.4.33\"` under config.platform. The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 2022-11-28."
+      }
+    },
+    {
+      "ruleId": "php.package.doctrine.cache.abandoned",
+      "path": "composer.lock",
+      "line": 210,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 210 of composer.lock reads `\"version\": \"2.2.0\"` for the package `doctrine/cache` named on line 209. Packagist marks doctrine/cache as abandoned."
+      }
+    }
+  ]
+}

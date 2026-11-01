@@ -1,0 +1,17 @@
+{
+  "repository": "stuncloud/UWSCR",
+  "commit": "a06db5f9da291892d2fb056b30a3c88e6ea8a682",
+  "ecosystem": "shell",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "CmakeOpencv.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of CmakeOpencv.ps1 reads `#requires -Version 7.0`, which requires PowerShell 7.0 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.0 as retired, with support ended on 2022-12-03 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+      }
+    }
+  ]
+}

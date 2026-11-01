@@ -1,0 +1,26 @@
+{
+  "repository": "SmartThingsCommunity/weather-color-light-smartapp-nodejs",
+  "commit": "19df0cdb3eb022e994034a9534c6ccba34f6de8c",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:31 at this commit: `\"node\": \"^14\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "serverless.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read serverless.yml:23 at this commit: `runtime: nodejs14.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

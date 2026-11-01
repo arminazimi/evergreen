@@ -1,0 +1,35 @@
+{
+  "repository": "jesseduffield/lazygit",
+  "commit": "5e3cd6b5408218cc55e8b26df377e3912eea3c8d",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/jesseduffield/lazygit/commit/5ef318ef77f0bed4d6a7a9f32d045e998bab426a."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Dockerfile",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of Dockerfile reads `FROM golang:1.25 as build`, a Go release line that no longer receives fixes."
+      }
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "Dockerfile",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of Dockerfile reads `FROM alpine:3.19`, an Alpine release line past its end-of-life."
+      }
+    }
+  ]
+}

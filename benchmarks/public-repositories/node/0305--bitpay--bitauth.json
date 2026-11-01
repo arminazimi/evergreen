@@ -1,0 +1,7 @@
+{
+  "repository": "bitpay/bitauth",
+  "commit": "68cf0353bf517a7e5293478608839fa904351eb6",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": []
+}

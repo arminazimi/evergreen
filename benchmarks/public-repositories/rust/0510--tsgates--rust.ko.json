@@ -1,0 +1,7 @@
+{
+  "repository": "tsgates/rust.ko",
+  "commit": "f08d8cc8f742ec3dacb73f7ac65dda2d0aeb5531",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

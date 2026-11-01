@@ -1,0 +1,17 @@
+{
+  "repository": "Overv/outrun",
+  "commit": "20af1136060ecb0a53f464b73e5cdac913a097c3",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:67 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

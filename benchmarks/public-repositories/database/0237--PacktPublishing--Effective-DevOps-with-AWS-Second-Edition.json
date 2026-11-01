@@ -1,0 +1,125 @@
+{
+  "repository": "PacktPublishing/Effective-DevOps-with-AWS-Second-Edition",
+  "commit": "37555d2cdd759986a47881475a9210c88f539ffb",
+  "ecosystem": "database",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter04/fourthproject/helloworldansiblepull.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter04/fourthproject/helloworldansiblepull.tf:21 at this commit: `private_key = \"${file(\"/root/.ssh/EffectiveDevOpsAWS.pem\")}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter04/fourthproject/helloworldansiblepull.tf",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter04/fourthproject/helloworldansiblepull.tf:33 at this commit: `value = \"${aws_instance.myserver.public_ip}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter04/secondproject/helloworldec2.tf",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter04/secondproject/helloworldec2.tf:23 at this commit: `private_key = \"${file(\"/root/.ssh/EffectiveDevOpsAWS.pem\")}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter04/thirdproject/helloworldansible.tf",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter04/thirdproject/helloworldansible.tf:21 at this commit: `private_key = \"${file(\"/root/.ssh/EffectiveDevOpsAWS.pem\")}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter04/thirdproject/helloworldansible.tf",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter04/thirdproject/helloworldansible.tf:36 at this commit: `value = \"${aws_instance.myserver.public_ip}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter06/main.tf",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter06/main.tf:13 at this commit: `vpc_id      = \"${var.my_default_vpcid}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter06/main.tf",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter06/main.tf:3 at this commit: `my_vpc_id      = \"${var.my_default_vpcid}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter06/main.tf",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter06/main.tf:35 at this commit: `vpc_security_group_ids = [\"${aws_security_group.rds.id}\"]`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter06/main.tf",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter06/main.tf:8 at this commit: `output \"monolith_url\" { value = \"${module.monolith_application.url}\"}`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter08/main.tf",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter08/main.tf:17 at this commit: `alb_arn      = \"${module.webapp-playground.alb_arn}\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter08/outputs.tf",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter08/outputs.tf:1 at this commit: `output \"role\" { value = \"${module.flow-log-prerequisite.rolename}\" }`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter08/outputs.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter08/outputs.tf:2 at this commit: `output \"loggroup\" { value = \"${module.flow-log-prerequisite.cloudwatch_log_group_arn}\" }`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "Chapter08/outputs.tf",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Chapter08/outputs.tf:3 at this commit: `output \"alb_url\" { value = \"${module.webapp-playground.dns_name}\"}`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

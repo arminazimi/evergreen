@@ -1,0 +1,7 @@
+{
+  "repository": "skyward-finance/contracts",
+  "commit": "142e76303ac9d15f4efb7affde4e60896ccddbfb",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

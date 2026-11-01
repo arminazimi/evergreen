@@ -1,0 +1,17 @@
+{
+  "repository": "adobe-photoshop/generator-assets",
+  "commit": "c6873deebc995e91fa1df180337feabce0c09845",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.q.deprecated",
+      "path": "package.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:18 at this commit: `\"q\": \"~1.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

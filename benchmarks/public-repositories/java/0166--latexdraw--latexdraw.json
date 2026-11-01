@@ -1,0 +1,17 @@
+{
+  "repository": "latexdraw/latexdraw",
+  "commit": "ce5ef5c681cf264d386263b8c6d8569d10318aed",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of pom.xml reads `<java.version>14</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

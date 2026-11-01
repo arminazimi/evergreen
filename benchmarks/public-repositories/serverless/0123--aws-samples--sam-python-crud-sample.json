@@ -1,0 +1,89 @@
+{
+  "repository": "aws-samples/sam-python-crud-sample",
+  "commit": "f91982d24775dce644283b9ae33deb78e49c49fc",
+  "ecosystem": "serverless",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 49 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 69 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 89 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "template.yaml",
+      "line": 109,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 109 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of .github/workflows/codeql-analysis.yml reads uses: actions/checkout@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pythonpackage.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/pythonpackage.yml reads uses: actions/checkout@v1, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/pythonpackage.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/pythonpackage.yml reads uses: actions/setup-python@v1, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tox.ini:2 at this commit: the envlist tests on py38; that release line is past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

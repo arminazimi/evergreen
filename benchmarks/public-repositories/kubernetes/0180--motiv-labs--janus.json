@@ -1,0 +1,98 @@
+{
+  "repository": "motiv-labs/janus",
+  "commit": "ce8de8183c6751e5c07d39b4c582e71e95e0d637",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of Dockerfile reads `FROM golang:1.13.6-buster as builder`, a release the GitHub Actions rule container.golang.eol-1.25-and-older covers."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Dockerfile.dev",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of Dockerfile.dev reads `FROM golang:1.14-alpine AS build-debug-common`, a release the GitHub Actions rule container.golang.eol-1.25-and-older covers."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of Dockerfile reads `FROM ubuntu:20.04 as prod`, an Ubuntu release line past standard support end-of-life."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/release.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/testing.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/testing.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/testing.yml",
+      "line": 51,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 51 of .github/workflows/testing.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-go.node20",
+      "path": ".github/workflows/testing.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 49 of .github/workflows/testing.yml reads `uses: actions/setup-go@v2`, a release the GitHub Actions rule github-actions.setup-go.node20 covers."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of go.mod reads `go 1.15`, a release the GitHub Actions rule go.runtime.end-of-support-1.20-and-older covers."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "janus/templates/ingress.yaml",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of janus/templates/ingress.yaml reads `apiVersion: extensions/v1beta1` on a `kind: ingress` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "janus/templates/pdb.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of janus/templates/pdb.yaml reads `apiVersion: policy/v1beta1` on a `kind: poddisruptionbudget` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+      }
+    }
+  ]
+}

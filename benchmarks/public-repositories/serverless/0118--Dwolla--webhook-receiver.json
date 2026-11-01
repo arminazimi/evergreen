@@ -1,0 +1,17 @@
+{
+  "repository": "Dwolla/webhook-receiver",
+  "commit": "2d4ee141898abdc41a8c9c539fb9c94146a8a24d",
+  "ecosystem": "serverless",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "serverless.yml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 10 of serverless.yml reads `runtime: nodejs14.x` under `provider:`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    }
+  ]
+}

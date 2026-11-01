@@ -1,0 +1,7 @@
+{
+  "repository": "h3r2tic/cornell-mcray",
+  "commit": "daebdc40f9762688c48f9408adcb3c31a33472b3",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

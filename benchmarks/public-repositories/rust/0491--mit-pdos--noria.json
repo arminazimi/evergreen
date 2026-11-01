@@ -1,0 +1,35 @@
+{
+  "repository": "mit-pdos/noria",
+  "commit": "465184ee4b57a2791d41b0f12fb8f71c45bae6b6",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "applications/Cargo.toml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 11 of applications/Cargo.toml at this commit: `failure = \"0.1\"`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "noria/Cargo.toml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 22 of noria/Cargo.toml at this commit: `failure = \"0.1\"`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "server/Cargo.toml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 27 of server/Cargo.toml at this commit: `failure = \"0.1.1\"`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "changesets/changesets",
+  "commit": "c73949ba7b3160a4aa5729223335c190de1528f8",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": []
+}

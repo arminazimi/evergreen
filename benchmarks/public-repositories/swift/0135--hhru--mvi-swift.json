@@ -1,0 +1,53 @@
+{
+  "repository": "hhru/mvi-swift",
+  "commit": "f6af9c822dabb1788b3a258115af3453309c6615",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/swift.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 32 of .github/workflows/swift.yml reads `uses: actions/checkout@v3`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/swift.yml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of .github/workflows/swift.yml reads `uses: actions/checkout@v3`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/swift.yml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 70 of .github/workflows/swift.yml reads `uses: actions/checkout@v3`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.1.0`, a Ruby 3.1 pin. The Ruby maintenance branches page marks Ruby 3.1 as end of life (security maintenance ended 2025-03-26) (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.0`, an Xcode 16 pin. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later since April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "repository": "etcd-io/etcd",
+  "commit": "1573d59416efa220421c451f5266b24a5d8374ef",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "api/go.mod",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 9 of api/go.mod at this commit: `github.com/golang/protobuf v1.5.4`. The module page at https://pkg.go.dev/github.com/golang/protobuf marks github.com/golang/protobuf deprecated in favour of google.golang.org/protobuf, which is why the require line is retired."
+      }
+    },
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "client/v3/go.mod",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 10 of client/v3/go.mod at this commit: `github.com/golang/protobuf v1.5.4`. The module page at https://pkg.go.dev/github.com/golang/protobuf marks github.com/golang/protobuf deprecated in favour of google.golang.org/protobuf, which is why the require line is retired."
+      }
+    },
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "go.mod",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 24 of go.mod at this commit: `github.com/golang/protobuf v1.5.4`. The module page at https://pkg.go.dev/github.com/golang/protobuf marks github.com/golang/protobuf deprecated in favour of google.golang.org/protobuf, which is why the require line is retired."
+      }
+    },
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "server/go.mod",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of server/go.mod at this commit: `github.com/golang/protobuf v1.5.4`. The module page at https://pkg.go.dev/github.com/golang/protobuf marks github.com/golang/protobuf deprecated in favour of google.golang.org/protobuf, which is why the require line is retired."
+      }
+    },
+    {
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "path": "tests/go.mod",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 23 of tests/go.mod at this commit: `github.com/golang/protobuf v1.5.4`. The module page at https://pkg.go.dev/github.com/golang/protobuf marks github.com/golang/protobuf deprecated in favour of google.golang.org/protobuf, which is why the require line is retired."
+      }
+    }
+  ]
+}

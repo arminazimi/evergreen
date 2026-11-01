@@ -1,0 +1,17 @@
+{
+  "repository": "Johonsoy/SmartStashDB",
+  "commit": "b9d9354f9d6cf12953bc60455e91a57cb0b1cf26",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.22",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go.mod:3 at this commit: `go 1.22`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

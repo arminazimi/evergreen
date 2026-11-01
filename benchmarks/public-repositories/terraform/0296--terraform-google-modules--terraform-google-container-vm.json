@@ -1,0 +1,17 @@
+{
+  "repository": "terraform-google-modules/terraform-google-container-vm",
+  "commit": "439b18a498c803c2af96d3a3ac12ed0bea9fc825",
+  "ecosystem": "terraform",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.package.pycrypto.obsolete",
+      "path": "requirements.txt",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read requirements.txt:3 at this commit: `pycrypto`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

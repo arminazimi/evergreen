@@ -1,0 +1,26 @@
+{
+  "repository": "lusyoe/springboot-k8s-example",
+  "commit": "ae5fbede35012c6db258a51835d8f09ad42380fb",
+  "ecosystem": "kubernetes",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "charts/templates/ingress.yaml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of charts/templates/ingress.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress` in a Helm template, under a `.Values.ingress.enabled` condition that does not ask the cluster what it supports. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "k8s-example.yaml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of k8s-example.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress` in a later document of the file. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+      }
+    }
+  ]
+}

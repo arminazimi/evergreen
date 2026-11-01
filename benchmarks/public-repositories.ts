@@ -18,6 +18,7 @@ import { affectedEcosystems, changedPaths, describeAffected, parseChangedFlag } 
 import { compareRuns, loadBaseline, parseComparePath } from "./corpus-compare.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
 import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "./corpus-filter.js";
+import { loadPublicCorpus } from "./public-corpus.js";
 import { recallViolations, scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
 
@@ -27,11 +28,6 @@ const fetchStrategy = resolveFetchStrategy();
 /** Fetches `entry` into `checkout` and returns the size of the fetched git data. */
 async function fetchInto(checkout: string, entry: CorpusRepositoryEntry): Promise<number> {
   return (await fetchWith(fetchStrategy, checkout, entry)).bytes;
-}
-
-interface Corpus {
-  schemaVersion: "evergreen.public-validation.v1";
-  repositories: CorpusRepositoryEntry[];
 }
 
 function percentile(values: number[], fraction: number): number {
@@ -60,9 +56,7 @@ try {
 const say = jsonToStdout ? console.error : console.log;
 const concurrency = resolveCorpusConcurrency();
 const cacheDir = resolveCorpusCacheDir();
-const corpus = JSON.parse(
-  await readFile(resolve("benchmarks/public-repositories.json"), "utf8"),
-) as Corpus;
+const corpus = await loadPublicCorpus();
 
 if (corpus.repositories.length < 20) {
   throw new Error(`Expected at least 20 repositories, received ${corpus.repositories.length}.`);

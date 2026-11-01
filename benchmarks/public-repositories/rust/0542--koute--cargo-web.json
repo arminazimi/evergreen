@@ -1,0 +1,143 @@
+{
+  "repository": "koute/cargo-web",
+  "commit": "2ddd9bbb567b8d4893e923cba8ad03806d383d80",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "build-scripts/Dockerfile.binaryen-i686",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of build-scripts/Dockerfile.binaryen-i686 at this commit: `FROM ubuntu:14.04`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "build-scripts/Dockerfile.binaryen-i686",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 2 of build-scripts/Dockerfile.binaryen-i686 at this commit: `MAINTAINER Jan Bujak <j@exia.io>`. The vendor lifecycle record Dockerfile reference: MAINTAINER (deprecated) (https://docs.docker.com/reference/dockerfile/#maintainer-deprecated) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-scripts/Dockerfile.binaryen-i686",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of build-scripts/Dockerfile.binaryen-i686 at this commit: `ENV ARCH i686`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "build-scripts/Dockerfile.binaryen-x86_64",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of build-scripts/Dockerfile.binaryen-x86_64 at this commit: `FROM ubuntu:14.04`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "build-scripts/Dockerfile.binaryen-x86_64",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 2 of build-scripts/Dockerfile.binaryen-x86_64 at this commit: `MAINTAINER Jan Bujak <j@exia.io>`. The vendor lifecycle record Dockerfile reference: MAINTAINER (deprecated) (https://docs.docker.com/reference/dockerfile/#maintainer-deprecated) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-scripts/Dockerfile.binaryen-x86_64",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of build-scripts/Dockerfile.binaryen-x86_64 at this commit: `ENV ARCH x86_64`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "build-scripts/Dockerfile.emscripten-i686",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of build-scripts/Dockerfile.emscripten-i686 at this commit: `FROM ubuntu:14.04`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "build-scripts/Dockerfile.emscripten-i686",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 2 of build-scripts/Dockerfile.emscripten-i686 at this commit: `MAINTAINER Jan Bujak <j@exia.io>`. The vendor lifecycle record Dockerfile reference: MAINTAINER (deprecated) (https://docs.docker.com/reference/dockerfile/#maintainer-deprecated) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-scripts/Dockerfile.emscripten-i686",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 15 of build-scripts/Dockerfile.emscripten-i686 at this commit: `ENV ARCH i686`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "build-scripts/Dockerfile.emscripten-x86_64",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of build-scripts/Dockerfile.emscripten-x86_64 at this commit: `FROM ubuntu:14.04`. The vendor lifecycle record Ubuntu release cycle (https://ubuntu.com/about/release-cycle) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "build-scripts/Dockerfile.emscripten-x86_64",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 2 of build-scripts/Dockerfile.emscripten-x86_64 at this commit: `MAINTAINER Jan Bujak <j@exia.io>`. The vendor lifecycle record Dockerfile reference: MAINTAINER (deprecated) (https://docs.docker.com/reference/dockerfile/#maintainer-deprecated) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-scripts/Dockerfile.emscripten-x86_64",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 15 of build-scripts/Dockerfile.emscripten-x86_64 at this commit: `ENV ARCH x86_64`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 20 of Cargo.toml at this commit: `ansi_term = \"0.11\"`. The RustSec advisory database lists ansi-term as unmaintained (https://rustsec.org/advisories/RUSTSEC-2021-0139.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 40 of Cargo.toml at this commit: `atty = \"0.2\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "Cargo.toml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 54 of Cargo.toml at this commit: `failure = \"0.1\"`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    }
+  ]
+}

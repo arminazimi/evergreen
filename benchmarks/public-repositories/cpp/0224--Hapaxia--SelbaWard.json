@@ -1,0 +1,26 @@
+{
+  "repository": "Hapaxia/SelbaWard",
+  "commit": "d4c18efdd8313a22eed668ba4d9174ce613f496f",
+  "ecosystem": "cpp",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:49 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 69,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:69 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

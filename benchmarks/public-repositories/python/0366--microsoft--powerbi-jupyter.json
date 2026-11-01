@@ -1,0 +1,7 @@
+{
+  "repository": "microsoft/powerbi-jupyter",
+  "commit": "b929f2fc4e280017add902d126dece0ec107018d",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

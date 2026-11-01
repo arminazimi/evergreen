@@ -1,0 +1,62 @@
+{
+  "repository": "PowerShell/PSReadLine",
+  "commit": "a2d143f78904f8a954f8d4b055e55ceca6939bfc",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/IssuePreTriage.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/IssuePreTriage.yml:29 at this commit: `uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "MockPSConsole/MockPSConsole.csproj",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read MockPSConsole/MockPSConsole.csproj:7 at this commit: `<TargetFramework>net8.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "PSReadLine/PSReadLine.csproj",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read PSReadLine/PSReadLine.csproj:12 at this commit: `<TargetFramework>net8.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read global.json:3 at this commit: `\"version\": \"8.0.415\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "test/PSReadLine.Tests.csproj",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/PSReadLine.Tests.csproj:8 at this commit: `<TargetFramework>net8.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "tools/releaseTools.psm1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/releaseTools.psm1:1 at this commit: `#requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "lexich/redux-api",
+  "commit": "e92b171dda6b1586777a0caacb0308b9f7d5039a",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:39 at this commit: `\"babel-eslint\": \"10.0.3\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

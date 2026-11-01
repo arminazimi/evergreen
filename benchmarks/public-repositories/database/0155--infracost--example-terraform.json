@@ -1,0 +1,44 @@
+{
+  "repository": "infracost/example-terraform",
+  "commit": "7b5a96ddc1d1b570afc6ffbd36fb6ec150a80c18",
+  "ecosystem": "database",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "more_examples/main.tf",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 32 of more_examples/main.tf reads `engine_version      = \"5.7.44\"`, MySQL 5.7, which reached end of life on 2023-10-31 (MySQL lifecycle, https://www.mysql.com/support/supportedplatforms/database.html; https://endoflife.date/mysql)."
+      }
+    },
+    {
+      "ruleId": "terraform.eks.end-of-life-1.30-and-older",
+      "path": "more_examples/main.tf",
+      "line": 50,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 50 of more_examples/main.tf reads `cluster_version = \"1.24\"`, an EKS Kubernetes version that has reached end of life."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "path": "aws/main.tf",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read aws/main.tf:26 at this commit: `runtime       = \"nodejs12.x\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.google-cloud-functions.nodejs20",
+      "path": "google/main.tf",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read google/main.tf:38 at this commit: `runtime             = \"nodejs20\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

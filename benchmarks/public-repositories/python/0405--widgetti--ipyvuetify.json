@@ -1,0 +1,44 @@
+{
+  "repository": "widgetti/ipyvuetify",
+  "commit": "936378a22642336b716c6a28cc399002250e591a",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/test.yml",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:59 at this commit: `uses: actions/upload-artifact@v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/test.yml",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:67 at this commit: `uses: actions/upload-artifact@v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/test.yml",
+      "line": 113,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:113 at this commit: `uses: actions/upload-artifact@v6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:9 at this commit: `requires-python = \">=3.8\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

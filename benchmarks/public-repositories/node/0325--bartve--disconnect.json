@@ -1,0 +1,44 @@
+{
+  "repository": "bartve/disconnect",
+  "commit": "8fca4310c283b41e2eade7bfdb9e3a6bd0b3e905",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:29 at this commit: `\"node\": \">= 0.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:29 at this commit: `\"node\": \">= 0.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:29 at this commit: `\"node\": \">= 0.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:29 at this commit: `\"node\": \">= 0.12.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

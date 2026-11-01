@@ -1,0 +1,17 @@
+{
+  "repository": "containerd/containerd",
+  "commit": "aefce4e7cdbf9a8ce754cd4edb1de5d44f0c704d",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "api/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of api/go.mod at this commit: `go 1.25.0`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.25.0 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

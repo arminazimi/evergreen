@@ -131,7 +131,7 @@ For a repository you want to watch over time: `evergreen watch add ~/code/my-app
 
 ## Worked examples on real repositories
 
-These come from the pinned public corpus in `benchmarks/public-repositories.json`, so each location is one Evergreen reports at that commit.
+These come from the pinned public corpus in `benchmarks/public-repositories/`, so each location is one Evergreen reports at that commit.
 
 **A Node.js range that includes ended releases: `expressjs/express`.** At commit `a419aa7`, `package.json` line 83 declares an `engines.node` range that also allows Node.js 18, 19, and 20, and `.github/workflows/ci.yml` line 49 tests a matrix starting at 18. A scan reports one finding per ended release line at the same declaration (`nodejs.runtime.eol-18`, `-19`, `-20`). Read them as one decision, not three: raising the floor changes which Node.js versions the package supports for its users, so `explain` first, then take it to a maintainer rather than editing the range on your own.
 

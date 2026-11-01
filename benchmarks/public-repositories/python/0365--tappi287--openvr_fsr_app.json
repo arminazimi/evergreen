@@ -1,0 +1,26 @@
+{
+  "repository": "tappi287/openvr_fsr_app",
+  "commit": "af0fdc2f835fab414e7c0e892ca039821a41f08d",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:16 at this commit: `\"vue\": \"^2.6.11\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:23 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

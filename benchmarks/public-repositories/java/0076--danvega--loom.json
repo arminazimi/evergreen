@@ -1,0 +1,35 @@
+{
+  "repository": "danvega/loom",
+  "commit": "ea1d482d08c9564aae128ac193247545ff5664de",
+  "ecosystem": "java",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>19</java.version>`, a compile level of JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 44 of pom.xml reads `<source>19</source>`, the maven-compiler-plugin source level, JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 45 of pom.xml reads `<target>19</target>`, the maven-compiler-plugin target level, JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

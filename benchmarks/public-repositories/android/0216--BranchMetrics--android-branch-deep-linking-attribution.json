@@ -1,0 +1,89 @@
+{
+  "repository": "BranchMetrics/android-branch-deep-linking-attribution",
+  "commit": "e12e2998cf1b4e3d87c613c49cd4ae78a003bf0a",
+  "ecosystem": "android",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/sdk-l1-validation.yml",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/sdk-l1-validation.yml:89 at this commit: `uses: actions/upload-artifact@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/unit-and-instrumented-tests-action.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/unit-and-instrumented-tests-action.yml:29 at this commit: `uses: actions/upload-artifact@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/unit-and-instrumented-tests-action.yml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/unit-and-instrumented-tests-action.yml:66 at this commit: `uses: actions/upload-artifact@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/unit-and-instrumented-tests-action.yml",
+      "line": 129,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/unit-and-instrumented-tests-action.yml:129 at this commit: `uses: actions/upload-artifact@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/unit-and-instrumented-tests-action.yml",
+      "line": 165,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/unit-and-instrumented-tests-action.yml:165 at this commit: `uses: actions/upload-artifact@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "android.play-billing.version-8",
+      "path": "Branch-SDK-TestBed/build.gradle.kts",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Branch-SDK-TestBed/build.gradle.kts:16 at this commit: `implementation(\"com.android.billingclient:billing:8.0.0\")`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "android.play-billing.version-8",
+      "path": "Branch-SDK/build.gradle.kts",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Branch-SDK/build.gradle.kts:43 at this commit: `compileOnly(\"com.android.billingclient:billing:8.0.0\")`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "android.play-billing.version-8",
+      "path": "Branch-SDK/build.gradle.kts",
+      "line": 77,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Branch-SDK/build.gradle.kts:77 at this commit: `testImplementation(\"com.android.billingclient:billing:8.0.0\")`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "Branch-SDK-TestBed/build.gradle.kts",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Branch-SDK-TestBed/build.gradle.kts:39 at this commit: `targetSdk = 34` in the com.android.application module defaultConfig; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "repository": "kelseyhightower/confd",
+  "commit": "919444eb6cf721d198b2bb18581d0f0b3734d107",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Dockerfile.build.alpine",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 1 of Dockerfile.build.alpine at this commit: `FROM golang:1.10.2-alpine`. The vendor lifecycle record Go release policy (vendor) (https://go.dev/doc/devel/release#policy) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of go.mod at this commit: `go 1.19`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.19 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

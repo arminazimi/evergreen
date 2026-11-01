@@ -1,0 +1,35 @@
+{
+  "repository": "psake/psake",
+  "commit": "1f96992c1934317d28dbc3bd6baddd8efb92add8",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:46 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/publish.yml:62 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "specs/ansi_output/AnsiCheck.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read specs/ansi_output/AnsiCheck.csproj:4 at this commit: `<TargetFramework>net9.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

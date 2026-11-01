@@ -1,0 +1,17 @@
+{
+  "repository": "kelseyhightower/ingress-with-static-ip",
+  "commit": "a1100ac69885e91fd89045f73dfdbe1026e5de3f",
+  "ecosystem": "kubernetes",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "nginx-ing.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of nginx-ing.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress`. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+      }
+    }
+  ]
+}

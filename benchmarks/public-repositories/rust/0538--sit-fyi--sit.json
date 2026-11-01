@@ -1,0 +1,89 @@
+{
+  "repository": "sit-fyi/sit",
+  "commit": "eee5584024da9b4d3fec4064d094b7e03642727a",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-tools/cross-compile-osx/Dockerfile",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 8 of build-tools/cross-compile-osx/Dockerfile at this commit: `ENV CARGO_TARGET_X86_64_APPLE_DARWIN_LINKER x86_64-apple-darwin15-clang`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-tools/cross-compile-osx/Dockerfile",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 9 of build-tools/cross-compile-osx/Dockerfile at this commit: `ENV CC_X86_64_APPLE_DARWIN_LINKER x86_64-apple-darwin15-clang`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-tools/cross-compile-osx/Dockerfile",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 10 of build-tools/cross-compile-osx/Dockerfile at this commit: `ENV CMAKE_C_LINK_EXECUTABLE x86_64-apple-darwin15-ld`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-tools/cross-compile-osx/Dockerfile",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 11 of build-tools/cross-compile-osx/Dockerfile at this commit: `ENV CMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN x86_64-apple-darwin15-cc`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-tools/cross-compile-osx/Dockerfile",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 12 of build-tools/cross-compile-osx/Dockerfile at this commit: `ENV CMAKE_C_COMPILER x86_64-apple-darwin15-cc`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "build-tools/cross-compile-osx/Dockerfile",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 13 of build-tools/cross-compile-osx/Dockerfile at this commit: `ENV CROSS_COMPILE x86_64-apple-darwin15-`. The vendor lifecycle record Docker build check: LegacyKeyValueFormat (https://docs.docker.com/reference/build-checks/legacy-key-value-format/) lists this image release line as end-of-life."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "sit-core/Cargo.toml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 18 of sit-core/Cargo.toml at this commit: `tempdir = \"0.3\"`. The RustSec advisory database lists tempdir as unmaintained (https://rustsec.org/advisories/RUSTSEC-2018-0017.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "sit/Cargo.toml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 21 of sit/Cargo.toml at this commit: `tempdir = \"0.3\"`. The RustSec advisory database lists tempdir as unmaintained (https://rustsec.org/advisories/RUSTSEC-2018-0017.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "sit/Cargo.toml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 28 of sit/Cargo.toml at this commit: `atty = \"0.2\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    }
+  ]
+}

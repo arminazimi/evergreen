@@ -1,0 +1,179 @@
+{
+  "repository": "dotnet/vscode-csharp",
+  "commit": "1833384d44a9b850bde1d13570a7a96d70df5d1a",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".devcontainer/Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .devcontainer/Dockerfile:3 at this commit: `FROM mcr.microsoft.com/dotnet/sdk:8.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/branch-snap.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/branch-snap.yml:21 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/branch-snap.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/branch-snap.yml:23 at this commit: `uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/branch-snap.yml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/branch-snap.yml:44 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/branch-snap.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/branch-snap.yml:49 at this commit: `uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/copilot-setup-steps.yml",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/copilot-setup-steps.yml:29 at this commit: `- uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/copilot-setup-steps.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/copilot-setup-steps.yml:35 at this commit: `- uses: actions/setup-dotnet@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/release-comment-handler.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-comment-handler.yml:18 at this commit: `uses: actions/github-script@v7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/release-comment-handler.yml",
+      "line": 128,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-comment-handler.yml:128 at this commit: `uses: actions/github-script@v7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-reusable.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-reusable.yml:19 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/release-reusable.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/release-reusable.yml:24 at this commit: `uses: actions/github-script@v7`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/BasicRazorApp2_1/BasicRazorApp2_1.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/omnisharp/omnisharpIntegrationTests/testAssets/BasicRazorApp2_1/BasicRazorApp2_1.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/singleCsproj/singleCsproj.csproj",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/omnisharp/omnisharpIntegrationTests/testAssets/singleCsproj/singleCsproj.csproj:5 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnFilterWithCsproj/src/app/app.csproj",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/omnisharp/omnisharpIntegrationTests/testAssets/slnFilterWithCsproj/src/app/app.csproj:7 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnFilterWithCsproj/test/test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/omnisharp/omnisharpIntegrationTests/testAssets/slnFilterWithCsproj/test/test.csproj:4 at this commit: `<TargetFramework>netcoreapp3.1</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithCsproj/src/app/app.csproj",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithCsproj/src/app/app.csproj:7 at this commit: `<TargetFramework>net5.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithCsproj/test/test.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithCsproj/test/test.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithGenerator/app/app.csproj",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/omnisharp/omnisharpIntegrationTests/testAssets/slnWithGenerator/app/app.csproj:7 at this commit: `<TargetFramework>net5.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "test/razor/razorIntegrationTests/testAssets/RazorApp/RazorApp.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/razor/razorIntegrationTests/testAssets/RazorApp/RazorApp.csproj:4 at this commit: `<TargetFramework>net8.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

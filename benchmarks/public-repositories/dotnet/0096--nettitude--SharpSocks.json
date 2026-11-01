@@ -1,0 +1,89 @@
+{
+  "repository": "nettitude/SharpSocks",
+  "commit": "208226df71205e977afd7edf6d25fb6d8793bd99",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/sharpsocks-server.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/sharpsocks-server.yml reads `- uses: actions/checkout@v2`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/sharpsocks-server.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/sharpsocks-server.yml reads `uses: actions/setup-dotnet@v1`; actions/setup-dotnet v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "SharpSocksCommon/SharpSocksCommon.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of SharpSocksCommon/SharpSocksCommon.csproj reads `<TargetFrameworks>net40;net5.0</TargetFrameworks>`; the 5.0 line is a release line whose support ended on 2022-05-10 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "SharpSocksServer/SharpSocksServer.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of SharpSocksServer/SharpSocksServer.csproj reads `<TargetFramework>net6.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "SharpSocksServer/global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of SharpSocksServer/global.json reads `\"version\": \"5.0\",`; the 5.0 line is an SDK pin on a release line whose support ended on 2022-05-10 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of global.json reads `\"version\": \"5.0\",`; the 5.0 line is an SDK pin on a release line whose support ended on 2022-05-10 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": ".github/workflows/sharpsocks-server.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/sharpsocks-server.yml reads `dotnet-version: 6.0.x` for `actions/setup-dotnet`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "SharpSocksServer/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of SharpSocksServer/Dockerfile reads `FROM mcr.microsoft.com/dotnet/runtime:5.0 AS base`; the 5.0 tag names the .NET 5 release line, whose support ended on 2022-05-10 according to Microsoft's releases index."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "SharpSocksServer/Dockerfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 4 of SharpSocksServer/Dockerfile reads `FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build`; the 5.0 tag names the .NET 5 release line, whose support ended on 2022-05-10 according to Microsoft's releases index."
+      }
+    }
+  ]
+}

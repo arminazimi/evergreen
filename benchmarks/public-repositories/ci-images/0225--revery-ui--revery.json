@@ -1,0 +1,26 @@
+{
+  "repository": "revery-ui/revery",
+  "commit": "141f70f69d6abd69674b46d805a783411b38cd79",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:26 at this commit: `vmImage: 'ubuntu-20.04'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:48 at this commit: `vmImage: 'ubuntu-20.04'`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "slackhq/go-audit",
+  "commit": "4739171bc7d5dea93f863c361eec2ce30b5daa5e",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": []
+}

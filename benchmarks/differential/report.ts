@@ -9,6 +9,7 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { loadPublicCorpus } from "../public-corpus.js";
 import type { Comparison, DifferentialReport } from "./renovate.js";
 
 export const REPORTS_DIRECTORY = "benchmarks/differential/reports";
@@ -17,10 +18,6 @@ export const JSON_PATH = "docs/differential-report.json";
 
 const OUTCOMES = ["agree", "evergreen-only", "renovate-only", "inconclusive"] as const;
 type Outcome = (typeof OUTCOMES)[number];
-
-interface CorpusFile {
-  repositories: Array<{ repository: string; commit: string }>;
-}
 
 export interface Disagreement {
   repository: string;
@@ -124,7 +121,7 @@ export async function build(root = "."): Promise<{ markdown: string; json: strin
   const directory = resolve(root, REPORTS_DIRECTORY);
   const names = (await readdir(directory)).filter((name) => name.endsWith(".json")).sort();
   const reports = await Promise.all(names.map(async (name) => JSON.parse(await readFile(resolve(directory, name), "utf8")) as DifferentialReport));
-  const corpus = JSON.parse(await readFile(resolve(root, "benchmarks/public-repositories.json"), "utf8")) as CorpusFile;
+  const corpus = await loadPublicCorpus(root);
   const summary = summarize(reports, new Map(corpus.repositories.map((entry) => [entry.repository, entry.commit])));
   return { markdown: renderMarkdown(summary), json: `${JSON.stringify(summary, null, 2)}\n` };
 }

@@ -1,0 +1,62 @@
+{
+  "repository": "insodoc/insomnia-documenter",
+  "commit": "700aa024ca75f7faa4600bf7f83817ffaf25ca0a",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:15 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:17 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:45 at this commit: `\"node-sass\": \"^6.0.0\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+      "path": "package.json",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:54 at this commit: `\"rollup-plugin-terser\": \"^5.1.3\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": ".github/workflows/ci.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yml:12 at this commit: `node-version: [10.x, 12.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:45 at this commit: `\"node-sass\": \"^6.0.0\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

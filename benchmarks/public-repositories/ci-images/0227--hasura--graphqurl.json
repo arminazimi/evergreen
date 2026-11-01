@@ -1,0 +1,44 @@
+{
+  "repository": "hasura/graphqurl",
+  "commit": "1d142d21a78f5d4e139840075d9d3e5a425b98dd",
+  "ecosystem": "ci-images",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read azure-pipelines.yml:28 at this commit: `vmImage: 'Ubuntu-20.04'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:31 at this commit: `\"node\": \">=18.0.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:31 at this commit: `\"node\": \">=18.0.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:31 at this commit: `\"node\": \">=18.0.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

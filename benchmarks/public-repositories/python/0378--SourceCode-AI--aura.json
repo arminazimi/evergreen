@@ -1,0 +1,26 @@
+{
+  "repository": "SourceCode-AI/aura",
+  "commit": "1981c139dd14db0be6306bd345e1e7113d0624a6",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": ".gitpod.Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .gitpod.Dockerfile:1 at this commit: `FROM python:3.9-buster`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:4 at this commit: `description = \"Security auditing and static analysis for python\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,1070 @@
+{
+  "repository": "SteeltoeOSS/Steeltoe",
+  "commit": "8497ec6f139e3dd2bc71eae9e9988c2200999126",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/Steeltoe.All.yml",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/Steeltoe.All.yml:72 at this commit: `8.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": ".github/workflows/Steeltoe.All.yml",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/Steeltoe.All.yml:73 at this commit: `9.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/component-shared-workflow.yml",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/component-shared-workflow.yml:62 at this commit: `8.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": ".github/workflows/component-shared-workflow.yml",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/component-shared-workflow.yml:63 at this commit: `9.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/package.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/package.yml:38 at this commit: `8.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": ".github/workflows/package.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/package.yml:39 at this commit: `9.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/scan-vulnerable-dependencies.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/scan-vulnerable-dependencies.yml:34 at this commit: `8.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": ".github/workflows/scan-vulnerable-dependencies.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/scan-vulnerable-dependencies.yml:35 at this commit: `9.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/sonarcube.yml",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/sonarcube.yml:63 at this commit: `8.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": ".github/workflows/sonarcube.yml",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/sonarcube.yml:64 at this commit: `9.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": ".github/workflows/verify-code-style.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/verify-code-style.yml:33 at this commit: `8.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": ".github/workflows/verify-code-style.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/verify-code-style.yml:34 at this commit: `9.0.*`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Bootstrap/src/AutoConfiguration/Steeltoe.Bootstrap.AutoConfiguration.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Bootstrap/src/AutoConfiguration/Steeltoe.Bootstrap.AutoConfiguration.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Bootstrap/test/AutoConfiguration.Test/Steeltoe.Bootstrap.AutoConfiguration.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Bootstrap/test/AutoConfiguration.Test/Steeltoe.Bootstrap.AutoConfiguration.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Bootstrap/test/AutoConfiguration.Test/Steeltoe.Bootstrap.AutoConfiguration.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Bootstrap/test/AutoConfiguration.Test/Steeltoe.Bootstrap.AutoConfiguration.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Bootstrap/test/EmptyAutoConfiguration.Test/Steeltoe.Bootstrap.EmptyAutoConfiguration.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Bootstrap/test/EmptyAutoConfiguration.Test/Steeltoe.Bootstrap.EmptyAutoConfiguration.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Bootstrap/test/EmptyAutoConfiguration.Test/Steeltoe.Bootstrap.EmptyAutoConfiguration.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Bootstrap/test/EmptyAutoConfiguration.Test/Steeltoe.Bootstrap.EmptyAutoConfiguration.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/src/Certificates/Steeltoe.Common.Certificates.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/src/Certificates/Steeltoe.Common.Certificates.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/src/Common/Steeltoe.Common.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/src/Common/Steeltoe.Common.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/src/Hosting/Steeltoe.Common.Hosting.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/src/Hosting/Steeltoe.Common.Hosting.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/src/Http/Steeltoe.Common.Http.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/src/Http/Steeltoe.Common.Http.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/src/Logging/Steeltoe.Common.Logging.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/src/Logging/Steeltoe.Common.Logging.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/src/Net/Steeltoe.Common.Net.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/src/Net/Steeltoe.Common.Net.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/test/Certificates.Test/Steeltoe.Common.Certificates.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Certificates.Test/Steeltoe.Common.Certificates.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Common/test/Certificates.Test/Steeltoe.Common.Certificates.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Certificates.Test/Steeltoe.Common.Certificates.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/test/Common.Test/Steeltoe.Common.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Common.Test/Steeltoe.Common.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Common/test/Common.Test/Steeltoe.Common.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Common.Test/Steeltoe.Common.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/test/Hosting.Test/Steeltoe.Common.Hosting.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Hosting.Test/Steeltoe.Common.Hosting.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Common/test/Hosting.Test/Steeltoe.Common.Hosting.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Hosting.Test/Steeltoe.Common.Hosting.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/test/Http.Test/Steeltoe.Common.Http.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Http.Test/Steeltoe.Common.Http.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Common/test/Http.Test/Steeltoe.Common.Http.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Http.Test/Steeltoe.Common.Http.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/test/Logging.Test/Steeltoe.Common.Logging.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Logging.Test/Steeltoe.Common.Logging.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Common/test/Logging.Test/Steeltoe.Common.Logging.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Logging.Test/Steeltoe.Common.Logging.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/test/Net.Test/Steeltoe.Common.Net.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Net.Test/Steeltoe.Common.Net.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Common/test/Net.Test/Steeltoe.Common.Net.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/Net.Test/Steeltoe.Common.Net.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Common/test/TestResources/Steeltoe.Common.TestResources.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/TestResources/Steeltoe.Common.TestResources.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Common/test/TestResources/Steeltoe.Common.TestResources.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Common/test/TestResources/Steeltoe.Common.TestResources.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/src/Abstractions/Steeltoe.Configuration.Abstractions.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/src/Abstractions/Steeltoe.Configuration.Abstractions.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/src/CloudFoundry/Steeltoe.Configuration.CloudFoundry.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/src/CloudFoundry/Steeltoe.Configuration.CloudFoundry.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/src/ConfigServer/Steeltoe.Configuration.ConfigServer.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/src/ConfigServer/Steeltoe.Configuration.ConfigServer.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/src/Encryption/Steeltoe.Configuration.Encryption.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/src/Encryption/Steeltoe.Configuration.Encryption.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/src/Kubernetes.ServiceBindings/Steeltoe.Configuration.Kubernetes.ServiceBindings.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/src/Kubernetes.ServiceBindings/Steeltoe.Configuration.Kubernetes.ServiceBindings.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/src/Placeholder/Steeltoe.Configuration.Placeholder.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/src/Placeholder/Steeltoe.Configuration.Placeholder.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/src/RandomValue/Steeltoe.Configuration.RandomValue.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/src/RandomValue/Steeltoe.Configuration.RandomValue.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/src/SpringBoot/Steeltoe.Configuration.SpringBoot.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/src/SpringBoot/Steeltoe.Configuration.SpringBoot.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/CloudFoundry.Test/Steeltoe.Configuration.CloudFoundry.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/CloudFoundry.Test/Steeltoe.Configuration.CloudFoundry.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/CloudFoundry.Test/Steeltoe.Configuration.CloudFoundry.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/CloudFoundry.Test/Steeltoe.Configuration.CloudFoundry.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/ConfigServer.Discovery.Test/Steeltoe.Configuration.ConfigServer.Discovery.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/ConfigServer.Discovery.Test/Steeltoe.Configuration.ConfigServer.Discovery.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/ConfigServer.Discovery.Test/Steeltoe.Configuration.ConfigServer.Discovery.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/ConfigServer.Discovery.Test/Steeltoe.Configuration.ConfigServer.Discovery.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/ConfigServer.Integration.Test/Steeltoe.Configuration.ConfigServer.Integration.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/ConfigServer.Integration.Test/Steeltoe.Configuration.ConfigServer.Integration.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/ConfigServer.Integration.Test/Steeltoe.Configuration.ConfigServer.Integration.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/ConfigServer.Integration.Test/Steeltoe.Configuration.ConfigServer.Integration.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/ConfigServer.Test/Steeltoe.Configuration.ConfigServer.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/ConfigServer.Test/Steeltoe.Configuration.ConfigServer.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/ConfigServer.Test/Steeltoe.Configuration.ConfigServer.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/ConfigServer.Test/Steeltoe.Configuration.ConfigServer.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/Encryption.Test/Steeltoe.Configuration.Encryption.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/Encryption.Test/Steeltoe.Configuration.Encryption.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/Encryption.Test/Steeltoe.Configuration.Encryption.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/Encryption.Test/Steeltoe.Configuration.Encryption.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/Kubernetes.ServiceBindings.Test/Steeltoe.Configuration.Kubernetes.ServiceBindings.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/Kubernetes.ServiceBindings.Test/Steeltoe.Configuration.Kubernetes.ServiceBindings.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/Kubernetes.ServiceBindings.Test/Steeltoe.Configuration.Kubernetes.ServiceBindings.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/Kubernetes.ServiceBindings.Test/Steeltoe.Configuration.Kubernetes.ServiceBindings.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/Placeholder.Test/Steeltoe.Configuration.Placeholder.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/Placeholder.Test/Steeltoe.Configuration.Placeholder.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/Placeholder.Test/Steeltoe.Configuration.Placeholder.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/Placeholder.Test/Steeltoe.Configuration.Placeholder.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/RandomValue.Test/Steeltoe.Configuration.RandomValue.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/RandomValue.Test/Steeltoe.Configuration.RandomValue.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/RandomValue.Test/Steeltoe.Configuration.RandomValue.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/RandomValue.Test/Steeltoe.Configuration.RandomValue.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Configuration/test/SpringBoot.Test/Steeltoe.Configuration.SpringBoot.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/SpringBoot.Test/Steeltoe.Configuration.SpringBoot.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Configuration/test/SpringBoot.Test/Steeltoe.Configuration.SpringBoot.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Configuration/test/SpringBoot.Test/Steeltoe.Configuration.SpringBoot.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Connectors/src/Connectors/Steeltoe.Connectors.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Connectors/src/Connectors/Steeltoe.Connectors.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Connectors/src/EntityFrameworkCore/Steeltoe.Connectors.EntityFrameworkCore.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Connectors/src/EntityFrameworkCore/Steeltoe.Connectors.EntityFrameworkCore.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Connectors/test/Connectors.Test/Steeltoe.Connectors.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Connectors/test/Connectors.Test/Steeltoe.Connectors.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Connectors/test/Connectors.Test/Steeltoe.Connectors.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Connectors/test/Connectors.Test/Steeltoe.Connectors.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Connectors/test/EntityFrameworkCore.Test/Steeltoe.Connectors.EntityFrameworkCore.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Connectors/test/EntityFrameworkCore.Test/Steeltoe.Connectors.EntityFrameworkCore.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Connectors/test/EntityFrameworkCore.Test/Steeltoe.Connectors.EntityFrameworkCore.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Connectors/test/EntityFrameworkCore.Test/Steeltoe.Connectors.EntityFrameworkCore.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Discovery/src/Configuration/Steeltoe.Discovery.Configuration.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/src/Configuration/Steeltoe.Discovery.Configuration.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Discovery/src/Consul/Steeltoe.Discovery.Consul.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/src/Consul/Steeltoe.Discovery.Consul.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Discovery/src/Eureka/Steeltoe.Discovery.Eureka.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/src/Eureka/Steeltoe.Discovery.Eureka.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Discovery/src/HttpClients/Steeltoe.Discovery.HttpClients.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/src/HttpClients/Steeltoe.Discovery.HttpClients.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Discovery/test/Configuration.Test/Steeltoe.Discovery.Configuration.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/test/Configuration.Test/Steeltoe.Discovery.Configuration.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Discovery/test/Configuration.Test/Steeltoe.Discovery.Configuration.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/test/Configuration.Test/Steeltoe.Discovery.Configuration.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Discovery/test/Consul.Test/Steeltoe.Discovery.Consul.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/test/Consul.Test/Steeltoe.Discovery.Consul.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Discovery/test/Consul.Test/Steeltoe.Discovery.Consul.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/test/Consul.Test/Steeltoe.Discovery.Consul.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Discovery/test/Eureka.Test/Steeltoe.Discovery.Eureka.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/test/Eureka.Test/Steeltoe.Discovery.Eureka.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Discovery/test/Eureka.Test/Steeltoe.Discovery.Eureka.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/test/Eureka.Test/Steeltoe.Discovery.Eureka.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Discovery/test/HttpClients.Test/Steeltoe.Discovery.HttpClients.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/test/HttpClients.Test/Steeltoe.Discovery.HttpClients.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Discovery/test/HttpClients.Test/Steeltoe.Discovery.HttpClients.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Discovery/test/HttpClients.Test/Steeltoe.Discovery.HttpClients.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Logging/src/Abstractions/Steeltoe.Logging.Abstractions.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Logging/src/Abstractions/Steeltoe.Logging.Abstractions.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Logging/src/DynamicConsole/Steeltoe.Logging.DynamicConsole.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Logging/src/DynamicConsole/Steeltoe.Logging.DynamicConsole.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Logging/src/DynamicSerilog/Steeltoe.Logging.DynamicSerilog.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Logging/src/DynamicSerilog/Steeltoe.Logging.DynamicSerilog.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Logging/test/DynamicConsole.Test/Steeltoe.Logging.DynamicConsole.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Logging/test/DynamicConsole.Test/Steeltoe.Logging.DynamicConsole.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Logging/test/DynamicConsole.Test/Steeltoe.Logging.DynamicConsole.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Logging/test/DynamicConsole.Test/Steeltoe.Logging.DynamicConsole.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Logging/test/DynamicSerilog.Test/Steeltoe.Logging.DynamicSerilog.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Logging/test/DynamicSerilog.Test/Steeltoe.Logging.DynamicSerilog.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Logging/test/DynamicSerilog.Test/Steeltoe.Logging.DynamicSerilog.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Logging/test/DynamicSerilog.Test/Steeltoe.Logging.DynamicSerilog.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/src/Abstractions/Steeltoe.Management.Abstractions.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/src/Abstractions/Steeltoe.Management.Abstractions.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/src/Endpoint/Steeltoe.Management.Endpoint.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/src/Endpoint/Steeltoe.Management.Endpoint.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/src/Prometheus/Steeltoe.Management.Prometheus.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/src/Prometheus/Steeltoe.Management.Prometheus.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/src/Tasks/Steeltoe.Management.Tasks.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/src/Tasks/Steeltoe.Management.Tasks.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/src/Tracing/Steeltoe.Management.Tracing.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/src/Tracing/Steeltoe.Management.Tracing.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/test/Endpoint.Test/Steeltoe.Management.Endpoint.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/Endpoint.Test/Steeltoe.Management.Endpoint.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Management/test/Endpoint.Test/Steeltoe.Management.Endpoint.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/Endpoint.Test/Steeltoe.Management.Endpoint.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/test/Prometheus.Test/Steeltoe.Management.Prometheus.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/Prometheus.Test/Steeltoe.Management.Prometheus.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Management/test/Prometheus.Test/Steeltoe.Management.Prometheus.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/Prometheus.Test/Steeltoe.Management.Prometheus.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/test/RazorPagesTestWebApp/Steeltoe.Management.Endpoint.RazorPagesTestWebApp.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/RazorPagesTestWebApp/Steeltoe.Management.Endpoint.RazorPagesTestWebApp.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Management/test/RazorPagesTestWebApp/Steeltoe.Management.Endpoint.RazorPagesTestWebApp.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/RazorPagesTestWebApp/Steeltoe.Management.Endpoint.RazorPagesTestWebApp.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/test/Tasks.Test/Steeltoe.Management.Tasks.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/Tasks.Test/Steeltoe.Management.Tasks.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Management/test/Tasks.Test/Steeltoe.Management.Tasks.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/Tasks.Test/Steeltoe.Management.Tasks.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Management/test/Tracing.Test/Steeltoe.Management.Tracing.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/Tracing.Test/Steeltoe.Management.Tracing.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Management/test/Tracing.Test/Steeltoe.Management.Tracing.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Management/test/Tracing.Test/Steeltoe.Management.Tracing.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Security/src/Authentication.JwtBearer/Steeltoe.Security.Authentication.JwtBearer.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/src/Authentication.JwtBearer/Steeltoe.Security.Authentication.JwtBearer.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Security/src/Authentication.OpenIdConnect/Steeltoe.Security.Authentication.OpenIdConnect.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/src/Authentication.OpenIdConnect/Steeltoe.Security.Authentication.OpenIdConnect.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Security/src/Authorization.Certificate/Steeltoe.Security.Authorization.Certificate.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/src/Authorization.Certificate/Steeltoe.Security.Authorization.Certificate.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Security/src/DataProtection.Redis/Steeltoe.Security.DataProtection.Redis.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/src/DataProtection.Redis/Steeltoe.Security.DataProtection.Redis.csproj:3 at this commit: `<TargetFrameworks>net10.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Security/test/Authentication.JwtBearer.Test/Steeltoe.Security.Authentication.JwtBearer.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/test/Authentication.JwtBearer.Test/Steeltoe.Security.Authentication.JwtBearer.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Security/test/Authentication.JwtBearer.Test/Steeltoe.Security.Authentication.JwtBearer.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/test/Authentication.JwtBearer.Test/Steeltoe.Security.Authentication.JwtBearer.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Security/test/Authentication.OpenIdConnect.Test/Steeltoe.Security.Authentication.OpenIdConnect.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/test/Authentication.OpenIdConnect.Test/Steeltoe.Security.Authentication.OpenIdConnect.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Security/test/Authentication.OpenIdConnect.Test/Steeltoe.Security.Authentication.OpenIdConnect.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/test/Authentication.OpenIdConnect.Test/Steeltoe.Security.Authentication.OpenIdConnect.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Security/test/Authorization.Certificate.Test/Steeltoe.Security.Authorization.Certificate.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/test/Authorization.Certificate.Test/Steeltoe.Security.Authorization.Certificate.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Security/test/Authorization.Certificate.Test/Steeltoe.Security.Authorization.Certificate.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/test/Authorization.Certificate.Test/Steeltoe.Security.Authorization.Certificate.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Security/test/DataProtection.Redis.Test/Steeltoe.Security.DataProtection.Redis.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/test/DataProtection.Redis.Test/Steeltoe.Security.DataProtection.Redis.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Security/test/DataProtection.Redis.Test/Steeltoe.Security.DataProtection.Redis.Test.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Security/test/DataProtection.Redis.Test/Steeltoe.Security.DataProtection.Redis.Test.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Tools/src/ConfigurationSchemaGenerator/ConfigurationSchemaGenerator.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Tools/src/ConfigurationSchemaGenerator/ConfigurationSchemaGenerator.csproj:3 at this commit: `<TargetFramework>net8.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/Tools/test/ConfigurationSchemaGenerator.Tests/ConfigurationSchemaGenerator.Tests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Tools/test/ConfigurationSchemaGenerator.Tests/ConfigurationSchemaGenerator.Tests.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-9.0",
+      "path": "src/Tools/test/ConfigurationSchemaGenerator.Tests/ConfigurationSchemaGenerator.Tests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Tools/test/ConfigurationSchemaGenerator.Tests/ConfigurationSchemaGenerator.Tests.csproj:3 at this commit: `<TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "repository": "jmanteau/fastapi-topaz",
+  "commit": "a78c9caa3db515ac018991d99754b12c83e8e69b",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/ci.yml reads - uses: actions/checkout@v4"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 27 of .github/workflows/docs.yml reads uses: actions/checkout@v4"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 49 of .github/workflows/docs.yml reads uses: actions/checkout@v4"
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/jmanteau/fastapi-topaz/commit/d1eff702b0e3afc932e8794e50aed76fca028732"
+      }
+    },
+    {
+      "ruleId": "github-actions.deploy-pages.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 81,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 81 of .github/workflows/docs.yml reads uses: actions/deploy-pages@v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 52 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/ci.yml reads - uses: astral-sh/setup-uv@v5, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major."
+      }
+    }
+  ]
+}

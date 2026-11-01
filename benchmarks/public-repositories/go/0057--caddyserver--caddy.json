@@ -1,0 +1,17 @@
+{
+  "repository": "caddyserver/caddy",
+  "commit": "5ee9a2d424dc37ea20911026b7bf876de8f122a8",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.1`, a Go release line that no longer receives fixes. The maintainers raised the floor to Go 1.26 in https://github.com/caddyserver/caddy/commit/90ccea768fc192ba0feff7a8df4344916eb7331f."
+      }
+    }
+  ]
+}

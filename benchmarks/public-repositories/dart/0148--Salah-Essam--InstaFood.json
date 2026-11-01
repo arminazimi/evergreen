@@ -1,0 +1,26 @@
+{
+  "repository": "Salah-Essam/InstaFood",
+  "commit": "89da20e9aa24a96adedc681ae17c5a941cf408ca",
+  "ecosystem": "dart",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "dart.sdk.end-of-support-3.8",
+      "path": "pubspec.lock",
+      "line": 1497,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1497 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-3.8",
+      "path": "pubspec.yaml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 9 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+      }
+    }
+  ]
+}

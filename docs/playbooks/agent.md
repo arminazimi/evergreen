@@ -50,7 +50,7 @@ The migration is done only when **both** hold: the project's tests pass, and a f
 
 ## Worked examples on real repositories
 
-These come from the pinned public corpus in `benchmarks/public-repositories.json`, so each location is one Evergreen reports at that commit.
+These come from the pinned public corpus in `benchmarks/public-repositories/`, so each location is one Evergreen reports at that commit.
 
 **A Python floor that reached end of life: `psf/requests`.** At commit `611c616`, line 17 of `pyproject.toml` reads `requires-python = ">=3.10"`, a release line that ended on 2026-10-01 (rule `python.runtime.eol-3.10-and-older`). The packet's scope is the declaration plus anything that gates on the old floor (CI matrix entries, classifiers, `python_requires` checks in tests). Raising the floor changes what the package supports for its users, so this is a decision to take to a maintainer; the agent should present the change, not make it silently.
 

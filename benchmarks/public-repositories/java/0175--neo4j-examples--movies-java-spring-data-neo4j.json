@@ -1,0 +1,71 @@
+{
+  "repository": "neo4j-examples/movies-java-spring-data-neo4j",
+  "commit": "e009df722b0d085e31b4cc4e7f84b12b16fb8925",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/build.yml reads `uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 68 of .github/workflows/build.yml reads `uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of .github/workflows/build.yml reads `- uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 79,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 79 of .github/workflows/build.yml reads `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 81,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 81 of .github/workflows/build.yml reads `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of .github/workflows/build.yml reads `uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00  # v4.7.1`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 63,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 63 of .github/workflows/build.yml reads `uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00  # v4.7.1`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+      }
+    }
+  ]
+}

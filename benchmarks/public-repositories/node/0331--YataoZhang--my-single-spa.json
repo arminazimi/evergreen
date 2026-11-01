@@ -1,0 +1,17 @@
+{
+  "repository": "YataoZhang/my-single-spa",
+  "commit": "91ac5195aa9b4ef03693810da97935feebd22751",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.rollup-plugin-babel.deprecated",
+      "path": "package.json",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:25 at this commit: `\"rollup-plugin-babel\": \"^4.3.3\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

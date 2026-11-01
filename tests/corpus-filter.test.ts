@@ -53,7 +53,8 @@ test("an unknown name is an error that lists the valid ones", () => {
 });
 
 test("--ecosystem php selects exactly the PHP entries of the real corpus", async () => {
-  const corpus = JSON.parse(await readFile("benchmarks/public-repositories.json", "utf8")) as { repositories: CorpusRepositoryEntry[] };
+  const { loadPublicCorpus } = await import("../benchmarks/public-corpus.js");
+  const corpus = await loadPublicCorpus();
   const selection = selectCorpusEntries(corpus.repositories, { ecosystems: ["php"], repositories: [] });
   assert.ok(selection.entries.length > 0);
   assert.ok(selection.entries.every((entry) => entry.ecosystem === "php"));

@@ -1,0 +1,26 @@
+{
+  "repository": "BaptisteLecat/gcp_architect_certification",
+  "commit": "333f3b477e8274a0fddc5748957e7462f4745b1d",
+  "ecosystem": "serverless",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "serverless.google-cloud-functions.nodejs14",
+      "path": "gsp315/main.tf",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 53 of gsp315/main.tf reads `runtime = \"nodejs14\"` on a Google Cloud Functions resource. The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30 (https://cloud.google.com/functions/docs/runtime-support)."
+      }
+    },
+    {
+      "ruleId": "database.google-cloud-sql-mysql.extended-support-5.6-to-5.7",
+      "path": "cloud_sql/main.tf",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of cloud_sql/main.tf reads `database_version = \"MYSQL_5_7\"`, a Cloud SQL for MySQL version in the extended-support window the rule covers."
+      }
+    }
+  ]
+}

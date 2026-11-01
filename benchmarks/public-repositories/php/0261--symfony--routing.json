@@ -1,0 +1,7 @@
+{
+  "repository": "symfony/routing",
+  "commit": "a81f96fb932ce5fc8a8f64b0dc0eb1f9c5f547ea",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": []
+}

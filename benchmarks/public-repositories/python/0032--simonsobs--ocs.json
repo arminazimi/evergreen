@@ -1,0 +1,26 @@
+{
+  "repository": "simonsobs/ocs",
+  "commit": "11991a2c5a098b6e82068ab81328b2134ceb2866",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/simonsobs/ocs/commit/c18fb69118c90ea5fa2cc6171f6e1e1d08b51a2e"
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "Dockerfile",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of Dockerfile reads `FROM ubuntu:22.04`, an Ubuntu release line with a scheduled standard-support end-of-life."
+      }
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "repository": "withastro/astro",
+  "commit": "c2c43a99f4d50676456c137ff88359579f78bf5c",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.labeler.node20",
+      "path": ".github/workflows/label.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/label.yml reads - uses: actions/labeler@ac9175f8a1f3625fd0d4fb234536d26811351594 # v4.3.0, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 163,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 163 of .github/workflows/ci.yml reads NODE_VERSION: [22, 24], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 238,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 238 of .github/workflows/ci.yml reads node_version: [22.22.2, 24.15.0], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 295,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 295 of .github/workflows/ci.yml reads NODE_VERSION: [22], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 334,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 334 of .github/workflows/ci.yml reads NODE_VERSION: [22], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 70 of .github/workflows/ci.yml reads NODE_VERSION: [22], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

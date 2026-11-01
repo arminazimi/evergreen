@@ -1,0 +1,80 @@
+{
+  "repository": "connectrpc/connect-playwright-es",
+  "commit": "1fc1442b31f3104122b919f959cfe55d15338cca",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6"
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".nvmrc",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6"
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6"
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6"
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: the Node.js range on line 25 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/ci.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yaml:14 at this commit: `node-version: [18, 20, 22]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/ci.yaml:14 at this commit: `node-version: [18, 20, 22]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/ci.yaml reads node-version: [18, 20, 22], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

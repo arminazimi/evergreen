@@ -124,7 +124,7 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
   },
   { pattern: /^src\/detectors\/json-lines\.ts$/, ecosystems: ["cpp", "dart", "dotnet", "php", "swift"], reason: "JSON line locations" },
   {
-    pattern: /^src\/(engine|domain|sdk|paths|registry|data-source|package-files|version|index)\.ts$|^src\/detectors\/index\.ts$|^src\/conformance\/|^benchmarks\/(corpus-harness|public-repositories)\.ts$|^benchmarks\/thresholds\.(ts|json)$/,
+    pattern: /^src\/(engine|domain|sdk|paths|registry|data-source|package-files|version|index)\.ts$|^src\/detectors\/index\.ts$|^src\/conformance\/|^benchmarks\/(corpus-harness|public-repositories|public-corpus)\.ts$|^benchmarks\/thresholds\.(ts|json)$/,
     ecosystems: CORPUS_ECOSYSTEMS,
     reason: "shared scan code or corpus scoring",
   },
@@ -145,6 +145,14 @@ function ecosystemsFor(path: string): { ecosystems: readonly string[]; reason: s
   if (registry) return { ecosystems: REGISTRY_ECOSYSTEMS[registry] ?? [], reason: `registry ${registry}` };
   const fixture = /^tests\/fixtures\/([^/]+)\//.exec(path)?.[1];
   if (fixture) return { ecosystems: FIXTURE_ECOSYSTEMS[fixture] ?? [], reason: `fixtures ${fixture}` };
+  // One file per corpus repository: editing that file only re-runs its ecosystem.
+  const corpusEntry = /^benchmarks\/public-repositories\/([^/]+)\/[^/]+\.json$/.exec(path)?.[1];
+  if (corpusEntry) {
+    return {
+      ecosystems: (CORPUS_ECOSYSTEMS as readonly string[]).includes(corpusEntry) ? [corpusEntry] : [],
+      reason: `corpus ${corpusEntry}`,
+    };
+  }
   for (const shared of SHARED_FILE_ECOSYSTEMS) {
     if (shared.pattern.test(path)) return { ecosystems: shared.ecosystems, reason: shared.reason };
   }

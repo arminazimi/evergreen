@@ -1,0 +1,7 @@
+{
+  "repository": "nachoparker/dutree",
+  "commit": "44e877d148f29ae68e44b5553018f2096087d90b",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

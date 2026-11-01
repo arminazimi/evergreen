@@ -1,0 +1,17 @@
+{
+  "repository": "LAION-AI/CLAP",
+  "commit": "1fd4c37df5ffbfcfbad5415c170bc66cf94c9994",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:22 at this commit: `requires-python = \">=3.7\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

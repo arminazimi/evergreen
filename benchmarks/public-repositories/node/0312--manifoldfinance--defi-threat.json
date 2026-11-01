@@ -1,0 +1,17 @@
+{
+  "repository": "manifoldfinance/defi-threat",
+  "commit": "0b625b290aa1137299436782978da5ecda9d1fd3",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lint.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/lint.yml:33 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

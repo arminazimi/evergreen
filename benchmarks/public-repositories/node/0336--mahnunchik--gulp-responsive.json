@@ -1,0 +1,44 @@
+{
+  "repository": "mahnunchik/gulp-responsive",
+  "commit": "8091ebc2fd9d8fe757201600f63c3653446147bd",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:14 at this commit: `\"node\": \">=8.5.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:14 at this commit: `\"node\": \">=8.5.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:14 at this commit: `\"node\": \">=8.5.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:14 at this commit: `\"node\": \">=8.5.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "chalk/chalk",
+  "commit": "47fc05abd46171b235e24174cd2dba83d25bf037",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/main.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/main.yml reads - 22, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

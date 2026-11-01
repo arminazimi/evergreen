@@ -1,0 +1,17 @@
+{
+  "repository": "doableware/djongo",
+  "commit": "2753c066e03b8b6d68c783a4a28ae02b9b934623",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:19 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "gchp/iota",
+  "commit": "8f35dd5cba2f07077590619760e62dbb74a71fab",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "Cargo.toml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Cargo.toml:16 at this commit: `tempdir = \"0.3.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

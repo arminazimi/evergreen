@@ -1,0 +1,35 @@
+{
+  "repository": "seedco/Formalist",
+  "commit": "066025d60458ebd71f2c0edd0f995810a16bd339",
+  "ecosystem": "swift",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "swift.xcode.app-store-below-15",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `9.3.1`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "Formalist.xcodeproj/project.pbxproj",
+      "line": 1048,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1048 of Formalist.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 12.0` in the Debug build configuration of the `Example` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+      }
+    },
+    {
+      "ruleId": "swift.app-store.ios-below-13",
+      "path": "Formalist.xcodeproj/project.pbxproj",
+      "line": 1064,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1064 of Formalist.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 12.0` in the Release build configuration of the `Example` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+      }
+    }
+  ]
+}

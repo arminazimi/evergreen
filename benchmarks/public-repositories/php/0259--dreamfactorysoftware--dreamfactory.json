@@ -1,0 +1,17 @@
+{
+  "repository": "dreamfactorysoftware/dreamfactory",
+  "commit": "2965df25098ee1b580e2756807fa65c66dc8eb28",
+  "ecosystem": "php",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:18 at this commit: `\"vue\": \"^2.1.10\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

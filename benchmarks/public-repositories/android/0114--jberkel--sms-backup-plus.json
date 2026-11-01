@@ -1,0 +1,18 @@
+{
+  "repository": "jberkel/sms-backup-plus",
+  "commit": "fd33c3209c80598632d0323237fc86fa4ffea710",
+  "ecosystem": "android",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "android.play-billing.version-7",
+      "path": "app/build.gradle",
+      "line": 78,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+        "note": "Reviewed independently at this commit: line 78 of app/build.gradle pins com.android.billingclient:billing:7.1.1; Google's Play Billing deprecation timeline requires version 8 or newer for releases after the 2026 deadline."
+      }
+    }
+  ]
+}

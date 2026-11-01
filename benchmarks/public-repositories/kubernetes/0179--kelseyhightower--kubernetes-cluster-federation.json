@@ -1,0 +1,53 @@
+{
+  "repository": "kelseyhightower/kubernetes-cluster-federation",
+  "commit": "0606fbe0348530ed45c9f69fd5fd5c7bd1632018",
+  "ecosystem": "kubernetes",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "deployments/federation-apiserver.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of deployments/federation-apiserver.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "deployments/federation-controller-manager.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of deployments/federation-controller-manager.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "ingress/nginx.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of ingress/nginx.yaml reads `apiVersion: extensions/v1beta1` on a `kind: ingress` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+      "path": "rs/nginx-us.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of rs/nginx-us.yaml reads `apiVersion: extensions/v1beta1` on a `kind: replicaset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+      "path": "rs/nginx.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of rs/nginx.yaml reads `apiVersion: extensions/v1beta1` on a `kind: replicaset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "repository": "edwardm/ECORE-JS-Page-Down-Progress",
+  "commit": "66b9c59bf6ea9775e960c365f96bb62cc523114b",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/edwardm/ECORE-JS-Page-Down-Progress/commit/948dbb345bc71a3d451f676943dbd0257f87cbb8"
+      }
+    },
+    {
+      "ruleId": "npm.package.node-sass.deprecated",
+      "path": "package.json",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:43 at this commit: `\"node-sass\": \"^4.14.1\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

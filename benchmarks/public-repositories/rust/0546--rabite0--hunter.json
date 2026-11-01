@@ -1,0 +1,17 @@
+{
+  "repository": "rabite0/hunter",
+  "commit": "355d9a3101f6d8dc375807de79e368602f1cb87d",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "Cargo.toml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 28 of Cargo.toml at this commit: `failure = \"0.1.5\"`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    }
+  ]
+}

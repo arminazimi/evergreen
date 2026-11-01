@@ -1,0 +1,50 @@
+{
+  "repository": "pypa/sampleproject",
+  "commit": "621e4974ca25ce531773def586ba3ed8e736b3fc",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/release.yml reads uses: actions/setup-python@v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/test.yml reads uses: actions/setup-python@v5, a release below the supported major."
+      }
+    }
+  ]
+}

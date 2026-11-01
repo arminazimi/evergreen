@@ -1,0 +1,7 @@
+{
+  "repository": "hellofresh/action-changed-files",
+  "commit": "6e0e3a3fa45bb877dbcefee16c4d8a1f676fcee8",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": []
+}

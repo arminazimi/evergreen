@@ -1,0 +1,7 @@
+{
+  "repository": "swiftlang/swift-corelibs-xctest",
+  "commit": "a67087a29a11154670d9a6eabf149994a9475c77",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": []
+}

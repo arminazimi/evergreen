@@ -1,0 +1,7 @@
+{
+  "repository": "jarus/flask-testing",
+  "commit": "5107691011fa891835c01547e73e991c484fa07f",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

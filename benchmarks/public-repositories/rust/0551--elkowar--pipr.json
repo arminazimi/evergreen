@@ -1,0 +1,17 @@
+{
+  "repository": "elkowar/pipr",
+  "commit": "361b2fa12bdab0cf34fb9bad0c13f36b23444bce",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 27 of Cargo.toml at this commit: `atty = \"0.2\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    }
+  ]
+}

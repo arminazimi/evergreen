@@ -1,0 +1,28 @@
+{
+  "repository": "oatpp/oatpp",
+  "commit": "f83d648fd82dc222ef88aabbafb68efbd7d7bf50",
+  "ecosystem": "ci-images",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
+        "note": "Reviewed at this commit: line 11 of azure-pipelines.yml sets pool.vmImage to ubuntu-20.04. The Azure DevOps blog's deprecation plan sets full removal of that image for 2025-04-30 (https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/)."
+      }
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+      "path": "azure-pipelines.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+        "note": "Reviewed at this commit: line 32 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+      }
+    }
+  ]
+}

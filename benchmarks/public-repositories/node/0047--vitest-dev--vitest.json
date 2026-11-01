@@ -1,0 +1,7 @@
+{
+  "repository": "vitest-dev/vitest",
+  "commit": "7a825db43e2beca0b219d2eadaec334cb81af0c7",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": []
+}

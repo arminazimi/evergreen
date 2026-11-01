@@ -8,7 +8,7 @@ The detector's supported declarations, package URLs, what it reports, what it in
 
 ## Android detector
 
-The `android` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned for it in `benchmarks/public-repositories.json` (four targeted, one blind). Its lifecycle rules are in `registry/android.json` and ship in the [data bundle](../DATA.md). The bundled rules cover Google Play Billing Library majors 5 through 9 and cite the [Google Play Billing Library version deprecation](https://developer.android.com/google/play/billing/deprecation-faq) timeline. Scans read that bundled registry only.
+The `android` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned for it in `benchmarks/public-repositories/` (four targeted, one blind). Its lifecycle rules are in `registry/android.json` and ship in the [data bundle](../DATA.md). The bundled rules cover Google Play Billing Library majors 5 through 9 and cite the [Google Play Billing Library version deprecation](https://developer.android.com/google/play/billing/deprecation-faq) timeline. Scans read that bundled registry only.
 
 ### Supported files and declarations
 

@@ -1,0 +1,26 @@
+{
+  "repository": "cloudposse/terraform-aws-ec2-instance",
+  "commit": "02f06189090c2d464f27ee812856ae296f320d63",
+  "ecosystem": "terraform",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "test/src/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/src/go.mod:3 at this commit: `go 1.24`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "test/src/go.mod",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/src/go.mod:5 at this commit: `toolchain go1.24.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "AbirHasan2005/TG-String-Session",
+  "commit": "95db9ab614821d0332226fb5f3a542fd3ec8945e",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "runtime.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read runtime.txt:1 at this commit: `python-3.8.5`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "navikt/security-playbook",
+  "commit": "7b310ffa2b7b55c1993b469de0eb130e631fb576",
+  "ecosystem": "container",
+  "selection": "blind",
+  "expected": []
+}

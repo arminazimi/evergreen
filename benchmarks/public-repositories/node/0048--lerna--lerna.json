@@ -1,0 +1,7 @@
+{
+  "repository": "lerna/lerna",
+  "commit": "b00fa0321a42947bb4113bc7906021f04131d0db",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": []
+}

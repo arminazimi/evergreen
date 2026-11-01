@@ -1,0 +1,17 @@
+{
+  "repository": "mobxjs/mobx-react-todomvc",
+  "commit": "1cba503dbbd55cb172eec3b53f1c3edb2afd84aa",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-preset-es2015.deprecated",
+      "path": "package.json",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:33 at this commit: `\"babel-preset-es2015\": \"^6.24.1\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

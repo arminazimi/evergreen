@@ -1,0 +1,44 @@
+{
+  "repository": "govuk-one-login/di-account-management-frontend",
+  "commit": "d9a4e9ec01e6b6a2f061d45b5d411b9b6c9df9ad",
+  "ecosystem": "terraform",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "terraform.cli.end-of-support-1.12",
+      "path": ".terraform-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .terraform-version reads `1.12.2`, an exact Terraform 1.12.2 pin. Terraform 1.12 stopped being one of the two most recent release lines when Terraform 1.14.0 shipped on 2025-11-19 (https://github.com/hashicorp/terraform/releases/tag/v1.14.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+      }
+    },
+    {
+      "ruleId": "terraform.cli.end-of-support-1.12",
+      "path": "deploy/site.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of deploy/site.tf reads `required_version = \"~> 1.12.0\"`, which admits only Terraform 1.12.x patch releases. Terraform 1.12 stopped being one of the two most recent release lines when Terraform 1.14.0 shipped on 2025-11-19 (https://github.com/hashicorp/terraform/releases/tag/v1.14.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "local.Dockerfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read local.Dockerfile:6 at this commit: `ENV NODE_ENV \"development\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "local.Dockerfile",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read local.Dockerfile:7 at this commit: `ENV PORT 6001`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

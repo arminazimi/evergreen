@@ -1,0 +1,161 @@
+{
+  "repository": "Akenon-Studio/.github",
+  "commit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
+  "ecosystem": "node-actions",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/security-scan.yml",
+      "line": 127,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/Akenon-Studio/.github/commit/4521883cc1c0c79f00f855fd944305997c23571a"
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/ai-review.yml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 66 of .github/workflows/ai-review.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/ai-scorecard.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of .github/workflows/ai-scorecard.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/ai-scorecard.yml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 54 of .github/workflows/ai-scorecard.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/claude-md-check.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of .github/workflows/claude-md-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/claude-md-check.yml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of .github/workflows/claude-md-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/issue-fields.yml",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 53 of .github/workflows/issue-fields.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/issue-sweep.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 37 of .github/workflows/issue-sweep.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/merge-lane.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 52 of .github/workflows/merge-lane.yml reads uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/merge-lane.yml",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 62 of .github/workflows/merge-lane.yml reads uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/peras-tests.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of .github/workflows/peras-tests.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/peras-tests.yml",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 68 of .github/workflows/peras-tests.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/settings-check.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 38 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/settings-check.yml",
+      "line": 56,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 56 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/settings-check.yml",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 76 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ai-review.yml",
+      "line": 99,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 99 of .github/workflows/ai-review.yml reads - uses: actions/setup-python@v5, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/security-scan.yml",
+      "line": 55,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 55 of .github/workflows/security-scan.yml reads - uses: actions/setup-python@v5, a release below the supported major."
+      }
+    }
+  ]
+}

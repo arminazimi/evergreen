@@ -1,0 +1,17 @@
+{
+  "repository": "TechPrimers/spring-batch-example-1",
+  "commit": "56fba9e92976a177b34a978032353874c7084166",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of pom.xml reads `<java.version>15</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+      }
+    }
+  ]
+}

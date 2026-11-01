@@ -1,0 +1,26 @@
+{
+  "repository": "rust-lang/team",
+  "commit": "aef6e57f7f2ecb9c8c6ad6c9f8bda035c4a3644b",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 34 of Cargo.toml at this commit: `ansi_term = \"0.12.1\"`. The RustSec advisory database lists ansi-term as unmaintained (https://rustsec.org/advisories/RUSTSEC-2021-0139.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 35 of Cargo.toml at this commit: `atty = \"0.2.14\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
+      }
+    }
+  ]
+}

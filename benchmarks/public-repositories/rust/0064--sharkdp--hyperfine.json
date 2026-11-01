@@ -1,0 +1,71 @@
+{
+  "repository": "sharkdp/hyperfine",
+  "commit": "769652353aacf84fb8ab691e4ec2c6435ad2ee3a",
+  "ecosystem": "rust",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 23 of Cargo.toml declares `atty = \"0.2\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8 ('Remove dependency on `atty` and use `std::io::IsTerminal` instead')."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 64 of Cargo.toml declares `atty = \"0.2\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8 ('Remove dependency on `atty` and use `std::io::IsTerminal` instead')."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 21 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 44,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 44 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 53,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 53 of .github/workflows/CICD.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 88,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 88 of .github/workflows/CICD.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/CICD.yml",
+      "line": 328,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 328 of .github/workflows/CICD.yml reads `uses: softprops/action-gh-release@v1`, which github-actions.action-gh-release.node20 reports."
+      }
+    }
+  ]
+}

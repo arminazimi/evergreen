@@ -1,0 +1,17 @@
+{
+  "repository": "ayamir/nvimdots",
+  "commit": "5e2eb61fe95788a82fece844a18097f7be91bdb2",
+  "ecosystem": "shell",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.1",
+      "path": "scripts/install.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of scripts/install.ps1 reads `#Requires -Version 7.1`, which requires PowerShell 7.1 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.1 as retired, with support ended on 2022-05-08 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+      }
+    }
+  ]
+}

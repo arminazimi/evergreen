@@ -1,0 +1,35 @@
+{
+  "repository": "kumokumo1653/ideamaker",
+  "commit": "8c2ba048a009bf82db0a80c7030e4652e1c7703a",
+  "ecosystem": "dart",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy-develop-preview.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of .github/workflows/deploy-develop-preview.yml reads uses: actions/checkout@v4, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-3.8",
+      "path": "pubspec.lock",
+      "line": 1206,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1206 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+      }
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-3.8",
+      "path": "pubspec.yaml",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 7 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+      }
+    }
+  ]
+}

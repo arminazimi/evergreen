@@ -1,0 +1,17 @@
+{
+  "repository": "DanMcInerney/pymetasploit3",
+  "commit": "2ffc63146b8c278e590419ffaf92f17fcf36c1e4",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/buildandreleasepypi.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/buildandreleasepypi.yml:18 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

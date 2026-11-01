@@ -1,0 +1,26 @@
+{
+  "repository": "tmknom/example-pragmatic-terraform",
+  "commit": "7043f9216cf7fb55b3c5e9cd1926fe5da04a3ddb",
+  "ecosystem": "database",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "13/4.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read 13/4.tf:4 at this commit: `engine_version             = \"5.7.25\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "internal/override_13.tf",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read internal/override_13.tf:4 at this commit: `engine_version             = \"5.7.25\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

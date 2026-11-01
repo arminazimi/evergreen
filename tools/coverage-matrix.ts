@@ -14,6 +14,7 @@ import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { maturityLabels } from "../benchmarks/maturity.js";
+import { loadPublicCorpus, PUBLIC_CORPUS_DIR } from "../benchmarks/public-corpus.js";
 import { maturityLevels } from "../benchmarks/thresholds.js";
 import type { FullRunRecord, MaturityLevel, Thresholds } from "../benchmarks/thresholds.js";
 import { getCapabilityManifest } from "../src/capabilities.js";
@@ -33,7 +34,7 @@ export const ACCURACY_START_MARKER = "<!-- accuracy-tables:start -->";
 export const ACCURACY_END_MARKER = "<!-- accuracy-tables:end -->";
 
 export const STATE_OF_EOL_PATH = "docs/state-of-eol.md";
-export const CORPUS_PATH = "benchmarks/public-repositories.json";
+export const CORPUS_PATH = PUBLIC_CORPUS_DIR;
 export const REGISTRY_DIRECTORY = "registry";
 export const STATE_OF_EOL_START_MARKER = "<!-- state-of-eol:start -->";
 export const STATE_OF_EOL_END_MARKER = "<!-- state-of-eol:end -->";
@@ -341,7 +342,7 @@ export function aggregateStateOfEol(
 /** Markdown for the State of EOL page: method and corpus revision, then product and line tables. */
 export function renderStateOfEolSection(summary: StateOfEolSummary, run: FullRunRecord): string {
   return [
-    `Measured on the public corpus of ${summary.repositories} pinned repositories (${summary.findings} expected findings). The last full corpus run was commit \`${run.commit}\` on ${run.date} (${run.repositories} repositories, precision ${run.precision}, recall ${run.recall}). Method: [Validation](VALIDATION.md). Corpus: [\`benchmarks/public-repositories.json\`](../benchmarks/public-repositories.json). Regenerate with \`npm run build:coverage\` after \`npm run record:corpus-run\`.`,
+    `Measured on the public corpus of ${summary.repositories} pinned repositories (${summary.findings} expected findings). The last full corpus run was commit \`${run.commit}\` on ${run.date} (${run.repositories} repositories, precision ${run.precision}, recall ${run.recall}). Method: [Validation](VALIDATION.md). Corpus: [\`benchmarks/public-repositories/\`](../benchmarks/public-repositories/). Regenerate with \`npm run build:coverage\` after \`npm run record:corpus-run\`.`,
     "",
     "| Measure | Value |",
     "| --- | ---: |",
@@ -382,7 +383,7 @@ export function replaceStateOfEolSection(document: string, section: string): str
 /** docs/state-of-eol.md with the aggregate tables regenerated in memory. */
 export async function buildStateOfEolDocument(root = "."): Promise<string> {
   const document = await readFile(resolve(root, STATE_OF_EOL_PATH), "utf8");
-  const corpus = JSON.parse(await readFile(resolve(root, CORPUS_PATH), "utf8")) as CorpusFile;
+  const corpus = await loadPublicCorpus(root);
   const thresholds = JSON.parse(await readFile(resolve(root, THRESHOLDS_PATH), "utf8")) as Thresholds;
   if (!thresholds.lastFullRun) throw new Error(`${THRESHOLDS_PATH} has no lastFullRun; record a full corpus run first.`);
   const rules = await loadRegistryRulesById(root);

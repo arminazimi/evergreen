@@ -1,0 +1,17 @@
+{
+  "repository": "fastapi/fastapi",
+  "commit": "4dda4625bdc19ce5ae946c152298f70d4d4fc5ed",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+      }
+    }
+  ]
+}

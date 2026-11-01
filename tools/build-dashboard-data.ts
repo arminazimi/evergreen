@@ -5,7 +5,7 @@
 //   node dist/tools/build-dashboard-data.js --today run-date       # the reference day is lastFullRun.date
 //   node dist/tools/build-dashboard-data.js --today run-date --check
 //
-// Inputs are benchmarks/thresholds.json and benchmarks/public-repositories.json. The tool never reads the clock
+// Inputs are benchmarks/thresholds.json and benchmarks/public-repositories/. The tool never reads the clock
 // and never uses the network: the reference day is the required --today argument, and it is written into the
 // output. `run-date` is the same thing for the committed file, so that it does not change with the clock.
 // Output is deterministic: the same inputs and the same day give the same bytes.
@@ -14,12 +14,13 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { loadPublicCorpus, PUBLIC_CORPUS_DIR } from "../benchmarks/public-corpus.js";
 import { countEvidence, earnedLevel, evidenceMinimums } from "../benchmarks/thresholds.js";
 import type { Evidence, MaturityLevel, Thresholds } from "../benchmarks/thresholds.js";
 
 export const DASHBOARD_SCHEMA = "evergreen.dashboard-data.v1";
 export const THRESHOLDS_FILE = "benchmarks/thresholds.json";
-export const CORPUS_FILE = "benchmarks/public-repositories.json";
+export const CORPUS_FILE = PUBLIC_CORPUS_DIR;
 export const DECISION_FILE = "docs/decisions/0013-detector-maturity.md";
 export const OUTPUT_FILE = "docs/dashboard/data.json";
 
@@ -273,7 +274,7 @@ export function buildDashboardData(input: { thresholds: Thresholds; corpus: read
 
 export async function renderDashboardData(root: string, today: string): Promise<string> {
   const thresholds = JSON.parse(await readFile(resolve(root, THRESHOLDS_FILE), "utf8")) as Thresholds;
-  const corpus = (JSON.parse(await readFile(resolve(root, CORPUS_FILE), "utf8")) as { repositories: CorpusRepository[] }).repositories;
+  const corpus = (await loadPublicCorpus(root)).repositories;
   const day = today === "run-date" ? thresholds.lastFullRun?.date : today;
   if (day === undefined) throw new Error(`--today run-date needs a lastFullRun in ${THRESHOLDS_FILE}.`);
   return `${JSON.stringify(buildDashboardData({ thresholds, corpus, today: day }), null, 2)}\n`;

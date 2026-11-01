@@ -1,0 +1,35 @@
+{
+  "repository": "maedadev/bizside-ruby",
+  "commit": "24b9d5cb9a22d20df902d205df3d407338372c73",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/run-test.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/run-test.yml:20 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `2.7.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": "bizside_test_app/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read bizside_test_app/.ruby-version:1 at this commit: `2.7.8`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

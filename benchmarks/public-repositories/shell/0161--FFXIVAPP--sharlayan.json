@@ -1,0 +1,35 @@
+{
+  "repository": "FFXIVAPP/sharlayan",
+  "commit": "80617fb948a560daeb15ba93d959f013b31a76a0",
+  "ecosystem": "shell",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "build.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of build.ps1 reads `#Requires -Version 7.0`, which requires PowerShell 7.0 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.0 as retired, with support ended on 2022-12-03 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "harness.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of harness.ps1 reads `#Requires -Version 7.0`, which requires PowerShell 7.0 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.0 as retired, with support ended on 2022-12-03 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "test.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of test.ps1 reads `#Requires -Version 7.0`, which requires PowerShell 7.0 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.0 as retired, with support ended on 2022-12-03 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+      }
+    }
+  ]
+}

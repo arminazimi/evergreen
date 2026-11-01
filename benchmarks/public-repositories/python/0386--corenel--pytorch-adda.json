@@ -1,0 +1,7 @@
+{
+  "repository": "corenel/pytorch-adda",
+  "commit": "96f2689dd418ef275fcd0b057e5dff89be5762c5",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,53 @@
+{
+  "repository": "howardwu/wagyu",
+  "commit": "523a1ff4412cfd1e07c9c1929a7b13581dcab1bf",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "bitcoin/Cargo.toml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 26 of bitcoin/Cargo.toml at this commit: `failure = { version = \"0.1.8\", default-features = false }`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "Cargo.toml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 49 of Cargo.toml at this commit: `failure = { version = \"0.1.8\" }`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "model/Cargo.toml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 27 of model/Cargo.toml at this commit: `failure = { version = \"0.1.8\", default-features = false, features = [\"derive\"] }`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "monero/Cargo.toml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 31 of monero/Cargo.toml at this commit: `failure = { version = \"0.1.8\" }`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "zcash/Cargo.toml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 52 of zcash/Cargo.toml at this commit: `failure = { version = \"0.1.8\", default-features = false, features = [\"derive\"] }`. The RustSec advisory database lists failure as unmaintained (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "repository": "ogham/dog",
+  "commit": "721440b12ef01a812abe5dc6ced69af6e221fad5",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Cargo.toml:48 at this commit: `ansi_term = \"0.12\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "line": 49,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Cargo.toml:49 at this commit: `atty = \"0.2\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "Dockerfile",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of Dockerfile reads `FROM debian:buster-slim`, a Debian release line past its end-of-life."
+      }
+    }
+  ]
+}

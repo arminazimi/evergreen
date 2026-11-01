@@ -1,0 +1,62 @@
+{
+  "repository": "weareasterisk/gavel2",
+  "commit": "07a59cb4ed168c28a2beda7fc9a5fd36b9f12afe",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM python:3.8-slim`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "docker-compose.yml",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:5 at this commit: `image: postgres:10.8-alpine`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "docker-compose.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:16 at this commit: `image: redis:5.0-alpine`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "runtime.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read runtime.txt:1 at this commit: `python-3.8.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:16 at this commit: `ENV PORT 5000`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-10",
+      "path": "docker-compose.yml",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:5 at this commit: `image: postgres:10.8-alpine`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "repository": "67272-App-Design-Dev/PATS_v1_r7",
+  "commit": "daa5674870b2fc8dce50cf5874d464fbf84a9703",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `ruby-3.1.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile:8 at this commit: `ruby '3.1.4'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile.lock",
+      "line": 434,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile.lock:434 at this commit: `ruby 3.1.4p223`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

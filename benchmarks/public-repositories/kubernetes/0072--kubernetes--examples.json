@@ -1,0 +1,206 @@
+{
+  "repository": "kubernetes/examples",
+  "commit": "d6b8cd27eacb51e651a1aa6f7c190a28713eff6e",
+  "ecosystem": "kubernetes",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "_archived/storage/redis/image/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of _archived/storage/redis/image/Dockerfile reads `FROM alpine:3.8`, an Alpine release line older than the supported ones."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "_archived/meteor/dockerbase/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of _archived/meteor/dockerbase/Dockerfile reads `FROM node:0.10`, a Node.js release line older than the supported ones."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "_archived/cluster-dns/images/frontend/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of _archived/cluster-dns/images/frontend/Dockerfile reads `FROM python:2.7-slim`, a Python release line older than the supported ones."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "_archived/phabricator/php-phabricator/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of _archived/phabricator/php-phabricator/Dockerfile reads `FROM ubuntu:14.04`, an Ubuntu release line older than the supported ones."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "_archived/storage/mysql-galera/image/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of _archived/storage/mysql-galera/image/Dockerfile reads `FROM ubuntu:trusty` (Ubuntu 14.04), an Ubuntu release line older than the supported ones."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+      "path": "_archived/podsecuritypolicy/rbac/policies.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of _archived/podsecuritypolicy/rbac/policies.yaml reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodSecurityPolicy`. The Kubernetes Deprecated API Migration Guide says this API version of PodSecurityPolicy is no longer served as of v1.25."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+      "path": "_archived/podsecuritypolicy/rbac/policies.yaml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of _archived/podsecuritypolicy/rbac/policies.yaml, the second document of the file, reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodSecurityPolicy`. The Kubernetes Deprecated API Migration Guide says this API version of PodSecurityPolicy is no longer served as of v1.25."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "_archived/newrelic-infrastructure/newrelic-infra-daemonset.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of _archived/newrelic-infrastructure/newrelic-infra-daemonset.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "_archived/volumes/flexvolume/deploy/ds.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of _archived/volumes/flexvolume/deploy/ds.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+      }
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "_archived/cockroachdb/cockroachdb-statefulset.yaml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of _archived/cockroachdb/cockroachdb-statefulset.yaml reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodDisruptionBudget`. The Kubernetes Deprecated API Migration Guide says this API version of PodDisruptionBudget is no longer served as of v1.25."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "_archived/volumes/azure_disk/claim/blob-based-disk/account-specified-hdd/storageclass-account-hdd.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/account-specified-hdd/storageclass-account-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "_archived/volumes/azure_disk/claim/blob-based-disk/dedicated-hdd/storageclass-dedicated-hdd.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/dedicated-hdd/storageclass-dedicated-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "_archived/volumes/azure_disk/claim/blob-based-disk/shared-hdd/storageclass-shared-hdd.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/shared-hdd/storageclass-shared-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "_archived/volumes/azure_disk/claim/blob-based-disk/shared-ssd/storageclass-shared-ssd.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/shared-ssd/storageclass-shared-ssd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "_archived/volumes/azure_disk/claim/managed-disk/managed-hdd/storageclass-managed-hdd.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/managed-disk/managed-hdd/storageclass-managed-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "_archived/volumes/azure_disk/claim/managed-disk/managed-ssd/storageclass-managed-ssd.yaml",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/managed-disk/managed-ssd/storageclass-managed-ssd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+      }
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "web/guestbook-go/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of web/guestbook-go/Dockerfile reads `FROM golang:1.10.0`, a Go release line that no longer receives fixes."
+      }
+    },
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "web/guestbook/redis-slave/Dockerfile",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 15 of web/guestbook/redis-slave/Dockerfile reads `FROM redis:3.2.9`, a Redis release line that no longer receives fixes."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "_archived/meteor/dockerbase/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read _archived/meteor/dockerbase/Dockerfile:30 at this commit: `ENV PORT 8080`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "_archived/storage/mysql-galera/image/Dockerfile",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read _archived/storage/mysql-galera/image/Dockerfile:21 at this commit: `ENV PERCONA_XTRADB_VERSION 5.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "_archived/storage/mysql-galera/image/Dockerfile",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read _archived/storage/mysql-galera/image/Dockerfile:22 at this commit: `ENV MYSQL_VERSION 5.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "_archived/storage/mysql-galera/image/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read _archived/storage/mysql-galera/image/Dockerfile:23 at this commit: `ENV TERM linux`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

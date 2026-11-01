@@ -1,0 +1,26 @@
+{
+  "repository": "xmindltd/xmind-sdk-js",
+  "commit": "d35e820a2d09995c69bbb452d4edc42b09a13946",
+  "ecosystem": "node-actions",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codeql.yml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/codeql.yml:41 at this commit: `uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.istanbul.deprecated",
+      "path": "package.json",
+      "line": 73,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:73 at this commit: `\"istanbul\": \"^0.4.5\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

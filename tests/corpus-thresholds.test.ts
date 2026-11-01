@@ -5,6 +5,7 @@ import { test } from "node:test";
 import { parse } from "yaml";
 
 import { maturityLabels } from "../benchmarks/maturity.js";
+import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 import { FULL_RUN_MAX_AGE_DAYS, detectorOf, findingKey, fullRunAgeDays, scoreDetectors, violations } from "../benchmarks/thresholds.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 
@@ -110,7 +111,7 @@ test("a level needs its share of blind-selected repositories; an unrecorded sele
 
 test("each detector's level agrees with its enforcement flag, its documented status, and its corpus evidence", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
-  const corpus = (JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: Parameters<typeof countEvidence>[0] }).repositories;
+  const corpus = (await loadPublicCorpus()).repositories as Parameters<typeof countEvidence>[0];
   const compatibility = await readFile(resolve("docs/COMPATIBILITY.md"), "utf8");
   const rank = { experimental: 0, beta: 1, stable: 2 } as const;
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
@@ -153,7 +154,7 @@ test("a beta detector needs recall of 0.80 and a stable one 0.90; experimental a
 });
 
 test("every corpus entry records whether it was chosen blind or targeted", async () => {
-  const corpus = (JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: Array<{ repository: string; selection?: string }> }).repositories;
+  const corpus = (await loadPublicCorpus()).repositories;
   for (const entry of corpus) assert.ok(entry.selection === "blind" || entry.selection === "targeted", `${entry.repository} must record selection: "blind" or "targeted"`);
 });
 

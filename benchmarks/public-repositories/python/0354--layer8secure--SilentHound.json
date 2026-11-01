@@ -1,0 +1,7 @@
+{
+  "repository": "layer8secure/SilentHound",
+  "commit": "f04746aaca29e377c8badcbd6d8f6584deb9e919",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "rack/rack",
+  "commit": "a9833c8f3bd6b6d1e0ab35de00a1f1a16b5095f5",
+  "ecosystem": "ruby",
+  "selection": "targeted",
+  "expected": []
+}

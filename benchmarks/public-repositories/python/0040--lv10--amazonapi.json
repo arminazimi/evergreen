@@ -1,0 +1,53 @@
+{
+  "repository": "lv10/amazonapi",
+  "commit": "d925670fbd81bb91892df8cafd1b78da44b25d38",
+  "ecosystem": "python",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/ci.yml reads uses: actions/checkout@v4"
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads - uses: actions/checkout@v4"
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "migration-commit",
+        "url": "https://github.com/lv10/amazonapi/commit/6062b3897f65a3ad4fd91626b7942ee951899811"
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 27 of .github/workflows/ci.yml reads uses: astral-sh/setup-uv@v5, a release below the supported major."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of .github/workflows/release.yml reads uses: astral-sh/setup-uv@v5, a release below the supported major."
+      }
+    }
+  ]
+}

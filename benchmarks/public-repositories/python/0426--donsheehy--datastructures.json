@@ -1,0 +1,17 @@
+{
+  "repository": "donsheehy/datastructures",
+  "commit": "7b9cd1c0d6d686e08cf2469cbe20ec6cbcdf5986",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:21 at this commit: python_requires='>=3.6'; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

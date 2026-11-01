@@ -1,0 +1,98 @@
+{
+  "repository": "HomeBusProjects/HomeBus",
+  "commit": "15681fbaf24f3c54b16c9526cdde983a34f96d21",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test.yml:25 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `3.1.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile:1 at this commit: `FROM ruby:3.1.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile:6 at this commit: `ruby '3.1.4'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile.lock",
+      "line": 371,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile.lock:371 at this commit: `ruby 3.1.4p223`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "deploy/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read deploy/.ruby-version:1 at this commit: `2.6.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded reads `FROM debian:8`, a Debian release line past its end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded reads `FROM debian:9`, a Debian release line past its end-of-life."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+      }
+    },
+    {
+      "ruleId": "database.redis.end-of-life-7.0",
+      "path": "docker-compose.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read docker-compose.yml:13 at this commit: `image: redis:7.0.11`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

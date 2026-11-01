@@ -1,0 +1,7 @@
+{
+  "repository": "ihciah/clean-dns-bpf",
+  "commit": "ff3281180e6de2a9d5b9c7914f8fa16c2edf87d7",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

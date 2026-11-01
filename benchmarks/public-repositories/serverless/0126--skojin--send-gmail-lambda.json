@@ -1,0 +1,17 @@
+{
+  "repository": "skojin/send-gmail-lambda",
+  "commit": "3e6425d4155584c2693691101b3465dc5ea66ebe",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "serverless.aws-lambda.ruby2.7",
+      "path": "serverless.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 28 of serverless.yml reads `runtime: ruby2.7` under `provider:`. The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-12-07 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "mathiasbynens/CSS.escape",
+  "commit": "4b25c283eaf4dd443f44a7096463e973d56dd1b2",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.istanbul.deprecated",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"istanbul\": \"^0.4.1\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

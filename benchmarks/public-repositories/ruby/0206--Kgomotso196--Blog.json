@@ -1,0 +1,80 @@
+{
+  "repository": "Kgomotso196/Blog",
+  "commit": "3347bcad436256341f4c5bead0d52338d374f2f2",
+  "ecosystem": "ruby",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/linters.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/linters.yml:13 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/linters.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/linters.yml:27 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/linters.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/linters.yml:28 at this commit: `- uses: actions/setup-node@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/linters.yml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/linters.yml:41 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .ruby-version:1 at this commit: `ruby-3.1.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile:4 at this commit: `ruby '3.1.4'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile.lock",
+      "line": 369,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Gemfile.lock:369 at this commit: `ruby 3.1.4p223`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/linters.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/linters.yml:30 at this commit: `node-version: \"18.x\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+      }
+    }
+  ]
+}

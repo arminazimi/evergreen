@@ -1,0 +1,71 @@
+{
+  "repository": "mozilla/crlite",
+  "commit": "008299826177078097b2539a57564b7926916a2c",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "containers/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read containers/Dockerfile:1 at this commit: `FROM golang:1.24.5-bookworm AS go-builder`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "containers/crlite-generate/pod.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read containers/crlite-generate/pod.yaml:1 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "containers/crlite-publish/pod.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read containers/crlite-publish/pod.yaml:1 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "containers/crlite-signoff/pod.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read containers/crlite-signoff/pod.yaml:1 at this commit: `apiVersion: batch/v1beta1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go.mod:3 at this commit: `go 1.12`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "go/go.mod",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go/go.mod:32 at this commit: `go 1.24.4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.24",
+      "path": "go/go.mod",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go/go.mod:34 at this commit: `toolchain go1.24.5`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

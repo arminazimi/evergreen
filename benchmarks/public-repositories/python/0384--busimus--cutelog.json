@@ -1,0 +1,17 @@
+{
+  "repository": "busimus/cutelog",
+  "commit": "231523057a2e110e92ac927e6e0a0b393a930b9d",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 64,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read setup.py:64 at this commit: python_requires=\">=3.5\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

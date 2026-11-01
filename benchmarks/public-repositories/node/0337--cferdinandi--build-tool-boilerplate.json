@@ -1,0 +1,17 @@
+{
+  "repository": "cferdinandi/build-tool-boilerplate",
+  "commit": "a77c58dbd1a036b1e3914f88a2c4bca5d6624bd4",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+      "path": "package.json",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:36 at this commit: `\"rollup-plugin-terser\": \"^7.0.2\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

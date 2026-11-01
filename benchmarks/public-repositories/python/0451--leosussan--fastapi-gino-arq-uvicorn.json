@@ -1,0 +1,35 @@
+{
+  "repository": "leosussan/fastapi-gino-arq-uvicorn",
+  "commit": "dd4213f4113825ddce3d3a6a39e54ef77df6014f",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .tool-versions:1 at this commit: `python 3.8.2 2.7.16`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile.worker",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Dockerfile.worker:1 at this commit: `FROM python:3.8-alpine`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:4 at this commit: `description = \"High-performance Async REST API, in Python. FastAPI + GINO + Arq + Uvicorn (w/ Redis and PostgreSQL).\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

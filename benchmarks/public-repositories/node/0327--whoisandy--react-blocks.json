@@ -1,0 +1,26 @@
+{
+  "repository": "whoisandy/react-blocks",
+  "commit": "662d2f2608dba5c58c9ccf8724a2a9fa5d5f5950",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:30 at this commit: `\"babel-eslint\": \"^4.1.2\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "npm.package.karma-phantomjs-launcher.deprecated",
+      "path": "package.json",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:45 at this commit: `\"karma-phantomjs-launcher\": \"^0.2.1\",`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

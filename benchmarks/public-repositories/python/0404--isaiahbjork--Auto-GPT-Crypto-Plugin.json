@@ -1,0 +1,17 @@
+{
+  "repository": "isaiahbjork/Auto-GPT-Crypto-Plugin",
+  "commit": "41d9f7f8c09a010a248ead6914de98b1cd0cfc62",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:13 at this commit: `requires-python = \">=3.8\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

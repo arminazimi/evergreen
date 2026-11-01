@@ -1,0 +1,7 @@
+{
+  "repository": "bheisler/RustaCUDA",
+  "commit": "c74efcb14fa24d53ac5ca1ce57e6f5794b62ce25",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

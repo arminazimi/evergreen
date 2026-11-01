@@ -1,0 +1,44 @@
+{
+  "repository": "ElementUI/element-theme",
+  "commit": "6b2a112c6ba47893e7a4b6fb736fbe5d073b0dd5",
+  "ecosystem": "node",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"node\": \">=0.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"node\": \">=0.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"node\": \">=0.12.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read package.json:40 at this commit: `\"node\": \">=0.12.0\"`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "repository": "aws-samples/aws-lambda-extensions",
+  "commit": "cfed93e212d6415115d6a0a8a10885cded5a2b3b",
+  "ecosystem": "serverless",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "cache-extension-demo/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read cache-extension-demo/go.mod:3 at this commit: `go 1.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "csharp-example-extension/csharp-example-extension.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read csharp-example-extension/csharp-example-extension.csproj:6 at this commit: `<TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "csharp-example-extension/csharp-example-extension.csproj",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read csharp-example-extension/csharp-example-extension.csproj:6 at this commit: `<TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go-example-adaptive-batching-extension/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-adaptive-batching-extension/go.mod:3 at this commit: `go 1.15`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go-example-crash-uploader-extension/go.mod",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-crash-uploader-extension/go.mod:5 at this commit: `go 1.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go-example-extension/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-extension/go.mod:3 at this commit: `go 1.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go-example-ipc-extension/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-ipc-extension/go.mod:3 at this commit: `go 1.14`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go-example-lambda-runtime-api-proxy-extension/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-lambda-runtime-api-proxy-extension/go.mod:3 at this commit: `go 1.6`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go-example-logs-api-extension/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-logs-api-extension/go.mod:3 at this commit: `go 1.15`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go-example-telemetry-api-extension/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-telemetry-api-extension/go.mod:3 at this commit: `go 1.18`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "kinesis-stream-logs-extension-demo/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kinesis-stream-logs-extension-demo/go.mod:3 at this commit: `go 1.15`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "kinesisfirehose-logs-extension-demo/go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read kinesisfirehose-logs-extension-demo/go.mod:3 at this commit: `go 1.15`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "python-example-logs-api-extension/template.yaml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read python-example-logs-api-extension/template.yaml:35 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "s3-logs-extension-demo-container-image/extension/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read s3-logs-extension-demo-container-image/extension/Dockerfile:1 at this commit: `FROM python:3.8-alpine AS installer`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "s3-logs-extension-demo-zip-archive/template.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read s3-logs-extension-demo-zip-archive/template.yml:22 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "path": "cache-extension-demo/SAM/template.yaml",
+      "line": 108,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 108 of cache-extension-demo/SAM/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "path": "cache-extension-demo/SAM/template.yaml",
+      "line": 70,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 70 of cache-extension-demo/SAM/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "path": "go-example-adaptive-batching-extension/template.yaml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 36 of go-example-adaptive-batching-extension/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "path": "go-example-logs-api-extension/template.yaml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 37 of go-example-logs-api-extension/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "path": "kinesis-stream-logs-extension-demo/template.yaml",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 57 of kinesis-stream-logs-extension-demo/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "path": "kinesisfirehose-logs-extension-demo/template.yaml",
+      "line": 66,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 66 of kinesisfirehose-logs-extension-demo/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "path": "nodejs-example-logs-api-extension/template.yaml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 32 of nodejs-example-logs-api-extension/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs22.x",
+      "path": "awsappconfig-extension-demo/template.yml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read awsappconfig-extension-demo/template.yml:27 at this commit: `Runtime: nodejs22.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs22.x",
+      "path": "awsappconfig-extension-demo/template.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read awsappconfig-extension-demo/template.yml:52 at this commit: `Runtime: nodejs22.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2",
+      "path": "custom-runtime-extension-demo/template.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read custom-runtime-extension-demo/template.yml:22 at this commit: `Runtime: provided.al2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.provided.al2",
+      "path": "go-example-extension-sam-layer/template.yaml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-extension-sam-layer/template.yaml:38 at this commit: `Runtime: provided.al2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs18.x",
+      "path": "go-example-lambda-runtime-api-proxy-extension/template.yaml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-lambda-runtime-api-proxy-extension/template.yaml:24 at this commit: `Runtime: nodejs18.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs16.x",
+      "path": "go-example-telemetry-api-extension/template.yaml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read go-example-telemetry-api-extension/template.yaml:22 at this commit: `Runtime: nodejs16.x`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "serverless.aws-lambda.nodejs16.x",
+      "path": "nodejs-example-telemetry-api-extension/template.yaml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read nodejs-example-telemetry-api-extension/template.yaml:24 at this commit: `Runtime: nodejs16.x`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

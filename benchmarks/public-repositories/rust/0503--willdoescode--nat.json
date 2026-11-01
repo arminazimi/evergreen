@@ -1,0 +1,17 @@
+{
+  "repository": "willdoescode/nat",
+  "commit": "48ba1352cf2113e4152cadc3ff5a2c9b2b348499",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/rust.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 18 of .github/workflows/rust.yml at this commit: `- uses: actions/checkout@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
+      }
+    }
+  ]
+}

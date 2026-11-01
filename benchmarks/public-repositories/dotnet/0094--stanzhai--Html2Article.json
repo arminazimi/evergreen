@@ -1,0 +1,7 @@
+{
+  "repository": "stanzhai/Html2Article",
+  "commit": "cdbb6c8c4e642eddf9ee1a1e968586b02f055fca",
+  "ecosystem": "dotnet",
+  "selection": "blind",
+  "expected": []
+}

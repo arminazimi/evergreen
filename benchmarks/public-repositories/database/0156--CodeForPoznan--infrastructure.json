@@ -1,0 +1,35 @@
+{
+  "repository": "CodeForPoznan/infrastructure",
+  "commit": "24b0a2069eec679db21f099d265cbc3e7c5ecb17",
+  "ecosystem": "database",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "database.postgresql.end-of-life-13",
+      "path": "db.tf",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 19 of db.tf reads `engine_version = \"13.20\"`, PostgreSQL 13, which the PostgreSQL versioning policy lists as unsupported (final release 2025-11-13; https://www.postgresql.org/support/versioning/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lint.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 11 of .github/workflows/lint.yml reads `- uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+      }
+    },
+    {
+      "ruleId": "terraform.cli.end-of-support-1.12",
+      "path": "providers.tf",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 2 of providers.tf reads `required_version = \"~> 1.12.0\"`, a constraint that admits only Terraform 1.12 patch releases. Terraform 1.12 stopped being one of the two most recent release lines when Terraform 1.14.0 shipped on 2025-11-19 (https://github.com/hashicorp/terraform/releases/tag/v1.14.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+      }
+    }
+  ]
+}

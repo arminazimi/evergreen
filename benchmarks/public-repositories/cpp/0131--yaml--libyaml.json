@@ -1,0 +1,57 @@
+{
+  "repository": "yaml/libyaml",
+  "commit": "840b65c40675e2d06bf40405ad3f12dec7f35923",
+  "ecosystem": "cpp",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/yaml/libyaml/commit/23b51d6cf566ab4a47177495c2fe2a56dcca4a0c",
+        "note": "Pinned to the parent of the maintainer's commit \"Bump cmake_minimum_required to 3.5\": line 2 of CMakeLists.txt declares cmake_minimum_required(VERSION 3.0), below the policy version removed by CMake 4.0; the commit raises it to 3.5."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/dist.yaml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 12 of .github/workflows/dist.yaml uses actions/checkout@v4, a release that predates the action's Node.js 24 runtime."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/main.yml uses actions/checkout@v4, a release that predates the action's Node.js 24 runtime."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/dist.yaml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/",
+        "note": "Reviewed at this commit: line 24 of .github/workflows/dist.yaml uses actions/upload-artifact@v2, a retired release of the artifact actions."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "pkg/docker/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of pkg/docker/Dockerfile reads `FROM ubuntu:18.04`, an Ubuntu release line past its end-of-life."
+      }
+    }
+  ]
+}

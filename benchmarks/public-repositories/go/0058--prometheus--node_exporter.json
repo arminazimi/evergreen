@@ -1,0 +1,17 @@
+{
+  "repository": "prometheus/node_exporter",
+  "commit": "baf644aaa87148ab0068cd334730a6c9737cfb46",
+  "ecosystem": "go",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.25",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/prometheus/node_exporter/commit/25fbb7c67ee365afe89e42c3986964d5a2140bc8."
+      }
+    }
+  ]
+}

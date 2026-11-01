@@ -1,0 +1,7 @@
+{
+  "repository": "nickel-org/nickel.rs",
+  "commit": "82deeee13afd6c054a9cbf374db9df5ae4482a3c",
+  "ecosystem": "rust",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,25 @@
+{
+  "repository": "sindresorhus/got",
+  "commit": "05b4476913da39a47dd8e20d29e250f28b0a6dca",
+  "ecosystem": "node",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "npm.package.request.deprecated",
+      "path": "package.json",
+      "line": 91,
+      "groundTruthSource": {
+        "kind": "maintainer-review"
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/main.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/main.yml reads - 22, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+      }
+    }
+  ]
+}

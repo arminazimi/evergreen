@@ -1,0 +1,17 @@
+{
+  "repository": "jmoiron/sqlx",
+  "commit": "41dac167fdad5e3fd81d66cafba0951dc6823a30",
+  "ecosystem": "go",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed line 3 of go.mod at this commit: `go 1.10`. Go supports only its two newest release lines (https://go.dev/doc/devel/release#policy); the declared 1.10 line is older than both and receives no security fixes."
+      }
+    }
+  ]
+}

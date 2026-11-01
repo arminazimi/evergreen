@@ -1,0 +1,18 @@
+{
+  "repository": "Yukrid/cptp",
+  "commit": "e1c8c101ed320466432940de2c306423b795fa21",
+  "ecosystem": "cpp",
+  "selection": "targeted",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/Yukrid/cptp/commit/128d74ba71e3d74df251345aff683bd7b6142242",
+        "note": "Pinned to the parent of the maintainer's commit \"raise cmake_minimum_required for CMake 4 compatibility\": line 1 of CMakeLists.txt declares cmake_minimum_required(VERSION 2.8), below the policy version removed by CMake 4.0; the commit raises it to 3.14."
+      }
+    }
+  ]
+}
