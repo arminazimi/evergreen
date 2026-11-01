@@ -6,6 +6,13 @@ title: Hooks
 
 Evergreen ships a Git pre-push hook that scans before you push, a Claude Code `PreToolUse` hook that checks packages before an agent installs them, a Cursor project rule, and a GitHub Copilot instructions file that tell the agent to check a dependency before it is added. All of them stay offline and use only the lifecycle rules bundled with Evergreen.
 
+## Edit hooks
+
+`evergreen hook <host>` is how an agent host asks Evergreen about a file it just wrote. The host sends its own hook payload as JSON on stdin; Evergreen runs one offline scan of the repository, keeps the findings in that file at or above the severity gate (default `medium`, or `--fail-on none` to report nothing), and answers in the protocol the host understands. A hook only prints and exits: it never edits files.
+
+A hook must never break the agent's session. An unknown host, a malformed payload, an event that is not a file write or edit, a scan error, and a scan that takes longer than ten seconds all exit `0` with no output. `evergreen init --hooks-for <host>` writes the host's configuration so the host calls the command after an edit; each host has its own subsection below.
+
+
 ## Git pre-push
 
 `evergreen init --hooks` installs a Git pre-push hook that scans the repository before every push and blocks it when a finding reaches a severity you choose. It uses only local files; the scan never uses the network.
