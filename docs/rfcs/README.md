@@ -1,7 +1,5 @@
 ---
 title: Requests for comments
-redirect_from:
-  - /rfcs/README.html
 ---
 
 # Requests for comments

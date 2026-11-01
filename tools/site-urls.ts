@@ -15,8 +15,8 @@ export const FIXTURE_PATH = "tests/fixtures/site-urls.json";
 
 /** Config and data blobs under docs/ that are not published as pages. */
 const SKIP_FILES = new Set(["_config.yml", "coverage-descriptions.json", "differential-report.json"]);
-/** Asset trees and local Jekyll build output; the inventory tracks pages, not every static file. */
-const SKIP_DIRECTORIES = new Set(["assets", "vendor", "_site"]);
+/** Asset trees, local Jekyll build output, and redirect stubs (permalink targets only); the inventory tracks pages, not every static file. */
+const SKIP_DIRECTORIES = new Set(["assets", "vendor", "_site", "redirects"]);
 
 export function parseSitemapUrls(sitemap: string): string[] {
   return [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]!);

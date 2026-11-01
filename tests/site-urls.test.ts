@@ -70,24 +70,23 @@ test("the committed inventory matches the sitemap and every docs page, and every
 test("README inventory URLs that jekyll-readme-index drops keep a redirect", async () => {
   // jekyll-readme-index publishes these READMEs as the directory index (or
   // leaves a sibling index.html in place), so …/README.html would 404 without
-  // jekyll-redirect-from. Diffed against the live site on 2026-11-01.
-  const redirects: ReadonlyArray<{ path: string; from?: string; to?: string }> = [
-    { path: "docs/dashboard/README.md", to: "/dashboard/" },
-    { path: "docs/rfcs/README.md", from: "/rfcs/README.html" },
-    { path: "docs/i18n/fa/README.md", from: "/i18n/fa/README.html" },
+  // jekyll-redirect-from. Use redirect_to stubs — redirect_from on the README
+  // itself loops when readme-index rewrites the permalink to the directory.
+  const redirects: ReadonlyArray<{ path: string; permalink: string; to: string }> = [
+    { path: "docs/dashboard/README.md", permalink: "/dashboard/README.html", to: "/dashboard/" },
+    { path: "docs/redirects/rfcs-readme.md", permalink: "/rfcs/README.html", to: "/rfcs/" },
+    { path: "docs/redirects/i18n-fa-readme.md", permalink: "/i18n/fa/README.html", to: "/i18n/fa/" },
   ];
   for (const entry of redirects) {
     const text = await readFile(resolve(entry.path), "utf8");
     const frontMatter = text.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? "";
     assert.ok(frontMatter, `${entry.path} needs YAML front matter for the redirect`);
-    if (entry.to !== undefined) {
-      assert.match(frontMatter, new RegExp(`^redirect_to:\\s*${entry.to.replaceAll("/", "\\/")}\\s*$`, "m"), entry.path);
-      assert.match(frontMatter, /^permalink:\s*\/dashboard\/README\.html\s*$/m, entry.path);
-    }
-    if (entry.from !== undefined) {
-      assert.match(frontMatter, /redirect_from:/, entry.path);
-      assert.match(frontMatter, new RegExp(`-\\s+${entry.from.replaceAll("/", "\\/")}`), entry.path);
-    }
+    assert.match(frontMatter, new RegExp(`^redirect_to:\\s*${entry.to.replaceAll("/", "\\/")}\\s*$`, "m"), entry.path);
+    assert.match(
+      frontMatter,
+      new RegExp(`^permalink:\\s*${entry.permalink.replaceAll("/", "\\/").replaceAll(".", "\\.")}\\s*$`, "m"),
+      entry.path,
+    );
   }
 
   const config = await readFile(resolve("docs/_config.yml"), "utf8");

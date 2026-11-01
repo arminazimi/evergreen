@@ -7,7 +7,7 @@ plugins:
   - jekyll-remote-theme
   - jekyll-optional-front-matter
   # Meta-refresh pages for inventory URLs that jekyll-readme-index no longer
-  # publishes as …/README.html (redirect_from / redirect_to on those READMEs).
+  # publishes as …/README.html (redirect_to on dashboard/README.md and docs/redirects/).
   - jekyll-redirect-from
 include:
   - .well-known
