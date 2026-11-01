@@ -1,36 +1,63 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
-import { resolve } from "node:path";
-import { test } from "node:test";
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { after, test } from "node:test";
 
 import { commands as registeredCommands } from "../src/commands/index.generated.js";
-
+import { getCapabilityManifest } from "../src/capabilities.js";
+import {
+  README_DESCRIPTIONS_PATH,
+  README_END_MARKER,
+  README_PATH,
+  README_START_MARKER,
+  buildDocument,
+  buildReadmeDocument,
+  loadReadmeDescriptions,
+  validateReadmeDescriptions,
+} from "../tools/coverage-matrix.js";
 const read = (path: string) => readFile(resolve(path), "utf8");
-const readme = await read("README.md");
+const readme = await read(README_PATH);
 const manifest = JSON.parse(await read("package.json")) as { description: string; keywords: string[]; bin: Record<string, string> };
 
-const table = readme.slice(readme.indexOf("## What it covers"), readme.indexOf("## Product principles"));
-const rows = new Map(
-  [...table.matchAll(/^\| \*\*([^*]+)\*\* \| (.+?) \| (.+?) \|$/gm)].map((match) => [match[1]!, { reads: match[2]!, reports: match[3]! }] as const),
-);
-
-test("the coverage table names the shipped ecosystems", () => {
-  assert.deepEqual([...rows.keys()], ["Go", "GitHub Actions", "Node.js", "npm", "Python", "Rust"]);
+const temporaryRoots: string[] = [];
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
 });
 
-test("every file the table says Evergreen reads appears in that detector's source", async () => {
+test("the committed README coverage table matches the generator", async () => {
+  assert.equal(readme, await buildReadmeDocument(), "run: npm run build:coverage");
+  assert.equal(readme.match(new RegExp(README_START_MARKER, "g"))?.length, 1, "one start marker");
+  assert.equal(readme.match(new RegExp(README_END_MARKER, "g"))?.length, 1, "one end marker");
+});
+
+test("every ecosystem the capability manifest lists has exactly one README row", async () => {
+  const descriptions = await loadReadmeDescriptions();
+  validateReadmeDescriptions(getCapabilityManifest(), descriptions);
+  const described = descriptions.rows.flatMap((row) => row.ecosystems);
+  assert.deepEqual([...described].sort(), getCapabilityManifest().ecosystems.map((ecosystem) => ecosystem.id).sort());
+});
+
+test("every file the README says Evergreen reads appears in that detector's source", async () => {
+  const descriptions = await loadReadmeDescriptions();
+  const readsFor = (id: string) => {
+    const row = descriptions.rows.find((candidate) => candidate.ecosystems.includes(id));
+    assert.ok(row, `no README row for ${id}`);
+    return row.reads;
+  };
   const sources = {
-    Go: await read("src/detectors/go/index.ts"),
-    "GitHub Actions": await read("src/detectors/github-actions.ts"),
-    "Node.js": await read("src/detectors/npm.ts"),
+    go: await read("src/detectors/go/index.ts"),
+    "github-actions": await read("src/detectors/github-actions.ts"),
     npm: await read("src/detectors/npm.ts"),
-    Python: await read("src/detectors/python.ts"),
-    Rust: await read("src/detectors/rust/index.ts"),
+    nodejs: await read("src/detectors/npm.ts"),
+    python: await read("src/detectors/python.ts"),
+    rust: await read("src/detectors/rust/index.ts"),
   } as const;
-  for (const [ecosystem, { reads }] of rows) {
-    const files = [...reads.matchAll(/`([^`]+)`/g)].map((match) => match[1]!).filter((name) => /[.\-]/.test(name) || name === "volta");
-    assert.ok(files.length >= (ecosystem === "GitHub Actions" ? 1 : ecosystem === "Go" ? 2 : 3), ecosystem);
-    const source = sources[ecosystem as keyof typeof sources];
+  for (const [ecosystem, source] of Object.entries(sources)) {
+    const files = [...readsFor(ecosystem).matchAll(/`([^`]+)`/g)]
+      .map((match) => match[1]!)
+      .filter((name) => /[.\-]/.test(name) || name === "volta");
+    assert.ok(files.length >= (ecosystem === "github-actions" ? 1 : ecosystem === "go" ? 2 : 3), ecosystem);
     for (const file of files) {
       // Patterns such as requirements*.txt and .github/workflows/*.yml are checked by their stable part.
       const stable = file.replace(/^\.github\/workflows\/\*\.yml$/, ".github").replace(/\*\.txt$/, "").replace(/\*\.yml$/, "").replace(/\(\.toml\)$/, "");
@@ -39,8 +66,27 @@ test("every file the table says Evergreen reads appears in that detector's sourc
   }
 });
 
-test("each ecosystem in the table has a registry with rules", async () => {
+test("a new registry rule needs no hand edit of the README or the compatibility matrix", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-readme-registry-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, "docs"), { recursive: true });
+  await mkdir(join(root, "registry"), { recursive: true });
+  await writeFile(join(root, README_PATH), readme);
+  await writeFile(join(root, README_DESCRIPTIONS_PATH), await read(README_DESCRIPTIONS_PATH));
+  await writeFile(join(root, "docs/COMPATIBILITY.md"), await read("docs/COMPATIBILITY.md"));
+  await writeFile(join(root, "docs/coverage-descriptions.json"), await read("docs/coverage-descriptions.json"));
+  await writeFile(
+    join(root, "registry/example.json"),
+    JSON.stringify({ schemaVersion: "evergreen.registry.v2", rules: [{ id: "example.package.deprecated" }] }),
+  );
+  assert.equal(await buildReadmeDocument(root), readme);
+  assert.equal(await buildDocument(root), await read("docs/COMPATIBILITY.md"));
+});
+
+test("each ecosystem in the README rows has a registry with rules", async () => {
+  const described = (await loadReadmeDescriptions()).rows.flatMap((row) => row.ecosystems);
   for (const registry of ["go", "github-actions", "nodejs", "npm", "python", "rust"]) {
+    assert.ok(described.includes(registry), `${registry} is listed in the README`);
     const rules = (JSON.parse(await read(`registry/${registry}.json`)) as { rules: unknown[] }).rules;
     assert.ok(rules.length > 0, registry);
   }

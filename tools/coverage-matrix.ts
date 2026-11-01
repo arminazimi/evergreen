@@ -1,4 +1,5 @@
-// Generates three marked sections: "Ecosystem coverage" in docs/COMPATIBILITY.md from the capability
+// Generates four marked sections: the "What it covers" table in README.md from the capability manifest
+// and docs/readme-coverage.json; "Ecosystem coverage" in docs/COMPATIBILITY.md from the capability
 // manifest and docs/coverage-descriptions.json; "Accuracy by detector" in docs/VALIDATION.md from the
 // last full corpus run in benchmarks/thresholds.json; and the State of EOL aggregates in
 // docs/state-of-eol.md from corpus expected findings joined to registry rules.
@@ -7,6 +8,8 @@
 //   node dist/tools/coverage-matrix.js --check    # exits 1 if a committed table is out of date
 //
 // Only the bytes between each pair of markers are replaced; the rest of each document stays as written.
+// README.md and docs/COMPATIBILITY.md stay ordinary Markdown: the generated tables need no include step,
+// so both render as-is on GitHub and on the npm package page.
 // It reads local files only, uses no clock, and never uses the network.
 
 import { readdir, readFile, writeFile } from "node:fs/promises";
@@ -22,6 +25,11 @@ import type { CapabilityManifest } from "../src/capabilities.js";
 import { parsePurl } from "../src/purl.js";
 import { REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../src/registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "../src/registry.js";
+
+export const README_PATH = "README.md";
+export const README_DESCRIPTIONS_PATH = "docs/readme-coverage.json";
+export const README_START_MARKER = "<!-- readme-coverage:start -->";
+export const README_END_MARKER = "<!-- readme-coverage:end -->";
 
 export const COMPATIBILITY_PATH = "docs/COMPATIBILITY.md";
 export const DESCRIPTIONS_PATH = "docs/coverage-descriptions.json";
@@ -51,6 +59,21 @@ export interface CoverageDescriptions {
   rows: CoverageRow[];
   /** The row for ecosystems with no detector, which has no manifest entry. */
   unsupported: { name: string; coverage: string };
+}
+
+export interface ReadmeCoverageRow {
+  /** The manifest ecosystems this row describes. Node.js and npm have a row each. */
+  ecosystems: string[];
+  name: string;
+  /** The declarations and files the detectors read, as Markdown. */
+  reads: string;
+  /** What a scan reports for them, as Markdown; may end with a "See …" link. */
+  reports: string;
+}
+
+export interface ReadmeCoverageDescriptions {
+  schemaVersion: "evergreen.readme-coverage.v1";
+  rows: ReadmeCoverageRow[];
 }
 
 export interface CorpusExpectedFinding {
@@ -165,6 +188,88 @@ export async function buildDocument(root = "."): Promise<string> {
   const document = await readFile(resolve(root, COMPATIBILITY_PATH), "utf8");
   const descriptions = await loadDescriptions(root);
   return replaceCoverageTable(document, renderCoverageTable(getCapabilityManifest(), descriptions));
+}
+
+/** The README maturity note: stable needs no note, and the other two keep the docs' words in lower case. */
+const readmeMaturityNotes: Record<MaturityLevel, string> = {
+  experimental: "*(experimental)*",
+  beta: "*(beta)*",
+  stable: "",
+};
+
+/** The maturity note for a README row: the lowest maturity among its ecosystems (decision 0013). */
+function readmeMaturityNote(manifest: CapabilityManifest, row: ReadmeCoverageRow): string {
+  const levels = row.ecosystems.map((id) => {
+    const maturity = ecosystemFor(manifest, id).maturity;
+    if (!maturity) throw new Error(`Ecosystem "${id}" has no maturity in the capability manifest.`);
+    return maturity;
+  });
+  const lowest = levels.reduce((low, level) => (rank(level) < rank(low) ? level : low), levels[0]!);
+  return readmeMaturityNotes[lowest];
+}
+
+/** Every manifest ecosystem has exactly one README row, and every row names only manifest ecosystems. */
+export function validateReadmeDescriptions(
+  manifest: CapabilityManifest,
+  descriptions: ReadmeCoverageDescriptions,
+): void {
+  const known = new Set(manifest.ecosystems.map((ecosystem) => ecosystem.id));
+  const described = new Set<string>();
+  for (const row of descriptions.rows) {
+    if (!row.name.trim() || !row.reads.trim() || !row.reports.trim()) {
+      throw new Error(`README coverage row "${row.name}" needs a name, a reads, and a reports value.`);
+    }
+    if (row.ecosystems.length === 0) throw new Error(`README coverage row "${row.name}" names no ecosystem.`);
+    for (const id of row.ecosystems) {
+      if (!known.has(id)) throw new Error(`README coverage row "${row.name}" names "${id}", which is not in the capability manifest.`);
+      if (described.has(id)) throw new Error(`Ecosystem "${id}" has more than one README coverage row.`);
+      described.add(id);
+    }
+  }
+  for (const ecosystem of manifest.ecosystems) {
+    if (!described.has(ecosystem.id)) throw new Error(`Ecosystem "${ecosystem.id}" has no README coverage row.`);
+  }
+}
+
+/** The README table: one row per ecosystem, with the maturity note derived from the manifest. */
+export function renderReadmeCoverageTable(
+  manifest: CapabilityManifest,
+  descriptions: ReadmeCoverageDescriptions,
+): string {
+  validateReadmeDescriptions(manifest, descriptions);
+  return [
+    "| Ecosystem | What Evergreen reads | What it reports |",
+    "| --- | --- | --- |",
+    ...descriptions.rows.map((row) => {
+      const note = readmeMaturityNote(manifest, row);
+      return `| **${row.name}**${note ? ` ${note}` : ""} | ${row.reads} | ${row.reports} |`;
+    }),
+  ].join("\n");
+}
+
+/** Replaces only the table between the README markers; every other byte is returned unchanged. */
+export function replaceReadmeCoverageTable(document: string, table: string): string {
+  const start = document.indexOf(README_START_MARKER);
+  const end = document.indexOf(README_END_MARKER);
+  if (start < 0 || end < 0 || end < start) {
+    throw new Error(`${README_PATH} must contain ${README_START_MARKER} before ${README_END_MARKER}.`);
+  }
+  return `${document.slice(0, start + README_START_MARKER.length)}\n${table}\n${document.slice(end)}`;
+}
+
+export async function loadReadmeDescriptions(root = "."): Promise<ReadmeCoverageDescriptions> {
+  const value = JSON.parse(await readFile(resolve(root, README_DESCRIPTIONS_PATH), "utf8")) as ReadmeCoverageDescriptions;
+  if (value.schemaVersion !== "evergreen.readme-coverage.v1") {
+    throw new Error(`${README_DESCRIPTIONS_PATH} must use schemaVersion "evergreen.readme-coverage.v1".`);
+  }
+  return value;
+}
+
+/** README.md with the coverage table regenerated in memory; writing is left to `main`. */
+export async function buildReadmeDocument(root = "."): Promise<string> {
+  const document = await readFile(resolve(root, README_PATH), "utf8");
+  const descriptions = await loadReadmeDescriptions(root);
+  return replaceReadmeCoverageTable(document, renderReadmeCoverageTable(getCapabilityManifest(), descriptions));
 }
 
 const ratio = (numerator: number, denominator: number): string =>
@@ -393,6 +498,7 @@ export async function buildStateOfEolDocument(root = "."): Promise<string> {
 
 export async function main(argv: readonly string[] = process.argv.slice(2)): Promise<number> {
   const targets = [
+    { path: README_PATH, build: () => buildReadmeDocument() },
     { path: COMPATIBILITY_PATH, build: () => buildDocument() },
     { path: VALIDATION_PATH, build: () => buildValidationDocument() },
     { path: STATE_OF_EOL_PATH, build: () => buildStateOfEolDocument() },
