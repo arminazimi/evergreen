@@ -1,7 +1,24 @@
 {
   "name": "@evergreen-dev/backstage-plugin-common",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shared Evergreen portal-export types and helpers for the Backstage plugin packages.",
+  "keywords": [
+    "backstage",
+    "backstage-plugin",
+    "evergreen",
+    "end-of-life",
+    "lifecycle",
+    "deprecation"
+  ],
+  "homepage": "https://github.com/arminazimi/evergreen/tree/main/integrations/backstage#readme",
+  "bugs": {
+    "url": "https://github.com/arminazimi/evergreen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arminazimi/evergreen.git",
+    "directory": "integrations/backstage/common"
+  },
   "license": "Apache-2.0",
   "main": "portal.ts",
   "types": "portal.ts",
@@ -15,6 +32,7 @@
     ]
   },
   "files": [
-    "portal.ts"
+    "portal.ts",
+    "README.md"
   ]
 }

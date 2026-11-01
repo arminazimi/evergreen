@@ -1,7 +1,24 @@
 {
   "name": "@evergreen-dev/backstage-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Backstage entity card that shows Evergreen lifecycle risk per component from the portal export.",
+  "keywords": [
+    "backstage",
+    "backstage-plugin",
+    "evergreen",
+    "end-of-life",
+    "lifecycle",
+    "deprecation"
+  ],
+  "homepage": "https://github.com/arminazimi/evergreen/tree/main/integrations/backstage#readme",
+  "bugs": {
+    "url": "https://github.com/arminazimi/evergreen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arminazimi/evergreen.git",
+    "directory": "integrations/backstage/plugin"
+  },
   "license": "Apache-2.0",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -46,6 +63,7 @@
     "react-dom": "^18.3.0"
   },
   "files": [
-    "src"
+    "src",
+    "README.md"
   ]
 }
