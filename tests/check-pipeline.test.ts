@@ -5,7 +5,9 @@ import { join } from "node:path";
 import { test } from "node:test";
 
 import {
+  CHECK_TIMING_MARKER,
   publishActionBundle,
+  renderStepTimingSummary,
   runCheck,
   runCommand,
   runDependentSteps,
@@ -194,6 +196,55 @@ test("a step cycle fails instead of waiting forever", async () => {
       ]),
     /stuck/,
   );
+});
+
+test("runDependentSteps records wall-clock timings without changing skip semantics", async () => {
+  const { failures, timings } = await runDependentSteps([
+    {
+      id: "ok",
+      run: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 20));
+      },
+    },
+    {
+      id: "fail",
+      run: async () => {
+        throw new Error("boom");
+      },
+    },
+    { id: "skipped", after: ["fail"], run: async () => {} },
+  ]);
+  assert.equal(failures.size, 1);
+  assert.equal(failures.get("fail")?.message, "boom");
+  assert.deepEqual(
+    timings.map((step) => step.id).sort(),
+    ["fail", "ok", "skipped"],
+  );
+  const ok = timings.find((step) => step.id === "ok")!;
+  const failed = timings.find((step) => step.id === "fail")!;
+  const skipped = timings.find((step) => step.id === "skipped")!;
+  assert.equal(ok.status, "ok");
+  assert.ok(ok.durationMs >= 15);
+  assert.equal(failed.status, "failed");
+  assert.equal(skipped.status, "skipped");
+  assert.equal(skipped.durationMs, 0);
+});
+
+test("renderStepTimingSummary includes platform, node, and the marker", () => {
+  const summary = renderStepTimingSummary(
+    [
+      { id: "test", durationMs: 45_000, status: "ok" },
+      { id: "build:action", durationMs: 12_340, status: "ok" },
+      { id: "publish-action", durationMs: 0, status: "skipped" },
+    ],
+    { platform: "darwin", nodeVersion: "v22.0.0" },
+  );
+  assert.match(summary, new RegExp(CHECK_TIMING_MARKER));
+  assert.match(summary, /platform: `darwin` · node: `v22\.0\.0`/);
+  assert.match(summary, /\| `test` \| 45\.0s \| ok \|/);
+  assert.match(summary, /\| `build:action` \| 12\.3s \| ok \|/);
+  assert.match(summary, /\| `publish-action` \| 0ms \| skipped \|/);
+  assert.match(summary, /Sum of step wall times: \*\*57\.3s\*\*/);
 });
 
 function stepName(args: readonly string[]): string {

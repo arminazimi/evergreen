@@ -13,6 +13,21 @@ import { join, relative, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { testProcessArgs } from "../dist/tools/check-pipeline.js";
+import {
+  TEST_TIMING_MARKER,
+  fileDurationsFromJunit,
+  formatTestDuration,
+  normalizeTestFilePath,
+  renderTestTimingSummary,
+} from "../dist/tools/run-tests-timing.js";
+
+export {
+  TEST_TIMING_MARKER,
+  fileDurationsFromJunit,
+  formatTestDuration,
+  normalizeTestFilePath,
+  renderTestTimingSummary,
+};
 
 /** @param {string} path */
 function realpathOrResolve(path) {
@@ -140,13 +155,54 @@ function isPullRequestEvent() {
 }
 
 /**
+ * Insert reporter flags after `--test` / concurrency flags and before file paths.
+ *
  * @param {readonly string[]} nodeArgs
- * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, capture?: boolean }} [options]
- * @returns {Promise<{ code: number, signal: NodeJS.Signals | null, output: string }>}
+ * @param {readonly string[]} reporters
+ */
+export function insertReportersBeforeFiles(nodeArgs, reporters) {
+  if (reporters.length === 0) return [...nodeArgs];
+  let insertAt = 0;
+  for (let index = 0; index < nodeArgs.length; index += 1) {
+    const arg = nodeArgs[index];
+    if (arg === "--test" || arg.startsWith("--test-concurrency=")) {
+      insertAt = index + 1;
+      continue;
+    }
+    break;
+  }
+  return [...nodeArgs.slice(0, insertAt), ...reporters, ...nodeArgs.slice(insertAt)];
+}
+
+/**
+ * Dual reporters: human stream on stdout plus junit to a temp file for per-file timing.
+ * Capture mode uses TAP (flaky-retry parsing); otherwise spec keeps local output readable.
+ *
+ * @param {readonly string[]} nodeArgs
+ * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, capture?: boolean, junitPath?: string }} [options]
+ * @returns {Promise<{ code: number, signal: NodeJS.Signals | null, output: string, junitPath?: string }>}
  */
 export function spawnTest(nodeArgs, options = {}) {
-  // Piped stdout selects TAP; force the reporter so a TTY still yields TAP when we need it.
-  const args = options.capture ? [...nodeArgs, "--test-reporter=tap"] : [...nodeArgs];
+  const junitPath = options.junitPath;
+  const reporters = junitPath
+    ? options.capture
+      ? [
+          "--test-reporter=tap",
+          "--test-reporter=junit",
+          "--test-reporter-destination=stdout",
+          `--test-reporter-destination=${junitPath}`,
+        ]
+      : [
+          "--test-reporter=spec",
+          "--test-reporter=junit",
+          "--test-reporter-destination=stdout",
+          `--test-reporter-destination=${junitPath}`,
+        ]
+    : options.capture
+      ? ["--test-reporter=tap"]
+      : [];
+  // Reporter flags must come before test file paths; Node treats later tokens as files.
+  const args = insertReportersBeforeFiles(nodeArgs, reporters);
   return new Promise((resolvePromise, reject) => {
     /** @type {Buffer[]} */
     const chunks = [];
@@ -167,7 +223,12 @@ export function spawnTest(nodeArgs, options = {}) {
     }
     child.on("error", reject);
     child.on("exit", (code, signal) =>
-      resolvePromise({ code: code ?? 1, signal, output: Buffer.concat(chunks).toString("utf8") }),
+      resolvePromise({
+        code: code ?? 1,
+        signal,
+        output: Buffer.concat(chunks).toString("utf8"),
+        junitPath,
+      }),
     );
   });
 }
@@ -204,6 +265,17 @@ async function reportFlaky(flakyRelative) {
   else process.stdout.write(`\n${summary}`);
 }
 
+/**
+ * @param {readonly { file: string, durationMs: number }[]} entries
+ * @param {number} [totalMs]
+ */
+async function reportTestTiming(entries, totalMs) {
+  const summary = renderTestTimingSummary(entries, { limit: 30, totalMs });
+  process.stdout.write(`\n${summary}`);
+  const stepSummary = process.env.GITHUB_STEP_SUMMARY;
+  if (stepSummary) await appendFile(stepSummary, `\n${summary}`);
+}
+
 async function loadQuarantine() {
   const text = await readFile(resolve(ROOT, QUARANTINE_PATH), "utf8");
   return parseQuarantine(text);
@@ -219,43 +291,60 @@ async function runFilesWithRetry(files, options = {}) {
   const concurrencyArg = options.concurrencyArg;
   const shouldRetry = env.EVERGREEN_RETRY_FLAKY !== "0" && (env.CI === "true" || env.EVERGREEN_RETRY_FLAKY === "1");
   const baseArgs = ["--test", concurrencyArg, ...files].filter((arg) => typeof arg === "string");
-  const first = await spawnTest(baseArgs, { cwd, env, capture: shouldRetry });
-  if (first.signal) {
-    process.kill(process.pid, first.signal);
-    return 1;
-  }
-  if (first.code === 0) return 0;
-  if (!shouldRetry) return first.code;
+  const junitDir = await mkdtemp(join(tmpdir(), "evergreen-test-junit-"));
+  try {
+    const junitPath = join(junitDir, "suite.xml");
+    const first = await spawnTest(baseArgs, { cwd, env, capture: shouldRetry, junitPath });
+    /** @type {{ file: string, durationMs: number }[]} */
+    let timingEntries = [];
+    try {
+      const xml = await readFile(junitPath, "utf8");
+      timingEntries = fileDurationsFromJunit(xml, cwd);
+    } catch {
+      // Timing is best-effort; a missing report must not hide the test exit status.
+    }
+    const suiteTotalMs = timingEntries.reduce((sum, entry) => sum + entry.durationMs, 0);
+    await reportTestTiming(timingEntries, suiteTotalMs);
 
-  const failed = failedFilesFromTap(files, first.output, cwd);
-  if (failed.length === 0) return first.code;
-
-  process.stdout.write(`\nRetrying ${failed.length} failed test file(s) once to detect flakes…\n`);
-  /** @type {string[]} */
-  const flaky = [];
-  /** @type {string[]} */
-  const hard = [];
-  for (const file of failed) {
-    const result = await spawnTest(["--test", concurrencyArg, file].filter((arg) => typeof arg === "string"), {
-      cwd,
-      env,
-      capture: true,
-    });
-    if (result.signal) {
-      process.kill(process.pid, result.signal);
+    if (first.signal) {
+      process.kill(process.pid, first.signal);
       return 1;
     }
-    const rel = relative(cwd, file).replaceAll("\\", "/");
-    if (result.code === 0) flaky.push(rel);
-    else hard.push(rel);
-  }
+    if (first.code === 0) return 0;
+    if (!shouldRetry) return first.code;
 
-  if (flaky.length > 0) await reportFlaky(flaky);
-  if (hard.length > 0) {
-    process.stderr.write(`\nFailed after retry:\n${hard.map((file) => `  ${file}`).join("\n")}\n`);
-    return 1;
+    const failed = failedFilesFromTap(files, first.output, cwd);
+    if (failed.length === 0) return first.code;
+
+    process.stdout.write(`\nRetrying ${failed.length} failed test file(s) once to detect flakes…\n`);
+    /** @type {string[]} */
+    const flaky = [];
+    /** @type {string[]} */
+    const hard = [];
+    for (const file of failed) {
+      const result = await spawnTest(["--test", concurrencyArg, file].filter((arg) => typeof arg === "string"), {
+        cwd,
+        env,
+        capture: true,
+      });
+      if (result.signal) {
+        process.kill(process.pid, result.signal);
+        return 1;
+      }
+      const rel = relative(cwd, file).replaceAll("\\", "/");
+      if (result.code === 0) flaky.push(rel);
+      else hard.push(rel);
+    }
+
+    if (flaky.length > 0) await reportFlaky(flaky);
+    if (hard.length > 0) {
+      process.stderr.write(`\nFailed after retry:\n${hard.map((file) => `  ${file}`).join("\n")}\n`);
+      return 1;
+    }
+    return 0;
+  } finally {
+    await rm(junitDir, { recursive: true, force: true });
   }
-  return 0;
 }
 
 /**

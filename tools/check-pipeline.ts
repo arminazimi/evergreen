@@ -11,7 +11,7 @@
 // diffs it: each merge regenerates the same minified lines, so parallel pull requests would conflict.
 
 import { spawn } from "node:child_process";
-import { chmod, copyFile, mkdir, mkdtemp, rm } from "node:fs/promises";
+import { appendFile, chmod, copyFile, mkdir, mkdtemp, rm } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { availableParallelism, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -19,12 +19,27 @@ import { pathToFileURL } from "node:url";
 
 const require = createRequire(import.meta.url);
 
+export const CHECK_TIMING_MARKER = "<!-- evergreen-check-timing -->";
+
 export type CommandRunner = (command: string, args: readonly string[]) => Promise<void>;
 
 export interface DependentStep {
   id: string;
   after?: readonly string[];
   run: () => Promise<void>;
+}
+
+export type StepTimingStatus = "ok" | "failed" | "skipped";
+
+export interface StepTiming {
+  id: string;
+  durationMs: number;
+  status: StepTimingStatus;
+}
+
+export interface DependentStepsResult {
+  failures: ReadonlyMap<string, Error>;
+  timings: readonly StepTiming[];
 }
 
 export interface RunCheckOptions {
@@ -67,13 +82,64 @@ export async function publishActionBundle(stagingDir: string, destination = join
   await copyFile(join(stagingDir, "package.json"), join(destination, "package.json"));
 }
 
-export async function runDependentSteps(steps: readonly DependentStep[]): Promise<ReadonlyMap<string, Error>> {
+/**
+ * @param {number} durationMs
+ */
+export function formatStepDuration(durationMs: number): string {
+  if (durationMs < 1000) return `${Math.round(durationMs)}ms`;
+  const seconds = durationMs / 1000;
+  if (seconds < 60) return `${seconds.toFixed(seconds < 10 ? 2 : 1)}s`;
+  const minutes = Math.floor(seconds / 60);
+  const rest = seconds - minutes * 60;
+  return `${minutes}m ${rest.toFixed(1)}s`;
+}
+
+export function renderStepTimingSummary(
+  steps: readonly StepTiming[],
+  options: { platform?: string; nodeVersion?: string } = {},
+): string {
+  const platform = options.platform ?? process.platform;
+  const nodeVersion = options.nodeVersion ?? process.version;
+  const lines = [
+    "### Check step timing",
+    CHECK_TIMING_MARKER,
+    "",
+    `platform: \`${platform}\` · node: \`${nodeVersion}\``,
+    "",
+  ];
+  if (steps.length === 0) {
+    lines.push("_No check steps timed._", "");
+    return lines.join("\n");
+  }
+  const ordered = [...steps].sort((a, b) => b.durationMs - a.durationMs || a.id.localeCompare(b.id));
+  lines.push("| Step | Duration | Status |");
+  lines.push("| --- | ---: | --- |");
+  for (const step of ordered) {
+    lines.push(`| \`${step.id}\` | ${formatStepDuration(step.durationMs)} | ${step.status} |`);
+  }
+  const sumMs = steps.reduce((sum, step) => sum + step.durationMs, 0);
+  lines.push("");
+  lines.push(`Sum of step wall times: **${formatStepDuration(sumMs)}** (steps may overlap when run in parallel)`);
+  lines.push("");
+  return lines.join("\n");
+}
+
+async function reportStepTiming(steps: readonly StepTiming[]): Promise<void> {
+  const summary = renderStepTimingSummary(steps);
+  process.stdout.write(`\n${summary}`);
+  const stepSummary = process.env.GITHUB_STEP_SUMMARY;
+  if (stepSummary) await appendFile(stepSummary, `\n${summary}`);
+}
+
+export async function runDependentSteps(steps: readonly DependentStep[]): Promise<DependentStepsResult> {
   const byId = new Map(steps.map((step) => [step.id, step]));
   const pending = new Set(byId.keys());
   const running = new Map<string, Promise<void>>();
   const failures = new Map<string, Error>();
   const done = new Set<string>();
   const skipped = new Set<string>();
+  /** @type {StepTiming[]} */
+  const timings: StepTiming[] = [];
   const settled = (id: string) => done.has(id) || failures.has(id) || skipped.has(id);
 
   while (pending.size > 0 || running.size > 0) {
@@ -84,6 +150,7 @@ export async function runDependentSteps(steps: readonly DependentStep[]): Promis
       if (after.length > 0 && after.every(settled) && after.some((dependency) => !done.has(dependency))) {
         pending.delete(id);
         skipped.add(id);
+        timings.push({ id, durationMs: 0, status: "skipped" });
       }
     }
 
@@ -105,23 +172,34 @@ export async function runDependentSteps(steps: readonly DependentStep[]): Promis
 
     for (const step of ready) {
       pending.delete(step.id);
+      const started = performance.now();
       const task = Promise.resolve()
         .then(() => step.run())
         .then(
           () => {
             running.delete(step.id);
             done.add(step.id);
+            timings.push({
+              id: step.id,
+              durationMs: Math.round(performance.now() - started),
+              status: "ok",
+            });
           },
           (error: unknown) => {
             running.delete(step.id);
             failures.set(step.id, error instanceof Error ? error : new Error(String(error)));
+            timings.push({
+              id: step.id,
+              durationMs: Math.round(performance.now() - started),
+              status: "failed",
+            });
           },
         );
       running.set(step.id, task);
     }
   }
 
-  return failures;
+  return { failures, timings };
 }
 
 export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
@@ -133,7 +211,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
   const verifyActionBundle = options.verifyActionBundle ?? process.env.EVERGREEN_VERIFY_ACTION_BUNDLE === "1";
 
   try {
-    const failures = await runDependentSteps([
+    const { failures, timings } = await runDependentSteps([
       {
         id: "build:action",
         run: () => run(process.execPath, [nccCli, "build", "src/action.ts", "-o", stagingDir, "--minify", "--transpile-only"]),
@@ -153,6 +231,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
           ]
         : []),
     ]);
+    await reportStepTiming(timings);
     if (failures.size > 0) {
       throw new Error([...failures].map(([id, error]) => `${id}: ${error.message}`).join("\n"));
     }
