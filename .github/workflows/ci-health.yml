@@ -1,12 +1,19 @@
 name: CI health
 
-# Measures how long ci.yml takes on completed runs, so the five-minute target stays visible. Writes
-# metrics/ci/<date>.json and the step summary, and opens or updates one `area: devops` issue when
-# the pull request p50 is over five minutes. Weekly it also lists flaky tests seen in ci.yml logs.
-# Nightly it runs tests listed in tests/quarantine.json. It needs the network, so it is deliberately
-# not part of pull-request CI.
+# Reacts to ci.yml. When a run on main fails it opens one `area: devops` issue, comments on that
+# issue for each later failing run, and closes it with the recovering run once main is green again.
+# It also measures how long ci.yml takes on completed runs, so the five-minute target stays visible:
+# it writes metrics/ci/<date>.json and the step summary, and opens or updates one `area: devops`
+# issue when the pull request p50 is over five minutes. Weekly it lists flaky tests seen in ci.yml
+# logs; nightly it runs tests listed in tests/quarantine.json. It needs the network, so it is
+# deliberately not part of pull-request CI.
 
 on:
+  # zizmor: ignore[dangerous-triggers] -- it reads the triggering run's metadata only, never its code
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
   schedule:
     - cron: "47 6 * * 1" # Mondays, 06:47 UTC — duration + weekly flaky list
     - cron: "47 5 * * *" # Nightly, 05:47 UTC — quarantined tests
@@ -89,3 +96,42 @@ jobs:
         env:
           EVERGREEN_RETRY_FLAKY: "0"
         run: node tools/run-tests.mjs --quarantine-only
+
+  main-red:
+    # workflow_run also fires for pull request runs; the branch filter above narrows the trigger and
+    # this guard keeps the action to pushes to main, where a red run means the branch itself is red.
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+    # One reconciliation at a time, so concurrent runs cannot each see an empty issue list and open
+    # a duplicate. A pending run that is superseded is dropped; the newest run still reconciles.
+    concurrency:
+      group: main-red-alert
+      cancel-in-progress: false
+    steps:
+      # The default branch is checked out, not the triggering run's commit: the reconciler always
+      # comes from reviewed code, and the failing run's code is never executed.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Open, update, or close the one main-red issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: >-
+          node dist/tools/main-red-alert.js
+          --event "$GITHUB_EVENT_PATH"
+          --summary "$GITHUB_STEP_SUMMARY"
