@@ -9,7 +9,7 @@ canonical_url: "https://arminazimi.github.io/evergreen/eol/"
 These 50 pages answer “Is it end of life?” for products people search for. Each page lists every reviewed lifecycle rule for that Package URL: status, date, affected versions, and sources. The pages are generated from the lifecycle registry (`registry/`), not written by hand.
 
 - [Is Node.js end of life?](nodejs.html) — `pkg:generic/nodejs`, 80 rules
-- [Is Python end of life?](python.html) — `pkg:generic/python`, 69 rules
+- [Is Python end of life?](python.html) — `pkg:generic/python`, 70 rules
 - [Is PHP end of life?](php.html) — `pkg:generic/php`, 7 rules
 - [Is Ruby end of life?](ruby.html) — `pkg:generic/ruby`, 12 rules
 - [Is Java end of life?](java.html) — `pkg:generic/java`, 5 rules

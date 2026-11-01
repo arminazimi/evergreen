@@ -42,7 +42,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/eol/php.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/postgresql.html</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/powershell.html</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/eol/python.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/python.html</loc><lastmod>2026-11-02</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/rails.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/react-native.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/redis.html</loc><lastmod>2026-10-29</lastmod></url>
@@ -583,6 +583,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.removed-aliases.html</loc><lastmod>2026-11-02</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.webbrowser.macosx.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.gem.json.yanked-2.17.1.1.html</loc><lastmod>2026-10-18</lastmod></url>

@@ -186,6 +186,7 @@ export function isUsageMatcher(value: unknown): value is UsageMatcher {
       SYMBOL_PATH.test(value.symbol) &&
       symbolShapeValues.includes(value.shape as never) &&
       (value.shape !== "construct" || value.language !== "python") &&
+      (value.shape !== "method" || value.language === "python") &&
       (hasOption ? isNonEmptyString(value.option) : value.option === undefined && value.argument === undefined) &&
       (value.argument === undefined || (Number.isInteger(value.argument) && (value.argument as number) >= 0)) &&
       (value.replacement === undefined || isNonEmptyString(value.replacement))

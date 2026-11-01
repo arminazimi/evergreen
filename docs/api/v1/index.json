@@ -1,5 +1,5 @@
 {
-  "latestReview": "2026-11-01",
+  "latestReview": "2026-11-02",
   "products": [
     {
       "ecosystems": [
@@ -3996,11 +3996,11 @@
         "removed"
       ],
       "id": "generic-python",
-      "latestReview": "2026-10-30",
+      "latestReview": "2026-11-02",
       "name": "python",
       "path": "products/generic-python.json",
       "purl": "pkg:generic/python",
-      "rules": 69,
+      "rules": 70,
       "type": "generic"
     },
     {
@@ -6608,7 +6608,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 705,
+  "rules": 706,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -6638,7 +6638,7 @@
     {
       "path": "types/generic.json",
       "products": 216,
-      "rules": 475,
+      "rules": 476,
       "type": "generic"
     },
     {

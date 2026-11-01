@@ -63,7 +63,7 @@ export interface ConfigUsageMatcher {
   valueIncludes?: string;
 }
 
-export const symbolShapeValues = ["call", "construct", "reference", "option"] as const;
+export const symbolShapeValues = ["call", "construct", "reference", "method", "option"] as const;
 export type SymbolShape = (typeof symbolShapeValues)[number];
 
 /**
@@ -77,7 +77,10 @@ export interface SymbolUsageMatcher {
   module?: string;
   /** Dotted path from the module, for example `parse`, `Buffer.alloc`, or `datetime.utcnow`. */
   symbol: string;
-  /** How the symbol is used: called, constructed with `new`, referenced, or passed an option. */
+  /**
+   * How the symbol is used: called, constructed with `new`, referenced, called as a method of any receiver
+   * inside a `unittest.TestCase` subclass (Python only), or passed an option.
+   */
   shape: SymbolShape;
   /** For `option`: the property name the deprecated option uses in the call's options object. */
   option?: string;

@@ -171,7 +171,7 @@
               "type": "string",
               "pattern": "^[A-Za-z_$][\\w$]*(?:\\.[A-Za-z_$][\\w$]*)*$"
             },
-            "shape": { "enum": ["call", "construct", "reference", "option"] },
+            "shape": { "enum": ["call", "construct", "reference", "method", "option"] },
             "option": { "description": "For shape option: the deprecated property name in the options object.", "$ref": "#/$defs/nonEmpty" },
             "argument": { "description": "For shape option: zero-based position of the options argument.", "type": "integer", "minimum": 0 },
             "replacement": { "$ref": "#/$defs/nonEmpty" }
@@ -184,7 +184,8 @@
             },
             {
               "if": { "properties": { "language": { "const": "python" } }, "required": ["language"] },
-              "then": { "properties": { "shape": { "enum": ["call", "reference", "option"] } } }
+              "then": { "properties": { "shape": { "enum": ["call", "reference", "method", "option"] } } },
+              "else": { "properties": { "shape": { "not": { "const": "method" } } } }
             }
           ]
         },

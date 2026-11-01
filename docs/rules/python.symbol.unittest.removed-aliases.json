@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.unittest.removed-aliases",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.12",
+  "event": "removed",
+  "severity": "high",
+  "title": "The deprecated unittest aliases have been removed",
+  "summary": "Python 3.12 removed the long-deprecated unittest.TestCase aliases, such as assertEquals() and failUnless(), and assertDictContainsSubset(), so using them raises AttributeError.",
+  "replacement": "The current TestCase methods: assertEqual(), assertNotEqual(), assertTrue(), assertFalse(), assertAlmostEqual(), assertNotAlmostEqual(), assertRegex(), assertNotRegex(), and assertRaises(); assertDictContainsSubset() has none",
+  "sources": [
+    {
+      "title": "What's New in Python 3.12",
+      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-11-02",
+    "reviewedAt": "2026-11-02",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the test unchanged; each alias calls the method its replacement names.",
+      "assertDictContainsSubset() has no replacement, so its assertion must be rewritten by hand."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the alias",
+        "instructions": "Replace each reported alias with the current TestCase method that What's New in Python 3.12 names; rewrite an assertDictContainsSubset() call by hand, because it has no replacement.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings treated as errors when pytest is used."
+      }
+    ]
+  }
+}

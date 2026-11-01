@@ -3478,11 +3478,11 @@
         "removed"
       ],
       "id": "generic-python",
-      "latestReview": "2026-10-30",
+      "latestReview": "2026-11-02",
       "name": "python",
       "path": "products/generic-python.json",
       "purl": "pkg:generic/python",
-      "rules": 69,
+      "rules": 70,
       "type": "generic"
     },
     {
@@ -3649,7 +3649,7 @@
       "type": "generic"
     }
   ],
-  "rules": 475,
+  "rules": 476,
   "schemaVersion": "evergreen.api-type.v1",
   "type": "generic"
 }

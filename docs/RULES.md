@@ -191,7 +191,7 @@ A `usage` entry of kind `symbol` marks one deprecated function, method, class, o
 | `language` | yes | `javascript`, `typescript`, or `python`. Write one entry per language. |
 | `module` | no | The module that exports the symbol, as it is imported: `react-dom`, `datetime`. Omit it for globals and builtins such as `Buffer` or `open`. |
 | `symbol` | yes | Dotted path from the module: `render`, `Buffer.alloc`, `datetime.utcnow`. Identifier segments only. |
-| `shape` | yes | How the symbol is used: `call`, `construct` (`new X()`, JavaScript and TypeScript only), `reference` (any other use, such as passing it as a value), or `option` (a deprecated property in the call's options object). |
+| `shape` | yes | How the symbol is used: `call`, `construct` (`new X()`, JavaScript and TypeScript only), `reference` (any other use, such as passing it as a value), `method` (called on any receiver inside a class that subclasses `unittest.TestCase` or `TestCase`, Python only), or `option` (a deprecated property in the call's options object). |
 | `option` | when `shape` is `option` | The deprecated property name. Not allowed for other shapes. |
 | `argument` | no | For `option`: zero-based position of the options argument. Defaults to the last argument. |
 | `replacement` | no | What to use instead of this symbol. It overrides the rule's `replacement` in reports. |

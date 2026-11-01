@@ -16,9 +16,9 @@ async function symbolRules(): Promise<(RegistryV2Rule & { usage: SymbolUsageMatc
   return registry.rules.filter((rule) => rule.id.startsWith(prefix)) as (RegistryV2Rule & { usage: SymbolUsageMatcher[] })[];
 }
 
-test("the Python registry carries 42 symbol-level rules with official evidence", async () => {
+test("the Python registry carries 43 symbol-level rules with official evidence", async () => {
   const rules = await symbolRules();
-  assert.equal(rules.length, 42);
+  assert.equal(rules.length, 43);
   for (const rule of rules) {
     assert.ok(rule.sources.every((source) => source.url.startsWith("https://docs.python.org/")), `${rule.id} cites docs.python.org`);
     assert.ok(rule.usage.length > 0 && rule.usage.every((matcher) => matcher.kind === "symbol"), `${rule.id} has only symbol entries`);

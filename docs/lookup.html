@@ -164,7 +164,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 705 rules and makes no network requests after it loads.
+        This page embeds 706 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -180,7 +180,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 705 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 706 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -10886,6 +10886,23 @@ h1 {
       {
         "title": "What's New in Python 3.11",
         "url": "https://docs.python.org/3/whatsnew/3.11.html"
+      }
+    ]
+  },
+  {
+    "id": "python.symbol.unittest.removed-aliases",
+    "title": "The deprecated unittest aliases have been removed",
+    "summary": "Python 3.12 removed the long-deprecated unittest.TestCase aliases, such as assertEquals() and failUnless(), and assertDictContainsSubset(), so using them raises AttributeError.",
+    "event": "removed",
+    "severity": "high",
+    "ecosystem": "python",
+    "purl": "pkg:generic/python",
+    "vers": "vers:pypi/>=3.12",
+    "replacement": "The current TestCase methods: assertEqual(), assertNotEqual(), assertTrue(), assertFalse(), assertAlmostEqual(), assertNotAlmostEqual(), assertRegex(), assertNotRegex(), and assertRaises(); assertDictContainsSubset() has none",
+    "sources": [
+      {
+        "title": "What's New in Python 3.12",
+        "url": "https://docs.python.org/3/whatsnew/3.12.html"
       }
     ]
   },
