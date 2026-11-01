@@ -15,7 +15,7 @@ import {
   highestSeverity,
   totalFindings,
   type PortalService,
-} from "../../../common/portal";
+} from "@evergreen-dev/backstage-plugin-common";
 import { evergreenApiRef } from "../api";
 
 type LoadState =

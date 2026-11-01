@@ -10,10 +10,10 @@ export {
   findService,
   highestSeverity,
   totalFindings,
-} from "../../common/portal";
+} from "@evergreen-dev/backstage-plugin-common";
 export type {
   PortalCatalog,
   PortalService,
   PortalSeverityCounts,
   Severity,
-} from "../../common/portal";
+} from "@evergreen-dev/backstage-plugin-common";

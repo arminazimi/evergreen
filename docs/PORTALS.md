@@ -61,7 +61,7 @@ Copy or path-link the packages from [`integrations/backstage/`](../integrations/
 **Backend** (`packages/backend/src/index.ts`):
 
 ```ts
-backend.add(import('@evergreen-deprecation/backstage-plugin-backend'));
+backend.add(import('@evergreen-dev/backstage-plugin-backend'));
 ```
 
 **App config** (`app-config.yaml`):
@@ -75,7 +75,7 @@ evergreen:
 **Frontend** — register the card on Component entity pages:
 
 ```tsx
-import { EntityEvergreenLifecycleCard } from '@evergreen-deprecation/backstage-plugin';
+import { EntityEvergreenLifecycleCard } from '@evergreen-dev/backstage-plugin';
 
 // Inside EntityLayout for kind Component:
 <EntityLayout.Route path="/" title="Overview">

@@ -3,7 +3,7 @@ import { InputError, NotFoundError } from "@backstage/errors";
 import express from "express";
 import Router from "express-promise-router";
 
-import { findService, type PortalCatalog } from "../../common/portal";
+import { findService, type PortalCatalog } from "@evergreen-dev/backstage-plugin-common";
 import { loadPortalCatalog } from "./loadPortal";
 
 export interface RouterOptions {

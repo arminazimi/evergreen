@@ -31,19 +31,25 @@ The backend matches exact paths first (trailing slashes ignored), then a unique 
 
 ## 3. Install the plugin into a Backstage app
 
-Copy or path-link the packages from this directory into your Backstage workspace (they are not published to npm yet; directory listing is a follow-up):
+Install the packages from npm:
+
+```bash
+yarn --cwd packages/backend add @evergreen-dev/backstage-plugin-backend
+yarn --cwd packages/app add @evergreen-dev/backstage-plugin
+```
 
 | Package | Path |
 |---|---|
-| `@evergreen-deprecation/backstage-plugin` | [`plugin/`](plugin/) |
-| `@evergreen-deprecation/backstage-plugin-backend` | [`plugin-backend/`](plugin-backend/) |
+| `@evergreen-dev/backstage-plugin` | [`plugin/`](plugin/) |
+| `@evergreen-dev/backstage-plugin-backend` | [`plugin-backend/`](plugin-backend/) |
+| `@evergreen-dev/backstage-plugin-common` | [`common/`](common/) |
 
-Shared types live in [`common/`](common/) and are imported by both packages.
+The common package holds the shared portal-export types and is installed automatically as a dependency of the other two.
 
 **Backend** (`packages/backend/src/index.ts`):
 
 ```ts
-backend.add(import('@evergreen-deprecation/backstage-plugin-backend'));
+backend.add(import('@evergreen-dev/backstage-plugin-backend'));
 ```
 
 **App config** (`app-config.yaml`):
@@ -57,7 +63,7 @@ evergreen:
 **Frontend** — register the card on Component entity pages (classic entity page):
 
 ```tsx
-import { EntityEvergreenLifecycleCard } from '@evergreen-deprecation/backstage-plugin';
+import { EntityEvergreenLifecycleCard } from '@evergreen-dev/backstage-plugin';
 
 // Inside EntityLayout for kind Component:
 <EntityLayout.Route path="/" title="Overview">

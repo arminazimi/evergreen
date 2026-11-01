@@ -1,5 +1,5 @@
 {
-  "name": "@evergreen-deprecation/backstage-plugin",
+  "name": "@evergreen-dev/backstage-plugin",
   "version": "0.1.0",
   "description": "Backstage entity card that shows Evergreen lifecycle risk per component from the portal export.",
   "license": "Apache-2.0",
@@ -9,8 +9,9 @@
     "role": "frontend-plugin",
     "pluginId": "evergreen",
     "pluginPackages": [
-      "@evergreen-deprecation/backstage-plugin",
-      "@evergreen-deprecation/backstage-plugin-backend"
+      "@evergreen-dev/backstage-plugin",
+      "@evergreen-dev/backstage-plugin-backend",
+      "@evergreen-dev/backstage-plugin-common"
     ]
   },
   "sideEffects": false,
@@ -20,6 +21,9 @@
     "lint": "backstage-cli package lint",
     "test": "backstage-cli package test",
     "clean": "backstage-cli package clean"
+  },
+  "dependencies": {
+    "@evergreen-dev/backstage-plugin-common": "^0.1.0"
   },
   "peerDependencies": {
     "@backstage/catalog-model": "^1.0.0",

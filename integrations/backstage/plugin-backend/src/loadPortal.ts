@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
-import { parsePortalCatalog, type PortalCatalog } from "../../common/portal";
+import { parsePortalCatalog, type PortalCatalog } from "@evergreen-dev/backstage-plugin-common";
 
 /**
  * Load an `evergreen.portal.v1` catalog from a URL or a local file path

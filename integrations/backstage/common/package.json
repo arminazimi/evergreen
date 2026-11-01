@@ -1,0 +1,20 @@
+{
+  "name": "@evergreen-dev/backstage-plugin-common",
+  "version": "0.1.0",
+  "description": "Shared Evergreen portal-export types and helpers for the Backstage plugin packages.",
+  "license": "Apache-2.0",
+  "main": "portal.ts",
+  "types": "portal.ts",
+  "backstage": {
+    "role": "common-library",
+    "pluginId": "evergreen",
+    "pluginPackages": [
+      "@evergreen-dev/backstage-plugin",
+      "@evergreen-dev/backstage-plugin-backend",
+      "@evergreen-dev/backstage-plugin-common"
+    ]
+  },
+  "files": [
+    "portal.ts"
+  ]
+}

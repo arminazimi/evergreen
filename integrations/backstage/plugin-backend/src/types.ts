@@ -3,7 +3,7 @@ export type {
   PortalService,
   PortalSeverityCounts,
   Severity,
-} from "../../common/portal";
+} from "@evergreen-dev/backstage-plugin-common";
 
 export {
   PORTAL_SCHEMA_VERSION,
@@ -13,4 +13,4 @@ export {
   highestSeverity,
   parsePortalCatalog,
   totalFindings,
-} from "../../common/portal";
+} from "@evergreen-dev/backstage-plugin-common";

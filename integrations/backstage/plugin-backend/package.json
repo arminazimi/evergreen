@@ -1,5 +1,5 @@
 {
-  "name": "@evergreen-deprecation/backstage-plugin-backend",
+  "name": "@evergreen-dev/backstage-plugin-backend",
   "version": "0.1.0",
   "description": "Backstage backend module that serves Evergreen portal-export lifecycle summaries. Does not scan repositories.",
   "license": "Apache-2.0",
@@ -9,8 +9,9 @@
     "role": "backend-plugin",
     "pluginId": "evergreen",
     "pluginPackages": [
-      "@evergreen-deprecation/backstage-plugin",
-      "@evergreen-deprecation/backstage-plugin-backend"
+      "@evergreen-dev/backstage-plugin",
+      "@evergreen-dev/backstage-plugin-backend",
+      "@evergreen-dev/backstage-plugin-common"
     ]
   },
   "scripts": {
@@ -19,6 +20,9 @@
     "lint": "backstage-cli package lint",
     "test": "backstage-cli package test",
     "clean": "backstage-cli package clean"
+  },
+  "dependencies": {
+    "@evergreen-dev/backstage-plugin-common": "^0.1.0"
   },
   "peerDependencies": {
     "@backstage/backend-plugin-api": "^1.0.0",

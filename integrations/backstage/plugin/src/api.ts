@@ -5,7 +5,7 @@ import {
   type FetchApi,
 } from "@backstage/core-plugin-api";
 
-import type { PortalCatalog, PortalService } from "../../common/portal";
+import type { PortalCatalog, PortalService } from "@evergreen-dev/backstage-plugin-common";
 
 export const evergreenApiRef = createApiRef<EvergreenApi>({
   id: "plugin.evergreen.service",

@@ -6,4 +6,4 @@ export {
   SERVICE_PATH_ANNOTATION,
   findService,
   parsePortalCatalog,
-} from "../../common/portal";
+} from "@evergreen-dev/backstage-plugin-common";
