@@ -1,0 +1,1 @@
+- Define reference quality as eight measurable criteria, each with the command that checks it, and record the unmeasured ones as gaps. (#2041)
