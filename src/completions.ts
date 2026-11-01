@@ -16,6 +16,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "baseline", flags: ["--output", "--data-version"], example: "evergreen baseline . --output evergreen-baseline.json" },
   { name: "forecast", flags: ["--months", "--as-of", "--today", "--svg", "--animate", "--timeline", "--json", "--format", "--data-version"], example: "evergreen forecast . --months 6" },
   { name: "forecast", flags: ["--months", "--as-of", "--today", "--timeline", "--json", "--format", "--data-version"], example: "evergreen forecast . --months 6" },
+  { name: "countdown", flags: ["--as-of", "--limit", "--json", "--once", "--no-animation", "--no-cache", "--data-version"], example: "evergreen countdown . --as-of 2026-10-25" },
   { name: "plan", flags: ["--json", "--wave", "--data-version"], example: "evergreen plan . --json" },
   { name: "status-card", flags: ["--name"], example: "evergreen status-card . --name acme/widgets" },
   { name: "lookup", flags: ["--json"], example: "evergreen lookup node 18" },

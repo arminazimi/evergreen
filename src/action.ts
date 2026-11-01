@@ -148,6 +148,7 @@ interface RepositoryRef {
 interface PullRequestEvent {
   pull_request?: {
     number?: number;
+    user?: { login?: string };
     base?: { sha?: string; repo?: RepositoryRef };
     head?: { sha?: string; repo?: RepositoryRef };
   };
@@ -188,8 +189,8 @@ async function postComment(outcome: Awaited<ReturnType<typeof runGitHubAction>>,
       console.log("::notice title=Evergreen pull request comment skipped::pr-comment needs a pull_request event, a token, and GITHUB_REPOSITORY.");
       return;
     }
-    const { result, gateFailed, gate, expiredFailure, diff, packages } = outcome;
-    const body = renderComment(result.findings, gateFailed, gate, result.data, process.env.INPUT_ATTRIBUTION !== "false", result.suppressions, diff, packages, unannotated);
+    const { result, gateFailed, gate, expiredFailure, diff, packages, agent } = outcome;
+    const body = renderComment(result.findings, gateFailed, gate, result.data, process.env.INPUT_ATTRIBUTION !== "false", result.suppressions, diff, packages, unannotated, agent);
     const note = expiredFailure ? "\n> **Failed:** a baseline suppression has expired and `on-expired` is set to `fail`.\n" : "";
     const proposalNote = proposal ? `\n${renderBaselineProposal(proposal.path, proposal.baseline)}` : "";
     const done = await upsertPullRequestComment({ apiUrl: process.env.GITHUB_API_URL ?? "https://api.github.com", repository, pullRequest, token }, `${body}${note}${proposalNote}`);
@@ -371,6 +372,8 @@ async function main(): Promise<void> {
       ...(badgePath ? { badgePath } : {}),
       ...(diff ? { mode: "diff" as const } : {}),
       ...(diff?.diffRange ? { diffRange: diff.diffRange } : {}),
+      ...(event.pull_request?.user?.login ? { pullRequestAuthor: event.pull_request.user.login } : {}),
+      ...(process.env["INPUT_AGENT-AUTHORS"] !== undefined ? { agentAuthors: process.env["INPUT_AGENT-AUTHORS"] } : {}),
       ...(process.env.INPUT_BASELINE && !proposeBaseline ? { baselinePath: process.env.INPUT_BASELINE } : {}),
       ...(process.env["INPUT_BASELINE-WARN-DAYS"] ? { baselineWarnDays: Number(process.env["INPUT_BASELINE-WARN-DAYS"]) } : {}),
       ...(process.env["INPUT_ON-EXPIRED"] ? { onExpired: process.env["INPUT_ON-EXPIRED"] as ExpiredPolicy } : {}),

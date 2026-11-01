@@ -64,6 +64,7 @@ Found 5 lifecycle risks. The most urgent:
 - [Architecture and trust boundaries](ARCHITECTURE.md): the layers and what each one must not do.
 - [Threat model](THREAT_MODEL.md): trust boundaries, threats, and residual risks.
 - [Validation results](VALIDATION.md): the public corpus, precision thresholds, and measured results.
+- [Benchmarks](BENCHMARKS.md): the agent migration benchmark, its task set, and how it is scored.
 - [State of EOL](state-of-eol.md): corpus findings aggregated by product and release line.
 - [Evergreen compared with Renovate, Dependabot, and endoflife.date](compare/index.md): what each tool answers, and where each is stronger.
 - [Decision records](decisions/index.md): the decisions behind public contracts.
@@ -74,6 +75,7 @@ Found 5 lifecycle risks. The most urgent:
 - [Codex plugin submission](CODEX_SUBMISSION.md): how the plugin is submitted to the Codex directory.
 - [Brand guide](https://github.com/arminazimi/evergreen/blob/main/brand/BRAND_GUIDE.md), [brand asset terms](https://github.com/arminazimi/evergreen/blob/main/brand/LICENSE.md), and the [distribution brand checklist](DISTRIBUTION_BRAND.md).
 - [Support](SUPPORT.md) and [terms](TERMS.md).
+- [Persian (فارسی)](fa/index.md): the quickstart in Persian, rendered right to left.
 
 [Source code](https://github.com/arminazimi/evergreen) · [Report an issue](https://github.com/arminazimi/evergreen/issues) · [npm package](https://www.npmjs.com/package/evergreen-deprecation)
 

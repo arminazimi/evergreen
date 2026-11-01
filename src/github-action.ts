@@ -2,6 +2,8 @@ import { execFileSync } from "node:child_process";
 import { mkdir, readdir, stat, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 
+import { matchesAgentAuthor, parseAgentAuthors, renderAgentSection } from "./agent-pr.js";
+import type { AgentIntroducedFindings } from "./agent-pr.js";
 import { evaluateBaseline, expiredSuppressionsFail, readBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
 import { badgeState, renderBadgeSvg } from "./badge.js";
@@ -253,6 +255,10 @@ export interface GitHubActionOptions {
    * post them as one review of `suggestion` comments. Only meaningful in diff mode.
    */
   suggestFixes?: boolean;
+  /** Raw `agent-authors` input: comma-separated logins whose pull requests get the agent section, or `none`. */
+  agentAuthors?: string;
+  /** Login of the pull request author; the agent section appears only when it matches `agentAuthors`. */
+  pullRequestAuthor?: string;
 }
 
 export interface GitHubActionOutcome {
@@ -267,6 +273,8 @@ export interface GitHubActionOutcome {
   unannotated: number;
   /** The fixes `suggest-fixes` planned as review suggestions; empty when the input is off. */
   suggestions: FixSuggestion[];
+  /** Present in diff mode when the pull request author is an agent that introduced findings. */
+  agent?: AgentIntroducedFindings;
   /** The job should fail: the severity gate was met, or the `fail` expiry policy applies. */
   failed: boolean;
   /** A finding met the severity gate. */
@@ -467,6 +475,7 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   let result: ScanResult;
   let diff: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged"> | undefined;
   let packages: PackageScanSummary[] | undefined;
+  let agent: AgentIntroducedFindings | undefined;
 
   if (options.mode === "diff") {
     if (!options.diffRange) throw new Error("mode: diff needs the base and head refs of the pull request.");
@@ -474,6 +483,10 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
     // The diff gate judges only what the PR introduces, so no baseline and no min-support run over the whole backlog.
     result = { schemaVersion: "evergreen.scan.v1", root, scannedAt: new Date().toISOString(), findings: compared.introduced, diagnostics: [] };
     diff = { base: compared.base, head: compared.head, fixed: compared.fixed, unchanged: compared.unchanged };
+    const author = options.pullRequestAuthor;
+    if (compared.introduced.length > 0 && author !== undefined && matchesAgentAuthor(author, parseAgentAuthors(options.agentAuthors))) {
+      agent = { author, findings: compared.introduced };
+    }
   } else if (options.paths && options.paths.length > 0) {
     const scannedAt = new Date().toISOString();
     const packageResults: PackageScanSummary[] = [];
@@ -570,6 +583,7 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
     expiredFailure,
     ...(diff ? { diff } : {}),
     ...(packages ? { packages } : {}),
+    ...(agent ? { agent } : {}),
   };
 }
 
@@ -677,6 +691,7 @@ function appendFindingTables(lines: string[], findings: readonly Finding[]): voi
  * When `diff` is set the scan covered a pull request range: the header and a fixed-findings table say so.
  * When `packages` is set, one section is written per package after the overview.
  * `unannotated` counts the findings that are not on a line the pull request changed, with a link to the full report.
+ * `agent` adds the stale choices an agent-authored pull request introduced, with the replacements.
  */
 export function renderSummary(
   findings: readonly Finding[],
@@ -688,6 +703,7 @@ export function renderSummary(
   diff?: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged">,
   packages?: readonly PackageScanSummary[],
   unannotated?: UnannotatedFindings,
+  agent?: AgentIntroducedFindings,
 ): string {
   const status = failed ? `failed the **${gate}** severity gate` : "passed the severity gate";
   const counts = !diff
@@ -696,6 +712,7 @@ export function renderSummary(
       : `Found **${findings.length}** new lifecycle finding${findings.length === 1 ? "" : "s"}; ${status}.`
     : `Found **${findings.length}** lifecycle finding${findings.length === 1 ? "" : "s"} introduced by this pull request (${diff.base}..${diff.head}); ${status}.`;
   const lines = ["## Evergreen", "", counts, ""];
+  if (agent) lines.push(...renderAgentSection(agent.findings));
   lines.push(...renderTimeline(findings));
 
   if (packages && packages.length > 0) {
@@ -760,6 +777,7 @@ export function renderComment(
   diff?: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged">,
   packages?: readonly PackageScanSummary[],
   unannotated?: UnannotatedFindings,
+  agent?: AgentIntroducedFindings,
 ): string {
-  return `${PR_COMMENT_MARKER}\n${renderSummary(findings, failed, gate, data, attribution, suppressions, diff, packages, unannotated)}`;
+  return `${PR_COMMENT_MARKER}\n${renderSummary(findings, failed, gate, data, attribution, suppressions, diff, packages, unannotated, agent)}`;
 }

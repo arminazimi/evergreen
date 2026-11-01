@@ -651,6 +651,40 @@ A floor resolves from its first lower bound, so `>=3.10,<3.13`, `^3.10`, and `~=
 `3`, `3.x`, a wildcard with no minor version, `latest`, a tag or image with no version, a dynamic image reference, an expression, a constraint with no lower bound, and any value Evergreen does not read are reported as pins with a one-sentence reason and no release. A value is never guessed from a newer version existing.
 `--align` rewrites `.python-version`, `.tool-versions`, `runtime.txt`, `Pipfile`, `FROM python:<version>[-variant]` (keeping the variant suffix and the rest of the instruction), and a single-value `setup-python` `python-version`. It refuses floors, matrix entries, CI image references, and any line whose form it does not recognize.
 
+## Node.js
+
+Node.js pins are reported at the major release: `18.19.0`, `v18`, and the image tag `18-alpine` all select `18`.
+
+| Source | Field | Kind |
+| --- | --- | --- |
+| `.nvmrc` | the version line | pin |
+| `.node-version` | the version line | pin |
+| `.tool-versions` | the `nodejs` entry, one pin per version | pin |
+| `package.json` | `volta.node` | pin |
+| `package.json` | `engines.node` | floor |
+| `Dockerfile`, `*.Dockerfile`, `Containerfile*` | `FROM node:<tag>`, including every stage | pin |
+| `devcontainer.json` | the `image` tag and the `ghcr.io/devcontainers/features/node` feature `version` | pin |
+| `.github/workflows/*.yml` | `actions/setup-node` `node-version` | pin |
+| `.gitlab-ci.yml` | `image` and `services` values of the official `node`, `cimg/node`, and `circleci/node` images | pin |
+| `.circleci/config.yml` | Docker executor values of those images | pin |
+| `azure-pipelines.yml` | job `container` values of those images | pin |
+
+A Dev Container image is read for the `node`, `cimg/node`, and `circleci/node` Docker Hub images and for the `devcontainers/javascript-node` and `devcontainers/typescript-node` images, whose tags carry the Node.js major after the image major, such as `1-18-bookworm`.
+
+**LTS codenames**
+
+`lts/<codename>` resolves through the Node.js release schedule ([nodejs/Release](https://github.com/nodejs/Release#release-schedule)): `argon` 4, `boron` 6, `carbon` 8, `dubnium` 10, `erbium` 12, `fermium` 14, `gallium` 16, `hydrogen` 18, `iron` 20, `jod` 22, and `krypton` 24. The Docker tag form `lts-<codename>[-variant]` resolves the same way.
+
+**Matrix builds**
+
+A `setup-node` matrix with several versions is intentional. Each value is reported as a pin with source `setup-node matrix`, the values share one group, and they are not counted against each other. A drift is reported only when a non-matrix pin disagrees with another non-matrix pin, or when a non-matrix pin falls outside the matrix.
+
+**Unresolved**
+
+`lts/*`, `latest`, `current`, `node`, an LTS codename Evergreen does not know, an image tag that names no Node.js release, a dynamic image reference, an expression, a matrix entry that is not a plain version, and a floor with no lower bound are reported as pins with a one-sentence reason and no release.
+
+`--align` rewrites `.nvmrc`, `.node-version`, `.tool-versions`, `package.json` `volta.node`, `FROM node:<major>[-variant]` (keeping the variant suffix and the rest of the instruction), and a single-value `actions/setup-node` `node-version`. It refuses floors, `setup-node` matrices, Dev Container and CI image references, and any line whose form it does not recognize.
+
 ---
 
 Source: https://arminazimi.github.io/evergreen/playbooks/agent.html
@@ -1107,6 +1141,7 @@ does not provide a `with` entry.
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
 | `upload-badge` | `false` | Generate a Shields.io endpoint JSON and a branded SVG badge, and upload both as the `evergreen-badge` artifact (14 days). |
 | `pr-comment` | `false` | Set to `true` to post one summary comment on pull requests (counts and the top findings). Re-runs update the same comment. Needs `pull-requests: write`. |
+| `agent-authors` | `Copilot, google-labs-jules[bot], devin-ai-integration[bot], chatgpt-codex-connector[bot], claude[bot]` | Comma-separated logins treated as coding agents. In diff mode, when the pull request author matches, the comment adds the **Stale choices this agent introduced** section. Set to `none` to turn it off. Matching ignores case and a leading `@`. |
 | `suggest-fixes` | `false` | In diff mode, post one review whose `suggestion` blocks apply the deterministic fixes for findings on lines the pull request changed. Re-runs update the same review. Needs `pull-requests: write`; pull requests from forks are skipped. |
 | `commands` | `false` | Set to `true` to answer `/evergreen explain` and `/evergreen ignore` comments when the workflow runs on `issue_comment`. Replies only to owners, members, and collaborators. Needs `pull-requests: write`. |
 | `fix-pr` | `false` | Set to `true` to open or update one pull request on `evergreen/fixes` with every deterministic fix, and close it when nothing is left to fix. Runs only on `schedule` and `workflow_dispatch` events. Needs `contents: write` and `pull-requests: write`. See [scheduled fix pull request](#scheduled-fix-pull-request). |
@@ -1196,6 +1231,12 @@ steps:
 ```
 
 Pull requests from forks get a read-only token, so the comment cannot be posted there: the Action logs a warning and the scan result is unaffected.
+
+### Agent-authored pull requests
+
+When `mode: diff` and the pull request author is a coding agent, the comment also carries a **Stale choices this agent introduced** section. It lists each finding the pull request introduced with its `path:line`, rule title, replacement, and evidence link, and closes with the line the agent can act on: "Replace these and push again; Evergreen will re-check." The comment is still the one Evergreen comment, updated on re-runs; a second comment is never posted.
+
+`agent-authors` takes a comma-separated list of logins. The default covers GitHub's Copilot coding agent (`Copilot`), Jules (`google-labs-jules[bot]`), Devin (`devin-ai-integration[bot]`), OpenAI Codex cloud (`chatgpt-codex-connector[bot]`), and Claude (`claude[bot]`). Matching ignores case and a leading `@`. Set `agent-authors: none` to turn the section off, or name the logins your agents author with. The author comes from the event payload, so no extra request is made; scans stay offline.
 
 ### Comment commands
 
@@ -3107,7 +3148,19 @@ Source: https://arminazimi.github.io/evergreen/SHOWCASE.html
 
 # Showcase
 
-Short, copy-pasteable ways to show what Evergreen found. Every command runs locally against files on disk; nothing is uploaded and no scan uses the network. The examples use the deliberately outdated project at `examples/demo` in this repository.
+Short, copy-pasteable ways to show what Evergreen found. Every command runs locally against files on disk; nothing is uploaded and no scan uses the network. Unless a section names another project, the examples use the deliberately outdated project at `examples/demo` in this repository.
+
+## Live countdown
+
+```bash
+npx evergreen-deprecation countdown examples/gallery --as-of 2026-10-25
+```
+
+Prints one row per dated deadline that affects the project: the subject, a bar scaled to the remaining time in a two-year window, and the time left until 00:00 UTC on the deadline. Bars are green over 180 days, yellow from 30 to 180, red under 30, and dim once the date has passed. Rows are sorted by deadline, and `--limit` keeps the soonest ten by default.
+
+On a terminal the frame redraws once per second for six seconds and stops on the final frame. `--once` prints one frame, `--no-animation` keeps one static frame, and piping the output prints one plain frame. `--json` prints the same rows with `subject`, `deadline`, `remainingSeconds`, `ruleId`, and `location`, so a script can chart or gate on them.
+
+The example uses `examples/gallery`, which has upcoming deadlines across container, runtime, and package rules. `docs/demos/countdown.tape` records the animation with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/countdown.tape`.
 
 ## Mermaid support windows
 

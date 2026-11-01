@@ -1,0 +1,10 @@
+{
+  "name": "unresolved",
+  "private": true,
+  "engines": {
+    "node": "*"
+  },
+  "volta": {
+    "node": "latest"
+  }
+}

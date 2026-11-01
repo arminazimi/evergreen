@@ -1,0 +1,7 @@
+trigger: none
+
+jobs:
+  - job: test
+    container: node:latest
+    steps:
+      - script: npm test

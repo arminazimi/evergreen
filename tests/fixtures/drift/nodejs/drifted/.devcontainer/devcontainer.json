@@ -1,0 +1,9 @@
+{
+  // The Node.js feature selects the version the container installs.
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
+  }
+}

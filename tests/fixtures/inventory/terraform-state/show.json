@@ -1,0 +1,281 @@
+{
+  "format_version": "1.0",
+  "terraform_version": "1.9.8",
+  "values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_lambda_function.worker[0]",
+          "mode": "managed",
+          "type": "aws_lambda_function",
+          "name": "worker",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "id": "orders-worker",
+            "arn": "arn:aws:lambda:us-east-1:123456789012:function:orders-worker",
+            "function_name": "orders-worker",
+            "package_type": "Zip",
+            "runtime": "nodejs14.x",
+            "role": "arn:aws:iam::123456789012:role/lambda-orders",
+            "environment": [{ "variables": { "ORDERS_TOKEN": "placeholder-token" } }]
+          }
+        },
+        {
+          "address": "aws_lambda_function.worker[1]",
+          "mode": "managed",
+          "type": "aws_lambda_function",
+          "name": "worker",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "id": "reports-worker",
+            "arn": "arn:aws:lambda:us-east-1:123456789012:function:reports-worker",
+            "function_name": "reports-worker",
+            "package_type": "Zip",
+            "runtime": "python3.7"
+          }
+        },
+        {
+          "address": "aws_lambda_function.api[\"green\"]",
+          "mode": "managed",
+          "type": "aws_lambda_function",
+          "name": "api",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "arn": "arn:aws:lambda:us-east-1:123456789012:function:api-green",
+            "package_type": "Zip",
+            "runtime": "nodejs18.x"
+          }
+        },
+        {
+          "address": "aws_lambda_function.image",
+          "mode": "managed",
+          "type": "aws_lambda_function",
+          "name": "image",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "arn": "arn:aws:lambda:us-east-1:123456789012:function:image",
+            "package_type": "Image",
+            "runtime": null
+          }
+        },
+        {
+          "address": "aws_lambda_function.lookup",
+          "mode": "data",
+          "type": "aws_lambda_function",
+          "name": "lookup",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "package_type": "Zip",
+            "runtime": "python2.7"
+          }
+        },
+        {
+          "address": "aws_db_instance.orders",
+          "mode": "managed",
+          "type": "aws_db_instance",
+          "name": "orders",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "id": "orders-db",
+            "arn": "arn:aws:rds:us-east-1:123456789012:db:orders-db",
+            "engine": "postgres",
+            "engine_version": "12.22",
+            "endpoint": "orders-db.abc123xyz.us-east-1.rds.amazonaws.com"
+          }
+        },
+        {
+          "address": "aws_rds_cluster.analytics",
+          "mode": "managed",
+          "type": "aws_rds_cluster",
+          "name": "analytics",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "id": "analytics-cluster",
+            "arn": "arn:aws:rds:us-east-1:123456789012:cluster:analytics-cluster",
+            "engine": "aurora-postgresql",
+            "engine_version": "13.9"
+          }
+        },
+        {
+          "address": "aws_rds_cluster.sessions",
+          "mode": "managed",
+          "type": "aws_rds_cluster",
+          "name": "sessions",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "engine": "aurora-mysql",
+            "engine_version": "8.0.mysql_aurora.3.10.0"
+          }
+        },
+        {
+          "address": "aws_elasticache_cluster.cache",
+          "mode": "managed",
+          "type": "aws_elasticache_cluster",
+          "name": "cache",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "engine": "redis",
+            "engine_version": "6.2.6"
+          }
+        },
+        {
+          "address": "aws_elasticache_replication_group.flags",
+          "mode": "managed",
+          "type": "aws_elasticache_replication_group",
+          "name": "flags",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "engine": "redis",
+            "engine_version": "7.1"
+          }
+        },
+        {
+          "address": "aws_db_instance.scratch",
+          "mode": "managed",
+          "type": "aws_db_instance",
+          "name": "scratch",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "engine": "mariadb",
+            "engine_version": "10.11.6"
+          }
+        },
+        {
+          "address": "aws_eks_cluster.main",
+          "mode": "managed",
+          "type": "aws_eks_cluster",
+          "name": "main",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 0,
+          "values": {
+            "id": "main",
+            "arn": "arn:aws:eks:us-east-1:123456789012:cluster/main",
+            "version": "1.30",
+            "endpoint": "https://ABC123.gr7.us-east-1.eks.amazonaws.com"
+          }
+        },
+        {
+          "address": "google_container_cluster.gke",
+          "mode": "managed",
+          "type": "google_container_cluster",
+          "name": "gke",
+          "provider_name": "registry.terraform.io/hashicorp/google",
+          "schema_version": 1,
+          "values": {
+            "id": "projects/evergreen-demo-427819/locations/us-central1/clusters/gke",
+            "master_version": "1.29.7-gke.1000"
+          }
+        },
+        {
+          "address": "google_cloudfunctions_function.legacy",
+          "mode": "managed",
+          "type": "google_cloudfunctions_function",
+          "name": "legacy",
+          "provider_name": "registry.terraform.io/hashicorp/google",
+          "schema_version": 0,
+          "values": {
+            "id": "projects/evergreen-demo-427819/locations/us-central1/functions/legacy",
+            "runtime": "nodejs14"
+          }
+        },
+        {
+          "address": "google_cloudfunctions2_function.reports",
+          "mode": "managed",
+          "type": "google_cloudfunctions2_function",
+          "name": "reports",
+          "provider_name": "registry.terraform.io/hashicorp/google",
+          "schema_version": 0,
+          "values": {
+            "id": "projects/evergreen-demo-427819/locations/us-central1/functions/reports",
+            "build_config": [{ "runtime": "python312", "entry_point": "report" }]
+          }
+        },
+        {
+          "address": "azurerm_kubernetes_cluster.aks",
+          "mode": "managed",
+          "type": "azurerm_kubernetes_cluster",
+          "name": "aks",
+          "provider_name": "registry.terraform.io/hashicorp/azurerm",
+          "schema_version": 1,
+          "values": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/placeholder-rg/providers/Microsoft.ContainerService/managedClusters/aks",
+            "kubernetes_version": "1.28.5"
+          }
+        },
+        {
+          "address": "azurerm_linux_function_app.fn",
+          "mode": "managed",
+          "type": "azurerm_linux_function_app",
+          "name": "fn",
+          "provider_name": "registry.terraform.io/hashicorp/azurerm",
+          "schema_version": 1,
+          "values": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/placeholder-rg/providers/Microsoft.Web/sites/placeholder-fn",
+            "default_hostname": "placeholder-fn.azurewebsites.net",
+            "site_config": [{ "application_stack": [{ "node_version": "~14" }] }]
+          }
+        }
+      ],
+      "child_modules": [
+        {
+          "address": "module.app",
+          "resources": [
+            {
+              "address": "module.app.aws_lambda_function.nested",
+              "mode": "managed",
+              "type": "aws_lambda_function",
+              "name": "nested",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 0,
+              "values": {
+                "arn": "arn:aws:lambda:us-east-1:123456789012:function:nested",
+                "package_type": "Zip",
+                "runtime": "nodejs16.x"
+              }
+            },
+            {
+              "address": "module.app.aws_eks_cluster.nested",
+              "mode": "managed",
+              "type": "aws_eks_cluster",
+              "name": "nested",
+              "provider_name": "registry.terraform.io/hashicorp/aws",
+              "schema_version": 0,
+              "values": {
+                "version": "1.28"
+              }
+            }
+          ],
+          "child_modules": [
+            {
+              "address": "module.app.module.deep",
+              "resources": [
+                {
+                  "address": "module.app.module.deep.google_container_cluster.deep",
+                  "mode": "managed",
+                  "type": "google_container_cluster",
+                  "name": "deep",
+                  "provider_name": "registry.terraform.io/hashicorp/google",
+                  "schema_version": 1,
+                  "values": {
+                    "master_version": "1.31.4-gke.100"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
