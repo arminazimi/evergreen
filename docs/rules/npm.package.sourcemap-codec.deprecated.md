@@ -1,8 +1,12 @@
 ---
 title: "sourcemap-codec is deprecated — dates, impact, migration"
 description: "npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec."
+layout: doc
+permalink: "/rules/npm.package.sourcemap-codec.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html"
 image: "/assets/og/npm.package.sourcemap-codec.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.sourcemap-codec.deprecated.json"
 ---
 

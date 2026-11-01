@@ -1,8 +1,12 @@
 ---
 title: "are-we-there-yet is no longer supported — dates, impact, migration"
 description: "npm states that the are-we-there-yet package is no longer supported."
+layout: doc
+permalink: "/rules/npm.package.are-we-there-yet.eol.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html"
 image: "/assets/og/npm.package.are-we-there-yet.eol.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.are-we-there-yet.eol.json"
 ---
 

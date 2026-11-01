@@ -1,8 +1,12 @@
 ---
 title: ".NET 7 is no longer supported — dates, impact, migration"
 description: ".NET 7 (Standard Term Support) reached the end of its support on 2024-05-14. Microsoft no longer ships security or quality fixes for it."
+layout: doc
+permalink: "/rules/dotnet.runtime.end-of-support-7.0.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-7.0.html"
 image: "/assets/og/dotnet.runtime.end-of-support-7.0.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/dotnet.runtime.end-of-support-7.0.json"
 ---
 

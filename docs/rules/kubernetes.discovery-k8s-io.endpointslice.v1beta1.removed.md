@@ -1,8 +1,12 @@
 ---
 title: "EndpointSlice discovery.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the discovery.k8s.io/v1beta1 API version of EndpointSlice is no longer served as of v1.25, which was released on 2022-08-23."
+layout: doc
+permalink: "/rules/kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed.html"
 image: "/assets/og/kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed.json"
 ---
 

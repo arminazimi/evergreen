@@ -1,8 +1,12 @@
 ---
 title: "imagej was renamed to pyimagej — dates, impact, migration"
 description: "The maintainers state that the imagej Python package was renamed to pyimagej."
+layout: doc
+permalink: "/rules/python.package.imagej.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html"
 image: "/assets/og/python.package.imagej.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.imagej.deprecated.json"
 ---
 

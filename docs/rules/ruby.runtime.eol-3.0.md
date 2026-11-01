@@ -1,8 +1,12 @@
 ---
 title: "Ruby 3.0 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 3.0 as eol: normal maintenance ended on 2023-04-01 and the branch reached end-of-life on 2024-04-23."
+layout: doc
+permalink: "/rules/ruby.runtime.eol-3.0.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.0.html"
 image: "/assets/og/ruby.runtime.eol-3.0.svg"
+review_date: "2026-10-18"
+last_modified_at: "2026-10-18"
 json_twin: "/rules/ruby.runtime.eol-3.0.json"
 ---
 

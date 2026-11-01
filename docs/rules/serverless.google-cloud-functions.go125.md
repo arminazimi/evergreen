@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions Go 1.25 runtime is deprecated — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists Go 1.25 (runtime ID go125) as deprecated on 2026-10-01 and scheduled for decommission on 2027-04-01."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.go125.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.go125.html"
 image: "/assets/og/serverless.google-cloud-functions.go125.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.go125.json"
 ---
 

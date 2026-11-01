@@ -1,8 +1,12 @@
 ---
 title: "Node.js image release lines 21 and older are end-of-life — dates, impact, migration"
 description: "These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime."
+layout: doc
+permalink: "/rules/container.node.eol-21-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.node.eol-21-and-older.html"
 image: "/assets/og/container.node.eol-21-and-older.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/container.node.eol-21-and-older.json"
 ---
 

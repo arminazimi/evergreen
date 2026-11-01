@@ -1,8 +1,12 @@
 ---
 title: "The recursive option of fs.rmdir has been removed — dates, impact, migration"
 description: "Node.js removed the recursive option of fs.rmdir() and fs.rmdirSync() (DEP0147: documentation-only since v14.14.0, runtime since v16.0.0, end-of-life since v25.0.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.fs.rmdir-recursive.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.rmdir-recursive.html"
 image: "/assets/og/nodejs.symbol.fs.rmdir-recursive.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.fs.rmdir-recursive.json"
 ---
 

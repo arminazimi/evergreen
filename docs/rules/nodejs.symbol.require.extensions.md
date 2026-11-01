@@ -1,8 +1,12 @@
 ---
 title: "Require.extensions is deprecated — dates, impact, migration"
 description: "Node.js deprecates require.extensions (DEP0039: documentation-only since v0.10.6)."
+layout: doc
+permalink: "/rules/nodejs.symbol.require.extensions.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.require.extensions.html"
 image: "/assets/og/nodejs.symbol.require.extensions.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.require.extensions.json"
 ---
 

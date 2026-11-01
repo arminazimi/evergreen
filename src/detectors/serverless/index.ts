@@ -73,9 +73,11 @@ function parseFile(kind: ServerlessFileKind, contents: string): RuntimeDeclarati
   return parseTf(contents);
 }
 
-/** Candidate Package URLs for a runtime identifier as written in the declaration. */
-export function candidatePurls(identifier: string): string[] {
-  return [`${AWS_PURL_PREFIX}${identifier}`, `${GCLOUD_PURL_PREFIX}${identifier}`];
+/** Candidate Package URLs for a runtime identifier as written in the declaration; a known platform narrows them. */
+export function candidatePurls(identifier: string, platform?: "aws" | "gcp"): string[] {
+  const aws = `${AWS_PURL_PREFIX}${identifier}`;
+  const gcp = `${GCLOUD_PURL_PREFIX}${identifier}`;
+  return platform === "aws" ? [aws] : platform === "gcp" ? [gcp] : [aws, gcp];
 }
 
 /** The first rule whose VERS range contains the version. A rule that cannot be compared is skipped. */
@@ -147,7 +149,7 @@ export class ServerlessDetector implements Detector {
       const path = relativePosix(context.root, file.path);
       for (const declaration of parseFile(file.kind, contents)) {
         let matched: RegistryV2Rule | undefined;
-        for (const purl of candidatePurls(declaration.value)) {
+        for (const purl of candidatePurls(declaration.value, declaration.platform)) {
           matched = firstMatchingRule(byPurl.get(purl) ?? [], declaration.value);
           if (matched) break;
         }

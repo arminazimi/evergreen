@@ -1,8 +1,12 @@
 ---
 title: "poetry-version-plugin is deprecated — dates, impact, migration"
 description: "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools."
+layout: doc
+permalink: "/rules/python.package.poetry-version-plugin.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html"
 image: "/assets/og/python.package.poetry-version-plugin.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.poetry-version-plugin.deprecated.json"
 ---
 

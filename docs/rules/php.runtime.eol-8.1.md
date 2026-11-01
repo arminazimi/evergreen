@@ -1,8 +1,12 @@
 ---
 title: "PHP 8.1 is end-of-life — dates, impact, migration"
 description: "The PHP unsupported branches page lists the PHP 8.1 branch as end of life on 2025-12-31; the branch no longer receives security or bug fixes from the PHP project."
+layout: doc
+permalink: "/rules/php.runtime.eol-8.1.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html"
 image: "/assets/og/php.runtime.eol-8.1.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/php.runtime.eol-8.1.json"
 ---
 

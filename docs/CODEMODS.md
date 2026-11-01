@@ -106,3 +106,39 @@ Rewrites the deprecated Node.js `Buffer` constructor (`nodejs.symbol.buffer.cons
 - a template literal with substitutions;
 - a `SlowBuffer` call without `new`, or a member-expression form such as `buffer.SlowBuffer(...)`;
 - a file that cannot be read, does not end with a newline, or does not parse.
+## node-util-is
+Rewrites the removed Node.js `util.is*` type checks (DEP0044 to DEP0058) to the native expressions Node.js names for them. Only a call with exactly one argument is rewritten; the argument text is kept byte-for-byte.
+
+| Rule | Before | After |
+|---|---|---|
+| `nodejs.symbol.util.isarray` | `util.isArray(x)` | `Array.isArray(x)` |
+| `nodejs.symbol.util.isboolean` | `util.isBoolean(x)` | `typeof x === "boolean"` |
+| `nodejs.symbol.util.isbuffer` | `util.isBuffer(x)` | `Buffer.isBuffer(x)` |
+| `nodejs.symbol.util.isdate` | `util.isDate(x)` | `util.types.isDate(x)` |
+| `nodejs.symbol.util.isregexp` | `util.isRegExp(x)` | `util.types.isRegExp(x)` |
+| `nodejs.symbol.util.isfunction` | `util.isFunction(x)` | `typeof x === "function"` |
+| `nodejs.symbol.util.isnull` | `util.isNull(x)` | `x === null` |
+| `nodejs.symbol.util.isundefined` | `util.isUndefined(x)` | `x === undefined` |
+| `nodejs.symbol.util.isnullorundefined` | `util.isNullOrUndefined(x)` | `x == null` |
+| `nodejs.symbol.util.isnumber` | `util.isNumber(x)` | `typeof x === "number"` |
+| `nodejs.symbol.util.isstring` | `util.isString(x)` | `typeof x === "string"` |
+| `nodejs.symbol.util.issymbol` | `util.isSymbol(x)` | `typeof x === "symbol"` |
+| `nodejs.symbol.util.isobject` | `util.isObject(x)` | `x !== null && typeof x === "object"` |
+| `nodejs.symbol.util.isprimitive` | `util.isPrimitive(x)` | `x === null \|\| (typeof x !== "object" && typeof x !== "function")` |
+
+Each replacement is the function body Node.js already runs: [`util.js`](https://github.com/nodejs/node/blob/v22.23.0/lib/util.js#L120-L212) implements the checks with those expressions, and the [export table](https://github.com/nodejs/node/blob/v22.23.0/lib/util.js#L634-L689) deprecates each name with the same recommendation. `x == null` is the short form of `x === null || x === undefined` and matches nothing else, because loose equality against `null` never coerces an object. `isDate` and `isRegExp` call `util.types` because the deprecated functions were those checks and `instanceof` fails for values from another realm, which `util.isDate` and `util.isRegExp` accepted.
+
+The call may read `util` through `const util = require("util")`, `require("node:util")`, `import util from "util"`, `import * as util from "node:util"`, or a destructured `const { isArray } = require("util")` / `import { isArray } from "util"`. A destructured call is rewritten in place and its import binding is left alone. When `isDate` or `isRegExp` is called through a destructured binding and no namespace binding exists, the call is refused rather than adding an import.
+
+A replacement that is a binary or logical expression is wrapped in parentheses unless its parent is an expression statement, an `if` or `while` condition, a call argument, a return value, or an initializer, so `!util.isNull(a)` becomes `!(a === null)`.
+
+Refused, with the reason in `fix --json`:
+- `util.isError(x)`, which needs `Object.prototype.toString(e) === "[object Error]" || e instanceof Error` and has no exact native equivalent on every supported Node version;
+- `util.isObject(x)` or `util.isPrimitive(x)` when `x` is not an identifier or a member chain without calls, because the replacement reads `x` twice;
+- a call with no argument, more than one argument, or a spread argument;
+- an optional call (`util.isArray?.(x)` or `util?.isArray(x)`);
+- a call through a binding the file reassigns, such as `let check = util.isArray; check = other; check(x)`;
+- a call that contains another `util.is*` call, whose replacement would overlap;
+- a file that cannot be read, does not end with a newline, or does not parse.
+
+The `examples/codemods/node-util-is` directory contains an input file to run `evergreen fix` against.

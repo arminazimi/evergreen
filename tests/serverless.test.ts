@@ -231,3 +231,22 @@ test("the detector is registered and serverless is beta in the capability manife
     detectorIds: ["serverless"],
   });
 });
+
+test("a Terraform resource picks the rule of its own cloud when AWS and Cloud Functions share a runtime id", async () => {
+  for (const runtime of ["dotnet6", "java11"]) {
+    const root = await repository({
+      "gcp.tf": `resource "google_cloudfunctions_function" "handler" {\n  runtime = "${runtime}"\n}\n`,
+      "aws.tf": `resource "aws_lambda_function" "handler" {\n  runtime = "${runtime}"\n}\n`,
+    });
+    const findings = await serverlessDetector.scan({ root } as Parameters<typeof serverlessDetector.scan>[0]);
+    const byFile = Object.fromEntries(findings.map((finding) => [finding.location.path, finding.ruleId]));
+    assert.equal(byFile["gcp.tf"], `serverless.google-cloud-functions.${runtime}`);
+    assert.equal(byFile["aws.tf"], `serverless.aws-lambda.${runtime}`);
+  }
+});
+
+test("candidatePurls narrows to one cloud when the platform is known", () => {
+  assert.deepEqual(candidatePurls("java11", "gcp"), ["pkg:generic/google-cloud-functions-runtime/java11"]);
+  assert.deepEqual(candidatePurls("java11", "aws"), ["pkg:generic/aws-lambda-runtime/java11"]);
+  assert.equal(candidatePurls("java11").length, 2);
+});

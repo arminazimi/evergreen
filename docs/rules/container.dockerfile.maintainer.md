@@ -1,8 +1,12 @@
 ---
 title: "The Dockerfile MAINTAINER instruction is deprecated — dates, impact, migration"
 description: "The Dockerfile reference marks MAINTAINER as deprecated because author metadata belongs in the org.opencontainers.image.authors label."
+layout: doc
+permalink: "/rules/container.dockerfile.maintainer.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.dockerfile.maintainer.html"
 image: "/assets/og/container.dockerfile.maintainer.svg"
+review_date: "2026-10-31"
+last_modified_at: "2026-10-31"
 json_twin: "/rules/container.dockerfile.maintainer.json"
 ---
 

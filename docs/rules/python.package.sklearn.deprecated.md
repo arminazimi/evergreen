@@ -1,8 +1,12 @@
 ---
 title: "sklearn is deprecated on PyPI — dates, impact, migration"
 description: "The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name."
+layout: doc
+permalink: "/rules/python.package.sklearn.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html"
 image: "/assets/og/python.package.sklearn.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.sklearn.deprecated.json"
 ---
 

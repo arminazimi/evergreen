@@ -1,8 +1,12 @@
 ---
 title: "istanbul is deprecated — dates, impact, migration"
 description: "npm states that istanbul is no longer maintained and recommends nyc."
+layout: doc
+permalink: "/rules/npm.package.istanbul.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.istanbul.deprecated.html"
 image: "/assets/og/npm.package.istanbul.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.istanbul.deprecated.json"
 ---
 

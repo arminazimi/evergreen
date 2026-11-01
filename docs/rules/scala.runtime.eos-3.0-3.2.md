@@ -1,8 +1,12 @@
 ---
 title: "Scala 3.0–3.2 no longer receive patches — dates, impact, migration"
 description: "The Scala project's development guarantees page states that a non-LTS Scala 3 minor receives patches only until the next minor ships."
+layout: doc
+permalink: "/rules/scala.runtime.eos-3.0-3.2.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/scala.runtime.eos-3.0-3.2.html"
 image: "/assets/og/scala.runtime.eos-3.0-3.2.svg"
+review_date: "2026-10-27"
+last_modified_at: "2026-10-27"
 json_twin: "/rules/scala.runtime.eos-3.0-3.2.json"
 ---
 

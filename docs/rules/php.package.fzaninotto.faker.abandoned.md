@@ -1,8 +1,12 @@
 ---
 title: "fzaninotto/faker is abandoned — dates, impact, migration"
 description: "Packagist marks fzaninotto/faker as abandoned and no longer maintained."
+layout: doc
+permalink: "/rules/php.package.fzaninotto.faker.abandoned.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html"
 image: "/assets/og/php.package.fzaninotto.faker.abandoned.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/php.package.fzaninotto.faker.abandoned.json"
 ---
 

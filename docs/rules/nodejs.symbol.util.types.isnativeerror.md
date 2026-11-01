@@ -1,8 +1,12 @@
 ---
 title: "Util.types.isNativeError is deprecated — dates, impact, migration"
 description: "Node.js deprecates util.types.isNativeError (DEP0197: documentation-only since v24.2.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.util.types.isnativeerror.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html"
 image: "/assets/og/nodejs.symbol.util.types.isnativeerror.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.util.types.isnativeerror.json"
 ---
 

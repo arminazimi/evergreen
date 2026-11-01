@@ -1,8 +1,12 @@
 ---
 title: "Scala 2.11 reached end of life — dates, impact, migration"
 description: "The Scala project's development guarantees page states that Scala 2.11 reached end-of-life in 2016. It remains available in some contexts, but it is no longer maintained."
+layout: doc
+permalink: "/rules/scala.runtime.eol-2.11.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html"
 image: "/assets/og/scala.runtime.eol-2.11.svg"
+review_date: "2026-10-27"
+last_modified_at: "2026-10-27"
 json_twin: "/rules/scala.runtime.eol-2.11.json"
 ---
 

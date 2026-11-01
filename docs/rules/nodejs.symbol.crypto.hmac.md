@@ -1,8 +1,12 @@
 ---
 title: "The crypto.Hmac constructor is deprecated — dates, impact, migration"
 description: "Node.js deprecates the crypto.Hmac constructor (DEP0181: documentation-only since v20.13.0, runtime deprecation since v22.0.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.crypto.hmac.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.hmac.html"
 image: "/assets/og/nodejs.symbol.crypto.hmac.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.crypto.hmac.json"
 ---
 

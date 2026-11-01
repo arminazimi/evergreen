@@ -1,8 +1,12 @@
 ---
 title: "Redis image release line 6.2 reaches end-of-life on 2027-04-01 — dates, impact, migration"
 description: "The Redis 6.2 release line is scheduled to stop receiving fixes from the vendor on 2027-04-01."
+layout: doc
+permalink: "/rules/container.redis.eol-6.2-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html"
 image: "/assets/og/container.redis.eol-6.2-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/container.redis.eol-6.2-and-older.json"
 ---
 

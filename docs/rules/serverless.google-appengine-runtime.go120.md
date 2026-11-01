@@ -1,8 +1,12 @@
 ---
 title: "App Engine Go 1.20 runtime is past end of support — dates, impact, migration"
 description: "The App Engine standard environment runtime support schedule lists Go 1.20 (runtime ID go120) with end of support on 2024-11-01 and deprecation on 2025-11-01."
+layout: doc
+permalink: "/rules/serverless.google-appengine-runtime.go120.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.go120.html"
 image: "/assets/og/serverless.google-appengine-runtime.go120.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-appengine-runtime.go120.json"
 ---
 

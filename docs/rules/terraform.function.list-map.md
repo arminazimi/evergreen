@@ -1,8 +1,12 @@
 ---
 title: "The list() and map() functions were removed in Terraform 0.15 — dates, impact, migration"
 description: "Terraform v0.12 replaced the list() and map() functions with first-class [ ... ] and { ... } syntax, and the v0.15 upgrade guide states that the deprecated functions were removed in v0.15."
+layout: doc
+permalink: "/rules/terraform.function.list-map.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.function.list-map.html"
 image: "/assets/og/terraform.function.list-map.svg"
+review_date: "2026-10-31"
+last_modified_at: "2026-10-31"
 json_twin: "/rules/terraform.function.list-map.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "Retired actions/upload-artifact release — dates, impact, migration"
 description: "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24."
+layout: doc
+permalink: "/rules/github-actions.upload-artifact.retired.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.upload-artifact.retired.html"
 image: "/assets/og/github-actions.upload-artifact.retired.svg"
+review_date: "2026-10-14"
+last_modified_at: "2026-10-14"
 json_twin: "/rules/github-actions.upload-artifact.retired.json"
 ---
 
