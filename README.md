@@ -8,13 +8,18 @@
   </picture>
 </p>
 
-[![CI](https://img.shields.io/github/actions/workflow/status/arminazimi/evergreen/ci.yml?branch=main&label=CI&logo=github&logoColor=white&labelColor=0C1110&color=2F7D5B&style=flat)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Farminazimi%2Fevergreen%2Fbadges%2Fcoverage.json&labelColor=0C1110&style=flat)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/evergreen-deprecation.svg?logo=npm&logoColor=white&labelColor=0C1110&color=2F7D5B&style=flat)](https://www.npmjs.com/package/evergreen-deprecation)
-[![Evergreen](https://raw.githubusercontent.com/arminazimi/evergreen/badges/evergreen-badge.svg)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/arminazimi/evergreen/badge)](https://securityscorecards.dev/viewer/?uri=github.com/arminazimi/evergreen)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/16161/badge)](https://www.bestpractices.dev/projects/16161)
-[![skills.sh](https://skills.sh/b/arminazimi/evergreen)](https://skills.sh/arminazimi/evergreen/evergreen-deprecation)
+<p align="center">
+  <a href="https://github.com/arminazimi/evergreen/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/arminazimi/evergreen/ci.yml?branch=main&label=CI&logo=github&logoColor=white&labelColor=0C1110&color=2F7D5B&style=flat"></a>
+  <a href="https://github.com/arminazimi/evergreen/actions/workflows/ci.yml"><img alt="Coverage" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Farminazimi%2Fevergreen%2Fbadges%2Fcoverage.json&labelColor=0C1110&style=flat"></a>
+  <a href="https://www.npmjs.com/package/evergreen-deprecation"><img alt="npm" src="https://img.shields.io/npm/v/evergreen-deprecation.svg?logo=npm&logoColor=white&labelColor=0C1110&color=2F7D5B&style=flat"></a>
+  <a href="https://github.com/arminazimi/evergreen/actions/workflows/ci.yml"><img alt="Evergreen" src="https://raw.githubusercontent.com/arminazimi/evergreen/badges/evergreen-badge.svg"></a>
+  <a href="https://securityscorecards.dev/viewer/?uri=github.com/arminazimi/evergreen"><img alt="OpenSSF Scorecard" src="https://img.shields.io/ossf-scorecard/github.com/arminazimi/evergreen?label=openssf%20scorecard&labelColor=0C1110&color=2F7D5B&style=flat"></a>
+  <a href="https://www.bestpractices.dev/projects/16161"><img alt="OpenSSF Best Practices" src="https://img.shields.io/cii/level/16161?label=openssf%20best%20practices&labelColor=0C1110&color=2F7D5B&style=flat"></a>
+  <a href="https://github.com/arminazimi/slipway"><img alt="Slipway" src="https://img.shields.io/badge/docs%20checked%20by-slipway-2F7D5B?labelColor=0C1110&style=flat"></a>
+  <a href="https://github.com/arminazimi/seaworthy"><img alt="Seaworthy" src="https://img.shields.io/badge/verified%20by-seaworthy-2F7D5B?labelColor=0C1110&style=flat"></a>
+  <a href="https://github.com/arminazimi/evergreen/actions/workflows/codeql.yml"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/arminazimi/evergreen/codeql.yml?branch=main&label=CodeQL&logo=github&logoColor=white&labelColor=0C1110&color=2F7D5B&style=flat"></a>
+  <a href="https://skills.sh/arminazimi/evergreen/evergreen-deprecation"><img alt="skills.sh" src="https://skills.sh/b/arminazimi/evergreen"></a>
+</p>
 
 Evergreen finds **end-of-life and deprecated** runtimes, packages, and GitHub Actions in your repository, shows the exact file and line, and backs every finding with an authoritative source, a replacement, and migration steps. It runs on your machine as a CLI, a local MCP server, a GitHub Action (with SARIF for code scanning), and an Agent Skill, so people and coding agents can find lifecycle risk before it breaks a build, and check a dependency before adding it. Scans are deterministic and offline, and need no account.
 
