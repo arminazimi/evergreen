@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda Java 8 (Amazon Linux 2) runtime reaches end of life on 2027-06-30 — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists java8.al2 as supported with a projected deprecation date of 2027-06-30. After that date AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.java8.al2.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.java8.al2.html"
 image: "/assets/og/serverless.aws-lambda.java8.al2.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.java8.al2.json"
 ---
 

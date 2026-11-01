@@ -1,8 +1,12 @@
 ---
 title: "CentOS Linux 8 and older are end-of-life — dates, impact, migration"
 description: "CentOS Linux 8 reached end of life on 2021-12-31 and CentOS Linux 7 on 2024-06-30, so neither receives fixes. CentOS Stream 9 and 10 follow a different lifecycle and are not covered by this rule."
+layout: doc
+permalink: "/rules/container.host-centos.eol-8-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.host-centos.eol-8-and-older.html"
 image: "/assets/og/container.host-centos.eol-8-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/container.host-centos.eol-8-and-older.json"
 ---
 

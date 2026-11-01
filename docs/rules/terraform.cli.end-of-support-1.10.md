@@ -1,8 +1,12 @@
 ---
 title: "Terraform CLI 1.10 is no longer a supported release line — dates, impact, migration"
 description: "HashiCorp supports the two most recent Terraform release lines. Terraform 1.10 (first released 2024-11-26) stopped being one of them when Terraform 1.12 was released on 2025-05-14."
+layout: doc
+permalink: "/rules/terraform.cli.end-of-support-1.10.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.10.html"
 image: "/assets/og/terraform.cli.end-of-support-1.10.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/terraform.cli.end-of-support-1.10.json"
 ---
 

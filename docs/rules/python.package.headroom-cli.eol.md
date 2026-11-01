@@ -1,8 +1,12 @@
 ---
 title: "headroom-cli was renamed and is no longer maintained — dates, impact, migration"
 description: "The maintainer states that headroom-cli is no longer maintained and development continues as quotagauge."
+layout: doc
+permalink: "/rules/python.package.headroom-cli.eol.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.headroom-cli.eol.html"
 image: "/assets/og/python.package.headroom-cli.eol.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.headroom-cli.eol.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "The distutils module was removed in Python 3.12 — dates, impact, migration"
 description: "Python 3.12 removed distutils (PEP 632), so importing it raises ModuleNotFoundError; use setuptools or another build backend."
+layout: doc
+permalink: "/rules/python.module.distutils.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.module.distutils.removed.html"
 image: "/assets/og/python.module.distutils.removed.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/python.module.distutils.removed.json"
 ---
 

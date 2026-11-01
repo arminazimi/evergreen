@@ -1,8 +1,12 @@
 ---
 title: "Sysconfig.expand_makefile_vars is deprecated — dates, impact, migration"
 description: "Python 3.14 deprecates sysconfig.expand_makefile_vars, to be removed in Python 3.16."
+layout: doc
+permalink: "/rules/python.symbol.sysconfig.expand-makefile-vars.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html"
 image: "/assets/og/python.symbol.sysconfig.expand-makefile-vars.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.sysconfig.expand-makefile-vars.json"
 ---
 

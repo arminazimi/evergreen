@@ -1,8 +1,12 @@
 ---
 title: "Sys._enablelegacywindowsfsencoding is deprecated — dates, impact, migration"
 description: "Python 3.13 deprecates sys._enablelegacywindowsfsencoding, to be removed in Python 3.16."
+layout: doc
+permalink: "/rules/python.symbol.sys.enablelegacywindowsfsencoding.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html"
 image: "/assets/og/python.symbol.sys.enablelegacywindowsfsencoding.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.sys.enablelegacywindowsfsencoding.json"
 ---
 

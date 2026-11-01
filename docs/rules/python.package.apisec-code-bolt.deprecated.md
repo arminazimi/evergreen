@@ -1,8 +1,12 @@
 ---
 title: "apisec-code-bolt was renamed — dates, impact, migration"
 description: "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name."
+layout: doc
+permalink: "/rules/python.package.apisec-code-bolt.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html"
 image: "/assets/og/python.package.apisec-code-bolt.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.apisec-code-bolt.deprecated.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "Amazon EKS 1.30 and earlier are past end of extended support — dates, impact, migration"
 description: "Amazon EKS lists 1.31 as the oldest minor version still in extended support, so 1.30 and earlier have left extended support."
+layout: doc
+permalink: "/rules/terraform.eks.end-of-life-1.30-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html"
 image: "/assets/og/terraform.eks.end-of-life-1.30-and-older.svg"
+review_date: "2026-10-26"
+last_modified_at: "2026-10-26"
 json_twin: "/rules/terraform.eks.end-of-life-1.30-and-older.json"
 ---
 

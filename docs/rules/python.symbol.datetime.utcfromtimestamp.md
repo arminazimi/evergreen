@@ -1,8 +1,12 @@
 ---
 title: "datetime.utcfromtimestamp is deprecated — dates, impact, migration"
 description: "Python 3.12 deprecates datetime.datetime.utcfromtimestamp() and says to use timezone-aware objects to represent datetimes in UTC."
+layout: doc
+permalink: "/rules/python.symbol.datetime.utcfromtimestamp.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html"
 image: "/assets/og/python.symbol.datetime.utcfromtimestamp.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.datetime.utcfromtimestamp.json"
 ---
 

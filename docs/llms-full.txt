@@ -2850,6 +2850,26 @@ blocked: dart@3.5 (1 blocker, 0 warnings, 0 unknown)
 pubspec.lock:12  resolved package set  The resolved package set requires Dart >=3.6.0 <4.0.0, which excludes 3.5.0.  [lockfile >=3.6.0 <4.0.0]
 ```
 
+## npm lockfile
+
+Runtime: `nodejs`. Applies when `package-lock.json` or `npm-shrinkwrap.json` exists with `lockfileVersion` 2 or 3. A version 1 lockfile is reported as one `unknown` issue because it does not record package `engines`.
+
+- Files read: `package-lock.json` and `npm-shrinkwrap.json`. Each issue names the file it came from.
+- Fields read: `lockfileVersion`; for each `packages["node_modules/..."]` entry, `version`, `engines.node`, `dev`, and `devOptional`.
+- Version syntax: semver ranges in `engines.node`, tested with `semver.satisfies` and `includePrerelease: false`. A bare target major such as `22` is tested as `22.0.0`; the bundled lifecycle data does not list per-minor Node.js releases.
+- Levels: `blocker` for a production dependency whose range excludes the target; `warning` for an entry marked `dev: true` or `devOptional: true`; `unknown` for an `engines.node` value that is not a valid semver range.
+- Evidence: `engines.node: <range as written>`, at the line of the `engines` key.
+- Deduplication: identical name, version, and range across nested paths keep the first path.
+
+```bash
+evergreen upgrade-check --to nodejs@22 examples/upgrade/npm-lock
+```
+
+```text
+nodejs@22: blocked (1 blockers, 0 warnings, 0 unknown)
+package-lock.json:16  sharp@0.30.7  sharp@0.30.7 declares engines.node ">=14.0.0 <17", which excludes Node.js 22.  [lockfile: engines.node: >=14.0.0 <17]
+```
+
 ## pnpm lockfile
 
 Runtime: `nodejs`. Applies when `pnpm-lock.yaml` exists with `lockfileVersion` 6.x or 9.x.
@@ -3393,7 +3413,186 @@ combination works.
 
 ## PHP detector
 
-The `php` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](VALIDATION.md#php-corpus) cover it. Its lifecycle rules are in `registry/php.json` and ship in the [data bundle](DATA.md).
+Moved to [PHP detector: PHP detector](compatibility/php.md#php-detector).
+
+### Supported files and declarations
+
+Moved to [PHP detector: Supported files and declarations](compatibility/php.md#supported-files-and-declarations).
+
+### What it reports
+
+Moved to [PHP detector: What it reports](compatibility/php.md#what-it-reports).
+
+### What it intentionally does not judge
+
+Moved to [PHP detector: What it intentionally does not judge](compatibility/php.md#what-it-intentionally-does-not-judge).
+
+### Known limits and false-positive boundaries
+
+Moved to [PHP detector: Known limits and false-positive boundaries](compatibility/php.md#known-limits-and-false-positive-boundaries).
+
+## Ruby detector
+
+Moved to [Ruby detector: Ruby detector](compatibility/ruby.md#ruby-detector).
+
+### Supported files and declarations
+
+Moved to [Ruby detector: Supported files and declarations](compatibility/ruby.md#supported-files-and-declarations).
+
+### What it reports
+
+Moved to [Ruby detector: What it reports](compatibility/ruby.md#what-it-reports).
+
+### What it intentionally does not judge
+
+Moved to [Ruby detector: What it intentionally does not judge](compatibility/ruby.md#what-it-intentionally-does-not-judge).
+
+### Known limits and false-positive boundaries
+
+Moved to [Ruby detector: Known limits and false-positive boundaries](compatibility/ruby.md#known-limits-and-false-positive-boundaries).
+
+## Swift detector
+
+The `swift` detector is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced. Thirteen public repositories in [Validation](validation/ecosystems.md#swift-corpus) cover it (six targeted, seven blind). Supported forms, limits, and data sources are documented in [Swift](detectors/swift.md). Its lifecycle rules are in `registry/swift.json` and ship in the [data bundle](DATA.md).
+
+## Dart and Flutter detector
+
+The `dart` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Dart and Flutter](detectors/dart.md). Its lifecycle rules are in `registry/dart.json` and ship in the [data bundle](DATA.md).
+
+## Elixir and Mix detector
+
+The `elixir` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Elixir and Mix](detectors/elixir.md). Its lifecycle rules are in `registry/elixir.json` and ship with the package (see [Lifecycle data](DATA.md)).
+
+## Scala and sbt detector
+
+The `scala` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Scala and sbt](detectors/scala.md). Its lifecycle rules are in `registry/scala.json` and ship with the package (see [Lifecycle data](DATA.md)).
+
+## Database runtimes detector
+
+The `database` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted cases and one blind, zero-finding repository, with ground truth from the vendors' lifecycle sources. Supported files, declaration forms, matching rules, and limits are documented in [Database runtimes](detectors/database.md). Its lifecycle rules are in `registry/database.json` and ship in the [data bundle](DATA.md).
+
+## Shell and PowerShell detector
+
+The `shell` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted cases and one blind, zero-finding repository. Each expected finding was checked by reading its line at the pinned commit against Microsoft's PowerShell support lifecycle, independently of Evergreen output. Supported files, declaration forms, matching rules, and limits are documented in [Shell and PowerShell](detectors/shell.md). Its lifecycle rules are in `registry/shell.json` and ship in the [data bundle](DATA.md).
+
+## Terraform detector
+
+The `terraform` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Terraform](detectors/terraform.md). Its lifecycle rules are in `registry/terraform.json` and ship in the [data bundle](DATA.md).
+
+### Managed Kubernetes
+
+| Product | Declaration read | Notes |
+| --- | --- | --- |
+| Amazon EKS | `cluster_version` and `kubernetes_version` in a module whose `source` is `terraform-aws-modules/eks/aws` | The module renamed `cluster_version` to `kubernetes_version` in v21; the source, not the attribute name, decides the vendor. |
+| Google Kubernetes Engine | `min_master_version` on `google_container_cluster`, or `kubernetes_version` and `min_master_version` in a module whose `source` is `terraform-google-modules/kubernetes-engine/google` | A `//submodule` path and a `?ref=` suffix are accepted. |
+| Azure Kubernetes Service | `kubernetes_version` on `azurerm_kubernetes_cluster`, or `kubernetes_version` in a module whose `source` is `Azure/aks/azurerm` | A module with an unknown source has its version attributes reported as unclassified. |
+
+## C and C++ detector
+
+Moved to [C and C++ detector: C and C++ detector](compatibility/cpp.md#c-and-c-detector).
+
+### Supported files and declarations
+
+Moved to [C and C++ detector: Supported files and declarations](compatibility/cpp.md#supported-files-and-declarations).
+
+### Package URLs
+
+Moved to [C and C++ detector: Package URLs](compatibility/cpp.md#package-urls).
+
+### What it reports
+
+Moved to [C and C++ detector: What it reports](compatibility/cpp.md#what-it-reports).
+
+### What it intentionally does not judge
+
+Moved to [C and C++ detector: What it intentionally does not judge](compatibility/cpp.md#what-it-intentionally-does-not-judge).
+
+### Known limits and false-positive boundaries
+
+Moved to [C and C++ detector: Known limits and false-positive boundaries](compatibility/cpp.md#known-limits-and-false-positive-boundaries).
+
+## Serverless runtimes detector
+
+The `serverless` detector is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced. Ten public repositories in [Validation](validation/ecosystems.md#serverless-corpus) cover it (five targeted, five blind). Supported forms, limits, and data sources are documented in [Serverless runtimes](detectors/serverless.md). Its lifecycle rules are in `registry/serverless.json` and ship in the [data bundle](DATA.md).
+
+## Android detector
+
+Moved to [Android detector: Android detector](compatibility/android.md#android-detector).
+
+### Supported files and declarations
+
+Moved to [Android detector: Supported files and declarations](compatibility/android.md#supported-files-and-declarations).
+
+### Package URLs
+
+Moved to [Android detector: Package URLs](compatibility/android.md#package-urls).
+
+### What it reports
+
+Moved to [Android detector: What it reports](compatibility/android.md#what-it-reports).
+
+### What it intentionally does not judge
+
+Moved to [Android detector: What it intentionally does not judge](compatibility/android.md#what-it-intentionally-does-not-judge).
+
+### Known limits and false-positive boundaries
+
+Moved to [Android detector: Known limits and false-positive boundaries](compatibility/android.md#known-limits-and-false-positive-boundaries).
+
+## CI runner images detector
+
+Moved to [CI runner images detector: CI runner images detector](compatibility/ci-runner-images.md#ci-runner-images-detector).
+
+### Supported files and declarations
+
+Moved to [CI runner images detector: Supported files and declarations](compatibility/ci-runner-images.md#supported-files-and-declarations).
+
+### What it reports
+
+Moved to [CI runner images detector: What it reports](compatibility/ci-runner-images.md#what-it-reports).
+
+### What it intentionally does not judge
+
+Moved to [CI runner images detector: What it intentionally does not judge](compatibility/ci-runner-images.md#what-it-intentionally-does-not-judge).
+
+### Known limits and false-positive boundaries
+
+Moved to [CI runner images detector: Known limits and false-positive boundaries](compatibility/ci-runner-images.md#known-limits-and-false-positive-boundaries).
+
+## Monorepos
+
+The npm and Python detectors read every package of a workspace, not only the repository root. Packages are found from the declarations the package managers use: `workspaces` in `package.json` (npm and Yarn, array or `packages` form), `pnpm-workspace.yaml` (with `!` exclusions), `lerna.json`, and `[tool.uv.workspace]` `members` and `exclude` in `pyproject.toml`. Globs support `*`, `?`, and `**`.
+
+- Findings name the package's own file, for example `packages/a/package.json`, and carry the usages inside that package's directory; usages outside every package stay with the root.
+- A workspace without its own lockfile resolves versions against the root's lockfile.
+- Discovery is bounded: eight directory levels, 500 packages, symbolic links never followed, and `node_modules`, `vendor`, `dist`, `build`, `target`, virtual environments, and fixture directories skipped.
+- A malformed workspace manifest is skipped, so one bad package does not hide the others. A malformed root `package.json` is still an error.
+- Without a workspace declaration only the root is scanned, as before. Python projects that are not uv workspaces (for example separate `pyproject.toml` files under `services/`) are not discovered.
+
+## CI behavior
+
+- In GitHub Actions, the doctor requires `GITHUB_WORKSPACE` to name an accessible
+  checkout directory.
+- In GitLab CI, the doctor requires `CI_PROJECT_DIR` to name an accessible checkout
+  directory.
+- Outside those environments, it reports local execution and does not require CI
+  variables.
+
+The checks only read Evergreen's own packaged metadata and test workspace
+accessibility. They do not inspect secrets, tokens, repository contents, or remote
+services.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/compatibility/php.html
+
+# PHP detector
+
+The detector's supported declarations, what it reports, what it intentionally does not judge, and the false-positive boundaries. The matrix and policy it belongs to are on [Compatibility](../COMPATIBILITY.md).
+
+## PHP detector
+
+The `php` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](../validation/ecosystems.md#php-corpus) cover it. Its lifecycle rules are in `registry/php.json` and ship in the [data bundle](../DATA.md).
 
 ### Supported files and declarations
 
@@ -3434,9 +3633,17 @@ Each finding names the file and line, and carries its rule's source, replacement
 - A `require` or `include` whose argument is not a string literal (a variable, concatenation, or a method call on the string) is listed as unclassified, with its file and line. Evergreen does not guess which package it loads. `new $class` and `$class::method()` are unclassified for the same reason.
 - Usage is not read under `vendor`, `fixtures`, `__fixtures__`, or `testdata`. Comments and ordinary strings are not usages. A single source line over 4,096 characters is skipped for usage scanning, matching the declaration parsers.
 
+---
+
+Source: https://arminazimi.github.io/evergreen/compatibility/ruby.html
+
+# Ruby detector
+
+The detector's supported declarations, what it reports, what it intentionally does not judge, and the false-positive boundaries. The matrix and policy it belongs to are on [Compatibility](../COMPATIBILITY.md).
+
 ## Ruby detector
 
-The `ruby` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](VALIDATION.md#ruby-corpus) cover it. Its lifecycle rules are in `registry/ruby.json` and ship in the [data bundle](DATA.md).
+The `ruby` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](../validation/ecosystems.md#ruby-corpus) cover it. Its lifecycle rules are in `registry/ruby.json` and ship in the [data bundle](../DATA.md).
 
 ### Supported files and declarations
 
@@ -3479,94 +3686,17 @@ Each finding names the file and line, and carries its rule's source, replacement
 - Alias assignments are capped per file; deep or cyclic alias chains resolve to nothing. A single source line over 4,096 characters is skipped for usage scanning, matching the declaration parsers.
 - Usage is not read under `vendor`, `fixtures`, `__fixtures__`, or `testdata`. Comments, ordinary strings, percent literals, heredocs, and `=begin`/`=end` blocks are not usages. A method receiver such as `JSON.load` is a call only when a matcher names it, not a file `load`.
 
-## Swift detector
+---
 
-The `swift` detector is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced. Thirteen public repositories in [Validation](VALIDATION.md#swift-corpus) cover it (six targeted, seven blind). Supported forms, limits, and data sources are documented in [Swift](detectors/swift.md). Its lifecycle rules are in `registry/swift.json` and ship in the [data bundle](DATA.md).
+Source: https://arminazimi.github.io/evergreen/compatibility/android.html
 
-## Dart and Flutter detector
+# Android detector
 
-The `dart` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Dart and Flutter](detectors/dart.md). Its lifecycle rules are in `registry/dart.json` and ship in the [data bundle](DATA.md).
-
-## Elixir and Mix detector
-
-The `elixir` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Elixir and Mix](detectors/elixir.md). Its lifecycle rules are in `registry/elixir.json` and ship with the package (see [Lifecycle data](DATA.md)).
-
-## Scala and sbt detector
-
-The `scala` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Scala and sbt](detectors/scala.md). Its lifecycle rules are in `registry/scala.json` and ship with the package (see [Lifecycle data](DATA.md)).
-
-## Database runtimes detector
-
-The `database` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted cases and one blind, zero-finding repository, with ground truth from the vendors' lifecycle sources. Supported files, declaration forms, matching rules, and limits are documented in [Database runtimes](detectors/database.md). Its lifecycle rules are in `registry/database.json` and ship in the [data bundle](DATA.md).
-
-## Shell and PowerShell detector
-
-The `shell` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted cases and one blind, zero-finding repository. Each expected finding was checked by reading its line at the pinned commit against Microsoft's PowerShell support lifecycle, independently of Evergreen output. Supported files, declaration forms, matching rules, and limits are documented in [Shell and PowerShell](detectors/shell.md). Its lifecycle rules are in `registry/shell.json` and ship in the [data bundle](DATA.md).
-
-## Terraform detector
-
-The `terraform` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Terraform](detectors/terraform.md). Its lifecycle rules are in `registry/terraform.json` and ship in the [data bundle](DATA.md).
-
-### Managed Kubernetes
-
-| Product | Declaration read | Notes |
-| --- | --- | --- |
-| Amazon EKS | `cluster_version` and `kubernetes_version` in a module whose `source` is `terraform-aws-modules/eks/aws` | The module renamed `cluster_version` to `kubernetes_version` in v21; the source, not the attribute name, decides the vendor. |
-| Google Kubernetes Engine | `min_master_version` on `google_container_cluster`, or `kubernetes_version` and `min_master_version` in a module whose `source` is `terraform-google-modules/kubernetes-engine/google` | A `//submodule` path and a `?ref=` suffix are accepted. |
-| Azure Kubernetes Service | `kubernetes_version` on `azurerm_kubernetes_cluster`, or `kubernetes_version` in a module whose `source` is `Azure/aks/azurerm` | A module with an unknown source has its version attributes reported as unclassified. |
-
-## C and C++ detector
-
-The `cpp` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted migration cases and one blind, zero-finding repository. Their ground truth cites maintainer migration commits or upstream release notes, independently of Evergreen output. Precision on this corpus does not establish coverage of unsupported declaration forms. Its lifecycle rules are in `registry/cpp.json` and ship in the [data bundle](DATA.md).
-
-### Supported files and declarations
-
-| File | Declaration read | Notes |
-| --- | --- | --- |
-| `CMakeLists.txt` | `cmake_minimum_required(VERSION <version>)`, `set(CMAKE_C_STANDARD <integer>)`, `set(CMAKE_CXX_STANDARD <integer>)`, and an `if` that names `CMAKE_<LANG>_COMPILER_ID` with `STREQUAL` and `CMAKE_<LANG>_COMPILER_VERSION` with a `VERSION_*` comparison | Values built at configure time, the policy-range form (`3.16...3.27`), `CACHE` / `PARENT_SCOPE` / `FORCE`, and checks combined with `OR` or `NOT` are ignored. |
-| `conanfile.txt` | Each entry of the `[requires]` section, `name/version` | `@user/channel` and `#revision` are not versions. Other sections, including `[tool_requires]`, are ignored. Version ranges are ignored. |
-| `conanfile.py` | The `requires` attribute and literal `self.requires(...)` calls | The file is untrusted Python and is never executed. f-strings, variables, and calls that span lines are ignored. `tool_requires` is not a direct requirement. |
-| `vcpkg.json` | Top-level `builtin-baseline`, and each direct `dependencies` entry | A string dependency is a name. An object may also carry `version>=`. Feature-scoped dependencies, `overrides`, and the manifest's own `version` are ignored. |
-
-Files are found by walking the repository up to eight directories deep, to at most 500 files. Symbolic links are not followed, and `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata` are skipped. CMake, Conan, and vcpkg are never run, and nothing is fetched.
-
-### Package URLs
-
-`pkg:generic/cmake` is the identity the CMake policy importer writes. `conan` is the Package URL type, so a requirement is `pkg:conan/<name>` with the name as written. vcpkg has no importer yet, so a dependency is `pkg:vcpkg/<name>`. The other declarations are not packages: `pkg:generic/c-standard` and `pkg:generic/cxx-standard` for language standards, `pkg:generic/c-compiler/<id>` and `pkg:generic/cxx-compiler/<id>` for a compiler check (the compiler id is lowercased), and `pkg:generic/vcpkg-baseline` for a baseline commit.
-
-### What it reports
-
-- A `cmake_minimum_required` version that a `pkg:generic/cmake` rule contains. The bundled rules cover policy versions older than 3.5 (removed in CMake 4.0) and from 3.5 up to 3.10 (deprecated in CMake 3.31).
-- A Conan requirement, a vcpkg `version>=` floor, a language standard, or a compiler comparison when a rule for that Package URL contains the version as written. There are no bundled rules for those yet.
-- A vcpkg dependency with no `version>=`, only when a rule covers every version of that package.
-- A `builtin-baseline` commit when a rule's range contains that string. A semver range does not contain a commit. A rule that covers every version does.
-
-The first matching rule wins. A rule whose VERS is malformed, or whose comparison throws, is skipped and does not hide a later rule. Each finding names the file and line, and carries its rule's source, replacement, deadline, migration guidance, and verification commands.
-
-### What it intentionally does not judge
-
-- CMake generators and modules. The registry has rules for the Visual Studio 12 2013 generator, FindGDAL, and CMakeFindFrameworks, and the parser does not emit those declarations yet, so they produce no finding.
-- Conan and vcpkg packages, language standards, compilers, and baselines with no rule. A missing finding is not evidence that a version is current.
-- `cmake_minimum_required` written as a policy range (`VERSION 3.5...3.16`), a value read from a variable, or a generator expression.
-- Conan `[tool_requires]` and `[build_requires]`, version ranges, and dynamic Python.
-- Feature-scoped vcpkg dependencies and `overrides`.
-- Vulnerability advisories and license policy.
-
-### Known limits and false-positive boundaries
-
-- A `version>=` floor is matched as that version, not as every version the constraint allows. A floor inside a rule is reported even when a newer resolution would sit outside it.
-- A compiler check matches the compared version. `VERSION_LESS 9.3` is not read as "this project rejects compilers older than 9.3."
-- A baseline commit matches a rule that covers every version, because that range does not inspect the commit.
-- Malformed input produces no declarations from that file, never a partial result, and no error is raised. A file over 1 MiB yields nothing, and a single line over 4,096 characters is skipped.
-- The eight-level and 500-file limits are silent. Files beyond them, and any under `build`, `vendor`, or another skipped directory, are not scanned.
-
-## Serverless runtimes detector
-
-The `serverless` detector is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced. Ten public repositories in [Validation](VALIDATION.md#serverless-corpus) cover it (five targeted, five blind). Supported forms, limits, and data sources are documented in [Serverless runtimes](detectors/serverless.md). Its lifecycle rules are in `registry/serverless.json` and ship in the [data bundle](DATA.md).
+The detector's supported declarations, package URLs, what it reports, what it intentionally does not judge, and the false-positive boundaries. The matrix and policy it belongs to are on [Compatibility](../COMPATIBILITY.md).
 
 ## Android detector
 
-The `android` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned for it in `benchmarks/public-repositories.json` (four targeted, one blind). Its lifecycle rules are in `registry/android.json` and ship in the [data bundle](DATA.md). The bundled rules cover Google Play Billing Library majors 5 through 9 and cite the [Google Play Billing Library version deprecation](https://developer.android.com/google/play/billing/deprecation-faq) timeline. Scans read that bundled registry only.
+The `android` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned for it in `benchmarks/public-repositories.json` (four targeted, one blind). Its lifecycle rules are in `registry/android.json` and ship in the [data bundle](../DATA.md). The bundled rules cover Google Play Billing Library majors 5 through 9 and cite the [Google Play Billing Library version deprecation](https://developer.android.com/google/play/billing/deprecation-faq) timeline. Scans read that bundled registry only.
 
 ### Supported files and declarations
 
@@ -3613,9 +3743,70 @@ The first matching rule wins. A rule whose VERS is malformed, or whose compariso
 - The eight-level and 2,000-file limits are silent. Files beyond them, and any under `build`, `.gradle`, or another skipped directory, are not scanned.
 - A plugin or catalog value that is not a literal version is omitted. A string-notation coordinate is kept and compared as the version text written in the file. The analysis reports no unclassified references.
 
+---
+
+Source: https://arminazimi.github.io/evergreen/compatibility/cpp.html
+
+# C and C++ detector
+
+The detector's supported declarations, package URLs, what it reports, what it intentionally does not judge, and the false-positive boundaries. The matrix and policy it belongs to are on [Compatibility](../COMPATIBILITY.md).
+
+## C and C++ detector
+
+The `cpp` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted migration cases and one blind, zero-finding repository. Their ground truth cites maintainer migration commits or upstream release notes, independently of Evergreen output. Precision on this corpus does not establish coverage of unsupported declaration forms. Its lifecycle rules are in `registry/cpp.json` and ship in the [data bundle](../DATA.md).
+
+### Supported files and declarations
+
+| File | Declaration read | Notes |
+| --- | --- | --- |
+| `CMakeLists.txt` | `cmake_minimum_required(VERSION <version>)`, `set(CMAKE_C_STANDARD <integer>)`, `set(CMAKE_CXX_STANDARD <integer>)`, and an `if` that names `CMAKE_<LANG>_COMPILER_ID` with `STREQUAL` and `CMAKE_<LANG>_COMPILER_VERSION` with a `VERSION_*` comparison | Values built at configure time, the policy-range form (`3.16...3.27`), `CACHE` / `PARENT_SCOPE` / `FORCE`, and checks combined with `OR` or `NOT` are ignored. |
+| `conanfile.txt` | Each entry of the `[requires]` section, `name/version` | `@user/channel` and `#revision` are not versions. Other sections, including `[tool_requires]`, are ignored. Version ranges are ignored. |
+| `conanfile.py` | The `requires` attribute and literal `self.requires(...)` calls | The file is untrusted Python and is never executed. f-strings, variables, and calls that span lines are ignored. `tool_requires` is not a direct requirement. |
+| `vcpkg.json` | Top-level `builtin-baseline`, and each direct `dependencies` entry | A string dependency is a name. An object may also carry `version>=`. Feature-scoped dependencies, `overrides`, and the manifest's own `version` are ignored. |
+
+Files are found by walking the repository up to eight directories deep, to at most 500 files. Symbolic links are not followed, and `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata` are skipped. CMake, Conan, and vcpkg are never run, and nothing is fetched.
+
+### Package URLs
+
+`pkg:generic/cmake` is the identity the CMake policy importer writes. `conan` is the Package URL type, so a requirement is `pkg:conan/<name>` with the name as written. vcpkg has no importer yet, so a dependency is `pkg:vcpkg/<name>`. The other declarations are not packages: `pkg:generic/c-standard` and `pkg:generic/cxx-standard` for language standards, `pkg:generic/c-compiler/<id>` and `pkg:generic/cxx-compiler/<id>` for a compiler check (the compiler id is lowercased), and `pkg:generic/vcpkg-baseline` for a baseline commit.
+
+### What it reports
+
+- A `cmake_minimum_required` version that a `pkg:generic/cmake` rule contains. The bundled rules cover policy versions older than 3.5 (removed in CMake 4.0) and from 3.5 up to 3.10 (deprecated in CMake 3.31).
+- A Conan requirement, a vcpkg `version>=` floor, a language standard, or a compiler comparison when a rule for that Package URL contains the version as written. There are no bundled rules for those yet.
+- A vcpkg dependency with no `version>=`, only when a rule covers every version of that package.
+- A `builtin-baseline` commit when a rule's range contains that string. A semver range does not contain a commit. A rule that covers every version does.
+
+The first matching rule wins. A rule whose VERS is malformed, or whose comparison throws, is skipped and does not hide a later rule. Each finding names the file and line, and carries its rule's source, replacement, deadline, migration guidance, and verification commands.
+
+### What it intentionally does not judge
+
+- CMake generators and modules. The registry has rules for the Visual Studio 12 2013 generator, FindGDAL, and CMakeFindFrameworks, and the parser does not emit those declarations yet, so they produce no finding.
+- Conan and vcpkg packages, language standards, compilers, and baselines with no rule. A missing finding is not evidence that a version is current.
+- `cmake_minimum_required` written as a policy range (`VERSION 3.5...3.16`), a value read from a variable, or a generator expression.
+- Conan `[tool_requires]` and `[build_requires]`, version ranges, and dynamic Python.
+- Feature-scoped vcpkg dependencies and `overrides`.
+- Vulnerability advisories and license policy.
+
+### Known limits and false-positive boundaries
+
+- A `version>=` floor is matched as that version, not as every version the constraint allows. A floor inside a rule is reported even when a newer resolution would sit outside it.
+- A compiler check matches the compared version. `VERSION_LESS 9.3` is not read as "this project rejects compilers older than 9.3."
+- A baseline commit matches a rule that covers every version, because that range does not inspect the commit.
+- Malformed input produces no declarations from that file, never a partial result, and no error is raised. A file over 1 MiB yields nothing, and a single line over 4,096 characters is skipped.
+- The eight-level and 500-file limits are silent. Files beyond them, and any under `build`, `vendor`, or another skipped directory, are not scanned.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/compatibility/ci-runner-images.html
+
+# CI runner images detector
+
+The detector's supported declarations, what it reports, what it intentionally does not judge, and the false-positive boundaries. The matrix and policy it belongs to are on [Compatibility](../COMPATIBILITY.md).
+
 ## CI runner images detector
 
-The `ci-images` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five targeted public repositories are pinned for it (see [VALIDATION.md](VALIDATION.md) "CI runner images corpus"); precision is not enforced, and its blind share is zero. Its lifecycle rules are in `registry/ci-images.json` and ship in the [data bundle](DATA.md). Bundled rules include the scheduled removals of the macOS 14 Sonoma and Ubuntu 22.04 hosted images, citing the [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule). A label is a finding only when a reviewed rule covers it. Scans read that bundled registry only.
+The `ci-images` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five targeted public repositories are pinned for it (see [the corpus](../validation/ecosystems.md#ci-runner-images-corpus)); precision is not enforced, and its blind share is zero. Its lifecycle rules are in `registry/ci-images.json` and ship in the [data bundle](../DATA.md). Bundled rules include the scheduled removals of the macOS 14 Sonoma and Ubuntu 22.04 hosted images, citing the [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule). A label is a finding only when a reviewed rule covers it. Scans read that bundled registry only.
 
 ### Supported files and declarations
 
@@ -3650,29 +3841,6 @@ Only a file named `.gitlab-ci.yml`, `azure-pipelines.yml`, or `config.yml` direc
 - GitLab and CircleCI references that are unclassified name the file and line. A literal CircleCI image is omitted from both findings and unclassified references.
 - Malformed YAML produces no declarations from that file, never a partial result, and no error is raised. A file over 1 MiB yields nothing, and a single value over 4,096 characters is skipped.
 - The eight-level and 500-file limits are silent. Files beyond them, and any under a skipped directory, are not scanned.
-
-## Monorepos
-
-The npm and Python detectors read every package of a workspace, not only the repository root. Packages are found from the declarations the package managers use: `workspaces` in `package.json` (npm and Yarn, array or `packages` form), `pnpm-workspace.yaml` (with `!` exclusions), `lerna.json`, and `[tool.uv.workspace]` `members` and `exclude` in `pyproject.toml`. Globs support `*`, `?`, and `**`.
-
-- Findings name the package's own file, for example `packages/a/package.json`, and carry the usages inside that package's directory; usages outside every package stay with the root.
-- A workspace without its own lockfile resolves versions against the root's lockfile.
-- Discovery is bounded: eight directory levels, 500 packages, symbolic links never followed, and `node_modules`, `vendor`, `dist`, `build`, `target`, virtual environments, and fixture directories skipped.
-- A malformed workspace manifest is skipped, so one bad package does not hide the others. A malformed root `package.json` is still an error.
-- Without a workspace declaration only the root is scanned, as before. Python projects that are not uv workspaces (for example separate `pyproject.toml` files under `services/`) are not discovered.
-
-## CI behavior
-
-- In GitHub Actions, the doctor requires `GITHUB_WORKSPACE` to name an accessible
-  checkout directory.
-- In GitLab CI, the doctor requires `CI_PROJECT_DIR` to name an accessible checkout
-  directory.
-- Outside those environments, it reports local execution and does not require CI
-  variables.
-
-The checks only read Evergreen's own packaged metadata and test workspace
-accessibility. They do not inspect secrets, tokens, repository contents, or remote
-services.
 
 ---
 
@@ -4598,6 +4766,217 @@ Evergreen v0.1 was validated on 2026-10-14 against 20 public repositories pinned
 
 ## Results
 
+Moved to [Validation corpus: Results](validation/corpus.md#results).
+
+## GitHub Actions corpus additions
+
+Moved to [Validation corpus: GitHub Actions corpus additions](validation/corpus.md#github-actions-corpus-additions).
+
+## Method
+
+Moved to [Validation corpus: Method](validation/corpus.md#method).
+
+## The 50-repository corpus
+
+Moved to [Validation corpus: The 50-repository corpus](validation/corpus.md#the-50-repository-corpus).
+
+## Kubernetes corpus
+
+Moved to [Ecosystem corpora: Kubernetes corpus](validation/ecosystems.md#kubernetes-corpus).
+
+## Kubernetes blind selection
+
+Moved to [Ecosystem corpora: Kubernetes blind selection](validation/ecosystems.md#kubernetes-blind-selection).
+
+## Java and Kotlin corpus
+
+Moved to [Ecosystem corpora: Java and Kotlin corpus](validation/ecosystems.md#java-and-kotlin-corpus).
+
+## Java and Kotlin blind selection
+
+Moved to [Ecosystem corpora: Java and Kotlin blind selection](validation/ecosystems.md#java-and-kotlin-blind-selection).
+
+## Ruby corpus
+
+Moved to [Ecosystem corpora: Ruby corpus](validation/ecosystems.md#ruby-corpus).
+
+## PHP corpus
+
+Moved to [Ecosystem corpora: PHP corpus](validation/ecosystems.md#php-corpus).
+
+## Swift corpus
+
+Moved to [Ecosystem corpora: Swift corpus](validation/ecosystems.md#swift-corpus).
+
+## Swift blind selection
+
+Moved to [Ecosystem corpora: Swift blind selection](validation/ecosystems.md#swift-blind-selection).
+
+## Serverless corpus
+
+Moved to [Ecosystem corpora: Serverless corpus](validation/ecosystems.md#serverless-corpus).
+
+## Serverless blind selection
+
+Moved to [Ecosystem corpora: Serverless blind selection](validation/ecosystems.md#serverless-blind-selection).
+
+## .NET blind selection
+
+Moved to [Ecosystem corpora: .NET blind selection](validation/ecosystems.md#net-blind-selection).
+
+## CI runner images corpus
+
+Moved to [Ecosystem corpora: CI runner images corpus](validation/ecosystems.md#ci-runner-images-corpus).
+
+## The 300-repository corpus
+
+Moved to [Validation corpus: The 300-repository corpus](validation/corpus.md#the-300-repository-corpus).
+
+## The 456-repository corpus
+
+Moved to [Validation corpus: The 456-repository corpus](validation/corpus.md#the-456-repository-corpus).
+
+## The held-out set
+
+Moved to [Validation corpus: The held-out set](validation/corpus.md#the-held-out-set).
+
+## Precision thresholds
+
+[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `java`, `kubernetes`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
+
+```text
+THRESHOLD  npm: precision 0.9 is below the required 0.95
+```
+
+A detector at `beta` or `stable` also has a recall floor, 0.80 and 0.90 (decision 0013), computed as true positives over true positives plus false negatives; a full run below it prints `THRESHOLD  <detector>: recall … is below the required …`, fails, and cannot be recorded. Every corpus entry records `selection` (`blind` or `targeted`), and a test fails when one does not; entries added before the field existed were all picked from reviewed migration commits or known findings, so they record `targeted`.
+
+The weekly corpus workflow therefore fails on a precision regression even if the exact-match comparison is later relaxed. Mark a new detector `"stable": false` until its corpus coverage is meaningful; it is still scored and reported but never fails the run. Never lower a floor to make a run pass.
+
+## Fetching and the checkout cache
+
+Moved to [Running the corpus: Fetching and the checkout cache](validation/running-the-corpus.md#fetching-and-the-checkout-cache).
+
+## Running a subset
+
+Moved to [Running the corpus: Running a subset](validation/running-the-corpus.md#running-a-subset).
+
+### Re-running only what failed
+
+Moved to [Running the corpus: Re-running only what failed](validation/running-the-corpus.md#re-running-only-what-failed).
+
+### Comparing with an earlier run
+
+Moved to [Running the corpus: Comparing with an earlier run](validation/running-the-corpus.md#comparing-with-an-earlier-run).
+
+### Managing the cache
+
+Moved to [Running the corpus: Managing the cache](validation/running-the-corpus.md#managing-the-cache).
+
+### Warm ahead, run offline
+
+Moved to [Running the corpus: Warm ahead, run offline](validation/running-the-corpus.md#warm-ahead-run-offline).
+
+### Running only what a change affects
+
+Moved to [Running the corpus: Running only what a change affects](validation/running-the-corpus.md#running-only-what-a-change-affects).
+
+## Run cost and budget
+
+Moved to [Running the corpus: Run cost and budget](validation/running-the-corpus.md#run-cost-and-budget).
+
+## Stalled fetches
+
+Moved to [Running the corpus: Stalled fetches](validation/running-the-corpus.md#stalled-fetches).
+
+## Reading a run
+
+Moved to [Running the corpus: Reading a run](validation/running-the-corpus.md#reading-a-run).
+
+## Recording a full run
+
+Moved to [Running the corpus: Recording a full run](validation/running-the-corpus.md#recording-a-full-run).
+
+## Pull request check
+
+Moved to [Running the corpus: Pull request check](validation/running-the-corpus.md#pull-request-check).
+
+## Keeping `lastFullRun` current
+
+Moved to [Running the corpus: Keeping `lastFullRun` current](validation/running-the-corpus.md#keeping-lastfullrun-current).
+
+## Weekly run and refreshing pins
+
+Moved to [Running the corpus: Weekly run and refreshing pins](validation/running-the-corpus.md#weekly-run-and-refreshing-pins).
+
+## Differential testing against Renovate
+
+Moved to [Differential testing: Differential testing against Renovate](validation/differential-testing.md#differential-testing-against-renovate).
+
+## Differential testing against xeol
+
+Moved to [Differential testing: Differential testing against xeol](validation/differential-testing.md#differential-testing-against-xeol).
+
+## Differential testing against Pluto
+
+Moved to [Differential testing: Differential testing against Pluto](validation/differential-testing.md#differential-testing-against-pluto).
+
+## Accuracy by detector
+
+Precision is true positives over true positives plus false positives; recall is true positives over true positives plus false negatives. Both come from the last full corpus run recorded in [`benchmarks/thresholds.json`](../benchmarks/thresholds.json), so a reader can regenerate every number: run `npm run record:corpus-run`, then `npm run build:coverage`. The table below is generated; a test fails when it drifts from the recorded run. `nodejs` is the Node.js runtime rules served by the npm detector. A dash means the last full run did not score that detector.
+
+<!-- accuracy-tables:start -->
+Measured on 456 pinned repositories at commit `c7b4e14` on 2026-10-24. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+
+| Detector | Maturity | True positives | False positives | False negatives | Precision | Recall |
+| --- | --- | --- | --- | --- | --- | --- |
+| android | Experimental | 9 | 0 | 0 | 1.000 | 1.000 |
+| ci-images | Experimental | 13 | 0 | 0 | 1.000 | 1.000 |
+| container | Experimental | 74 | 0 | 0 | 1.000 | 1.000 |
+| cpp | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
+| dart | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
+| database | Experimental | 16 | 0 | 0 | 1.000 | 1.000 |
+| deno | Experimental | — | — | — | — | — |
+| dotnet | Beta | 304 | 0 | 0 | 1.000 | 1.000 |
+| elixir | Experimental | — | — | — | — | — |
+| github-actions | Supported | 986 | 0 | 0 | 1.000 | 1.000 |
+| go | Experimental | 54 | 0 | 0 | 1.000 | 1.000 |
+| java | Beta | 61 | 0 | 0 | 1.000 | 1.000 |
+| kubernetes | Beta | 71 | 0 | 0 | 1.000 | 1.000 |
+| nodejs | Supported | 305 | 0 | 0 | 1.000 | 1.000 |
+| npm | Supported | 100 | 0 | 0 | 1.000 | 1.000 |
+| php | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |
+| python | Supported | 74 | 0 | 0 | 1.000 | 1.000 |
+| ruby | Experimental | 24 | 0 | 0 | 1.000 | 1.000 |
+| rust | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
+| scala | Experimental | — | — | — | — | — |
+| serverless | Beta | 26 | 0 | 0 | 1.000 | 1.000 |
+| shell | Experimental | 12 | 0 | 0 | 1.000 | 1.000 |
+| swift | Beta | 16 | 0 | 0 | 1.000 | 1.000 |
+| terraform | Experimental | 7 | 0 | 0 | 1.000 | 1.000 |
+<!-- accuracy-tables:end -->
+
+## Mutation testing baseline
+
+Line coverage shows which lines run; mutation testing asks whether the tests would notice a bug in them. `npm run test:mutation` runs [Stryker](https://stryker-mutator.io/) with the command runner over `src/engine.ts`, `src/baseline.ts`, `src/diff.ts`, and `src/vers/`, rebuilding with `tsc` and executing the unit tests that target those modules. The nightly [Mutation](../.github/workflows/mutation.yml) workflow publishes the score and surviving mutants in the job summary. It does not fail the build on the score yet.
+
+First measured score on 2026-10-30 (commit `470542f4`): **59.59%** (1,139 killed, 7 timed out, 777 survived; 1,923 mutants). Per-file: `src/vers/` 80.12%, `src/baseline.ts` 72.78%, `src/diff.ts` 57.94%, `src/engine.ts` 23.12%.
+
+## Interpretation and limits
+
+Precision and recall are measured only against Evergreen's documented v0.1 rule set and the pinned corpus. They do not mean Evergreen detects every possible deprecation in these ecosystems. The corpus is public and reproducible, but not a statistically representative sample of all software. Dynamic action references and unsupported ecosystems remain intentionally unclassified.
+
+The controlled source-usage benchmark provides a separate exact-match test for imports, calls, and configuration keys; see [Benchmarks](BENCHMARKS.md).
+
+---
+
+Source: https://arminazimi.github.io/evergreen/validation/corpus.html
+
+# Validation corpus
+
+The public corpus behind the validation record: how it grew, how repositories were chosen blind, and the held-out set. The summary and the accuracy table are on [Validation](../VALIDATION.md).
+
+## Results
+
 | Measure | Result |
 | --- | ---: |
 | Repositories | 20 |
@@ -4615,7 +4994,7 @@ Scan time measures only local Evergreen analysis after checkout. It excludes net
 
 ## GitHub Actions corpus additions
 
-The corpus has since grown to 30 repositories. The ten added entries are GitHub Actions repositories taken from reviewed migration commits (see [Mining migrations](../benchmarks/mining/queries.md)). Eight are pinned to the commit *before* a migration, where Evergreen must report exactly the workflow locations the migration changed, and two are pinned to the migration commit itself, where it must report nothing. Together they include reusable workflows (`Akenon-Studio/.github`) and SHA-pinned actions (`smartcrabai/paperhanger`, `openmcp-project/crossplane-headlamp-plugin`).
+The corpus has since grown to 30 repositories. The ten added entries are GitHub Actions repositories taken from reviewed migration commits (see [Mining migrations](../../benchmarks/mining/queries.md)). Eight are pinned to the commit *before* a migration, where Evergreen must report exactly the workflow locations the migration changed, and two are pinned to the migration commit itself, where it must report nothing. Together they include reusable workflows (`Akenon-Studio/.github`) and SHA-pinned actions (`smartcrabai/paperhanger`, `openmcp-project/crossplane-headlamp-plugin`).
 
 Every expected finding in these entries has `groundTruthSource.kind` set to `migration-commit` and links to the commit that fixed it; a test checks each link against `benchmarks/mining/review-log.json`. A SHA-pinned entry is only accepted as zero-finding after checking that no pinned reference carries a version comment below the rule's supported major, because Evergreen does not classify SHA pins yet and would otherwise hide a deprecated version. Across all 30 repositories the harness reports 48 expected findings, 48 true positives, and no false positives or false negatives (observed 2026-10-16). The table above is the original 20-repository v0.1 run.
 
@@ -4637,6 +5016,83 @@ The corpus now has 50 repositories: the 20 from v0.1, the ten GitHub Actions ent
 - Four are zero-finding repositories, including monorepos (`withastro/astro`, `vitest-dev/vitest`, `lerna/lerna`, `changesets/changesets`). They were also searched by hand for deprecated actions, runtimes and packages, independently of Evergreen's own rules.
 
 The review tool (`benchmarks/mining/review.ts`) now accepts npm package, Python package, and Node.js and Python runtime rules as well as GitHub Actions rules, and `mine.ts` can mine one group at a time and append without replacing reviewed candidates (`--queries npm,python --limit 10 --append`). Across all 50 repositories the harness reports 81 expected findings, 81 true positives, no false positives and no false negatives (observed 2026-10-16).
+
+## The 300-repository corpus
+
+The corpus now has 300 repositories: the 189 earlier entries and 111 added in one pass, every one with `selection: "blind"`. They fill the ecosystems that had the fewest repositories: container, Go, Rust, Ruby, PHP, Android, C/C++, CI runner images, Dart, Terraform, database runtimes, and shell got seven each, and serverless, GitHub Actions, and Swift got nine each.
+
+The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: for each query below, run `gh search code <query> --limit 60`, walk the results in the order returned that day, and keep the first N unique repositories that are not forks, not archived, not larger than 50,000 KB on GitHub, and not already in the corpus (or chosen by an earlier query); where the entry says root only, the matching path must be at the repository root. Pin each at its default-branch commit on that date. Licensing: only repository metadata, pinned commit IDs, paths, line numbers, and one short quoted line per finding are stored; no repository content is vendored, and each repository is fetched from GitHub at its pinned commit at run time. The query returns different results on another day, so the pinned list, not a re-run, is the record.
+
+- `go` (7): `gh search code go 1.22 --filename go.mod`; `gh search code go 1.26 --filename go.mod`: `lwolf/kube-cleanup-operator`, `ICKelin/gtun`, `keycard-tech/keycard-go`, `Johonsoy/SmartStashDB`, `replicate/cog`, `charmbracelet/wish`, `slackhq/go-audit`.
+- `rust` (7): `gh search code atty --filename Cargo.toml`; `gh search code ansi_term --filename Cargo.toml`; `gh search code tempdir --filename Cargo.toml`: `nikivdev/code`, `rathole-org/rathole`, `ogham/dog`, `suptejas/fleet`, `dflemstr/rq`, `databricks/click`, `gchp/iota`.
+- `ruby` (7): `gh search code 3.1.4 --filename .ruby-version`; `gh search code 2.7.8 --filename .ruby-version`; `gh search code 3.4.1 --filename .ruby-version`: `67272-App-Design-Dev/PATS_v1_r7`, `HomeBusProjects/HomeBus`, `Kgomotso196/Blog`, `nmacawile/rails-chat-api`, `maedadev/bizside-ruby`, `nsidc/vagrant-vsphere`, `nov/web_authn_sample`.
+- `android` (7): `gh search code com.android.billingclient:billing --filename build.gradle`; `gh search code com.android.billingclient:billing --filename build.gradle.kts`: `Aefyr/SAI`, `anjlab/android-inapp-billing-v3`, `Eajy/MaterialDesignDemo`, `serso/android-checkout`, `facebook/facebook-android-sdk`, `BranchMetrics/android-branch-deep-linking-attribution`, `d4rken-org/octi`.
+- `cpp` (7): `gh search code cmake_minimum_required(VERSION 2.8 --filename CMakeLists.txt`; `gh search code cmake_minimum_required(VERSION 3.28 --filename CMakeLists.txt`: `BYVoid/uchardet`, `Xtra-Computing/thundergbm`, `wavebitscientific/functional-fortran`, `karimnaaji/vectiler`, `Off-World-Live/obs-spout2-plugin`, `QBDI/QBDI`, `Hapaxia/SelbaWard`.
+- `ci-images` (7): `gh search code ubuntu-20.04 --filename azure-pipelines.yml`; `gh search code ubuntu-24.04 --filename azure-pipelines.yml`: `revery-ui/revery`, `microsoft/FASTER`, `hasura/graphqurl`, `inikep/lizard`, `Jackett/Jackett`, `dotnet/vscode-csharp`, `isomorphic-git/isomorphic-git`.
+- `database` (7): `gh search code postgres:13 --extension yml`; `gh search code engine_version = "5.7" --extension tf`: `gitcoinco/grants-stack`, `jayfk/launchr`, `Kuper-Tech/sbmt-outbox`, `replicase/pgcapture`, `tmknom/example-pragmatic-terraform`, `PacktPublishing/Effective-DevOps-with-AWS-Second-Edition`, `RajitPaul11/terraform_aws`.
+- `container` (7): `gh search code FROM node:24 --filename Dockerfile`; `gh search code FROM node:16 --filename Dockerfile`: `daimon3332/address`, `SpectrAI-Initiative/InnoClaw`, `navikt/security-playbook`, `rsmbl/Resemble.js`, `fanchangyong/deershare`, `firemakergk/aquar-home`, `sibbl/hass-lovelace-kindle-screensaver`.
+- `terraform` (7): `gh search code required_version 1.12 --extension tf`; `gh search code required_version ~> 1.12 --extension tf`; `gh search code required_version --extension tf --filename versions.tf`: `skax-ca/iac-module-library`, `ql4b/cloudless-infra`, `terraform-google-modules/terraform-google-container-vm`, `cloudposse/terraform-aws-cicd`, `cloudposse/terraform-aws-ec2-instance`, `terraform-google-modules/terraform-google-log-export`, `GoogleCloudPlatform/notebooks-blueprint-security`.
+- `node-actions` (9): `gh search code actions/checkout@v2 --extension yml`; `gh search code actions/checkout@v6 --extension yml`: `jugglerchris/rust-html2text`, `CausalAIBook/MetricsMLNotebooks`, `realabbas/Github-Actions-React-Native`, `ktye/i`, `lamdow8/lamdow8.github.io`, `bjdash/apic`, `lpereira/lwan`, `shivammathur/setup-php`, `hellofresh/action-changed-files`.
+- `shell` (7): `gh search code #Requires -Version 7 --extension ps1`; `gh search code PowerShellVersion --filename psd1`: `domaindrivendev/Swashbuckle.AspNetCore`, `PowerShell/PSReadLine`, `SteeltoeOSS/Steeltoe`, `Kevin-Robertson/Inveigh`, `psake/psake`, `cyberark/ACLight`, `pester/Pester`.
+- `php` (7): `gh search code ^7.4 --filename composer.json`; `gh search code ^8.3 --filename composer.json`: `dreamfactorysoftware/dreamfactory`, `doctrine/annotations`, `symfony/routing`, `driesvints/blade-icons`, `spatie/laravel-backup`, `mckenziearts/laravel-notify`, `spatie/db-dumper`.
+- `dart` (7): `gh search code ^3.8.0 --filename pubspec.yaml`; `gh search code ^3.10.0 --filename pubspec.yaml`: `bensonarafat/super_tooltip`, `Mr-Pepe/syncable`, `rithik-dev/firebase_phone_auth_handler`, `dickermoshe/convex-dart`, `OpenFlutter/fluwx`, `Yubico/yubioath-flutter`, `dartgfx/gpux`.
+- `serverless` (9): `gh search code nodejs14.x --filename serverless.yml`; `gh search code python3.8 --filename template.yaml`; `gh search code nodejs22.x --filename serverless.yml`: `SmartThingsCommunity/weather-color-light-smartapp-nodejs`, `ZeroSharp/serverless-php`, `Toola-bakery/Toola`, `ashokatechmin/Messcat`, `serverlesspub/imagemagick-aws-lambda-2`, `awslabs/aws-config-rdklib`, `aws-samples/aws-lambda-extensions`, `slackapi/bolt-js`, `webpro-nl/knip`.
+- `swift` (9): `gh search code xcode --filename .xcode-version`; `gh search code IPHONEOS_DEPLOYMENT_TARGET = 12.0 --filename project.pbxproj`: `sarthak-behl/Signal-iOS`, `palak-ios-play/SecureChat-iOS`, `NorthWolfLabs/CodexGauge`, `Shopify/mobile-buy-sdk-ios`, `ReSwift/ReSwift`, `Swinject/Swinject`, `aslanyanhaik/youtube-iOS`, `square/Valet`, `swiftlang/swift-corelibs-xctest`.
+
+Ground truth: for each repository the harness report was read line by line at the pinned commit, and every expected finding has a `maintainer-review` note quoting the path, line, and the matching text. The Go, Rust, Ruby, Android, C/C++, CI image, serverless, and GitHub Actions findings were also cross-checked against an independent `grep` over the pinned files (not Evergreen's output); the only differences are the scope boundaries below. Because the corpus scans every detector, every finding in these repositories is recorded, not only the ones for the ecosystem it was selected for. Findings of the npm, Node.js, Python, and .NET detectors were checked by reading the line, not by a second search. Several repositories that matched a version query have no finding in that ecosystem, which is expected: a range such as PHP `^7.4 || ^8.0` or Dart `sdk: ^3.8.0` still allows a supported release and is not an end-of-life declaration.
+
+Scope boundaries seen while checking, none of which is a finding in this corpus: the GitHub Actions detector reads only the root `.github/workflows` directory, so nested workflows (`pkg/cli/init-templates/base/.github/workflows` in `replicate/cog`, a `fixtures` directory in `webpro-nl/knip`) and composite `action.yml` files (`realabbas/Github-Actions-React-Native`, `awslabs/aws-config-rdklib`, `sarthak-behl/Signal-iOS`) are not scanned; the CI image detector reads files named `azure-pipelines.yml`, not `azure-pipelines-full.yml` (`microsoft/FASTER`); and the Android detector does not report a Play Billing pin written as `"gplayImplementation"("...")` (`d4rken-org/octi`) or inside an `androidTestImplementation` call (`BranchMetrics/android-branch-deep-linking-attribution`). These are candidates for follow-up issues, not corpus entries.
+
+## The 456-repository corpus
+
+Issue #740 added 156 repositories to the 300 above to close the evidence gaps in [decision 0013](../decisions/0013-detector-maturity.md) for the four detectors that held `Supported` before the rules existed. Every one records `selection: "blind"`.
+
+The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: GitHub repository search for a language, 100 to 500 stars, last pushed from 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars descending (`gh search repos --language <language> --stars 100..500 --updated 2021-01-01..2024-12-31 --archived=false --include-forks=false --sort stars --order desc --limit 100`). Walk the results in order and keep a repository unless it is already in the corpus, is larger than 50,000 KB, or lacks the file the ecosystem needs. Pin each at its default-branch commit on that date. Each expected finding is the scan result with the line read at the pinned commit, recorded as a `maintainer-review` note.
+
+- `node` (52, language JavaScript, a root `package.json`): `lucasbento/graphql-pokemon`, `adobe-photoshop/generator-assets`, `gruntjs/grunt-contrib-requirejs`, `mathiasbynens/CSS.escape`, `bitpay/bitauth`, `cloudinary/cloudinary-react`, `discordjs/RPC`, `pilwon/node-yahoo-finance`, `rpl/flow-coverage-report`, `sourcecred/sourcecred`, `Brainfock/Brainfock`, `manifoldfinance/defi-threat`, `remarkjs/remark-toc`, `fstirlitz/luaparse`, `mobxjs/mobx-react-todomvc`, `dxxzst/OfflineMap`, `ElementUI/element-theme`, `algorithm-visualizer/algorithms`, `d3/d3-interpolate`, `twilio-labs/call-gpt`, `jiayisheji/blog`, `svrxjs/svrx`, `wix-incubator/react-native-keyboard-aware-scrollview`, `malte-wessel/react-textfit`, `bartve/disconnect`, `insodoc/insomnia-documenter`, `whoisandy/react-blocks`, `o2team/elf`, `standard/ts-standard`, `briancavalier/slides`, `YataoZhang/my-single-spa`, `parmsang/gatsby-starter-ecommerce`, `acode/copenhagen`, `snorpey/triangulation`, `bchiang7/octoprofile`, `mahnunchik/gulp-responsive`, `cferdinandi/build-tool-boilerplate`, `mixtur/webpack-spritesmith`, `wzpan/hexo-generator-search`, `dai-shi/react-hooks-async`, `lazd/gulp-replace`, `mapmeld/profanity-pgp`, `lbovet/docson`, `lexich/redux-api`, `smartcontractkit/defi-minimal`, `allegro/node-worker-nodes`, `drawcall/AgileJS`, `tani/cheeriogs`, `Semantic-Org/Semantic-UI-CSS`, `uncleLian/vue2-news`, `abramenal/cypress-file-upload`, `CoreyGinnivan/whocanuse`.
+- `python` (34, language Python, a root `pyproject.toml`, `setup.py`, `setup.cfg`, `Pipfile`, or `requirements.txt`): `NTMC-Community/MatchZoo-py`, `layer8secure/SilentHound`, `LAION-AI/natural_voice_assistant`, `caserec/CaseRecommender`, `SqueezeAILab/TinyAgent`, `jarus/flask-testing`, `Deadpool2000/Paybag`, `alxschwrz/codex_py2cpp`, `harperreed/photo-similarity-search`, `FranxYao/Long-Context-Data-Engineering`, `DougDougGithub/Babagaboosh`, `aryanvikash/Youtube-Downloader-Bot`, `tappi287/openvr_fsr_app`, `microsoft/powerbi-jupyter`, `JPCERTCC/MalConfScan`, `msight-tech/research-ms-loss`, `HazyResearch/evaporate`, `achembarpu/pockyt`, `blacknbunny/CVE-2018-10933`, `peract/peract`, `sweetcocoa/pop2piano`, `shichao-an/leetcode-python`, `simonw/db-to-sqlite`, `alexdelorenzo/cast_control`, `prateekiiest/Code-Sleep-Python`, `SourceCode-AI/aura`, `szc19990412/TransMIL`, `PrithivirajDamodaran/Styleformer`, `elbayadm/attn2d`, `CryptoGnome/Limit-Sniper`, `kturung/langgraph_streamlit_codeassistant`, `busimus/cutelog`, `flopp/GpxTrackPoster`, `corenel/pytorch-adda`.
+- `node-actions` (13, language TypeScript, at least one workflow file in `.github/workflows`): `iamraphson/react-paystack`, `dai-shi/reactive-react-redux`, `mgmeyers/obsidian-list-callouts`, `rubenspgcavalcante/webpack-extension-reloader`, `innocenzi/tailwindcss-theming`, `lbdremy/solr-node-client`, `galnir/Master-Bot`, `ericnorris/striptags`, `xmindltd/xmind-sdk-js`, `rametta/pratica`, `wessberg/rollup-plugin-ts`, `Ff00ff/mammoth`, `bryanmylee/svelte-headless-table`.
+
+A second Python pass followed, because the 34 repositories above held only 4 Python findings and `stable` needs 60. The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: for each query below, run `gh search code <query> --filename <file> --limit 60`, walk the results in the order returned that day, and keep the first five or six unique repositories whose matching path is exactly that file at the root, skipping forks, archives, repositories larger than 50,000 KB, and repositories already in the corpus. Pin each at its default-branch commit on that date. The queries look for old Python declarations, so they are expected to produce findings, but the repository is chosen by the query result and not by any Evergreen output.
+
+- `python` (56 more):
+  - `gh search code requires-python = ">=3.8" --filename pyproject.toml`: `cobrateam/splinter`, `pallets-eco/flask-debugtoolbar`, `Aiven-Open/pghoard`, `epfl-lts2/pygsp`, `isaiahbjork/Auto-GPT-Crypto-Plugin`, `widgetti/ipyvuetify`.
+  - `gh search code python_requires=">=3.7" --filename setup.py`: `shenweichen/GraphEmbedding`, `Overv/outrun`, `BasicProtein/AugmentCode-Free`, `machow/siuba`, `LAMDA-NJU/Deep-Forest`, `drunkdream/weread-exporter`.
+  - `gh search code 3.8 --filename .python-version`: `bndr/pipreqs`, `login-securite/lsassy`, `Lawouach/WebSocket-for-Python`, `n8henrie/pycookiecheat`, `DarrenOfficial/dpaste`, `psevensas/DjangoChannelsGraphqlWs`.
+  - `gh search code python-3.8 --filename runtime.txt`: `AnimeKaizoku/EnterpriseALRobot`, `weareasterisk/gavel2`, `AbirHasan2005/TG-String-Session`, `IceKirby/NaTrave`, `urschrei/hexagrams`, `zolabar/trendPy`.
+  - `gh search code python_version = "3.7" --filename Pipfile`: `hustlei/QssStylesheetEditor`, `DanMcInerney/pymetasploit3`, `donsheehy/datastructures`, `CodeForPhilly/chime`, `mozilla/crlite`, `prideout/svg3d`.
+  - `gh search code requires-python = ">=3.7" --filename pyproject.toml`: `LAION-AI/CLAP`, `ncclient/ncclient`, `nschloe/tiptop`, `nschloe/perfplot`, `huggingface/hf_transfer`, `zu1k/Good-MITM`.
+  - `gh search code python_requires=">=3.6" --filename setup.py`: `alibaba/tidevice`, `rachpt/lanzou-gui`, `Hsury/BiliDrive`, `malinkang/weread2notion-pro`, `maxhumber/gazpacho`.
+  - `gh search code python = "^3.7" --filename pyproject.toml`: `bee-san/pyWhat`, `Gerapy/Gerapy`, `jayfk/statuspage`, `python-gino/gino`, `wustho/epr`.
+  - `gh search code requires-python = ">=3.6" --filename pyproject.toml`: `doableware/djongo`, `python273/vk_api`, `miguelgrinberg/Flask-Migrate`, `vinifmor/bauh`, `cvg/glue-factory`.
+  - `gh search code python 3.8 --filename .tool-versions`: `leosussan/fastapi-gino-arq-uvicorn`, `muxinc/mux-python`, `ozzs/monobox`, `crflynn/skranger`, `verypossible/very_plot`.
+
+One more \`node-actions\` repository followed #1101: the new \`node-version\` rule gave findings to two repositories that had none, leaving three zero-finding GitHub Actions repositories where \`stable\` needs four. The rule, fixed before scanning: \`gh search code actions/checkout@v6 --extension yml --limit 60\`, walk the results in order, keep unique repositories that are not forks, archives, larger than 50,000 KB, or already pinned, and stop as soon as the zero-finding count reaches four. The first one walked, \`asciimoo/hister\`, had no findings, so it is the only addition.
+
+The search returns different results on another day, so the pinned list above, not a re-run, is the record.
+
+Effect on the levels: `github-actions`, `nodejs`, `npm`, and `python` now meet `stable` on the corpus evidence, so none of them is grandfathered any more.
+
+## The held-out set
+
+The main corpus is circular: its expected findings were written by reviewing the same commits Evergreen is scored on, so 1.0 shows that nothing regressed and not that Evergreen generalizes (issue #740, decision 0013). The held-out set (`benchmarks/held-out-repositories.json`) is separate: it is never used to write or tune a rule, and its ground truth was committed before Evergreen scanned it.
+
+- **Rule, fixed on 2026-10-23.** The two repository searches behind the node and GitHub Actions entries above (JavaScript and TypeScript, 100 to 500 stars, last pushed 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars) were walked past the last repository they had already supplied. The first repositories after that point that are not in the corpus, are at most 50,000 KB, and have a workflow file are held out: 15 (five from the JavaScript list at ranks 76 to 97, ten from the TypeScript list at ranks 65 to 81; the lists ended at 100 results).
+- **Ground truth first.** `benchmarks/held-out/label.ts` labels the set from the text alone (it imports no detector and reads no registry): `uses: actions/checkout`, `actions/setup-node`, and `actions/cache` at major version 4 or lower, and workflow `node-version:` lines or `.nvmrc` naming Node.js 20 or lower. The labels were committed (`test(validation): write the held-out ground truth before any scan`) before the first scan.
+- **Scope.** The comparison covers only the families `github-actions.checkout`, `github-actions.setup-node`, `github-actions.cache`, and `nodejs.runtime`, by family, path, and line. A rule that is outside the labeller is not judged here.
+- **Run.** `npm run validate:held-out` (add `-- --output benchmarks/held-out-result.json` to record). It reports and never fails the build.
+
+First result (before #1101): 15 repositories, 55 true positives, 2 false positives, 18 false negatives, precision 0.9649, recall 0.7534. The 18 misses were all `nodejs.runtime` lines in workflows that pin Node.js 14 or 16 (for example `node-version: 16`): the GitHub Actions detector did not read the `node-version` of `actions/setup-node` at all. The main corpus never exercised that case, which is what a held-out set is for. Issue #1101 added it (see [DETECTORS.md](../DETECTORS.md)); the 130 `nodejs.runtime` findings it adds to the main corpus were each checked by reading the line.
+
+After #1101: 15 repositories, 73 true positives, 3 false positives, 0 false negatives, precision 0.9605, recall 1. The 3 "false positives" are not errors: two are `engines.node` declarations in `package.json` and one is a `strategy.matrix` Node.js list (`node: [8, 10, 12]` in `reid/node-jslint`), none of which the labeller reads. Because the rule was written after the first held-out run, this repository set no longer measures generalization for `node-version`; a fresh held-out set is needed for the next rule.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/validation/ecosystems.html
+
+# Ecosystem corpora
+
+The pinned repository sets and blind selection rules for each ecosystem detector. The summary and the accuracy table are on [Validation](../VALIDATION.md).
 
 ## Kubernetes corpus
 
@@ -4698,7 +5154,7 @@ Because the corpus scans every detector, every finding in these repositories is 
 
 The six earliest Swift repositories were chosen knowing their result, so each records `selection: "targeted"`. The seven below record `selection: "blind"`.
 
-The blind rule, fixed on 2026-10-21 before Evergreen ran on these additions: GitHub code search for `filename:xcode-version`. Walk unique repositories whose path is exactly `.xcode-version`, in the order returned that day. Skip a repository when it is a fork, archived, already in the corpus, not primarily Swift, or larger than 50,000 KB on GitHub. Keep it when the default branch still contains `.xcode-version`. Stop once the beta counts in [decision 0013](decisions/0013-detector-maturity.md) are met, which happened at seven. The seven, pinned at their default-branch commit on that date, are search results 12, 19, 20, 22, 24, 28, and 31: `paulgessinger/swift-paperless`, `microsoft/SwiftStreamingMarkdown`, `hhru/mvi-swift`, `babylonhealth/Stevenson`, `cgoldsby/TvOSMoreButton`, `micahflee/TM-SGNL-iOS`, and `griffin-stewie/BudouX.swift`. Results before and between those were skipped by the rule above (size, language, or an existing pin), including `signalapp/Signal-iOS`, `Simperium/simperium-ios`, and `seedco/Formalist`. The query returns different results on another day, so the pinned list above, not a re-run, is the record.
+The blind rule, fixed on 2026-10-21 before Evergreen ran on these additions: GitHub code search for `filename:xcode-version`. Walk unique repositories whose path is exactly `.xcode-version`, in the order returned that day. Skip a repository when it is a fork, archived, already in the corpus, not primarily Swift, or larger than 50,000 KB on GitHub. Keep it when the default branch still contains `.xcode-version`. Stop once the beta counts in [decision 0013](../decisions/0013-detector-maturity.md) are met, which happened at seven. The seven, pinned at their default-branch commit on that date, are search results 12, 19, 20, 22, 24, 28, and 31: `paulgessinger/swift-paperless`, `microsoft/SwiftStreamingMarkdown`, `hhru/mvi-swift`, `babylonhealth/Stevenson`, `cgoldsby/TvOSMoreButton`, `micahflee/TM-SGNL-iOS`, and `griffin-stewie/BudouX.swift`. Results before and between those were skipped by the rule above (size, language, or an existing pin), including `signalapp/Signal-iOS`, `Simperium/simperium-ios`, and `seedco/Formalist`. The query returns different results on another day, so the pinned list above, not a re-run, is the record.
 
 Ground truth: for each repository the `.xcode-version` line, every application-target `IPHONEOS_DEPLOYMENT_TARGET`, and any other detector declaration on that pin were read from the file and compared with the report. `swift-paperless` pins Xcode 27.1, which neither Xcode rule covers, and its workflows are commit-pinned at majors the rules do not match, so the expected set is empty. `TM-SGNL-iOS` writes `Xcode 16.1`, which is not a numeric pin, and its application target is iOS 15, so the Swift detector reports nothing there; the Ruby pin and the Action refs are expected findings of those detectors. `BudouX.swift` pins `14.3.1`. Every expected finding has a `maintainer-review` note naming the path, the exact line, and the vendor date the rule rests on.
 
@@ -4724,7 +5180,7 @@ Ground truth: for each repository the runtime lines (and any other detector find
 
 ## .NET blind selection
 
-The six earliest .NET repositories were chosen knowing their result, so each records `selection: "targeted"`. The `selection` field is optional on every corpus entry; `"blind"` means the repository was chosen by a rule fixed before Evergreen ran on it ([decision 0013](decisions/0013-detector-maturity.md)), and an entry without the field counts as not blind.
+The six earliest .NET repositories were chosen knowing their result, so each records `selection: "targeted"`. The `selection` field is optional on every corpus entry; `"blind"` means the repository was chosen by a rule fixed before Evergreen ran on it ([decision 0013](../decisions/0013-detector-maturity.md)), and an entry without the field counts as not blind.
 
 The blind rule, run on 2026-10-19: GitHub repository search for `language:C#`, 100 to 500 stars, last pushed from 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars descending (`gh search repos --language "C#" --stars "100..500" --updated "2021-01-01..2024-12-31" --archived=false --include-forks=false --sort stars --order desc`). Walk the results in order and take each repository whose default branch has at least one `*.csproj`, `*.fsproj`, `*.vbproj`, or `global.json`; skip the others (Unity packages with no project file). Stop at twelve, whatever Evergreen reports for them. The twelve, pinned at their default-branch commit on that date, are results 1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, and 16 of that search: rikimaru0345/Ceras, takuya-takeuchi/DlibDotNet, 0xthirteen/SharpStay, NightfallGT/Mercurial-Grabber, Dec0ne/ShadowSpray, Ceiridge/Chrome-Developer-Mode-Extension-Warning-Patcher, TerribleDev/OwinOAuthProviders, chsakell/mvcarchitecture, SeriaWei/ASP.NET-MVC-CMS, stanzhai/Html2Article, BeichenDream/SharpToken, and nettitude/SharpSocks. Ranks 2, 4, 6, and 8 have no project file. The query returns different results on another day, so the pinned list above, not a re-run, is the record.
 
@@ -4736,92 +5192,19 @@ Five public repositories at pinned commits cover the `ci-images` detector: `oatp
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the CI image ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line. The Azure dates come from the [hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule) and the [Azure DevOps blog deprecation plan](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/), not from these repositories. All five were chosen knowing their image labels, so each records `selection: "targeted"`.
 
-## The 300-repository corpus
+---
 
-The corpus now has 300 repositories: the 189 earlier entries and 111 added in one pass, every one with `selection: "blind"`. They fill the ecosystems that had the fewest repositories: container, Go, Rust, Ruby, PHP, Android, C/C++, CI runner images, Dart, Terraform, database runtimes, and shell got seven each, and serverless, GitHub Actions, and Swift got nine each.
+Source: https://arminazimi.github.io/evergreen/validation/running-the-corpus.html
 
-The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: for each query below, run `gh search code <query> --limit 60`, walk the results in the order returned that day, and keep the first N unique repositories that are not forks, not archived, not larger than 50,000 KB on GitHub, and not already in the corpus (or chosen by an earlier query); where the entry says root only, the matching path must be at the repository root. Pin each at its default-branch commit on that date. Licensing: only repository metadata, pinned commit IDs, paths, line numbers, and one short quoted line per finding are stored; no repository content is vendored, and each repository is fetched from GitHub at its pinned commit at run time. The query returns different results on another day, so the pinned list, not a re-run, is the record.
+# Running the corpus
 
-- `go` (7): `gh search code go 1.22 --filename go.mod`; `gh search code go 1.26 --filename go.mod`: `lwolf/kube-cleanup-operator`, `ICKelin/gtun`, `keycard-tech/keycard-go`, `Johonsoy/SmartStashDB`, `replicate/cog`, `charmbracelet/wish`, `slackhq/go-audit`.
-- `rust` (7): `gh search code atty --filename Cargo.toml`; `gh search code ansi_term --filename Cargo.toml`; `gh search code tempdir --filename Cargo.toml`: `nikivdev/code`, `rathole-org/rathole`, `ogham/dog`, `suptejas/fleet`, `dflemstr/rq`, `databricks/click`, `gchp/iota`.
-- `ruby` (7): `gh search code 3.1.4 --filename .ruby-version`; `gh search code 2.7.8 --filename .ruby-version`; `gh search code 3.4.1 --filename .ruby-version`: `67272-App-Design-Dev/PATS_v1_r7`, `HomeBusProjects/HomeBus`, `Kgomotso196/Blog`, `nmacawile/rails-chat-api`, `maedadev/bizside-ruby`, `nsidc/vagrant-vsphere`, `nov/web_authn_sample`.
-- `android` (7): `gh search code com.android.billingclient:billing --filename build.gradle`; `gh search code com.android.billingclient:billing --filename build.gradle.kts`: `Aefyr/SAI`, `anjlab/android-inapp-billing-v3`, `Eajy/MaterialDesignDemo`, `serso/android-checkout`, `facebook/facebook-android-sdk`, `BranchMetrics/android-branch-deep-linking-attribution`, `d4rken-org/octi`.
-- `cpp` (7): `gh search code cmake_minimum_required(VERSION 2.8 --filename CMakeLists.txt`; `gh search code cmake_minimum_required(VERSION 3.28 --filename CMakeLists.txt`: `BYVoid/uchardet`, `Xtra-Computing/thundergbm`, `wavebitscientific/functional-fortran`, `karimnaaji/vectiler`, `Off-World-Live/obs-spout2-plugin`, `QBDI/QBDI`, `Hapaxia/SelbaWard`.
-- `ci-images` (7): `gh search code ubuntu-20.04 --filename azure-pipelines.yml`; `gh search code ubuntu-24.04 --filename azure-pipelines.yml`: `revery-ui/revery`, `microsoft/FASTER`, `hasura/graphqurl`, `inikep/lizard`, `Jackett/Jackett`, `dotnet/vscode-csharp`, `isomorphic-git/isomorphic-git`.
-- `database` (7): `gh search code postgres:13 --extension yml`; `gh search code engine_version = "5.7" --extension tf`: `gitcoinco/grants-stack`, `jayfk/launchr`, `Kuper-Tech/sbmt-outbox`, `replicase/pgcapture`, `tmknom/example-pragmatic-terraform`, `PacktPublishing/Effective-DevOps-with-AWS-Second-Edition`, `RajitPaul11/terraform_aws`.
-- `container` (7): `gh search code FROM node:24 --filename Dockerfile`; `gh search code FROM node:16 --filename Dockerfile`: `daimon3332/address`, `SpectrAI-Initiative/InnoClaw`, `navikt/security-playbook`, `rsmbl/Resemble.js`, `fanchangyong/deershare`, `firemakergk/aquar-home`, `sibbl/hass-lovelace-kindle-screensaver`.
-- `terraform` (7): `gh search code required_version 1.12 --extension tf`; `gh search code required_version ~> 1.12 --extension tf`; `gh search code required_version --extension tf --filename versions.tf`: `skax-ca/iac-module-library`, `ql4b/cloudless-infra`, `terraform-google-modules/terraform-google-container-vm`, `cloudposse/terraform-aws-cicd`, `cloudposse/terraform-aws-ec2-instance`, `terraform-google-modules/terraform-google-log-export`, `GoogleCloudPlatform/notebooks-blueprint-security`.
-- `node-actions` (9): `gh search code actions/checkout@v2 --extension yml`; `gh search code actions/checkout@v6 --extension yml`: `jugglerchris/rust-html2text`, `CausalAIBook/MetricsMLNotebooks`, `realabbas/Github-Actions-React-Native`, `ktye/i`, `lamdow8/lamdow8.github.io`, `bjdash/apic`, `lpereira/lwan`, `shivammathur/setup-php`, `hellofresh/action-changed-files`.
-- `shell` (7): `gh search code #Requires -Version 7 --extension ps1`; `gh search code PowerShellVersion --filename psd1`: `domaindrivendev/Swashbuckle.AspNetCore`, `PowerShell/PSReadLine`, `SteeltoeOSS/Steeltoe`, `Kevin-Robertson/Inveigh`, `psake/psake`, `cyberark/ACLight`, `pester/Pester`.
-- `php` (7): `gh search code ^7.4 --filename composer.json`; `gh search code ^8.3 --filename composer.json`: `dreamfactorysoftware/dreamfactory`, `doctrine/annotations`, `symfony/routing`, `driesvints/blade-icons`, `spatie/laravel-backup`, `mckenziearts/laravel-notify`, `spatie/db-dumper`.
-- `dart` (7): `gh search code ^3.8.0 --filename pubspec.yaml`; `gh search code ^3.10.0 --filename pubspec.yaml`: `bensonarafat/super_tooltip`, `Mr-Pepe/syncable`, `rithik-dev/firebase_phone_auth_handler`, `dickermoshe/convex-dart`, `OpenFlutter/fluwx`, `Yubico/yubioath-flutter`, `dartgfx/gpux`.
-- `serverless` (9): `gh search code nodejs14.x --filename serverless.yml`; `gh search code python3.8 --filename template.yaml`; `gh search code nodejs22.x --filename serverless.yml`: `SmartThingsCommunity/weather-color-light-smartapp-nodejs`, `ZeroSharp/serverless-php`, `Toola-bakery/Toola`, `ashokatechmin/Messcat`, `serverlesspub/imagemagick-aws-lambda-2`, `awslabs/aws-config-rdklib`, `aws-samples/aws-lambda-extensions`, `slackapi/bolt-js`, `webpro-nl/knip`.
-- `swift` (9): `gh search code xcode --filename .xcode-version`; `gh search code IPHONEOS_DEPLOYMENT_TARGET = 12.0 --filename project.pbxproj`: `sarthak-behl/Signal-iOS`, `palak-ios-play/SecureChat-iOS`, `NorthWolfLabs/CodexGauge`, `Shopify/mobile-buy-sdk-ios`, `ReSwift/ReSwift`, `Swinject/Swinject`, `aslanyanhaik/youtube-iOS`, `square/Valet`, `swiftlang/swift-corelibs-xctest`.
-
-Ground truth: for each repository the harness report was read line by line at the pinned commit, and every expected finding has a `maintainer-review` note quoting the path, line, and the matching text. The Go, Rust, Ruby, Android, C/C++, CI image, serverless, and GitHub Actions findings were also cross-checked against an independent `grep` over the pinned files (not Evergreen's output); the only differences are the scope boundaries below. Because the corpus scans every detector, every finding in these repositories is recorded, not only the ones for the ecosystem it was selected for. Findings of the npm, Node.js, Python, and .NET detectors were checked by reading the line, not by a second search. Several repositories that matched a version query have no finding in that ecosystem, which is expected: a range such as PHP `^7.4 || ^8.0` or Dart `sdk: ^3.8.0` still allows a supported release and is not an end-of-life declaration.
-
-Scope boundaries seen while checking, none of which is a finding in this corpus: the GitHub Actions detector reads only the root `.github/workflows` directory, so nested workflows (`pkg/cli/init-templates/base/.github/workflows` in `replicate/cog`, a `fixtures` directory in `webpro-nl/knip`) and composite `action.yml` files (`realabbas/Github-Actions-React-Native`, `awslabs/aws-config-rdklib`, `sarthak-behl/Signal-iOS`) are not scanned; the CI image detector reads files named `azure-pipelines.yml`, not `azure-pipelines-full.yml` (`microsoft/FASTER`); and the Android detector does not report a Play Billing pin written as `"gplayImplementation"("...")` (`d4rken-org/octi`) or inside an `androidTestImplementation` call (`BranchMetrics/android-branch-deep-linking-attribution`). These are candidates for follow-up issues, not corpus entries.
-
-## The 456-repository corpus
-
-Issue #740 added 156 repositories to the 300 above to close the evidence gaps in [decision 0013](decisions/0013-detector-maturity.md) for the four detectors that held `Supported` before the rules existed. Every one records `selection: "blind"`.
-
-The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: GitHub repository search for a language, 100 to 500 stars, last pushed from 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars descending (`gh search repos --language <language> --stars 100..500 --updated 2021-01-01..2024-12-31 --archived=false --include-forks=false --sort stars --order desc --limit 100`). Walk the results in order and keep a repository unless it is already in the corpus, is larger than 50,000 KB, or lacks the file the ecosystem needs. Pin each at its default-branch commit on that date. Each expected finding is the scan result with the line read at the pinned commit, recorded as a `maintainer-review` note.
-
-- `node` (52, language JavaScript, a root `package.json`): `lucasbento/graphql-pokemon`, `adobe-photoshop/generator-assets`, `gruntjs/grunt-contrib-requirejs`, `mathiasbynens/CSS.escape`, `bitpay/bitauth`, `cloudinary/cloudinary-react`, `discordjs/RPC`, `pilwon/node-yahoo-finance`, `rpl/flow-coverage-report`, `sourcecred/sourcecred`, `Brainfock/Brainfock`, `manifoldfinance/defi-threat`, `remarkjs/remark-toc`, `fstirlitz/luaparse`, `mobxjs/mobx-react-todomvc`, `dxxzst/OfflineMap`, `ElementUI/element-theme`, `algorithm-visualizer/algorithms`, `d3/d3-interpolate`, `twilio-labs/call-gpt`, `jiayisheji/blog`, `svrxjs/svrx`, `wix-incubator/react-native-keyboard-aware-scrollview`, `malte-wessel/react-textfit`, `bartve/disconnect`, `insodoc/insomnia-documenter`, `whoisandy/react-blocks`, `o2team/elf`, `standard/ts-standard`, `briancavalier/slides`, `YataoZhang/my-single-spa`, `parmsang/gatsby-starter-ecommerce`, `acode/copenhagen`, `snorpey/triangulation`, `bchiang7/octoprofile`, `mahnunchik/gulp-responsive`, `cferdinandi/build-tool-boilerplate`, `mixtur/webpack-spritesmith`, `wzpan/hexo-generator-search`, `dai-shi/react-hooks-async`, `lazd/gulp-replace`, `mapmeld/profanity-pgp`, `lbovet/docson`, `lexich/redux-api`, `smartcontractkit/defi-minimal`, `allegro/node-worker-nodes`, `drawcall/AgileJS`, `tani/cheeriogs`, `Semantic-Org/Semantic-UI-CSS`, `uncleLian/vue2-news`, `abramenal/cypress-file-upload`, `CoreyGinnivan/whocanuse`.
-- `python` (34, language Python, a root `pyproject.toml`, `setup.py`, `setup.cfg`, `Pipfile`, or `requirements.txt`): `NTMC-Community/MatchZoo-py`, `layer8secure/SilentHound`, `LAION-AI/natural_voice_assistant`, `caserec/CaseRecommender`, `SqueezeAILab/TinyAgent`, `jarus/flask-testing`, `Deadpool2000/Paybag`, `alxschwrz/codex_py2cpp`, `harperreed/photo-similarity-search`, `FranxYao/Long-Context-Data-Engineering`, `DougDougGithub/Babagaboosh`, `aryanvikash/Youtube-Downloader-Bot`, `tappi287/openvr_fsr_app`, `microsoft/powerbi-jupyter`, `JPCERTCC/MalConfScan`, `msight-tech/research-ms-loss`, `HazyResearch/evaporate`, `achembarpu/pockyt`, `blacknbunny/CVE-2018-10933`, `peract/peract`, `sweetcocoa/pop2piano`, `shichao-an/leetcode-python`, `simonw/db-to-sqlite`, `alexdelorenzo/cast_control`, `prateekiiest/Code-Sleep-Python`, `SourceCode-AI/aura`, `szc19990412/TransMIL`, `PrithivirajDamodaran/Styleformer`, `elbayadm/attn2d`, `CryptoGnome/Limit-Sniper`, `kturung/langgraph_streamlit_codeassistant`, `busimus/cutelog`, `flopp/GpxTrackPoster`, `corenel/pytorch-adda`.
-- `node-actions` (13, language TypeScript, at least one workflow file in `.github/workflows`): `iamraphson/react-paystack`, `dai-shi/reactive-react-redux`, `mgmeyers/obsidian-list-callouts`, `rubenspgcavalcante/webpack-extension-reloader`, `innocenzi/tailwindcss-theming`, `lbdremy/solr-node-client`, `galnir/Master-Bot`, `ericnorris/striptags`, `xmindltd/xmind-sdk-js`, `rametta/pratica`, `wessberg/rollup-plugin-ts`, `Ff00ff/mammoth`, `bryanmylee/svelte-headless-table`.
-
-A second Python pass followed, because the 34 repositories above held only 4 Python findings and `stable` needs 60. The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: for each query below, run `gh search code <query> --filename <file> --limit 60`, walk the results in the order returned that day, and keep the first five or six unique repositories whose matching path is exactly that file at the root, skipping forks, archives, repositories larger than 50,000 KB, and repositories already in the corpus. Pin each at its default-branch commit on that date. The queries look for old Python declarations, so they are expected to produce findings, but the repository is chosen by the query result and not by any Evergreen output.
-
-- `python` (56 more):
-  - `gh search code requires-python = ">=3.8" --filename pyproject.toml`: `cobrateam/splinter`, `pallets-eco/flask-debugtoolbar`, `Aiven-Open/pghoard`, `epfl-lts2/pygsp`, `isaiahbjork/Auto-GPT-Crypto-Plugin`, `widgetti/ipyvuetify`.
-  - `gh search code python_requires=">=3.7" --filename setup.py`: `shenweichen/GraphEmbedding`, `Overv/outrun`, `BasicProtein/AugmentCode-Free`, `machow/siuba`, `LAMDA-NJU/Deep-Forest`, `drunkdream/weread-exporter`.
-  - `gh search code 3.8 --filename .python-version`: `bndr/pipreqs`, `login-securite/lsassy`, `Lawouach/WebSocket-for-Python`, `n8henrie/pycookiecheat`, `DarrenOfficial/dpaste`, `psevensas/DjangoChannelsGraphqlWs`.
-  - `gh search code python-3.8 --filename runtime.txt`: `AnimeKaizoku/EnterpriseALRobot`, `weareasterisk/gavel2`, `AbirHasan2005/TG-String-Session`, `IceKirby/NaTrave`, `urschrei/hexagrams`, `zolabar/trendPy`.
-  - `gh search code python_version = "3.7" --filename Pipfile`: `hustlei/QssStylesheetEditor`, `DanMcInerney/pymetasploit3`, `donsheehy/datastructures`, `CodeForPhilly/chime`, `mozilla/crlite`, `prideout/svg3d`.
-  - `gh search code requires-python = ">=3.7" --filename pyproject.toml`: `LAION-AI/CLAP`, `ncclient/ncclient`, `nschloe/tiptop`, `nschloe/perfplot`, `huggingface/hf_transfer`, `zu1k/Good-MITM`.
-  - `gh search code python_requires=">=3.6" --filename setup.py`: `alibaba/tidevice`, `rachpt/lanzou-gui`, `Hsury/BiliDrive`, `malinkang/weread2notion-pro`, `maxhumber/gazpacho`.
-  - `gh search code python = "^3.7" --filename pyproject.toml`: `bee-san/pyWhat`, `Gerapy/Gerapy`, `jayfk/statuspage`, `python-gino/gino`, `wustho/epr`.
-  - `gh search code requires-python = ">=3.6" --filename pyproject.toml`: `doableware/djongo`, `python273/vk_api`, `miguelgrinberg/Flask-Migrate`, `vinifmor/bauh`, `cvg/glue-factory`.
-  - `gh search code python 3.8 --filename .tool-versions`: `leosussan/fastapi-gino-arq-uvicorn`, `muxinc/mux-python`, `ozzs/monobox`, `crflynn/skranger`, `verypossible/very_plot`.
-
-One more \`node-actions\` repository followed #1101: the new \`node-version\` rule gave findings to two repositories that had none, leaving three zero-finding GitHub Actions repositories where \`stable\` needs four. The rule, fixed before scanning: \`gh search code actions/checkout@v6 --extension yml --limit 60\`, walk the results in order, keep unique repositories that are not forks, archives, larger than 50,000 KB, or already pinned, and stop as soon as the zero-finding count reaches four. The first one walked, \`asciimoo/hister\`, had no findings, so it is the only addition.
-
-The search returns different results on another day, so the pinned list above, not a re-run, is the record.
-
-Effect on the levels: `github-actions`, `nodejs`, `npm`, and `python` now meet `stable` on the corpus evidence, so none of them is grandfathered any more.
-
-## The held-out set
-
-The main corpus is circular: its expected findings were written by reviewing the same commits Evergreen is scored on, so 1.0 shows that nothing regressed and not that Evergreen generalizes (issue #740, decision 0013). The held-out set (`benchmarks/held-out-repositories.json`) is separate: it is never used to write or tune a rule, and its ground truth was committed before Evergreen scanned it.
-
-- **Rule, fixed on 2026-10-23.** The two repository searches behind the node and GitHub Actions entries above (JavaScript and TypeScript, 100 to 500 stars, last pushed 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars) were walked past the last repository they had already supplied. The first repositories after that point that are not in the corpus, are at most 50,000 KB, and have a workflow file are held out: 15 (five from the JavaScript list at ranks 76 to 97, ten from the TypeScript list at ranks 65 to 81; the lists ended at 100 results).
-- **Ground truth first.** `benchmarks/held-out/label.ts` labels the set from the text alone (it imports no detector and reads no registry): `uses: actions/checkout`, `actions/setup-node`, and `actions/cache` at major version 4 or lower, and workflow `node-version:` lines or `.nvmrc` naming Node.js 20 or lower. The labels were committed (`test(validation): write the held-out ground truth before any scan`) before the first scan.
-- **Scope.** The comparison covers only the families `github-actions.checkout`, `github-actions.setup-node`, `github-actions.cache`, and `nodejs.runtime`, by family, path, and line. A rule that is outside the labeller is not judged here.
-- **Run.** `npm run validate:held-out` (add `-- --output benchmarks/held-out-result.json` to record). It reports and never fails the build.
-
-First result (before #1101): 15 repositories, 55 true positives, 2 false positives, 18 false negatives, precision 0.9649, recall 0.7534. The 18 misses were all `nodejs.runtime` lines in workflows that pin Node.js 14 or 16 (for example `node-version: 16`): the GitHub Actions detector did not read the `node-version` of `actions/setup-node` at all. The main corpus never exercised that case, which is what a held-out set is for. Issue #1101 added it (see [DETECTORS.md](DETECTORS.md)); the 130 `nodejs.runtime` findings it adds to the main corpus were each checked by reading the line.
-
-After #1101: 15 repositories, 73 true positives, 3 false positives, 0 false negatives, precision 0.9605, recall 1. The 3 "false positives" are not errors: two are `engines.node` declarations in `package.json` and one is a `strategy.matrix` Node.js list (`node: [8, 10, 12]` in `reid/node-jslint`), none of which the labeller reads. Because the rule was written after the first held-out run, this repository set no longer measures generalization for `node-version`; a fresh held-out set is needed for the next rule.
-
-## Precision thresholds
-
-[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `java`, `kubernetes`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
-
-```text
-THRESHOLD  npm: precision 0.9 is below the required 0.95
-```
-
-A detector at `beta` or `stable` also has a recall floor, 0.80 and 0.90 (decision 0013), computed as true positives over true positives plus false negatives; a full run below it prints `THRESHOLD  <detector>: recall … is below the required …`, fails, and cannot be recorded. Every corpus entry records `selection` (`blind` or `targeted`), and a test fails when one does not; entries added before the field existed were all picked from reviewed migration commits or known findings, so they record `targeted`.
-
-The weekly corpus workflow therefore fails on a precision regression even if the exact-match comparison is later relaxed. Mark a new detector `"stable": false` until its corpus coverage is meaningful; it is still scored and reported but never fails the run. Never lower a floor to make a run pass.
+How to fetch, cache, narrow, record, and read a corpus run. The summary and the accuracy table are on [Validation](../VALIDATION.md).
 
 ## Fetching and the checkout cache
 
 The harness fetches up to sixteen repositories at once; change that with `--concurrency <n>` or `EVERGREEN_CORPUS_CONCURRENCY`. Scans and the report stay in corpus order.
 
-By default it fetches each repository as a blobless shallow fetch plus a sparse checkout of only the files the detectors declare they read ([decision 0015](decisions/0015-corpus-fetch-strategy.md)): a cold full run takes about a minute and fetches about 190 MB, and the results are identical to a full checkout. `EVERGREEN_CORPUS_FETCH=shallow` fetches complete checkouts instead. `node dist/benchmarks/fetch-strategies.js --strategy <shallow|sparse|tarball>` re-measures the options.
+By default it fetches each repository as a blobless shallow fetch plus a sparse checkout of only the files the detectors declare they read ([decision 0015](../decisions/0015-corpus-fetch-strategy.md)): a cold full run takes about a minute and fetches about 190 MB, and the results are identical to a full checkout. `EVERGREEN_CORPUS_FETCH=shallow` fetches complete checkouts instead. `node dist/benchmarks/fetch-strategies.js --strategy <shallow|sparse|tarball>` re-measures the options.
 
 Every corpus commit is pinned, so a checkout never changes. Set `EVERGREEN_CORPUS_CACHE=<dir>` (for example `~/.cache/evergreen-corpus`) to keep each one on disk as `<owner>__<repo>@<commit>` and skip the network when it is already there. Entries are written to a temporary directory and renamed into place, and `.git` is removed because scans read files only, so an interrupted run never leaves a half-filled entry. A sparse entry carries an `.evergreen-fetch` marker naming the declarations it was built from; if a detector later declares more files, that entry is refetched rather than reused. Unset, there is no cache and a run behaves as before. A warm run reports the same true positives, false positives, false negatives, and findings as a cold one.
 
@@ -4886,7 +5269,7 @@ npm run validate:public-repos -- --changed            # changes since origin/mai
 npm run validate:public-repos -- --changed release/1  # a different base
 ```
 
-`--changed [base]` reads `git diff --name-only <base>...HEAD` together with uncommitted and untracked files and maps them to corpus ecosystems with [`benchmarks/corpus-affected.ts`](../benchmarks/corpus-affected.ts): `src/detectors/<name>`, `registry/<file>.json`, and `tests/fixtures/<name>/` map to the ecosystems that detector serves (for example `src/detectors/npm.ts` and `registry/nodejs.json` to `node`, the GitHub Actions detector to `node-actions`), and shared files map to every ecosystem whose detectors use them (`src/source-usage.ts` to nine ecosystems; `src/engine.ts`, `src/sdk.ts`, and the other scan-wide files to all twelve). It prints one `changed:` line per chosen ecosystem naming the paths behind it. If nothing maps, it says so and exits 0 without fetching. The result is a filtered run like any other, and it combines with `--ecosystem` and `--repo`.
+`--changed [base]` reads `git diff --name-only <base>...HEAD` together with uncommitted and untracked files and maps them to corpus ecosystems with [`benchmarks/corpus-affected.ts`](../../benchmarks/corpus-affected.ts): `src/detectors/<name>`, `registry/<file>.json`, and `tests/fixtures/<name>/` map to the ecosystems that detector serves (for example `src/detectors/npm.ts` and `registry/nodejs.json` to `node`, the GitHub Actions detector to `node-actions`), and shared files map to every ecosystem whose detectors use them (`src/source-usage.ts` to nine ecosystems; `src/engine.ts`, `src/sdk.ts`, and the other scan-wide files to all twelve). It prints one `changed:` line per chosen ecosystem naming the paths behind it. If nothing maps, it says so and exits 0 without fetching. The result is a filtered run like any other, and it combines with `--ecosystem` and `--repo`.
 
 The map is tested: every built-in detector, every corpus ecosystem, every directory under `src/detectors/`, every file in `registry/`, and every shared file a detector imports must be listed, so adding a detector fails `npm run check` until it is mapped. Other work can import the same module, for example a pull request workflow.
 
@@ -4929,19 +5312,19 @@ Other harness flags such as `--concurrency` and `--offline` are passed through. 
 
 ## Pull request check
 
-Pull request CI (`ci.yml`) stays offline, so a detector or rule change that adds false positives would only be found in the weekly run. [`.github/workflows/corpus-pr.yml`](../.github/workflows/corpus-pr.yml) closes that gap in a separate workflow: when a pull request touches `src/`, `registry/`, `tests/fixtures/`, or `benchmarks/`, it maps the changed files to corpus ecosystems with the same `--changed` logic described above and runs only those, using the weekly run's checkout cache (restore only).
+Pull request CI (`ci.yml`) stays offline, so a detector or rule change that adds false positives would only be found in the weekly run. [`.github/workflows/corpus-pr.yml`](../../.github/workflows/corpus-pr.yml) closes that gap in a separate workflow: when a pull request touches `src/`, `registry/`, `tests/fixtures/`, or `benchmarks/`, it maps the changed files to corpus ecosystems with the same `--changed` logic described above and runs only those, using the weekly run's checkout cache (restore only).
 
-Before it fetches anything, the workflow also runs `node dist/benchmarks/corpus-snapshot.js`, and the same comparison runs in `npm test` for every pull request. [`benchmarks/corpus-snapshot.json`](../benchmarks/corpus-snapshot.json) records how many findings, in how many repositories, the corpus expects for each detector. A change that removes or weakens an expectation, so that a known finding would no longer be required, fails with a `SNAPSHOT` line until the snapshot is updated on purpose with `node dist/benchmarks/corpus-snapshot.js --write`; that edit is a reviewable diff. Adding expectations never fails; run `--write` to ratchet the snapshot up.
+Before it fetches anything, the workflow also runs `node dist/benchmarks/corpus-snapshot.js`, and the same comparison runs in `npm test` for every pull request. [`benchmarks/corpus-snapshot.json`](../../benchmarks/corpus-snapshot.json) records how many findings, in how many repositories, the corpus expects for each detector. A change that removes or weakens an expectation, so that a known finding would no longer be required, fails with a `SNAPSHOT` line until the snapshot is updated on purpose with `node dist/benchmarks/corpus-snapshot.js --write`; that edit is a reviewable diff. Adding expectations never fails; run `--write` to ratchet the snapshot up.
 
 The job summary lists the chosen ecosystems and every `UNEXPECTED` and `MISSING` line; the full report is attached as the `corpus-pr-result-<run id>` artifact. If nothing maps, it says so and fetches nothing. The workflow is **not a required check**: keep it out of branch protection, because it needs the network and GitHub's availability. It has `contents: read` only, no secrets, and no `pull_request_target`, and the base branch reaches the shell through an environment variable, never an inline expression. Treat a red run as a finding to explain in the pull request, using the rules in "Weekly run and refreshing pins" above.
 
 ## Keeping `lastFullRun` current
 
-Decision 0013 requires a recorded full run within 30 days for `beta` and `stable`. [`.github/workflows/corpus-record.yml`](../.github/workflows/corpus-record.yml) runs `npm run record:corpus-run` on the 1st and 15th of each month (and on demand) and opens a pull request with the result. It records nothing when the run has a false positive, a false negative, or a missed floor, so a failed run leaves the old record and a red workflow. A maintainer reviews and merges that pull request; the record is never pushed to `main` directly.
+Decision 0013 requires a recorded full run within 30 days for `beta` and `stable`. [`.github/workflows/corpus-record.yml`](../../.github/workflows/corpus-record.yml) runs `npm run record:corpus-run` on the 1st and 15th of each month (and on demand) and opens a pull request with the result. It records nothing when the run has a false positive, a false negative, or a missed floor, so a failed run leaves the old record and a red workflow. A maintainer reviews and merges that pull request; the record is never pushed to `main` directly.
 
 ## Weekly run and refreshing pins
 
-Pull request CI never touches the network, so the corpus is checked by [`.github/workflows/corpus.yml`](../.github/workflows/corpus.yml) every Monday and on demand (Actions → Public corpus → Run workflow). The result is uploaded as the `corpus-result-<run id>` artifact even when the comparison fails. A failing run prints one line per mismatch, for example:
+Pull request CI never touches the network, so the corpus is checked by [`.github/workflows/corpus.yml`](../../.github/workflows/corpus.yml) every Monday and on demand (Actions → Public corpus → Run workflow). The result is uploaded as the `corpus-result-<run id>` artifact even when the comparison fails. A failing run prints one line per mismatch, for example:
 
 ```text
 UNEXPECTED owner/repo@4ec1ebe0fa: github-actions.setup-node.node20:.github/workflows/ci.yml:20
@@ -4951,6 +5334,14 @@ MISSING    owner/repo@4ec1ebe0fa: nodejs.runtime.eol-18:package.json:83
 `UNEXPECTED` means Evergreen reported a finding the corpus does not list; `MISSING` means a listed finding was not reported. Because every commit is pinned, a mismatch means Evergreen's rules or detectors changed, not the repository. Decide which side is right before touching the corpus: fix the detector or rule when the corpus is right, and update the expected entry (with its `groundTruthSource`) only when the new result is correct.
 
 To move an entry to a newer commit, change its `commit` to the full 40-character SHA, run `npm run observe:public-repos` to list what Evergreen now reports, review every difference against the repository at that commit, update `expected`, and run `npm run validate:public-repos` until it passes. Never refresh a pin only to make a failing run green.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/validation/differential-testing.html
+
+# Differential testing
+
+How Evergreen's findings compare with Renovate, xeol, and Pluto, and what each disagreement means. The summary and the accuracy table are on [Validation](../VALIDATION.md).
 
 ## Differential testing against Renovate
 
@@ -4972,9 +5363,9 @@ The two tools answer different questions. Renovate says a newer version exists a
 
 Outcomes: `agree`, `evergreen-only`, `renovate-only`, and `inconclusive` (Renovate skipped the lookup, for example `github-token-required` for Actions when run without a GitHub token, so it says nothing either way). Runtime findings (`nodejs.runtime.*`, `python.runtime.*`) have no Renovate counterpart and are listed as not comparable. Matching is by file and dependency name because Renovate gives no line numbers.
 
-The committed reports are combined into one reviewable page, [differential-report.md](differential-report.md) (and [differential-report.json](differential-report.json)), which lists every disagreement with links to the declaration at the pinned commit and to each tool's evidence. Regenerate it with `npm run differential:report` after adding or refreshing a report; a test fails when it drifts from the reports.
+The committed reports are combined into one reviewable page, [differential-report.md](../differential-report.md) (and [differential-report.json](../differential-report.json)), which lists every disagreement with links to the declaration at the pinned commit and to each tool's evidence. Regenerate it with `npm run differential:report` after adding or refreshing a report; a test fails when it drifts from the reports.
 
-Results for the five container corpus repositories, with Renovate 44.164 run with a read-only GitHub token on 2026-10-23 (reports in [`benchmarks/differential/reports/`](../benchmarks/differential/reports/), trimmed Renovate output in `tests/fixtures/differential/`):
+Results for the five container corpus repositories, with Renovate 44.164 run with a read-only GitHub token on 2026-10-23 (reports in [`benchmarks/differential/reports/`](../../benchmarks/differential/reports/), trimmed Renovate output in `tests/fixtures/differential/`):
 
 | Repository | Agree | Evergreen-only | Renovate-only | Inconclusive |
 | --- | --- | --- | --- | --- |
@@ -4991,7 +5382,6 @@ What it shows:
 - **Renovate-only** are npm deprecations Evergreen has no rule for (for example `@types/diff`, `@types/glob`, `@nuxt/types`, `react-waypoint`). This is the real gap: the `npm-deprecated` importer only checks a candidate list, so these names are candidates to add. Each is a Renovate observation, not evidence; the importer still requires the registry's own deprecation notice.
 - **Evergreen-only** is not a real disagreement yet. All eight entries are packages Renovate does list, under a different spelling: the comparison reads the package name from the rule id, so `@types/dotenv` becomes `types.dotenv` and `next` with a version-line rule becomes `next.14`. Six of the Renovate-only `@types/*` entries are the same packages seen from the other side. Matching by the rule's package name is a follow-up to this comparison.
 
-
 ## Differential testing against xeol
 
 [xeol](https://github.com/xeol-io/xeol) reports release cycles of products (runtimes, databases, npm packages) that endoflife.date lists as past end of life, for versions it finds in lockfiles and image filesystems. A maintainer runs it (it downloads an EOL database; it is not part of `npm run check` or any scan):
@@ -5003,7 +5393,7 @@ npm run differential:xeol -- --xeol xeol.json --repository <checkout> --name own
 
 The report compares by product, not by file: xeol names the lockfile that resolved a version, Evergreen names the manifest that declares it. Evergreen runtime, container image, and npm package findings are compared with the xeol product of the same name (`node` images with `nodejs`, `golang` with `go`, `postgres` with `postgresql`). Outcomes: `agree` (both report the product), `evergreen-only`, and `xeol-only`. GitHub Actions, CI images, and the other families xeol has no product for are listed as not comparable.
 
-Results for the five repositories of the Renovate comparison, with xeol 0.10.8 run with `dir:` on the pinned checkouts on 2026-10-23 (reports in [`benchmarks/differential/reports/xeol/`](../benchmarks/differential/reports/xeol/), trimmed xeol output in `tests/fixtures/xeol/`):
+Results for the five repositories of the Renovate comparison, with xeol 0.10.8 run with `dir:` on the pinned checkouts on 2026-10-23 (reports in [`benchmarks/differential/reports/xeol/`](../../benchmarks/differential/reports/xeol/), trimmed xeol output in `tests/fixtures/xeol/`):
 
 | Repository | Agree | Evergreen-only | xeol-only |
 | --- | --- | --- | --- |
@@ -5029,7 +5419,7 @@ npm run differential:pluto -- --pluto pluto.json --repository <checkout> --name 
 
 Findings are compared by file, kind, API group, and version. Outcomes: `agree` (Pluto reports the version as removed at the target version), `evergreen-only`, `pluto-only`, and `pluto-deprecated-only` (deprecated but still served; Evergreen judges only removed versions, so this is not a disagreement). Non-Kubernetes findings are listed as not comparable.
 
-Results for the seventeen Kubernetes corpus repositories, with Pluto 5.24.4 at target `k8s=v1.36.0` on the pinned checkouts on 2026-10-23 (reports in [`benchmarks/differential/reports/pluto/`](../benchmarks/differential/reports/pluto/), trimmed Pluto output in `tests/fixtures/pluto/`; repositories with no Kubernetes finding from either tool are left out of the table):
+Results for the seventeen Kubernetes corpus repositories, with Pluto 5.24.4 at target `k8s=v1.36.0` on the pinned checkouts on 2026-10-23 (reports in [`benchmarks/differential/reports/pluto/`](../../benchmarks/differential/reports/pluto/), trimmed Pluto output in `tests/fixtures/pluto/`; repositories with no Kubernetes finding from either tool are left out of the table):
 
 | Repository | Agree | Evergreen-only | Pluto-only | Pluto deprecated-only |
 | --- | --- | --- | --- | --- |
@@ -5053,53 +5443,6 @@ Every difference has one of three causes, none of them a wrong finding:
 - **Pluto-only** are `kind: List` items (`hasura/skor`, one Pluto test asset), JSON manifests, and files under `fixtures/` and `testdata/` directories (`doitintl/kube-no-trouble` has 38, `FairwindsOps/pluto` three). The detector page lists these as not judged. Pluto finding more here is the known cost of Evergreen's conservative scope, and the same forms are why the blind repositories were rechecked by hand.
 - **Disagreement on a version Evergreen does judge** is zero: all 62 manifests that both tools read agree on removed.
 
-## Accuracy by detector
-
-Precision is true positives over true positives plus false positives; recall is true positives over true positives plus false negatives. Both come from the last full corpus run recorded in [`benchmarks/thresholds.json`](../benchmarks/thresholds.json), so a reader can regenerate every number: run `npm run record:corpus-run`, then `npm run build:coverage`. The table below is generated; a test fails when it drifts from the recorded run. `nodejs` is the Node.js runtime rules served by the npm detector. A dash means the last full run did not score that detector.
-
-<!-- accuracy-tables:start -->
-Measured on 456 pinned repositories at commit `c7b4e14` on 2026-10-24. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
-
-| Detector | Maturity | True positives | False positives | False negatives | Precision | Recall |
-| --- | --- | --- | --- | --- | --- | --- |
-| android | Experimental | 9 | 0 | 0 | 1.000 | 1.000 |
-| ci-images | Experimental | 13 | 0 | 0 | 1.000 | 1.000 |
-| container | Experimental | 74 | 0 | 0 | 1.000 | 1.000 |
-| cpp | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
-| dart | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
-| database | Experimental | 16 | 0 | 0 | 1.000 | 1.000 |
-| deno | Experimental | — | — | — | — | — |
-| dotnet | Beta | 304 | 0 | 0 | 1.000 | 1.000 |
-| elixir | Experimental | — | — | — | — | — |
-| github-actions | Supported | 986 | 0 | 0 | 1.000 | 1.000 |
-| go | Experimental | 54 | 0 | 0 | 1.000 | 1.000 |
-| java | Beta | 61 | 0 | 0 | 1.000 | 1.000 |
-| kubernetes | Beta | 71 | 0 | 0 | 1.000 | 1.000 |
-| nodejs | Supported | 305 | 0 | 0 | 1.000 | 1.000 |
-| npm | Supported | 100 | 0 | 0 | 1.000 | 1.000 |
-| php | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |
-| python | Supported | 74 | 0 | 0 | 1.000 | 1.000 |
-| ruby | Experimental | 24 | 0 | 0 | 1.000 | 1.000 |
-| rust | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
-| scala | Experimental | — | — | — | — | — |
-| serverless | Beta | 26 | 0 | 0 | 1.000 | 1.000 |
-| shell | Experimental | 12 | 0 | 0 | 1.000 | 1.000 |
-| swift | Beta | 16 | 0 | 0 | 1.000 | 1.000 |
-| terraform | Experimental | 7 | 0 | 0 | 1.000 | 1.000 |
-<!-- accuracy-tables:end -->
-
-## Mutation testing baseline
-
-Line coverage shows which lines run; mutation testing asks whether the tests would notice a bug in them. `npm run test:mutation` runs [Stryker](https://stryker-mutator.io/) with the command runner over `src/engine.ts`, `src/baseline.ts`, `src/diff.ts`, and `src/vers/`, rebuilding with `tsc` and executing the unit tests that target those modules. The nightly [Mutation](../.github/workflows/mutation.yml) workflow publishes the score and surviving mutants in the job summary. It does not fail the build on the score yet.
-
-First measured score on 2026-10-30 (commit `470542f4`): **59.59%** (1,139 killed, 7 timed out, 777 survived; 1,923 mutants). Per-file: `src/vers/` 80.12%, `src/baseline.ts` 72.78%, `src/diff.ts` 57.94%, `src/engine.ts` 23.12%.
-
-## Interpretation and limits
-
-Precision and recall are measured only against Evergreen's documented v0.1 rule set and the pinned corpus. They do not mean Evergreen detects every possible deprecation in these ecosystems. The corpus is public and reproducible, but not a statistically representative sample of all software. Dynamic action references and unsupported ecosystems remain intentionally unclassified.
-
-The controlled source-usage benchmark provides a separate exact-match test for imports, calls, and configuration keys; see [Benchmarks](BENCHMARKS.md).
-
 ---
 
 Source: https://arminazimi.github.io/evergreen/state-of-eol.html
@@ -5111,14 +5454,14 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 460 pinned repositories (2469 expected findings). The last full corpus run was commit `c7b4e14` on 2026-10-24 (456 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 460 pinned repositories (2693 expected findings). The last full corpus run was commit `c7b4e14` on 2026-10-24 (456 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
 | Repositories | 460 |
-| Expected findings | 2469 |
-| Products with findings | 135 |
-| Release lines with findings | 187 |
+| Expected findings | 2693 |
+| Products with findings | 138 |
+| Release lines with findings | 192 |
 
 ### By product
 
@@ -5127,6 +5470,7 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | actions/checkout | 454 | 1 | 154 |
 | nodejs | 320 | 8 | 73 |
 | dotnet | 302 | 10 | 19 |
+| dockerfile | 197 | 2 | 15 |
 | python | 122 | 2 | 79 |
 | actions/setup-python | 106 | 1 | 46 |
 | actions/upload-artifact | 90 | 1 | 33 |
@@ -5135,13 +5479,13 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | actions/cache | 71 | 1 | 23 |
 | java | 60 | 3 | 13 |
 | golang | 52 | 6 | 20 |
+| terraform | 43 | 3 | 8 |
 | library/node | 31 | 2 | 13 |
 | actions/download-artifact | 25 | 1 | 16 |
 | ruby | 24 | 5 | 14 |
 | softprops/action-gh-release | 22 | 1 | 15 |
 | aws-lambda-runtime/python3.14 | 21 | 1 | 1 |
 | babel-eslint | 19 | 1 | 18 |
-| dockerfile | 19 | 2 | 4 |
 | library/python | 19 | 1 | 16 |
 | library/ubuntu | 19 | 2 | 9 |
 | cmake | 18 | 1 | 13 |
@@ -5149,30 +5493,29 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | next | 17 | 4 | 6 |
 | aws-lambda-runtime/nodejs14.x | 16 | 1 | 9 |
 | docker/login-action | 16 | 1 | 11 |
+| node-sass | 16 | 2 | 8 |
 | actions/create-github-app-token | 15 | 1 | 2 |
 | docker/build-push-action | 15 | 1 | 8 |
 | kubernetes/extensions/Deployment | 15 | 1 | 4 |
-| terraform | 15 | 3 | 6 |
 | @angular/core | 13 | 2 | 2 |
 | actions/github-script | 13 | 1 | 8 |
 | azure-pipelines/ubuntu-image | 13 | 2 | 7 |
 | docker/setup-buildx-action | 13 | 1 | 9 |
 | library/postgres | 13 | 2 | 9 |
 | powershell | 12 | 4 | 5 |
+| aws-lambda-runtime/provided.al2023 | 11 | 1 | 2 |
 | kubernetes/extensions/Ingress | 10 | 1 | 6 |
+| postgresql | 10 | 4 | 9 |
 | xcode | 10 | 2 | 10 |
+| aws-lambda-runtime/nodejs12.x | 9 | 1 | 3 |
 | com.android.billingclient/billing | 9 | 5 | 7 |
 | kubernetes/apps/Deployment | 9 | 2 | 2 |
-| postgresql | 9 | 3 | 8 |
-| aws-lambda-runtime/nodejs12.x | 8 | 1 | 2 |
 | aws-lambda-runtime/python3.8 | 8 | 1 | 3 |
 | aws-lambda-runtime/ruby4.0 | 8 | 1 | 1 |
 | dart | 8 | 1 | 4 |
 | library/golang | 8 | 1 | 7 |
-| node-sass | 8 | 1 | 8 |
 | atty | 7 | 1 | 6 |
 | aws-lambda-runtime/nodejs22.x | 7 | 1 | 3 |
-| aws-lambda-runtime/provided.al2023 | 7 | 1 | 1 |
 | docker/metadata-action | 7 | 1 | 3 |
 | docker/setup-qemu-action | 7 | 1 | 6 |
 | mysql | 7 | 1 | 4 |
@@ -5200,6 +5543,7 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | actions/deploy-pages | 2 | 1 | 2 |
 | actions/labeler | 2 | 1 | 2 |
 | aws-lambda-runtime/nodejs16.x | 2 | 1 | 1 |
+| aws-lambda-runtime/nodejs20.x | 2 | 1 | 1 |
 | aws-lambda-runtime/provided.al2 | 2 | 1 | 1 |
 | crypto-js | 2 | 1 | 2 |
 | hashicorp/setup-terraform | 2 | 1 | 2 |
@@ -5237,6 +5581,7 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | failure | 1 | 1 | 1 |
 | github.com/golang/protobuf | 1 | 1 | 1 |
 | google-cloud-functions-runtime/nodejs14 | 1 | 1 | 1 |
+| google-cloud-functions-runtime/nodejs20 | 1 | 1 | 1 |
 | google-cloud-sql-mysql | 1 | 1 | 1 |
 | gulp-util | 1 | 1 | 1 |
 | helm-repository/stable | 1 | 1 | 1 |
@@ -5254,6 +5599,7 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | protractor | 1 | 1 | 1 |
 | q | 1 | 1 | 1 |
 | react-beautiful-dnd | 1 | 1 | 1 |
+| redis | 1 | 1 | 1 |
 | request-promise | 1 | 1 | 1 |
 | socket.io-redis | 1 | 1 | 1 |
 | swiftmailer/swiftmailer | 1 | 1 | 1 |
@@ -5265,6 +5611,7 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | Product | Release line | Rule | Event | Findings | Repositories |
 | --- | --- | --- | --- | ---: | ---: |
 | actions/checkout | Unsupported actions/checkout runtime | [`github-actions.checkout.node20`](rules/github-actions.checkout.node20.html) | end-of-support | 454 | 154 |
+| dockerfile | The Dockerfile legacy "ENV key value" form is deprecated | [`container.dockerfile.legacy-env-format`](rules/container.dockerfile.legacy-env-format.html) | deprecated | 196 | 15 |
 | actions/setup-python | Unsupported actions/setup-python runtime | [`github-actions.setup-python.node20`](rules/github-actions.setup-python.node20.html) | end-of-support | 106 | 46 |
 | dotnet | .NET 8 reaches end of support on 2026-11-10 | [`dotnet.runtime.end-of-support-8.0`](rules/dotnet.runtime.end-of-support-8.0.html) | scheduled-end-of-life | 103 | 8 |
 | nodejs | Node.js 20 is end-of-life | [`nodejs.runtime.eol-20`](rules/nodejs.runtime.eol-20.html) | end-of-life | 102 | 46 |
@@ -5279,6 +5626,7 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | dotnet | .NET Core 2.0 is no longer supported | [`dotnet.runtime.end-of-support-2.0`](rules/dotnet.runtime.end-of-support-2.0.html) | end-of-support | 48 | 2 |
 | nodejs | Node.js 22 reaches end-of-life on 2027-04-30 | [`nodejs.runtime.eol-22`](rules/nodejs.runtime.eol-22.html) | scheduled-end-of-life | 42 | 23 |
 | dotnet | .NET 7 is no longer supported | [`dotnet.runtime.end-of-support-7.0`](rules/dotnet.runtime.end-of-support-7.0.html) | end-of-support | 39 | 3 |
+| terraform | Interpolation-only strings are deprecated | [`terraform.syntax.interpolation-only`](rules/terraform.syntax.interpolation-only.html) | deprecated | 36 | 3 |
 | nodejs | Node.js 19 is end-of-life | [`nodejs.runtime.eol-19`](rules/nodejs.runtime.eol-19.html) | end-of-life | 34 | 31 |
 | java | Java 18 to 20 are no longer supported | [`java.jdk.end-of-support-18-20`](rules/java.jdk.end-of-support-18-20.html) | end-of-support | 30 | 6 |
 | dotnet | .NET Core 3.1 is no longer supported | [`dotnet.runtime.end-of-support-3.1`](rules/dotnet.runtime.end-of-support-3.1.html) | end-of-support | 29 | 7 |
@@ -5292,7 +5640,6 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | babel-eslint | babel-eslint is deprecated | [`npm.package.babel-eslint.deprecated`](rules/npm.package.babel-eslint.deprecated.html) | deprecated | 19 | 18 |
 | library/python | Python image release lines 3.10 and older are end-of-life | [`container.python.eol-3.10-and-older`](rules/container.python.eol-3.10-and-older.html) | end-of-life | 19 | 16 |
 | cmake | CMake policy versions older than 3.5 are removed | [`cpp.cmake.policy-below-3.5.removed`](rules/cpp.cmake.policy-below-3.5.removed.html) | removed | 18 | 13 |
-| dockerfile | The Dockerfile legacy "ENV key value" form is deprecated | [`container.dockerfile.legacy-env-format`](rules/container.dockerfile.legacy-env-format.html) | deprecated | 18 | 4 |
 | actions/setup-java | Unsupported actions/setup-java runtime | [`github-actions.setup-java.node20`](rules/github-actions.setup-java.node20.html) | end-of-support | 17 | 8 |
 | library/ubuntu | Ubuntu image release lines 20.04 and older are past standard support end-of-life | [`container.ubuntu.eol-20.04-and-older`](rules/container.ubuntu.eol-20.04-and-older.html) | end-of-life | 17 | 7 |
 | aws-lambda-runtime/nodejs14.x | AWS Lambda Node.js 14 runtime is end-of-life | [`serverless.aws-lambda.nodejs14.x`](rules/serverless.aws-lambda.nodejs14.x.html) | end-of-life | 16 | 9 |
@@ -5305,11 +5652,12 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | dotnet | .NET 6 is no longer supported | [`dotnet.runtime.end-of-support-6.0`](rules/dotnet.runtime.end-of-support-6.0.html) | end-of-support | 13 | 3 |
 | @angular/core | @angular/core v20 reaches end of life on 2026-11-28 | [`npm.package.angular.core.v20.scheduled-end-of-life`](rules/npm.package.angular.core.v20.scheduled-end-of-life.html) | scheduled-end-of-life | 12 | 1 |
 | library/postgres | PostgreSQL image major versions 13 and older are end-of-life | [`container.postgres.eol-13-and-older`](rules/container.postgres.eol-13-and-older.html) | end-of-life | 12 | 9 |
+| aws-lambda-runtime/provided.al2023 | AWS Lambda OS-only runtime provided.al2023 runtime reaches end of life on 2029-06-30 | [`serverless.aws-lambda.provided.al2023`](rules/serverless.aws-lambda.provided.al2023.html) | scheduled-end-of-life | 11 | 2 |
 | next | Next.js 15 is out of support | [`npm.package.next.15.support-end`](rules/npm.package.next.15.support-end.html) | end-of-support | 11 | 2 |
 | dotnet | .NET 5 is no longer supported | [`dotnet.runtime.end-of-support-5.0`](rules/dotnet.runtime.end-of-support-5.0.html) | end-of-support | 10 | 4 |
 | kubernetes/extensions/Ingress | Ingress extensions/v1beta1 is no longer served | [`kubernetes.extensions.ingress.v1beta1.removed`](rules/kubernetes.extensions.ingress.v1beta1.removed.html) | removed | 10 | 6 |
 | ruby | Ruby 3.1 is end-of-life | [`ruby.runtime.eol-3.1`](rules/ruby.runtime.eol-3.1.html) | end-of-life | 10 | 4 |
-| aws-lambda-runtime/nodejs12.x | AWS Lambda Node.js 12 runtime is end-of-life | [`serverless.aws-lambda.nodejs12.x`](rules/serverless.aws-lambda.nodejs12.x.html) | end-of-life | 8 | 2 |
+| aws-lambda-runtime/nodejs12.x | AWS Lambda Node.js 12 runtime is end-of-life | [`serverless.aws-lambda.nodejs12.x`](rules/serverless.aws-lambda.nodejs12.x.html) | end-of-life | 9 | 3 |
 | aws-lambda-runtime/python3.8 | AWS Lambda Python 3.8 runtime is end-of-life | [`serverless.aws-lambda.python3.8`](rules/serverless.aws-lambda.python3.8.html) | end-of-life | 8 | 3 |
 | aws-lambda-runtime/ruby4.0 | AWS Lambda Ruby 4.0 runtime reaches end of life on 2029-03-31 | [`serverless.aws-lambda.ruby4.0`](rules/serverless.aws-lambda.ruby4.0.html) | scheduled-end-of-life | 8 | 1 |
 | azure-pipelines/ubuntu-image | Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal | [`ci-images.azure-pipelines.ubuntu-22.04`](rules/ci-images.azure-pipelines.ubuntu-22.04.html) | scheduled-end-of-life | 8 | 5 |
@@ -5318,11 +5666,10 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | golang | Go 1.25 is no longer supported | [`go.runtime.end-of-support-1.25`](rules/go.runtime.end-of-support-1.25.html) | end-of-support | 8 | 6 |
 | kubernetes/apps/Deployment | Deployment apps/v1beta1 is no longer served | [`kubernetes.apps.deployment.v1beta1.removed`](rules/kubernetes.apps.deployment.v1beta1.removed.html) | removed | 8 | 2 |
 | library/golang | Go image release lines 1.25 and older are end-of-life | [`container.golang.eol-1.25-and-older`](rules/container.golang.eol-1.25-and-older.html) | end-of-life | 8 | 7 |
+| node-sass | node-sass is deprecated | [`npm.package.node-sass.deprecated`](rules/npm.package.node-sass.deprecated.html) | deprecated | 8 | 8 |
 | node-sass | Node Sass is end-of-life | [`npm.package.node-sass.eol`](rules/npm.package.node-sass.eol.html) | end-of-life | 8 | 8 |
-| terraform | Interpolation-only strings are deprecated | [`terraform.syntax.interpolation-only`](rules/terraform.syntax.interpolation-only.html) | deprecated | 8 | 1 |
 | atty | atty is no longer maintained | [`rust.crate.atty.unmaintained`](rules/rust.crate.atty.unmaintained.html) | deprecated | 7 | 6 |
 | aws-lambda-runtime/nodejs22.x | AWS Lambda Node.js 22 runtime reaches end of life on 2027-04-30 | [`serverless.aws-lambda.nodejs22.x`](rules/serverless.aws-lambda.nodejs22.x.html) | scheduled-end-of-life | 7 | 3 |
-| aws-lambda-runtime/provided.al2023 | AWS Lambda OS-only runtime provided.al2023 runtime reaches end of life on 2029-06-30 | [`serverless.aws-lambda.provided.al2023`](rules/serverless.aws-lambda.provided.al2023.html) | scheduled-end-of-life | 7 | 1 |
 | docker/metadata-action | Unsupported docker/metadata-action runtime | [`github-actions.metadata-action.node20`](rules/github-actions.metadata-action.node20.html) | end-of-support | 7 | 3 |
 | docker/setup-qemu-action | Unsupported docker/setup-qemu-action runtime | [`github-actions.setup-qemu-action.node20`](rules/github-actions.setup-qemu-action.node20.html) | end-of-support | 7 | 6 |
 | mysql | MySQL 5.7 is end-of-life | [`database.mysql.end-of-life-5.7`](rules/database.mysql.end-of-life-5.7.html) | end-of-life | 7 | 4 |
@@ -5364,6 +5711,7 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | actions/deploy-pages | Unsupported actions/deploy-pages runtime | [`github-actions.deploy-pages.node20`](rules/github-actions.deploy-pages.node20.html) | end-of-support | 2 | 2 |
 | actions/labeler | Unsupported actions/labeler runtime | [`github-actions.labeler.node20`](rules/github-actions.labeler.node20.html) | end-of-support | 2 | 2 |
 | aws-lambda-runtime/nodejs16.x | AWS Lambda Node.js 16 runtime is end-of-life | [`serverless.aws-lambda.nodejs16.x`](rules/serverless.aws-lambda.nodejs16.x.html) | end-of-life | 2 | 1 |
+| aws-lambda-runtime/nodejs20.x | AWS Lambda Node.js 20 runtime is end-of-life | [`serverless.aws-lambda.nodejs20.x`](rules/serverless.aws-lambda.nodejs20.x.html) | end-of-life | 2 | 1 |
 | aws-lambda-runtime/provided.al2 | AWS Lambda OS-only runtime provided.al2 runtime is end-of-life | [`serverless.aws-lambda.provided.al2`](rules/serverless.aws-lambda.provided.al2.html) | end-of-life | 2 | 1 |
 | crypto-js | crypto-js is deprecated | [`npm.package.crypto-js.deprecated`](rules/npm.package.crypto-js.deprecated.html) | deprecated | 2 | 2 |
 | django | Django 4.2 LTS is end-of-life | [`python.package.django-4.2.eol`](rules/python.package.django-4.2.eol.html) | end-of-life | 2 | 2 |
@@ -5415,6 +5763,7 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | github.com/golang/protobuf | github.com/golang/protobuf is deprecated | [`go.module.github.com.golang.protobuf.deprecated`](rules/go.module.github.com.golang.protobuf.deprecated.html) | deprecated | 1 | 1 |
 | golang | Go 1.21 is no longer supported | [`go.runtime.end-of-support-1.21`](rules/go.runtime.end-of-support-1.21.html) | end-of-support | 1 | 1 |
 | google-cloud-functions-runtime/nodejs14 | Google Cloud Functions Node.js 14 runtime is end-of-life | [`serverless.google-cloud-functions.nodejs14`](rules/serverless.google-cloud-functions.nodejs14.html) | end-of-life | 1 | 1 |
+| google-cloud-functions-runtime/nodejs20 | Google Cloud Functions Node.js 20 runtime is end-of-life | [`serverless.google-cloud-functions.nodejs20`](rules/serverless.google-cloud-functions.nodejs20.html) | end-of-life | 1 | 1 |
 | google-cloud-sql-mysql | Cloud SQL for MySQL 5.6 and 5.7 are in extended support | [`database.google-cloud-sql-mysql.extended-support-5.6-to-5.7`](rules/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html) | end-of-support | 1 | 1 |
 | gulp-util | gulp-util is deprecated | [`npm.package.gulp-util.deprecated`](rules/npm.package.gulp-util.deprecated.html) | deprecated | 1 | 1 |
 | helm-repository/stable | Helm stable chart repository is end of life | [`kubernetes.helm.repository.stable.end-of-life`](rules/kubernetes.helm.repository.stable.end-of-life.html) | end-of-life | 1 | 1 |
@@ -5438,12 +5787,14 @@ Measured on the public corpus of 460 pinned repositories (2469 expected findings
 | next | Next.js 13 is out of support | [`npm.package.next.13.support-end`](rules/npm.package.next.13.support-end.html) | end-of-support | 1 | 1 |
 | nodejs | Node.js 21 is end-of-life | [`nodejs.runtime.eol-21`](rules/nodejs.runtime.eol-21.html) | end-of-life | 1 | 1 |
 | nodejs | Node.js 23 is end-of-life | [`nodejs.runtime.eol-23`](rules/nodejs.runtime.eol-23.html) | end-of-life | 1 | 1 |
+| postgresql | PostgreSQL 10 is no longer a supported major version | [`database.postgresql.end-of-life-10`](rules/database.postgresql.end-of-life-10.html) | end-of-life | 1 | 1 |
 | postgresql | PostgreSQL 11 is no longer a supported major version | [`database.postgresql.end-of-life-11`](rules/database.postgresql.end-of-life-11.html) | end-of-life | 1 | 1 |
 | powershell | PowerShell 6.x is no longer supported | [`shell.powershell.end-of-life-6`](rules/shell.powershell.end-of-life-6.html) | end-of-life | 1 | 1 |
 | powershell | PowerShell 7.1 is no longer supported | [`shell.powershell.end-of-life-7.1`](rules/shell.powershell.end-of-life-7.1.html) | end-of-life | 1 | 1 |
 | protractor | Protractor is deprecated | [`npm.package.protractor.deprecated`](rules/npm.package.protractor.deprecated.html) | deprecated | 1 | 1 |
 | q | q is deprecated | [`npm.package.q.deprecated`](rules/npm.package.q.deprecated.html) | deprecated | 1 | 1 |
 | react-beautiful-dnd | react-beautiful-dnd is deprecated | [`npm.package.react-beautiful-dnd.deprecated`](rules/npm.package.react-beautiful-dnd.deprecated.html) | deprecated | 1 | 1 |
+| redis | Redis 7.0 is end-of-life | [`database.redis.end-of-life-7.0`](rules/database.redis.end-of-life-7.0.html) | end-of-life | 1 | 1 |
 | request-promise | request-promise is deprecated | [`npm.package.request-promise.deprecated`](rules/npm.package.request-promise.deprecated.html) | deprecated | 1 | 1 |
 | ruby | Ruby 2.6 is end-of-life | [`ruby.runtime.eol-2.6`](rules/ruby.runtime.eol-2.6.html) | end-of-life | 1 | 1 |
 | ruby | Ruby 3.0 is end-of-life | [`ruby.runtime.eol-3.0`](rules/ruby.runtime.eol-3.0.html) | end-of-life | 1 | 1 |
@@ -5715,7 +6066,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [Database runtimes](detectors/database.md), [.NET](detectors/dotnet.md), [Elixir and Mix](detectors/elixir.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Scala and sbt](detectors/scala.md), [Serverless runtimes](detectors/serverless.md), [Shell and PowerShell](detectors/shell.md), [Swift](detectors/swift.md), [Terraform](detectors/terraform.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [Database runtimes](detectors/database.md), [.NET](detectors/dotnet.md), [Elixir and Mix](detectors/elixir.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Scala and sbt](detectors/scala.md), [Serverless runtimes](detectors/serverless.md), [Shell and PowerShell](detectors/shell.md), [Swift](detectors/swift.md), [Terraform](detectors/terraform.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](compatibility/cpp.md#c-and-c-detector), [Compatibility](compatibility/ruby.md#ruby-detector), [Compatibility](compatibility/php.md#php-detector), [Compatibility](compatibility/android.md#android-detector), and [Compatibility](compatibility/ci-runner-images.md#ci-runner-images-detector).
 
 ## Python runtime declarations
 
@@ -5727,132 +6078,47 @@ A finding points at the pin, keyword, or value's exact line. Runtime pins use th
 
 ## Ruby detector layout
 
-The Ruby detector is a useful example of the layout a built-in detector follows. Its entry point, `src/detectors/ruby/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-ruby-runtime.ts`, `parse-gemfile.ts`, `parse-gemfile-lock.ts`, and `parse-gemspec.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
-- Rules come from `registry/ruby.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A runtime pin uses the first rule whose `vers` range contains the version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- A `Gemfile` gem is matched only against rules that cover every version, while a `Gemfile.lock` gem is matched against any rule for that gem name.
-- Gem rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the Ruby files that import or call the gem. A `require`, `load`, `gem`, or `autoload` whose argument is not a string literal is unclassified. `require_relative` is never unclassified. Qualified calls without parentheses (for example `JSON.parse text`) are not matched.
-
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#ruby-detector).
+Moved to [Detector layouts: Ruby detector layout](detectors/authoring-layouts.md#ruby-detector-layout).
 
 ## PHP detector layout
 
-The PHP detector follows the same layout. Its entry point, `src/detectors/php/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-php-runtime.ts`, `parse-composer-json.ts`, and `parse-composer-lock.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
-- Rules come from `registry/php.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A runtime pin uses the first rule whose `vers` range contains the version. A constraint that is not a concrete version (for example `>=7.4` or `^8.2`) is skipped, and a rule whose `vers` is malformed is skipped, so neither hides a later rule.
-- A `composer.json` package is matched only against rules that cover every version of the package, while a `composer.lock` package is matched against any rule whose `vers` contains the resolved version. An `abandoned` flag in the lockfile is recorded by the parser and is not itself a finding.
-- Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.php` files that `require` or `include` that package and the qualified calls those matchers name. A `require` or `include` whose argument is not a string literal is unclassified, as is `new $class` or `$class::method()`. Runtime end-of-life rules do not name source usages.
-
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#php-detector).
+Moved to [Detector layouts: PHP detector layout](detectors/authoring-layouts.md#php-detector-layout).
 
 ## Android detector layout
 
-The Android detector follows the same layout. Its entry point, `src/detectors/android/index.ts`, finds the files, reads them, and matches each declaration to a rule. Pure parsers sit beside it: `parse-build-gradle.ts` for SDK settings, `parse-settings-gradle.ts` for plugin pins, and `parse-libs-versions-toml.ts` for the version catalog. String-notation Maven dependencies in `build.gradle` and `build.gradle.kts` come from the Java detector's `parse-gradle.ts`; this detector keeps only those dependency declarations.
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/android.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A declaration uses the first rule whose `vers` range contains the version text. A rule whose `vers` is malformed, or whose comparison throws, is skipped, so it does not hide a later rule.
-- An SDK setting matches `pkg:generic/android/<kind>` (`compileSdk`, `minSdk`, `targetSdk`, `buildToolsVersion`). An Android Gradle Plugin pin, in settings or the catalog `agp` key, matches `pkg:generic/android/agp`. `org.jetbrains.kotlin.android` in settings matches `pkg:generic/android/kotlin-android`. The catalog `kotlin` key matches `pkg:generic/android/kotlin`. A string-notation dependency matches `pkg:maven/<group>/<artifact>`.
-- Property references, method calls, version-catalog lookups, and `$` interpolation produce no declaration. The analysis reports no unclassified references.
-- A rule that lists usage matchers uses `analyzeSourceUsage` for `.java` and `.kt` files. The bundled Play Billing rules do not list matchers, so those findings point at the declaration only.
-
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#android-detector).
+Moved to [Detector layouts: Android detector layout](detectors/authoring-layouts.md#android-detector-layout).
 
 ## CI runner images detector layout
 
-The CI runner images detector follows the same layout. Its entry point, `src/detectors/ci-images/index.ts`, finds the files, reads them, and matches Azure hosted-image labels to a rule. One pure parser per file type sits beside it (`parse-gitlab-ci.ts`, `parse-circleci.ts`, and `parse-azure-pipelines.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/ci-images.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- An Azure `pool.vmImage` label of the form `ubuntu-<version>`, `macos-<version>`, or `windows-<version>` matches `pkg:generic/azure-pipelines/<family>-image` with an `intdot` version. Every rule whose `vers` range contains that version is reported. A label with an architecture suffix, or any other shape, is not matched.
-- GitLab `image` and `services` values are always unclassified. CircleCI returns orbs, dynamic values, and floating aliases as unclassified; a literal CircleCI image is not matched, because this version has no CircleCI Package URL mapping.
-- `latest`, `*-latest`, variables, and template expressions produce no finding. There is no source-usage pass.
-
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
+Moved to [Detector layouts: CI runner images detector layout](detectors/authoring-layouts.md#ci-runner-images-detector-layout).
 
 ## Dart detector layout
 
-The Dart detector follows the same layout. Its entry point, `src/detectors/dart/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-pubspec.ts`, `parse-pubspec-lock.ts`, and `parse-fvm.ts`):
-
-- Rules come from `registry/dart.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- An exact version (a `pubspec.lock` package, an FVM pin, or a constraint without an operator) uses the first rule whose `vers` range contains it. A constraint with an operator is matched only against rules that cover every version of that package. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- Rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.dart` files that import the package and the calls those matchers name. `Function.apply` and `dart:mirrors` reflection are unclassified.
-
-The user-facing list of supported forms and limits for this detector is in [Dart and Flutter](detectors/dart.md).
+Moved to [Detector layouts: Dart detector layout](detectors/authoring-layouts.md#dart-detector-layout).
 
 ## Database runtimes detector layout
 
-The database detector reuses what the container and Terraform detectors already parse. Its entry point, `src/detectors/database/index.ts`, finds Compose and `*.tf` files, reads them, and matches each declaration to a rule. Two pure parsers sit beside it: `parse-compose.ts` filters the shared Compose image parser to database images, and `parse-terraform.ts` reads `engine` and `engine_version` with the shared HCL scanner:
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/database.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A full version uses the first rule whose `vers` range contains it. A partial version (`12`, `5.7`) matches a rule only when the rule contains both ends of what the partial version could mean. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- Each product maps to one Package URL (`pkg:generic/postgresql`, `mysql`, `mariadb`, `redis`, `mongodb`). There is no source-usage pass.
-
-The user-facing list of supported forms and limits for this detector is in [Database runtimes](detectors/database.md).
+Moved to [Detector layouts: Database runtimes detector layout](detectors/authoring-layouts.md#database-runtimes-detector-layout).
 
 ## Shell and PowerShell detector layout
 
-The shell detector reads PowerShell declarations and the PowerShell image tags in workflow files. Its entry point, `src/detectors/shell/index.ts`, finds `*.ps1`, `*.psm1`, `*.psd1`, and `.github/workflows` files, reads them, and matches each declaration to a rule. Two pure parsers sit beside it: `parse-powershell.ts` is a bounded lexical reader for `#Requires -Version` and `PowerShellVersion`, and `parse-workflow.ts` reads `shell:` values and pinned PowerShell or Bash images from workflow YAML.
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/shell.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- Matching works as in the database detector: a full version uses the first rule whose `vers` range contains it, and a partial version matches only when the rule contains both ends of what it could mean.
-- All rules use one Package URL, `pkg:generic/powershell`. Shell names and Bash images are parsed but produce no findings. There is no source-usage pass.
-
-The user-facing list of supported forms and limits for this detector is in [Shell and PowerShell](detectors/shell.md).
+Moved to [Detector layouts: Shell and PowerShell detector layout](detectors/authoring-layouts.md#shell-and-powershell-detector-layout).
 
 ## Terraform detector layout
 
-The Terraform detector follows the same layout. Its entry point, `src/detectors/terraform/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-terraform.ts`, `parse-lock.ts`, and `parse-version-files.ts`), on top of the shared bounded scanner in `hcl.ts`:
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/terraform.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- An exact version (a version file, a lock entry, or a constraint without an operator) uses the first rule whose `vers` range contains it. A `~> X.Y.Z` constraint matches a rule that contains both ends of that minor line. Any other constraint is matched only against rules that cover every version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- The Terraform CLI is `pkg:generic/terraform` and a provider is `pkg:generic/terraform-provider/<namespace>/<name>`. There is no source-usage pass.
-
-The user-facing list of supported forms and limits for this detector is in [Terraform](detectors/terraform.md).
+Moved to [Detector layouts: Terraform detector layout](detectors/authoring-layouts.md#terraform-detector-layout).
 
 ## Swift detector layout
 
-The Swift detector follows the same layout. Its entry point, `src/detectors/swift/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-swift-toolchain.ts`, `parse-package-swift.ts`, `parse-package-resolved.ts`, and `parse-xcode-project.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
-- Rules come from `registry/swift.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- An exact pin (`.xcode-version`, `.swift-version`, `swift-tools-version`, `exact:` in `Package.swift`, a `Package.resolved` version, or an app-target `IPHONEOS_DEPLOYMENT_TARGET`) uses the first rule whose `vers` range contains the version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- A `from:` requirement in `Package.swift` is matched only against rules that cover every version of that package. Package identity is the lowercased repository name without `.git`, matching what SwiftPM writes in `Package.resolved`.
-- The iOS deployment target is read only from application targets in `project.pbxproj` (`com.apple.product-type.application`), so a library or a `platforms:` minimum in `Package.swift` never produces that finding.
-- Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.swift` files that `import` that module and the qualified calls those matchers name. Runtime Objective-C lookup forms (`NSClassFromString`, `Selector(…)`, and similar) are unclassified. Toolchain and App Store rules do not name source usages.
-
-The user-facing list of supported forms and limits for this detector is in [Swift](detectors/swift.md).
+Moved to [Detector layouts: Swift detector layout](detectors/authoring-layouts.md#swift-detector-layout).
 
 ## C and C++ detector layout
 
-The C and C++ detector follows the same layout. Its entry point, `src/detectors/cpp/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per manifest sits beside it (`parse-cmakelists.ts`, `parse-conan.ts`, and `parse-vcpkg.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/cpp.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A declaration with a version uses the first rule whose `vers` range contains that version. A rule whose `vers` is malformed, or whose comparison throws, is skipped, so it does not hide a later rule.
-- A vcpkg dependency with no `version>=` matches only a rule that covers every version of that package. `cmake_minimum_required` matches `pkg:generic/cmake`. A Conan requirement matches `pkg:conan/<name>`. A vcpkg dependency matches `pkg:vcpkg/<name>`. Language standards, compiler checks, and `builtin-baseline` match the generic Package URLs named in the detector.
-- Generator and module rules are not matched yet: the CMake parser does not emit those declarations. There is no source-usage pass.
-
-The detector is experimental. Its five-repository public corpus includes a zero-finding case and independent ground-truth sources. The user-facing list of supported forms, lifecycle data sources, and limits is in [Compatibility](COMPATIBILITY.md#c-and-c-detector).
+Moved to [Detector layouts: C and C++ detector layout](detectors/authoring-layouts.md#c-and-c-detector-layout).
 
 ## Serverless runtimes detector layout
 
-The Serverless runtimes detector follows the same layout. Its entry point, `src/detectors/serverless/index.ts`, finds the files, reads them, and matches each literal runtime identifier to a rule. One pure parser per file type sits beside it (`parse-template.ts`, `parse-serverless-yml.ts`, and `parse-tf.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/serverless.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- Each literal identifier is tried against `pkg:generic/aws-lambda-runtime/<id>` and `pkg:generic/google-cloud-functions-runtime/<id>`. The first rule whose VERS range contains the identifier wins. A rule whose VERS is malformed is skipped, so it does not hide a later rule.
-- CloudFormation tags (`!Ref`, `!Sub`), Serverless `${…}` interpolations, Terraform `var` / `local` / interpolation values, and floating aliases such as `latest` produce no declaration.
-- There is no source-usage pass: a runtime finding points at the declaration only.
-
-The user-facing list of supported forms and limits for this detector is in [Serverless runtimes](detectors/serverless.md).
+Moved to [Detector layouts: Serverless runtimes detector layout](detectors/authoring-layouts.md#serverless-runtimes-detector-layout).
 
 ## Start a new detector in this repository
 
@@ -5941,6 +6207,169 @@ The `npm` detector reads lockfiles to resolve exact package versions and build d
 
 ## Declaring the files a detector reads
 
+Moved to [Detector contracts: Declaring the files a detector reads](detectors/authoring-contracts.md#declaring-the-files-a-detector-reads).
+
+## Registry validation
+
+Moved to [Detector contracts: Registry validation](detectors/authoring-contracts.md#registry-validation).
+
+## Source usage contracts
+
+Moved to [Detector contracts: Source usage contracts](detectors/authoring-contracts.md#source-usage-contracts).
+
+## Compatibility policy
+
+`evergreen.detector.v1` remains compatible throughout the `0.1.x` line. Additive fields will be optional. A future breaking interface will use a new API version so an old adapter fails clearly instead of producing unreliable findings.
+
+Run `npm run check` against the minimum Evergreen version your detector supports. The repository compatibility suite exercises an external adapter, rejects an old API version, validates registry failure modes, and runs the published example through the same engine seam used by built-in detectors.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/detectors/authoring-layouts.html
+
+# Detector layouts
+
+The layout each built-in detector follows: one pure parser per file type, rules from a bundled registry, and a documented boundary. The authoring guide starts at [Detector authoring](../DETECTORS.md).
+
+## Ruby detector layout
+
+The Ruby detector is a useful example of the layout a built-in detector follows. Its entry point, `src/detectors/ruby/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-ruby-runtime.ts`, `parse-gemfile.ts`, `parse-gemfile-lock.ts`, and `parse-gemspec.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
+- Rules come from `registry/ruby.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- A runtime pin uses the first rule whose `vers` range contains the version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
+- A `Gemfile` gem is matched only against rules that cover every version, while a `Gemfile.lock` gem is matched against any rule for that gem name.
+- Gem rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the Ruby files that import or call the gem. A `require`, `load`, `gem`, or `autoload` whose argument is not a string literal is unclassified. `require_relative` is never unclassified. Qualified calls without parentheses (for example `JSON.parse text`) are not matched.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](../compatibility/ruby.md#ruby-detector).
+
+## PHP detector layout
+
+The PHP detector follows the same layout. Its entry point, `src/detectors/php/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-php-runtime.ts`, `parse-composer-json.ts`, and `parse-composer-lock.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
+- Rules come from `registry/php.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- A runtime pin uses the first rule whose `vers` range contains the version. A constraint that is not a concrete version (for example `>=7.4` or `^8.2`) is skipped, and a rule whose `vers` is malformed is skipped, so neither hides a later rule.
+- A `composer.json` package is matched only against rules that cover every version of the package, while a `composer.lock` package is matched against any rule whose `vers` contains the resolved version. An `abandoned` flag in the lockfile is recorded by the parser and is not itself a finding.
+- Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.php` files that `require` or `include` that package and the qualified calls those matchers name. A `require` or `include` whose argument is not a string literal is unclassified, as is `new $class` or `$class::method()`. Runtime end-of-life rules do not name source usages.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](../compatibility/php.md#php-detector).
+
+## Android detector layout
+
+The Android detector follows the same layout. Its entry point, `src/detectors/android/index.ts`, finds the files, reads them, and matches each declaration to a rule. Pure parsers sit beside it: `parse-build-gradle.ts` for SDK settings, `parse-settings-gradle.ts` for plugin pins, and `parse-libs-versions-toml.ts` for the version catalog. String-notation Maven dependencies in `build.gradle` and `build.gradle.kts` come from the Java detector's `parse-gradle.ts`; this detector keeps only those dependency declarations.
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/android.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- A declaration uses the first rule whose `vers` range contains the version text. A rule whose `vers` is malformed, or whose comparison throws, is skipped, so it does not hide a later rule.
+- An SDK setting matches `pkg:generic/android/<kind>` (`compileSdk`, `minSdk`, `targetSdk`, `buildToolsVersion`). An Android Gradle Plugin pin, in settings or the catalog `agp` key, matches `pkg:generic/android/agp`. `org.jetbrains.kotlin.android` in settings matches `pkg:generic/android/kotlin-android`. The catalog `kotlin` key matches `pkg:generic/android/kotlin`. A string-notation dependency matches `pkg:maven/<group>/<artifact>`.
+- Property references, method calls, version-catalog lookups, and `$` interpolation produce no declaration. The analysis reports no unclassified references.
+- A rule that lists usage matchers uses `analyzeSourceUsage` for `.java` and `.kt` files. The bundled Play Billing rules do not list matchers, so those findings point at the declaration only.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](../compatibility/android.md#android-detector).
+
+## CI runner images detector layout
+
+The CI runner images detector follows the same layout. Its entry point, `src/detectors/ci-images/index.ts`, finds the files, reads them, and matches Azure hosted-image labels to a rule. One pure parser per file type sits beside it (`parse-gitlab-ci.ts`, `parse-circleci.ts`, and `parse-azure-pipelines.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/ci-images.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- An Azure `pool.vmImage` label of the form `ubuntu-<version>`, `macos-<version>`, or `windows-<version>` matches `pkg:generic/azure-pipelines/<family>-image` with an `intdot` version. Every rule whose `vers` range contains that version is reported. A label with an architecture suffix, or any other shape, is not matched.
+- GitLab `image` and `services` values are always unclassified. CircleCI returns orbs, dynamic values, and floating aliases as unclassified; a literal CircleCI image is not matched, because this version has no CircleCI Package URL mapping.
+- `latest`, `*-latest`, variables, and template expressions produce no finding. There is no source-usage pass.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](../compatibility/ci-runner-images.md#ci-runner-images-detector).
+
+## Dart detector layout
+
+The Dart detector follows the same layout. Its entry point, `src/detectors/dart/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-pubspec.ts`, `parse-pubspec-lock.ts`, and `parse-fvm.ts`):
+
+- Rules come from `registry/dart.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- An exact version (a `pubspec.lock` package, an FVM pin, or a constraint without an operator) uses the first rule whose `vers` range contains it. A constraint with an operator is matched only against rules that cover every version of that package. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
+- Rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.dart` files that import the package and the calls those matchers name. `Function.apply` and `dart:mirrors` reflection are unclassified.
+
+The user-facing list of supported forms and limits for this detector is in [Dart and Flutter](dart.md).
+
+## Database runtimes detector layout
+
+The database detector reuses what the container and Terraform detectors already parse. Its entry point, `src/detectors/database/index.ts`, finds Compose and `*.tf` files, reads them, and matches each declaration to a rule. Two pure parsers sit beside it: `parse-compose.ts` filters the shared Compose image parser to database images, and `parse-terraform.ts` reads `engine` and `engine_version` with the shared HCL scanner:
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/database.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- A full version uses the first rule whose `vers` range contains it. A partial version (`12`, `5.7`) matches a rule only when the rule contains both ends of what the partial version could mean. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
+- Each product maps to one Package URL (`pkg:generic/postgresql`, `mysql`, `mariadb`, `redis`, `mongodb`). There is no source-usage pass.
+
+The user-facing list of supported forms and limits for this detector is in [Database runtimes](database.md).
+
+## Shell and PowerShell detector layout
+
+The shell detector reads PowerShell declarations and the PowerShell image tags in workflow files. Its entry point, `src/detectors/shell/index.ts`, finds `*.ps1`, `*.psm1`, `*.psd1`, and `.github/workflows` files, reads them, and matches each declaration to a rule. Two pure parsers sit beside it: `parse-powershell.ts` is a bounded lexical reader for `#Requires -Version` and `PowerShellVersion`, and `parse-workflow.ts` reads `shell:` values and pinned PowerShell or Bash images from workflow YAML.
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/shell.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- Matching works as in the database detector: a full version uses the first rule whose `vers` range contains it, and a partial version matches only when the rule contains both ends of what it could mean.
+- All rules use one Package URL, `pkg:generic/powershell`. Shell names and Bash images are parsed but produce no findings. There is no source-usage pass.
+
+The user-facing list of supported forms and limits for this detector is in [Shell and PowerShell](shell.md).
+
+## Terraform detector layout
+
+The Terraform detector follows the same layout. Its entry point, `src/detectors/terraform/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-terraform.ts`, `parse-lock.ts`, and `parse-version-files.ts`), on top of the shared bounded scanner in `hcl.ts`:
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/terraform.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- An exact version (a version file, a lock entry, or a constraint without an operator) uses the first rule whose `vers` range contains it. A `~> X.Y.Z` constraint matches a rule that contains both ends of that minor line. Any other constraint is matched only against rules that cover every version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
+- The Terraform CLI is `pkg:generic/terraform` and a provider is `pkg:generic/terraform-provider/<namespace>/<name>`. There is no source-usage pass.
+
+The user-facing list of supported forms and limits for this detector is in [Terraform](terraform.md).
+
+## Swift detector layout
+
+The Swift detector follows the same layout. Its entry point, `src/detectors/swift/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-swift-toolchain.ts`, `parse-package-swift.ts`, `parse-package-resolved.ts`, and `parse-xcode-project.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
+- Rules come from `registry/swift.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- An exact pin (`.xcode-version`, `.swift-version`, `swift-tools-version`, `exact:` in `Package.swift`, a `Package.resolved` version, or an app-target `IPHONEOS_DEPLOYMENT_TARGET`) uses the first rule whose `vers` range contains the version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
+- A `from:` requirement in `Package.swift` is matched only against rules that cover every version of that package. Package identity is the lowercased repository name without `.git`, matching what SwiftPM writes in `Package.resolved`.
+- The iOS deployment target is read only from application targets in `project.pbxproj` (`com.apple.product-type.application`), so a library or a `platforms:` minimum in `Package.swift` never produces that finding.
+- Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.swift` files that `import` that module and the qualified calls those matchers name. Runtime Objective-C lookup forms (`NSClassFromString`, `Selector(…)`, and similar) are unclassified. Toolchain and App Store rules do not name source usages.
+
+The user-facing list of supported forms and limits for this detector is in [Swift](swift.md).
+
+## C and C++ detector layout
+
+The C and C++ detector follows the same layout. Its entry point, `src/detectors/cpp/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per manifest sits beside it (`parse-cmakelists.ts`, `parse-conan.ts`, and `parse-vcpkg.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/cpp.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- A declaration with a version uses the first rule whose `vers` range contains that version. A rule whose `vers` is malformed, or whose comparison throws, is skipped, so it does not hide a later rule.
+- A vcpkg dependency with no `version>=` matches only a rule that covers every version of that package. `cmake_minimum_required` matches `pkg:generic/cmake`. A Conan requirement matches `pkg:conan/<name>`. A vcpkg dependency matches `pkg:vcpkg/<name>`. Language standards, compiler checks, and `builtin-baseline` match the generic Package URLs named in the detector.
+- Generator and module rules are not matched yet: the CMake parser does not emit those declarations. There is no source-usage pass.
+
+The detector is experimental. Its five-repository public corpus includes a zero-finding case and independent ground-truth sources. The user-facing list of supported forms, lifecycle data sources, and limits is in [Compatibility](../compatibility/cpp.md#c-and-c-detector).
+
+## Serverless runtimes detector layout
+
+The Serverless runtimes detector follows the same layout. Its entry point, `src/detectors/serverless/index.ts`, finds the files, reads them, and matches each literal runtime identifier to a rule. One pure parser per file type sits beside it (`parse-template.ts`, `parse-serverless-yml.ts`, and `parse-tf.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/serverless.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- Each literal identifier is tried against `pkg:generic/aws-lambda-runtime/<id>` and `pkg:generic/google-cloud-functions-runtime/<id>`. The first rule whose VERS range contains the identifier wins. A rule whose VERS is malformed is skipped, so it does not hide a later rule.
+- CloudFormation tags (`!Ref`, `!Sub`), Serverless `${…}` interpolations, Terraform `var` / `local` / interpolation values, and floating aliases such as `latest` produce no declaration.
+- There is no source-usage pass: a runtime finding points at the declaration only.
+
+The user-facing list of supported forms and limits for this detector is in [Serverless runtimes](serverless.md).
+
+---
+
+Source: https://arminazimi.github.io/evergreen/detectors/authoring-contracts.html
+
+# Detector contracts
+
+The contracts around a detector: the files it declares it reads, the registry envelope it validates, and the source-usage helper it can call. The authoring guide starts at [Detector authoring](../DETECTORS.md).
+
+## Declaring the files a detector reads
+
 A detector may declare, in one place, which repository files its `scan` reads. The optional `inputs` field on `Detector` (added to the `evergreen.detector.v1` interface without changing anything that exists) has four parts, all relative to the scanned root with forward slashes:
 
 | Field | Meaning |
@@ -5967,7 +6396,7 @@ Listing a directory or testing that a path exists is not a read, and files outsi
 
 ## Registry validation
 
-The bundled registries use the shared `evergreen.registry.v2` format, keyed by Package URL and version range with provenance for every rule. See [Lifecycle rules](RULES.md) for the format, the evidence policy, and how to write a rule. The v2 loader is internal to the bundled detectors for now; the public SDK validates the v1-style envelope below, so detectors outside this repository keep working unchanged.
+The bundled registries use the shared `evergreen.registry.v2` format, keyed by Package URL and version range with provenance for every rule. See [Lifecycle rules](../RULES.md) for the format, the evidence policy, and how to write a rule. The v2 loader is internal to the bundled detectors for now; the public SDK validates the v1-style envelope below, so detectors outside this repository keep working unchanged.
 
 Registry files for external detectors use a versioned envelope:
 
@@ -6040,12 +6469,6 @@ const analyses = await analyzeSourceUsage(root, contracts);
 ```
 
 Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Go supports import and call matchers by import path. Java and Kotlin support import matchers only (`language: "java"` for `.java` files and `"kotlin"` for `.kt` files): `module` is a package or class name, an import of it or of anything below it matches (`import static` and wildcard imports included), and calls through the imported names are not mapped. Ruby supports import and call matchers (`language: "ruby"` for `.rb`, `.rake`, and `.ru` files): `module` is a require path, a literal `require`, `load`, `gem`, or `autoload` of that path (or a path under it) is an import, and a call target is a qualified call such as `JSON.parse(` (parentheses required). An assignment `Parser = JSON` makes `Parser.parse(` the same call. A dynamic `require`/`load`/`gem`/`autoload` argument is reported as unclassified instead of being guessed; `require_relative` is not. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
-
-## Compatibility policy
-
-`evergreen.detector.v1` remains compatible throughout the `0.1.x` line. Additive fields will be optional. A future breaking interface will use a new API version so an old adapter fails clearly instead of producing unreliable findings.
-
-Run `npm run check` against the minimum Evergreen version your detector supports. The repository compatibility suite exercises an external adapter, rejects an old API version, validates registry failure modes, and runs the published example through the same engine seam used by built-in detectors.
 
 ---
 

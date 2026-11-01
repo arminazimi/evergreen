@@ -1,8 +1,12 @@
 ---
 title: "vsscale is deprecated — dates, impact, migration"
 description: "The maintainer states that vsscale is deprecated and directs users to vsjetpack."
+layout: doc
+permalink: "/rules/python.package.vsscale.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.vsscale.deprecated.html"
 image: "/assets/og/python.package.vsscale.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.vsscale.deprecated.json"
 ---
 

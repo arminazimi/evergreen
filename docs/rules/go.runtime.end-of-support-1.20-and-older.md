@@ -1,8 +1,12 @@
 ---
 title: "Go 1.20 and older are no longer supported — dates, impact, migration"
 description: "The Go release policy supports a major release until two newer major releases exist. Go 1.20 support ended when Go 1.22 was released, and every older release lost support before that."
+layout: doc
+permalink: "/rules/go.runtime.end-of-support-1.20-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html"
 image: "/assets/og/go.runtime.end-of-support-1.20-and-older.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/go.runtime.end-of-support-1.20-and-older.json"
 ---
 

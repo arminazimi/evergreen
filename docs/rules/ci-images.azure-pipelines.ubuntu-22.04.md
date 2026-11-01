@@ -1,8 +1,12 @@
 ---
 title: "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal — dates, impact, migration"
 description: "The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled removal is 2027-04-17, per Microsoft's hosted image deprecation schedule."
+layout: doc
+permalink: "/rules/ci-images.azure-pipelines.ubuntu-22.04.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html"
 image: "/assets/og/ci-images.azure-pipelines.ubuntu-22.04.svg"
+review_date: "2026-10-18"
+last_modified_at: "2026-10-18"
 json_twin: "/rules/ci-images.azure-pipelines.ubuntu-22.04.json"
 ---
 

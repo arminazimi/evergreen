@@ -1,8 +1,12 @@
 ---
 title: "q is deprecated — dates, impact, migration"
 description: "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises."
+layout: doc
+permalink: "/rules/npm.package.q.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html"
 image: "/assets/og/npm.package.q.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.q.deprecated.json"
 ---
 

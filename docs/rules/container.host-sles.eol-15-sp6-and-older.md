@@ -1,8 +1,12 @@
 ---
 title: "SUSE Linux Enterprise Server 15 SP6 and older are past general support — dates, impact, migration"
 description: "General support ended for SLES 15 SP6 on 2025-12-31, SP5 on 2024-12-31, and SP4 on 2023-12-31, and for SP3 and older earlier."
+layout: doc
+permalink: "/rules/container.host-sles.eol-15-sp6-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.host-sles.eol-15-sp6-and-older.html"
 image: "/assets/og/container.host-sles.eol-15-sp6-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/container.host-sles.eol-15-sp6-and-older.json"
 ---
 

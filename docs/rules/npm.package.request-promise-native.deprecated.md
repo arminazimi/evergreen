@@ -1,8 +1,12 @@
 ---
 title: "request-promise-native is deprecated — dates, impact, migration"
 description: "npm states that request-promise-native is deprecated because it extends the deprecated request package."
+layout: doc
+permalink: "/rules/npm.package.request-promise-native.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html"
 image: "/assets/og/npm.package.request-promise-native.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.request-promise-native.deprecated.json"
 ---
 

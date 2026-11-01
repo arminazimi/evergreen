@@ -1,8 +1,12 @@
 ---
 title: "Node.js 20 is end-of-life — dates, impact, migration"
 description: "Node.js 20 no longer receives security or bug fixes."
+layout: doc
+permalink: "/rules/nodejs.runtime.eol-20.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-20.html"
 image: "/assets/og/nodejs.runtime.eol-20.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/nodejs.runtime.eol-20.json"
 ---
 

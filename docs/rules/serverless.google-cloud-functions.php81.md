@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions PHP 8.1 runtime is end-of-life — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists PHP 8.1 (runtime ID php81) as deprecated on 2025-12-31 and decommissioned on 2026-06-30. Google no longer provides maintenance for that runtime."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.php81.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.php81.html"
 image: "/assets/og/serverless.google-cloud-functions.php81.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.php81.json"
 ---
 

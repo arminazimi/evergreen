@@ -1,8 +1,12 @@
 ---
 title: "The msilib module was removed in Python 3.13 — dates, impact, migration"
 description: "Python 3.13 removed the msilib module (PEP 594), so importing it raises ModuleNotFoundError."
+layout: doc
+permalink: "/rules/python.module.msilib.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.module.msilib.removed.html"
 image: "/assets/og/python.module.msilib.removed.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/python.module.msilib.removed.json"
 ---
 

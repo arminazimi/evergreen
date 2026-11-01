@@ -1,8 +1,12 @@
 ---
 title: "The Dockerfile legacy \"ENV key value\" form is deprecated — dates, impact, migration"
 description: "Docker's LegacyKeyValueFormat build check flags the space-separated ENV form and recommends writing each assignment as key=value."
+layout: doc
+permalink: "/rules/container.dockerfile.legacy-env-format.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.dockerfile.legacy-env-format.html"
 image: "/assets/og/container.dockerfile.legacy-env-format.svg"
+review_date: "2026-10-31"
+last_modified_at: "2026-10-31"
 json_twin: "/rules/container.dockerfile.legacy-env-format.json"
 ---
 
