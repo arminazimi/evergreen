@@ -3,6 +3,8 @@ import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
+import { commands as registeredCommands } from "../src/commands/index.generated.js";
+
 const read = (path: string) => readFile(resolve(path), "utf8");
 const readme = await read("README.md");
 const manifest = JSON.parse(await read("package.json")) as { description: string; keywords: string[]; bin: Record<string, string> };
@@ -47,9 +49,9 @@ test("each ecosystem in the table has a registry with rules", async () => {
 test("the README links resolve and its commands exist", async () => {
   for (const link of new Set([...readme.matchAll(/\]\((?!https?:|#)([^)#\s]+)(?:#[^)]*)?\)/g)].map((match) => match[1]!))) await access(resolve(link));
   assert.ok(manifest.bin["evergreen-deprecation"], "every `npx evergreen-deprecation …` command in the README needs a bin of that name");
-  const commands = [...readme.matchAll(/npx evergreen-deprecation ([a-z-]+)/g)].map((match) => match[1]!);
-  const cli = await read("src/cli-main.ts");
-  for (const command of new Set(commands)) assert.ok(cli.includes(`"${command}"`), `the README uses \`${command}\`, which the CLI does not implement`);
+  const mentioned = [...readme.matchAll(/npx evergreen-deprecation ([a-z-]+)/g)].map((match) => match[1]!);
+  const registered = new Set(registeredCommands.map((command) => command.name));
+  for (const command of new Set(mentioned)) assert.ok(registered.has(command), `the README uses \`${command}\`, which the CLI does not implement`);
   assert.ok(readme.includes("https://arminazimi.github.io/evergreen/llms.txt"));
 });
 

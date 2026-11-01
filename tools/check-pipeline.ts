@@ -135,6 +135,10 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
   try {
     const failures = await runDependentSteps([
       {
+        id: "check:commands",
+        run: () => run(process.execPath, ["tools/generate-commands-index.mjs", "--check"]),
+      },
+      {
         id: "build:action",
         run: () => run(process.execPath, [nccCli, "build", "src/action.ts", "-o", stagingDir, "--minify", "--transpile-only"]),
       },

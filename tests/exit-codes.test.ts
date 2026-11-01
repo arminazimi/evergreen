@@ -141,7 +141,7 @@ test("the exit-code table in docs/CAPABILITIES.md cannot drift from the code", a
   }
   assert.ok(documented.size > 0, "the table was not found");
 
-  const source = await readFile(resolve("dist/src/cli-main.js"), "utf8");
+  const source = await readFile(resolve("dist/src/commands/types.js"), "utf8");
   const codes = source.match(/EXIT_CODES = \{([^}]*)\}/);
   assert.ok(codes, "EXIT_CODES was not found in the compiled CLI");
   const implemented = new Map([...codes[1]!.matchAll(/([a-z]+): (\d+)/g)].map(([, code, exitCode]) => [code!, Number(exitCode!)]));

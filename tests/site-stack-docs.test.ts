@@ -3,6 +3,9 @@ import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
+import { commands } from "../src/commands/index.generated.js";
+import { renderHelp } from "../src/completions.js";
+
 const read = (path: string) => readFile(resolve(path), "utf8");
 
 const siteStackDoc = resolve("docs/SITE_STACK.md");
@@ -33,10 +36,7 @@ test("the site stack guide and sample exist and name Evergreen and Seaworthy", a
 
 test("every evergreen subcommand in the sample appears in the CLI usage text", async () => {
   const sample = await read(sampleAgents);
-  const cli = await read("src/cli-main.ts");
-  const helpStart = cli.indexOf('const HELP = `Evergreen');
-  assert.ok(helpStart >= 0);
-  const help = cli.slice(helpStart, cli.indexOf("`;", helpStart));
+  const help = renderHelp(commands);
 
   const subcommands = [...new Set(evergreenSubcommandsIn(sample))];
   assert.ok(subcommands.length >= 2, "the sample should reference at least check and scan");

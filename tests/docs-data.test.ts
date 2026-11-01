@@ -7,6 +7,9 @@ import { DATA_SIGNER, DATA_BUNDLE_SCHEMA_VERSION } from "../src/data-bundle.js";
 import { STALE_AFTER_DAYS } from "../src/data-status.js";
 import { DEFAULT_RELEASES_URL } from "../src/data-update.js";
 
+import { commands } from "../src/commands/index.generated.js";
+import { renderHelp } from "../src/completions.js";
+
 const read = (path: string) => readFile(resolve(path), "utf8");
 const docs = await read("docs/DATA.md");
 
@@ -19,16 +22,17 @@ test("docs/DATA.md quotes the signer policy the verifier enforces", () => {
 });
 
 test("docs/DATA.md documents the real commands, options, variables, and thresholds", async () => {
-  const cli = await read("src/cli-main.ts");
+  const help = renderHelp(commands);
+  const implementation = `${help}\n${await read("src/commands/data.ts")}\n${await read("src/commands/runtime.ts")}`;
   for (const text of ["data status", "data update", "--data-version"]) {
     assert.ok(docs.includes(text), `docs mention ${text}`);
-    assert.ok(cli.includes(text.replace("data ", "")) || cli.includes(text), `the CLI implements ${text}`);
+    assert.ok(implementation.includes(text.replace("data ", "")) || implementation.includes(text), `the CLI implements ${text}`);
   }
   for (const variable of ["EVERGREEN_DATA_DIR", "EVERGREEN_DATA_VERSION", "EVERGREEN_DATA_URL", "HTTP_PROXY", "HTTPS_PROXY", "NO_PROXY"]) {
     assert.ok(docs.includes(variable), `docs mention ${variable}`);
   }
   for (const variable of ["EVERGREEN_DATA_DIR", "EVERGREEN_DATA_VERSION"]) {
-    assert.ok((await read("src/data-source.ts")).includes(variable) || cli.includes(variable), `${variable} is read by the code`);
+    assert.ok((await read("src/data-source.ts")).includes(variable) || implementation.includes(variable), `${variable} is read by the code`);
   }
   assert.ok((await read("src/data-update.ts")).includes("EVERGREEN_DATA_URL"));
   assert.match(docs, new RegExp(`more than ${STALE_AFTER_DAYS} days|after ${STALE_AFTER_DAYS} days`));

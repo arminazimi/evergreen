@@ -3,6 +3,7 @@ import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
+import { commands } from "../src/commands/index.generated.js";
 import { BUNDLED_ECOSYSTEMS } from "../src/data-bundle.js";
 import { renderScaffold, scaffoldNames } from "../tools/scaffold/index.js";
 
@@ -20,8 +21,7 @@ test("the guide lists exactly the files the generator creates", () => {
 });
 
 test("the commands in the guide and in CONTRIBUTING.md exist", async () => {
-  const cli = await read("src/cli-main.ts");
-  assert.ok(cli.includes("new-detector"));
+  assert.ok(commands.some((command) => command.name === "new-detector"));
   for (const text of ["node dist/src/cli.js new-detector go-modules --ecosystem go", "npm run validate:public-repos", "npm run check"]) assert.ok(section.includes(text), text);
   const contributing = await read("CONTRIBUTING.md");
   assert.ok(contributing.includes("node dist/src/cli.js new-detector <id> [--ecosystem <slug>]"));
