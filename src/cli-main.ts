@@ -14,6 +14,7 @@ import { isIsoDate } from "./registry.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
 import { isCompletionShell, renderCompletions, renderExamples } from "./completions.js";
 import { bundledRules, checkDependency, CheckDependencyError } from "./check-dependency.js";
+import { checkSnippet, SnippetInputError } from "./check-snippet.js";
 import { AgentFileError } from "./agent-instructions.js";
 import { configureActiveData, DataPinError, getActiveData } from "./data-source.js";
 import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
@@ -120,6 +121,7 @@ Usage:
   evergreen fix [path] --branch               # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
+  evergreen check-snippet --path <path> [--json]   # check one snippet from stdin before writing it; reads no repository
   evergreen guard [--fail-on <severity|none>] [--force] npm install <package>...   # check first; flags after npm go to npm
   evergreen usage [--file <path>] [--json]
   evergreen mcp
@@ -797,7 +799,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "countdown" && command !== "plan" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "inventory" && command !== "badge" && command !== "receipt" && command !== "upgrade-check" && command !== "drift") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "check-snippet" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "countdown" && command !== "plan" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "inventory" && command !== "badge" && command !== "receipt" && command !== "upgrade-check" && command !== "drift") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -983,6 +985,9 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
     return fail("usage", "check supports --json and --format text|json only.");
   }
+  if (command === "check-snippet" && format !== undefined && format !== "json" && format !== "text") {
+    return fail("usage", "check-snippet supports --json and --format text|json only.");
+  }
   if (command === "receipt" && format !== undefined && format !== "markdown" && format !== "json") {
     return fail("usage", "receipt supports --format markdown|json only.");
   }
@@ -1080,6 +1085,38 @@ async function main(rawArgs: string[]): Promise<number> {
   }
   if (takesFindingId && !findingId) {
     return fail("usage", "Missing finding ID.", `\n${HELP}`);
+  }
+  if (command === "check-snippet") {
+    const snippetUsage = "Usage: evergreen check-snippet --path <path> [--json]   # the snippet content arrives on stdin";
+    let snippetPath: string | undefined;
+    for (let index = 1; index < args.length; index += 1) {
+      const argument = args[index]!;
+      if (argument === "--path") {
+        const value = args[index + 1];
+        if (value === undefined || value.startsWith("-")) return fail("usage", "--path needs the intended repository-relative path of the snippet.", `\n${snippetUsage}`);
+        snippetPath = value;
+        index += 1;
+      } else if (argument !== "--json") {
+        return fail("usage", snippetUsage);
+      }
+    }
+    if (!snippetPath) return fail("usage", "Missing --path, the intended repository-relative path of the snippet.", `\n${snippetUsage}`);
+    if (process.stdin.isTTY) return fail("usage", "check-snippet reads the snippet content from stdin. Pipe it, for example: cat Dockerfile | evergreen check-snippet --path Dockerfile.");
+    try {
+      const content = await new Promise<string>((resolveSnippet, rejectSnippet) => {
+        const chunks: Buffer[] = [];
+        process.stdin.on("data", (chunk) => chunks.push(chunk));
+        process.stdin.on("end", () => resolveSnippet(Buffer.concat(chunks).toString("utf8")));
+        process.stdin.on("error", rejectSnippet);
+      });
+      const check = await checkSnippet({ path: snippetPath, content });
+      const text = json ? JSON.stringify(check, null, 2) : [check.message, ...check.findings.map(renderFindingText)].join("\n\n");
+      process.stdout.write(`${text}\n`);
+      return 0;
+    } catch (error) {
+      if (error instanceof SnippetInputError) return fail("usage", error.message);
+      throw error;
+    }
   }
   if (command === "doctor") {
     const result = await diagnoseEnvironment(pathArgument, { system: args.includes("--system") });

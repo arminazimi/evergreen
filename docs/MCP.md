@@ -117,12 +117,17 @@ Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https
 | `verify_migration` | `finding_id`, `repository_path?` | `evergreen.verification.v1` (`verification.v1.schema.json`) | Re-scan and check a finding observed earlier in the session. |
 | `check_dependency` | `purl`, `version?` | `evergreen.check.v1` (`check.v1.schema.json`) | Check one package before adding it; reads no repository. |
 | `check_upgrade` | `target`, `path?` | `evergreen.upgrade.v1` (`upgrade.v1.schema.json`) | Whether the project can move to a target runtime, from lockfiles and manifests; `unknown` means no evidence was found, not that the upgrade is safe. |
+| `check_snippet` | `path`, `content` | `evergreen.check-snippet.v1` (`check-snippet.v1.schema.json`) | What Evergreen flags in one snippet before it is written, checked in an isolated temporary directory; locations are relative to the snippet. Call it before writing package manifests, Dockerfiles, CI workflows, and Kubernetes manifests. Reads no repository. |
 | `forecast_repository` | `repository_path?`, `months?`, `as_of?` | `evergreen.forecast.v1` (`forecast.v1.schema.json`) | What reaches a dated end of life in the next months, grouped by month, with the repository's findings each event affects. |
 | `plan_migrations` | `repository_path?` | `evergreen.plan.v1` (`plan.v1.schema.json`) | Migration plan: waves of independent tasks a coordinating agent can hand out. |
 
 `repository_path` defaults to the server's current working directory. Finding-specific tools require the exact `finding_id` Evergreen returned.
 
 `check_upgrade` takes `target` as `runtime@version`, for example `php@8.4`, and reads only files already in the repository. It never installs a runtime, runs Composer, or uses the network. When no analyzer finds evidence for that runtime, the verdict is `unknown` and the tool says so; that is not a statement that the upgrade is safe.
+
+### Checking a snippet before writing it
+
+`check_snippet` answers "if I write this content to this path, what would Evergreen flag?" before the file exists. Pass the intended repository-relative `path` — `Dockerfile`, `.github/workflows/ci.yml`, `package.json` — and the exact `content`. Evergreen writes only that one file into a temporary directory, runs all built-in detectors against it, and returns the findings with paths and lines relative to the snippet, plus a `message` that says when the snippet is clean. The temporary directory is always removed, and the real repository is never read or written.
 
 ### Planning ahead with the forecast
 
@@ -304,4 +309,4 @@ Verification is deliberately conservative. Evergreen remembers the original find
 - No hosted Evergreen service, telemetry, account, or API key is involved.
 - Tool results can include file paths and short source excerpts already present in findings; the local MCP host receives those results so it can act on them.
 
-The versioned JSON contracts live in `schemas/scan.v1.schema.json`, `schemas/deprecations.v1.schema.json`, `schemas/forecast.v1.schema.json`, `schemas/context.v1.schema.json`, and `schemas/verification.v1.schema.json`.
+The versioned JSON contracts live in `schemas/scan.v1.schema.json`, `schemas/deprecations.v1.schema.json`, `schemas/forecast.v1.schema.json`, `schemas/context.v1.schema.json`, `schemas/verification.v1.schema.json`, and `schemas/check-snippet.v1.schema.json`.

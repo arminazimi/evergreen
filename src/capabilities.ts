@@ -192,6 +192,13 @@ const manifest = {
       ecosystems: [],
     },
     {
+      id: "snippet.check",
+      status: "supported",
+      version: "1",
+      description: "Check one file snippet before writing it, in an isolated temporary directory.",
+      ecosystems: [...scanEcosystems],
+    },
+    {
       id: "repository.remote-scan",
       status: "unsupported",
       version: "1",
@@ -219,6 +226,7 @@ const manifest = {
         "deprecation.explain",
         "migration.context.create",
         "environment.doctor",
+        "snippet.check",
       ],
     },
     {
@@ -227,7 +235,7 @@ const manifest = {
       status: "supported",
       version: VERSION,
       entryPoints: ["evergreen-mcp"],
-      capabilityIds: [...workflowCapabilityIds],
+      capabilityIds: [...workflowCapabilityIds, "snippet.check"],
     },
     {
       id: "skill",

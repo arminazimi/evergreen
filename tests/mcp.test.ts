@@ -453,6 +453,7 @@ test("every tool advertises an outputSchema, and its structured content validate
       ["check_dependency", { purl: "pkg:npm/request@2.88.2" }],
       ["check_dependency", { purl: "pkg:npm/express" }],
       ["check_upgrade", { path: root, target: "php@8.4" }],
+      ["check_snippet", { path: "Dockerfile", content: "FROM node:16\n" }],
       ["forecast_repository", { repository_path: root, as_of: "2026-10-29" }],
       ["plan_migrations", { repository_path: root }],
     ];

@@ -6,6 +6,7 @@ import * as z from "zod/v4";
 
 import { EvergreenAgentTools } from "./agent-tools.js";
 import { bundledRules, checkDependency } from "./check-dependency.js";
+import { checkSnippet } from "./check-snippet.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS } from "./forecast.js";
 import { MIGRATE_FINDING_PROMPT, renderMigrationPrompt } from "./migration-prompt.js";
 import { buildPlan } from "./plan-build.js";
@@ -22,6 +23,7 @@ export const MCP_TOOL_NAMES = [
   "verify_migration",
   "check_dependency",
   "check_upgrade",
+  "check_snippet",
   "forecast_repository",
   "plan_migrations",
 ] as const;
@@ -48,6 +50,7 @@ export const MCP_OUTPUT_SCHEMA_FILES = {
   verify_migration: "verification.v1.schema.json",
   check_dependency: "check.v1.schema.json",
   check_upgrade: "upgrade.v1.schema.json",
+  check_snippet: "check-snippet.v1.schema.json",
   forecast_repository: "forecast.v1.schema.json",
   plan_migrations: "plan.v1.schema.json",
 } as const satisfies Record<(typeof MCP_TOOL_NAMES)[number], string>;
@@ -386,6 +389,33 @@ export function createEvergreenMcpServer(
         const parsed = parseUpgradeTarget(target);
         if (!parsed) return failure(new Error(`target must be <runtime>@<version>, for example php@8.4 (got "${target}").`));
         return success(await checkUpgrade(resolve(path), parsed));
+      } catch (error) {
+        return failure(error);
+      }
+    },
+  );
+
+  server.registerTool(
+    "check_snippet",
+    {
+      title: "Check snippet",
+      description:
+        "Check one file snippet before writing it: pass the intended repository-relative path and the exact content, and Evergreen runs all built-in detectors against that one file in an isolated temporary directory. Call this before writing or editing package manifests, Dockerfiles, CI workflows, and Kubernetes manifests. Returns the same findings as scan_repository, with paths and lines relative to the snippet. The real repository is never read or written.",
+      inputSchema: z.object({
+        path: z
+          .string()
+          .min(1)
+          .describe(
+            "The intended repository-relative path, for example Dockerfile, .github/workflows/ci.yml, or package.json. It decides which detector reads the snippet.",
+          ),
+        content: z.string().min(1).describe("The exact content the agent intends to write."),
+      }),
+      outputSchema: outputSchema("check_snippet"),
+      annotations: MCP_TOOL_ANNOTATIONS,
+    },
+    async ({ path, content }) => {
+      try {
+        return success(await checkSnippet({ path, content }));
       } catch (error) {
         return failure(error);
       }

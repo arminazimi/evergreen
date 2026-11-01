@@ -297,6 +297,21 @@ Checks one Package URL against the bundled lifecycle rules and prints the status
 
 An unused package is not reported as safe: `no-data` means Evergreen has no rule for it.
 
+### `check-snippet`
+
+```bash
+evergreen check-snippet --path <path> [--json]   # content arrives on stdin
+```
+
+Answers "if I write this content to this path, what would Evergreen flag?" before the file exists. Pipe the snippet on stdin and pass the intended repository-relative path with `--path` — `Dockerfile`, `.github/workflows/ci.yml`, `package.json`. Evergreen writes only that one file into a temporary directory, runs every built-in detector against it, and prints the findings with paths and lines relative to the snippet. The temporary directory is always removed, and the real repository is never read or written.
+
+| Flag | What it does |
+| --- | --- |
+| `--path <path>` | The repository-relative path the snippet is meant to be written to; it decides which detector reads it. Required. |
+| `--json` | Print the structured check result (`evergreen.check-snippet.v1`). |
+
+Paths that are absolute, contain `..`, or exceed 256 characters are rejected, as is content over 1 MB.
+
 ### `guard`
 
 ```bash

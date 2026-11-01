@@ -65,6 +65,10 @@
       "description": "Answer from repository files whether a project can move to a target runtime. An unknown verdict means no evidence was found, not that the upgrade is safe."
     },
     {
+      "name": "check_snippet",
+      "description": "Check one file snippet before writing it: run all built-in detectors against the intended path and content in an isolated temporary directory, and return the findings."
+    },
+    {
       "name": "forecast_repository",
       "description": "Run a fresh local scan and list what reaches a dated end of life in the next months, grouped by month. Only events that carry an authoritative date are listed."
     },

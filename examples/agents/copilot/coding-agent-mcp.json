@@ -12,6 +12,7 @@
       "tools": [
         "check_dependency",
         "check_upgrade",
+        "check_snippet",
         "scan_repository",
         "list_deprecations",
         "explain_deprecation",

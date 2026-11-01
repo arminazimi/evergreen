@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/check-snippet.v1.schema.json",
+  "title": "Evergreen snippet check v1",
+  "description": "What Evergreen flags in one file snippet, checked in isolation before it is written to a repository. The findings have the same shape as a scan result's, with paths and lines relative to the snippet.",
+  "type": "object",
+  "required": ["schemaVersion", "path", "findings", "message"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "evergreen.check-snippet.v1" },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The repository-relative path the snippet was checked as, for example Dockerfile."
+    },
+    "findings": { "$ref": "scan.v1.schema.json#/properties/findings" },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One sentence a person or an agent can show as is."
+    }
+  }
+}

@@ -32,6 +32,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "dependabot-config", flags: ["--data-version"], example: "evergreen dependabot-config ." },
   { name: "fix", flags: ["--dry-run", "--data-version"], example: "evergreen fix . --dry-run" },
   { name: "check", flags: ["--fail-on", "--json", "--format", "--data-version"], example: "evergreen check pkg:npm/request@2.88.2" },
+  { name: "check-snippet", flags: ["--path", "--json"], example: "evergreen check-snippet --path Dockerfile < Dockerfile.new" },
   { name: "guard", flags: ["--fail-on", "--force", "--data-version"], example: "evergreen guard npm install request" },
   { name: "usage", flags: ["--file", "--json"], example: "evergreen usage --json" },
   { name: "mcp", flags: [], example: "evergreen mcp" },

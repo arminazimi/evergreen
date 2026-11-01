@@ -61,6 +61,12 @@
       "tags": ["upgrade", "runtime", "readiness", "mcp"]
     },
     {
+      "id": "check_snippet",
+      "name": "Check snippet",
+      "description": "Check one file snippet before writing it: run all built-in detectors against the intended path and content in an isolated temporary directory, and return the findings.",
+      "tags": ["snippet", "check", "guardrail", "mcp"]
+    },
+    {
       "id": "forecast_repository",
       "name": "Forecast repository",
       "description": "List dated end-of-life events in the next months that affect findings in this repository.",
