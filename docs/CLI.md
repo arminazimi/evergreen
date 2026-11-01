@@ -138,6 +138,22 @@ Prints a static SVG summary of the scan: finding counts, the next end of life, a
 | --- | --- |
 | `--name <label>` | Repository label shown on the card. Defaults to the directory name. |
 
+### `glance`
+
+```bash
+evergreen glance [path] [--as-of <YYYY-MM-DD>] [--json]
+```
+
+Prints a one-screen summary of the repository's lifecycle state, laid out like `neofetch`: the Evergreen mark on the left and the facts on the right — the repository name (from the git remote, or the folder), every detected ecosystem with its maturity level, findings by severity as colored blocks, the next deadline, the oldest ended item, and the lifecycle data version and age. The severity counts match `scan --json` for the same path.
+
+| Flag | What it does |
+| --- | --- |
+| `[path]` | Repository path. Default `.`. |
+| `--as-of <YYYY-MM-DD>` | Read the state as of this date instead of today. |
+| `--json` | Print the facts as an `evergreen.glance.v1` document, without the mark. |
+
+Below 80 terminal columns the mark is dropped and the facts keep the full width. On a terminal the severity blocks are colored; `NO_COLOR` turns that off. [Showcase](SHOWCASE.md) shows the card and [docs/demos/glance.tape](demos/glance.tape) records it.
+
 ### `lookup`
 
 ```bash

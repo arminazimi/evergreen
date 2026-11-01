@@ -45,6 +45,7 @@ import { planFixReport, planFixes, renderPatches } from "./fix/index.js";
 import { renderVerification, verifyFix } from "./fix/verify.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository, applyScanSelection } from "./engine.js";
 import { renderStatusCard } from "./status-card.js";
+import { buildGlanceFacts, renderGlance } from "./glance.js";
 import { lookupProduct, renderLookupText } from "./lookup.js";
 import { driftCommand } from "./drift/command.js";
 import { upgradeCheck } from "./upgrade/command.js";
@@ -102,6 +103,7 @@ Usage:
   evergreen countdown [path] [--as-of <YYYY-MM-DD>] [--limit <n>] [--json] [--once] [--no-animation]   # live countdown to each dated deadline
   evergreen plan [path] [--json] [--wave <n>]   # migration waves from a scan; --wave prints one zero-based wave
   evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age
+  evergreen glance [path] [--as-of <YYYY-MM-DD>] [--json]   # one-screen summary: the mark beside ecosystems, findings, deadlines, and data age
   evergreen lookup <product> [version] [--json]   # support status, end-of-life date, and evidence for a product
   evergreen inventory <file>... [--format auto|<importer-id>] [--json] [--fail-on <severity|none>] [--redact]   # lifecycle of what a cloud or cluster export names; reads files only
   evergreen drift [path] [--json] [--check] [--runtime <id>] [--align <release>]   # report every runtime version a repository states and whether they agree
@@ -626,6 +628,42 @@ async function statusCard(args: string[]): Promise<number> {
   }
 }
 
+/** `glance`: a one-screen neofetch-style summary card of the repository's lifecycle state. */
+async function glance(args: string[]): Promise<number> {
+  const usage = "Usage: evergreen glance [path] [--as-of <YYYY-MM-DD>] [--json]";
+  const operands: string[] = [];
+  let asOf: string | undefined;
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index]!;
+    if (argument === "--as-of") {
+      asOf = args[index + 1];
+      if (asOf === undefined) return fail("usage", usage);
+      index += 1;
+      continue;
+    }
+    if (argument === "--json") continue;
+    if (argument.startsWith("-")) return fail("usage", usage);
+    operands.push(argument);
+  }
+  if (operands.length > 1) return fail("usage", usage);
+  if (asOf !== undefined && !isIsoDate(asOf)) {
+    return fail("usage", "--as-of must be a date (YYYY-MM-DD).", `\n${usage}`);
+  }
+  const project = resolve(operands[0] ?? ".");
+  try {
+    const scanned = await scanRepository(project, builtInDetectors, {});
+    const result = asOf === undefined ? scanned : await applyAsOf(scanned, asOf);
+    const remote = spawnSync("git", ["-C", project, "remote", "get-url", "origin"], { encoding: "utf8" });
+    const repository = (remote.status === 0 ? repositoryFromRemote(remote.stdout) : undefined) ?? basename(project);
+    const facts = buildGlanceFacts(result, { repository, asOf: asOf ?? new Date().toISOString().slice(0, 10) });
+    const color = Boolean(process.stdout.isTTY) && !process.env.NO_COLOR;
+    process.stdout.write(`${args.includes("--json") ? JSON.stringify(facts, null, 2) : renderGlance(facts, { columns: process.stdout.columns, color })}\n`);
+    return 0;
+  } catch (error) {
+    return fail("parse", (error as Error).message);
+  }
+}
+
 /** `lookup`: resolves a product name and version against the bundled lifecycle rules. */
 async function lookup(args: string[]): Promise<number> {
   const usageText = "Usage: evergreen lookup <product> [version] [--json]";
@@ -799,7 +837,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "check-snippet" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "countdown" && command !== "plan" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "inventory" && command !== "badge" && command !== "receipt" && command !== "upgrade-check" && command !== "drift") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "check-snippet" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "countdown" && command !== "plan" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "glance" && command !== "lookup" && command !== "inventory" && command !== "badge" && command !== "receipt" && command !== "upgrade-check" && command !== "drift") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -820,6 +858,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "setup") return setup(args.slice(1));
   if (command === "usage") return usage(args.slice(1));
   if (command === "status-card") return statusCard(args.slice(1));
+  if (command === "glance") return glance(args.slice(1));
   if (command === "badge") return badge(args.slice(1));
   if (command === "lookup") return lookup(args.slice(1));
   if (command === "drift") return driftCommand(args.slice(1));

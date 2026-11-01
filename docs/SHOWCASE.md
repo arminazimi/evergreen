@@ -18,6 +18,16 @@ On a terminal the frame redraws once per second for six seconds and stops on the
 
 The example uses `examples/gallery`, which has upcoming deadlines across container, runtime, and package rules. `docs/demos/countdown.tape` records the animation with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/countdown.tape`.
 
+## Glance card
+
+```bash
+npx evergreen-deprecation glance examples/gallery --as-of 2026-10-25
+```
+
+Prints a one-screen summary of the repository's lifecycle state, laid out like `neofetch`: the Evergreen mark on the left in the brand green, the facts on the right. The facts are the repository name, every detected ecosystem with its maturity level, findings by severity as colored blocks, the next deadline, the oldest ended item, and the lifecycle data version and age. The counts are the ones `scan --json` reports for the same path.
+
+Under 80 terminal columns the mark is dropped and the facts keep the full width. `--json` prints the facts alone as an `evergreen.glance.v1` document, so a script or a dashboard can reuse them. `docs/demos/glance.tape` records the card with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/glance.tape`.
+
 ## Mermaid support windows
 
 ```bash

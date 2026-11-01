@@ -19,6 +19,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "countdown", flags: ["--as-of", "--limit", "--json", "--once", "--no-animation", "--no-cache", "--data-version"], example: "evergreen countdown . --as-of 2026-10-25" },
   { name: "plan", flags: ["--json", "--wave", "--data-version"], example: "evergreen plan . --json" },
   { name: "status-card", flags: ["--name"], example: "evergreen status-card . --name acme/widgets" },
+  { name: "glance", flags: ["--as-of", "--json"], example: "evergreen glance . --as-of 2026-11-01" },
   { name: "lookup", flags: ["--json"], example: "evergreen lookup node 18" },
   { name: "drift", flags: ["--json", "--check", "--runtime", "--align"], example: "evergreen drift . --check" },
   { name: "upgrade-check", flags: ["--to", "--json"], example: "evergreen upgrade-check --to nodejs@22" },
