@@ -7,7 +7,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 
 import { exampleImporter } from "../../tools/importers/example.js";
-import { readRecording, recordingContext, replayContext, validateRecording } from "../../tools/importers/recording.js";
+import { readRecording, recordingContext, redactCredentials, replayContext, validateRecording, writeRecording } from "../../tools/importers/recording.js";
 import type { Recording } from "../../tools/importers/recording.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
 import { ImporterError } from "../../tools/importers/types.js";
@@ -135,10 +135,37 @@ test("every committed recording is valid and named for its importer", async () =
   const files = (await readdir(directory)).filter((name) => name.endsWith(".json"));
   assert.ok(files.length > 0);
   for (const name of files) {
-    const recording = await readRecording(join(directory, name));
+    const raw = await readFile(join(directory, name), "utf8");
+    const recording = validateRecording(JSON.parse(raw) as unknown);
     assert.equal(`${recording.importer}.json`, name);
     if (name === "example-feed.json") assert.equal(recording.synthetic, true, "the example recording is written by hand and says so");
+    assert.equal(redactCredentials(raw), raw, `${name} contains a credential; re-record it or remove the value`);
   }
+});
+
+test("a recording written with a credential keeps the request shape but not the secret", async (t) => {
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-recording-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const token = "ghp_" + "a".repeat(36);
+  const file = join(directory, "secret.json");
+  await writeRecording(file, {
+    schemaVersion: "evergreen.importer-recording.v1",
+    importer: "x",
+    recordedAt: "2026-10-15",
+    responses: [
+      { url: `https://example.com/feed?access_token=${token}`, body: `{"auth":"Bearer abcdefghijklmnop1234"}` },
+      { url: "https://example.com/key", body: `{"key":"AKIA${"B".repeat(16)}"}` },
+      { url: "https://example.com/failed", error: `GET failed with token ${token}` },
+    ],
+  });
+  const raw = await readFile(file, "utf8");
+  assert.doesNotMatch(raw, /ghp_|AKIA|abcdefghijklmnop1234/);
+  const saved = await readRecording(file);
+  assert.deepEqual(saved.responses.map((response) => response.url), ["https://example.com/feed?access_token=[REDACTED]", "https://example.com/key", "https://example.com/failed"]);
+  assert.equal(saved.responses[0]!.body, `{"auth":"[REDACTED]"}`);
+  assert.equal(saved.responses[1]!.body, `{"key":"[REDACTED]"}`);
+  assert.equal(saved.responses[2]!.error, "GET failed with token [REDACTED]");
+  assert.equal(redactCredentials(raw), raw);
 });
 
 test("running an importer with a replay context needs no network", async () => {

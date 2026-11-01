@@ -122,6 +122,39 @@ export async function readRecording(path: string): Promise<Recording> {
   return validateRecording(JSON.parse(await readFile(path, "utf8")) as unknown);
 }
 
+const REDACTED = "[REDACTED]";
+
+/** Credential-shaped text: private keys, provider tokens, bearer headers and token-like query parameters. */
+const CREDENTIAL_PATTERNS: RegExp[] = [
+  /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g,
+  /\bgh[pousr]_[A-Za-z0-9]{36,}\b/g,
+  /\bgithub_pat_[A-Za-z0-9_]{22,}\b/g,
+  /\bAKIA[0-9A-Z]{16}\b/g,
+  /\bnpm_[A-Za-z0-9]{36}\b/g,
+  /\bxox[abprs]-[A-Za-z0-9-]{10,}\b/g,
+  /\bBearer\s+[A-Za-z0-9._~+/-]{16,}=*/gi,
+  /(?<=[?&](?:access_token|api[_-]?key|token|secret|password)=)[^&"\s]+/gi,
+];
+
+/** Replaces every credential-shaped value in `text` with `[REDACTED]`. Text without one comes back unchanged. */
+export function redactCredentials(text: string): string {
+  return CREDENTIAL_PATTERNS.reduce((redacted, pattern) => redacted.replace(pattern, REDACTED), text);
+}
+
+function redactRecording(recording: Recording): Recording {
+  return {
+    ...recording,
+    responses: recording.responses.map((response) => ({
+      ...response,
+      url: redactCredentials(response.url),
+      ...(response.requestBody === undefined ? {} : { requestBody: redactCredentials(response.requestBody) }),
+      ...(response.body === undefined ? {} : { body: redactCredentials(response.body) }),
+      ...(response.error === undefined ? {} : { error: redactCredentials(response.error) }),
+    })),
+  };
+}
+
+/** Writes a recording with credential-shaped values redacted, so a committed recording never holds one. */
 export async function writeRecording(path: string, recording: Recording): Promise<void> {
-  await writeFile(path, `${JSON.stringify(validateRecording(recording), null, 2)}\n`);
+  await writeFile(path, `${JSON.stringify(redactRecording(validateRecording(recording)), null, 2)}\n`);
 }
