@@ -1,5 +1,6 @@
 import { isIsoDate } from "../../src/registry.js";
 import { isoDate } from "./canonical.js";
+import { decodeEntities, stripHtml } from "./html.js";
 import type { DraftRule, Importer } from "./types.js";
 
 export const GCLOUD_RUNTIME_SUPPORT_URL = "https://cloud.google.com/functions/docs/runtime-support";
@@ -22,18 +23,7 @@ export interface GCloudRuntimeRow {
 }
 
 function cellText(html: string): string {
-  const decoded = html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex: string) => String.fromCodePoint(Number.parseInt(hex, 16)))
-    .replace(/&#(\d+);/g, (_, dec: string) => String.fromCodePoint(Number(dec)));
-  return decoded.replace(/\s+/g, " ").trim();
+  return decodeEntities(stripHtml(html)).replace(/\s+/g, " ").trim();
 }
 
 function parseScheduleDate(text: string): string | undefined {

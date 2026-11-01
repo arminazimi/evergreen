@@ -12,7 +12,15 @@ export const NPM_NAME = /^(?:@[A-Za-z0-9~-][A-Za-z0-9._~-]*\/)?[A-Za-z0-9~-][A-Z
 
 const MAX_MESSAGE = 280;
 
-export const registryUrl = (name: string) => `${REGISTRY}/${name.replace("/", "%2f")}/latest`;
+export const registryUrl = (name: string) => `${REGISTRY}/${encodePackageName(name)}/latest`;
+
+/**
+ * Percent-encode a package name for a URL path. `encodeURIComponent` handles backslashes and other
+ * path metacharacters; the `@` and the single `/` of a scoped name keep their npm registry spelling.
+ */
+function encodePackageName(name: string): string {
+  return encodeURIComponent(name).replace(/%40/gi, "@").replace(/%2F/gi, "%2f");
+}
 
 /** The part of a rule id that names the package: `request`, or `scope.name` for a scoped package. */
 export function ruleSlug(name: string): string {

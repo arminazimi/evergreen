@@ -136,6 +136,14 @@ test("compatibilitySignals still parse the real page shape", () => {
   assert.equal(semverBound("2.8.12"), "2.8.12");
 });
 
+test("a note inside a script block is ignored, and a > inside an attribute does not stop the scan", () => {
+  const html = [
+    "<script>Changed in version 9.9: Compatibility with versions of CMake older than 1.0 is removed.</script >",
+    '<p title="a > b">Changed in version 4.0: Compatibility with versions of CMake older than 3.5 is removed.</p>',
+  ].join("\n");
+  assert.deepEqual(compatibilitySignals(html), [{ cmake: "4.0", floor: "3.5", kind: "removed" }]);
+});
+
 function contextWith(
   html: string,
   releases: Record<string, { published_at?: string; html_url?: string }>,

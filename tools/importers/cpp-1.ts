@@ -1,4 +1,5 @@
 import { isoDate } from "./canonical.js";
+import { decodeEntities, stripHtml } from "./html.js";
 import { fetchJson } from "./types.js";
 import type { DraftRule, Importer, ImporterContext } from "./types.js";
 
@@ -31,14 +32,7 @@ const SIGNAL =
   /Changed in version (\d+\.\d+):\s*Compatibility with versions of CMake older than ([\d.]+) is (removed|deprecated)\./gi;
 
 function pageText(html: string): string {
-  return html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&nbsp;/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  return decodeEntities(stripHtml(html)).replace(/\s+/g, " ").trim();
 }
 
 /** Every compatibility removal or deprecation the page states. */
