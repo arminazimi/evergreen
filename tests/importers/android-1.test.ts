@@ -1,11 +1,18 @@
 /**
- * Recording provenance: `tests/importers/recordings/android-1.json` is the unedited raw HTML from
- * the Wayback Machine `id_` capture dated 2026-09-29 of
+ * Recording provenance: `tests/importers/recordings/android-1.json` is the raw HTML from the
+ * Wayback Machine `id_` capture dated 2026-09-29 of
  * https://developer.android.com/google/play/requirements/target-sdk
  * (https://web.archive.org/web/20260929090425id_/https://developer.android.com/google/play/requirements/target-sdk).
  * Live `developer.android.com` returns HTTP 403 to the importer user agent; the recording keeps the
  * live URL so replay matches what the importer fetches. Schema `evergreen.importer-recording.v1`
  * has no provenance/note field, so this comment and the PR body carry that history.
+ *
+ * Secret-scanning note (#2003): the capture embedded nine `google_api_key`-shaped values in a
+ * trailing GoogleDevelopersObject bootstrap script (devsite client config next to
+ * developers*.googleapis.com hosts). Those are public upstream page configuration from Google's
+ * developer site, not credentials for this repository. They were replaced in-place with
+ * `REDACTED_PUBLIC_DEVSITE_KEY_*` placeholders; the importer only reads the target-SDK requirement
+ * copy earlier in the HTML, so the redaction does not change draft output.
  */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
