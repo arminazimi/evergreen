@@ -6,21 +6,41 @@ import { promisify } from "node:util";
 
 const execute = promisify(execFile);
 
-/**
- * A throwaway copy of the parts of the repository a detector skeleton needs (package.json, tsconfig, src, registry,
- * data), with this checkout's node_modules linked in, so a generated skeleton can really be compiled and tested.
- */
-export async function scaffoldCheckout(roots: string[]): Promise<string> {
+async function newRoot(roots: string[]): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-scaffold-"));
   roots.push(root);
+  return root;
+}
+
+/**
+ * A throwaway copy of the parts of the repository a skeleton is checked against: `package.json`, `src/detectors` and
+ * `registry`, which is all the checkout check and the collision scan read. A skeleton is written into this copy.
+ */
+export async function scaffoldCheckout(roots: string[]): Promise<string> {
+  const root = await newRoot(roots);
+  await cp(resolve("src", "detectors"), join(root, "src", "detectors"), { recursive: true });
+  await cp(resolve("registry"), join(root, "registry"), { recursive: true });
+  await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
+  return root;
+}
+
+/**
+ * The fuller copy a skeleton needs to really compile and run: the source tree, the scaffold templates, the data and
+ * schemas the CLI bundles, and this checkout's node_modules linked in.
+ *
+ * The `include` covers the generated tests only. The compiler follows their imports, so the skeleton and everything it
+ * touches is still typechecked, but the other three hundred source files are not compiled again for each test.
+ */
+export async function compileCheckout(roots: string[]): Promise<string> {
+  const root = await newRoot(roots);
   await cp(resolve("src"), join(root, "src"), { recursive: true });
-  await cp(resolve("tools/scaffold"), join(root, "tools", "scaffold"), { recursive: true });
+  await cp(resolve("tools", "scaffold"), join(root, "tools", "scaffold"), { recursive: true });
   await cp(resolve("registry"), join(root, "registry"), { recursive: true });
   await cp(resolve("data"), join(root, "data"), { recursive: true });
   await cp(resolve("schemas"), join(root, "schemas"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
   const tsconfig = JSON.parse(await readFile(resolve("tsconfig.json"), "utf8")) as { include: string[] };
-  tsconfig.include = ["src/**/*.ts", "tests/**/*.ts", "tools/scaffold/**/*.ts"];
+  tsconfig.include = ["tests/**/*.ts"];
   await writeFile(join(root, "tsconfig.json"), JSON.stringify(tsconfig, null, 2));
   await symlink(resolve("node_modules"), join(root, "node_modules"), "dir");
   return root;

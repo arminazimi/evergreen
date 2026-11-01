@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
 import { scaffoldDetector } from "../tools/scaffold/index.js";
-import { compile, removeAll, runTest, scaffoldCheckout } from "./scaffold-helpers.js";
+import { compile, compileCheckout, removeAll, runTest } from "./scaffold-helpers.js";
 
 const roots: string[] = [];
 
@@ -105,7 +105,7 @@ const expectedFinding = (ruleId: string, title: string, value: string, file: str
   `[{ id: "${ruleId}:${file}:${line}", ruleId: "${ruleId}", title: "${title}", summary: "${value}: ${title}.", severity: "high", location: { path: "${file}", line: ${line} }, replacement: "A supported release", sources: [{ title: "Support policy", url: "https://example.com/support-policy" }] }]`;
 
 test("two different ecosystems, each filled in on top of a generated skeleton, compile together and pass full conformance", async () => {
-  const checkout = await scaffoldCheckout(roots);
+  const checkout = await compileCheckout(roots);
   const first = await scaffoldDetector("line-version", { root: checkout });
   const second = await scaffoldDetector("tag-list", { root: checkout, ecosystem: "tags" });
   assert.deepEqual([first.names.ecosystem, second.names.ecosystem], ["line-version", "tags"]);

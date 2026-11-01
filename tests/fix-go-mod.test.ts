@@ -6,8 +6,9 @@ import { dirname, join, resolve } from "node:path";
 import { test, type TestContext } from "node:test";
 import { promisify } from "node:util";
 
+import { runCli } from "./cli-runner.js";
+
 const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 
 async function repository(t: TestContext, files: Record<string, string>): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-fix-go-"));
@@ -20,7 +21,9 @@ async function repository(t: TestContext, files: Record<string, string>): Promis
 }
 
 async function fix(root: string): Promise<string> {
-  return (await execute(process.execPath, [cli, "fix", root, "--dry-run"])).stdout;
+  const result = await runCli(["fix", root, "--dry-run"]);
+  assert.equal(result.code, 0, result.stderr);
+  return result.stdout;
 }
 
 test("raises only Go directive values, preserves formatting, and produces an applicable, idempotent patch", async (t) => {

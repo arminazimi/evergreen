@@ -8,7 +8,8 @@ import { promisify } from "node:util";
 
 import { validateRegistryV2 } from "../src/registry.js";
 import { renderScaffold, renderScaffoldResult, scaffoldDetector, scaffoldNames, ScaffoldError } from "../tools/scaffold/index.js";
-import { compile, removeAll, runTest, scaffoldCheckout } from "./scaffold-helpers.js";
+import { runCli } from "./cli-runner.js";
+import { compile, compileCheckout, removeAll, runTest, scaffoldCheckout } from "./scaffold-helpers.js";
 
 const execute = promisify(execFile);
 const roots: string[] = [];
@@ -80,7 +81,7 @@ test("an existing file stops the whole run before anything is written", async ()
 });
 
 test("a generated skeleton compiles and passes the conformance suite with zero rules", async () => {
-  const checkout = await scaffoldCheckout(roots);
+  const checkout = await compileCheckout(roots);
   const result = await scaffoldDetector("sample-lang", { root: checkout, ecosystem: "sample" });
   assert.equal(result.files.length, 9);
   for (const file of result.files) assert.ok(await exists(join(checkout, file)), file);
@@ -104,8 +105,9 @@ test("the result lists the files and the manual steps that remain", async () => 
 });
 
 test("the command creates the skeleton from a checkout, and explains itself elsewhere", async () => {
-  const cli = resolve("dist/src/cli.js");
-  const run = (args: string[], cwd: string) => execute(process.execPath, [cli, ...args], { cwd }).then((value) => ({ code: 0, ...value }), (error: { code: number; stdout: string; stderr: string }) => error);
+  // One real spawn keeps the process boundary covered; the rest run in process, where a call costs milliseconds.
+  const spawned = (args: string[], cwd: string) => execute(process.execPath, [resolve("dist/src/cli.js"), ...args], { cwd }).then((value) => ({ code: 0, ...value }), (error: { code: number; stdout: string; stderr: string }) => error);
+  const run = async (args: string[], cwd: string) => (await runCli(args, { cwd }));
 
   const checkout = await scaffoldCheckout(roots);
   const created = await run(["new-detector", "tiny-lang"], checkout);
@@ -126,7 +128,7 @@ test("the command creates the skeleton from a checkout, and explains itself else
     assert.equal(failure.code, 2, args.join(" "));
     assert.notEqual(failure.stderr, "", args.join(" "));
   }
-  assert.match((await run(["new-detector"], checkout)).stderr, /Usage: evergreen new-detector <id>/);
+  assert.match((await spawned(["new-detector"], checkout)).stderr, /Usage: evergreen new-detector <id>/);
 });
 
 test("a detector id that is already taken is refused, and nothing is written", async () => {
@@ -177,10 +179,7 @@ test("detectors written as classes are found too, and fresh names still work", a
 
 test("the command reports a collision with a usage-style exit code", async () => {
   const checkout = await scaffoldCheckout(roots);
-  const result = await execute(process.execPath, [resolve("dist/src/cli.js"), "new-detector", "python"], { cwd: checkout }).then(
-    () => ({ code: 0, stderr: "" }),
-    (error: { code: number; stderr: string }) => error,
-  );
+  const result = await runCli(["new-detector", "python"], { cwd: checkout });
   assert.equal(result.code, 2);
   assert.match(result.stderr, /the detector id "python" is already used by src\/detectors\/python\.ts/);
 });

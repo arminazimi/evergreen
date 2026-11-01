@@ -1,10 +1,8 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, afterEach, test } from "node:test";
-import { promisify } from "node:util";
 
 import { buildDataBundle, serializeDataBundle } from "../src/data-bundle.js";
 import type { DataBundle } from "../src/data-bundle.js";
@@ -20,8 +18,8 @@ import {
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 import { renderDataStatusText, dataStatusFrom } from "../src/data-status.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
 const roots: string[] = [];
 const signer = { identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01", issuer: "https://token.actions.githubusercontent.com" };
 const accepting = { verifySignature: () => signer };
@@ -124,13 +122,7 @@ test("a pin that cannot be met is an error with the way out, never a quiet fallb
 });
 
 async function cli(args: string[], env: Record<string, string>) {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [resolve("dist/src/cli.js"), ...args], { env: { ...process.env, ...env } });
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code, stdout: failure.stdout, stderr: failure.stderr };
-  }
+  return runCli(args, { env });
 }
 
 test("the CLI takes the pin from --data-version or EVERGREEN_DATA_VERSION, and the flag wins", async () => {
