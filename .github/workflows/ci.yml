@@ -298,6 +298,8 @@ jobs:
   # report-only until the site is clean; then pass `--fail-on error` and a broken internal link
   # fails CI.
   seaworthy:
+    # Runs only on pushes to main, not on pull requests or merge queue runs.
+    if: github.ref == 'refs/heads/main'
     name: seaworthy (built site)
     runs-on: ubuntu-latest
     timeout-minutes: 25
