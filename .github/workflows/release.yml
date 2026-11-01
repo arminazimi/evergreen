@@ -85,7 +85,9 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
-          cache: npm
+          # No dependency cache: this job writes to the repository, so a poisoned cache must not be
+          # able to change the commit that a release tag will ship.
+          package-manager-cache: false
       - name: Select the version this push released
         id: release
         shell: bash
