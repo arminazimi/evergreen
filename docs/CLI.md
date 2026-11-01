@@ -108,6 +108,24 @@ Lists what reaches end of life next, grouped by month, from the current scan.
 
 The SVG has no script and no external references, so it is safe to commit and embed as an image. [Showcase](SHOWCASE.md) covers embedding it in a README and refreshing it on a schedule.
 
+### `countdown`
+
+```bash
+evergreen countdown [path] [--as-of <YYYY-MM-DD>] [--limit <n>] [--json] [--once] [--no-animation]
+```
+
+Prints a live countdown to every dated lifecycle deadline that affects the repository: one row per subject, soonest first. Each row carries a bar scaled to the remaining time in a two-year window and the time left until 00:00 UTC on the deadline.
+
+| Flag | What it does |
+| --- | --- |
+| `--as-of <YYYY-MM-DD>` | Count down from 00:00 UTC on this date instead of now. |
+| `--limit <n>` | How many deadlines to show. Whole number of at least `1`; default `10`. |
+| `--json` | Print the rows in an `evergreen.countdown.v1` document, with `subject`, `deadline`, `remainingSeconds`, `ruleId`, and `location` for each. |
+| `--once` | Print one frame and exit. |
+| `--no-animation` | Print one static frame instead of animating on a terminal. |
+
+Bars are green while more than 180 days remain, yellow from 30 to 180, red under 30, and dim once the deadline has passed. The command looks 24 months ahead, the span a full bar represents. On a terminal the frame redraws once per second for six seconds and stops on the final frame; Ctrl-C clears the timer and exits `130`. Off a terminal, with `--once`, or with `--no-animation` it prints one static frame. `--json` always prints one document, and its deadline dates match `forecast --json` for the same `--as-of`.
+
 ### `status-card`
 
 ```bash
