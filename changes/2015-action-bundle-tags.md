@@ -1,0 +1,1 @@
+- Build the GitHub Action bundle onto a `release/<tag>` branch in the Release workflow instead of committing it on `main`, so release tags keep a working `uses: arminazimi/evergreen@<tag>` and ordinary pull requests stop conflicting on the file. (#2015)

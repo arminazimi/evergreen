@@ -25,7 +25,7 @@ jobs:
           fail-on-severity: high
 ```
 
-Version tags provide stable release references. Pin a full commit SHA when your threat model requires immutable third-party action references.
+Version tags provide stable release references. Pin a full commit SHA when your threat model requires immutable third-party action references. A release tag points at a commit that carries the compiled Action bundle, which the release chain builds onto a `release/<tag>` branch and never rebuilds, so the Action runs without installing anything and a tag you pinned keeps doing what it did. [Releasing](RELEASING.md#action-bundles-on-release-tags) explains why the bundle is not on `main`.
 
 ## Reusable workflow (one `uses:` line)
 

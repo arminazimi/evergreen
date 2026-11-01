@@ -18,7 +18,7 @@ test("docs/RELEASING.md links to files and workflows that exist", async () => {
   for (const link of new Set([...text.matchAll(/\]\(([A-Za-z0-9_./-]+\.md)\)/g)].map((match) => match[1]!))) {
     await access(resolve("docs", link));
   }
-  for (const path of ["CHANGELOG.md", "benchmarks/thresholds.json", "registry/sources.lock.json", "dist/action/index.js"]) {
+  for (const path of ["CHANGELOG.md", "benchmarks/thresholds.json", "registry/sources.lock.json", ".github/workflows/release.yml"]) {
     assert.ok(text.includes(path), `${path} should be covered`);
     await access(resolve(path));
   }

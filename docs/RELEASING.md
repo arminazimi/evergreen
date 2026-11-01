@@ -14,7 +14,7 @@ Every gate must pass on the commit you will tag. None of them is optional.
 
 | Gate | Command | What it proves |
 |---|---|---|
-| Full check | `npm run check` | Build, Action bundle matches source, all tests including coverage floors in CI, plugin packages are in sync, plugin evals. This is what CI and `npm publish` (through `prepack`) run. |
+| Full check | `npm run check` | Build, the Action bundle compiles, all tests including coverage floors in CI, plugin packages are in sync, plugin evals. This is what CI and `npm publish` (through `prepack`) run. |
 | Coverage floors | `npm run test:coverage` | Lines, branches, and functions stay above the floors in `package.json`. |
 | Public corpus | `npm run validate:public-repos` | Exact findings on every pinned public repository, and each detector's precision above its floor in `benchmarks/thresholds.json`. Needs network. |
 | Source freshness | `npm run check:sources` | No rule is stale and no source has moved or disappeared. Needs network. Review anything it reports before releasing. |
@@ -22,6 +22,17 @@ Every gate must pass on the commit you will tag. None of them is optional.
 | Reproducible package | `npm run check:reproducible` | Two clean builds of the same commit pack to byte-identical npm tarballs. The release workflow runs the same check and fails on a mismatch. |
 
 The last weekly runs of the corpus and source-freshness workflows should also be green. If either is red, fix or explain it before tagging.
+
+## Action bundles on release tags
+
+The GitHub Action runs `dist/action/index.js`, one compiled bundle. `main` does not carry it: every merge rewrote the one minified line, so any two pull requests conflicted on it. Release tags still need the file, so the release chain builds it where it is needed:
+
+- A push to `main` that changes the version in `package.json` runs the *Release* workflow's `action-bundle` job. It builds `dist/action`, commits it on the branch `release/vX.Y.Z` (one commit on top of the release commit), and prints the tagging commands below.
+- The release tag points at that branch tip, not at a commit on `main`. The tag is created once and never moves, so `uses: arminazimi/evergreen@vX.Y.Z` keeps working for everyone who pinned it.
+- [`publish.yml`](../.github/workflows/publish.yml) refuses a tag that is not exactly that branch tip, or whose parent is not on `main`, or that changes anything besides `dist/action/`. `prepack` then rebuilds the bundle on the tagged commit and fails when the committed copy differs, so a stale or hand-edited bundle cannot be published.
+- The npm tarball is unaffected: `package.json`'s `files` list does not include `dist/action`, so the tarball is byte-identical to one packed from the release commit on `main`.
+
+The tradeoff is that a release tag no longer points into `main` history, and its commit is not on `main`. The alternative, moving the tag onto a rebuilt commit after publishing, was rejected: the tag would move under users who already pinned it, the publish workflow would re-trigger, and every other release job (binaries, container, quickstart, major tag) selects the release by `git tag --points-at` on the commit it checked out.
 
 ## Verifying a published release
 
@@ -33,11 +44,11 @@ cd evergreen
 npm ci && npm run check:reproducible
 ```
 
-The printed SHA-256 must match the tarball npm serves for the version, which you can download and hash separately with `npm pack evergreen-deprecation@X.Y.Z` in an empty directory and `shasum -a 256 evergreen-deprecation-X.Y.Z.tgz`. npm normalizes the tar metadata (uid, gid, and mtimes) when packing, so the bytes depend on the shipped file contents only; a mismatch means the build is nondeterministic, and the check keeps both tarballs for diffing.
+The clone is the release branch tip: `git log -1` shows the commit that adds `dist/action/`, whose parent is the release commit on `main`. The printed SHA-256 must match the tarball npm serves for the version, which you can download and hash separately with `npm pack evergreen-deprecation@X.Y.Z` in an empty directory and `shasum -a 256 evergreen-deprecation-X.Y.Z.tgz`. npm normalizes the tar metadata (uid, gid, and mtimes) when packing, so the bytes depend on the shipped file contents only; a mismatch means the build is nondeterministic, and the check keeps both tarballs for diffing.
 
 ## One-time npm setup
 
-Trusted publishing needs the package to name its publisher. On npmjs.com, open the `evergreen-deprecation` package, then Settings, then Trusted Publisher, choose GitHub Actions, and enter organization or user `arminazimi`, repository `evergreen`, and workflow filename `publish.yml` (leave the environment empty). Once a release has published this way, set the package's publishing access to "Require two-factor authentication and disallow tokens" so that only this workflow can publish. To rehearse the path before a real release, push a pre-release tag such as `vX.Y.Z-rc.1` from `main`.
+Trusted publishing needs the package to name its publisher. On npmjs.com, open the `evergreen-deprecation` package, then Settings, then Trusted Publisher, choose GitHub Actions, and enter organization or user `arminazimi`, repository `evergreen`, and workflow filename `publish.yml` (leave the environment empty). Once a release has published this way, set the package's publishing access to "Require two-factor authentication and disallow tokens" so that only this workflow can publish. To rehearse the path before a real release, set `package.json` to a pre-release version such as `X.Y.Z-rc.1` through a pull request and tag its release branch.
 
 ## Steps
 
@@ -52,20 +63,22 @@ Trusted publishing needs the package to name its publisher. On npmjs.com, open t
 
    ```bash
    npm run build:plugins
-   npm run build:action
    ```
 
-   This updates the plugin manifests and `.mcp.json` pins under `plugins/` and `.claude-plugin/marketplace.json`, and rebuilds `dist/action/index.js`. Never edit those generated files by hand.
+   This updates the plugin manifests and `.mcp.json` pins under `plugins/` and `.claude-plugin/marketplace.json`, and the plugin packages. Never edit those generated files by hand. The Action bundle is not committed here: the Release workflow builds it onto the release branch after this pull request merges (see [Action bundles on release tags](#action-bundles-on-release-tags)).
 3. **Update the version in the docs and examples.** The README and `docs/GITHUB_ACTION.md` show `arminazimi/evergreen@vX.Y.Z`; update them to the new tag. The host setups under `examples/agents/` pin `evergreen-deprecation@X.Y.Z` (and the Gemini extension its `version`); a test fails until they match `package.json`. `server.json` (the MCP Registry description) carries the version twice; bump it with `package.json`, and a test fails until they agree.
-4. **Run the gates** above on the result (with `EVERGREEN_VERIFY_ACTION_BUNDLE=1`, so `npm run check` also fails when `dist/action/index.js` is stale), then commit as `chore: release X.Y.Z` through a pull request. Merge it once CI is green.
-5. **Tag the merge commit.** On `main` after the merge:
+4. **Run the gates** above on the result, then commit as `chore: release X.Y.Z` through a pull request. Merge it once CI is green.
+5. **Tag the release branch.** Merging the release pull request starts the *Release* workflow's `action-bundle` job, which commits the compiled bundle on `release/vX.Y.Z` and prints the commands below in its job summary. When it has finished, tag that branch tip:
 
    ```bash
-   git tag -a vX.Y.Z -m "vX.Y.Z"
+   git fetch origin release/vX.Y.Z
+   git tag -a vX.Y.Z -m "vX.Y.Z" FETCH_HEAD
    git push origin vX.Y.Z
    ```
 
-6. **Publish to npm.** Pushing the tag in step 5 runs [`publish.yml`](../.github/workflows/publish.yml), which publishes with npm trusted publishing: no stored token, and a provenance attestation that names this repository, workflow, and commit. It refuses a tag that does not match the version in `package.json` or a commit that is not on `main`, and `prepack` runs `npm run check` again, so a broken tree cannot be published. A pre-release tag such as `vX.Y.Z-rc.1` is published under the `next` tag, so `latest` does not move. After publishing, a second job installs the published version on a fresh machine and runs `--help`, `capabilities`, and a scan of `tests/fixtures/smoke` (`.github/scripts/smoke.mjs`); a package that installs but does not work fails the run. Watch the run in the Actions tab, then confirm with `npm view evergreen-deprecation version` and run `npx evergreen-deprecation@X.Y.Z --help` in an empty directory. To publish by hand instead (for example if the workflow is unavailable), run `npm publish` from the tagged commit; it will have no provenance.
+   Tagging the merge commit on `main` does not work any more: that tree has no bundle, and `publish.yml` refuses the tag with a message that says so. If the job failed, re-run it from the Actions tab; it does nothing when the branch already exists.
+
+6. **Publish to npm.** Pushing the tag in step 5 runs [`publish.yml`](../.github/workflows/publish.yml), which publishes with npm trusted publishing: no stored token, and a provenance attestation that names this repository, workflow, and commit. It refuses a tag that does not match the version in `package.json`, a tag that is not the `release/vX.Y.Z` branch tip, or a release branch commit that changes anything besides `dist/action/`, and `prepack` runs `npm run check` again, so a broken tree or a stale bundle cannot be published. A pre-release tag such as `vX.Y.Z-rc.1` is published under the `next` tag, so `latest` does not move. After publishing, a second job installs the published version on a fresh machine and runs `--help`, `capabilities`, and a scan of `tests/fixtures/smoke` (`.github/scripts/smoke.mjs`); a package that installs but does not work fails the run. Watch the run in the Actions tab, then confirm with `npm view evergreen-deprecation version` and run `npx evergreen-deprecation@X.Y.Z --help` in an empty directory. To publish by hand instead (for example if the workflow is unavailable), run `npm publish` from the tagged commit; it will have no provenance.
 7. **Publish to the MCP Registry.** The registry lists the server for MCP clients and tools that look for one. It holds only the metadata in `server.json`, which points at the npm package, so publish it **after** step 6, when `npm view evergreen-deprecation version` shows the new version (the registry checks the package on npm, so it must exist there first). This is automated: the same tag push runs the `registry` job of [`publish.yml`](../.github/workflows/publish.yml) after the `smoke` job. It refuses a tag that does not match `server.json`, skips pre-release tags, then publishes `server.json` through the `mcp-publisher` tool with a GitHub OIDC login — no stored secret, since the job's OIDC identity names this repository. The binary it downloads is pinned to release 1.8.6 and checked against the release's SHA-256; the pin is only moved after a maintainer reviews the new release first.
 
    A published registry version cannot be changed, so check that `server.json` carries the version you just released first — the workflow refuses otherwise. Then confirm it is the latest:
