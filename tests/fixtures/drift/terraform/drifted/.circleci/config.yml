@@ -1,0 +1,7 @@
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: hashicorp/terraform:1.16.0
+    steps:
+      - checkout

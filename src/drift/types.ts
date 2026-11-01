@@ -16,6 +16,8 @@ export interface RuntimePin {
   release?: string;
   /** Why `release` is absent, in one sentence. */
   unresolved?: string;
+  /** The repository directory the value applies to, `.` for the root; absent when it applies repository-wide. A floor is checked only against the pins that apply to its directory. */
+  scope?: string;
 }
 
 /** Reads the pins for one runtime. Reads repository files only: no network, no commands. */

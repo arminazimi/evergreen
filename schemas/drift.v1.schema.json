@@ -50,6 +50,7 @@
         "kind": { "enum": ["pin", "floor"], "description": "`pin` selects the version that builds or runs; `floor` is a minimum the project supports." },
         "group": { "type": "string", "minLength": 1, "description": "Pins that share a group are alternatives, such as the entries of one multi-target list; they are reported but not compared with each other." },
         "release": { "type": "string", "minLength": 1, "description": "The release line the value resolves to offline; absent when it cannot be resolved." },
+        "scope": { "type": "string", "minLength": 1, "description": "The repository directory the value applies to, `.` for the root; absent when it applies repository-wide." },
         "unresolved": { "type": "string", "minLength": 1, "description": "Why `release` is absent, in one sentence." }
       }
     }

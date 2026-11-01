@@ -6,11 +6,12 @@ import { rustDriftCollector } from "./rust.js";
 import { pythonCollector } from "./python.js";
 import { goDriftCollector } from "./go.js";
 import { nodejsDriftCollector } from "./nodejs.js";
+import { terraformCollector } from "./terraform.js";
 
 export type { DriftCollector, DriftReport, RuntimeDrift, RuntimePin } from "./types.js";
 
 /** Every built-in collector, one per runtime. Each task in the drift epic appends its own entry. */
-export const driftCollectors: DriftCollector[] = [goDriftCollector, pythonCollector, rustDriftCollector, dotnetCollector, javaCollector, rubyDriftCollector, nodejsDriftCollector];
+export const driftCollectors: DriftCollector[] = [goDriftCollector, pythonCollector, rustDriftCollector, dotnetCollector, javaCollector, rubyDriftCollector, nodejsDriftCollector, terraformCollector];
 
 /** Compares dotted numeric releases such as `3.9` and `3.11`; non-numeric parts compare as text. */
 export function compareReleases(a: string, b: string): number {
@@ -29,6 +30,32 @@ export function compareReleases(a: string, b: string): number {
 
 function byLocation(a: RuntimePin, b: RuntimePin): number {
   return a.path.localeCompare(b.path) || a.line - b.line || a.source.localeCompare(b.source);
+}
+
+/** True when `directory` is `scope` itself or a subdirectory of it; the root scope contains every directory. */
+function scopeContains(scope: string, directory: string): boolean {
+  return scope === "." || directory === scope || directory.startsWith(`${scope}/`);
+}
+
+/**
+ * The lowest release among the pins that apply to a floor's directory: the nearest scoped pin's releases when one
+ * applies, else repository-wide. An unscoped floor has no directory, so the caller falls back to every pin.
+ */
+function lowestInScope(directory: string | undefined, pins: readonly RuntimePin[]): string | undefined {
+  if (directory === undefined) return undefined;
+  let depth = -1;
+  let lowest: string | undefined;
+  for (const pin of pins) {
+    if (pin.scope === undefined || pin.release === undefined || !scopeContains(pin.scope, directory)) continue;
+    const scopeDepth = pin.scope === "." ? 0 : pin.scope.split("/").length;
+    if (scopeDepth < depth) continue;
+    if (scopeDepth > depth) {
+      depth = scopeDepth;
+      lowest = undefined;
+    }
+    if (lowest === undefined || compareReleases(pin.release, lowest) < 0) lowest = pin.release;
+  }
+  return lowest;
 }
 
 /** Runs every collector over a repository and reports, per runtime, whether its pins agree. Deterministic. */
@@ -54,7 +81,7 @@ export async function analyzeDrift(root: string, collectors: readonly DriftColle
     const lowest = releases[0];
     const floorConflicts = lowest === undefined
       ? []
-      : pins.filter((pin) => pin.kind === "floor" && pin.release !== undefined && compareReleases(pin.release, lowest) > 0);
+      : pins.filter((pin) => pin.kind === "floor" && pin.release !== undefined && compareReleases(pin.release, lowestInScope(pin.scope, pinned) ?? lowest) > 0);
     runtimes.push({ runtime: collector.runtime, pins, releases, floorConflicts, drifted: common !== undefined && common.size === 0 });
   }
   runtimes.sort((a, b) => a.runtime.localeCompare(b.runtime));

@@ -1,0 +1,7 @@
+trigger: none
+
+jobs:
+  - job: plan
+    container: hashicorp/terraform:1.17.0
+    steps:
+      - script: terraform plan

@@ -12,7 +12,7 @@ evergreen drift . --runtime ruby --align 3.4
 
 ## How to read the report
 
-Each runtime block lists every value with its `path:line`, the file or field it came from, the value as written, and the release line it resolves to. A value that cannot be resolved offline is reported too, with the reason. When the `pin` values select more than one release, the block says `DRIFT`. A `floor` is a minimum the project supports; when a floor is above the lowest pinned release, the block says `FLOOR CONFLICT`.
+Each runtime block lists every value with its `path:line`, the file or field it came from, the value as written, and the release line it resolves to. A value that cannot be resolved offline is reported too, with the reason. When the `pin` values select more than one release, the block says `DRIFT`. A `floor` is a minimum the project supports; when a floor is above the lowest pinned release that applies to it, the block says `FLOOR CONFLICT`. A floor that names a directory is checked against the pins that apply to that directory, not against every pin.
 
 `--check` exits `1` when any runtime drifted or has a floor conflict. `--align <release>` requires `--runtime`, prints a unified diff for the pins it can rewrite, lists refused pins on stderr, and never writes a file. It refuses floors and ranges, and each collector documents the files it can rewrite.
 
@@ -197,3 +197,33 @@ A `setup-node` matrix with several versions is intentional. Each value is report
 `lts/*`, `latest`, `current`, `node`, an LTS codename Evergreen does not know, an image tag that names no Node.js release, a dynamic image reference, an expression, a matrix entry that is not a plain version, and a floor with no lower bound are reported as pins with a one-sentence reason and no release.
 
 `--align` rewrites `.nvmrc`, `.node-version`, `.tool-versions`, `package.json` `volta.node`, `FROM node:<major>[-variant]` (keeping the variant suffix and the rest of the instruction), and a single-value `actions/setup-node` `node-version`. It refuses floors, `setup-node` matrices, Dev Container and CI image references, and any line whose form it does not recognize.
+
+## Terraform
+
+Terraform pins are reported at `major.minor` granularity: the `.terraform-version` value `1.17.0`, the image tag `1.17`, and `required_version = ">= 1.17.0"` all select `1.17`.
+
+| Source | Field | Kind |
+| --- | --- | --- |
+| `.terraform-version`, at any depth | the version line, one pin per file | pin |
+| `.tool-versions` | the first version of the `terraform` entry | pin |
+| `Dockerfile`, `*.Dockerfile`, `Containerfile*` | `FROM hashicorp/terraform:<tag>` | pin |
+| `.github/workflows/*.yml` | `hashicorp/setup-terraform` `terraform_version` | pin |
+| `.github/workflows/*.yml` | job `container:` and `services.<name>.image` `hashicorp/terraform` images | pin |
+| `.gitlab-ci.yml` | `image:` or `services:` `hashicorp/terraform` images | pin |
+| `.circleci/config.yml` | Docker executor `hashicorp/terraform` images | pin |
+| `azure-pipelines.yml` | job `container:` `hashicorp/terraform` images | pin |
+| `*.tf`, in every module | `required_version` | pin when exact (`"1.17.0"`, `"= 1.17.0"`, `"~> 1.17.0"`), else floor |
+
+The collector reuses the existing `.terraform-version` and `.tool-versions` parsers and reads `required_version` with the HCL parser. Provider versions in `required_providers` are not Terraform CLI versions and are not read.
+
+**Directories**
+
+Version files and `required_version` apply to the directory they live in, because modules in different directories can legitimately differ. A floor is checked only against the pins that apply to its directory: the nearest `.terraform-version` or `.tool-versions` at or above it, or the repository-wide pins (Dockerfiles, CI images, `setup-terraform`) when its directory declares none. A floor of `>= 1.17.0` beside a module `.terraform-version` of `1.17.0` agrees, even when the rest of the repository pins `1.16`. Pins are still compared across the repository, so modules on different release lines are a drift.
+
+**Unresolved**
+
+`latest`, `min-required`, `system`, a partial version such as `1.9`, a prerelease, a `.tool-versions` entry that names a `ref:` or `path:`, an image with no tag, a floating image tag, a workflow expression, and a constraint with no lower bound are reported with a one-sentence reason and no release.
+
+**Align**
+
+`--align <release>` rewrites `.terraform-version`, a single-value `.tool-versions` `terraform` entry, `FROM hashicorp/terraform:<version>` tags, a single-value `setup-terraform` `terraform_version`, and an exact `required_version` (keeping the `=` form when written). Where a full version is required, a release line such as `1.18` is written as `1.18.0`. It refuses floors, ranges, CI image references, and images pinned by digest.

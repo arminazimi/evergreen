@@ -1,0 +1,5 @@
+image: hashicorp/terraform:1.6.0
+
+test:
+  script:
+    - terraform plan
