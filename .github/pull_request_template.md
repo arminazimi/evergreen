@@ -7,6 +7,7 @@ Closes #
 <!-- Commands you ran and what they showed. -->
 - [ ] `npm run check` passes
 - [ ] Tests added or updated for changed behavior
+- [ ] Changelog fragment added in `changes/` for user-visible changes (not for docs, test, ci, chore, build, refactor, or style)
 
 ## Evidence (rule and registry changes only)
 <!-- Link the authoritative source for every lifecycle rule you added or changed. Delete this section otherwise. -->

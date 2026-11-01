@@ -79,6 +79,7 @@ CI fails when generated output drifts from its source. The exception is `dist/ac
 
 - Commit messages use Conventional Commits: `feat:`, `fix:`, `docs:`, `test:`, `chore:`.
 - Match the surrounding code: naming, comment density, and error style.
+- A pull request that changes user-visible behavior adds a changelog fragment: one file in `changes/` holding one bullet (see [changes/README.md](changes/README.md)). Do not edit `CHANGELOG.md` directly, so parallel pull requests never conflict on it.
 - Do not reformat unrelated files or add dependencies without a reason stated in the PR.
 - Public contracts (`schemas/`, `src/sdk.ts`, MCP tool shapes, CLI JSON output) change only additively unless a decision record in `docs/decisions/` says otherwise.
 

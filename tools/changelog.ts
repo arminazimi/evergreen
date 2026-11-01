@@ -7,11 +7,13 @@
 //
 // Only feat, fix, and breaking commits are user-visible; docs, test, ci, chore, build, refactor, and
 // style commits are left out. --write adds a "## X.Y.Z - date" section to CHANGELOG.md under
-// "## Unreleased": the hand-written Unreleased bullets come first, then the generated ones, and
-// Unreleased is left empty. Review the result for duplicates before committing. Nothing here uses the network.
+// "## Unreleased": the hand-written Unreleased bullets come first, then the changes/ fragments, then the
+// generated ones. It deletes the fragments it used and leaves Unreleased empty. Review the result for
+// duplicates before committing. Nothing here uses the network.
 
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 export interface ParsedCommit {
@@ -65,8 +67,26 @@ export function entries(subjects: string[]): { bullets: string[]; skipped: strin
   return { bullets: ordered.map(({ commit }) => bullet(commit)), skipped };
 }
 
-/** Moves the Unreleased text into a new version section, followed by the generated bullets. */
-export function releaseSection(changelog: string, version: string, date: string, generated: string[]): string {
+export const FRAGMENT_DIR = "changes";
+
+/**
+ * Reads the changes/ fragments: one changelog bullet per file, in file-name order. README.md documents the
+ * format and is not a fragment. Each fragment must be a single line that starts with "- ".
+ */
+export function fragments(files: Record<string, string>): { names: string[]; bullets: string[] } {
+  const names = Object.keys(files)
+    .filter((name) => name.endsWith(".md") && name !== "README.md")
+    .sort();
+  const bullets = names.map((name) => {
+    const text = files[name]!.trim();
+    if (!/^- \S[^\n]*$/.test(text)) throw new Error(`${FRAGMENT_DIR}/${name} must be one changelog bullet on one line, starting with "- ".`);
+    return text;
+  });
+  return { names, bullets };
+}
+
+/** Moves the Unreleased text into a new version section, followed by the fragment and generated bullets. */
+export function releaseSection(changelog: string, version: string, date: string, generated: string[], fragmentBullets: string[] = []): string {
   const heading = "## Unreleased";
   const start = changelog.indexOf(heading);
   if (start < 0) throw new Error('CHANGELOG.md has no "## Unreleased" heading.');
@@ -74,8 +94,15 @@ export function releaseSection(changelog: string, version: string, date: string,
   const next = changelog.indexOf("\n## ", bodyStart);
   const end = next < 0 ? changelog.length : next + 1;
   const written = changelog.slice(bodyStart, end).trim();
-  const body = [written, ...generated].filter(Boolean).join("\n");
+  const body = [written, ...fragmentBullets, ...generated].filter(Boolean).join("\n");
   return `${changelog.slice(0, start)}${heading}\n\n## ${version} - ${date}\n\n${body}\n\n${changelog.slice(end)}`.replace(/\n{3,}/g, "\n\n");
+}
+
+function readFragments(): { names: string[]; bullets: string[] } {
+  if (!existsSync(FRAGMENT_DIR)) return { names: [], bullets: [] };
+  const files: Record<string, string> = {};
+  for (const name of readdirSync(FRAGMENT_DIR)) files[name] = readFileSync(join(FRAGMENT_DIR, name), "utf8");
+  return fragments(files);
 }
 
 function git(...args: string[]): string {
@@ -98,8 +125,10 @@ function main(): void {
   if (version) {
     const date = option("--date") ?? new Date().toISOString().slice(0, 10);
     if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version) || !/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("Pass --write X.Y.Z and --date YYYY-MM-DD.");
-    writeFileSync("CHANGELOG.md", releaseSection(readFileSync("CHANGELOG.md", "utf8"), version, date, bullets));
-    process.stdout.write(`Added ${bullets.length} generated entries to CHANGELOG.md under ${version}.\n`);
+    const pending = readFragments();
+    writeFileSync("CHANGELOG.md", releaseSection(readFileSync("CHANGELOG.md", "utf8"), version, date, bullets, pending.bullets));
+    for (const name of pending.names) rmSync(join(FRAGMENT_DIR, name));
+    process.stdout.write(`Added ${pending.bullets.length} fragments and ${bullets.length} generated entries to CHANGELOG.md under ${version}.\n`);
     return;
   }
   process.stdout.write(`${bullets.join("\n")}\n`);

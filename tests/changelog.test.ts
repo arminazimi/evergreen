@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { bullet, entries, parseSubject, releaseSection } from "../tools/changelog.js";
+import { bullet, entries, fragments, parseSubject, releaseSection } from "../tools/changelog.js";
 
 test("parses conventional subjects with scope, breaking marker, and pull request", () => {
   assert.deepEqual(parseSubject("feat(github-actions): classify SHA pins (#560)"), {
@@ -54,6 +54,28 @@ test("moves Unreleased into a dated section, hand-written entries first", () => 
     "# Changelog\n\n## Unreleased\n\n## 0.2.0 - 2026-11-15\n\n- Only generated.\n\n",
   );
   assert.throws(() => releaseSection("# Changelog\n", "0.2.0", "2026-11-15", []), /Unreleased/);
+});
+
+test("reads one bullet per fragment in file-name order, ignoring the README", () => {
+  assert.deepEqual(
+    fragments({
+      "README.md": "# Fragments\n\nNot an entry.\n",
+      "zeta-fix.md": "- Fix the zeta lockfile.\n",
+      "alpha-feat.md": "- Add the alpha command. (#2)\n",
+    }),
+    { names: ["alpha-feat.md", "zeta-fix.md"], bullets: ["- Add the alpha command. (#2)", "- Fix the zeta lockfile."] },
+  );
+  assert.deepEqual(fragments({ "README.md": "# Fragments\n" }), { names: [], bullets: [] });
+  assert.throws(() => fragments({ "two.md": "- One.\n- Two.\n" }), /changes\/two\.md must be one changelog bullet/);
+  assert.throws(() => fragments({ "prose.md": "Not a bullet.\n" }), /changes\/prose\.md/);
+});
+
+test("puts fragments after the hand-written Unreleased text and before the generated bullets", () => {
+  const changelog = "# Changelog\n\n## Unreleased\n\n- Written by hand.\n\n## 0.1.0 - 2026-10-14\n\n- Old entry.\n";
+  assert.equal(
+    releaseSection(changelog, "0.2.0", "2026-11-15", ["- Generated one. (#9)"], ["- From a fragment. (#8)"]),
+    "# Changelog\n\n## Unreleased\n\n## 0.2.0 - 2026-11-15\n\n- Written by hand.\n- From a fragment. (#8)\n- Generated one. (#9)\n\n## 0.1.0 - 2026-10-14\n\n- Old entry.\n",
+  );
 });
 
 test("the default start is the latest release tag, not a data release tag", async () => {

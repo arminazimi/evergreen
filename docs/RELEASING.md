@@ -41,13 +41,13 @@ Trusted publishing needs the package to name its publisher. On npmjs.com, open t
 
 ## Steps
 
-1. **Update the changelog.** Draft the entries from conventional commits with `npm run release:notes` (or run the *Release notes* workflow, which uploads the same text), then write them into `CHANGELOG.md`:
+1. **Update the changelog.** Draft the entries from conventional commits with `npm run release:notes` (or run the *Release notes* workflow, which uploads the same text). Pull requests add their entries as fragments in `changes/`; the command below moves those fragments into the section, followed by the commit-derived bullets:
 
    ```bash
    node dist/tools/changelog.js --write X.Y.Z --date YYYY-MM-DD
    ```
 
-   Only `feat`, `fix`, and breaking commits become entries; `docs`, `test`, `ci`, and `chore` commits are left out. The command moves the hand-written `Unreleased` bullets into a new `## X.Y.Z - YYYY-MM-DD` section, appends the generated bullets, and leaves an empty `## Unreleased` above. Read the section, remove duplicates, and make each bullet a clear imperative sentence.
+   Only `feat`, `fix`, and breaking commits become entries; `docs`, `test`, `ci`, and `chore` commits are left out. The command moves the hand-written `Unreleased` bullets and the `changes/` fragments into a new `## X.Y.Z - YYYY-MM-DD` section, appends the generated bullets, deletes the fragments, and leaves an empty `## Unreleased` above. Read the section, remove duplicates, and make each bullet a clear imperative sentence.
 2. **Bump the version.** Run `npm version X.Y.Z --no-git-tag-version`, set the same version in `src/version.ts` and `server.json`, then regenerate everything derived from it:
 
    ```bash
