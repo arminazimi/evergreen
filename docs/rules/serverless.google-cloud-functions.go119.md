@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions Go 1.19 runtime is end-of-life — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists Go 1.19 (runtime ID go119) as deprecated on 2024-04-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.go119.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.go119.html"
 image: "/assets/og/serverless.google-cloud-functions.go119.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.go119.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "App Engine PHP 8.1 runtime is past end of support — dates, impact, migration"
 description: "The App Engine standard environment runtime support schedule lists PHP 8.1 (runtime ID php81) with end of support on 2025-12-31 and deprecation on 2026-12-31."
+layout: doc
+permalink: "/rules/serverless.google-appengine-runtime.php81.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.php81.html"
 image: "/assets/og/serverless.google-appengine-runtime.php81.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-appengine-runtime.php81.json"
 ---
 

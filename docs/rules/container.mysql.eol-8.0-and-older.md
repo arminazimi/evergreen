@@ -1,8 +1,12 @@
 ---
 title: "MySQL image release lines 8.0 and older are past end-of-life — dates, impact, migration"
 description: "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes."
+layout: doc
+permalink: "/rules/container.mysql.eol-8.0-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html"
 image: "/assets/og/container.mysql.eol-8.0-and-older.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/container.mysql.eol-8.0-and-older.json"
 ---
 

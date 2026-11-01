@@ -1,8 +1,12 @@
 ---
 title: "querystring is deprecated — dates, impact, migration"
 description: "npm describes the querystring API as legacy and recommends URLSearchParams for new code."
+layout: doc
+permalink: "/rules/npm.package.querystring.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html"
 image: "/assets/og/npm.package.querystring.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.querystring.deprecated.json"
 ---
 

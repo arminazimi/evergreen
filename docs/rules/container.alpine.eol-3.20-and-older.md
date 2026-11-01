@@ -1,8 +1,12 @@
 ---
 title: "Alpine Linux image release lines 3.20 and older are end-of-life — dates, impact, migration"
 description: "These Alpine Linux releases no longer receive security updates from the vendor."
+layout: doc
+permalink: "/rules/container.alpine.eol-3.20-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html"
 image: "/assets/og/container.alpine.eol-3.20-and-older.svg"
+review_date: "2026-10-26"
+last_modified_at: "2026-10-26"
 json_twin: "/rules/container.alpine.eol-3.20-and-older.json"
 ---
 

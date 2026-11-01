@@ -1,8 +1,12 @@
 ---
 title: "Aurora PostgreSQL 13 is past end of standard support — dates, impact, migration"
 description: "AWS ended standard support for Aurora PostgreSQL 13 on 2026-02-28. RDS Extended Support may keep it running for a fee through 2029-02-28. Upgrade to Aurora PostgreSQL 15 or later."
+layout: doc
+permalink: "/rules/database.aws-aurora-postgresql.end-of-support-13.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.aws-aurora-postgresql.end-of-support-13.html"
 image: "/assets/og/database.aws-aurora-postgresql.end-of-support-13.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/database.aws-aurora-postgresql.end-of-support-13.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "gulp-util is deprecated — dates, impact, migration"
 description: "npm marks gulp-util as deprecated and links to the Gulp migration guidance."
+layout: doc
+permalink: "/rules/npm.package.gulp-util.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html"
 image: "/assets/og/npm.package.gulp-util.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.gulp-util.deprecated.json"
 ---
 

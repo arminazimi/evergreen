@@ -1,8 +1,12 @@
 ---
 title: "Protractor is deprecated — dates, impact, migration"
 description: "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023."
+layout: doc
+permalink: "/rules/npm.package.protractor.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html"
 image: "/assets/og/npm.package.protractor.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.protractor.deprecated.json"
 ---
 

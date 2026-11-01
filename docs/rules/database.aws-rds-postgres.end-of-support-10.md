@@ -1,8 +1,12 @@
 ---
 title: "RDS for PostgreSQL 10 is past end of standard support — dates, impact, migration"
 description: "AWS ended standard support for RDS for PostgreSQL 10 in April 2023 (AWS publishes only the month)."
+layout: doc
+permalink: "/rules/database.aws-rds-postgres.end-of-support-10.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.aws-rds-postgres.end-of-support-10.html"
 image: "/assets/og/database.aws-rds-postgres.end-of-support-10.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/database.aws-rds-postgres.end-of-support-10.json"
 ---
 

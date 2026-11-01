@@ -1,8 +1,12 @@
 ---
 title: "Async_hooks.currentId has been removed — dates, impact, migration"
 description: "Node.js removed async_hooks.currentId (DEP0070: runtime deprecation since v8.2.0, end-of-life since v9.0.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.async-hooks.currentid.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.async-hooks.currentid.html"
 image: "/assets/og/nodejs.symbol.async-hooks.currentid.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.async-hooks.currentid.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "opennms-api-wrapper was renamed — dates, impact, migration"
 description: "The maintainer renamed opennms-api-wrapper to python-opennms and states that no further releases will be published under the old name."
+layout: doc
+permalink: "/rules/python.package.opennms-api-wrapper.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.opennms-api-wrapper.deprecated.html"
 image: "/assets/og/python.package.opennms-api-wrapper.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.opennms-api-wrapper.deprecated.json"
 ---
 

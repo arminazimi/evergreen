@@ -1,8 +1,12 @@
 ---
 title: "Couchbase Server image release lines 7.2 and older are end-of-life — dates, impact, migration"
 description: "These Couchbase Server release lines are past their end-of-life date in the vendor's lifecycle schedule (7.2 reached end of life in July 2026; 7.6 is supported until March 2027)."
+layout: doc
+permalink: "/rules/container.couchbase.eol-7.2-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.couchbase.eol-7.2-and-older.html"
 image: "/assets/og/container.couchbase.eol-7.2-and-older.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/container.couchbase.eol-7.2-and-older.json"
 ---
 

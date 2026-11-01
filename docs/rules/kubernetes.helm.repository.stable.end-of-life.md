@@ -1,8 +1,12 @@
 ---
 title: "Helm stable chart repository is end of life — dates, impact, migration"
 description: "The Helm project retired the stable chart repository: on 2020-11-13 CI was disabled and no further pull requests were accepted, and downloads were redirected to a read-only archive that receives no…"
+layout: doc
+permalink: "/rules/kubernetes.helm.repository.stable.end-of-life.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.stable.end-of-life.html"
 image: "/assets/og/kubernetes.helm.repository.stable.end-of-life.svg"
+review_date: "2026-10-26"
+last_modified_at: "2026-10-26"
 json_twin: "/rules/kubernetes.helm.repository.stable.end-of-life.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "The asyncore module was removed in Python 3.12 — dates, impact, migration"
 description: "Python 3.12 removed the asyncore module (PEP 594), so importing it raises ModuleNotFoundError."
+layout: doc
+permalink: "/rules/python.module.asyncore.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.module.asyncore.removed.html"
 image: "/assets/og/python.module.asyncore.removed.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/python.module.asyncore.removed.json"
 ---
 

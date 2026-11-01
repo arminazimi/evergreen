@@ -9,14 +9,14 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 557 pinned repositories (2898 expected findings). The last full corpus run was commit `c7b4e14` on 2026-10-24 (456 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 557 pinned repositories (3122 expected findings). The last full corpus run was commit `c7b4e14` on 2026-10-24 (456 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
 | Repositories | 557 |
-| Expected findings | 2898 |
-| Products with findings | 137 |
-| Release lines with findings | 190 |
+| Expected findings | 3122 |
+| Products with findings | 140 |
+| Release lines with findings | 194 |
 
 ### By product
 
@@ -25,6 +25,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | actions/checkout | 580 | 1 | 189 |
 | nodejs | 322 | 8 | 74 |
 | dotnet | 302 | 10 | 19 |
+| dockerfile | 227 | 2 | 22 |
 | python | 122 | 2 | 79 |
 | actions/setup-python | 106 | 1 | 46 |
 | actions/upload-artifact | 103 | 1 | 39 |
@@ -32,9 +33,8 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | actions/setup-node | 88 | 1 | 40 |
 | actions/cache | 87 | 1 | 28 |
 | aws-lambda-runtime/nodejs24.x | 74 | 1 | 1 |
+| terraform | 65 | 3 | 9 |
 | java | 60 | 3 | 13 |
-| dockerfile | 49 | 2 | 11 |
-| terraform | 37 | 3 | 7 |
 | actions/setup-go | 35 | 1 | 15 |
 | library/ubuntu | 34 | 2 | 18 |
 | actions/download-artifact | 31 | 1 | 21 |
@@ -53,6 +53,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | actions/setup-java | 17 | 1 | 8 |
 | next | 17 | 4 | 6 |
 | aws-lambda-runtime/nodejs14.x | 16 | 1 | 9 |
+| node-sass | 16 | 2 | 8 |
 | actions/create-github-app-token | 15 | 1 | 2 |
 | actions/github-script | 15 | 1 | 10 |
 | kubernetes/extensions/Deployment | 15 | 1 | 4 |
@@ -62,24 +63,23 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | azure-pipelines/ubuntu-image | 13 | 2 | 7 |
 | failure | 12 | 1 | 6 |
 | powershell | 12 | 4 | 5 |
+| aws-lambda-runtime/provided.al2023 | 11 | 1 | 2 |
 | docker/setup-qemu-action | 11 | 1 | 9 |
+| postgresql | 11 | 4 | 10 |
 | github.com/golang/protobuf | 10 | 1 | 4 |
 | ios | 10 | 1 | 3 |
 | kubernetes/extensions/Ingress | 10 | 1 | 6 |
-| postgresql | 10 | 4 | 9 |
 | xcode | 10 | 2 | 10 |
+| aws-lambda-runtime/nodejs12.x | 9 | 1 | 3 |
 | com.android.billingclient/billing | 9 | 5 | 7 |
 | kubernetes/apps/Deployment | 9 | 2 | 2 |
 | tempdir | 9 | 1 | 7 |
-| aws-lambda-runtime/nodejs12.x | 8 | 1 | 2 |
 | aws-lambda-runtime/python3.8 | 8 | 1 | 3 |
 | aws-lambda-runtime/ruby4.0 | 8 | 1 | 1 |
 | dart | 8 | 1 | 4 |
 | library/alpine | 8 | 1 | 6 |
-| node-sass | 8 | 1 | 8 |
 | actions/stale | 7 | 1 | 7 |
 | aws-lambda-runtime/nodejs22.x | 7 | 1 | 3 |
-| aws-lambda-runtime/provided.al2023 | 7 | 1 | 1 |
 | docker/metadata-action | 7 | 1 | 3 |
 | library/debian | 7 | 1 | 5 |
 | mysql | 7 | 1 | 4 |
@@ -103,6 +103,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | actions/deploy-pages | 2 | 1 | 2 |
 | actions/labeler | 2 | 1 | 2 |
 | aws-lambda-runtime/nodejs16.x | 2 | 1 | 1 |
+| aws-lambda-runtime/nodejs20.x | 2 | 1 | 1 |
 | aws-lambda-runtime/provided.al2 | 2 | 1 | 1 |
 | crypto-js | 2 | 1 | 2 |
 | hashicorp/setup-terraform | 2 | 1 | 2 |
@@ -136,6 +137,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | cloud.google.com/go/pubsub | 1 | 1 | 1 |
 | doctrine/cache | 1 | 1 | 1 |
 | google-cloud-functions-runtime/nodejs14 | 1 | 1 | 1 |
+| google-cloud-functions-runtime/nodejs20 | 1 | 1 | 1 |
 | google-cloud-sql-mysql | 1 | 1 | 1 |
 | gulp-util | 1 | 1 | 1 |
 | helm-repository/stable | 1 | 1 | 1 |
@@ -154,6 +156,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | protractor | 1 | 1 | 1 |
 | q | 1 | 1 | 1 |
 | react-beautiful-dnd | 1 | 1 | 1 |
+| redis | 1 | 1 | 1 |
 | request-promise | 1 | 1 | 1 |
 | socket.io-redis | 1 | 1 | 1 |
 | swiftmailer/swiftmailer | 1 | 1 | 1 |
@@ -165,6 +168,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | Product | Release line | Rule | Event | Findings | Repositories |
 | --- | --- | --- | --- | ---: | ---: |
 | actions/checkout | Unsupported actions/checkout runtime | [`github-actions.checkout.node20`](rules/github-actions.checkout.node20.html) | end-of-support | 580 | 189 |
+| dockerfile | The Dockerfile legacy "ENV key value" form is deprecated | [`container.dockerfile.legacy-env-format`](rules/container.dockerfile.legacy-env-format.html) | deprecated | 222 | 22 |
 | actions/setup-python | Unsupported actions/setup-python runtime | [`github-actions.setup-python.node20`](rules/github-actions.setup-python.node20.html) | end-of-support | 106 | 46 |
 | actions/upload-artifact | Retired actions/upload-artifact release | [`github-actions.upload-artifact.retired`](rules/github-actions.upload-artifact.retired.html) | removed | 103 | 39 |
 | dotnet | .NET 8 reaches end of support on 2026-11-10 | [`dotnet.runtime.end-of-support-8.0`](rules/dotnet.runtime.end-of-support-8.0.html) | scheduled-end-of-life | 103 | 8 |
@@ -175,10 +179,10 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | nodejs | Legacy Node.js runtime is end-of-life | [`nodejs.runtime.legacy`](rules/nodejs.runtime.legacy.html) | end-of-life | 78 | 41 |
 | aws-lambda-runtime/nodejs24.x | AWS Lambda Node.js 24 runtime reaches end of life on 2028-04-30 | [`serverless.aws-lambda.nodejs24.x`](rules/serverless.aws-lambda.nodejs24.x.html) | scheduled-end-of-life | 74 | 1 |
 | nodejs | Node.js 18 is end-of-life | [`nodejs.runtime.eol-18`](rules/nodejs.runtime.eol-18.html) | end-of-life | 60 | 42 |
+| terraform | Interpolation-only strings are deprecated | [`terraform.syntax.interpolation-only`](rules/terraform.syntax.interpolation-only.html) | deprecated | 58 | 4 |
 | golang | Go 1.20 and older are no longer supported | [`go.runtime.end-of-support-1.20-and-older`](rules/go.runtime.end-of-support-1.20-and-older.html) | end-of-support | 56 | 31 |
 | dotnet | .NET 9 reaches end of support on 2026-11-10 | [`dotnet.runtime.end-of-support-9.0`](rules/dotnet.runtime.end-of-support-9.0.html) | scheduled-end-of-life | 52 | 4 |
 | dotnet | .NET Core 2.0 is no longer supported | [`dotnet.runtime.end-of-support-2.0`](rules/dotnet.runtime.end-of-support-2.0.html) | end-of-support | 48 | 2 |
-| dockerfile | The Dockerfile legacy "ENV key value" form is deprecated | [`container.dockerfile.legacy-env-format`](rules/container.dockerfile.legacy-env-format.html) | deprecated | 44 | 11 |
 | nodejs | Node.js 22 reaches end-of-life on 2027-04-30 | [`nodejs.runtime.eol-22`](rules/nodejs.runtime.eol-22.html) | scheduled-end-of-life | 42 | 23 |
 | dotnet | .NET 7 is no longer supported | [`dotnet.runtime.end-of-support-7.0`](rules/dotnet.runtime.end-of-support-7.0.html) | end-of-support | 39 | 3 |
 | actions/setup-go | Unsupported actions/setup-go runtime | [`github-actions.setup-go.node20`](rules/github-actions.setup-go.node20.html) | end-of-support | 35 | 15 |
@@ -187,7 +191,6 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | actions/download-artifact | Retired actions/download-artifact release | [`github-actions.download-artifact.retired`](rules/github-actions.download-artifact.retired.html) | removed | 31 | 21 |
 | softprops/action-gh-release | Unsupported softprops/action-gh-release runtime | [`github-actions.action-gh-release.node20`](rules/github-actions.action-gh-release.node20.html) | end-of-support | 31 | 21 |
 | java | Java 18 to 20 are no longer supported | [`java.jdk.end-of-support-18-20`](rules/java.jdk.end-of-support-18-20.html) | end-of-support | 30 | 6 |
-| terraform | Interpolation-only strings are deprecated | [`terraform.syntax.interpolation-only`](rules/terraform.syntax.interpolation-only.html) | deprecated | 30 | 2 |
 | dotnet | .NET Core 3.1 is no longer supported | [`dotnet.runtime.end-of-support-3.1`](rules/dotnet.runtime.end-of-support-3.1.html) | end-of-support | 29 | 7 |
 | java | Java 12 to 16 are no longer supported | [`java.jdk.end-of-support-12-16`](rules/java.jdk.end-of-support-12-16.html) | end-of-support | 29 | 6 |
 | library/node | Node.js image release lines 21 and older are end-of-life | [`container.node.eol-21-and-older`](rules/container.node.eol-21-and-older.html) | end-of-life | 29 | 12 |
@@ -212,6 +215,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | library/postgres | PostgreSQL image major versions 13 and older are end-of-life | [`container.postgres.eol-13-and-older`](rules/container.postgres.eol-13-and-older.html) | end-of-life | 13 | 10 |
 | @angular/core | @angular/core v20 reaches end of life on 2026-11-28 | [`npm.package.angular.core.v20.scheduled-end-of-life`](rules/npm.package.angular.core.v20.scheduled-end-of-life.html) | scheduled-end-of-life | 12 | 1 |
 | failure | failure is no longer maintained | [`rust.crate.failure.unmaintained`](rules/rust.crate.failure.unmaintained.html) | deprecated | 12 | 6 |
+| aws-lambda-runtime/provided.al2023 | AWS Lambda OS-only runtime provided.al2023 runtime reaches end of life on 2029-06-30 | [`serverless.aws-lambda.provided.al2023`](rules/serverless.aws-lambda.provided.al2023.html) | scheduled-end-of-life | 11 | 2 |
 | docker/setup-qemu-action | Unsupported docker/setup-qemu-action runtime | [`github-actions.setup-qemu-action.node20`](rules/github-actions.setup-qemu-action.node20.html) | end-of-support | 11 | 9 |
 | next | Next.js 15 is out of support | [`npm.package.next.15.support-end`](rules/npm.package.next.15.support-end.html) | end-of-support | 11 | 2 |
 | dotnet | .NET 5 is no longer supported | [`dotnet.runtime.end-of-support-5.0`](rules/dotnet.runtime.end-of-support-5.0.html) | end-of-support | 10 | 4 |
@@ -220,18 +224,18 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | ios | iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads | [`swift.app-store.ios-below-13`](rules/swift.app-store.ios-below-13.html) | end-of-support | 10 | 3 |
 | kubernetes/extensions/Ingress | Ingress extensions/v1beta1 is no longer served | [`kubernetes.extensions.ingress.v1beta1.removed`](rules/kubernetes.extensions.ingress.v1beta1.removed.html) | removed | 10 | 6 |
 | ruby | Ruby 3.1 is end-of-life | [`ruby.runtime.eol-3.1`](rules/ruby.runtime.eol-3.1.html) | end-of-life | 10 | 4 |
+| aws-lambda-runtime/nodejs12.x | AWS Lambda Node.js 12 runtime is end-of-life | [`serverless.aws-lambda.nodejs12.x`](rules/serverless.aws-lambda.nodejs12.x.html) | end-of-life | 9 | 3 |
 | tempdir | tempdir is no longer maintained | [`rust.crate.tempdir.unmaintained`](rules/rust.crate.tempdir.unmaintained.html) | deprecated | 9 | 7 |
-| aws-lambda-runtime/nodejs12.x | AWS Lambda Node.js 12 runtime is end-of-life | [`serverless.aws-lambda.nodejs12.x`](rules/serverless.aws-lambda.nodejs12.x.html) | end-of-life | 8 | 2 |
 | aws-lambda-runtime/python3.8 | AWS Lambda Python 3.8 runtime is end-of-life | [`serverless.aws-lambda.python3.8`](rules/serverless.aws-lambda.python3.8.html) | end-of-life | 8 | 3 |
 | aws-lambda-runtime/ruby4.0 | AWS Lambda Ruby 4.0 runtime reaches end of life on 2029-03-31 | [`serverless.aws-lambda.ruby4.0`](rules/serverless.aws-lambda.ruby4.0.html) | scheduled-end-of-life | 8 | 1 |
 | azure-pipelines/ubuntu-image | Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal | [`ci-images.azure-pipelines.ubuntu-22.04`](rules/ci-images.azure-pipelines.ubuntu-22.04.html) | scheduled-end-of-life | 8 | 5 |
 | dart | Dart 3.8 no longer receives security updates | [`dart.sdk.end-of-support-3.8`](rules/dart.sdk.end-of-support-3.8.html) | end-of-support | 8 | 4 |
 | kubernetes/apps/Deployment | Deployment apps/v1beta1 is no longer served | [`kubernetes.apps.deployment.v1beta1.removed`](rules/kubernetes.apps.deployment.v1beta1.removed.html) | removed | 8 | 2 |
 | library/alpine | Alpine Linux image release lines 3.20 and older are end-of-life | [`container.alpine.eol-3.20-and-older`](rules/container.alpine.eol-3.20-and-older.html) | end-of-life | 8 | 6 |
+| node-sass | node-sass is deprecated | [`npm.package.node-sass.deprecated`](rules/npm.package.node-sass.deprecated.html) | deprecated | 8 | 8 |
 | node-sass | Node Sass is end-of-life | [`npm.package.node-sass.eol`](rules/npm.package.node-sass.eol.html) | end-of-life | 8 | 8 |
 | actions/stale | Unsupported actions/stale runtime | [`github-actions.stale.node20`](rules/github-actions.stale.node20.html) | end-of-support | 7 | 7 |
 | aws-lambda-runtime/nodejs22.x | AWS Lambda Node.js 22 runtime reaches end of life on 2027-04-30 | [`serverless.aws-lambda.nodejs22.x`](rules/serverless.aws-lambda.nodejs22.x.html) | scheduled-end-of-life | 7 | 3 |
-| aws-lambda-runtime/provided.al2023 | AWS Lambda OS-only runtime provided.al2023 runtime reaches end of life on 2029-06-30 | [`serverless.aws-lambda.provided.al2023`](rules/serverless.aws-lambda.provided.al2023.html) | scheduled-end-of-life | 7 | 1 |
 | docker/metadata-action | Unsupported docker/metadata-action runtime | [`github-actions.metadata-action.node20`](rules/github-actions.metadata-action.node20.html) | end-of-support | 7 | 3 |
 | golang | Go 1.22 is no longer supported | [`go.runtime.end-of-support-1.22`](rules/go.runtime.end-of-support-1.22.html) | end-of-support | 7 | 6 |
 | library/debian | Debian image release lines 11 and older are end-of-life | [`container.debian.eol-11-and-older`](rules/container.debian.eol-11-and-older.html) | end-of-life | 7 | 5 |
@@ -272,6 +276,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | actions/deploy-pages | Unsupported actions/deploy-pages runtime | [`github-actions.deploy-pages.node20`](rules/github-actions.deploy-pages.node20.html) | end-of-support | 2 | 2 |
 | actions/labeler | Unsupported actions/labeler runtime | [`github-actions.labeler.node20`](rules/github-actions.labeler.node20.html) | end-of-support | 2 | 2 |
 | aws-lambda-runtime/nodejs16.x | AWS Lambda Node.js 16 runtime is end-of-life | [`serverless.aws-lambda.nodejs16.x`](rules/serverless.aws-lambda.nodejs16.x.html) | end-of-life | 2 | 1 |
+| aws-lambda-runtime/nodejs20.x | AWS Lambda Node.js 20 runtime is end-of-life | [`serverless.aws-lambda.nodejs20.x`](rules/serverless.aws-lambda.nodejs20.x.html) | end-of-life | 2 | 1 |
 | aws-lambda-runtime/provided.al2 | AWS Lambda OS-only runtime provided.al2 runtime is end-of-life | [`serverless.aws-lambda.provided.al2`](rules/serverless.aws-lambda.provided.al2.html) | end-of-life | 2 | 1 |
 | crypto-js | crypto-js is deprecated | [`npm.package.crypto-js.deprecated`](rules/npm.package.crypto-js.deprecated.html) | deprecated | 2 | 2 |
 | django | Django 4.2 LTS is end-of-life | [`python.package.django-4.2.eol`](rules/python.package.django-4.2.eol.html) | end-of-life | 2 | 2 |
@@ -286,6 +291,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | library/redis | Redis image release lines 6.0 and older are end-of-life | [`container.redis.eol-6.0-and-older`](rules/container.redis.eol-6.0-and-older.html) | end-of-life | 2 | 2 |
 | library/ubuntu | Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01 | [`container.ubuntu.eol-22.04`](rules/container.ubuntu.eol-22.04.html) | scheduled-end-of-life | 2 | 2 |
 | php | PHP 7.4 is end-of-life | [`php.runtime.eol-7.4`](rules/php.runtime.eol-7.4.html) | end-of-life | 2 | 2 |
+| postgresql | PostgreSQL 10 is no longer a supported major version | [`database.postgresql.end-of-life-10`](rules/database.postgresql.end-of-life-10.html) | end-of-life | 2 | 2 |
 | postgresql | PostgreSQL 12 is no longer a supported major version | [`database.postgresql.end-of-life-12`](rules/database.postgresql.end-of-life-12.html) | end-of-life | 2 | 2 |
 | pycrypto | PyCrypto is obsolete and vulnerable | [`python.package.pycrypto.obsolete`](rules/python.package.pycrypto.obsolete.html) | end-of-life | 2 | 2 |
 | scala | Scala 2.11 reached end of life | [`scala.runtime.eol-2.11`](rules/scala.runtime.eol-2.11.html) | end-of-life | 2 | 1 |
@@ -316,6 +322,7 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | django | Django 2.2 LTS is end-of-life | [`python.package.django-2.2.eol`](rules/python.package.django-2.2.eol.html) | end-of-life | 1 | 1 |
 | doctrine/cache | doctrine/cache is abandoned | [`php.package.doctrine.cache.abandoned`](rules/php.package.doctrine.cache.abandoned.html) | deprecated | 1 | 1 |
 | google-cloud-functions-runtime/nodejs14 | Google Cloud Functions Node.js 14 runtime is end-of-life | [`serverless.google-cloud-functions.nodejs14`](rules/serverless.google-cloud-functions.nodejs14.html) | end-of-life | 1 | 1 |
+| google-cloud-functions-runtime/nodejs20 | Google Cloud Functions Node.js 20 runtime is end-of-life | [`serverless.google-cloud-functions.nodejs20`](rules/serverless.google-cloud-functions.nodejs20.html) | end-of-life | 1 | 1 |
 | google-cloud-sql-mysql | Cloud SQL for MySQL 5.6 and 5.7 are in extended support | [`database.google-cloud-sql-mysql.extended-support-5.6-to-5.7`](rules/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html) | end-of-support | 1 | 1 |
 | gulp-util | gulp-util is deprecated | [`npm.package.gulp-util.deprecated`](rules/npm.package.gulp-util.deprecated.html) | deprecated | 1 | 1 |
 | helm-repository/stable | Helm stable chart repository is end of life | [`kubernetes.helm.repository.stable.end-of-life`](rules/kubernetes.helm.repository.stable.end-of-life.html) | end-of-life | 1 | 1 |
@@ -340,13 +347,13 @@ Measured on the public corpus of 557 pinned repositories (2898 expected findings
 | next | Next.js 13 is out of support | [`npm.package.next.13.support-end`](rules/npm.package.next.13.support-end.html) | end-of-support | 1 | 1 |
 | nodejs | Node.js 21 is end-of-life | [`nodejs.runtime.eol-21`](rules/nodejs.runtime.eol-21.html) | end-of-life | 1 | 1 |
 | nodejs | Node.js 23 is end-of-life | [`nodejs.runtime.eol-23`](rules/nodejs.runtime.eol-23.html) | end-of-life | 1 | 1 |
-| postgresql | PostgreSQL 10 is no longer a supported major version | [`database.postgresql.end-of-life-10`](rules/database.postgresql.end-of-life-10.html) | end-of-life | 1 | 1 |
 | postgresql | PostgreSQL 11 is no longer a supported major version | [`database.postgresql.end-of-life-11`](rules/database.postgresql.end-of-life-11.html) | end-of-life | 1 | 1 |
 | powershell | PowerShell 6.x is no longer supported | [`shell.powershell.end-of-life-6`](rules/shell.powershell.end-of-life-6.html) | end-of-life | 1 | 1 |
 | powershell | PowerShell 7.1 is no longer supported | [`shell.powershell.end-of-life-7.1`](rules/shell.powershell.end-of-life-7.1.html) | end-of-life | 1 | 1 |
 | protractor | Protractor is deprecated | [`npm.package.protractor.deprecated`](rules/npm.package.protractor.deprecated.html) | deprecated | 1 | 1 |
 | q | q is deprecated | [`npm.package.q.deprecated`](rules/npm.package.q.deprecated.html) | deprecated | 1 | 1 |
 | react-beautiful-dnd | react-beautiful-dnd is deprecated | [`npm.package.react-beautiful-dnd.deprecated`](rules/npm.package.react-beautiful-dnd.deprecated.html) | deprecated | 1 | 1 |
+| redis | Redis 7.0 is end-of-life | [`database.redis.end-of-life-7.0`](rules/database.redis.end-of-life-7.0.html) | end-of-life | 1 | 1 |
 | request-promise | request-promise is deprecated | [`npm.package.request-promise.deprecated`](rules/npm.package.request-promise.deprecated.html) | deprecated | 1 | 1 |
 | ruby | Ruby 2.6 is end-of-life | [`ruby.runtime.eol-2.6`](rules/ruby.runtime.eol-2.6.html) | end-of-life | 1 | 1 |
 | ruby | Ruby 3.0 is end-of-life | [`ruby.runtime.eol-3.0`](rules/ruby.runtime.eol-3.0.html) | end-of-life | 1 | 1 |

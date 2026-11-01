@@ -1,8 +1,12 @@
 ---
 title: "Java 26 is no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 26 as a non-LTS release whose Premier Support ended in September 2026."
+layout: doc
+permalink: "/rules/java.jdk.end-of-support-26.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-26.html"
 image: "/assets/og/java.jdk.end-of-support-26.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/java.jdk.end-of-support-26.json"
 ---
 

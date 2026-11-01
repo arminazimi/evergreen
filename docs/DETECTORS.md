@@ -39,7 +39,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [Database runtimes](detectors/database.md), [.NET](detectors/dotnet.md), [Elixir and Mix](detectors/elixir.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Scala and sbt](detectors/scala.md), [Serverless runtimes](detectors/serverless.md), [Shell and PowerShell](detectors/shell.md), [Swift](detectors/swift.md), [Terraform](detectors/terraform.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [Database runtimes](detectors/database.md), [.NET](detectors/dotnet.md), [Elixir and Mix](detectors/elixir.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Scala and sbt](detectors/scala.md), [Serverless runtimes](detectors/serverless.md), [Shell and PowerShell](detectors/shell.md), [Swift](detectors/swift.md), [Terraform](detectors/terraform.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](compatibility/cpp.md#c-and-c-detector), [Compatibility](compatibility/ruby.md#ruby-detector), [Compatibility](compatibility/php.md#php-detector), [Compatibility](compatibility/android.md#android-detector), and [Compatibility](compatibility/ci-runner-images.md#ci-runner-images-detector).
 
 ## Python runtime declarations
 
@@ -51,132 +51,47 @@ A finding points at the pin, keyword, or value's exact line. Runtime pins use th
 
 ## Ruby detector layout
 
-The Ruby detector is a useful example of the layout a built-in detector follows. Its entry point, `src/detectors/ruby/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-ruby-runtime.ts`, `parse-gemfile.ts`, `parse-gemfile-lock.ts`, and `parse-gemspec.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
-- Rules come from `registry/ruby.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A runtime pin uses the first rule whose `vers` range contains the version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- A `Gemfile` gem is matched only against rules that cover every version, while a `Gemfile.lock` gem is matched against any rule for that gem name.
-- Gem rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the Ruby files that import or call the gem. A `require`, `load`, `gem`, or `autoload` whose argument is not a string literal is unclassified. `require_relative` is never unclassified. Qualified calls without parentheses (for example `JSON.parse text`) are not matched.
-
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#ruby-detector).
+Moved to [Detector layouts: Ruby detector layout](detectors/authoring-layouts.md#ruby-detector-layout).
 
 ## PHP detector layout
 
-The PHP detector follows the same layout. Its entry point, `src/detectors/php/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-php-runtime.ts`, `parse-composer-json.ts`, and `parse-composer-lock.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
-- Rules come from `registry/php.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A runtime pin uses the first rule whose `vers` range contains the version. A constraint that is not a concrete version (for example `>=7.4` or `^8.2`) is skipped, and a rule whose `vers` is malformed is skipped, so neither hides a later rule.
-- A `composer.json` package is matched only against rules that cover every version of the package, while a `composer.lock` package is matched against any rule whose `vers` contains the resolved version. An `abandoned` flag in the lockfile is recorded by the parser and is not itself a finding.
-- Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.php` files that `require` or `include` that package and the qualified calls those matchers name. A `require` or `include` whose argument is not a string literal is unclassified, as is `new $class` or `$class::method()`. Runtime end-of-life rules do not name source usages.
-
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#php-detector).
+Moved to [Detector layouts: PHP detector layout](detectors/authoring-layouts.md#php-detector-layout).
 
 ## Android detector layout
 
-The Android detector follows the same layout. Its entry point, `src/detectors/android/index.ts`, finds the files, reads them, and matches each declaration to a rule. Pure parsers sit beside it: `parse-build-gradle.ts` for SDK settings, `parse-settings-gradle.ts` for plugin pins, and `parse-libs-versions-toml.ts` for the version catalog. String-notation Maven dependencies in `build.gradle` and `build.gradle.kts` come from the Java detector's `parse-gradle.ts`; this detector keeps only those dependency declarations.
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/android.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A declaration uses the first rule whose `vers` range contains the version text. A rule whose `vers` is malformed, or whose comparison throws, is skipped, so it does not hide a later rule.
-- An SDK setting matches `pkg:generic/android/<kind>` (`compileSdk`, `minSdk`, `targetSdk`, `buildToolsVersion`). An Android Gradle Plugin pin, in settings or the catalog `agp` key, matches `pkg:generic/android/agp`. `org.jetbrains.kotlin.android` in settings matches `pkg:generic/android/kotlin-android`. The catalog `kotlin` key matches `pkg:generic/android/kotlin`. A string-notation dependency matches `pkg:maven/<group>/<artifact>`.
-- Property references, method calls, version-catalog lookups, and `$` interpolation produce no declaration. The analysis reports no unclassified references.
-- A rule that lists usage matchers uses `analyzeSourceUsage` for `.java` and `.kt` files. The bundled Play Billing rules do not list matchers, so those findings point at the declaration only.
-
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#android-detector).
+Moved to [Detector layouts: Android detector layout](detectors/authoring-layouts.md#android-detector-layout).
 
 ## CI runner images detector layout
 
-The CI runner images detector follows the same layout. Its entry point, `src/detectors/ci-images/index.ts`, finds the files, reads them, and matches Azure hosted-image labels to a rule. One pure parser per file type sits beside it (`parse-gitlab-ci.ts`, `parse-circleci.ts`, and `parse-azure-pipelines.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/ci-images.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- An Azure `pool.vmImage` label of the form `ubuntu-<version>`, `macos-<version>`, or `windows-<version>` matches `pkg:generic/azure-pipelines/<family>-image` with an `intdot` version. Every rule whose `vers` range contains that version is reported. A label with an architecture suffix, or any other shape, is not matched.
-- GitLab `image` and `services` values are always unclassified. CircleCI returns orbs, dynamic values, and floating aliases as unclassified; a literal CircleCI image is not matched, because this version has no CircleCI Package URL mapping.
-- `latest`, `*-latest`, variables, and template expressions produce no finding. There is no source-usage pass.
-
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
+Moved to [Detector layouts: CI runner images detector layout](detectors/authoring-layouts.md#ci-runner-images-detector-layout).
 
 ## Dart detector layout
 
-The Dart detector follows the same layout. Its entry point, `src/detectors/dart/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-pubspec.ts`, `parse-pubspec-lock.ts`, and `parse-fvm.ts`):
-
-- Rules come from `registry/dart.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- An exact version (a `pubspec.lock` package, an FVM pin, or a constraint without an operator) uses the first rule whose `vers` range contains it. A constraint with an operator is matched only against rules that cover every version of that package. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- Rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.dart` files that import the package and the calls those matchers name. `Function.apply` and `dart:mirrors` reflection are unclassified.
-
-The user-facing list of supported forms and limits for this detector is in [Dart and Flutter](detectors/dart.md).
+Moved to [Detector layouts: Dart detector layout](detectors/authoring-layouts.md#dart-detector-layout).
 
 ## Database runtimes detector layout
 
-The database detector reuses what the container and Terraform detectors already parse. Its entry point, `src/detectors/database/index.ts`, finds Compose and `*.tf` files, reads them, and matches each declaration to a rule. Two pure parsers sit beside it: `parse-compose.ts` filters the shared Compose image parser to database images, and `parse-terraform.ts` reads `engine` and `engine_version` with the shared HCL scanner:
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/database.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A full version uses the first rule whose `vers` range contains it. A partial version (`12`, `5.7`) matches a rule only when the rule contains both ends of what the partial version could mean. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- Each product maps to one Package URL (`pkg:generic/postgresql`, `mysql`, `mariadb`, `redis`, `mongodb`). There is no source-usage pass.
-
-The user-facing list of supported forms and limits for this detector is in [Database runtimes](detectors/database.md).
+Moved to [Detector layouts: Database runtimes detector layout](detectors/authoring-layouts.md#database-runtimes-detector-layout).
 
 ## Shell and PowerShell detector layout
 
-The shell detector reads PowerShell declarations and the PowerShell image tags in workflow files. Its entry point, `src/detectors/shell/index.ts`, finds `*.ps1`, `*.psm1`, `*.psd1`, and `.github/workflows` files, reads them, and matches each declaration to a rule. Two pure parsers sit beside it: `parse-powershell.ts` is a bounded lexical reader for `#Requires -Version` and `PowerShellVersion`, and `parse-workflow.ts` reads `shell:` values and pinned PowerShell or Bash images from workflow YAML.
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/shell.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- Matching works as in the database detector: a full version uses the first rule whose `vers` range contains it, and a partial version matches only when the rule contains both ends of what it could mean.
-- All rules use one Package URL, `pkg:generic/powershell`. Shell names and Bash images are parsed but produce no findings. There is no source-usage pass.
-
-The user-facing list of supported forms and limits for this detector is in [Shell and PowerShell](detectors/shell.md).
+Moved to [Detector layouts: Shell and PowerShell detector layout](detectors/authoring-layouts.md#shell-and-powershell-detector-layout).
 
 ## Terraform detector layout
 
-The Terraform detector follows the same layout. Its entry point, `src/detectors/terraform/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-terraform.ts`, `parse-lock.ts`, and `parse-version-files.ts`), on top of the shared bounded scanner in `hcl.ts`:
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/terraform.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- An exact version (a version file, a lock entry, or a constraint without an operator) uses the first rule whose `vers` range contains it. A `~> X.Y.Z` constraint matches a rule that contains both ends of that minor line. Any other constraint is matched only against rules that cover every version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- The Terraform CLI is `pkg:generic/terraform` and a provider is `pkg:generic/terraform-provider/<namespace>/<name>`. There is no source-usage pass.
-
-The user-facing list of supported forms and limits for this detector is in [Terraform](detectors/terraform.md).
+Moved to [Detector layouts: Terraform detector layout](detectors/authoring-layouts.md#terraform-detector-layout).
 
 ## Swift detector layout
 
-The Swift detector follows the same layout. Its entry point, `src/detectors/swift/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-swift-toolchain.ts`, `parse-package-swift.ts`, `parse-package-resolved.ts`, and `parse-xcode-project.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
-- Rules come from `registry/swift.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- An exact pin (`.xcode-version`, `.swift-version`, `swift-tools-version`, `exact:` in `Package.swift`, a `Package.resolved` version, or an app-target `IPHONEOS_DEPLOYMENT_TARGET`) uses the first rule whose `vers` range contains the version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
-- A `from:` requirement in `Package.swift` is matched only against rules that cover every version of that package. Package identity is the lowercased repository name without `.git`, matching what SwiftPM writes in `Package.resolved`.
-- The iOS deployment target is read only from application targets in `project.pbxproj` (`com.apple.product-type.application`), so a library or a `platforms:` minimum in `Package.swift` never produces that finding.
-- Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.swift` files that `import` that module and the qualified calls those matchers name. Runtime Objective-C lookup forms (`NSClassFromString`, `Selector(…)`, and similar) are unclassified. Toolchain and App Store rules do not name source usages.
-
-The user-facing list of supported forms and limits for this detector is in [Swift](detectors/swift.md).
+Moved to [Detector layouts: Swift detector layout](detectors/authoring-layouts.md#swift-detector-layout).
 
 ## C and C++ detector layout
 
-The C and C++ detector follows the same layout. Its entry point, `src/detectors/cpp/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per manifest sits beside it (`parse-cmakelists.ts`, `parse-conan.ts`, and `parse-vcpkg.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/cpp.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- A declaration with a version uses the first rule whose `vers` range contains that version. A rule whose `vers` is malformed, or whose comparison throws, is skipped, so it does not hide a later rule.
-- A vcpkg dependency with no `version>=` matches only a rule that covers every version of that package. `cmake_minimum_required` matches `pkg:generic/cmake`. A Conan requirement matches `pkg:conan/<name>`. A vcpkg dependency matches `pkg:vcpkg/<name>`. Language standards, compiler checks, and `builtin-baseline` match the generic Package URLs named in the detector.
-- Generator and module rules are not matched yet: the CMake parser does not emit those declarations. There is no source-usage pass.
-
-The detector is experimental. Its five-repository public corpus includes a zero-finding case and independent ground-truth sources. The user-facing list of supported forms, lifecycle data sources, and limits is in [Compatibility](COMPATIBILITY.md#c-and-c-detector).
+Moved to [Detector layouts: C and C++ detector layout](detectors/authoring-layouts.md#c-and-c-detector-layout).
 
 ## Serverless runtimes detector layout
 
-The Serverless runtimes detector follows the same layout. Its entry point, `src/detectors/serverless/index.ts`, finds the files, reads them, and matches each literal runtime identifier to a rule. One pure parser per file type sits beside it (`parse-template.ts`, `parse-serverless-yml.ts`, and `parse-tf.ts`):
-
-- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
-- Rules come from `registry/serverless.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
-- Each literal identifier is tried against `pkg:generic/aws-lambda-runtime/<id>` and `pkg:generic/google-cloud-functions-runtime/<id>`. The first rule whose VERS range contains the identifier wins. A rule whose VERS is malformed is skipped, so it does not hide a later rule.
-- CloudFormation tags (`!Ref`, `!Sub`), Serverless `${…}` interpolations, Terraform `var` / `local` / interpolation values, and floating aliases such as `latest` produce no declaration.
-- There is no source-usage pass: a runtime finding points at the declaration only.
-
-The user-facing list of supported forms and limits for this detector is in [Serverless runtimes](detectors/serverless.md).
+Moved to [Detector layouts: Serverless runtimes detector layout](detectors/authoring-layouts.md#serverless-runtimes-detector-layout).
 
 ## Start a new detector in this repository
 
@@ -265,105 +180,15 @@ The `npm` detector reads lockfiles to resolve exact package versions and build d
 
 ## Declaring the files a detector reads
 
-A detector may declare, in one place, which repository files its `scan` reads. The optional `inputs` field on `Detector` (added to the `evergreen.detector.v1` interface without changing anything that exists) has four parts, all relative to the scanned root with forward slashes:
-
-| Field | Meaning |
-| --- | --- |
-| `fileNames` | Exact base names at any depth, case-insensitive; `*` matches any run of characters (`requirements*.txt`, `*.Dockerfile`). |
-| `extensions` | Base-name endings, including the dot (`.csproj`). |
-| `directories` | Directories, at the root or below any directory, all of whose files may be read (`.github/workflows`). |
-| `sourceExtensions` | Source files read to map usage of a deprecated API (`.ts`, `.cs`). |
-
-```ts
-readonly inputs: DetectorInputs = {
-  fileNames: ["go.mod", "go.work"],
-  sourceExtensions: [".go"],
-};
-```
-
-Every built-in detector declares it, and a test fails if one does not. `declaredInputsCheck` (`evergreen/conformance`, from `src/conformance/checks/inputs.ts`) scans a fixture while recording every file whose contents the scan opens, and fails naming each file outside the declaration:
-
-```text
-Detector "leaky" violated the "declared inputs" guarantee for fixture "leak": read "secrets/token.txt", which its inputs do not declare
-```
-
-Listing a directory or testing that a path exists is not a read, and files outside the scanned root (the bundled rules) are ignored. A detector that omits `inputs` makes no promise and passes the check. The declaration is what a tool needs to fetch only the files a detector reads; keep it as narrow as the detector's real behavior, and widen it in the same change that makes the detector read something new.
+Moved to [Detector contracts: Declaring the files a detector reads](detectors/authoring-contracts.md#declaring-the-files-a-detector-reads).
 
 ## Registry validation
 
-The bundled registries use the shared `evergreen.registry.v2` format, keyed by Package URL and version range with provenance for every rule. See [Lifecycle rules](RULES.md) for the format, the evidence policy, and how to write a rule. The v2 loader is internal to the bundled detectors for now; the public SDK validates the v1-style envelope below, so detectors outside this repository keep working unchanged.
-
-Registry files for external detectors use a versioned envelope:
-
-```json
-{
-  "schemaVersion": "example.registry.v1",
-  "rules": []
-}
-```
-
-Use `validateRegistry` for the envelope and a detector-owned type guard for each rule:
-
-```ts
-const registry = validateRegistry(JSON.parse(contents), {
-  schemaVersion: "example.registry.v1",
-  isRule: (value): value is ExampleRule =>
-    isDeprecationRule(value) && typeof value.package === "string",
-});
-```
-
-Validation rejects a missing or unexpected schema version, a non-array `rules` value, and the first invalid rule with its array index. `isDeprecationRule` validates the fields shared by every Evergreen lifecycle rule.
-
-Rules may include optional migration guidance so `evergreen context` can produce ecosystem-specific packets without hard-coding detector knowledge in the CLI:
-
-```json
-{
-  "migration": {
-    "constraints": ["Preserve observable behavior."],
-    "steps": [
-      {
-        "id": "replace-declaration",
-        "title": "Replace the declaration",
-        "instructions": "Move to the supported replacement.",
-        "targets": "declaration"
-      }
-    ],
-    "verification": [
-      { "command": "npm test", "purpose": "Run the repository tests." }
-    ]
-  }
-}
-```
-
-Step targets are `declaration`, `usages`, or `all`. The packet module resolves those targets to exact repository paths. Step IDs must be unique within a rule, and constraints, steps, and verification commands must all be non-empty. External detectors without migration guidance receive deterministic generic fallback steps.
+Moved to [Detector contracts: Registry validation](detectors/authoring-contracts.md#registry-validation).
 
 ## Source usage contracts
 
-Detectors can enrich findings with concrete repository usages through the public `analyzeSourceUsage` helper. Pass all matched rules in one batch so the repository is traversed once:
-
-```ts
-import {
-  analyzeSourceUsage,
-  type SourceUsageContract,
-} from "evergreen-deprecation/sdk";
-
-const contracts: SourceUsageContract[] = [{
-  id: "legacy-client",
-  matchers: [
-    { kind: "import", language: "typescript", module: "legacy-client" },
-    {
-      kind: "call",
-      language: "typescript",
-      module: "legacy-client",
-      targets: ["default", "get"],
-    },
-  ],
-}];
-
-const analyses = await analyzeSourceUsage(root, contracts);
-```
-
-Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Go supports import and call matchers by import path. Java and Kotlin support import matchers only (`language: "java"` for `.java` files and `"kotlin"` for `.kt` files): `module` is a package or class name, an import of it or of anything below it matches (`import static` and wildcard imports included), and calls through the imported names are not mapped. Ruby supports import and call matchers (`language: "ruby"` for `.rb`, `.rake`, and `.ru` files): `module` is a require path, a literal `require`, `load`, `gem`, or `autoload` of that path (or a path under it) is an import, and a call target is a qualified call such as `JSON.parse(` (parentheses required). An assignment `Parser = JSON` makes `Parser.parse(` the same call. A dynamic `require`/`load`/`gem`/`autoload` argument is reported as unclassified instead of being guessed; `require_relative` is not. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
+Moved to [Detector contracts: Source usage contracts](detectors/authoring-contracts.md#source-usage-contracts).
 
 ## Compatibility policy
 

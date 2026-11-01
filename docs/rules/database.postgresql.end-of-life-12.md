@@ -1,8 +1,12 @@
 ---
 title: "PostgreSQL 12 is no longer a supported major version — dates, impact, migration"
 description: "The PostgreSQL Global Development Group lists 12 as unsupported: its final release was on November 21, 2024, so it receives no further bug or security fixes."
+layout: doc
+permalink: "/rules/database.postgresql.end-of-life-12.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html"
 image: "/assets/og/database.postgresql.end-of-life-12.svg"
+review_date: "2026-10-22"
+last_modified_at: "2026-10-22"
 json_twin: "/rules/database.postgresql.end-of-life-12.json"
 ---
 

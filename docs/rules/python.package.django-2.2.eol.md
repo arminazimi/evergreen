@@ -1,8 +1,12 @@
 ---
 title: "Django 2.2 LTS is end-of-life — dates, impact, migration"
 description: "The Django project lists the 2.2 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 11, 2022."
+layout: doc
+permalink: "/rules/python.package.django-2.2.eol.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-2.2.eol.html"
 image: "/assets/og/python.package.django-2.2.eol.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.package.django-2.2.eol.json"
 ---
 

@@ -5,9 +5,11 @@
 //
 // It needs the network. A GitHub token (GITHUB_TOKEN or GH_TOKEN) is required for GitHub code search;
 // without one those metrics are recorded as unavailable. Docs traffic comes from the public GoatCounter
-// counter of the documentation site; set EVERGREEN_GOATCOUNTER_SITE to its site code. Nothing is collected
-// from users: Evergreen has no telemetry, and every number below can be reproduced by anyone from the
-// public sources named in the file.
+// counter of the documentation site; set EVERGREEN_GOATCOUNTER_SITE to its site code. Landing pages are
+// the one figure the maintainer types in: Search Console data is visible only to the verified owner, so it
+// is read from the local metrics/search-console/<YYYY-MM>.json file and never fetched. Nothing is collected
+// from users: Evergreen has no telemetry, and every number below comes from a named source that anyone can
+// reproduce, except the landing pages, which only the owner can see in Search Console.
 
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
@@ -30,6 +32,15 @@ export const SERVICE_REPORTS: Record<string, string> = {
 
 export type SkillInstall = { name: string; installs: number };
 
+/** One row of the maintainer-entered Search Console landing-page export. */
+export type LandingPage = { page: string; clicks: number; impressions: number };
+
+/** The monthly report lists the top ten landing pages, as Search Console's own table does. */
+export const MAXIMUM_LANDING_PAGES = 10;
+
+/** Where the maintainer copies the month's rows from; Search Console data is not public. */
+export const SEARCH_CONSOLE_SOURCE = "https://search.google.com/search-console/performance/search-analytics";
+
 export type Metric =
   | {
       status: "ok";
@@ -39,6 +50,8 @@ export type Metric =
       repositories?: string[];
       /** Per-Skill install counts from the skills.sh repository page, when present. */
       skills?: SkillInstall[];
+      /** Maintainer-entered landing pages, most clicks first. */
+      pages?: LandingPage[];
     }
   | { status: "unavailable"; reason: string; source: string };
 
@@ -255,6 +268,62 @@ export function parseGoatCounter(status: number, text: string, source: string): 
   } catch (error) {
     return { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source };
   }
+}
+
+/**
+ * Path of the maintainer-entered Search Console export for the month of a snapshot date.
+ * The file holds the top landing pages copied from Search Console's Performance report.
+ */
+export function searchConsoleInputPath(date: string, dir: string = resolve("metrics/search-console")): string {
+  return resolve(dir, `${date.slice(0, 7)}.json`);
+}
+
+/**
+ * Reads the maintainer-entered landing pages: `{ "pages": [{ "page", "clicks", "impressions" }] }`.
+ * Search Console needs an authorized account, so the tool reads this local file instead of fetching.
+ * The rows are sorted by clicks and impressions, then page, and capped at the top ten.
+ */
+export function parseLandingPages(status: number, text: string, source: string = SEARCH_CONSOLE_SOURCE): Metric {
+  if (status === 404) {
+    return { status: "unavailable", reason: "The maintainer has not entered this month's Search Console landing pages.", source };
+  }
+  if (status !== 200) return { status: "unavailable", reason: `Search Console input returned HTTP ${status}.`, source };
+
+  let entries: unknown;
+  try {
+    entries = (JSON.parse(text) as { pages?: unknown }).pages;
+  } catch (error) {
+    return { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source };
+  }
+  if (!Array.isArray(entries) || entries.length === 0) {
+    return { status: "unavailable", reason: "The input has no landing pages.", source };
+  }
+
+  const pages: LandingPage[] = [];
+  const seen = new Set<string>();
+  for (const entry of entries) {
+    const invalid = (): Metric => ({
+      status: "unavailable",
+      reason: "Every landing page needs a page, clicks, and impressions.",
+      source,
+    });
+    if (typeof entry !== "object" || entry === null) return invalid();
+    const candidate = entry as { page?: unknown; clicks?: unknown; impressions?: unknown };
+    const page = typeof candidate.page === "string" ? candidate.page.trim() : "";
+    const { clicks, impressions } = candidate;
+    if (page.length === 0) return invalid();
+    if (typeof clicks !== "number" || !Number.isSafeInteger(clicks) || clicks < 0) return invalid();
+    if (typeof impressions !== "number" || !Number.isSafeInteger(impressions) || impressions < 0) return invalid();
+    if (seen.has(page)) {
+      return { status: "unavailable", reason: "The landing pages list the same page more than once.", source };
+    }
+    seen.add(page);
+    pages.push({ page, clicks, impressions });
+  }
+
+  pages.sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions || a.page.localeCompare(b.page));
+  const top = pages.slice(0, MAXIMUM_LANDING_PAGES);
+  return { status: "ok", value: top.length, pages: top, source };
 }
 
 export function parseScorecard(status: number, text: string): Metric {
@@ -489,6 +558,7 @@ export async function collect(
     }
   };
   const get = async (url: string) => fetcher(url);
+  const searchConsoleDir = resolve(dirname(snapshotDir), "search-console");
 
   const actionMetric = await guarded(() => searchRepositories(`"${REPOSITORY}@" path:.github/workflows`, fetcher, token), "GitHub code search");
   const repeatMetric: Metric = await guarded(async () => {
@@ -551,6 +621,17 @@ export async function collect(
       const metric = parseGoatCounter(response.status, response.text, source);
       return metric.status === "ok" ? { ...metric, detail: "pageviews in the 30 days ending on the snapshot date" } : metric;
     }, "GoatCounter"),
+    searchConsoleLandingPages: await guarded(async () => {
+      let status = 200;
+      let text: string;
+      try {
+        text = await readFile(searchConsoleInputPath(date, searchConsoleDir), "utf8");
+      } catch {
+        status = 404;
+        text = "";
+      }
+      return parseLandingPages(status, text, SEARCH_CONSOLE_SOURCE);
+    }, "Search Console"),
     githubStars: await guarded(() => repositoryStat("stargazers_count", fetcher, token), "GitHub"),
     githubForks: await guarded(() => repositoryStat("forks_count", fetcher, token), "GitHub"),
     scorecardScore: await guarded(async () => { const r = await get(`https://api.securityscorecards.dev/projects/github.com/${REPOSITORY}`); return parseScorecard(r.status, r.text); }, "OpenSSF Scorecard"),

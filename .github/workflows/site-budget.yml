@@ -1,0 +1,94 @@
+name: Site budget
+
+# Fails a pull request that makes the documentation site heavier or slower than its budgets.
+# lighthouserc.json measures the home page, a rule page, and VALIDATION.html for HTML size,
+# total transfer, and Largest Contentful Paint; the numbers go to the job summary either way.
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "lighthouserc.json"
+      - ".github/workflows/site-budget.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-budget-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  budget:
+    name: page weight and speed
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: docs
+      - name: Build the documentation site
+        working-directory: docs
+        # The same Jekyll build as the docs job in ci.yml; staticDistDir points at its output.
+        run: bundle exec jekyll build --baseurl ""
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Measure the pages against the budgets
+        run: npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.json
+      - name: Report page weight and speed
+        if: always()
+        run: |
+          node --input-type=module <<'JS'
+          import { appendFileSync, readdirSync, readFileSync } from "node:fs";
+
+          const assertions = JSON.parse(readFileSync("lighthouserc.json", "utf8")).ci.assert.assertions;
+          const limit = (id) => assertions[id][1].maxNumericValue;
+          const budgets = {
+            html: limit("resource-summary:document:size"),
+            transfer: limit("total-byte-weight"),
+            lcp: limit("largest-contentful-paint"),
+          };
+          const kilobytes = (bytes) => `${(bytes / 1024).toFixed(1)} KB`;
+          const seconds = (milliseconds) => `${(milliseconds / 1000).toFixed(2)} s`;
+
+          let results = [];
+          try {
+            results = readdirSync(".lighthouseci");
+          } catch {
+            // The collect step failed before writing results.
+          }
+
+          const rows = [];
+          for (const file of results.filter((name) => name.endsWith(".json"))) {
+            const lhr = JSON.parse(readFileSync(`.lighthouseci/${file}`, "utf8"));
+            if (!lhr.audits) continue;
+
+            const document = lhr.audits["resource-summary"].details.items.find((item) => item.resourceType === "document");
+            const html = document?.size ?? document?.transferSize ?? 0;
+            const transfer = lhr.audits["total-byte-weight"].numericValue;
+            const lcp = lhr.audits["largest-contentful-paint"].numericValue;
+            const overBudget = html > budgets.html || transfer > budgets.transfer || lcp > budgets.lcp;
+            const page = new URL(lhr.finalDisplayedUrl ?? lhr.finalUrl).pathname;
+
+            rows.push(`| \`${page}\` | ${kilobytes(html)} | ${kilobytes(transfer)} | ${seconds(lcp)} | ${overBudget ? "**over budget**" : "pass"} |`);
+          }
+
+          const lines = ["### Site budget", ""];
+          if (rows.length === 0) {
+            lines.push("Lighthouse wrote no results; see the failed step above.");
+          } else {
+            lines.push("| Page | HTML | Total transfer | LCP | |", "| --- | ---: | ---: | ---: | --- |", ...rows, "");
+            lines.push(`Budgets: HTML ≤ ${kilobytes(budgets.html)}, total transfer ≤ ${kilobytes(budgets.transfer)}, LCP ≤ ${seconds(budgets.lcp)}.`);
+          }
+
+          const summary = `${lines.join("\n")}\n`;
+          if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
+          else console.log(summary);
+          JS

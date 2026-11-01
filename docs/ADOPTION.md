@@ -1,6 +1,6 @@
 # Measuring adoption
 
-Evergreen has no telemetry and never will: a scan does not phone home, and nothing about how people use it is collected. Adoption is measured only from public data that anyone can look up, so every number can be reproduced and none of it comes from users.
+Evergreen has no telemetry and never will: a scan does not phone home, and nothing about how people use it is collected. Adoption is measured only from public data that anyone can look up, with one exception: the Search Console landing pages, which only the verified site owner can see and the maintainer enters by hand. Every other number can be reproduced, and none of it comes from users.
 
 ## The north-star metric
 
@@ -41,6 +41,7 @@ Each snapshot records the distinct public repositories whose `.github/workflows`
 | `mcpRegistryListed` | Whether the official MCP Registry has an entry whose repository is `arminazimi/evergreen` |
 | `skillsShInstalls` | The install count published on the skills.sh page of the Evergreen skill |
 | `docsPageViews` | Pageviews of the documentation site in the 30 days ending on the snapshot date, from its public GoatCounter visitor counter |
+| `searchConsoleLandingPages` | The top ten landing pages for the month, with clicks and impressions, entered by the maintainer from Search Console (see below) |
 | `githubStars`, `githubForks` | The GitHub repository |
 | `scorecardScore` | OpenSSF Scorecard API, overall score (0–10) for `github.com/arminazimi/evergreen` |
 | `externalContributors`, `firstTimeContributors` | External (non-owner, non-bot) contributors with merged pull requests, and first-time contributors whose earliest merged pull request was merged in the snapshot's calendar month, from merged PRs in the GitHub search API (max 1,000 results) |
@@ -64,6 +65,27 @@ GitHub Pages exposes no traffic data, so visits to the documentation site are co
 4. Set `EVERGREEN_GOATCOUNTER_SITE=<site>` when taking a snapshot.
 
 The snapshot reads `https://<site>.goatcounter.com/counter/TOTAL.json` with `start` and `end` dates covering the 30 days ending on the snapshot date, the same public endpoint anyone can open. It records pageviews, not unique visitors. GoatCounter caches its counter response for up to four hours, so a snapshot taken during a spike can lag; visits from people who block the script or disable JavaScript are not counted, and bots are excluded by GoatCounter's own filtering. Without `EVERGREEN_GOATCOUNTER_SITE` the metric is `unavailable` with that reason, never zero.
+
+### Search Console landing pages
+
+Search Console shows which pages people land on from search, but its API needs an authorized Google account, so it is the one source the maintainer enters by hand. Setup is [registering the site in Search Console](https://github.com/arminazimi/evergreen/issues/1337) and submitting the sitemap. Each month:
+
+1. Open **Performance → Search results → Pages** for the documentation site and set the date range to the calendar month.
+2. Export the table, or copy its top ten rows.
+3. Save them as `metrics/search-console/<YYYY-MM>.json`, one file per month:
+
+   ```json
+   {
+     "pages": [
+       { "page": "https://arminazimi.github.io/evergreen/RULES.html", "clicks": 42, "impressions": 530 },
+       { "page": "https://arminazimi.github.io/evergreen/eol/", "clicks": 18, "impressions": 410 }
+     ]
+   }
+   ```
+
+4. Take the snapshot as usual. It records `searchConsoleLandingPages` with the rows sorted by clicks, then impressions, then page, and capped at the top ten.
+
+The snapshot reads that file from disk and never calls Search Console, so it works offline and a missing or invalid file is `unavailable` with the reason, never zero. The monthly report lists the pages from the newest snapshot of the month that recorded them. Only the verified owner can see the data, so the file is committed as the maintainer's entry rather than as a public source.
 
 ## Taking a snapshot
 

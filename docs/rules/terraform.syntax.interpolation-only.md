@@ -1,8 +1,12 @@
 ---
 title: "Interpolation-only strings are deprecated — dates, impact, migration"
 description: "Terraform v0.12.14 deprecated a string whose whole value is one interpolation, such as \"${var.name}\": the same value is written as the bare expression var.name."
+layout: doc
+permalink: "/rules/terraform.syntax.interpolation-only.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.syntax.interpolation-only.html"
 image: "/assets/og/terraform.syntax.interpolation-only.svg"
+review_date: "2026-10-31"
+last_modified_at: "2026-10-31"
 json_twin: "/rules/terraform.syntax.interpolation-only.json"
 ---
 

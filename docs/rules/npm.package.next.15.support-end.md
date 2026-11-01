@@ -1,8 +1,12 @@
 ---
 title: "Next.js 15 is out of support — dates, impact, migration"
 description: "Next.js 15 was released on 2024-10-21. The support policy keeps each major in Maintenance LTS for two years after release, so its window ended on 2026-10-21; the policy page still listed 15.x under…"
+layout: doc
+permalink: "/rules/npm.package.next.15.support-end.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.next.15.support-end.html"
 image: "/assets/og/npm.package.next.15.support-end.svg"
+review_date: "2026-10-25"
+last_modified_at: "2026-10-25"
 json_twin: "/rules/npm.package.next.15.support-end.json"
 ---
 

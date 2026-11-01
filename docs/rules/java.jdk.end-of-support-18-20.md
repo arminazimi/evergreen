@@ -1,8 +1,12 @@
 ---
 title: "Java 18 to 20 are no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 18 to 20 as non-LTS releases whose Premier Support ended between September 2022 and September 2023."
+layout: doc
+permalink: "/rules/java.jdk.end-of-support-18-20.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html"
 image: "/assets/og/java.jdk.end-of-support-18-20.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/java.jdk.end-of-support-18-20.json"
 ---
 

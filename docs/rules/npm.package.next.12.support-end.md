@@ -1,8 +1,12 @@
 ---
 title: "Next.js 12 is out of support — dates, impact, migration"
 description: "Next.js 12 was released on 2021-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2023-10-26."
+layout: doc
+permalink: "/rules/npm.package.next.12.support-end.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.next.12.support-end.html"
 image: "/assets/og/npm.package.next.12.support-end.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/npm.package.next.12.support-end.json"
 ---
 

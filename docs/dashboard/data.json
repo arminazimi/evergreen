@@ -87,8 +87,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 69,
-        "expectedFindings": 187,
+        "repositoriesWithFindings": 71,
+        "expectedFindings": 365,
         "zeroFindingRepositories": 1,
         "repositories": 12,
         "blindRepositories": 7
@@ -143,7 +143,7 @@
     {
       "id": "database",
       "level": "experimental",
-      "earnedLevel": "beta",
+      "earnedLevel": "experimental",
       "precisionFloor": {
         "value": 0.95,
         "enforced": false
@@ -156,9 +156,9 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 13,
-        "expectedFindings": 18,
-        "zeroFindingRepositories": 2,
+        "repositoriesWithFindings": 15,
+        "expectedFindings": 20,
+        "zeroFindingRepositories": 1,
         "repositories": 12,
         "blindRepositories": 8
       }
@@ -352,7 +352,7 @@
       },
       "evidence": {
         "repositoriesWithFindings": 45,
-        "expectedFindings": 100,
+        "expectedFindings": 108,
         "zeroFindingRepositories": 18,
         "repositories": 78,
         "blindRepositories": 52
@@ -483,8 +483,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 18,
-        "expectedFindings": 160,
+        "repositoriesWithFindings": 20,
+        "expectedFindings": 168,
         "zeroFindingRepositories": 2,
         "repositories": 21,
         "blindRepositories": 14
@@ -539,7 +539,7 @@
     {
       "id": "terraform",
       "level": "experimental",
-      "earnedLevel": "beta",
+      "earnedLevel": "experimental",
       "precisionFloor": {
         "value": 0.95,
         "enforced": false
@@ -552,9 +552,9 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 8,
-        "expectedFindings": 38,
-        "zeroFindingRepositories": 2,
+        "repositoriesWithFindings": 10,
+        "expectedFindings": 66,
+        "zeroFindingRepositories": 1,
         "repositories": 12,
         "blindRepositories": 7
       }

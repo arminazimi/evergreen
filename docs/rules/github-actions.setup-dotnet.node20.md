@@ -1,8 +1,12 @@
 ---
 title: "Unsupported actions/setup-dotnet runtime — dates, impact, migration"
 description: "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners."
+layout: doc
+permalink: "/rules/github-actions.setup-dotnet.node20.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.setup-dotnet.node20.html"
 image: "/assets/og/github-actions.setup-dotnet.node20.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/github-actions.setup-dotnet.node20.json"
 ---
 

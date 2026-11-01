@@ -1,8 +1,12 @@
 ---
 title: "PowerShell 7.3 is no longer supported — dates, impact, migration"
 description: "Microsoft's PowerShell support lifecycle lists 7.3 (built on .NET 7.0) as retired: support ended on 2024-05-08, so it receives no further updates, including security updates."
+layout: doc
+permalink: "/rules/shell.powershell.end-of-life-7.3.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.3.html"
 image: "/assets/og/shell.powershell.end-of-life-7.3.svg"
+review_date: "2026-10-22"
+last_modified_at: "2026-10-22"
 json_twin: "/rules/shell.powershell.end-of-life-7.3.json"
 ---
 

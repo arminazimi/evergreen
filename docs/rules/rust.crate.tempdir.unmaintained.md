@@ -1,8 +1,12 @@
 ---
 title: "tempdir is no longer maintained — dates, impact, migration"
 description: "The tempdir crate has been deprecated and its functionality merged into tempfile."
+layout: doc
+permalink: "/rules/rust.crate.tempdir.unmaintained.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html"
 image: "/assets/og/rust.crate.tempdir.unmaintained.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/rust.crate.tempdir.unmaintained.json"
 ---
 

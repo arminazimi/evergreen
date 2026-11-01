@@ -1,8 +1,12 @@
 ---
 title: "node-pre-gyp is deprecated — dates, impact, migration"
 description: "npm states that the unscoped node-pre-gyp package is deprecated and only @mapbox/node-pre-gyp will receive updates."
+layout: doc
+permalink: "/rules/npm.package.node-pre-gyp.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.node-pre-gyp.deprecated.html"
 image: "/assets/og/npm.package.node-pre-gyp.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.node-pre-gyp.deprecated.json"
 ---
 

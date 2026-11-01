@@ -1,8 +1,12 @@
 ---
 title: "Aurora MySQL version 2 is past end of standard support — dates, impact, migration"
 description: "AWS ended standard support for Aurora MySQL version 2 (MySQL 5.7 compatible) on 2024-10-31. RDS Extended Support may keep it running for a fee through 2029-06-30."
+layout: doc
+permalink: "/rules/database.aws-aurora-mysql.end-of-support-5.7.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.aws-aurora-mysql.end-of-support-5.7.html"
 image: "/assets/og/database.aws-aurora-mysql.end-of-support-5.7.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/database.aws-aurora-mysql.end-of-support-5.7.json"
 ---
 
