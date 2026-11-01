@@ -125,6 +125,15 @@ jobs:
         if: runner.os == 'Linux' && matrix.node == 24
         # Build the bundle from the source under test: an ordinary pull request ships only the committed bundle.
         run: npm run build:action --silent && node dist/benchmarks/action-cold-start.js --check
+      - name: Upload the build output
+        if: runner.os == 'Linux' && matrix.node == 24 && github.event_name != 'pull_request'
+        # self-scan and perf-budget reuse this build instead of compiling again.
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+          if-no-files-found: error
       - name: Check the reference pages against the registry
         if: runner.os == 'Linux' && matrix.node == 24
         run: node dist/tools/build-reference-pages.js --check
@@ -330,6 +339,7 @@ jobs:
 
   self-scan:
     if: github.event_name != 'pull_request'
+    needs: check
     name: self-scan (fail on new findings)
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -344,7 +354,10 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run build --silent
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist
       - name: Scan this repository with the code under test
         run: |
           node dist/src/cli.js scan . --baseline .evergreen-baseline.json --json > "$RUNNER_TEMP/self-scan.json"
@@ -358,6 +371,7 @@ jobs:
 
   perf-budget:
     if: github.event_name != 'pull_request'
+    needs: check
     name: perf-budget (fixed fixture scan)
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -372,8 +386,12 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist
       - name: Enforce the scan performance budget
-        run: npm run build --silent && node dist/benchmarks/perf-budget.js --check
+        run: node dist/benchmarks/perf-budget.js --check
 
   lighthouse:
     if: github.event_name != 'pull_request'
