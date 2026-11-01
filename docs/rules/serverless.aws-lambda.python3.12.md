@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda Python 3.12 runtime reaches end of life on 2028-10-31 — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists python3.12 as supported with a projected deprecation date of 2028-10-31. After that date AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.python3.12.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.12.html"
 image: "/assets/og/serverless.aws-lambda.python3.12.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.python3.12.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "Timers._unrefActive has been removed — dates, impact, migration"
 description: "Node.js removed timers._unrefActive (DEP0127: runtime deprecation since v11.14.0, end-of-life since v24.0.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.timers.unrefactive.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.timers.unrefactive.html"
 image: "/assets/og/nodejs.symbol.timers.unrefactive.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.timers.unrefactive.json"
 ---
 

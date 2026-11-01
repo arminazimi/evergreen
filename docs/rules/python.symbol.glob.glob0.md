@@ -1,8 +1,12 @@
 ---
 title: "Glob.glob0 and glob.glob1 are deprecated — dates, impact, migration"
 description: "Python 3.13 deprecates glob.glob0 and glob.glob1."
+layout: doc
+permalink: "/rules/python.symbol.glob.glob0.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html"
 image: "/assets/og/python.symbol.glob.glob0.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.glob.glob0.json"
 ---
 

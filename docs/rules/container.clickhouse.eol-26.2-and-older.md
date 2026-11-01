@@ -1,8 +1,12 @@
 ---
 title: "ClickHouse image release lines 26.2 and older are end-of-life — dates, impact, migration"
 description: "These ClickHouse release lines are listed as not supported with security updates in the vendor's security policy; 26.3 is the oldest line it still supports."
+layout: doc
+permalink: "/rules/container.clickhouse.eol-26.2-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.clickhouse.eol-26.2-and-older.html"
 image: "/assets/og/container.clickhouse.eol-26.2-and-older.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/container.clickhouse.eol-26.2-and-older.json"
 ---
 

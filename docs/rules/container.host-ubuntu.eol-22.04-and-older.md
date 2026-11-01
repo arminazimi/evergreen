@@ -1,8 +1,12 @@
 ---
 title: "Ubuntu releases before 22.04 LTS are past standard support — dates, impact, migration"
 description: "Ubuntu 20.04 LTS, the newest release this range covers, stopped receiving standard security updates on 2025-05-31; interim releases in the range ended earlier."
+layout: doc
+permalink: "/rules/container.host-ubuntu.eol-22.04-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.host-ubuntu.eol-22.04-and-older.html"
 image: "/assets/og/container.host-ubuntu.eol-22.04-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/container.host-ubuntu.eol-22.04-and-older.json"
 ---
 

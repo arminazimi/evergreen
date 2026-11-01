@@ -1,8 +1,12 @@
 ---
 title: "ElastiCache for Redis OSS 4 is past end of standard support — dates, impact, migration"
 description: "AWS ended standard support for ElastiCache for Redis OSS 4 on 2026-01-31. RDS Extended Support may keep it running for a fee through 2029-01-31. Upgrade to Valkey or Redis OSS 7.1 or later."
+layout: doc
+permalink: "/rules/database.aws-elasticache-redis.end-of-support-4.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.aws-elasticache-redis.end-of-support-4.html"
 image: "/assets/og/database.aws-elasticache-redis.end-of-support-4.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/database.aws-elasticache-redis.end-of-support-4.json"
 ---
 

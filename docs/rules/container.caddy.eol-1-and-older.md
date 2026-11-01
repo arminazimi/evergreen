@@ -1,8 +1,12 @@
 ---
 title: "Caddy image release lines 1 and older are end-of-life — dates, impact, migration"
 description: "These Caddy release lines no longer receive fixes from the vendor."
+layout: doc
+permalink: "/rules/container.caddy.eol-1-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html"
 image: "/assets/og/container.caddy.eol-1-and-older.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/container.caddy.eol-1-and-older.json"
 ---
 

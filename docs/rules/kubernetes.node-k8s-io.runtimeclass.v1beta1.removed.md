@@ -1,8 +1,12 @@
 ---
 title: "RuntimeClass node.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the node.k8s.io/v1beta1 API version of RuntimeClass is no longer served as of v1.25, which was released on 2022-08-23."
+layout: doc
+permalink: "/rules/kubernetes.node-k8s-io.runtimeclass.v1beta1.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.node-k8s-io.runtimeclass.v1beta1.removed.html"
 image: "/assets/og/kubernetes.node-k8s-io.runtimeclass.v1beta1.removed.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/kubernetes.node-k8s-io.runtimeclass.v1beta1.removed.json"
 ---
 

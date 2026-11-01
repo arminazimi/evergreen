@@ -1,8 +1,12 @@
 ---
 title: "nose is maintenance-only — dates, impact, migration"
 description: "The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects."
+layout: doc
+permalink: "/rules/python.package.nose.maintenance-only.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html"
 image: "/assets/og/python.package.nose.maintenance-only.svg"
+review_date: "2026-10-14"
+last_modified_at: "2026-10-14"
 json_twin: "/rules/python.package.nose.maintenance-only.json"
 ---
 

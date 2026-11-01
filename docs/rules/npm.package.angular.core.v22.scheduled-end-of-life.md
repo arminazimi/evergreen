@@ -1,8 +1,12 @@
 ---
 title: "@angular/core v22 reaches end of life on 2028-06-30 — dates, impact, migration"
 description: "Angular's release schedule lists v22 with \"LTS ends 2028-06\", a month-precision date. Evergreen uses the last day of that month, 2028-06-30, as the deadline."
+layout: doc
+permalink: "/rules/npm.package.angular.core.v22.scheduled-end-of-life.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v22.scheduled-end-of-life.html"
 image: "/assets/og/npm.package.angular.core.v22.scheduled-end-of-life.svg"
+review_date: "2026-10-24"
+last_modified_at: "2026-10-24"
 json_twin: "/rules/npm.package.angular.core.v22.scheduled-end-of-life.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "tls.createSecurePair has been removed — dates, impact, migration"
 description: "Node.js removed tls.createSecurePair() (DEP0064: documentation-only since v6.0.0, runtime since v8.0.0, end-of-life since v24.0.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.tls.createsecurepair.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html"
 image: "/assets/og/nodejs.symbol.tls.createsecurepair.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.tls.createsecurepair.json"
 ---
 

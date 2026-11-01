@@ -1,8 +1,12 @@
 ---
 title: "Node.js 22 reaches end-of-life on 2027-04-30 — dates, impact, migration"
 description: "Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule."
+layout: doc
+permalink: "/rules/nodejs.runtime.eol-22.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-22.html"
 image: "/assets/og/nodejs.runtime.eol-22.svg"
+review_date: "2026-10-24"
+last_modified_at: "2026-10-24"
 json_twin: "/rules/nodejs.runtime.eol-22.json"
 ---
 

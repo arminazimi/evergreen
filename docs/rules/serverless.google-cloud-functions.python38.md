@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions Python 3.8 runtime is end-of-life — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists Python 3.8 (runtime ID python38) as deprecated on 2024-10-14 and decommissioned on 2025-10-14."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.python38.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.python38.html"
 image: "/assets/og/serverless.google-cloud-functions.python38.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.python38.json"
 ---
 

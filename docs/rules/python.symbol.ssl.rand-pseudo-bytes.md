@@ -1,8 +1,12 @@
 ---
 title: "Ssl.RAND_pseudo_bytes has been removed — dates, impact, migration"
 description: "Python 3.12 removed ssl.RAND_pseudo_bytes, so using it raises an error."
+layout: doc
+permalink: "/rules/python.symbol.ssl.rand-pseudo-bytes.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.ssl.rand-pseudo-bytes.html"
 image: "/assets/og/python.symbol.ssl.rand-pseudo-bytes.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.ssl.rand-pseudo-bytes.json"
 ---
 

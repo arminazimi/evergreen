@@ -1,8 +1,12 @@
 ---
 title: "Repl._builtinLibs is deprecated — dates, impact, migration"
 description: "Node.js deprecates repl._builtinLibs (DEP0142: documentation-only since v14.3.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.repl.builtinlibs.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html"
 image: "/assets/og/nodejs.symbol.repl.builtinlibs.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.repl.builtinlibs.json"
 ---
 

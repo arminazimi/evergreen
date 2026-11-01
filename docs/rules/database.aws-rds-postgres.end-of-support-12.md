@@ -1,8 +1,12 @@
 ---
 title: "RDS for PostgreSQL 12 is past end of standard support — dates, impact, migration"
 description: "AWS ended standard support for RDS for PostgreSQL 12 on 2025-02-28. RDS Extended Support may keep it running for a fee through 2028-02-29. Upgrade to PostgreSQL 15 or later."
+layout: doc
+permalink: "/rules/database.aws-rds-postgres.end-of-support-12.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.aws-rds-postgres.end-of-support-12.html"
 image: "/assets/og/database.aws-rds-postgres.end-of-support-12.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/database.aws-rds-postgres.end-of-support-12.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "The lib2to3 module was removed in Python 3.13 — dates, impact, migration"
 description: "Python 3.13 removed lib2to3, so importing it raises ModuleNotFoundError; use a maintained parser such as libcst or tree-sitter."
+layout: doc
+permalink: "/rules/python.module.lib2to3.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.module.lib2to3.removed.html"
 image: "/assets/og/python.module.lib2to3.removed.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/python.module.lib2to3.removed.json"
 ---
 

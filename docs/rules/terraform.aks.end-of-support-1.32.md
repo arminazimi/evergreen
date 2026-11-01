@@ -1,8 +1,12 @@
 ---
 title: "AKS 1.32 is past its 12-month support window — dates, impact, migration"
 description: "AKS 1.32 reached the end of its 12-month support window on 2026-03-31. Long-term support, which must be enabled for a cluster, ends on 2027-03-31."
+layout: doc
+permalink: "/rules/terraform.aks.end-of-support-1.32.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-support-1.32.html"
 image: "/assets/og/terraform.aks.end-of-support-1.32.svg"
+review_date: "2026-10-26"
+last_modified_at: "2026-10-26"
 json_twin: "/rules/terraform.aks.end-of-support-1.32.json"
 ---
 

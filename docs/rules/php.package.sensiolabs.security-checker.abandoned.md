@@ -1,8 +1,12 @@
 ---
 title: "sensiolabs/security-checker is abandoned — dates, impact, migration"
 description: "Packagist marks sensiolabs/security-checker as abandoned and no longer maintained, and the author points to https://github.com/fabpot/local-php-security-checker."
+layout: doc
+permalink: "/rules/php.package.sensiolabs.security-checker.abandoned.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html"
 image: "/assets/og/php.package.sensiolabs.security-checker.abandoned.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/php.package.sensiolabs.security-checker.abandoned.json"
 ---
 
