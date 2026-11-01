@@ -1,0 +1,6 @@
+{
+  "order": 60,
+  "level": "experimental",
+  "stable": false,
+  "minPrecision": 0.95
+}
