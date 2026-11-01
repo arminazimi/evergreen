@@ -1,0 +1,1 @@
+- Run the test suite once with coverage in CI and reuse that run for the coverage thresholds, the per-file diff, and the badge. (#2007)

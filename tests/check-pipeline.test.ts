@@ -6,6 +6,11 @@ import { test } from "node:test";
 
 import {
   CHECK_TIMING_MARKER,
+  COVERAGE_ENV,
+  COVERAGE_EXCLUDES,
+  COVERAGE_LCOV_PATH,
+  coverageRequested,
+  coverageTestArgs,
   publishActionBundle,
   renderStepTimingSummary,
   runCheck,
@@ -171,6 +176,65 @@ test("CLI tests get two processes per core because their temporary directories a
   assert.deepEqual(testProcessArgs(1), ["--test", "--test-concurrency=2", "dist/tests/**/*.test.js"]);
 });
 
+test("coverage mode keeps the runner, concurrency, and glob of the plain test run", () => {
+  const args = coverageTestArgs(1);
+  assert.equal(args[0], "--test");
+  assert.equal(args[1], "--test-concurrency=2");
+  assert.equal(args.at(-1), "dist/tests/**/*.test.js");
+  // One suite, one file argument.
+  assert.equal(args.filter((arg) => arg.endsWith(".test.js")).length, 1);
+  assert.ok(args.includes("--experimental-test-coverage"));
+  assert.deepEqual(
+    args.filter((arg) => arg.startsWith("--test-coverage-exclude=")),
+    COVERAGE_EXCLUDES.map((path) => `--test-coverage-exclude=${path}`),
+  );
+  // The table still reaches the log, and the report the threshold, diff, and badge steps read is written beside it.
+  assert.deepEqual(args.filter((arg) => arg.startsWith("--test-reporter")), [
+    "--test-reporter=spec",
+    "--test-reporter=lcov",
+    "--test-reporter-destination=stdout",
+    `--test-reporter-destination=${COVERAGE_LCOV_PATH}`,
+  ]);
+});
+
+test("coverage is requested only when the environment flag is 1", () => {
+  assert.equal(coverageRequested({}), false);
+  assert.equal(coverageRequested({ [COVERAGE_ENV]: "0" }), false);
+  assert.equal(coverageRequested({ [COVERAGE_ENV]: "1" }), true);
+});
+
+test("check runs the suite once, with coverage, when coverage is requested", async () => {
+  const suiteCommands: string[][] = [];
+  await runCheck({
+    stagingDir: "action-staging",
+    nccCli: "ncc.js",
+    verifyActionBundle: false,
+    collectCoverage: true,
+    publish: async () => {},
+    run: async (_command, args) => {
+      if (args[0] === "--test" || args[0] === "tools/run-tests.mjs") suiteCommands.push([...args]);
+    },
+  });
+  assert.equal(suiteCommands.length, 1);
+  assert.ok(suiteCommands[0]!.includes("--experimental-test-coverage"));
+  assert.ok(suiteCommands[0]!.includes(`--test-reporter-destination=${COVERAGE_LCOV_PATH}`));
+});
+
+test("check keeps the project runner when coverage is off", async () => {
+  const suiteCommands: string[][] = [];
+  await runCheck({
+    stagingDir: "action-staging",
+    nccCli: "ncc.js",
+    verifyActionBundle: false,
+    collectCoverage: false,
+    publish: async () => {},
+    run: async (_command, args) => {
+      if (args[0] === "--test" || args[0] === "tools/run-tests.mjs") suiteCommands.push([...args]);
+    },
+  });
+  assert.deepEqual(suiteCommands, [["tools/run-tests.mjs"]]);
+});
+
 test("a command exits cleanly only when its status is 0", async () => {
   await runCommand(process.execPath, ["-e", "process.exit(0)"]);
   await assert.rejects(runCommand(process.execPath, ["-e", "process.exit(2)"]), /exited 2/);
@@ -254,7 +318,8 @@ test("renderStepTimingSummary includes platform, node, and the marker", () => {
 
 function stepName(args: readonly string[]): string {
   if (args.includes("src/action.ts")) return "build:action";
-  if (args[0] === "tools/run-tests.mjs") return "test";
+  // The plain run goes through the project runner; the coverage run is a direct `node --test`.
+  if (args[0] === "tools/run-tests.mjs" || args[0] === "--test") return "test";
   if (args.some((arg) => arg.includes("generate-commands-index"))) return "check:commands";
   if (args.includes("--check")) return "check:plugins";
   if (args.some((arg) => arg.includes("plugin-host-eval.js"))) return "eval:plugins";
