@@ -886,6 +886,7 @@
   "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html",
   "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.33.html",
   "https://arminazimi.github.io/evergreen/rules/terraform.syntax.interpolation-only.html",
+  "https://arminazimi.github.io/evergreen/SECURITY_TRIAGE.html",
   "https://arminazimi.github.io/evergreen/SHARE_REPORT.html",
   "https://arminazimi.github.io/evergreen/SHOWCASE.html",
   "https://arminazimi.github.io/evergreen/SITE_STACK.html",
