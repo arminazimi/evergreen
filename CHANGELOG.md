@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add `evergreen countdown`, a live terminal countdown to every dated lifecycle deadline that affects the repository, with a two-year bar that turns from green to yellow to red, a six-second animation, and a `--json` document. (#1848)
+- Add the Node.js drift collector: read `.nvmrc`, `.node-version`, `.tool-versions`, `package.json` `volta.node` and `engines.node`, every Dockerfile stage, `devcontainer.json`, `actions/setup-node` inputs including matrices, and GitLab CI, CircleCI, and Azure Pipelines images. `lts/<codename>` resolves through the Node.js release schedule; `--align` rewrites the single-value pins and refuses matrices and floors. (#1837)
 - Add the npm lockfile analyzer to `upgrade-check`: it reads `engines.node` from `package-lock.json` and `npm-shrinkwrap.json` lockfile versions 2 and 3, reports production blockers, dev warnings, and invalid ranges at the `engines` line, and reports lockfile version 1 as unknown. (#1859)
 - Add a Google Cloud importer to `evergreen inventory`. It reads `gcloud functions list`, `gcloud app versions list`, `gcloud container clusters list`, and `gcloud run services list` output; it calls no cloud API and reads only the files given to it. (#1877)
 - Add an AWS Lambda importer to `evergreen inventory`, which reads the exports the cloud tools already produce and names the JSON Pointer each claim rests on. The importer covers `aws lambda list-functions --output json`, and `registry/serverless.json` now has a sourced rule for every runtime the AWS Lambda runtimes page dates. (#1874)

@@ -1,0 +1,10 @@
+{
+  "name": "drift-example",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "volta": {
+    "node": "22.11.0"
+  }
+}
