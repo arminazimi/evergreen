@@ -1,6 +1,6 @@
 {
   "schemaVersion": "evergreen.dashboard-data.v1",
-  "referenceDay": "2026-10-24",
+  "referenceDay": "2026-11-01",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
     "repositories": 557
@@ -11,10 +11,10 @@
     "decision": "docs/decisions/0013-detector-maturity.md"
   },
   "run": {
-    "date": "2026-10-24",
-    "commit": "c7b4e14",
-    "repositories": 456,
-    "findings": 2201,
+    "date": "2026-11-01",
+    "commit": "114f19b",
+    "repositories": 557,
+    "findings": 3156,
     "runAgeDays": 0,
     "recordedPrecision": 1,
     "recordedRecall": 1,
@@ -34,7 +34,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 9,
+        "truePositives": 10,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -80,7 +80,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 74,
+        "truePositives": 365,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -103,7 +103,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 18,
+        "truePositives": 19,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -149,7 +149,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 16,
+        "truePositives": 20,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -171,7 +171,13 @@
         "value": 0.95,
         "enforced": false
       },
-      "run": null,
+      "run": {
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": null,
+        "recall": null
+      },
       "evidence": {
         "repositoriesWithFindings": 0,
         "expectedFindings": 0,
@@ -211,7 +217,13 @@
         "value": 0.95,
         "enforced": false
       },
-      "run": null,
+      "run": {
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": null,
+        "recall": null
+      },
       "evidence": {
         "repositoriesWithFindings": 0,
         "expectedFindings": 0,
@@ -229,7 +241,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 986,
+        "truePositives": 1213,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -252,7 +264,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 54,
+        "truePositives": 111,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -298,7 +310,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 71,
+        "truePositives": 80,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -321,7 +333,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 305,
+        "truePositives": 349,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -344,7 +356,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 100,
+        "truePositives": 108,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -390,7 +402,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 74,
+        "truePositives": 135,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -436,7 +448,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 18,
+        "truePositives": 63,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -458,7 +470,13 @@
         "value": 0.95,
         "enforced": false
       },
-      "run": null,
+      "run": {
+        "truePositives": 2,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1
+      },
       "evidence": {
         "repositoriesWithFindings": 1,
         "expectedFindings": 2,
@@ -476,7 +494,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 26,
+        "truePositives": 168,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -522,7 +540,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 16,
+        "truePositives": 20,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -545,7 +563,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 7,
+        "truePositives": 66,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,

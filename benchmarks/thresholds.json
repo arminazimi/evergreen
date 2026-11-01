@@ -127,15 +127,15 @@
     }
   },
   "lastFullRun": {
-    "date": "2026-10-24",
-    "commit": "c7b4e14",
-    "repositories": 456,
-    "findings": 2201,
+    "date": "2026-11-01",
+    "commit": "114f19b",
+    "repositories": 557,
+    "findings": 3156,
     "precision": 1,
     "recall": 1,
     "perDetector": {
       "android": {
-        "truePositives": 9,
+        "truePositives": 10,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -145,12 +145,12 @@
         "falseNegatives": 0
       },
       "container": {
-        "truePositives": 74,
+        "truePositives": 365,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "cpp": {
-        "truePositives": 18,
+        "truePositives": 19,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -160,7 +160,12 @@
         "falseNegatives": 0
       },
       "database": {
-        "truePositives": 16,
+        "truePositives": 20,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "deno": {
+        "truePositives": 0,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -169,13 +174,18 @@
         "falsePositives": 0,
         "falseNegatives": 0
       },
+      "elixir": {
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
       "github-actions": {
-        "truePositives": 986,
+        "truePositives": 1213,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "go": {
-        "truePositives": 54,
+        "truePositives": 111,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -185,17 +195,17 @@
         "falseNegatives": 0
       },
       "kubernetes": {
-        "truePositives": 71,
+        "truePositives": 80,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "nodejs": {
-        "truePositives": 305,
+        "truePositives": 349,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "npm": {
-        "truePositives": 100,
+        "truePositives": 108,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -205,7 +215,7 @@
         "falseNegatives": 0
       },
       "python": {
-        "truePositives": 74,
+        "truePositives": 135,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -215,12 +225,17 @@
         "falseNegatives": 0
       },
       "rust": {
-        "truePositives": 18,
+        "truePositives": 63,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "scala": {
+        "truePositives": 2,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "serverless": {
-        "truePositives": 26,
+        "truePositives": 168,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -230,12 +245,12 @@
         "falseNegatives": 0
       },
       "swift": {
-        "truePositives": 16,
+        "truePositives": 20,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "terraform": {
-        "truePositives": 7,
+        "truePositives": 66,
         "falsePositives": 0,
         "falseNegatives": 0
       }
