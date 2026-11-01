@@ -1,8 +1,12 @@
 ---
 title: "Vue 2 is end-of-life — dates, impact, migration"
 description: "Vue 2 has reached end of life and is no longer actively maintained. After December 31st, 2023 it receives no updates, including security and browser compatibility fixes."
+layout: doc
+permalink: "/rules/npm.package.vue.eol-2.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html"
 image: "/assets/og/npm.package.vue.eol-2.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/npm.package.vue.eol-2.json"
 ---
 

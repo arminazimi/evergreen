@@ -1,8 +1,12 @@
 ---
 title: "Go image release lines 1.25 and older are end-of-life — dates, impact, migration"
 description: "These Go release lines no longer receive fixes from the vendor."
+layout: doc
+permalink: "/rules/container.golang.eol-1.25-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html"
 image: "/assets/og/container.golang.eol-1.25-and-older.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/container.golang.eol-1.25-and-older.json"
 ---
 

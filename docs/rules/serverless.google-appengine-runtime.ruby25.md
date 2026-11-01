@@ -1,8 +1,12 @@
 ---
 title: "App Engine Ruby 2.5 runtime is past end of support — dates, impact, migration"
 description: "The App Engine standard environment runtime support schedule lists Ruby 2.5 (runtime ID ruby25) with end of support on 2024-01-30 and deprecation on 2025-01-31."
+layout: doc
+permalink: "/rules/serverless.google-appengine-runtime.ruby25.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.ruby25.html"
 image: "/assets/og/serverless.google-appengine-runtime.ruby25.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-appengine-runtime.ruby25.json"
 ---
 

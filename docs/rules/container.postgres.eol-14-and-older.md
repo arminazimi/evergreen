@@ -1,8 +1,12 @@
 ---
 title: "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12 — dates, impact, migration"
 description: "The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12."
+layout: doc
+permalink: "/rules/container.postgres.eol-14-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html"
 image: "/assets/og/container.postgres.eol-14-and-older.svg"
+review_date: "2026-10-24"
+last_modified_at: "2026-10-24"
 json_twin: "/rules/container.postgres.eol-14-and-older.json"
 ---
 

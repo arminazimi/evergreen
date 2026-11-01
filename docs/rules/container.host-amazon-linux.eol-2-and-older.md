@@ -1,8 +1,12 @@
 ---
 title: "Amazon Linux 2 and the 2018.03 AMI are past end of support — dates, impact, migration"
 description: "Amazon Linux 2 reached the end of standard support on 2026-06-30, and Amazon Linux AMI 2018.03 ended support on 2023-12-31. Amazon Linux 2023 is supported until 2029-06-30."
+layout: doc
+permalink: "/rules/container.host-amazon-linux.eol-2-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.host-amazon-linux.eol-2-and-older.html"
 image: "/assets/og/container.host-amazon-linux.eol-2-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/container.host-amazon-linux.eol-2-and-older.json"
 ---
 

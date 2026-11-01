@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda Node.js 14 runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.nodejs14.x.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs14.x.html"
 image: "/assets/og/serverless.aws-lambda.nodejs14.x.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/serverless.aws-lambda.nodejs14.x.json"
 ---
 

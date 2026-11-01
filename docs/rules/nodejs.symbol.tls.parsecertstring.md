@@ -1,8 +1,12 @@
 ---
 title: "Tls.parseCertString has been removed — dates, impact, migration"
 description: "Node.js removed tls.parseCertString (DEP0076: documentation-only since v8.6.0, runtime deprecation since v9.0.0, end-of-life since v18.0.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.tls.parsecertstring.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.parsecertstring.html"
 image: "/assets/og/nodejs.symbol.tls.parsecertstring.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.tls.parsecertstring.json"
 ---
 

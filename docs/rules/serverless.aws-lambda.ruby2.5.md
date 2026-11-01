@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda Ruby 2.5 runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists ruby2.5 under Deprecated runtimes with deprecation date 2021-07-30. AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.ruby2.5.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby2.5.html"
 image: "/assets/og/serverless.aws-lambda.ruby2.5.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.ruby2.5.json"
 ---
 

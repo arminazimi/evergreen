@@ -1,8 +1,12 @@
 ---
 title: "Debian 11 and older are end-of-life — dates, impact, migration"
 description: "Debian 11 reached the end of long-term support on 2026-08-31, and older releases ended earlier. These releases no longer receive security updates from the Debian project."
+layout: doc
+permalink: "/rules/container.host-debian.eol-11-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.host-debian.eol-11-and-older.html"
 image: "/assets/og/container.host-debian.eol-11-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/container.host-debian.eol-11-and-older.json"
 ---
 

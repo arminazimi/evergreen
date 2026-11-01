@@ -1,8 +1,12 @@
 ---
 title: "StatefulSet apps/v1beta2 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta2 API version of StatefulSet is no longer served as of v1.16, which was released on 2019-09-18."
+layout: doc
+permalink: "/rules/kubernetes.apps.statefulset.v1beta2.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.apps.statefulset.v1beta2.removed.html"
 image: "/assets/og/kubernetes.apps.statefulset.v1beta2.removed.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/kubernetes.apps.statefulset.v1beta2.removed.json"
 ---
 

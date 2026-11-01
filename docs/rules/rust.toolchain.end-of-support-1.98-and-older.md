@@ -1,8 +1,12 @@
 ---
 title: "Rust 1.98 and older are no longer supported — dates, impact, migration"
 description: "The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships."
+layout: doc
+permalink: "/rules/rust.toolchain.end-of-support-1.98-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.toolchain.end-of-support-1.98-and-older.html"
 image: "/assets/og/rust.toolchain.end-of-support-1.98-and-older.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/rust.toolchain.end-of-support-1.98-and-older.json"
 ---
 

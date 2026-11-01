@@ -1,8 +1,12 @@
 ---
 title: "Cloud SQL for PostgreSQL 13 is in extended support — dates, impact, migration"
 description: "The Cloud SQL for PostgreSQL version policy lists PostgreSQL 13 with extended support starting 2026-02-01 and deprecation on 2029-02-01."
+layout: doc
+permalink: "/rules/database.google-cloud-sql-postgresql.extended-support-13.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-13.html"
 image: "/assets/og/database.google-cloud-sql-postgresql.extended-support-13.svg"
+review_date: "2026-10-26"
+last_modified_at: "2026-10-26"
 json_twin: "/rules/database.google-cloud-sql-postgresql.extended-support-13.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "pty.master_open and slave_open are deprecated — dates, impact, migration"
 description: "Python 3.12 gives the undocumented pty.master_open() and pty.slave_open() a DeprecationWarning, to be removed in Python 3.14."
+layout: doc
+permalink: "/rules/python.symbol.pty.master-open.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.pty.master-open.html"
 image: "/assets/og/python.symbol.pty.master-open.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.pty.master-open.json"
 ---
 

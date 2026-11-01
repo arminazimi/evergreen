@@ -1,8 +1,12 @@
 ---
 title: "Python 3.9 and older are end-of-life — dates, impact, migration"
 description: "These Python release lines no longer receive security or bug fixes from the Python core team."
+layout: doc
+permalink: "/rules/python.runtime.eol-3.9-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html"
 image: "/assets/og/python.runtime.eol-3.9-and-older.svg"
+review_date: "2026-10-14"
+last_modified_at: "2026-10-14"
 json_twin: "/rules/python.runtime.eol-3.9-and-older.json"
 ---
 

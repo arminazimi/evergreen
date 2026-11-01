@@ -1,8 +1,12 @@
 ---
 title: "django-celery is no longer required — dates, impact, migration"
 description: "The project states that django-celery is no longer required because Celery supports Django directly."
+layout: doc
+permalink: "/rules/python.package.django-celery.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-celery.deprecated.html"
 image: "/assets/og/python.package.django-celery.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.django-celery.deprecated.json"
 ---
 

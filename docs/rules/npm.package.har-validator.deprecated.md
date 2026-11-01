@@ -1,8 +1,12 @@
 ---
 title: "har-validator is deprecated — dates, impact, migration"
 description: "npm states that har-validator is no longer supported."
+layout: doc
+permalink: "/rules/npm.package.har-validator.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html"
 image: "/assets/og/npm.package.har-validator.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.har-validator.deprecated.json"
 ---
 

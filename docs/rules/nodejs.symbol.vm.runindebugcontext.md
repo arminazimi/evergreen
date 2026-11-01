@@ -1,8 +1,12 @@
 ---
 title: "Vm.runInDebugContext has been removed — dates, impact, migration"
 description: "Node.js removed vm.runInDebugContext (DEP0069: documentation-only since v8.0.0, runtime deprecation since v9.0.0, end-of-life since v10.0.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.vm.runindebugcontext.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.vm.runindebugcontext.html"
 image: "/assets/og/nodejs.symbol.vm.runindebugcontext.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.vm.runindebugcontext.json"
 ---
 

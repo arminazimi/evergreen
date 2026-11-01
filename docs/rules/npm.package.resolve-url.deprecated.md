@@ -1,8 +1,12 @@
 ---
 title: "resolve-url is deprecated — dates, impact, migration"
 description: "The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers."
+layout: doc
+permalink: "/rules/npm.package.resolve-url.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html"
 image: "/assets/og/npm.package.resolve-url.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.resolve-url.deprecated.json"
 ---
 

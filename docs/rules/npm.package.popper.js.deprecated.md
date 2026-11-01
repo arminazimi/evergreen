@@ -1,8 +1,12 @@
 ---
 title: "popper.js is deprecated — dates, impact, migration"
 description: "npm identifies popper.js as the legacy Popper v1 package and directs users to @popperjs/core for Popper v2."
+layout: doc
+permalink: "/rules/npm.package.popper.js.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.popper.js.deprecated.html"
 image: "/assets/og/npm.package.popper.js.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.popper.js.deprecated.json"
 ---
 

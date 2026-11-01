@@ -1568,6 +1568,15 @@
             "kind": "migration-commit",
             "url": "https://github.com/edwardm/ECORE-JS-Page-Down-Progress/commit/948dbb345bc71a3d451f676943dbd0257f87cbb8"
           }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:43 at this commit: `\"node-sass\": \"^4.14.1\"`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -1815,6 +1824,15 @@
             "kind": "migration-commit",
             "url": "https://github.com/warengonzaga/fork-corner/commit/e9d93d63eea6ec48acae00eb9c484631e9cdbf83"
           }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:41 at this commit: `\"node-sass\": \"^5.0.0\",`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -1912,6 +1930,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 28 of .github/workflows/build.yml reads uses: actions/setup-python@v2, a release below the supported major."
           }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:33 at this commit: `\"node-sass\": \"^8.0.0\",`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -1955,6 +1982,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 37 of package.json declares `\"babel-eslint\": \"^10.0.3\"`, a package npm marks as deprecated in favour of @babel/eslint-parser."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:41 at this commit: `\"node-sass\": \"^9.0.0\",`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -2177,6 +2213,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of .nvmrc reads 22.20, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 48,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:48 at this commit: `\"node-sass\": \"^6.0.1\",`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -4144,6 +4189,24 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 259 of .github/workflows/main.yml reads node-start: ['20.x', '22.x'], a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
           }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs20.x",
+          "path": "examples/lambda-api-gateway-streaming/serverless.yml",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read examples/lambda-api-gateway-streaming/serverless.yml:6 at this commit: `runtime: nodejs20.x`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs20.x",
+          "path": "examples/lambda-url/serverless.yml",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read examples/lambda-url/serverless.yml:6 at this commit: `runtime: nodejs20.x`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -6002,6 +6065,1392 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of docker/devel/ubuntu/16/mkl/x86/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.0/Dockerfile:20 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.0/Dockerfile:21 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.0/Dockerfile:22 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.0/Dockerfile:23 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.0/Dockerfile:24 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.0/Dockerfile:25 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.0/Dockerfile:26 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.0/Dockerfile",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.0/Dockerfile:27 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.1/Dockerfile:20 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.1/Dockerfile:21 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.1/Dockerfile:22 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.1/Dockerfile:23 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.1/Dockerfile:24 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.1/Dockerfile:25 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.1/Dockerfile:26 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.1/Dockerfile",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.1/Dockerfile:27 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.2/Dockerfile:20 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.2/Dockerfile:21 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.2/Dockerfile:22 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.2/Dockerfile:23 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.2/Dockerfile:24 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.2/Dockerfile:25 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.2/Dockerfile:26 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/10.2/Dockerfile",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/10.2/Dockerfile:27 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.0/Dockerfile:20 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.0/Dockerfile:21 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.0/Dockerfile:22 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.0/Dockerfile:23 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.0/Dockerfile:24 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.0/Dockerfile:25 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.0/Dockerfile:26 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.0/Dockerfile",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.0/Dockerfile:27 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.1/Dockerfile:20 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.1/Dockerfile:21 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.1/Dockerfile:22 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.1/Dockerfile:23 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.1/Dockerfile:24 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.1/Dockerfile:25 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.1/Dockerfile:26 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.1/Dockerfile",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.1/Dockerfile:27 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.2/Dockerfile:20 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.2/Dockerfile:21 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.2/Dockerfile:22 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.2/Dockerfile:23 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.2/Dockerfile:24 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.2/Dockerfile:25 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.2/Dockerfile:26 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/11.2/Dockerfile",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/11.2/Dockerfile:27 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/9.2/Dockerfile:20 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/9.2/Dockerfile:21 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/9.2/Dockerfile:22 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/9.2/Dockerfile:23 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/9.2/Dockerfile:24 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/9.2/Dockerfile:25 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/9.2/Dockerfile:26 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/centos/7/cuda/9.2/Dockerfile",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/centos/7/cuda/9.2/Dockerfile:27 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:11 at this commit: `ENV ANDROID_SDK_URL https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:12 at this commit: `ENV ANDROID_SDK_VERSION 28`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:13 at this commit: `ENV ANDROID_SDK_VERSION_BUILDTOOLS 28.0.3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:14 at this commit: `ENV ANDROID_NDK_URL https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:15 at this commit: `ENV OPENJDK_MAJOR_VERSION 8`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:27 at this commit: `ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:5 at this commit: `ENV ANDROID_HOME /opt/android-sdk-linux`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 53,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:53 at this commit: `ENV CMAKE_VERSION 3.14.5`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 54,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:54 at this commit: `ENV CMAKE_FILE cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 55,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:55 at this commit: `ENV CMAKE_URL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_FILE}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 56,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:56 at this commit: `ENV CMAKE_URL_FILE ${CMAKE_FILE}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:6 at this commit: `ENV PATH ${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}:${ANDROID_HOME}/tools`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 64,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:64 at this commit: `ENV NINJA_VERSION 1.9.0`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 65,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:65 at this commit: `ENV NINJA_FILE ninja-linux.zip`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:66 at this commit: `ENV NINJA_URL https://github.com/ninja-build/ninja/releases/download/v${NINJA_VERSION}/${NINJA_FILE}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:7 at this commit: `ENV ANDROID_NDK /opt/android-ndk-linux`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 8,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:8 at this commit: `ENV ANDROID_NDK_HOME /opt/android-ndk-linux`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 87,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:87 at this commit: `ENV VULKAN_SDK_VERSION 1.2.162.0`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:9 at this commit: `ENV ANDROID_NDK_VERSION r20`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 92,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile:92 at this commit: `ENV VULKAN_SDK /usr/share/vulkan/${VULKAN_SDK_VERSION}/x86_64`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.0/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.0/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.0/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.0/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.0/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.0/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.0/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.0/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.0/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.1/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.1/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.1/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.1/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.1/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.1/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.1/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.1/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.1/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.2/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.2/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.2/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.2/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.2/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.2/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.2/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/10.2/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/10.2/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.0/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.0/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.0/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.0/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.0/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.0/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.0/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.0/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.0/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.1/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.1/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.1/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.1/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.1/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.1/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.1/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.1/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.1/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.2/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.2/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.2/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.2/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.2/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.2/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.2/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/11.2/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/11.2/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.0/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.0/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.0/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.0/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.0/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.0/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.0/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.0/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.0/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.1/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.1/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.1/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.1/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.1/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.1/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.1/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.1/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.1/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.2/Dockerfile:18 at this commit: `ENV CUDA_PATH /usr/local/cuda`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.2/Dockerfile:19 at this commit: `ENV PATH $CUDA_PATH/bin:$PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.2/Dockerfile:20 at this commit: `ENV CPATH $CUDA_PATH/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.2/Dockerfile:21 at this commit: `ENV LD_LIBRARY_PATH $CUDA_PATH/lib64:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.2/Dockerfile:22 at this commit: `ENV NCCL_ROOT /usr/local/nccl`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.2/Dockerfile:23 at this commit: `ENV CPATH $NCCL_ROOT/include:$CPATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.2/Dockerfile:24 at this commit: `ENV LD_LIBRARY_PATH $NCCL_ROOT/lib/:$LD_LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/devel/ubuntu/16/cuda/9.2/Dockerfile",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/devel/ubuntu/16/cuda/9.2/Dockerfile:25 at this commit: `ENV LIBRARY_PATH $NCCL_ROOT/lib/:$LIBRARY_PATH`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/runtime/centos/7/Dockerfile",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/runtime/centos/7/Dockerfile:12 at this commit: `ENV DOTNET_SDK_VERSION 2.1.802`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/runtime/ubuntu/16/Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/runtime/ubuntu/16/Dockerfile:19 at this commit: `ENV DOTNET_SDK_VERSION 2.1.4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/runtime/ubuntu/16/arm/Dockerfile.bak:17 at this commit: `ENV DOTNET_URL https://download.microsoft.com/download/9/D/2/9D2354BE-778B-42D6-BA4F-3CEF489A4FDE/dotnet-sdk-2.1.400-linux-arm.tar.gz`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/runtime/ubuntu/16/arm/Dockerfile.bak",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/runtime/ubuntu/16/arm/Dockerfile.bak:20 at this commit: `ENV PATH $PATH:$DOTNET_ROOT`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/runtime/ubuntu/16/arm64/Dockerfile.bak:17 at this commit: `ENV DOTNET_URL https://download.microsoft.com/download/9/D/2/9D2354BE-778B-42D6-BA4F-3CEF489A4FDE/dotnet-sdk-2.1.400-linux-arm64.tar.gz`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/runtime/ubuntu/16/arm64/Dockerfile.bak",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/runtime/ubuntu/16/arm64/Dockerfile.bak:20 at this commit: `ENV PATH $PATH:$DOTNET_ROOT`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -9406,6 +10855,24 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 2 of deploy/site.tf reads `required_version = \"~> 1.12.0\"`, which admits only Terraform 1.12.x patch releases. Terraform 1.12 stopped being one of the two most recent release lines when Terraform 1.14.0 shipped on 2025-11-19 (https://github.com/hashicorp/terraform/releases/tag/v1.14.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
           }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "local.Dockerfile",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read local.Dockerfile:6 at this commit: `ENV NODE_ENV \"development\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "local.Dockerfile",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read local.Dockerfile:7 at this commit: `ENV PORT 6001`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -9440,7 +10907,44 @@
       "commit": "902bffe9155c6c67cb4ab06d98db80d12777621a",
       "ecosystem": "terraform",
       "selection": "targeted",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.provided.al2023",
+          "path": "infrastructure/modules/github-runner-on-aws/lambda.tf",
+          "line": 102,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read infrastructure/modules/github-runner-on-aws/lambda.tf:102 at this commit: `runtime          = \"provided.al2023\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.provided.al2023",
+          "path": "infrastructure/modules/github-runner-on-aws/lambda.tf",
+          "line": 138,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read infrastructure/modules/github-runner-on-aws/lambda.tf:138 at this commit: `runtime          = \"provided.al2023\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.provided.al2023",
+          "path": "infrastructure/modules/github-runner-on-aws/lambda.tf",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read infrastructure/modules/github-runner-on-aws/lambda.tf:21 at this commit: `runtime          = \"provided.al2023\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.provided.al2023",
+          "path": "infrastructure/modules/github-runner-on-aws/lambda.tf",
+          "line": 59,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read infrastructure/modules/github-runner-on-aws/lambda.tf:59 at this commit: `runtime          = \"provided.al2023\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
     },
     {
       "repository": "infracost/example-terraform",
@@ -9464,6 +10968,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 50 of more_examples/main.tf reads `cluster_version = \"1.24\"`, an EKS Kubernetes version that has reached end of life."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "aws/main.tf",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read aws/main.tf:26 at this commit: `runtime       = \"nodejs12.x\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "serverless.google-cloud-functions.nodejs20",
+          "path": "google/main.tf",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read google/main.tf:38 at this commit: `runtime             = \"nodejs20\"`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -9597,6 +11119,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 35 of .github/workflows/test-and-lint.yml reads `uses: docker/login-action@v3`, which github-actions.login-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:4 at this commit: `ENV PYTHONUNBUFFERED 1`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -10127,6 +11658,60 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 75 of pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docs/archive/game-cluster/Dockerfile",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docs/archive/game-cluster/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/mmo-cluster/lib`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "game-api/Dockerfile",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read game-api/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/game-api/lib`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "game-gate/Dockerfile",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read game-gate/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/game-gate/lib`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "game-hall/Dockerfile",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read game-hall/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/game-hall/lib`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "game-manage/Dockerfile",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read game-manage/Dockerfile:6 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/game-manage/lib`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "game-res/archive/game-cluster/Dockerfile",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read game-res/archive/game-cluster/Dockerfile:7 at this commit: `ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib:/usr/src/mmo-cluster/lib`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -12990,6 +14575,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
           }
+        },
+        {
+          "ruleId": "database.redis.end-of-life-7.0",
+          "path": "docker-compose.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker-compose.yml:13 at this commit: `image: redis:7.0.11`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -15369,6 +16963,24 @@
             "kind": "maintainer-review",
             "note": "Read docker/app/dev/Dockerfile:1 at this commit: `FROM python:3.9-slim-buster`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/app/dev/Dockerfile",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/app/dev/Dockerfile:3 at this commit: `ENV PYTHONUNBUFFERED 1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "docker/app/dev/Dockerfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker/app/dev/Dockerfile:4 at this commit: `ENV PYTHONDONTWRITEBYTECODE 1`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -15545,7 +17157,125 @@
       "commit": "37555d2cdd759986a47881475a9210c88f539ffb",
       "ecosystem": "database",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter04/fourthproject/helloworldansiblepull.tf",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter04/fourthproject/helloworldansiblepull.tf:21 at this commit: `private_key = \"${file(\"/root/.ssh/EffectiveDevOpsAWS.pem\")}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter04/fourthproject/helloworldansiblepull.tf",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter04/fourthproject/helloworldansiblepull.tf:33 at this commit: `value = \"${aws_instance.myserver.public_ip}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter04/secondproject/helloworldec2.tf",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter04/secondproject/helloworldec2.tf:23 at this commit: `private_key = \"${file(\"/root/.ssh/EffectiveDevOpsAWS.pem\")}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter04/thirdproject/helloworldansible.tf",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter04/thirdproject/helloworldansible.tf:21 at this commit: `private_key = \"${file(\"/root/.ssh/EffectiveDevOpsAWS.pem\")}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter04/thirdproject/helloworldansible.tf",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter04/thirdproject/helloworldansible.tf:36 at this commit: `value = \"${aws_instance.myserver.public_ip}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter06/main.tf",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter06/main.tf:13 at this commit: `vpc_id      = \"${var.my_default_vpcid}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter06/main.tf",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter06/main.tf:3 at this commit: `my_vpc_id      = \"${var.my_default_vpcid}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter06/main.tf",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter06/main.tf:35 at this commit: `vpc_security_group_ids = [\"${aws_security_group.rds.id}\"]`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter06/main.tf",
+          "line": 8,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter06/main.tf:8 at this commit: `output \"monolith_url\" { value = \"${module.monolith_application.url}\"}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter08/main.tf",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter08/main.tf:17 at this commit: `alb_arn      = \"${module.webapp-playground.alb_arn}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter08/outputs.tf",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter08/outputs.tf:1 at this commit: `output \"role\" { value = \"${module.flow-log-prerequisite.rolename}\" }`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter08/outputs.tf",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter08/outputs.tf:2 at this commit: `output \"loggroup\" { value = \"${module.flow-log-prerequisite.cloudwatch_log_group_arn}\" }`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Chapter08/outputs.tf",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Chapter08/outputs.tf:3 at this commit: `output \"alb_url\" { value = \"${module.webapp-playground.dns_name}\"}`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
     },
     {
       "repository": "RajitPaul11/terraform_aws",
@@ -15578,6 +17308,141 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read Multi-Tier-Architecture_Vpc/main.tf:164 at this commit: `engine_version = \"5.7\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "EC2_EBS_Attach/ebs_attach.tf",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read EC2_EBS_Attach/ebs_attach.tf:4 at this commit: `instance_id = \"${ aws_instance.ec2ins.id }\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "EC2_EBS_Attach/ebs_attach.tf",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read EC2_EBS_Attach/ebs_attach.tf:5 at this commit: `volume_id = \"${aws_ebs_volume.ebsvol.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 167,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:167 at this commit: `subnet_id = \"${aws_subnet.pubsub.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 59,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:59 at this commit: `gateway_id = \"${aws_internet_gateway.myigw.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 65,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:65 at this commit: `subnet_id = \"${aws_subnet.pubsub.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:66 at this commit: `route_table_id = \"${aws_route_table.mypubroute.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 84,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:84 at this commit: `gateway_id = \"${aws_nat_gateway.mynatgw.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 89,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:89 at this commit: `route_table_id = \"${aws_route_table.myprivroute.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 91,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:91 at this commit: `subnet_id = \"${aws_subnet.privsub.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 95,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:95 at this commit: `route_table_id = \"${aws_route_table.myprivroute.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Arch-VPC-NATGW/main.tf",
+          "line": 97,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Arch-VPC-NATGW/main.tf:97 at this commit: `subnet_id = \"${aws_subnet.priv2sub.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Architecture_Vpc/main.tf",
+          "line": 141,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Architecture_Vpc/main.tf:141 at this commit: `subnet_id = \"${aws_subnet.pubsub.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Architecture_Vpc/main.tf",
+          "line": 58,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Architecture_Vpc/main.tf:58 at this commit: `gateway_id = \"${aws_internet_gateway.myigw.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Architecture_Vpc/main.tf",
+          "line": 64,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Architecture_Vpc/main.tf:64 at this commit: `subnet_id = \"${aws_subnet.pubsub.id}\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "terraform.syntax.interpolation-only",
+          "path": "Multi-Tier-Architecture_Vpc/main.tf",
+          "line": 65,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Multi-Tier-Architecture_Vpc/main.tf:65 at this commit: `route_table_id = \"${aws_route_table.myroute.id}\"`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -19395,6 +21260,15 @@
             "kind": "maintainer-review",
             "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "packages/sourcecred/Dockerfile",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/sourcecred/Dockerfile:15 at this commit: `ENV SOURCECRED_DIRECTORY ${SOURCECRED_DEFAULT_DIRECTORY}`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -20148,6 +22022,15 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/ci.yml:12 at this commit: `node-version: [10.x, 12.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:45 at this commit: `\"node-sass\": \"^6.0.0\",`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -20221,6 +22104,15 @@
         },
         {
           "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:51 at this commit: `\"node-sass\": \"4.14.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
           "path": "package.json",
           "line": 51,
           "groundTruthSource": {
@@ -20350,6 +22242,15 @@
       "expected": [
         {
           "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:9 at this commit: `\"node-sass\": \"^6.0.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
           "path": "package.json",
           "line": 9,
           "groundTruthSource": {
@@ -22055,6 +23956,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read packages/auth/package.json:18 at this commit: `\"next\": \"^14.0.3\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:4 at this commit: `ENV NEXT_TELEMETRY_DISABLED 1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:9 at this commit: `ENV PORT 3000`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -23911,6 +25830,24 @@
             "kind": "maintainer-review",
             "note": "Read runtime.txt:1 at this commit: `python-3.8.14`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:16 at this commit: `ENV PORT 5000`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "database.postgresql.end-of-life-10",
+          "path": "docker-compose.yml",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read docker-compose.yml:5 at this commit: `image: postgres:10.8-alpine`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -24181,6 +26118,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read setup.py:45 at this commit: python_requires='>=3.7'; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile.dash",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile.dash:6 at this commit: `ENV PORT $PORT`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -25039,6 +26985,60 @@
             "kind": "maintainer-review",
             "note": "Read pyproject.toml:13 at this commit: `# Trove classifiers - https://packaging.python.org/specifications/core-metadata/#metadata-classifier`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:19 at this commit: `ENV GERAPY_HOME_DIR ${GERAPY_HOME_DIR:-/home/gerapy}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:20 at this commit: `ENV GERAPY_GROUP ${GERAPY_GROUP:-gerapy}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:21 at this commit: `ENV GERAPY_GID ${GERAPY_GID:-10000}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:22 at this commit: `ENV GERAPY_USER ${GERAPY_USER:-gerapy}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:23 at this commit: `ENV GERAPY_UID ${GERAPY_UID:-10000}`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:24 at this commit: `ENV GERAPY_PORT ${GERAPY_PORT:-8000}`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -25666,6 +27666,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read backend/Dockerfile:1 at this commit: `FROM python:3.9`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "backend/Dockerfile",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read backend/Dockerfile:3 at this commit: `ENV PYTHONDONTWRITEBYTECODE 1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.dockerfile.legacy-env-format",
+          "path": "backend/Dockerfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read backend/Dockerfile:4 at this commit: `ENV PYTHONBUFFERED 1`; the declaration matches the rule's affected range."
           }
         }
       ]

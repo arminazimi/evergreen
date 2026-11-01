@@ -1,8 +1,12 @@
 ---
 title: "karma-phantomjs-launcher is deprecated — dates, impact, migration"
 description: "npm states that PhantomJS development stopped and recommends Puppeteer or a similar maintained browser."
+layout: doc
+permalink: "/rules/npm.package.karma-phantomjs-launcher.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html"
 image: "/assets/og/npm.package.karma-phantomjs-launcher.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/npm.package.karma-phantomjs-launcher.deprecated.json"
 ---
 

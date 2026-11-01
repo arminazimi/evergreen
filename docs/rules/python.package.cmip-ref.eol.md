@@ -1,8 +1,12 @@
 ---
 title: "cmip_ref was renamed and is no longer maintained — dates, impact, migration"
 description: "The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref."
+layout: doc
+permalink: "/rules/python.package.cmip-ref.eol.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html"
 image: "/assets/og/python.package.cmip-ref.eol.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.cmip-ref.eol.json"
 ---
 

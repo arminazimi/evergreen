@@ -1,8 +1,12 @@
 ---
 title: "RDS for PostgreSQL 9.6 is past end of standard support — dates, impact, migration"
 description: "AWS ended standard support for RDS for PostgreSQL 9.6 on 2022-04-30. RDS Extended Support was not offered for this version, so it receives no further RDS security or bug fixes."
+layout: doc
+permalink: "/rules/database.aws-rds-postgres.end-of-support-9.6.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.aws-rds-postgres.end-of-support-9.6.html"
 image: "/assets/og/database.aws-rds-postgres.end-of-support-9.6.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/database.aws-rds-postgres.end-of-support-9.6.json"
 ---
 

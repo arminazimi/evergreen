@@ -1,8 +1,12 @@
 ---
 title: "react-beautiful-dnd is deprecated — dates, impact, migration"
 description: "npm marks react-beautiful-dnd as deprecated: \"react-beautiful-dnd is now deprecated. Context and options: https://github.com/atlassian/react-beautiful-dnd/issues/2672\""
+layout: doc
+permalink: "/rules/npm.package.react-beautiful-dnd.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.react-beautiful-dnd.deprecated.html"
 image: "/assets/og/npm.package.react-beautiful-dnd.deprecated.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/npm.package.react-beautiful-dnd.deprecated.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "doctrine/cache is abandoned — dates, impact, migration"
 description: "Packagist marks doctrine/cache as abandoned and no longer maintained."
+layout: doc
+permalink: "/rules/php.package.doctrine.cache.abandoned.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html"
 image: "/assets/og/php.package.doctrine.cache.abandoned.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/php.package.doctrine.cache.abandoned.json"
 ---
 

@@ -1,8 +1,12 @@
 ---
 title: "request is deprecated — dates, impact, migration"
 description: "The package is fully deprecated and no new changes are expected."
+layout: doc
+permalink: "/rules/npm.package.request.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.request.deprecated.html"
 image: "/assets/og/npm.package.request.deprecated.svg"
+review_date: "2026-10-14"
+last_modified_at: "2026-10-14"
 json_twin: "/rules/npm.package.request.deprecated.json"
 ---
 

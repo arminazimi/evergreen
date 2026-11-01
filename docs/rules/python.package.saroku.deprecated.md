@@ -1,8 +1,12 @@
 ---
 title: "saroku was renamed to trikesh — dates, impact, migration"
 description: "The maintainer states that saroku was renamed and is no longer maintained under that name."
+layout: doc
+permalink: "/rules/python.package.saroku.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html"
 image: "/assets/og/python.package.saroku.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.saroku.deprecated.json"
 ---
 

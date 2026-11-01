@@ -1,8 +1,12 @@
 ---
 title: "GKE 1.29 and earlier clusters are no longer supported — dates, impact, migration"
 description: "The GKE release schedule states that GKE 1.29 and earlier have reached end of support and are no longer supported."
+layout: doc
+permalink: "/rules/kubernetes.google-gke.1.29-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.google-gke.1.29-and-older.html"
 image: "/assets/og/kubernetes.google-gke.1.29-and-older.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/kubernetes.google-gke.1.29-and-older.json"
 ---
 

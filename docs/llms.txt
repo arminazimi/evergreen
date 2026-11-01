@@ -28,6 +28,11 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 - [Share a lifecycle report](https://arminazimi.github.io/evergreen/SHARE_REPORT.html): produce the forecast timeline and the HTML report, what they contain, and what is safe to send.
 - [Showcase](https://arminazimi.github.io/evergreen/SHOWCASE.html): embed the animated lifecycle forecast in a README and refresh it on a schedule.
 - [Environment doctor and compatibility](https://arminazimi.github.io/evergreen/COMPATIBILITY.html): supported ecosystems, hosts, and maturity.
+- [PHP detector](https://arminazimi.github.io/evergreen/compatibility/php.html): the PHP declarations Evergreen reads, what it reports, and its false-positive boundaries.
+- [Ruby detector](https://arminazimi.github.io/evergreen/compatibility/ruby.html): the Ruby declarations Evergreen reads, what it reports, and its false-positive boundaries.
+- [Android detector](https://arminazimi.github.io/evergreen/compatibility/android.html): the Android Gradle declarations Evergreen reads, what it reports, and its false-positive boundaries.
+- [C and C++ detector](https://arminazimi.github.io/evergreen/compatibility/cpp.html): the CMake, Conan, and vcpkg declarations Evergreen reads, what it reports, and its limits.
+- [CI runner images detector](https://arminazimi.github.io/evergreen/compatibility/ci-runner-images.html): the hosted Azure, GitLab, and CircleCI image declarations Evergreen reads and its limits.
 - [Evergreen compared with other tools](https://arminazimi.github.io/evergreen/compare/index.html): what Evergreen answers versus Renovate, Dependabot, and endoflife.date, and where each is stronger.
 - [Agent Skill](https://arminazimi.github.io/evergreen/AGENT_SKILLS.html): the portable skill for coding agents and how its triggering is evaluated.
 - [Evergreen, Slipway, and Seaworthy](https://arminazimi.github.io/evergreen/SITE_STACK.html): the agent loop for a Slipway-shaped site — check dependencies with Evergreen, verify `_site/` with Seaworthy when it ships.
@@ -37,6 +42,10 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 - [Lifecycle rules](https://arminazimi.github.io/evergreen/RULES.html): the rule format, the evidence policy, and how to write a rule.
 - [Lifecycle data](https://arminazimi.github.io/evergreen/DATA.html): signed data updates, pinning, offline guarantees, and the trust model.
 - [Validation](https://arminazimi.github.io/evergreen/VALIDATION.html): the public corpus, precision thresholds, and measured results.
+- [Validation corpus](https://arminazimi.github.io/evergreen/validation/corpus.html): how the public corpus grew, how repositories were selected blind, and the held-out set.
+- [Ecosystem corpora](https://arminazimi.github.io/evergreen/validation/ecosystems.html): the pinned repository sets and blind selection rules for each ecosystem.
+- [Running the corpus](https://arminazimi.github.io/evergreen/validation/running-the-corpus.html): fetching, caching, filtering, recording, and reading a validation run.
+- [Differential testing](https://arminazimi.github.io/evergreen/validation/differential-testing.html): how Evergreen's findings compare with Renovate, xeol, and Pluto.
 - [State of EOL](https://arminazimi.github.io/evergreen/state-of-eol.html): corpus findings aggregated by product and release line.
 - [Privacy](https://arminazimi.github.io/evergreen/PRIVACY.html): what stays on your machine and the one command that uses the network.
 - [Threat model](https://arminazimi.github.io/evergreen/THREAT_MODEL.html): trust boundaries, STRIDE threats, mitigations, and residual risks for untrusted repositories, data bundles, the MCP server, and hooks.
@@ -45,6 +54,8 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 
 - [Start contributing](https://arminazimi.github.io/evergreen/CONTRIBUTE.html): how to pick a sized issue, follow its agent brief, and open one pull request.
 - [Detector authoring](https://arminazimi.github.io/evergreen/DETECTORS.html): the detector SDK and how to start a new detector from a generated skeleton.
+- [Detector layouts](https://arminazimi.github.io/evergreen/detectors/authoring-layouts.html): the file layout each built-in detector follows, from parser to registry to detector.
+- [Detector contracts](https://arminazimi.github.io/evergreen/detectors/authoring-contracts.html): the files a detector declares it reads, registry validation, and source-usage contracts.
 - [Lifecycle importers](https://arminazimi.github.io/evergreen/IMPORTERS.html): drafting rules from authoritative sources for review.
 
 ## Optional

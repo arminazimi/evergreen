@@ -1,8 +1,12 @@
 ---
 title: "AWS Lambda OS-only runtime provided runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists provided under Deprecated runtimes with deprecation date 2024-01-08. AWS no longer applies security or other updates to that managed runtime."
+layout: doc
+permalink: "/rules/serverless.aws-lambda.provided.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.provided.html"
 image: "/assets/og/serverless.aws-lambda.provided.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.aws-lambda.provided.json"
 ---
 

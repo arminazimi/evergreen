@@ -1,8 +1,12 @@
 ---
 title: "CMake policy versions older than 3.5 are removed — dates, impact, migration"
 description: "CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.5 (optionally…"
+layout: doc
+permalink: "/rules/cpp.cmake.policy-below-3.5.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.5.removed.html"
 image: "/assets/og/cpp.cmake.policy-below-3.5.removed.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/cpp.cmake.policy-below-3.5.removed.json"
 ---
 

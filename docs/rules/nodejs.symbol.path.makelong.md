@@ -1,8 +1,12 @@
 ---
 title: "Path._makeLong is deprecated — dates, impact, migration"
 description: "Node.js deprecates path._makeLong (DEP0080: documentation-only since v9.0.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.path.makelong.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.path.makelong.html"
 image: "/assets/og/nodejs.symbol.path.makelong.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.path.makelong.json"
 ---
 

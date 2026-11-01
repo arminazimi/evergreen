@@ -1,8 +1,12 @@
 ---
 title: "Google Cloud Functions PHP 7.4 runtime is end-of-life — dates, impact, migration"
 description: "The Cloud Run functions runtime support schedule lists PHP 7.4 (runtime ID php74) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime."
+layout: doc
+permalink: "/rules/serverless.google-cloud-functions.php74.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.php74.html"
 image: "/assets/og/serverless.google-cloud-functions.php74.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-cloud-functions.php74.json"
 ---
 

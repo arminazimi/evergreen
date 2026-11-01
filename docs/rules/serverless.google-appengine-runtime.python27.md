@@ -1,8 +1,12 @@
 ---
 title: "App Engine Python 2.7 runtime is past end of support — dates, impact, migration"
 description: "The App Engine standard environment runtime support schedule lists Python 2.7 (runtime ID python27) with end of support on 2024-01-31, deprecation on 2026-01-31, and decommission on 2027-01-31."
+layout: doc
+permalink: "/rules/serverless.google-appengine-runtime.python27.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.python27.html"
 image: "/assets/og/serverless.google-appengine-runtime.python27.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-appengine-runtime.python27.json"
 ---
 

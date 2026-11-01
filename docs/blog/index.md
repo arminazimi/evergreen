@@ -30,6 +30,9 @@ Delete the draft when the window has no entries worth a post; do not publish an 
 
 ## Posts
 
+- [Is your repo affected? .NET 8 and 9 reach end of support on 2026-11-10](2026-11-01-dotnet-8-and-9-is-your-repo-affected.md)
+- [Is your repo affected? PostgreSQL 14 reaches end of life on 2026-11-12](2026-11-01-postgresql-14-is-your-repo-affected.md)
+- [Is your repo affected? @angular/core v20 reaches end of life on 2026-11-28](2026-11-01-angular-20-is-your-repo-affected.md)
 - [Is your repo affected? Alpine Linux 3.21 ends 2026-11-01](2026-10-30-alpine-3-21-is-your-repo-affected.md)
 - [Is your repo affected? Azure Pipelines macOS 14 removal on 2026-11-02](2026-10-30-azure-pipelines-macos-14-is-your-repo-affected.md)
 - [Is your repo affected? Rails 8.0 security support ends 2026-11-07](2026-10-30-rails-8-0-is-your-repo-affected.md)
