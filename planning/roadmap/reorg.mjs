@@ -1,5 +1,5 @@
 // Moves the open roadmap issues into the outcome-based phases P26–P37 and the
-// v0.8.0 / v0.9.0 releases that come before v1.
+// v0.8.0 release that comes before v1.
 // Closed issues keep their original phase, so Phases 22–25 stay as history.
 
 import { existsSync, readFileSync } from "node:fs";
@@ -21,9 +21,9 @@ const PHASE_OF = {
   P34: [82, 273],
   P36: [78, 235, 236, 237, 238, 239, 240, 241, 261, 263],
   P37: [57, 84, 62, 69, 274, 275, 276, 277, 278, 308, 309, 310, 312],
-  V08: [75, 30, 31, 1117, 1118, 1172, 83, 286, 290, 292, 293, 311, 1069],
-  V09: [
-    85, 288, 289, 295, 296, 297, 298, 299, 313, 314, 315, 317, 318, 1071, 1072,
+  V08: [
+    75, 30, 31, 1117, 1118, 1172, 83, 286, 290, 292, 293, 311, 1069,
+    85, 288, 296, 297, 299, 313, 314, 315, 317, 318, 1071, 1072,
     58, 59, 264, 265, 266, 267, 268, 269, 270, 300, 1070, 1074,
     81, 258, 259, 260, 262, 1067, 1073,
     79, 242, 243, 244, 245, 316, 1068,
@@ -34,7 +34,7 @@ const PHASE_OF = {
 const EPIC_OF = {
   311: "E-v08-scorecards",
   1069: "E-v08-pilots",
-  288: "E-launch", 289: "E-launch", 295: "E-launch", 296: "E-launch", 298: "E-launch", 299: "E-launch",
+  288: "E-launch", 296: "E-launch", 299: "E-launch",
   59: "E-v09-metrics", 270: "E-v09-metrics", 300: "E-v09-metrics", 1070: "E-v09-metrics",
   1074: "E-v09-first-issues",
   1067: "E-open-data", 1073: "E-open-data",

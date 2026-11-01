@@ -1,4 +1,4 @@
-// Agent-native epics for v0.8.0 and v0.9.0: lifecycle at a glance, the Evergreen/Slipway/Seaworthy toolchain,
+// Agent-native epics for v0.8.0: lifecycle at a glance, the Evergreen/Slipway/Seaworthy toolchain,
 // verification receipts, parallel migration plans, and public proof for the guardrail and the plan.
 // Every task names the files it owns so tasks in one epic can run in parallel. Written 2026-10-28.
 
@@ -42,7 +42,7 @@ export const EPICS_AGENT = [
     [
       "Evergreen's side of the integration is tested against Slipway-shaped and Seaworthy-shaped repositories, and the combined workflow is ready to switch on when Seaworthy ships.",
     ]),
-  epic("E-v09-receipts", "V09", "Verification receipts for agent pull requests", ["area: agent","area: core"],
+  epic("E-v09-receipts", "V08", "Verification receipts for agent pull requests", ["area: agent","area: core"],
     "An agent's migration pull request carries a short, reproducible receipt: which findings the change resolved, what remains, what it introduced, and which checks to run.",
     [
       "An `evergreen.receipt.v1` contract built on the existing before/after comparison",
@@ -53,7 +53,7 @@ export const EPICS_AGENT = [
     [
       "An agent following the migration prompt ends with a pull request body that contains a receipt a reviewer can reproduce with one command.",
     ]),
-  epic("E-v09-plan", "V09", "Parallel migration plans for agents", ["area: agent","area: core"],
+  epic("E-v09-plan", "V08", "Parallel migration plans for agents", ["area: agent","area: core"],
     "Evergreen turns a scan into waves of independent migration tasks, so many agents can work at once without editing the same files.",
     [
       "An `evergreen.plan.v1` contract",
@@ -64,7 +64,7 @@ export const EPICS_AGENT = [
     [
       "On a monorepo fixture, `evergreen plan --json` returns waves whose tasks touch pairwise disjoint files.",
     ]),
-  epic("E-v09-proof", "V09", "Public proof for the guardrail and the parallel plan", ["area: validation","area: agent"],
+  epic("E-v09-proof", "V08", "Public proof for the guardrail and the parallel plan", ["area: validation","area: agent"],
     "Published numbers show that agents with Evergreen's dependency guardrail add fewer deprecated packages, and that wave-parallel plans finish sooner than sequential work.",
     [
       "Complements #79: that epic measures migration packets; this one measures the guardrail and the plan",
@@ -343,7 +343,7 @@ export const TASKS_AGENT = [
       "The recording regenerates from a tape file in CI.",
     ],
     ["readme.tapes","readme.demo-agent","toolchain.workflow","toolchain.agents-guide"], { dont: [...["Do not fake Seaworthy output."], ...DONT], blocked: "Seaworthy has no installable release yet. Start when `npx seaworthy verify` works on a built site." }),
-  t("E-v09-receipts", "V09", "receipts.core", "Define the `evergreen.receipt.v1` contract and builder", "strong", "M", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-receipts", "V08", "receipts.core", "Define the `evergreen.receipt.v1` contract and builder", "strong", "M", ["type: task"], ["area: agent","area: core"],
     "Capture what a change did to the findings in one deterministic, schema-validated object.",
     [
       "src/receipt.ts (new)",
@@ -362,7 +362,7 @@ export const TASKS_AGENT = [
       "Tests cover all five cases.",
     ],
     [], { dont: [...["Do not read the clock or the environment.","Do not change `src/fix/verify.ts`."], ...DONT] }),
-  t("E-v09-receipts", "V09", "receipts.markdown", "Render a receipt as Markdown for a pull request body", "free", "S", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-receipts", "V08", "receipts.markdown", "Render a receipt as Markdown for a pull request body", "free", "S", ["type: task"], ["area: agent","area: core"],
     "Make the receipt readable in a pull request and safe to paste.",
     [
       "src/receipt-markdown.ts (new)",
@@ -379,7 +379,7 @@ export const TASKS_AGENT = [
       "Tests cover each verdict and hostile titles.",
     ],
     ["receipts.core"], { dont: [...["Do not edit `src/receipt.ts`."], ...DONT] }),
-  t("E-v09-receipts", "V09", "receipts.cli", "Add `evergreen receipt`", "strong", "M", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-receipts", "V08", "receipts.cli", "Add `evergreen receipt`", "strong", "M", ["type: task"], ["area: agent","area: core"],
     "Let an agent or reviewer produce a receipt from a saved scan and the current tree with one command.",
     [
       "src/cli-main.ts (usage text and one new command block)",
@@ -396,7 +396,7 @@ export const TASKS_AGENT = [
       "`evergreen receipt` works in both formats and is covered by CLI tests.",
     ],
     ["receipts.core","receipts.markdown"], { dont: [...["Do not run suggested commands.","Do not change existing command output."], ...DONT] }),
-  t("E-v09-receipts", "V09", "receipts.mcp", "Return a receipt from `verify_migration`", "strong", "S", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-receipts", "V08", "receipts.mcp", "Return a receipt from `verify_migration`", "strong", "S", ["type: task"], ["area: agent","area: core"],
     "Give agents the receipt in the same call they already make to finish a migration.",
     [
       "src/mcp.ts (the verify_migration handler)",
@@ -412,7 +412,7 @@ export const TASKS_AGENT = [
       "Existing MCP tests pass and the new fields validate.",
     ],
     ["receipts.core","receipts.markdown"], { dont: [...["Do not rename or remove any existing field.","Do not run commands."], ...DONT] }),
-  t("E-v09-receipts", "V09", "receipts.action-comment", "Add \"resolved by this pull request\" to the Action comment", "strong", "S", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-receipts", "V08", "receipts.action-comment", "Add \"resolved by this pull request\" to the Action comment", "strong", "S", ["type: task"], ["area: agent","area: core"],
     "Show reviewers what a change fixed, not only what it broke.",
     [
       "src/pr-comment.ts",
@@ -428,7 +428,7 @@ export const TASKS_AGENT = [
       "Tests cover resolved, none resolved, and more than ten resolved.",
     ],
     [], { dont: [...["Do not commit `dist/action/index.js`; only the release pull request regenerates it."], ...DONT] }),
-  t("E-v09-receipts", "V09", "receipts.prompt", "Ask agents for a receipt in the migration prompt", "free", "S", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-receipts", "V08", "receipts.prompt", "Ask agents for a receipt in the migration prompt", "free", "S", ["type: task"], ["area: agent","area: core"],
     "Make the agent end every migration with a receipt in its pull request.",
     [
       "src/migration-prompt.ts",
@@ -442,7 +442,7 @@ export const TASKS_AGENT = [
       "The prompt asks for the receipt and its test passes.",
     ],
     ["receipts.cli","receipts.mcp"], { dont: [...["Do not edit `skills/`; those files generate plugin packages."], ...DONT] }),
-  t("E-v09-receipts", "V09", "receipts.docs", "Document verification receipts", "free", "S", ["type: docs"], ["area: agent","area: core"],
+  t("E-v09-receipts", "V08", "receipts.docs", "Document verification receipts", "free", "S", ["type: docs"], ["area: agent","area: core"],
     "Explain the receipt so reviewers know how to read and reproduce one.",
     [
       "docs/RECEIPTS.md (new)",
@@ -457,7 +457,7 @@ export const TASKS_AGENT = [
       "The page exists and `npm run build:llms` leaves no drift.",
     ],
     ["receipts.cli"], { dont: [...["Do not edit `README.md`.","Do not invent output."], ...DONT] }),
-  t("E-v09-receipts", "V09", "receipts.golden", "Add a golden receipt example", "free", "S", ["type: test"], ["area: agent","area: core"],
+  t("E-v09-receipts", "V08", "receipts.golden", "Add a golden receipt example", "free", "S", ["type: test"], ["area: agent","area: core"],
     "Keep a reviewed receipt in the repository that fails the build if the format drifts.",
     [
       "examples/receipts/ (new)",
@@ -471,7 +471,7 @@ export const TASKS_AGENT = [
       "The golden files exist and the test fails when output changes.",
     ],
     ["receipts.core","receipts.markdown"], { dont: [...["Do not write files from the test."], ...DONT] }),
-  t("E-v09-plan", "V09", "plan.contract", "Define the `evergreen.plan.v1` contract", "strong", "S", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-plan", "V08", "plan.contract", "Define the `evergreen.plan.v1` contract", "strong", "S", ["type: task"], ["area: agent","area: core"],
     "Fix the shape of a migration plan so the rest of the work can proceed in parallel.",
     [
       "src/plan.ts (new; types only)",
@@ -488,7 +488,7 @@ export const TASKS_AGENT = [
       "The schema accepts the valid sample and rejects the invalid ones.",
     ],
     [], { dont: [...["Do not implement the builder here.","Do not add a runtime dependency; use the validation approach the other schema tests use."], ...DONT] }),
-  t("E-v09-plan", "V09", "plan.touch-set", "Compute the files each finding touches", "strong", "M", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-plan", "V08", "plan.touch-set", "Compute the files each finding touches", "strong", "M", ["type: task"], ["area: agent","area: core"],
     "Know which files a migration will edit, so two migrations that edit the same file are never scheduled together.",
     [
       "src/plan-touch-set.ts (new)",
@@ -505,7 +505,7 @@ export const TASKS_AGENT = [
       "Tests cover the four finding kinds.",
     ],
     ["plan.contract"], { dont: [...["Do not run any repository code.","Do not add network access."], ...DONT] }),
-  t("E-v09-plan", "V09", "plan.waves", "Schedule conflict-free waves", "strong", "S", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-plan", "V08", "plan.waves", "Schedule conflict-free waves", "strong", "S", ["type: task"], ["area: agent","area: core"],
     "Group tasks so every task in a wave touches different files from the others in that wave.",
     [
       "src/plan-waves.ts (new)",
@@ -520,7 +520,7 @@ export const TASKS_AGENT = [
       "The invariants hold in the generated cases and in hand-written edge cases (empty input, everything conflicting, nothing conflicting).",
     ],
     ["plan.contract"], { dont: [...["Do not import scan or CLI code; this function takes plain data."], ...DONT] }),
-  t("E-v09-plan", "V09", "plan.build", "Build a plan from a scan", "strong", "M", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-plan", "V08", "plan.build", "Build a plan from a scan", "strong", "M", ["type: task"], ["area: agent","area: core"],
     "Turn a scan result into the plan object.",
     [
       "src/plan-build.ts (new)",
@@ -536,7 +536,7 @@ export const TASKS_AGENT = [
       "Plans validate against the schema and are deterministic.",
     ],
     ["plan.touch-set","plan.waves"], { dont: [...["Do not execute migration commands.","Do not read the clock."], ...DONT] }),
-  t("E-v09-plan", "V09", "plan.cli", "Add `evergreen plan`", "strong", "M", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-plan", "V08", "plan.cli", "Add `evergreen plan`", "strong", "M", ["type: task"], ["area: agent","area: core"],
     "Let anyone, or any agent host, get the waves with one command.",
     [
       "src/cli-main.ts (usage text and one new command block)",
@@ -554,7 +554,7 @@ export const TASKS_AGENT = [
       "`evergreen plan` works in text and JSON and is covered by CLI tests.",
     ],
     ["plan.build"], { dont: [...["Do not change any existing command's output."], ...DONT] }),
-  t("E-v09-plan", "V09", "plan.mcp", "Add a `plan_migrations` MCP tool", "strong", "S", ["type: task"], ["area: agent","area: core"],
+  t("E-v09-plan", "V08", "plan.mcp", "Add a `plan_migrations` MCP tool", "strong", "S", ["type: task"], ["area: agent","area: core"],
     "Let a coordinating agent fetch the waves and hand tasks to other agents.",
     [
       "src/mcp.ts (tool list, schema map, handler)",
@@ -569,7 +569,7 @@ export const TASKS_AGENT = [
       "The tool is listed, read-only, and validates against the schema.",
     ],
     ["plan.build"], { dont: [...["Do not change any existing tool."], ...DONT] }),
-  t("E-v09-plan", "V09", "plan.dispatch-example", "Add a dispatch example that prints one worktree command per task", "free", "S", ["type: docs"], ["area: agent","area: core"],
+  t("E-v09-plan", "V08", "plan.dispatch-example", "Add a dispatch example that prints one worktree command per task", "free", "S", ["type: docs"], ["area: agent","area: core"],
     "Show how a host turns waves into parallel agent sessions without Evergreen running anything.",
     [
       "examples/plan-dispatch/dispatch.mjs (new)",
@@ -586,7 +586,7 @@ export const TASKS_AGENT = [
       "The example output is tested and the page is linked.",
     ],
     ["plan.cli"], { dont: [...["Do not spawn processes from the example.","Do not edit `README.md`."], ...DONT] }),
-  t("E-v09-plan", "V09", "plan.fixture-monorepo", "Add a monorepo fixture and an end-to-end wave test", "free", "S", ["type: fixture"], ["area: agent","area: core"],
+  t("E-v09-plan", "V08", "plan.fixture-monorepo", "Add a monorepo fixture and an end-to-end wave test", "free", "S", ["type: fixture"], ["area: agent","area: core"],
     "Prove the plan keeps conflicting tasks apart on a repository that has plenty of them.",
     [
       "tests/fixtures/plan/monorepo/ (new)",
@@ -600,7 +600,7 @@ export const TASKS_AGENT = [
       "The fixture produces a stable plan and the test passes.",
     ],
     ["plan.cli"], { dont: [...["Do not run `npm install` in the fixture."], ...DONT] }),
-  t("E-v09-proof", "V09", "proof.guardrail-tasks", "Define 20 \"add this dependency\" benchmark tasks", "free", "S", ["type: fixture"], ["area: validation","area: agent"],
+  t("E-v09-proof", "V08", "proof.guardrail-tasks", "Define 20 \"add this dependency\" benchmark tasks", "free", "S", ["type: fixture"], ["area: validation","area: agent"],
     "Measure whether an agent avoids a deprecated package when asked to add one.",
     [
       "benchmarks/agent-guardrail/tasks.json (new)",
@@ -616,7 +616,7 @@ export const TASKS_AGENT = [
       "20 tasks validate against the bundled registry.",
     ],
     [], { dont: [...["Do not add registry rules.","Do not use the network."], ...DONT] }),
-  t("E-v09-proof", "V09", "proof.guardrail-score", "Score guardrail runs", "free", "S", ["type: task"], ["area: validation","area: agent"],
+  t("E-v09-proof", "V08", "proof.guardrail-score", "Score guardrail runs", "free", "S", ["type: task"], ["area: validation","area: agent"],
     "Classify what an agent did with a request to add a deprecated package.",
     [
       "benchmarks/agent-guardrail/score.ts (new)",
@@ -631,7 +631,7 @@ export const TASKS_AGENT = [
       "All four outcomes are tested and rates are deterministic.",
     ],
     ["proof.guardrail-tasks"], { dont: [...["Do not call a model or the network."], ...DONT] }),
-  t("E-v09-proof", "V09", "proof.guardrail-arm", "Run the guardrail arm with and without the hook", "strong", "M", ["type: task"], ["area: validation","area: agent"],
+  t("E-v09-proof", "V08", "proof.guardrail-arm", "Run the guardrail arm with and without the hook", "strong", "M", ["type: task"], ["area: validation","area: agent"],
     "Run the same tasks with the guardrail off and on, using the shared harness.",
     [
       "benchmarks/agent-guardrail/run.ts (new)",
@@ -646,7 +646,7 @@ export const TASKS_AGENT = [
       "The runner completes with the fake adapter in both arms.",
     ],
     ["bench.harness","proof.guardrail-tasks","proof.guardrail-score"], { dont: [...["Do not call real models in tests or CI."], ...DONT] }),
-  t("E-v09-proof", "V09", "proof.plan-arm", "Measure sequential against wave-parallel migration", "strong", "M", ["type: task"], ["area: validation","area: agent"],
+  t("E-v09-proof", "V08", "proof.plan-arm", "Measure sequential against wave-parallel migration", "strong", "M", ["type: task"], ["area: validation","area: agent"],
     "Show how much sooner a plan's waves finish than the same tasks done one after another.",
     [
       "benchmarks/agent-plan/run.ts (new)",
@@ -661,7 +661,7 @@ export const TASKS_AGENT = [
       "The runner reports both timings and resolution counts with the fake adapter.",
     ],
     ["bench.harness","plan.fixture-monorepo"], { dont: [...["Do not call real models in tests or CI.","Do not modify the plan fixture."], ...DONT] }),
-  t("E-v09-proof", "V09", "proof.report", "Generate the proof tables from result files", "free", "S", ["type: task"], ["area: validation","area: agent"],
+  t("E-v09-proof", "V08", "proof.report", "Generate the proof tables from result files", "free", "S", ["type: task"], ["area: validation","area: agent"],
     "Turn raw results from both arms into the Markdown tables the page needs.",
     [
       "schemas/benchmark-result.v1.schema.json (new)",
@@ -677,7 +677,7 @@ export const TASKS_AGENT = [
       "Output is deterministic and validated against the schema.",
     ],
     ["proof.guardrail-score"], { dont: [...["Do not write into `docs/`; the maintainer pastes the output when publishing."], ...DONT] }),
-  t("E-v09-proof", "V09", "proof.publish", "Run both arms with real agents and publish the results", "maintainer", "M", ["type: docs"], ["area: validation","area: agent"],
+  t("E-v09-proof", "V08", "proof.publish", "Run both arms with real agents and publish the results", "maintainer", "M", ["type: docs"], ["area: validation","area: agent"],
     "Publish numbers with methodology that anyone can reproduce.",
     [
       "docs/AGENT_PROOF.md (new)",

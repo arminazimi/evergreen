@@ -1,6 +1,6 @@
 # 0018 — Ship v0.8.0 (adoption) and v0.9.0 (visibility) before v1
 
-Status: accepted
+Status: accepted; the two-release split is superseded by [0021](0021-one-release-before-v1.md)
 
 ## Problem
 

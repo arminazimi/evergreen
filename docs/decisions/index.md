@@ -41,6 +41,7 @@ they were written; this page groups them by theme.
 | --- | --- | --- |
 | [0018](0018-adoption-before-v1.md) | Ship v0.8.0 (adoption) and v0.9.0 (visibility) before v1 | Ship adoption then visibility before v1, with usage before attention, and record post-v1 ideas as unscheduled epics. |
 | [0019](0019-privacy-first-adoption-metrics.md) | Privacy-first adoption metrics; opt-in telemetry only after v1 | Keep product telemetry off by default forever as the default; any opt-in comes only after a separate post-v1 decision. |
+| [0021](0021-one-release-before-v1.md) | Ship adoption and visibility as one release, with one launch | Merge v0.9.0 into v0.8.0 and replace the three mini-launches with one launch that follows the release. |
 
 ## Policy
 

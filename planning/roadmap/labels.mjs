@@ -34,7 +34,6 @@ export const MONTHS = {
       "SARIF output and GitHub Code Scanning upload",
       "Detector scaffolding generator; Go and container base-image detection",
       "Scheduled importers opening data PRs; differential testing against Renovate and xeol; 50-repository corpus",
-      "First public launch: the agent dependency guardrail",
     ],
   },
   R1: {
@@ -58,7 +57,6 @@ export const MONTHS = {
       "Detector maturity levels and a generated coverage matrix; 100-repository corpus with regression thresholds",
       "Public reference page for every lifecycle rule, with JSON-LD and a sitemap",
       "Integrations: GitHub starter workflow, MegaLinter, reviewdog, and trunk",
-      "Second public launch: Kubernetes and serverless checks for DevOps teams",
     ],
   },
   M4: {
@@ -71,7 +69,6 @@ export const MONTHS = {
       "Agent migration benchmark with published results",
       "Terraform and Android detection; community-led Dart/Flutter and Swift detection",
       "Lifecycle rules for Django, Angular, Vue, React Native, Next.js, and Spring Boot",
-      "Third public launch: lifecycle data in SBOMs",
     ],
   },
   M5: {
@@ -199,11 +196,11 @@ export const MONTHS = {
       "Renovate presets and OSV cross-reference for unpatched exposure",
     ],
   },
-  // v0.8.0 and v0.9.0 come before v1: first real usage, then visibility. The open work of
-  // Phases 38–40 moved into them; those milestones are closed once empty.
+  // v0.8.0 comes before v1: real usage and visibility, in one release (decision 0021). The open
+  // work of Phases 38–40 moved into it; those milestones are closed once empty.
   V08: {
-    phase: 37.8, title: "v0.8.0 — Adoption: get Evergreen used", dueOn: "2026-12-08T12:00:00Z",
-    window: "2026-10-28 → 2026-12-08", theme: "Adoption: get Evergreen used",
+    phase: 37.8, title: "v0.8.0 — Adoption and visibility", dueOn: "2027-01-26T12:00:00Z",
+    window: "2026-10-28 → 2027-01-26", theme: "Adoption and visibility",
     delivers: [
       "A clean npm package: no dependency alerts from a shipped fixture, provenance, and passing OpenSSF Scorecard and Best Practices checks",
       "The documentation site on Slipway with every existing URL preserved, and Evergreen scanning Slipway and the maintainer's other repositories",
@@ -212,14 +209,8 @@ export const MONTHS = {
       "Install paths and daily-loop setups for Claude Code, Codex, Cursor, Copilot, Windsurf, Cline, and Aider",
       "Starter kits for common stacks and an organization-wide rollout workflow",
       "Pipeline integrations people already run, and five pilot users with written feedback",
-    ],
-  },
-  V09: {
-    phase: 37.9, title: "v0.9.0 — Visibility: stars and contributors", dueOn: "2027-01-26T12:00:00Z",
-    window: "2026-12-09 → 2027-01-26", theme: "Visibility: stars and contributors",
-    delivers: [
       "A five-minute contributor path, governance, and a steady supply of good first issues",
-      "The launch kit, demo video, outreach, and recurring end-of-life posts",
+      "The launch kit, demo video, one launch, and recurring end-of-life posts",
       "The open lifecycle dataset, a public lookup page, and a \"State of EOL\" report",
       "Rule pages that rank in search, comparison pages, and listings where developers look",
       "Agent migration benchmark results and real migration case studies",
