@@ -49,7 +49,7 @@ export const EPICS_V08 = [
     ["slipway, seaworthy, oakum, CineGraph, homebrew-tap", "A monthly cross-repository self-scan report"],
     ["Every listed repository runs Evergreen in CI and its findings are triaged."]),
   epic("E-v08-pilots", "V08", "Pilot users and the v0.8.0 release", ["area: community", "area: release"],
-    "Five outside developers try Evergreen on their own repositories, and what they hit is fixed before v0.8.0 ships.",
+    "Five outside developers try Evergreen on their own repositories, and what they hit is fixed before the launch. Pilots start after the v0.8.0 release.",
     ["Pilot recruitment", "Feedback form", "Fix-up of pilot blockers", "v0.8.0 release notes and publish"],
     ["Five written pilot reports, including failures, and v0.8.0 published on every channel."]),
 
@@ -468,7 +468,7 @@ export const TASKS_V08 = [
     "Outside users find what the maintainer cannot.",
     ["docs/PILOTS.md"],
     ["Invite maintainers of five projects in different stacks.", "Agree on consent for publishing their feedback."],
-    ["Five pilots have agreed."]),
+    ["Five pilots have agreed."], ["pilot.release"]),
   t("E-v08-pilots", "V08", "pilot.form", "Create the pilot feedback form", "free", "XS", ["type: docs"], ["area: community"],
     "Collect the same facts from every pilot.",
     [".github/ISSUE_TEMPLATE/pilot-feedback.yml"],
@@ -480,7 +480,7 @@ export const TASKS_V08 = [
     ["Summarize each pilot with consent.", "Link the issues they opened."],
     ["Five reports are published."], ["pilot.recruit", "pilot.form"]),
   t("E-v08-pilots", "V08", "pilot.fixes", "Fix the blockers pilots hit", "strong", "M", ["type: task"], ["area: core"],
-    "Every pilot blocker is fixed or explained before release.",
+    "Every pilot blocker is fixed or explained before the launch.",
     ["src/"],
     ["Triage pilot issues.", "Fix blockers in small PRs linked here."],
     ["No open pilot blocker remains."], ["pilot.reports"]),
@@ -488,7 +488,7 @@ export const TASKS_V08 = [
     "Ship the adoption work on every channel.",
     ["CHANGELOG.md", "package.json"],
     ["Write release notes.", "Publish npm, Action, MCP Registry, plugins, Docker, and Homebrew.", "Run the published-package smoke test."],
-    ["v0.8.0 is live on every channel."], ["pilot.fixes", "fr.published-smoke"]),
+    ["v0.8.0 is live on every channel."], ["fr.published-smoke"]),
 
   // ── Visibility: contributor onboarding (existing epic #58)
   t("#58", "V08", "contrib.devcontainer", "Verify the dev container gives a green `npm run check`", "free", "S", ["type: test"], ["area: community"],

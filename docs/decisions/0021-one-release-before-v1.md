@@ -17,6 +17,6 @@ Decision 0018 put two releases before v1: v0.8.0 for adoption and v0.9.0 for vis
 ## Consequences
 
 - Phase 37 (v1 hardening) now follows v0.8.0 directly. Its window is unchanged.
-- Usage still comes before attention: the pilot users and the v0.8.0 release come before the launch.
+- Usage still comes before attention: the v0.8.0 release, then the pilot users on that release, then a patch with their fixes, and only then the launch.
 - The `V09` phase is removed from `planning/roadmap/`. Epic keys such as `E-v09-seo` stay, because they are stable identifiers recorded in `planning/roadmap/out/state.json`.
 - Decision records written before this one, such as [0019](0019-privacy-first-adoption-metrics.md), may still say v0.9.0. Read that as the visibility work of v0.8.0.
