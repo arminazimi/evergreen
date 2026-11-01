@@ -142,3 +142,29 @@ Refused, with the reason in `fix --json`:
 - a file that cannot be read, does not end with a newline, or does not parse.
 
 The `examples/codemods/node-util-is` directory contains an input file to run `evergreen fix` against.
+
+## python-utcnow
+
+Rewrites the two `datetime` methods [deprecated in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html#deprecated) — `datetime.utcnow()` (`python.symbol.datetime.utcnow`) and `datetime.utcfromtimestamp(t)` (`python.symbol.datetime.utcfromtimestamp`) — into forms that return the exact same naive value without the deprecated call.
+
+| Import shape | `utcnow()` becomes | `utcfromtimestamp(t)` becomes |
+|---|---|---|
+| `from datetime import datetime` | `datetime.now(timezone.utc).replace(tzinfo=None)` | `datetime.fromtimestamp(t, timezone.utc).replace(tzinfo=None)` |
+| `import datetime` | `datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)` | `datetime.datetime.fromtimestamp(t, datetime.timezone.utc).replace(tzinfo=None)` |
+| `import datetime as dt` | `dt.datetime.now(dt.timezone.utc).replace(tzinfo=None)` | `dt.datetime.fromtimestamp(t, dt.timezone.utc).replace(tzinfo=None)` |
+
+The naive result is preserved on purpose. The [deprecation note](https://docs.python.org/3/whatsnew/3.12.html#deprecated) and the [`datetime` documentation](https://docs.python.org/3/library/datetime.html#datetime.datetime.utcnow) point to `datetime.now(datetime.UTC)`, whose result is timezone-aware; switching a naive datetime to an aware one changes every comparison, serialization, and arithmetic it takes part in. `.replace(tzinfo=None)` strips the awareness the rewrite itself adds, so the value is byte-for-byte what the deprecated call returned. `timezone.utc` is used instead of `datetime.UTC` because it exists on every supported Python 3, while `datetime.UTC` needs 3.11 or newer.
+
+For the `from datetime import datetime` shape, `timezone` is added to that same import statement when it is not already imported. The rewrite follows the file's import shape per call, so a file that imports the class by name and the module under an alias gets each call rewritten in its own shape.
+
+Refused, with the reason in `fix --json`:
+
+- `from datetime import *`, where the codemod cannot tell where the names come from;
+- a call through an alias, such as `from datetime import datetime as d` or a rebinding `utcnow = datetime.utcnow`;
+- a file that binds `datetime` both as the module and as the class imported by name, where a call written `datetime.` could read either binding;
+- a `timezone` name already bound to something other than `datetime.timezone`, which the rewrite would shadow or read wrongly;
+- a `from datetime import datetime` statement that is parenthesized or spans several lines, when `timezone` would have to be added to it;
+- a `utcnow` call with arguments, and a `utcfromtimestamp` call with none, with a keyword argument, or with a splat;
+- a file that cannot be read, has syntax errors, or does not end with a newline.
+
+The `examples/codemods/python-utcnow` directory contains an input file to run `evergreen fix` against.

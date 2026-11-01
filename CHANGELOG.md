@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add a codemod that rewrites the Python 3.12-deprecated `datetime.utcnow()` and `datetime.utcfromtimestamp(t)` to `now(timezone.utc)` and `fromtimestamp(t, timezone.utc)` with `.replace(tzinfo=None)`, returning the same naive value, following the file's import shape; refusals for star imports, aliased or rebound names, conflicting `timezone` bindings, and multi-line imports. (#1829)
 - Promote the Go and Rust detectors to Supported after adding 97 independently reviewed corpus entries. The corpus now holds 43 Go entries (31 blind) and 78 Rust entries (53 blind); the Go detector reports all 111 expected findings and the Rust detector all 63, with no false positives or false negatives. (#1892)
 - Add a **Stale choices this agent introduced** section to the Action's pull request comment when a coding agent opened the pull request: diff mode lists each introduced finding with its `path:line`, replacement, and evidence, and asks the agent to replace them and push again. `agent-authors` names the logins (Copilot, Jules, Devin, OpenAI Codex cloud, and Claude by default), and `none` turns the section off. (#1887)
 - Add `evergreen countdown`, a live terminal countdown to every dated lifecycle deadline that affects the repository, with a two-year bar that turns from green to yellow to red, a six-second animation, and a `--json` document. (#1848)
