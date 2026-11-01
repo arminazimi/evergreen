@@ -1,3 +1,9 @@
+---
+title: Evergreen
+redirect_from:
+  - /i18n/fa/README.html
+---
+
 # Evergreen
 
 <p align="center">

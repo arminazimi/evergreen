@@ -1,3 +1,9 @@
+---
+title: Requests for comments
+redirect_from:
+  - /rfcs/README.html
+---
+
 # Requests for comments
 
 An RFC is a proposal for a change that people should discuss before code exists: a public contract, a new command or output format, a scope change, or a decision that is expensive to reverse. Small fixes, documentation, tests, and detector additions do not need one.

@@ -1,4 +1,8 @@
 node_modules/
+docs/vendor/
+docs/_site/
+docs/.bundle/
+docs/Gemfile.lock
 dist/*
 !dist/action/
 dist/action/*
