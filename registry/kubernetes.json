@@ -3450,6 +3450,553 @@
       }
     },
     {
+      "id": "kubernetes.release.end-of-life-1.36",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/>=1.36.0|<1.37.0",
+      "event": "scheduled-end-of-life",
+      "title": "Kubernetes 1.36 reaches end-of-life on 2027-06-28",
+      "summary": "The Kubernetes release history lists Kubernetes 1.36 as supported until its end-of-life date of 2027-06-28; after that the release no longer receives security updates or bug fixes.",
+      "severity": "low",
+      "replacement": "Kubernetes 1.37 or later",
+      "deadline": "2027-06-28",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi",
+        "importer": "kubernetes-2"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kubernetes.release.end-of-life-1.35",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/>=1.35.0|<1.36.0",
+      "event": "scheduled-end-of-life",
+      "title": "Kubernetes 1.35 reaches end-of-life on 2027-02-28",
+      "summary": "The Kubernetes release history lists Kubernetes 1.35 as supported until its end-of-life date of 2027-02-28; after that the release no longer receives security updates or bug fixes.",
+      "severity": "low",
+      "replacement": "Kubernetes 1.37 or later",
+      "deadline": "2027-02-28",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi",
+        "importer": "kubernetes-2"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kubernetes.release.end-of-life-1.34",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/>=1.34.0|<1.35.0",
+      "event": "scheduled-end-of-life",
+      "title": "Kubernetes 1.34 reaches end-of-life on 2026-10-27",
+      "summary": "The Kubernetes release history lists Kubernetes 1.34 as supported until its end-of-life date of 2026-10-27; after that the release no longer receives security updates or bug fixes.",
+      "severity": "low",
+      "replacement": "Kubernetes 1.37 or later",
+      "deadline": "2026-10-27",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi",
+        "importer": "kubernetes-2"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kubernetes.release.end-of-life-1.33",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/>=1.33.0|<1.34.0",
+      "event": "end-of-life",
+      "title": "Kubernetes 1.33 is end-of-life",
+      "summary": "The Kubernetes release history lists Kubernetes 1.33 as end-of-life on 2026-06-28; the release no longer receives security updates or bug fixes.",
+      "severity": "high",
+      "replacement": "Kubernetes 1.34 or later",
+      "deadline": "2026-06-28",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi",
+        "importer": "kubernetes-2"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kubernetes.release.end-of-life-1.32",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/>=1.32.0|<1.33.0",
+      "event": "end-of-life",
+      "title": "Kubernetes 1.32 is end-of-life",
+      "summary": "The Kubernetes release history lists Kubernetes 1.32 as end-of-life on 2026-02-28; the release no longer receives security updates or bug fixes.",
+      "severity": "high",
+      "replacement": "Kubernetes 1.34 or later",
+      "deadline": "2026-02-28",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi",
+        "importer": "kubernetes-2"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kubernetes.release.end-of-life-1.31",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/>=1.31.0|<1.32.0",
+      "event": "end-of-life",
+      "title": "Kubernetes 1.31 is end-of-life",
+      "summary": "The Kubernetes release history lists Kubernetes 1.31 as end-of-life on 2025-11-11; the release no longer receives security updates or bug fixes.",
+      "severity": "high",
+      "replacement": "Kubernetes 1.34 or later",
+      "deadline": "2025-11-11",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi",
+        "importer": "kubernetes-2"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kubernetes.release.end-of-life-1.30",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/>=1.30.0|<1.31.0",
+      "event": "end-of-life",
+      "title": "Kubernetes 1.30 is end-of-life",
+      "summary": "The Kubernetes release history lists Kubernetes 1.30 as end-of-life on 2025-07-15; the release no longer receives security updates or bug fixes.",
+      "severity": "high",
+      "replacement": "Kubernetes 1.34 or later",
+      "deadline": "2025-07-15",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi",
+        "importer": "kubernetes-2"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kubernetes.release.end-of-life-1.29",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/>=1.29.0|<1.30.0",
+      "event": "end-of-life",
+      "title": "Kubernetes 1.29 is end-of-life",
+      "summary": "The Kubernetes release history lists Kubernetes 1.29 as end-of-life on 2025-02-28; the release no longer receives security updates or bug fixes.",
+      "severity": "high",
+      "replacement": "Kubernetes 1.34 or later",
+      "deadline": "2025-02-28",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi",
+        "importer": "kubernetes-2"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kubernetes.release.1.28-and-older",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes",
+      "vers": "vers:semver/<1.29.0",
+      "event": "end-of-life",
+      "title": "Kubernetes 1.28 and older are end-of-life",
+      "summary": "Every Kubernetes minor before 1.29 has passed its published end-of-life date; the release history page archives these lines, and the kubernetes-2 importer drafts only the five newest ended ones, so this reviewed rule covers the rest. Managed providers retire minors on their own calendars; the EKS, GKE, and AKS rules cover those schedules.",
+      "severity": "high",
+      "replacement": "Kubernetes 1.34 or later",
+      "sources": [
+        {
+          "title": "Kubernetes release history",
+          "url": "https://kubernetes.io/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-01",
+        "reviewedAt": "2026-11-01",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+          "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+          "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+        ],
+        "steps": [
+          {
+            "id": "raise-control-plane",
+            "title": "Raise the control plane",
+            "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-nodes",
+            "title": "Raise the nodes",
+            "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+            "targets": "all"
+          },
+          {
+            "id": "review-removed-apis",
+            "title": "Remove APIs the new versions deleted",
+            "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl version",
+            "purpose": "Confirm the API server and kubectl agree on the new version."
+          },
+          {
+            "command": "kubectl get nodes -o wide",
+            "purpose": "Confirm every node runs a compatible version."
+          }
+        ]
+      }
+    },
+    {
       "id": "kubernetes.google-gke.1.33",
       "ecosystem": "kubernetes",
       "purl": "pkg:generic/google-gke",

@@ -1,5 +1,5 @@
 {
-  "latestReview": "2026-10-31",
+  "latestReview": "2026-11-01",
   "products": [
     {
       "ecosystems": [
@@ -3168,6 +3168,23 @@
       "path": "products/generic-java.json",
       "purl": "pkg:generic/java",
       "rules": 5,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-02-28",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-kubernetes",
+      "latestReview": "2026-11-01",
+      "name": "kubernetes",
+      "path": "products/generic-kubernetes.json",
+      "purl": "pkg:generic/kubernetes",
+      "rules": 9,
       "type": "generic"
     },
     {
@@ -6591,7 +6608,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 696,
+  "rules": 705,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -6620,8 +6637,8 @@
     },
     {
       "path": "types/generic.json",
-      "products": 215,
-      "rules": 466,
+      "products": 216,
+      "rules": 475,
       "type": "generic"
     },
     {

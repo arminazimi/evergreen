@@ -13,7 +13,7 @@ Every importer reads one export file and produces items. The output is determini
 
 ## Privacy
 
-`inventory` reads only the files named on the command line. It makes no network request, runs no command, and reads no other file. It never executes code or tools from the scanned export. Output names only the resource's own short name: `resource` is never an account id, ARN, subscription id, project number, IP address, node name, tag, or environment variable. `--redact` replaces each resource name with the first 12 hex characters of its SHA-256, in text and JSON output alike.
+`inventory` reads only the files named on the command line. It makes no network request, runs no command, and reads no other file. It never executes code or tools from the scanned export. Output names only the resource's own short name: `resource` is never an account id, ARN, subscription id, project number, IP address, tag, or environment variable, and the one exception is a Kubernetes node's own name, which the cluster importer reports because the node is the resource (a node named by its IP address is skipped). `--redact` replaces each resource name with the first 12 hex characters of its SHA-256, in text and JSON output alike.
 
 ## Kubernetes workloads
 
@@ -57,6 +57,51 @@ An image tag is used as the version only when it is a plain release number: `nod
 - Objects and fields beyond the ones listed above.
 
 The fixtures under `tests/fixtures/inventory/k8s-workloads/` reproduce the documented output shape of `kubectl get … -o json` (kubectl 1.31), with every identifier replaced by a placeholder. They were assembled from the command's output shape, not captured from a live cluster.
+
+## Kubernetes cluster
+
+Export the cluster's version and its nodes, then pass both files:
+
+```bash
+kubectl version -o json > k8s-cluster.json
+kubectl get nodes -o json > k8s-nodes.json
+evergreen inventory k8s-cluster.json k8s-nodes.json
+```
+
+The importer recognizes the version export, the object that carries `serverVersion.gitVersion`, and the node export, a Kubernetes `List` whose items are all `Node` objects with `status.nodeInfo`. From the version export it reads the control-plane version; from the node export it reads, per node:
+
+- `status.nodeInfo.kubeletVersion`
+- `status.nodeInfo.osImage`
+- `status.nodeInfo.containerRuntimeVersion`
+- `metadata.name`, which becomes `resource`
+
+### Provider suffixes
+
+`gitVersion` and `kubeletVersion` carry a provider suffix on managed services: `v1.28.3-eks-2fbdaf5`, `v1.30.5-gke.1445001`, `v1.31.5+k3s1`. Everything from the first `-` or `+` is stripped and the upstream release is judged, so each of those is `1.28.3`, `1.30.5`, and `1.31.5`. Managed providers (EKS, GKE, AKS) retire minors on their own calendars, which end earlier than upstream's, so a managed cluster should be judged by its provider's schedule too: the provider view is covered by the EKS, Google Cloud, and Azure tasks, and GKE already has its own rules in `registry/kubernetes.json`.
+
+### Rules matched
+
+| Item | PURL | Registry |
+| --- | --- | --- |
+| Control plane, kubelet | `pkg:generic/kubernetes` | `registry/kubernetes.json` |
+| Node OS image | `pkg:generic/<distribution>`, for example `pkg:generic/ubuntu` | `registry/container.json` |
+| Container runtime | `pkg:generic/containerd`, `pkg:generic/docker`, `pkg:generic/cri-o`, `pkg:generic/cri-dockerd` | no rules yet |
+
+`registry/kubernetes.json` holds upstream minor-release rules sourced to the [Kubernetes release history](https://kubernetes.io/releases/) page. They are the reviewed adoption of the `kubernetes-2` lifecycle importer's drafts: each of the five newest ended minors has an `end-of-life` rule at high severity, a minor whose announced end of life has not passed is `scheduled-end-of-life` at low severity (decision 0010), and a reviewed `1.28-and-older` rule covers the lines the importer no longer drafts. A weekly importer run keeps these fresh; a managed cluster should still be judged by its provider's schedule, which ends earlier than upstream's.
+
+An `osImage` maps to the distribution's PURL when it names one the registry knows: `Ubuntu 22.04.5 LTS` to `pkg:generic/ubuntu` at `22.04.5`, `SUSE Linux Enterprise Server 15 SP6` to `pkg:generic/sles` at `15.6`, `Amazon Linux 2` to `pkg:generic/amzn` at `2`. These are the same PURLs and rules the os-release importer checks, so a node image and a host's `/etc/os-release` are judged by one set of dates. A distribution without rules — Bottlerocket, Container-Optimized OS, Flatcar, Rocky Linux, AlmaLinux — is still reported, at its own PURL, as `no-data`: not safe, just unruled. An image that names none of the known distributions produces no item.
+
+`containerRuntimeVersion` maps to the runtime's PURL: `containerd://1.6.32` to `pkg:generic/containerd` at `1.6.32`. No runtime rule set exists yet, so these report `no-data`. A version that is not a plain release number (`containerd://1.6.x`) is reported without a version.
+
+### What is not judged
+
+- Node capacity, conditions, taints, labels, and addresses: never read or reported.
+- A node whose `metadata.name` is an IP address is skipped entirely, because `resource` names a resource, never an address.
+- The images running on the nodes and the objects' API versions: the workloads importer covers those.
+- Whether the control plane and the kubelets are within the version-skew policy: skew compatibility is a different question from end of life.
+- Anything the export does not state. No command is run, no API is called, and no other file is read.
+
+The fixtures under `tests/fixtures/inventory/k8s-cluster/` reproduce the documented output shape of `kubectl version -o json` and `kubectl get nodes -o json` (kubectl 1.31), with every identifier replaced by a placeholder. They were assembled from the command's output shape, not captured from a live cluster.
 
 ## Host operating systems
 
@@ -175,6 +220,7 @@ A Package URL with no rule is reported as `no-data`; when a PURL has rules but n
 | Importer | Reads | Export command |
 | --- | --- | --- |
 | `aws-rds` | AWS RDS instances, Aurora clusters, and ElastiCache cache clusters | `aws rds describe-db-instances`, `aws rds describe-db-clusters`, `aws elasticache describe-cache-clusters` |
+| `k8s-cluster` | Kubernetes control-plane and kubelet versions, node OS images, and container runtimes | `kubectl version -o json`, `kubectl get nodes -o json` |
 | `terraform-state` | Terraform state from `terraform show -json` or a raw `terraform.tfstate` v4 file | `terraform show -json` |
 
 ## AWS RDS, Aurora, and ElastiCache

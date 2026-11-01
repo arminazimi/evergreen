@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "kubernetes.release.end-of-life-1.36",
+  "ecosystem": "kubernetes",
+  "purl": "pkg:generic/kubernetes",
+  "affectedVersions": "vers:semver/>=1.36.0|<1.37.0",
+  "event": "scheduled-end-of-life",
+  "severity": "low",
+  "title": "Kubernetes 1.36 reaches end-of-life on 2027-06-28",
+  "summary": "The Kubernetes release history lists Kubernetes 1.36 as supported until its end-of-life date of 2027-06-28; after that the release no longer receives security updates or bug fixes.",
+  "replacement": "Kubernetes 1.37 or later",
+  "deadline": "2027-06-28",
+  "sources": [
+    {
+      "title": "Kubernetes release history",
+      "url": "https://kubernetes.io/releases/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-11-01",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Upstream Kubernetes maintains the three most recent minor releases, about twelve months of patch support each; managed providers (EKS, GKE, AKS) retire minors on their own calendars, often sooner.",
+      "Kubernetes upgrades one minor version at a time, and the control plane must be raised before the kubelets that talk to it.",
+      "Each minor crossed can remove served API versions; read the Kubernetes Deprecated API Migration Guide before upgrading."
+    ],
+    "steps": [
+      {
+        "id": "raise-control-plane",
+        "title": "Raise the control plane",
+        "instructions": "Raise the control plane to a supported minor, one version at a time, or let the provider's release channel do it.",
+        "targets": "declaration"
+      },
+      {
+        "id": "raise-nodes",
+        "title": "Raise the nodes",
+        "instructions": "Raise every node's kubelet to a version compatible with the new control plane.",
+        "targets": "all"
+      },
+      {
+        "id": "review-removed-apis",
+        "title": "Remove APIs the new versions deleted",
+        "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions before applying.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "kubectl version",
+        "purpose": "Confirm the API server and kubectl agree on the new version."
+      },
+      {
+        "command": "kubectl get nodes -o wide",
+        "purpose": "Confirm every node runs a compatible version."
+      }
+    ]
+  }
+}

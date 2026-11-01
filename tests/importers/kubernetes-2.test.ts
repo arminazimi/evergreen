@@ -38,12 +38,25 @@ test("drafts the five newest end-of-life lines from the real recording, using th
   ]);
 });
 
-test("drafts are additions to the reviewed registry, never changes to its API rules", async () => {
+test("the reviewed registry has adopted the drafts; the hand-written catch-all stays out of the diff", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/kubernetes.json"), "utf8")) as RegistryV2;
   const drafts = await execute(kubernetesReleasesImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
-  assert.deepEqual([diff.changed, diff.removed, diff.duplicates], [[], [], []]);
-  assert.equal(diff.added.length, 8);
+  assert.deepEqual([diff.added, diff.changed, diff.removed, diff.duplicates], [[], [], [], []]);
+  assert.deepEqual(diff.unchanged, [
+    "kubernetes.release.end-of-life-1.29",
+    "kubernetes.release.end-of-life-1.30",
+    "kubernetes.release.end-of-life-1.31",
+    "kubernetes.release.end-of-life-1.32",
+    "kubernetes.release.end-of-life-1.33",
+    "kubernetes.release.end-of-life-1.34",
+    "kubernetes.release.end-of-life-1.35",
+    "kubernetes.release.end-of-life-1.36",
+  ]);
+  // A reviewed hand-written rule covers the lines the importer does not draft, without taking one of its ids.
+  const catchAll = registry.rules.find((rule) => rule.id === "kubernetes.release.1.28-and-older");
+  assert.equal(catchAll?.vers, "vers:semver/<1.29.0");
+  assert.equal(catchAll?.provenance.importer, undefined);
 });
 
 const page = (header: string, rows: string, maintained = "<p>1.37 Latest Release: 1.37.1 (released: 2026-09-15 ) End of Life: 2027-10-28</p>") =>

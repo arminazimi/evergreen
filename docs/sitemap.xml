@@ -264,6 +264,15 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.1.28-and-older.html</loc><lastmod>2026-11-01</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.29.html</loc><lastmod>2026-11-01</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.30.html</loc><lastmod>2026-11-01</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.31.html</loc><lastmod>2026-11-01</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.32.html</loc><lastmod>2026-11-01</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.33.html</loc><lastmod>2026-11-01</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.34.html</loc><lastmod>2026-11-01</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.35.html</loc><lastmod>2026-11-01</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.release.end-of-life-1.36.html</loc><lastmod>2026-11-01</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.scheduling-k8s-io.priorityclass.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csidriver.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csinode.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>

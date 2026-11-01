@@ -259,6 +259,15 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [ClusterRoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served](kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html) — removed, `kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed`
 - [Role rbac.authorization.k8s.io/v1beta1 is no longer served](kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed.html) — removed, `kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed`
 - [RoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served](kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed.html) — removed, `kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed`
+- [Kubernetes 1.28 and older are end-of-life](kubernetes.release.1.28-and-older.html) — end of life, `kubernetes.release.1.28-and-older`
+- [Kubernetes 1.29 is end-of-life](kubernetes.release.end-of-life-1.29.html) — end of life, `kubernetes.release.end-of-life-1.29`
+- [Kubernetes 1.30 is end-of-life](kubernetes.release.end-of-life-1.30.html) — end of life, `kubernetes.release.end-of-life-1.30`
+- [Kubernetes 1.31 is end-of-life](kubernetes.release.end-of-life-1.31.html) — end of life, `kubernetes.release.end-of-life-1.31`
+- [Kubernetes 1.32 is end-of-life](kubernetes.release.end-of-life-1.32.html) — end of life, `kubernetes.release.end-of-life-1.32`
+- [Kubernetes 1.33 is end-of-life](kubernetes.release.end-of-life-1.33.html) — end of life, `kubernetes.release.end-of-life-1.33`
+- [Kubernetes 1.34 reaches end-of-life on 2026-10-27](kubernetes.release.end-of-life-1.34.html) — scheduled end of life, `kubernetes.release.end-of-life-1.34`
+- [Kubernetes 1.35 reaches end-of-life on 2027-02-28](kubernetes.release.end-of-life-1.35.html) — scheduled end of life, `kubernetes.release.end-of-life-1.35`
+- [Kubernetes 1.36 reaches end-of-life on 2027-06-28](kubernetes.release.end-of-life-1.36.html) — scheduled end of life, `kubernetes.release.end-of-life-1.36`
 - [PriorityClass scheduling.k8s.io/v1beta1 is no longer served](kubernetes.scheduling-k8s-io.priorityclass.v1beta1.removed.html) — removed, `kubernetes.scheduling-k8s-io.priorityclass.v1beta1.removed`
 - [CSIDriver storage.k8s.io/v1beta1 is no longer served](kubernetes.storage-k8s-io.csidriver.v1beta1.removed.html) — removed, `kubernetes.storage-k8s-io.csidriver.v1beta1.removed`
 - [CSINode storage.k8s.io/v1beta1 is no longer served](kubernetes.storage-k8s-io.csinode.v1beta1.removed.html) — removed, `kubernetes.storage-k8s-io.csinode.v1beta1.removed`

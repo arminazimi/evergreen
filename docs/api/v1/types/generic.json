@@ -2653,6 +2653,23 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2025-02-28",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-kubernetes",
+      "latestReview": "2026-11-01",
+      "name": "kubernetes",
+      "path": "products/generic-kubernetes.json",
+      "purl": "pkg:generic/kubernetes",
+      "rules": 9,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2021-08-04",
       "ecosystems": [
         "kubernetes"
@@ -3632,7 +3649,7 @@
       "type": "generic"
     }
   ],
-  "rules": 466,
+  "rules": 475,
   "schemaVersion": "evergreen.api-type.v1",
   "type": "generic"
 }
