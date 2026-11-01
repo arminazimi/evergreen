@@ -42,7 +42,7 @@ _evergreen() {
         guard) _arguments '--fail-on' '--force' '--data-version' '*:path:_files' ;;
         usage) _arguments '--file' '--json' '*:path:_files' ;;
         mcp) _arguments  '*:path:_files' ;;
-        init) _arguments '--agents' '--hooks' '--personal' '--file' '--fail-on' '--yes' '--dry-run' '*:path:_files' ;;
+        init) _arguments '--agents' '--hooks' '--personal' '--hooks-for' '--file' '--fail-on' '--yes' '--dry-run' '*:path:_files' ;;
         setup) _arguments '--yes' '--dry-run' '*:path:_files' ;;
         new-detector) _arguments '--ecosystem' '*:path:_files' ;;
         new-rule) _arguments '--ecosystem' '*:path:_files' ;;

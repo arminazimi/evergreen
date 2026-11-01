@@ -45,7 +45,7 @@ _evergreen() {
     mcp) opts="" ;;
     data) opts="--json --data-version" ;;
     watch) opts="--weekly --json" ;;
-    init) opts="--agents --hooks --personal --file --fail-on --yes --dry-run" ;;
+    init) opts="--agents --hooks --personal --hooks-for --file --fail-on --yes --dry-run" ;;
     setup) opts="--yes --dry-run" ;;
     new-detector) opts="--ecosystem" ;;
     new-rule) opts="--ecosystem" ;;

@@ -141,6 +141,7 @@ complete -c evergreen -n '__fish_seen_subcommand_from watch' -l json
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l agents
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l hooks
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l personal
+complete -c evergreen -n '__fish_seen_subcommand_from init' -l hooks-for
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l file
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l fail-on
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l yes

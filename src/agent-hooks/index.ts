@@ -1,10 +1,11 @@
 import type { Finding } from "../domain.js";
+import { claudeCodeAdapter } from "./claude-code.js";
 import type { HookEdit, HookResponse, HostAdapter } from "./types.js";
 
 export type { HookEdit, HookResponse, HostAdapter } from "./types.js";
 
 /** Every built-in host adapter. Each host task in the shield epic appends its own entry. */
-export const hostAdapters: HostAdapter[] = [];
+export const hostAdapters: HostAdapter[] = [claudeCodeAdapter];
 
 /** Keeps the findings located in the files the agent just changed, in a stable order. */
 export function findingsForEdit(findings: readonly Finding[], edit: HookEdit): Finding[] {

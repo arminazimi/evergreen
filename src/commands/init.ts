@@ -3,7 +3,7 @@ import process from "node:process";
 import { AgentFileError } from "../agent-instructions.js";
 import type { Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import { initAgents } from "../init-agents.js";
+import { initAgents, initClaudeHooks } from "../init-agents.js";
 import type { AgentFileName } from "../init-agents.js";
 import { initHooks } from "../init-hooks.js";
 import { initPersonal } from "../init-personal.js";
@@ -14,7 +14,7 @@ import type { CliCommand, CommandContext } from "./types.js";
 /** `init` with no flags asks what to set up (guided); `init --agents`, `--hooks`, and `--personal` do one thing without asking. */
 export const command: CliCommand = {
   name: "init",
-  flags: ["--agents", "--hooks", "--personal", "--file", "--fail-on", "--yes", "--dry-run"],
+  flags: ["--agents", "--hooks", "--personal", "--hooks-for", "--file", "--fail-on", "--yes", "--dry-run"],
   example: "evergreen init --hooks --dry-run",
   usage: [
     "  evergreen init [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]   # ask what to set up; apply the defaults for CI, the pre-push hook, and agents",
@@ -22,6 +22,7 @@ export const command: CliCommand = {
     "  evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]",
     "  evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents",
     "  evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository",
+    "  evergreen init --hooks-for claude-code [path] [--dry-run]   # post-edit hook in .claude/settings.json",
   ],
   usageSlots: [49, 50, 51, 52, 53],
   run(args, ctx) {
@@ -42,7 +43,7 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
 }
 
 async function runInit(args: string[], ctx: CommandContext): Promise<number> {
-  const usage = "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+  const usage = "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
   if (args[0] === "agent") {
     const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
     const agentArgs = args.slice(1);
@@ -76,8 +77,11 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
   const agents = args.includes("--agents");
   const hooks = args.includes("--hooks");
   const personal = args.includes("--personal");
-  const guided = !agents && !hooks && !personal;
-  if (personal && (agents || hooks)) return ctx.fail("usage", "--personal cannot be combined with --agents or --hooks.", usage);
+  const hooksForIndex = args.indexOf("--hooks-for");
+  const hooksFor = hooksForIndex === -1 ? undefined : args[hooksForIndex + 1];
+  if (hooksForIndex !== -1 && hooksFor !== "claude-code") return ctx.fail("usage", "--hooks-for needs a host: claude-code.", usage);
+  const guided = !agents && !hooks && !personal && !hooksFor;
+  if (personal && (agents || hooks || hooksFor)) return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", usage);
   const fileIndex = args.indexOf("--file");
   const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
   if (fileIndex !== -1 && (!agents && !guided || fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md")) {
@@ -88,8 +92,8 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
   if (gateIndex !== -1 && ((!(hooks || personal) && !guided) || !severityValues.includes(gate as Severity))) {
     return ctx.fail("usage", `--fail-on needs the guided init, --hooks or --personal, and a severity (${severityValues.join(", ")}).`, usage);
   }
-  const flags = new Set(["--agents", "--hooks", "--personal", "--yes", "-y", "--dry-run", "--file", "--fail-on"]);
-  const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && index !== gateIndex + 1 && !argument.startsWith("-"));
+  const flags = new Set(["--agents", "--hooks", "--personal", "--hooks-for", "--yes", "-y", "--dry-run", "--file", "--fail-on"]);
+  const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && index !== gateIndex + 1 && (hooksForIndex === -1 || index !== hooksForIndex + 1) && !argument.startsWith("-"));
   const unknown = args.filter((argument) => argument.startsWith("-") && !flags.has(argument));
   if (unknown.length > 0 || positional.length > 1 || (personal && positional.length > 0)) return ctx.fail("usage", usage.trimEnd());
   const dryRun = args.includes("--dry-run");
@@ -123,6 +127,14 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
         process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : "Updated"} ${result.file}; it blocks a push at ${gate} or above.\n`);
       }
       if (result.change !== "managed") process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
+    }
+    if (hooksFor === "claude-code") {
+      const result = await initClaudeHooks({ root, dryRun });
+      if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen post-edit hook; nothing to change.\n`);
+      else {
+        const verb = result.change === "created" ? "create" : "update";
+        process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : "Updated"} ${result.file}; Claude Code now runs Evergreen after Write, Edit, and MultiEdit.\n`);
+      }
     }
     return 0;
   } catch (error) {

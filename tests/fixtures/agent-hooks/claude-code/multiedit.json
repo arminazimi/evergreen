@@ -1,0 +1,32 @@
+{
+  "session_id": "c1d9a3f5-7e28-4b60-91da-5f3c8e2b7a14",
+  "transcript_path": "/Users/dev/.claude/projects/-Users-dev-app/c1d9a3f5-7e28-4b60-91da-5f3c8e2b7a14.jsonl",
+  "cwd": "/Users/dev/app",
+  "hook_event_name": "PostToolUse",
+  "tool_name": "MultiEdit",
+  "tool_input": {
+    "file_path": "/Users/dev/app/Dockerfile",
+    "edits": [
+      { "old_string": "FROM node:20", "new_string": "FROM node:16", "replace_all": false },
+      { "old_string": "WORKDIR /srv", "new_string": "WORKDIR /app", "replace_all": false }
+    ]
+  },
+  "tool_response": {
+    "filePath": "/Users/dev/app/Dockerfile",
+    "edits": [
+      { "oldString": "FROM node:20", "newString": "FROM node:16", "replaceAll": false },
+      { "oldString": "WORKDIR /srv", "newString": "WORKDIR /app", "replaceAll": false }
+    ],
+    "originalFile": "FROM node:20\nWORKDIR /srv\n",
+    "structuredPatch": [
+      {
+        "oldStart": 1,
+        "oldLines": 2,
+        "newStart": 1,
+        "newLines": 2,
+        "lines": ["-FROM node:20", "+FROM node:16", "-WORKDIR /srv", "+WORKDIR /app"]
+      }
+    ],
+    "userModified": false
+  }
+}
