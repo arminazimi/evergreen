@@ -1,0 +1,7 @@
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: cimg/php:8.2-cli
+    steps:
+      - checkout
