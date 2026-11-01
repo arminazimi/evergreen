@@ -75,7 +75,7 @@
     "!skills/**/evals"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && node -e \"const fs=require('fs');fs.cpSync('src/usage/queries','dist/src/usage/queries',{recursive:true});fs.cpSync('src/usage/vendor','dist/src/usage/vendor',{recursive:true})\"",
+    "build": "tsc -b tsconfig.json && node -e \"const fs=require('fs');fs.cpSync('src/usage/queries','dist/src/usage/queries',{recursive:true});fs.cpSync('src/usage/vendor','dist/src/usage/vendor',{recursive:true})\"",
     "build:action": "ncc build src/action.ts -o dist/action --minify --transpile-only",
     "build:plugins": "npm run build --silent && node dist/tools/plugin-packages.js",
     "package:codex-plugin": "npm run build:plugins --silent && node dist/tools/codex-plugin-release.js",

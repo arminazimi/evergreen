@@ -27,6 +27,11 @@ test("npm test builds first, and npm run check builds only once", () => {
   assert.match(scripts["build:action"]!, /^ncc build src\/action\.ts -o dist\/action --minify --transpile-only$/);
 });
 
+test("the TypeScript build uses build mode, so an unchanged tree is skipped", () => {
+  // `tsc -p` re-parses and re-binds every file on each run; `tsc -b` skips the project when its outputs are newer than its inputs.
+  assert.match(scripts.build!, /^tsc -b tsconfig\.json && /);
+});
+
 test("check runs the action build, tests, plugin drift, and plugin eval together", async () => {
   const events: string[] = [];
   let release!: () => void;
