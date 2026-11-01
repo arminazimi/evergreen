@@ -8,7 +8,9 @@ Security fixes are provided for the latest published release.
 
 Please use GitHub's private vulnerability reporting for this repository. Do not open a public issue containing exploit details, private source code, credentials, or tokens.
 
-Include the affected version, impact, reproduction, and any suggested mitigation. You should receive an acknowledgement within seven days.
+Include the affected version, impact, reproduction, and any suggested mitigation. You should receive an acknowledgement within seven days, and we aim to share an assessment and a fix or mitigation plan within 30 days. Reports that are not accepted get a written reason.
+
+Fixes for confirmed vulnerabilities are developed privately, released in a new version, and published as a GitHub security advisory (with a CVE where one applies) that credits the reporter unless they ask to stay anonymous. Publicly known vulnerabilities with a fix available are not left open: the advisory states the affected and fixed versions. For the full release process, see [MAINTAINERS.md](MAINTAINERS.md).
 
 ## Trust model
 
@@ -39,4 +41,4 @@ Existing workflows already declare top-level read permissions (or empty permissi
 | Pinned-Dependencies | GitHub Actions and Docker steps used in CI are SHA-pinned. The SLSA reusable workflow in `release.yml` stays on the upstream `v2.1.0` tag because that is how [`slsa-framework/slsa-github-generator`](https://github.com/slsa-framework/slsa-github-generator) documents calling it. |
 | Token-Permissions | Workflows use read-only (or empty) top-level permissions and grant write only on the jobs that need it. |
 | Fuzzing | Not applicable: Evergreen is a local scanner over manifests and source text, not a network-facing parser farm. |
-| CII-Best-Practices | Tracked separately as the OpenSSF Best Practices badge work. |
+| CII-Best-Practices | The [OpenSSF Best Practices](https://www.bestpractices.dev/) questionnaire is a maintainer account step. The repository-side answers are this policy, the [quality standards in CONTRIBUTING.md](CONTRIBUTING.md#quality-standards), the Apache-2.0 [LICENSE](LICENSE), and the CI workflows listed above. |

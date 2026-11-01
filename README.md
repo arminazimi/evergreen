@@ -237,7 +237,7 @@ See the [detector authoring guide](docs/DETECTORS.md) and the [minimal detector 
 
 The CLI is the product. Detectors extend it, GitHub Actions automate it, and the local MCP server exposes it to agents. A hosted backend is intentionally outside the roadmap; lifecycle data updates through a signed, offline-verifiable data channel instead.
 
-See [the roadmap](docs/ROADMAP.md), [architecture](docs/ARCHITECTURE.md), [brand guide](brand/BRAND_GUIDE.md), and [contribution guide](CONTRIBUTING.md).
+See [the roadmap](docs/ROADMAP.md), [architecture](docs/ARCHITECTURE.md), [brand guide](brand/BRAND_GUIDE.md), [contribution guide](CONTRIBUTING.md), and [security policy](SECURITY.md).
 
 ## Community
 

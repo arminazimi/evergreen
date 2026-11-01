@@ -172,6 +172,16 @@ A first-time contributor's pull request gets a first review within **two working
   npm run validate:public-repos
   ```
 
+## Quality standards
+
+These are the requirements every change is held to, and the same answers the OpenSSF Best Practices questionnaire asks for.
+
+- **Coding standard:** TypeScript with `strict`, `noUncheckedIndexedAccess`, and `exactOptionalPropertyTypes`. The build (`npm run build`) fails on any compiler error. Match the naming, comment density, and error style of the surrounding code.
+- **Tests:** new functionality and bug fixes come with an automated test in `tests/` that fails without the change. `npm test` runs them all; `npm run test:coverage` enforces the coverage floors above.
+- **Static analysis:** CodeQL runs on `main` weekly, and Evergreen scans its own repository on every pull request (`self-scan`).
+- **Build:** `npm ci` plus `npm run build` builds from a clean clone using only the locked dependencies; releases are described in [MAINTAINERS.md](MAINTAINERS.md).
+- **Security issues:** report them privately as described in [SECURITY.md](SECURITY.md), never in a public issue or pull request.
+
 ## Pull requests
 
 One issue per pull request. Explain the lifecycle source, user-visible behavior, tests, and known limitations. Run `npm run check` before requesting review and avoid reformatting unrelated files. Commit messages use Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
