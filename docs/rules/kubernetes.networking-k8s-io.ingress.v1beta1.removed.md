@@ -1,8 +1,12 @@
 ---
 title: "Ingress networking.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the networking.k8s.io/v1beta1 API version of Ingress is no longer served as of v1.22, which was released on 2021-08-04."
+layout: doc
+permalink: "/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html"
 image: "/assets/og/kubernetes.networking-k8s-io.ingress.v1beta1.removed.svg"
+review_date: "2026-10-17"
+last_modified_at: "2026-10-17"
 json_twin: "/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.json"
 ---
 

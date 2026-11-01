@@ -1,8 +1,12 @@
 ---
 title: "Aurora MySQL version 1 is past end of standard support — dates, impact, migration"
 description: "AWS ended standard support for Aurora MySQL version 1 (MySQL 5.6 compatible) on 2023-02-28."
+layout: doc
+permalink: "/rules/database.aws-aurora-mysql.end-of-support-5.6.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.aws-aurora-mysql.end-of-support-5.6.html"
 image: "/assets/og/database.aws-aurora-mysql.end-of-support-5.6.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/database.aws-aurora-mysql.end-of-support-5.6.json"
 ---
 

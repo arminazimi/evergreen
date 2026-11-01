@@ -1,8 +1,12 @@
 ---
 title: "Dart 3.12 no longer receives security updates — dates, impact, migration"
 description: "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.12 stopped being that release when Dart 3.13 shipped on 2026-08-12."
+layout: doc
+permalink: "/rules/dart.sdk.end-of-support-3.12.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.12.html"
 image: "/assets/og/dart.sdk.end-of-support-3.12.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/dart.sdk.end-of-support-3.12.json"
 ---
 

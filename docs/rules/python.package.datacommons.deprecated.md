@@ -1,8 +1,12 @@
 ---
 title: "datacommons is deprecated — dates, impact, migration"
 description: "The maintainers state that datacommons is no longer maintained or functional and direct users to datacommons-client."
+layout: doc
+permalink: "/rules/python.package.datacommons.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.datacommons.deprecated.html"
 image: "/assets/og/python.package.datacommons.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.datacommons.deprecated.json"
 ---
 

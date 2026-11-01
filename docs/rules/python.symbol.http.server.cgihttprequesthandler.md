@@ -1,8 +1,12 @@
 ---
 title: "Http.server.CGIHTTPRequestHandler is deprecated — dates, impact, migration"
 description: "Python 3.13 deprecates http.server.CGIHTTPRequestHandler, to be removed in Python 3.15."
+layout: doc
+permalink: "/rules/python.symbol.http.server.cgihttprequesthandler.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.http.server.cgihttprequesthandler.html"
 image: "/assets/og/python.symbol.http.server.cgihttprequesthandler.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/python.symbol.http.server.cgihttprequesthandler.json"
 ---
 

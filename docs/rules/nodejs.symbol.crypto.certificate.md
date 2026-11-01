@@ -1,8 +1,12 @@
 ---
 title: "New crypto.Certificate() is deprecated — dates, impact, migration"
 description: "Node.js deprecates new crypto.Certificate() (DEP0146: documentation-only since v14.9.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.crypto.certificate.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.certificate.html"
 image: "/assets/og/nodejs.symbol.crypto.certificate.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.crypto.certificate.json"
 ---
 

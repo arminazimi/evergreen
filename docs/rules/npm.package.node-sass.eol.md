@@ -1,8 +1,12 @@
 ---
 title: "Node Sass is end-of-life — dates, impact, migration"
 description: "Node Sass is no longer maintained and its repository has been archived."
+layout: doc
+permalink: "/rules/npm.package.node-sass.eol.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html"
 image: "/assets/og/npm.package.node-sass.eol.svg"
+review_date: "2026-10-14"
+last_modified_at: "2026-10-14"
 json_twin: "/rules/npm.package.node-sass.eol.json"
 ---
 

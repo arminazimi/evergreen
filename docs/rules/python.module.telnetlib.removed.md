@@ -1,8 +1,12 @@
 ---
 title: "The telnetlib module was removed in Python 3.13 — dates, impact, migration"
 description: "Python 3.13 removed the telnetlib module (PEP 594), so importing it raises ModuleNotFoundError."
+layout: doc
+permalink: "/rules/python.module.telnetlib.removed.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.module.telnetlib.removed.html"
 image: "/assets/og/python.module.telnetlib.removed.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/python.module.telnetlib.removed.json"
 ---
 

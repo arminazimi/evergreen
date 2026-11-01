@@ -22,6 +22,8 @@ export interface RuntimeDeclaration {
   value: string;
   /** One-based line of the `runtime` value. */
   line: number;
+  /** The cloud whose runtime ids apply, when the declaration says so: AWS and Cloud Functions share some ids. */
+  platform?: "aws" | "gcp";
 }
 
 /** True when the value is a Serverless variable or another non-literal form. */

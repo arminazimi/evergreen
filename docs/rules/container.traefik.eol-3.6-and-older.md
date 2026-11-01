@@ -1,8 +1,12 @@
 ---
 title: "Traefik image release lines 3.6 and older are end-of-life — dates, impact, migration"
 description: "These Traefik release lines no longer receive security fixes from the vendor: the release policy lists 3.7 as the only supported line, and security support for 3.6 ended on 2026-08-16."
+layout: doc
+permalink: "/rules/container.traefik.eol-3.6-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html"
 image: "/assets/og/container.traefik.eol-3.6-and-older.svg"
+review_date: "2026-10-20"
+last_modified_at: "2026-10-20"
 json_twin: "/rules/container.traefik.eol-3.6-and-older.json"
 ---
 

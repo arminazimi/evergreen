@@ -14,6 +14,14 @@ on:
       - "src/rule-test.ts"
       - "tools/changed-rules.ts"
       - ".github/workflows/rules.yml"
+  pull_request:
+    paths:
+      - "registry/**"
+      - "tests/fixtures/**"
+      - "src/rule-lint.ts"
+      - "src/rule-test.ts"
+      - "tools/changed-rules.ts"
+      - ".github/workflows/rules.yml"
 
 permissions:
   contents: read
@@ -42,7 +50,7 @@ jobs:
       - name: Lint and test the changed rules
         shell: bash
         env:
-          BASE_SHA: ${{ github.event.before }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
           git fetch --no-tags origin "$BASE_SHA"
           node dist/tools/changed-rules.js --base "$BASE_SHA" --summary "$GITHUB_STEP_SUMMARY"

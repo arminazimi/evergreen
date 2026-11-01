@@ -1,8 +1,12 @@
 ---
 title: "The produceCachedData option of vm.Script is deprecated — dates, impact, migration"
 description: "Node.js deprecates the produceCachedData option of vm.Script (DEP0110: documentation-only since v10.6.0)."
+layout: doc
+permalink: "/rules/nodejs.symbol.vm.script.producecacheddata.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.vm.script.producecacheddata.html"
 image: "/assets/og/nodejs.symbol.vm.script.producecacheddata.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.vm.script.producecacheddata.json"
 ---
 

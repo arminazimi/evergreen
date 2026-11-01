@@ -166,19 +166,19 @@ test("serverless.yml junk, oversize, and overlong runtime values return nothing"
 
 test("reads Lambda, Azure function app, and Google function runtimes from *.tf", async () => {
   assert.deepEqual(parseTf(await fixture("positive", "main.tf")), [
-    { value: "nodejs14.x", line: 3 },
+    { value: "nodejs14.x", line: 3, platform: "aws" },
     { value: "14", line: 13 },
     { value: "3.1", line: 23 },
-    { value: "nodejs14", line: 30 },
-    { value: "python38", line: 38 },
+    { value: "nodejs14", line: 30, platform: "gcp" },
+    { value: "python38", line: 38, platform: "gcp" },
   ]);
 });
 
 test("returns supported Terraform runtimes too; the registry decides what is a finding", async () => {
   assert.deepEqual(parseTf(await fixture("zero", "main.tf")), [
-    { value: "nodejs26.x", line: 3 },
+    { value: "nodejs26.x", line: 3, platform: "aws" },
     { value: "22", line: 13 },
-    { value: "python313", line: 23 },
+    { value: "python313", line: 23, platform: "gcp" },
   ]);
 });
 
@@ -219,7 +219,7 @@ test("ignores a nested runtime inside an environment block even when a top-level
   }
 }
 `),
-    [{ value: "nodejs22.x", line: 2 }],
+    [{ value: "nodejs22.x", line: 2, platform: "aws" }],
   );
 });
 
@@ -233,7 +233,7 @@ it's a function
 EOF
 }
 `),
-    [{ value: "nodejs14.x", line: 3 }],
+    [{ value: "nodejs14.x", line: 3, platform: "aws" }],
   );
 });
 
@@ -260,7 +260,7 @@ test("Terraform results are deterministic and use 1-based value lines", () => {
   const input = 'resource "aws_lambda_function" "api" {\n  runtime = "nodejs14.x"\n}\n';
   const result = parseTf(input);
   assert.deepEqual(parseTf(input), result);
-  assert.deepEqual(result, [{ value: "nodejs14.x", line: 2 }]);
+  assert.deepEqual(result, [{ value: "nodejs14.x", line: 2, platform: "aws" }]);
 });
 
 test("Terraform junk, oversize, and overlong runtime values return nothing", () => {

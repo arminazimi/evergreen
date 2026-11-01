@@ -1,8 +1,12 @@
 ---
 title: "RDS for MySQL 5.7 is past end of standard support — dates, impact, migration"
 description: "AWS ended standard support for RDS for MySQL 5.7 on 2024-02-29. RDS Extended Support may keep it running for a fee through 2029-06-30. Upgrade to MySQL 8.0 or later."
+layout: doc
+permalink: "/rules/database.aws-rds-mysql.end-of-support-5.7.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.aws-rds-mysql.end-of-support-5.7.html"
 image: "/assets/og/database.aws-rds-mysql.end-of-support-5.7.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/database.aws-rds-mysql.end-of-support-5.7.json"
 ---
 

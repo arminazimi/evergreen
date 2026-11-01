@@ -1,8 +1,12 @@
 ---
 title: "pep8 was renamed to pycodestyle — dates, impact, migration"
 description: "The maintainers renamed the pep8 project to pycodestyle to reduce confusion."
+layout: doc
+permalink: "/rules/python.package.pep8.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html"
 image: "/assets/og/python.package.pep8.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.pep8.deprecated.json"
 ---
 

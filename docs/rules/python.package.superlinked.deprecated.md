@@ -1,8 +1,12 @@
 ---
 title: "superlinked is deprecated for new projects — dates, impact, migration"
 description: "Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk."
+layout: doc
+permalink: "/rules/python.package.superlinked.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html"
 image: "/assets/og/python.package.superlinked.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.superlinked.deprecated.json"
 ---
 

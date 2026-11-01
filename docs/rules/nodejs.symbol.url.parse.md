@@ -1,8 +1,12 @@
 ---
 title: "url.parse is deprecated — dates, impact, migration"
 description: "Node.js deprecates url.parse() because its behavior is not standardized and error-prone with security implications (DEP0169): documentation-only since v19.0.0 and v18.13.0, application runtime…"
+layout: doc
+permalink: "/rules/nodejs.symbol.url.parse.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html"
 image: "/assets/og/nodejs.symbol.url.parse.svg"
+review_date: "2026-10-21"
+last_modified_at: "2026-10-21"
 json_twin: "/rules/nodejs.symbol.url.parse.json"
 ---
 

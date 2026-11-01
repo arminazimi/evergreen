@@ -1,8 +1,12 @@
 ---
 title: "Unsupported actions/setup-go runtime — dates, impact, migration"
 description: "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Version 6.0.0 and 6.1.0 still declare node20; version 6.2.0 and later declare node24."
+layout: doc
+permalink: "/rules/github-actions.setup-go.node20.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.setup-go.node20.html"
 image: "/assets/og/github-actions.setup-go.node20.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/github-actions.setup-go.node20.json"
 ---
 

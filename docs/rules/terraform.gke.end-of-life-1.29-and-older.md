@@ -1,8 +1,12 @@
 ---
 title: "GKE 1.29 and earlier are no longer supported — dates, impact, migration"
 description: "The GKE release schedule states that GKE 1.29 and earlier have reached end of support and are no longer supported."
+layout: doc
+permalink: "/rules/terraform.gke.end-of-life-1.29-and-older.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-life-1.29-and-older.html"
 image: "/assets/og/terraform.gke.end-of-life-1.29-and-older.svg"
+review_date: "2026-10-26"
+last_modified_at: "2026-10-26"
 json_twin: "/rules/terraform.gke.end-of-life-1.29-and-older.json"
 ---
 

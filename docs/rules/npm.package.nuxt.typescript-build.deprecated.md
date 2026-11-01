@@ -1,8 +1,12 @@
 ---
 title: "@nuxt/typescript-build is deprecated — dates, impact, migration"
 description: "npm marks @nuxt/typescript-build as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\""
+layout: doc
+permalink: "/rules/npm.package.nuxt.typescript-build.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html"
 image: "/assets/og/npm.package.nuxt.typescript-build.deprecated.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/npm.package.nuxt.typescript-build.deprecated.json"
 ---
 

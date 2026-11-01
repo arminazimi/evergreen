@@ -1,8 +1,12 @@
 ---
 title: "vsdeband is deprecated — dates, impact, migration"
 description: "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package."
+layout: doc
+permalink: "/rules/python.package.vsdeband.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html"
 image: "/assets/og/python.package.vsdeband.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.vsdeband.deprecated.json"
 ---
 

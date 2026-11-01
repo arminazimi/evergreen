@@ -1,8 +1,12 @@
 ---
 title: "asyncio-requests is retired — dates, impact, migration"
 description: "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name."
+layout: doc
+permalink: "/rules/python.package.asyncio-requests.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html"
 image: "/assets/og/python.package.asyncio-requests.deprecated.svg"
+review_date: "2026-10-16"
+last_modified_at: "2026-10-16"
 json_twin: "/rules/python.package.asyncio-requests.deprecated.json"
 ---
 

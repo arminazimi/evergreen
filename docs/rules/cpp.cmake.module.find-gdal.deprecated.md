@@ -1,8 +1,12 @@
 ---
 title: "The FindGDAL module is deprecated — dates, impact, migration"
 description: "CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CMake package configuration file. Projects should call find_package(GDAL CONFIG) instead."
+layout: doc
+permalink: "/rules/cpp.cmake.module.find-gdal.deprecated.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html"
 image: "/assets/og/cpp.cmake.module.find-gdal.deprecated.svg"
+review_date: "2026-10-19"
+last_modified_at: "2026-10-19"
 json_twin: "/rules/cpp.cmake.module.find-gdal.deprecated.json"
 ---
 

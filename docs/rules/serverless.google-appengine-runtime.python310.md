@@ -1,8 +1,12 @@
 ---
 title: "App Engine Python 3.10 runtime is past end of support — dates, impact, migration"
 description: "The App Engine standard environment runtime support schedule lists Python 3.10 (runtime ID python310) with end of support on 2026-10-04 and deprecation on 2027-10-01."
+layout: doc
+permalink: "/rules/serverless.google-appengine-runtime.python310.html"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.python310.html"
 image: "/assets/og/serverless.google-appengine-runtime.python310.svg"
+review_date: "2026-10-30"
+last_modified_at: "2026-10-30"
 json_twin: "/rules/serverless.google-appengine-runtime.python310.json"
 ---
 
