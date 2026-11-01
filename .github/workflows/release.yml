@@ -114,6 +114,18 @@ jobs:
         run: |
           npm ci
           npm run build:action --silent
+      - name: Run the bundle the tag will ship
+        # ncc can emit extra chunks beside index.js, so the whole directory is shipped and exercised here:
+        # a tag whose Action cannot scan is worse than no tag at all.
+        if: steps.release.outputs.create == 'true'
+        shell: bash
+        env:
+          INPUT_PATH: tests/fixtures/smoke
+          INPUT_FAIL-ON-SEVERITY: none
+          GITHUB_STEP_SUMMARY: ${{ runner.temp }}/action-summary.md
+        run: |
+          node dist/action/index.js | tee "$RUNNER_TEMP/action-output.txt"
+          grep -E "Evergreen found [0-9]+ new lifecycle finding" "$RUNNER_TEMP/action-output.txt"
       - name: Commit the bundle on the release branch
         if: steps.release.outputs.create == 'true'
         env:
