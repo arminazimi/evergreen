@@ -163,3 +163,11 @@ test("reads a bun.lock descriptor with an npm: alias on the version", async () =
 
   assert.deepEqual(findings[0]?.dependencyPath, expectedPath);
 });
+
+test("a bun.lock that is not a lockfile resolves nothing and does not fail the scan", async () => {
+  for (const contents of ["{ not json", "null", "42", "{}", '{"packages":1}', '{"packages":{"request":["request@2.88.2"]}}']) {
+    const root = await repository({ "package.json": JSON.stringify({ dependencies: { request: "^2.88.0" } }), "bun.lock": contents });
+    const findings = await new NpmDetector().scan({ root });
+    assert.ok(findings.some((finding) => finding.ruleId.includes("request")), `request is still reported for ${contents}`);
+  }
+});
