@@ -294,3 +294,23 @@ test("engines.node fixtures: concrete EOL pin is reported; lookalikes are not", 
     [],
   );
 });
+
+test("a workspace package.json that is not a JSON object is skipped and the other packages are still scanned", async () => {
+  for (const hostile of ["null", "[]", "42", '"text"']) {
+    const root = await repository({
+      "package.json": JSON.stringify({ private: true, workspaces: ["packages/*"] }),
+      "packages/bad/package.json": hostile,
+      "packages/good/package.json": JSON.stringify({ engines: { node: ">=14" } }),
+    });
+    const findings = await new NpmDetector().scan({ root });
+    assert.ok(
+      findings.some((finding) => finding.location.path === "packages/good/package.json"),
+      `the good workspace is still reported next to ${hostile}`,
+    );
+  }
+});
+
+test("a root package.json that is not a JSON object is an error, like malformed JSON", async () => {
+  const root = await repository({ "package.json": "null" });
+  await assert.rejects(new NpmDetector().scan({ root }), /package\.json must contain a JSON object/);
+});
