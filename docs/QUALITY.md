@@ -254,9 +254,9 @@ Every entry has `owner` (an issue number as `#<n>`), `expires` (on or before **2
 checker refuses an entry that lacks one of them.
 
 **Editing rules.** An entry is removed or tightened, never raised or added to pass a change. Changing a ceiling
-upward is a new debt decision and belongs in its own reviewed pull request with a new owner issue. The allowlist
-file is generated from the checker's own measurement at the time of the change; re-run the measurement rather
-than typing numbers.
+upward is a new debt decision and belongs in its own reviewed pull request with a new owner issue.
+When `npm run check:quality` says an entry is now N, set that number; the checker prints the value it measured, so no
+number is typed from memory. An entry is never added by hand to make a change pass.
 
 ## Follow-up work
 
