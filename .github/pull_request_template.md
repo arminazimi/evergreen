@@ -3,11 +3,15 @@ Closes #
 ## What changed
 <!-- One or two sentences per change. Keep the PR to one issue. -->
 
-## Verification
-<!-- Commands you ran and what they showed. -->
-- [ ] `npm run check` passes, including the quality bar: new debt fails, and existing debt is only allowlisted with an expiry (AGENTS.md, Quality bar)
+## Quality bar
+Read [docs/QUALITY.md](../docs/QUALITY.md) before you change code, data, or docs. CI enforces its eight criteria: add no new debt, and allowlist existing debt only with an expiry.
+
+## Checks CI cannot make
 - [ ] Tests added or updated for changed behavior
 - [ ] Changelog fragment added in `changes/` for user-visible changes (not for docs, test, ci, chore, build, refactor, or style)
+
+## Verification
+<!-- Commands you ran beyond `npm run check`, and what they showed. -->
 
 ## Evidence (rule and registry changes only)
 <!-- Link the authoritative source for every lifecycle rule you added or changed. Delete this section otherwise. -->
