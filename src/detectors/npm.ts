@@ -580,7 +580,9 @@ export class NpmDetector implements Detector {
       if (!contents) return;
       let manifest: PackageManifest;
       try {
-        manifest = JSON.parse(contents) as PackageManifest;
+        const parsed: unknown = JSON.parse(contents);
+        if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) throw new SyntaxError("package.json must contain a JSON object");
+        manifest = parsed as PackageManifest;
       } catch (error) {
         // A malformed root manifest has always been an error; a malformed workspace manifest is skipped so one bad package does not hide the rest.
         if (directory === "") throw error;
