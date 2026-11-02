@@ -15,6 +15,7 @@ import {
   parseAudit,
   readRepository,
   renderFindings,
+  renderReport,
   type Allowlist,
   type FileMeasure,
   type QualityInput,
@@ -28,7 +29,7 @@ const EMPTY: Allowlist = {
   fileSize: [],
   complexity: [],
   asUnknownAs: [],
-  nonNull: null,
+  nonNull: [],
   boundaries: [],
   audit: [],
 };
@@ -226,6 +227,123 @@ test("explicit any, @ts-ignore, and new as unknown as fail; non-null assertions 
   assert.ok(findings.some((message) => /non-null assertions and no allowlist entry/.test(message)));
 });
 
+test("non-null assertions are a ceiling per file: a matching entry passes and a raised one fails", () => {
+  const twice = "const a = b!;\nconst c = d!;\n";
+  const matches = evaluateQuality(
+    input({
+      files: withFillers(fileWith("src/a.ts", twice)),
+      allowlist: { ...EMPTY, nonNull: [{ ...DEBT, file: "src/a.ts", count: 2 }] },
+    }),
+  );
+  assert.deepEqual(matches, []);
+
+  const raised = evaluateQuality(
+    input({
+      files: withFillers(fileWith("src/a.ts", twice)),
+      allowlist: { ...EMPTY, nonNull: [{ ...DEBT, file: "src/a.ts", count: 1 }] },
+    }),
+  );
+  assert.match(raised.map((finding) => finding.message).join("\n"), /grew from 1 to 2/);
+});
+
+test("a pull request that removes non-null assertions lowers only that file's entry", () => {
+  const files = withFillers(fileWith("src/a.ts", "const a = b!;\n"), fileWith("src/b.ts", "const c = d!;\n"));
+  const untightened = evaluateQuality(
+    input({
+      files,
+      allowlist: {
+        ...EMPTY,
+        nonNull: [
+          { ...DEBT, file: "src/a.ts", count: 2 },
+          { ...DEBT, file: "src/b.ts", count: 1 },
+        ],
+      },
+    }),
+  );
+  assert.match(untightened.map((finding) => finding.message).join("\n"), /is now 1; set this entry to 1/);
+
+  const tightened = evaluateQuality(
+    input({
+      files,
+      allowlist: {
+        ...EMPTY,
+        nonNull: [
+          { ...DEBT, file: "src/a.ts", count: 1 },
+          { ...DEBT, file: "src/b.ts", count: 1 },
+        ],
+      },
+    }),
+  );
+  assert.deepEqual(tightened, []);
+});
+
+test("a new file with non-null assertions fails, and a stale or missing non-null entry fails", () => {
+  const added = evaluateQuality(input({ files: withFillers(fileWith("src/new.ts", "const a = b!;\n")) }));
+  assert.match(added.map((finding) => finding.message).join("\n"), /1 non-null assertions and no allowlist entry/);
+
+  const stale = evaluateQuality(
+    input({
+      files: withFillers(fileWith("src/clean.ts", "export const a = 1;\n")),
+      allowlist: { ...EMPTY, nonNull: [{ ...DEBT, file: "src/clean.ts", count: 1 }] },
+    }),
+  );
+  assert.match(stale.map((finding) => finding.message).join("\n"), /no non-null assertions remain; remove this allowlist entry/);
+
+  const missing = evaluateQuality(
+    input({
+      files: withFillers(),
+      allowlist: { ...EMPTY, nonNull: [{ ...DEBT, file: "src/gone.ts", count: 1 }] },
+    }),
+  );
+  assert.match(missing.map((finding) => finding.message).join("\n"), /the file no longer exists/);
+});
+
+test("non-null entries are one per file with a whole-number count; the old single total is refused", () => {
+  const { allowlist, problems } = parseAllowlist({
+    schemaVersion: ALLOWLIST_SCHEMA,
+    nonNull: [{ file: "src/a.ts", count: 1.5, owner: "#2223", expires: MAX_EXPIRY, reason: "x" }, { count: 1, owner: "#2223", expires: MAX_EXPIRY, reason: "x" }],
+  });
+  const messages = problems.map((problem) => problem.message).join("\n");
+  assert.match(messages, /count must be a whole number/);
+  assert.match(messages, /file must be a non-empty string/);
+  assert.equal(allowlist.nonNull[0]?.file, "src/a.ts");
+
+  const single = parseAllowlist({
+    schemaVersion: ALLOWLIST_SCHEMA,
+    nonNull: { count: 589, owner: "#2223", expires: MAX_EXPIRY, reason: "x" },
+  });
+  assert.equal(single.problems[0]?.location, "nonNull");
+  assert.match(single.problems[0]?.message ?? "", /must be an array of objects/);
+});
+
+test("the report totals each section and splits complexity and non-null by directory, largest first", () => {
+  const text = renderReport({
+    ...EMPTY,
+    complexity: [
+      { ...DEBT, file: "src/a.ts", function: "f", complexity: 16 },
+      { ...DEBT, file: "src/commands/b.ts", function: "g", complexity: 17 },
+      { ...DEBT, file: "src/commands/c.ts", function: "h", complexity: 18 },
+    ],
+    nonNull: [
+      { ...DEBT, file: "src/a.ts", count: 3 },
+      { ...DEBT, file: "src/fix/x.ts", count: 10 },
+    ],
+  });
+  assert.match(text, /^complexity +3 +functions over 15$/m);
+  assert.match(text, /^non-null +13 +non-null assertions$/m);
+  assert.match(text, /^  src\/commands +2$/m);
+  assert.match(text, /^  src +1$/m);
+  assert.ok(text.search(/^  src\/commands /m) < text.search(/^  src +1$/m), "the larger directory comes first");
+  assert.ok(text.search(/^  src\/fix /m) < text.search(/^  src +3$/m), "the larger non-null directory comes first");
+  assert.equal(renderReport({ ...EMPTY }).includes("complexity by directory (functions over 15)\n\n"), true);
+});
+
+test("the report prints the committed allowlist's non-null total", async () => {
+  const repository = await readRepository(ROOT, TODAY);
+  const total = repository.allowlist.nonNull.reduce((sum, entry) => sum + entry.count, 0);
+  assert.match(renderReport(repository.allowlist), new RegExp(`^non-null +${total} `, "m"));
+});
+
 test("a registry file that is not JSON fails the boundary rule", () => {
   const findings = evaluateQuality(input({ registryNonJson: ["registry/evil.js"] }));
   assert.equal(findings[0]?.location, "registry/evil.js");
@@ -282,6 +400,7 @@ test("only hand-written src files are measured", () => {
 test("arguments are parsed and unknown ones are refused", () => {
   assert.deepEqual(parseArguments(["--today", "2026-11-02"]), { today: "2026-11-02" });
   assert.deepEqual(parseArguments(["--audit", "audit.json"]).audit, "audit.json");
+  assert.equal(parseArguments(["--report"]).report, true);
   assert.throws(() => parseArguments(["--nope"]), /unknown argument/);
 });
 

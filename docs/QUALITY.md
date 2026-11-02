@@ -52,6 +52,7 @@ Before is `origin/main` measured by the same checker; after is this pull request
 | 6 | Mutation score | Break at 60, high at 80, on the mutated core | nightly `mutation.yml` (not in `npm run check`) | not measured since `break` is `null` | unchanged | Not gated yet; condition below |
 | 7 | Docs | Generated indexes, pages, LLM index, data API, and site build agree; links and accessibility clean | `npm run check`, the `check:*` steps in `ci.yml` | generated checks pass; site links report-only | generated checks now all gate CI; links report-only | Partly enforced |
 | 8 | Security | No high or critical advisory; no moderate or low advisory without an allowlist entry; runtime audit clean; Scorecard ≥6.0 | `npm audit` steps in `ci.yml`; `scorecard-floor.yml` (weekly) | runtime 0; root lockfile 5 medium, 2 low; Scorecard 4.8 | same advisories, allowlisted by id; floor alert added | Enforced; Scorecard alert fails until ≥6.0 |
+| 9 | Remaining debt | Every allowlist entry is at its measured value and expires by 2027-01-26 | remaining debt: run `npm run check:quality -- --report` | 191 functions over 15; 589 non-null in 140 files | same totals, per directory in the report | Report only |
 
 ## 1. File size
 
@@ -91,13 +92,14 @@ number a reviewer may point to in the follow-up.
 - Zero explicit `any` and zero `@ts-ignore` / `@ts-expect-error` in hand-written `src/`. These fail with no
   allowlist: a new one is never acceptable.
 - `as unknown as` may not grow. Each file that has one is allowlisted at its count.
-- Non-null assertions (`x!`) may not grow. The allowlist holds one ceiling for all of `src/`.
+- Non-null assertions (`x!`) may not grow. Each file that has one has its own allowlist entry at its count, so a
+  file's count can only fall, and a new file with an assertion fails.
 - `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, `noUnusedLocals`, and
   `noUnusedParameters` are on in [tsconfig.json](../tsconfig.json).
 
 **Enforced by.** `npm run build` (the compiler, with every flag above) and `npm run check:quality` for the counts.
 
-**Current.** 0 explicit `any`, 0 `@ts-ignore`, **9** `as unknown as` in 6 files, **589** non-null assertions. The
+**Current.** 0 explicit `any`, 0 `@ts-ignore`, **9** `as unknown as` in 6 files, **589** non-null assertions in 140 files. The
 three unused and override flags were off before this change; enabling them fixed 38 mechanical errors (unused
 imports, locals, and parameters), with no behavior change.
 
@@ -246,12 +248,26 @@ down. Its sections match the checks:
 | `fileSize` | file | lines |
 | `complexity` | file and function name | complexity |
 | `asUnknownAs` | file | count |
-| `nonNull` | all of `src/` | count |
+| `nonNull` | file | count |
 | `boundaries` | file and rule | count |
 | `audit` | advisory id | none; listed advisories only, medium or low |
 
 Every entry has `owner` (an issue number as `#<n>`), `expires` (on or before **2027-01-26**), and `reason`. The
-checker refuses an entry that lacks one of them.
+checker refuses an entry that lacks one of them. The allowlist schema is `evergreen.quality-allowlist.v2`; `nonNull`
+became a list of per-file entries in v2 and was one total in v1.
+
+## Remaining debt
+
+`npm run check:quality -- --report` prints the debt each allowlist section still carries, without checking anything
+and always exiting 0. It reads only the repository and the allowlist, with no network access, and its output is the
+same on every run:
+
+- one line per section: file size (files over 800 lines), complexity (functions over 15), `as unknown as` (files),
+  non-null (assertions), boundaries (violations), and audit (advisories);
+- complexity and non-null split by directory, largest first, with ties sorted by name.
+
+The numbers are the allowlist's own ceilings. The check keeps each ceiling equal to the measured value, so the report
+matches the code while the check passes.
 
 **Editing rules.** An entry is removed or tightened, never raised or added to pass a change. Changing a ceiling
 upward is a new debt decision and belongs in its own reviewed pull request with a new owner issue.

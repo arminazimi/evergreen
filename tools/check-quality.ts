@@ -1,6 +1,9 @@
 // Enforces the measurable quality bar in docs/QUALITY.md, on every `npm run check`.
 //
-//   node dist/tools/check-quality.js [--today YYYY-MM-DD] [--audit <npm-audit.json>]
+//   node dist/tools/check-quality.js [--today YYYY-MM-DD] [--audit <npm-audit.json>] [--report]
+//
+// `--report` prints the remaining debt per section, and per directory for complexity and non-null, from the
+// allowlist. It checks nothing and always exits 0.
 //
 // The hand-written sources are parsed with the TypeScript compiler API. Nothing is type-checked and no
 // repository code runs. Each measured number is compared with benchmarks/quality-allowlist.json:
@@ -21,7 +24,7 @@ import { pathToFileURL } from "node:url";
 import ts from "typescript";
 
 export const ALLOWLIST_PATH = "benchmarks/quality-allowlist.json";
-export const ALLOWLIST_SCHEMA = "evergreen.quality-allowlist.v1";
+export const ALLOWLIST_SCHEMA = "evergreen.quality-allowlist.v2";
 /** The end of the v0.8.0 phase in docs/ROADMAP.md. No entry may run past it. */
 export const MAX_EXPIRY = "2027-01-26";
 
@@ -105,6 +108,7 @@ export interface BoundaryEntry extends AllowEntry {
 }
 
 export interface NonNullEntry extends AllowEntry {
+  file: string;
   count: number;
 }
 
@@ -118,7 +122,7 @@ export interface Allowlist {
   fileSize: FileSizeEntry[];
   complexity: ComplexityEntry[];
   asUnknownAs: AsUnknownAsEntry[];
-  nonNull: NonNullEntry | null;
+  nonNull: NonNullEntry[];
   boundaries: BoundaryEntry[];
   audit: AuditEntry[];
 }
@@ -351,8 +355,9 @@ const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const OWNER = /^#\d+$/;
 
 /** Fields every entry of a list must carry, and whether each is a number or a string. */
-const REQUIRED_FIELDS: Readonly<Record<keyof Omit<Allowlist, "schemaVersion" | "nonNull">, Readonly<Record<string, "string" | "count">>>> = {
+const REQUIRED_FIELDS: Readonly<Record<keyof Omit<Allowlist, "schemaVersion">, Readonly<Record<string, "string" | "count">>>> = {
   fileSize: { file: "string", lines: "count" },
+  nonNull: { file: "string", count: "count" },
   complexity: { file: "string", function: "string", complexity: "count" },
   asUnknownAs: { file: "string", count: "count" },
   boundaries: { file: "string", rule: "string", count: "count" },
@@ -361,7 +366,7 @@ const REQUIRED_FIELDS: Readonly<Record<keyof Omit<Allowlist, "schemaVersion" | "
 
 function validateEntry(list: string, entry: Record<string, unknown>, problems: Finding[]): void {
   const where = `${list}: ${JSON.stringify(entry.file ?? entry.function ?? entry.advisory ?? entry.rule ?? "")}`;
-  const fields = list === "nonNull" ? { count: "count" as const } : REQUIRED_FIELDS[list as keyof typeof REQUIRED_FIELDS];
+  const fields = REQUIRED_FIELDS[list as keyof typeof REQUIRED_FIELDS];
   for (const [field, kind] of Object.entries(fields)) {
     const value = entry[field];
     const valid = kind === "count" ? Number.isInteger(value) && (value as number) >= 0 : typeof value === "string" && value !== "";
@@ -394,7 +399,7 @@ export function parseAllowlist(raw: unknown): { allowlist: Allowlist; problems: 
     fileSize: [],
     complexity: [],
     asUnknownAs: [],
-    nonNull: null,
+    nonNull: [],
     boundaries: [],
     audit: [],
   };
@@ -415,17 +420,13 @@ export function parseAllowlist(raw: unknown): { allowlist: Allowlist; problems: 
     fileSize: rows("fileSize"),
     complexity: rows("complexity"),
     asUnknownAs: rows("asUnknownAs"),
+    nonNull: rows("nonNull"),
     boundaries: rows("boundaries"),
     audit: rows("audit"),
   };
-  const nonNullRaw = raw.nonNull;
-  const nonNullRows = nonNullRaw === undefined || nonNullRaw === null ? [] : [isRecord(nonNullRaw) ? nonNullRaw : {}];
   for (const [list, entries] of Object.entries(lists)) {
     for (const entry of entries) validateEntry(list, entry, problems);
   }
-  for (const entry of nonNullRows) validateEntry("nonNull", entry, problems);
-  const first = nonNullRows[0];
-  const nonNull: NonNullEntry | null = first ? { ...details(first), count: numberOf(first, "count") } : null;
   return {
     allowlist: {
       schemaVersion: ALLOWLIST_SCHEMA,
@@ -437,7 +438,7 @@ export function parseAllowlist(raw: unknown): { allowlist: Allowlist; problems: 
         complexity: numberOf(entry, "complexity"),
       })),
       asUnknownAs: lists.asUnknownAs.map((entry) => ({ ...details(entry), file: textOf(entry, "file"), count: numberOf(entry, "count") })),
-      nonNull,
+      nonNull: lists.nonNull.map((entry) => ({ ...details(entry), file: textOf(entry, "file"), count: numberOf(entry, "count") })),
       boundaries: lists.boundaries.map((entry) => ({
         ...details(entry),
         file: textOf(entry, "file"),
@@ -611,14 +612,23 @@ export function evaluateQuality(input: QualityInput): Finding[] {
       findings.push({ check: "type-safety", location: entry.file, message: "the file no longer exists; remove this allowlist entry" });
     }
   }
-  const nonNullTotal = files.reduce((sum, file) => sum + file.nonNull, 0);
-  if (allowlist.nonNull) {
-    const expired = expiredFinding("type-safety", "non-null assertions", allowlist.nonNull.expires, today);
-    if (expired) findings.push(expired);
-    const finding = compareCount("type-safety", "non-null assertions (src/**)", nonNullTotal, allowlist.nonNull.count, "non-null assertions");
-    if (finding) findings.push(finding);
-  } else if (nonNullTotal > 0) {
-    findings.push({ check: "type-safety", location: "src/**", message: `${nonNullTotal} non-null assertions and no allowlist entry; this count may not grow` });
+  const nonNullEntries = new Map(allowlist.nonNull.map((entry) => [entry.file, entry]));
+  for (const file of files) {
+    const entry = nonNullEntries.get(file.path);
+    if (file.nonNull > 0 && !entry) {
+      findings.push({ check: "type-safety", location: file.path, message: `${file.nonNull} non-null assertions and no allowlist entry; this count may not grow` });
+    }
+    if (entry) {
+      const expired = expiredFinding("type-safety", file.path, entry.expires, today);
+      if (expired) findings.push(expired);
+      const finding = compareCount("type-safety", file.path, file.nonNull, entry.count, "non-null assertions");
+      if (finding) findings.push(finding);
+    }
+  }
+  for (const entry of allowlist.nonNull) {
+    if (!files.some((file) => file.path === entry.file)) {
+      findings.push({ check: "type-safety", location: entry.file, message: "the file no longer exists; remove this allowlist entry" });
+    }
   }
 
   // Boundaries.
@@ -730,8 +740,55 @@ export function renderFindings(findings: readonly Finding[]): string {
   return `${lines.join("\n")}\n\n${findings.length} quality finding(s). See docs/QUALITY.md; a failing check blocks the pull request.\n`;
 }
 
-export function parseArguments(argv: readonly string[]): { today: string; audit?: string } {
-  const options: { today: string; audit?: string } = { today: isoToday() };
+/** A table of `label  value  unit` rows, with the labels and values aligned. Empty input gives no lines. */
+function formatTable(rows: readonly (readonly [label: string, value: number, unit: string])[]): string[] {
+  if (rows.length === 0) return [];
+  const labelWidth = Math.max(...rows.map(([label]) => label.length));
+  const valueWidth = Math.max(...rows.map(([, value]) => String(value).length));
+  return rows.map(([label, value, unit]) => `${label.padEnd(labelWidth)}  ${String(value).padStart(valueWidth)}  ${unit}`.trimEnd());
+}
+
+/** Sums one number per file into its directory, largest first; ties sort by name so the output is stable. */
+function directoryTotals(entries: readonly (readonly [file: string, size: number])[]): [label: string, value: number, unit: string][] {
+  const totals = new Map<string, number>();
+  for (const [file, size] of entries) {
+    const directory = posix.dirname(file);
+    totals.set(directory, (totals.get(directory) ?? 0) + size);
+  }
+  return [...totals]
+    .sort(([a, sizeA], [b, sizeB]) => sizeB - sizeA || (a < b ? -1 : a > b ? 1 : 0))
+    .map(([directory, size]) => [directory, size, ""]);
+}
+
+/** The debt each allowlist section still carries. Counts come from the allowlist, which the check keeps equal to the measured values. */
+export function renderReport(allowlist: Allowlist): string {
+  const sum = (values: readonly number[]): number => values.reduce((total, value) => total + value, 0);
+  const sections: [label: string, value: number, unit: string][] = [
+    ["file size", allowlist.fileSize.length, "files over 800 lines"],
+    ["complexity", allowlist.complexity.length, "functions over 15"],
+    ["as unknown as", allowlist.asUnknownAs.length, "files"],
+    ["non-null", sum(allowlist.nonNull.map((entry) => entry.count)), "non-null assertions"],
+    ["boundaries", sum(allowlist.boundaries.map((entry) => entry.count)), "boundary violations"],
+    ["audit", allowlist.audit.length, "advisories"],
+  ];
+  const complexityByDirectory = directoryTotals(allowlist.complexity.map((entry) => [entry.file, 1]));
+  const nonNullByDirectory = directoryTotals(allowlist.nonNull.map((entry) => [entry.file, entry.count]));
+  const lines = [
+    `remaining debt, from ${ALLOWLIST_PATH}`,
+    "",
+    ...formatTable(sections),
+    "",
+    "complexity by directory (functions over 15)",
+    ...formatTable(complexityByDirectory).map((line) => `  ${line}`),
+    "",
+    "non-null by directory (assertions)",
+    ...formatTable(nonNullByDirectory).map((line) => `  ${line}`),
+  ];
+  return `${lines.join("\n")}\n`;
+}
+
+export function parseArguments(argv: readonly string[]): { today: string; audit?: string; report?: boolean } {
+  const options: { today: string; audit?: string; report?: boolean } = { today: isoToday() };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--today") options.today = argv[++index] ?? options.today;
@@ -739,7 +796,8 @@ export function parseArguments(argv: readonly string[]): { today: string; audit?
       const path = argv[++index];
       if (path === undefined) throw new Error("--audit needs a file path");
       options.audit = path;
-    } else throw new Error(`unknown argument: ${arg}`);
+    } else if (arg === "--report") options.report = true;
+    else throw new Error(`unknown argument: ${arg}`);
   }
   return options;
 }
@@ -748,12 +806,16 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   try {
     const options = parseArguments(process.argv.slice(2));
     const input = await readRepository(process.cwd(), options.today, options.audit);
-    const findings = evaluateQuality(input);
-    if (findings.length > 0) {
-      process.stderr.write(renderFindings(findings));
-      process.exitCode = 1;
+    if (options.report) {
+      process.stdout.write(renderReport(input.allowlist));
     } else {
-      process.stdout.write(`quality: ${input.files.length} files, all targets hold\n`);
+      const findings = evaluateQuality(input);
+      if (findings.length > 0) {
+        process.stderr.write(renderFindings(findings));
+        process.exitCode = 1;
+      } else {
+        process.stdout.write(`quality: ${input.files.length} files, all targets hold\n`);
+      }
     }
   } catch (error) {
     process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);

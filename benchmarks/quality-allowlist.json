@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "evergreen.quality-allowlist.v1",
+  "schemaVersion": "evergreen.quality-allowlist.v2",
   "note": "Existing debt only. Each entry is a ceiling: it may shrink (tighten it) or be removed, never raised or added. Entries expire on the date shown; see docs/QUALITY.md.",
   "fileSize": [
     {
@@ -1591,12 +1591,988 @@
       "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
     }
   ],
-  "nonNull": {
-    "count": 589,
-    "owner": "#2223",
-    "expires": "2027-01-26",
-    "reason": "Measured 2026-11-02. Existing non-null assertions across src/**; the total may not grow and falls as the follow-up removes them."
-  },
+  "nonNull": [
+    {
+      "file": "src/action-tracking-issue.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/agent-hooks/claude-code.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/agent-hooks/command.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/badge.ts",
+      "count": 9,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/baseline.ts",
+      "count": 5,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/check-dependency.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/cle-ingest.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/codeowners.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/badge.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/check-snippet.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/check.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/glance.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/lookup.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/new-rule.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/rules.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/runtime.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/sbom.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/commands/status-card.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/countdown.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/data-source.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/dependabot-config.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/android/gradle-scan.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/android/parse-build-gradle.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/android/parse-libs-versions-toml.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/android/parse-settings-gradle.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/ci-images/index.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/container/index.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/container/parse-devcontainer.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/container/parse-dockerfile.ts",
+      "count": 6,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/container/parse-image.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/cpp/parse-cmakelists.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/cpp/parse-conan.ts",
+      "count": 7,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/dart/parse-pubspec-lock.ts",
+      "count": 13,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/dart/parse-pubspec.ts",
+      "count": 11,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/database/parse-terraform.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/dotnet/index.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/dotnet/msbuild-xml.ts",
+      "count": 15,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/dotnet/parse-msbuild.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/elixir/parse-elixir-runtime.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/elixir/parse-mix-exs.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/elixir/parse-mix-lock.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/go/index.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/go/parse-go-work.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/java/index.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/java/parse-catalog.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/java/parse-gradle.ts",
+      "count": 16,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/java/parse-pins.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/java/parse-wrapper.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/java/xml.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/kubernetes/index.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/kubernetes/parse-helm.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/npm.ts",
+      "count": 11,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/php/parse-php-runtime.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/python.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/ruby/parse-gemfile-lock.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/ruby/parse-gemfile.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/ruby/parse-gemspec.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/ruby/parse-ruby-runtime.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/rust/index.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/rust/parse-cargo-toml.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/rust/parse-rust-toolchain.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/rust/toml-lines.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/scala/parse-build-properties.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/scala/parse-build-sbt.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/scala/parse-scala-version.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/serverless/parse-tf.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/shell/parse-powershell.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/swift/parse-package-swift.ts",
+      "count": 5,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/swift/parse-xcode-project.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/terraform/hcl.ts",
+      "count": 9,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/terraform/index.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/terraform/kubernetes.ts",
+      "count": 5,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/terraform/parse-terraform.ts",
+      "count": 15,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/detectors/terraform/plan.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/doctor.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/command.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/dotnet.ts",
+      "count": 7,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/go.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/java.ts",
+      "count": 7,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/nodejs.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/php.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/python.ts",
+      "count": 16,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/ruby.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/rust.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/drift/terraform.ts",
+      "count": 6,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/engine.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/export/cle.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/codemods/dockerfile-legacy.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/codemods/node-buffer.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/codemods/node-renames.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/codemods/node-util-is.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-imp.ts",
+      "count": 6,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-renames.ts",
+      "count": 6,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-utcnow.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/codemods/terraform-legacy.ts",
+      "count": 5,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/dockerfile.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/github-actions.ts",
+      "count": 5,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/go-mod.ts",
+      "count": 6,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/java.ts",
+      "count": 6,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/kubernetes.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/python.ts",
+      "count": 15,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/fix/runtime-pins.ts",
+      "count": 8,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/forecast-svg.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/forecast.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/github-action.ts",
+      "count": 7,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/glance.ts",
+      "count": 5,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/guard.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/inventory/command.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/inventory/gcp.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/lookup.ts",
+      "count": 7,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/mcp.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/mermaid.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/package-files.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/plan-waves.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/renovate-preset.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/reporters.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/rollup.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/rule-lint.ts",
+      "count": 9,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/sbom/cyclonedx.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/sbom/input.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/sbom/spdx.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/source-usage.ts",
+      "count": 53,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/status-card.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/treemap.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/tui.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/upgrade/command.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/upgrade/composer-lock.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/upgrade/go-modules.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/upgrade/node-apis.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/upgrade/pep440.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/upgrade/pnpm-lock.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/upgrade/python-stdlib.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/usage/javascript.ts",
+      "count": 6,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/usage/python.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/usage/tree-sitter.ts",
+      "count": 2,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/vers.ts",
+      "count": 10,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/vers/maven.ts",
+      "count": 4,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/vers/nuget.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/vers/pep440.ts",
+      "count": 3,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    },
+    {
+      "file": "src/workspaces.ts",
+      "count": 1,
+      "owner": "#2223",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
+    }
+  ],
   "boundaries": [
     {
       "file": "src/github-action.ts",
