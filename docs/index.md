@@ -10,6 +10,12 @@ Evergreen finds the runtimes, packages, and GitHub Actions in a repository that 
 npx evergreen-deprecation scan .
 ```
 
+For coding agents, install the Agent Skill with one command. It teaches your agent to find, explain, and migrate these findings, and it is listed on [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation):
+
+```bash
+npx skills add arminazimi/evergreen
+```
+
 Node.js 22 or newer. Start with [Install](INSTALL.md) (npm, Action, MCP, plugins, Docker, Homebrew), then the [90-second demo](DEMO.md) on a deliberately outdated project:
 
 ```text

@@ -78,6 +78,12 @@ Requirements: Node.js 22 or newer.
 npx evergreen-deprecation scan .
 ```
 
+For coding agents, install the Agent Skill with one command. It teaches your agent to find, explain, and migrate these findings, and it is listed on [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation):
+
+```bash
+npx skills add arminazimi/evergreen
+```
+
 Give an agent a short answer instead of the full report: one line per finding with its id, location, severity, and replacement, most severe first, capped at 25 findings (the rest are counted) and under 8 KiB:
 
 ```bash

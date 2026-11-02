@@ -7,6 +7,12 @@ description: One page for every Evergreen install channel — npm, Action, MCP, 
 
 Pick the channel you already use. Every surface runs the same CLI, so a scan gives the same findings wherever it runs. Channel status and listings are in [Distribution status](DISTRIBUTION.md).
 
+Coding agent? One command installs the Agent Skill, which teaches it to find, explain, and migrate findings. It is listed on [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation):
+
+```bash
+npx skills add arminazimi/evergreen
+```
+
 ## npm
 
 Needs Node.js 22 or newer. No global install required:
