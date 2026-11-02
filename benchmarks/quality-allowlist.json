@@ -5,14 +5,14 @@
     {
       "file": "src/reporters.ts",
       "lines": 911,
-      "owner": "#2041",
+      "owner": "#2227",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Over the 800-line limit; split it in the file-size follow-up."
     },
     {
       "file": "src/source-usage.ts",
       "lines": 1983,
-      "owner": "#2041",
+      "owner": "#2224",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Over the 1,000-line ceiling; split it in the file-size follow-up."
     }
@@ -22,7 +22,7 @@
       "file": "src/action-commands.ts",
       "function": "parseCommentCommand",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2272",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -30,7 +30,7 @@
       "file": "src/action.ts",
       "function": "main",
       "complexity": 94,
-      "owner": "#2041",
+      "owner": "#2272",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -38,7 +38,7 @@
       "file": "src/check-dependency.ts",
       "function": "checkAgainst",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2272",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -46,7 +46,7 @@
       "file": "src/cle-ingest.ts",
       "function": "clePackages > walkNodeModules",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2272",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -54,7 +54,7 @@
       "file": "src/cle-ingest.ts",
       "function": "parseCleDocument",
       "complexity": 28,
-      "owner": "#2041",
+      "owner": "#2272",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -62,7 +62,7 @@
       "file": "src/commands/badge.ts",
       "function": "run",
       "complexity": 23,
-      "owner": "#2041",
+      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -70,7 +70,7 @@
       "file": "src/commands/forecast.ts",
       "function": "run > <anonymous>",
       "complexity": 25,
-      "owner": "#2041",
+      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -78,7 +78,7 @@
       "file": "src/commands/glance.ts",
       "function": "run",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -86,7 +86,7 @@
       "file": "src/commands/init.ts",
       "function": "runInit",
       "complexity": 77,
-      "owner": "#2041",
+      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -94,7 +94,7 @@
       "file": "src/commands/plan.ts",
       "function": "run > <anonymous>",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -102,7 +102,7 @@
       "file": "src/commands/receipt.ts",
       "function": "scanFindingProblem",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -110,7 +110,7 @@
       "file": "src/commands/runtime.ts",
       "function": "prepare",
       "complexity": 33,
-      "owner": "#2041",
+      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -118,7 +118,7 @@
       "file": "src/commands/runtime.ts",
       "function": "repositoryPhase",
       "complexity": 29,
-      "owner": "#2041",
+      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -126,7 +126,7 @@
       "file": "src/commands/runtime.ts",
       "function": "runScanFamily",
       "complexity": 77,
-      "owner": "#2041",
+      "owner": "#2254",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -134,7 +134,7 @@
       "file": "src/commands/runtime.ts",
       "function": "sharedGates",
       "complexity": 61,
-      "owner": "#2041",
+      "owner": "#2254",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -142,7 +142,7 @@
       "file": "src/commands/setup.ts",
       "function": "run",
       "complexity": 27,
-      "owner": "#2041",
+      "owner": "#2254",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -150,7 +150,7 @@
       "file": "src/commands/watch.ts",
       "function": "run > <anonymous>",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2254",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -158,7 +158,7 @@
       "file": "src/config.ts",
       "function": "validateConfig",
       "complexity": 38,
-      "owner": "#2041",
+      "owner": "#2272",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -166,7 +166,7 @@
       "file": "src/data-bundle.ts",
       "function": "dataBundleShapeProblems",
       "complexity": 27,
-      "owner": "#2041",
+      "owner": "#2272",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -174,7 +174,7 @@
       "file": "src/data-update.ts",
       "function": "updateData",
       "complexity": 26,
-      "owner": "#2041",
+      "owner": "#2272",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -182,7 +182,7 @@
       "file": "src/detectors/android/gradle-scan.ts",
       "function": "maskGradleSource",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2256",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -190,7 +190,7 @@
       "file": "src/detectors/android/parse-build-gradle.ts",
       "function": "readLiteral",
       "complexity": 46,
-      "owner": "#2041",
+      "owner": "#2256",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -198,7 +198,7 @@
       "file": "src/detectors/android/parse-libs-versions-toml.ts",
       "function": "parseAndroidLibsVersionsToml",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2256",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -206,7 +206,7 @@
       "file": "src/detectors/android/parse-settings-gradle.ts",
       "function": "readPluginPin",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2256",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -214,7 +214,7 @@
       "file": "src/detectors/ci-images/index.ts",
       "function": "CiImagesDetector.analyze",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2256",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -222,7 +222,7 @@
       "file": "src/detectors/container/index.ts",
       "function": "ContainerDetector.analyze",
       "complexity": 33,
-      "owner": "#2041",
+      "owner": "#2256",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -230,7 +230,7 @@
       "file": "src/detectors/container/index.ts",
       "function": "rootfsFindings",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2257",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -238,7 +238,7 @@
       "file": "src/detectors/container/parse-devcontainer.ts",
       "function": "stripJsoncComments",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2257",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -246,7 +246,7 @@
       "file": "src/detectors/container/parse-image.ts",
       "function": "parseImageReference",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2257",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -254,7 +254,7 @@
       "file": "src/detectors/container/rootfs.ts",
       "function": "parseOsRelease",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2257",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -262,7 +262,7 @@
       "file": "src/detectors/container/rootfs.ts",
       "function": "readArchive",
       "complexity": 33,
-      "owner": "#2041",
+      "owner": "#2257",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -270,7 +270,7 @@
       "file": "src/detectors/container/rootfs.ts",
       "function": "runtimeEvidence",
       "complexity": 38,
-      "owner": "#2041",
+      "owner": "#2257",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -278,7 +278,7 @@
       "file": "src/detectors/cpp/parse-cmakelists.ts",
       "function": "readCommands",
       "complexity": 31,
-      "owner": "#2041",
+      "owner": "#2257",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -286,7 +286,7 @@
       "file": "src/detectors/cpp/parse-conan.ts",
       "function": "parseConanfilePy",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2258",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -294,7 +294,7 @@
       "file": "src/detectors/cpp/parse-conan.ts",
       "function": "scanPythonLine",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2258",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -302,7 +302,7 @@
       "file": "src/detectors/dart/index.ts",
       "function": "DartDetector.analyze",
       "complexity": 27,
-      "owner": "#2041",
+      "owner": "#2258",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -310,7 +310,7 @@
       "file": "src/detectors/dart/parse-pubspec-lock.ts",
       "function": "parsePubspecLock",
       "complexity": 34,
-      "owner": "#2041",
+      "owner": "#2258",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -318,7 +318,7 @@
       "file": "src/detectors/dart/parse-pubspec.ts",
       "function": "parsePubspec",
       "complexity": 32,
-      "owner": "#2041",
+      "owner": "#2258",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -326,7 +326,7 @@
       "file": "src/detectors/database/parse-terraform.ts",
       "function": "parseDatabaseTerraform",
       "complexity": 32,
-      "owner": "#2041",
+      "owner": "#2258",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -334,7 +334,7 @@
       "file": "src/detectors/dotnet/index.ts",
       "function": "DotnetDetector.analyze",
       "complexity": 33,
-      "owner": "#2041",
+      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -342,7 +342,7 @@
       "file": "src/detectors/dotnet/msbuild-xml.ts",
       "function": "readXml",
       "complexity": 33,
-      "owner": "#2041",
+      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -350,7 +350,7 @@
       "file": "src/detectors/dotnet/parse-msbuild.ts",
       "function": "parseMsbuild",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -358,7 +358,7 @@
       "file": "src/detectors/elixir/index.ts",
       "function": "ElixirDetector.analyze",
       "complexity": 23,
-      "owner": "#2041",
+      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -366,7 +366,7 @@
       "file": "src/detectors/github-actions-node.ts",
       "function": "setupNodeVersions",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2255",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -374,7 +374,7 @@
       "file": "src/detectors/github-actions.ts",
       "function": "GitHubActionsDetector.analyze",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2255",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -382,7 +382,7 @@
       "file": "src/detectors/go/parse-go-mod.ts",
       "function": "parseGoMod",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -390,7 +390,7 @@
       "file": "src/detectors/go/parse-go-work.ts",
       "function": "parseGoWork",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -398,7 +398,7 @@
       "file": "src/detectors/java/index.ts",
       "function": "JavaDetector.analyze",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -406,7 +406,7 @@
       "file": "src/detectors/java/parse-catalog.ts",
       "function": "parseCatalog",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -414,7 +414,7 @@
       "file": "src/detectors/java/parse-gradle.ts",
       "function": "parseGradle",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2260",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -422,7 +422,7 @@
       "file": "src/detectors/java/parse-gradle.ts",
       "function": "scan",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2260",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -430,7 +430,7 @@
       "file": "src/detectors/java/xml.ts",
       "function": "parseXml",
       "complexity": 32,
-      "owner": "#2041",
+      "owner": "#2260",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -438,7 +438,7 @@
       "file": "src/detectors/json-lines.ts",
       "function": "readJsonLines > readValue",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2255",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -446,7 +446,7 @@
       "file": "src/detectors/json-lines.ts",
       "function": "readJsonLines > skip",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2255",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -454,7 +454,7 @@
       "file": "src/detectors/kubernetes/index.ts",
       "function": "candidateFiles > walk",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2260",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -462,7 +462,7 @@
       "file": "src/detectors/kubernetes/index.ts",
       "function": "KubernetesDetector.analyze",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2260",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -470,7 +470,7 @@
       "file": "src/detectors/kubernetes/parse-helm.ts",
       "function": "maskActions",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2260",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -478,7 +478,7 @@
       "file": "src/detectors/kubernetes/parse-helm.ts",
       "function": "parseChart",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2260",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -486,7 +486,7 @@
       "file": "src/detectors/kubernetes/parse-kustomize.ts",
       "function": "parseKustomization",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2260",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -494,7 +494,7 @@
       "file": "src/detectors/npm.ts",
       "function": "NpmDetector.analyze",
       "complexity": 41,
-      "owner": "#2041",
+      "owner": "#2255",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -502,7 +502,7 @@
       "file": "src/detectors/npm.ts",
       "function": "stripJsonc",
       "complexity": 40,
-      "owner": "#2041",
+      "owner": "#2255",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -510,7 +510,7 @@
       "file": "src/detectors/php/index.ts",
       "function": "PhpDetector.analyze",
       "complexity": 31,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -518,7 +518,7 @@
       "file": "src/detectors/python.ts",
       "function": "collectIniRuntime",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2255",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -526,7 +526,7 @@
       "file": "src/detectors/python.ts",
       "function": "PythonDetector.scan",
       "complexity": 37,
-      "owner": "#2041",
+      "owner": "#2256",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -534,7 +534,7 @@
       "file": "src/detectors/ruby/index.ts",
       "function": "RubyDetector.analyze",
       "complexity": 29,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -542,7 +542,7 @@
       "file": "src/detectors/ruby/parse-gemfile-lock.ts",
       "function": "parseGemfileLock",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -550,7 +550,7 @@
       "file": "src/detectors/rust/index.ts",
       "function": "RustDetector.analyze",
       "complexity": 28,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -558,7 +558,7 @@
       "file": "src/detectors/rust/parse-cargo-toml.ts",
       "function": "parseCargoToml",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -566,7 +566,7 @@
       "file": "src/detectors/rust/toml-lines.ts",
       "function": "readTomlLines",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -574,7 +574,7 @@
       "file": "src/detectors/serverless/parse-template.ts",
       "function": "parseTemplate",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -582,7 +582,7 @@
       "file": "src/detectors/serverless/parse-tf.ts",
       "function": "maskHcl",
       "complexity": 23,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -590,7 +590,7 @@
       "file": "src/detectors/serverless/parse-tf.ts",
       "function": "parseTf",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -598,7 +598,7 @@
       "file": "src/detectors/shell/parse-powershell.ts",
       "function": "parsePowerShell",
       "complexity": 71,
-      "owner": "#2041",
+      "owner": "#2262",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -606,7 +606,7 @@
       "file": "src/detectors/shell/parse-workflow.ts",
       "function": "parseWorkflow",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2262",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -614,7 +614,7 @@
       "file": "src/detectors/swift/index.ts",
       "function": "SwiftDetector.analyze",
       "complexity": 34,
-      "owner": "#2041",
+      "owner": "#2262",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -622,7 +622,7 @@
       "file": "src/detectors/swift/parse-package-swift.ts",
       "function": "blankStringsAndLineComments",
       "complexity": 26,
-      "owner": "#2041",
+      "owner": "#2262",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -630,7 +630,7 @@
       "file": "src/detectors/swift/parse-package-swift.ts",
       "function": "packageFromCall",
       "complexity": 23,
-      "owner": "#2041",
+      "owner": "#2262",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -638,7 +638,7 @@
       "file": "src/detectors/swift/parse-package-swift.ts",
       "function": "stripBlockComments",
       "complexity": 32,
-      "owner": "#2041",
+      "owner": "#2262",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -646,7 +646,7 @@
       "file": "src/detectors/swift/parse-xcode-project.ts",
       "function": "projectObjects",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2262",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -654,7 +654,7 @@
       "file": "src/detectors/terraform/hcl.ts",
       "function": "attributeValues > <anonymous>",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -662,7 +662,7 @@
       "file": "src/detectors/terraform/hcl.ts",
       "function": "maskHcl",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -670,7 +670,7 @@
       "file": "src/detectors/terraform/index.ts",
       "function": "TerraformDetector.analyze",
       "complexity": 50,
-      "owner": "#2041",
+      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -678,7 +678,7 @@
       "file": "src/detectors/terraform/kubernetes.ts",
       "function": "parseManagedKubernetes",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -686,7 +686,7 @@
       "file": "src/detectors/terraform/parse-terraform.ts",
       "function": "readCode",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -694,7 +694,7 @@
       "file": "src/detectors/terraform/parse-terraform.ts",
       "function": "scanCall",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -702,7 +702,7 @@
       "file": "src/detectors/terraform/parse-terraform.ts",
       "function": "stringContext",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -710,7 +710,7 @@
       "file": "src/detectors/terraform/plan.ts",
       "function": "collectResourcesFromModule",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -718,7 +718,7 @@
       "file": "src/detectors/terraform/plan.ts",
       "function": "parseTerraformPlanJson",
       "complexity": 44,
-      "owner": "#2041",
+      "owner": "#2264",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -726,7 +726,7 @@
       "file": "src/drift/command.ts",
       "function": "renderAlign",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -734,7 +734,7 @@
       "file": "src/drift/dotnet.ts",
       "function": "align",
       "complexity": 25,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -742,7 +742,7 @@
       "file": "src/drift/dotnet.ts",
       "function": "repositoryFiles > visit",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -750,7 +750,7 @@
       "file": "src/drift/go.ts",
       "function": "align",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -758,7 +758,7 @@
       "file": "src/drift/go.ts",
       "function": "collect",
       "complexity": 25,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -766,7 +766,7 @@
       "file": "src/drift/go.ts",
       "function": "repositoryFiles > walk",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -774,7 +774,7 @@
       "file": "src/drift/go.ts",
       "function": "workflowPins",
       "complexity": 26,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -782,7 +782,7 @@
       "file": "src/drift/java.ts",
       "function": "align",
       "complexity": 26,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -790,7 +790,7 @@
       "file": "src/drift/java.ts",
       "function": "collect",
       "complexity": 38,
-      "owner": "#2041",
+      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -798,7 +798,7 @@
       "file": "src/drift/java.ts",
       "function": "setupJavaVersions",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -806,7 +806,7 @@
       "file": "src/drift/php.ts",
       "function": "align",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -814,7 +814,7 @@
       "file": "src/drift/php.ts",
       "function": "setupPhpVersions",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -822,7 +822,7 @@
       "file": "src/drift/python.ts",
       "function": "collect",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -830,7 +830,7 @@
       "file": "src/drift/python.ts",
       "function": "collectAlignable",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -838,7 +838,7 @@
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
       "complexity": 36,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -846,7 +846,7 @@
       "file": "src/drift/python.ts",
       "function": "setupPythonVersions",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -854,7 +854,7 @@
       "file": "src/drift/ruby.ts",
       "function": "align",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -862,7 +862,7 @@
       "file": "src/drift/ruby.ts",
       "function": "setupRubyVersions",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -870,7 +870,7 @@
       "file": "src/drift/rust.ts",
       "function": "align",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -878,7 +878,7 @@
       "file": "src/drift/rust.ts",
       "function": "collect",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -886,7 +886,7 @@
       "file": "src/drift/rust.ts",
       "function": "repositoryFiles > walk",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -894,7 +894,7 @@
       "file": "src/drift/rust.ts",
       "function": "workflowPins",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -902,7 +902,7 @@
       "file": "src/drift/terraform.ts",
       "function": "align",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -910,7 +910,7 @@
       "file": "src/drift/terraform.ts",
       "function": "collect",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -918,7 +918,7 @@
       "file": "src/drift/terraform.ts",
       "function": "repositoryFiles > walk",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -926,7 +926,7 @@
       "file": "src/drift/terraform.ts",
       "function": "requiredVersionPin",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -934,7 +934,7 @@
       "file": "src/drift/terraform.ts",
       "function": "workflowPins",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -942,7 +942,7 @@
       "file": "src/engine.ts",
       "function": "scanRepository",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -950,7 +950,7 @@
       "file": "src/engine.ts",
       "function": "scanRepository > <anonymous>",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -958,7 +958,7 @@
       "file": "src/fix/codemods/dockerfile-legacy.ts",
       "function": "plan",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -966,7 +966,7 @@
       "file": "src/fix/codemods/index.ts",
       "function": "plan",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -974,7 +974,7 @@
       "file": "src/fix/codemods/node-buffer.ts",
       "function": "classify",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -982,7 +982,7 @@
       "file": "src/fix/codemods/node-renames.ts",
       "function": "plan",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -990,7 +990,7 @@
       "file": "src/fix/codemods/node-util-is.ts",
       "function": "durableReference",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -998,7 +998,7 @@
       "file": "src/fix/codemods/node-util-is.ts",
       "function": "plan",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1006,7 +1006,7 @@
       "file": "src/fix/codemods/node-util-is.ts",
       "function": "rewriteFor",
       "complexity": 26,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1014,7 +1014,7 @@
       "file": "src/fix/codemods/node-util-is.ts",
       "function": "utilBindings",
       "complexity": 30,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1022,7 +1022,7 @@
       "file": "src/fix/codemods/python-imp.ts",
       "function": "plan",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1030,7 +1030,7 @@
       "file": "src/fix/codemods/python-renames.ts",
       "function": "plan",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1038,7 +1038,7 @@
       "file": "src/fix/codemods/python-renames.ts",
       "function": "targetsFor",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1046,7 +1046,7 @@
       "file": "src/fix/codemods/python-renames.ts",
       "function": "unittestBindings",
       "complexity": 23,
-      "owner": "#2041",
+      "owner": "#2270",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1054,7 +1054,7 @@
       "file": "src/fix/codemods/python-utcnow.ts",
       "function": "bindsTimezoneOutsideDatetimeImports",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2270",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1062,7 +1062,7 @@
       "file": "src/fix/codemods/python-utcnow.ts",
       "function": "inspectDatetimeImports",
       "complexity": 28,
-      "owner": "#2041",
+      "owner": "#2270",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1070,7 +1070,7 @@
       "file": "src/fix/codemods/python-utcnow.ts",
       "function": "plan",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2270",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1078,7 +1078,7 @@
       "file": "src/fix/codemods/python-utcnow.ts",
       "function": "rewriteFor",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2270",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1086,7 +1086,7 @@
       "file": "src/fix/codemods/terraform-legacy.ts",
       "function": "plan",
       "complexity": 26,
-      "owner": "#2041",
+      "owner": "#2270",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1094,7 +1094,7 @@
       "file": "src/fix/dockerfile.ts",
       "function": "plan",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1102,7 +1102,7 @@
       "file": "src/fix/github-actions.ts",
       "function": "plan",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1110,7 +1110,7 @@
       "file": "src/fix/go-mod.ts",
       "function": "plan",
       "complexity": 25,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1118,7 +1118,7 @@
       "file": "src/fix/java.ts",
       "function": "plan",
       "complexity": 23,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1126,7 +1126,7 @@
       "file": "src/fix/kubernetes.ts",
       "function": "plan",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1134,7 +1134,7 @@
       "file": "src/fix/python.ts",
       "function": "plan",
       "complexity": 36,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1142,7 +1142,7 @@
       "file": "src/fix/runtime-pins.ts",
       "function": "plan",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1150,7 +1150,7 @@
       "file": "src/github-action.ts",
       "function": "renderSummary",
       "complexity": 34,
-      "owner": "#2041",
+      "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1158,7 +1158,7 @@
       "file": "src/github-action.ts",
       "function": "runGitHubAction",
       "complexity": 34,
-      "owner": "#2041",
+      "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1166,7 +1166,7 @@
       "file": "src/glance.ts",
       "function": "renderGlance",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1174,7 +1174,7 @@
       "file": "src/guard.ts",
       "function": "splitNpmSpec",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1182,7 +1182,7 @@
       "file": "src/init-personal.ts",
       "function": "initPersonal",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1190,7 +1190,7 @@
       "file": "src/inventory/k8s-cluster.ts",
       "function": "nodeItems > <anonymous>",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2271",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1198,7 +1198,7 @@
       "file": "src/lsp.ts",
       "function": "EvergreenLanguageServer.dispatch",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1206,7 +1206,7 @@
       "file": "src/migration-packet.ts",
       "function": "planUpgradePath",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2274",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1214,7 +1214,7 @@
       "file": "src/migration-packet.ts",
       "function": "validateMigrationPacket",
       "complexity": 31,
-      "owner": "#2041",
+      "owner": "#2274",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1222,7 +1222,7 @@
       "file": "src/purl.ts",
       "function": "parsePurl",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2274",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1230,7 +1230,7 @@
       "file": "src/registry.ts",
       "function": "ruleIssues",
       "complexity": 58,
-      "owner": "#2041",
+      "owner": "#2274",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1238,7 +1238,7 @@
       "file": "src/renovate-preset.ts",
       "function": "buildRenovatePreset",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2274",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1246,7 +1246,7 @@
       "file": "src/reporters.ts",
       "function": "renderText",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2274",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1254,7 +1254,7 @@
       "file": "src/rule-lint.ts",
       "function": "structuralProblemOffset",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2274",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1262,7 +1262,7 @@
       "file": "src/sbom/cyclonedx.ts",
       "function": "enrichCycloneDx > component",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2277",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1270,7 +1270,7 @@
       "file": "src/sbom/input.ts",
       "function": "scanCycloneDx",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2277",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1278,7 +1278,7 @@
       "file": "src/sbom/input.ts",
       "function": "scanSpdx",
       "complexity": 24,
-      "owner": "#2041",
+      "owner": "#2277",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1286,7 +1286,7 @@
       "file": "src/sbom/spdx.ts",
       "function": "enrichSpdx",
       "complexity": 26,
-      "owner": "#2041",
+      "owner": "#2277",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1294,7 +1294,7 @@
       "file": "src/sdk.ts",
       "function": "isUsageMatcher",
       "complexity": 32,
-      "owner": "#2041",
+      "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1302,7 +1302,7 @@
       "file": "src/source-usage.ts",
       "function": "analyzeSourceUsage",
       "complexity": 97,
-      "owner": "#2041",
+      "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1310,7 +1310,7 @@
       "file": "src/source-usage.ts",
       "function": "javascriptImports",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1318,7 +1318,7 @@
       "file": "src/source-usage.ts",
       "function": "languageFor",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1326,7 +1326,7 @@
       "file": "src/source-usage.ts",
       "function": "maskCodeLine",
       "complexity": 131,
-      "owner": "#2041",
+      "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1334,7 +1334,7 @@
       "file": "src/source-usage.ts",
       "function": "moduleMatches",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1342,7 +1342,7 @@
       "file": "src/source-usage.ts",
       "function": "phpRequires",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1350,7 +1350,7 @@
       "file": "src/source-usage.ts",
       "function": "readRubyLiteral",
       "complexity": 35,
-      "owner": "#2041",
+      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1358,7 +1358,7 @@
       "file": "src/source-usage.ts",
       "function": "rubyInvocations",
       "complexity": 33,
-      "owner": "#2041",
+      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1366,7 +1366,7 @@
       "file": "src/source-usage.ts",
       "function": "rubyKeywordIsCall",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1374,7 +1374,7 @@
       "file": "src/source-usage.ts",
       "function": "rustImports",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1382,7 +1382,7 @@
       "file": "src/tui.ts",
       "function": "reduce",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1390,7 +1390,7 @@
       "file": "src/upgrade/composer-lock.ts",
       "function": "analyze",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1398,7 +1398,7 @@
       "file": "src/upgrade/composer-lock.ts",
       "function": "parseTerm",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1406,7 +1406,7 @@
       "file": "src/upgrade/dart-sdk.ts",
       "function": "compareVersions",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1414,7 +1414,7 @@
       "file": "src/upgrade/go-modules.ts",
       "function": "GoModulesAnalyzer.analyze",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1422,7 +1422,7 @@
       "file": "src/upgrade/pep440.ts",
       "function": "parseClause",
       "complexity": 26,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1430,7 +1430,7 @@
       "file": "src/upgrade/pnpm-lock.ts",
       "function": "readPackages",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1438,7 +1438,7 @@
       "file": "src/upgrade/poetry-lock.ts",
       "function": "PoetryLockAnalyzer.analyze",
       "complexity": 25,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1446,7 +1446,7 @@
       "file": "src/upgrade/uv-pdm-lock.ts",
       "function": "analyzePdmLock",
       "complexity": 21,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1454,7 +1454,7 @@
       "file": "src/upgrade/uv-pdm-lock.ts",
       "function": "analyzeUvLock",
       "complexity": 23,
-      "owner": "#2041",
+      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1462,7 +1462,7 @@
       "file": "src/upgrade/uv-pdm-lock.ts",
       "function": "evaluateEntry",
       "complexity": 30,
-      "owner": "#2041",
+      "owner": "#2279",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1470,7 +1470,7 @@
       "file": "src/upgrade/uv-pdm-lock.ts",
       "function": "evaluateMarker",
       "complexity": 18,
-      "owner": "#2041",
+      "owner": "#2279",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1478,7 +1478,7 @@
       "file": "src/usage/javascript.ts",
       "function": "analyzeJavaScriptFile",
       "complexity": 45,
-      "owner": "#2041",
+      "owner": "#2280",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1486,7 +1486,7 @@
       "file": "src/usage/javascript.ts",
       "function": "analyzeJavaScriptFile > occurrencesOf",
       "complexity": 19,
-      "owner": "#2041",
+      "owner": "#2280",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1494,7 +1494,7 @@
       "file": "src/usage/python.ts",
       "function": "analyzePythonFile",
       "complexity": 45,
-      "owner": "#2041",
+      "owner": "#2280",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1502,7 +1502,7 @@
       "file": "src/usage/symbols.ts",
       "function": "symbolUsages",
       "complexity": 20,
-      "owner": "#2041",
+      "owner": "#2280",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1510,7 +1510,7 @@
       "file": "src/vers.ts",
       "function": "parse",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1518,7 +1518,7 @@
       "file": "src/vers.ts",
       "function": "versContains",
       "complexity": 22,
-      "owner": "#2041",
+      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1526,7 +1526,7 @@
       "file": "src/vers/maven.ts",
       "function": "parse",
       "complexity": 23,
-      "owner": "#2041",
+      "owner": "#2281",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1534,7 +1534,7 @@
       "file": "src/vers/pep440.ts",
       "function": "compareLocal",
       "complexity": 17,
-      "owner": "#2041",
+      "owner": "#2281",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -1542,7 +1542,7 @@
       "file": "src/workspaces.ts",
       "function": "findDirectories > walk",
       "complexity": 16,
-      "owner": "#2041",
+      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     }
@@ -1551,49 +1551,49 @@
     {
       "file": "src/detectors/github-actions.ts",
       "count": 2,
-      "owner": "#2041",
+      "owner": "#2229",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
     },
     {
       "file": "src/detectors/java/parse-catalog.ts",
       "count": 2,
-      "owner": "#2041",
+      "owner": "#2229",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
     },
     {
       "file": "src/migration-packet.ts",
       "count": 1,
-      "owner": "#2041",
+      "owner": "#2229",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
     },
     {
       "file": "src/osv-advisories.ts",
       "count": 1,
-      "owner": "#2041",
+      "owner": "#2230",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
     },
     {
       "file": "src/registry.ts",
       "count": 1,
-      "owner": "#2041",
+      "owner": "#2230",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
     },
     {
       "file": "src/usage/tree-sitter.ts",
       "count": 2,
-      "owner": "#2041",
+      "owner": "#2230",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
     }
   ],
   "nonNull": {
     "count": 589,
-    "owner": "#2041",
+    "owner": "#2223",
     "expires": "2027-01-26",
     "reason": "Measured 2026-11-02. Existing non-null assertions across src/**; the total may not grow and falls as the follow-up removes them."
   },
@@ -1602,7 +1602,7 @@
       "file": "src/github-action.ts",
       "rule": "adapters-no-detectors",
       "count": 1,
-      "owner": "#2041",
+      "owner": "#2228",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Existing import of a detector from an adapter; move the logic into the engine or the detector."
     }
@@ -1611,35 +1611,35 @@
     {
       "advisory": "GHSA-333x-w4r6-6crp",
       "package": "fast-uri",
-      "owner": "#2041",
+      "owner": "#2231",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
     },
     {
       "advisory": "GHSA-g3hv-75wg-m249",
       "package": "minimatch",
-      "owner": "#2041",
+      "owner": "#2231",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Development-only dependency of minimatch; not shipped. Update it or drop it in the security follow-up."
     },
     {
       "advisory": "GHSA-w74x-v6f9-j3xg",
       "package": "fast-uri",
-      "owner": "#2041",
+      "owner": "#2231",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
     },
     {
       "advisory": "GHSA-wjr9-j795-jxcr",
       "package": "fast-uri",
-      "owner": "#2041",
+      "owner": "#2231",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
     },
     {
       "advisory": "GHSA-xhq7-xmqj-769h",
       "package": "fast-uri",
-      "owner": "#2041",
+      "owner": "#2231",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
     }
