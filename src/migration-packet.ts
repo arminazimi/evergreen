@@ -166,79 +166,143 @@ function isFinding(value: unknown): value is Finding {
   );
 }
 
-export function validateMigrationPacket(value: unknown): MigrationPacket {
-  if (!isRecord(value) || value.schemaVersion !== "evergreen.context.v1") {
-    throw new MigrationPacketValidationError("Unsupported migration packet schema.");
+function isStepTargets(value: unknown): value is MigrationStep["targets"] {
+  return value === "declaration" || value === "usages" || value === "all";
+}
+
+function isMigrationStep(value: unknown): value is MigrationStep {
+  return (
+    isRecord(value) &&
+    isNonEmptyString(value.id) &&
+    isNonEmptyString(value.title) &&
+    isNonEmptyString(value.instructions) &&
+    isStepTargets(value.targets) &&
+    Array.isArray(value.paths) &&
+    value.paths.length > 0 &&
+    value.paths.every(isNonEmptyString)
+  );
+}
+
+function isVerification(value: unknown): value is VerificationCommand {
+  return isRecord(value) && isNonEmptyString(value.command) && isNonEmptyString(value.purpose);
+}
+
+function stepsMatchAffectedFiles(steps: readonly MigrationStep[], affectedFiles: readonly string[]): boolean {
+  const stepIds = new Set<string>();
+  const affected = new Set(affectedFiles);
+  for (const step of steps) {
+    if (stepIds.has(step.id) || !step.paths.every((path) => affected.has(path))) return false;
+    stepIds.add(step.id);
   }
-  if (
-    !isNonEmptyString(value.generatedAt) ||
-    Number.isNaN(Date.parse(value.generatedAt)) ||
-    !isNonEmptyString(value.repositoryRoot) ||
-    !isFinding(value.finding)
-  ) {
-    throw new MigrationPacketValidationError("Invalid migration packet metadata or finding.");
+  return true;
+}
+
+function verificationCommandsUnique(verification: readonly VerificationCommand[]): boolean {
+  const commands = new Set<string>();
+  for (const item of verification) {
+    if (commands.has(item.command)) return false;
+    commands.add(item.command);
   }
-  if (
-    !Array.isArray(value.affectedFiles) ||
-    value.affectedFiles.length === 0 ||
-    !value.affectedFiles.every(isNonEmptyString) ||
-    new Set(value.affectedFiles).size !== value.affectedFiles.length ||
-    !Array.isArray(value.usages) ||
-    !value.usages.every(isUsage) ||
-    !Array.isArray(value.constraints) ||
-    value.constraints.length === 0 ||
-    !value.constraints.every(isNonEmptyString) ||
-    !Array.isArray(value.sources) ||
-    value.sources.length === 0 ||
-    !value.sources.every(isSource)
-  ) {
-    throw new MigrationPacketValidationError("Invalid migration packet scope or evidence.");
-  }
+  return true;
+}
+
+function hasPacketMetadata(
+  value: Record<string, unknown>,
+): value is Record<string, unknown> & { generatedAt: string; repositoryRoot: string; finding: Finding } {
+  return (
+    isNonEmptyString(value.generatedAt) &&
+    !Number.isNaN(Date.parse(value.generatedAt)) &&
+    isNonEmptyString(value.repositoryRoot) &&
+    isFinding(value.finding)
+  );
+}
+
+function hasPacketScope(value: Record<string, unknown>): value is Record<string, unknown> & {
+  affectedFiles: string[];
+  usages: SourceUsage[];
+  constraints: string[];
+  sources: EvidenceSource[];
+} {
+  return (
+    Array.isArray(value.affectedFiles) &&
+    value.affectedFiles.length > 0 &&
+    value.affectedFiles.every(isNonEmptyString) &&
+    new Set(value.affectedFiles).size === value.affectedFiles.length &&
+    Array.isArray(value.usages) &&
+    value.usages.every(isUsage) &&
+    Array.isArray(value.constraints) &&
+    value.constraints.length > 0 &&
+    value.constraints.every(isNonEmptyString) &&
+    Array.isArray(value.sources) &&
+    value.sources.length > 0 &&
+    value.sources.every(isSource)
+  );
+}
+
+function evidenceMatchesFinding(value: {
+  finding: Finding;
+  usages: SourceUsage[];
+  sources: EvidenceSource[];
+  affectedFiles: string[];
+}): boolean {
   const expectedFiles = [
     ...new Set([
       value.finding.location.path,
       ...value.usages.map((usage) => usage.location.path),
     ]),
   ].sort((left, right) => left.localeCompare(right));
-  if (
-    JSON.stringify(value.usages) !== JSON.stringify(value.finding.usages ?? []) ||
-    JSON.stringify(value.sources) !== JSON.stringify(value.finding.sources) ||
-    JSON.stringify(value.affectedFiles) !== JSON.stringify(expectedFiles)
-  ) {
+  return (
+    JSON.stringify(value.usages) === JSON.stringify(value.finding.usages ?? []) &&
+    JSON.stringify(value.sources) === JSON.stringify(value.finding.sources) &&
+    JSON.stringify(value.affectedFiles) === JSON.stringify(expectedFiles)
+  );
+}
+
+function hasPacketPlan(
+  value: Record<string, unknown>,
+  affectedFiles: readonly string[],
+): value is Record<string, unknown> & { steps: MigrationStep[]; verification: VerificationCommand[] } {
+  return (
+    Array.isArray(value.steps) &&
+    value.steps.length > 0 &&
+    value.steps.every(isMigrationStep) &&
+    stepsMatchAffectedFiles(value.steps, affectedFiles) &&
+    Array.isArray(value.verification) &&
+    value.verification.length > 0 &&
+    value.verification.every(isVerification) &&
+    verificationCommandsUnique(value.verification)
+  );
+}
+
+/**
+ * Marks a value as a MigrationPacket after the field guards above have accepted it.
+ * Keeps the caller's object identity (tests assert `validateMigrationPacket(packet) === packet`).
+ */
+function assertMigrationPacket(value: unknown): asserts value is MigrationPacket {
+  void value;
+}
+
+export function validateMigrationPacket(value: unknown): MigrationPacket {
+  if (!isRecord(value) || value.schemaVersion !== "evergreen.context.v1") {
+    throw new MigrationPacketValidationError("Unsupported migration packet schema.");
+  }
+  if (!hasPacketMetadata(value)) {
+    throw new MigrationPacketValidationError("Invalid migration packet metadata or finding.");
+  }
+  if (!hasPacketScope(value)) {
+    throw new MigrationPacketValidationError("Invalid migration packet scope or evidence.");
+  }
+  if (!evidenceMatchesFinding(value)) {
     throw new MigrationPacketValidationError("Migration packet evidence is inconsistent with its finding.");
   }
   if (value.upgradePath !== undefined && !isUpgradePath(value.upgradePath)) {
     throw new MigrationPacketValidationError("Invalid upgrade path.");
   }
-  const stepIds = new Set<string>();
-  const affected = new Set(value.affectedFiles);
-  const validStep = (step: unknown): boolean =>
-    isRecord(step) &&
-    [step.id, step.title, step.instructions].every(isNonEmptyString) &&
-    ["declaration", "usages", "all"].includes(step.targets as string) &&
-    !stepIds.has(step.id as string) &&
-    Array.isArray(step.paths) &&
-    step.paths.length > 0 &&
-    step.paths.every((path) => isNonEmptyString(path) && affected.has(path)) &&
-    Boolean(stepIds.add(step.id as string));
-  const commands = new Set<string>();
-  const validVerification = (verification: unknown): boolean =>
-    isRecord(verification) &&
-    isNonEmptyString(verification.command) &&
-    !commands.has(verification.command) &&
-    isNonEmptyString(verification.purpose) &&
-    Boolean(commands.add(verification.command));
-  if (
-    !Array.isArray(value.steps) ||
-    value.steps.length === 0 ||
-    !value.steps.every(validStep) ||
-    !Array.isArray(value.verification) ||
-    value.verification.length === 0 ||
-    !value.verification.every(validVerification)
-  ) {
+  if (!hasPacketPlan(value, value.affectedFiles)) {
     throw new MigrationPacketValidationError("Invalid migration steps or verification commands.");
   }
-  return value as unknown as MigrationPacket;
+  assertMigrationPacket(value);
+  return value;
 }
 
 function affectedFiles(finding: Finding): string[] {

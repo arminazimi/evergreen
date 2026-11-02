@@ -396,14 +396,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/detectors/java/parse-catalog.ts",
-      "function": "parseCatalog",
-      "complexity": 18,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/detectors/java/parse-gradle.ts",
       "function": "parseGradle",
       "complexity": 16,
@@ -1204,14 +1196,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/migration-packet.ts",
-      "function": "validateMigrationPacket",
-      "complexity": 31,
-      "owner": "#2274",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/purl.ts",
       "function": "parsePurl",
       "complexity": 17,
@@ -1533,27 +1517,6 @@
     }
   ],
   "asUnknownAs": [
-    {
-      "file": "src/detectors/github-actions.ts",
-      "count": 2,
-      "owner": "#2229",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
-    },
-    {
-      "file": "src/detectors/java/parse-catalog.ts",
-      "count": 2,
-      "owner": "#2229",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
-    },
-    {
-      "file": "src/migration-packet.ts",
-      "count": 1,
-      "owner": "#2229",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
-    },
     {
       "file": "src/osv-advisories.ts",
       "count": 1,

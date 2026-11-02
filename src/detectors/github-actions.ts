@@ -64,8 +64,10 @@ async function loadRegistry(): Promise<GitHubActionRule[]> {
     schemaVersion: "evergreen.github-actions-registry.v1",
     isRule: (value): value is GitHubActionRule =>
       isDeprecationRule(value) &&
-      typeof (value as unknown as Record<string, unknown>).action === "string" &&
-      typeof (value as unknown as Record<string, unknown>).supportedFromMajor === "number",
+      "action" in value &&
+      typeof value.action === "string" &&
+      "supportedFromMajor" in value &&
+      typeof value.supportedFromMajor === "number",
   });
   return [...registry.rules];
 }

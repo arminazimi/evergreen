@@ -14,6 +14,32 @@ export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 export const MAXIMUM_DECLARATIONS = 5000;
 
+function libraryDeclaration(
+  match: RegExpExecArray,
+  line: number,
+  versionFor: (third: string) => string | undefined,
+): DependencyDeclaration | undefined {
+  const group = match[1];
+  const name = match[2];
+  const third = match[3];
+  if (group === undefined || name === undefined || third === undefined) return undefined;
+  const version = versionFor(third);
+  if (version === undefined) return undefined;
+  return { kind: "dependency", group, artifact: name, version, line };
+}
+
+function tryPushLibrary(
+  found: DependencyDeclaration[],
+  match: RegExpExecArray | null,
+  line: number,
+  versionFor: (third: string) => string | undefined,
+): boolean {
+  if (!match) return false;
+  const declaration = libraryDeclaration(match, line, versionFor);
+  if (declaration && found.length < MAXIMUM_DECLARATIONS) found.push(declaration);
+  return true;
+}
+
 /** Parse a Gradle version catalog without file, network, or process I/O. */
 export function parseCatalog(contents: string): DependencyDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
@@ -66,13 +92,7 @@ export function parseCatalog(contents: string): DependencyDeclaration[] {
         /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\s*=\s*"([^"]+)"[^}]*\}/.exec(
           line,
         );
-      if (libInlineMatch) {
-        const [, group, name, version] = libInlineMatch as unknown as [string, string, string, string];
-        if (found.length < MAXIMUM_DECLARATIONS) {
-          found.push({ kind: "dependency", group, artifact: name, version, line: lineNumber });
-        }
-        continue;
-      }
+      if (tryPushLibrary(found, libInlineMatch, lineNumber, (version) => version)) continue;
 
       // Inline table with a version.ref:
       //   alias = { group = "...", name = "...", version.ref = "..." }
@@ -80,14 +100,7 @@ export function parseCatalog(contents: string): DependencyDeclaration[] {
         /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\.ref\s*=\s*"([^"]+)"[^}]*\}/.exec(
           line,
         );
-      if (libRefMatch) {
-        const [, group, name, ref] = libRefMatch as unknown as [string, string, string, string];
-        const version = versions.get(ref.toLowerCase());
-        if (version !== undefined && found.length < MAXIMUM_DECLARATIONS) {
-          found.push({ kind: "dependency", group, artifact: name, version, line: lineNumber });
-        }
-        continue;
-      }
+      tryPushLibrary(found, libRefMatch, lineNumber, (ref) => versions.get(ref.toLowerCase()));
     }
 
     return found.sort((left, right) => left.line - right.line);
