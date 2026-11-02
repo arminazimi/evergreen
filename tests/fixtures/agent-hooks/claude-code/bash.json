@@ -1,0 +1,17 @@
+{
+  "session_id": "2a7f6b19-0c84-4d3e-b571-9e40d8c2f6a8",
+  "transcript_path": "/Users/dev/.claude/projects/-Users-dev-app/2a7f6b19-0c84-4d3e-b571-9e40d8c2f6a8.jsonl",
+  "cwd": "/Users/dev/app",
+  "hook_event_name": "PostToolUse",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "npm test",
+    "description": "Run the test suite"
+  },
+  "tool_response": {
+    "stdout": "",
+    "stderr": "",
+    "interrupted": false,
+    "isImage": false
+  }
+}

@@ -408,7 +408,8 @@ test("ci-health runs weekly, writes the summary and metrics, and opens at most o
   const text = await readFile(resolve(".github/workflows/ci-health.yml"), "utf8");
   const workflow = parseYaml(text) as Workflow;
 
-  assert.deepEqual(Object.keys(workflow.on), ["schedule", "workflow_dispatch"]);
+  // The workflow_run trigger and the main-red job are covered by tests/main-red-alert.test.ts.
+  assert.deepEqual(Object.keys(workflow.on), ["workflow_run", "schedule", "workflow_dispatch"]);
   const schedule = workflow.on.schedule as Array<{ cron: string }>;
   assert.equal(schedule.length, 2);
   const weekly = schedule.find((entry) => /^\S+ \S+ \* \* [0-6]$/.test(entry.cron));

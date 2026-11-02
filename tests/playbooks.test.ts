@@ -5,13 +5,14 @@ import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 import { after, test } from "node:test";
 
+import { runCli } from "./cli-runner.js";
+
 // A playbook marks a runnable example with an HTML comment on the line before its bash fence:
 //   <!-- testable -->           every command must exit 0
 //   <!-- testable expect=1 -->  every command must exit 1 (for examples that show a gate failing)
 // Unmarked fences are prose, network calls, or snippets that need a checkout the test does not have.
 
 const root = resolve(import.meta.dirname, "../..");
-const cli = resolve(root, "dist/src/cli.js");
 const directory = resolve(root, "docs/playbooks");
 const marker = /^<!-- testable(?: expect=(\d+))? -->$/;
 
@@ -114,9 +115,9 @@ test("testable playbook examples run against a fixture repository", async () => 
       const [program, ...args] = shellWords(command);
       const where = `${relative(root, join(directory, block.file))}:${block.line}`;
       assert.equal(program, "evergreen", `${where}: mark only Evergreen commands as testable; found ${JSON.stringify(program)}`);
-      const result = spawnSync(process.execPath, [cli, ...args], { cwd: path, encoding: "utf8", timeout: 60_000 });
-      const output = `${result.stdout ?? ""}${result.stderr ?? ""}`.trim();
-      assert.equal(result.status, block.expected, `${where}: \`${command}\` exited ${result.status}, expected ${block.expected}\n${output}`);
+      const result = await runCli(args, { cwd: path });
+      const output = `${result.stdout}${result.stderr}`.trim();
+      assert.equal(result.code, block.expected, `${where}: \`${command}\` exited ${result.code}, expected ${block.expected}\n${output}`);
     }
   }
 });

@@ -7,6 +7,7 @@ import { pathToFileURL } from "node:url";
 
 import { validateRegistryV2 } from "../../src/registry.js";
 import type { RegistryV2Rule } from "../../src/registry.js";
+import { escapeTableCell } from "../markdown.js";
 import { diffDrafts, loadAcknowledged } from "./diff.js";
 import type { ChangedRule, DraftDiff } from "./diff.js";
 import type { DraftRegistry } from "./types.js";
@@ -17,7 +18,7 @@ export const MAX_BODY_CHARS = 60_000;
 const EM_DASH = "—";
 
 // Pipes would split a table row, even inside a code span, so every table cell goes through `cell`.
-const cell = (text: string) => text.replace(/\r?\n/g, " ").replace(/\|/g, "\\|").trim() || EM_DASH;
+const cell = (text: string) => escapeTableCell(text).trim() || EM_DASH;
 const code = (text: string) => `\`${text.replace(/`/g, "'")}\``;
 const show = (value: unknown) => (typeof value === "string" ? value : JSON.stringify(value));
 const IDENTITY_FIELDS = ["vers", "purl"];

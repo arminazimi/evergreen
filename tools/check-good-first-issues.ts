@@ -10,6 +10,8 @@
 import { writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
+import { escapeTableCell } from "./markdown.js";
+
 export interface Issue {
   number: number;
   title: string;
@@ -123,7 +125,7 @@ export function renderSummary(report: CheckReport): string {
     lines.push("|---|---|---|");
     for (const item of report.incomplete) {
       const link = item.url ? `[#${item.number}](${item.url})` : `#${item.number}`;
-      lines.push(`| ${link} | ${item.title.replace(/\|/g, "\\|")} | ${item.defects.join(", ")} |`);
+      lines.push(`| ${link} | ${escapeTableCell(item.title)} | ${item.defects.join(", ")} |`);
     }
     lines.push("");
   }

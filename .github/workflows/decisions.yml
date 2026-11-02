@@ -1,0 +1,49 @@
+name: Decisions
+
+# Flags a pull request that changes a public contract (schemas/, src/sdk.ts, src/mcp.ts) without a
+# new or changed decision record under docs/decisions/. Offline: it reads the checkout's git history.
+on:
+  pull_request:
+    paths:
+      - "schemas/**"
+      - "src/sdk.ts"
+      - "src/mcp.ts"
+      - "docs/decisions/**"
+      - "tools/check-decisions.ts"
+      - "tests/check-decisions.test.ts"
+      - ".github/workflows/decisions.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: decisions-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  decisions:
+    name: decisions (public contracts)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # The diff runs from the merge base with the base branch, which needs its history.
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Require a decision record for public contract changes
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$BASE_SHA"
+          node dist/tools/check-decisions.js --base "$BASE_SHA"

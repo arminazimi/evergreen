@@ -76,6 +76,16 @@ test("the evidence table has one row per added, changed, or removed rule, with t
   assert.match(body, /`pending-review` must not be merged/);
 });
 
+test("a source title with a backslash and a pipe cannot split a row", () => {
+  const { drafts, registry } = scenario();
+  drafts.rules[0]!.sources = [{ title: "A \\| B", url: "https://example.com/x" }];
+  const body = renderPullRequestBody(diffDrafts(drafts, registry), drafts);
+  // The backslash is doubled before the pipe is escaped, so the row keeps exactly five cells.
+  assert.ok(body.includes(String.raw`[A \\\| B](https://example.com/x)`), body);
+  const row = body.split("\n").find((line) => line.startsWith("| `nodejs.runtime.eol-18`"))!;
+  assert.equal(row.replace(/\\\|/g, "").split("|").length, 7, row);
+});
+
 test("a draft that duplicates an existing rule says which one", () => {
   const { drafts, registry } = scenario();
   const duplicate = { ...registry.rules.find((candidate) => candidate.id === "nodejs.runtime.eol-18")!, id: "nodejs.runtime.eol-18-renamed" };

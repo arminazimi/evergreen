@@ -47,6 +47,12 @@ test("renders Markdown with escaped cells and an empty message", () => {
   assert.match(renderMarkdown(buildCalendar([], "2026-10-16")), /None in the registry\./);
 });
 
+test("a backslash before a pipe cannot end a Markdown cell early", () => {
+  const text = renderMarkdown(buildCalendar([rule("a.soon", "2026-11-12", "A \\| B\nsecond line")], "2026-10-16"));
+  // The input backslash is doubled, the pipe escaped, and the line break flattened: `A \\\| B second line`.
+  assert.ok(text.includes(String.raw`A \\\| B second line`), text);
+});
+
 test("builds a weekly post from the days before today, without today", () => {
   const post = buildWeeklyPost([...rules, rule("a.eight", "2026-10-09"), rule("a.week", "2026-10-12")], "2026-10-16");
   assert.equal(post.since, "2026-10-09");
@@ -72,7 +78,7 @@ test("renders a deterministic iCalendar file with CRLF lines and all-day events"
   assert.equal(ics, renderIcs(buildCalendar([rule("a.soon", "2026-11-12", "Ends, soon; really")], "2026-10-16")));
   assert.ok(ics.startsWith("BEGIN:VCALENDAR\r\n") && ics.endsWith("END:VCALENDAR\r\n"));
   assert.match(ics, /DTSTART;VALUE=DATE:20261112\r\nDTEND;VALUE=DATE:20261113\r\n/);
-  assert.match(ics, /SUMMARY:Ends\\, soon\; really\r\n/);
+  assert.match(ics, /SUMMARY:Ends\\, soon\\; really\r\n/);
   assert.match(ics, /UID:a\.soon@evergreen\r\n/);
 });
 

@@ -1,4 +1,5 @@
 import { isoDate } from "./canonical.js";
+import { decodeEntities } from "./html.js";
 import type { DraftRule, Importer } from "./types.js";
 
 export const APP_STORE_REQUIREMENTS_URL = "https://developer.apple.com/news/upcoming-requirements/";
@@ -47,16 +48,6 @@ interface XcodeFloor {
 export interface ParseArticlesResult {
   articles: Article[];
   notes: string[];
-}
-
-function decodeEntities(value: string): string {
-  return value
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/gi, "'");
 }
 
 /**

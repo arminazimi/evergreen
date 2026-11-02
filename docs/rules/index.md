@@ -593,6 +593,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Typing.ByteString is deprecated](python.symbol.typing.bytestring.html) — deprecated, `python.symbol.typing.bytestring`
 - [Typing.no_type_check_decorator is deprecated](python.symbol.typing.no-type-check-decorator.html) — deprecated, `python.symbol.typing.no-type-check-decorator`
 - [unittest.makeSuite, findTestCases and getTestCaseNames have been removed](python.symbol.unittest.make-suite.html) — removed, `python.symbol.unittest.make-suite`
+- [The deprecated unittest aliases have been removed](python.symbol.unittest.removed-aliases.html) — removed, `python.symbol.unittest.removed-aliases`
 - [The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed](python.symbol.urllib.request.urlopen-cafile.html) — removed, `python.symbol.urllib.request.urlopen-cafile`
 - [Webbrowser.MacOSX has been removed](python.symbol.webbrowser.macosx.html) — removed, `python.symbol.webbrowser.macosx`
 

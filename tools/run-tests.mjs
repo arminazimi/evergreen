@@ -15,18 +15,28 @@ import { pathToFileURL } from "node:url";
 import { testProcessArgs } from "../dist/tools/check-pipeline.js";
 import {
   TEST_TIMING_MARKER,
+  evaluateTestTimeBudget,
   fileDurationsFromJunit,
   formatTestDuration,
+  formatTestTimeBudgetViolation,
   normalizeTestFilePath,
+  parseTestTimeBudget,
+  renderTestTimeBudgetFailure,
   renderTestTimingSummary,
+  testTimeBudgetAnnotation,
 } from "../dist/tools/run-tests-timing.js";
 
 export {
   TEST_TIMING_MARKER,
+  evaluateTestTimeBudget,
   fileDurationsFromJunit,
   formatTestDuration,
+  formatTestTimeBudgetViolation,
   normalizeTestFilePath,
+  parseTestTimeBudget,
+  renderTestTimeBudgetFailure,
   renderTestTimingSummary,
+  testTimeBudgetAnnotation,
 };
 
 /** @param {string} path */
@@ -39,6 +49,7 @@ function realpathOrResolve(path) {
 }
 
 export const QUARANTINE_PATH = "tests/quarantine.json";
+export const TIME_BUDGET_PATH = "benchmarks/test-time-budget.json";
 export const FLAKY_MARKER = "<!-- evergreen-flaky-tests -->";
 export const FLAKY_LOG_PREFIX = "evergreen-flaky-tests:";
 export const USER_AGENT = "evergreen-run-tests (+https://github.com/arminazimi/evergreen)";
@@ -276,6 +287,27 @@ async function reportTestTiming(entries, totalMs) {
   if (stepSummary) await appendFile(stepSummary, `\n${summary}`);
 }
 
+async function loadTimeBudget() {
+  try {
+    return parseTestTimeBudget(await readFile(resolve(ROOT, TIME_BUDGET_PATH), "utf8"));
+  } catch (error) {
+    throw new Error(`cannot read ${TIME_BUDGET_PATH}: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+/**
+ * @param {readonly import("../dist/tools/run-tests-timing.js").TestTimeBudgetViolation[]} violations
+ */
+async function reportTimeBudgetViolations(violations) {
+  const lines = violations.map((violation) => formatTestTimeBudgetViolation(violation));
+  process.stderr.write(`\nTest time budget exceeded (${TIME_BUDGET_PATH}):\n${lines.map((line) => `  ${line}`).join("\n")}\n`);
+  for (const violation of violations) process.stdout.write(`${testTimeBudgetAnnotation(violation)}\n`);
+  const summary = renderTestTimeBudgetFailure(violations, { budgetPath: TIME_BUDGET_PATH });
+  process.stdout.write(`\n${summary}`);
+  const stepSummary = process.env.GITHUB_STEP_SUMMARY;
+  if (stepSummary) await appendFile(stepSummary, `\n${summary}`);
+}
+
 async function loadQuarantine() {
   const text = await readFile(resolve(ROOT, QUARANTINE_PATH), "utf8");
   return parseQuarantine(text);
@@ -283,12 +315,13 @@ async function loadQuarantine() {
 
 /**
  * @param {string[]} files absolute paths
- * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, concurrencyArg?: string }} [options]
+ * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, concurrencyArg?: string, budget?: import("../dist/tools/run-tests-timing.js").TestTimeBudget }} [options]
  */
 async function runFilesWithRetry(files, options = {}) {
   const cwd = options.cwd ?? ROOT;
   const env = options.env ?? process.env;
   const concurrencyArg = options.concurrencyArg;
+  const budget = options.budget;
   const shouldRetry = env.EVERGREEN_RETRY_FLAKY !== "0" && (env.CI === "true" || env.EVERGREEN_RETRY_FLAKY === "1");
   const baseArgs = ["--test", concurrencyArg, ...files].filter((arg) => typeof arg === "string");
   const junitDir = await mkdtemp(join(tmpdir(), "evergreen-test-junit-"));
@@ -305,12 +338,18 @@ async function runFilesWithRetry(files, options = {}) {
     }
     const suiteTotalMs = timingEntries.reduce((sum, entry) => sum + entry.durationMs, 0);
     await reportTestTiming(timingEntries, suiteTotalMs);
+    const budgetViolations = budget ? evaluateTestTimeBudget(timingEntries, budget, suiteTotalMs) : [];
+    const finishSuccessfully = async () => {
+      if (budgetViolations.length === 0) return 0;
+      await reportTimeBudgetViolations(budgetViolations);
+      return 1;
+    };
 
     if (first.signal) {
       process.kill(process.pid, first.signal);
       return 1;
     }
-    if (first.code === 0) return 0;
+    if (first.code === 0) return finishSuccessfully();
     if (!shouldRetry) return first.code;
 
     const failed = failedFilesFromTap(files, first.output, cwd);
@@ -341,7 +380,7 @@ async function runFilesWithRetry(files, options = {}) {
       process.stderr.write(`\nFailed after retry:\n${hard.map((file) => `  ${file}`).join("\n")}\n`);
       return 1;
     }
-    return 0;
+    return finishSuccessfully();
   } finally {
     await rm(junitDir, { recursive: true, force: true });
   }
@@ -382,7 +421,8 @@ async function runSuite(options) {
     return 0;
   }
 
-  return runFilesWithRetry(files, { concurrencyArg });
+  const budget = await loadTimeBudget();
+  return runFilesWithRetry(files, { concurrencyArg, budget });
 }
 
 /**

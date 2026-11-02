@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { parse as parseYaml } from "yaml";
 
+import { COVERAGE_ENV } from "../tools/check-pipeline.js";
 import {
   compareCoverage,
   DEFAULT_THRESHOLD,
@@ -116,28 +117,61 @@ test("runCoverageDiff reads files and appends a summary", async () => {
   assert.equal(code, 1);
 });
 
-test("the CI workflow emits LCOV and runs coverage-diff on pull requests", async () => {
+test("the CI workflow runs the suite once with coverage and reuses its LCOV", async () => {
   const workflow = parseYaml(await readFile(".github/workflows/ci.yml", "utf8")) as {
-    jobs: { check: { steps: Array<Record<string, unknown>>; permissions?: Record<string, string> } };
+    jobs: {
+      check: { steps: Array<Record<string, unknown>>; permissions?: Record<string, string> };
+      "check-cross-os": { steps: Array<Record<string, unknown>> };
+    };
   };
   const packageJson = JSON.parse(await readFile("package.json", "utf8")) as {
     scripts: Record<string, string>;
   };
   assert.match(packageJson.scripts["test:coverage"]!, /test-reporter=lcov/);
   assert.match(packageJson.scripts["test:coverage"]!, /lcov\.info/);
-  assert.match(packageJson.scripts["test:coverage:lcov"]!, /test-reporter=lcov/);
+  // The pull-request step no longer needs its own suite run for the diff.
+  assert.equal(packageJson.scripts["test:coverage:lcov"], undefined);
 
   const steps = workflow.jobs.check.steps;
-  const names = steps.map((step) => step.name).filter((name): name is string => typeof name === "string");
+  const named = (pattern: RegExp): Record<string, unknown> | undefined =>
+    steps.find((step) => typeof step.name === "string" && pattern.test(step.name));
 
-  assert.ok(names.some((name) => /coverage thresholds/i.test(name)));
-  assert.ok(names.some((name) => /Upload coverage LCOV/i.test(name)));
-  assert.ok(names.some((name) => /Coverage diff/i.test(name)));
+  const check = named(/^npm run check$/);
+  assert.ok(check);
+  const checkEnv = check.env as Record<string, string>;
+  // The Linux Node 24 job collects coverage while it runs its one suite; no other job does.
+  assert.match(String(checkEnv[COVERAGE_ENV]), /runner\.os == 'Linux' && matrix\.node == 24/);
+  assert.equal(
+    workflow.jobs["check-cross-os"].steps.some((step) => (step.env as Record<string, string> | undefined)?.[COVERAGE_ENV] !== undefined),
+    false,
+  );
 
-  const diff = steps.find((step) => typeof step.name === "string" && /Coverage diff/i.test(step.name));
+  const suiteRuns = steps.filter((step) => /test:coverage|run-tests\.mjs|--test\b/.test(String(step.run ?? "")));
+  assert.deepEqual(
+    suiteRuns.map((step) => String(step.run)),
+    [],
+  );
+
+  const thresholds = named(/coverage thresholds/i);
+  assert.ok(thresholds);
+  assert.match(String(thresholds.run), /coverage-thresholds\.js --lcov lcov\.info/);
+  assert.doesNotMatch(String(thresholds.run), /test:coverage/);
+  assert.equal(thresholds.if, "github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24");
+
+  const upload = named(/Upload coverage LCOV/i);
+  assert.ok(upload);
+  assert.equal((upload.with as Record<string, unknown>).path, "lcov.info");
+
+  const diff = named(/Coverage diff/i);
   assert.ok(diff);
   assert.match(String(diff.run), /coverage-diff\.js/);
-  assert.match(String(diff.run), /test:coverage:lcov/);
+  assert.match(String(diff.run), /--head lcov\.info/);
+  assert.doesNotMatch(String(diff.run), /test:coverage/);
   assert.match(String(diff.run), /src\//);
+
+  const badge = named(/coverage badge data/i);
+  assert.ok(badge);
+  assert.match(String(badge.run), /coverage-badge\.js --lcov lcov\.info/);
+
   assert.equal(workflow.jobs.check.permissions?.actions, "read");
 });

@@ -1,0 +1,17 @@
+{
+  "session_id": "3f5a1d7e-91c4-4a2e-8b6d-2c9e7f0a1b3d",
+  "transcript_path": "/Users/dev/.claude/projects/-Users-dev-app/3f5a1d7e-91c4-4a2e-8b6d-2c9e7f0a1b3d.jsonl",
+  "cwd": "/Users/dev/app",
+  "hook_event_name": "PostToolUse",
+  "tool_name": "Write",
+  "tool_input": {
+    "file_path": "/Users/dev/app/Dockerfile",
+    "content": "FROM node:16\nWORKDIR /app\n"
+  },
+  "tool_response": {
+    "type": "create",
+    "filePath": "/Users/dev/app/Dockerfile",
+    "content": "FROM node:16\nWORKDIR /app\n",
+    "structuredPatch": []
+  }
+}

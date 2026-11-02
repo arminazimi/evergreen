@@ -1,14 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
-const execute = promisify(execFile);
+import { runCli } from "./cli-runner.js";
+
 const temporaryRoots: string[] = [];
-const cli = resolve("dist/src/cli.js");
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
@@ -38,17 +36,14 @@ async function repository(manifest: unknown): Promise<string> {
 }
 
 async function scan(root: string): Promise<ScanReport> {
-  const { stdout } = await execute(process.execPath, [cli, "scan", root, "--json"]);
+  const { stdout } = await runCli(["scan", root, "--json"]);
   return JSON.parse(stdout) as ScanReport;
 }
 
 async function runFailing(args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    await execute(process.execPath, [cli, ...args]);
-  } catch (error) {
-    return error as { code: number; stdout: string; stderr: string };
-  }
-  assert.fail(`expected "evergreen ${args.join(" ")}" to fail`);
+  const result = await runCli(args);
+  if (result.code === 0) assert.fail(`expected "evergreen ${args.join(" ")}" to fail`);
+  return result;
 }
 
 function emptyReport(scannedAt = "2026-10-30T00:00:00.000Z"): ScanReport {
@@ -63,7 +58,7 @@ test("receipt reports, as JSON, the findings a change resolved", async () => {
   await writeFile(beforePath, JSON.stringify(before));
   await writeFile(join(root, "package.json"), JSON.stringify({}));
 
-  const { stdout } = await execute(process.execPath, [cli, "receipt", root, "--before", beforePath, "--format", "json"]);
+  const { stdout } = await runCli(["receipt", root, "--before", beforePath, "--format", "json"]);
   const receipt = JSON.parse(stdout) as ReceiptDocument;
 
   assert.equal(receipt.schema, "evergreen.receipt.v1");
@@ -78,7 +73,7 @@ test("receipt renders Markdown and --fail-on-introduced gates new findings", asy
   const beforePath = join(root, "before.json");
   await writeFile(beforePath, JSON.stringify(emptyReport()));
 
-  const { stdout } = await execute(process.execPath, [cli, "receipt", root, "--before", beforePath]);
+  const { stdout } = await runCli(["receipt", root, "--before", beforePath]);
   assert.match(stdout, /<!-- evergreen-receipt -->/);
   assert.match(stdout, /## Evergreen receipt: New findings introduced/);
   assert.match(stdout, /### Introduced/);

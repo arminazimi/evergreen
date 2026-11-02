@@ -67,6 +67,8 @@ Usage:
   evergreen report-issue <finding-id> [path] [--output <file>]
   evergreen capabilities [--json]
   evergreen completions <bash|zsh|fish>   # print a shell completion script
+  evergreen hook <host> [--fail-on <severity|none>]   # check the file an agent just wrote and answer in its hook protocol
+  evergreen init --hooks-for claude-code [path] [--dry-run]   # post-edit hook in .claude/settings.json
   evergreen --debug …   # on unexpected failures, print the stack trace
   evergreen --help
   evergreen --version
@@ -110,3 +112,4 @@ Examples:
   evergreen report-issue <finding-id> . --output issue.md
   evergreen capabilities --json
   evergreen completions zsh > ~/.zfunc/_evergreen
+  evergreen hook claude-code

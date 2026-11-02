@@ -227,3 +227,35 @@ Version files and `required_version` apply to the directory they live in, becaus
 **Align**
 
 `--align <release>` rewrites `.terraform-version`, a single-value `.tool-versions` `terraform` entry, `FROM hashicorp/terraform:<version>` tags, a single-value `setup-terraform` `terraform_version`, and an exact `required_version` (keeping the `=` form when written). Where a full version is required, a release line such as `1.18` is written as `1.18.0`. It refuses floors, ranges, CI image references, and images pinned by digest.
+
+## PHP
+
+PHP pins are reported at `major.minor` granularity: `8.3.12`, `8.3`, and the image tag `8.3-fpm` all select `8.3`.
+
+| Source | Field | Kind |
+| --- | --- | --- |
+| `composer.json` | `config.platform.php` | pin |
+| `composer.json` | `require.php` | floor |
+| `composer.lock` | `platform.php`, when present | floor |
+| `.php-version` | the single version, including the phpenv `php-8.3.12` form | pin |
+| `.tool-versions` | the `php` entry, one pin per version | pin |
+| `Dockerfile`, `*.Dockerfile`, `Containerfile*` | `FROM php:<tag>` and a literal `RUN asdf install php <version>` | pin |
+| `.github/workflows/*.yml` | the `php-version` input of `shivammathur/setup-php` | pin |
+| `.gitlab-ci.yml` | `image:` values that name the official `php` image | pin |
+| `.circleci/config.yml` | Docker executor values that name the `php` or `cimg/php` image | pin |
+
+A PHP image is the Docker Hub `php` image, or `cimg/php` in CI. Image tags keep their variant suffix: `8.3-fpm` selects `8.3`.
+
+A `setup-php` matrix with several versions is intentional. Each value is reported as a pin with source `setup-php matrix`, the values share one group, and they are not counted against each other.
+
+**Floors**
+
+`require.php` and `composer.lock` `platform.php` state what the project installs against, not the PHP that builds it, so they are floors. A floor resolves from its first lower bound: `^8.2`, `>=8.1`, and `8.1.*` all resolve to their major.minor. A floor above the lowest pinned release is a floor conflict, because that environment cannot install the project.
+
+**Unresolved**
+
+`latest`, `system`, a version with no minor (`8`), a moving image tag, an image with no tag, an expression that is not a `matrix` reference, and a constraint with no lower bound are reported as pins with a one-sentence reason and no release. A value is never guessed from a newer version existing.
+
+**Align**
+
+`--align <release>` rewrites `.php-version` (keeping the `php-` prefix), a single-value `.tool-versions` `php` line, `composer.json` `config.platform.php`, `FROM php:<version>[-variant]` tags, GitLab CI and CircleCI image tags, and a single-value `setup-php` `php-version`. It refuses floors, `composer.json` `require.php`, `composer.lock`, `setup-php` matrix values, multi-value `.tool-versions` lines, and image references pinned by digest. `composer.lock` is reported and refused with "regenerate the lockfile": Composer owns that file.

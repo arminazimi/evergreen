@@ -1,0 +1,1 @@
+- Generate the README ecosystem table from `docs/readme-coverage.json` and the capability manifest, with a drift check. (#2017)

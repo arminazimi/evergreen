@@ -7,11 +7,12 @@ import { pythonCollector } from "./python.js";
 import { goDriftCollector } from "./go.js";
 import { nodejsDriftCollector } from "./nodejs.js";
 import { terraformCollector } from "./terraform.js";
+import { phpDriftCollector } from "./php.js";
 
 export type { DriftCollector, DriftReport, RuntimeDrift, RuntimePin } from "./types.js";
 
 /** Every built-in collector, one per runtime. Each task in the drift epic appends its own entry. */
-export const driftCollectors: DriftCollector[] = [goDriftCollector, pythonCollector, rustDriftCollector, dotnetCollector, javaCollector, rubyDriftCollector, nodejsDriftCollector, terraformCollector];
+export const driftCollectors: DriftCollector[] = [goDriftCollector, pythonCollector, rustDriftCollector, dotnetCollector, javaCollector, rubyDriftCollector, nodejsDriftCollector, terraformCollector, phpDriftCollector];
 
 /** Compares dotted numeric releases such as `3.9` and `3.11`; non-numeric parts compare as text. */
 export function compareReleases(a: string, b: string): number {

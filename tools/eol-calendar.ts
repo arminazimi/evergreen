@@ -12,6 +12,7 @@ import { pathToFileURL } from "node:url";
 import { addDays, addMonths } from "../src/forecast.js";
 import { isIsoDate, validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
+import { escapeTableCell } from "./markdown.js";
 
 export interface CalendarEntry {
   date: string;
@@ -48,13 +49,11 @@ export function buildCalendar(rules: readonly RegistryV2Rule[], today: string, m
   };
 }
 
-const cell = (text: string) => text.replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
-
 export function renderMarkdown(calendar: Calendar): string {
   const table = (entries: CalendarEntry[]) =>
     entries.length === 0
       ? "None in the registry.\n"
-      : ["| Date | Ecosystem | Event | Severity | Rule | Source |", "|---|---|---|---|---|---|", ...entries.map((entry) => `| ${entry.date} | ${entry.ecosystem} | ${cell(entry.title)} | ${entry.severity} | \`${entry.ruleId}\` | [source](${entry.source}) |`)].join("\n") + "\n";
+      : ["| Date | Ecosystem | Event | Severity | Rule | Source |", "|---|---|---|---|---|---|", ...entries.map((entry) => `| ${entry.date} | ${entry.ecosystem} | ${escapeTableCell(entry.title)} | ${entry.severity} | \`${entry.ruleId}\` | [source](${entry.source}) |`)].join("\n") + "\n";
   return [
     "# Lifecycle calendar",
     "",
@@ -125,7 +124,7 @@ export function renderWeeklyPost(post: WeeklyPost): string {
   return lines.join("\n");
 }
 
-const escapeText = (text: string) => text.replace(/\\/g, "\\\\").replace(/;/g, "\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+const escapeText = (text: string) => text.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
 
 /** Strips characters XML 1.0 cannot represent, then escapes the rest for use in text or attribute values. */
 function escapeXml(value: string | number): string {

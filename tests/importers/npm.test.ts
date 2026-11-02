@@ -73,6 +73,14 @@ test("rejects names npm does not allow", () => {
   for (const name of ["", "has space", "@scope", "@/name", "a/b", "UPPER space"]) assert.doesNotMatch(name, NPM_NAME, name);
 });
 
+test("a registry URL percent-encodes every path metacharacter, including backslashes", () => {
+  assert.equal(registryUrl("request"), "https://registry.npmjs.org/request/latest");
+  assert.equal(registryUrl("@scope/name"), "https://registry.npmjs.org/@scope%2fname/latest");
+  assert.equal(registryUrl("a\\b"), "https://registry.npmjs.org/a%5Cb/latest");
+  assert.equal(registryUrl("a/b/c"), "https://registry.npmjs.org/a%2fb%2fc/latest");
+  assert.equal(registryUrl("a?x=1#frag"), "https://registry.npmjs.org/a%3Fx%3D1%23frag/latest");
+});
+
 test("a package whose latest version is not deprecated produces no rule and is listed in the notes", async () => {
   const names = Object.fromEntries(NPM_CANDIDATES.map((name) => [registryUrl(name), { name, version: "1.0.0" }]));
   const result = await runImporter(npmDeprecatedImporter, registry({ ...names, [registryUrl("request")]: { name: "request", version: "3.0.0", deprecated: "gone" }, [registryUrl("tslint")]: { name: "tslint", deprecated: "" } }));

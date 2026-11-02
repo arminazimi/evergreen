@@ -119,7 +119,9 @@ test("the CLI and the Action carry the data information too", async () => {
 
   const summary = join(await scratch("summary"), "summary.md");
   await writeFile(summary, "");
-  const output = await execute(process.execPath, [resolve("dist/action/index.js")], {
+  // The compiled entry, not the bundled dist/action artifact: main does not carry the bundle any more
+  // (release tags do), and this test is about what the Action reports, not about how it is packaged.
+  const output = await execute(process.execPath, [resolve("dist/src/action.js")], {
     env: { ...process.env, INPUT_PATH: directory, "INPUT_FAIL-ON-SEVERITY": "none", GITHUB_STEP_SUMMARY: summary, RUNNER_TEMP: await scratch("temp"), GITHUB_WORKSPACE: directory },
   });
   assert.match(await readFile(summary, "utf8"), /Data: bundled .+evidence reviewed through \d{4}-\d{2}-\d{2}/);

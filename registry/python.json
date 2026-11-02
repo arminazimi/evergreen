@@ -7394,6 +7394,177 @@
           }
         ]
       }
+    },
+    {
+      "id": "python.symbol.unittest.removed-aliases",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "The deprecated unittest aliases have been removed",
+      "summary": "Python 3.12 removed the long-deprecated unittest.TestCase aliases, such as assertEquals() and failUnless(), and assertDictContainsSubset(), so using them raises AttributeError.",
+      "severity": "high",
+      "replacement": "The current TestCase methods: assertEqual(), assertNotEqual(), assertTrue(), assertFalse(), assertAlmostEqual(), assertNotAlmostEqual(), assertRegex(), assertNotRegex(), and assertRaises(); assertDictContainsSubset() has none",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-02",
+        "reviewedAt": "2026-11-02",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the test unchanged; each alias calls the method its replacement names.",
+          "assertDictContainsSubset() has no replacement, so its assertion must be rewritten by hand."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the alias",
+            "instructions": "Replace each reported alias with the current TestCase method that What's New in Python 3.12 names; rewrite an assertDictContainsSubset() call by hand, because it has no replacement.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings treated as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assertEquals",
+          "shape": "method",
+          "replacement": "assertEqual"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assertNotEquals",
+          "shape": "method",
+          "replacement": "assertNotEqual"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assert_",
+          "shape": "method",
+          "replacement": "assertTrue"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "failUnless",
+          "shape": "method",
+          "replacement": "assertTrue"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "failIf",
+          "shape": "method",
+          "replacement": "assertFalse"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "failUnlessEqual",
+          "shape": "method",
+          "replacement": "assertEqual"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "failIfEqual",
+          "shape": "method",
+          "replacement": "assertNotEqual"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assertAlmostEquals",
+          "shape": "method",
+          "replacement": "assertAlmostEqual"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assertNotAlmostEquals",
+          "shape": "method",
+          "replacement": "assertNotAlmostEqual"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "failUnlessAlmostEqual",
+          "shape": "method",
+          "replacement": "assertAlmostEqual"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "failIfAlmostEqual",
+          "shape": "method",
+          "replacement": "assertNotAlmostEqual"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "failUnlessRaises",
+          "shape": "method",
+          "replacement": "assertRaises"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assertRegexpMatches",
+          "shape": "method",
+          "replacement": "assertRegex"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assertNotRegexpMatches",
+          "shape": "method",
+          "replacement": "assertNotRegex"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assertRaisesRegexp",
+          "shape": "method",
+          "replacement": "assertRaisesRegex"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "assertDictContainsSubset",
+          "shape": "method"
+        }
+      ]
     }
   ]
 }
