@@ -124,7 +124,7 @@ export interface RuleScaffoldResult {
 const RULE_FIXTURES = (names: RuleScaffoldNames) => `tests/fixtures/${names.id}`;
 
 /** The fixture files of a rule, as repository-relative path and contents. Pure: nothing is read or written. */
-export function renderRuleScaffold(names: RuleScaffoldNames, today: string): Map<string, string> {
+export function renderRuleScaffold(names: RuleScaffoldNames, _today: string): Map<string, string> {
   const root = RULE_FIXTURES(names);
   return new Map([
     [`${root}/match/index.js`, matchFixtureTemplate(names)],

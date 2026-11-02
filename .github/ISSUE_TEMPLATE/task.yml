@@ -5,7 +5,7 @@ labels: ["type: task"]
 body:
   - type: markdown
     attributes:
-      value: Keep tasks small enough for one pull request (about a day or less). Larger work belongs in an epic with several tasks. See AGENTS.md for repository rules.
+      value: Keep tasks small enough for one pull request (about a day or less). Larger work belongs in an epic with several tasks. See AGENTS.md for repository rules. The quality bar in AGENTS.md applies. New debt fails the check, and existing debt is only allowlisted with an expiry.
   - type: textarea
     id: goal
     attributes:

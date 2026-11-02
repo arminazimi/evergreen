@@ -84,6 +84,25 @@ CI fails when generated output drifts from its source. The exception is `dist/ac
 - Public contracts (`schemas/`, `src/sdk.ts`, MCP tool shapes, CLI JSON output) change only additively unless a decision record in `docs/decisions/` says otherwise.
 - A change needs a decision record when it changes a public contract: anything under `schemas/`, `src/sdk.ts`, an MCP tool's name, description, input shape, or output, or the JSON a command writes under `--json`. Add a numbered record in `docs/decisions/` in the same pull request and link it from the pull request; `docs/decisions/index.md` alone is the index, not a record. `.github/workflows/decisions.yml` fails a pull request that changes `schemas/`, `src/sdk.ts`, or `src/mcp.ts` without a new or changed record. A CLI JSON change also needs its schema under `schemas/`, which is what the workflow can see.
 
+## Quality bar
+
+Reference quality is measured in [docs/QUALITY.md](docs/QUALITY.md) and enforced by `npm run check`, which runs `check:quality`. A failing run blocks the pull request, and no one may merge past it.
+
+- **File size:** median 300 lines or fewer. No hand-written `src/` file over 800 lines, and none over 1,000, unless it is in the allowlist.
+- **Complexity:** at most 15 per function. A function over 15 is not allowed unless it is in the allowlist.
+- **Type safety:** no explicit `any`, no `@ts-ignore` or `@ts-expect-error`; no new `as unknown as` or non-null assertion. `strict`, `noImplicitOverride`, `noUnusedLocals`, and `noUnusedParameters` stay on.
+- **Boundaries:** the six rules in [Architecture boundaries](#architecture-boundaries) hold.
+- **Coverage:** lines 93%, branches 87%, functions 93%. No pull request lowers a total below `main`.
+- **Mutation:** break at 60, high at 80, on the mutated core. The nightly run gates once its first complete score exists.
+- **Docs:** generated pages and indexes match their sources, and the documentation site builds.
+- **Security:** no runtime advisory and no high or critical advisory; a medium or low advisory only when it is listed by id. The OpenSSF Scorecard is 6.0 or more by v0.8.0.
+
+Rules for every change:
+
+- New debt fails. Do not add a file over 800 lines, a function over 15, or any `any`.
+- Existing debt is listed in `benchmarks/quality-allowlist.json` with an owner and an `expires` date. When you fix a debt, remove or tighten its entry. Never edit the allowlist to make a change pass: do not add an entry or raise a ceiling.
+- Before you change anything these criteria cover (`src/`, `tools/`, `tests/`, `benchmarks/`, `tsconfig.json`, `.github/workflows/`), read [docs/QUALITY.md](docs/QUALITY.md).
+
 ## Dependencies
 
 Before adding any dependency, runtime, or GitHub Action to this repository (or changing its pinned version), check it with Evergreen using its Package URL:

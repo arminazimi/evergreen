@@ -13,7 +13,7 @@ import {
 } from "./corpus-harness.js";
 import { describeMissingEntries, ensureCorpusCacheEntry, missingCorpusEntries, resolveCorpusCacheDir } from "./corpus-cache.js";
 import { fetchWith, isCheckoutUsable, resolveFetchStrategy } from "./corpus-fetch.js";
-import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "./corpus-cost.js";
+import { budgetWarnings, createCostTracker, formatCost, slowestFetches } from "./corpus-cost.js";
 import { affectedEcosystems, changedPaths, describeAffected, parseChangedFlag } from "./corpus-affected.js";
 import { compareRuns, loadBaseline, parseComparePath } from "./corpus-compare.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";

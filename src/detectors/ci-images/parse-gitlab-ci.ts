@@ -1,4 +1,4 @@
-import { LineCounter, isMap, isScalar, isSeq, parseDocument, visit } from "yaml";
+import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
 
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;

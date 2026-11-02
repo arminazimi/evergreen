@@ -5,6 +5,8 @@ import { join } from "node:path";
 import { test } from "node:test";
 
 import {
+  BASELINE_TOLERANCE,
+  checkCoverageAgainstBase,
   checkCoverageFloors,
   main,
   parseLcovTotals,
@@ -31,7 +33,6 @@ function record(path: string, lines: [number, number], branches: [number, number
 }
 
 const LCOV = record("dist/src/engine.js", [90, 100], [40, 50], [45, 50]) + record("dist/src/cli.js", [10, 20], [10, 10], [5, 5]);
-const FLOORS: CoverageFloors = { lines: 80, branches: 80, functions: 80 };
 
 test("sums the LCOV counters into the totals node:test prints for all files", () => {
   const totals = parseLcovTotals(LCOV);
@@ -114,4 +115,16 @@ test("main fails the step and appends a summary when a floor is missed", async (
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
+});
+
+test("a pull request may not lower a total below main, beyond the rounding tolerance", () => {
+  const lcov = (linesFound: number, linesHit: number) =>
+    `SF:src/a.ts\nFNF:1\nFNH:1\nLF:${linesFound}\nLH:${linesHit}\nBRF:10\nBRH:9\nend_of_record\n`;
+  const base = parseLcovTotals(lcov(1000, 950));
+  assert.deepEqual(checkCoverageAgainstBase(parseLcovTotals(lcov(1000, 950)), base), []);
+  assert.deepEqual(checkCoverageAgainstBase(parseLcovTotals(lcov(1000, 951)), base), []);
+  assert.ok(BASELINE_TOLERANCE > 0 && BASELINE_TOLERANCE < 0.01);
+  const drops = checkCoverageAgainstBase(parseLcovTotals(lcov(1000, 940)), base);
+  assert.deepEqual(drops.map((drop) => drop.metric), ["lines"]);
+  assert.equal(drops[0]?.base, 95);
 });

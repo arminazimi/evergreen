@@ -194,7 +194,7 @@ test("parseArguments handles flags and defaults", () => {
 
 test("fetchGoodFirstIssues handles pagination and ignores pull requests", async () => {
   const requests: string[] = [];
-  const mockFetcher = async (url: string, init?: RequestInit): Promise<Response> => {
+  const mockFetcher = async (url: string, _init?: RequestInit): Promise<Response> => {
     requests.push(url);
     const parsed = new URL(url);
     const page = parsed.searchParams.get("page");

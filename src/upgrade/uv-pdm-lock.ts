@@ -36,7 +36,7 @@ function targetRelease(target: UpgradeTarget): PythonTarget | undefined {
   if (!parsed) return undefined;
   const pad = (release: readonly number[], length: number): ParsedVersion => ({
     epoch: 0,
-    release: Array.from({ length }, (unused, index) => release[index] ?? 0),
+    release: Array.from({ length }, (_unused, index) => release[index] ?? 0),
   });
   return { full: pad(parsed.release, 3), minor: pad(parsed.release.slice(0, 2), 2) };
 }

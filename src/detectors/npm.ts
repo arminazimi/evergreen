@@ -490,7 +490,7 @@ function declarationFinding(
 }
 
 function manifestRuntimeDeclarations(
-  root: string,
+  _root: string,
   path: string,
   contents: string,
   manifest: PackageManifest,

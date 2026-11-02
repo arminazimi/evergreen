@@ -83,7 +83,7 @@ export function computeContentDigest(files: Array<{ path: string; sha256: string
   return `sha256:${sha256Hex(lines)}`;
 }
 
-function describeFile(path: string, content: Record<string, unknown>): Pick<DataBundleFile, "sha256" | "bytes"> {
+function describeFile(_path: string, content: Record<string, unknown>): Pick<DataBundleFile, "sha256" | "bytes"> {
   const canonical = canonicalJson(content);
   return { sha256: sha256Hex(canonical), bytes: Buffer.byteLength(canonical, "utf8") };
 }

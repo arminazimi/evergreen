@@ -245,7 +245,7 @@ function scanCall(text: string, open: number): CallScan | undefined {
 }
 
 /** True for `list(string)`, `map(object({ ... }))`, and the other type constructors Terraform still reads. */
-function isTypeConstraint(name: "list" | "map", args: readonly string[]): boolean {
+function isTypeConstraint(_name: "list" | "map", args: readonly string[]): boolean {
   if (args.length !== 1) return false;
   const argument = args[0]!.trim();
   return /^(?:any|bool|number|string)$/.test(argument)

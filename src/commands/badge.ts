@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import process from "node:process";
-import { basename, resolve } from "node:path";
+import { resolve } from "node:path";
 
 import { badgeSnippet, isBadgeSnippetFormat, renderBadgeEndpoint, repositoryFromRemote } from "../badge.js";
 import { builtInDetectors } from "../detectors/index.js";

@@ -107,6 +107,33 @@ export function readCoverageFloors(packageJsonText: string): CoverageFloors {
   return floors;
 }
 
+/**
+ * How far a metric may fall below main's value before a pull request fails. Percentages print to two
+ * decimals, so half of the last printed digit is rounding, not a real drop.
+ */
+export const BASELINE_TOLERANCE = 0.005;
+
+export interface BaseDrop {
+  metric: CoverageMetric;
+  base: number;
+  percent: number;
+}
+
+/** Each metric that fell below the baseline's value by more than the rounding tolerance. */
+export function checkCoverageAgainstBase(
+  totals: CoverageTotals,
+  base: CoverageTotals,
+  tolerance = BASELINE_TOLERANCE,
+): BaseDrop[] {
+  const drops: BaseDrop[] = [];
+  for (const metric of METRICS) {
+    const percent = totals[metric].percent;
+    const baseline = base[metric].percent;
+    if (percent < baseline - tolerance) drops.push({ metric, base: baseline, percent });
+  }
+  return drops;
+}
+
 export function checkCoverageFloors(totals: CoverageTotals, floors: CoverageFloors): ThresholdResult {
   const failures: ThresholdFailure[] = [];
   for (const metric of METRICS) {
@@ -169,7 +196,7 @@ function readFlagValue(argv: readonly string[], name: string): string | undefine
 }
 
 export async function main(argv: readonly string[]): Promise<number> {
-  const known = new Set(["--lcov", "--summary"]);
+  const known = new Set(["--lcov", "--summary", "--baseline"]);
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index]!;
     if (!argument.startsWith("--")) throw new Error(`Unexpected argument "${argument}".`);
@@ -181,11 +208,20 @@ export async function main(argv: readonly string[]): Promise<number> {
   const lcovPath = readFlagValue(argv, "--lcov") ?? DEFAULT_LCOV_PATH;
   const summaryPath = readFlagValue(argv, "--summary");
   const floors = readCoverageFloors(await readFile("package.json", "utf8"));
-  const result = checkCoverageFloors(parseLcovTotals(await readFile(lcovPath, "utf8")), floors);
-
+  const totals = parseLcovTotals(await readFile(lcovPath, "utf8"));
+  const result = checkCoverageFloors(totals, floors);
   process.stdout.write(`${renderThresholdText(result, floors)}\n`);
   if (summaryPath !== undefined) await writeFile(summaryPath, renderThresholdSummary(result, floors), { flag: "a" });
-  return result.passed ? 0 : 1;
+
+  // A pull request also may not lower any total below main's report, beyond rounding.
+  const baselinePath = readFlagValue(argv, "--baseline");
+  if (baselinePath === undefined) return result.passed ? 0 : 1;
+  const drops = checkCoverageAgainstBase(totals, parseLcovTotals(await readFile(baselinePath, "utf8")));
+  for (const drop of drops) {
+    process.stderr.write(`${drop.metric} is ${formatPercent(drop.percent)}, below main's ${formatPercent(drop.base)}.\n`);
+  }
+  if (drops.length === 0) process.stdout.write("No metric fell below main's report.\n");
+  return result.passed && drops.length === 0 ? 0 : 1;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {

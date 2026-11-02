@@ -123,6 +123,17 @@ jobs:
           # The Linux Node 24 job runs the suite once with coverage; the steps below reuse its lcov.info.
           EVERGREEN_CHECK_COVERAGE: "${{ runner.os == 'Linux' && matrix.node == 24 && '1' || '' }}"
         run: npm run check
+      - name: Audit dependencies (runtime, then the full lockfile)
+        # The runtime tree must have no advisory at any level. The full lockfile may carry only the medium and
+        # low advisories listed by id in benchmarks/quality-allowlist.json; high and critical always fail.
+        if: runner.os == 'Linux' && matrix.node == 24
+        env:
+          AUDIT_JSON: ${{ runner.temp }}/npm-audit.json
+        run: |
+          set -euo pipefail
+          npm audit --omit=dev --audit-level=low
+          npm audit --json > "$AUDIT_JSON" || true
+          node dist/tools/check-quality.js --audit "$AUDIT_JSON"
       - name: Enforce the Action cold-start budget
         if: runner.os == 'Linux' && matrix.node == 24
         # Build the bundle from the source under test: an ordinary pull request ships only the committed bundle.
@@ -145,9 +156,15 @@ jobs:
       - name: Check the answer pages against the registry
         if: runner.os == 'Linux' && matrix.node == 24
         run: node dist/tools/build-answer-pages.js --check
-      - name: Enforce coverage thresholds (main only)
-        if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
-        # Reads the lcov.info the `npm run check` step wrote; the suite does not run again.
+      - name: Check the LLM index against the pages it lists
+        if: runner.os == 'Linux' && matrix.node == 24
+        run: node dist/tools/build-llms-full.js --check
+      - name: Check the data API against the registry
+        if: runner.os == 'Linux' && matrix.node == 24
+        run: node dist/tools/build-data-api.js --check
+      - name: Enforce coverage floors
+        if: runner.os == 'Linux' && matrix.node == 24
+        # Reads the lcov.info the `npm run check` step wrote; the suite does not run again. Pull requests meet the same floors as main.
         run: node dist/tools/coverage-thresholds.js --lcov lcov.info --summary "$GITHUB_STEP_SUMMARY"
       - name: Upload coverage LCOV (main)
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
@@ -203,6 +220,8 @@ jobs:
             --changed-files "$RUNNER_TEMP/changed-src.txt" \
             --root "$GITHUB_WORKSPACE" \
             --summary "$GITHUB_STEP_SUMMARY"
+          # No total may fall below main's report, beyond rounding.
+          node dist/tools/coverage-thresholds.js --lcov lcov.info --baseline "$RUNNER_TEMP/base-coverage/lcov.info"
       - name: Render the coverage badge data
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
         # The same lcov.info the threshold step read; reading it does not run the suite.

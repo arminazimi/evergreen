@@ -1,1 +1,1 @@
-- Define reference quality as eight measurable criteria, each with the command that checks it, and record the unmeasured ones as gaps. (#2041)
+- Define reference quality as eight measurable criteria, each enforced by a failing check: new debt fails, and existing debt is allowlisted with an expiry of 2027-01-26. (#2041)

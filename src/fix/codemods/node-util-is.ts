@@ -204,12 +204,6 @@ interface Edit {
   replacement: string;
 }
 
-/** A local name that stands for the `util` module or one of its functions. */
-interface Binding {
-  local: string;
-  /** "*" or "default" for the module itself, otherwise the imported function name. */
-  imported: string;
-}
 
 /** What a call's callee reads: the deprecated function, and the util expression when the call already has one. */
 interface Callee {

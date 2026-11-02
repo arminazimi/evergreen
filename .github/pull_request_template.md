@@ -5,7 +5,7 @@ Closes #
 
 ## Verification
 <!-- Commands you ran and what they showed. -->
-- [ ] `npm run check` passes
+- [ ] `npm run check` passes, including the quality bar: new debt fails, and existing debt is only allowlisted with an expiry (AGENTS.md, Quality bar)
 - [ ] Tests added or updated for changed behavior
 - [ ] Changelog fragment added in `changes/` for user-visible changes (not for docs, test, ci, chore, build, refactor, or style)
 

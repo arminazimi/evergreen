@@ -1,5 +1,5 @@
 import { member, readJsonLines } from "../json-lines.js";
-import { readTomlLines, stringValue, stripComment as stripTomlComment } from "../rust/toml-lines.js";
+import { readTomlLines, stringValue } from "../rust/toml-lines.js";
 
 /**
  * Parsers for Deno and Bun declarations in `deno.json`, `deno.jsonc`, `bunfig.toml`, and `.bun-version`.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { cp, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import http from "node:http";
 import net from "node:net";
 import type { AddressInfo } from "node:net";
@@ -12,7 +12,7 @@ import { promisify } from "node:util";
 import { buildDataBundle, serializeDataBundle } from "../src/data-bundle.js";
 import type { DataBundle } from "../src/data-bundle.js";
 import { configureActiveData, resolveActiveData } from "../src/data-source.js";
-import { compareBundleVersions, DataUpdateError, latestDataRelease, renderDataUpdateText, updateData } from "../src/data-update.js";
+import { compareBundleVersions, latestDataRelease, renderDataUpdateText, updateData } from "../src/data-update.js";
 import { VERSION } from "../src/version.js";
 import { runCli } from "./cli-runner.js";
 

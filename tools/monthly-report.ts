@@ -20,7 +20,7 @@ import type { LandingPage, Snapshot } from "./adoption-metrics.js";
 import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 import { getCapabilityManifest } from "../src/capabilities.js";
 import { REGISTRY_V2_SCHEMA_VERSION } from "../src/registry.js";
-import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
+import type { RegistryV2 } from "../src/registry.js";
 import { VERSION } from "../src/version.js";
 
 /**

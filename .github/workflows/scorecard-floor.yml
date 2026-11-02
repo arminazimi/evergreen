@@ -1,0 +1,39 @@
+name: Scorecard floor
+
+# Fails when the published OpenSSF Scorecard score is below the floor. Scorecard is scored outside this
+# repository, so it cannot gate a pull request; this scheduled run is the alert. It reads the public
+# Scorecard API after the weekly Scorecard run has published, and the failed run notifies the
+# repository's watchers. The floor follows docs/QUALITY.md: 6.0 by v0.8.0, 7.0 by v1.0.
+
+on:
+  schedule:
+    # Weekly on Saturdays, after the Scorecard run (04:27 UTC) has had time to publish.
+    - cron: "41 9 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scorecard-floor
+  cancel-in-progress: false
+
+jobs:
+  floor:
+    name: Check the Scorecard floor
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SCORECARD_URL: https://api.securityscorecards.dev/projects/github.com/arminazimi/evergreen
+      SCORECARD_FLOOR: "6.0"
+    steps:
+      - name: Read the published score
+        run: |
+          set -euo pipefail
+          curl --tlsv1.2 -fsSL "$SCORECARD_URL" -o scorecard.json
+          score="$(jq -r '.score' scorecard.json)"
+          echo "OpenSSF Scorecard: $score (floor $SCORECARD_FLOOR)" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "$(awk -v s="$score" -v f="$SCORECARD_FLOOR" 'BEGIN { print (s + 0 < f + 0) ? "below" : "ok" }')" = "below" ]; then
+            echo "::error title=Scorecard below floor::Scorecard $score is below the $SCORECARD_FLOOR floor in docs/QUALITY.md."
+            exit 1
+          fi

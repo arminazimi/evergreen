@@ -92,7 +92,7 @@ test("accepts every supported comment form", async () => {
   const deprecated = ["# v4", "# v4.1", "# v4.1.1", "#v4.1.1", "# 4.1.1", "# v4.1.1 (pinned for security)", "# tag=v4.1.1", "# version: v4.1.1"];
   const supported = ["# v5", "# v5.1", "# v5.1.1", "#v5.1.1", "# 5.1.1", "# v5.1.1 (pinned for security)", "# tag=v5.1.1", "# version: v5.1.1"];
 
-  for (const [index, comment] of deprecated.entries()) {
+  for (const [, comment] of deprecated.entries()) {
     const root = await repositoryWithWorkflow(`jobs:
   test:
     steps:
@@ -103,7 +103,7 @@ test("accepts every supported comment form", async () => {
     assert.equal(findings[0]?.location.line, 4, `comment "${comment}" must land on line 4`);
   }
 
-  for (const [index, comment] of supported.entries()) {
+  for (const [, comment] of supported.entries()) {
     const root = await repositoryWithWorkflow(`jobs:
   test:
     steps:

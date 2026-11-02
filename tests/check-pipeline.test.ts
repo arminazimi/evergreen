@@ -62,10 +62,10 @@ test("check runs the action build, tests, plugin drift, and plugin eval together
     },
   });
 
-  await until(() => events.filter((event) => event.endsWith(":start")).length === 6);
+  await until(() => events.filter((event) => event.endsWith(":start")).length === 7);
   assert.deepEqual(
     events.filter((event) => event.endsWith(":start")).sort(),
-    ["build:action:start", "check:commands:start", "check:plugins:start", "eval:agent-loop:start", "eval:plugins:start", "test:start"],
+    ["build:action:start", "check:commands:start", "check:plugins:start", "check:quality:start", "eval:agent-loop:start", "eval:plugins:start", "test:start"],
   );
   assert.equal(events.includes(`publish:${stagingDir}`), false);
   assert.equal(events.includes("check:action-bundle:start"), false);
@@ -111,7 +111,7 @@ test("an ordinary pull request builds the action bundle but neither publishes no
       steps.push(stepName(args));
     },
   });
-  assert.deepEqual(steps.sort(), ["build:action", "check:commands", "check:plugins", "eval:agent-loop", "eval:plugins", "test"]);
+  assert.deepEqual(steps.sort(), ["build:action", "check:commands", "check:plugins", "check:quality", "eval:agent-loop", "eval:plugins", "test"]);
   assert.equal(published, false);
 });
 
@@ -321,6 +321,7 @@ function stepName(args: readonly string[]): string {
   // The plain run goes through the project runner; the coverage run is a direct `node --test`.
   if (args[0] === "tools/run-tests.mjs" || args[0] === "--test") return "test";
   if (args.some((arg) => arg.includes("generate-commands-index"))) return "check:commands";
+  if (args.some((arg) => arg.includes("check-quality"))) return "check:quality";
   if (args.includes("--check")) return "check:plugins";
   if (args.some((arg) => arg.includes("plugin-host-eval.js"))) return "eval:plugins";
   if (args.some((arg) => arg.includes("agent-loop"))) return "eval:agent-loop";

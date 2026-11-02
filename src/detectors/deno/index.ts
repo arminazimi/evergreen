@@ -8,7 +8,7 @@ import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
-import { parseVersLenient, versContains } from "../../vers/index.js";
+import { versContains } from "../../vers/index.js";
 import { parseBunVersion, parseBunfig, parseDenoJson } from "./parse.js";
 
 /**

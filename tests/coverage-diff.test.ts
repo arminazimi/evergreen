@@ -152,11 +152,12 @@ test("the CI workflow runs the suite once with coverage and reuses its LCOV", as
     [],
   );
 
-  const thresholds = named(/coverage thresholds/i);
+  // The floors run on every pull request too, not only on pushes to main.
+  const thresholds = named(/coverage floors/i);
   assert.ok(thresholds);
   assert.match(String(thresholds.run), /coverage-thresholds\.js --lcov lcov\.info/);
   assert.doesNotMatch(String(thresholds.run), /test:coverage/);
-  assert.equal(thresholds.if, "github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24");
+  assert.equal(thresholds.if, "runner.os == 'Linux' && matrix.node == 24");
 
   const upload = named(/Upload coverage LCOV/i);
   assert.ok(upload);
@@ -166,6 +167,8 @@ test("the CI workflow runs the suite once with coverage and reuses its LCOV", as
   assert.ok(diff);
   assert.match(String(diff.run), /coverage-diff\.js/);
   assert.match(String(diff.run), /--head lcov\.info/);
+  // No overall total may fall below main's report.
+  assert.match(String(diff.run), /coverage-thresholds\.js --lcov lcov\.info --baseline /);
   assert.doesNotMatch(String(diff.run), /test:coverage/);
   assert.match(String(diff.run), /src\//);
 

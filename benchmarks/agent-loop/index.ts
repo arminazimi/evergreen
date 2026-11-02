@@ -210,7 +210,7 @@ async function evaluateHostCase(
           new_string: `"${taskCase.purl.replace("pkg:npm/", "")}": "^${taskCase.version}"`,
         },
       },
-      (purl, version) => {
+      (_purl, _version) => {
         // Sync runner using pre-fetched depCheck
         return { check: depCheck };
       },

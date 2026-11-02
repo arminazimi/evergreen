@@ -306,7 +306,6 @@ export async function scanRepository(
     return existing;
   };
 
-  let allDetectorsCached = !noCache && detectors.length > 0;
 
   const analyses = await Promise.all(
     detectors.map(async (detector) => {
@@ -317,7 +316,6 @@ export async function scanRepository(
       const disableCache = noCache || shouldDisableCacheForDetector(detector);
 
       if (disableCache) {
-        allDetectorsCached = false;
         const analysis = detector.analyze
           ? await detector.analyze(context)
           : { findings: await detector.scan(context), unclassified: [] };
@@ -368,7 +366,6 @@ export async function scanRepository(
       if (isCrossFile) {
         // Cross-file detector: manifests and dependencies across files correlate,
         // so invalidate and re-run on context when any input file changes.
-        allDetectorsCached = false;
         const analysis = detector.analyze
           ? await detector.analyze(context)
           : { findings: await detector.scan(context), unclassified: [] };
@@ -439,7 +436,6 @@ export async function scanRepository(
           };
         }
 
-        allDetectorsCached = false;
         let newlyParsedFindings: Finding[] = [];
         let newlyParsedUnclassified: UnclassifiedReference[] = [];
 

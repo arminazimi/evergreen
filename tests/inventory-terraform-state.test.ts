@@ -4,7 +4,7 @@ import { join, resolve, sep } from "node:path";
 import { test } from "node:test";
 
 import { redactReport, renderInventoryText } from "../src/inventory/command.js";
-import { parseExport, runInventory } from "../src/inventory/index.js";
+import { runInventory } from "../src/inventory/index.js";
 import { terraformStateImporter } from "../src/inventory/terraform-state.js";
 import type { InventoryItem, InventoryReport } from "../src/inventory/types.js";
 

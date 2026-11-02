@@ -5,7 +5,7 @@ import semver from "semver";
 
 import { renderDiff } from "../agent-instructions.js";
 import { loadDataFile } from "../data-source.js";
-import type { Finding, ScanResult } from "../domain.js";
+import type { Finding } from "../domain.js";
 import { validateRegistryV2 } from "../registry.js";
 import type { FilePatch, Fixer } from "./index.js";
 

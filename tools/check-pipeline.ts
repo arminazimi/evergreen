@@ -277,6 +277,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
         run: () =>
           run(process.execPath, collectCoverage ? coverageTestArgs() : ["tools/run-tests.mjs"]),
       },
+      { id: "check:quality", run: () => run(process.execPath, ["dist/tools/check-quality.js"]) },
       { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },
       { id: "eval:plugins", run: () => run(process.execPath, ["dist/benchmarks/plugin-host-eval.js"]) },
       { id: "eval:agent-loop", run: () => run(process.execPath, ["dist/benchmarks/agent-loop/index.js"]) },

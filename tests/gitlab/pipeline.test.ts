@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
 
-import { parse, parseAllDocuments } from "yaml";
+import { parseAllDocuments } from "yaml";
 
 interface Job { variables: Record<string, string>; script: string[] }
 

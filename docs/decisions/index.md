@@ -48,7 +48,7 @@ otherwise. Records are numbered in the order they were written; this page groups
 
 | # | Title | Decision |
 | --- | --- | --- |
-| [0022](0022-measurable-quality-criteria.md) | Define reference quality as measurable criteria | **Proposed.** Define eight quality criteria with an exact measurement for each; an unmeasured criterion is a gap with named follow-up work, not a met target. |
+| [0023](0023-measurable-quality-criteria.md) | Define reference quality as measurable, enforced criteria | **Proposed.** Define eight quality criteria, each enforced by a failing check; zero new debt; existing debt allowlisted with an owner and an expiry of 2027-01-26. |
 
 ## Policy
 

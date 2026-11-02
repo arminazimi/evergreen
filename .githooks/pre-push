@@ -1,7 +1,8 @@
 #!/bin/sh
-# Opt-in pre-push hook: scans this repository with the local Evergreen build when a push changes
-# a manifest, lockfile, workflow, or Dockerfile, and blocks the push on any finding that
-# .evergreen-baseline.json does not cover. The scan uses no network.
+# Opt-in pre-push hook. Two checks, both offline:
+#  - when a push changes a manifest, lockfile, workflow, or Dockerfile, it scans this repository with the
+#    local Evergreen build and blocks the push on any finding that .evergreen-baseline.json does not cover;
+#  - when a push changes sources, tooling, or the quality allowlist, it runs `npm run check:quality`.
 #
 # Enable:   git config core.hooksPath .githooks
 # Bypass:   git push --no-verify
@@ -25,6 +26,14 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
   changed="$changed
 $(git diff --name-only "$base" "$local_sha" 2>/dev/null || true)"
 done
+
+# Quality bar: a push that touches sources, tooling, or the quality allowlist runs the same gate as CI.
+quality_pattern='^((src|tools|tests|benchmarks)/.*\.ts|benchmarks/quality-allowlist\.json|tsconfig\.json|docs/QUALITY\.md)$'
+if printf '%s\n' "$changed" | grep -Eq "$quality_pattern"; then
+  cd "$root"
+  echo "pre-push: checking the quality bar (docs/QUALITY.md)..." >&2
+  npm run check:quality --silent || { echo "pre-push: check:quality failed. Fix the findings; see docs/QUALITY.md. Bypass with git push --no-verify." >&2; exit 1; }
+fi
 
 if ! printf '%s\n' "$changed" | grep -Eq "$pattern"; then
   exit 0

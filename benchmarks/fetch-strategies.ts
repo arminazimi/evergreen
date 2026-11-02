@@ -17,7 +17,6 @@ import { directorySize } from "./corpus-cost.js";
 import { fetchWith } from "./corpus-fetch.js";
 import type { FetchStrategy } from "./corpus-fetch.js";
 import { inBatches, resolveCorpusConcurrency } from "./corpus-harness.js";
-import type { CorpusRepositoryEntry } from "./corpus-harness.js";
 import { loadPublicCorpus } from "./public-corpus.js";
 
 interface Measurement {

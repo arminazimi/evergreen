@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { appendFileSync, existsSync } from "node:fs";
-import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
@@ -234,7 +234,6 @@ function appendMarkdownSummary(summaryPath: string, result: FirstRunBenchmarkRes
   if (!exists) {
     content = formatFirstRunMarkdown(result);
   } else {
-    const existing = exists ? appendFileSync : null;
     const durationSec = `${(result.durationMs / 1000).toFixed(2)} s`;
     const budgetSec = `< ${(result.budgetMs / 1000).toFixed(0)} s`;
     const outcome = result.underBudget ? "Pass" : "**Fail**";

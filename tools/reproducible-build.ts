@@ -89,7 +89,7 @@ async function cleanBuild(run: CommandRunner): Promise<void> {
   await run(process.execPath, [npmCli(), "run", "build", "--silent"]);
 }
 
-async function packTarball(run: CommandRunner, destination: string): Promise<string> {
+async function packTarball(_run: CommandRunner, destination: string): Promise<string> {
   const output = await capture(process.execPath, [npmCli(), "pack", "--ignore-scripts", "--json", "--pack-destination", destination]);
   const parsed = JSON.parse(output) as Array<{ filename?: string }>;
   const filename = parsed[0]?.filename;

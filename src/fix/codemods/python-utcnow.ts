@@ -348,7 +348,6 @@ function rewriteFor(
     const callee = call.childForFieldName("function");
     if (callee?.type !== "attribute") continue;
     const object = callee.childForFieldName("object");
-    const attribute = callee.childForFieldName("attribute");
     if (object === null || object === undefined) continue;
     if (object.type !== "identifier" && object.type !== "attribute") continue;
     if (object.text !== shape.prefix) {
