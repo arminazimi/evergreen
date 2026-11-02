@@ -18,7 +18,7 @@ title: Evergreen
 [![Evergreen](https://raw.githubusercontent.com/arminazimi/evergreen/badges/evergreen-badge.svg)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
 [![skills.sh](https://skills.sh/b/arminazimi/evergreen)](https://skills.sh/arminazimi/evergreen/evergreen-deprecation)
 
-این صفحه ترجمهٔ فارسی [README اصلی](../../../README.md) است. زبان‌های دیگر: **فارسی** · [English](../../../README.md)
+این صفحه ترجمهٔ فارسی [README اصلی](../../../README.md) است. زبان‌های دیگر: **فارسی** · [English](../../../README.md) · [مستندات عمومی](../../index.md)
 
 Evergreen ریسک‌های **پایان پشتیبانی (EOL) و منسوخ‌شدن** رانتایم‌ها، بسته‌ها و اکشن‌های گیت‌هاب را در مخزن شما پیدا می‌کند، فایل و خط دقیق را نشان می‌دهد و هر یافته را به یک منبع معتبر، یک جایگزین و مراحل مهاجرت متصل می‌کند. به‌صورت CLI روی ماشین شما، سرور MCP محلی، GitHub Action (با SARIF برای code scanning) و Agent Skill اجرا می‌شود؛ پس انسان‌ها و ایجنت‌های کدنویس می‌توانند ریسک چرخهٔ عمر را پیش از شکستن بیلد پیدا کنند و پیش از افزودن یک وابستگی آن را بررسی کنند. اسکن‌ها قطعی و آفلاین‌اند و به حساب کاربری نیاز ندارند.
 

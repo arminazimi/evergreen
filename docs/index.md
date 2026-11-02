@@ -6,6 +6,8 @@ layout: home
 
 Evergreen finds the runtimes, packages, and GitHub Actions in a repository that are already end-of-life or deprecated, shows the exact file and line, and backs every finding with an authoritative source, a replacement, and migration steps — locally, offline, and with no account.
 
+Read this in: **English** · [فارسی](i18n/fa/README.md).
+
 ```bash
 npx evergreen-deprecation scan .
 ```
