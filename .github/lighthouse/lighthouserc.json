@@ -6,7 +6,7 @@
         "http://localhost/",
         "http://localhost/rules/nodejs.runtime.eol-18.html"
       ],
-      "numberOfRuns": 1
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {
