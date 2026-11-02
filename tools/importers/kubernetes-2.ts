@@ -1,3 +1,4 @@
+import { decodeEntities, stripHtml } from "./html.js";
 import type { DraftRule, Importer } from "./types.js";
 
 export const KUBERNETES_RELEASES_URL = "https://kubernetes.io/releases/";
@@ -12,12 +13,7 @@ interface ReleaseLine {
 }
 
 function pageText(html: string): string {
-  return html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/\s+/g, " ");
+  return decodeEntities(stripHtml(html)).replace(/\s+/g, " ");
 }
 
 const minorNumber = (minor: string) => Number(minor.split(".")[1]);

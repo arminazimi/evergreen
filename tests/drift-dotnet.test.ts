@@ -10,11 +10,11 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 import { dotnetCollector } from "../src/drift/dotnet.js";
 import { analyzeDrift } from "../src/drift/index.js";
 import type { RuntimePin } from "../src/drift/index.js";
+import { runCli } from "./cli-runner.js";
 
-const cli = resolve("dist/src/cli.js");
 const fixtures = resolve("tests/fixtures/drift/dotnet");
 
-const run = (...args: string[]) => spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
+const run = (...args: string[]) => runCli(args);
 
 function entry(pins: readonly RuntimePin[], path: string, source: string, raw: string): RuntimePin {
   const found = pins.find((pin) => pin.path === path && pin.source === source && pin.raw === raw);
@@ -92,14 +92,14 @@ test("keeps the entries of one TargetFrameworks list together and out of drift",
   const report = await analyzeDrift(resolve(fixtures, "multi-target"), [dotnetCollector]);
   assert.deepEqual(report.runtimes[0]!.releases, ["6.0", "8.0"]);
   assert.equal(report.runtimes[0]!.drifted, false);
-  assert.equal(run("drift", resolve(fixtures, "multi-target"), "--runtime", "dotnet", "--check").status, 0);
+  assert.equal((await run("drift", resolve(fixtures, "multi-target"), "--runtime", "dotnet", "--check")).code, 0);
 });
 
 test("a source outside a multi-target list still drifts against it", async () => {
   const report = await analyzeDrift(resolve(fixtures, "multi-target-out-of-line"), [dotnetCollector]);
   assert.deepEqual(report.runtimes[0]!.releases, ["6.0", "8.0", "9.0"]);
   assert.equal(report.runtimes[0]!.drifted, true);
-  assert.equal(run("drift", resolve(fixtures, "multi-target-out-of-line"), "--runtime", "dotnet", "--check").status, 1);
+  assert.equal((await run("drift", resolve(fixtures, "multi-target-out-of-line"), "--runtime", "dotnet", "--check")).code, 1);
 });
 
 test("reports drift for the drifted repository and none for the consistent one", async () => {
@@ -113,21 +113,21 @@ test("reports drift for the drifted repository and none for the consistent one",
   assert.equal(consistent.runtimes[0]!.drifted, false);
 });
 
-test("drift --check exits 1 on drift and 0 on a consistent repository", () => {
-  const drifted = run("drift", resolve(fixtures, "drifted"), "--runtime", "dotnet", "--check");
-  assert.equal(drifted.status, 1, drifted.stdout + drifted.stderr);
+test("drift --check exits 1 on drift and 0 on a consistent repository", async () => {
+  const drifted = await run("drift", resolve(fixtures, "drifted"), "--runtime", "dotnet", "--check");
+  assert.equal(drifted.code, 1, drifted.stdout + drifted.stderr);
   assert.match(drifted.stdout, /DRIFT/);
 
-  const consistent = run("drift", resolve(fixtures, "consistent"), "--runtime", "dotnet", "--check");
-  assert.equal(consistent.status, 0, consistent.stdout + consistent.stderr);
+  const consistent = await run("drift", resolve(fixtures, "consistent"), "--runtime", "dotnet", "--check");
+  assert.equal(consistent.code, 0, consistent.stdout + consistent.stderr);
   assert.doesNotMatch(consistent.stdout, /DRIFT/);
 });
 
 test("drift --json matches the drift schema and is byte-identical across runs", async () => {
   const root = resolve(fixtures, "drifted");
-  const first = run("drift", root, "--runtime", "dotnet", "--json");
-  const second = run("drift", root, "--runtime", "dotnet", "--json");
-  assert.equal(first.status, 0, first.stderr);
+  const first = await run("drift", root, "--runtime", "dotnet", "--json");
+  const second = await run("drift", root, "--runtime", "dotnet", "--json");
+  assert.equal(first.code, 0, first.stderr);
   assert.equal(first.stdout, second.stdout);
 
   const schema = JSON.parse(await readFile(resolve("schemas/drift.v1.schema.json"), "utf8")) as object;
@@ -140,11 +140,11 @@ test("drift --json matches the drift schema and is byte-identical across runs", 
   assert.equal(validate({ ...document, undeclared: true }), false);
 });
 
-test("bad flags and --align without --runtime exit 2", () => {
+test("bad flags and --align without --runtime exit 2", async () => {
   const root = resolve(fixtures, "drifted");
-  assert.equal(run("drift", root, "--bogus").status, 2);
-  assert.equal(run("drift", root, "--align", "8.0").status, 2);
-  assert.equal(run("drift", root, "--runtime", "cobol").status, 2);
+  assert.equal((await run("drift", root, "--bogus")).code, 2);
+  assert.equal((await run("drift", root, "--align", "8.0")).code, 2);
+  assert.equal((await run("drift", root, "--runtime", "cobol")).code, 2);
 });
 
 test("--align patches apply, remove the drift, and refuse multi-targeting and properties", async () => {
@@ -158,8 +158,8 @@ test("--align patches apply, remove the drift, and refuse multi-targeting and pr
     assert.equal(git("add", ".").status, 0);
     assert.equal(git("commit", "-qm", "fixture").status, 0);
 
-    const aligned = run("drift", temporary, "--runtime", "dotnet", "--align", "8.0");
-    assert.equal(aligned.status, 0, aligned.stderr);
+    const aligned = await run("drift", temporary, "--runtime", "dotnet", "--align", "8.0");
+    assert.equal(aligned.code, 0, aligned.stderr);
     assert.match(aligned.stderr, /Refused Directory\.Build\.props:\d+ \(TargetFrameworks/);
     assert.match(aligned.stderr, /Refused Property\/Property\.csproj:\d+ \(TargetFramework/);
     assert.match(aligned.stdout, /^\+\+\+ b\/global\.json/m);
@@ -173,8 +173,8 @@ test("--align patches apply, remove the drift, and refuse multi-targeting and pr
     assert.equal(applied.status, 0, applied.stderr);
     assert.equal(spawnSync("git", ["apply", patch], { cwd: temporary, encoding: "utf8" }).status, 0);
 
-    const checked = run("drift", temporary, "--runtime", "dotnet", "--check");
-    assert.equal(checked.status, 0, checked.stdout + checked.stderr);
+    const checked = await run("drift", temporary, "--runtime", "dotnet", "--check");
+    assert.equal(checked.code, 0, checked.stdout + checked.stderr);
 
     const globalJson = await readFile(join(temporary, "global.json"), "utf8");
     assert.match(globalJson, /"version": "8\.0"/);

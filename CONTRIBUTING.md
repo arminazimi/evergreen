@@ -161,6 +161,8 @@ A first-time contributor's pull request gets a first review within **two working
 - **A review** is a maintainer's first written response on the diff: a comment, a change request, or an approval. Labels, bots, and acknowledgements do not count.
 - **If the target is missed**, comment on the pull request to nudge us and tag `@arminazimi`. If there is still no review by the next working day, comment on the linked issue. A missed target is our problem, not yours; it does not mean the change is unwelcome.
 
+Tests are reviewed against [docs/TESTING.md](docs/TESTING.md): it names every kind of test in this repository, when to use each, a real example to copy, and the anti-patterns that make a test flaky or meaningless.
+
 ## Development rules
 
 - Add tests for observable behavior and keep JSON output deterministic across platforms.

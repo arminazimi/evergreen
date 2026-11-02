@@ -10,6 +10,8 @@ Please use GitHub's private vulnerability reporting for this repository. Do not 
 
 Include the affected version, impact, reproduction, and any suggested mitigation. You should receive an acknowledgement within seven days, and we aim to share an assessment and a fix or mitigation plan within 30 days. Reports that are not accepted get a written reason.
 
+Dependency and Actions alerts inside this repository are triaged under [docs/SECURITY_TRIAGE.md](docs/SECURITY_TRIAGE.md). That policy sets a deadline per severity, the only conditions under which an alert may be dismissed and by whom, and who is responsible when the maintainer is away.
+
 Fixes for confirmed vulnerabilities are developed privately, released in a new version, and published as a GitHub security advisory (with a CVE where one applies) that credits the reporter unless they ask to stay anonymous. Publicly known vulnerabilities with a fix available are not left open: the advisory states the affected and fixed versions. For the full release process, see [MAINTAINERS.md](MAINTAINERS.md).
 
 ## Trust model

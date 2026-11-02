@@ -217,8 +217,17 @@ function addResolved(target: ResolvedVersions, rawName: string, rawVersion: unkn
   target.set(name, versions);
 }
 
+/** A TOML document that does not parse pins nothing; it never fails the scan. */
+function parseTomlDocument(contents: string): UnknownRecord | undefined {
+  try {
+    return asRecord(parseToml(contents));
+  } catch {
+    return undefined;
+  }
+}
+
 function collectTomlLock(contents: string, target: ResolvedVersions): void {
-  const document = asRecord(parseToml(contents));
+  const document = parseTomlDocument(contents);
   const packages = document?.package ?? document?.packages;
   if (!Array.isArray(packages)) return;
   for (const value of packages) {
@@ -230,7 +239,12 @@ function collectTomlLock(contents: string, target: ResolvedVersions): void {
 }
 
 function collectPipfileLock(contents: string, target: ResolvedVersions): void {
-  const document = asRecord(JSON.parse(contents) as unknown);
+  let document: UnknownRecord | undefined;
+  try {
+    document = asRecord(JSON.parse(contents) as unknown);
+  } catch {
+    return;
+  }
   for (const sectionName of ["default", "develop"] as const) {
     for (const [name, value] of Object.entries(asRecord(document?.[sectionName]) ?? {})) {
       const metadata = asRecord(value);
@@ -502,7 +516,7 @@ export class PythonDetector implements Detector {
       const projectRoot = resolve(context.root, directory);
       const pyprojectPath = resolve(projectRoot, "pyproject.toml");
       const pyprojectContents = await readOptional(pyprojectPath);
-      const pyproject = pyprojectContents ? asRecord(parseToml(pyprojectContents)) : undefined;
+      const pyproject = pyprojectContents ? parseTomlDocument(pyprojectContents) : undefined;
       const requirements = await requirementFiles(projectRoot);
       const versionDeclarations = await collectVersionFiles(projectRoot);
       if (!pyprojectContents && requirements.length === 0 && versionDeclarations.length === 0) continue;

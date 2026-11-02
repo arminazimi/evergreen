@@ -1,11 +1,26 @@
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
+import { after, test } from "node:test";
 
 import fc from "fast-check";
 
 import { parseCleDocument } from "../../src/cle-ingest.js";
+import { NpmDetector } from "../../src/detectors/npm.js";
+import { PythonDetector } from "../../src/detectors/python.js";
 import { parseTf } from "../../src/detectors/serverless/parse-tf.js";
-import { parsers, type ParserEntry } from "./parsers.js";
+import {
+  detectorParsers,
+  documentParsers,
+  parsers,
+  sourceParsers,
+  type DetectorParserEntry,
+  type DocumentParserEntry,
+  type ParserEntry,
+  type SourceParserEntry,
+} from "./parsers.js";
 
 /**
  * Property-based fuzzing for every manifest parser: arbitrary and grammar-flavored hostile input
@@ -45,15 +60,94 @@ const input = fc.oneof(
   fc.array(fc.constantFrom(...HOSTILE_FRAGMENTS), { maxLength: 256 }).map((fragments) => fragments.join("")),
 );
 
+const DOCUMENT_KEYS = [
+  "components", "metadata", "bomFormat", "specVersion", "packages", "externalRefs",
+  "referenceType", "referenceLocator", "purl", "version", "package", "snapshots",
+  "values", "root_module", "resources", "items", "kind", "apiVersion", "spec",
+  "containers", "image", "Id", "Config", "State", "Service", "default", "develop",
+] as const;
+
+/** JSON-shaped input for parsers that read a document rather than text. */
+const documentInput = fc.oneof(
+  fc.jsonValue({ maxDepth: 5 }),
+  fc.dictionary(fc.constantFrom(...DOCUMENT_KEYS), fc.jsonValue({ maxDepth: 4 }), { maxKeys: 24 }),
+  fc.array(fc.oneof(fc.jsonValue({ maxDepth: 3 }), fc.constantFrom(...HOSTILE_FRAGMENTS)), { maxLength: 32 }),
+);
+
 for (const parser of parsers) {
   test(`${parser.name} tolerates hostile input`, { timeout: TEST_TIMEOUT_MS }, () => {
     fc.assert(
       fc.property(input, (contents) => {
-        const first = run(parser, contents);
-        const second = run(parser, contents);
-        assert.deepEqual(second, first);
+        try {
+          const first = run(parser, contents);
+          const second = run(parser, contents);
+          assert.deepEqual(second, first);
+        } catch (error) {
+          recordCrash({ target: parser.name, input: contents, error });
+          throw error;
+        }
       }),
-      { numRuns: RUNS, interruptAfterTimeLimit: TIME_LIMIT_MS, markInterruptAsFailure: false },
+      { numRuns: parser.runs ?? RUNS, interruptAfterTimeLimit: TIME_LIMIT_MS, markInterruptAsFailure: false },
+    );
+  });
+}
+
+for (const parser of documentParsers) {
+  test(`${parser.name} tolerates hostile documents`, { timeout: TEST_TIMEOUT_MS }, async () => {
+    await fc.assert(
+      fc.asyncProperty(documentInput, async (document) => {
+        try {
+          const first = await runDocument(parser, document);
+          const second = await runDocument(parser, document);
+          assert.deepEqual(second, first);
+        } catch (error) {
+          recordCrash({ target: parser.name, input: document, error });
+          throw error;
+        }
+      }),
+      { numRuns: parser.runs ?? RUNS, interruptAfterTimeLimit: TIME_LIMIT_MS, markInterruptAsFailure: false },
+    );
+  });
+}
+
+for (const parser of detectorParsers) {
+  test(`${parser.name} tolerates hostile input`, { timeout: TEST_TIMEOUT_MS }, async () => {
+    const root = await mkdtemp(join(tmpdir(), "evergreen-fuzz-"));
+    try {
+      for (const [path, contents] of Object.entries(parser.seed ?? {})) await write(root, path, contents);
+      await fc.assert(
+        fc.asyncProperty(input, async (contents) => {
+          try {
+            const first = await runDetector(parser, root, contents);
+            const second = await runDetector(parser, root, contents);
+            assert.deepEqual(second, first);
+          } catch (error) {
+            recordCrash({ target: parser.name, file: parser.file, input: contents, error });
+            throw error;
+          }
+        }),
+        { numRuns: parser.runs ?? RUNS, interruptAfterTimeLimit: TIME_LIMIT_MS, markInterruptAsFailure: false },
+      );
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+}
+
+for (const parser of sourceParsers) {
+  test(`${parser.name} tolerates hostile source`, { timeout: TEST_TIMEOUT_MS }, async () => {
+    await fc.assert(
+      fc.asyncProperty(input, async (source) => {
+        try {
+          const first = await runSource(parser, source);
+          const second = await runSource(parser, source);
+          assert.deepEqual(second, first);
+        } catch (error) {
+          recordCrash({ target: parser.name, input: source, error });
+          throw error;
+        }
+      }),
+      { numRuns: parser.runs ?? RUNS, interruptAfterTimeLimit: TIME_LIMIT_MS, markInterruptAsFailure: false },
     );
   });
 }
@@ -78,6 +172,55 @@ test("parseCleDocument tolerates hostile input", { timeout: TEST_TIMEOUT_MS }, (
   );
 });
 
+const temporaryRoots: string[] = [];
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
+async function repository(files: Record<string, string>): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-fuzz-regression-"));
+  temporaryRoots.push(root);
+  for (const [path, contents] of Object.entries(files)) await write(root, path, contents);
+  return root;
+}
+
+async function write(root: string, path: string, contents: string): Promise<void> {
+  const absolute = join(root, path);
+  await mkdir(dirname(absolute), { recursive: true });
+  await writeFile(absolute, contents);
+}
+
+test("npm lockfile crashers from the fuzz corpus never fail the scan", async () => {
+  const fixtures = resolve("tests/fixtures/fuzz/npm");
+  const root = await repository({
+    "package.json": JSON.stringify({ dependencies: { request: "^2.88.0" } }),
+    "package-lock.json": await readFile(join(fixtures, "package-lock.json"), "utf8"),
+    "npm-shrinkwrap.json": await readFile(join(fixtures, "npm-shrinkwrap.json"), "utf8"),
+    "pnpm-lock.yaml": await readFile(join(fixtures, "pnpm-lock.yaml"), "utf8"),
+    "bun.lock": await readFile(join(fixtures, "bun.lock"), "utf8"),
+  });
+
+  const findings = await new NpmDetector().scan({ root });
+  assert.ok(findings.some((finding) => finding.ruleId.startsWith("npm.")), "the declared dependency is still reported");
+  assert.ok(findings.every((finding) => finding.confidence !== "inferred-from-lock"), "damaged lockfiles resolve nothing");
+});
+
+test("python project crashers from the fuzz corpus never fail the scan", async () => {
+  const fixtures = resolve("tests/fixtures/fuzz/python");
+
+  const malformed = await repository({ "pyproject.toml": await readFile(join(fixtures, "pyproject.toml"), "utf8") });
+  assert.deepEqual(await new PythonDetector().scan({ root: malformed }), []);
+
+  const root = await repository({
+    "pyproject.toml": '[project]\nname = "fuzz-target"\nrequires-python = ">=3.8"\n',
+    "uv.lock": await readFile(join(fixtures, "uv.lock"), "utf8"),
+    "Pipfile.lock": await readFile(join(fixtures, "Pipfile.lock"), "utf8"),
+  });
+  const findings = await new PythonDetector().scan({ root });
+  assert.ok(findings.some((finding) => finding.summary.includes("Python 3.8")), "the project runtime is still reported");
+});
+
 type Outcome = { kind: "value"; value: unknown } | { kind: "deliberate"; error: string };
 
 function run(parser: ParserEntry, contents: string): Outcome {
@@ -95,9 +238,81 @@ function run(parser: ParserEntry, contents: string): Outcome {
   }
 }
 
+async function runDocument(parser: DocumentParserEntry, document: unknown): Promise<Outcome> {
+  const started = performance.now();
+  try {
+    const value = await parser.parse(document);
+    assertWithinBudget(parser.name, started);
+    return { kind: "value", value };
+  } catch (error: unknown) {
+    assertWithinBudget(parser.name, started);
+    if (parser.allowedErrors?.some((expected) => error instanceof expected)) {
+      return { kind: "deliberate", error: (error as Error).constructor.name };
+    }
+    throw error;
+  }
+}
+
+async function runDetector(parser: DetectorParserEntry, root: string, contents: string): Promise<Outcome> {
+  await write(root, parser.file, contents);
+  const started = performance.now();
+  try {
+    const value = await parser.detector.scan({ root, scannedAt: "2026-01-01T00:00:00Z" });
+    assertWithinBudget(parser.name, started);
+    return { kind: "value", value };
+  } catch (error: unknown) {
+    assertWithinBudget(parser.name, started);
+    if (parser.allowedErrors?.some((expected) => error instanceof expected)) {
+      return { kind: "deliberate", error: (error as Error).constructor.name };
+    }
+    throw error;
+  }
+}
+
+async function runSource(parser: SourceParserEntry, source: string): Promise<Outcome> {
+  const started = performance.now();
+  try {
+    const value = await parser.parse(source);
+    assertWithinBudget(parser.name, started);
+    return { kind: "value", value };
+  } catch (error: unknown) {
+    assertWithinBudget(parser.name, started);
+    if (parser.allowedErrors?.some((expected) => error instanceof expected)) {
+      return { kind: "deliberate", error: (error as Error).constructor.name };
+    }
+    throw error;
+  }
+}
+
 function assertWithinBudget(name: string, started: number): void {
   const elapsed = performance.now() - started;
   assert.ok(elapsed <= SINGLE_RUN_BUDGET_MS, `${name} spent ${Math.round(elapsed)}ms on one input`);
+}
+
+/**
+ * On failure the nightly job keeps the counterexample so it can be pinned as a regression test.
+ * Artifacts are off unless `EVERGREEN_FUZZ_ARTIFACTS` names a directory; a shrinking failure may
+ * try many smaller inputs, so the count per target is capped.
+ */
+const crashCounts = new Map<string, number>();
+
+function recordCrash(entry: { target: string; input: unknown; error: unknown; file?: string }): void {
+  const directory = process.env.EVERGREEN_FUZZ_ARTIFACTS;
+  if (!directory) return;
+  const count = (crashCounts.get(entry.target) ?? 0) + 1;
+  crashCounts.set(entry.target, count);
+  if (count > 10) return;
+  const name = entry.target.replace(/[^a-zA-Z0-9.-]+/g, "-").toLowerCase();
+  mkdirSync(directory, { recursive: true });
+  writeFileSync(
+    join(directory, `${name}-crash-${count}.json`),
+    JSON.stringify({
+      target: entry.target,
+      ...(entry.file === undefined ? {} : { file: entry.file }),
+      input: entry.input,
+      error: entry.error instanceof Error ? `${entry.error.name}: ${entry.error.message}` : String(entry.error),
+    }, null, 2) + "\n",
+  );
 }
 
 function readPositiveInteger(name: string, fallback: number): number {

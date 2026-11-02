@@ -13,13 +13,14 @@ const NESTED_MANIFEST =
 const TREE_SITTER_VENDOR_FILES = new Set([
   "LICENSE",
   "README.md",
+  "manifest.json",
   "tree-sitter.d.ts",
   "tree-sitter.cjs",
-  "tree-sitter.wasm",
-  "tree-sitter-javascript.wasm",
-  "tree-sitter-python.wasm",
-  "tree-sitter-tsx.wasm",
-  "tree-sitter-typescript.wasm",
+  "tree-sitter.wasm.b64",
+  "tree-sitter-javascript.wasm.b64",
+  "tree-sitter-python.wasm.b64",
+  "tree-sitter-tsx.wasm.b64",
+  "tree-sitter-typescript.wasm.b64",
 ]);
 
 test("the npm tarball ships only the root package.json as a dependency manifest", async () => {
@@ -36,8 +37,12 @@ test("the npm tarball ships only the root package.json as a dependency manifest"
 
   const paths = files.map((file) => file.path);
   assert.ok(
-    paths.some((path) => path.endsWith("usage/vendor/tree-sitter/tree-sitter-python.wasm")),
-    "trimmed tree-sitter grammars must ship in the tarball",
+    paths.some((path) => path.endsWith("usage/vendor/tree-sitter/tree-sitter-python.wasm.b64")),
+    "trimmed tree-sitter payloads must ship in the tarball",
+  );
+  assert.ok(
+    paths.some((path) => path.endsWith("usage/vendor/tree-sitter/manifest.json")),
+    "the tree-sitter source manifest must ship in the tarball",
   );
   assert.equal(
     paths.some((path) => path.includes("tree-sitter-cpp.wasm") || path.includes("tree-sitter-ruby.wasm")),

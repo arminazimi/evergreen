@@ -1,0 +1,6 @@
+{
+  "order": 150,
+  "level": "stable",
+  "stable": true,
+  "minPrecision": 0.95
+}

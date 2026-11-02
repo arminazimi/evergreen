@@ -120,6 +120,8 @@ jobs:
         # The committed action bundle is verified only for a release; ordinary pull requests would conflict on it.
         env:
           EVERGREEN_VERIFY_ACTION_BUNDLE: "${{ (startsWith(github.event.pull_request.title, 'chore: release') || startsWith(github.event.head_commit.message, 'chore: release')) && '1' || '' }}"
+          # The Linux Node 24 job runs the suite once with coverage; the steps below reuse its lcov.info.
+          EVERGREEN_CHECK_COVERAGE: "${{ runner.os == 'Linux' && matrix.node == 24 && '1' || '' }}"
         run: npm run check
       - name: Enforce the Action cold-start budget
         if: runner.os == 'Linux' && matrix.node == 24
@@ -145,8 +147,8 @@ jobs:
         run: node dist/tools/build-answer-pages.js --check
       - name: Enforce coverage thresholds (main only)
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
-        # Emits lcov.info beside the table so pull requests can diff per-file line coverage against main.
-        run: npm run test:coverage | tee coverage.txt
+        # Reads the lcov.info the `npm run check` step wrote; the suite does not run again.
+        run: node dist/tools/coverage-thresholds.js --lcov lcov.info --summary "$GITHUB_STEP_SUMMARY"
       - name: Upload coverage LCOV (main)
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -190,8 +192,11 @@ jobs:
             echo "Downloaded artifact did not contain lcov.info; skipping coverage diff."
             exit 0
           fi
+          if [ ! -f lcov.info ]; then
+            echo "::error::The check step did not write lcov.info; the per-file coverage diff cannot run."
+            exit 1
+          fi
 
-          npm run test:coverage:lcov
           node dist/tools/coverage-diff.js \
             --base "$RUNNER_TEMP/base-coverage/lcov.info" \
             --head lcov.info \
@@ -200,7 +205,8 @@ jobs:
             --summary "$GITHUB_STEP_SUMMARY"
       - name: Render the coverage badge data
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
-        run: node dist/tools/coverage-badge.js < coverage.txt > "$RUNNER_TEMP/coverage.json"
+        # The same lcov.info the threshold step read; reading it does not run the suite.
+        run: node dist/tools/coverage-badge.js --lcov lcov.info > "$RUNNER_TEMP/coverage.json"
       - name: Upload the coverage badge data
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7

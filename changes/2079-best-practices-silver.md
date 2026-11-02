@@ -1,0 +1,1 @@
+- List the gaps to the OpenSSF Best Practices Silver badge. (#2079)

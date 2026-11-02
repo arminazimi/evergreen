@@ -1,0 +1,1 @@
+- Add a test-quality guide that names each kind of test in the repository and when to use it. (#2110)

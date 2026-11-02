@@ -6,7 +6,7 @@
   "disableTypeChecks": "{src/engine.ts,src/baseline.ts,src/diff.ts,src/vers/**/*.ts}",
   "buildCommand": "npm run build --silent",
   "commandRunner": {
-    "command": "node --test dist/tests/engine.test.js dist/tests/baseline.test.js dist/tests/diff.test.js dist/tests/vers.test.js dist/tests/vers-semver.test.js dist/tests/vers-pep440.test.js dist/tests/vers-maven.test.js dist/tests/vers-nuget-gem.test.js"
+    "command": "node --test --test-concurrency=1 dist/tests/engine.test.js dist/tests/baseline.test.js dist/tests/diff.test.js dist/tests/vers.test.js dist/tests/vers-semver.test.js dist/tests/vers-pep440.test.js dist/tests/vers-maven.test.js dist/tests/vers-nuget-gem.test.js"
   },
   "mutate": [
     "src/engine.ts",
@@ -14,15 +14,20 @@
     "src/diff.ts",
     "src/vers/**/*.ts"
   ],
-  "reporters": ["clear-text", "progress", "json"],
+  "incremental": true,
+  "incrementalFile": "reports/stryker-incremental.json",
+  "reporters": ["clear-text", "progress", "json", "html"],
   "jsonReporter": {
     "fileName": "artifacts/mutation-report.json"
+  },
+  "htmlReporter": {
+    "fileName": "artifacts/mutation/index.html"
   },
   "thresholds": {
     "high": 80,
     "low": 60,
     "break": null
   },
-  "timeoutMS": 60000,
+  "timeoutMS": 30000,
   "concurrency": 4
 }

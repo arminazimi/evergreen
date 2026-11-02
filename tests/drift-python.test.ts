@@ -10,11 +10,11 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 import { analyzeDrift } from "../src/drift/index.js";
 import { pythonCollector } from "../src/drift/python.js";
 import type { RuntimePin } from "../src/drift/index.js";
+import { runCli } from "./cli-runner.js";
 
-const cli = resolve("dist/src/cli.js");
 const fixtures = resolve("tests/fixtures/drift/python");
 
-const run = (...args: string[]) => spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
+const run = (...args: string[]) => runCli(args);
 
 function entry(pins: readonly RuntimePin[], path: string, source: string, raw: string): RuntimePin {
   const found = pins.find((pin) => pin.path === path && pin.source === source && pin.raw === raw);
@@ -99,21 +99,21 @@ test("reports drift, floor conflicts, and a consistent repository", async () => 
   assert.deepEqual(consistent.runtimes[0]!.floorConflicts, []);
 });
 
-test("drift --check exits 1 on drift and 0 on a consistent repository", () => {
-  const drifted = run("drift", resolve(fixtures, "drifted"), "--check");
-  assert.equal(drifted.status, 1, drifted.stdout + drifted.stderr);
+test("drift --check exits 1 on drift and 0 on a consistent repository", async () => {
+  const drifted = await run("drift", resolve(fixtures, "drifted"), "--check");
+  assert.equal(drifted.code, 1, drifted.stdout + drifted.stderr);
   assert.match(drifted.stdout, /DRIFT/);
   assert.match(drifted.stdout, /floor conflict/);
 
-  const consistent = run("drift", resolve(fixtures, "consistent"), "--check");
-  assert.equal(consistent.status, 0, consistent.stdout + consistent.stderr);
+  const consistent = await run("drift", resolve(fixtures, "consistent"), "--check");
+  assert.equal(consistent.code, 0, consistent.stdout + consistent.stderr);
 });
 
 test("drift --json matches the drift schema and is byte-identical across runs", async () => {
   const root = resolve(fixtures, "drifted");
-  const first = run("drift", root, "--json");
-  const second = run("drift", root, "--json");
-  assert.equal(first.status, 0);
+  const first = await run("drift", root, "--json");
+  const second = await run("drift", root, "--json");
+  assert.equal(first.code, 0);
   assert.equal(first.stdout, second.stdout);
 
   const schema = JSON.parse(await readFile(resolve("schemas/drift.v1.schema.json"), "utf8")) as object;
@@ -126,10 +126,10 @@ test("drift --json matches the drift schema and is byte-identical across runs", 
   assert.equal(validate(rejected), false);
 });
 
-test("bad flags and --align without --runtime exit 2", () => {
-  assert.equal(run("drift", resolve(fixtures, "drifted"), "--bogus").status, 2);
-  assert.equal(run("drift", resolve(fixtures, "drifted"), "--align", "3.12").status, 2);
-  assert.equal(run("drift", resolve(fixtures, "drifted"), "--runtime", "cobol").status, 2);
+test("bad flags and --align without --runtime exit 2", async () => {
+  assert.equal((await run("drift", resolve(fixtures, "drifted"), "--bogus")).code, 2);
+  assert.equal((await run("drift", resolve(fixtures, "drifted"), "--align", "3.12")).code, 2);
+  assert.equal((await run("drift", resolve(fixtures, "drifted"), "--runtime", "cobol")).code, 2);
 });
 
 test("--align patches apply and remove the drift, and floors are refused", async () => {
@@ -143,8 +143,8 @@ test("--align patches apply and remove the drift, and floors are refused", async
     assert.equal(git("add", ".").status, 0);
     assert.equal(git("commit", "-qm", "fixture").status, 0);
 
-    const aligned = run("drift", temporary, "--runtime", "python", "--align", "3.12");
-    assert.equal(aligned.status, 0, aligned.stderr);
+    const aligned = await run("drift", temporary, "--runtime", "python", "--align", "3.12");
+    assert.equal(aligned.code, 0, aligned.stderr);
     assert.match(aligned.stderr, /Refused pyproject\.toml:\d+ \(pyproject\.toml requires-python/);
     assert.match(aligned.stdout, /^\+\+\+ b\/Dockerfile/m);
 
@@ -154,8 +154,8 @@ test("--align patches apply and remove the drift, and floors are refused", async
     assert.equal(applied.status, 0, applied.stderr);
     assert.equal(spawnSync("git", ["apply", patch], { cwd: temporary, encoding: "utf8" }).status, 0);
 
-    const checked = run("drift", temporary, "--runtime", "python", "--check");
-    assert.equal(checked.status, 0, checked.stdout + checked.stderr);
+    const checked = await run("drift", temporary, "--runtime", "python", "--check");
+    assert.equal(checked.code, 0, checked.stdout + checked.stderr);
     assert.equal(await readFile(join(temporary, ".python-version"), "utf8"), "3.12\n");
   } finally {
     await rm(temporary, { recursive: true, force: true });

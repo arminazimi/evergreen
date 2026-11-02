@@ -50,6 +50,17 @@ function encode(segment: string): string {
   return encodeURIComponent(segment).replace(/%3A/gi, ":");
 }
 
+/**
+ * Drops trailing `/` characters from a PURL path. A PURL comes from repository files and lockfiles,
+ * so it is untrusted: the loop stays linear where `/\/+$/` backtracks quadratically on a long run of
+ * slashes (`js/polynomial-redos`).
+ */
+function trimTrailingSlashes(value: string): string {
+  let end = value.length;
+  while (end > 0 && value.charCodeAt(end - 1) === 0x2f) end -= 1;
+  return end === value.length ? value : value.slice(0, end);
+}
+
 function normalize(purl: PackageUrl): PackageUrl {
   const type = purl.type.toLowerCase();
   let namespace = purl.namespace;
@@ -125,7 +136,7 @@ export function parsePurl(value: string): PackageUrl {
   if (slash <= 0) throw new PurlError(`PURL is missing a type or name: ${value}`);
   const type = rest.slice(0, slash).toLowerCase();
   if (!TYPE_PATTERN.test(type)) throw new PurlError(`Invalid PURL type "${type}".`);
-  rest = rest.slice(slash + 1).replace(/\/+$/, "");
+  rest = trimTrailingSlashes(rest.slice(slash + 1));
 
   let version: string | undefined;
   const at = rest.lastIndexOf("@");

@@ -222,3 +222,15 @@ Applies when the repository has at least one Python source file.
 - **Version syntax:** PEP 440 ranges from the rule's `vers`, compared with the target release, as in `python@3.13`.
 - **Reports:** every `import module` and `from module import name` of a module removed by the target, and every use of a removed or deprecated function that the symbol rules describe. A `removed` rule whose range includes the target is a blocker; a `deprecated` rule whose range includes the target is a warning. Each issue is one usage location; the subject is the module or symbol and the evidence is the rule id.
 - **`unknown`:** this analyzer reports none. A rule whose range does not include the target, or a target release the PEP 440 comparison cannot read, produces no issue.
+
+## Node.js core APIs
+
+Analyzer id `node-apis`; runtime `nodejs`. Applies when the repository's JavaScript or TypeScript source uses an API described by a `nodejs.symbol.*` rule, found with the same parser-backed usage analysis the npm detector uses.
+
+- **Reads:** every JavaScript and TypeScript source file the usage analysis reads (the same traversal as a scan: `.git`, dependency and build directories, and files over 1 MB are skipped) and the `nodejs.symbol.*` rules in `registry/nodejs.json` whose package URL is `pkg:generic/nodejs`.
+- **Version syntax:** semver ranges from the rule's `vers`, compared with the target release, as in `nodejs@24`. A rule whose range does not include the target produces no issue.
+- **Reports:** every use of an API the target removed or deprecated. A `removed` rule whose range includes the target is a `blocker`; a `deprecated` rule whose range includes the target is a `warning`. Each issue is one usage location; the subject is the API name and the evidence is the rule id.
+- **Levels come from rule data only:** the `event` and `vers` fields decide. Summaries and titles are never parsed for versions, so a rule that mentions a runtime-deprecation version in its text counts as a warning from that version only when the range is encoded in `vers`.
+- **`unknown`:** this analyzer reports none. A target release the semver comparison cannot read, or a source file without a matched symbol, produces no issue.
+
+The removal versions in the registry are sourced to the official [Node.js deprecations page](https://nodejs.org/api/deprecations.html).

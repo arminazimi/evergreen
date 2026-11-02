@@ -34,6 +34,22 @@ test("recorded drafts match the reviewed Go registry", async () => {
   assert.deepEqual([diff.added, diff.changed, diff.removed], [[], [], []]);
 });
 
+test("a release line inside a script block is ignored, even when its closing tag has whitespace", async () => {
+  const result = await runImporter(goReleasePolicyImporter, {
+    now: new Date("2026-10-16T12:00:00Z"),
+    async fetchText() {
+      return [
+        "<script>go1.99.0 (released 2099-01-01)</script >",
+        "<h2>go1.25.0 (released 2026-08-19)</h2>",
+        "<h2>go1.26.0 (released 2027-02-10)</h2>",
+        "<h2>go1.27.0 (released 2027-08-11)</h2>",
+      ].join("\n");
+    },
+  });
+  assert.deepEqual(result.rules.map((rule) => rule.id), ["go.runtime.end-of-support-1.25"]);
+  assert.equal(result.rules[0]!.deadline, "2027-08-11");
+});
+
 test("missing or incomplete release history produces a review note, not guessed rules", async () => {
   const result = await runImporter(goReleasePolicyImporter, {
     now: new Date("2026-10-16T12:00:00Z"),

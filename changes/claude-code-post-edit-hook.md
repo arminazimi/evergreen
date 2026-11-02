@@ -1,0 +1,1 @@
+- Add a Claude Code post-edit hook that reports lifecycle findings after Write, Edit, and MultiEdit. (#1881)

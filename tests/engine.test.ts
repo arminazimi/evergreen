@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import { buildScanCoverage, scanRepository } from "../src/engine.js";
+import { buildScanCoverage, scanRepository, shouldDisableCacheForDetector } from "../src/engine.js";
 import { renderJson, renderText } from "../src/reporters.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
 import type { Detector } from "../src/sdk.js";
@@ -123,6 +123,42 @@ test("coverage names ecosystems and files matched by detector inputs", async () 
   const result = await scanRepository(root, [npm, go]);
   assert.deepEqual(result.coverage?.ecosystems, ["go", "npm"]);
   assert.match(renderText(result), /Ecosystems detected: go, npm/);
+});
+
+test("a detector directory with a long run of slashes is checked in linear time", () => {
+  const attack = `node_modules${"/".repeat(100_000)}x`;
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "fixture",
+    inputs: { directories: [attack] },
+    async scan() {
+      return [];
+    },
+  };
+  const started = performance.now();
+  const disabled = shouldDisableCacheForDetector(detector);
+  const elapsed = performance.now() - started;
+  assert.equal(disabled, false);
+  assert.ok(elapsed < 1000, `a 100k-slash directory took ${elapsed.toFixed(1)}ms`);
+});
+
+test("a coverage walk prefixes a detector directory with a long run of slashes in linear time", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-coverage-slashes-"));
+  await writeFile(join(root, "package.json"), "{}\n");
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "fixture",
+    inputs: { fileNames: ["package.json"], directories: [`vendor/${"/".repeat(100_000)}x`] },
+    async scan() {
+      return [];
+    },
+  };
+  const started = performance.now();
+  const coverage = await buildScanCoverage(root, [detector], []);
+  const elapsed = performance.now() - started;
+  assert.deepEqual(coverage.ecosystems, ["fixture"]);
+  assert.deepEqual(coverage.filesRead, ["package.json"]);
+  assert.ok(elapsed < 1000, `a coverage walk over a 100k-slash directory took ${elapsed.toFixed(1)}ms`);
 });
 
 test("an unreadable directory does not crash a zero-finding coverage walk", async (t) => {
