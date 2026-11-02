@@ -8,17 +8,16 @@ import { evaluateBaseline, expiredSuppressionsFail, readBaseline } from "./basel
 import type { ExpiredPolicy } from "./baseline.js";
 import { badgeState, renderBadgeSvg } from "./badge.js";
 import { applyMinSupport } from "./min-support.js";
-import { builtInDetectors } from "./detectors/index.js";
 import type { Finding, ScanResult, Severity, SourceLocation, SuppressionRef } from "./domain.js";
 import { severityValues } from "./domain.js";
-import { scanRepository } from "./engine.js";
-import { DiffError, diffRefs } from "./diff.js";
+import { DiffError } from "./diff.js";
 import { planFixReport } from "./fix/index.js";
 import type { DiffResult } from "./diff.js";
 import { buildForecast } from "./forecast.js";
 import { relativePosix } from "./paths.js";
 import { describeData, renderJson, renderSarif } from "./reporters.js";
 import type { DataInfo, SuppressionState } from "./domain.js";
+import { diffWithBuiltIns, scanWithBuiltIns } from "./scan-builtins.js";
 import { MAXIMUM_WORKSPACE_DEPTH, SKIPPED_DIRECTORIES, globToRegExp } from "./workspaces.js";
 
 export type SeverityGate = Severity | "none";
@@ -443,7 +442,7 @@ async function scanOneRoot(
   root: string,
   options: Pick<GitHubActionOptions, "baselinePath" | "today" | "baselineWarnDays" | "onExpired" | "minSupportDays">,
 ): Promise<{ result: ScanResult; expiredFailure: boolean }> {
-  let result = await scanRepository(root, builtInDetectors);
+  let result = await scanWithBuiltIns(root);
   let expiredFailure = false;
   if (options.minSupportDays !== undefined) {
     result = applyMinSupport(result, options.minSupportDays, options.today ?? new Date().toISOString().slice(0, 10));
@@ -479,7 +478,7 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
 
   if (options.mode === "diff") {
     if (!options.diffRange) throw new Error("mode: diff needs the base and head refs of the pull request.");
-    const compared = await diffRefs(root, options.diffRange, builtInDetectors);
+    const compared = await diffWithBuiltIns(root, options.diffRange);
     // The diff gate judges only what the PR introduces, so no baseline and no min-support run over the whole backlog.
     result = { schemaVersion: "evergreen.scan.v1", root, scannedAt: new Date().toISOString(), findings: compared.introduced, diagnostics: [] };
     diff = { base: compared.base, head: compared.head, fixed: compared.fixed, unchanged: compared.unchanged };

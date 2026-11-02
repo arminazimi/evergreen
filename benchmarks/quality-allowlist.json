@@ -2551,16 +2551,7 @@
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
     }
   ],
-  "boundaries": [
-    {
-      "file": "src/github-action.ts",
-      "rule": "adapters-no-detectors",
-      "count": 1,
-      "owner": "#2228",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Existing import of a detector from an adapter; move the logic into the engine or the detector."
-    }
-  ],
+  "boundaries": [],
   "audit": [
     {
       "advisory": "GHSA-333x-w4r6-6crp",

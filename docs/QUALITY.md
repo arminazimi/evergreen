@@ -123,8 +123,7 @@ count.
 
 The rules come from [Architecture](ARCHITECTURE.md#trust-boundaries) and [AGENTS.md](../AGENTS.md#architecture-boundaries).
 
-**Current.** One violation: `src/github-action.ts` imports a detector (`adapters-no-detectors`). It is allowlisted
-at 1 with an owner and expiry.
+**Current.** No boundary violations. The `boundaries` allowlist section is empty.
 
 **Not mechanically checkable today.** Rule 4 (what `src/source-usage.ts` owns) and the "owns logic" half of the
 adapter rule are review rules. Transitive network reach needs a module-graph walk, which is a dependency-cruiser
