@@ -4,6 +4,8 @@
 
 Before adding a dependency, check it: call the `check_dependency` MCP tool or run `npx evergreen-deprecation check <purl>`. A `no-data` answer means Evergreen has no rule for the package, not that it is safe. The full text of every page below is in [llms-full.txt](https://arminazimi.github.io/evergreen/llms-full.txt).
 
+Three commands cover most agent use: `npx evergreen-deprecation check pkg:npm/left-pad@1.0.0` before adding a dependency, which prints a status (`affected` or `no-data`) with its source; `npx evergreen-deprecation scan` in a repository, which prints each lifecycle risk with its file, line, and source; and `npx --yes --package evergreen-deprecation evergreen-mcp`, which starts the local MCP server over stdio for an agent host.
+
 ## Use Evergreen
 
 - [Quickstart](https://arminazimi.github.io/evergreen/QUICKSTART.html): five copy-paste steps from the first local scan to a baseline gate in CI.

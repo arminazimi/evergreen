@@ -27,6 +27,14 @@ Read this in: **English** · [فارسی](docs/i18n/fa/README.md).
 
 Read the [public documentation](https://arminazimi.github.io/evergreen/), run the [90-second demo](docs/DEMO.md), or inspect the [validation report](docs/VALIDATION.md). For AI tools, the docs are also published as [`llms.txt`](https://arminazimi.github.io/evergreen/llms.txt) and [`llms-full.txt`](https://arminazimi.github.io/evergreen/llms-full.txt).
 
+## For coding agents
+
+```bash
+npx evergreen-deprecation check pkg:npm/left-pad@1.0.0   # before adding a dependency: prints a status (affected or no-data) with its source
+npx evergreen-deprecation scan                           # in a repository: prints each lifecycle risk with its file, line, and source
+npx --yes --package evergreen-deprecation evergreen-mcp  # start the local MCP server over stdio for an agent host
+```
+
 ## What it covers
 
 <!-- readme-coverage:start -->
