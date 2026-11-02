@@ -129,7 +129,8 @@ for (const parser of detectorParsers) {
         { numRuns: parser.runs ?? RUNS, interruptAfterTimeLimit: TIME_LIMIT_MS, markInterruptAsFailure: false },
       );
     } finally {
-      await rm(root, { recursive: true, force: true });
+      // A run that fast-check stopped at the time limit can still be writing here; retry the removal.
+      await rm(root, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
     }
   });
 }

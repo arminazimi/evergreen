@@ -1616,25 +1616,11 @@
       "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
     },
     {
-      "advisory": "GHSA-6pq8-jhm2-2vcw",
-      "package": "qs",
-      "owner": "#2041",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Development-only dependency of qs; not shipped. Update it or drop it in the security follow-up."
-    },
-    {
       "advisory": "GHSA-g3hv-75wg-m249",
       "package": "minimatch",
       "owner": "#2041",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Development-only dependency of minimatch; not shipped. Update it or drop it in the security follow-up."
-    },
-    {
-      "advisory": "GHSA-q8mj-m7cp-5q26",
-      "package": "qs",
-      "owner": "#2041",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Development-only dependency of qs; not shipped. Update it or drop it in the security follow-up."
     },
     {
       "advisory": "GHSA-w74x-v6f9-j3xg",

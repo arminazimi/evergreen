@@ -89,7 +89,7 @@
     "check:reproducible": "npm run build --silent && node dist/tools/reproducible-build.js",
     "check:action-bundle": "git diff --exit-code -- dist/action/index.js",
     "check:quality": "npm run build --silent && node dist/tools/check-quality.js",
-  "check:plugins": "npm run build --silent && node dist/tools/plugin-packages.js --check",
+    "check:plugins": "npm run build --silent && node dist/tools/plugin-packages.js --check",
     "check:sources": "npm run build --silent && node dist/tools/check-sources.js",
     "benchmark:usage": "npm run build --silent && node dist/benchmarks/source-usage.js",
     "benchmark:perf-budget": "npm run build --silent && node dist/benchmarks/perf-budget.js",
@@ -159,6 +159,9 @@
     "smol-toml": "^1.9.1",
     "yaml": "^2.9.1",
     "zod": "^4.6.5"
+  },
+  "overrides": {
+    "qs": "6.16.1"
   },
   "mcpName": "io.github.arminazimi/evergreen"
 }
