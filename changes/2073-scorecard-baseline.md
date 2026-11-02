@@ -1,1 +1,0 @@
-- Record the 2026-11-01 OpenSSF Scorecard baseline with every check, its score, target, and gap owner. (#2073)

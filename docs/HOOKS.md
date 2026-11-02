@@ -125,7 +125,7 @@ Teams that use [pre-commit](https://pre-commit.com) add Evergreen with three lin
 # .pre-commit-config.yaml
 repos:
   - repo: https://github.com/arminazimi/evergreen
-    rev: v0.7.1
+    rev: v0.7.2
     hooks:
       - id: evergreen
 ```

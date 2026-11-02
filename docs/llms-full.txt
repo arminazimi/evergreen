@@ -1055,7 +1055,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.7.1
+      - uses: arminazimi/evergreen@v0.7.2
         with:
           baseline: .evergreen-baseline.json
           fail-on-severity: high
@@ -1367,7 +1367,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.7.1
+      - uses: arminazimi/evergreen@v0.7.2
         with:
           tracking-issue: "true"
           fail-on-severity: none # the issue is the signal; do not fail the schedule
@@ -1446,7 +1446,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.7.1
+      - uses: arminazimi/evergreen@v0.7.2
         with:
           fix-pr: "true"
           fail-on-severity: none
@@ -1572,7 +1572,7 @@ permissions:
 
 steps:
   - uses: actions/checkout@v7
-  - uses: arminazimi/evergreen@v0.7.1
+  - uses: arminazimi/evergreen@v0.7.2
     with:
       upload-sarif: true
 ```
@@ -1619,7 +1619,7 @@ A start-to-finish guide for running Evergreen in GitHub Actions: add the Action 
 ## Before you start
 
 - Confirm your workflow runs on a runner that still has the Node.js and action runtimes you use. Evergreen flags those too, so a workflow that installs an end-of-life runtime shows up in its own scan.
-- Pick a version tag, such as `arminazimi/evergreen@v0.7.1`, and read the inputs table in [GITHUB_ACTION.md](../GITHUB_ACTION.md#inputs-and-outputs). Every input is optional; the defaults gate on `high` and upload the JSON report.
+- Pick a version tag, such as `arminazimi/evergreen@v0.7.2`, and read the inputs table in [GITHUB_ACTION.md](../GITHUB_ACTION.md#inputs-and-outputs). Every input is optional; the defaults gate on `high` and upload the JSON report.
 - Decide what the team accepts before the first run. Existing findings should go into a committed baseline, not into a gate that is switched off.
 - Work on a branch. Run the Action on a pull request first, read the annotations, then make it required.
 
@@ -1641,7 +1641,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.7.1
+      - uses: arminazimi/evergreen@v0.7.2
         with:
           baseline: .evergreen-baseline.json
           fail-on-severity: high
@@ -2533,7 +2533,7 @@ Teams that use [pre-commit](https://pre-commit.com) add Evergreen with three lin
 # .pre-commit-config.yaml
 repos:
   - repo: https://github.com/arminazimi/evergreen
-    rev: v0.7.1
+    rev: v0.7.2
     hooks:
       - id: evergreen
 ```
@@ -7150,10 +7150,299 @@ Every release is listed below, newest first. Each heading has a stable anchor, s
 
 ## Unreleased
 
+<a id="v0.7.2"></a>
+
+## 0.7.2 - 2026-11-02
+
+- Add `evergreen glance`, a one-screen terminal summary card of a repository's lifecycle state: the Evergreen mark on the left and, on the right, the repository name, detected ecosystems with their maturity level, findings by severity as colored blocks, the next deadline, the oldest ended item, and the data version and age, with `--as-of` and a `--json` facts document. (#1855)
+- Add the `check_snippet` MCP tool and the `evergreen check-snippet --path <path>` command: before writing a file, an agent can ask what Evergreen would flag by passing the intended repository-relative path and the exact content on stdin. The snippet is written as the only file of a temporary directory, scanned with all built-in detectors, and the findings come back with paths and lines relative to the snippet; the temporary directory is always removed and the real repository is never read or written. Absolute paths, `..`, paths over 256 characters, and content over 1 MB are rejected. (#1888)
+- Add a uv and PDM lockfile analyzer to `upgrade-check`: it judges the project's own Python range (top-level `requires-python` in `uv.lock`, `[metadata]` `requires_python` in `pdm.lock`) and every package's declared bounds — `resolution-markers` and version-specific wheel tags in `uv.lock`, `requires_python` and `groups` in `pdm.lock` — against the target release, reporting blockers, dev-group warnings, and unparsable values as unknowns; a package whose file states no Python bound is reported as nothing, never guessed from wheel availability. (#1863)
+- Add a codemod that rewrites the Python 3.12-deprecated `datetime.utcnow()` and `datetime.utcfromtimestamp(t)` to `now(timezone.utc)` and `fromtimestamp(t, timezone.utc)` with `.replace(tzinfo=None)`, returning the same naive value, following the file's import shape; refusals for star imports, aliased or rebound names, conflicting `timezone` bindings, and multi-line imports. (#1829)
+- Add a Kubernetes cluster importer to `evergreen inventory`. It reads `kubectl version -o json` for the control-plane version and `kubectl get nodes -o json` for each node's kubelet version, operating-system image, and container runtime, at the exact JSON Pointer each claim rests on. Provider suffixes (`-eks-…`, `-gke.…`, `+k3s1`) are stripped before the upstream release line is judged, and `registry/kubernetes.json` adopts the upstream minor-release rules the `kubernetes-2` lifecycle importer drafts from the Kubernetes release history page, plus a reviewed rule for the older lines. It reads only the files given to it and runs no command. (#1872)
+- Promote the Go and Rust detectors to Supported after adding 97 independently reviewed corpus entries. The corpus now holds 43 Go entries (31 blind) and 78 Rust entries (53 blind); the Go detector reports all 111 expected findings and the Rust detector all 63, with no false positives or false negatives. (#1892)
+- Add a **Stale choices this agent introduced** section to the Action's pull request comment when a coding agent opened the pull request: diff mode lists each introduced finding with its `path:line`, replacement, and evidence, and asks the agent to replace them and push again. `agent-authors` names the logins (Copilot, Jules, Devin, OpenAI Codex cloud, and Claude by default), and `none` turns the section off. (#1887)
+- Add `evergreen countdown`, a live terminal countdown to every dated lifecycle deadline that affects the repository, with a two-year bar that turns from green to yellow to red, a six-second animation, and a `--json` document. (#1848)
+- Add a Terraform state importer to `evergreen inventory`. It reads `terraform show -json` state output and raw `terraform.tfstate` v4 files for Lambda runtimes, RDS, Aurora, and ElastiCache engines, EKS, GKE, and AKS control-plane versions, Cloud Functions runtimes, and Linux Function App stacks, at the exact JSON Pointer each value came from. It reads only the files given to it and never runs Terraform or calls a provider. (#1870)
+- Add the Node.js drift collector: read `.nvmrc`, `.node-version`, `.tool-versions`, `package.json` `volta.node` and `engines.node`, every Dockerfile stage, `devcontainer.json`, `actions/setup-node` inputs including matrices, and GitLab CI, CircleCI, and Azure Pipelines images. `lts/<codename>` resolves through the Node.js release schedule; `--align` rewrites the single-value pins and refuses matrices and floors. (#1837)
+- Add the Terraform drift collector: read `.terraform-version` and `.tool-versions` files at any depth, Dockerfile `FROM hashicorp/terraform` images, the `hashicorp/setup-terraform` `terraform_version` input, `hashicorp/terraform` images in GitHub Actions, GitLab CI, CircleCI, and Azure Pipelines, and `required_version` in every module. Version files and floors apply to their directory, so a floor is checked against the nearest version file at or above it, or against the repository-wide pins. `--align` rewrites version files, image tags, single-value inputs, and exact `required_version` pins. (#1845)
+- Add the npm lockfile analyzer to `upgrade-check`: it reads `engines.node` from `package-lock.json` and `npm-shrinkwrap.json` lockfile versions 2 and 3, reports production blockers, dev warnings, and invalid ranges at the `engines` line, and reports lockfile version 1 as unknown. (#1859)
+- Add a Google Cloud importer to `evergreen inventory`. It reads `gcloud functions list`, `gcloud app versions list`, `gcloud container clusters list`, and `gcloud run services list` output; it calls no cloud API and reads only the files given to it. (#1877)
+- Add an AWS Lambda importer to `evergreen inventory`, which reads the exports the cloud tools already produce and names the JSON Pointer each claim rests on. The importer covers `aws lambda list-functions --output json`, and `registry/serverless.json` now has a sourced rule for every runtime the AWS Lambda runtimes page dates. (#1874)
+- Add an AWS importer to `evergreen inventory` for RDS instances, Aurora clusters, and ElastiCache clusters from `aws rds describe-*` and `aws elasticache describe-cache-clusters` exports. It reads only the files given and never calls a provider API. The first importer reads `aws rds describe-db-instances`, `aws rds describe-db-clusters`, and `aws elasticache describe-cache-clusters` output for RDS, Aurora, and ElastiCache engines. (#1875)
+- Add a Docker importer to `evergreen inventory`, reporting the lifecycle of containers and images from `docker inspect` and `docker compose ps --format json`; it reads only the files given to it and never uses the network. (#1873)
+- Add `evergreen inventory` and its host operating systems importer: read `/etc/os-release` from one host or a multi-host bundle and report end-of-life Ubuntu, Debian, RHEL, CentOS, Amazon Linux, Alpine, and SLES releases with the line each version came from. It reads only the files given and calls no cloud API. (#1879)
+- Add `evergreen drift`, which reports every runtime version a repository states and whether the values agree, with `--align` patches and a `--check` gate; the first collector covers Ruby pins, floors, and the `Gemfile.lock` refusal. (#1836, #1841)
+- Add `evergreen drift`, which reports every runtime version a repository states and whether the values agree, and `--align`, which prints a patch without writing it. This release includes the Java collector. (#1840)
+- Add `evergreen drift`, which reports every place a repository states a runtime version, whether those versions agree, and `--align` patches that make them select one release. (#1838)
+- Add the .NET drift collector: read `global.json`, target frameworks, Microsoft .NET base images, `actions/setup-dotnet`, and GitLab CI, CircleCI, and Azure Pipelines images, and report when the releases disagree. Multi-targeting is reported without counting its entries against each other. (#1842)
+- Add `evergreen drift`: report every runtime version a repository states, with its exact file and line, and exit `1` when they disagree; `--align <release>` prints a patch that never writes a file. The Rust collector reads toolchain channels, `.tool-versions`, Dockerfile and CI images, `dtolnay/rust-toolchain` and `actions-rs/toolchain` inputs, and `rust-version` floors. (#1843)
+- Add `evergreen drift`, which reports every place a repository states a runtime version, whether those versions agree, and `--align` patches that make them select one release. The first collector reads Python pins and floors. (#1838)
+- Add `evergreen drift`: report every runtime version a repository states, with its exact file and line, and exit `1` when they disagree; `--align <release>` prints a patch that never writes a file. The Go collector reads go.mod and go.work toolchains and `go` directives, `.go-version`, `.tool-versions`, Dockerfile images, `actions/setup-go` inputs, and GitLab, CircleCI, and Azure Pipelines images. (#1839)
+- Detect and rewrite deprecated Dockerfile `MAINTAINER` instructions and the legacy `ENV key value` form, with codemod refusals for values that cannot be quoted safely. (#1834)
+- Add a Terraform codemod for interpolation-only strings and the `list()` and `map()` functions removed in Terraform 0.15: two registry rules with upgrade-guide sources, exact detection that skips heredocs, type constraints, and strings with literal text, and patches that refuse multiline calls, invalid argument counts, expression map keys, block labels, and generated or `.terraform/` files. (#1835)
+- Add `--format mermaid` to `scan` and `forecast` for a fenced Gantt chart of support windows that GitHub renders in READMEs, issues, and pull request comments. (#1856)
+- Add `evergreen upgrade-check --to <runtime@version>` and the `check_upgrade` MCP tool, which answer from lockfiles and manifests whether a project can move to a target runtime. (#1865)
+- Add the Composer analyzer to `upgrade-check`: it reads `require.php` constraints in `composer.lock` and `composer.json` and reports blockers, dev warnings, and unknowns with exact evidence and line numbers. (#1865)
+- Add `evergreen inventory <file>...`, which reports the lifecycle of what the cloud and cluster tools' exports say is deployed, reading only the files given and never calling a provider API. The first importer reads `kubectl get deploy,sts,ds,cronjob,job,pod -A -o json` output and reports end-of-life images and removed API versions at the exact pointer each claim rests on. (#1871)
+- Add the Go analyzer to `upgrade-check`: it reads `go.mod`, `go.work`, and `vendor/modules.txt` for module and vendored Go version requirements. (#1867)
+- Judge Dart and Flutter targets against the `sdks` bounds in `pubspec.lock` and the `environment` bounds in `pubspec.yaml`, using pub's caret semantics for `0.x` releases. (#1866)
+- Add the pnpm lockfile analyzer to `upgrade-check`: it reads `engines.node` from pnpm lockfile versions 6.x and 9.x, resolving the dev flag from importers and snapshots in 9.x, and reports blockers, dev warnings, and invalid ranges at their exact line. (#1860)
+- Add a Poetry `poetry.lock` analyzer to `upgrade-check`: it judges every package's `python-versions`, and the project's `[tool.poetry.dependencies] python` constraint, against the target release. (#1862)
+- Add the Python standard library analyzer to `upgrade-check`: it reports uses of modules and functions that Python 3.12 and 3.13 removed or deprecated, including the PEP 594 modules, `distutils`, `imp`, and `lib2to3`, at exact locations. (#1864)
 - Make bare `evergreen init` ask what to set up: it detects the repository's CI provider and agent hosts, shows the plan, and with one confirmation (or `--yes` for scripts) writes a GitHub Actions workflow, the pre-push hook, and the Evergreen agent section; GitLab repositories get the component include to add. (`#1266`)
 - Add a Claude Code PreToolUse hook that blocks npm, pnpm, yarn, pip, and uv installs of packages Evergreen marks as deprecated or end-of-life. (#1273)
 - Add a Cursor rule that tells the agent to check a dependency with the `check_dependency` MCP tool or `evergreen check` before adding it, documented alongside the hooks. (#1274)
 - Add a GitHub Copilot instructions file that tells the agent to check a dependency with the `check_dependency` MCP tool or `evergreen check` before adding it, documented alongside the hooks. (#1275)
+- Add a codemod that rewrites the exact Node.js API renames `os.tmpDir`, `path._makeLong`, `async_hooks.currentId`, `async_hooks.triggerId`, and `crypto.Hash`/`crypto.Hmac` called without `new`, refusing every other shape with a reason. (#1827)
+- Add a codemod that rewrites the removed Node.js `util.is*` type checks to the native expressions Node.js names, keeping the cross-realm `util.types` check for dates and regular expressions, and refusing `util.isError` and every call it cannot reproduce exactly. (#1826)
+- Add a codemod that rewrites the removed `imp.reload`, `imp.new_module`, `imp.get_magic`, `imp.get_tag`, `imp.cache_from_source`, and `imp.source_from_cache` to their `importlib`, `types`, and `sys` equivalents, and drops `import imp` when no use remains. (#1830)
+- Add `evergreen forecast --svg`, with `--animate` to grow a bar from today to each event in date order and pulse the today marker twice, for a README or a slide. (#1853)
+- Add a findings treemap to the `--format html` report: directories and files are sized by severity-weighted finding count, colored by the highest severity, and link to that file's findings. (#1851)
+- Add a codemod that rewrites the Node.js `Buffer` constructor to `Buffer.from` and `Buffer.alloc`, and `SlowBuffer` to `Buffer.allocUnsafeSlow`, refusing arguments whose kind is not visible. (#1828)
+- Run the test suite once with coverage in CI and reuse that run for the coverage thresholds, the per-file diff, and the badge. (#2007)
+- Fail the test suite when the whole run or any single test file exceeds its committed time budget. (#2008)
+- Generate the documentation URL inventory during the test run and keep URL safety against a committed published-site baseline. (#2014)
+- Build the GitHub Action bundle onto a `release/<tag>` branch in the Release workflow instead of committing it on `main`, so release tags keep a working `uses: arminazimi/evergreen@<tag>` and ordinary pull requests stop conflicting on the file. (#2015)
+- Generate the README ecosystem table from `docs/readme-coverage.json` and the capability manifest, with a drift check. (#2017)
+- Assemble the capability manifest and corpus thresholds from one file per item, so parallel additions never edit a shared registry. (#2021)
+- Define reference quality as eight measurable criteria, each enforced by a failing check: new debt fails, and existing debt is allowlisted with an expiry of 2027-01-26. (#2041)
+- Require non-goals and acceptance criteria in task issue forms. (#2055)
+- Add CODEOWNERS coverage for the core runtime, adapters, and release files. (#2056)
+- Require a decision record when a public contract changes. (#2057)
+- Make PURL parsing, detector input matching, and Composer package-name validation linear time so a hostile string cannot stall a scan. (#2060)
+- Fix the remaining CodeQL alerts in tools/ with an HTML tag scanner and complete escaping.
+- Store the vendored tree-sitter WebAssembly payloads as verified base64 text so no binary artifact is committed. (#2065)
+- Publish security alert deadlines, dismissal rules, and away coverage. (#2072)
+- Record the 2026-11-01 OpenSSF Scorecard baseline with every check, its score, target, and gap owner. (#2073)
+- List the gaps to the OpenSSF Best Practices Silver badge. (#2079)
+- Open one issue when `main` CI turns red, comment on it for each later failure, and close it when `main` recovers. (#2083)
+- Add a test-quality guide that names each kind of test in the repository and when to use it. (#2110)
+- Add a Claude Code post-edit hook that reports lifecycle findings after Write, Edit, and MultiEdit. (#1881)
+- Report and align every PHP version a repository states with the `drift` command.
+- Run the slowest test files in a fraction of the time by dispatching CLI assertions in process and copying only the files each scaffold test needs. (#2034)
+- Fuzz every file-format parser, including npm, Python, SBOM, inventory, and source parsers, and keep discovered crashers as regression tests. (#2108)
+- Add a codemod for the Python 3.12 renames and removed unittest aliases. (#1831)
+- Report Node.js core APIs removed or deprecated in the upgrade target. (#1861)
+- Add a reproduce command to the Markdown receipt. (#2219)
+- Add the Python 3.12 rename codemod. (#2215)
+- Add the Claude Code post-edit hook. (#2214)
+- Report Node.js core APIs removed or deprecated in the target. (#2213)
+- Add the PHP runtime drift collector. (#2212)
+- Redact credentials from importer recordings (#2004). (#2186)
+- Profile test file and check step timings. (#2185)
+- Split public corpus into one file per repository. (#2184)
+- Register each CLI command from its own file. (#2183)
+- Make the plugin packages publishable under @evergreen-dev. (#1973)
+- Add the evergreen glance terminal summary card. (#1966)
+- Check a snippet before writing it. (#1965)
+- Judge uv and PDM lockfile python bounds (#1863). (#1964)
+- Read Kubernetes cluster and node versions. (#1961)
+- Rewrite the deprecated datetime.utcnow calls as a codemod. (#1963)
+- Add the Terraform drift collector. (#1962)
+- Promote the Go and Rust detectors to stable. (#1944)
+- Flag stale choices in agent-authored pull requests. (#1943)
+- Add a live lifecycle countdown command. (#1942)
+- Read Terraform state for runtimes, engines, and clusters. (#1940)
+- Collect Node.js versions and align them. (#1938)
+- Render rule pages with the Slipway doc layout. (#1947)
+- Rewrite Node.js util.is* checks to native expressions. (#1939)
+- List Search Console landing pages in the monthly report. (#1945)
+- Rate-limit and protect the hosted lookup. (#1941)
+- Measure sequential against wave-parallel migration plans. (#1948)
+- Measure the docs site against page weight and speed budgets. (#1946)
+- Add the npm lockfile analyzer to upgrade-check. (#1937)
+- Add the Terraform legacy syntax codemod. (#1916)
+- Animate the forecast SVG with --animate. (#1915)
+- Add Mermaid Gantt output for scan and forecast. (#1914)
+- Add findings treemap to the HTML report. (#1913)
+- Read Composer PHP requirements. (#1903)
+- Rewrite the Node.js Buffer constructor as a codemod. (#1912)
+- Kubernetes workloads importer (images and live API versions). (#1902)
+- Add the Dockerfile legacy syntax codemod.
+- Add the Node.js one-to-one rename codemod.
+- Read AWS RDS, Aurora, and ElastiCache exports.
+- Collect Ruby versions and align them. (#1841)
+- Collect Java version pins and report drift. (#1840)
+- Judge Poetry lockfile python-versions. (#1862)
+- Rewrite the Python imp module calls as a codemod.
+- Analyze pnpm lockfile engines.
+- Collect .NET runtime pins. (#1842)
+- Collect Rust version pins. (#1843)
+- Add the upgrade-check foundation. (#1858)
+- Add the runtime drift foundation.
+- Read Docker containers and images.
+- Read AWS Lambda exports and cover every dated runtime.
+- Add the inventory command and report contract.
+- Add the evergreen inventory command foundation.
+- Add the runtime drift foundation. (#1836)
+- Add the runtime drift foundation. (#1836)
+- Add upgrade-check command and check_upgrade MCP tool.
+- Add the inventory command foundation.
+- Add the Terraform legacy syntax codemod.
+- Animate the forecast SVG with --animate.
+- Add Mermaid Gantt output.
+- Report host operating systems from os-release.
+- Report Python standard-library removals. (#1864)
+- Collect Python runtime pins and floors.
+- Check Dart and Flutter SDK bounds.
+- Add the runtime drift foundation.
+- Add the upgrade-check foundation.
+- Add the Google Cloud importer.
+- Judge Go module and vendored requirements.
+- Collect Go version pins. (#1839)
+- Add the inventory command foundation.
+- Add the upgrade-check foundation. (#1858)
+- Add the upgrade-check foundation.
+- Add the runtime drift foundation. (#1836)
+- Add the inventory command foundation.
+- Generate Open Graph images for every page. (#1805)
+- Generate Is X end of life answer pages for 50 products. (#1811)
+- Ask agents to paste migration receipt in PRs. (#1802)
+- Add evergreen plan for migration waves. (#1804)
+- Add plan_migrations tool. (#1803)
+- Add existing-app targetSdk below-35 rule. (#1791)
+- Add upgrade-runtime-action where the eval shows misses. (#1799)
+- Run guardrail arms with and without the hook. (#1797)
+- Build a migration plan from a scan. (#1795)
+- Add node-sass deprecated lifecycle rule. (#1794)
+- Generate proof Markdown tables from benchmark result files. (#1790)
+- Split external contributors in the monthly report. (#1801)
+- Ship a reusable workflow and org starter template. (#1769)
+- Detect and quarantine flaky tests. (#1773)
+- Map the portal export to Port and Cortex. (#1777)
+- Add the receipt command for before/after scans. (#1776)
+- Score agent guardrail runs by outcome. (#1771)
+- Schedule conflict-free migration waves. (#1770)
+- Return a receipt from verify_migration (#1516). (#1775)
+- Sign GitHub release binaries with keyless cosign. (#1772)
+- Fall back to npx when Evergreen is not installed. (#1766)
+- Publish a JSON twin for every rule page. (#1753)
+- Render a Markdown receipt for pull request bodies. (#1758)
+- Compute the files each finding touches. (#1759)
+- Add combined Evergreen and Seaworthy CI workflow. (#1760)
+- Record whether agent hosts recommend Evergreen. (#1761)
+- Show lifecycle risk per component from the portal export. (#1762)
+- Add evergreen-check-before-add for dependency additions. (#1765)
+- Tune the trigger description with realistic eval cases. (#1755)
+- Expose structured outputs for downstream steps. (#1752)
+- Track CI duration and flag slow pull request runs. (#1754)
+- Define the evergreen.plan.v1 contract. (#1751)
+- Define the evergreen.receipt.v1 contract and builder (#1513). (#1749)
+- Keep one lifecycle tracking issue on scheduled runs. (#1725)
+- Post deterministic fix suggestions in reviews. (#1741)
+- Open and update a fix pull request on a schedule. (#1743)
+- Add the Ruby 3.3 end-of-life rule. (#1736)
+- Add the Node.js 12 Lambda end-of-life rule (#1697). (#1738)
+- Add the analysis_server_client discontinued rule. (#1732)
+- Add Redis 7.0 end-of-life rule. (#1734)
+- Add the Terraform CLI 1.15 end-of-support rule. (#1735)
+- Add the AWS Lambda Python 3.7 end-of-life rule. (#1737)
+- Add the Redis 6.2 scheduled end-of-life rule. (#1739)
+- Propose a baseline on the onboarding pull request's first run. (#1740)
+- Answer /evergreen explain and ignore comments. (#1745)
+- Ship a lifecycle-risk dashboard for the portal export. (#1747)
+- Show the forecast timeline and days left in the job summary. (#1746)
+- Add the PostgreSQL 10 end-of-life rule (#1692). (#1733)
+- Annotate only the lines a pull request changed. (#1721)
+- Propose SHA-pinned onboarding workflow and config from the stack. (#1724)
+- Export developer-portal catalog summaries. (#1730)
+- Track MCP directory listings and check versions weekly. (#1720)
+- Publish /.well-known MCP and agent discovery files. (#1719)
+- Gate the Action's cold start at fifteen seconds. (#1723)
+- Show the next twelve months in the HTML report. (#1715)
+- Track Skill installs in weekly adoption metrics. (#1722)
+- Scan multiple paths in GitHub Action. (#1718)
+- Offer Skill install from evergreen setup. (#1717)
+- Suggest the Slipway starter for Jekyll sites (#1510). (#1706)
+- Add forecast_repository tool. (#1707)
+- Bump the Homebrew formula from the release workflow. (#1713)
+- Add `evergreen forecast --timeline`. (#1705)
+- Polish the HTML report for sharing. (#1703)
+- Link the public lookup page from every rule page (#1324). (#1684)
+- Serve per-type and per-rule endpoints from the static API. (#1680)
+- Package registry JSON and schemas as evergreen-data. (#1667)
+- Enrich SPDX 2.3 SBOMs with lifecycle annotations. (#1668)
+- Export CycloneDX 1.5 VEX from exposure findings. (#1666)
+- Generate a social preview image from the card. (#1661)
+- Add a runnable example per ecosystem. (#1566)
+- Print README snippets and emit shields.io endpoint JSON (#1438, #1435). (#1558)
+- Add a Slipway site starter (#1509). (#1570)
+- Draft a weekly end-of-life post from the registry (#1072). (#1565)
+- Add evergreen lookup for a product and version (#1446). (#1561)
+- Render a per-repository status card (#1436). (#1559)
+- Render the forecast as an inline SVG (#1499). (#1560)
+- Add flat, flat-square, and for-the-badge styles (#1434). (#1556)
+- Add docs traffic and month-over-month change to the adoption report (#1070). (#1544)
+- Generate a static JSON API from the registry. (#1541)
+- Rewrite end-of-life Dockerfile base image tags. (#1538)
+- Render the forecast as a terminal timeline (#1497). (#1539)
+- Add a CircleCI Orb source. (#1488)
+- Add new-rule with passing match and clean fixtures. (#1487)
+- Validate changed rules in pull requests (#1442). (#1486)
+- Add a rule test harness for match and clean fixtures. (#1485)
+- Add Jenkins and Bitbucket Pipelines snippets. (#1484)
+- Verify the package builds reproducibly. (#1482)
+- Add a rules lint command with file, line, and fix hints. (#1475)
+- Report patches and refusals as JSON. (#1477)
+- Add an Azure Pipelines step template. (#1476)
+- Enforce a scan performance budget on the fixed fixture. (#1478)
+- Add a pull request diff mode. (#1471)
+- Generate a Dependabot companion config. (#1466)
+- Rewrite removed Kubernetes apiVersions whose schema is unchanged. (#1470)
+- Read bun.lock versions and report bun.lockb diagnostics. (#1465)
+- Read image from devcontainer.json (#1413). (#1460)
+- Add --only and --exclude scan selectors. (#1467)
+- Raise Java release and toolchain levels in pom.xml and Gradle. (#1463)
+- Read Gradle version catalogs (gradle/libs.versions.toml) (#1412). (#1461)
+- Read Docker Compose service images (#1414). (#1462)
+- Cache per-file scan results (#1417). (#1457)
+- Support .evergreen.json config file (#1416). (#1455)
+- Raise Python requires-python lower bounds. (#1454)
+- Read setuptools and tox runtime declarations. (#1451)
+- Add adoption metrics to the monthly progress report (#300). (#1401)
+- Send weekly organization digest to Slack or Teams (#1295). (#1400)
+- Add star history and external contributors to adoption snapshot. (#1399)
+- Generate a monthly progress report (#270). (#1397)
+- Check that every good first issue has a complete brief. (#1398)
+- Measure repeat use from public signals (#1331). (#1396)
+- Turn unreviewed rule candidates into good first issues (#1074). (#1395)
+- Publish RSS and Atom feeds of lifecycle events (#1071). (#1394)
+- Add `evergreen init agent` to detect host and configure guardrail (#1279). (#1392)
+- Build a static rollup report from organization scan results. (#1388)
+- Switch GitHub Pages to the Slipway theme, pinned to v0.1.0. (#1390)
+- Track external scores in the monthly report. (#1389)
+- Ship a tiny demo that always has findings (#1262). (#1387)
+- Script opening pull requests that add Evergreen to each repository. (#1384)
+- Smoke-test the README quickstart against the published package on three OSes. (#1383)
+- Publish server.json to the MCP Registry automatically after npm. (#1382)
+- Publish a reusable workflow that scans every repository in an organization. (#1378)
+- Add pilot feedback issue form. (#1373)
+- Make bare `evergreen init` ask what to set up (#1266). (#1372)
+- Add Claude Code PreToolUse hook for package installs. (#1366)
+- Make a zero-finding scan helpful. (#1364)
+- Replace common CLI stack traces with actionable errors. (#1359)
+- Allow several --baseline files to combine. (#1358)
+- Clear the remaining CodeQL alerts in tools. (#2192)
+- Make PURL, detector-input, and Composer name checks linear time. (#2191)
+- Close Dangerous-Workflow alerts in release.yml. (#2182)
+- Redact public Google API keys from android-1 recording. (#2180)
+- Point README redirects at directory indexes, not themselves. (#1979)
+- Redirect README inventory URLs that Slipway no longer serves. (#1977)
+- Catch cross-OS and rule regressions on pull requests, isolate the corpus from the data cache, route Terraform runtimes by cloud.
+- Make the drift, inventory and Go vendor paths work on Windows.
+- List the drift page once in llms.txt.
+- Merge the forecast --svg and --format mermaid options.
+- Use supported .NET versions in the drift example so the dogfood scan passes.
+- Use supported Go versions in the drift example so the dogfood scan passes.
+- Keep the malformed fixture parseable by Scorecard. (#1778)
+- Allow the baseline history the CLI writes in the published schema. (#1704)
+- Skip unreadable directories when walking source files. (#1491)
+- Bound package file input size and nesting depth. (#1490)
+- Land Node runtime pins past every active rule. (#1473)
+- Raise unsupported Go module directives. (#1453)
+- Guard Liquid-looking examples so the Pages build passes. (#1391)
+- Check the Node.js version before loading anything else. (#1371)
+- Exclude vendored tree-sitter from the coverage report. (#1356)
 
 <a id="v0.7.1"></a>
 

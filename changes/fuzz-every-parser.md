@@ -1,1 +1,0 @@
-- Fuzz every file-format parser, including npm, Python, SBOM, inventory, and source parsers, and keep discovered crashers as regression tests. (#2108)

@@ -2,7 +2,7 @@
   "protocolVersion": "0.2.5",
   "name": "Evergreen",
   "description": "Local-first deprecation intelligence for software repositories. Finds end-of-life and deprecated runtimes, packages, and GitHub Actions at exact file locations, with authoritative sources and migration context. Runs on your machine as a stdio MCP server; scans never use the network.",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "url": "https://arminazimi.github.io/evergreen/",
   "documentationUrl": "https://arminazimi.github.io/evergreen/MCP.html",
   "iconUrl": "https://arminazimi.github.io/evergreen/assets/brand/evergreen-mark-adaptive.svg",

@@ -1,1 +1,0 @@
-- Require non-goals and acceptance criteria in task issue forms. (#2055)

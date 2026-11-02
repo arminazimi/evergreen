@@ -1,1 +1,0 @@
-- Fix the remaining CodeQL alerts in tools/ with an HTML tag scanner and complete escaping.

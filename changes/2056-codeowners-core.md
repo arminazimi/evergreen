@@ -1,1 +1,0 @@
-- Add CODEOWNERS coverage for the core runtime, adapters, and release files. (#2056)

@@ -6,7 +6,7 @@
       "tool": {
         "driver": {
           "name": "Evergreen",
-          "version": "0.7.1",
+          "version": "0.7.2",
           "informationUri": "https://github.com/arminazimi/evergreen",
           "rules": [
             {

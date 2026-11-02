@@ -1,1 +1,0 @@
-- Run the slowest test files in a fraction of the time by dispatching CLI assertions in process and copying only the files each scaffold test needs. (#2034)

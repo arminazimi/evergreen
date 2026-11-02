@@ -1,1 +1,0 @@
-- Open one issue when `main` CI turns red, comment on it for each later failure, and close it when `main` recovers. (#2083)
