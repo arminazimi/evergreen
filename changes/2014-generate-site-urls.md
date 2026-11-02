@@ -1,0 +1,1 @@
+- Generate the documentation URL inventory during the test run and keep URL safety against a committed published-site baseline. (#2014)
