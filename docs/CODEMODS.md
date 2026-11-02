@@ -168,3 +168,40 @@ Refused, with the reason in `fix --json`:
 - a file that cannot be read, has syntax errors, or does not end with a newline.
 
 The `examples/codemods/python-utcnow` directory contains an input file to run `evergreen fix` against.
+
+## python-renames
+
+Rewrites the Python 3.12 removals that are one-to-one renames: two symbols with a current replacement, and the deprecated `unittest.TestCase` aliases that call a current assertion. Only the removed name changes; the receiver, arguments, and every other byte are kept.
+
+| Rule | Before | After |
+|---|---|---|
+| `python.symbol.configparser.safeconfigparser` | `configparser.SafeConfigParser()` | `configparser.ConfigParser()` |
+| `python.symbol.io.openwrapper` | `io.OpenWrapper(path)` | `io.open(path)` |
+| `python.symbol.unittest.removed-aliases` | `self.assertEquals(a, b)` | `self.assertEqual(a, b)` |
+| `python.symbol.unittest.removed-aliases` | `self.assertNotEquals(a, b)` | `self.assertNotEqual(a, b)` |
+| `python.symbol.unittest.removed-aliases` | `self.assert_(flag)` | `self.assertTrue(flag)` |
+| `python.symbol.unittest.removed-aliases` | `self.failUnless(flag)` | `self.assertTrue(flag)` |
+| `python.symbol.unittest.removed-aliases` | `self.failIf(flag)` | `self.assertFalse(flag)` |
+| `python.symbol.unittest.removed-aliases` | `self.failUnlessEqual(a, b)` | `self.assertEqual(a, b)` |
+| `python.symbol.unittest.removed-aliases` | `self.failIfEqual(a, b)` | `self.assertNotEqual(a, b)` |
+| `python.symbol.unittest.removed-aliases` | `self.assertAlmostEquals(a, b)` | `self.assertAlmostEqual(a, b)` |
+| `python.symbol.unittest.removed-aliases` | `self.assertNotAlmostEquals(a, b)` | `self.assertNotAlmostEqual(a, b)` |
+| `python.symbol.unittest.removed-aliases` | `self.failUnlessAlmostEqual(a, b)` | `self.assertAlmostEqual(a, b)` |
+| `python.symbol.unittest.removed-aliases` | `self.failIfAlmostEqual(a, b)` | `self.assertNotAlmostEqual(a, b)` |
+| `python.symbol.unittest.removed-aliases` | `self.failUnlessRaises(E, f)` | `self.assertRaises(E, f)` |
+| `python.symbol.unittest.removed-aliases` | `self.assertRegexpMatches(s, p)` | `self.assertRegex(s, p)` |
+| `python.symbol.unittest.removed-aliases` | `self.assertNotRegexpMatches(s, p)` | `self.assertNotRegex(s, p)` |
+| `python.symbol.unittest.removed-aliases` | `self.assertRaisesRegexp(E, p, f)` | `self.assertRaisesRegex(E, p, f)` |
+
+The replacement table is the one in [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html#removed). `SafeConfigParser` has been an alias of `ConfigParser` since Python 3.2, and `io.OpenWrapper` has been an alias of the built-in `open`. The unittest aliases each called the current assertion directly, so the test result is unchanged.
+
+A `from configparser import SafeConfigParser` or `from io import OpenWrapper` name is renamed in the import statement and at each use, so the binding still exists. A module read through `import configparser as cp` is qualified, so only the member name changes. The unittest aliases use the `method` usage shape: a call on any receiver inside a class that subclasses `unittest.TestCase` or `TestCase` (including an imported alias of it). The receiver is not checked, so `helper.assertEquals(...)` inside a test class is renamed too.
+
+Refused, with the reason in `fix --json`:
+
+- `assertDictContainsSubset(...)`, which Python 3.12 removed without a replacement; rewrite the assertion by hand;
+- an alias call that is not inside a `unittest.TestCase` subclass;
+- a removed name used through an aliased import, such as `from configparser import SafeConfigParser as Renamed`, where renaming the call alone would leave the binding pointing at the removed name;
+- a file that cannot be read, has syntax errors, or does not end with a newline.
+
+The `examples/codemods/python-renames` directory contains an input file to run `evergreen fix` against.

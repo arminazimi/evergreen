@@ -94,3 +94,13 @@ test("runtime family and replacement helpers", () => {
   assert.equal(pickReplacement("nodejs14.x", supported), "nodejs24.x or nodejs22.x");
   assert.equal(pickReplacement("go1.x", supported), "provided.al2023");
 });
+
+test("a cell decodes character references once, so an escaped tag stays text", () => {
+  const table = "<table>" +
+    "<tr><th>Name</th><th>Identifier</th><th>OS</th><th>Deprecation date</th></tr>" +
+    "<tr><td><p>X &amp;lt;b&amp;gt; Y</p></td><td><code>nodejs22.x</code></td><td>AL2023</td><td>Apr 30, 2027</td></tr>" +
+    "</table>";
+  const [row] = parseRuntimeTable(table);
+  assert.equal(row!.name, "X &lt;b&gt; Y");
+  assert.equal(row!.deprecation, "2027-04-30");
+});

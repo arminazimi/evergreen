@@ -8,6 +8,8 @@ import type { Language, Parser, Query, Tree } from "./vendor/tree-sitter/tree-si
 import type { SourceLanguage } from "../domain.js";
 
 // Trimmed runtime + grammars under ./vendor/tree-sitter (from @vscode/tree-sitter-wasm). Offline, no native build.
+// The WebAssembly modules are committed as base64 text (`*.wasm.b64`) and decoded in memory, so the
+// package contains no binary artifact; `manifest.json` records the upstream source and SHA-256 of each.
 // The runtime is `.cjs` so Node treats it as CommonJS inside this `"type": "module"` package.
 const nodeRequire = createRequire(import.meta.url);
 const vendorDirectory = dirname(fileURLToPath(new URL("./vendor/tree-sitter/tree-sitter.cjs", import.meta.url)));
@@ -26,10 +28,20 @@ let runtime: Promise<{ module: TreeSitter; directory: string }> | undefined;
 const languages = new Map<TreeSitterGrammar, Promise<Language>>();
 const parsers = new Map<TreeSitterGrammar, Parser>();
 
+/** Reads a committed base64 payload and decodes it without touching the network or the filesystem beyond the vendor directory. */
+async function loadPayload(directory: string, file: string): Promise<Uint8Array> {
+  const encoded = await readFile(join(directory, `${file}.b64`), "utf8");
+  return new Uint8Array(Buffer.from(encoded, "base64"));
+}
+
 function loadRuntime(): Promise<{ module: TreeSitter; directory: string }> {
   runtime ??= (async () => {
     const module = nodeRequire(join(vendorDirectory, "tree-sitter.cjs")) as TreeSitter;
-    await module.Parser.init({ locateFile: (file) => join(vendorDirectory, file) });
+    const wasmBinary = await loadPayload(vendorDirectory, "tree-sitter.wasm");
+    // `wasmBinary` is an Emscripten module option the published typings do not expose. Supplying it
+    // means the runtime instantiates the decoded payload and never reads a `.wasm` file.
+    const options = { wasmBinary, locateFile: (file: string) => file } as unknown as Parameters<TreeSitter["Parser"]["init"]>[0];
+    await module.Parser.init(options);
     return { module, directory: vendorDirectory };
   })();
   runtime.catch(() => {
@@ -41,8 +53,8 @@ function loadRuntime(): Promise<{ module: TreeSitter; directory: string }> {
 function loadLanguage(grammar: TreeSitterGrammar): Promise<Language> {
   let language = languages.get(grammar);
   if (!language) {
-    language = loadRuntime().then(({ module, directory }) =>
-      module.Language.load(join(directory, `tree-sitter-${grammar}.wasm`)),
+    language = loadRuntime().then(async ({ module, directory }) =>
+      module.Language.load(await loadPayload(directory, `tree-sitter-${grammar}.wasm`)),
     );
     languages.set(grammar, language);
     language.catch(() => languages.delete(grammar));

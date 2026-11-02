@@ -1,0 +1,1 @@
+- Make PURL parsing, detector input matching, and Composer package-name validation linear time so a hostile string cannot stall a scan. (#2060)

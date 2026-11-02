@@ -1,4 +1,5 @@
 import { isoDate } from "./canonical.js";
+import { decodeEntities, stripHtml } from "./html.js";
 import type { DraftRule, Importer } from "./types.js";
 
 export const LAMBDA_RUNTIMES_URL = "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html";
@@ -43,18 +44,7 @@ export interface RuntimeRow {
 }
 
 function cellText(html: string): string {
-  const decoded = html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex: string) => String.fromCodePoint(Number.parseInt(hex, 16)))
-    .replace(/&#(\d+);/g, (_, dec: string) => String.fromCodePoint(Number(dec)));
-  return decoded.replace(/\s+/g, " ").trim();
+  return decodeEntities(stripHtml(html)).replace(/\s+/g, " ").trim();
 }
 
 function parseAwsDate(text: string): string | undefined {

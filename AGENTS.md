@@ -82,6 +82,7 @@ CI fails when generated output drifts from its source. The exception is `dist/ac
 - A pull request that changes user-visible behavior adds a changelog fragment: one file in `changes/` holding one bullet (see [changes/README.md](changes/README.md)). Do not edit `CHANGELOG.md` directly, so parallel pull requests never conflict on it.
 - Do not reformat unrelated files or add dependencies without a reason stated in the PR.
 - Public contracts (`schemas/`, `src/sdk.ts`, MCP tool shapes, CLI JSON output) change only additively unless a decision record in `docs/decisions/` says otherwise.
+- A change needs a decision record when it changes a public contract: anything under `schemas/`, `src/sdk.ts`, an MCP tool's name, description, input shape, or output, or the JSON a command writes under `--json`. Add a numbered record in `docs/decisions/` in the same pull request and link it from the pull request; `docs/decisions/index.md` alone is the index, not a record. `.github/workflows/decisions.yml` fails a pull request that changes `schemas/`, `src/sdk.ts`, or `src/mcp.ts` without a new or changed record. A CLI JSON change also needs its schema under `schemas/`, which is what the workflow can see.
 
 ## Dependencies
 

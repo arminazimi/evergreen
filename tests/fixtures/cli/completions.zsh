@@ -2,7 +2,7 @@
 # zsh completion for evergreen. Save it as _evergreen in a directory on $fpath, or: source <(evergreen completions zsh)
 _evergreen() {
   local -a commands
-  commands=('scan' 'baseline' 'forecast' 'forecast' 'countdown' 'plan' 'status-card' 'glance' 'lookup' 'drift' 'upgrade-check' 'inventory' 'badge' 'diff' 'drift' 'receipt' 'rollup' 'renovate-preset' 'dependabot-config' 'fix' 'check' 'check-snippet' 'guard' 'usage' 'mcp' 'data' 'watch' 'init' 'setup' 'new-detector' 'new-rule' 'rules' 'explain' 'context' 'doctor' 'report-issue' 'capabilities' 'completions')
+  commands=('scan' 'baseline' 'forecast' 'forecast' 'countdown' 'plan' 'status-card' 'glance' 'lookup' 'drift' 'upgrade-check' 'inventory' 'badge' 'diff' 'drift' 'receipt' 'rollup' 'renovate-preset' 'dependabot-config' 'fix' 'check' 'check-snippet' 'guard' 'usage' 'mcp' 'data' 'watch' 'init' 'setup' 'new-detector' 'new-rule' 'rules' 'explain' 'context' 'doctor' 'report-issue' 'capabilities' 'completions' 'hook')
   if (( CURRENT == 2 )); then
     compadd -a commands -- --help --version
     return
@@ -42,7 +42,7 @@ _evergreen() {
         guard) _arguments '--fail-on' '--force' '--data-version' '*:path:_files' ;;
         usage) _arguments '--file' '--json' '*:path:_files' ;;
         mcp) _arguments  '*:path:_files' ;;
-        init) _arguments '--agents' '--hooks' '--personal' '--file' '--fail-on' '--yes' '--dry-run' '*:path:_files' ;;
+        init) _arguments '--agents' '--hooks' '--personal' '--hooks-for' '--file' '--fail-on' '--yes' '--dry-run' '*:path:_files' ;;
         setup) _arguments '--yes' '--dry-run' '*:path:_files' ;;
         new-detector) _arguments '--ecosystem' '*:path:_files' ;;
         new-rule) _arguments '--ecosystem' '*:path:_files' ;;
@@ -52,6 +52,7 @@ _evergreen() {
         doctor) _arguments '--system' '--json' '--data-version' '*:path:_files' ;;
         report-issue) _arguments '--output' '--data-version' '*:path:_files' ;;
         capabilities) _arguments '--json' '*:path:_files' ;;
+        hook) _arguments '--fail-on' '*:path:_files' ;;
   esac
 }
 compdef _evergreen evergreen

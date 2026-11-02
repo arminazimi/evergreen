@@ -6,6 +6,7 @@
 ;   @binding.alias     local name of `import m as alias`, or of an aliased from-import name
 ;   @alias.local / @alias.value   a variable that aliases an existing binding
 ;   @callee            the function expression of a call
+;   @testcase.class    a class definition with a superclass list, checked for a unittest.TestCase base
 
 ; ---- Imports -------------------------------------------------------------------------------
 
@@ -46,3 +47,8 @@
 
 (call
   function: (_) @callee)
+
+; ---- TestCase subclasses -------------------------------------------------------------------
+
+(class_definition
+  superclasses: (argument_list)) @testcase.class

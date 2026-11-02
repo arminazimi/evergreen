@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "evergreen.tree-sitter-wasm.v1",
+  "package": "@vscode/tree-sitter-wasm",
+  "version": "0.3.1",
+  "source": "https://registry.npmjs.org/@vscode/tree-sitter-wasm/-/tree-sitter-wasm-0.3.1.tgz",
+  "license": "MIT",
+  "files": [
+    {
+      "file": "tree-sitter.wasm.b64",
+      "upstream": "tree-sitter.wasm",
+      "bytes": 206218,
+      "sha256": "3a31af706ffdf4a7116b064cdd4988df6791823298615009fc5b6bccbd42909b"
+    },
+    {
+      "file": "tree-sitter-javascript.wasm.b64",
+      "upstream": "tree-sitter-javascript.wasm",
+      "bytes": 411770,
+      "sha256": "5fb488d0cabb4775a594bab85682de5ad6ce83c0d6ac997a9f82dd084d571240"
+    },
+    {
+      "file": "tree-sitter-typescript.wasm.b64",
+      "upstream": "tree-sitter-typescript.wasm",
+      "bytes": 1413849,
+      "sha256": "778025db5a8be0e70f8ccc3671e486dfeddd048c25d9e8a70c26de2e1bf6f97d"
+    },
+    {
+      "file": "tree-sitter-tsx.wasm.b64",
+      "upstream": "tree-sitter-tsx.wasm",
+      "bytes": 1445638,
+      "sha256": "79e5da75ea62855a0cd67177685f0164eac87d5f630b3cbe1e0a099751ad30f8"
+    },
+    {
+      "file": "tree-sitter-python.wasm.b64",
+      "upstream": "tree-sitter-python.wasm",
+      "bytes": 457883,
+      "sha256": "16108b50df4ee9a30168794252ab55e7c93bfc5765d7fa0aa3e335752c515f47"
+    }
+  ]
+}

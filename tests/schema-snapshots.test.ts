@@ -1,25 +1,15 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli as runInProcess } from "./cli-runner.js";
+
 const smoke = resolve("tests/fixtures/smoke");
 const baseline = resolve("tests/fixtures/baselines/v0.1.0.json");
 
-async function runCli(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code ?? 1, stdout: failure.stdout ?? "", stderr: failure.stderr ?? "" };
-  }
-}
+const runCli = (...args: string[]) => runInProcess(args);
 
 async function loadSchema(name: string): Promise<object> {
   return JSON.parse(await readFile(resolve(`schemas/${name}`), "utf8")) as object;

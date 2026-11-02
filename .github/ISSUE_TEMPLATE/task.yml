@@ -36,11 +36,20 @@ body:
   - type: textarea
     id: done
     attributes:
-      label: Done when
-      description: Objective checks. `npm run check` passing is always included.
+      label: Acceptance criteria
+      description: Objective checks that decide when the task is done. `npm run check` passing is always included.
       placeholder: |
         - [ ] ...
         - [ ] `npm run check` passes.
+    validations:
+      required: true
+  - type: textarea
+    id: non-goals
+    attributes:
+      label: Non-goals
+      description: What this task must not change or cover. Write "None" only if there is truly nothing to exclude.
+      placeholder: |
+        - Not ...
     validations:
       required: true
   - type: input

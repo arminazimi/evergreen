@@ -408,3 +408,9 @@ test("parseArticles stays under 5000ms for large and incomplete pages", () => {
   assert.ok(bareMs < 5000, `1000 consecutive article opens took ${bareMs.toFixed(1)}ms`);
   assert.equal(bare.articles.length, 0);
 });
+
+test("article text decodes character references once, so an escaped tag stays text", () => {
+  const parsed = parseArticles(article("entities", { text: "<p>A &amp;lt;b&amp;gt; B</p>" }));
+  assert.equal(parsed.articles.length, 1);
+  assert.equal(parsed.articles[0]!.text, "A &lt;b&gt; B");
+});

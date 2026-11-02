@@ -476,8 +476,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      # Until the next release, pin a reviewed commit containing upload-badge.
-      - uses: arminazimi/evergreen@main
+      - uses: arminazimi/evergreen@vX.Y.Z
         id: scan
         with:
           upload-badge: true

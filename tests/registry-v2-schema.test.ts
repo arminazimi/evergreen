@@ -79,6 +79,8 @@ test("schema and validator agree on symbol matchers", async () => {
     ["argument on a call", { ...symbolMatcher, argument: 0 }, false],
     ["negative argument", { ...symbolMatcher, shape: "option", option: "x", argument: -1 }, false],
     ["construct in Python", { ...symbolMatcher, language: "python", shape: "construct" }, false],
+    ["method in Python", { kind: "symbol", language: "python", module: "unittest", symbol: "assertEquals", shape: "method" }, true],
+    ["method outside Python", { ...symbolMatcher, shape: "method" }, false],
     ["unknown shape", { ...symbolMatcher, shape: "import" }, false],
     ["unsupported language", { ...symbolMatcher, language: "go" }, false],
     ["missing symbol", { kind: "symbol", language: "javascript", shape: "call" }, false],

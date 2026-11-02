@@ -5,7 +5,7 @@ _evergreen() {
   prev="${COMP_WORDS[COMP_CWORD-1]}"
   command="${COMP_WORDS[1]}"
   if [ "$COMP_CWORD" -eq 1 ]; then
-    COMPREPLY=($(compgen -W "scan baseline forecast forecast countdown plan status-card glance lookup drift upgrade-check inventory badge diff drift receipt rollup renovate-preset dependabot-config fix check check-snippet guard usage mcp data watch init setup new-detector new-rule rules explain context doctor report-issue capabilities completions --help --version" -- "$cur"))
+    COMPREPLY=($(compgen -W "scan baseline forecast forecast countdown plan status-card glance lookup drift upgrade-check inventory badge diff drift receipt rollup renovate-preset dependabot-config fix check check-snippet guard usage mcp data watch init setup new-detector new-rule rules explain context doctor report-issue capabilities completions hook --help --version" -- "$cur"))
     return
   fi
   case "$prev" in
@@ -45,7 +45,7 @@ _evergreen() {
     mcp) opts="" ;;
     data) opts="--json --data-version" ;;
     watch) opts="--weekly --json" ;;
-    init) opts="--agents --hooks --personal --file --fail-on --yes --dry-run" ;;
+    init) opts="--agents --hooks --personal --hooks-for --file --fail-on --yes --dry-run" ;;
     setup) opts="--yes --dry-run" ;;
     new-detector) opts="--ecosystem" ;;
     new-rule) opts="--ecosystem" ;;
@@ -56,6 +56,7 @@ _evergreen() {
     report-issue) opts="--output --data-version" ;;
     capabilities) opts="--json" ;;
     completions) opts="" ;;
+    hook) opts="--fail-on" ;;
     *) opts="" ;;
   esac
   COMPREPLY=($(compgen -W "$opts" -- "$cur"))

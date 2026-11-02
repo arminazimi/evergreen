@@ -6,7 +6,7 @@ canonical_url: "https://arminazimi.github.io/evergreen/eol/python.html"
 
 # Is Python end of life?
 
-**Some Python releases are end of life.** Python 3.10 and older are end-of-life as of 2026-10-01. This page lists 69 reviewed lifecycle rules for `pkg:generic/python`, with the status, date, and source for each.
+**Some Python releases are end of life.** Python 3.10 and older are end-of-life as of 2026-10-01. This page lists 70 reviewed lifecycle rules for `pkg:generic/python`, with the status, date, and source for each.
 
 Check a version:
 
@@ -68,6 +68,7 @@ evergreen check pkg:generic/python
 | [Ssl.RAND_pseudo_bytes has been removed](../rules/python.symbol.ssl.rand-pseudo-bytes.html) | Removed | The source gives no day | `vers:pypi/>=3.12` | [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) |
 | [Ssl.wrap_socket has been removed](../rules/python.symbol.ssl.wrap-socket.html) | Removed | The source gives no day | `vers:pypi/>=3.12` | [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) |
 | [unittest.makeSuite, findTestCases and getTestCaseNames have been removed](../rules/python.symbol.unittest.make-suite.html) | Removed | The source gives no day | `vers:pypi/>=3.13` | [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html), [What's New in Python 3.11](https://docs.python.org/3/whatsnew/3.11.html) |
+| [The deprecated unittest aliases have been removed](../rules/python.symbol.unittest.removed-aliases.html) | Removed | The source gives no day | `vers:pypi/>=3.12` | [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) |
 | [The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed](../rules/python.symbol.urllib.request.urlopen-cafile.html) | Removed | The source gives no day | `vers:pypi/>=3.13` | [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) |
 | [Webbrowser.MacOSX has been removed](../rules/python.symbol.webbrowser.macosx.html) | Removed | The source gives no day | `vers:pypi/>=3.13` | [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) |
 | [ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated](../rules/python.symbol.ast.constant-nodes.html) | Deprecated | The source gives no day | `vers:pypi/>=3.8` | [Python deprecations: pending removal in 3.14](https://docs.python.org/3/deprecations/pending-removal-in-3.14.html) |
@@ -104,7 +105,7 @@ This page is generated from the lifecycle registry (`registry/`), not written by
       "name": "Is Python end of life?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Some Python releases are end of life. Python 3.10 and older are end-of-life as of 2026-10-01. This page lists 69 reviewed lifecycle rules for pkg:generic/python, with the status, date, and source for each."
+        "text": "Some Python releases are end of life. Python 3.10 and older are end-of-life as of 2026-10-01. This page lists 70 reviewed lifecycle rules for pkg:generic/python, with the status, date, and source for each."
       }
     },
     {

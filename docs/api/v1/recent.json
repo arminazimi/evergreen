@@ -1,6 +1,18 @@
 {
   "changes": [
     {
+      "ecosystem": "python",
+      "event": "removed",
+      "observedAt": "2026-11-02",
+      "path": "products/generic-python.json",
+      "productId": "generic-python",
+      "purl": "pkg:generic/python",
+      "reviewedAt": "2026-11-02",
+      "ruleId": "python.symbol.unittest.removed-aliases",
+      "severity": "high",
+      "title": "The deprecated unittest aliases have been removed"
+    },
+    {
       "ecosystem": "kubernetes",
       "event": "end-of-life",
       "observedAt": "2026-11-01",
@@ -1253,19 +1265,6 @@
       "ruleId": "serverless.aws-lambda.nodejs8.10",
       "severity": "high",
       "title": "AWS Lambda Node.js 8.10 runtime is end-of-life"
-    },
-    {
-      "deadline": "2024-01-08",
-      "ecosystem": "serverless",
-      "event": "end-of-life",
-      "observedAt": "2026-10-30",
-      "path": "products/generic-aws-lambda-runtime-provided.json",
-      "productId": "generic-aws-lambda-runtime-provided",
-      "purl": "pkg:generic/aws-lambda-runtime/provided",
-      "reviewedAt": "2026-10-30",
-      "ruleId": "serverless.aws-lambda.provided",
-      "severity": "high",
-      "title": "AWS Lambda OS-only runtime provided runtime is end-of-life"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

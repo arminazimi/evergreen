@@ -105,6 +105,7 @@ export async function analyzePythonFile(
     const bindings: Binding[] = [];
     const aliases: { local: string; value: Node }[] = [];
     const callees: Node[] = [];
+    const classCandidates: Node[] = [];
     const seenBindings = new Set<string>();
     const addBinding = (binding: Binding): boolean => {
       const key = `${binding.module}\0${binding.local}\0${binding.imported}`;
@@ -137,6 +138,8 @@ export async function analyzePythonFile(
       }
       const callee = captured.get("callee");
       if (callee) callees.push(callee);
+      const testcaseClass = captured.get("testcase.class");
+      if (testcaseClass) classCandidates.push(testcaseClass);
     }
 
     // `get = requests.get` and `session = requests` rebind an imported symbol under a new name.
@@ -179,6 +182,14 @@ export async function analyzePythonFile(
         }
       }
       return occurrences;
+    };
+
+    const testcaseClassIds = new Set(
+      classCandidates.filter((node) => isTestcaseClass(node, bindings)).map((node) => node.id),
+    );
+    const describe = (node: Node): Pick<SourceUsage, "location" | "excerpt"> => {
+      const { line, column } = locate(node.startIndex);
+      return { location: { path: file.path, line, column }, excerpt: lines[line - 1]!.trim() };
     };
 
     const results = new Map<string, SourceUsage[]>();
@@ -232,11 +243,26 @@ export async function analyzePythonFile(
       }
       const symbols = symbolMatchers(contract);
       if (symbols.length > 0) {
-        const describe = (node: Node): Pick<SourceUsage, "location" | "excerpt"> => {
-          const { line, column } = locate(node.startIndex);
-          return { location: { path: file.path, line, column }, excerpt: lines[line - 1]!.trim() };
-        };
-        for (const usage of symbolUsages(symbols, occurrencesOf(), bindings, describe, file)) push(usage);
+        const named = symbols.filter((matcher) => matcher.shape !== "method");
+        if (named.length > 0) {
+          for (const usage of symbolUsages(named, occurrencesOf(), bindings, describe, file)) push(usage);
+        }
+        // `method` is a call by name on any receiver, reported at the method name, so it does not go through
+        // symbol resolution: the receiver may be `self`, `cls`, another object, or absent from the imports.
+        for (const matcher of symbols.filter((candidate) => candidate.shape === "method")) {
+          for (const callee of callees) {
+            if (callee.type !== "attribute") continue;
+            const attribute = callee.childForFieldName("attribute");
+            if (attribute?.text !== matcher.symbol) continue;
+            if (!isInsideTestcaseClass(callee, testcaseClassIds)) continue;
+            push({
+              kind: "symbol",
+              language: "python",
+              symbol: matcher.module === undefined ? matcher.symbol : `${matcher.module}.${matcher.symbol}`,
+              ...describe(attribute),
+            });
+          }
+        }
       }
       results.set(
         contract.id,
@@ -247,4 +273,35 @@ export async function analyzePythonFile(
   } finally {
     tree.delete();
   }
+}
+
+/** Whether the closest class around a node is one that subclasses unittest.TestCase. */
+function isInsideTestcaseClass(node: Node, testcaseClassIds: ReadonlySet<number>): boolean {
+  for (let current = node.parent; current !== null; current = current.parent) {
+    if (current.type === "class_definition") return testcaseClassIds.has(current.id);
+  }
+  return false;
+}
+
+/** Whether a class definition lists a unittest.TestCase base among its superclasses. */
+function isTestcaseClass(node: Node, bindings: readonly Binding[]): boolean {
+  const superclasses = node.childForFieldName("superclasses");
+  return superclasses?.namedChildren.some((base) => base !== null && isTestcaseBase(base, bindings)) ?? false;
+}
+
+/** A base is TestCase, an alias of it, or `unittest.TestCase` reached through the unittest module name. */
+function isTestcaseBase(node: Node, bindings: readonly Binding[]): boolean {
+  if (node.type === "identifier") {
+    return bindings.some((binding) =>
+      binding.local === node.text &&
+      moduleMatches(binding.module, "unittest") &&
+      binding.imported === "TestCase");
+  }
+  if (node.type !== "attribute") return false;
+  const chain = chainOf(node);
+  if (!chain || chain.path.at(-1) !== "TestCase") return false;
+  return bindings.some((binding) =>
+    binding.local === chain.path[0] &&
+    moduleMatches(binding.module, "unittest") &&
+    binding.imported === "*");
 }

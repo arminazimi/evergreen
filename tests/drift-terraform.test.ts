@@ -8,8 +8,9 @@ import { after, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
+import { runCli } from "./cli-runner.js";
+
 const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const fixtures = resolve("tests/fixtures/drift/terraform");
 const temporaryRoots: string[] = [];
 
@@ -42,13 +43,7 @@ interface Report {
 }
 
 async function run(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const result = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout: result.stdout, stderr: result.stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code, stdout: failure.stdout, stderr: failure.stderr };
-  }
+  return runCli(args);
 }
 
 async function report(fixture: string): Promise<Runtime> {

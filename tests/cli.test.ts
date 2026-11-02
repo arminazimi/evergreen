@@ -1,14 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
-const execute = promisify(execFile);
+import { runCli } from "./cli-runner.js";
+
 const temporaryRoots: string[] = [];
-const cli = resolve("dist/src/cli.js");
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
@@ -28,20 +26,18 @@ async function fixtureRepository(): Promise<string> {
 
 test("CLI scans, explains, creates context, and suppresses baseline findings", async () => {
   const root = await fixtureRepository();
-  const firstScan = await execute(process.execPath, [cli, "scan", root, "--json"]);
+  const firstScan = await runCli(["scan", root, "--json"]);
   const result = JSON.parse(firstScan.stdout) as { findings: Array<{ id: string }> };
   assert.equal(result.findings.length, 2);
 
-  const explanation = await execute(process.execPath, [
-    cli,
+  const explanation = await runCli([
     "explain",
     result.findings[0]?.id ?? "",
     root,
   ]);
   assert.match(explanation.stdout, /Sources:/);
 
-  const context = await execute(process.execPath, [
-    cli,
+  const context = await runCli([
     "context",
     result.findings[0]?.id ?? "",
     root,
@@ -62,12 +58,11 @@ test("CLI scans, explains, creates context, and suppresses baseline findings", a
   assert.ok(packet.verification.length > 0);
 
   const baselinePath = join(root, "baseline.json");
-  await execute(process.execPath, [cli, "baseline", root, "--output", baselinePath]);
+  await runCli(["baseline", root, "--output", baselinePath]);
   const baseline = JSON.parse(await readFile(baselinePath, "utf8")) as { findings: unknown[] };
   assert.equal(baseline.findings.length, 2);
 
-  const filteredScan = await execute(process.execPath, [
-    cli,
+  const filteredScan = await runCli([
     "scan",
     root,
     "--baseline",
@@ -81,11 +76,11 @@ test("CLI scans, explains, creates context, and suppresses baseline findings", a
 
 test("CLI doctor reports the local environment in text and JSON", async () => {
   const root = await fixtureRepository();
-  const textResult = await execute(process.execPath, [cli, "doctor", root]);
+  const textResult = await runCli(["doctor", root]);
   assert.match(textResult.stdout, /Evergreen doctor/);
   assert.match(textResult.stdout, /Privacy: no repository data was uploaded/);
 
-  const jsonResult = await execute(process.execPath, [cli, "doctor", root, "--json"]);
+  const jsonResult = await runCli(["doctor", root, "--json"]);
   const result = JSON.parse(jsonResult.stdout) as {
     schemaVersion: string;
     summary: { failed: number };
@@ -100,12 +95,9 @@ test("CLI doctor reports the local environment in text and JSON", async () => {
 });
 
 async function runFailing(args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    await execute(process.execPath, [cli, ...args]);
-  } catch (error) {
-    return error as { code: number; stdout: string; stderr: string };
-  }
-  assert.fail(`expected "evergreen ${args.join(" ")}" to fail`);
+  const result = await runCli([...args]);
+  if (result.code === 0) assert.fail(`expected "evergreen ${args.join(" ")}" to fail`);
+  return result;
 }
 
 test("CLI rejects a scan path that does not exist or is not a directory", async () => {
@@ -123,7 +115,7 @@ test("CLI rejects a scan path that does not exist or is not a directory", async 
 });
 
 test("CLI scan --demo scans an in-memory fixture without shipping a manifest", async () => {
-  const textResult = await execute(process.execPath, [cli, "scan", "--demo"]);
+  const textResult = await runCli(["scan", "--demo"]);
   assert.match(textResult.stdout, /Evergreen scan/);
   assert.match(textResult.stdout, /Repository: demo/);
   assert.match(textResult.stdout, /Findings: 5/);
@@ -134,7 +126,7 @@ test("CLI scan --demo scans an in-memory fixture without shipping a manifest", a
   assert.match(textResult.stdout, /Replacement:/);
   assert.match(textResult.stdout, /Deadline:/);
 
-  const jsonResult = await execute(process.execPath, [cli, "scan", "--demo", "--json"]);
+  const jsonResult = await runCli(["scan", "--demo", "--json"]);
   const scan = JSON.parse(jsonResult.stdout) as {
     schemaVersion: string;
     root: string;

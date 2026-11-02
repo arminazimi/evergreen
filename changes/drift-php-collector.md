@@ -1,0 +1,1 @@
+- Report and align every PHP version a repository states with the `drift` command.

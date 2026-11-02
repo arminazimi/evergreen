@@ -10,7 +10,8 @@ export { EXIT_CODES } from "./commands/types.js";
 
 const HELP = renderHelp(commands);
 
-async function main(rawArgs: string[]): Promise<number> {
+/** Dispatches one CLI invocation and returns its exit code. Exported so tests can drive the shipping commands in process. */
+export async function main(rawArgs: readonly string[]): Promise<number> {
   const ctx = createCommandContext(rawArgs, HELP);
   bindContext(ctx);
   const args = rawArgs.filter((argument) => argument !== "--debug");
@@ -28,9 +29,15 @@ async function main(rawArgs: string[]): Promise<number> {
   return command.run(args.slice(1), ctx);
 }
 
-try {
-  process.exitCode = await main(process.argv.slice(2));
-} catch (error) {
-  const { message, appendix } = unexpectedFailure(error, process.argv.includes("--debug"));
-  process.exitCode = fail("internal", message, appendix);
+/**
+ * The process entry: runs one command and renders an unexpected failure the same way for every caller.
+ * Returns the exit code, which the executable assigns to `process.exitCode`.
+ */
+export async function run(rawArgs: readonly string[] = process.argv.slice(2)): Promise<number> {
+  try {
+    return await main(rawArgs);
+  } catch (error) {
+    const { message, appendix } = unexpectedFailure(error, rawArgs.includes("--debug"));
+    return fail("internal", message, appendix);
+  }
 }

@@ -1,3 +1,4 @@
+import { decodeEntities, stripHtml } from "./html.js";
 import type { DraftRule, Importer } from "./types.js";
 
 export const ORACLE_ROADMAP_URL = "https://www.oracle.com/java/technologies/java-se-support-roadmap.html";
@@ -20,12 +21,7 @@ interface Group {
 }
 
 function pageText(html: string): string {
-  return html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/\s+/g, " ");
+  return decodeEntities(stripHtml(html)).replace(/\s+/g, " ");
 }
 
 /** The last day of a "September 2026" month, as `YYYY-MM-DD`. */

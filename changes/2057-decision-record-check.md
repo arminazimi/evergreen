@@ -1,0 +1,1 @@
+- Require a decision record when a public contract changes. (#2057)

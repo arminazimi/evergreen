@@ -154,6 +154,35 @@ async function compare(contracts: readonly SourceUsageContract[], subdirectory: 
   };
 }
 
+/**
+ * Both engines are quadratic in nothing and linear in the corpus, but the repository sources are three hundred files,
+ * so every pass costs about half a second. The two repository-wide parity tests differ only in their contracts, and
+ * contracts are independent, so one pass over the union answers both: the entries carry their contract id, and each
+ * test keeps only its own.
+ */
+function keepContracts(differences: Differences, ids: ReadonlySet<string>): Differences {
+  const mine = (entry: string) => ids.has(entry.slice(0, entry.indexOf(" ")));
+  return {
+    shared: differences.shared.filter(mine),
+    onlyRegex: differences.onlyRegex.filter(mine),
+    onlyTreeSitter: differences.onlyTreeSitter.filter(mine),
+  };
+}
+
+let repositoryPass: Promise<{ corpus: Differences; registry: Differences }> | undefined;
+
+function repositoryDifferences(): Promise<{ corpus: Differences; registry: Differences }> {
+  repositoryPass ??= (async () => {
+    const contracts = await registryContracts();
+    const corpusIds = new Set(corpusContracts.map((contract) => contract.id));
+    for (const contract of contracts) assert.ok(!corpusIds.has(contract.id), `the contract id ${contract.id} names both a corpus contract and a registry rule`);
+    const all = [...corpusContracts, ...contracts];
+    const differences = await compare(all, "repository");
+    return { corpus: keepContracts(differences, corpusIds), registry: keepContracts(differences, new Set(contracts.map((contract) => contract.id))) };
+  })();
+  return repositoryPass;
+}
+
 test("on the fixtures tree-sitter finds every regex usage except one that is not code, and adds only parser-visible forms", async () => {
   const { shared, onlyRegex, onlyTreeSitter } = await compare(corpusContracts, "samples");
   assert.ok(shared.length >= 20, "the fixtures exercise many shared results");
@@ -180,7 +209,7 @@ test("on the registry contracts the fixtures differ only by the same improvement
 });
 
 test("on the repository's own sources tree-sitter loses nothing, adds nothing, and drops only hits that are not calls of the import", async () => {
-  const { shared, onlyRegex, onlyTreeSitter } = await compare(corpusContracts, "repository");
+  const { shared, onlyRegex, onlyTreeSitter } = (await repositoryDifferences()).corpus;
   assert.ok(shared.length >= 100, `the repository sources produce many usages (${shared.length})`);
   assert.ok(onlyRegex.length > 0, "the regex scanner mistakes some method calls and type signatures for imported functions");
   for (const entry of onlyRegex) {
@@ -190,7 +219,7 @@ test("on the repository's own sources tree-sitter loses nothing, adds nothing, a
 });
 
 test("on the repository's own sources the registry contracts agree between engines", async () => {
-  const { onlyRegex, onlyTreeSitter } = await compare(await registryContracts(), "repository");
+  const { onlyRegex, onlyTreeSitter } = (await repositoryDifferences()).registry;
   assert.deepEqual(onlyRegex, []);
   assert.deepEqual(onlyTreeSitter, []);
 });

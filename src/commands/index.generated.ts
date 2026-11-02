@@ -19,6 +19,7 @@ import { command as fix } from "./fix.js";
 import { command as forecast } from "./forecast.js";
 import { command as glance } from "./glance.js";
 import { command as guard } from "./guard.js";
+import { command as hook } from "./hook.js";
 import { command as init } from "./init.js";
 import { command as inventory } from "./inventory.js";
 import { command as lookup } from "./lookup.js";
@@ -59,6 +60,7 @@ export const commands: readonly CliCommand[] = [
   forecast,
   glance,
   guard,
+  hook,
   init,
   inventory,
   lookup,
