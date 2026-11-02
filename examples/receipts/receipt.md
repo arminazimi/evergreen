@@ -32,3 +32,5 @@ node --version  # Confirm the active Node.js runtime is supported.
 npm run build --if-present  # Verify imports, types, and the build remain valid.
 npm run test --if-present  # Run HTTP behavior and repository tests when defined.
 ```
+
+Reproduce with: `evergreen receipt examples/receipts --before examples/receipts/before.json`

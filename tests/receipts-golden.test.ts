@@ -17,5 +17,7 @@ test("the golden receipt rebuilds byte for byte from the before and after scans"
   const receipt = buildReceipt(before, after);
 
   assert.equal(JSON.stringify(receipt, null, 2) + "\n", await read("receipt.json"));
-  assert.equal(renderReceiptMarkdown(receipt), await read("receipt.md"));
+  const reproduce = "evergreen receipt examples/receipts --before examples/receipts/before.json";
+
+  assert.equal(renderReceiptMarkdown(receipt, { reproduce }), await read("receipt.md"));
 });

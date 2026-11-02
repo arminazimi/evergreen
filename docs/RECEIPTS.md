@@ -91,6 +91,8 @@ node --version  # Confirm the active Node.js runtime is supported.
 npm run build --if-present  # Verify imports, types, and the build remain valid.
 npm run test --if-present  # Run HTTP behavior and repository tests when defined.
 ```
+
+Reproduce with: `evergreen receipt /tmp/evergreen-demo-receipt --before /tmp/evergreen-demo-before.json`
 ````
 
 ## What each section means
@@ -104,6 +106,7 @@ npm run test --if-present  # Run HTTP behavior and repository tests when defined
 | Remaining | Present in both scans. |
 | Introduced | Present only in the after scan. |
 | Suggested commands | Verification commands named by the rules the comparison touched. Printed for the reader; Evergreen never runs them. |
+| Reproduce line | The `evergreen receipt` command that rebuilds this receipt, with the path and `--before` scan it was built from, relative to the working directory. Shows `<path>` and `<scan.json>` when the caller does not know them, as the MCP `receipt_markdown` output does. |
 
 When a list is empty, the section shows `_None._`. When a list has more than five findings, the Markdown collapses it into a `<details>` block.
 

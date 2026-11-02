@@ -1,5 +1,5 @@
 import process from "node:process";
-import { resolve } from "node:path";
+import { relative, resolve } from "node:path";
 
 import { builtInDetectors } from "../detectors/index.js";
 import type { ScanResult, Severity } from "../domain.js";
@@ -29,7 +29,8 @@ export const command: CliCommand = {
       const before = await readReceiptBaseline(resolve(beforePath));
       if (typeof before === "string") return ctx.fail("usage", `Cannot use --before: ${before}`, `\n${receiptUsage}`);
       const receipt = buildReceipt(before, await scanRepository(resolve(state.pathArgument), builtInDetectors, { noCache: state.noCache }));
-      process.stdout.write(state.json ? `${JSON.stringify(receipt, null, 2)}\n` : renderReceiptMarkdown(receipt));
+      const reproduce = ["evergreen", "receipt", shellWord(state.pathArgument), "--before", shellWord(beforePath)].join(" ");
+      process.stdout.write(state.json ? `${JSON.stringify(receipt, null, 2)}\n` : renderReceiptMarkdown(receipt, { reproduce }));
       if (state.args.includes("--fail-on-introduced") && receipt.counts.introduced > 0) {
         return ctx.fail("policy", `${receipt.counts.introduced} finding${receipt.counts.introduced === 1 ? "" : "s"} introduced (--fail-on-introduced).`);
       }
@@ -37,6 +38,12 @@ export const command: CliCommand = {
     });
   },
 };
+
+/** A path as a shell word, relative to the working directory so the reproduce line never carries an absolute path. */
+function shellWord(path: string): string {
+  const relativePath = relative(process.cwd(), resolve(path)) || ".";
+  return /^[\w@%+=:,./-]+$/.test(relativePath) ? relativePath : `'${relativePath.replaceAll("'", "'\\''")}'`;
+}
 
 function isJsonObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);

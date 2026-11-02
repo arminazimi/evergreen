@@ -5,7 +5,9 @@ import type { Receipt, ReceiptFinding } from "../src/receipt.js";
 import { RECEIPT_SCHEMA } from "../src/receipt.js";
 import { RECEIPT_MARKER, receiptVerdict, renderReceiptMarkdown } from "../src/receipt-markdown.js";
 
-const hostile = '<script>alert("x")</script> | \\ [label](javascript:alert(1)) &';
+const reproduceTemplate = "Reproduce with: `evergreen receipt <path> --before <scan.json>`";
+
+const hostile ='<script>alert("x")</script> | \\ [label](javascript:alert(1)) &';
 
 function entry(
   id: string,
@@ -64,6 +66,8 @@ test("clean verdict: empty change", () => {
       "",
       "_None._",
       "",
+      reproduceTemplate,
+      "",
     ].join("\n"),
   );
 });
@@ -118,6 +122,8 @@ test("resolved verdict: every finding cleared", () => {
       "npm test  # run the suite",
       "```",
       "",
+      reproduceTemplate,
+      "",
     ].join("\n"),
   );
 });
@@ -162,6 +168,8 @@ test("unchanged verdict: findings remain and nothing moved", () => {
       "",
       "_None._",
       "",
+      reproduceTemplate,
+      "",
     ].join("\n"),
   );
 });
@@ -200,6 +208,8 @@ test("partial verdict: some resolved, some remain", () => {
       "### Introduced",
       "",
       "_None._",
+      "",
+      reproduceTemplate,
       "",
     ].join("\n"),
   );
@@ -256,6 +266,8 @@ test("introduced verdict: new findings win the heading", () => {
       "npm test  # run tests",
       "```",
       "",
+      reproduceTemplate,
+      "",
     ].join("\n"),
   );
 });
@@ -295,6 +307,18 @@ test("escapes hostile titles and paths, and never prints absolute paths", () => 
       introduced: [],
     }),
   ));
+});
+
+test("the reproduce line names the command it was given, in a code span that hostile text cannot close", () => {
+  const markdown = renderReceiptMarkdown(receipt({ resolved: [], remaining: [], introduced: [] }), {
+    reproduce: "evergreen receipt my\\`dir --before 'scan one.json'",
+  });
+  assert.ok(markdown.endsWith("\nReproduce with: ``evergreen receipt my\\`dir --before 'scan one.json'``\n"));
+
+  const withTicks = renderReceiptMarkdown(receipt({ resolved: [], remaining: [], introduced: [] }), {
+    reproduce: "evergreen receipt `x`",
+  });
+  assert.ok(withTicks.endsWith("\nReproduce with: `` evergreen receipt `x` ``\n"));
 });
 
 test("long finding lists collapse into details and a typical receipt stays short", () => {

@@ -22,6 +22,14 @@ const VERDICT_HEADING: Record<ReceiptVerdict, string> = {
   introduced: "New findings introduced",
 };
 
+/** Shown when the caller does not know which path and scan the receipt was built from. */
+const REPRODUCE_TEMPLATE = "evergreen receipt <path> --before <scan.json>";
+
+/** Options for the Markdown receipt; `reproduce` is the command that rebuilds it. */
+export type ReceiptMarkdownOptions = {
+  reproduce?: string;
+};
+
 /** Escapes untrusted text for Markdown (and HTML-in-Markdown) while keeping one physical line. */
 function escapeMarkdown(value: string | number): string {
   const escapes: Record<string, string> = {
@@ -62,6 +70,15 @@ export function receiptVerdict(receipt: Receipt): ReceiptVerdict {
   if (resolved > 0 && remaining === 0) return "resolved";
   if (resolved === 0) return "unchanged";
   return "partial";
+}
+
+/** Wraps text in a code span whose backtick fence cannot be closed early by the text itself. */
+function codeSpan(text: string): string {
+  const flat = text.replace(/[\r\n]+/g, " ");
+  const longest = Math.max(0, ...(flat.match(/`+/g) ?? []).map((run) => run.length));
+  const fence = "`".repeat(longest + 1);
+  const pad = flat.startsWith("`") || flat.endsWith("`") ? " " : "";
+  return `${fence}${pad}${flat}${pad}${fence}`;
 }
 
 function findingRows(findings: ReceiptFinding[]): string[] {
@@ -108,9 +125,10 @@ function commandsSection(commands: Receipt["commands"]): string[] {
 
 /**
  * Renders a paste-ready Markdown receipt for a pull request body. Deterministic for the same
- * receipt; titles and paths are escaped; absolute paths are reduced to a file name.
+ * receipt; titles and paths are escaped; absolute paths are reduced to a file name. The last line
+ * names the command that rebuilds the receipt, taken from `options.reproduce` when the caller knows it.
  */
-export function renderReceiptMarkdown(receipt: Receipt): string {
+export function renderReceiptMarkdown(receipt: Receipt, options: ReceiptMarkdownOptions = {}): string {
   const verdict = receiptVerdict(receipt);
   const lines = [
     RECEIPT_MARKER,
@@ -128,5 +146,6 @@ export function renderReceiptMarkdown(receipt: Receipt): string {
   ];
   const commands = commandsSection(receipt.commands);
   if (commands.length > 0) lines.push("", ...commands);
+  lines.push("", `Reproduce with: ${codeSpan(options.reproduce ?? REPRODUCE_TEMPLATE)}`);
   return `${lines.join("\n")}\n`;
 }
