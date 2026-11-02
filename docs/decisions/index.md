@@ -34,6 +34,7 @@ they were written; this page groups them by theme.
 | [0016](0016-cli-exit-codes.md) | CLI exit codes and error codes | Map failures to five fixed classes and exit codes: policy 1, usage 2, data 3, parse 4, internal 5. |
 | [0017](0017-openeox-ingestion.md) | Do not read OpenEoX documents yet; keep CLE as the interchange target | Scans never read OpenEoX; do not ingest it until the Core Schema is final, and keep CLE as the standards interchange path. |
 | [0020](0020-data-license.md) | License the lifecycle dataset under CC BY 4.0 | License `registry/` and first-party schemas in the data-only package under CC BY 4.0; keep the rest of the repository Apache-2.0. |
+| [0022](0022-python-method-shape.md) | Match Python `TestCase` method calls with a `method` shape | Add a Python-only `method` symbol shape that matches a call by name on any receiver inside a class that directly subclasses `unittest.TestCase` or an alias of it. |
 
 ## Adoption
 
