@@ -7,11 +7,7 @@ import { after, test } from "node:test";
 
 import type { SourceUsage, SourceUsageContract } from "../src/domain.js";
 import { analyzeSourceUsage } from "../src/source-usage.js";
-import {
-  analyzeJavaScriptFile,
-  maximumAliasCaptures,
-  maximumImportBindings,
-} from "../src/usage/javascript.js";
+import { analyzeJavaScriptFile, maximumImportBindings } from "../src/usage/javascript.js";
 import { maximumParseBytes } from "../src/usage/tree-sitter.js";
 
 const cliPath = resolve("dist/src/cli.js");
@@ -264,7 +260,7 @@ test("caps alias rebinding on a dense graph and records a skip", async () => {
   const result = await analyzeJavaScriptFile({ path: "explode.js", language: "javascript", source }, [contract]);
   assert.ok(result);
   assert.equal(result.analysisCapped, true);
-  assert.ok(source.split("\n").length > maximumAliasCaptures + maximumImportBindings);
+  assert.ok(source.split("\n").length > maximumImportBindings);
 
   const root = await mkdtemp(join(tmpdir(), "evergreen-usage-cap-"));
   temporaryRoots.push(root);
@@ -272,6 +268,31 @@ test("caps alias rebinding on a dense graph and records a skip", async () => {
   const skips: string[] = [];
   await analyzeSourceUsage(root, [contract], { skips });
   assert.ok(skips.some((skip) => skip.startsWith("explode.js:") && skip.includes("capped")));
+});
+
+test("many unrelated const lines do not cap usage analysis or drop a real call", async () => {
+  const lines = ['import request from "request";'];
+  for (let index = 0; index < 400; index += 1) lines.push(`const a${index} = opts.v${index};`);
+  lines.push('request.get("u");');
+  const source = `${lines.join("\n")}\n`;
+  const result = await analyzeJavaScriptFile({ path: "ordinary.js", language: "javascript", source }, [contract]);
+  assert.ok(result);
+  assert.equal(result.analysisCapped, undefined);
+  assert.deepEqual(summary(result.get("request")!), [
+    "import ordinary.js:1:22 request",
+    'call ordinary.js:402:1 request.get',
+  ]);
+
+  const root = await mkdtemp(join(tmpdir(), "evergreen-usage-ordinary-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "ordinary.js"), source);
+  const skips: string[] = [];
+  const [analysis] = await analyzeSourceUsage(root, [contract], { skips });
+  assert.deepEqual(skips, []);
+  assert.deepEqual(summary(analysis!.usages), [
+    "import ordinary.js:1:22 request",
+    "call ordinary.js:402:1 request.get",
+  ]);
 });
 
 test("scan finishes under a fixed heap on a repository that would otherwise OOM", async () => {

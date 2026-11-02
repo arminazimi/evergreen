@@ -1,17 +1,11 @@
 import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
-import {
-  BindingBudget,
-  maximumAliasCaptures,
-  maximumCalleeCaptures,
-  maximumImportBindings,
-  type ImportBinding,
-} from "./binding-budget.js";
+import { BindingBudget, maximumImportBindings, type ImportBinding } from "./binding-budget.js";
 import { symbolUsages, type SymbolOccurrence } from "./symbols.js";
 import { grammarFor, loadQuery, parseSource } from "./tree-sitter.js";
 
-export { maximumAliasCaptures, maximumCalleeCaptures, maximumImportBindings };
+export { maximumImportBindings };
 
 export interface JavaScriptSourceFile {
   /** Repository-relative POSIX path, reported in every usage location. */
@@ -116,7 +110,7 @@ function lineStarts(source: string): number[] {
   return starts;
 }
 
-/** Usage map from {@link analyzeJavaScriptFile}; `analysisCapped` is set when a file hit an alias or callee budget. */
+/** Usage map from {@link analyzeJavaScriptFile}; `analysisCapped` is set when the binding ceiling refused further work. */
 export type JavaScriptUsageMap = Map<string, SourceUsage[]> & { analysisCapped?: boolean };
 
 /** `const get = request.get` and `const { post } = request` rebind an imported symbol under a new name. */
@@ -125,10 +119,7 @@ function rebindImportedAliases(budget: BindingBudget<Node>): void {
   for (let pass = 0; pass < 4; pass += 1) {
     let changed = false;
     for (const alias of aliases) {
-      if (budget.atBindingLimit) {
-        budget.capped = true;
-        break;
-      }
+      if (budget.capped) break;
       const chain = chainOf(alias.value);
       if (!chain) continue;
       const rest = chain.path.slice(1);

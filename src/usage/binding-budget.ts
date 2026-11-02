@@ -1,9 +1,6 @@
-/** Shared ceilings for tree-sitter usage analysis so one generated file cannot exhaust the heap. */
+/** Shared ceiling for tree-sitter usage analysis so one generated file cannot exhaust the heap. */
 
-export const maximumAliasCaptures = 256;
 export const maximumImportBindings = 1_024;
-/** Call-site captures from a single file; beyond this the file is still scanned for imports. */
-export const maximumCalleeCaptures = 4_096;
 
 export interface ImportBinding {
   module: string;
@@ -18,8 +15,10 @@ export interface AliasCapture<Node> {
 }
 
 /**
- * Collects import bindings and alias captures with hard ceilings. Calling code checks
- * {@link BindingBudget.capped} after the query pass and after rebinding.
+ * Collects import bindings, alias captures, and callees. Alias and callee lists are unbounded:
+ * ordinary files with hundreds of `const` lines or call sites must not be marked incomplete.
+ * {@link BindingBudget.capped} is set only when a new binding is refused because the ceiling was
+ * hit while rebinding still had work to do.
  */
 export class BindingBudget<Node = unknown> {
   readonly bindings: ImportBinding[] = [];
@@ -32,6 +31,7 @@ export class BindingBudget<Node = unknown> {
     const key = `${binding.module}\0${binding.local}\0${binding.imported}`;
     if (this.seenBindings.has(key)) return false;
     if (this.bindings.length >= maximumImportBindings) {
+      // Refused a distinct binding that still needed recording — analysis is incomplete.
       this.capped = true;
       return false;
     }
@@ -41,17 +41,11 @@ export class BindingBudget<Node = unknown> {
   }
 
   addAlias(alias: AliasCapture<Node>): void {
-    if (this.aliases.length < maximumAliasCaptures) this.aliases.push(alias);
-    else this.capped = true;
+    this.aliases.push(alias);
   }
 
   addCallee(node: Node): void {
-    if (this.callees.length < maximumCalleeCaptures) this.callees.push(node);
-    else this.capped = true;
-  }
-
-  get atBindingLimit(): boolean {
-    return this.bindings.length >= maximumImportBindings;
+    this.callees.push(node);
   }
 }
 

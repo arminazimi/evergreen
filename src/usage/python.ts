@@ -1,11 +1,11 @@
 import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
-import { BindingBudget, maximumAliasCaptures, maximumImportBindings, type ImportBinding } from "./binding-budget.js";
+import { BindingBudget, maximumImportBindings, type ImportBinding } from "./binding-budget.js";
 import { positionalKey, symbolUsages, type SymbolOccurrence } from "./symbols.js";
 import { lineLocator, loadQuery, parseSource } from "./tree-sitter.js";
 
-export { maximumAliasCaptures, maximumImportBindings };
+export { maximumImportBindings };
 
 export interface PythonSourceFile {
   /** Repository-relative POSIX path, reported in every usage location. */
@@ -21,7 +21,7 @@ interface Chain {
   path: string[];
 }
 
-/** Usage map from {@link analyzePythonFile}; `analysisCapped` is set when a file hit an alias budget. */
+/** Usage map from {@link analyzePythonFile}; `analysisCapped` is set when the binding ceiling refused further work. */
 export type PythonUsageMap = Map<string, SourceUsage[]> & { analysisCapped?: boolean };
 
 /** `get = requests.get` and `session = requests` rebind an imported symbol under a new name. */
@@ -30,10 +30,7 @@ function rebindImportedAliases(budget: BindingBudget<Node>): void {
   for (let pass = 0; pass < 4; pass += 1) {
     let changed = false;
     for (const alias of aliases) {
-      if (budget.atBindingLimit) {
-        budget.capped = true;
-        break;
-      }
+      if (budget.capped) break;
       const chain = chainOf(alias.value);
       if (!chain || !alias.local) continue;
       const rest = chain.path.slice(1);
