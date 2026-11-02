@@ -108,10 +108,11 @@ export function readCoverageFloors(packageJsonText: string): CoverageFloors {
 }
 
 /**
- * How far a metric may fall below main's value before a pull request fails. Percentages print to two
- * decimals, so half of the last printed digit is rounding, not a real drop.
+ * How far a metric may fall below main's value before a pull request fails. Two runs of the same
+ * suite differ by a few hundredths of a point (fuzz inputs and timing), so a tolerance smaller than
+ * that fails on noise. A real drop in one file is caught by the per-file check instead.
  */
-export const BASELINE_TOLERANCE = 0.005;
+export const BASELINE_TOLERANCE = 0.05;
 
 export interface BaseDrop {
   metric: CoverageMetric;

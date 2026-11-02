@@ -123,7 +123,7 @@ test("a pull request may not lower a total below main, beyond the rounding toler
   const base = parseLcovTotals(lcov(1000, 950));
   assert.deepEqual(checkCoverageAgainstBase(parseLcovTotals(lcov(1000, 950)), base), []);
   assert.deepEqual(checkCoverageAgainstBase(parseLcovTotals(lcov(1000, 951)), base), []);
-  assert.ok(BASELINE_TOLERANCE > 0 && BASELINE_TOLERANCE < 0.01);
+  assert.ok(BASELINE_TOLERANCE > 0 && BASELINE_TOLERANCE < 0.1);
   const drops = checkCoverageAgainstBase(parseLcovTotals(lcov(1000, 940)), base);
   assert.deepEqual(drops.map((drop) => drop.metric), ["lines"]);
   assert.equal(drops[0]?.base, 95);

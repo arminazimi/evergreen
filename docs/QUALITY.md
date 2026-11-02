@@ -134,7 +134,7 @@ or architecture-test follow-up; no such dependency is added here.
 branches, 93% functions**. A pull request also may not:
 
 - lower a changed source file's line coverage by more than **1 percentage point** (`coverage-diff`, existing);
-- lower any overall total below **main's report**, beyond rounding (**0.005** points, `coverage-thresholds --baseline`).
+- lower any overall total below **main's report**, beyond run-to-run noise (**0.05** points, `coverage-thresholds --baseline`). A real drop in one file is caught by the per-file check (1 point).
 
 **Enforced by.** `ci.yml`, on the Linux Node 24 job that runs the suite once with coverage
 (`EVERGREEN_CHECK_COVERAGE=1`):
