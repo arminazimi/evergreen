@@ -7,6 +7,7 @@ import { promisify } from "node:util";
 import { badgeSnippet, badgeState, badgeStyles, contrastRatio, readableTextColor, renderBadgeSvg, repositoryFromRemote } from "../src/badge.js";
 import { severityValues } from "../src/domain.js";
 import type { Finding, Severity } from "../src/domain.js";
+import { EXIT_CODES, type CommandContext, type FailureClass } from "../src/commands/types.js";
 
 const finding = (severity: Severity) => ({ severity }) as unknown as Finding;
 const at = (findings: Finding[], stale = false) =>
@@ -93,4 +94,41 @@ test("the CLI prints the snippet it was asked for", async () => {
   const { stdout } = await run(process.execPath, [cli, "badge", "--repo", "arminazimi/evergreen", "--snippet", "markdown"]);
   assert.equal(stdout.trim(), badgeSnippet("arminazimi/evergreen", "markdown"));
   await assert.rejects(run(process.execPath, [cli, "badge", "--repo", "arminazimi/evergreen", "--snippet", "asciidoc"]), (error: { code?: number }) => error.code === 2);
+});
+
+// The CLI test above runs in a child process, and node:test does not reliably fold that child's
+// coverage into lcov.info. Calling the handler in-process keeps its flag parsing covered on every run.
+test("the badge handler reads --repo and --branch in-process", async () => {
+  const { command } = await import("../src/commands/badge.js");
+  const failures: string[] = [];
+  const ctx = {
+    jsonErrors: false,
+    debug: false,
+    help: "",
+    exitCodes: EXIT_CODES,
+    fail: (_kind: FailureClass, message: string) => {
+      failures.push(message);
+      return EXIT_CODES.usage;
+    },
+    failActionable: () => EXIT_CODES.usage,
+  } as unknown as CommandContext;
+
+  const written: string[] = [];
+  const write = process.stdout.write;
+  process.stdout.write = ((chunk: string | Uint8Array) => {
+    written.push(String(chunk));
+    return true;
+  }) as typeof process.stdout.write;
+  let code: number;
+  try {
+    code = await command.run(["--repo", "arminazimi/evergreen", "--snippet", "markdown", "--branch", "badges/evergreen"], ctx);
+  } finally {
+    process.stdout.write = write;
+  }
+  assert.equal(code, 0);
+  assert.deepEqual(failures, []);
+  assert.equal(written.join("").trim(), badgeSnippet("arminazimi/evergreen", "markdown", "badges/evergreen"));
+
+  assert.equal(await command.run(["--repo", "arminazimi/evergreen", "--snippet", "markdown", "--branch"], ctx), EXIT_CODES.usage);
+  assert.match(failures[0]!, /Usage: evergreen badge/);
 });
