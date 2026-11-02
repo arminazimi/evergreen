@@ -72,6 +72,90 @@ export async function updateAgentFile(root: string, file: string, options: Agent
   return { file: file as AgentFileName, change: update.change, written: true, diff };
 }
 
+export const CLAUDE_CODE_SETTINGS_FILE = ".claude/settings.json";
+export const CLAUDE_CODE_HOOK_MATCHER = "Write|Edit|MultiEdit";
+/** `npx --no-install` uses the package the project already has, then the global `evergreen` bin as the fallback. */
+export const CLAUDE_CODE_HOOK_COMMAND = "npx --no-install evergreen-deprecation hook claude-code";
+
+export interface InitClaudeHooksOptions {
+  /** The repository root. */
+  root: string;
+  /** Report what would change, including a diff, and write nothing. */
+  dryRun?: boolean;
+}
+
+export interface InitClaudeHooksResult {
+  file: string;
+  change: "created" | "updated" | "unchanged";
+  written: boolean;
+  /** A unified diff of the change; empty when nothing changes. */
+  diff: string;
+}
+
+/** Recognizes a hook this command wrote, however its launcher is spelled (`npx … evergreen`, a global bin, a path). */
+const EVERGREEN_HOOK_COMMAND = /\bevergreen(?:-deprecation)?\b.*\bhook\s+claude-code\b/;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function hasEvergreenPostToolUse(entries: readonly unknown[]): boolean {
+  return entries.some((entry) => {
+    if (!isRecord(entry) || !Array.isArray(entry.hooks)) return false;
+    return entry.hooks.some((hook) => isRecord(hook) && typeof hook.command === "string" && EVERGREEN_HOOK_COMMAND.test(hook.command));
+  });
+}
+
+/** Merges the post-edit entry into a parsed settings document, keeping every existing key and hook in place. */
+export function withClaudeCodePostToolUse(settings: unknown): { settings: Record<string, unknown>; change: "added" | "unchanged" } {
+  if (!isRecord(settings)) throw new AgentFileError(`${CLAUDE_CODE_SETTINGS_FILE} does not hold a JSON object, so it was not changed.`);
+  const hooksValue = settings.hooks;
+  if (hooksValue !== undefined && !isRecord(hooksValue)) {
+    throw new AgentFileError(`${CLAUDE_CODE_SETTINGS_FILE} has a "hooks" value that is not an object, so it was not changed.`);
+  }
+  const hooks = (hooksValue ?? {}) as Record<string, unknown>;
+  const postValue = hooks.PostToolUse;
+  if (postValue !== undefined && !Array.isArray(postValue)) {
+    throw new AgentFileError(`${CLAUDE_CODE_SETTINGS_FILE} has a "hooks.PostToolUse" value that is not an array, so it was not changed.`);
+  }
+  const postToolUse = (postValue ?? []) as unknown[];
+  if (hasEvergreenPostToolUse(postToolUse)) return { settings: structuredClone(settings), change: "unchanged" };
+  const entry = {
+    matcher: CLAUDE_CODE_HOOK_MATCHER,
+    hooks: [{ type: "command", command: CLAUDE_CODE_HOOK_COMMAND, timeout: 60 }],
+  };
+  return {
+    settings: { ...structuredClone(settings), hooks: { ...hooks, PostToolUse: [...structuredClone(postToolUse), entry] } },
+    change: "added",
+  };
+}
+
+/** Writes or merges the Claude Code post-edit hook into `.claude/settings.json`, preserving the user's hooks. */
+export async function initClaudeHooks(options: InitClaudeHooksOptions): Promise<InitClaudeHooksResult> {
+  const root = resolve(options.root);
+  const info = await lstat(root).catch(() => undefined);
+  if (!info?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  const path = join(root, CLAUDE_CODE_SETTINGS_FILE);
+  await assertInside(root, path);
+  const before = await read(path);
+  let parsed: unknown = {};
+  if (before !== undefined) {
+    try {
+      parsed = JSON.parse(before);
+    } catch {
+      throw new AgentFileError(`${CLAUDE_CODE_SETTINGS_FILE} is not valid JSON, so it was not changed.`);
+    }
+  }
+  const update = withClaudeCodePostToolUse(parsed);
+  const text = `${JSON.stringify(update.settings, null, 2)}\n`;
+  const change = before === undefined ? "created" : update.change === "unchanged" ? "unchanged" : "updated";
+  const diff = change === "unchanged" ? "" : renderDiff(CLAUDE_CODE_SETTINGS_FILE, before ?? "", text);
+  if (change === "unchanged" || options.dryRun) return { file: CLAUDE_CODE_SETTINGS_FILE, change, written: false, diff };
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, text);
+  return { file: CLAUDE_CODE_SETTINGS_FILE, change, written: true, diff };
+}
+
 export async function initAgents(options: InitAgentsOptions): Promise<InitAgentsResult> {
   const root = resolve(options.root);
   const info = await lstat(root).catch(() => undefined);

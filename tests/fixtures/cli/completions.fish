@@ -38,6 +38,7 @@ complete -c evergreen -n __fish_use_subcommand -a doctor
 complete -c evergreen -n __fish_use_subcommand -a report-issue
 complete -c evergreen -n __fish_use_subcommand -a capabilities
 complete -c evergreen -n __fish_use_subcommand -a completions
+complete -c evergreen -n __fish_use_subcommand -a hook
 complete -c evergreen -n __fish_use_subcommand -l help
 complete -c evergreen -n __fish_use_subcommand -l version
 complete -c evergreen -n '__fish_seen_subcommand_from completions' -a 'bash zsh fish'
@@ -140,6 +141,7 @@ complete -c evergreen -n '__fish_seen_subcommand_from watch' -l json
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l agents
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l hooks
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l personal
+complete -c evergreen -n '__fish_seen_subcommand_from init' -l hooks-for
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l file
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l fail-on
 complete -c evergreen -n '__fish_seen_subcommand_from init' -l yes
@@ -158,3 +160,4 @@ complete -c evergreen -n '__fish_seen_subcommand_from doctor' -l data-version
 complete -c evergreen -n '__fish_seen_subcommand_from report-issue' -l output
 complete -c evergreen -n '__fish_seen_subcommand_from report-issue' -l data-version
 complete -c evergreen -n '__fish_seen_subcommand_from capabilities' -l json
+complete -c evergreen -n '__fish_seen_subcommand_from hook' -l fail-on

@@ -22,5 +22,6 @@ if (nodeProblem) {
   }
   process.exitCode = 2;
 } else {
-  await import("./cli-main.js");
+  const { run } = await import("./cli-main.js");
+  process.exitCode = await run(rawArgs);
 }

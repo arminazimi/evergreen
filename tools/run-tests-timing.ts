@@ -8,6 +8,8 @@
  */
 
 export const TEST_TIMING_MARKER = "<!-- evergreen-test-timing -->";
+export const TEST_TIME_BUDGET_SCHEMA_VERSION = "evergreen.test-time-budget.v1";
+export const TEST_TIME_BUDGET_TITLE = "Test time budget exceeded";
 
 function toAbsolute(filePath: string, cwd: string): string {
   const trimmed = filePath.trim().replaceAll("\\", "/");
@@ -60,6 +62,130 @@ export function formatTestDuration(durationMs: number): string {
   const minutes = Math.floor(seconds / 60);
   const rest = seconds - minutes * 60;
   return `${minutes}m ${rest.toFixed(1)}s`;
+}
+
+export interface TestTimeBudget {
+  readonly schemaVersion: typeof TEST_TIME_BUDGET_SCHEMA_VERSION;
+  /** Ceiling for the sum of every file's testcase time, in milliseconds. */
+  readonly totalMs: number;
+  /** Ceiling for any single test file's summed testcase time, in milliseconds. */
+  readonly perFileMs: number;
+  readonly note?: string;
+}
+
+export interface TestTimeBudgetViolation {
+  readonly scope: "file" | "suite";
+  /** Repo-relative test file, present when `scope` is `file`. */
+  readonly file?: string;
+  readonly actualMs: number;
+  readonly budgetMs: number;
+}
+
+/**
+ * Parse the committed budget file. A malformed budget is an error rather than a silently
+ * disabled gate: the file is small and checked in, so every failure here is a typo or drift.
+ */
+export function parseTestTimeBudget(text: string): TestTimeBudget {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text);
+  } catch (error) {
+    throw new Error(`test time budget is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("test time budget must be a JSON object");
+  }
+  const record = parsed as Record<string, unknown>;
+  if (record.schemaVersion !== TEST_TIME_BUDGET_SCHEMA_VERSION) {
+    throw new Error(`test time budget schemaVersion must be "${TEST_TIME_BUDGET_SCHEMA_VERSION}"`);
+  }
+  for (const key of ["totalMs", "perFileMs"] as const) {
+    const value = record[key];
+    if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
+      throw new Error(`test time budget ${key} must be a positive number of milliseconds`);
+    }
+  }
+  return {
+    schemaVersion: TEST_TIME_BUDGET_SCHEMA_VERSION,
+    totalMs: record.totalMs as number,
+    perFileMs: record.perFileMs as number,
+    ...(typeof record.note === "string" ? { note: record.note } : {}),
+  };
+}
+
+/**
+ * Pure gate: one violation per file over the per-file budget and one for the whole suite.
+ * `totalMs` defaults to the sum of the entries, matching the timing summary.
+ */
+export function evaluateTestTimeBudget(
+  entries: readonly { file: string; durationMs: number }[],
+  budget: TestTimeBudget,
+  totalMs: number = entries.reduce((sum, entry) => sum + entry.durationMs, 0),
+): TestTimeBudgetViolation[] {
+  const violations: TestTimeBudgetViolation[] = [];
+  for (const entry of entries) {
+    const actualMs = Math.round(entry.durationMs);
+    if (actualMs > budget.perFileMs) {
+      violations.push({ scope: "file", file: entry.file, actualMs, budgetMs: budget.perFileMs });
+    }
+  }
+  if (totalMs > budget.totalMs) {
+    violations.push({ scope: "suite", actualMs: Math.round(totalMs), budgetMs: budget.totalMs });
+  }
+  return violations.sort(
+    (left, right) =>
+      right.actualMs - right.budgetMs - (left.actualMs - left.budgetMs) ||
+      (left.file ?? "").localeCompare(right.file ?? ""),
+  );
+}
+
+/** Names the file (when there is one), the actual milliseconds, and the budget milliseconds. */
+export function formatTestTimeBudgetViolation(violation: TestTimeBudgetViolation): string {
+  const actual = `${formatTestDuration(violation.actualMs)} (${violation.actualMs} ms)`;
+  if (violation.scope === "file") {
+    return `${violation.file} took ${actual}, over the ${violation.budgetMs} ms per-file test time budget`;
+  }
+  return `test suite total took ${actual}, over the ${violation.budgetMs} ms suite test time budget`;
+}
+
+function escapeAnnotationProperty(value: string): string {
+  return value
+    .replaceAll("%", "%25")
+    .replaceAll("\r", "%0D")
+    .replaceAll("\n", "%0A")
+    .replaceAll(":", "%3A")
+    .replaceAll(",", "%2C");
+}
+
+function escapeAnnotationMessage(value: string): string {
+  return value.replaceAll("%", "%25").replaceAll("\r", "%0D").replaceAll("\n", "%0A");
+}
+
+/**
+ * GitHub Actions error annotation. The file property is repo-relative with forward slashes,
+ * so it works on Windows runners as well as Linux and macOS.
+ */
+export function testTimeBudgetAnnotation(violation: TestTimeBudgetViolation): string {
+  const message = escapeAnnotationMessage(formatTestTimeBudgetViolation(violation));
+  const title = escapeAnnotationProperty(TEST_TIME_BUDGET_TITLE);
+  if (violation.scope === "file" && violation.file !== undefined) {
+    return `::error file=${escapeAnnotationProperty(violation.file)},title=${title}::${message}`;
+  }
+  return `::error title=${title}::${message}`;
+}
+
+/** Markdown for stdout and the GitHub step summary, so the failing file is easy to find. */
+export function renderTestTimeBudgetFailure(
+  violations: readonly TestTimeBudgetViolation[],
+  options: { budgetPath?: string } = {},
+): string {
+  const lines = ["### Test time budget exceeded", ""];
+  for (const violation of violations) lines.push(`- ${formatTestTimeBudgetViolation(violation)}`);
+  if (options.budgetPath !== undefined) {
+    lines.push("", `Adjust \`${options.budgetPath}\` only when accepting the slowdown on purpose.`);
+  }
+  lines.push("");
+  return lines.join("\n");
 }
 
 export function renderTestTimingSummary(

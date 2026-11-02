@@ -1,0 +1,1 @@
+- Assemble the capability manifest and corpus thresholds from one file per item, so parallel additions never edit a shared registry. (#2021)

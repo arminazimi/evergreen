@@ -6,6 +6,12 @@
 // data-age.test executes dist/action/index.js, and ncc would otherwise truncate that file while
 // the test is reading it. The git diff stays after the copy.
 //
+// The suite runs through tools/run-tests.mjs, which applies the quarantine list and retries a failed
+// file once. CI's Linux Node 24 job sets EVERGREEN_CHECK_COVERAGE=1: that job runs the same single
+// `node --test` pass with coverage enabled and leaves lcov.info behind, so the threshold, per-file
+// diff, and badge steps read one run instead of repeating the suite. Every other run keeps the
+// project runner.
+//
 // The committed bundle is verified only when EVERGREEN_VERIFY_ACTION_BUNDLE=1 (release pull requests
 // and the npm publish). Every other pull request still compiles the bundle, but neither publishes nor
 // diffs it: each merge regenerates the same minified lines, so parallel pull requests would conflict.
@@ -49,7 +55,31 @@ export interface RunCheckOptions {
   nccCli?: string;
   /** Publish the staged bundle and fail when it differs from the committed one. */
   verifyActionBundle?: boolean;
+  /** Run the suite with coverage instead of tools/run-tests.mjs. Defaults to EVERGREEN_CHECK_COVERAGE=1. */
+  collectCoverage?: boolean;
 }
+
+/** Set to `1` to collect coverage from the single suite run; CI sets it on the Linux Node 24 job. */
+export const COVERAGE_ENV = "EVERGREEN_CHECK_COVERAGE";
+
+/** The report the threshold, per-file diff, and badge steps read after that run. */
+export const COVERAGE_LCOV_PATH = "lcov.info";
+
+/** Same exclusions as the `test:coverage` script in package.json, so both runs measure the same files. */
+export const COVERAGE_EXCLUDES: readonly string[] = [
+  "dist/tests/**",
+  "dist/benchmarks/**",
+  "dist/action/**",
+  "dist/src/usage/vendor/**",
+];
+
+/** Whether this process should collect coverage, from the environment or an explicit option. */
+export function coverageRequested(env: NodeJS.ProcessEnv = process.env): boolean {
+  return env[COVERAGE_ENV] === "1";
+}
+
+/** The compiled tests both test commands run. */
+export const TEST_FILE_GLOB = "dist/tests/**/*.test.js";
 
 /**
  * Files that spawn the CLI keep fixtures in their own mkdtemp directory, so more test
@@ -57,7 +87,28 @@ export interface RunCheckOptions {
  * 55s to about 36s on a 6-core machine; Node's default is one under the CPU count.
  */
 export function testProcessArgs(parallelism = availableParallelism()): string[] {
-  return ["--test", `--test-concurrency=${parallelism * 2}`, "dist/tests/**/*.test.js"];
+  return ["--test", `--test-concurrency=${parallelism * 2}`, TEST_FILE_GLOB];
+}
+
+/**
+ * The single suite run that also collects coverage. It keeps the runner, the concurrency, and the
+ * file glob of `testProcessArgs`, and adds the coverage flags before the glob because the test
+ * runner reads every later argument as a file. It writes the same table to stdout and the same
+ * lcov.info that `npm run test:coverage` writes, so the existing coverage steps consume it unchanged.
+ */
+export function coverageTestArgs(parallelism = availableParallelism()): string[] {
+  const args = testProcessArgs(parallelism);
+  const files = args.at(-1) ?? TEST_FILE_GLOB;
+  return [
+    ...args.slice(0, -1),
+    "--experimental-test-coverage",
+    ...COVERAGE_EXCLUDES.map((path) => `--test-coverage-exclude=${path}`),
+    "--test-reporter=spec",
+    "--test-reporter=lcov",
+    "--test-reporter-destination=stdout",
+    `--test-reporter-destination=${COVERAGE_LCOV_PATH}`,
+    files,
+  ];
 }
 
 export function runCommand(command: string, args: readonly string[]): Promise<void> {
@@ -209,6 +260,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
   const stagingDir = options.stagingDir ?? (await mkdtemp(join(tmpdir(), "evergreen-action-")));
   const removeStaging = options.stagingDir === undefined;
   const verifyActionBundle = options.verifyActionBundle ?? process.env.EVERGREEN_VERIFY_ACTION_BUNDLE === "1";
+  const collectCoverage = options.collectCoverage ?? coverageRequested();
 
   try {
     const { failures, timings } = await runDependentSteps([
@@ -220,7 +272,11 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
         id: "build:action",
         run: () => run(process.execPath, [nccCli, "build", "src/action.ts", "-o", stagingDir, "--minify", "--transpile-only"]),
       },
-      { id: "test", run: () => run(process.execPath, ["tools/run-tests.mjs"]) },
+      {
+        id: "test",
+        run: () =>
+          run(process.execPath, collectCoverage ? coverageTestArgs() : ["tools/run-tests.mjs"]),
+      },
       { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },
       { id: "eval:plugins", run: () => run(process.execPath, ["dist/benchmarks/plugin-host-eval.js"]) },
       { id: "eval:agent-loop", run: () => run(process.execPath, ["dist/benchmarks/agent-loop/index.js"]) },

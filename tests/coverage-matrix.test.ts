@@ -9,6 +9,10 @@ import type { LifecycleEvent, RegistryV2Rule } from "../src/registry.js";
 import {
   COMPATIBILITY_PATH,
   END_MARKER,
+  README_DESCRIPTIONS_PATH,
+  README_END_MARKER,
+  README_PATH,
+  README_START_MARKER,
   START_MARKER,
   STATE_OF_EOL_END_MARKER,
   STATE_OF_EOL_PATH,
@@ -16,19 +20,25 @@ import {
   VALIDATION_PATH,
   aggregateStateOfEol,
   buildDocument,
+  buildReadmeDocument,
   buildStateOfEolDocument,
   buildValidationDocument,
   loadDescriptions,
+  loadReadmeDescriptions,
+  main,
   productNameFromPurl,
   renderAccuracyTable,
   renderCoverageTable,
+  renderReadmeCoverageTable,
   renderStateOfEolSection,
   replaceAccuracyTable,
   replaceCoverageTable,
+  replaceReadmeCoverageTable,
   replaceStateOfEolSection,
   validateDescriptions,
+  validateReadmeDescriptions,
 } from "../tools/coverage-matrix.js";
-import type { CoverageDescriptions } from "../tools/coverage-matrix.js";
+import type { CoverageDescriptions, ReadmeCoverageDescriptions } from "../tools/coverage-matrix.js";
 
 const ROW_NAMES = [
   "CI runner images",
@@ -163,6 +173,95 @@ test("only the bytes between the markers are replaced", () => {
     `before\n${START_MARKER}\nnew\ntable\n${END_MARKER}\nafter\n`,
   );
   assert.throws(() => replaceCoverageTable("no markers", "table"), /must contain/);
+});
+
+test("the committed README coverage table matches the generator", async () => {
+  const document = await readFile(resolve(README_PATH), "utf8");
+  assert.equal(document, await buildReadmeDocument());
+});
+
+test("the README rows render in data order with the maturity note derived from the manifest", () => {
+  const manifest = getCapabilityManifest();
+  const synthetic: CapabilityManifest = {
+    ...manifest,
+    ecosystems: [
+      { id: "delta", status: "experimental", maturity: "experimental", detectorIds: ["delta"] },
+      { id: "alpha", status: "supported", maturity: "beta", detectorIds: ["alpha"] },
+      { id: "gamma", status: "supported", maturity: "stable", detectorIds: ["gamma"] },
+    ],
+  };
+  const descriptions: ReadmeCoverageDescriptions = {
+    schemaVersion: "evergreen.readme-coverage.v1",
+    rows: [
+      { ecosystems: ["delta"], name: "Delta", reads: "`delta.toml`", reports: "Delta findings." },
+      { ecosystems: ["alpha"], name: "Alpha", reads: "`alpha.json`", reports: "Alpha findings." },
+      { ecosystems: ["gamma"], name: "Gamma", reads: "`gamma.json`", reports: "Gamma findings." },
+    ],
+  };
+  const table = renderReadmeCoverageTable(synthetic, descriptions);
+  assert.match(table, /^\| Ecosystem \| What Evergreen reads \| What it reports \|/);
+  assert.match(table, /\| \*\*Delta\*\* \*\(experimental\)\* \| `delta\.toml` \| Delta findings\. \|/);
+  assert.match(table, /\| \*\*Alpha\*\* \*\(beta\)\* \| `alpha\.json` \| Alpha findings\. \|/);
+  assert.match(table, /\| \*\*Gamma\*\* \| `gamma\.json` \| Gamma findings\. \|/);
+  assert.ok(table.indexOf("**Delta**") < table.indexOf("**Alpha**"), "rows keep the data file order");
+});
+
+test("a missing, orphaned, duplicate, empty, or textless README row is an error", async () => {
+  const manifest = getCapabilityManifest();
+  const descriptions = await loadReadmeDescriptions();
+
+  const missing = { ...descriptions, rows: descriptions.rows.filter((row) => !row.ecosystems.includes("rust")) };
+  assert.throws(() => validateReadmeDescriptions(manifest, missing), /Ecosystem "rust" has no README coverage row/);
+
+  const orphaned = { ...descriptions, rows: [...descriptions.rows, { ecosystems: ["cobol"], name: "COBOL", reads: "`x`", reports: "COBOL." }] };
+  assert.throws(() => validateReadmeDescriptions(manifest, orphaned), /names "cobol", which is not in the capability manifest/);
+
+  const duplicate = { ...descriptions, rows: [...descriptions.rows, { ecosystems: ["rust"], name: "Rust again", reads: "`x`", reports: "Rust." }] };
+  assert.throws(() => validateReadmeDescriptions(manifest, duplicate), /Ecosystem "rust" has more than one README coverage row/);
+
+  const ecosystemless = { ...descriptions, rows: [...descriptions.rows, { ecosystems: [], name: "Nothing", reads: "`x`", reports: "Nothing." }] };
+  assert.throws(() => validateReadmeDescriptions(manifest, ecosystemless), /README coverage row "Nothing" names no ecosystem/);
+
+  const textless = { ...descriptions, rows: [...descriptions.rows, { ecosystems: ["go"], name: "Go again", reads: " ", reports: "Go." }] };
+  assert.throws(() => validateReadmeDescriptions(manifest, textless), /needs a name, a reads, and a reports value/);
+});
+
+test("adding an ecosystem only edits the README data file, never the document", () => {
+  const manifest = getCapabilityManifest();
+  const rust = { id: "rust", status: "supported" as const, maturity: "stable" as const, detectorIds: ["rust"] };
+  const zig = { id: "zig", status: "experimental" as const, maturity: "experimental" as const, detectorIds: ["zig"] };
+  const base: ReadmeCoverageDescriptions = {
+    schemaVersion: "evergreen.readme-coverage.v1",
+    rows: [{ ecosystems: ["rust"], name: "Rust", reads: "`Cargo.toml`", reports: "Rust findings." }],
+  };
+  const extendedManifest: CapabilityManifest = { ...manifest, ecosystems: [rust, zig] };
+  assert.throws(() => renderReadmeCoverageTable(extendedManifest, base), /Ecosystem "zig" has no README coverage row/);
+  const extended = {
+    ...base,
+    rows: [...base.rows, { ecosystems: ["zig"], name: "Zig", reads: "`build.zig.zon`", reports: "Zig findings." }],
+  };
+  assert.match(
+    renderReadmeCoverageTable(extendedManifest, extended),
+    /\| \*\*Zig\*\* \*\(experimental\)\* \| `build\.zig\.zon` \| Zig findings\. \|/,
+  );
+});
+
+test("only the bytes between the README markers are replaced", () => {
+  const document = `before\n${README_START_MARKER}\nold\n${README_END_MARKER}\nafter\n`;
+  assert.equal(
+    replaceReadmeCoverageTable(document, "new\ntable"),
+    `before\n${README_START_MARKER}\nnew\ntable\n${README_END_MARKER}\nafter\n`,
+  );
+  assert.throws(() => replaceReadmeCoverageTable("no markers", "table"), /README\.md must contain/);
+});
+
+test("the README data file uses the documented schema and describes the committed table", async () => {
+  assert.equal(README_DESCRIPTIONS_PATH, "docs/readme-coverage.json");
+  assert.equal((await loadReadmeDescriptions()).schemaVersion, "evergreen.readme-coverage.v1");
+});
+
+test("check mode accepts the committed generated documents", async () => {
+  assert.equal(await main(["--check"]), 0);
 });
 
 test("the committed accuracy tables match the last recorded full corpus run", async () => {

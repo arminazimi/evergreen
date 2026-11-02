@@ -1,13 +1,39 @@
 name: Fuzz
 
+# Every file-format parser is fuzzed on a tight budget in `npm run check`; this job runs the same
+# targets deeper at night and on pull requests that touch a parser, so hostile manifests, lockfiles,
+# SBOMs, inventory exports, and source files surface before they ship.
 on:
   schedule:
     # Nightly.
     - cron: "23 3 * * *"
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "src/detectors/**"
+      - "src/inventory/**"
+      - "src/sbom/**"
+      - "src/usage/**"
+      - "src/cle-ingest.ts"
+      - "src/codeowners.ts"
+      - "src/diff.ts"
+      - "src/guard.ts"
+      - "src/min-support.ts"
+      - "src/purl.ts"
+      - "src/vers.ts"
+      - "src/vers/**"
+      - "tests/fuzz/**"
+      - "tests/fixtures/fuzz/**"
+      - ".github/workflows/fuzz.yml"
 
+# Least privilege: reading the repository and the bundled data is all a fuzz run needs.
 permissions:
   contents: read
+
+concurrency:
+  group: fuzz-${{ github.workflow }}-${{ github.ref }}
+  # A newer pull request push supersedes the older run; the nightly run is never cancelled.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   fuzz:
@@ -23,9 +49,19 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Fuzz the manifest parsers
-        # A deeper budget than `npm run check` runs on every commit.
+      - name: Fuzz every file-format parser
+        # A deeper budget than `npm run check` runs on every commit. A shorter pull request budget
+        # still walks every target, including the ones that read files or load bundled data.
         env:
-          EVERGREEN_FUZZ_RUNS: "1000"
-          EVERGREEN_FUZZ_MS: "60000"
+          EVERGREEN_FUZZ_RUNS: "${{ github.event_name == 'schedule' && '1000' || '300' }}"
+          EVERGREEN_FUZZ_MS: "${{ github.event_name == 'schedule' && '60000' || '15000' }}"
+          EVERGREEN_FUZZ_ARTIFACTS: fuzz-artifacts
         run: npm run test:fuzz
+      - name: Upload crasher artifacts
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: fuzz-crashers-${{ github.run_id }}
+          path: fuzz-artifacts
+          if-no-files-found: ignore
+          retention-days: 14

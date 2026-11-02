@@ -1,0 +1,30 @@
+{
+  "session_id": "8b2e4c60-3d17-4f59-9a8e-6b1d0c3f5a27",
+  "transcript_path": "/Users/dev/.claude/projects/-Users-dev-app/8b2e4c60-3d17-4f59-9a8e-6b1d0c3f5a27.jsonl",
+  "cwd": "/Users/dev/app",
+  "hook_event_name": "PostToolUse",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "/Users/dev/app/Dockerfile",
+    "old_string": "FROM node:20",
+    "new_string": "FROM node:16",
+    "replace_all": false
+  },
+  "tool_response": {
+    "filePath": "/Users/dev/app/Dockerfile",
+    "oldString": "FROM node:20",
+    "newString": "FROM node:16",
+    "originalFile": "FROM node:20\nWORKDIR /app\n",
+    "structuredPatch": [
+      {
+        "oldStart": 1,
+        "oldLines": 1,
+        "newStart": 1,
+        "newLines": 1,
+        "lines": ["-FROM node:20", "+FROM node:16"]
+      }
+    ],
+    "userModified": false,
+    "replaceAll": false
+  }
+}

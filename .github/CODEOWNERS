@@ -5,10 +5,37 @@
 /schemas/                 @arminazimi
 /src/sdk.ts               @arminazimi
 /src/domain.ts            @arminazimi
+/src/index.ts             @arminazimi
 /.github/workflows/       @arminazimi
 /.github/CODEOWNERS       @arminazimi
 /MAINTAINERS.md           @arminazimi
 /action.yml               @arminazimi
+
+# Core runtime — the scan engine, registry loader, and source usage that every entry point calls.
+/src/engine.ts            @arminazimi
+/src/registry.ts          @arminazimi
+/src/source-usage.ts      @arminazimi
+
+# Adapters — the CLI, MCP server, and GitHub Action wrap the core; their entry points decide what users run.
+/src/cli.ts               @arminazimi
+/src/cli-main.ts          @arminazimi
+/src/mcp.ts               @arminazimi
+/src/mcp-server.ts        @arminazimi
+/src/mcp-cli.ts           @arminazimi
+/src/mcp-http.ts          @arminazimi
+/src/action.ts            @arminazimi
+/src/github-action.ts     @arminazimi
+
+# Release surface — the package manifest, the Action bundle inputs, the image, and the release tooling.
+/package.json             @arminazimi
+/package-lock.json        @arminazimi
+/server.json              @arminazimi
+/CITATION.cff             @arminazimi
+/Dockerfile               @arminazimi
+/.gitlab-ci.yml           @arminazimi
+/.pre-commit-hooks.yaml   @arminazimi
+/tsconfig.json            @arminazimi
+/tools/                   @arminazimi
 
 # Shared registry data (not a single ecosystem).
 /registry/osv.json                @arminazimi

@@ -61,3 +61,21 @@ test("rejects malformed PURLs", async (t) => {
     await t.test(value, () => assert.throws(() => parsePurl(value), PurlError));
   }
 });
+
+test("drops trailing slashes from the path", () => {
+  assert.deepEqual(parsePurl("pkg:npm/request@2.88.2///"), { type: "npm", name: "request", version: "2.88.2" });
+  assert.deepEqual(parsePurl("pkg:maven/org.apache/commons-lang3///"), {
+    type: "maven",
+    namespace: "org.apache",
+    name: "commons-lang3",
+  });
+});
+
+test("a PURL with a long run of slashes parses in linear time", () => {
+  const value = `pkg:npm/${"/".repeat(100_000)}request@2.88.2`;
+  const started = performance.now();
+  const parsed = parsePurl(value);
+  const elapsed = performance.now() - started;
+  assert.deepEqual(parsed, { type: "npm", name: "request", version: "2.88.2" });
+  assert.ok(elapsed < 1000, `a 100k-slash PURL took ${elapsed.toFixed(1)}ms`);
+});

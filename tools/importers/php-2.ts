@@ -8,11 +8,46 @@ export const PACKAGIST_API_URL = "https://packagist.org/apidoc";
 /** Composer v2 metadata root. One package is `${PACKAGIST_METADATA_ROOT}/<vendor>/<name>.json`. */
 export const PACKAGIST_METADATA_ROOT = "https://repo.packagist.org/p2";
 
+const isLowerAlphaNumeric = (code: number): boolean => (code >= 0x30 && code <= 0x39) || (code >= 0x61 && code <= 0x7a);
+
 /**
- * A Composer package name: `vendor/name`, lowercase, as Packagist stores it.
- * https://getcomposer.org/doc/04-schema.md#name
+ * One side of a package name: lowercase alphanumeric runs joined by a single `.`, `_`, or `-`, and, in
+ * the package part, also by a doubled `--`. Leading, trailing, and doubled separators do not count.
  */
-export const COMPOSER_PACKAGE_NAME = /^[a-z0-9](?:[_.-]?[a-z0-9]+)*\/[a-z0-9](?:(?:[_.]|-{1,2})?[a-z0-9]+)*$/;
+function isComposerSegment(segment: string, allowDoubleHyphen: boolean): boolean {
+  let index = 0;
+  // Nothing but a separator has been seen yet, so the segment must start with an alphanumeric.
+  let afterSeparator = true;
+  while (index < segment.length) {
+    const code = segment.charCodeAt(index);
+    if (isLowerAlphaNumeric(code)) {
+      afterSeparator = false;
+      index += 1;
+      continue;
+    }
+    if (afterSeparator) return false;
+    if (code === 0x2d && allowDoubleHyphen && segment.charCodeAt(index + 1) === 0x2d) index += 2;
+    else if (code === 0x2d || code === 0x2e || code === 0x5f) index += 1;
+    else return false;
+    afterSeparator = true;
+  }
+  return !afterSeparator;
+}
+
+/**
+ * Whether `value` is a Composer package name: `vendor/name`, lowercase, as Packagist stores it.
+ * https://getcomposer.org/doc/04-schema.md#name
+ *
+ * A manual scan keeps this linear. The equivalent expression
+ * `^[a-z0-9](?:[_.-]?[a-z0-9]+)*\/[a-z0-9](?:(?:[_.]|-{1,2})?[a-z0-9]+)*$` backtracks exponentially
+ * on input such as `"a".repeat(31) + "!"`, and Packagist metadata supplies both the name and the
+ * abandonment replacement that are checked here (`js/redos`).
+ */
+export function isComposerPackageName(value: string): boolean {
+  const slash = value.indexOf("/");
+  if (slash <= 0 || slash !== value.lastIndexOf("/")) return false;
+  return isComposerSegment(value.slice(0, slash), false) && isComposerSegment(value.slice(slash + 1), true);
+}
 
 const SOURCES = [
   { title: "Packagist API", url: PACKAGIST_API_URL },
@@ -76,7 +111,7 @@ function purl(name: string): string {
 function summary(name: string, replacement: string | undefined): string {
   const marked = `Packagist marks ${name} as abandoned and no longer maintained`;
   if (replacement === undefined) return `${marked}.`;
-  if (COMPOSER_PACKAGE_NAME.test(replacement)) return `${marked}, and the author suggests using ${replacement} instead.`;
+  if (isComposerPackageName(replacement)) return `${marked}, and the author suggests using ${replacement} instead.`;
   return `${marked}, and the author points to ${replacement}.`;
 }
 
@@ -105,7 +140,7 @@ export async function importAbandonedPackages(context: ImporterContext, names: r
   const active: string[] = [];
 
   for (const name of [...new Set(names)].sort()) {
-    if (!COMPOSER_PACKAGE_NAME.test(name)) {
+    if (!isComposerPackageName(name)) {
       notes.push(`Skipped ${name}: not a valid Composer package name.`);
       continue;
     }

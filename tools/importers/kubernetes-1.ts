@@ -1,4 +1,5 @@
 import { ruleVersion } from "../../src/detectors/kubernetes/api-version.js";
+import { decodeEntities, stripHtml } from "./html.js";
 import type { DraftRule, Importer } from "./types.js";
 
 export const KUBERNETES_DEPRECATION_GUIDE_URL = "https://kubernetes.io/docs/reference/using-api/deprecation-guide/";
@@ -73,12 +74,7 @@ const VERSIONS_OF_KINDS = new RegExp(String.raw`The (${list(API_VERSION)}) API v
 const KIND_IN_VERSION = new RegExp(String.raw`(${KIND}) in the (${API_VERSION}) API version is ${RELEASE}`, "g");
 
 function pageText(html: string): string {
-  return html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&nbsp;/g, " ")
+  return decodeEntities(stripHtml(html))
     .replace(/\s+/g, " ")
     .replace(/ ([.,])/g, "$1");
 }

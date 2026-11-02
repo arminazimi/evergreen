@@ -1,0 +1,1 @@
+- Store the vendored tree-sitter WebAssembly payloads as verified base64 text so no binary artifact is committed. (#2065)

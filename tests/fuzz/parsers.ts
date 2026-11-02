@@ -5,18 +5,32 @@
  *
  * `allowedErrors` lists the deliberate, typed errors a parser throws for malformed input: the
  * version-range and PURL parsers judge caller-supplied strings and reject them with their own
- * error classes. Any other error escaping a parser fails the fuzz run.
+ * error classes, and the SBOM readers reject documents that are not a BOM. Any other error
+ * escaping a parser fails the fuzz run.
  *
  * Budgets come from the environment so the nightly job can go deeper than `npm run check`:
  * `EVERGREEN_FUZZ_RUNS` sets the iterations per parser (default 100) and `EVERGREEN_FUZZ_MS`
- * the wall-clock limit per parser (default 5000).
+ * the wall-clock limit per parser (default 5000). A target may lower its own iteration count
+ * when one run reads files or loads bundled data.
  */
 import { DiffError, parseRange } from "../../src/diff.js";
 import { parseNpmPackage } from "../../src/guard.js";
 import { parseMinSupportDays } from "../../src/min-support.js";
+import { ConfigError, validateConfig } from "../../src/config.js";
+import { parseBoundedJson } from "../../src/package-files.js";
 import { PurlError, parsePurl } from "../../src/purl.js";
 import { VersError, parseVers, parseVersLenient } from "../../src/vers.js";
 import { parseCodeowners } from "../../src/codeowners.js";
+import {
+  matchesComposerConstraint,
+  parsePhpVersion as parseComposerPhpVersion,
+} from "../../src/upgrade/composer-lock.js";
+import { matchesDartConstraint, parseTargetVersion as parseDartTargetVersion } from "../../src/upgrade/dart-sdk.js";
+import { normalizeGoVersion, parseVendorModules } from "../../src/upgrade/go-modules.js";
+import { parseUpgradeTarget } from "../../src/upgrade/index.js";
+import { readPackages as readNpmUpgradePackages } from "../../src/upgrade/npm-lock.js";
+import { matchesSpecifier, parseVersion as parsePep440Version } from "../../src/upgrade/pep440.js";
+import { readPackages as readPnpmUpgradePackages } from "../../src/upgrade/pnpm-lock.js";
 import { readJsonLines } from "../../src/detectors/json-lines.js";
 import { setupDotnetVersions } from "../../src/detectors/github-actions-dotnet.js";
 import { setupNodeVersions } from "../../src/detectors/github-actions-node.js";
@@ -82,7 +96,7 @@ import { parseServerlessYml } from "../../src/detectors/serverless/parse-serverl
 import { parseTemplate as parseTemplateServerless } from "../../src/detectors/serverless/parse-template.js";
 import { parseTf } from "../../src/detectors/serverless/parse-tf.js";
 import { parseManagedKubernetes } from "../../src/detectors/terraform/kubernetes.js";
-import { parseTerraformFile } from "../../src/detectors/terraform/parse-terraform.js";
+import { parseTerraformFile, parseTerraformLegacy } from "../../src/detectors/terraform/parse-terraform.js";
 import { parseTerraformLock } from "../../src/detectors/terraform/parse-lock.js";
 import { parseTerraformPlanJson } from "../../src/detectors/terraform/plan.js";
 import { parseToolVersionsTerraform, parseTerraformVersionFile } from "../../src/detectors/terraform/parse-version-files.js";
@@ -90,11 +104,54 @@ import { parsePackageResolved } from "../../src/detectors/swift/parse-package-re
 import { parsePackageSwift } from "../../src/detectors/swift/parse-package-swift.js";
 import { parseSwiftVersion, parseXcodeVersion } from "../../src/detectors/swift/parse-swift-toolchain.js";
 import { parseXcodeProjectIOSDeploymentTargets } from "../../src/detectors/swift/parse-xcode-project.js";
+import { NpmDetector } from "../../src/detectors/npm.js";
+import { PythonDetector } from "../../src/detectors/python.js";
+import { parseExport, inventoryImporters } from "../../src/inventory/index.js";
+import { parseOsReleaseDocument } from "../../src/inventory/os-release.js";
+import { CycloneDxError, enrichCycloneDx } from "../../src/sbom/cyclonedx.js";
+import { enrichSpdx, SpdxError as SpdxExportError } from "../../src/sbom/spdx.js";
+import { scanCycloneDx, scanSpdx, SpdxError as SpdxScanError } from "../../src/sbom/input.js";
+import { analyzeJavaScriptFile } from "../../src/usage/javascript.js";
+import { analyzePythonFile } from "../../src/usage/python.js";
+import type { Detector } from "../../src/sdk.js";
 
 export interface ParserEntry {
   readonly name: string;
   readonly parse: (contents: string) => unknown;
   readonly allowedErrors?: readonly (new (message: string) => Error)[];
+  /** Lower than the global budget when one run is expensive. */
+  readonly runs?: number;
+}
+
+/** A parser whose input is a parsed JSON-shaped document rather than a string. */
+export interface DocumentParserEntry {
+  readonly name: string;
+  readonly parse: (document: unknown) => unknown | Promise<unknown>;
+  readonly allowedErrors?: readonly (new (message: string) => Error)[];
+  readonly runs?: number;
+}
+
+/**
+ * A detector reads files from a root directory. `seed` is written once, and the fuzzed string is
+ * written to `file` before every run, so the target exercises the container format (manifest,
+ * lockfile, project file) the detector parses without scanning unrelated files.
+ */
+export interface DetectorParserEntry {
+  readonly name: string;
+  readonly detector: Detector;
+  readonly file: string;
+  readonly seed?: Readonly<Record<string, string>>;
+  readonly allowedErrors?: readonly (new (message: string) => Error)[];
+  readonly runs?: number;
+}
+
+/** A source-code parser: its input is a file name, a language, and the source text. */
+export interface SourceParserEntry {
+  readonly name: string;
+  readonly path: string;
+  readonly parse: (source: string) => Promise<unknown>;
+  readonly allowedErrors?: readonly (new (message: string) => Error)[];
+  readonly runs?: number;
 }
 
 export const parsers: readonly ParserEntry[] = [
@@ -179,6 +236,7 @@ export const parsers: readonly ParserEntry[] = [
   { name: "parseTf", parse: parseTf },
   { name: "parseManagedKubernetes", parse: parseManagedKubernetes },
   { name: "parseTerraformFile", parse: parseTerraformFile },
+  { name: "parseTerraformLegacy", parse: parseTerraformLegacy },
   { name: "parseTerraformLock", parse: parseTerraformLock },
   { name: "parseTerraformPlanJson", parse: parseTerraformPlanJson },
   { name: "parseTerraformVersionFile", parse: parseTerraformVersionFile },
@@ -188,4 +246,84 @@ export const parsers: readonly ParserEntry[] = [
   { name: "parseSwiftVersion", parse: parseSwiftVersion },
   { name: "parseXcodeVersion", parse: parseXcodeVersion },
   { name: "parseXcodeProjectIOSDeploymentTargets", parse: parseXcodeProjectIOSDeploymentTargets },
+  { name: "parseExport (inventory)", parse: parseExport },
+  { name: "parseOsReleaseDocument (inventory)", parse: parseOsReleaseDocument },
+  { name: "parseBoundedJson", parse: parseBoundedJson },
+  { name: "parseUpgradeTarget", parse: parseUpgradeTarget },
+  { name: "upgrade npm-lock readPackages", parse: readNpmUpgradePackages },
+  { name: "upgrade pnpm-lock readPackages", parse: readPnpmUpgradePackages },
+  { name: "upgrade parsePhpVersion (composer)", parse: parseComposerPhpVersion },
+  { name: "upgrade matchesComposerConstraint", parse: (contents) => matchesComposerConstraint(contents, "1.0.0") },
+  { name: "upgrade parseTargetVersion (dart)", parse: parseDartTargetVersion },
+  { name: "upgrade matchesDartConstraint", parse: (contents) => matchesDartConstraint("1.0.0", contents) },
+  { name: "upgrade parseVendorModules", parse: parseVendorModules },
+  { name: "upgrade normalizeGoVersion", parse: normalizeGoVersion },
+  { name: "upgrade parseVersion (pep440)", parse: parsePep440Version },
+  { name: "upgrade matchesSpecifier (pep440)", parse: (contents) => matchesSpecifier(contents, "1.0.0") },
+];
+
+export const documentParsers: readonly DocumentParserEntry[] = [
+  ...inventoryImporters.map((importer): DocumentParserEntry => ({
+    name: `inventory:${importer.id}`,
+    parse: (document) => {
+      const detected = importer.detect(document, "export.txt");
+      return { detected, items: detected ? importer.items(document, "export.txt") : [] };
+    },
+  })),
+  { name: "enrichCycloneDx", parse: (document) => enrichCycloneDx(document, []), allowedErrors: [CycloneDxError] },
+  { name: "enrichSpdx", parse: (document) => enrichSpdx(document, []), allowedErrors: [SpdxExportError] },
+  { name: "validateConfig", parse: (document) => validateConfig(document, ".evergreen.json"), allowedErrors: [ConfigError] },
+  // These load bundled data for components with PURLs, so they get a smaller budget than pure transforms.
+  { name: "scanCycloneDx", parse: scanCycloneDx, allowedErrors: [CycloneDxError], runs: 25 },
+  { name: "scanSpdx", parse: scanSpdx, allowedErrors: [SpdxScanError], runs: 25 },
+];
+
+const NPM_SEED = {
+  "package.json": JSON.stringify({ name: "fuzz-target", private: true, dependencies: { request: "^2.88.0" } }),
+};
+
+const PYTHON_SEED = {
+  "pyproject.toml": '[project]\nname = "fuzz-target"\nrequires-python = ">=3.8"\n',
+};
+
+export const detectorParsers: readonly DetectorParserEntry[] = [
+  {
+    name: "npm package.json (workspace)",
+    detector: new NpmDetector(),
+    file: "packages/app/package.json",
+    seed: { "package.json": JSON.stringify({ private: true, workspaces: ["packages/*"] }) },
+  },
+  { name: "npm package-lock.json", detector: new NpmDetector(), file: "package-lock.json", seed: NPM_SEED },
+  { name: "npm npm-shrinkwrap.json", detector: new NpmDetector(), file: "npm-shrinkwrap.json", seed: NPM_SEED },
+  { name: "npm pnpm-lock.yaml", detector: new NpmDetector(), file: "pnpm-lock.yaml", seed: NPM_SEED },
+  { name: "npm yarn.lock", detector: new NpmDetector(), file: "yarn.lock", seed: NPM_SEED },
+  { name: "npm bun.lock", detector: new NpmDetector(), file: "bun.lock", seed: NPM_SEED },
+  {
+    name: "python pyproject.toml",
+    detector: new PythonDetector(),
+    file: "pyproject.toml",
+  },
+  { name: "python requirements.txt", detector: new PythonDetector(), file: "requirements.txt", seed: PYTHON_SEED },
+  { name: "python uv.lock", detector: new PythonDetector(), file: "uv.lock", seed: PYTHON_SEED },
+  { name: "python poetry.lock", detector: new PythonDetector(), file: "poetry.lock", seed: PYTHON_SEED },
+  { name: "python pdm.lock", detector: new PythonDetector(), file: "pdm.lock", seed: PYTHON_SEED },
+  { name: "python Pipfile.lock", detector: new PythonDetector(), file: "Pipfile.lock", seed: PYTHON_SEED },
+];
+
+export const sourceParsers: readonly SourceParserEntry[] = [
+  {
+    name: "analyzeJavaScriptFile",
+    path: "source.js",
+    parse: (source) => analyzeJavaScriptFile({ path: "source.js", language: "javascript", source }, []),
+  },
+  {
+    name: "analyzeTypeScriptFile",
+    path: "source.ts",
+    parse: (source) => analyzeJavaScriptFile({ path: "source.ts", language: "typescript", source }, []),
+  },
+  {
+    name: "analyzePythonFile",
+    path: "source.py",
+    parse: (source) => analyzePythonFile({ path: "source.py", language: "python", source }, []),
+  },
 ];

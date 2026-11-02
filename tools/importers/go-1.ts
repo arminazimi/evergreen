@@ -1,3 +1,4 @@
+import { stripHtml } from "./html.js";
 import type { DraftRule, Importer } from "./types.js";
 
 export const GO_RELEASE_HISTORY_URL = "https://go.dev/doc/devel/release";
@@ -8,11 +9,7 @@ interface ReleaseLine {
 }
 
 function releaseLines(html: string): ReleaseLine[] {
-  const text = html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/\s+/g, " ");
+  const text = stripHtml(html).replace(/\s+/g, " ");
   const lines = new Map<number, string>();
   for (const match of text.matchAll(/go1\.(\d+)\.0 \(released (\d{4}-\d{2}-\d{2})\)/g)) {
     lines.set(Number(match[1]), match[2]!);
