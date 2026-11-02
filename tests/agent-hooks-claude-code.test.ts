@@ -43,8 +43,9 @@ const finding = (id: string, overrides: Partial<Finding> = {}): Finding => ({
 });
 
 test("each write tool parses to one repository-relative path", async () => {
+  const root = resolve("/Users/dev/app");
   for (const name of ["write.json", "edit.json", "multiedit.json"]) {
-    assert.deepEqual(parseClaudeCodePayload(await payload(name), {}), { root: "/Users/dev/app", files: ["Dockerfile"] }, name);
+    assert.deepEqual(parseClaudeCodePayload(await payload(name), {}), { root, files: ["Dockerfile"] }, name);
   }
 });
 
@@ -57,9 +58,10 @@ test("other tools and payloads without a file are not edit events", async () => 
 });
 
 test("CLAUDE_PROJECT_DIR supplies the root when the payload has no cwd", () => {
+  const root = resolve("/Users/dev/app");
   assert.deepEqual(
     parseClaudeCodePayload({ tool_name: "Write", tool_input: { file_path: "packages/app/Dockerfile" } }, { CLAUDE_PROJECT_DIR: "/Users/dev/app" }),
-    { root: "/Users/dev/app", files: ["packages/app/Dockerfile"] },
+    { root, files: ["packages/app/Dockerfile"] },
   );
 });
 
