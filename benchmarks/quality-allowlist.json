@@ -3,13 +3,6 @@
   "note": "Existing debt only. Each entry is a ceiling: it may shrink (tighten it) or be removed, never raised or added. Entries expire on the date shown; see docs/QUALITY.md.",
   "fileSize": [
     {
-      "file": "src/reporters.ts",
-      "lines": 911,
-      "owner": "#2227",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Over the 800-line limit; split it in the file-size follow-up."
-    },
-    {
       "file": "src/source-usage.ts",
       "lines": 1983,
       "owner": "#2224",
@@ -1243,14 +1236,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/reporters.ts",
-      "function": "renderText",
-      "complexity": 24,
-      "owner": "#2274",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/rule-lint.ts",
       "function": "structuralProblemOffset",
       "complexity": 16,
@@ -2393,13 +2378,6 @@
     {
       "file": "src/renovate-preset.ts",
       "count": 4,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/reporters.ts",
-      "count": 3,
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
