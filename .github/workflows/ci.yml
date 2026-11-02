@@ -110,6 +110,8 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          # Pull requests need origin/main so the quality-gate comparison can read the allowlist and TARGETS.
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
@@ -123,6 +125,14 @@ jobs:
           # The Linux Node 24 job runs the suite once with coverage; the steps below reuse its lcov.info.
           EVERGREEN_CHECK_COVERAGE: "${{ runner.os == 'Linux' && matrix.node == 24 && '1' || '' }}"
         run: npm run check
+      - name: Guard the quality gate against main
+        # A pull request must not raise an allowlist ceiling, add an entry, or loosen TARGETS — even by editing the checker.
+        if: (github.event_name == 'pull_request' || github.event_name == 'merge_group') && runner.os == 'Linux' && matrix.node == 24
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          node dist/tools/check-quality.js --against origin/main
       - name: Audit dependencies (runtime, then the full lockfile)
         # The runtime tree must have no advisory at any level. The full lockfile may carry only the medium and
         # low advisories listed by id in benchmarks/quality-allowlist.json; high and critical always fail.

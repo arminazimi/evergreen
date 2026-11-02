@@ -1,9 +1,14 @@
 // Enforces the measurable quality bar in docs/QUALITY.md, on every `npm run check`.
 //
 //   node dist/tools/check-quality.js [--today YYYY-MM-DD] [--audit <npm-audit.json>] [--report]
+//   node dist/tools/check-quality.js --against <ref>
 //
 // `--report` prints the remaining debt per section, and per directory for complexity and non-null, from the
 // allowlist. It checks nothing and always exits 0.
+//
+// `--against <ref>` compares the working-tree allowlist and the TARGETS table with that git ref. A raised
+// ceiling, a new entry, a later expiry, a removed owner, or a looser numeric limit fails. Removing or
+// lowering entries passes. CI runs this on pull requests so the gate cannot loosen itself.
 //
 // The hand-written sources are parsed with the TypeScript compiler API. Nothing is type-checked and no
 // repository code runs. Each measured number is compared with benchmarks/quality-allowlist.json:
@@ -17,6 +22,7 @@
 // The `--audit` option reads `npm audit --json` output that CI wrote; the tool itself does no network
 // access. High and critical advisories can never be allowlisted.
 
+import { execFileSync } from "node:child_process";
 import { readFile, readdir } from "node:fs/promises";
 import { join, posix, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -34,6 +40,11 @@ export const TARGETS = {
   ceilingLines: 1000,
   complexity: 15,
 } as const;
+
+export type TargetLimits = { readonly [K in keyof typeof TARGETS]: number };
+
+/** Source path of this checker; `--against` reads the TARGETS table from the same path on the ref. */
+export const CHECKER_PATH = "tools/check-quality.ts";
 
 /** Modules a detector may not import, and a rule may not reach through the engine. */
 export const NETWORK_MODULES: readonly string[] = [
@@ -787,8 +798,199 @@ export function renderReport(allowlist: Allowlist): string {
   return `${lines.join("\n")}\n`;
 }
 
-export function parseArguments(argv: readonly string[]): { today: string; audit?: string; report?: boolean } {
-  const options: { today: string; audit?: string; report?: boolean } = { today: isoToday() };
+function gitFailure(error: unknown): string {
+  const stderr = (error as { stderr?: string | Buffer }).stderr;
+  const text = typeof stderr === "string" ? stderr : stderr?.toString("utf8");
+  return (text ?? (error instanceof Error ? error.message : String(error))).trim();
+}
+
+/** Blob contents of `path` at `ref`, or a clear error when the ref or path is missing. */
+export function readGitFile(ref: string, path: string, root = process.cwd()): string {
+  try {
+    return execFileSync("git", ["show", `${ref}:${path}`], {
+      cwd: root,
+      encoding: "utf8",
+      maxBuffer: 16 * 1024 * 1024,
+      stdio: ["ignore", "pipe", "pipe"],
+      windowsHide: true,
+    });
+  } catch (error) {
+    throw new Error(
+      `Cannot read ${path} at "${ref}": ${gitFailure(error)}. ` +
+        `Fetch it first (git fetch origin main) or pass --against <ref>.`,
+    );
+  }
+}
+
+/** Reads the numeric TARGETS table from a checker source file. Missing or incomplete tables return null. */
+export function parseTargets(source: string): TargetLimits | null {
+  const block = source.match(/export const TARGETS = \{([^}]*)\}/s);
+  if (!block) return null;
+  const body = block[1] ?? "";
+  const read = (name: keyof typeof TARGETS): number | null => {
+    const match = body.match(new RegExp(`${name}\\s*:\\s*(\\d+)`));
+    if (!match) return null;
+    return Number(match[1]);
+  };
+  const medianLines = read("medianLines");
+  const warnLines = read("warnLines");
+  const ceilingLines = read("ceilingLines");
+  const complexity = read("complexity");
+  if (medianLines === null || warnLines === null || ceilingLines === null || complexity === null) return null;
+  return { medianLines, warnLines, ceilingLines, complexity };
+}
+
+/** Fails when any numeric limit in `current` is higher (looser) than in `baseline`. */
+export function compareTargets(baseline: TargetLimits, current: TargetLimits): Finding[] {
+  const findings: Finding[] = [];
+  for (const key of Object.keys(TARGETS) as (keyof typeof TARGETS)[]) {
+    if (current[key] > baseline[key]) {
+      findings.push({
+        check: "gate",
+        location: `TARGETS.${key}`,
+        message: `limit loosened from ${baseline[key]} to ${current[key]}; the quality gate may only tighten against the base ref`,
+      });
+    }
+  }
+  return findings;
+}
+
+interface GateEntry {
+  owner: string;
+  expires: string;
+  ceiling?: number;
+}
+
+/** Shared rules for one allowlist section: no new keys, no higher ceiling, no later expiry, no removed owner. */
+function compareGateEntries(
+  section: string,
+  baseline: ReadonlyMap<string, GateEntry>,
+  current: ReadonlyMap<string, GateEntry>,
+  ceilingNoun?: string,
+): Finding[] {
+  const findings: Finding[] = [];
+  for (const [key, head] of current) {
+    const where = `${section}: ${key.replaceAll("\u0000", " ")}`;
+    const base = baseline.get(key);
+    if (!base) {
+      findings.push({
+        check: "gate",
+        location: where,
+        message: "new allowlist entry; remove it or fix the debt instead of raising the gate",
+      });
+      continue;
+    }
+    if (ceilingNoun !== undefined && head.ceiling !== undefined && base.ceiling !== undefined && head.ceiling > base.ceiling) {
+      findings.push({
+        check: "gate",
+        location: where,
+        message: `${ceilingNoun} raised from ${base.ceiling} to ${head.ceiling}; the allowlist may only shrink against the base ref`,
+      });
+    }
+    if (head.expires > base.expires) {
+      findings.push({
+        check: "gate",
+        location: where,
+        message: `expiry moved later from ${base.expires} to ${head.expires}; the allowlist may only shorten against the base ref`,
+      });
+    }
+    if (base.owner !== "" && head.owner === "") {
+      findings.push({
+        check: "gate",
+        location: where,
+        message: `owner ${base.owner} was removed; keep an issue owner on every entry`,
+      });
+    }
+  }
+  return findings;
+}
+
+function gateMap(
+  entries: readonly AllowEntry[],
+  keyOf: (entry: AllowEntry) => string,
+  ceilingOf?: (entry: AllowEntry) => number,
+): Map<string, GateEntry> {
+  const map = new Map<string, GateEntry>();
+  for (const entry of entries) {
+    map.set(keyOf(entry), {
+      owner: entry.owner,
+      expires: entry.expires,
+      ...(ceilingOf === undefined ? {} : { ceiling: ceilingOf(entry) }),
+    });
+  }
+  return map;
+}
+
+/** Compares two allowlists: raising a ceiling, adding an entry, extending expiry, or dropping an owner fails. */
+export function compareAllowlists(baseline: Allowlist, current: Allowlist): Finding[] {
+  const fileKey = (entry: AllowEntry): string => (entry as FileSizeEntry).file;
+  const complexityKey = (entry: AllowEntry): string => {
+    const row = entry as ComplexityEntry;
+    return `${row.file}\u0000${row.function}`;
+  };
+  const boundaryKey = (entry: AllowEntry): string => {
+    const row = entry as BoundaryEntry;
+    return `${row.file}\u0000${row.rule}`;
+  };
+  const auditKey = (entry: AllowEntry): string => (entry as AuditEntry).advisory;
+  return [
+    ...compareGateEntries("fileSize", gateMap(baseline.fileSize, fileKey, (e) => (e as FileSizeEntry).lines), gateMap(current.fileSize, fileKey, (e) => (e as FileSizeEntry).lines), "lines"),
+    ...compareGateEntries(
+      "complexity",
+      gateMap(baseline.complexity, complexityKey, (e) => (e as ComplexityEntry).complexity),
+      gateMap(current.complexity, complexityKey, (e) => (e as ComplexityEntry).complexity),
+      "complexity",
+    ),
+    ...compareGateEntries(
+      "asUnknownAs",
+      gateMap(baseline.asUnknownAs, fileKey, (e) => (e as AsUnknownAsEntry).count),
+      gateMap(current.asUnknownAs, fileKey, (e) => (e as AsUnknownAsEntry).count),
+      "count",
+    ),
+    ...compareGateEntries(
+      "nonNull",
+      gateMap(baseline.nonNull, fileKey, (e) => (e as NonNullEntry).count),
+      gateMap(current.nonNull, fileKey, (e) => (e as NonNullEntry).count),
+      "count",
+    ),
+    ...compareGateEntries(
+      "boundaries",
+      gateMap(baseline.boundaries, boundaryKey, (e) => (e as BoundaryEntry).count),
+      gateMap(current.boundaries, boundaryKey, (e) => (e as BoundaryEntry).count),
+      "count",
+    ),
+    ...compareGateEntries("audit", gateMap(baseline.audit, auditKey), gateMap(current.audit, auditKey)),
+  ];
+}
+
+/** Loads the allowlist and TARGETS at `ref` and compares them with the working tree. */
+export async function evaluateAgainst(ref: string, root = process.cwd()): Promise<Finding[]> {
+  const { allowlist, problems } = parseAllowlist(JSON.parse(readGitFile(ref, ALLOWLIST_PATH, root)));
+  if (problems.length > 0) {
+    return problems.map((problem) => ({
+      check: "gate",
+      location: problem.location,
+      message: `base allowlist at ${ref} is invalid: ${problem.message}`,
+    }));
+  }
+  const baselineTargets = parseTargets(readGitFile(ref, CHECKER_PATH, root));
+  if (baselineTargets === null) {
+    return [{ check: "gate", location: CHECKER_PATH, message: `TARGETS table missing or incomplete at ${ref}` }];
+  }
+  const { allowlist: current, problems: currentProblems } = parseAllowlist(
+    JSON.parse(await readFile(resolve(root, ALLOWLIST_PATH), "utf8")),
+  );
+  if (currentProblems.length > 0) return currentProblems;
+  return [...compareAllowlists(allowlist, current), ...compareTargets(baselineTargets, TARGETS)];
+}
+
+export function parseArguments(argv: readonly string[]): {
+  today: string;
+  audit?: string;
+  report?: boolean;
+  against?: string;
+} {
+  const options: { today: string; audit?: string; report?: boolean; against?: string } = { today: isoToday() };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--today") options.today = argv[++index] ?? options.today;
@@ -797,7 +999,11 @@ export function parseArguments(argv: readonly string[]): { today: string; audit?
       if (path === undefined) throw new Error("--audit needs a file path");
       options.audit = path;
     } else if (arg === "--report") options.report = true;
-    else throw new Error(`unknown argument: ${arg}`);
+    else if (arg === "--against") {
+      const ref = argv[++index];
+      if (ref === undefined) throw new Error("--against needs a git ref");
+      options.against = ref;
+    } else throw new Error(`unknown argument: ${arg}`);
   }
   return options;
 }
@@ -805,16 +1011,26 @@ export function parseArguments(argv: readonly string[]): { today: string; audit?
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
     const options = parseArguments(process.argv.slice(2));
-    const input = await readRepository(process.cwd(), options.today, options.audit);
-    if (options.report) {
-      process.stdout.write(renderReport(input.allowlist));
-    } else {
-      const findings = evaluateQuality(input);
+    if (options.against !== undefined) {
+      const findings = await evaluateAgainst(options.against);
       if (findings.length > 0) {
         process.stderr.write(renderFindings(findings));
         process.exitCode = 1;
       } else {
-        process.stdout.write(`quality: ${input.files.length} files, all targets hold\n`);
+        process.stdout.write(`quality gate: allowlist and TARGETS hold against ${options.against}\n`);
+      }
+    } else {
+      const input = await readRepository(process.cwd(), options.today, options.audit);
+      if (options.report) {
+        process.stdout.write(renderReport(input.allowlist));
+      } else {
+        const findings = evaluateQuality(input);
+        if (findings.length > 0) {
+          process.stderr.write(renderFindings(findings));
+          process.exitCode = 1;
+        } else {
+          process.stdout.write(`quality: ${input.files.length} files, all targets hold\n`);
+        }
       }
     }
   } catch (error) {

@@ -37,6 +37,14 @@
 /tsconfig.json            @arminazimi
 /tools/                   @arminazimi
 
+# Quality gate — the checker, allowlist, CI job that runs them, opt-in hooks, and the criteria doc.
+# Maintainer review is required so a pull request cannot loosen the gate that judges it.
+/tools/check-quality.ts              @arminazimi
+/benchmarks/quality-allowlist.json   @arminazimi
+/.github/workflows/ci.yml            @arminazimi
+/.githooks/                          @arminazimi
+/docs/QUALITY.md                     @arminazimi
+
 # Shared registry data (not a single ecosystem).
 /registry/osv.json                @arminazimi
 /registry/sources.lock.json       @arminazimi

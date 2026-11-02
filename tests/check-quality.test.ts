@@ -5,6 +5,9 @@ import { test } from "node:test";
 import {
   ALLOWLIST_SCHEMA,
   MAX_EXPIRY,
+  TARGETS,
+  compareAllowlists,
+  compareTargets,
   countLines,
   evaluateQuality,
   isHandWritten,
@@ -13,6 +16,7 @@ import {
   parseArguments,
   parseAllowlist,
   parseAudit,
+  parseTargets,
   readRepository,
   renderFindings,
   renderReport,
@@ -401,7 +405,58 @@ test("arguments are parsed and unknown ones are refused", () => {
   assert.deepEqual(parseArguments(["--today", "2026-11-02"]), { today: "2026-11-02" });
   assert.deepEqual(parseArguments(["--audit", "audit.json"]).audit, "audit.json");
   assert.equal(parseArguments(["--report"]).report, true);
+  assert.equal(parseArguments(["--against", "origin/main"]).against, "origin/main");
+  assert.throws(() => parseArguments(["--against"]), /--against needs a git ref/);
   assert.throws(() => parseArguments(["--nope"]), /unknown argument/);
+});
+
+test("a raised allowlist ceiling or a new entry fails the gate comparison", () => {
+  const baseline: Allowlist = {
+    ...EMPTY,
+    fileSize: [{ ...DEBT, file: "src/long.ts", lines: 900 }],
+  };
+  const raised = compareAllowlists(baseline, {
+    ...EMPTY,
+    fileSize: [{ ...DEBT, file: "src/long.ts", lines: 950 }],
+  });
+  assert.match(raised.map((finding) => finding.message).join("\n"), /lines raised from 900 to 950/);
+
+  const added = compareAllowlists(baseline, {
+    ...EMPTY,
+    fileSize: [
+      { ...DEBT, file: "src/long.ts", lines: 900 },
+      { ...DEBT, file: "src/other.ts", lines: 850 },
+    ],
+  });
+  assert.match(added.map((finding) => finding.message).join("\n"), /new allowlist entry/);
+});
+
+test("a looser TARGETS limit fails, and parseTargets reads the table from source", () => {
+  const looser = compareTargets(TARGETS, { ...TARGETS, complexity: TARGETS.complexity + 1 });
+  assert.equal(looser[0]?.location, "TARGETS.complexity");
+  assert.match(looser[0]?.message ?? "", /limit loosened from 15 to 16/);
+
+  const parsed = parseTargets(`export const TARGETS = {\n  medianLines: 300,\n  warnLines: 800,\n  ceilingLines: 1000,\n  complexity: 15,\n} as const;\n`);
+  assert.deepEqual(parsed, TARGETS);
+  assert.equal(parseTargets("export const OTHER = 1;\n"), null);
+});
+
+test("lowering or deleting an allowlist entry passes the gate comparison", () => {
+  const baseline: Allowlist = {
+    ...EMPTY,
+    fileSize: [
+      { ...DEBT, file: "src/long.ts", lines: 900 },
+      { ...DEBT, file: "src/gone.ts", lines: 850 },
+    ],
+    complexity: [{ ...DEBT, file: "src/a.ts", function: "f", complexity: 20 }],
+  };
+  const tightened = compareAllowlists(baseline, {
+    ...EMPTY,
+    fileSize: [{ ...DEBT, file: "src/long.ts", lines: 850 }],
+    complexity: [{ ...DEBT, file: "src/a.ts", function: "f", complexity: 16 }],
+  });
+  assert.deepEqual(tightened, []);
+  assert.deepEqual(compareTargets(TARGETS, { ...TARGETS, complexity: TARGETS.complexity - 1 }), []);
 });
 
 test("findings render one per line with a pointer to the rules", () => {
