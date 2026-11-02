@@ -1,8 +1,11 @@
 import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
+import { BindingBudget, maximumAliasCaptures, maximumImportBindings, type ImportBinding } from "./binding-budget.js";
 import { positionalKey, symbolUsages, type SymbolOccurrence } from "./symbols.js";
 import { lineLocator, loadQuery, parseSource } from "./tree-sitter.js";
+
+export { maximumAliasCaptures, maximumImportBindings };
 
 export interface PythonSourceFile {
   /** Repository-relative POSIX path, reported in every usage location. */
@@ -11,16 +14,35 @@ export interface PythonSourceFile {
   source: string;
 }
 
-interface Binding {
-  module: string;
-  local: string;
-  /** The imported name, or "*" when the local name stands for the module itself. */
-  imported: string;
-}
+type Binding = ImportBinding;
 
 interface Chain {
   head: Node;
   path: string[];
+}
+
+/** Usage map from {@link analyzePythonFile}; `analysisCapped` is set when a file hit an alias budget. */
+export type PythonUsageMap = Map<string, SourceUsage[]> & { analysisCapped?: boolean };
+
+/** `get = requests.get` and `session = requests` rebind an imported symbol under a new name. */
+function rebindImportedAliases(budget: BindingBudget<Node>): void {
+  const { bindings, aliases } = budget;
+  for (let pass = 0; pass < 4; pass += 1) {
+    let changed = false;
+    for (const alias of aliases) {
+      if (budget.atBindingLimit) {
+        budget.capped = true;
+        break;
+      }
+      const chain = chainOf(alias.value);
+      if (!chain || !alias.local) continue;
+      const rest = chain.path.slice(1);
+      for (const binding of bindings.filter((candidate) => candidate.local === chain.path[0])) {
+        changed = budget.addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) || changed;
+      }
+    }
+    if (!changed || budget.capped) break;
+  }
 }
 
 /** `a`, `a.b.c`, and `(a).b` as a head identifier plus attribute names. */
@@ -93,7 +115,7 @@ function moduleMatches(actual: string, expected: string): boolean {
 export async function analyzePythonFile(
   file: PythonSourceFile,
   contracts: readonly SourceUsageContract[],
-): Promise<Map<string, SourceUsage[]> | undefined> {
+): Promise<PythonUsageMap | undefined> {
   const tree = await parseSource("python", file.source);
   if (!tree) return undefined;
   try {
@@ -102,18 +124,10 @@ export async function analyzePythonFile(
     const lines = file.source.split(/\r?\n/);
 
     const references = new Map<number, { module: string; node: Node }>();
-    const bindings: Binding[] = [];
-    const aliases: { local: string; value: Node }[] = [];
-    const callees: Node[] = [];
+    const budget = new BindingBudget<Node>();
+    const { bindings, callees } = budget;
     const classCandidates: Node[] = [];
-    const seenBindings = new Set<string>();
-    const addBinding = (binding: Binding): boolean => {
-      const key = `${binding.module}\0${binding.local}\0${binding.imported}`;
-      if (seenBindings.has(key)) return false;
-      seenBindings.add(key);
-      bindings.push(binding);
-      return true;
-    };
+    const addBinding = (binding: Binding): boolean => budget.addBinding(binding);
 
     for (const match of query.matches(tree.rootNode)) {
       const captured = new Map<string, Node>();
@@ -133,28 +147,16 @@ export async function analyzePythonFile(
       const aliasValue = captured.get("alias.value");
       const aliasLocal = captured.get("alias.local");
       if (aliasValue && aliasLocal) {
-        aliases.push({ local: aliasLocal.text, value: aliasValue });
+        budget.addAlias({ local: aliasLocal.text, pattern: undefined, value: aliasValue });
         continue;
       }
       const callee = captured.get("callee");
-      if (callee) callees.push(callee);
+      if (callee) budget.addCallee(callee);
       const testcaseClass = captured.get("testcase.class");
       if (testcaseClass) classCandidates.push(testcaseClass);
     }
 
-    // `get = requests.get` and `session = requests` rebind an imported symbol under a new name.
-    for (let pass = 0; pass < 4; pass += 1) {
-      let changed = false;
-      for (const alias of aliases) {
-        const chain = chainOf(alias.value);
-        if (!chain) continue;
-        const rest = chain.path.slice(1);
-        for (const binding of bindings.filter((candidate) => candidate.local === chain.path[0])) {
-          changed = addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) || changed;
-        }
-      }
-      if (!changed) break;
-    }
+    rebindImportedAliases(budget);
 
     const symbolMatchers = (contract: SourceUsageContract): SymbolUsageMatcher[] =>
       contract.matchers.filter((matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === "python");
@@ -269,6 +271,7 @@ export async function analyzePythonFile(
         usages.sort((left, right) => (left.location.line ?? 0) - (right.location.line ?? 0) || (left.location.column ?? 0) - (right.location.column ?? 0)),
       );
     }
+    if (budget.capped) (results as PythonUsageMap).analysisCapped = true;
     return results;
   } finally {
     tree.delete();

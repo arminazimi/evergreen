@@ -1,0 +1,66 @@
+/** Shared ceilings for tree-sitter usage analysis so one generated file cannot exhaust the heap. */
+
+export const maximumAliasCaptures = 256;
+export const maximumImportBindings = 1_024;
+/** Call-site captures from a single file; beyond this the file is still scanned for imports. */
+export const maximumCalleeCaptures = 4_096;
+
+export interface ImportBinding {
+  module: string;
+  local: string;
+  imported: string;
+}
+
+export interface AliasCapture<Node> {
+  local: string | undefined;
+  pattern: Node | undefined;
+  value: Node;
+}
+
+/**
+ * Collects import bindings and alias captures with hard ceilings. Calling code checks
+ * {@link BindingBudget.capped} after the query pass and after rebinding.
+ */
+export class BindingBudget<Node = unknown> {
+  readonly bindings: ImportBinding[] = [];
+  readonly aliases: AliasCapture<Node>[] = [];
+  readonly callees: Node[] = [];
+  private readonly seenBindings = new Set<string>();
+  capped = false;
+
+  addBinding(binding: ImportBinding): boolean {
+    const key = `${binding.module}\0${binding.local}\0${binding.imported}`;
+    if (this.seenBindings.has(key)) return false;
+    if (this.bindings.length >= maximumImportBindings) {
+      this.capped = true;
+      return false;
+    }
+    this.seenBindings.add(key);
+    this.bindings.push(binding);
+    return true;
+  }
+
+  addAlias(alias: AliasCapture<Node>): void {
+    if (this.aliases.length < maximumAliasCaptures) this.aliases.push(alias);
+    else this.capped = true;
+  }
+
+  addCallee(node: Node): void {
+    if (this.callees.length < maximumCalleeCaptures) this.callees.push(node);
+    else this.capped = true;
+  }
+
+  get atBindingLimit(): boolean {
+    return this.bindings.length >= maximumImportBindings;
+  }
+}
+
+/** One human-readable skip line for a file whose usage analysis hit a budget. */
+export function usageAnalysisSkip(path: string): string {
+  return `${path}: usage analysis capped so a minified or generated file cannot exhaust memory; import and call matches in this file may be incomplete`;
+}
+
+/** Appends {@link usageAnalysisSkip} when analysis was capped and the caller wants skips recorded. */
+export function noteCappedUsage(skips: string[] | undefined, path: string, capped: boolean | undefined): void {
+  if (capped && skips) skips.push(usageAnalysisSkip(path));
+}

@@ -43,6 +43,20 @@ interface NodeRule extends DeprecationRule {
   scheduled?: boolean;
 }
 
+/** Turns usage-analysis skip lines (`path: reason`) into unclassified references for the report. */
+function unclassifiedFromUsageSkips(skips: readonly string[]): DetectorUnclassifiedReference[] {
+  return skips.map((detail) => {
+    const separator = detail.indexOf(": ");
+    const path = separator === -1 ? detail : detail.slice(0, separator);
+    return {
+      component: "source-usage",
+      reference: path || detail,
+      reason: separator === -1 ? detail : detail.slice(separator + 2),
+      location: { path: path || ".", line: 1 },
+    };
+  });
+}
+
 interface PackageManifest {
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
@@ -666,10 +680,13 @@ export class NpmDetector implements Detector {
     }
 
     const matchedRules = [...new Map(matched.map((item) => [item.rule.id, item.rule])).values()];
+    const usageSkips: string[] = [];
     const usageAnalyses = await analyzeSourceUsage(
       context.root,
       matchedRules.map((rule) => ({ id: rule.id, matchers: rule.usage ?? [] })),
+      { skips: usageSkips },
     );
+    unclassified.push(...unclassifiedFromUsageSkips(usageSkips));
     const usageByRule = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis]));
     const projectDirectories = projects.map((project) => project.directory);
 

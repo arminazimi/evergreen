@@ -1477,7 +1477,7 @@
     {
       "file": "src/usage/javascript.ts",
       "function": "analyzeJavaScriptFile",
-      "complexity": 45,
+      "complexity": 36,
       "owner": "#2280",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
@@ -1493,7 +1493,7 @@
     {
       "file": "src/usage/python.ts",
       "function": "analyzePythonFile",
-      "complexity": 45,
+      "complexity": 40,
       "owner": "#2280",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."

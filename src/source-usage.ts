@@ -10,6 +10,7 @@ import type {
   SourceUsageContract,
 } from "./domain.js";
 import { relativePosix } from "./paths.js";
+import { noteCappedUsage } from "./usage/binding-budget.js";
 import { analyzeJavaScriptFile } from "./usage/javascript.js";
 import { analyzePythonFile } from "./usage/python.js";
 
@@ -1531,7 +1532,7 @@ async function parsedUsages(
   file: SourceFile,
   contents: string,
   contracts: readonly SourceUsageContract[],
-): Promise<Map<string, SourceUsage[]> | undefined> {
+): Promise<(Map<string, SourceUsage[]> & { analysisCapped?: boolean }) | undefined> {
   try {
     if (file.language === "python") return await analyzePythonFile({ path: file.path, language: "python", source: contents }, contracts);
     if (file.language === "javascript" || file.language === "typescript") {
@@ -1543,10 +1544,8 @@ async function parsedUsages(
   return undefined;
 }
 
-export interface SourceUsageOptions {
-  /** Set to false to use the regex scanner for every language, as the parity tests and benchmark do. Defaults to true. */
-  parser?: boolean;
-}
+/** `parser: false` forces the regex scanner; `skips` receives one line per memory-capped file. */
+export interface SourceUsageOptions { parser?: boolean; skips?: string[] }
 
 export async function analyzeSourceUsage(
   root: string,
@@ -1575,6 +1574,7 @@ export async function analyzeSourceUsage(
     // otherwise (too large, over budget, or the runtime cannot load) the regex scanner below handles them.
     const parsed = options.parser === false ? undefined : await parsedUsages(file, contents, contracts);
     if (parsed) {
+      noteCappedUsage(options.skips, file.path, parsed.analysisCapped);
       for (const [contractId, usages] of parsed) for (const usage of usages) push(contractId, usage);
       if (!contracts.some((contract) => contract.matchers.some((matcher) => matcher.kind === "config-key" && matcher.language === file.language))) continue;
     }

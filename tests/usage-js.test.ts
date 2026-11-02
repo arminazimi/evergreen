@@ -1,13 +1,20 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import type { SourceUsage, SourceUsageContract } from "../src/domain.js";
 import { analyzeSourceUsage } from "../src/source-usage.js";
-import { analyzeJavaScriptFile } from "../src/usage/javascript.js";
+import {
+  analyzeJavaScriptFile,
+  maximumAliasCaptures,
+  maximumImportBindings,
+} from "../src/usage/javascript.js";
 import { maximumParseBytes } from "../src/usage/tree-sitter.js";
+
+const cliPath = resolve("dist/src/cli.js");
 
 const temporaryRoots: string[] = [];
 
@@ -235,4 +242,55 @@ test("scans use the parser by default, find what the regex scanner cannot", asyn
   assert.deepEqual(calls(parsed?.usages), ["call multiline.ts:2:1 request.get"]);
   assert.deepEqual(calls(regex?.usages), []);
   assert.deepEqual(calls(python?.usages), ["call script.py:2:1 requests.get"]);
+});
+
+/** Dense alias rebinding graph that exhausts the heap without {@link maximumImportBindings}. */
+function explodingAliasSource(layers = 4, width = 2_500): string {
+  const lines = ['import e from "request";'];
+  let previous = "e";
+  for (let layer = 0; layer < layers; layer += 1) {
+    const prefix = `n${layer}_`;
+    for (let index = 0; index < width; index += 1) {
+      const head = layer === 0 ? previous : `${previous}${index % width}`;
+      lines.push(`const ${prefix}${index} = ${head};`);
+    }
+    previous = prefix;
+  }
+  return `${lines.join("\n")}\n`;
+}
+
+test("caps alias rebinding on a dense graph and records a skip", async () => {
+  const source = explodingAliasSource();
+  const result = await analyzeJavaScriptFile({ path: "explode.js", language: "javascript", source }, [contract]);
+  assert.ok(result);
+  assert.equal(result.analysisCapped, true);
+  assert.ok(source.split("\n").length > maximumAliasCaptures + maximumImportBindings);
+
+  const root = await mkdtemp(join(tmpdir(), "evergreen-usage-cap-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "explode.js"), source);
+  const skips: string[] = [];
+  await analyzeSourceUsage(root, [contract], { skips });
+  assert.ok(skips.some((skip) => skip.startsWith("explode.js:") && skip.includes("capped")));
+});
+
+test("scan finishes under a fixed heap on a repository that would otherwise OOM", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-usage-heap-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "package.json"), JSON.stringify({ name: "heap-bomb", dependencies: { request: "2.88.2" } }));
+  await writeFile(join(root, "explode.js"), explodingAliasSource());
+  const run = spawnSync(process.execPath, ["--max-old-space-size=128", cliPath, "scan", root, "--format", "json", "--no-cache"], {
+    encoding: "utf8",
+    maxBuffer: 16 * 1024 * 1024,
+  });
+  assert.notEqual(run.status, 134, `scan aborted with OOM:\n${run.stderr}`);
+  assert.ok(run.status === 0 || run.status === 1, `unexpected exit ${run.status}:\n${run.stderr}`);
+  const report = JSON.parse(run.stdout) as {
+    unclassified?: { references: Array<{ component: string; reason: string; location: { path: string } }> };
+  };
+  const capped = report.unclassified?.references.filter(
+    (reference) => reference.component === "source-usage" && reference.location.path === "explode.js",
+  );
+  assert.ok(capped && capped.length > 0, "capped file must be named in unclassified");
+  assert.match(capped[0]!.reason, /capped/);
 });

@@ -1,8 +1,17 @@
 import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
+import {
+  BindingBudget,
+  maximumAliasCaptures,
+  maximumCalleeCaptures,
+  maximumImportBindings,
+  type ImportBinding,
+} from "./binding-budget.js";
 import { symbolUsages, type SymbolOccurrence } from "./symbols.js";
 import { grammarFor, loadQuery, parseSource } from "./tree-sitter.js";
+
+export { maximumAliasCaptures, maximumCalleeCaptures, maximumImportBindings };
 
 export interface JavaScriptSourceFile {
   /** Repository-relative POSIX path, reported in every usage location. */
@@ -11,12 +20,7 @@ export interface JavaScriptSourceFile {
   source: string;
 }
 
-interface Binding {
-  module: string;
-  local: string;
-  /** The exported name, or "*" / "default" when the local name stands for the module itself. */
-  imported: string;
-}
+type Binding = ImportBinding;
 
 interface Chain {
   head: Node;
@@ -112,6 +116,37 @@ function lineStarts(source: string): number[] {
   return starts;
 }
 
+/** Usage map from {@link analyzeJavaScriptFile}; `analysisCapped` is set when a file hit an alias or callee budget. */
+export type JavaScriptUsageMap = Map<string, SourceUsage[]> & { analysisCapped?: boolean };
+
+/** `const get = request.get` and `const { post } = request` rebind an imported symbol under a new name. */
+function rebindImportedAliases(budget: BindingBudget<Node>): void {
+  const { bindings, aliases } = budget;
+  for (let pass = 0; pass < 4; pass += 1) {
+    let changed = false;
+    for (const alias of aliases) {
+      if (budget.atBindingLimit) {
+        budget.capped = true;
+        break;
+      }
+      const chain = chainOf(alias.value);
+      if (!chain) continue;
+      const rest = chain.path.slice(1);
+      for (const binding of bindings.filter((candidate) => candidate.local === chain.path[0])) {
+        if (alias.local !== undefined) {
+          changed = budget.addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) || changed;
+        } else if (alias.pattern) {
+          for (const entry of patternEntries(alias.pattern)) {
+            changed =
+              budget.addBinding({ module: binding.module, local: entry.local, imported: symbolPath(binding, [...rest, entry.key]) }) || changed;
+          }
+        }
+      }
+    }
+    if (!changed || budget.capped) break;
+  }
+}
+
 /**
  * Finds import and call usages in one JavaScript or TypeScript file with the tree-sitter queries in
  * `queries/javascript.scm`. Returns undefined when the file cannot be parsed (too large or over budget),
@@ -122,7 +157,7 @@ function lineStarts(source: string): number[] {
 export async function analyzeJavaScriptFile(
   file: JavaScriptSourceFile,
   contracts: readonly SourceUsageContract[],
-): Promise<Map<string, SourceUsage[]> | undefined> {
+): Promise<JavaScriptUsageMap | undefined> {
   const grammar = grammarFor(file.language, file.path);
   if (!grammar) return undefined;
   const tree = await parseSource(grammar, file.source);
@@ -144,17 +179,9 @@ export async function analyzeJavaScriptFile(
     };
 
     const references = new Map<number, { module: string; node: Node }>();
-    const bindings: Binding[] = [];
-    const aliases: { local: string | undefined; pattern: Node | undefined; value: Node }[] = [];
-    const callees: Node[] = [];
-    const seenBindings = new Set<string>();
-    const addBinding = (binding: Binding): boolean => {
-      const key = `${binding.module}\0${binding.local}\0${binding.imported}`;
-      if (seenBindings.has(key)) return false;
-      seenBindings.add(key);
-      bindings.push(binding);
-      return true;
-    };
+    const budget = new BindingBudget<Node>();
+    const { bindings, callees } = budget;
+    const addBinding = (binding: Binding): boolean => budget.addBinding(binding);
 
     for (const match of query.matches(tree.rootNode)) {
       const captured = new Map<string, Node>();
@@ -182,33 +209,14 @@ export async function analyzeJavaScriptFile(
       }
       const aliasValue = captured.get("alias.value");
       if (aliasValue) {
-        aliases.push({ local: captured.get("alias.local")?.text, pattern: captured.get("alias.pattern"), value: aliasValue });
+        budget.addAlias({ local: captured.get("alias.local")?.text, pattern: captured.get("alias.pattern"), value: aliasValue });
         continue;
       }
       const callee = captured.get("callee");
-      if (callee) callees.push(callee);
+      if (callee) budget.addCallee(callee);
     }
 
-    // `const get = request.get` and `const { post } = request` rebind an imported symbol under a new name.
-    for (let pass = 0; pass < 4; pass += 1) {
-      let changed = false;
-      for (const alias of aliases) {
-        const chain = chainOf(alias.value);
-        if (!chain) continue;
-        const rest = chain.path.slice(1);
-        for (const binding of bindings.filter((candidate) => candidate.local === chain.path[0])) {
-          if (alias.local !== undefined) {
-            changed = addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) || changed;
-          } else if (alias.pattern) {
-            for (const entry of patternEntries(alias.pattern)) {
-              const imported = symbolPath(binding, [...rest, entry.key]);
-              changed = addBinding({ module: binding.module, local: entry.local, imported }) || changed;
-            }
-          }
-        }
-      }
-      if (!changed) break;
-    }
+    rebindImportedAliases(budget);
 
     const symbolMatchers = (contract: SourceUsageContract): SymbolUsageMatcher[] =>
       contract.matchers.filter((matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === file.language);
@@ -307,6 +315,7 @@ export async function analyzeJavaScriptFile(
         usages.sort((left, right) => (left.location.line ?? 0) - (right.location.line ?? 0) || (left.location.column ?? 0) - (right.location.column ?? 0)),
       );
     }
+    if (budget.capped) (results as JavaScriptUsageMap).analysisCapped = true;
     return results;
   } finally {
     tree.delete();

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Keep `evergreen scan` from exhausting the JavaScript heap on large monorepos: the JavaScript, TypeScript, and Python usage parsers cap alias rebinding and call-site captures on minified or generated files, name each capped path in the report, and still emit a complete JSON result under the default Node.js heap (reproduced on `vercel/next.js`). (#1967)
+
 ## 0.7.2 - 2026-11-02
 
 - Add `evergreen glance`, a one-screen terminal summary card of a repository's lifecycle state: the Evergreen mark on the left and, on the right, the repository name, detected ecosystems with their maturity level, findings by severity as colored blocks, the next deadline, the oldest ended item, and the data version and age, with `--as-of` and a `--json` facts document. (#1855)
