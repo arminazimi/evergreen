@@ -15,13 +15,20 @@
 // The committed bundle is verified only when EVERGREEN_VERIFY_ACTION_BUNDLE=1 (release pull requests
 // and the npm publish). Every other pull request still compiles the bundle, but neither publishes nor
 // diffs it: each merge regenerates the same minified lines, so parallel pull requests would conflict.
+//
+// Each eval re-runs only when a file it reads changed. The digests live in dist, which a CI checkout
+// never has, so CI and the merge queue always run both evals.
 
 import { spawn } from "node:child_process";
-import { appendFile, chmod, copyFile, mkdir, mkdtemp, rm } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { appendFile, chmod, copyFile, mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { availableParallelism, tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+
+import { EVAL_INPUTS as AGENT_LOOP_EVAL_INPUTS } from "../benchmarks/agent-loop/index.js";
+import { EVAL_INPUTS as PLUGIN_HOST_EVAL_INPUTS } from "../benchmarks/plugin-host-eval.js";
 
 const require = createRequire(import.meta.url);
 
@@ -29,10 +36,15 @@ export const CHECK_TIMING_MARKER = "<!-- evergreen-check-timing -->";
 
 export type CommandRunner = (command: string, args: readonly string[]) => Promise<void>;
 
+/** Returned by a step that decided not to run its body; `reason` is printed as the skip line. */
+export interface StepSkip {
+  reason: string;
+}
+
 export interface DependentStep {
   id: string;
   after?: readonly string[];
-  run: () => Promise<void>;
+  run: () => Promise<void | StepSkip>;
 }
 
 export type StepTimingStatus = "ok" | "failed" | "skipped";
@@ -41,11 +53,20 @@ export interface StepTiming {
   id: string;
   durationMs: number;
   status: StepTimingStatus;
+  /** Why a step that ran its own decision skipped its body. */
+  reason?: string;
 }
 
 export interface DependentStepsResult {
   failures: ReadonlyMap<string, Error>;
   timings: readonly StepTiming[];
+}
+
+/** An eval and the files and directories it reads; the eval itself declares them in `EVAL_INPUTS`. */
+export interface EvalStep {
+  id: string;
+  inputs: readonly string[];
+  run: () => Promise<void>;
 }
 
 export interface RunCheckOptions {
@@ -57,6 +78,14 @@ export interface RunCheckOptions {
   verifyActionBundle?: boolean;
   /** Run the suite with coverage instead of tools/run-tests.mjs. Defaults to EVERGREEN_CHECK_COVERAGE=1. */
   collectCoverage?: boolean;
+  /** The evals that may be skipped. Defaults to the plugin and agent-loop evals. */
+  evals?: readonly EvalStep[];
+  /** Where the last run digest of each eval is stored. Defaults to EVAL_DIGEST_FILE. */
+  evalDigestFile?: string;
+  /** Skip an eval whose inputs are unchanged. Defaults to evalsMaySkip(). */
+  skipEvals?: boolean;
+  /** Where the skip is reported. Defaults to stdout. */
+  log?: (line: string) => void;
 }
 
 /** Set to `1` to collect coverage from the single suite run; CI sets it on the Linux Node 24 job. */
@@ -76,6 +105,104 @@ export const COVERAGE_EXCLUDES: readonly string[] = [
 /** Whether this process should collect coverage, from the environment or an explicit option. */
 export function coverageRequested(env: NodeJS.ProcessEnv = process.env): boolean {
   return env[COVERAGE_ENV] === "1";
+}
+
+/**
+ * Last-run digests of the evals, kept in the build output: gitignored, and absent from a fresh CI
+ * checkout, which is what makes every CI and merge-queue run start with nothing to match.
+ */
+export const EVAL_DIGEST_FILE = join("dist", "eval-digests.json");
+
+/**
+ * Skipping is a local convenience only. Every GitHub Actions run - pull request, push to main, and
+ * merge queue alike - runs both evals, whatever its dist happens to hold.
+ */
+export function evalsMaySkip(env: NodeJS.ProcessEnv = process.env): boolean {
+  return env.GITHUB_ACTIONS !== "1";
+}
+
+/** Sorted list of the files under a path; a missing path contributes nothing. */
+async function inputFiles(path: string): Promise<string[]> {
+  const info = await stat(path).catch(() => undefined);
+  if (!info) return [];
+  if (info.isFile()) return [path];
+  const listed = await readdir(path, { recursive: true });
+  const files = await Promise.all(
+    listed.map(async (entry) => {
+      const full = join(path, entry);
+      return (await stat(full).then((s) => s.isFile(), () => false)) ? full : undefined;
+    }),
+  );
+  return files
+    .filter((file): file is string => file !== undefined)
+    .sort((a, b) => a.localeCompare(b));
+}
+
+export interface InputDigest {
+  digest: string;
+  files: number;
+}
+
+/**
+ * A hash of the paths and contents of everything an eval reads. Sorting makes it independent of the
+ * order the inputs are declared in, and an absent path is hashed too so deleting a whole input
+ * changes the digest.
+ */
+export async function digestInputs(paths: readonly string[]): Promise<InputDigest> {
+  const hash = createHash("sha256");
+  let files = 0;
+  for (const path of [...paths].sort((a, b) => a.localeCompare(b))) {
+    const listed = await inputFiles(path);
+    hash.update(`path\0${path}\0${listed.length}\n`);
+    for (const file of listed) {
+      hash.update(`file\0${file}\0`);
+      hash.update(await readFile(file));
+      hash.update("\n");
+      files += 1;
+    }
+  }
+  return { digest: hash.digest("hex"), files };
+}
+
+async function readDigests(file: string): Promise<Record<string, string>> {
+  const contents: unknown = await readFile(file, "utf8").catch(() => undefined);
+  if (typeof contents !== "string") return {};
+  const parsed: unknown = JSON.parse(contents);
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return {};
+  const records: Record<string, string> = {};
+  for (const [id, digest] of Object.entries(parsed)) if (typeof digest === "string") records[id] = digest;
+  return records;
+}
+
+async function writeDigests(file: string, digests: Readonly<Record<string, string>>): Promise<void> {
+  const ordered: Record<string, string> = {};
+  for (const id of Object.keys(digests).sort((a, b) => a.localeCompare(b))) {
+    const digest = digests[id];
+    if (digest !== undefined) ordered[id] = digest;
+  }
+  await mkdir(dirname(file), { recursive: true });
+  await writeFile(file, `${JSON.stringify(ordered, null, 2)}\n`);
+}
+
+/**
+ * Runs an eval, or skips it when its inputs hash to the digest of the last run that passed. The
+ * digest is only recorded after a successful run, so a failing or interrupted eval runs again.
+ */
+export async function runEvalWhenInputsChanged(
+  evalStep: EvalStep,
+  digests: Readonly<Record<string, string>>,
+  recorded: Record<string, string>,
+  log: (line: string) => void,
+): Promise<void | StepSkip> {
+  const current = await digestInputs(evalStep.inputs);
+  const previous = digests[evalStep.id];
+  if (previous === current.digest) {
+    const reason = `none of its ${current.files} input files changed since the last passing run (${current.digest.slice(0, 12)})`;
+    log(`${evalStep.id} skipped — ${reason}`);
+    return { reason };
+  }
+  await evalStep.run();
+  recorded[evalStep.id] = current.digest;
 }
 
 /** The compiled tests both test commands run. */
@@ -166,7 +293,8 @@ export function renderStepTimingSummary(
   lines.push("| Step | Duration | Status |");
   lines.push("| --- | ---: | --- |");
   for (const step of ordered) {
-    lines.push(`| \`${step.id}\` | ${formatStepDuration(step.durationMs)} | ${step.status} |`);
+    const status = step.reason === undefined ? step.status : `skipped — ${step.reason}`;
+    lines.push(`| \`${step.id}\` | ${formatStepDuration(step.durationMs)} | ${status} |`);
   }
   const sumMs = steps.reduce((sum, step) => sum + step.durationMs, 0);
   lines.push("");
@@ -227,13 +355,14 @@ export async function runDependentSteps(steps: readonly DependentStep[]): Promis
       const task = Promise.resolve()
         .then(() => step.run())
         .then(
-          () => {
+          (result: void | StepSkip) => {
             running.delete(step.id);
             done.add(step.id);
             timings.push({
               id: step.id,
               durationMs: Math.round(performance.now() - started),
-              status: "ok",
+              status: result === undefined ? "ok" : "skipped",
+              ...(result === undefined ? {} : { reason: result.reason }),
             });
           },
           (error: unknown) => {
@@ -261,6 +390,23 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
   const removeStaging = options.stagingDir === undefined;
   const verifyActionBundle = options.verifyActionBundle ?? process.env.EVERGREEN_VERIFY_ACTION_BUNDLE === "1";
   const collectCoverage = options.collectCoverage ?? coverageRequested();
+  const skipEvals = options.skipEvals ?? evalsMaySkip();
+  const evalDigestFile = options.evalDigestFile ?? EVAL_DIGEST_FILE;
+  const log = options.log ?? ((line: string) => process.stdout.write(`${line}\n`));
+  const evals: readonly EvalStep[] = options.evals ?? [
+    {
+      id: "eval:plugins",
+      inputs: PLUGIN_HOST_EVAL_INPUTS,
+      run: () => run(process.execPath, ["dist/benchmarks/plugin-host-eval.js"]),
+    },
+    {
+      id: "eval:agent-loop",
+      inputs: AGENT_LOOP_EVAL_INPUTS,
+      run: () => run(process.execPath, ["dist/benchmarks/agent-loop/index.js"]),
+    },
+  ];
+  const digests = skipEvals ? await readDigests(evalDigestFile) : {};
+  const recorded: Record<string, string> = {};
 
   try {
     const { failures, timings } = await runDependentSteps([
@@ -279,8 +425,10 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
       },
       { id: "check:quality", run: () => run(process.execPath, ["dist/tools/check-quality.js"]) },
       { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },
-      { id: "eval:plugins", run: () => run(process.execPath, ["dist/benchmarks/plugin-host-eval.js"]) },
-      { id: "eval:agent-loop", run: () => run(process.execPath, ["dist/benchmarks/agent-loop/index.js"]) },
+      ...evals.map((evalStep) => ({
+        id: evalStep.id,
+        run: () => (skipEvals ? runEvalWhenInputsChanged(evalStep, digests, recorded, log) : evalStep.run()),
+      })),
       ...(verifyActionBundle
         ? [
             { id: "publish-action", after: ["build:action", "test"], run: () => publish(stagingDir) },
@@ -292,6 +440,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
           ]
         : []),
     ]);
+    if (Object.keys(recorded).length > 0) await writeDigests(evalDigestFile, { ...digests, ...recorded });
     await reportStepTiming(timings);
     if (failures.size > 0) {
       throw new Error([...failures].map(([id, error]) => `${id}: ${error.message}`).join("\n"));

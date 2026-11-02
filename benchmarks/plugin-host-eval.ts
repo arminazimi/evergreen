@@ -9,6 +9,25 @@ import { MCP_TOOL_ANNOTATIONS } from "../src/mcp.js";
 import { classifySkillTrigger } from "./skill-trigger-eval.js";
 
 const HOSTS = ["codex", "claude"] as const;
+
+/**
+ * What this eval reads: the skill it packages, the generated plugin files and their corpora, the MCP
+ * server and agent tools behind the packaged commands, the rules those tools judge, and the locked
+ * dependencies those tools run on. `tools/check-pipeline.ts` digests these paths and skips the eval
+ * when none of them changed since its last run.
+ */
+export const EVAL_INPUTS: readonly string[] = [
+  "skills",
+  "plugins",
+  "src",
+  "registry",
+  "schemas",
+  "package.json",
+  "package-lock.json",
+  "benchmarks/plugin-host-eval.ts",
+  "benchmarks/skill-trigger-eval.ts",
+];
+
 const CONTEXT_BUDGET = {
   discoveryMetadataBytes: 512,
   activatedSkillBytes: 4096,

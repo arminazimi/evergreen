@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
+import { EVAL_INPUTS as AGENT_LOOP_EVAL_INPUTS } from "../benchmarks/agent-loop/index.js";
+import { EVAL_INPUTS as PLUGIN_HOST_EVAL_INPUTS } from "../benchmarks/plugin-host-eval.js";
 import {
   CHECK_TIMING_MARKER,
   COVERAGE_ENV,
@@ -11,6 +13,9 @@ import {
   COVERAGE_LCOV_PATH,
   coverageRequested,
   coverageTestArgs,
+  digestInputs,
+  EVAL_DIGEST_FILE,
+  evalsMaySkip,
   publishActionBundle,
   renderStepTimingSummary,
   runCheck,
@@ -47,6 +52,8 @@ test("check runs the action build, tests, plugin drift, and plugin eval together
   const done = runCheck({
     stagingDir,
     nccCli: "ncc.js",
+    // These tests are about which steps start; a local digest cache must not decide that for them.
+    skipEvals: false,
     verifyActionBundle: true,
     publish: async (directory) => {
       events.push(`publish:${directory}`);
@@ -86,6 +93,7 @@ test("a broken test fails check and leaves the action bundle unpublished", async
       runCheck({
         stagingDir: "action-staging",
         nccCli: "ncc.js",
+        skipEvals: false,
         verifyActionBundle: true,
         publish: async () => {
           published = true;
@@ -103,6 +111,7 @@ test("an ordinary pull request builds the action bundle but neither publishes no
   await runCheck({
     stagingDir: "action-staging",
     nccCli: "ncc.js",
+    skipEvals: false,
     verifyActionBundle: false,
     publish: async () => {
       published = true;
@@ -121,6 +130,7 @@ test("plugin drift fails check", async () => {
       runCheck({
         stagingDir: "action-staging",
         nccCli: "ncc.js",
+        skipEvals: false,
         verifyActionBundle: true,
         publish: async () => {},
         run: failingRunner("check:plugins", "Plugin package drift detected"),
@@ -136,6 +146,7 @@ test("a stale action bundle fails check after the staged bundle is published", a
       runCheck({
         stagingDir: "action-staging",
         nccCli: "ncc.js",
+        skipEvals: false,
         verifyActionBundle: true,
         publish: async () => {
           published = true;
@@ -155,6 +166,7 @@ test("a failed action build does not publish the bundle or diff it", async () =>
       runCheck({
         stagingDir: "action-staging",
         nccCli: "ncc.js",
+        skipEvals: false,
         verifyActionBundle: true,
         publish: async () => {
           published = true;
@@ -208,6 +220,7 @@ test("check runs the suite once, with coverage, when coverage is requested", asy
   await runCheck({
     stagingDir: "action-staging",
     nccCli: "ncc.js",
+    skipEvals: false,
     verifyActionBundle: false,
     collectCoverage: true,
     publish: async () => {},
@@ -225,6 +238,7 @@ test("check keeps the project runner when coverage is off", async () => {
   await runCheck({
     stagingDir: "action-staging",
     nccCli: "ncc.js",
+    skipEvals: false,
     verifyActionBundle: false,
     collectCoverage: false,
     publish: async () => {},
@@ -233,6 +247,163 @@ test("check keeps the project runner when coverage is off", async () => {
     },
   });
   assert.deepEqual(suiteCommands, [["tools/run-tests.mjs"]]);
+});
+
+test("an eval skips when its inputs are unchanged and runs again when they change", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-eval-digest-"));
+  try {
+    const input = join(root, "SKILL.md");
+    await writeFile(input, "first");
+    let runs = 0;
+    const lines: string[] = [];
+    const options = {
+      stagingDir: "action-staging",
+      nccCli: "ncc.js",
+      verifyActionBundle: false,
+      skipEvals: true,
+      evalDigestFile: join(root, "dist", "eval-digests.json"),
+      log: (line: string) => {
+        lines.push(line);
+      },
+      run: async () => {},
+      evals: [{ id: "eval:plugins", inputs: [input], run: async () => { runs += 1; } }],
+    };
+    await runCheck(options);
+    assert.equal(runs, 1);
+
+    await runCheck(options);
+    assert.equal(runs, 1);
+    assert.match(lines.join("\n"), /eval:plugins skipped — none of its 1 input files changed since the last passing run \([0-9a-f]{12}\)/);
+    // The skip only survives the next check because the digest of the passing run was stored.
+    assert.equal((await readFile(options.evalDigestFile, "utf8")).includes('"eval:plugins"'), true);
+
+    await writeFile(input, "second");
+    await runCheck(options);
+    assert.equal(runs, 2);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("a failing eval records no digest, so the next check runs it again", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-eval-digest-"));
+  try {
+    const input = join(root, "SKILL.md");
+    await writeFile(input, "first");
+    const digestFile = join(root, "eval-digests.json");
+    let runs = 0;
+    const evals = [
+      {
+        id: "eval:agent-loop",
+        inputs: [input],
+        run: async () => {
+          runs += 1;
+          if (runs === 1) throw new Error("eval failed");
+        },
+      },
+    ];
+    await assert.rejects(
+      () =>
+        runCheck({
+          stagingDir: "action-staging",
+          nccCli: "ncc.js",
+          verifyActionBundle: false,
+          skipEvals: true,
+          evalDigestFile: digestFile,
+          log: () => {},
+          run: async () => {},
+          evals,
+        }),
+      /eval:agent-loop: eval failed/,
+    );
+    await assert.rejects(readFile(digestFile, "utf8"), /ENOENT/);
+    await runCheck({
+      stagingDir: "action-staging",
+      nccCli: "ncc.js",
+      verifyActionBundle: false,
+      skipEvals: true,
+      evalDigestFile: digestFile,
+      log: () => {},
+      run: async () => {},
+      evals,
+    });
+    assert.equal(runs, 2);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("skipping is off in a GitHub Actions run, so the merge queue always runs the evals", () => {
+  assert.equal(evalsMaySkip({}), true);
+  assert.equal(evalsMaySkip({ GITHUB_ACTIONS: "1" }), false);
+  assert.equal(evalsMaySkip({ GITHUB_ACTIONS: "" }), true);
+  // The digest lives in the build output, which a CI checkout never has.
+  assert.equal(EVAL_DIGEST_FILE, "dist/eval-digests.json");
+});
+
+test("an input digest covers contents, paths, and whole trees, not the order inputs are declared", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-eval-digest-"));
+  try {
+    const nested = join(root, "nested");
+    const first = join(nested, "a.txt");
+    const second = join(root, "b.txt");
+    await mkdir(nested, { recursive: true });
+    await writeFile(first, "one");
+    await writeFile(second, "two");
+
+    // The same tree hashes the same however the inputs are listed.
+    const both = await digestInputs([first, second]);
+    assert.deepEqual(await digestInputs([second, first]), both);
+    assert.equal(both.files, 2);
+
+    await writeFile(first, "uno");
+    const changed = await digestInputs([first, second]);
+    assert.notEqual(changed.digest, both.digest);
+
+    // A rename is a change even when the bytes are identical.
+    const single = await digestInputs([first]);
+    await rename(first, join(nested, "c.txt"));
+    assert.notEqual((await digestInputs([join(nested, "c.txt")])).digest, single.digest);
+
+    // An absent path is hashed as itself, so deleting an input is a change too.
+    const absent = await digestInputs([join(root, "gone")]);
+    assert.equal(absent.files, 0);
+    assert.notEqual(absent.digest, (await digestInputs([join(root, "gone"), first])).digest);
+    assert.notEqual(absent.digest, (await digestInputs([join(root, "other")])).digest);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("every declared eval input exists, so a typo cannot hide a changed file", async () => {
+  for (const [id, inputs] of [
+    ["eval:plugins", PLUGIN_HOST_EVAL_INPUTS],
+    ["eval:agent-loop", AGENT_LOOP_EVAL_INPUTS],
+  ] as const) {
+    assert.ok(inputs.length > 0, id);
+    for (const path of inputs) {
+      assert.ok((await digestInputs([path])).files > 0, `${id} input ${path} reads no files`);
+    }
+  }
+});
+
+test("a self-skipped step reports its reason and lets its dependents run", async () => {
+  const { failures, timings } = await runDependentSteps([
+    { id: "eval:plugins", run: async () => ({ reason: "inputs unchanged" }) },
+    { id: "after-it", after: ["eval:plugins"], run: async () => {} },
+  ]);
+  assert.equal(failures.size, 0);
+  assert.deepEqual(timings.map((step) => [step.id, step.status]), [["eval:plugins", "skipped"], ["after-it", "ok"]]);
+  assert.equal(timings[0]?.reason, "inputs unchanged");
+});
+
+test("the timing summary prints a skip reason next to the step", () => {
+  const summary = renderStepTimingSummary([
+    { id: "eval:plugins", durationMs: 12, status: "skipped", reason: "none of its 40 input files changed" },
+    { id: "publish-action", durationMs: 0, status: "skipped" },
+  ]);
+  assert.match(summary, /\| `eval:plugins` \| 12ms \| skipped — none of its 40 input files changed \|/);
+  assert.match(summary, /\| `publish-action` \| 0ms \| skipped \|/);
 });
 
 test("a command exits cleanly only when its status is 0", async () => {

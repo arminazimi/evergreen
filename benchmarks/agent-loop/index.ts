@@ -26,6 +26,22 @@ import type { GuardRequest } from "../../src/guard.js";
 
 export const SCHEMA_VERSION = "evergreen.agent-loop-eval.v1" as const;
 
+/**
+ * What this eval reads: the two host hooks it runs, the guardrail code behind them, the rules they
+ * judge, the task cases, and the locked dependencies the guardrail code runs on.
+ * `tools/check-pipeline.ts` digests these paths and skips the eval when none of them changed since
+ * its last run.
+ */
+export const EVAL_INPUTS: readonly string[] = [
+  "integrations",
+  "src",
+  "registry",
+  "schemas",
+  "package.json",
+  "package-lock.json",
+  "benchmarks/agent-loop",
+];
+
 export const SUPPORTED_HOSTS = ["codex", "claude"] as const;
 export type SupportedHost = (typeof SUPPORTED_HOSTS)[number];
 
