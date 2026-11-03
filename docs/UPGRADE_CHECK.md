@@ -234,3 +234,29 @@ Analyzer id `node-apis`; runtime `nodejs`. Applies when the repository's JavaScr
 - **`unknown`:** this analyzer reports none. A target release the semver comparison cannot read, or a source file without a matched symbol, produces no issue.
 
 The removal versions in the registry are sourced to the official [Node.js deprecations page](https://nodejs.org/api/deprecations.html).
+
+## Target lifecycle
+
+Analyzer id `target-lifecycle`; runtimes `nodejs`, `python`, `go`, `java`, `dotnet`, `ruby`, `php`, `dart`. Applies when the repository pins one of these runtimes in a file this analyzer can read; a repository without any such pin is not judged by it.
+
+**The target itself**
+
+The target release is looked up with `lookupProduct` against the bundled registry, and only the runtime's own lifecycle rules (`nodejs.runtime.*`, `python.runtime.*`, `go.runtime.*`, `java.jdk.*`, `dotnet.runtime.*`, `ruby.runtime.*`, `php.runtime.*`, `dart.sdk.*`) decide; module or platform rules that share the product never flag the release itself.
+
+- A target that is end-of-life, removed, or out of support — or whose dated end has already passed — is a `blocker`: "the target itself is end-of-life; choose <newest supported line>". The suggested line is the rule's `replacement` from the bundled data; nothing is ever fetched.
+- A target whose dated end falls within 180 days of the day checked is a `warning` with the deadline and the same suggestion.
+- The evidence is the rule id; the issue is located at the repository's first pin of that runtime, so the report shows where the choice has to be made.
+
+**Files that must change**
+
+Every pin of the target runtime that differs from the target is listed as a `warning` with subject `pin to update`, at its exact path and line; a pin that already names the target is not listed.
+
+- **Reads:** `.nvmrc`, `.node-version`, `.python-version` (version line, moving names such as `lts/*` are skipped); `.ruby-version`, `.php-version`, `.java-version`, and `global.json` through the existing runtime-pin parsers; every `.tool-versions` line of a known tool (a `path:` or `ref:` entry names no version and is skipped); `FROM` images of runtime repositories in any `Dockerfile`, `Containerfile`, or named variant (depth- and count-bounded walk, symlinks and build directories skipped); and `actions/setup-{node,python,ruby,java,dotnet,go,dart}` version inputs in `.github/workflows/*.yml|yaml`, scalar or list, parsed as data and never evaluated.
+- **Version syntax:** `semver.coerce` normalizes what a pin stands for (`20`, `v20.11`, `18.19.0`, `node:20-alpine`, `8.0.x`, `temurin-22`); the comparison respects the precision the target was written with, so the target `24` matches any `24.x` pin while the target `24.12` requires that release line.
+- **`unknown`:** this analyzer reports none. A runtime with no pins in the repository simply does not apply, and a target the bundled data does not flag produces only the pin list.
+
+```bash
+evergreen upgrade-check --to nodejs@18 examples/upgrade/target-lifecycle
+```
+
+The example repository pins Node.js 20 in `.nvmrc`, a `Dockerfile`, and `.tool-versions`, so the end-of-life target is blocked with the suggestion and all three pins are listed. See [examples/upgrade/target-lifecycle](../examples/upgrade/target-lifecycle).

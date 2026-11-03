@@ -6,13 +6,14 @@ import { npmLockAnalyzer } from "./npm-lock.js";
 import { pnpmLockAnalyzer } from "./pnpm-lock.js";
 import { poetryLockAnalyzer } from "./poetry-lock.js";
 import { pythonStdlibAnalyzer } from "./python-stdlib.js";
+import { targetLifecycleAnalyzer } from "./target-lifecycle.js";
 import { uvPdmLockAnalyzer } from "./uv-pdm-lock.js";
 import type { UpgradeAnalyzer, UpgradeIssue, UpgradeReport, UpgradeTarget } from "./types.js";
 
 export type { UpgradeAnalyzer, UpgradeIssue, UpgradeReport, UpgradeTarget } from "./types.js";
 
 /** Every built-in analyzer. Each task in the upgrade epic appends its own entry. */
-export const upgradeAnalyzers: UpgradeAnalyzer[] = [composerLockAnalyzer, goModulesAnalyzer, dartSdkAnalyzer, nodeApisAnalyzer, npmLockAnalyzer, pnpmLockAnalyzer, poetryLockAnalyzer, pythonStdlibAnalyzer, uvPdmLockAnalyzer];
+export const upgradeAnalyzers: UpgradeAnalyzer[] = [composerLockAnalyzer, goModulesAnalyzer, dartSdkAnalyzer, nodeApisAnalyzer, npmLockAnalyzer, pnpmLockAnalyzer, poetryLockAnalyzer, pythonStdlibAnalyzer, targetLifecycleAnalyzer, uvPdmLockAnalyzer];
 
 const levelOrder = { blocker: 0, warning: 1, unknown: 2 } as const;
 

@@ -1,0 +1,4 @@
+node 18.19.0 # asdf
+ golang 1.21
+python path:/opt/python
+erlang 26.0
