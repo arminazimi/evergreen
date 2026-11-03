@@ -79,6 +79,13 @@ const CASES: readonly DocumentRoundTripCase[] = [
     versions: "9.8.7|1.21.0",
   },
   {
+    name: "inventory:azure",
+    document: ({ name, version }) => [{ name, kubernetesVersion: version, agentPoolProfiles: [{ orchestratorVersion: version }] }],
+    names: "zzmark",
+    versions: "9.8.7|1.21.0",
+    markers: ({ version }) => ["pkg:generic/azure-aks", version],
+  },
+  {
     name: "inventory:terraform-state",
     document: ({ name, version }) => ({
       format_version: "1.0",
