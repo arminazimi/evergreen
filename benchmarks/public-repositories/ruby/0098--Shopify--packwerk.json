@@ -37,7 +37,7 @@
       "line": 1,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.0.4`, a Ruby 3.0 pin. The Ruby maintenance branches page marks Ruby 3.0 as end of life (security maintenance ended 2024-04-23). Maintainers later raised the pin in https://github.com/Shopify/packwerk/commit/3a988a04c99a1723c5eb133c31083bc736332d02."
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.0.4`, a Ruby 3.0 pin. The Ruby maintenance branches page marks Ruby 3.0 as end of life (security maintenance ended 2024-04-23). Maintainers later raised the pin in https://github.com/Shopify/packwerk/commit/3a988a04c99a1723c5eb133c31083bc736332d02. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://www.ruby-lang.org/en/downloads/branches/: Ruby 3.0 is end-of-life (security maintenance ended 2024-04-23). The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     }
   ]

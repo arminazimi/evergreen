@@ -10,7 +10,7 @@
       "line": 23,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 23 of Cargo.toml declares `atty = \"0.2\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8 ('Remove dependency on `atty` and use `std::io::IsTerminal` instead')."
+        "note": "Reviewed at this commit: line 23 of Cargo.toml declares `atty = \"0.2\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8 ('Remove dependency on `atty` and use `std::io::IsTerminal` instead'). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://rustsec.org/advisories/RUSTSEC-2024-0375.html: RustSec RUSTSEC-2024-0375 (2024-09-26) marks the atty crate unmaintained. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {
@@ -19,7 +19,7 @@
       "line": 64,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 64 of Cargo.toml declares `atty = \"0.2\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8 ('Remove dependency on `atty` and use `std::io::IsTerminal` instead')."
+        "note": "Reviewed at this commit: line 64 of Cargo.toml declares `atty = \"0.2\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8 ('Remove dependency on `atty` and use `std::io::IsTerminal` instead'). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://rustsec.org/advisories/RUSTSEC-2024-0375.html: RustSec RUSTSEC-2024-0375 (2024-09-26) marks the atty crate unmaintained. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {

@@ -10,7 +10,7 @@
       "line": 1,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 1 of nginx-ing.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress`. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+        "note": "Reviewed at this commit: line 1 of nginx-ing.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress`. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://kubernetes.io/docs/reference/using-api/deprecation-guide/: the guide states extensions/v1beta1 Ingress is no longer served as of v1.22. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     }
   ]

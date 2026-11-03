@@ -73,7 +73,7 @@
       "line": 82,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 82 of composer.json reads `\"php\": \"7.4.33\"` under config.platform. The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 2022-11-28."
+        "note": "Reviewed at this commit: line 82 of composer.json reads `\"php\": \"7.4.33\"` under config.platform. The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 2022-11-28. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://www.php.net/eol.php: PHP 7.4 is an unsupported branch with EOL 2022-11-28. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {

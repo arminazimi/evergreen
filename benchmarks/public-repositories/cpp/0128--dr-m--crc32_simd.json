@@ -11,7 +11,7 @@
       "groundTruthSource": {
         "kind": "maintainer-review",
         "url": "https://github.com/dr-m/crc32_simd/commit/1c640d4960b2dd48d2a520fab73b6120fc7500af",
-        "note": "Pinned to the parent of the maintainer's commit \"Update CMAKE_MINIMUM_REQUIRED for CMake 4.0\": line 1 of CMakeLists.txt declares CMAKE_MINIMUM_REQUIRED(VERSION 3.1), below the policy version removed by CMake 4.0; the commit changes it to VERSION 3.1...3.10."
+        "note": "Pinned to the parent of the maintainer's commit \"Update CMAKE_MINIMUM_REQUIRED for CMake 4.0\": line 1 of CMakeLists.txt declares CMAKE_MINIMUM_REQUIRED(VERSION 3.1), below the policy version removed by CMake 4.0; the commit changes it to VERSION 3.1...3.10. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://cmake.org/cmake/help/latest/release/4.0.html: CMake 4.0 removed compatibility with cmake_minimum_required policy versions below 3.5. Outcome: confirmed."
       }
     }
   ]

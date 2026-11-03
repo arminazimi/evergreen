@@ -10,7 +10,7 @@
       "line": 19,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 19 of db.tf reads `engine_version = \"13.20\"`, PostgreSQL 13, which the PostgreSQL versioning policy lists as unsupported (final release 2025-11-13; https://www.postgresql.org/support/versioning/)."
+        "note": "Reviewed at this commit: line 19 of db.tf reads `engine_version = \"13.20\"`, PostgreSQL 13, which the PostgreSQL versioning policy lists as unsupported (final release 2025-11-13; https://www.postgresql.org/support/versioning/). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://www.postgresql.org/support/versioning/: PostgreSQL 13 is listed as unsupported (final release 2025-11-13). Outcome: confirmed."
       }
     },
     {

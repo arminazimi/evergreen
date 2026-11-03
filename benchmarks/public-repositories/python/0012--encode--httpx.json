@@ -25,7 +25,8 @@
       "path": "pyproject.toml",
       "line": 9,
       "groundTruthSource": {
-        "kind": "maintainer-review"
+        "kind": "maintainer-review",
+        "note": "Line 9 of pyproject.toml declares the flagged version. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://devguide.python.org/versions/: Python 3.9 reaches end-of-life on 2025-10-31. Outcome: confirmed."
       }
     }
   ]

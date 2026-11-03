@@ -10,7 +10,7 @@
       "line": 3,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/jesseduffield/lazygit/commit/5ef318ef77f0bed4d6a7a9f32d045e998bab426a."
+        "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/jesseduffield/lazygit/commit/5ef318ef77f0bed4d6a7a9f32d045e998bab426a. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://go.dev/doc/devel/release: go1.27.0 shipped 2026-08-19, so Go 1.25 now has two newer major releases and is no longer supported. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {

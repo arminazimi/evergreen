@@ -9,7 +9,8 @@
       "path": "package.json",
       "line": 91,
       "groundTruthSource": {
-        "kind": "maintainer-review"
+        "kind": "maintainer-review",
+        "note": "Line 91 of package.json declares the flagged version. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://registry.npmjs.org/request/2.88.2: the npm registry marks request@2.88.2 deprecated ('request has been deprecated, see github.com/request/request/issues/3142'). The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {

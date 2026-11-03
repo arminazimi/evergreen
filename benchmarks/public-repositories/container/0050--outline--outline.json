@@ -10,7 +10,7 @@
       "line": 9,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 9 of Dockerfile is FROM node:20-slim, an image release line the vendor has ended. The maintainers moved it to node:22-slim in https://github.com/outline/outline/commit/2a962efe57c6fb5f67d2e0a72696a3ea13c889f6."
+        "note": "Reviewed at this commit: line 9 of Dockerfile is FROM node:20-slim, an image release line the vendor has ended. The maintainers moved it to node:22-slim in https://github.com/outline/outline/commit/2a962efe57c6fb5f67d2e0a72696a3ea13c889f6. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://github.com/nodejs/Release/blob/main/schedule.json: Node.js release lines 21 and older are all past their schedule.json end-of-life dates. Outcome: confirmed."
       }
     },
     {
@@ -19,7 +19,7 @@
       "line": 2,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 2 of Dockerfile.base is FROM node:20, an image release line the vendor has ended."
+        "note": "Reviewed at this commit: line 2 of Dockerfile.base is FROM node:20, an image release line the vendor has ended. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://github.com/nodejs/Release/blob/main/schedule.json: Node.js release lines 21 and older are all past their schedule.json end-of-life dates. Outcome: confirmed."
       }
     },
     {

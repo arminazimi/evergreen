@@ -19,7 +19,7 @@
       "line": 1220,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 1220 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+        "note": "Reviewed at this commit: line 1220 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://dart.dev/security: Dart publishes security updates only for the current stable release; Dart 3.9 shipped on 2025-08-13, ending 3.8 support. Outcome: confirmed."
       }
     },
     {
@@ -28,7 +28,7 @@
       "line": 8,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 8 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+        "note": "Reviewed at this commit: line 8 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://dart.dev/security: Dart publishes security updates only for the current stable release; Dart 3.9 shipped on 2025-08-13, ending 3.8 support. Outcome: confirmed."
       }
     }
   ]
