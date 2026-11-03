@@ -67,8 +67,8 @@ later tasks pin).
 **Never required on the pull request itself.**
 
 - Full public corpus, mutation testing, Scorecard, scheduled fuzz, importers, source freshness.
-- Affected-ecosystem corpus ([`corpus-pr.yml`](../.github/workflows/corpus-pr.yml)) may run for
-  signal; it stays **non-required** because it needs the network.
+- Affected-ecosystem corpus ([`corpus.yml`](../.github/workflows/corpus.yml) `affected` job) may run
+  for signal; it stays **non-required** because it needs the network.
 
 **Concurrency.** A newer push to the same pull request may cancel the older run.
 
@@ -121,8 +121,8 @@ covered. That transitional cost is accepted; removing it is #2030's job after #2
 | Parser fuzz (scheduled) | `fuzz.yml` | Nightly (+ optional PR path filter) |
 | Package smoke (scheduled) | `package-smoke.yml` | Nightly |
 | CI health / quarantine | `ci-health.yml` | Nightly + weekly |
-| Full public corpus | `corpus.yml` | Weekly |
-| Record full corpus | `corpus-record.yml` | Twice monthly |
+| Full public corpus | `corpus.yml` (`full`) | Weekly |
+| Record full corpus | `corpus.yml` (`record`) | Twice monthly |
 | Source freshness | `sources.yml` | Weekly |
 | Lifecycle importers | `importers.yml` | Weekly |
 | Scorecard + floor | `scorecard.yml`, `scorecard-floor.yml` | Weekly |
@@ -131,8 +131,8 @@ covered. That transitional cost is accepted; removing it is #2030's job after #2
 | Label sync | `labels.yml` | Weekly + path pushes |
 
 These must not be required status checks. A red nightly run opens follow-up work; it does not block
-a green queue. Merging the three corpus workflows into one file is #2025; until then the table names
-today's files.
+a green queue. Affected, full, and record corpus runs live in one file (`corpus.yml`) with a
+`mode` input for `workflow_dispatch`.
 
 ## Release (45 minutes)
 
@@ -164,14 +164,14 @@ Joining `publish.yml` into that chain is #2028. Those tasks keep this lane's bud
 
 Every file under [`.github/workflows/`](../.github/workflows/) belongs to a lane above and has a
 stated purpose. **Owner** for all of them is [@arminazimi](https://github.com/arminazimi)
-([`.github/CODEOWNERS`](../.github/CODEOWNERS) `/.github/workflows/`). Count on 2026-11-03: **27**
-files (the issue title still said 24 from an earlier snapshot).
+([`.github/CODEOWNERS`](../.github/CODEOWNERS) `/.github/workflows/`). Count after #2025: **33**
+files (`corpus-pr.yml` and `corpus-record.yml` folded into `corpus.yml`).
 
-A last-run audit on that date found no unused workflows to delete. Empty run history is expected
+A last-run audit on 2026-11-03 found no unused workflows to delete. Empty run history is expected
 for `evergreen-reusable.yml` (only `workflow_call`, runs in caller repositories) and for
 `scorecard-floor.yml` (added 2026-11-02; first cron is Saturday). Planned merges stay in their own
-issues — one pull request per removal or merge: corpus trio → #2025; `release.yml` stages → #2027;
-join `publish.yml` → #2028. Do not delete a workflow here just because a later task will fold it.
+issues — one pull request per removal or merge: join `publish.yml` → #2028. Do not delete a
+workflow here just because a later task will fold it.
 
 | File | Lane | Trigger | Purpose |
 | --- | --- | --- | --- |
@@ -181,7 +181,6 @@ join `publish.yml` → #2028. Do not delete a workflow here just because a later
 | `docs-doctor.yml` | Pull request | `pull_request` on docs site paths | Slipway doctor on the documentation site (report-only until the site is clean) |
 | `site-budget.yml` | Pull request | `pull_request` on site paths; `workflow_dispatch` | Fail when the docs site exceeds size or LCP budgets |
 | `fuzz.yml` | Pull request / nightly | `pull_request` on parser paths; nightly schedule; `workflow_dispatch` | Deeper parser fuzz than the tight budget inside `npm run check` |
-| `corpus-pr.yml` | Pull request / main (signal) | `pull_request` / `push` on detector or registry paths | Non-required network corpus for ecosystems the change touches |
 | `workflow-lint.yml` | Main | `push` to `main` on workflow paths; `workflow_dispatch` | actionlint + zizmor on workflow YAML and `action.yml` |
 | `pages.yml` | Main | `push` to `main`; `workflow_dispatch` | Build the docs site, Seaworthy + Lighthouse, deploy to GitHub Pages |
 | `labels.yml` | Main / nightly | `pull_request` / `push` on label paths; weekly schedule; `workflow_dispatch` | Sync `.github/labels.yml` and check good-first-issue briefs |
@@ -189,8 +188,7 @@ join `publish.yml` → #2028. Do not delete a workflow here just because a later
 | `package-smoke.yml` | Merge queue / nightly | `merge_group`; nightly schedule; `workflow_dispatch` | Prove npm tarball, Docker image, and local Action scan the same fixture |
 | `ci-health.yml` | Nightly | `workflow_run` of CI on `main`; schedules; `workflow_dispatch` | Open/close devops issues on main failures, measure CI duration, quarantine flaky tests |
 | `mutation.yml` | Nightly | Nightly schedule; `workflow_dispatch` | Mutation testing matrix (too slow for the merge gate) |
-| `corpus.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Full public corpus fetch and validate |
-| `corpus-record.yml` | Nightly | Twice-monthly schedule; `workflow_dispatch` | Record a full corpus run into a maintainer-reviewed pull request |
+| `corpus.yml` | Pull request / main / nightly | `pull_request` / `push` on detector paths; weekly + twice-monthly schedules; `workflow_dispatch` with `mode` (`affected` / `full` / `record`) | Affected-ecosystem signal, full public corpus validate, and recorded full-run PR |
 | `sources.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Evidence URL reachability and rule freshness windows |
 | `importers.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Draft lifecycle rules from authoritative sources; open one PR per importer |
 | `scorecard.yml` | Nightly | Weekly schedule; `branch_protection_rule`; `workflow_dispatch` | OpenSSF Scorecard publish + SARIF upload |
@@ -209,7 +207,7 @@ Checked with `gh run list --workflow <file> --limit 1` against `arminazimi/everg
 
 | Outcome | Workflows |
 | --- | --- |
-| Ran successfully within about a week | `ci.yml`, `ci-health.yml`, `codeql.yml`, `corpus-pr.yml`, `corpus-record.yml`, `corpus.yml`, `decisions.yml`, `docs-doctor.yml`, `fuzz.yml`, `gitlab-sync.yml`, `labels.yml`, `mcp-listings.yml`, `package-smoke.yml`, `pages.yml`, `publish.yml`, `release.yml`, `rules.yml`, `scorecard.yml`, `site-budget.yml`, `workflow-lint.yml` |
+| Ran successfully within about a week | `ci.yml`, `ci-health.yml`, `codeql.yml`, `corpus.yml`, `decisions.yml`, `docs-doctor.yml`, `fuzz.yml`, `gitlab-sync.yml`, `labels.yml`, `mcp-listings.yml`, `package-smoke.yml`, `pages.yml`, `publish.yml`, `release.yml`, `rules.yml`, `scorecard.yml`, `site-budget.yml`, `workflow-lint.yml` |
 | Ran (failed — still active signal, not unused) | `mutation.yml` (nightly), `sources.yml` (nightly), `org-scan.yml` (manual/product path) |
 | Older success, still on its trigger | `data-release.yml` (last `data-v*` / release-related push 2026-10-21), `importers.yml` (last schedule 2026-10-27) |
 | No runs in this repository (expected) | `evergreen-reusable.yml` (`workflow_call` only), `scorecard-floor.yml` (first Saturday cron not yet due) |

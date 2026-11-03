@@ -114,4 +114,4 @@ Every corpus entry now records `selection`: the 84 entries that predate the fiel
 
 ## Update 2026-10-23 (issue #740)
 
-The corpus has 455 repositories, 155 of them added blind in this pass, and `github-actions`, `nodejs`, `npm`, and `python` each meet `stable` on the counted evidence, so no detector is grandfathered. A separate held-out set (`benchmarks/held-out-repositories.json`) has ground truth committed before the scan; its first result (recall 0.75, precision 0.96 on its scope) is in [VALIDATION.md](../VALIDATION.md#the-held-out-set). The full run is recorded twice a month by `.github/workflows/corpus-record.yml`.
+The corpus has 455 repositories, 155 of them added blind in this pass, and `github-actions`, `nodejs`, `npm`, and `python` each meet `stable` on the counted evidence, so no detector is grandfathered. A separate held-out set (`benchmarks/held-out-repositories.json`) has ground truth committed before the scan; its first result (recall 0.75, precision 0.96 on its scope) is in [VALIDATION.md](../VALIDATION.md#the-held-out-set). The full run is recorded twice a month by the `record` job in `.github/workflows/corpus.yml`.

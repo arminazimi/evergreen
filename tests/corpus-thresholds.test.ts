@@ -166,11 +166,17 @@ test("the age of a recorded full run is counted in whole days against the 30-day
 });
 
 test("the scheduled record workflow runs at least twice a month, records only a clean full run, and opens a pull request", async () => {
-  const text = await readFile(resolve(".github/workflows/corpus-record.yml"), "utf8");
-  const workflow = parse(text) as { on: { schedule: Array<{ cron: string }> }; jobs: { record: { steps: Array<{ run?: string }> } } };
-  const [, , day] = workflow.on.schedule[0]!.cron.split(" ");
+  const text = await readFile(resolve(".github/workflows/corpus.yml"), "utf8");
+  const workflow = parse(text) as {
+    on: { schedule: Array<{ cron: string }>; workflow_dispatch?: { inputs?: { mode?: { options?: string[] } } } };
+    jobs: { record: { if?: string; steps: Array<{ run?: string }> } };
+  };
+  const recordCron = workflow.on.schedule.find((entry) => entry.cron.includes(","))!;
+  const [, , day] = recordCron.cron.split(" ");
   const days = day!.split(",").map(Number);
   assert.ok(days.length >= 2 && Math.max(...days.slice(1).map((d, i) => d - days[i]!), 31 - Math.max(...days) + Math.min(...days)) < FULL_RUN_MAX_AGE_DAYS);
+  assert.ok(workflow.on.workflow_dispatch?.inputs?.mode?.options?.includes("record"));
+  assert.ok(workflow.jobs.record.if?.includes(recordCron.cron));
   const runs = workflow.jobs.record.steps.map((step) => step.run ?? "");
   assert.ok(runs.includes("npm run record:corpus-run"));
   assert.ok(runs.some((run) => run.includes("gh pr create")));

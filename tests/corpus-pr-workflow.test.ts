@@ -6,23 +6,38 @@ import { parse } from "yaml";
 
 interface Step { name?: string; uses?: string; run?: string; if?: string; env?: Record<string, string>; with?: Record<string, unknown> }
 interface Workflow {
-  on: Record<string, { paths?: string[] } | null>;
+  on: {
+    push?: { paths?: string[] };
+    pull_request?: { paths?: string[] };
+    schedule?: Array<{ cron: string }>;
+    workflow_dispatch?: { inputs?: { mode?: { options?: string[]; default?: string } } };
+  };
   permissions?: Record<string, string>;
-  jobs: Record<string, { permissions?: Record<string, string>; steps: Step[] }>;
+  jobs: Record<string, { if?: string; permissions?: Record<string, string>; steps: Step[] }>;
 }
 
-const text = await readFile(resolve(".github/workflows/corpus-pr.yml"), "utf8");
+const text = await readFile(resolve(".github/workflows/corpus.yml"), "utf8");
 const workflow = parse(text) as Workflow;
-const job = workflow.jobs.corpus!;
+const job = workflow.jobs.affected!;
 
-test("it runs on pushes to main and on pull requests, only for relevant paths, and never on pull_request_target", () => {
-  assert.deepEqual(Object.keys(workflow.on), ["push", "pull_request"]);
-  assert.ok(workflow.on.push!.paths!.includes("registry/**"));
-  assert.ok(workflow.on.push!.paths!.includes("src/**"));
-  assert.deepEqual(workflow.on.pull_request!.paths, workflow.on.push!.paths);
+test("one workflow covers affected, full, and record with a mode input", () => {
+  assert.deepEqual(Object.keys(workflow.jobs).sort(), ["affected", "full", "record"]);
+  assert.deepEqual(workflow.on.workflow_dispatch?.inputs?.mode?.options, ["affected", "full", "record"]);
+  assert.equal(workflow.on.workflow_dispatch?.inputs?.mode?.default, "full");
+  assert.ok(workflow.jobs.full!.if?.includes("inputs.mode == 'full'"));
+  assert.ok(workflow.jobs.record!.if?.includes("inputs.mode == 'record'"));
+  assert.ok(job.if?.includes("inputs.mode == 'affected'"));
 });
 
-test("it has read-only permissions and no secrets", () => {
+test("affected runs on pushes to main and on pull requests, only for relevant paths, and never on pull_request_target", () => {
+  assert.ok(workflow.on.push!.paths!.includes("registry/**"));
+  assert.ok(workflow.on.push!.paths!.includes("src/**"));
+  assert.ok(workflow.on.push!.paths!.includes(".github/workflows/corpus.yml"));
+  assert.deepEqual(workflow.on.pull_request!.paths, workflow.on.push!.paths);
+  assert.ok(!Object.hasOwn(workflow.on, "pull_request_target"));
+});
+
+test("affected has read-only permissions and no secrets", () => {
   assert.deepEqual(workflow.permissions, { contents: "read" });
   assert.equal(job.permissions, undefined);
   assert.ok(!/secrets\./.test(text));
@@ -37,7 +52,7 @@ test("the base commit reaches the shell only through an environment variable", (
   assert.match(check.run!, /--changed "\$BASE_SHA"/);
 });
 
-test("it checks out history, restores but never saves the cache, and prints the mismatch lines in the summary", () => {
+test("affected checks out history, restores but never saves the cache, and prints the mismatch lines in the summary", () => {
   assert.equal(job.steps[0]!.with?.["fetch-depth"], 0);
   assert.ok(job.steps.some((step) => step.uses?.startsWith("actions/cache/restore@")));
   assert.ok(!job.steps.some((step) => step.uses?.startsWith("actions/cache/save@") || step.uses?.startsWith("actions/cache@")));
@@ -50,7 +65,7 @@ test("actions are pinned to exact major versions", () => {
   for (const step of job.steps.filter((item) => item.uses)) assert.match(step.uses!, /^[\w./-]+@[0-9a-f]{40}$/, step.uses);
 });
 
-test("it compares the corpus expectations with the committed snapshot before any network step", () => {
+test("affected compares the corpus expectations with the committed snapshot before any network step", () => {
   const index = job.steps.findIndex((step) => step.run?.includes("benchmarks/corpus-snapshot.js"));
   assert.ok(index >= 0);
   assert.ok(index < job.steps.findIndex((step) => step.uses?.startsWith("actions/cache/restore@")));
