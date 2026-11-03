@@ -1,0 +1,50 @@
+[
+  {
+    "cluster": {
+      "name": "example-shop",
+      "arn": "arn:aws:eks:us-east-1:000000000000:cluster/example-shop",
+      "version": "1.29.9",
+      "endpoint": "https://EXAMPLE000.gr7.us-east-1.eks.amazonaws.com",
+      "status": "ACTIVE",
+      "platformVersion": "eks.18",
+      "upgradePolicy": "EXTENDED"
+    }
+  },
+  {
+    "nodegroup": {
+      "nodegroupName": "workers",
+      "clusterName": "example-shop",
+      "nodegroupArn": "arn:aws:eks:us-east-1:000000000000:nodegroup/example-shop/workers/EXAMPLE1",
+      "version": "1.29.9",
+      "releaseVersion": "AL2_x86_64",
+      "amiType": "AL2_x86_64",
+      "status": "ACTIVE",
+      "instanceTypes": ["m5.large"],
+      "subnets": ["subnet-00000000000000000"]
+    }
+  },
+  {
+    "cluster": {
+      "name": "example-shop-staging",
+      "arn": "arn:aws:eks:us-east-1:000000000000:cluster/example-shop-staging",
+      "version": "1.34.2",
+      "endpoint": "https://EXAMPLE222.gr7.us-east-1.eks.amazonaws.com",
+      "status": "ACTIVE",
+      "platformVersion": "eks.3227",
+      "upgradePolicy": "EXTENDED"
+    }
+  },
+  {
+    "nodegroup": {
+      "nodegroupName": "workers",
+      "clusterName": "example-shop-staging",
+      "nodegroupArn": "arn:aws:eks:us-east-1:000000000000:nodegroup/example-shop-staging/workers/EXAMPLE333",
+      "version": "1.34.2",
+      "releaseVersion": "AL2023_x86_64_STANDARD_20260918",
+      "amiType": "AL2023_x86_64_STANDARD",
+      "status": "ACTIVE",
+      "instanceTypes": ["m6i.large"],
+      "subnets": ["subnet-00000000000000000"]
+    }
+  }
+]

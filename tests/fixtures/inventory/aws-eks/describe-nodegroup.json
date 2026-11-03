@@ -1,0 +1,22 @@
+{
+  "nodegroup": {
+    "nodegroupName": "workers",
+    "clusterName": "prod-payments",
+    "nodegroupArn": "arn:aws:eks:us-east-1:123456789012:nodegroup/prod-payments/workers/A1B2C3D4",
+    "version": "1.30.7",
+    "releaseVersion": "AL2023_x86_64_STANDARD_20260918",
+    "platformVersion": "eks.3227",
+    "amiType": "AL2023_x86_64_STANDARD",
+    "createdAt": "2024-07-02T09:20:00.000Z",
+    "modifiedAt": "2026-09-20T11:00:00.000Z",
+    "status": "ACTIVE",
+    "capacityType": "ON_DEMAND",
+    "instanceTypes": ["m6i.large"],
+    "subnets": ["subnet-0a1b2c3d4e5f67890", "subnet-0f1e2d3c4b5a6970"],
+    "remoteAccess": { "ec2SshKey": "prod-payments-placeholder", "sourceSecurityGroups": ["sg-0123456789abcdef0"] },
+    "updateConfig": { "maxUnavailable": 1 },
+    "updateStatus": { "status": "SUCCESS" },
+    "labels": { "tier": "default" },
+    "tags": { "team": "payments-placeholder" }
+  }
+}

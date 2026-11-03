@@ -1,0 +1,32 @@
+{
+  "cluster": {
+    "name": "prod-payments",
+    "arn": "arn:aws:eks:us-east-1:123456789012:cluster/prod-payments",
+    "createdAt": "2024-07-02T09:15:00.000Z",
+    "version": "1.30.7",
+    "endpoint": "https://A1B2C3D4E5F6.gr7.us-east-1.eks.amazonaws.com",
+    "roleArn": "arn:aws:iam::123456789012:role/eks-cluster-prod-payments",
+    "resourcesVpcConfig": {
+      "subnetIds": ["subnet-0a1b2c3d4e5f67890", "subnet-0f1e2d3c4b5a6970"],
+      "securityGroupIds": ["sg-0123456789abcdef0"],
+      "vpcId": "vpc-0123456789abcdef0",
+      "clusterSecurityGroupId": "sg-0f1e2d3c4b5a6970",
+      "endpointPublicAccess": true,
+      "endpointPrivateAccess": false,
+      "publicAccessCidrs": ["0.0.0.0/0"]
+    },
+    "kubernetesNetworkConfig": {
+      "serviceIpv4Cidr": "10.100.0.0/16",
+      "ipFamily": "ipv4"
+    },
+    "logging": {
+      "clusterLogging": [{ "types": ["api", "audit"], "enabled": false }]
+    },
+    "identity": {
+      "oidc": { "issuer": "https://oidc.eks.us-east-1.amazonaws.com/id/A1B2C3D4E5F6" }
+    },
+    "status": "ACTIVE",
+    "platformVersion": "eks.21",
+    "upgradePolicy": "EXTENDED"
+  }
+}

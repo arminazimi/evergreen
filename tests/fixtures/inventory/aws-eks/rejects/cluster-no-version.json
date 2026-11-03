@@ -1,0 +1,9 @@
+{
+  "cluster": {
+    "name": "edge-preview",
+    "arn": "arn:aws:eks:eu-central-1:123456789012:cluster/edge-preview",
+    "endpoint": "https://E7F8A9B0C1D2.gr7.eu-central-1.eks.amazonaws.com",
+    "status": "CREATING",
+    "createdAt": "2026-11-01T10:00:00.000Z"
+  }
+}

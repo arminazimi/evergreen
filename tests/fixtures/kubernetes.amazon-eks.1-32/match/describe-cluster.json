@@ -1,0 +1,12 @@
+{
+  "cluster": {
+    "name": "demo-cluster",
+    "arn": "arn:aws:eks:us-east-1:000000000000:cluster/demo-cluster",
+    "endpoint": "https://00000000000000000000000000000000.gr7.us-east-1.eks.amazonaws.com",
+    "version": "1.32.4",
+    "platformVersion": "eks.3227",
+    "status": "ACTIVE",
+    "upgradePolicy": "EXTENDED",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  }
+}

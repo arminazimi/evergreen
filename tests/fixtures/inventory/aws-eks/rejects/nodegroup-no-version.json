@@ -1,0 +1,10 @@
+{
+  "nodegroup": {
+    "nodegroupName": "custom-image-pool",
+    "clusterName": "prod-edge",
+    "nodegroupArn": "arn:aws:eks:us-west-2:123456789012:nodegroup/prod-edge/custom-image-pool/A7B8C9D0",
+    "amiType": "CUSTOM",
+    "releaseVersion": "ami-0123456789abcdef0",
+    "status": "ACTIVE"
+  }
+}

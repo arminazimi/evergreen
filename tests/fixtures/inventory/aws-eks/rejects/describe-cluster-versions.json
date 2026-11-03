@@ -1,0 +1,22 @@
+{
+  "clusterVersions": [
+    {
+      "clusterVersion": "1.34",
+      "clusterType": "eks",
+      "defaultPlatformVersion": "eks.3227",
+      "defaultVersion": false,
+      "releaseDate": "2025-10-02T09:00:00.000Z",
+      "endOfStandardSupportDate": "2026-12-02T16:00:00.000Z",
+      "status": "STANDARD_SUPPORT"
+    },
+    {
+      "clusterVersion": "1.37",
+      "clusterType": "eks",
+      "defaultPlatformVersion": "eks.3400",
+      "defaultVersion": true,
+      "releaseDate": "2026-10-01T09:00:00.000Z",
+      "endOfStandardSupportDate": "2027-12-01T16:00:00.000Z",
+      "status": "STANDARD_SUPPORT"
+    }
+  ]
+}

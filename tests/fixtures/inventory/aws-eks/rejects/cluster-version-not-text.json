@@ -1,0 +1,7 @@
+{
+  "cluster": {
+    "name": "numeric-release",
+    "version": 1.34,
+    "status": "ACTIVE"
+  }
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "cluster": {
+      "name": "prod-edge",
+      "arn": "arn:aws:eks:us-west-2:123456789012:cluster/prod-edge",
+      "version": "1.34.2",
+      "endpoint": "https://B2C3D4E5F6A7.gr7.us-west-2.eks.amazonaws.com",
+      "status": "ACTIVE",
+      "platformVersion": "eks.3227",
+      "upgradePolicy": "EXTENDED",
+      "resourcesVpcConfig": {
+        "subnetIds": ["subnet-0a1b2c3d4e5f67890"],
+        "vpcId": "vpc-0123456789abcdef0",
+        "clusterSecurityGroupId": "sg-0123456789abcdef0"
+      }
+    }
+  },
+  {
+    "nodegroup": {
+      "nodegroupName": "workers",
+      "clusterName": "prod-edge",
+      "nodegroupArn": "arn:aws:eks:us-west-2:123456789012:nodegroup/prod-edge/workers/B2C3D4E5",
+      "version": "1.31.4",
+      "releaseVersion": "AL2_x86_64",
+      "platformVersion": "eks.21",
+      "amiType": "AL2_x86_64",
+      "status": "ACTIVE",
+      "instanceTypes": ["m5.large"],
+      "subnets": ["subnet-0a1b2c3d4e5f67890"],
+      "remoteAccess": { "ec2SshKey": "prod-edge-placeholder" }
+    }
+  },
+  {
+    "nodegroup": {
+      "nodegroupName": "gpu-pool",
+      "clusterName": "prod-edge",
+      "nodegroupArn": "arn:aws:eks:us-west-2:123456789012:nodegroup/prod-edge/gpu-pool/C3D4E5F6",
+      "version": "1.34.2",
+      "releaseVersion": "AL2023_x86_64_NVIDIA_20260918",
+      "amiType": "AL2023_x86_64_NVIDIA",
+      "status": "ACTIVE",
+      "instanceTypes": ["g6.xlarge"],
+      "subnets": ["subnet-0a1b2c3d4e5f67890"]
+    }
+  },
+  {
+    "cluster": {
+      "name": "staging",
+      "arn": "arn:aws:eks:us-west-2:123456789012:cluster/staging",
+      "version": "1.36.1",
+      "endpoint": "https://D4E5F6A7B8C9.gr7.us-west-2.eks.amazonaws.com",
+      "status": "ACTIVE",
+      "platformVersion": "eks.3400",
+      "upgradePolicy": "EXTENDED"
+    }
+  }
+]

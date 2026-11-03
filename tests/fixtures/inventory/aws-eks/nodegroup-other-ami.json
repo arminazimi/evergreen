@@ -1,0 +1,38 @@
+[
+  {
+    "nodegroup": {
+      "nodegroupName": "bottlerocket-pool",
+      "clusterName": "prod-edge",
+      "nodegroupArn": "arn:aws:eks:us-west-2:123456789012:nodegroup/prod-edge/bottlerocket-pool/E5F6A7B8",
+      "version": "1.35.2",
+      "releaseVersion": "1.35.2-29964387",
+      "amiType": "BOTTLEROCKET_x86_64",
+      "status": "ACTIVE",
+      "instanceTypes": ["m6i.large"]
+    }
+  },
+  {
+    "nodegroup": {
+      "nodegroupName": "windows-pool",
+      "clusterName": "prod-edge",
+      "nodegroupArn": "arn:aws:eks:us-west-2:123456789012:nodegroup/prod-edge/windows-pool/F6A7B8C9",
+      "version": "1.35.2",
+      "releaseVersion": "1.35.2-29964387",
+      "amiType": "WINDOWS_x86_64_CALICONE",
+      "status": "ACTIVE",
+      "instanceTypes": ["m5a.large"]
+    }
+  },
+  {
+    "nodegroup": {
+      "nodegroupName": "custom-image-pool",
+      "clusterName": "prod-edge",
+      "nodegroupArn": "arn:aws:eks:us-west-2:123456789012:nodegroup/prod-edge/custom-image-pool/A7B8C9D0",
+      "version": "1.35.2",
+      "releaseVersion": "ami-0123456789abcdef0",
+      "amiType": "CUSTOM",
+      "status": "ACTIVE",
+      "instanceTypes": ["m6i.large"]
+    }
+  }
+]

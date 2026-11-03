@@ -1,0 +1,8 @@
+{
+  "cluster": {
+    "name": "legacy-nodes",
+    "version": "v1.30.12-eks-130f479",
+    "platformVersion": "eks.21",
+    "status": "ACTIVE"
+  }
+}
