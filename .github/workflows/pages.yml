@@ -1,0 +1,132 @@
+name: pages
+
+# Builds the documentation site once, verifies that build with Seaworthy and
+# Lighthouse, and deploys the same artifact to GitHub Pages. Repository Settings
+# → Pages → Source must be "GitHub Actions" (not the legacy /docs folder).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build site
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: docs
+      - name: Build the documentation site
+        working-directory: docs
+        env:
+          JEKYLL_ENV: production
+          PAGES_REPO_NWO: ${{ github.repository }}
+        # Keep the deployed base path (/evergreen) so internal links match production.
+        run: bundle exec jekyll build
+      - name: Upload the GitHub Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: docs/_site
+      - name: Upload the site for Seaworthy and Lighthouse
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: docs-site
+          path: docs/_site
+          retention-days: 5
+
+  seaworthy:
+    # Seaworthy verifies the built site: internal links, agent-readable structure, accessibility.
+    # It is pre-alpha with no release or tag yet, so its CLI is built from a commit pin here.
+    # The run reports every finding, including the ones the theme and pages already have, so it is
+    # report-only until the site is clean; then pass `--fail-on error` and a broken internal link
+    # fails the job.
+    name: seaworthy (built site)
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: docs-site
+          path: docs/_site
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: arminazimi/seaworthy
+          ref: 8ed721eb222562251b3b901bab0ad7b8ff67c5ef
+          path: .seaworthy-cli
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Build Seaworthy from source
+        working-directory: .seaworthy-cli
+        run: npm ci && npm run build --silent
+      - name: Verify the built site
+        run: node .seaworthy-cli/packages/verify/dist/src/cli.js verify docs/_site --format sarif --out seaworthy.sarif --fail-on none
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always() && hashFiles('seaworthy.sarif') != ''
+        with:
+          name: seaworthy-sarif
+          path: seaworthy.sarif
+          retention-days: 14
+
+  lighthouse:
+    name: lighthouse (performance and accessibility 90+)
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: docs-site
+          path: docs/_site
+      - name: Serve the production base path for Lighthouse
+        # The artifact was built with baseurl /evergreen. Mount it under that path so the same
+        # absolute links the deployed site uses resolve on the local static server.
+        run: |
+          mkdir -p _serve/evergreen
+          cp -a docs/_site/. _serve/evergreen/
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Run Lighthouse on the home page and a rule page
+        run: npx --yes @lhci/cli@0.15.1 autorun --config=.github/lighthouse/lighthouserc.json
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

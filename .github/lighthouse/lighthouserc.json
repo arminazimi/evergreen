@@ -1,10 +1,10 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": "./docs/_site",
+      "staticDistDir": "./_serve",
       "url": [
-        "http://localhost/",
-        "http://localhost/rules/nodejs.runtime.eol-18.html"
+        "http://localhost/evergreen/",
+        "http://localhost/evergreen/rules/nodejs.runtime.eol-18.html"
       ],
       "numberOfRuns": 3
     },

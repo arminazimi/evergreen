@@ -62,4 +62,4 @@ Codex and Claude plugins are generated host adapters over that portable Skill an
 
 ## Hosting
 
-No backend is required. The CLI and MCP server run locally, the GitHub Action runs on the repository's runner, and the rule registry ships with signed project releases. Documentation is a static GitHub Pages site built from `docs/`; it receives no repository source code.
+No backend is required. The CLI and MCP server run locally, the GitHub Action runs on the repository's runner, and the rule registry ships with signed project releases. Documentation is a static GitHub Pages site: a workflow builds `docs/` with Jekyll and deploys the `_site` artifact ([pages.yml](../.github/workflows/pages.yml)); it receives no repository source code.

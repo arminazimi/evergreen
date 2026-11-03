@@ -327,53 +327,6 @@ jobs:
         working-directory: docs
         run: bundle exec jekyll build --baseurl ""
 
-  # Seaworthy verifies the built site: internal links, agent-readable structure, accessibility.
-  # It is pre-alpha with no release or tag yet, so its CLI is built from a commit pin here.
-  # The run reports every finding, including the ones the theme and pages already have, so it is
-  # report-only until the site is clean; then pass `--fail-on error` and a broken internal link
-  # fails CI.
-  seaworthy:
-    # Runs only on pushes to main, not on pull requests or merge queue runs.
-    if: github.ref == 'refs/heads/main'
-    name: seaworthy (built site)
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
-        with:
-          ruby-version: "3.3"
-          bundler-cache: true
-          working-directory: docs
-      - name: Build the documentation site
-        working-directory: docs
-        # Keep the deployed base path (/evergreen) so internal links resolve as they do on Pages.
-        run: bundle exec jekyll build
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          repository: arminazimi/seaworthy
-          ref: 8ed721eb222562251b3b901bab0ad7b8ff67c5ef
-          path: .seaworthy-cli
-          persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
-        with:
-          node-version: 24
-      - name: Build Seaworthy from source
-        working-directory: .seaworthy-cli
-        run: npm ci && npm run build --silent
-      - name: Verify the built site
-        run: node .seaworthy-cli/packages/verify/dist/src/cli.js verify docs/_site --format sarif --out seaworthy.sarif --fail-on none
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
-        if: always() && hashFiles('seaworthy.sarif') != ''
-        with:
-          name: seaworthy-sarif
-          path: seaworthy.sarif
-          retention-days: 14
-
   self-scan:
     if: github.event_name != 'pull_request'
     needs: check
@@ -430,32 +383,6 @@ jobs:
       - name: Enforce the scan performance budget
         run: node dist/benchmarks/perf-budget.js --check
 
-  lighthouse:
-    if: github.event_name != 'pull_request'
-    name: lighthouse (performance and accessibility 90+)
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
-        with:
-          ruby-version: "3.3"
-          bundler-cache: true
-          working-directory: docs
-      - name: Build the site
-        working-directory: docs
-        # Static hosting from the workspace root, so the local server in lighthouserc.json serves the pages.
-        run: bundle exec jekyll build --baseurl ""
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
-        with:
-          node-version: 24
-      - name: Run Lighthouse on the home page and a rule page
-        run: npx --yes @lhci/cli@0.15.1 autorun --config=.github/lighthouse/lighthouserc.json
-
   coverage-badge:
     if: github.event_name == 'push'
     needs: check
@@ -494,7 +421,8 @@ jobs:
   ci-ok:
     name: ci-ok
     if: always()
-    needs: [changes, check, docs, seaworthy, check-cross-os, self-scan, perf-budget, lighthouse, coverage-badge]
+    # Seaworthy and Lighthouse run in pages.yml against the Pages build artifact.
+    needs: [changes, check, docs, check-cross-os, self-scan, perf-budget, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
