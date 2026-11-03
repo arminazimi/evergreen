@@ -174,7 +174,7 @@ mutation score as the ratio of mutants the tests detect.
 
 - The generated command registry is current, and every command module appears in the CLI help.
 - `docs/llms-full.txt` is buildable from the pages linked from `docs/llms.txt` (generated at site build; not committed).
-- Reference pages, answer pages, Open Graph images, and the data API match `registry/*.json`.
+- `docs/sitemap.xml` and `docs/rules/index.md` are generated at site build (not committed); committed reference pages, answer pages, Open Graph images, and the data API match `registry/*.json`.
 - The README coverage table names files each detector reads and commands that exist.
 - The documentation site builds with **zero broken internal links** and no accessibility errors at the level
   Seaworthy checks.

@@ -176,7 +176,7 @@ test("the registry yields exactly 50 curated products, and each page answers fro
 test("the committed answer pages match the registry", async () => {
   const registries = await loadRegistries();
   assert.deepEqual(await drift(buildFiles(registries)), []);
-  const sitemap = await readFile("docs/sitemap.xml", "utf8");
+  const sitemap = renderSitemap(registries);
   for (const page of answerPageEntries(registries)) assert.ok(sitemap.includes(`<loc>${page.loc}</loc>`), page.loc);
   assert.ok(sitemap.includes(`<loc>${SITE_URL}/eol/</loc>`));
 });

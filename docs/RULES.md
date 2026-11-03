@@ -86,7 +86,7 @@ npm run check
 - `rules lint` checks every registry under `registry/` (or the files you pass) and prints each problem with its file, line, and a fix hint.
 - `rules test` scans both fixtures and prints the expected and actual observations. It needs both directories, so when you edit a rule that predates the fixture harness, add the two fixtures in the same pull request instead of skipping the check.
 - A rule that only `evergreen inventory` judges (Google App Engine runtimes, GKE cluster versions) has no repository file for a detector to read. Put the cloud export in each fixture as a `.json` file, such as `app-engine-versions.json` or `gke-clusters.json`; `rules test` runs the inventory importers over those files and observes the rule when an item matches it.
-- `build:reference` rewrites `docs/rules/<rule-id>.md` from the registry; CI fails when the committed pages drift.
+- `build:reference` rewrites `docs/rules/<rule-id>.md` from the registry; CI fails when the committed pages drift. `docs/rules/index.md` and `docs/sitemap.xml` are gitignored and rebuilt by Pages with `--site`.
 - `npm run check` is the same gate CI runs: build, full tests, plugin checks, and evals.
 
 If the analysis is wrong rather than the rule, fix the detector in the same pull request and say so.

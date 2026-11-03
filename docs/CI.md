@@ -56,7 +56,8 @@ updates this page in the same change as the workflow edit.
 - Rules lint when registry files change ([`rules.yml`](../.github/workflows/rules.yml)).
 
 **Docs-only pull requests.** Skip the test matrix. Build and check reference pages, verify
-`llms-full.txt` is buildable, generate it for the Jekyll site, and build the site instead.
+`llms-full.txt` is buildable, generate `llms-full.txt`, `sitemap.xml`, and `rules/index.md` for the
+Jekyll site, and build the site instead.
 
 **When site files change** (`docs/` site sources, theme config, Lighthouse config, and the paths
 later tasks pin).

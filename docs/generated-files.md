@@ -14,7 +14,8 @@ Targets:
 
 | Path | Generator | Read by | Churn (30 days) | Needed by | Target |
 |---|---|---|---|---|---|
-| `docs/rules/` (1,411 files) | `npm run build:reference` (`tools/build-reference-pages.ts`, source `registry/*.json`) | Pages site (rule pages, linked from `docs/RULES.md`), `tests/reference-pages.test.ts`, agents reading rule URLs | 121 | Pages, tests, agents | Keep. The Pages workflow builds from these committed files. |
+| `docs/rules/` per-rule pages | `npm run build:reference` (`tools/build-reference-pages.ts`, source `registry/*.json`) | Pages site (rule pages, linked from `docs/RULES.md`), `tests/reference-pages.test.ts`, agents reading rule URLs | 121 | Pages, tests, agents | Keep. The Pages workflow builds from these committed files. |
+| `docs/rules/index.md`, `docs/sitemap.xml` | `npm run build:reference` / `--site` (`tools/build-reference-pages.ts`); also the Pages workflow before Jekyll | Pages artifact (`/rules/`, `/sitemap.xml` for Search Console), `tests/reference-pages.test.ts`, `tests/site-urls.test.ts` | (shared with `docs/rules/`) | Pages, Search Console | Build time. Gitignored; no pull request commits them. `check:reference` skips their on-disk content and still drifts the committed rule pages. |
 | `docs/eol/` (51 files) | `npm run build:answer-pages` (`tools/build-answer-pages.ts`, source `registry/*.json`) | Pages site (answer pages), `tests/answer-pages.test.ts` | 4 | Pages, tests | Keep, for the same reason as `docs/rules/`. |
 | `docs/assets/og/` (706 SVGs) | `npm run build:og-images` (`tools/build-og-images.ts`, source `registry/*.json`) | Social-preview meta tags on the Pages site | 24 | Pages | Keep. |
 | `docs/api/v1/` (1,123 files) | `npm run build:data-api` (`tools/build-data-api.ts`, source `registry/`) | Static API served by Pages, `tests/openapi.test.ts` (checks against `docs/api/openapi.yaml`) | 49 | Pages, tests, agents that call the API | Keep. |
@@ -64,7 +65,7 @@ These files look generated but have no generator in the repository. Do not add o
 
 ## Who needs what
 
-- **Pages site** (`docs/`, Jekyll): every `docs/` output above. [pages.yml](../.github/workflows/pages.yml) builds `docs/` and deploys the `_site` artifact. Most generated Markdown still lives in the repository for that build; `docs/llms-full.txt` is the exception — the workflow generates it before Jekyll so the public URL stays without commit churn.
+- **Pages site** (`docs/`, Jekyll): every `docs/` output above. [pages.yml](../.github/workflows/pages.yml) builds `docs/` and deploys the `_site` artifact. Most generated Markdown still lives in the repository for that build; `docs/llms-full.txt`, `docs/sitemap.xml`, and `docs/rules/index.md` are the exceptions — the workflow generates them before Jekyll so the public URLs stay without commit churn.
 - **npm package** (`package.json` `files`): `dist/src`, `registry/`, `schemas/`, `skills/`, `data/`, and `examples/` (minus excluded demos). It does not include `docs/`, `plugins/`, or `metrics/`.
 - **GitHub Action** (`action.yml`): `dist/action/index.js` only, from the release tag's commit, not from `main`.
 - **Tests**: all the drift checks named in the tables. `npm run check` runs the build, the Action bundle, the test suite, `check:commands`, `check:plugins`, and the plugin and agent-loop evals. Drift checks for the registry-generated outputs run inside the test suite.

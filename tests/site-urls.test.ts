@@ -7,9 +7,11 @@ import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 import { promisify } from "node:util";
 
+import { loadRegistries, renderSitemap } from "../tools/build-reference-pages.js";
 import { renderLlmsFull } from "../tools/build-llms-full.js";
 import {
   BASELINE_PATH,
+  BUILD_TIME_DOCS_FILES,
   BUILD_TIME_MACHINE_FILES,
   SITE_URL,
   collectSiteUrls,
@@ -18,6 +20,7 @@ import {
   missingFromSite,
   parseSitemapUrls,
   readBaseline,
+  readSitemapText,
   redirectedUrls,
   renderInventory,
   urlForDocsPath,
@@ -85,7 +88,7 @@ test("a public URL resolves back to the docs file that publishes it", () => {
 test("the inventory covers the sitemap and every docs page, and every URL exists", async () => {
   const urls = await collectSiteUrls();
 
-  const sitemapUrls = parseSitemapUrls(await readFile(resolve("docs/sitemap.xml"), "utf8"));
+  const sitemapUrls = parseSitemapUrls(await readSitemapText());
   assert.ok(sitemapUrls.length >= 100);
   for (const url of sitemapUrls) assert.ok(urls.includes(url), `inventory misses sitemap URL ${url}`);
 
@@ -100,6 +103,7 @@ test("the inventory covers the sitemap and every docs page, and every URL exists
   assert.ok(urls.includes(`${SITE_URL}/`));
   assert.ok(urls.includes(`${SITE_URL}/llms.txt`));
   assert.ok(urls.includes(`${SITE_URL}/MCP.html`));
+  assert.ok(urls.includes(`${SITE_URL}/sitemap.xml`));
   assert.equal(new Set(urls).size, urls.length);
   assert.deepEqual(urls, [...urls].sort((left, right) => left.localeCompare(right)));
 });
@@ -261,14 +265,21 @@ test("the machine files stay static and served at their old root URLs", async ()
   for (const file of machineFiles) {
     assert.ok(urls.includes(`${SITE_URL}/${file}`), `${file} is missing from the URL inventory`);
     assert.deepEqual(docsPathsForUrl(`${SITE_URL}/${file}`), [file]);
-    const text = buildTime.has(file) ? await renderLlmsFull() : await readFile(resolve("docs", file), "utf8");
+    const text =
+      file === "llms-full.txt"
+        ? await renderLlmsFull()
+        : file === "sitemap.xml"
+          ? renderSitemap(await loadRegistries())
+          : await readFile(resolve("docs", file), "utf8");
     assert.doesNotMatch(
       text,
       /^---\r?\n/,
       `docs/${file} must stay a static file: front matter would make Jekyll render it through a layout instead of serving it as is`,
     );
+    if (buildTime.has(file)) assert.ok(text.length > 0, `${file} must be buildable`);
   }
-  assert.deepEqual([...BUILD_TIME_MACHINE_FILES], ["llms-full.txt"]);
+  assert.deepEqual([...BUILD_TIME_MACHINE_FILES], ["llms-full.txt", "sitemap.xml"]);
+  assert.deepEqual([...BUILD_TIME_DOCS_FILES], ["llms-full.txt", "sitemap.xml", "rules/index.md"]);
 
   const claimed = new Set(machineFiles.map((file) => `/${file}`));
   for (const entry of await readdir(resolve("docs"), { recursive: true })) {

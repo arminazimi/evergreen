@@ -5,6 +5,7 @@ import { test } from "node:test";
 import { runInNewContext } from "node:vm";
 
 import type { Thresholds } from "../benchmarks/thresholds.js";
+import { loadRegistries, renderSitemap } from "../tools/build-reference-pages.js";
 
 interface TextNode {
   kind: "text";
@@ -453,7 +454,7 @@ test("the page loads nothing from elsewhere and is not in the sitemap", async ()
   assert.ok(urls.length > 0);
   for (const url of urls) assert.ok(url.startsWith(api.BLOB_URL) || url === "https://arminazimi.github.io/evergreen/dashboard/", url);
   assert.doesNotMatch(script, /XMLHttpRequest|sendBeacon|WebSocket|EventSource/);
-  const sitemap = await readFile(resolve("docs/sitemap.xml"), "utf8");
+  const sitemap = renderSitemap(await loadRegistries());
   assert.doesNotMatch(sitemap, /dashboard/);
   for (const id of ["status", "data-sections", "run", "detectors-table", "minimums-table", "definitions-list", "limitations-list"]) {
     assert.ok(html.includes(`id="${id}"`), id);

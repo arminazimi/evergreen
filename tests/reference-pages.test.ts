@@ -10,6 +10,7 @@ import { parse } from "yaml";
 
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
 import {
+  BUILD_TIME_REFERENCE_PATHS,
   LOOKUP_PAGE,
   SITE_URL,
   answerLead,
@@ -30,6 +31,7 @@ import {
   ruleDataUrl,
   ruleUrl,
   write,
+  writeSiteFiles,
 } from "../tools/build-reference-pages.js";
 import { answerPageEntries } from "../tools/build-answer-pages.js";
 
@@ -91,7 +93,7 @@ test("every bundled rule has a page and a JSON twin, and the committed files mat
     twins.map((file) => file.path),
     pages.map((file) => file.path.replace(/\.md$/, ".json")),
   );
-  assert.deepEqual(await drift(files), []);
+  assert.deepEqual(await drift(files, ".", { skipContentCheck: BUILD_TIME_REFERENCE_PATHS }), []);
 });
 
 test("a page links its JSON twin, and the twin is the evergreen.rule.v1 document", () => {
@@ -630,6 +632,11 @@ test("--check passes on fresh pages and fails, naming the page, when one drifts"
   await write(buildFiles([registry([rule()])]), root);
   assert.deepEqual(await checkIn(root), { code: 0, stderr: "" });
 
+  // Missing build-time files do not fail --check (they are gitignored on main).
+  await rm(join(root, "docs/sitemap.xml"));
+  await rm(join(root, "docs/rules/index.md"));
+  assert.deepEqual(await checkIn(root), { code: 0, stderr: "" });
+
   // The registry changes, but the pages are not regenerated.
   await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([rule({ summary: "A different claim." })])));
   const drifted = await checkIn(root);
@@ -637,6 +644,7 @@ test("--check passes on fresh pages and fails, naming the page, when one drifts"
   assert.match(drifted.stderr, /differs: docs\/rules\/demo\.thing\.eol-1\.md/);
   assert.match(drifted.stderr, /differs: docs\/rules\/demo\.thing\.eol-1\.json/);
   assert.match(drifted.stderr, /npm run build:reference/);
+  assert.doesNotMatch(drifted.stderr, /docs\/sitemap\.xml|docs\/rules\/index\.md/);
 
   // A rule is removed: its page and its JSON twin are stale.
   await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([])));
@@ -644,7 +652,22 @@ test("--check passes on fresh pages and fails, naming the page, when one drifts"
   assert.match((await checkIn(root)).stderr, /stale: docs\/rules\/demo\.thing\.eol-1\.json/);
 });
 
-test("CI runs the drift check", async () => {
+test("--site writes only the gitignored index and sitemap", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-reference-site-"));
+  temporaryRoots.push(root);
+  const files = buildFiles([registry([rule()])]);
+  const written = await writeSiteFiles(files, root);
+  assert.deepEqual(
+    written.map((file) => file.path).sort(),
+    [...BUILD_TIME_REFERENCE_PATHS].sort(),
+  );
+  for (const path of BUILD_TIME_REFERENCE_PATHS) {
+    assert.equal(await readFile(join(root, path), "utf8"), files.find((file) => file.path === path)!.contents);
+  }
+  await assert.rejects(readFile(join(root, "docs/rules/demo.thing.eol-1.md")));
+});
+
+test("CI runs the drift check, and Pages generates the gitignored site files", async () => {
   const workflow = parse(await readFile(".github/workflows/ci.yml", "utf8")) as {
     jobs: { check: { steps: Array<{ name?: string; run?: string; if?: string }> } };
   };
@@ -654,4 +677,10 @@ test("CI runs the drift check", async () => {
   const og = workflow.jobs.check.steps.find((item) => item.run === "node dist/tools/build-og-images.js --check");
   assert.ok(og, "ci.yml has no OG-image drift step");
   assert.match(og.if ?? "", /runner\.os == 'Linux'/);
+
+  const pages = parse(await readFile(".github/workflows/pages.yml", "utf8")) as {
+    jobs: { build: { steps: Array<{ name?: string; run?: string }> } };
+  };
+  const site = pages.jobs.build.steps.find((item) => item.run === "node dist/tools/build-reference-pages.js --site");
+  assert.ok(site, "pages.yml must generate sitemap.xml and rules/index.md before Jekyll");
 });

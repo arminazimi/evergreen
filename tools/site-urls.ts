@@ -9,11 +9,14 @@
 // The current inventory is generated on demand, so a new page never edits a shared fixture: only a page
 // that disappears needs a redirect (or a deliberate baseline refresh at release time).
 //
-// Sources: docs/sitemap.xml plus every page file under docs/ that GitHub Pages would serve. No network.
+// Sources: docs/sitemap.xml (or the registry render when it is gitignored) plus every page file under
+// docs/ that GitHub Pages would serve. No network.
 
 import { access, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+
+import { loadRegistries, renderSitemap } from "./build-reference-pages.js";
 
 export const SITE_URL = "https://arminazimi.github.io/evergreen";
 /** Snapshot of the URLs the published site serves, captured from the last release. */
@@ -26,13 +29,25 @@ const SKIP_DIRECTORIES = new Set(["assets", "vendor", "_site"]);
 /** Redirect stubs publish only a URL that used to exist, never a new page. */
 const REDIRECT_DIRECTORY = "redirects";
 /**
- * Static files the Pages workflow generates before Jekyll builds. They are gitignored, so a fresh
- * checkout has no on-disk copy, but the public URL stays in the inventory and baseline.
+ * Docs-relative paths the Pages workflow generates before Jekyll builds. They are gitignored, so a
+ * fresh checkout has no on-disk copy, but the public URL stays in the inventory and baseline.
  */
-export const BUILD_TIME_MACHINE_FILES = ["llms-full.txt"] as const;
+export const BUILD_TIME_DOCS_FILES = ["llms-full.txt", "sitemap.xml", "rules/index.md"] as const;
+/** Machine files at the site root that Pages generates (subset of BUILD_TIME_DOCS_FILES). */
+export const BUILD_TIME_MACHINE_FILES = ["llms-full.txt", "sitemap.xml"] as const;
 
 export function parseSitemapUrls(sitemap: string): string[] {
   return [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]!);
+}
+
+/** Sitemap text from disk, or rendered from the registry when the file is gitignored. */
+export async function readSitemapText(root = "."): Promise<string> {
+  const path = join(resolve(root, "docs"), "sitemap.xml");
+  try {
+    return await readFile(path, "utf8");
+  } catch {
+    return renderSitemap(await loadRegistries(join(resolve(root), "registry")));
+  }
 }
 
 /** Public URL for a path relative to docs/, or undefined when the file is not a page. */
@@ -77,12 +92,12 @@ async function listPageFiles(docsRoot: string, base = ""): Promise<string[]> {
 /** Union of sitemap locations and every page under docs/, sorted. */
 export async function collectSiteUrls(root = "."): Promise<string[]> {
   const docsRoot = resolve(root, "docs");
-  const urls = new Set<string>(parseSitemapUrls(await readFile(join(docsRoot, "sitemap.xml"), "utf8")));
+  const urls = new Set<string>(parseSitemapUrls(await readSitemapText(root)));
   for (const file of await listPageFiles(docsRoot)) {
     const url = urlForDocsPath(file);
     if (url !== undefined) urls.add(url);
   }
-  for (const file of BUILD_TIME_MACHINE_FILES) {
+  for (const file of BUILD_TIME_DOCS_FILES) {
     const url = urlForDocsPath(file);
     if (url !== undefined) urls.add(url);
   }
@@ -96,7 +111,7 @@ export function renderInventory(urls: readonly string[]): string {
 /** Inventory URLs that have no matching file under docs/. */
 export async function missingFromSite(urls: readonly string[], root = "."): Promise<string[]> {
   const docsRoot = resolve(root, "docs");
-  const buildTime = new Set(BUILD_TIME_MACHINE_FILES.map((file) => urlForDocsPath(file)));
+  const buildTime = new Set(BUILD_TIME_DOCS_FILES.map((file) => urlForDocsPath(file)));
   const missing: string[] = [];
   for (const url of urls) {
     if (buildTime.has(url)) continue;
