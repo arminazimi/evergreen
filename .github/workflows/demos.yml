@@ -1,0 +1,102 @@
+name: Demos
+
+# Demo recordings are generated, never hand-recorded: the tapes in demos/
+# render through the pinned VHS recorder below against the offline CLI build,
+# and this job fails when the committed recordings under docs/assets/demos/
+# drift from a fresh render. Regenerate locally from the repository root after
+# `npm ci && npm run build` (VHS needs the ttyd and ffmpeg binaries listed
+# below and a Chromium-based browser; VHS downloads one if none is on PATH):
+#
+#   for tape in demos/*.tape; do vhs "$tape" || exit 1; done
+#
+# Until the first recordings are committed, the renders only land in the
+# demo-recordings artifact; a maintainer reviews them and commits them, and
+# from then on the drift check gates every change to the tapes.
+
+on:
+  pull_request:
+    paths:
+      - "demos/**"
+      - "docs/assets/demos/**"
+      - ".github/workflows/demos.yml"
+  push:
+    branches: [main]
+    paths:
+      - "demos/**"
+      - "docs/assets/demos/**"
+      - ".github/workflows/demos.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: demos-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    name: demos
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build the CLI the tapes run
+        run: |
+          npm ci
+          npm run build
+      - name: Install the pinned recorder (VHS, ttyd, ffmpeg)
+        env:
+          VHS_VERSION: "0.12.1"
+          VHS_SHA256: "eb33787a5b1cebf91fe0b18bd231e2d71d36c1ff4babd99ddac1a6ab411efd10"
+          TTYD_VERSION: "1.7.7"
+          TTYD_SHA256: "8a217c968aba172e0dbf3f34447218dc015bc4d5e59bf51db2f2cd12b7be4f55"
+        run: |
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/vhs.tar.gz" \
+            "https://github.com/charmbracelet/vhs/releases/download/v${VHS_VERSION}/vhs_${VHS_VERSION}_Linux_x86_64.tar.gz"
+          echo "${VHS_SHA256}  $RUNNER_TEMP/vhs.tar.gz" | sha256sum --check -
+          tar -xzf "$RUNNER_TEMP/vhs.tar.gz" -C "$RUNNER_TEMP" --strip-components=1 "vhs_${VHS_VERSION}_Linux_x86_64/vhs"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/ttyd" \
+            "https://github.com/tsl0922/ttyd/releases/download/${TTYD_VERSION}/ttyd.x86_64"
+          echo "${TTYD_SHA256}  $RUNNER_TEMP/ttyd" | sha256sum --check -
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg
+          sudo install -m 0755 "$RUNNER_TEMP/vhs" "$RUNNER_TEMP/ttyd" /usr/local/bin/
+          vhs --version
+          ttyd --version
+      - name: Render every tape into docs/assets/demos
+        env:
+          VHS_NO_SANDBOX: "true"
+        run: |
+          for tape in demos/*.tape; do
+            echo "::group::$tape"
+            vhs "$tape"
+            echo "::endgroup::"
+          done
+          ls -l docs/assets/demos
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: demo-recordings
+          path: docs/assets/demos/
+      - name: Fail when the committed recordings drift
+        run: |
+          if [ -z "$(git ls-files -- 'docs/assets/demos/*.gif')" ]; then
+            echo "No committed recordings yet: this render is the first, and it ships in the demo-recordings artifact."
+            echo "Review it, commit the GIFs under docs/assets/demos/, and later renders are drift-gated."
+            exit 0
+          fi
+          status=$(git status --porcelain -- docs/assets/demos)
+          if [ -n "$status" ]; then
+            echo "::error::docs/assets/demos drifted from demos/*.tape. Re-render from the repository root (see the workflow header) and commit the regenerated recordings."
+            echo "$status"
+            exit 1
+          fi
+          echo "Committed recordings match the tapes."
