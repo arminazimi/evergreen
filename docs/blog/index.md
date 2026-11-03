@@ -30,6 +30,9 @@ Delete the draft when the window has no entries worth a post; do not publish an 
 
 ## Posts
 
+- [Is your repo affected? AWS Lambda .NET 8 and .NET 9 runtimes reach end of life on 2026-11-10](2026-11-04-aws-lambda-dotnet-8-and-9-is-your-repo-affected.md)
+- [Is your repo affected? AKS 1.34 leaves its 12-month support window on 2026-11-30](2026-11-04-aks-1-34-is-your-repo-affected.md)
+- [Is your repo affected? Google Play Billing Library 8 reaches its update deadline on 2027-08-31](2026-11-04-google-play-billing-8-is-your-repo-affected.md)
 - [Is your repo affected? .NET 8 and 9 reach end of support on 2026-11-10](2026-11-01-dotnet-8-and-9-is-your-repo-affected.md)
 - [Is your repo affected? PostgreSQL 14 reaches end of life on 2026-11-12](2026-11-01-postgresql-14-is-your-repo-affected.md)
 - [Is your repo affected? @angular/core v20 reaches end of life on 2026-11-28](2026-11-01-angular-20-is-your-repo-affected.md)
