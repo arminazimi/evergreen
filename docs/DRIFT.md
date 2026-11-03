@@ -259,3 +259,58 @@ A `setup-php` matrix with several versions is intentional. Each value is reporte
 **Align**
 
 `--align <release>` rewrites `.php-version` (keeping the `php-` prefix), a single-value `.tool-versions` `php` line, `composer.json` `config.platform.php`, `FROM php:<version>[-variant]` tags, GitLab CI and CircleCI image tags, and a single-value `setup-php` `php-version`. It refuses floors, `composer.json` `require.php`, `composer.lock`, `setup-php` matrix values, multi-value `.tool-versions` lines, and image references pinned by digest. `composer.lock` is reported and refused with "regenerate the lockfile": Composer owns that file.
+
+## Elixir
+
+Elixir pins are reported at `major.minor` granularity: `1.16.2`, `1.16`, and the image tag `1.16.2-otp-26-alpine` all select `1.16`.
+
+| Source | Field | Kind |
+| --- | --- | --- |
+| `.elixir-version` | the single version, including the asdf `1.16.2-otp-26` form | pin |
+| `.tool-versions` | the `elixir` entry, one pin per version, the `-otp-NN` suffix kept as written | pin |
+| `mix.exs` | the project `elixir:` constraint, quoted literals only | floor |
+| `Dockerfile`, `*.Dockerfile`, `Containerfile*` | `FROM elixir:<tag>` and `FROM hexpm/elixir:<elixir>-erlang-<otp>-<os>` | pin |
+| `.github/workflows/*.yml` | the `elixir-version` input of `erlef/setup-beam` | pin |
+| `.gitlab-ci.yml` | `image:` values that name the official `elixir` or `hexpm/elixir` image | pin |
+| `.circleci/config.yml` | Docker executor values that name `elixir` or `hexpm/elixir` | pin |
+
+An Elixir image is the Docker Hub `elixir` image or the `hexpm/elixir` build image; other registries and other repositories are not read. Image tags keep their suffixes: `1.16.2-otp-26-alpine` selects `1.16`, and `hexpm/elixir:1.17.3-erlang-27.1.1-alpine-3.20` selects `1.17` from the version its tag names first.
+
+The collector reuses the Elixir detector's runtime parser and `mix.exs` parser, so the same version grammar decides what is a pin here as in `evergreen scan`. A `setup-beam` matrix with several Elixir versions is intentional. Each value is reported as a pin with source `setup-beam elixir matrix`, the values share one group, and they are not counted against each other.
+
+**Floors**
+
+`mix.exs` `elixir:` states the oldest Elixir the project supports, not the one that builds it, so it is a floor. Only a quoted literal constraint is read: `~> 1.15` and `>= 1.15.7` resolve to their first lower bound, `1.15`. `Mix` is never run and `mix.exs` is never evaluated. A floor above the lowest pinned Elixir is a floor conflict, because that project cannot build on the runtime its own pins select.
+
+**Unresolved**
+
+`latest`, `main`, a version with no minor (`1`), an image with no tag, a moving image tag such as `elixir:latest`, a `hexpm/elixir` tag that is not `<elixir>-erlang-<otp>[-<os>]`, an expression that is not a `matrix` reference, and a constraint with no lower bound are reported as pins with a one-sentence reason and no release. A value is never guessed from a newer version existing.
+
+**Align**
+
+`--align <release>` rewrites `.elixir-version` (keeping its `-otp-NN` suffix), a single-value `.tool-versions` `elixir` line, a single-value `setup-beam` `elixir-version` (its quote style kept), and `elixir:<version>[-otp-<otp>][-variant]` tags in Dockerfiles, GitLab CI and CircleCI (the OTP part and the variant are preserved). It refuses the `mix.exs` floor, every `hexpm/elixir` tag — choosing its OS part is a decision, not a rewrite — `setup-beam` matrix values, multi-value `.tool-versions` lines, and image references pinned by digest.
+
+## Erlang/OTP
+
+Erlang/OTP pins are reported at the OTP major: `26.2.5`, `OTP-26.2.5`, and the `-otp-26.2.5` of an Elixir pin all select `26`.
+
+| Source | Field | Kind |
+| --- | --- | --- |
+| `.tool-versions` | the `erlang` entry, one pin per version | pin |
+| `.elixir-version`, `.tool-versions` | the `-otp-NN` suffix of an Elixir version that names one | pin |
+| `Dockerfile`, `*.Dockerfile`, `Containerfile*`, `.gitlab-ci.yml`, `.circleci/config.yml` | the `erlang-<otp>` part of a `hexpm/elixir` tag, and the `-otp-<otp>` part of an `elixir` tag | pin |
+| `.github/workflows/*.yml` | the `otp-version` input of `erlef/setup-beam`, including its `OTP-26.2.5` form | pin |
+
+OTP is versioned with Elixir, so one line states both: `FROM hexpm/elixir:1.17.3-erlang-27.1.1-alpine-3.20` is an Elixir `1.17` pin for the Elixir collector and an OTP `27` pin for this one, at the same path and line. The Docker Hub `erlang` image is not a source of drift here, because the issue that scoped this collector lists only the sources above; a repository that runs Erlang on its own gets no pin from `FROM erlang:27`.
+
+There is no Erlang floor source: `mix.exs` constrains Elixir, not OTP.
+
+A `setup-beam` matrix with several OTP versions is intentional: the values are reported with source `setup-beam otp matrix`, share one group, and are not counted against each other.
+
+**Unresolved**
+
+`main`, `master`, and `latest`, an `otp-version` that is not a version (`edge`), an expression that is not a `matrix` reference, an `.tool-versions` `erlang` token that is not an OTP release, and a workflow that does not parse as YAML are reported with a reason or skipped; nothing is guessed. An Elixir version with no `-otp-` part simply yields no OTP pin.
+
+**Align**
+
+`--align <release>` rewrites a single-value `.tool-versions` `erlang` line, the `-otp-NN` suffix of `.elixir-version` and of a `.tool-versions` `elixir` line, a single-value `setup-beam` `otp-version` (written as the bare major, with the line's quotes kept), and the `-otp-<otp>` part of `elixir:<version>-otp-<otp>[-variant]` tags in Dockerfiles, GitLab CI and CircleCI. It refuses every `hexpm/elixir` tag, `setup-beam` matrix values, and image references pinned by digest.

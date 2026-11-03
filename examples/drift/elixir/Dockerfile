@@ -1,0 +1,2 @@
+FROM elixir:1.18.4-otp-28
+COPY . /app

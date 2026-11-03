@@ -1,0 +1,1 @@
+- Report Elixir and Erlang/OTP version drift as two runtimes, collecting `.elixir-version`, `.tool-versions`, `mix.exs`, `elixir` and `hexpm/elixir` image tags, and `erlef/setup-beam` inputs, and align the pins a rewrite can settle. (#1846)
