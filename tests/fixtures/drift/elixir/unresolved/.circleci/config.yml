@@ -1,0 +1,7 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: hexpm/elixir:1.17-erlang-latest
+    steps:
+      - checkout

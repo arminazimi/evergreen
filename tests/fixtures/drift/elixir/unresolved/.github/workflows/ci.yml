@@ -1,0 +1,18 @@
+name: ci
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ inputs.elixir }}
+          otp-version: edge
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version:
+          elixir-version:
+            release: 1.16

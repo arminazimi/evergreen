@@ -1,0 +1,8 @@
+name: ci
+on: push
+jobs:
+  test:
+    steps:
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.16.3
