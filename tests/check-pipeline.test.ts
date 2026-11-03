@@ -338,7 +338,7 @@ test("skipping is off in a GitHub Actions run, so the merge queue always runs th
   assert.equal(evalsMaySkip({ GITHUB_ACTIONS: "1" }), false);
   assert.equal(evalsMaySkip({ GITHUB_ACTIONS: "" }), true);
   // The digest lives in the build output, which a CI checkout never has.
-  assert.equal(EVAL_DIGEST_FILE, "dist/eval-digests.json");
+  assert.equal(EVAL_DIGEST_FILE, join("dist", "eval-digests.json"));
 });
 
 test("an input digest covers contents, paths, and whole trees, not the order inputs are declared", async () => {
