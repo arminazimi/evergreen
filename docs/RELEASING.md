@@ -119,6 +119,8 @@ Each stable or pre-release tag also produces binaries that need no Node.js, for 
     evergreen-<version>-<os>-<arch>
   ```
 
+  Binaries from releases up to and including v0.7.2 were signed by the old identity `https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/heads/main`; verify them with `--certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release\.yml@refs/heads/main$'`.
+
   If no release exists for the tag yet, the job creates one with a placeholder body; replace it in step 8.
 - **macOS.** The binaries are signed ad hoc, not notarized. Downloaded with `curl` or `gh release download` they run as they are; a browser download is quarantined, and `xattr -d com.apple.quarantine <file>` clears it.
 - **If a binary job fails.** The npm package is already published and is not affected. Fix the cause, then re-run the failed jobs of the `Release` workflow run that followed the publish; `gh release upload --clobber` replaces files that were already attached.
