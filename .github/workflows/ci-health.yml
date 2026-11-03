@@ -5,7 +5,9 @@ name: CI health
 # It also measures how long ci.yml takes on completed runs, so the five-minute target stays visible:
 # it writes metrics/ci/<date>.json and the step summary, and opens or updates one `area: devops`
 # issue when the pull request p50 is over five minutes. Weekly it lists flaky tests seen in ci.yml
-# logs; nightly it runs tests listed in tests/quarantine.json. It needs the network, so it is
+# logs, and publishes per-week CI health numbers — median and p90 duration, failure rate,
+# cancellation rate, and reruns — from real runs to metrics/ci/health-<date>.json and the step
+# summary. Nightly it runs tests listed in tests/quarantine.json. It needs the network, so it is
 # deliberately not part of pull-request CI.
 
 on:
@@ -65,6 +67,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: node tools/run-tests.mjs --list-weekly-flaky
+      - name: Publish weekly CI health numbers
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node dist/tools/ci-health-report.js --summary "$GITHUB_STEP_SUMMARY" --weeks 8
       - name: Upload the metrics file
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
