@@ -68,6 +68,17 @@ npx --yes --package evergreen-deprecation evergreen-mcp  # start the local MCP s
 
 The level in parentheses is the detector's maturity; the full list with each level is the [ecosystem coverage matrix](docs/COMPATIBILITY.md#ecosystem-coverage), and earned precision and recall per detector are on the [accuracy dashboard](https://arminazimi.github.io/evergreen/dashboard/). Each finding carries its rule's sources, review date, and migration steps; see [Lifecycle rules](docs/RULES.md). Other ecosystems are not guessed at: Evergreen reports a package it has no rule for as `no-data`, never as safe, and new ecosystems start from a [generated detector skeleton](docs/DETECTORS.md#start-a-new-detector-in-this-repository). The [compatibility matrix](docs/COMPATIBILITY.md) lists supported environments and hosts.
 
+## Why not just Renovate?
+
+Renovate, Dependabot, and endoflife.date each answer a question Evergreen does not, and Evergreen answers one none of them does: what is ending in this repository, and where is it used. Most repositories gain from running one of them **with** Evergreen, so the table states what each covers and what it does better, and links the source of every claim. Details and sources per tool are in [Evergreen compared with other tools](docs/compare/index.md).
+
+| Tool | What it covers | What it does better | Evidence |
+| --- | --- | --- | --- |
+| [Renovate](https://docs.renovatebot.com/) | Dependency updates across the [package managers it supports](https://docs.renovatebot.com/modules/manager/), as automated pull requests | Opens the update pull requests Evergreen never writes, and reports npm deprecation notices for packages this registry has no rule for | [Compared with Renovate](docs/compare/renovate.md); the [differential report](docs/differential-report.md) measures both directions on pinned repositories and links the evidence for every disagreement |
+| [Dependabot](https://docs.github.com/en/code-security/concepts/supply-chain-security/dependabot-security-updates) | Version updates and security updates on GitHub, each as a pull request | Version updates keep dependencies current even when nothing is vulnerable; security pull requests and alerts draw on the GitHub Advisory Database | [Compared with Dependabot](docs/compare/dependabot.md) |
+| [endoflife.date](https://endoflife.date/) | EOL dates and support lifecycles for many products, served through a [public API](https://endoflife.date/docs/api) | Product breadth beyond one reviewed rule set, and a date you can check without installing anything | [Compared with endoflife.date](docs/compare/endoflife-date.md) |
+| **Evergreen** | The lifecycle status of what the repository's files declare and use — end-of-life runtimes, deprecated packages, retired APIs — at file and line, offline | Reports that a version is out of support, not only that a newer one exists, and names the usage a migration has to touch | [What it covers](#what-it-covers), [validation](docs/VALIDATION.md), [compatibility matrix](docs/COMPATIBILITY.md) |
+
 ## Product principles
 
 - Local-first: source code stays on the user's machine or CI runner.
