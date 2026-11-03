@@ -1,10 +1,8 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import {
@@ -17,9 +15,8 @@ import {
   validateConfig,
 } from "../src/config.js";
 import type { ScanResult, Finding } from "../src/domain.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const tempDirs: string[] = [];
 
 after(async () => {
@@ -30,29 +27,6 @@ async function makeTempDir(): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), "evergreen-config-test-"));
   tempDirs.push(dir);
   return dir;
-}
-
-interface Outcome {
-  code: number;
-  stdout: string;
-  stderr: string;
-}
-
-async function runCli(args: string[], cwd = process.cwd(), env: NodeJS.ProcessEnv = {}): Promise<Outcome> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args], {
-      cwd,
-      env: { ...process.env, ...env },
-    });
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const err = error as { code?: number; stdout?: string; stderr?: string };
-    return {
-      code: err.code ?? 1,
-      stdout: err.stdout ?? "",
-      stderr: err.stderr ?? "",
-    };
-  }
 }
 
 test("JSON Schema: schemas/config.v1.schema.json validates valid configurations and rejects invalid ones", async () => {

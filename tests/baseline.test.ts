@@ -8,6 +8,7 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { applyBaseline, createBaseline, findingFingerprint, mergeBaselines, readBaseline, readBaselines, suppressionIssues, writeBaseline } from "../src/baseline.js";
 import type { Finding, ScanResult } from "../src/domain.js";
+import { runCli } from "./cli-runner.js";
 
 const finding: Finding = {
   id: "example:file:1",
@@ -226,17 +227,14 @@ test("the schema rejects a malformed history entry", async () => {
 });
 
 test("the CLI scans with a 0.1.0 baseline and reports only what the baseline does not cover", async () => {
-  const { execFile } = await import("node:child_process");
-  const { promisify } = await import("node:util");
-  const { stdout } = await promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", resolve("tests/fixtures/baselines/v0.1.0.json"), "--json"]);
-  const output = JSON.parse(stdout) as { findings: Array<{ ruleId: string }>; diagnostics: string[] };
+  const result = await runCli(["scan", smoke, "--baseline", resolve("tests/fixtures/baselines/v0.1.0.json"), "--json"]);
+  assert.equal(result.code, 0);
+  const output = JSON.parse(result.stdout) as { findings: Array<{ ruleId: string }>; diagnostics: string[] };
   assert.deepEqual(output.findings.map((finding) => finding.ruleId), ["nodejs.runtime.eol-19"]);
   assert.ok(output.diagnostics.includes("Suppressed 3 findings from the baseline."));
 });
 
 test("the CLI accepts several --baseline files so a shared and a local baseline combine", async () => {
-  const { execFile } = await import("node:child_process");
-  const { promisify } = await import("node:util");
   const { builtInDetectors } = await import("../src/detectors/index.js");
   const { scanRepository } = await import("../src/engine.js");
   const directory = await mkdtemp(join(tmpdir(), "evergreen-multi-baseline-"));
@@ -248,11 +246,15 @@ test("the CLI accepts several --baseline files so a shared and a local baseline 
     await writeFile(sharedPath, JSON.stringify(createBaseline({ ...scan, findings: [scan.findings[0]!] })));
     await writeFile(localPath, JSON.stringify(createBaseline({ ...scan, findings: scan.findings.slice(1) })));
     const run = (...baselines: string[]) =>
-      promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, ...baselines.flatMap((path) => ["--baseline", path]), "--json"]);
-    const both = JSON.parse((await run(sharedPath, localPath)).stdout) as { findings: unknown[]; diagnostics: string[] };
+      runCli(["scan", smoke, ...baselines.flatMap((path) => ["--baseline", path]), "--json"]);
+    const bothResult = await run(sharedPath, localPath);
+    assert.equal(bothResult.code, 0);
+    const both = JSON.parse(bothResult.stdout) as { findings: unknown[]; diagnostics: string[] };
     assert.deepEqual(both.findings, []);
     assert.ok(both.diagnostics.includes(`Suppressed ${scan.findings.length} findings from the baseline.`));
-    const sharedOnly = JSON.parse((await run(sharedPath)).stdout) as { findings: unknown[] };
+    const sharedOnlyResult = await run(sharedPath);
+    assert.equal(sharedOnlyResult.code, 0);
+    const sharedOnly = JSON.parse(sharedOnlyResult.stdout) as { findings: unknown[] };
     assert.equal(sharedOnly.findings.length, scan.findings.length - 1);
   } finally {
     await rm(directory, { recursive: true, force: true });
@@ -301,8 +303,6 @@ test("warnings are listed soonest first, one per distinct suppression", () => {
 });
 
 test("the CLI warns about a suppression that is about to expire, for the day it is told, and rejects bad options", async () => {
-  const { execFile } = await import("node:child_process");
-  const { promisify } = await import("node:util");
   const directory = await mkdtemp(join(tmpdir(), "evergreen-expiry-"));
   try {
     const { builtInDetectors } = await import("../src/detectors/index.js");
@@ -310,13 +310,19 @@ test("the CLI warns about a suppression that is about to expire, for the day it 
     const scan = await scanRepository(smoke, builtInDetectors);
     const path = join(directory, "baseline.json");
     await writeFile(path, JSON.stringify(createBaseline(scan, { owner: "platform", reason: "tracked", expires: "2026-11-05" })));
-    const run = (...extra: string[]) => promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", path, "--json", ...extra]);
-    const warnings = async (...extra: string[]) => (JSON.parse((await run(...extra)).stdout) as { diagnostics: string[] }).diagnostics.filter((line) => line.startsWith("Baseline suppression expires"));
+    const run = (...extra: string[]) => runCli(["scan", smoke, "--baseline", path, "--json", ...extra]);
+    const warnings = async (...extra: string[]) => {
+      const result = await run(...extra);
+      assert.equal(result.code, 0);
+      return (JSON.parse(result.stdout) as { diagnostics: string[] }).diagnostics.filter((line) => line.startsWith("Baseline suppression expires"));
+    };
     assert.equal((await warnings("--today", "2026-10-25")).length, 4, "ten days before: all four suppressions");
     assert.deepEqual(await warnings("--today", "2026-10-01"), [], "five weeks before: outside the default window");
     assert.equal((await warnings("--today", "2026-10-01", "--baseline-warn-days", "60")).length, 4, "a window of sixty days");
-    await assert.rejects(run("--today", "yesterday"), (error: { code: number; stderr: string }) => error.code === 2 && /--as-of \(or --today\) must be a date/.test(error.stderr));
-    await assert.rejects(run("--baseline-warn-days", "-3"), (error: { code: number }) => error.code === 2);
+    const badToday = await run("--today", "yesterday");
+    assert.equal(badToday.code, 2);
+    assert.match(badToday.stderr, /--as-of \(or --today\) must be a date/);
+    assert.equal((await run("--baseline-warn-days", "-3")).code, 2);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
@@ -401,8 +407,6 @@ test("the fail policy fails on any expired suppression, and resurface never does
 });
 
 test("the CLI resurfaces an expired suppression by default and exits 1 only with --on-expired fail", async () => {
-  const { execFile } = await import("node:child_process");
-  const { promisify } = await import("node:util");
   const directory = await mkdtemp(join(tmpdir(), "evergreen-policy-"));
   try {
     const { builtInDetectors } = await import("../src/detectors/index.js");
@@ -410,14 +414,19 @@ test("the CLI resurfaces an expired suppression by default and exits 1 only with
     const scan = await scanRepository(smoke, builtInDetectors);
     const path = join(directory, "baseline.json");
     await writeFile(path, JSON.stringify(createBaseline(scan, { owner: "platform", expires: "2026-10-01" })));
-    const run = (...extra: string[]) => promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", path, "--json", "--today", "2026-10-17", ...extra]);
-    const resurface = JSON.parse((await run()).stdout) as { findings: unknown[]; diagnostics: string[] };
+    const run = (...extra: string[]) => runCli(["scan", smoke, "--baseline", path, "--json", "--today", "2026-10-17", ...extra]);
+    const resurfaceResult = await run();
+    assert.equal(resurfaceResult.code, 0);
+    const resurface = JSON.parse(resurfaceResult.stdout) as { findings: unknown[]; diagnostics: string[] };
     assert.equal(resurface.findings.length, scan.findings.length, "everything is back");
     assert.equal(resurface.diagnostics.filter((line) => line.startsWith("Baseline suppression expired")).length, scan.findings.length);
-    await assert.rejects(run("--on-expired", "fail"), (error: { code: number; stderr: string }) => error.code === 1 && /on-expired fail/.test(error.stderr));
-    await assert.rejects(run("--on-expired", "never"), (error: { code: number }) => error.code === 2);
+    const failExpired = await run("--on-expired", "fail");
+    assert.equal(failExpired.code, 1);
+    assert.match(failExpired.stderr, /on-expired fail/);
+    assert.equal((await run("--on-expired", "never")).code, 2);
     // Before the expiry, the fail policy does nothing.
-    const before = await promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", path, "--json", "--today", "2026-09-01", "--on-expired", "fail"]);
+    const before = await runCli(["scan", smoke, "--baseline", path, "--json", "--today", "2026-09-01", "--on-expired", "fail"]);
+    assert.equal(before.code, 0);
     assert.equal((JSON.parse(before.stdout) as { findings: unknown[] }).findings.length, 0);
   } finally {
     await rm(directory, { recursive: true, force: true });

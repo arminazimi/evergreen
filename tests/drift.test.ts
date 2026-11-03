@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -9,8 +8,8 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { analyzeDrift, compareReleases } from "../src/drift/index.js";
 import type { DriftCollector, RuntimePin } from "../src/drift/types.js";
+import { runCli } from "./cli-runner.js";
 
-const cli = resolve("dist/src/cli.js");
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -111,19 +110,19 @@ test("drift --json validates against schemas/drift.v1.schema.json", async () => 
   const root = await mkdtemp(join(tmpdir(), "evergreen-drift-"));
   temporaryRoots.push(root);
   await writeFile(join(root, "go.mod"), "module example.com/app\n\ngo 1.22.4\n");
-  const result = spawnSync(process.execPath, [cli, "drift", root, "--json"], { encoding: "utf8" });
-  assert.equal(result.status, 0, result.stderr);
+  const result = await runCli(["drift", root, "--json"]);
+  assert.equal(result.code, 0, result.stderr);
   const validate = new Ajv2020({ allErrors: true, strict: false }).compile(
     JSON.parse(await readFile(resolve("schemas/drift.v1.schema.json"), "utf8")) as object,
   );
   assert.equal(validate(JSON.parse(result.stdout)), true, JSON.stringify(validate.errors));
 });
 
-test("a bad flag exits 2, and --align requires --runtime", () => {
-  const bad = spawnSync(process.execPath, [cli, "drift", "--nope"], { encoding: "utf8" });
-  assert.equal(bad.status, 2);
+test("a bad flag exits 2, and --align requires --runtime", async () => {
+  const bad = await runCli(["drift", "--nope"]);
+  assert.equal(bad.code, 2);
   assert.match(bad.stderr, /Usage: evergreen drift/);
-  const missing = spawnSync(process.execPath, [cli, "drift", "--align", "1.22"], { encoding: "utf8" });
-  assert.equal(missing.status, 2);
+  const missing = await runCli(["drift", "--align", "1.22"]);
+  assert.equal(missing.code, 2);
   assert.match(missing.stderr, /--align requires --runtime/);
 });

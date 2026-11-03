@@ -1,14 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 
 import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "../src/rule-lint.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
 const roots: string[] = [];
 
 after(() => Promise.all(roots.map((root) => rm(root, { recursive: true, force: true }))));
@@ -146,12 +144,7 @@ test("an unknown field is reported with a field hint", async () => {
 });
 
 test("the command exits 1 on problems, 0 on clean files, and 2 on misuse", async () => {
-  const cli = resolve("dist/src/cli.js");
-  const run = (args: string[], cwd: string) =>
-    execute(process.execPath, [cli, ...args], { cwd }).then(
-      (value) => ({ code: 0, ...value }),
-      (error: { code: number; stdout: string; stderr: string }) => error,
-    );
+  const run = (args: string[], cwd: string) => runCli(args, { cwd });
 
   const cleanDirectory = await registryDirectory({ "npm.json": registry([validRule()]) });
   const clean = await run(["rules", "lint", join(cleanDirectory, "npm.json")], resolve("."));

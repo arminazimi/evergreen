@@ -1,23 +1,14 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
+import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
-import { readFile } from "node:fs/promises";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
 
-async function check(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, "check", ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code, stdout: failure.stdout, stderr: failure.stderr };
-  }
+async function check(...args: string[]) {
+  return runCli(["check", ...args]);
 }
 
 test("a deprecated dependency exits 1 and explains the problem with evidence", async () => {

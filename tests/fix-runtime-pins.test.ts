@@ -2,12 +2,14 @@ import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
+import { promisify } from "node:util";
+
+import { runCli } from "./cli-runner.js";
 
 const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -21,8 +23,8 @@ async function repository(files: Record<string, string>): Promise<string> {
   return root;
 }
 
-async function fix(root: string): Promise<string> {
-  return (await execute(process.execPath, [cli, "fix", root, "--dry-run"])).stdout;
+async function fix(root: string) {
+  return (await runCli(["fix", root, "--dry-run"])).stdout;
 }
 
 test("moves exact pins past every active rule in one pass and keeps the v prefix", async () => {

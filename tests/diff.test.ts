@@ -1,16 +1,14 @@
 import assert from "node:assert/strict";
-import { execFile, execFileSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { compareFindings, parseRange } from "../src/diff.js";
 import type { Finding } from "../src/domain.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -27,13 +25,8 @@ async function commit(root: string, node: string, message: string, name = "x"): 
   git(root, "commit", "-q", "-m", message);
 }
 
-async function run(root: string, ...args: string[]): Promise<{ code: number; stdout: string }> {
-  try {
-    return { code: 0, stdout: (await execute(process.execPath, [cli, "diff", ...args, root, "--json"])).stdout };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string };
-    return { code: failure.code, stdout: failure.stdout };
-  }
+async function run(root: string, ...args: string[]) {
+  return runCli(["diff", ...args, root, "--json"]);
 }
 
 interface Diff {

@@ -11,6 +11,7 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 import { runCli } from "./cli-runner.js";
 
 const execute = promisify(execFile);
+
 const fixtures = resolve("tests/fixtures/drift/nodejs");
 const temporaryRoots: string[] = [];
 

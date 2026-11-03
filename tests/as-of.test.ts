@@ -1,13 +1,10 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -27,8 +24,9 @@ interface Scan {
   findings: Array<{ id: string; severity: string }>;
 }
 
-async function scan(root: string, ...flags: string[]): Promise<Scan> {
-  return JSON.parse((await execute(process.execPath, [cli, "scan", root, "--json", ...flags])).stdout) as Scan;
+async function scan(root: string, ...flags: string[]) {
+  const result = await runCli(["scan", root, "--json", ...flags]);
+  return JSON.parse(result.stdout) as Scan;
 }
 
 test("a future date flips a scheduled end of life to high severity", async () => {
@@ -55,11 +53,11 @@ test("--today is an alias for --as-of", async () => {
 
 test("--fail-on uses the projected severity", async () => {
   const root = await node22Repository();
-  await execute(process.execPath, [cli, "scan", root, "--fail-on", "high"]);
-  await assert.rejects(execute(process.execPath, [cli, "scan", root, "--fail-on", "high", "--as-of", "2027-05-01"]), { code: 1 });
+  assert.equal((await runCli(["scan", root, "--fail-on", "high"])).code, 0);
+  assert.equal((await runCli(["scan", root, "--fail-on", "high", "--as-of", "2027-05-01"])).code, 1);
 });
 
 test("rejects a date that is not a date", async () => {
   const root = await node22Repository();
-  await assert.rejects(execute(process.execPath, [cli, "scan", root, "--as-of", "next-week"]), { code: 2 });
+  assert.equal((await runCli(["scan", root, "--as-of", "next-week"])).code, 2);
 });

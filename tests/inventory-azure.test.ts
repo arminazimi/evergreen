@@ -1,9 +1,7 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { readFile, readdir } from "node:fs/promises";
 import { join, resolve, sep } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import { loadDataFile } from "../src/data-source.js";
 import { azureImporter } from "../src/inventory/azure.js";
@@ -11,9 +9,8 @@ import { parseExport, runInventory } from "../src/inventory/index.js";
 import type { InventoryItem } from "../src/inventory/types.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const FIXTURES = resolve("tests/fixtures/inventory");
 const AZURE = join(FIXTURES, "azure");
 const DOCUMENTS = ["webapps.json", "functionapps.json", "aks.json"];
@@ -49,14 +46,8 @@ function describe(items: InventoryItem[]): [string, string, string, string | und
   return items.map((item) => [item.pointer, item.resource, item.purl, item.version]);
 }
 
-async function runCli(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code, stdout: failure.stdout, stderr: failure.stderr };
-  }
+async function invokeCli(...args: string[]) {
+  return runCli(args);
 }
 
 test("every Azure document type is detected and produces items whose pointers resolve", async () => {
@@ -192,7 +183,7 @@ test("output never contains a subscription id, resource group, hostname, IP addr
     "Standard_D2s_v3",
   ];
   for (const extra of [[], ["--json"]]) {
-    const result = await runCli("inventory", ...files, ...extra);
+    const result = await invokeCli("inventory", ...files, ...extra);
     assert.equal(result.code, 1);
     for (const identifier of identifiers) assert.ok(!result.stdout.includes(identifier), `${identifier} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
   }
@@ -202,7 +193,7 @@ test("--redact hides every app and cluster name in text and JSON output", async 
   const files = DOCUMENTS.map((name) => join(AZURE, name));
   const resources = ["orders-portal", "invoices-api", "legacy-dotnet", "search-service", "reporting-php", "checkout-java", "timer-jobs", "orders-api", "payments-cluster", "staging-cluster", "mixed-cluster"];
   for (const extra of [[], ["--json"]]) {
-    const result = await runCli("inventory", ...files, "--redact", ...extra);
+    const result = await invokeCli("inventory", ...files, "--redact", ...extra);
     assert.equal(result.code, 1);
     for (const resource of resources) assert.ok(!result.stdout.includes(resource), `${resource} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
     assert.match(result.stdout, /[0-9a-f]{12}/);
@@ -211,7 +202,7 @@ test("--redact hides every app and cluster name in text and JSON output", async 
 
 test("the examples report an affected Azure resource and exit 1", async () => {
   for (const file of ["examples/inventory/azure-webapps.json", "examples/inventory/aks.json"]) {
-    const result = await runCli("inventory", file, "--json");
+    const result = await invokeCli("inventory", file, "--json");
     assert.equal(result.code, 1, file);
     const report = JSON.parse(result.stdout) as { results: Array<{ check: { status: string } }> };
     assert.ok(report.results.some((entry) => entry.check.status === "affected"), file);
@@ -220,10 +211,10 @@ test("the examples report an affected Azure resource and exit 1", async () => {
 
 test("--format azure still detects the format, and an unknown importer exits 2", async () => {
   const file = join(AZURE, "webapps.json");
-  const forced = await runCli("inventory", file, "--format", "azure", "--json");
+  const forced = await invokeCli("inventory", file, "--format", "azure", "--json");
   assert.equal(forced.code, 1);
   assert.ok((JSON.parse(forced.stdout) as { results: unknown[] }).results.length > 0);
-  const bad = await runCli("inventory", file, "--format", "nope");
+  const bad = await invokeCli("inventory", file, "--format", "nope");
   assert.equal(bad.code, 2);
   assert.match(bad.stderr, /Unknown importer for --format: nope/);
 });

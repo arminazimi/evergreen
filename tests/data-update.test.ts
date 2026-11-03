@@ -17,6 +17,7 @@ import { VERSION } from "../src/version.js";
 import { runCli } from "./cli-runner.js";
 
 const execute = promisify(execFile);
+
 const roots: string[] = [];
 const servers: http.Server[] = [];
 const signer = { identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01", issuer: "https://token.actions.githubusercontent.com" };

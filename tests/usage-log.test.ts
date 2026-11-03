@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { checkDependency } from "../src/check-dependency.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "../src/usage-log.js";
+import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
 after(async () => {
@@ -93,17 +93,17 @@ test("the command reports that logging is off, and summarizes a file once it is 
   const dir = await scratch();
   const file = join(dir, "usage.jsonl");
   const run = (env: Record<string, string>, ...args: string[]) =>
-    spawnSync(process.execPath, [resolve("dist/src/cli.js"), ...args], { encoding: "utf8", env: { ...process.env, EVERGREEN_USAGE_LOG: "", ...env } });
+    runCli(args, { env: { EVERGREEN_USAGE_LOG: "", ...env } });
 
-  const off = run({}, "usage");
-  assert.equal(off.status, 0, off.stderr);
+  const off = await run({}, "usage");
+  assert.equal(off.code, 0, off.stderr);
   assert.match(off.stdout, /Usage logging is off/);
 
-  assert.equal(run({ EVERGREEN_USAGE_LOG: file }, "check", "pkg:npm/request@2.88.2", "--fail-on", "none").status, 0);
-  const on = run({ EVERGREEN_USAGE_LOG: file }, "usage", "--json");
-  assert.equal(on.status, 0, on.stderr);
+  assert.equal((await run({ EVERGREEN_USAGE_LOG: file }, "check", "pkg:npm/request@2.88.2", "--fail-on", "none")).code, 0);
+  const on = await run({ EVERGREEN_USAGE_LOG: file }, "usage", "--json");
+  assert.equal(on.code, 0, on.stderr);
   const summary = JSON.parse(on.stdout);
   assert.equal(summary.schemaVersion, "evergreen.usage.v1");
   assert.equal(summary.byStatus.affected, 1);
-  assert.equal(run({}, "usage", "--bogus").status, 2);
+  assert.equal((await run({}, "usage", "--bogus")).code, 2);
 });

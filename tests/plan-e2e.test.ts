@@ -1,15 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { promisify } from "node:util";
 import { test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import type { Plan } from "../src/plan.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const fixture = resolve("tests/fixtures/plan/monorepo");
 const SHARED_LOCKFILE = "package-lock.json";
 
@@ -18,8 +15,8 @@ async function schemaValidator() {
   return new Ajv2020({ allErrors: true }).compile(schema);
 }
 
-async function planJson(): Promise<Plan> {
-  const { stdout } = await execute(process.execPath, [cli, "plan", fixture, "--json"]);
+async function planJson() {
+  const { stdout } = await runCli(["plan", fixture, "--json"]);
   return JSON.parse(stdout) as Plan;
 }
 

@@ -1,10 +1,9 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import { badgeState, renderBadgeEndpoint } from "../src/badge.js";
+import { runCli } from "./cli-runner.js";
 
 const endpoint = (findings: unknown[], stale = false) =>
   JSON.parse(renderBadgeEndpoint({ findings, data: { stale } } as never)) as Record<string, unknown>;
@@ -39,10 +38,9 @@ test("the endpoint records an expired failure", () => {
 });
 
 test("the CLI prints endpoint JSON for the scanned path", async () => {
-  const run = promisify(execFile);
-  const cli = resolve("dist/src/cli.js");
-  const { stdout } = await run(process.execPath, [cli, "badge", resolve("tests/fixtures/smoke"), "--shields"]);
-  const json = JSON.parse(stdout) as Record<string, unknown>;
+  const result = await runCli(["badge", resolve("tests/fixtures/smoke"), "--shields"]);
+  assert.equal(result.code, 0);
+  const json = JSON.parse(result.stdout) as Record<string, unknown>;
   assert.equal(json.schemaVersion, 1);
   assert.equal(json.label, "evergreen");
   assert.equal(typeof json.message, "string");
@@ -50,10 +48,5 @@ test("the CLI prints endpoint JSON for the scanned path", async () => {
 });
 
 test("the CLI rejects mixing --shields with snippet flags", async () => {
-  const run = promisify(execFile);
-  const cli = resolve("dist/src/cli.js");
-  await assert.rejects(
-    run(process.execPath, [cli, "badge", "--shields", "--snippet", "markdown"]),
-    (error: { code?: number }) => error.code === 2,
-  );
+  assert.equal((await runCli(["badge", "--shields", "--snippet", "markdown"])).code, 2);
 });

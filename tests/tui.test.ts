@@ -1,16 +1,13 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult } from "../src/domain.js";
 import { canBrowse, editorCommand, reduce, renderList } from "../src/tui.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 after(async () => {
   await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
@@ -60,7 +57,9 @@ test("scan --interactive falls back to the text report when not a terminal", asy
   const root = await mkdtemp(join(tmpdir(), "evergreen-tui-"));
   roots.push(root);
   await writeFile(join(root, "package.json"), JSON.stringify({ name: "x", dependencies: { request: "2.88.2" } }));
-  const plain = await execute(process.execPath, [cli, "scan", root]);
-  const interactive = await execute(process.execPath, [cli, "scan", root, "--interactive"]);
+  const plain = await runCli(["scan", root]);
+  const interactive = await runCli(["scan", root, "--interactive"]);
+  assert.equal(plain.code, 0);
+  assert.equal(interactive.code, 0);
   assert.equal(interactive.stdout, plain.stdout);
 });

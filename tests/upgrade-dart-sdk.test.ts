@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -7,8 +6,8 @@ import { test } from "node:test";
 
 import { checkUpgrade } from "../src/upgrade/index.js";
 import { matchesDartConstraint, parseTargetVersion } from "../src/upgrade/dart-sdk.js";
+import { runCli } from "./cli-runner.js";
 
-const cli = resolve("dist/src/cli.js");
 const fixture = (name: string) => resolve("tests/fixtures/upgrade/dart-sdk", name);
 
 test("matches caret constraints with pub's rule for 0.x releases", () => {
@@ -142,15 +141,15 @@ test("reports unknown instead of throwing when pubspec.lock cannot be read as a 
   }
 });
 
-test("the CLI exits 0 when the target is ready and 1 when it is blocked", () => {
-  const upgrade = (...args: string[]) => spawnSync(process.execPath, [cli, "upgrade-check", ...args], { encoding: "utf8" });
+test("the CLI exits 0 when the target is ready and 1 when it is blocked", async () => {
+  const upgrade = (...args: string[]) => runCli(["upgrade-check", ...args]);
 
-  const ready = upgrade("--to", "dart@3.5", fixture("ready"));
-  assert.equal(ready.status, 0, ready.stderr);
+  const ready = await upgrade("--to", "dart@3.5", fixture("ready"));
+  assert.equal(ready.code, 0, ready.stderr);
   assert.match(ready.stdout, /^dart@3\.5: ready/);
 
-  const blocked = upgrade("--to", "dart@3.5", fixture("lock-blocked"), "--json");
-  assert.equal(blocked.status, 1);
+  const blocked = await upgrade("--to", "dart@3.5", fixture("lock-blocked"), "--json");
+  assert.equal(blocked.code, 1);
   const report = JSON.parse(blocked.stdout) as { verdict: string; issues: Array<{ evidence: { value: string } }> };
   assert.equal(report.verdict, "blocked");
   assert.equal(report.issues[0]!.evidence.value, ">=3.6.0 <4.0.0");

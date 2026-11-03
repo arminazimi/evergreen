@@ -9,9 +9,11 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { analyzeDrift } from "../src/drift/index.js";
 import { rubyDriftCollector } from "../src/drift/ruby.js";
+import { runCli } from "./cli-runner.js";
 
-const cli = resolve("dist/src/cli.js");
-const run = (...args: string[]) => spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
+async function run(...args: string[]) {
+  return runCli(args);
+}
 const fixture = (name: string) => resolve("tests/fixtures/drift/ruby", name);
 const collect = async (name: string) => (await analyzeDrift(fixture(name), [rubyDriftCollector])).runtimes[0]!;
 
@@ -47,7 +49,7 @@ test("a Gemfile.lock that disagrees with .ruby-version is reported as drift", as
   const runtime = await collect("drifted");
   assert.deepEqual(runtime.releases, ["3.3", "3.4"]);
   assert.equal(runtime.drifted, true);
-  assert.equal(run("drift", fixture("drifted"), "--runtime", "ruby", "--check").status, 1);
+  assert.equal((await run("drift", fixture("drifted"), "--runtime", "ruby", "--check")).code, 1);
 });
 
 test("a gemspec floor above the lowest pinned release is a floor conflict", async () => {
@@ -60,7 +62,7 @@ test("a repository whose pins agree reports no drift and no floor conflict", asy
   assert.deepEqual(runtime.releases, ["3.4"]);
   assert.equal(runtime.drifted, false);
   assert.deepEqual(runtime.floorConflicts, []);
-  assert.equal(run("drift", fixture("consistent"), "--runtime", "ruby", "--check").status, 0);
+  assert.equal((await run("drift", fixture("consistent"), "--runtime", "ruby", "--check")).code, 0);
 });
 
 test("Gemfile and gemspec requirements are floors, not pins", async () => {
@@ -88,8 +90,8 @@ test("values that cannot be resolved offline are reported with a reason", async 
 test("align prints patches that git apply accepts, and a second check passes", async () => {
   const root = await copyFixture("alignable");
   const patchFile = `${root}.patch`;
-  const aligned = run("drift", root, "--runtime", "ruby", "--align", "3.4");
-  assert.equal(aligned.status, 0, aligned.stderr);
+  const aligned = await run("drift", root, "--runtime", "ruby", "--align", "3.4");
+  assert.equal(aligned.code, 0, aligned.stderr);
   assert.equal(aligned.stderr, "");
   await writeFile(patchFile, aligned.stdout);
 
@@ -98,8 +100,8 @@ test("align prints patches that git apply accepts, and a second check passes", a
   assert.equal(check.status, 0, check.stderr);
   assert.equal(spawnSync("git", ["apply", patchFile], { cwd: root, encoding: "utf8" }).status, 0);
 
-  const recheck = run("drift", root, "--runtime", "ruby", "--check");
-  assert.equal(recheck.status, 0, `${recheck.stdout}${recheck.stderr}`);
+  const recheck = await run("drift", root, "--runtime", "ruby", "--check");
+  assert.equal(recheck.code, 0, `${recheck.stdout}${recheck.stderr}`);
   assert.equal(await readFile(join(root, "Dockerfile"), "utf8"), "FROM ruby:3.4-slim\n");
   assert.equal(await readFile(join(root, ".ruby-version"), "utf8"), "3.4\n");
   assert.match(await readFile(join(root, ".github/workflows/ci.yml"), "utf8"), /ruby-version: "3\.4"/);
@@ -107,8 +109,8 @@ test("align prints patches that git apply accepts, and a second check passes", a
 });
 
 test("align reports the lockfile but never patches it", async () => {
-  const aligned = run("drift", fixture("drifted"), "--runtime", "ruby", "--align", "3.4");
-  assert.equal(aligned.status, 0, aligned.stderr);
+  const aligned = await run("drift", fixture("drifted"), "--runtime", "ruby", "--align", "3.4");
+  assert.equal(aligned.code, 0, aligned.stderr);
   assert.match(aligned.stderr, /Refused Gemfile\.lock:11/);
   assert.match(aligned.stderr, /Refused demo\.gemspec:3/);
   assert.doesNotMatch(aligned.stdout, /Gemfile\.lock/);
@@ -116,15 +118,15 @@ test("align reports the lockfile but never patches it", async () => {
 });
 
 test("--json output conforms to the drift schema", async () => {
-  const result = run("drift", fixture("drifted"), "--json");
-  assert.equal(result.status, 0, result.stderr);
+  const result = await run("drift", fixture("drifted"), "--json");
+  assert.equal(result.code, 0, result.stderr);
   const schema = JSON.parse(await readFile(resolve("schemas/drift.v1.schema.json"), "utf8")) as object;
   const validate = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
   assert.equal(validate(JSON.parse(result.stdout)), true, JSON.stringify(validate.errors));
 });
 
 test("the text report names the drift and the floor conflict", async () => {
-  const text = run("drift", fixture("drifted"), "--runtime", "ruby").stdout;
+  const text = (await run("drift", fixture("drifted"), "--runtime", "ruby")).stdout;
   assert.match(text, /releases: 3\.3, 3\.4[\s\S]*DRIFT/);
   assert.match(text, /floor conflict: demo\.gemspec:3/);
 });

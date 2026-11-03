@@ -1,10 +1,8 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import { lookupProduct, LookupError, renderLookupText } from "../src/lookup.js";
+import { runCli } from "./cli-runner.js";
 
 test("aliases resolve to the same product and report its end of life", async () => {
   const node = await lookupProduct("node", "18");
@@ -54,19 +52,17 @@ test("rendering is deterministic and lists evidence links", async () => {
 });
 
 test("the CLI prints text and JSON and rejects unknown products", async () => {
-  const run = promisify(execFile);
-  const cli = resolve("dist/src/cli.js");
-  const text = await run(process.execPath, [cli, "lookup", "node", "18"]);
+  const text = await runCli(["lookup", "node", "18"]);
+  assert.equal(text.code, 0);
   assert.match(text.stdout, /^nodejs 18 — end-of-life/);
   assert.match(text.stdout, /Ended: 2025-04-30/);
-  const json = await run(process.execPath, [cli, "lookup", "node", "18", "--json"]);
+  const json = await runCli(["lookup", "node", "18", "--json"]);
+  assert.equal(json.code, 0);
   const result = JSON.parse(json.stdout) as { schemaVersion: string; status: string; product: { purl: string } };
   assert.equal(result.schemaVersion, "evergreen.lookup.v1");
   assert.equal(result.status, "end-of-life");
   assert.equal(result.product.purl, "pkg:generic/nodejs");
-  await assert.rejects(run(process.execPath, [cli, "lookup", "nodej"]), (error: { code?: number; stderr?: string }) => {
-    assert.equal(error.code, 2);
-    assert.match(error.stderr ?? "", /Did you mean/);
-    return true;
-  });
+  const unknown = await runCli(["lookup", "nodej"]);
+  assert.equal(unknown.code, 2);
+  assert.match(unknown.stderr, /Did you mean/);
 });

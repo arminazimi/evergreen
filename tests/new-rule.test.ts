@@ -1,18 +1,16 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { access, mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 
 import { lintRuleFiles } from "../src/rule-lint.js";
 import { renderRuleTestText, testRule } from "../src/rule-test.js";
 import { renderRuleScaffold, renderRuleScaffoldResult, renderScaffoldResult, scaffoldDetector, scaffoldRule, ScaffoldError } from "../tools/scaffold/index.js";
 import { ruleScaffoldNames } from "../tools/scaffold/names.js";
+import { runCli } from "./cli-runner.js";
 import { removeAll, scaffoldCheckout } from "./scaffold-helpers.js";
 
-const execute = promisify(execFile);
 const roots: string[] = [];
 
 after(() => removeAll(roots));
@@ -133,12 +131,7 @@ test("new-detector points the author at new-rule for the first rule", async () =
 test("the command scaffolds, then lint and the harness accept the rule", async () => {
   const id = "npm.package.sample.deprecated";
   const root = await ruleCheckout();
-  const cli = resolve("dist/src/cli.js");
-  const run = (args: string[], cwd = root) =>
-    execute(process.execPath, [cli, ...args], { cwd }).then(
-      (value) => ({ code: 0, ...value }),
-      (error: { code: number; stdout: string; stderr: string }) => error,
-    );
+  const run = (args: string[], cwd = root) => runCli(args, { cwd });
 
   const created = await run(["new-rule", id]);
   assert.equal(created.code, 0, created.stderr);

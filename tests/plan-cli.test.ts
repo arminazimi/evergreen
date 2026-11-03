@@ -1,17 +1,14 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { promisify } from "node:util";
 import { after, test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import type { Plan } from "../src/plan.js";
 import { EMPTY_PLAN_MESSAGE } from "../src/plan-render.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const demo = resolve("examples/demo");
 const temporaryRoots: string[] = [];
 
@@ -24,13 +21,8 @@ async function schemaValidator() {
   return new Ajv2020({ allErrors: true }).compile(schema);
 }
 
-async function run(args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const result = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout: result.stdout, stderr: result.stderr };
-  } catch (error) {
-    return error as { code: number; stdout: string; stderr: string };
-  }
+async function run(args: string[]) {
+  return runCli(args);
 }
 
 test("plan --json on examples/demo returns a plan.v1 document with waves", async () => {

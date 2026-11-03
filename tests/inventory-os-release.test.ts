@@ -1,18 +1,15 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { parseExport, runInventory } from "../src/inventory/index.js";
 import { osReleaseImporter, parseOsReleaseDocument } from "../src/inventory/os-release.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const fixtures = resolve("tests/fixtures/inventory");
 const osReleaseFixtures = resolve(fixtures, "os-release");
 const temporaryRoots: string[] = [];
@@ -29,14 +26,8 @@ async function temporaryExport(name: string, contents: string): Promise<string> 
   return path;
 }
 
-async function runCli(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code ?? 1, stdout: failure.stdout ?? "", stderr: failure.stderr ?? "" };
-  }
+async function invokeCli(...args: string[]) {
+  return runCli(args);
 }
 
 async function fixtureFiles(): Promise<string[]> {
@@ -165,14 +156,14 @@ test("a supported release is not affected, and a distribution with no rule is no
 
 test("the command reports an affected bundle, exits 1, and prints each affected host", async () => {
   const file = join(osReleaseFixtures, "bundle.txt");
-  const text = await runCli("inventory", file);
+  const text = await invokeCli("inventory", file);
   assert.equal(text.code, 1);
   assert.match(text.stdout, /web-1 {2}20\.04 {2}affected {2}container\.host-ubuntu\.eol-22\.04-and-older {2}line:4/);
 });
 
 test("--json matches inventory.v1.schema.json, and --redact removes every host name", async () => {
   const file = join(osReleaseFixtures, "bundle.txt");
-  const plain = await runCli("inventory", file, "--json");
+  const plain = await invokeCli("inventory", file, "--json");
   assert.equal(plain.code, 1);
   const report = JSON.parse(plain.stdout);
   const ajv = new Ajv2020({ allErrors: true, strict: false });
@@ -182,7 +173,7 @@ test("--json matches inventory.v1.schema.json, and --redact removes every host n
   assert.equal(validate(report), true, JSON.stringify(validate.errors));
   assert.deepEqual(report.results.map((result: { item: { resource: string } }) => result.item.resource), ["edge-1", "web-1", "db-1"]);
 
-  const redacted = await runCli("inventory", file, "--json", "--redact");
+  const redacted = await invokeCli("inventory", file, "--json", "--redact");
   assert.equal(redacted.code, 1);
   assert.doesNotMatch(redacted.stdout, /web-1|db-1|edge-1/);
   for (const result of JSON.parse(redacted.stdout).results as Array<{ item: { resource: string } }>) {
@@ -192,16 +183,16 @@ test("--json matches inventory.v1.schema.json, and --redact removes every host n
 
 test("--format selects the importer and --fail-on sets the gate", async () => {
   const file = join(osReleaseFixtures, "bundle.txt");
-  assert.equal((await runCli("inventory", file, "--format", "os-release", "--fail-on", "none")).code, 0);
-  assert.equal((await runCli("inventory", file, "--fail-on", "critical")).code, 0);
-  assert.equal((await runCli("inventory", file, "--fail-on", "high")).code, 1);
-  const unknown = await runCli("inventory", file, "--format", "not-an-importer");
+  assert.equal((await invokeCli("inventory", file, "--format", "os-release", "--fail-on", "none")).code, 0);
+  assert.equal((await invokeCli("inventory", file, "--fail-on", "critical")).code, 0);
+  assert.equal((await invokeCli("inventory", file, "--fail-on", "high")).code, 1);
+  const unknown = await invokeCli("inventory", file, "--format", "not-an-importer");
   assert.equal(unknown.code, 2);
   assert.match(unknown.stderr, /Unknown importer/);
 });
 
 test("the shipped example bundle reports at least one affected host and exits 1", async () => {
-  const result = await runCli("inventory", resolve("examples/inventory/hosts.txt"), "--json");
+  const result = await invokeCli("inventory", resolve("examples/inventory/hosts.txt"), "--json");
   assert.equal(result.code, 1);
   const report = JSON.parse(result.stdout);
   assert.ok(report.results.length >= 1);

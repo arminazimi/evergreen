@@ -1,17 +1,13 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import type { Forecast, ForecastEvent } from "../src/forecast.js";
 import { renderHtml, renderJson } from "../src/reporters.js";
-
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
 
 const hostile = `<script>alert("x")</script> & 'q' </script>`;
 
@@ -213,16 +209,19 @@ test("scan --format html writes the report, and other commands reject it", async
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
     await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
-    const { stdout: html } = await execute(process.execPath, [cli, "scan", root, "--format", "html"]);
-    const { stdout: json } = await execute(process.execPath, [cli, "scan", root, "--format", "json"]);
+    const { stdout: html } = await runCli(["scan", root, "--format", "html"]);
+    const { stdout: json } = await runCli(["scan", root, "--format", "json"]);
     const report = embedded(html) as ScanResult;
     assert.equal(report.findings[0]?.ruleId, "github-actions.checkout.node20");
     assert.deepEqual(report.findings, (JSON.parse(json) as ScanResult).findings);
     assert.ok(html.includes("<h2>Next 12 months</h2>"), "scan --format html carries the forecast section");
     assert.match(html, /<svg [^>]*class="evergreen-forecast"/);
     assert.ok(!json.includes("Next 12 months"), "the JSON report is unchanged");
-    await assert.rejects(execute(process.execPath, [cli, "check", "pkg:npm/request", "--format", "html"]), (error: { code: number }) => error.code === 2);
-    await assert.rejects(execute(process.execPath, [cli, "explain", "x", root, "--format", "html"]), (error: { code: number; stderr: string }) => error.code === 2 && /--format html is only available for the scan command/.test(error.stderr));
+    const check = await runCli(["check", "pkg:npm/request", "--format", "html"]);
+    assert.equal(check.code, 2);
+    const explain = await runCli(["explain", "x", root, "--format", "html"]);
+    assert.equal(explain.code, 2);
+    assert.match(explain.stderr, /--format html is only available for the scan command/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

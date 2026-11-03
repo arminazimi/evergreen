@@ -6,6 +6,7 @@ import { test } from "node:test";
 
 import { commands } from "../src/commands/index.generated.js";
 import { COMMANDS, completionShells, renderCompletions, renderHelp } from "../src/completions.js";
+import { runCli } from "./cli-runner.js";
 
 const fixture = (name: string) => readFile(resolve("tests/fixtures/cli", name), "utf8");
 
@@ -19,11 +20,9 @@ test("completion scripts match the committed snapshots", async () => {
   assert.equal(renderCompletions("fish"), await fixture("completions.fish"));
 });
 
-test("the CLI --help and completion commands match the snapshots", () => {
-  const cli = resolve("dist/src/cli.js");
-  const run = (...args: string[]) => spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
-  assert.equal(run("--help").stdout, renderHelp(commands));
-  for (const shell of completionShells) assert.equal(run("completions", shell).stdout, renderCompletions(shell));
+test("the CLI --help and completion commands match the snapshots", async () => {
+  assert.equal((await runCli(["--help"])).stdout, renderHelp(commands));
+  for (const shell of completionShells) assert.equal((await runCli(["completions", shell])).stdout, renderCompletions(shell));
 });
 
 test("every command module is registered and the generated index is current", async () => {

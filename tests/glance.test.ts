@@ -1,18 +1,15 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { buildGlanceFacts, GLANCE_MARK, GLANCE_MARK_COLUMNS, GLANCE_MARK_MIN_COLUMNS, renderGlance } from "../src/glance.js";
 import type { GlanceFacts, GlanceInput } from "../src/glance.js";
 import { severityValues } from "../src/domain.js";
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -172,7 +169,11 @@ test("the CLI prints the card off a terminal, honors NO_COLOR, and matches scan 
   const root = await mkdtemp(join(tmpdir(), "evergreen-glance-"));
   roots.push(root);
   await writeFile(join(root, "package.json"), JSON.stringify({ engines: { node: "22" } }));
-  const run = async (...flags: string[]) => (await execute(process.execPath, [cli, "glance", root, ...flags], { env: { ...process.env, NO_COLOR: "1" } })).stdout;
+  const run = async (...flags: string[]) => {
+    const result = await runCli(["glance", root, ...flags], { env: { NO_COLOR: "1" } });
+    assert.equal(result.code, 0);
+    return result.stdout;
+  };
 
   const text = await run("--as-of", "2026-10-25");
   assert.ok(text.includes(GLANCE_MARK[0]!), "the mark prints off a terminal");
@@ -193,7 +194,9 @@ test("the CLI prints the card off a terminal, honors NO_COLOR, and matches scan 
   assert.ok(typeof parsed.data?.version === "string");
   assert.ok(!("oldestEnded" in parsed));
 
-  const scanned = JSON.parse((await execute(process.execPath, [cli, "scan", root, "--json"], { env: { ...process.env, NO_COLOR: "1" } })).stdout) as ScanResult;
+  const scannedResult = await runCli(["scan", root, "--json"], { env: { NO_COLOR: "1" } });
+  assert.equal(scannedResult.code, 0);
+  const scanned = JSON.parse(scannedResult.stdout) as ScanResult;
   const tally = Object.fromEntries(severityValues.map((severity) => [severity, 0])) as Record<Severity, number>;
   for (const scannedFinding of scanned.findings) tally[scannedFinding.severity] += 1;
   assert.deepEqual(parsed.findings.bySeverity, tally);
@@ -203,19 +206,21 @@ test("the CLI prints the card off a terminal, honors NO_COLOR, and matches scan 
 test("an empty repository reads All clear end to end", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-glance-clear-"));
   roots.push(root);
-  const { stdout } = await execute(process.execPath, [cli, "glance", root], { env: { ...process.env, NO_COLOR: "1" } });
-  assert.match(stdout, /findings +All clear\./);
-  const parsed = JSON.parse((await execute(process.execPath, [cli, "glance", root, "--json"], { env: { ...process.env, NO_COLOR: "1" } })).stdout) as GlanceFacts;
+  const clear = await runCli(["glance", root], { env: { NO_COLOR: "1" } });
+  assert.equal(clear.code, 0);
+  assert.match(clear.stdout, /findings +All clear\./);
+  const json = await runCli(["glance", root, "--json"], { env: { NO_COLOR: "1" } });
+  assert.equal(json.code, 0);
+  const parsed = JSON.parse(json.stdout) as GlanceFacts;
   assert.equal(parsed.findings.total, 0);
   assert.deepEqual(parsed.ecosystems, []);
 });
 
 test("rejects a bad --as-of date and unknown flags", async () => {
-  type Failure = { code: number; stderr: string };
-  const bad = (await execute(process.execPath, [cli, "glance", ".", "--as-of", "not-a-date"]).catch((error: unknown) => error)) as Failure;
+  const bad = await runCli(["glance", ".", "--as-of", "not-a-date"]);
   assert.equal(bad.code, 2);
   assert.match(bad.stderr, /--as-of must be a date/);
-  const unknown = (await execute(process.execPath, [cli, "glance", ".", "--svg"]).catch((error: unknown) => error)) as Failure;
+  const unknown = await runCli(["glance", ".", "--svg"]);
   assert.equal(unknown.code, 2);
   assert.match(unknown.stderr, /Usage: evergreen glance/);
 });

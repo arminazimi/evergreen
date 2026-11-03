@@ -2,12 +2,13 @@ import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { promisify } from "node:util";
 import { after, test } from "node:test";
 
+import { runCli } from "./cli-runner.js";
+
 const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -40,7 +41,7 @@ async function repository(): Promise<string> {
 
 test("fix --branch commits the patches on a new local branch", async () => {
   const root = await repository();
-  const { stderr } = await execute(process.execPath, [cli, "fix", root, "--branch"], { env: identity });
+  const { stderr } = await runCli(["fix", root, "--branch"], { env: identity });
 
   assert.match(stderr, /Committed 1 file on branch evergreen\/fix/);
   assert.equal((await git(root, "rev-parse", "--abbrev-ref", "HEAD")).trim(), "evergreen/fix");
@@ -55,7 +56,8 @@ test("fix --branch refuses a dirty tree and leaves it untouched", async () => {
   const root = await repository();
   await writeFile(join(root, "notes.txt"), "work in progress\n");
 
-  await assert.rejects(execute(process.execPath, [cli, "fix", root, "--branch"], { env: identity }), /clean working tree/);
+  const result = await runCli(["fix", root, "--branch"], { env: identity });
+  assert.match(result.stderr, /clean working tree/);
   assert.equal((await git(root, "rev-parse", "--abbrev-ref", "HEAD")).trim(), "main");
   assert.equal((await git(root, "branch", "--list", "evergreen/fix")).trim(), "");
 });
@@ -64,18 +66,20 @@ test("fix --branch refuses when the branch already exists", async () => {
   const root = await repository();
   await git(root, "branch", "evergreen/fix");
 
-  await assert.rejects(execute(process.execPath, [cli, "fix", root, "--branch"], { env: identity }), /already exists/);
+  const result = await runCli(["fix", root, "--branch"], { env: identity });
+  assert.match(result.stderr, /already exists/);
   assert.equal((await git(root, "rev-parse", "--abbrev-ref", "HEAD")).trim(), "main");
 });
 
 test("fix --branch does not combine with --dry-run", async () => {
   const root = await repository();
-  await assert.rejects(execute(process.execPath, [cli, "fix", root, "--branch", "--dry-run"], { env: identity }), /Usage: evergreen fix/);
+  const result = await runCli(["fix", root, "--branch", "--dry-run"], { env: identity });
+  assert.match(result.stderr, /Usage: evergreen fix/);
 });
 
 test("fix --branch re-scans and prints the verification commands without running them", async () => {
   const root = await repository();
-  const { stderr } = await execute(process.execPath, [cli, "fix", root, "--branch"], { env: identity });
+  const { stderr } = await runCli(["fix", root, "--branch"], { env: identity });
 
   assert.match(stderr, /Re-scan: 1 resolved, 0 remaining, 0 new\./);
   assert.match(stderr, /Evergreen did not run these/);

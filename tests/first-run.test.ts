@@ -1,16 +1,13 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { ScanResult } from "../src/domain.js";
 import { renderFirstRunSummary, renderText } from "../src/reporters.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -55,16 +52,19 @@ test("the CLI shows the summary in text output without a config, never in JSON o
   temporaryRoots.push(root);
   await writeFile(join(root, "package.json"), JSON.stringify({ engines: { node: "20" } }));
   const home = join(root, "home");
-  const env = { ...process.env, HOME: home, XDG_CONFIG_HOME: join(home, ".config") };
+  const env = { HOME: home, XDG_CONFIG_HOME: join(home, ".config") };
 
-  const first = await execute(process.execPath, [cli, "scan", root], { env });
+  const first = await runCli(["scan", root], { env });
+  assert.equal(first.code, 0);
   assert.match(first.stdout, /Next: run `evergreen init --personal`/);
 
-  const json = await execute(process.execPath, [cli, "scan", root, "--json"], { env });
+  const json = await runCli(["scan", root, "--json"], { env });
+  assert.equal(json.code, 0);
   assert.doesNotMatch(json.stdout, /Next: run/);
 
   await mkdir(join(home, ".config", "evergreen"), { recursive: true });
   await writeFile(join(home, ".config", "evergreen", "config.json"), "{}\n");
-  const configured = await execute(process.execPath, [cli, "scan", root], { env });
+  const configured = await runCli(["scan", root], { env });
+  assert.equal(configured.code, 0);
   assert.doesNotMatch(configured.stdout, /Next: run/);
 });

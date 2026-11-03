@@ -1,15 +1,13 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 
 import { AGENT_SECTION, AgentFileError, DEPENDENCY_CHECK_INSTRUCTIONS, renderDiff, SECTION_BEGIN, SECTION_END, withAgentSection } from "../src/agent-instructions.js";
 import { initAgents } from "../src/init-agents.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
 const roots: string[] = [];
 
 after(async () => {
@@ -161,8 +159,7 @@ test("the path must be a directory", async () => {
 });
 
 test("the command line reports each outcome with the right exit code", async () => {
-  const cli = resolve("dist/src/cli.js");
-  const run = (args: string[]) => execute(process.execPath, [cli, ...args]).then((value) => ({ code: 0, ...value }), (error: { code: number; stdout: string; stderr: string }) => error);
+  const run = (args: string[]) => runCli(args);
   const root = await repository({ "AGENTS.md": "# Rules\n" });
 
   const dry = await run(["init", "--agents", root, "--dry-run"]);

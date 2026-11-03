@@ -1,16 +1,14 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { test } from "node:test";
 
 import type { DependencyCheck } from "../src/check-dependency.js";
 import type { Severity } from "../src/domain.js";
 import { evaluateGuard, guardCommand, parseGuardArgs, parseNpmInstall, parseNpmPackage } from "../src/guard.js";
 import type { GuardPackage, GuardRequest } from "../src/guard.js";
-
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
 
 const values = (request: GuardRequest): string[] => request.arguments.map((argument) => argument.value);
 const specs = (request: GuardRequest): string[] =>
@@ -290,24 +288,23 @@ test("unsupported managers, install commands, and gates are usage errors", () =>
   assert.throws(() => parseGuardArgs([]), /Missing package manager/);
 });
 
-test("the CLI refuses a deprecated package before npm runs", () => {
-  const cwd = mkdtempSync(join(tmpdir(), "evergreen-guard-"));
+test("the CLI refuses a deprecated package before npm runs", async () => {
+  const cwd = await mkdtemp(join(tmpdir(), "evergreen-guard-"));
   try {
-    const result = spawnSync(process.execPath, [cli, "guard", "npm", "install", "request@2.88.2"], {
+    const result = await runCli(["guard", "npm", "install", "request@2.88.2"], {
       cwd,
-      encoding: "utf8",
-      env: { ...process.env, npm_config_offline: "true", npm_config_audit: "false", npm_config_fund: "false" },
+      env: { npm_config_offline: "true", npm_config_audit: "false", npm_config_fund: "false" },
     });
-    assert.equal(result.status, 1, result.stderr);
+    assert.equal(result.code, 1, result.stderr);
     assert.match(result.stderr, /refused to run/);
     assert.match(result.stderr, /Replacement: Native fetch or a maintained HTTP client/);
   } finally {
-    rmSync(cwd, { recursive: true, force: true });
+    await rm(cwd, { recursive: true, force: true });
   }
 });
 
-test("the CLI reports a guard usage error as a usage failure", () => {
-  const result = spawnSync(process.execPath, [cli, "guard", "pip", "install", "nose"], { encoding: "utf8" });
-  assert.equal(result.status, 2);
+test("the CLI reports a guard usage error as a usage failure", async () => {
+  const result = await runCli(["guard", "pip", "install", "nose"]);
+  assert.equal(result.code, 2);
   assert.match(result.stderr, /Unsupported package manager/);
 });

@@ -1,6 +1,4 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
-import { once } from "node:events";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -10,6 +8,7 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 import { InMemoryTransport } from "@modelcontextprotocol/server";
 
 import { createEvergreenMcpServer } from "../src/mcp.js";
+import { runCli } from "./cli-runner.js";
 
 interface RpcResponse {
   id: number;
@@ -29,7 +28,6 @@ interface Forecast {
 }
 
 const temporaryRoots: string[] = [];
-const cli = resolve("dist/src/cli.js");
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
@@ -84,17 +82,10 @@ async function connect() {
 }
 
 async function cliForecast(root: string, months: number, asOf: string): Promise<Forecast> {
-  const child = spawn(process.execPath, [cli, "forecast", root, "--months", String(months), "--as-of", asOf, "--json"]);
-  let stdout = "";
-  child.stdout.setEncoding("utf8");
-  child.stdout.on("data", (chunk: string) => {
-    stdout += chunk;
-  });
-  const [code] = (await once(child, "close")) as [number];
-  assert.equal(code, 0, "evergreen forecast --json must succeed");
-  return JSON.parse(stdout) as Forecast;
+  const result = await runCli(["forecast", root, "--months", String(months), "--as-of", asOf, "--json"]);
+  assert.equal(result.code, 0, "evergreen forecast --json must succeed");
+  return JSON.parse(result.stdout) as Forecast;
 }
-
 async function validator() {
   const schema = JSON.parse(await readFile(resolve("schemas/forecast.v1.schema.json"), "utf8"));
   return new Ajv2020({ allErrors: true, strict: false }).compile(schema);

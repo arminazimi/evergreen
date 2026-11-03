@@ -1,17 +1,13 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import { renderRdjson } from "../src/reporters.js";
-
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
 
 function finding(ruleId: string, path: string, line: number | undefined, severity: Severity = "high"): Finding {
   return {
@@ -94,15 +90,20 @@ test("scan --format rdjson prints rdjson, and it is refused for other commands",
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
     await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
-    const { stdout } = await execute(process.execPath, [cli, "scan", root, "--format", "rdjson"]);
+    const { stdout } = await runCli(["scan", root, "--format", "rdjson"]);
     const rdjson = JSON.parse(stdout);
     assert.equal(rdjson.diagnostics[0].code.value, "github-actions.checkout.node20");
     assert.equal(rdjson.diagnostics[0].location.path, ".github/workflows/ci.yml");
     assert.equal(rdjson.diagnostics[0].location.range.start.line, 4);
 
-    await assert.rejects(execute(process.execPath, [cli, "scan", root, "--format", "xml"]), (error: { code: number; stderr: string }) => error.code === 2 && /expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid/.test(error.stderr));
-    await assert.rejects(execute(process.execPath, [cli, "check", "pkg:npm/request", "--format", "rdjson"]), (error: { code: number }) => error.code === 2);
-    await assert.rejects(execute(process.execPath, [cli, "explain", "x", root, "--format", "rdjson"]), (error: { code: number; stderr: string }) => error.code === 2 && /--format rdjson is only available for the scan command/.test(error.stderr));
+    const unknown = await runCli(["scan", root, "--format", "xml"]);
+    assert.equal(unknown.code, 2);
+    assert.match(unknown.stderr, /expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid/);
+    const check = await runCli(["check", "pkg:npm/request", "--format", "rdjson"]);
+    assert.equal(check.code, 2);
+    const explain = await runCli(["explain", "x", root, "--format", "rdjson"]);
+    assert.equal(explain.code, 2);
+    assert.match(explain.stderr, /--format rdjson is only available for the scan command/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

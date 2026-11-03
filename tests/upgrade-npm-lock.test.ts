@@ -1,15 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import { checkUpgrade } from "../src/upgrade/index.js";
 import { npmLockAnalyzer, readPackages } from "../src/upgrade/npm-lock.js";
 import type { UpgradeIssue } from "../src/upgrade/types.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const fixtures = resolve("tests/fixtures/upgrade/npm-lock");
 const target = { runtime: "nodejs", version: "22" } as const;
 
@@ -30,14 +27,8 @@ const summarize = (issues: UpgradeIssue[]): Summary[] =>
     evidence: issue.evidence.value,
   }));
 
-async function run(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code, stdout: failure.stdout, stderr: failure.stderr };
-  }
+async function run(...args: string[]) {
+  return runCli(args);
 }
 
 test("npm 3: ready packages are silent, production blockers and dev warnings are exact, invalid ranges are unknown", async () => {

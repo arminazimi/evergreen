@@ -1,18 +1,15 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { promisify } from "node:util";
 import { after, test } from "node:test";
 
 import { parse } from "yaml";
 
 import type { Finding, Severity } from "../src/domain.js";
 import { RollupError, productOf, renderRollupHtml, repositoryNameFromPath, rollup, rollupFiles } from "../src/rollup.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -73,7 +70,11 @@ test("rollupFiles refuses input that is not a scan report or owners map", async 
 
 test("the rollup command prints the same JSON for the same files", async () => {
   const directory = await files({ "api.json": report(finding("nodejs.runtime.eol-18", "high")), "web.json": report(finding("nodejs.runtime.eol-18", "low")) });
-  const run = async () => (await execute(process.execPath, [cli, "rollup", join(directory, "web.json"), join(directory, "api.json"), "--json"])).stdout;
+  const run = async () => {
+    const result = await runCli(["rollup", join(directory, "web.json"), join(directory, "api.json"), "--json"]);
+    assert.equal(result.code, 0);
+    return result.stdout;
+  };
   const first = await run();
   assert.equal(first, await run());
   assert.equal((JSON.parse(first) as { findings: number }).findings, 2);
@@ -173,7 +174,11 @@ test("the rollup command outputs identical HTML across multiple runs with --html
     "owners.json": { api: "platform", web: "frontend" },
   });
 
-  const run = async () => (await execute(process.execPath, [cli, "rollup", join(directory, "evergreen-report-api.json"), join(directory, "evergreen-report-web.json"), "--owners", join(directory, "owners.json"), "--html"])).stdout;
+  const run = async () => {
+    const result = await runCli(["rollup", join(directory, "evergreen-report-api.json"), join(directory, "evergreen-report-web.json"), "--owners", join(directory, "owners.json"), "--html"]);
+    assert.equal(result.code, 0);
+    return result.stdout;
+  };
   const first = await run();
   assert.equal(first, await run());
   assert.ok(first.includes("<!doctype html>"));

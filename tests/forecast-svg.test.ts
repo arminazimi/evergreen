@@ -1,18 +1,15 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { Severity } from "../src/domain.js";
 import type { Forecast, ForecastEvent } from "../src/forecast.js";
 import { renderForecastSvg } from "../src/forecast-svg.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -132,9 +129,15 @@ test("the CLI prints the SVG with --svg, animates it only with --animate, and re
   const root = await mkdtemp(join(tmpdir(), "evergreen-forecast-svg-"));
   roots.push(root);
   await writeFile(join(root, "package.json"), JSON.stringify({ engines: { node: "22" } }));
-  const run = async (flags: string[]) => (await execute(process.execPath, [cli, "forecast", root, "--as-of", "2026-10-25", ...flags])).stdout;
+  const run = async (flags: string[]) => {
+    const result = await runCli(["forecast", root, "--as-of", "2026-10-25", ...flags]);
+    assert.equal(result.code, 0);
+    return result.stdout;
+  };
   const rejects = async (flags: string[], message: RegExp) => {
-    await assert.rejects(execute(process.execPath, [cli, "forecast", root, ...flags]), (error: { code?: number; stderr?: string }) => error.code === 2 && message.test(error.stderr ?? ""));
+    const result = await runCli(["forecast", root, ...flags]);
+    assert.equal(result.code, 2);
+    assert.match(result.stderr, message);
   };
 
   const staticSvg = await run(["--svg"]);

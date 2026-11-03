@@ -13,6 +13,7 @@ import { planFixReport } from "../src/fix/index.js";
 import type { FixerPatch, FixRefusal } from "../src/fix/index.js";
 import { analyzePythonFile } from "../src/usage/python.js";
 import { parseSource } from "../src/usage/tree-sitter.js";
+import { runCli } from "./cli-runner.js";
 
 const execute = promisify(execFile);
 const fixtures = resolve("tests/fixtures/fix/python-renames");
@@ -145,7 +146,7 @@ test("fix --json reports the refusal", async () => {
   temporaryRoots.push(root);
   await writeFile(join(root, "app.py"), await readFile(join(fixtures, "refusals", "assert-dict-contains-subset.py"), "utf8"));
 
-  const { stdout } = await execute(process.execPath, [resolve("dist/src/cli.js"), "fix", root, "--json"]);
+  const { stdout } = await runCli(["fix", root, "--json"]);
   const report = JSON.parse(stdout) as { schemaVersion: string; refusals: FixRefusal[] };
   assert.equal(report.schemaVersion, "evergreen.fix.v1");
   const ours = report.refusals.filter((refusal) => refusal.fixer === "python-renames");

@@ -2,11 +2,12 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { AgentFileError } from "../src/agent-instructions.js";
 import { HOOK_BEGIN, HOOK_END, hookBlock, initHooks, withHookBlock } from "../src/init-hooks.js";
+import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
 after(async () => {
@@ -25,7 +26,7 @@ const repository = async (files: Record<string, string> = {}, git = true) => {
 };
 
 const hookPath = (root: string) => join(root, ".git", "hooks", "pre-push");
-const cli = (root: string, ...args: string[]) => spawnSync(process.execPath, [resolve("dist/src/cli.js"), "init", ...args, root], { encoding: "utf8" });
+const cli = (root: string, ...args: string[]) => runCli(["init", ...args, root]);
 
 test("a repository without a pre-push hook gets an executable one with the gate in it", async () => {
   const root = await repository();
@@ -91,14 +92,15 @@ test("outside a Git repository there is nothing to install into", async () => {
 
 test("init --hooks --agents sets up both, and scan --fail-on gates the exit code", async () => {
   const root = await repository({ "package.json": JSON.stringify({ name: "x", engines: { node: "14" } }) });
-  const both = cli(root, "--agents", "--hooks");
-  assert.equal(both.status, 0, both.stderr);
+  const both = await cli(root, "--agents", "--hooks");
+  assert.equal(both.code, 0, both.stderr);
   assert.match(await readFile(hookPath(root), "utf8"), /evergreen pre-push/);
   assert.match(await readFile(join(root, "AGENTS.md"), "utf8"), /Evergreen/);
-  const scan = (gate: string) => spawnSync(process.execPath, [resolve("dist/src/cli.js"), "scan", root, "--fail-on", gate], { encoding: "utf8" });
-  assert.equal(scan("none").status, 0);
-  assert.equal(scan("critical").status === 0 || scan("critical").status === 1, true);
-  assert.equal(scan("bogus").status, 2);
-  assert.equal(cli(root, "--hooks", "--fail-on", "bogus").status, 2);
-  assert.equal(cli(root, "--fail-on", "high").status, 2);
+  const scan = (gate: string) => runCli(["scan", root, "--fail-on", gate]);
+  assert.equal((await scan("none")).code, 0);
+  const critical = await scan("critical");
+  assert.equal(critical.code === 0 || critical.code === 1, true);
+  assert.equal((await scan("bogus")).code, 2);
+  assert.equal((await cli(root, "--hooks", "--fail-on", "bogus")).code, 2);
+  assert.equal((await cli(root, "--fail-on", "high")).code, 2);
 });

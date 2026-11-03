@@ -1,15 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { redactLine } from "../src/report-issue.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -33,24 +30,29 @@ test("report-issue writes only the rule, evidence, and a few lines, and the exce
   const root = await temporary();
   await mkdir(join(root, "services", "private-api"), { recursive: true });
   await writeFile(join(root, "services", "private-api", "Dockerfile"), "FROM node:14\nRUN echo hi\n");
-  const scan = JSON.parse((await execute(process.execPath, [cli, "scan", root, "--json"])).stdout) as {
+  const scanned = await runCli(["scan", root, "--json"]);
+  assert.equal(scanned.code, 0);
+  const scan = JSON.parse(scanned.stdout) as {
     findings: Array<{ id: string; ruleId: string }>;
   };
   assert.ok(scan.findings.length > 0);
   const finding = scan.findings[0]!;
 
-  const { stdout } = await execute(process.execPath, [cli, "report-issue", finding.id, root]);
-  assert.match(stdout, new RegExp(`Possible false positive: \`${finding.ruleId.replace(/\./g, "\\.")}\``));
-  assert.match(stdout, /\[[^\]]+\]\(https?:\/\//);
-  assert.doesNotMatch(stdout, /private-api/);
-  assert.ok(!stdout.includes(root));
+  const reported = await runCli(["report-issue", finding.id, root]);
+  assert.equal(reported.code, 0);
+  assert.match(reported.stdout, new RegExp(`Possible false positive: \`${finding.ruleId.replace(/\./g, "\\.")}\``));
+  assert.match(reported.stdout, /\[[^\]]+\]\(https?:\/\//);
+  assert.doesNotMatch(reported.stdout, /private-api/);
+  assert.ok(!reported.stdout.includes(root));
 
-  const excerpt = /```\n([\s\S]*?)\n```/.exec(stdout)?.[1];
+  const excerpt = /```\n([\s\S]*?)\n```/.exec(reported.stdout)?.[1];
   assert.equal(excerpt, "FROM node:14\nRUN echo hi\n");
 
   const replay = await temporary();
   await writeFile(join(replay, "Dockerfile"), `${excerpt}\n`);
-  const again = JSON.parse((await execute(process.execPath, [cli, "scan", replay, "--json"])).stdout) as {
+  const replayed = await runCli(["scan", replay, "--json"]);
+  assert.equal(replayed.code, 0);
+  const again = JSON.parse(replayed.stdout) as {
     findings: Array<{ ruleId: string }>;
   };
   assert.ok(again.findings.some((candidate) => candidate.ruleId === finding.ruleId));
@@ -59,10 +61,17 @@ test("report-issue writes only the rule, evidence, and a few lines, and the exce
 test("report-issue --output writes a file and an unknown finding fails", async () => {
   const root = await temporary();
   await writeFile(join(root, "Dockerfile"), "FROM node:14\n");
-  const scan = JSON.parse((await execute(process.execPath, [cli, "scan", root, "--json"])).stdout) as { findings: Array<{ id: string }> };
+  const scanned = await runCli(["scan", root, "--json"]);
+  assert.equal(scanned.code, 0);
+  const scan = JSON.parse(scanned.stdout) as { findings: Array<{ id: string }> };
   const output = join(root, "report.md");
-  await execute(process.execPath, [cli, "report-issue", scan.findings[0]!.id, root, "--output", output]);
+  const written = await runCli(["report-issue", scan.findings[0]!.id, root, "--output", output]);
+  assert.equal(written.code, 0);
   assert.match(await readFile(output, "utf8"), /Manifest excerpt/);
-  await assert.rejects(execute(process.execPath, [cli, "report-issue", "nope", root]), /Finding not found: nope/);
-  await assert.rejects(execute(process.execPath, [cli, "report-issue"]), /Missing finding ID/);
+  const missing = await runCli(["report-issue", "nope", root]);
+  assert.notEqual(missing.code, 0);
+  assert.match(missing.stderr, /Finding not found: nope/);
+  const noId = await runCli(["report-issue"]);
+  assert.notEqual(noId.code, 0);
+  assert.match(noId.stderr, /Missing finding ID/);
 });

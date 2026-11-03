@@ -2,12 +2,13 @@ import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { promisify } from "node:util";
 import { after, test } from "node:test";
 
+import { runCli } from "./cli-runner.js";
+
 const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -35,7 +36,7 @@ async function repository(): Promise<string> {
 
 test("fix prints a patch that git apply accepts and writes nothing", async () => {
   const root = await repository();
-  const { stdout } = await execute(process.execPath, [cli, "fix", root, "--dry-run"]);
+  const { stdout } = await runCli(["fix", root, "--dry-run"]);
 
   assert.match(stdout, /^--- a\/\.github\/workflows\/ci\.yml\n\+\+\+ b\/\.github\/workflows\/ci\.yml\n/);
   assert.match(stdout, /\+      - uses: actions\/checkout@v5\n/);
@@ -54,16 +55,17 @@ test("fix prints a patch that git apply accepts and writes nothing", async () =>
   assert.match(fixed, /actions\/checkout@v5\n/);
   assert.match(fixed, /@0123456789abcdef0123456789abcdef01234567 # v4\.1\.1/);
 
-  const again = await execute(process.execPath, [cli, "fix", root]);
+  const again = await runCli(["fix", root]);
   assert.equal(again.stdout, "");
 });
 
 test("fix reports nothing to do and rejects unknown flags", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-fix-"));
   temporaryRoots.push(root);
-  const clean = await execute(process.execPath, [cli, "fix", root]);
+  const clean = await runCli(["fix", root]);
   assert.equal(clean.stdout, "");
   assert.match(clean.stderr, /No deterministic fixes/);
 
-  await assert.rejects(execute(process.execPath, [cli, "fix", root, "--write"]), (error: { code?: number }) => error.code === 2);
+  const unknown = await runCli(["fix", root, "--write"]);
+  assert.equal(unknown.code, 2);
 });

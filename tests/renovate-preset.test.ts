@@ -1,9 +1,7 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { access, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { Finding } from "../src/domain.js";
@@ -14,9 +12,8 @@ import {
   RENOVATE_SCHEMA,
   renovatePackageName,
 } from "../src/renovate-preset.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -157,9 +154,10 @@ test("the renovate-preset command prints JSON only and does not write config", a
     join(directory, "package.json"),
     JSON.stringify({ name: "demo", dependencies: { "node-sass": "4.14.1" } }),
   );
-  const { stdout, stderr } = await execute(process.execPath, [cli, "renovate-preset", directory]);
-  assert.equal(stderr, "");
-  const preset = JSON.parse(stdout) as { $schema: string; packageRules: Array<{ replacementName?: string }> };
+  const result = await runCli(["renovate-preset", directory]);
+  assert.equal(result.code, 0);
+  assert.equal(result.stderr, "");
+  const preset = JSON.parse(result.stdout) as { $schema: string; packageRules: Array<{ replacementName?: string }> };
   assert.equal(preset.$schema, RENOVATE_SCHEMA);
   assert.ok(preset.packageRules.some((rule) => rule.replacementName === "sass"));
   await assert.rejects(access(join(directory, "renovate.json")));

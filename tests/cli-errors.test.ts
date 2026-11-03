@@ -1,10 +1,9 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
+import { runCli } from "./cli-runner.js";
 
 import {
   invalidConfig,
@@ -17,29 +16,14 @@ import {
   unsupportedNodeVersion,
 } from "../src/errors.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
   await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
 });
 
-interface Outcome {
-  code: number;
-  stdout: string;
-  stderr: string;
-}
-
-async function run(args: string[], env: NodeJS.ProcessEnv = {}): Promise<Outcome> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args], {
-      env: { ...process.env, ...env },
-    });
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    return error as Outcome;
-  }
+async function run(args: string[], env: NodeJS.ProcessEnv = {}) {
+  return runCli(args, { env });
 }
 
 test("unsupported Node.js versions get a cause and a next step", () => {

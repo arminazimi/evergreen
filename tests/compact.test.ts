@@ -1,16 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import { COMPACT_MAX_BYTES, COMPACT_MAX_FINDINGS, COMPACT_MAX_LINE, renderCompact } from "../src/reporters.js";
-
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
 
 function finding(id: string, path: string, line: number | undefined, severity: Severity, replacement?: string): Finding {
   return {
@@ -75,7 +71,7 @@ test("compact is a scan format: the CLI prints it, and other commands refuse it"
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
     await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
-    const { stdout } = await execute(process.execPath, [cli, "scan", root, "--format", "compact"]);
+    const { stdout } = await runCli(["scan", root, "--format", "compact"]);
     const lines = stdout.trimEnd().split("\n");
     assert.equal(lines[0], "Evergreen: 1 finding");
     assert.equal(lines.length, 2);
@@ -83,11 +79,9 @@ test("compact is a scan format: the CLI prints it, and other commands refuse it"
     assert.ok(Buffer.byteLength(stdout) < COMPACT_MAX_BYTES);
 
     for (const [command, message] of [["check", /check supports/], ["explain", /only available for the scan command/]] as const) {
-      await assert.rejects(execute(process.execPath, [cli, command, "pkg:npm/request", "--format", "compact"]), (error: { code: number; stderr: string }) => {
-        assert.equal(error.code, 2, command);
-        assert.match(error.stderr, message);
-        return true;
-      });
+      const result = await runCli([command, "pkg:npm/request", "--format", "compact"]);
+      assert.equal(result.code, 2, command);
+      assert.match(result.stderr, message);
     }
   } finally {
     await rm(root, { recursive: true, force: true });

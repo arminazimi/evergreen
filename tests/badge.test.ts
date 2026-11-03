@@ -1,13 +1,11 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import { badgeSnippet, badgeState, badgeStyles, contrastRatio, readableTextColor, renderBadgeSvg, repositoryFromRemote } from "../src/badge.js";
 import { severityValues } from "../src/domain.js";
 import type { Finding, Severity } from "../src/domain.js";
 import { EXIT_CODES, type CommandContext, type FailureClass } from "../src/commands/types.js";
+import { runCli } from "./cli-runner.js";
 
 const finding = (severity: Severity) => ({ severity }) as unknown as Finding;
 const at = (findings: Finding[], stale = false) =>
@@ -89,15 +87,13 @@ test("reads owner and name from a GitHub remote URL", () => {
 });
 
 test("the CLI prints the snippet it was asked for", async () => {
-  const run = promisify(execFile);
-  const cli = resolve("dist/src/cli.js");
-  const { stdout } = await run(process.execPath, [cli, "badge", "--repo", "arminazimi/evergreen", "--snippet", "markdown"]);
-  assert.equal(stdout.trim(), badgeSnippet("arminazimi/evergreen", "markdown"));
-  await assert.rejects(run(process.execPath, [cli, "badge", "--repo", "arminazimi/evergreen", "--snippet", "asciidoc"]), (error: { code?: number }) => error.code === 2);
+  const printed = await runCli(["badge", "--repo", "arminazimi/evergreen", "--snippet", "markdown"]);
+  assert.equal(printed.code, 0);
+  assert.equal(printed.stdout.trim(), badgeSnippet("arminazimi/evergreen", "markdown"));
+  assert.equal((await runCli(["badge", "--repo", "arminazimi/evergreen", "--snippet", "asciidoc"])).code, 2);
 });
 
-// The CLI test above runs in a child process, and node:test does not reliably fold that child's
-// coverage into lcov.info. Calling the handler in-process keeps its flag parsing covered on every run.
+// Calling the handler directly keeps flag-parsing coverage on the command module itself.
 test("the badge handler reads --repo and --branch in-process", async () => {
   const { command } = await import("../src/commands/badge.js");
   const failures: string[] = [];

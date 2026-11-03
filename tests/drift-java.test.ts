@@ -9,9 +9,10 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { analyzeDrift } from "../src/drift/index.js";
 import { javaCollector } from "../src/drift/java.js";
+import { runCli } from "./cli-runner.js";
 
 const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+
 const tempDirs: string[] = [];
 
 after(async () => {
@@ -32,22 +33,6 @@ async function makeRepo(files: Record<string, string>): Promise<string> {
     await writeFile(target, contents);
   }
   return dir;
-}
-
-interface Outcome {
-  code: number;
-  stdout: string;
-  stderr: string;
-}
-
-async function runCli(args: string[], cwd: string): Promise<Outcome> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args], { cwd });
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code?: number; stdout?: string; stderr?: string };
-    return { code: failure.code ?? 1, stdout: failure.stdout ?? "", stderr: failure.stderr ?? "" };
-  }
 }
 
 function has(pins: Awaited<ReturnType<typeof javaCollector.collect>>, source: string, raw: string, release: string): boolean {
@@ -169,7 +154,7 @@ test("a multi-module build with one module out of line is drifted", async () => 
 });
 
 test("the text report names every pin and the drift", async () => {
-  const outcome = await runCli(["drift", "."], resolve("tests/fixtures/drift/java/drifted"));
+  const outcome = await runCli(["drift", "."], { cwd: resolve("tests/fixtures/drift/java/drifted") });
   assert.equal(outcome.code, 0);
   assert.match(outcome.stdout, /\.java-version:1/);
   assert.match(outcome.stdout, /pom\.xml:5/);
@@ -177,7 +162,7 @@ test("the text report names every pin and the drift", async () => {
 });
 
 test("--json validates against schemas/drift.v1.schema.json", async () => {
-  const outcome = await runCli(["drift", ".", "--json"], resolve("tests/fixtures/drift/java/drifted"));
+  const outcome = await runCli(["drift", ".", "--json"], { cwd: resolve("tests/fixtures/drift/java/drifted") });
   assert.equal(outcome.code, 0);
   const schema = JSON.parse(await readFile(resolve("schemas/drift.v1.schema.json"), "utf8")) as object;
   const validate = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
@@ -185,9 +170,9 @@ test("--json validates against schemas/drift.v1.schema.json", async () => {
 });
 
 test("--check exits 1 for a drifted repository and 0 for a consistent one", async () => {
-  const drifted = await runCli(["drift", ".", "--check"], resolve("tests/fixtures/drift/java/drifted"));
+  const drifted = await runCli(["drift", ".", "--check"], { cwd: resolve("tests/fixtures/drift/java/drifted") });
   assert.equal(drifted.code, 1);
-  const consistent = await runCli(["drift", ".", "--check"], resolve("tests/fixtures/drift/java/consistent"));
+  const consistent = await runCli(["drift", ".", "--check"], { cwd: resolve("tests/fixtures/drift/java/consistent") });
   assert.equal(consistent.code, 0);
 });
 
@@ -197,7 +182,7 @@ test("--align prints a patch that applies and removes the drift", async () => {
   await cp(resolve("tests/fixtures/drift/java/drifted"), repo, { recursive: true });
   await execute("git", ["init", "-q"], { cwd: repo });
 
-  const aligned = await runCli(["drift", ".", "--runtime", "java", "--align", "21"], repo);
+  const aligned = await runCli(["drift", ".", "--runtime", "java", "--align", "21"], { cwd: repo });
   assert.equal(aligned.code, 0, aligned.stderr);
   assert.match(aligned.stdout, /--- a\/Dockerfile/);
   assert.match(aligned.stdout, /--- a\/pom\.xml/);
@@ -208,13 +193,13 @@ test("--align prints a patch that applies and removes the drift", async () => {
   await execute("git", ["apply", "--check", "patch.diff"], { cwd: repo });
   await execute("git", ["apply", "patch.diff"], { cwd: repo });
 
-  const check = await runCli(["drift", ".", "--check"], repo);
+  const check = await runCli(["drift", ".", "--check"], { cwd: repo });
   assert.equal(check.code, 0, check.stdout + check.stderr);
 });
 
 test("--align refuses expressions and floating values and never writes a file", async () => {
   const repo = resolve("tests/fixtures/drift/java/unresolved");
-  const aligned = await runCli(["drift", ".", "--runtime", "java", "--align", "21"], repo);
+  const aligned = await runCli(["drift", ".", "--runtime", "java", "--align", "21"], { cwd: repo });
   assert.equal(aligned.code, 0);
   assert.equal(aligned.stdout, "");
   assert.match(aligned.stderr, /Refused pom\.xml:5/);
@@ -224,7 +209,7 @@ test("--align refuses expressions and floating values and never writes a file", 
 
 test("bad flags exit 2", async () => {
   const repo = resolve("tests/fixtures/drift/java/consistent");
-  assert.equal((await runCli(["drift", ".", "--align", "21"], repo)).code, 2, "--align requires --runtime");
-  assert.equal((await runCli(["drift", ".", "--bogus"], repo)).code, 2, "unknown flag");
-  assert.equal((await runCli(["drift", ".", "--runtime", "nope"], repo)).code, 2, "unknown runtime");
+  assert.equal((await runCli(["drift", ".", "--align", "21"], { cwd: repo })).code, 2, "--align requires --runtime");
+  assert.equal((await runCli(["drift", ".", "--bogus"], { cwd: repo })).code, 2, "unknown flag");
+  assert.equal((await runCli(["drift", ".", "--runtime", "nope"], { cwd: repo })).code, 2, "unknown runtime");
 });

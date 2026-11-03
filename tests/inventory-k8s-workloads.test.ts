@@ -1,10 +1,8 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
@@ -13,9 +11,8 @@ import { ruleVersion, splitApiVersion } from "../src/detectors/kubernetes/api-ve
 import { k8sWorkloadsImporter } from "../src/inventory/k8s-workloads.js";
 import { parseExport, runInventory } from "../src/inventory/index.js";
 import type { InventoryReport } from "../src/inventory/types.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const fixtures = resolve("tests/fixtures/inventory");
 const workloads = resolve(fixtures, "k8s-workloads/workloads.json");
 const example = resolve("examples/inventory/k8s-workloads.json");
@@ -44,14 +41,8 @@ function tagVersion(tag: string | undefined): string | undefined {
   return `${Number(match[1])}.${Number(match[2] ?? 0)}.${Number(match[3] ?? 0)}`;
 }
 
-async function runCli(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code ?? 1, stdout: failure.stdout ?? "", stderr: failure.stderr ?? "" };
-  }
+async function invokeCli(...args: string[]) {
+  return runCli(args);
 }
 
 test("detect accepts a workload List and rejects another shape or a node list", async () => {
@@ -193,7 +184,7 @@ test("the example file reports affected items with pointers that resolve", async
 });
 
 test("the CLI exits 1 on an affected example, validates against the schema, and honours --fail-on", async () => {
-  const { code, stdout } = await runCli("inventory", example, "--json");
+  const { code, stdout } = await invokeCli("inventory", example, "--json");
   assert.equal(code, 1);
   const report = JSON.parse(stdout) as InventoryReport;
   assert.equal(report.schemaVersion, "evergreen.inventory.v1");
@@ -205,8 +196,8 @@ test("the CLI exits 1 on an affected example, validates against the schema, and 
   const validate = ajv.compile(await readJson(resolve("schemas/inventory.v1.schema.json")) as object);
   assert.equal(validate(report), true, JSON.stringify(validate.errors));
 
-  assert.equal((await runCli("inventory", example, "--fail-on", "critical")).code, 0);
-  assert.equal((await runCli("inventory", example, "--fail-on", "none")).code, 0);
+  assert.equal((await invokeCli("inventory", example, "--fail-on", "critical")).code, 0);
+  assert.equal((await invokeCli("inventory", example, "--fail-on", "none")).code, 0);
 });
 
 test("the CLI lists an unrecognized file, exits 2, and still reports the rest", async (t) => {
@@ -215,7 +206,7 @@ test("the CLI lists an unrecognized file, exits 2, and still reports the rest", 
   const other = resolve(directory, "other.json");
   await writeFile(other, JSON.stringify({ hello: "world" }));
 
-  const { code, stdout } = await runCli("inventory", example, other, "--json");
+  const { code, stdout } = await invokeCli("inventory", example, other, "--json");
   assert.equal(code, 2);
   const report = JSON.parse(stdout) as InventoryReport;
   assert.deepEqual(report.unrecognized, [other]);
@@ -223,7 +214,7 @@ test("the CLI lists an unrecognized file, exits 2, and still reports the rest", 
 });
 
 test("--redact hides every resource name in text and JSON output", async () => {
-  const { code, stdout } = await runCli("inventory", example, "--json", "--redact");
+  const { code, stdout } = await invokeCli("inventory", example, "--json", "--redact");
   assert.equal(code, 1);
   const report = JSON.parse(stdout) as InventoryReport;
   for (const { item } of report.results) assert.match(item.resource, /^[0-9a-f]{12}$/);

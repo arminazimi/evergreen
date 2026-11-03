@@ -1,17 +1,14 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import type { Finding, Severity } from "../src/domain.js";
 import { PORTAL_SCHEMA_VERSION, exportPortal, portalReportLink } from "../src/export/portal.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -99,12 +96,14 @@ test("CLI export --format portal scans paths and matches schemas/portal.v1.schem
   await writeFile(join(web, "package.json"), JSON.stringify({ name: "web", dependencies: { express: "4.18.2" } }));
 
   const args = [
-    cli, "export", "--format", "portal", api, web,
+    "export", "--format", "portal", api, web,
     "--data-version", "bundled",
     "--report-base-url", "https://ci.example.com/artifacts/",
   ];
-  const first = await execute(process.execPath, args);
-  const second = await execute(process.execPath, args);
+  const first = await runCli(args);
+  const second = await runCli(args);
+  assert.equal(first.code, 0);
+  assert.equal(second.code, 0);
   assert.equal(first.stdout, second.stdout);
   const catalog = JSON.parse(first.stdout);
   assert.equal(validate(catalog), true, JSON.stringify(validate.errors));
@@ -126,11 +125,8 @@ test("CLI rejects incomplete portal export options", async () => {
     ["export", "--format", "portal", "--json"],
     ["export", "--format", "cle", "--report-base-url", "https://example.com/"],
   ]) {
-    await assert.rejects(execute(process.execPath, [cli, ...args]), (error: unknown) => {
-      const failure = error as { code: number; stderr: string };
-      assert.equal(failure.code, 2);
-      assert.match(failure.stderr, /Usage: evergreen export|--report-base-url needs/);
-      return true;
-    });
+    const failure = await runCli(args);
+    assert.equal(failure.code, 2);
+    assert.match(failure.stderr, /Usage: evergreen export|--report-base-url needs/);
   }
 });

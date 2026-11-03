@@ -1,16 +1,13 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult } from "../src/domain.js";
 import { renderStatusFile, STATUS_FILE_NAME } from "../src/status-file.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -79,7 +76,8 @@ test("a long scan stays short", () => {
 
 test("scan --write-status writes the file next to the scan, and a second run changes nothing", async () => {
   const root = await repository();
-  const first = await execute(process.execPath, [cli, "scan", root, "--write-status", "--json"]);
+  const first = await runCli(["scan", root, "--write-status", "--json"]);
+  assert.equal(first.code, 0);
   assert.equal((JSON.parse(first.stdout) as { schemaVersion: string }).schemaVersion, "evergreen.scan.v1", "stdout is still the scan result");
   assert.match(first.stderr, /Wrote EVERGREEN_STATUS\.md/);
   const written = await readFile(join(root, STATUS_FILE_NAME), "utf8");
@@ -87,15 +85,18 @@ test("scan --write-status writes the file next to the scan, and a second run cha
   assert.match(written, /\.github\/workflows\/ci\.yml:4 \w+ /);
   assert.doesNotMatch(written, new RegExp(root.replaceAll("\\", "\\\\")));
 
-  await execute(process.execPath, [cli, "scan", root, "--write-status"]);
+  const second = await runCli(["scan", root, "--write-status"]);
+  assert.equal(second.code, 0);
   assert.equal(await readFile(join(root, STATUS_FILE_NAME), "utf8"), written);
 });
 
 test("the status file records the findings a baseline accepted", async () => {
   const root = await repository();
   const baseline = join(root, "baseline.json");
-  await execute(process.execPath, [cli, "baseline", root, "--output", baseline]);
-  await execute(process.execPath, [cli, "scan", root, "--baseline", baseline, "--write-status"]);
+  const generated = await runCli(["baseline", root, "--output", baseline]);
+  assert.equal(generated.code, 0);
+  const scanned = await runCli(["scan", root, "--baseline", baseline, "--write-status"]);
+  assert.equal(scanned.code, 0);
   const written = await readFile(join(root, STATUS_FILE_NAME), "utf8");
   assert.match(written, /- Findings: 0 /);
   assert.match(written, /- Accepted by baseline: 1\n/);
@@ -103,12 +104,11 @@ test("the status file records the findings a baseline accepted", async () => {
 
 test("nothing is written without the flag, and only scan accepts it", async () => {
   const root = await repository();
-  await execute(process.execPath, [cli, "scan", root]);
+  const scanned = await runCli(["scan", root]);
+  assert.equal(scanned.code, 0);
   assert.ok(!(await readdir(root)).includes(STATUS_FILE_NAME));
-  await assert.rejects(execute(process.execPath, [cli, "doctor", root, "--write-status"]), (error: { code: number; stderr: string }) => {
-    assert.equal(error.code, 2);
-    assert.match(error.stderr, /only available for the scan command/);
-    return true;
-  });
+  const doctor = await runCli(["doctor", root, "--write-status"]);
+  assert.equal(doctor.code, 2);
+  assert.match(doctor.stderr, /only available for the scan command/);
   assert.ok(!(await readdir(root)).includes(STATUS_FILE_NAME));
 });

@@ -1,17 +1,14 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import type { Forecast, ForecastEvent } from "../src/forecast.js";
 import { MERMAID_MAX_BARS, renderForecastMermaid, renderScanMermaid } from "../src/mermaid.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const asOf = "2026-10-30";
 
 function finding(ruleId: string, title: string, deadline?: string, path = "package.json"): Finding {
@@ -205,7 +202,7 @@ test("--as-of controls the today marker and every bar start, so output is reprod
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
     await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
-    const run = (...args: string[]) => execute(process.execPath, [cli, ...args]);
+    const run = (...args: string[]) => runCli(args);
     const first = await run("scan", root, "--format", "mermaid", "--as-of", asOf);
     const second = await run("scan", root, "--format", "mermaid", "--as-of", asOf);
     assert.equal(first.stdout, second.stdout);
@@ -227,13 +224,16 @@ test("mermaid is accepted by scan and forecast and refused elsewhere", async () 
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
     await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
-    const run = (...args: string[]) => execute(process.execPath, [cli, ...args]);
+    const run = (...args: string[]) => runCli(args);
     assert.match((await run("scan", root, "--format", "mermaid", "--as-of", asOf)).stdout, /^```mermaid\ngantt\n/);
-    await assert.rejects(run("check", "pkg:npm/request", "--format", "mermaid"), (error: { code: number }) => error.code === 2);
-    await assert.rejects(run("explain", "x", root, "--format", "mermaid"), (error: { code: number; stderr: string }) =>
-      error.code === 2 && /only available for the scan and forecast commands/.test(error.stderr));
-    await assert.rejects(run("forecast", root, "--format", "mermaid", "--timeline", "--as-of", asOf), (error: { code: number; stderr: string }) =>
-      error.code === 2 && /Use either --timeline or --format mermaid/.test(error.stderr));
+    const check = await run("check", "pkg:npm/request", "--format", "mermaid");
+    assert.equal(check.code, 2);
+    const explain = await run("explain", "x", root, "--format", "mermaid");
+    assert.equal(explain.code, 2);
+    assert.match(explain.stderr, /only available for the scan and forecast commands/);
+    const conflict = await run("forecast", root, "--format", "mermaid", "--timeline", "--as-of", asOf);
+    assert.equal(conflict.code, 2);
+    assert.match(conflict.stderr, /Use either --timeline or --format mermaid/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

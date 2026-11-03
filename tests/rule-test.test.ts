@@ -1,14 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 
 import { renderRuleTestText, RuleTestError, testRule } from "../src/rule-test.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
 const roots: string[] = [];
 
 after(() => Promise.all(roots.map((root) => rm(root, { recursive: true, force: true }))));
@@ -101,16 +99,11 @@ test("an unknown rule is a clear error", async () => {
 });
 
 test("the command exits 0 on a pass, 1 on a failure, and 2 on an unknown rule", async () => {
-  const cli = resolve("dist/src/cli.js");
   const rule = (JSON.parse(await readFile(resolve("registry/npm.json"), "utf8")) as { rules: Array<{ id: string }> }).rules.find((candidate) => candidate.id === requestRule);
   assert.ok(rule);
   const checkoutFixtures = Object.fromEntries(Object.entries(requestMatch).map(([path, contents]) => [`tests/fixtures/${path}`, contents]));
   const root = await fixtures({ ...checkoutFixtures, "registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [rule] }, null, 2)}\n` });
-  const run = (args: string[]) =>
-    execute(process.execPath, [cli, ...args], { cwd: root }).then(
-      (value) => ({ code: 0, ...value }),
-      (error: { code: number; stdout: string; stderr: string }) => error,
-    );
+  const run = (args: string[]) => runCli(args, { cwd: root });
 
   const passed = await run(["rules", "test", requestRule]);
   assert.equal(passed.code, 0, passed.stdout + passed.stderr);

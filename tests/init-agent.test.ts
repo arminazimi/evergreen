@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
 import { SECTION_BEGIN } from "../src/agent-instructions.js";
 import { initAgent } from "../src/init.js";
+import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
 after(async () => {
@@ -23,8 +23,7 @@ const repository = async (files: Record<string, string> = {}) => {
   return root;
 };
 
-const cli = (root: string, ...args: string[]) =>
-  spawnSync(process.execPath, [resolve("dist/src/cli.js"), "init", "agent", root, ...args], { encoding: "utf8" });
+const cli = (root: string, ...args: string[]) => runCli(["init", "agent", root, ...args]);
 
 test("Claude Code fixture: detected from .claude and writes CLAUDE.md", async () => {
   const root = await repository({ ".claude/settings.json": "{}" });
@@ -202,31 +201,31 @@ test("CLI evergreen init agent detects host, writes matching file, and handles d
   const root = await repository({ ".cursor/rules/other.mdc": "" });
 
   // Dry run prints diff and writes nothing
-  const dry = cli(root, "--dry-run");
-  assert.equal(dry.status, 0, dry.stderr);
+  const dry = await cli(root, "--dry-run");
+  assert.equal(dry.code, 0, dry.stderr);
   assert.match(dry.stdout, /^Would create \.cursor\/rules\/evergreen\.mdc:\n\n--- a\/\.cursor\/rules\/evergreen\.mdc/);
   await assert.rejects(readFile(join(root, ".cursor/rules/evergreen.mdc"), "utf8"));
 
   // Real run writes the file
-  const real = cli(root);
-  assert.equal(real.status, 0, real.stderr);
+  const real = await cli(root);
+  assert.equal(real.code, 0, real.stderr);
   assert.match(real.stdout, /^Created \.cursor\/rules\/evergreen\.mdc\.\n$/);
   const content = await readFile(join(root, ".cursor/rules/evergreen.mdc"), "utf8");
   assert.ok(content.includes(SECTION_BEGIN));
 
   // Rerun is unchanged
-  const rerun = cli(root);
-  assert.equal(rerun.status, 0, rerun.stderr);
+  const rerun = await cli(root);
+  assert.equal(rerun.code, 0, rerun.stderr);
   assert.match(rerun.stdout, /already has the current Evergreen section; nothing to change/);
 });
 
 test("CLI evergreen init agent validates flags", async () => {
   const root = await repository();
-  const badFlag = cli(root, "--bogus");
-  assert.equal(badFlag.status, 2);
+  const badFlag = await cli(root, "--bogus");
+  assert.equal(badFlag.code, 2);
   assert.match(badFlag.stderr, /Usage: evergreen init agent/);
 
-  const badFile = cli(root, "--file", "README.md");
-  assert.equal(badFile.status, 2);
+  const badFile = await cli(root, "--file", "README.md");
+  assert.equal(badFile.code, 2);
   assert.match(badFile.stderr, /--file must be AGENTS\.md or CLAUDE\.md/);
 });

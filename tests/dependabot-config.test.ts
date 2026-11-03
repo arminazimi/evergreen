@@ -1,9 +1,7 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { access, mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { Finding, ScanResult } from "../src/domain.js";
@@ -13,9 +11,8 @@ import {
   buildDependabotUpdates,
   dependabotDirectory,
 } from "../src/dependabot-config.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -162,11 +159,12 @@ test("the dependabot-config command prints multi-ecosystem YAML only and does no
     "    steps:",
     "      - uses: actions/checkout@v2",
   ].join("\n"));
-  const { stdout, stderr } = await execute(process.execPath, [cli, "dependabot-config", directory]);
-  assert.equal(stderr, "");
-  assert.ok(stdout.includes("package-ecosystem: npm"));
-  assert.ok(stdout.includes("package-ecosystem: github-actions"));
-  assert.ok(stdout.includes('"node-sass"'));
-  assert.ok(stdout.includes('"actions/checkout"'));
+  const result = await runCli(["dependabot-config", directory]);
+  assert.equal(result.code, 0);
+  assert.equal(result.stderr, "");
+  assert.ok(result.stdout.includes("package-ecosystem: npm"));
+  assert.ok(result.stdout.includes("package-ecosystem: github-actions"));
+  assert.ok(result.stdout.includes('"node-sass"'));
+  assert.ok(result.stdout.includes('"actions/checkout"'));
   await assert.rejects(access(join(directory, ".github", "dependabot.yml")));
 });

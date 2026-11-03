@@ -1,8 +1,6 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { promisify } from "node:util";
 import { test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
@@ -13,9 +11,7 @@ import {
   getCapabilityManifest,
 } from "../src/capabilities.js";
 import { builtInDetectors } from "../src/detectors/index.js";
-
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
 
 async function validator() {
   const schema = JSON.parse(await readFile(resolve("schemas/capabilities.v1.schema.json"), "utf8"));
@@ -122,8 +118,10 @@ test("every registered detector is in the capability manifest or explicitly excl
 });
 
 test("CLI exposes the stable capability manifest as deterministic JSON", async () => {
-  const first = await execute(process.execPath, [cli, "capabilities", "--json"]);
-  const second = await execute(process.execPath, [cli, "capabilities", "--json"]);
+  const first = await runCli(["capabilities", "--json"]);
+  const second = await runCli(["capabilities", "--json"]);
+  assert.equal(first.code, 0);
+  assert.equal(second.code, 0);
   const output = JSON.parse(first.stdout);
   const validate = await validator();
 

@@ -3,12 +3,14 @@ import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { promisify } from "node:util";
 import { after, test } from "node:test";
+import { promisify } from "node:util";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
+import { runCli } from "./cli-runner.js";
+
 const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -41,14 +43,8 @@ async function repository(): Promise<string> {
   return root;
 }
 
-async function runCli(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code ?? 1, stdout: failure.stdout ?? "", stderr: failure.stderr ?? "" };
-  }
+async function invokeCli(...args: string[]) {
+  return runCli(args);
 }
 
 async function validator() {
@@ -58,7 +54,7 @@ async function validator() {
 
 test("fix --dry-run --json reports patches and refusals that match fix.v1.schema.json and writes nothing", async () => {
   const root = await repository();
-  const result = await runCli("fix", root, "--dry-run", "--json");
+  const result = await invokeCli("fix", root, "--dry-run", "--json");
   assert.equal(result.code, 0, result.stderr);
   const parsed = JSON.parse(result.stdout);
   const validate = await validator();
@@ -91,13 +87,13 @@ test("fix --dry-run --json reports patches and refusals that match fix.v1.schema
   await execute("git", ["apply", "--check", patch], { cwd: root });
 
   // The report is deterministic.
-  assert.equal((await runCli("fix", root, "--dry-run", "--json")).stdout, result.stdout);
+  assert.equal((await invokeCli("fix", root, "--dry-run", "--json")).stdout, result.stdout);
 });
 
 test("fix --json reports an empty plan for a repository with nothing to fix", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-fix-json-empty-"));
   temporaryRoots.push(root);
-  const result = await runCli("fix", root, "--dry-run", "--json");
+  const result = await invokeCli("fix", root, "--dry-run", "--json");
   assert.equal(result.code, 0, result.stderr);
   const parsed = JSON.parse(result.stdout);
 
@@ -108,11 +104,11 @@ test("fix --json reports an empty plan for a repository with nothing to fix", as
 
 test("fix --json refuses to combine with --branch, and the schema rejects undeclared properties", async () => {
   const root = await repository();
-  const branch = await runCli("fix", root, "--branch", "--json");
+  const branch = await invokeCli("fix", root, "--branch", "--json");
   assert.equal(branch.code, 2);
   assert.match(branch.stderr, /Usage: evergreen fix/);
 
-  const parsed = JSON.parse((await runCli("fix", root, "--dry-run", "--json")).stdout);
+  const parsed = JSON.parse((await invokeCli("fix", root, "--dry-run", "--json")).stdout);
   const validate = await validator();
   assert.equal(validate({ ...parsed, undeclared: true }), false);
   assert.ok(validate.errors?.some((error) => error.keyword === "additionalProperties"));

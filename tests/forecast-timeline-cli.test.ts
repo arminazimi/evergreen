@@ -1,13 +1,11 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
+
 const roots: string[] = [];
 
 after(async () => {
@@ -21,8 +19,11 @@ async function project(): Promise<string> {
   return root;
 }
 
-const run = async (root: string, flags: string[], env: NodeJS.ProcessEnv = {}) =>
-  (await execute(process.execPath, [cli, "forecast", root, "--as-of", "2026-10-25", ...flags], { env: { ...process.env, ...env } })).stdout;
+const run = async (root: string, flags: string[], env: NodeJS.ProcessEnv = {}) => {
+  const result = await runCli(["forecast", root, "--as-of", "2026-10-25", ...flags], { env });
+  assert.equal(result.code, 0);
+  return result.stdout;
+};
 
 test("--timeline draws the forecast as a bar per month instead of the default text", async () => {
   const root = await project();
@@ -36,8 +37,9 @@ test("--timeline draws the forecast as a bar per month instead of the default te
 
 test("--timeline conflicts with --json", async () => {
   const root = await project();
-  await assert.rejects(execute(process.execPath, [cli, "forecast", root, "--timeline", "--json"]), (error: { code?: number; stderr?: string }) =>
-    error.code === 2 && /either --timeline or --json/.test(error.stderr ?? ""));
+  const result = await runCli(["forecast", root, "--timeline", "--json"]);
+  assert.equal(result.code, 2);
+  assert.match(result.stderr, /either --timeline or --json/);
 });
 
 test("NO_COLOR keeps the timeline plain, and piped output never carries color", async () => {

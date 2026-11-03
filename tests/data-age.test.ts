@@ -14,6 +14,7 @@ import { BUNDLE_FILE, cachedBundleDirectory, configureActiveData, SIGNATURE_FILE
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 import { renderCheckText, renderSarif, renderText } from "../src/reporters.js";
+import { runCli } from "./cli-runner.js";
 
 const execute = promisify(execFile);
 const roots: string[] = [];
@@ -112,15 +113,17 @@ test("SARIF records which data was used without anything that changes with the c
 
 test("the CLI and the Action carry the data information too", async () => {
   const directory = await project();
-  const json = JSON.parse((await execute(process.execPath, [resolve("dist/src/cli.js"), "scan", directory, "--json"], { env: { ...process.env, EVERGREEN_DATA_DIR: await scratch("empty") } }).catch((error: { stdout: string }) => error)).stdout) as { data: { source: string } };
+  const scanned = await runCli(["scan", directory, "--json"], { env: { EVERGREEN_DATA_DIR: await scratch("empty") } });
+  const json = JSON.parse(scanned.stdout) as { data: { source: string } };
   assert.equal(json.data.source, "bundled");
-  const checked = await execute(process.execPath, [resolve("dist/src/cli.js"), "check", "pkg:npm/express", "--json"]);
+  const checked = await runCli(["check", "pkg:npm/express", "--json"]);
   assert.equal(JSON.parse(checked.stdout).data.source, "bundled");
 
   const summary = join(await scratch("summary"), "summary.md");
   await writeFile(summary, "");
   // The compiled entry, not the bundled dist/action artifact: main does not carry the bundle any more
   // (release tags do), and this test is about what the Action reports, not about how it is packaged.
+  // Keep a real spawn: github-action process boundary.
   const output = await execute(process.execPath, [resolve("dist/src/action.js")], {
     env: { ...process.env, INPUT_PATH: directory, "INPUT_FAIL-ON-SEVERITY": "none", GITHUB_STEP_SUMMARY: summary, RUNNER_TEMP: await scratch("temp"), GITHUB_WORKSPACE: directory },
   });

@@ -1,18 +1,16 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { BUNDLED_ECOSYSTEMS } from "../src/data-bundle.js";
 import type { ActiveData } from "../src/data-source.js";
 import { CLE_SCHEMA, exportActiveCle, exportCle } from "../src/export/cle.js";
 import type { RegistryV2Rule } from "../src/registry.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
 const rule: RegistryV2Rule = {
   id: "example.eol", ecosystem: "npm", purl: "pkg:npm/example", vers: "vers:npm/<2.0.0",
   event: "end-of-life", title: "Example EOL", summary: "No longer supported", severity: "high",
@@ -89,9 +87,11 @@ test("CLE reads every ecosystem from the supplied active data, including rules a
 });
 
 test("CLI exports only valid CLE documents, deterministically, with offline bundled data", async () => {
-  const args = [resolve("dist/src/cli.js"), "export", "--format", "cle", "--data-version", "bundled"];
-  const first = await execute(process.execPath, args);
-  const second = await execute(process.execPath, args);
+  const args = ["export", "--format", "cle", "--data-version", "bundled"];
+  const first = await runCli(args);
+  const second = await runCli(args);
+  assert.equal(first.code, 0);
+  assert.equal(second.code, 0);
   assert.equal(first.stdout, second.stdout);
   assert.match(first.stderr, /Skipped \d+ rules/);
   const documents = first.stdout.trim().split("\n").map((line) => JSON.parse(line));
@@ -106,11 +106,8 @@ test("CLI rejects incomplete export options and CLE on other commands", async ()
     ["export", "--format", "cle", "--json"], ["export", "--format", "cle", "unexpected"],
     ["scan", "--format", "cle"],
   ]) {
-    await assert.rejects(execute(process.execPath, [resolve("dist/src/cli.js"), ...args]), (error: unknown) => {
-      const failure = error as { code: number; stderr: string; stdout: string };
-      assert.equal(failure.code, 2);
-      assert.match(failure.stderr, /Usage: evergreen export|Unknown format/);
-      return true;
-    });
+    const failure = await runCli(args);
+    assert.equal(failure.code, 2);
+    assert.match(failure.stderr, /Usage: evergreen export|Unknown format/);
   }
 });

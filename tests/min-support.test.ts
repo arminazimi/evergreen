@@ -1,13 +1,11 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
+
 const roots: string[] = [];
 
 after(async () => {
@@ -23,7 +21,9 @@ async function node22Repository(): Promise<string> {
 }
 
 async function severities(root: string, ...flags: string[]): Promise<string[]> {
-  const out = JSON.parse((await execute(process.execPath, [cli, "scan", root, "--json", ...flags])).stdout) as { findings: Array<{ severity: string }> };
+  const result = await runCli(["scan", root, "--json", ...flags]);
+  assert.equal(result.code, 0);
+  const out = JSON.parse(result.stdout) as { findings: Array<{ severity: string }> };
   return out.findings.map((finding) => finding.severity);
 }
 
@@ -46,12 +46,16 @@ test("a window that is already past stays untouched", async () => {
 
 test("the warning stays below the default high gate", async () => {
   const root = await node22Repository();
-  await execute(process.execPath, [cli, "scan", root, "--fail-on", "high", "--as-of", "2027-04-01", "--min-support-days", "90"]);
-  await assert.rejects(execute(process.execPath, [cli, "scan", root, "--fail-on", "medium", "--as-of", "2027-04-01", "--min-support-days", "90"]), { code: 1 });
+  const belowHigh = await runCli(["scan", root, "--fail-on", "high", "--as-of", "2027-04-01", "--min-support-days", "90"]);
+  assert.equal(belowHigh.code, 0);
+  const atMedium = await runCli(["scan", root, "--fail-on", "medium", "--as-of", "2027-04-01", "--min-support-days", "90"]);
+  assert.equal(atMedium.code, 1);
 });
 
 test("rejects a value that is not a number of days", async () => {
   const root = await node22Repository();
-  await assert.rejects(execute(process.execPath, [cli, "scan", root, "--min-support-days", "soon"]), { code: 2 });
-  await assert.rejects(execute(process.execPath, [cli, "scan", root, "--min-support-days", "-5"]), { code: 2 });
+  const soon = await runCli(["scan", root, "--min-support-days", "soon"]);
+  assert.equal(soon.code, 2);
+  const negative = await runCli(["scan", root, "--min-support-days", "-5"]);
+  assert.equal(negative.code, 2);
 });

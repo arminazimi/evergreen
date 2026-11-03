@@ -6,6 +6,7 @@ import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { planInitSetup } from "../src/init.js";
+import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
 after(async () => {
@@ -29,8 +30,7 @@ const repository = async (files: Record<string, string>) => {
   return root;
 };
 
-const exercise = (root: string, args: string[]) =>
-  spawnSync(process.execPath, [resolve("dist/src/cli.js"), "init", ...args, root], { encoding: "utf8" });
+const exercise = (root: string, args: string[]) => runCli(["init", ...args, root]);
 
 const command = (root: string) => `cp -R ${JSON.stringify(starterDirectory)}/. ${JSON.stringify(root)}`;
 
@@ -39,8 +39,8 @@ test("a Slipway site is pointed at the Slipway starter and nothing is copied", a
   const plan = await planInitSetup({ root, gate: "high" });
   assert.deepEqual(plan.site, { stack: "Slipway", directory: starterDirectory, command: command(root) });
 
-  const run = exercise(root, ["--yes"]);
-  assert.equal(run.status, 0, run.stderr);
+  const run = await exercise(root, ["--yes"]);
+  assert.equal(run.code, 0, run.stderr);
   assert.match(run.stdout, /Detected a Slipway site\. Evergreen ships a starter for it; copy it with:\n\n {2}cp -R /);
   assert.ok(run.stdout.includes(command(root)), run.stdout);
   assert.match(run.stdout, /Nothing was copied\.\n/);
@@ -56,8 +56,8 @@ test("a plain Jekyll site is recognized, and a commented-out Slipway gem is not 
   const plan = await planInitSetup({ root, gate: "high" });
   assert.equal(plan.site?.stack, "Jekyll");
 
-  const run = exercise(root, ["--dry-run"]);
-  assert.equal(run.status, 0, run.stderr);
+  const run = await exercise(root, ["--dry-run"]);
+  assert.equal(run.code, 0, run.stderr);
   assert.match(run.stdout, /Detected a Jekyll site\./);
   assert.ok(run.stdout.includes(command(root)), run.stdout);
   assert.match(run.stdout, /Dry run: nothing was written\.\n$/);
@@ -76,8 +76,8 @@ test("a repository that is not a Jekyll site sees no site suggestion", async () 
   const plan = await planInitSetup({ root, gate: "high" });
   assert.equal(plan.site, undefined);
 
-  const run = exercise(root, ["--dry-run"]);
-  assert.equal(run.status, 0, run.stderr);
+  const run = await exercise(root, ["--dry-run"]);
+  assert.equal(run.code, 0, run.stderr);
   assert.match(run.stdout, /^Detected: GitHub Actions; no agent hosts\n/);
   assert.doesNotMatch(run.stdout, /Jekyll|Slipway|starter|cp -R/);
 });

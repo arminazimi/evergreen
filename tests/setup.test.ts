@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -13,6 +12,7 @@ import {
   skillInstallCommand,
   type SkillInstallRunner,
 } from "../src/setup.js";
+import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
 after(async () => {
@@ -29,13 +29,9 @@ const repository = async (files: Record<string, string> = {}) => {
   return root;
 };
 
+// Stub the Skill installer so these tests never use the network.
 const cli = (root: string, ...args: string[]) =>
-  spawnSync(process.execPath, [resolve("dist/src/cli.js"), "setup", root, ...args], {
-    encoding: "utf8",
-    stdin: "ignore",
-    // Stub the Skill installer so these tests never use the network.
-    env: { ...process.env, EVERGREEN_SETUP_SKILL_INSTALL: "0" },
-  } as never);
+  runCli(["setup", root, ...args], { env: { EVERGREEN_SETUP_SKILL_INSTALL: "0" } });
 
 test("a repository with no host configuration has nothing to set up", async () => {
   const root = await repository({ "README.md": "hi\n" });
@@ -119,28 +115,28 @@ test("a link that leaves the repository is refused", async () => {
 test("the command prints a plan with --dry-run, needs --yes without a terminal, and writes with --yes", async () => {
   const root = await repository({ ".claude/x": "" });
 
-  const dry = cli(root, "--dry-run");
-  assert.equal(dry.status, 0, dry.stderr);
+  const dry = await cli(root, "--dry-run");
+  assert.equal(dry.code, 0, dry.stderr);
   assert.match(dry.stdout, /Would create CLAUDE\.md/);
   assert.match(dry.stdout, /Skill install \(supported hosts\):/);
   assert.match(dry.stdout, /Claude Code: npx skills add arminazimi\/evergreen --agent claude-code --skill evergreen-deprecation --yes/);
   assert.match(dry.stdout, /Dry run: nothing was written/);
   await assert.rejects(readFile(join(root, "CLAUDE.md"), "utf8"));
 
-  const refused = cli(root);
-  assert.equal(refused.status, 2);
+  const refused = await cli(root);
+  assert.equal(refused.code, 2);
   assert.match(refused.stderr, /pass --yes/);
   assert.match(refused.stdout, /Skill install \(supported hosts\):/);
   await assert.rejects(readFile(join(root, "CLAUDE.md"), "utf8"));
 
-  const applied = cli(root, "--yes");
-  assert.equal(applied.status, 0, applied.stderr);
+  const applied = await cli(root, "--yes");
+  assert.equal(applied.code, 0, applied.stderr);
   assert.ok((await readFile(join(root, "CLAUDE.md"), "utf8")).includes(SECTION_BEGIN));
   assert.match(applied.stdout, /Skill install \(supported hosts\):/);
   assert.match(applied.stdout, /Installed the Skill for Claude Code/);
 
-  const rerun = cli(root, "--yes");
-  assert.equal(rerun.status, 0, rerun.stderr);
+  const rerun = await cli(root, "--yes");
+  assert.equal(rerun.code, 0, rerun.stderr);
   assert.match(rerun.stdout, /Instruction files are already current/);
   assert.match(rerun.stdout, /Installed the Skill for Claude Code/);
 });
@@ -151,8 +147,8 @@ test("hosts without Skill support get no Skill offer", async () => {
   assert.deepEqual(plan.detected, ["Kilo Code"]);
   assert.deepEqual(plan.skills, []);
 
-  const dry = cli(root, "--dry-run");
-  assert.equal(dry.status, 0, dry.stderr);
+  const dry = await cli(root, "--dry-run");
+  assert.equal(dry.code, 0, dry.stderr);
   assert.doesNotMatch(dry.stdout, /Skill install/);
 });
 
@@ -168,8 +164,8 @@ test("installSetupSkills runs the exact command only when called, and dry-run ne
     return { status: 0, stdout: "ok\n", stderr: "" };
   };
 
-  const dry = cli(root, "--dry-run");
-  assert.equal(dry.status, 0, dry.stderr);
+  const dry = await cli(root, "--dry-run");
+  assert.equal(dry.code, 0, dry.stderr);
   assert.match(dry.stdout, /Dry run: nothing was written/);
   assert.equal(calls.length, 0, "dry-run must not install Skills (no network)");
 

@@ -1,18 +1,15 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 import { Ajv } from "ajv";
 
 import { BUNDLED_ECOSYSTEMS } from "../src/data-bundle.js";
 import type { ActiveData } from "../src/data-source.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import { SpdxError, enrichSpdx, enrichSpdxFile } from "../src/sbom/spdx.js";
-
-const execute = promisify(execFile);
+import { runCli } from "./cli-runner.js";
 const rule: RegistryV2Rule = {
   id: "example.eol", ecosystem: "npm", purl: "pkg:npm/example", vers: "vers:npm/<2.0.0",
   event: "end-of-life", title: "Example EOL", summary: "No longer supported", severity: "high",
@@ -197,10 +194,10 @@ test("CLI prints schema-valid enriched SPDX JSON deterministically and leaves th
       pkg("SPDXRef-nodejs", [purlRef("pkg:generic/nodejs@20.0.0")]),
     ]));
     await writeFile(path, original);
-    const args = [resolve("dist/src/cli.js"), "sbom", "enrich", path, "--data-version", "bundled"];
-    const first = await execute(process.execPath, args);
+    const args = ["sbom", "enrich", path, "--data-version", "bundled"];
+    const first = await runCli(args);
     assert.equal(first.stderr, "");
-    assert.equal(first.stdout, (await execute(process.execPath, args)).stdout);
+    assert.equal(first.stdout, (await runCli(args)).stdout);
     assert.equal(await readFile(path, "utf8"), original);
     const result = JSON.parse(first.stdout);
     assert.ok(validate(result), JSON.stringify(validate.errors));
@@ -211,17 +208,14 @@ test("CLI prints schema-valid enriched SPDX JSON deterministically and leaves th
     }]);
     assert.ok((packages(result)[0]!.externalRefs as unknown[]).length > 1);
     await writeFile(path, first.stdout);
-    assert.equal((await execute(process.execPath, args)).stdout, first.stdout);
+    assert.equal((await runCli(args)).stdout, first.stdout);
     for (const content of [JSON.stringify({ spdxVersion: "SPDX-2.2" }),
       JSON.stringify(document([pkg("SPDXRef-bad", [purlRef("bad")])]))]) {
       await writeFile(path, content);
-      await assert.rejects(execute(process.execPath, args), (error: unknown) => {
-        const failure = error as { code: number; stdout: string; stderr: string };
-        assert.equal(failure.code, 4);
-        assert.equal(failure.stdout, "");
-        assert.match(failure.stderr, /SPDX|Cannot match package/);
-        return true;
-      });
+      const failure = await runCli(args);
+      assert.equal(failure.code, 4);
+      assert.equal(failure.stdout, "");
+      assert.match(failure.stderr, /SPDX|Cannot match package/);
       assert.equal(await readFile(path, "utf8"), content);
     }
     await assert.rejects(enrichSpdxFile(join(root, "missing.json")), SpdxError);

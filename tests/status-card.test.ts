@@ -1,11 +1,10 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import { renderStatusCard } from "../src/status-card.js";
+import { runCli } from "./cli-runner.js";
 
 type Input = Pick<ScanResult, "findings" | "data">;
 
@@ -60,12 +59,11 @@ test("hostile labels and data versions are escaped", () => {
 });
 
 test("the CLI renders a card for the scanned path", async () => {
-  const run = promisify(execFile);
-  const cli = resolve("dist/src/cli.js");
-  const { stdout } = await run(process.execPath, [cli, "status-card", resolve("tests/fixtures/smoke"), "--name", "acme/widgets"]);
-  assert.match(stdout, /^<svg /);
-  assert.match(stdout, /evergreen status for acme\/widgets/);
-  await assert.rejects(run(process.execPath, [cli, "status-card", "--bogus"]), (error: { code?: number }) => error.code === 2);
+  const result = await runCli(["status-card", resolve("tests/fixtures/smoke"), "--name", "acme/widgets"]);
+  assert.equal(result.code, 0);
+  assert.match(result.stdout, /^<svg /);
+  assert.match(result.stdout, /evergreen status for acme\/widgets/);
+  assert.equal((await runCli(["status-card", "--bogus"])).code, 2);
 });
 
 test("social size is 1200x630 with brand fonts and no external references", () => {

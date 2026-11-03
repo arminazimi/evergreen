@@ -2,11 +2,12 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { CI_WORKFLOW_FILE, applyInitSetup, ciWorkflow, planInitSetup, planSummary } from "../src/init.js";
 import { VERSION } from "../src/version.js";
+import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
 after(async () => {
@@ -24,8 +25,7 @@ const repository = async (files: Record<string, string> = {}, git = true) => {
   return root;
 };
 
-const exercise = (root: string, args: string[]) =>
-  spawnSync(process.execPath, [resolve("dist/src/cli.js"), "init", ...args, root], { encoding: "utf8" });
+const exercise = (root: string, args: string[]) => runCli(["init", ...args, root]);
 
 test("a GitHub Actions repository with no agent files gets the workflow, the hook, and a fallback AGENTS.md offered", async () => {
   const root = await repository({ ".github/workflows/ci.yml": "name: Build\n" });
@@ -98,8 +98,8 @@ test("applying the plan writes the workflow, the hook, and the agent section", a
 
 test("a dry run through the CLI writes nothing and shows the defaults", async () => {
   const root = await repository({ ".github/workflows/ci.yml": "name: Build\n" });
-  const run = exercise(root, ["--dry-run"]);
-  assert.equal(run.status, 0, run.stderr);
+  const run = await exercise(root, ["--dry-run"]);
+  assert.equal(run.code, 0, run.stderr);
   assert.match(run.stdout, /^Detected: GitHub Actions; no agent hosts\n/);
   assert.match(run.stdout, /Would create .github\/workflows\/evergreen\.yml; it scans pull requests/);
   assert.match(run.stdout, /Would create \.git\/hooks\/pre-push; it blocks a push at high or above/);
@@ -110,37 +110,37 @@ test("a dry run through the CLI writes nothing and shows the defaults", async ()
 
 test("without a terminal the guided init refuses and points at --yes", async () => {
   const root = await repository({ ".github/workflows/ci.yml": "name: Build\n" });
-  const run = exercise(root, []);
-  assert.equal(run.status, 2);
+  const run = await exercise(root, []);
+  assert.equal(run.code, 2);
   assert.match(run.stderr, /Confirmation needed: pass --yes to write these changes, or --dry-run to only print them\./);
   await assert.rejects(readFile(join(root, CI_WORKFLOW_FILE), "utf8"));
 });
 
 test("guided init with --yes sets up CI, the hook, and agents in one step", async () => {
   const root = await repository({ ".github/workflows/ci.yml": "name: Build\n" });
-  const run = exercise(root, ["--yes"]);
-  assert.equal(run.status, 0, run.stderr);
+  const run = await exercise(root, ["--yes"]);
+  assert.equal(run.code, 0, run.stderr);
   assert.match(run.stdout, /Created .github\/workflows\/evergreen\.yml; it scans pull requests and pushes to main/);
   assert.match(run.stdout, /Created .git\/hooks\/pre-push; it blocks a push at high or above/);
   assert.match(run.stdout, /Created AGENTS\.md/);
   assert.match(await readFile(join(root, CI_WORKFLOW_FILE), "utf8"), /fail-on-severity: high/);
-  const again = exercise(root, ["--yes"]);
-  assert.equal(again.status, 0, again.stderr);
+  const again = await exercise(root, ["--yes"]);
+  assert.equal(again.code, 0, again.stderr);
   assert.match(again.stdout, /\.github\/workflows\/evergreen\.yml already has the current Evergreen workflow/);
   assert.match(again.stdout, /AGENTS\.md already has the current Evergreen section/);
 });
 
 test("--fail-on flows into the generated workflow", async () => {
   const root = await repository({ ".github/workflows/ci.yml": "name: Build\n" });
-  const run = exercise(root, ["--fail-on", "low", "--yes"]);
-  assert.equal(run.status, 0, run.stderr);
+  const run = await exercise(root, ["--fail-on", "low", "--yes"]);
+  assert.equal(run.code, 0, run.stderr);
   assert.match(await readFile(join(root, CI_WORKFLOW_FILE), "utf8"), /fail-on-severity: low/);
 });
 
 test("--file chooses the fallback agent file", async () => {
   const root = await repository();
-  const run = exercise(root, ["--file", "CLAUDE.md", "--yes"]);
-  assert.equal(run.status, 0, run.stderr);
+  const run = await exercise(root, ["--file", "CLAUDE.md", "--yes"]);
+  assert.equal(run.code, 0, run.stderr);
   assert.match(run.stdout, /Created CLAUDE\.md/);
   await assert.rejects(readFile(join(root, "AGENTS.md"), "utf8"));
 });
@@ -148,9 +148,9 @@ test("--file chooses the fallback agent file", async () => {
 test("the guided gate and the one-step-usages keep working", async () => {
   const root = await repository();
   for (const args of [["--personal", "--hooks"], ["--bogus"], ["--file", "TYPING.md", "--yes"]]) {
-    const run = exercise(root, args);
-    assert.equal(run.status, 2, args.join(" "));
+    const run = await exercise(root, args);
+    assert.equal(run.code, 2, args.join(" "));
     assert.match(run.stderr, /Usage: evergreen init|--file must be/);
   }
-  assert.equal(exercise(root, ["--agents", "--yes"]).status, 0);
+  assert.equal((await exercise(root, ["--agents", "--yes"])).code, 0);
 });

@@ -1,16 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import { renderSarif } from "../src/reporters.js";
-
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
 
 function finding(ruleId: string, path: string, line: number | undefined, severity: Severity = "high"): Finding {
   return {
@@ -99,13 +95,16 @@ test("scan --format sarif prints SARIF, and unknown formats are rejected", async
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
     await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
-    const { stdout } = await execute(process.execPath, [cli, "scan", root, "--format", "sarif"]);
+    const { stdout } = await runCli(["scan", root, "--format", "sarif"]);
     const sarif = JSON.parse(stdout);
     assert.equal(sarif.runs[0].results[0].ruleId, "github-actions.checkout.node20");
     assert.equal(sarif.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri, ".github/workflows/ci.yml");
 
-    await assert.rejects(execute(process.execPath, [cli, "scan", root, "--format", "xml"]), (error: { code: number; stderr: string }) => error.code === 2 && /Unknown format/.test(error.stderr));
-    await assert.rejects(execute(process.execPath, [cli, "explain", "x", root, "--format", "sarif"]), (error: { code: number }) => error.code === 2);
+    const unknown = await runCli(["scan", root, "--format", "xml"]);
+    assert.equal(unknown.code, 2);
+    assert.match(unknown.stderr, /Unknown format/);
+    const explain = await runCli(["explain", "x", root, "--format", "sarif"]);
+    assert.equal(explain.code, 2);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

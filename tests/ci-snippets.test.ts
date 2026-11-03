@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { parseDocument } from "yaml";
+
+import { runCli } from "./cli-runner.js";
 
 const root = resolve(import.meta.dirname, "../..");
 const jenkins = await readFile(resolve(root, "integrations/jenkins/Jenkinsfile"), "utf8");
@@ -44,14 +45,14 @@ test("the Bitbucket pipeline runs one Evergreen step that reports before it gate
   assert.deepEqual(step.artifacts, ["evergreen-report.json"]);
 });
 
-test("every flag the CI snippets pass appears in evergreen --help", () => {
+test("every flag the CI snippets pass appears in evergreen --help", async () => {
   // `--yes` is npx's own flag and precedes the package name, so only Evergreen's flags are collected.
   const flags = new Set(
     [jenkins, bitbucket].flatMap((text) => invocationArguments(text).flatMap((args) => [...args.matchAll(/--[\w-]+/g)].map((flag) => flag[0]!))),
   );
   assert.ok(flags.size > 0);
   assert.ok(flags.has("--fail-on"));
-  const help = spawnSync(process.execPath, [resolve(root, "dist/src/cli.js"), "--help"], { encoding: "utf8" });
-  assert.equal(help.status, 0, help.stderr);
+  const help = await runCli(["--help"]);
+  assert.equal(help.code, 0, help.stderr);
   for (const flag of flags) assert.ok(help.stdout.includes(flag), `${flag} is missing from --help`);
 });

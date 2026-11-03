@@ -1,16 +1,13 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
 import { groupByOwner, groupScanByOwner, ownersOf, parseCodeowners, renderOwnerGroupsText } from "../src/codeowners.js";
 import type { Finding } from "../src/domain.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -73,12 +70,14 @@ test("scan --by-owner groups a real scan by CODEOWNERS", async () => {
   await writeFile(join(root, "package.json"), JSON.stringify({ name: "x", version: "1.0.0", engines: { node: "18" }, dependencies: { request: "2.88.2" } }));
   await mkdir(dirname(join(root, ".github/CODEOWNERS")), { recursive: true });
   await writeFile(join(root, ".github/CODEOWNERS"), "package.json @org/platform\n");
-  const { stdout } = await execute("node", [cli, "scan", root, "--by-owner", "--json"]);
-  const groups = JSON.parse(stdout);
+  const json = await runCli(["scan", root, "--by-owner", "--json"]);
+  assert.equal(json.code, 0);
+  const groups = JSON.parse(json.stdout);
   assert.equal(groups.schemaVersion, "evergreen.owners.v1");
   assert.equal(groups.codeowners, ".github/CODEOWNERS");
   assert.deepEqual(groups.owners.map((group: { owner: string }) => group.owner), ["@org/platform"]);
   assert.deepEqual(groups.unowned, []);
-  const text = await execute("node", [cli, "scan", root, "--by-owner"]);
+  const text = await runCli(["scan", root, "--by-owner"]);
+  assert.equal(text.code, 0);
   assert.match(text.stdout, /@org\/platform \(\d+\)/);
 });

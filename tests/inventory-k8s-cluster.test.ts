@@ -1,19 +1,16 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, relative, resolve } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { k8sClusterImporter } from "../src/inventory/k8s-cluster.js";
 import { parseExport, runInventory } from "../src/inventory/index.js";
 import type { InventoryReport } from "../src/inventory/types.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const fixtures = resolve("tests/fixtures/inventory");
 const clusterFixtures = resolve(fixtures, "k8s-cluster");
 const versionExport = resolve(clusterFixtures, "version.json");
@@ -55,14 +52,8 @@ function imageVersion(image: string): string | undefined {
   return /\d+(?:\.\d+)*/.exec(image)?.[0];
 }
 
-async function runCli(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code ?? 1, stdout: failure.stdout ?? "", stderr: failure.stderr ?? "" };
-  }
+async function invokeCli(...args: string[]) {
+  return runCli(args);
 }
 
 test("detect accepts the version and node exports and rejects other shapes", async () => {
@@ -231,7 +222,7 @@ test("the examples report affected items with pointers that resolve", async () =
 });
 
 test("the CLI exits 1 on affected examples, validates against the schema, and honours --fail-on", async () => {
-  const { code, stdout } = await runCli("inventory", clusterExample, nodesExample, "--json");
+  const { code, stdout } = await invokeCli("inventory", clusterExample, nodesExample, "--json");
   assert.equal(code, 1);
   const report = JSON.parse(stdout) as InventoryReport;
   assert.equal(report.schemaVersion, "evergreen.inventory.v1");
@@ -243,8 +234,8 @@ test("the CLI exits 1 on affected examples, validates against the schema, and ho
   const validate = ajv.compile(await readJson(resolve("schemas/inventory.v1.schema.json")) as object);
   assert.equal(validate(report), true, JSON.stringify(validate.errors));
 
-  assert.equal((await runCli("inventory", clusterExample, nodesExample, "--fail-on", "critical")).code, 0);
-  assert.equal((await runCli("inventory", clusterExample, nodesExample, "--fail-on", "none")).code, 0);
+  assert.equal((await invokeCli("inventory", clusterExample, nodesExample, "--fail-on", "critical")).code, 0);
+  assert.equal((await invokeCli("inventory", clusterExample, nodesExample, "--fail-on", "none")).code, 0);
 });
 
 test("the CLI lists an unrecognized file, exits 2, and still reports the rest", async (t) => {
@@ -253,7 +244,7 @@ test("the CLI lists an unrecognized file, exits 2, and still reports the rest", 
   const other = resolve(directory, "other.json");
   await writeFile(other, JSON.stringify({ hello: "world" }));
 
-  const { code, stdout } = await runCli("inventory", clusterExample, other, "--json");
+  const { code, stdout } = await invokeCli("inventory", clusterExample, other, "--json");
   assert.equal(code, 2);
   const report = JSON.parse(stdout) as InventoryReport;
   assert.deepEqual(report.unrecognized, [other]);
@@ -261,7 +252,7 @@ test("the CLI lists an unrecognized file, exits 2, and still reports the rest", 
 });
 
 test("--redact hides every resource name in text and JSON output", async () => {
-  const { code, stdout } = await runCli("inventory", clusterExample, nodesExample, "--json", "--redact");
+  const { code, stdout } = await invokeCli("inventory", clusterExample, nodesExample, "--json", "--redact");
   assert.equal(code, 1);
   const report = JSON.parse(stdout) as InventoryReport;
   for (const { item } of report.results) assert.match(item.resource, /^[0-9a-f]{12}$/);

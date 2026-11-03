@@ -1,16 +1,12 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { test } from "node:test";
-import { promisify } from "node:util";
 
 import type { Finding, ScanResult } from "../src/domain.js";
 import { renderMarkdown } from "../src/reporters.js";
-
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
+import { runCli } from "./cli-runner.js";
 const hostile = '<script>alert("x")</script> | \\ [label](javascript:alert(1)) &';
 
 const finding = (overrides: Partial<Finding> = {}): Finding => ({
@@ -85,17 +81,14 @@ test("scan --format markdown writes the report and other commands reject the for
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
     await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
-    const { stdout } = await execute(process.execPath, [cli, "scan", root, "--format", "markdown"]);
+    const { stdout } = await runCli(["scan", root, "--format", "markdown"]);
     assert.ok(stdout.startsWith("# Evergreen scan report"));
     assert.ok(stdout.includes("| Severity | Finding | Location | Summary | Replacement | Evidence |"));
-    await assert.rejects(
-      execute(process.execPath, [cli, "check", "pkg:npm/request", "--format", "markdown"]),
-      (error: { code: number }) => error.code === 2,
-    );
-    await assert.rejects(
-      execute(process.execPath, [cli, "explain", "x", root, "--format", "markdown"]),
-      (error: { code: number; stderr: string }) => error.code === 2 && /--format markdown is only available for the scan command/.test(error.stderr),
-    );
+    const check = await runCli(["check", "pkg:npm/request", "--format", "markdown"]);
+    assert.equal(check.code, 2);
+    const explain = await runCli(["explain", "x", root, "--format", "markdown"]);
+    assert.equal(explain.code, 2);
+    assert.match(explain.stderr, /--format markdown is only available for the scan command/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

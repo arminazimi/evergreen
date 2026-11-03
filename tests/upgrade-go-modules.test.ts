@@ -1,10 +1,8 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
@@ -18,9 +16,8 @@ import {
   parseVendorModules,
 } from "../src/upgrade/go-modules.js";
 import type { UpgradeIssue } from "../src/upgrade/types.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cliPath = resolve("dist/src/cli.js");
 const fixtures = resolve("tests/fixtures/upgrade/go-modules");
 const temporaryRoots: string[] = [];
 
@@ -48,14 +45,8 @@ async function lifecycle(id: string, path: string, line: number, target: string)
   };
 }
 
-async function cli(...args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cliPath, ...args]);
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code, stdout: failure.stdout, stderr: failure.stderr };
-  }
+async function cli(...args: string[]) {
+  return runCli(args);
 }
 
 test("normalizes and orders Go release numbers", () => {

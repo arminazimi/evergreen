@@ -1,9 +1,7 @@
 import assert from "node:assert/strict";
-import { execFile, spawnSync } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import {
@@ -18,9 +16,8 @@ import {
 } from "../src/countdown.js";
 import type { CountdownIo, CountdownRow } from "../src/countdown.js";
 import type { Forecast, ForecastEvent } from "../src/forecast.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 const DAY = 86_400;
 const now = Date.parse("2026-10-25T00:00:00Z");
@@ -216,7 +213,11 @@ test("the CLI prints one plain frame off a terminal and a JSON document with --j
   const root = await mkdtemp(join(tmpdir(), "evergreen-countdown-"));
   roots.push(root);
   await writeFile(join(root, "package.json"), JSON.stringify({ engines: { node: "22" } }));
-  const run = async (...flags: string[]) => (await execute(process.execPath, [cli, "countdown", root, "--as-of", "2026-10-25", ...flags])).stdout;
+  const run = async (...flags: string[]) => {
+    const result = await runCli(["countdown", root, "--as-of", "2026-10-25", ...flags]);
+    assert.equal(result.code, 0);
+    return result.stdout;
+  };
 
   const text = await run();
   assert.match(text, /Node\.js 22/);
@@ -235,9 +236,10 @@ test("the CLI prints one plain frame off a terminal and a JSON document with --j
 
 test("rejects a limit that is not a whole number of at least 1", async () => {
   for (const value of ["0", "-1", "x", "1.5"]) {
-    await assert.rejects(execute(process.execPath, [cli, "countdown", ".", "--limit", value]), (error: { code?: number }) => error.code === 2);
+    const result = await runCli(["countdown", ".", "--limit", value]);
+    assert.equal(result.code, 2);
   }
-  const missing = spawnSync(process.execPath, [cli, "countdown", ".", "--limit"], { encoding: "utf8" });
-  assert.equal(missing.status, 2);
+  const missing = await runCli(["countdown", ".", "--limit"]);
+  assert.equal(missing.code, 2);
   assert.match(missing.stderr, /--limit needs a whole number/);
 });

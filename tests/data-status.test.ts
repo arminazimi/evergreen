@@ -1,17 +1,14 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
-import { promisify } from "node:util";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { dataStatusFrom, renderDataStatusText, STALE_AFTER_DAYS } from "../src/data-status.js";
 import type { ActiveData, DataSourceInfo } from "../src/data-source.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -73,13 +70,7 @@ test("the text output says where the data came from, how old it is, and what wen
 });
 
 async function run(args: string[], cache: string) {
-  try {
-    const { stdout, stderr } = await execute(process.execPath, [cli, ...args], { env: { ...process.env, EVERGREEN_DATA_DIR: cache } });
-    return { code: 0, stdout, stderr };
-  } catch (error) {
-    const failure = error as { code: number; stdout: string; stderr: string };
-    return { code: failure.code, stdout: failure.stdout, stderr: failure.stderr };
-  }
+  return runCli(args, { env: { EVERGREEN_DATA_DIR: cache } });
 }
 
 test("evergreen data status prints text and JSON, and reads only the local cache", async () => {

@@ -1,17 +1,14 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { ScanResult } from "../src/domain.js";
 import { addMonths, buildForecast, renderForecastText } from "../src/forecast.js";
 import type { RegistryV2Rule } from "../src/registry.js";
+import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
-const cli = resolve("dist/src/cli.js");
 const roots: string[] = [];
 
 after(async () => {
@@ -81,7 +78,11 @@ test("evergreen forecast reports Node.js 22 reaching end of life, for a fixed da
   const root = await mkdtemp(join(tmpdir(), "evergreen-forecast-"));
   roots.push(root);
   await writeFile(join(root, "package.json"), JSON.stringify({ engines: { node: "22" } }));
-  const run = async (...flags: string[]) => (await execute(process.execPath, [cli, "forecast", root, "--as-of", "2026-10-25", ...flags])).stdout;
+  const run = async (...flags: string[]) => {
+    const result = await runCli(["forecast", root, "--as-of", "2026-10-25", ...flags]);
+    assert.equal(result.code, 0);
+    return result.stdout;
+  };
 
   const json = JSON.parse(await run("--json")) as { today: string; months: number; affecting: number; groups: Array<{ month: string; events: Array<{ ruleId: string; findings: unknown[] }> }> };
   assert.equal(json.today, "2026-10-25");
@@ -98,6 +99,7 @@ test("evergreen forecast reports Node.js 22 reaching end of life, for a fixed da
 
 test("rejects a months value that is not a whole number from 1 to 36", async () => {
   for (const value of ["0", "x", "1.5", "37"]) {
-    await assert.rejects(execute(process.execPath, [cli, "forecast", ".", "--months", value]), (error: { code?: number }) => error.code === 2);
+    const result = await runCli(["forecast", ".", "--months", value]);
+    assert.equal(result.code, 2);
   }
 });
