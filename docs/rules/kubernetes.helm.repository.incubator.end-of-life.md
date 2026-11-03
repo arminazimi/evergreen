@@ -70,12 +70,12 @@ The [`kubernetes`](../detectors/kubernetes.md) detector. See [Detectors](../DETE
 
 - [MutatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served](kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed.html)
 - [ValidatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served](kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed.html)
-- [CustomResourceDefinition apiextensions.k8s.io/v1beta1 is no longer served](kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed.html)
-- [APIService apiregistration.k8s.io/v1beta1 is no longer served](kubernetes.apiregistration-k8s-io.apiservice.v1beta1.removed.html)
-- [DaemonSet apps/v1beta2 is no longer served](kubernetes.apps.daemonset.v1beta2.removed.html)
-- [Deployment apps/v1beta1 is no longer served](kubernetes.apps.deployment.v1beta1.removed.html)
-- [Deployment apps/v1beta2 is no longer served](kubernetes.apps.deployment.v1beta2.removed.html)
-- [ReplicaSet apps/v1beta1 is no longer served](kubernetes.apps.replicaset.v1beta1.removed.html)
+- [EKS 1.30 and earlier clusters are past end of extended support](kubernetes.amazon-eks.1-30-and-older.html)
+- [EKS 1.31 cluster is past end of standard support](kubernetes.amazon-eks.1-31.html)
+- [EKS 1.32 cluster is past end of standard support](kubernetes.amazon-eks.1-32.html)
+- [EKS 1.33 cluster is past end of standard support](kubernetes.amazon-eks.1-33.html)
+- [EKS 1.34 cluster is scheduled to leave standard support](kubernetes.amazon-eks.1-34.html)
+- [EKS 1.35 cluster is scheduled to leave standard support](kubernetes.amazon-eks.1-35.html)
 
 
 ## Data

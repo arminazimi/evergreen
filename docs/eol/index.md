@@ -34,7 +34,7 @@ These 50 pages answer “Is it end of life?” for products people search for. E
 - [Is PowerShell end of life?](powershell.html) — `pkg:generic/powershell`, 5 rules
 - [Is Azure Kubernetes Service end of life?](azure-kubernetes-service.html) — `pkg:generic/azure-kubernetes-service`, 6 rules
 - [Is Google Kubernetes Engine end of life?](google-kubernetes-engine.html) — `pkg:generic/google-kubernetes-engine`, 5 rules
-- [Is Amazon EKS end of life?](amazon-eks.html) — `pkg:generic/amazon-eks`, 4 rules
+- [Is Amazon EKS end of life?](amazon-eks.html) — `pkg:generic/amazon-eks`, 11 rules
 - [Is Rust end of life?](rust.html) — `pkg:generic/rust`, 1 rule
 - [Is Dart end of life?](dart.html) — `pkg:generic/dart`, 5 rules
 - [Is Scala end of life?](scala.html) — `pkg:generic/scala`, 2 rules

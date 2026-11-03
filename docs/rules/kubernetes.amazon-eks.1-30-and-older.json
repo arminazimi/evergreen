@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "kubernetes.amazon-eks.1-30-and-older",
+  "ecosystem": "kubernetes",
+  "purl": "pkg:generic/amazon-eks",
+  "affectedVersions": "vers:semver/<1.31.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "EKS 1.30 and earlier clusters are past end of extended support",
+  "summary": "The Amazon EKS release calendar no longer lists 1.30 or earlier: each passed its end of extended support, after which Amazon EKS upgrades the control plane on its own to the oldest version still in extended support. The calendar gives no date for these releases, so this rule carries none.",
+  "replacement": "Amazon EKS 1.35 or later",
+  "sources": [
+    {
+      "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+      "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html",
+      "accessedAt": "2026-11-03"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-11-03",
+    "reviewedAt": "2026-11-03",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Amazon EKS upgrades one minor version at a time, so cross each intervening minor version and read its upgrade notes before applying the next one.",
+      "A control plane and its node groups upgrade separately: raise the control plane first, then every node group and every add-on that pins a Kubernetes version.",
+      "Managed node groups and self-managed nodes do not follow a control-plane upgrade, so a node group left behind keeps running the older release line."
+    ],
+    "steps": [
+      {
+        "id": "raise-cluster-version",
+        "title": "Raise the control-plane version",
+        "instructions": "Run aws eks update-cluster-version with the version in the replacement, or set version and spec.version in the CloudFormation, Terraform, or eksctl declaration of the cluster, and confirm the result with aws eks describe-cluster.",
+        "targets": "declaration"
+      },
+      {
+        "id": "raise-node-groups",
+        "title": "Raise the node groups",
+        "instructions": "Run aws eks update-nodegroup-version for each managed node group, and replace the Amazon EKS optimized AMI in the launch template of each self-managed group so its nodes roll onto the new version.",
+        "targets": "all"
+      },
+      {
+        "id": "update-versioned-addons",
+        "title": "Update the add-ons that pin a version",
+        "instructions": "Set kube-proxy, Amazon VPC CNI, and CoreDNS to the version Amazon EKS recommends for the new cluster version, and check any other add-on that declares a Kubernetes version.",
+        "targets": "all"
+      },
+      {
+        "id": "review-removed-apis",
+        "title": "Remove APIs the new version deleted",
+        "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions in manifests and Helm charts before applying.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "kubectl version",
+        "purpose": "Confirm the API server reports the new version."
+      },
+      {
+        "command": "kubectl get nodes -o wide",
+        "purpose": "Confirm every node runs a kubelet of the new version."
+      },
+      {
+        "command": "kubeconform -strict -summary .",
+        "purpose": "Confirm the manifests still validate against the new API versions."
+      }
+    ]
+  }
+}

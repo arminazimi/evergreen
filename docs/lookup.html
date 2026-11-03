@@ -164,7 +164,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 732 rules and makes no network requests after it loads.
+        This page embeds 739 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -180,7 +180,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 732 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 739 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -3564,6 +3564,131 @@ h1 {
       {
         "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
         "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.amazon-eks.1-30-and-older",
+    "title": "EKS 1.30 and earlier clusters are past end of extended support",
+    "summary": "The Amazon EKS release calendar no longer lists 1.30 or earlier: each passed its end of extended support, after which Amazon EKS upgrades the control plane on its own to the oldest version still in extended support. The calendar gives no date for these releases, so this rule carries none.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/amazon-eks",
+    "vers": "vers:semver/\u003c1.31.0",
+    "replacement": "Amazon EKS 1.35 or later",
+    "sources": [
+      {
+        "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.amazon-eks.1-31",
+    "title": "EKS 1.31 cluster is past end of standard support",
+    "summary": "The Amazon EKS release calendar gives 1.31 end of standard support on 2025-11-26 and end of extended support on 2026-11-26. The cluster now receives patches only while extended support is enabled, and pays the extended-support rate per cluster hour.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/amazon-eks",
+    "vers": "vers:semver/>=1.31.0|\u003c1.32.0",
+    "deadline": "2025-11-26",
+    "replacement": "Amazon EKS 1.35 or later",
+    "sources": [
+      {
+        "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.amazon-eks.1-32",
+    "title": "EKS 1.32 cluster is past end of standard support",
+    "summary": "The Amazon EKS release calendar gives 1.32 end of standard support on 2026-03-23 and end of extended support on 2027-03-23. The cluster now receives patches only while extended support is enabled, and pays the extended-support rate per cluster hour.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/amazon-eks",
+    "vers": "vers:semver/>=1.32.0|\u003c1.33.0",
+    "deadline": "2026-03-23",
+    "replacement": "Amazon EKS 1.35 or later",
+    "sources": [
+      {
+        "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.amazon-eks.1-33",
+    "title": "EKS 1.33 cluster is past end of standard support",
+    "summary": "The Amazon EKS release calendar gives 1.33 end of standard support on 2026-07-29 and end of extended support on 2027-07-29. The cluster now receives patches only while extended support is enabled, and pays the extended-support rate per cluster hour.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/amazon-eks",
+    "vers": "vers:semver/>=1.33.0|\u003c1.34.0",
+    "deadline": "2026-07-29",
+    "replacement": "Amazon EKS 1.35 or later",
+    "sources": [
+      {
+        "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.amazon-eks.1-34",
+    "title": "EKS 1.34 cluster is scheduled to leave standard support",
+    "summary": "The Amazon EKS release calendar gives 1.34 end of standard support on 2026-12-02 and end of extended support on 2027-12-02. A cluster past end of standard support is billed at the extended-support rate for every hour it stays on 1.34.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/amazon-eks",
+    "vers": "vers:semver/>=1.34.0|\u003c1.35.0",
+    "deadline": "2026-12-02",
+    "replacement": "Amazon EKS 1.35 or later",
+    "sources": [
+      {
+        "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.amazon-eks.1-35",
+    "title": "EKS 1.35 cluster is scheduled to leave standard support",
+    "summary": "The Amazon EKS release calendar gives 1.35 end of standard support on 2027-03-27 and end of extended support on 2028-03-27. A cluster past end of standard support is billed at the extended-support rate for every hour it stays on 1.35.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/amazon-eks",
+    "vers": "vers:semver/>=1.35.0|\u003c1.36.0",
+    "deadline": "2027-03-27",
+    "replacement": "Amazon EKS 1.36 or later",
+    "sources": [
+      {
+        "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.amazon-eks.1-36",
+    "title": "EKS 1.36 cluster is scheduled to leave standard support",
+    "summary": "The Amazon EKS release calendar gives 1.36 end of standard support on 2027-08-02 and end of extended support on 2028-08-02. A cluster past end of standard support is billed at the extended-support rate for every hour it stays on 1.36.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/amazon-eks",
+    "vers": "vers:semver/>=1.36.0|\u003c1.37.0",
+    "deadline": "2027-08-02",
+    "replacement": "Amazon EKS 1.37 or later",
+    "sources": [
+      {
+        "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
       }
     ]
   },

@@ -317,6 +317,57 @@ Nothing else is copied: not `FunctionArn`, `Role`, environment variables, tags, 
 - Function versions, aliases, `$LATEST`, code, layers, architecture, and memory: none of them changes the runtime lifecycle answer.
 - Functions that a different export would show: this importer reads only the file you pass, and only the functions in it.
 
+## AWS EKS clusters and node groups
+
+```bash
+aws eks describe-cluster --name prod-payments > cluster.json
+aws eks describe-nodegroup --cluster-name prod-payments --nodegroup-name workers > nodegroup.json
+evergreen inventory cluster.json nodegroup.json
+```
+
+Each command prints one document: `describe-cluster` prints `{"cluster": …}` and `describe-nodegroup` prints `{"nodegroup": …}`. A script that collects several outputs into one JSON array is read as well, so `jq -s '.[] | {cluster: .}'` over a list of cluster exports works; an array is read only when every element is one of the two document shapes.
+
+**Fields read**
+
+| Export | Fields | PURL | Version |
+| --- | --- | --- | --- |
+| `aws eks describe-cluster` | `cluster.name`, `cluster.version` | `pkg:generic/amazon-eks` | `version` |
+| `aws eks describe-nodegroup` | `nodegroup.clusterName`, `nodegroup.nodegroupName`, `nodegroup.version` | `pkg:generic/amazon-eks` | `version` |
+| `aws eks describe-nodegroup` | `nodegroup.amiType` | `pkg:generic/amzn` | the Amazon Linux release the AMI type is built on |
+
+`resource` is the cluster name for a cluster and `<clusterName>/<nodegroupName>` for a node group; a node group whose export carries no `clusterName` is named by its own name alone. A pointer marks the exact field the version came from — `/cluster/version`, `/nodegroup/amiType` — with `/<entry>` in front for an array, so `/1/nodegroup/version` is the `version` of the second entry.
+
+A version is read only in the shape EKS itself writes: `1.31` or `1.31.4`. A `v` prefix or an `-eks-…` build suffix is the kubelet string a node reports, not the cluster's release line, so such a value is skipped rather than guessed; run `kubectl get nodes -o json` and the Kubernetes cluster importer for those. `aws eks list-clusters` and `aws eks list-nodegroups` print names only, and `aws eks describe-cluster-versions` prints the versions EKS offers rather than the one deployed: none of them is read.
+
+**Amazon Linux AMI types**
+
+`amiType` names the Amazon EKS optimized AMI the nodes run, and each type is built on a known Amazon Linux release:
+
+| `amiType` | Item |
+| --- | --- |
+| `AL2_x86_64`, `AL2_x86_64_GPU`, `AL2_ARM_64` | `pkg:generic/amzn` at `2` |
+| `AL2023_x86_64_STANDARD`, `AL2023_ARM_64_STANDARD`, `AL2023_x86_64_NEURON`, `AL2023_x86_64_NVIDIA`, `AL2023_ARM_64_NVIDIA` | `pkg:generic/amzn` at `2023` |
+
+The item is judged by the same host-OS rules a server's `/etc/os-release` is judged by, so an AL2 node group reports the Amazon Linux 2 end of support and an AL2023 node group reports `not-affected` — which says nothing about the packages inside the AMI. `BOTTLEROCKET_*`, `WINDOWS_*`, and `CUSTOM` produce no Amazon Linux item: no reviewed rule judges them, so the node group's operating system is skipped rather than guessed. `releaseVersion` (`AL2023_x86_64_STANDARD_20260918`) is an AMI build string and `platformVersion` (`eks.3227`) is the EKS platform, neither of which has a lifecycle of its own, so neither is read.
+
+**Rules matched**
+
+- `registry/kubernetes.json`: the `pkg:generic/amazon-eks` minor-version rules, sourced to the [Amazon EKS version lifecycle page](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html). A version past end of standard support but still inside its 12 months of extended support is `end-of-support` at `medium` with that end date as its deadline; `1.30` and earlier, which the calendar no longer lists, are `end-of-life` at `high`; an announced end of standard support that has not passed yet is `scheduled-end-of-life` at `low` ([decision 0010](decisions/0010-scheduled-end-of-life.md)), which is why `1.34`, `1.35`, and `1.36` carry rules and `1.37` does not yet — its date, 2027-12-01, is more than twelve months out.
+- `registry/container.json`: the `pkg:generic/amzn` rules for a node group's AMI type.
+
+`registry/terraform.json` carries the same EKS facts as its own rules for the Terraform detector, which reads `cluster_version` in `*.tf`; the Terraform state importer reads `registry/kubernetes.json`, so a state file's `aws_eks_cluster` and a live `describe-cluster` export are judged by the same rules.
+
+**What is not judged**
+
+- Self-managed nodes, Fargate pods, and any node outside a managed node group: `aws eks describe-nodegroup` only describes managed node groups. Use `kubectl get nodes -o json` for what is actually running.
+- `cluster.addons[]` versions, `accessConfig`, `encryptionConfig`, `outpostConfig`, and upgrade policies.
+- `endpoint`, `certificateAuthority.data`, `arn`, `roleArn`, `resourcesVpcConfig`, `subnets`, `securityGroupIds`, `remoteAccess.ec2SshKey`, tags, and labels: never read, never emitted.
+- An EKS release no rule covers yet — today `1.37` — which reports `no-data`. `no-data` is never a statement that the version is supported.
+
+**Fixtures**
+
+`tests/fixtures/inventory/aws-eks/` holds one sanitized sample per document type, plus `rejects/` for the shapes listed above, with every account id, ARN, endpoint host, certificate, subnet, VPC and security group id, SSH key name, and tag value replaced by a placeholder. `examples/inventory/aws-eks.json` is a runnable sample. The shapes follow the documented output of AWS CLI v2 rather than a capture from a live account, so no CLI version is recorded.
+
 ## Google Cloud
 
 ```bash
@@ -495,10 +546,10 @@ A leading `~` in a Node.js version is Azure's release-line notation, so `~18` is
 **Rules matched**
 
 - `registry/database.json`: RDS, Aurora, and ElastiCache engine rules, the same rules the AWS RDS importer uses.
-- `registry/kubernetes.json`: GKE and AKS minor-version rules.
+- `registry/kubernetes.json`: GKE, AKS, and EKS minor-version rules.
 - `registry/serverless.json`: AWS Lambda, Google Cloud Functions, and Azure App Service stack and Functions runtime rules.
 
-`pkg:generic/amazon-eks` currently has rules in `registry/terraform.json` for the Terraform source detector; they are not in the registry this importer reads, so an EKS cluster is reported as `no-data` until the EKS importer's `registry/kubernetes.json` rules land. `no-data` is never a statement that the version is safe.
+`pkg:generic/amazon-eks` has rules in both `registry/kubernetes.json`, which this importer reads, and `registry/terraform.json`, which the Terraform source detector reads, so a cluster recorded in state and a `cluster_version` written in `*.tf` are judged by the same calendar. An EKS version no `registry/kubernetes.json` rule covers reports `no-data`. `no-data` is never a statement that the version is safe.
 
 **What is not judged**
 
