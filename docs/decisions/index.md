@@ -50,6 +50,12 @@ otherwise. Records are numbered in the order they were written; this page groups
 | --- | --- | --- |
 | [0023](0023-measurable-quality-criteria.md) | Define reference quality as measurable, enforced criteria | **Proposed.** Define eight quality criteria, each enforced by a failing check; zero new debt; existing debt allowlisted with an owner and an expiry of 2027-01-26. |
 
+## Operations
+
+| # | Title | Decision |
+| --- | --- | --- |
+| [0024](0024-ci-lanes.md) | CI lanes: pull request, merge queue, main, nightly, release | **Proposed.** Five CI lanes with wall-clock budgets; one required check (`ci-ok`); the merge queue is the proof that lands on `main`. |
+
 ## Policy
 
 | # | Title | Decision |
