@@ -44,6 +44,8 @@ You need Node.js 22 or newer, git, and a GitHub account. The details for each st
 
 That is the whole loop. The sections below explain the labels, the optional pre-push hook, how to add a lifecycle rule, the evidence policy, and the [review expectations](#review-expectations).
 
+Coding agents and parallel contributors: follow the [parallel-task protocol in AGENTS.md](AGENTS.md#parallel-task-protocol) (one branch per issue from the same base, shared paths, conflicts, rebase). Do not duplicate that protocol here.
+
 ## Find an issue
 
 Every roadmap issue belongs to a phase milestone and is small enough for one pull request. Two labels tell you whether it fits you:

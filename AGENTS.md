@@ -75,6 +75,47 @@ CI fails when generated output drifts from its source. The exception is `dist/ac
 5. Run `npm run check` and make sure it passes.
 6. Open the PR with `Closes #<issue>` and list the commands you ran. For rule changes, link the evidence.
 
+## Parallel-task protocol
+
+Use this when more than one agent or contributor works on the repository at once. Follow it with no other context.
+
+### One branch per task from the same base
+
+1. Branch from up-to-date `main` (or the issue's stated base). Name it `<type>/<issue-number>-<short-name>` (for example `docs/2022-parallel-task-protocol`).
+2. One issue = one pull request = one branch. Do not stack unrelated issues on the same branch.
+3. Prefer an isolated git worktree when running multiple tasks in parallel, so each branch has its own working tree and does not stomp on another.
+
+### Shared paths
+
+Prefer adding new per-item files instead of editing assembled or shared registries. Paths many tasks touch:
+
+| Path | How to change it |
+|---|---|
+| `benchmarks/thresholds.json` | Assembled. Edit `benchmarks/thresholds/<detector>.json`, then regenerate with the assembler in `benchmarks/thresholds/index.ts`. Do not edit the assembled file by hand. |
+| `examples/capabilities.json` | Assembled. Edit per-item files under `src/capabilities/`, then regenerate. Do not edit the assembled file by hand. |
+| Generated paths in [Generated files](#generated-files--do-not-edit-by-hand) | Edit the listed source; regenerate; never hand-edit the output. |
+| `benchmarks/public-repositories/` | One file per repo. Add a new file; do not edit a monolith. |
+| `tools/importers/index.ts` | Registration list. Adding an importer means a new file **and** one import line here — expect conflicts. |
+| `AGENTS.md`, `CONTRIBUTING.md` | Shared docs; rebase carefully if another PR touched them. |
+| `package-lock.json` | Shared lockfile; regenerate from `package.json` when needed, do not hand-merge blindly. |
+| `CHANGELOG.md` | Do not edit directly. Add a fragment under `changes/` (see [changes/README.md](changes/README.md)). |
+
+**Shared registry rule:** A shared or assembled registry must not be edited by hand. Edit the per-item source; regenerate the assembled document; commit both when the check requires the assembled file to match.
+
+### On conflict
+
+- Do not force-push.
+- Rebase onto latest `main` (or merge if the brief says so).
+- Resolve by keeping both parties' new per-item files.
+- Never "fix" a conflict by hand-editing an assembled registry — regenerate it from sources.
+- If the conflict is outside your issue's file list, stop and ask, or open a follow-up issue, rather than expanding scope.
+
+### When to rebase
+
+- Rebase onto `main` before opening the PR if `main` moved.
+- Rebase (do not merge `main` into the branch) when CI is green except for being behind, or when resolving conflicts after another PR landed.
+- Do not rewrite history that is already under review without need.
+
 ## Conventions
 
 - Commit messages use Conventional Commits: `feat:`, `fix:`, `docs:`, `test:`, `chore:`.
