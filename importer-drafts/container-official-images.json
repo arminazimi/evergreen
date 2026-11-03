@@ -1,0 +1,242 @@
+{
+  "importer": "container-official-images",
+  "ecosystem": "container",
+  "observedAt": "2026-11-03",
+  "rules": [
+    {
+      "id": "container.node.eol-21-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/node",
+      "vers": "vers:semver/<22.0.0",
+      "event": "end-of-life",
+      "title": "Node.js image release lines 21 and older are end-of-life",
+      "summary": "These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime.",
+      "severity": "high",
+      "replacement": "A node image on a supported release line, such as node:22",
+      "deadline": "2026-04-30",
+      "sources": [
+        {
+          "title": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        },
+        {
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "pending-review",
+        "importer": "container-official-images"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the Dockerfile base image, Compose image, CI service containers, and the engines field in package.json on one supported Node.js release line.",
+          "Confirm native modules and production dependencies support the target Node.js major."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE node --version",
+            "purpose": "Confirm the container runs the intended Node.js version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.node.eol-22-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/node",
+      "vers": "vers:semver/>=22.0.0|<23.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "Node.js image release line 22 reaches end-of-life on 2027-04-30",
+      "summary": "Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, so images tagged with it will then be built on an unsupported runtime.",
+      "severity": "low",
+      "replacement": "A node image on a later supported release line, such as node:24",
+      "deadline": "2027-04-30",
+      "sources": [
+        {
+          "title": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        },
+        {
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "pending-review",
+        "importer": "container-official-images"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the Dockerfile base image, Compose image, CI service containers, and the engines field in package.json on one supported Node.js release line.",
+          "Confirm native modules and production dependencies support the target Node.js major."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE node --version",
+            "purpose": "Confirm the container runs the intended Node.js version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.python.eol-3.10-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/python",
+      "vers": "vers:semver/<3.11.0",
+      "event": "end-of-life",
+      "title": "Python image release lines 3.10 and older are end-of-life",
+      "summary": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+      "severity": "high",
+      "replacement": "A python image on a supported release line",
+      "deadline": "2026-10-01",
+      "sources": [
+        {
+          "title": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/"
+        },
+        {
+          "title": "Python release cycle (machine-readable)",
+          "url": "https://peps.python.org/api/release-cycle.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "pending-review",
+        "importer": "container-official-images"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, requires-python, CI matrices, and deployment runtimes on one supported Python release.",
+          "Confirm binary wheels and dependencies support the target Python release; rebuild any virtual environment or wheel cache inside the image."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE python --version",
+            "purpose": "Confirm the container runs the intended Python version."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.python.eol-3.11-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/python",
+      "vers": "vers:semver/>=3.11.0|<3.12.0",
+      "event": "scheduled-end-of-life",
+      "title": "Python image release line 3.11 reaches end-of-life on 2027-10-31",
+      "summary": "Python 3.11 is scheduled to stop receiving security fixes from the Python core team on 2027-10-31, so images tagged with it will then be built on an unsupported runtime.",
+      "severity": "low",
+      "replacement": "A python image on a later supported release line",
+      "deadline": "2027-10-31",
+      "sources": [
+        {
+          "title": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/"
+        },
+        {
+          "title": "Python release cycle (machine-readable)",
+          "url": "https://peps.python.org/api/release-cycle.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "pending-review",
+        "importer": "container-official-images"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, requires-python, CI matrices, and deployment runtimes on one supported Python release.",
+          "Confirm binary wheels and dependencies support the target Python release; rebuild any virtual environment or wheel cache inside the image."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE python --version",
+            "purpose": "Confirm the container runs the intended Python version."
+          }
+        ]
+      }
+    }
+  ],
+  "notes": [
+    "PostgreSQL, MySQL, and Ruby image rules have no machine-readable vendor source and stay hand-written."
+  ]
+}
