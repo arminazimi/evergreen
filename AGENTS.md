@@ -73,7 +73,8 @@ CI fails when generated output drifts from its source. The exception is `dist/ac
 3. **One issue = one pull request.** If you find more work, open a follow-up issue instead of growing the PR.
 4. Add or update tests for observable behavior. Keep JSON output deterministic and stable across platforms.
 5. Run `npm run check` and make sure it passes.
-6. Open the PR with `Closes #<issue>` and list the commands you ran. For rule changes, link the evidence.
+6. Self-check the diff against the [review rubric](docs/REVIEW.md) (scope, correct layer, real tests, honest docs) and fix every item that would block a merge.
+7. Open the PR with `Closes #<issue>` and list the commands you ran. For rule changes, link the evidence.
 
 ## Parallel-task protocol
 
@@ -157,6 +158,7 @@ Do not add it if the check reports an end-of-life, deprecated, or retired result
 
 ## More
 
+- [docs/REVIEW.md](docs/REVIEW.md) — review rubric for agent pull requests: what to check beyond CI, and what must block a merge
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution paths and review expectations
 - [docs/ROADMAP.md](docs/ROADMAP.md) — phases and what each one delivers
 - [docs/DETECTORS.md](docs/DETECTORS.md) — detector and registry authoring
