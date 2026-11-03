@@ -3,6 +3,11 @@ name: Scorecard
 # Weekly OpenSSF Scorecard run. Publishes results to the Scorecard API and uploads
 # SARIF to code scanning. Uses the official workflow shape with SHA-pinned actions.
 # See SECURITY.md for checks that are intentionally not raised to 10.
+#
+# After publishing, this workflow enforces the per-check Scorecard targets
+# (`tools/scorecard-targets.ts`): it reads the latest published results and fails,
+# naming every check that fell below its recorded target. Targets only rise, never
+# fall, without a written reason. The overall score floor is `scorecard-floor.yml`.
 on:
   branch_protection_rule:
   schedule:
@@ -16,7 +21,8 @@ jobs:
   analysis:
     name: Scorecard analysis
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # The analysis, plus the npm install and build the target check needs.
+    timeout-minutes: 30
     permissions:
       # Checkout the repository.
       contents: read
@@ -51,3 +57,43 @@ jobs:
         uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
           sarif_file: results.sarif
+
+      - name: Run analysis for the floor gate
+        # Second pass of the same pinned action, in JSON, so the step below can read every
+        # per-check score. The SARIF run above already published the results; this one does not.
+        uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e # v2.5.0
+        with:
+          results_file: results.json
+          results_format: json
+          publish_results: false
+
+      - name: Check scores against recorded targets
+        # Fails this run, naming each check, when a score is below its recorded target in
+        # tools/scorecard-floor.mjs. Targets only rise, never fall, without a written reason.
+        # Reads the results file of the step above; no network access.
+        run: node tools/scorecard-floor.mjs results.json
+
+      # The per-check target enforcement runs against the published results, the same
+      # source the badge reads. The API is eventually consistent, so the fetch retries
+      # until this run's publication is visible. The tool itself never uses the network.
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22
+
+      - name: Install and build
+        run: |
+          set -euo pipefail
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Read the latest published results
+        env:
+          SCORECARD_URL: https://api.securityscorecards.dev/projects/github.com/arminazimi/evergreen
+        run: |
+          set -euo pipefail
+          curl --tlsv1.2 -fsSL --retry 6 --retry-delay 20 --retry-all-errors \
+            "$SCORECARD_URL" -o scorecard-results.json
+
+      - name: Enforce per-check Scorecard targets
+        run: node dist/tools/scorecard-targets.js --results scorecard-results.json
