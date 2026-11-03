@@ -8,6 +8,7 @@ import { after, test } from "node:test";
 import { parseAllDocuments } from "yaml";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
+import { MAXIMUM_DOCUMENTS, MAXIMUM_INPUT_BYTES } from "../src/detectors/kubernetes/parse-manifest.js";
 import type { Finding, ScanResult } from "../src/domain.js";
 import { scanRepository } from "../src/engine.js";
 import { kubernetesApiVersionFixer, kubernetesIngressV1Fixer, planFixReport, renderPatches } from "../src/fix/index.js";
@@ -425,4 +426,264 @@ test("ignores findings from other detectors and from the IngressClass rule", asy
 
   const ignored = await kubernetesIngressV1Fixer.plan(manualScan(root, [other, npm]));
   assert.deepEqual(ignored, [], "a rule the codemod does not own is left to its own fixer");
+});
+
+/** Plans the codemod over the given findings, so each refusal is reached by the line it names. */
+async function refuseFindings(root: string, findings: Finding[]): Promise<{ patches: Awaited<ReturnType<typeof kubernetesIngressV1Fixer.plan>>; refusals: Refusal[] }> {
+  const refusals: Refusal[] = [];
+  const patches = await kubernetesIngressV1Fixer.plan(manualScan(root, findings), (item, reason) => {
+    refusals.push({ path: item.location.path, line: item.location.line, reason });
+  });
+  return { patches, refusals };
+}
+
+test("refuses a document that contains `{{` in a comment, which Evergreen reads as a Helm template", async () => {
+  const root = await repository({
+    "comment.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\n# chart: {{ .Chart.Name }}\nspec:\n  backend:\n    serviceName: web\n    servicePort: 80\n",
+  });
+  const { patches, refusals } = await refuseFindings(root, [finding("comment.yml", 1)]);
+
+  assert.deepEqual(patches, []);
+  assert.deepEqual(refusals, [{ path: "comment.yml", line: 1, reason: "The Ingress is a Helm template, which Evergreen does not render." }]);
+});
+
+test("refuses a backend, spec, rules, http, paths, rule, or path written in flow style", async () => {
+  const root = await repository({
+    "flow-spec.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec: {backend: {serviceName: web, servicePort: 80}}\n",
+    "flow-rules.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules: [{host: example.com}]\n",
+    "flow-rule.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - {http: {paths: []}}\n",
+    "flow-http.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http: {paths: []}\n",
+    "flow-paths.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http:\n      paths: [{path: /}]\n",
+    "flow-path.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http:\n      paths:\n      - {path: /}\n",
+    "flow-pathbackend.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http:\n      paths:\n      - path: /\n        backend: {serviceName: web, servicePort: 80}\n",
+  });
+  const findings = ["flow-spec.yml", "flow-rules.yml", "flow-rule.yml", "flow-http.yml", "flow-paths.yml", "flow-path.yml", "flow-pathbackend.yml"].map((path) => finding(path, 1));
+  const { patches, refusals } = await refuseFindings(root, findings);
+
+  assert.deepEqual(patches, []);
+  assert.deepEqual(
+    refusals.map((refusal) => [refusal.path, refusal.reason]).sort((left, right) => String(left[0]).localeCompare(String(right[0]))),
+    [
+      ["flow-http.yml", "The `http` is written in flow style."],
+      ["flow-path.yml", "The path is written in flow style."],
+      ["flow-pathbackend.yml", "The backend is written in flow style."],
+      ["flow-paths.yml", "The `paths` is written in flow style."],
+      ["flow-rule.yml", "The rule is written in flow style."],
+      ["flow-rules.yml", "The `spec.rules` is written in flow style."],
+      ["flow-spec.yml", "The `spec` is written in flow style."],
+    ],
+  );
+});
+
+test("refuses a spec, rules, rule, http, paths, path, or backend that is the wrong kind of block", async () => {
+  const root = await repository({
+    "scalar-spec.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec: web\n",
+    "scalar-backend.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend: web\n",
+    "scalar-rules.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules: web\n",
+    "scalar-rule.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - web\n",
+    "scalar-http.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http: web\n",
+    "scalar-paths.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http:\n      paths: web\n",
+    "scalar-path.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http:\n      paths:\n      - web\n",
+    "scalar-pathbackend.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http:\n      paths:\n      - path: /\n        backend: web\n",
+  });
+  const findings = [
+    "scalar-spec.yml",
+    "scalar-backend.yml",
+    "scalar-rules.yml",
+    "scalar-rule.yml",
+    "scalar-http.yml",
+    "scalar-paths.yml",
+    "scalar-path.yml",
+    "scalar-pathbackend.yml",
+  ].map((path) => finding(path, 1));
+  const { patches, refusals } = await refuseFindings(root, findings);
+
+  assert.deepEqual(patches, []);
+  assert.deepEqual(
+    refusals.map((refusal) => [refusal.path, refusal.reason]).sort((left, right) => String(left[0]).localeCompare(String(right[0]))),
+    [
+      ["scalar-backend.yml", "The `spec.backend` is not a block mapping."],
+      ["scalar-http.yml", "The `http` is not a block mapping."],
+      ["scalar-path.yml", "The path is not a block mapping."],
+      ["scalar-pathbackend.yml", "The backend is not a block mapping."],
+      ["scalar-paths.yml", "The `paths` is not a block sequence."],
+      ["scalar-rule.yml", "The rule is not a block mapping."],
+      ["scalar-rules.yml", "The `spec.rules` is not a block sequence."],
+      ["scalar-spec.yml", "The `spec` is not a block mapping."],
+    ],
+  );
+});
+
+test("refuses a backend whose name or port is not one line, or whose fields are not the pair", async () => {
+  const root = await repository({
+    "block-name.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend:\n    serviceName: |-\n      web\n    servicePort: 80\n",
+    "empty-name.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend:\n    serviceName: \"\"\n    servicePort: 80\n",
+    "wrapped-name.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend:\n    serviceName: web\n      api\n    servicePort: 80\n",
+    "block-port.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend:\n    serviceName: web\n    servicePort: |-\n      80\n",
+    "unpaired.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend:\n    foo: web\n    bar: 80\n",
+  });
+  const findings = ["block-name.yml", "empty-name.yml", "wrapped-name.yml", "block-port.yml", "unpaired.yml"].map((path) => finding(path, 1));
+  const { patches, refusals } = await refuseFindings(root, findings);
+
+  assert.deepEqual(patches, []);
+  assert.deepEqual(
+    refusals.map((refusal) => [refusal.path, refusal.reason]).sort((left, right) => String(left[0]).localeCompare(String(right[0]))),
+    [
+      ["block-name.yml", "The `serviceName` value is not written on one line."],
+      ["block-port.yml", "The `servicePort` value is not written on one line."],
+      ["empty-name.yml", "The `serviceName` value is not written on one line."],
+      ["unpaired.yml", "The backend does not pair `serviceName` with `servicePort`."],
+      ["wrapped-name.yml", "The `serviceName` value is not written on one line."],
+    ],
+  );
+});
+
+test("refuses a path with a key that is not text, and a scalar name that is neither text nor a number", async () => {
+  const root = await repository({
+    "numeric-key.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - http:\n      paths:\n      - path: /\n        1: kept\n        backend:\n          serviceName: web\n          servicePort: 80\n",
+    "boolean-name.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend:\n    serviceName: true\n    servicePort: 80\n",
+  });
+  const { patches, refusals } = await refuseFindings(root, [finding("numeric-key.yml", 1), finding("boolean-name.yml", 1)]);
+
+  assert.deepEqual(patches, []);
+  assert.deepEqual(
+    refusals.map((refusal) => [refusal.path, refusal.reason]).sort((left, right) => String(left[0]).localeCompare(String(right[0]))),
+    [
+      ["boolean-name.yml", "The `serviceName` value is not written on one line."],
+      ["numeric-key.yml", "The path has a field this rewrite does not handle."],
+    ],
+  );
+});
+
+test("refuses a broken template with `{{` as a Helm template, not as a YAML error", async () => {
+  const root = await repository({
+    "broken-template.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\n{{- if .Values.enabled }}\nspec:\n  backend: {unclosed\n",
+  });
+  const { patches, refusals } = await refuseFindings(root, [finding("broken-template.yml", 1)]);
+
+  assert.deepEqual(patches, []);
+  assert.deepEqual(refusals, [{ path: "broken-template.yml", line: 1, reason: "The Ingress is a Helm template, which Evergreen does not render." }]);
+});
+
+test("refuses a manifest larger than Evergreen reads and one with more documents than it rewrites", async () => {
+  const root = await repository({
+    "large.yml": `apiVersion: extensions/v1beta1\nkind: Ingress\n# ${"a".repeat(MAXIMUM_INPUT_BYTES)}\n`,
+    "many.yml": `apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend:\n    serviceName: web\n    servicePort: 80\n${"---\nkind: ConfigMap\n".repeat(MAXIMUM_DOCUMENTS)}`,
+  });
+  const { patches, refusals } = await refuseFindings(root, [finding("large.yml", 1), finding("many.yml", 1)]);
+
+  assert.deepEqual(patches, []);
+  assert.deepEqual(refusals.map((refusal) => [refusal.path, refusal.reason]), [
+    ["large.yml", "The manifest is larger than Evergreen reads."],
+    ["many.yml", "The manifest has more documents than Evergreen rewrites."],
+  ]);
+});
+
+test("rewrites each legacy Ingress in a file and skips a document whose apiVersion is not a scalar", async () => {
+  const root = await repository({
+    "two.yml": `apiVersion: extensions/v1beta1
+kind: Ingress
+spec:
+  backend:
+    serviceName: web
+    servicePort: 80
+---
+metadata:
+  name: no-kind
+---
+kind: Ingress
+apiVersion: [a, b]
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+spec:
+  backend:
+    serviceName: api
+    servicePort: 80
+`,
+  });
+  const { patches, refusals } = await refuseFindings(root, [finding("two.yml", 1), finding("two.yml", 14)]);
+
+  assert.deepEqual(refusals, []);
+  assert.equal(patches.length, 1);
+  await apply(root, patches);
+  assert.equal(
+    await readFile(join(root, "two.yml"), "utf8"),
+    `apiVersion: networking.k8s.io/v1
+kind: Ingress
+spec:
+  defaultBackend:
+    service:
+      name: web
+      port:
+        number: 80
+---
+metadata:
+  name: no-kind
+---
+kind: Ingress
+apiVersion: [a, b]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+spec:
+  defaultBackend:
+    service:
+      name: api
+      port:
+        number: 80
+`,
+  );
+});
+
+test("rewrites an Ingress with no spec, with a backend but no rules, or with rules that carry no paths", async () => {
+  const root = await repository({
+    "bare.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nmetadata:\n  name: bare\n",
+    "norules.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  backend:\n    serviceName: web\n    servicePort: 80\n",
+    "nopaths.yml": "apiVersion: extensions/v1beta1\nkind: Ingress\nspec:\n  rules:\n  - host: example.com\n  - http:\n      other: kept\n",
+  });
+  const { patches, refusals } = await refuseFindings(root, [finding("bare.yml", 1), finding("norules.yml", 1), finding("nopaths.yml", 1)]);
+
+  assert.deepEqual(refusals, []);
+  await apply(root, patches);
+  assert.equal(
+    await readFile(join(root, "bare.yml"), "utf8"),
+    "apiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: bare\n",
+  );
+  assert.equal(
+    await readFile(join(root, "norules.yml"), "utf8"),
+    "apiVersion: networking.k8s.io/v1\nkind: Ingress\nspec:\n  defaultBackend:\n    service:\n      name: web\n      port:\n        number: 80\n",
+  );
+  assert.equal(
+    await readFile(join(root, "nopaths.yml"), "utf8"),
+    "apiVersion: networking.k8s.io/v1\nkind: Ingress\nspec:\n  rules:\n  - host: example.com\n  - http:\n      other: kept\n",
+  );
+});
+
+test("keeps the quotes of a quoted apiVersion, serviceName, and backend key", async () => {
+  const root = await repository({
+    "quoted.yml": `apiVersion: "extensions/v1beta1"
+kind: Ingress
+spec:
+  "backend":
+    serviceName: "web"
+    servicePort: 80
+`,
+  });
+  const { patches, refusals } = await refuseFindings(root, [finding("quoted.yml", 1)]);
+
+  assert.deepEqual(refusals, []);
+  await apply(root, patches);
+  assert.equal(
+    await readFile(join(root, "quoted.yml"), "utf8"),
+    `apiVersion: "networking.k8s.io/v1"
+kind: Ingress
+spec:
+  "defaultBackend":
+    service:
+      name: "web"
+      port:
+        number: 80
+`,
+  );
 });
