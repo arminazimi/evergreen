@@ -28,9 +28,9 @@ jobs:
       contents: write
       id-token: write
       attestations: write
-    # Called from release.yml on main, so the OIDC identity is this file @ refs/heads/main.
+    # Called from release.yml on a version tag, so the OIDC identity is this file @ refs/tags/vX.Y.Z.
     env:
-      IDENTITY_PATTERN: ^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/heads/main$
+      IDENTITY_PATTERN: ^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(-.+)?$
       OIDC_ISSUER: https://token.actions.githubusercontent.com
     outputs:
       tag: ${{ steps.release.outputs.tag }}

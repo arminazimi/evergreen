@@ -115,11 +115,11 @@ Each stable or pre-release tag also produces binaries that need no Node.js, for 
   cosign verify-blob \
     --bundle evergreen-<version>-<os>-<arch>.sigstore.json \
     --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-    --certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/heads/main$' \
+    --certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(-.+)?$' \
     evergreen-<version>-<os>-<arch>
   ```
 
-  Binaries from releases up to and including v0.7.2 were signed by the old identity `https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/heads/main`; verify them with `--certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release\.yml@refs/heads/main$'`.
+  Binaries from releases up to and including v0.7.2 were signed with older identities: the monolithic `https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/heads/main`, and (after the stage split, while post-publish still ran via `workflow_run` on the default branch) `https://github.com/arminazimi/evergreen/.github/workflows/release-publish-binaries.yml@refs/heads/main`. Verify those with `--certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release\.yml@refs/heads/main$'` or `'^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/heads/main$'` respectively.
 
   If no release exists for the tag yet, the job creates one with a placeholder body; replace it in step 8.
 - **macOS.** The binaries are signed ad hoc, not notarized. Downloaded with `curl` or `gh release download` they run as they are; a browser download is quarantined, and `xattr -d com.apple.quarantine <file>` clears it.

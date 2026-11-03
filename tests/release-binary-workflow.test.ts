@@ -68,19 +68,33 @@ test("binaries and checksums are signed keylessly with cosign and verified befor
 
   assert.equal(
     release.env?.IDENTITY_PATTERN,
-    String.raw`^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/heads/main$`,
+    String.raw`^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/tags/v[0-9]+\.[0-9]+\.[0-9]+(-.+)?$`,
   );
   assert.equal(release.env?.OIDC_ISSUER, "https://token.actions.githubusercontent.com");
   const identity = new RegExp(release.env!.IDENTITY_PATTERN!);
   const prefix = "https://github.com/arminazimi/evergreen/.github/workflows/release-publish-binaries.yml";
-  assert.ok(identity.test(`${prefix}@refs/heads/main`));
+  assert.ok(identity.test(`${prefix}@refs/tags/v1.0.0`));
+  assert.ok(identity.test(`${prefix}@refs/tags/v1.2.3-rc.1`));
   for (const rejected of [
+    `${prefix}@refs/heads/main`,
     `${prefix}@refs/heads/feature`,
-    `${prefix}@refs/tags/v1.0.0`,
-    "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/heads/main",
-    "https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/heads/main",
-    "https://github.com/someone/evergreen/.github/workflows/release-publish-binaries.yml@refs/heads/main",
+    `${prefix}@refs/tags/v1`,
+    "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/v1.0.0",
+    "https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/tags/v1.0.0",
+    "https://github.com/someone/evergreen/.github/workflows/release-publish-binaries.yml@refs/tags/v1.0.0",
+    "https://github.com/arminazimi/other/.github/workflows/release-publish-binaries.yml@refs/tags/v1.0.0",
   ]) assert.equal(identity.test(rejected), false, rejected);
+});
+
+test("IDENTITY_PATTERN matches the verify-blob regexp documented in RELEASING.md", async () => {
+  const docs = await readFile(resolve("docs/RELEASING.md"), "utf8");
+  const match = docs.match(/--certificate-identity-regexp '([^']+)'/);
+  assert.ok(match?.[1], "RELEASING.md documents a certificate-identity-regexp");
+  assert.equal(
+    match[1],
+    release.env?.IDENTITY_PATTERN,
+    "docs/RELEASING.md and release-publish-binaries.yml must use the same identity regexp",
+  );
 });
 
 test("the SLSA generator attaches .intoto.jsonl provenance to the release", () => {
