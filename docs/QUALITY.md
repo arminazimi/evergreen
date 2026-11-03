@@ -268,6 +268,15 @@ same on every run:
 The numbers are the allowlist's own ceilings. The check keeps each ceiling equal to the measured value, so the report
 matches the code while the check passes.
 
+## Monthly report
+
+Each target above appears in the monthly progress report with its current value and the change against the previous
+month. `npm run metrics:quality` writes `metrics/quality/<YYYY-MM-DD>.json` from the allowlist and any local
+`lcov.info`, `artifacts/mutation-report.json`, and Scorecard row already stored under `metrics/adoption/` — no
+network access. `npm run report:monthly -- --out docs/reports/monthly-YYYY-MM.md` reads the newest snapshot of the
+month and the newest of the previous month, and prints a dash when either side is missing rather than treating a gap
+as zero. Published reports live under [`docs/reports/`](reports/).
+
 **Editing rules.** An entry is removed or tightened, never raised or added to pass a change. Changing a ceiling
 upward is a new debt decision and belongs in its own reviewed pull request with a new owner issue.
 When `npm run check:quality` says an entry is now N, set that number; the checker prints the value it measured, so no

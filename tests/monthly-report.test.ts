@@ -19,6 +19,7 @@ import {
   generateMonthlyReport,
 } from "../tools/monthly-report.js";
 import type { MonthlyReportData } from "../tools/monthly-report.js";
+import type { QualityMetrics } from "../tools/quality-metrics.js";
 
 test("collectRuleMetrics aggregates rules from registry JSON files", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "evergreen-test-registry-"));
@@ -227,6 +228,7 @@ test("collectContributorMetrics degrades gracefully in a shallow repository", as
         channels: [],
         landingPages: [],
       },
+      quality: { snapshotDate: null, rows: [] },
     };
 
     const report = generateMonthlyReport(mockData);
@@ -312,6 +314,78 @@ function sampleReportData(): MonthlyReportData {
         { page: "https://arminazimi.github.io/evergreen/eol/", clicks: 18, impressions: 410 },
       ],
     },
+    quality: sampleQualityMetrics(),
+  };
+}
+
+function sampleQualityMetrics(): QualityMetrics {
+  return {
+    snapshotDate: "2026-11-03",
+    rows: [
+      {
+        criterion: "File size",
+        target: "median ≤300; none over 800 without an entry",
+        current: "1 file over 800",
+        value: 1,
+        previous: 2,
+      },
+      {
+        criterion: "Complexity",
+        target: "≤15 per function",
+        current: "187 functions over 15",
+        value: 187,
+        previous: 191,
+      },
+      {
+        criterion: "Type safety",
+        target: "0 any; 0 @ts-ignore; as unknown as and non-null may not grow",
+        current: "0 any; 4 as unknown as in 3 files; 573 non-null",
+        value: 573,
+        previous: 589,
+      },
+      {
+        criterion: "Boundaries",
+        target: "zero violations without an entry",
+        current: "0 violations",
+        value: 0,
+        previous: 1,
+      },
+      {
+        criterion: "Coverage",
+        target: "lines ≥93; branches ≥87; functions ≥93",
+        current: "94.7 / 87.1 / 94.7",
+        value: 94.7,
+        previous: 94.7,
+      },
+      {
+        criterion: "Mutation score",
+        target: "break at 60; high at 80",
+        current: "not measured",
+        value: null,
+        previous: null,
+      },
+      {
+        criterion: "Docs",
+        target: "generated checks gate; links and accessibility clean",
+        current: "partial (links report-only)",
+        value: null,
+        previous: null,
+      },
+      {
+        criterion: "Security",
+        target: "no high/critical; Scorecard ≥6",
+        current: "5 allowlisted advisories; Scorecard 3.1",
+        value: 3.1,
+        previous: null,
+      },
+      {
+        criterion: "Remaining debt",
+        target: "allowlist ceilings equal measured values; expire by 2027-01-26",
+        current: "187 over complexity; 573 non-null",
+        value: 760,
+        previous: 780,
+      },
+    ],
   };
 }
 
@@ -328,6 +402,7 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /\| Validation corpus \| 50 repositories \| 200 expected findings across 2 ecosystems \|/);
   assert.match(report, /\| Contributors \| 2 contributors, 2 external \| 30 commits in 2026-10; 1 external contributors \|/);
   assert.match(report, /\| Adoption \| 10 GitHub stars \| 10 stars \(\+2 vs last month\) \|/);
+  assert.match(report, /\| Reference quality \| 187 over complexity; 573 non-null \|/);
   assert.doesNotMatch(report, /total across channels/);
   assert.match(report, /^## Lifecycle rules$/m);
   assert.match(report, /\*\*Total rules:\*\* 100/);
@@ -356,6 +431,13 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /\| https:\/\/arminazimi\.github\.io\/evergreen\/eol\/ \| 18 \| 410 \|/);
   assert.match(report, /\[docs\/ADOPTION\.md\]\(docs\/ADOPTION\.md\)/);
   assert.match(report, /\[`metrics\/adoption\/2026-10-28\.json`\]\(metrics\/adoption\/2026-10-28\.json\)/);
+  assert.match(report, /^## Reference quality$/m);
+  assert.match(report, /\| Criterion \| Target \| Current \| Change vs last month \|/);
+  assert.match(report, /\| File size \| .* \| 1 file over 800 \| -1 \|/);
+  assert.match(report, /\| Complexity \| .* \| 187 functions over 15 \| -4 \|/);
+  assert.match(report, /\| Remaining debt \| .* \| 187 over complexity; 573 non-null \| -20 \|/);
+  assert.match(report, /\[docs\/QUALITY\.md\]\(docs\/QUALITY\.md\)/);
+  assert.match(report, /\[`metrics\/quality\/2026-11-03\.json`\]\(metrics\/quality\/2026-11-03\.json\)/);
   assert.match(report, /^## Review responsiveness$/m);
   assert.match(report, /\*\*2 working days\*\* of a first-time contributor opening a pull request/);
   assert.match(report, /\[CONTRIBUTING\.md\]\(CONTRIBUTING\.md#review-expectations\)/);
@@ -536,6 +618,9 @@ test("collectReportData returns well-formed data structure without hardcoded rep
   assert.ok(typeof data.contributors.isShallow === "boolean");
   assert.ok(typeof data.adoption === "object" && data.adoption !== null);
   assert.ok(Array.isArray(data.adoption.channels));
+  assert.ok(typeof data.quality === "object" && data.quality !== null);
+  assert.ok(Array.isArray(data.quality.rows));
+  assert.equal(data.quality.rows.length, 9);
 });
 
 test("the review target in the report matches the one published in CONTRIBUTING.md", async () => {

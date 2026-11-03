@@ -112,6 +112,7 @@
     "prepack": "npm run check",
     "release:notes": "npm run build --silent && node dist/tools/changelog.js",
     "metrics:adoption": "npm run build --silent && node dist/tools/adoption-metrics.js",
+    "metrics:quality": "npm run build --silent && node dist/tools/quality-metrics.js",
     "report:monthly": "npm run build --silent && node dist/tools/monthly-report.js",
     "org:rollout": "npm run build --silent && node dist/tools/org-rollout.js",
     "build:data-bundle": "npm run build --silent && node dist/tools/build-data-bundle.js",

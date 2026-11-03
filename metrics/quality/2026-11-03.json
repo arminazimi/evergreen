@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "evergreen.quality-snapshot.v1",
+  "date": "2026-11-03",
+  "targets": {
+    "medianLines": 300,
+    "warnLines": 800,
+    "ceilingLines": 1000,
+    "complexity": 15,
+    "coverageLines": 93,
+    "coverageBranches": 87,
+    "coverageFunctions": 93,
+    "mutationBreak": 60,
+    "mutationHigh": 80,
+    "scorecardFloor": 6,
+    "explicitAny": 0,
+    "tsDirectives": 0
+  },
+  "counts": {
+    "filesOverWarn": 1,
+    "functionsOverComplexity": 187,
+    "asUnknownAsFiles": 3,
+    "asUnknownAsCount": 4,
+    "nonNullAssertions": 573,
+    "boundaryViolations": 0,
+    "auditAdvisories": 5,
+    "coverageLines": null,
+    "coverageBranches": null,
+    "coverageFunctions": null,
+    "mutationScore": null,
+    "scorecardScore": 3.1,
+    "docsStatus": "partial"
+  },
+  "sources": {
+    "allowlist": "benchmarks/quality-allowlist.json",
+    "coverage": null,
+    "mutation": null,
+    "scorecard": "metrics/adoption/2026-10-28.json",
+    "docs": "docs/QUALITY.md §7"
+  }
+}
