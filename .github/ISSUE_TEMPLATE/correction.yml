@@ -1,0 +1,69 @@
+name: Data correction
+description: Report a wrong or missing lifecycle claim in Evergreen's reviewed data, with the source that fixes it.
+title: "correction: "
+labels: ["area: data", "area: validation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Evergreen's findings are only as trustworthy as the lifecycle rules behind them (`registry/`). This form reports a data problem — a wrong date, version range, event, severity, replacement, or source, a rule that should not exist, or a real sourced risk Evergreen is missing. A correction with an authoritative source is the whole report: pick the kind, paste the rule id and the finding, and link the page that states the correct fact. See [Data audit and corrections](https://github.com/arminazimi/evergreen/blob/main/docs/DATA_AUDIT.md) for the response target and the record, and the [evidence policy](https://github.com/arminazimi/evergreen/blob/main/CONTRIBUTING.md#evidence-policy) for what counts as a source. For a software bug use the Bug report form; for a vulnerability use the private channel in SECURITY.md.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong
+      description: Pick the closest match; the maintainer refines it during triage.
+      options:
+        - Wrong effective date or deadline
+        - Wrong affected version range
+        - Wrong lifecycle event
+        - Wrong severity
+        - Wrong replacement or migration
+        - Rule should not exist (not a real lifecycle change)
+        - False positive (the rule flags code it should not)
+        - Missing rule (a real, sourced risk is not reported)
+    validations:
+      required: true
+  - type: input
+    id: rule
+    attributes:
+      label: Rule id or affected item
+      description: The rule id from the finding's `Rule:` line, or the package, runtime, or action and its version for a missing rule.
+      placeholder: "npm.package.request.deprecated"
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Authoritative source URL
+      description: The maintainer or platform page that states the correct fact, with the affected version or date visible on that page.
+      placeholder: "https://..."
+    validations:
+      required: true
+  - type: input
+    id: accessed
+    attributes:
+      label: Date you checked the source
+      description: Today's date in YYYY-MM-DD. A merged correction records it as the rule's `sources[].accessedAt`.
+      placeholder: "2026-11-04"
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What Evergreen claims now
+      description: Paste the finding output (the `Rule:`, `Source:`, and `Deadline:` lines and the file:line) or quote the rule's current claim. Remove secrets from any pasted repository content.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: correct
+    attributes:
+      label: What the source says it should be
+      description: One or two sentences on the correct date, version range, event, or claim, quoting the source line.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: How you hit it (optional)
+      description: The Evergreen command and the repository or ecosystem context, if it helps show the impact.
