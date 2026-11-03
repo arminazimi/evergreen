@@ -24,8 +24,13 @@ const release = publish.jobs["binary-release"]!;
 const provenance = publish.jobs.provenance!;
 const releaseCommands = release.steps!.map((step) => step.run ?? "").join("\n");
 
-test("a binary is built for every supported platform", () => {
-  assert.deepEqual(binary.strategy?.matrix.include.map((entry) => entry.target).sort(), ["darwin-arm64", "darwin-x64", "linux-arm64", "linux-x64", "win32-x64"]);
+test("a binary is built for every supported platform", async () => {
+  // The matrix is selected with fromJSON(dry_run ? … : …); assert the full release list in source.
+  const source = await readFile(resolve(".github/workflows/release-build-binaries.yml"), "utf8");
+  for (const target of ["linux-x64", "linux-arm64", "darwin-x64", "darwin-arm64", "win32-x64"]) {
+    assert.match(source, new RegExp(`"target":"${target}"`));
+  }
+  assert.match(source, /fromJSON\(inputs\.dry_run/);
 });
 
 test("every binary is smoke-tested before it is uploaded", () => {

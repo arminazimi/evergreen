@@ -21,19 +21,14 @@ permissions:
 jobs:
   binary:
     name: binary (${{ matrix.target }})
-    # A dry run exercises the stage on one platform; a real release builds every target.
-    if: ${{ !inputs.dry_run || matrix.target == 'linux-x64' }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
+      # A dry run exercises the stage on one platform; a real release builds every target.
+      # Keep both lists in this file so tests can assert the five release platforms still ship.
       matrix:
-        include:
-          - { os: ubuntu-latest, target: linux-x64, exe: "" }
-          - { os: ubuntu-24.04-arm, target: linux-arm64, exe: "" }
-          - { os: macos-15-intel, target: darwin-x64, exe: "" }
-          - { os: macos-latest, target: darwin-arm64, exe: "" }
-          - { os: windows-latest, target: win32-x64, exe: ".exe" }
+        include: ${{ fromJSON(inputs.dry_run && '[{"os":"ubuntu-latest","target":"linux-x64","exe":""}]' || '[{"os":"ubuntu-latest","target":"linux-x64","exe":""},{"os":"ubuntu-24.04-arm","target":"linux-arm64","exe":""},{"os":"macos-15-intel","target":"darwin-x64","exe":""},{"os":"macos-latest","target":"darwin-arm64","exe":""},{"os":"windows-latest","target":"win32-x64","exe":".exe"}]') }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
