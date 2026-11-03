@@ -4,10 +4,10 @@
   "fileSize": [
     {
       "file": "src/source-usage.ts",
-      "lines": 1983,
+      "lines": 1898,
       "owner": "#2224",
       "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Over the 1,000-line ceiling; split it in the file-size follow-up."
+      "reason": "Measured 2026-11-03. Over the 1,000-line ceiling; split it in the file-size follow-up."
     }
   ],
   "complexity": [
@@ -1270,22 +1270,14 @@
     {
       "file": "src/source-usage.ts",
       "function": "analyzeSourceUsage",
-      "complexity": 97,
+      "complexity": 96,
       "owner": "#2275",
       "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
+      "reason": "Measured 2026-11-03. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
       "file": "src/source-usage.ts",
       "function": "javascriptImports",
-      "complexity": 19,
-      "owner": "#2275",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "languageFor",
       "complexity": 19,
       "owner": "#2275",
       "expires": "2027-01-26",

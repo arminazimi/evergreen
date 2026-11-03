@@ -1,7 +1,8 @@
 import { loadDataFile } from "../data-source.js";
 import type { RegistryV2Rule } from "../registry.js";
 import { validateRegistryV2 } from "../registry.js";
-import { analyzeSourceUsage, hasSourceFiles } from "../source-usage.js";
+import { hasSourceFiles } from "../source-files.js";
+import { analyzeSourceUsage } from "../source-usage.js";
 import { versContains } from "../vers/index.js";
 import type { UpgradeAnalyzer, UpgradeIssue, UpgradeTarget } from "./types.js";
 

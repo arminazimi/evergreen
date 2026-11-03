@@ -180,3 +180,31 @@ legacyRequest.get("https://example.com");
     await chmod(locked, 0o700);
   }
 });
+
+test("keeps dependency and fixture trees out of Ruby usage while still reading them for other languages", async () => {
+  const contracts: SourceUsageContract[] = [
+    { id: "active-record", matchers: [{ kind: "import", language: "ruby", module: "active_record" }] },
+    requestContract,
+  ];
+  const root = await repository({
+    "app/models/user.rb": 'require "active_record"\n',
+    "vendor/bundle/active_record.rb": 'require "active_record"\n',
+    "spec/fixtures/record.rb": 'require "active_record"\n',
+    "vendor/legacy/client.ts": `import legacyRequest from "request";
+legacyRequest.get("https://example.com");
+`,
+  });
+
+  const [ruby, typescript] = await analyzeSourceUsage(root, contracts);
+  assert.deepEqual(
+    ruby?.usages.map((usage) => [usage.kind, usage.location.path, usage.location.line]),
+    [["import", "app/models/user.rb", 1]],
+  );
+  assert.deepEqual(
+    typescript?.usages.map((usage) => [usage.kind, usage.location.path, usage.location.line]),
+    [
+      ["import", "vendor/legacy/client.ts", 1],
+      ["call", "vendor/legacy/client.ts", 2],
+    ],
+  );
+});

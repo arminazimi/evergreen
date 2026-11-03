@@ -8,7 +8,7 @@ import { dataInfoFrom, staleDataWarning } from "./data-status.js";
 import { declaresInput } from "./detector-inputs.js";
 import { COVERAGE_WALK_LIMIT, type Confidence, type Finding, type ScanCoverage, type ScanResult, type ScanSelection, type UnclassifiedReference } from "./domain.js";
 import { advisoryIdsByRuleId } from "./osv-advisories.js";
-import { relativePosix } from "./paths.js";
+import { childPosixPath } from "./paths.js";
 import { computeFileHash, defaultScanCacheDirectory, ScanCache } from "./scan-cache.js";
 import type { DetectorFileDescriptor } from "./scan-cache.js";
 import { assertDetectorCompatible } from "./sdk.js";
@@ -115,7 +115,7 @@ async function listCoverageFiles(
   const files: string[] = [];
   let visited = 0;
   let truncated = false;
-  const walk = async (directory: string): Promise<void> => {
+  const walk = async (directory: string, prefix: string): Promise<void> => {
     if (visited >= walkLimit) {
       truncated = true;
       return;
@@ -136,22 +136,23 @@ async function listCoverageFiles(
         return;
       }
       visited += 1;
-      const absolute = join(directory, entry.name);
       if (entry.isDirectory()) {
-        if (!COVERAGE_SKIPPED_DIRECTORIES.has(entry.name)) await walk(absolute);
+        if (!COVERAGE_SKIPPED_DIRECTORIES.has(entry.name)) {
+          await walk(join(directory, entry.name), childPosixPath(prefix, entry.name));
+        }
         continue;
       }
-      if (entry.isFile()) files.push(relativePosix(root, absolute));
+      if (entry.isFile()) files.push(childPosixPath(prefix, entry.name));
     }
   };
-  await walk(root);
+  await walk(root, "");
   return { files, truncated };
 }
 
 /** Repository-relative paths under `root`, skipping build and vendor directories. */
 async function listRepositoryFiles(root: string): Promise<string[]> {
   const files: string[] = [];
-  const walk = async (directory: string): Promise<void> => {
+  const walk = async (directory: string, prefix: string): Promise<void> => {
     let entries;
     try {
       entries = await readdir(directory, { withFileTypes: true });
@@ -163,15 +164,16 @@ async function listRepositoryFiles(root: string): Promise<string[]> {
     // Binary name order is deterministic across locales and cheaper than localeCompare on large dirs.
     entries.sort((left, right) => (left.name < right.name ? -1 : left.name > right.name ? 1 : 0));
     for (const entry of entries) {
-      const absolute = join(directory, entry.name);
       if (entry.isDirectory()) {
-        if (!SCAN_SKIPPED_DIRECTORIES.has(entry.name)) await walk(absolute);
+        if (!SCAN_SKIPPED_DIRECTORIES.has(entry.name)) {
+          await walk(join(directory, entry.name), childPosixPath(prefix, entry.name));
+        }
         continue;
       }
-      if (entry.isFile()) files.push(relativePosix(root, absolute));
+      if (entry.isFile()) files.push(childPosixPath(prefix, entry.name));
     }
   };
-  await walk(root);
+  await walk(root, "");
   return files;
 }
 

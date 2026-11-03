@@ -1,4 +1,4 @@
-import { readFile, readdir, stat } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import type {
@@ -9,37 +9,10 @@ import type {
   SourceUsageAnalysis,
   SourceUsageContract,
 } from "./domain.js";
-import { relativePosix } from "./paths.js";
+import { sourceFiles, type SourceFile } from "./source-files.js";
 import { noteCappedUsage } from "./usage/binding-budget.js";
 import { analyzeJavaScriptFile } from "./usage/javascript.js";
 import { analyzePythonFile } from "./usage/python.js";
-
-const ignoredDirectories = new Set([
-  ".git",
-  ".hg",
-  ".mypy_cache",
-  ".pytest_cache",
-  ".ruff_cache",
-  ".tox",
-  ".venv",
-  "build",
-  "coverage",
-  "dist",
-  "node_modules",
-  "target",
-  "venv",
-]);
-
-const maximumFileBytes = 1_000_000;
-
-/** Directory read errors that skip the subtree instead of failing every finding in the scan. */
-const skippedReadCodes = new Set(["EACCES", "ENOENT", "ENOTDIR", "EPERM"]);
-
-interface SourceFile {
-  absolutePath: string;
-  path: string;
-  language: SourceLanguage;
-}
 
 interface Binding {
   module: string;
@@ -56,63 +29,6 @@ interface ImportReference {
 
 function escapePattern(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function languageFor(path: string): SourceLanguage | undefined {
-  const extension = path.slice(path.lastIndexOf(".")).toLowerCase();
-  if ([".js", ".jsx", ".mjs", ".cjs"].includes(extension)) return "javascript";
-  if ([".ts", ".tsx", ".mts", ".cts"].includes(extension)) return "typescript";
-  if (extension === ".py") return "python";
-  if (extension === ".go") return "go";
-  if (extension === ".rs") return "rust";
-  if (extension === ".cs") return "csharp";
-  if (extension === ".java") return "java";
-  if (extension === ".kt") return "kotlin";
-  if (extension === ".rb" || extension === ".rake" || extension === ".ru") return "ruby";
-  if (extension === ".php") return "php";
-  if (extension === ".swift") return "swift";
-  if (extension === ".dart") return "dart";
-  if (extension === ".json") return "json";
-  if ([".yaml", ".yml"].includes(extension)) return "yaml";
-  if (extension === ".toml") return "toml";
-  if ([".ini", ".cfg"].includes(extension)) return "ini";
-  return undefined;
-}
-
-async function sourceFiles(root: string): Promise<SourceFile[]> {
-  const files: SourceFile[] = [];
-  const walk = async (directory: string): Promise<void> => {
-    let entries;
-    try {
-      entries = await readdir(directory, { withFileTypes: true });
-    } catch (error) {
-      const code = (error as NodeJS.ErrnoException).code;
-      if (code && skippedReadCodes.has(code)) return;
-      throw error;
-    }
-    // Do not sort directory entries here: usages are sorted by path at the end of analyzeSourceUsage.
-    // Skipping localeCompare on huge non-source trees is the large-monorepo win.
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        if (!ignoredDirectories.has(entry.name)) await walk(resolve(directory, entry.name));
-        continue;
-      }
-      if (!entry.isFile()) continue;
-      // Extension check on the basename avoids joining/statting every filler file in a monorepo.
-      const language = languageFor(entry.name);
-      if (!language) continue;
-      const path = resolve(directory, entry.name);
-      if ((await stat(path)).size > maximumFileBytes) continue;
-      files.push({ absolutePath: path, path: relativePosix(root, path), language });
-    }
-  };
-  await walk(root);
-  return files;
-}
-
-/** True when the repository has at least one file in this language, using the same traversal as usage analysis. */
-export async function hasSourceFiles(root: string, language: SourceLanguage): Promise<boolean> {
-  return (await sourceFiles(resolve(root))).some((file) => file.language === language);
 }
 
 function javascriptBindings(clause: string, module: string): Binding[] {
@@ -1566,8 +1482,7 @@ export async function analyzeSourceUsage(
     results.get(contractId)!.push(usage);
   };
 
-  for (const file of await sourceFiles(resolvedRoot)) {
-    if (!relevantLanguages.has(file.language)) continue;
+  for (const file of await sourceFiles(resolvedRoot, { include: (language) => relevantLanguages.has(language) })) {
     if ((file.language === "ruby" || file.language === "php") && checkoutSourceIgnored(file.path)) continue;
     const contents = await readFile(file.absolutePath, "utf8");
     // JavaScript, TypeScript, and Python import and call usages come from the parser when it can read the file;
@@ -1837,8 +1752,8 @@ const RUBY_DYNAMIC_REASON = "the argument is not a string literal, so Evergreen 
  */
 export async function findRubyDynamicReferences(root: string): Promise<RubyDynamicReference[]> {
   const found: RubyDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root))) {
-    if (file.language !== "ruby" || checkoutSourceIgnored(file.path)) continue;
+  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "ruby" })) {
+    if (checkoutSourceIgnored(file.path)) continue;
     const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
@@ -1876,8 +1791,8 @@ export interface PhpDynamicReference {
  */
 export async function findPhpDynamicReferences(root: string): Promise<PhpDynamicReference[]> {
   const found: PhpDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root))) {
-    if (file.language !== "php" || checkoutSourceIgnored(file.path)) continue;
+  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "php" })) {
+    if (checkoutSourceIgnored(file.path)) continue;
     const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
@@ -1923,8 +1838,8 @@ const DART_MIRROR_LOOKUP = /\b(?:reflect|reflectClass|reflectType|currentMirrorS
 /** Runtime lookup forms in Dart source that cannot be assigned to a package safely: `Function.apply`, and `dart:mirrors` reflection. */
 export async function findDartDynamicReferences(root: string): Promise<DartDynamicReference[]> {
   const found: DartDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root))) {
-    if (file.language !== "dart" || checkoutSourceIgnored(file.path)) continue;
+  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "dart" })) {
+    if (checkoutSourceIgnored(file.path)) continue;
     const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
@@ -1957,8 +1872,8 @@ const SWIFT_DYNAMIC_LOOKUP = /\b(?:NSClassFromString|NSProtocolFromString|NSSele
 /** Runtime Objective-C lookup forms in Swift source that cannot be assigned to a package safely. */
 export async function findSwiftDynamicReferences(root: string): Promise<SwiftDynamicReference[]> {
   const found: SwiftDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root))) {
-    if (file.language !== "swift" || checkoutSourceIgnored(file.path)) continue;
+  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "swift" })) {
+    if (checkoutSourceIgnored(file.path)) continue;
     const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
