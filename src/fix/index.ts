@@ -1,6 +1,7 @@
 import type { Finding, ScanResult } from "../domain.js";
 import { dockerfileLegacyFixer } from "./codemods/dockerfile-legacy.js";
 import { renameCodemodsFixer } from "./codemods/index.js";
+import { kubernetesIngressV1Fixer } from "./codemods/k8s-ingress-v1.js";
 import { nodeRenamesFixer } from "./codemods/node-renames.js";
 import { pythonImpFixer } from "./codemods/python-imp.js";
 import { pythonRenamesFixer } from "./codemods/python-renames.js";
@@ -56,10 +57,10 @@ export interface FixPlan {
   refusals: FixRefusal[];
 }
 
-export { dockerfileBaseImageFixer, githubActionsUsesFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, nodeBufferFixer, nodeUtilIsFixer, renameCodemodsFixer, runtimePinsFixer, pythonFixer, terraformLegacyFixer, pythonImpFixer, pythonRenamesFixer, pythonUtcnowFixer, nodeRenamesFixer, dockerfileLegacyFixer };
+export { dockerfileBaseImageFixer, githubActionsUsesFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, kubernetesIngressV1Fixer, nodeBufferFixer, nodeUtilIsFixer, renameCodemodsFixer, runtimePinsFixer, pythonFixer, terraformLegacyFixer, pythonImpFixer, pythonRenamesFixer, pythonUtcnowFixer, nodeRenamesFixer, dockerfileLegacyFixer };
 
 /** Every fixer Evergreen ships, in the order their patches are printed. */
-export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer, pythonFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, dockerfileBaseImageFixer, renameCodemodsFixer, nodeBufferFixer, terraformLegacyFixer, pythonImpFixer, pythonRenamesFixer, pythonUtcnowFixer, nodeRenamesFixer, dockerfileLegacyFixer, nodeUtilIsFixer];
+export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer, pythonFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, kubernetesIngressV1Fixer, dockerfileBaseImageFixer, renameCodemodsFixer, nodeBufferFixer, terraformLegacyFixer, pythonImpFixer, pythonRenamesFixer, pythonUtcnowFixer, nodeRenamesFixer, dockerfileLegacyFixer, nodeUtilIsFixer];
 
 /**
  * Plans every fixer over a scan and returns the patches with the fixer that produced them, ordered by file, along with

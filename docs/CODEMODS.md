@@ -205,3 +205,30 @@ Refused, with the reason in `fix --json`:
 - a file that cannot be read, has syntax errors, or does not end with a newline.
 
 The `examples/codemods/python-renames` directory contains an input file to run `evergreen fix` against.
+
+## kubernetes-ingress-v1
+
+Rewrites a v1beta1 Ingress — `extensions/v1beta1` (`kubernetes.extensions.ingress.v1beta1.removed`) and `networking.k8s.io/v1beta1` (`kubernetes.networking-k8s-io.ingress.v1beta1.removed`) — to `networking.k8s.io/v1`, with the field changes the [Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/#ingress-v122) gives for Ingress.
+
+| Before | After |
+|---|---|
+| `apiVersion: extensions/v1beta1` | `apiVersion: networking.k8s.io/v1` |
+| `spec.backend:` | `spec.defaultBackend:` |
+| `serviceName: web` and `servicePort: 8080` | `service:` with `name: web` and `port:` with `number: 8080` |
+| `serviceName: web` and `servicePort: http` | `service:` with `name: web` and `port:` with `name: http` |
+| a path with no `pathType` | `pathType: ImplementationSpecific`, the value the guide gives for a v1beta1 path that matched the implementation's default |
+
+The manifest is edited on the lines the fields are written on and never re-serialized, so the indentation is the file's own, a `# comment` written after a rewritten value moves with that value, and the comments, blank lines, and key order of every untouched field stay where they were. `src/fix/kubernetes.ts` has no Ingress entry and declines these findings, so the two Kubernetes fixers never both rewrite one Ingress, and a `networking.k8s.io/v1` Ingress is not a finding, so a second pass has nothing to do.
+
+Refused, with the reason in `fix --json`:
+
+- a document that contains `{{`, which is a Helm template Evergreen does not render;
+- an anchor or an alias anywhere in the Ingress document;
+- a backend, `spec`, `rules`, `http`, or `paths` written in flow style, and a document indented with a tab;
+- a backend that points at `resource:`, which has no v1 equivalent;
+- a backend that is not exactly `serviceName` and `servicePort` on two adjacent lines at the same indent;
+- a `servicePort` that is quoted, outside the range of a port number, or neither a port number nor a port name;
+- a path with a field other than `path`, `backend`, and `pathType`, or with no backend;
+- a manifest that is not valid YAML, does not end with a newline, is larger than Evergreen reads, or has more documents than Evergreen rewrites.
+
+The `examples/codemods/k8s-ingress-v1` directory contains a before and after pair.

@@ -408,6 +408,11 @@
       "path": "examples/gallery/kubernetes/manifests/web.yaml"
     },
     {
+      "fingerprint": "4fbd2ac068a6861f94a41028dbaf865d0cd15bce46fab3a79b053778f9b92930",
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "examples/codemods/k8s-ingress-v1/before.yaml"
+    },
+    {
       "fingerprint": "32a8f4ab7cb757479580de59e9134f391aab06178560afcac5785179871d0077",
       "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
       "path": "examples/gallery/kubernetes/manifests/dump.yaml"
