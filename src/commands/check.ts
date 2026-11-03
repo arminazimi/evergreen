@@ -25,7 +25,8 @@ export const command: CliCommand = {
         const check = await checkDependency(purl);
         process.stdout.write(`${state.json ? JSON.stringify(check, null, 2) : renderCheckText(check)}\n`);
         const rank = (severity: Severity) => severityValues.indexOf(severity);
-        return check.status === "affected" && gate !== "none" && rank(check.severity!) >= rank(gate as Severity) ? ctx.exitCodes.policy : 0;
+        const severity = check.severity;
+        return check.status === "affected" && severity !== undefined && gate !== "none" && rank(severity) >= rank(gate as Severity) ? ctx.exitCodes.policy : 0;
       } catch (error) {
         if (error instanceof CheckDependencyError) return ctx.fail("parse", error.message);
         throw error;

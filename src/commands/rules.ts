@@ -29,9 +29,10 @@ export const command: CliCommand = {
       return result.issues.length === 0 ? 0 : ctx.exitCodes.policy;
     }
     if (subcommand === "test") {
-      if (rest.length !== 1 || rest[0]!.startsWith("-")) return ctx.fail("usage", "Usage: evergreen rules test <rule-id>");
+      const ruleId = rest[0];
+      if (rest.length !== 1 || ruleId === undefined || ruleId.startsWith("-")) return ctx.fail("usage", "Usage: evergreen rules test <rule-id>");
       try {
-        const result = await testRule(rest[0]!);
+        const result = await testRule(ruleId);
         process.stdout.write(`${renderRuleTestText(result)}\n`);
         return result.passed ? 0 : ctx.exitCodes.policy;
       } catch (error) {

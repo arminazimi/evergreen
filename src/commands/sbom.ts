@@ -16,11 +16,11 @@ export const command: CliCommand = {
     return withPrepared("sbom", args, ctx, async (state) => {
       const { args: full, dataVersionIndex } = state;
       const operands = full.slice(1).filter((_, index) => dataVersionIndex === -1 || (index + 1 !== dataVersionIndex && index + 1 !== dataVersionIndex + 1));
-      if (operands.length !== 2 || operands[0] !== "enrich" || operands[1]!.startsWith("-")) {
+      const path = operands[1];
+      if (operands.length !== 2 || operands[0] !== "enrich" || path === undefined || path.startsWith("-")) {
         return ctx.fail("usage", "Usage: evergreen sbom enrich <bom.json> [--data-version <version>]");
       }
       try {
-        const path = operands[1]!;
         // SPDX and CycloneDX share this command; detect by spdxVersion when the file parses.
         // Unreadable or invalid JSON falls through to the CycloneDX reader for stable errors.
         let peek: unknown;

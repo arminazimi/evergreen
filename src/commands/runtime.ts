@@ -125,8 +125,9 @@ export async function prepare(command: string, commandArgs: readonly string[], c
   const optionValues = (name: string): string[] => {
     const values: string[] = [];
     for (let index = 0; index < args.length; index += 1) {
-      if (args[index] === name && args[index + 1] !== undefined) {
-        values.push(args[index + 1]!);
+      const value = args[index + 1];
+      if (args[index] === name && value !== undefined) {
+        values.push(value);
         index += 1;
       }
     }
@@ -373,7 +374,8 @@ async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number>
   }
   if (command === "context") {
     try {
-      const packet = createMigrationPacket(result, findingId!, await bundledRules(), await readPinnedRuntimes(result.root));
+      // findingId is required for context; runScanPipeline rejects a missing id before this runs.
+      const packet = createMigrationPacket(result, requireFindingId(findingId), await bundledRules(), await readPinnedRuntimes(result.root));
       process.stdout.write(`${json ? JSON.stringify(packet, null, 2) : renderMigrationPacketText(packet)}\n`);
     } catch (error) {
       return ctx.fail("data", error instanceof Error ? error.message : String(error));
@@ -427,6 +429,12 @@ async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number>
     if (blocking.length > 0) return ctx.fail("policy", `${blocking.length} finding${blocking.length === 1 ? "" : "s"} at ${scanGate} or above (--fail-on ${scanGate}).`);
   }
   return 0;
+}
+
+/** Context always has a finding id by the time runScanFamily runs; this keeps TypeScript aligned. */
+function requireFindingId(findingId: string | undefined): string {
+  if (findingId === undefined) throw new Error("Missing finding ID.");
+  return findingId;
 }
 
 /** Returns why `path` cannot be scanned as a repository root, or undefined when it is an existing directory. */

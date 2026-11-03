@@ -12,7 +12,8 @@ export const command: CliCommand = {
     let id: string | undefined;
     let ecosystem: string | undefined;
     for (let index = 0; index < args.length; index += 1) {
-      const argument = args[index]!;
+      const argument = args[index];
+      if (argument === undefined) continue;
       if (argument === "--ecosystem") {
         const value = args[index + 1];
         if (!value || value.startsWith("-")) return ctx.fail("usage", usage);

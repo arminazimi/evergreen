@@ -14,7 +14,8 @@ export const command: CliCommand = {
     const usageText = "Usage: evergreen lookup <product> [version] [--json]";
     const operands = args.filter((argument) => argument !== "--json");
     if (operands.length === 0 || operands.length > 3 || operands.some((argument) => argument.startsWith("-"))) return ctx.fail("usage", usageText);
-    const last = operands[operands.length - 1]!;
+    const last = operands[operands.length - 1];
+    if (last === undefined) return ctx.fail("usage", usageText);
     const dated = operands.length > 1 && /^v?\d/.test(last);
     const version = dated ? last.replace(/^v/i, "") : undefined;
     const name = (dated ? operands.slice(0, -1) : operands).join(" ");

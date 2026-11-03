@@ -16,7 +16,8 @@ export const command: CliCommand = {
       const snippetUsage = "Usage: evergreen check-snippet --path <path> [--json]   # the snippet content arrives on stdin";
       let snippetPath: string | undefined;
       for (let index = 1; index < state.args.length; index += 1) {
-        const argument = state.args[index]!;
+        const argument = state.args[index];
+        if (argument === undefined) continue;
         if (argument === "--path") {
           const value = state.args[index + 1];
           if (value === undefined || value.startsWith("-")) return ctx.fail("usage", "--path needs the intended repository-relative path of the snippet.", `\n${snippetUsage}`);

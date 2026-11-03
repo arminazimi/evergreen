@@ -18,7 +18,8 @@ export const command: CliCommand = {
     const operands: string[] = [];
     let name: string | undefined;
     for (let index = 0; index < args.length; index += 1) {
-      const argument = args[index]!;
+      const argument = args[index];
+      if (argument === undefined) continue;
       if (argument === "--name") {
         name = args[index + 1];
         if (name === undefined) return ctx.fail("usage", usageText);

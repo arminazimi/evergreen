@@ -10,6 +10,13 @@ import { buildGlanceFacts, renderGlance } from "../glance.js";
 import { isIsoDate } from "../registry.js";
 import type { CliCommand } from "./types.js";
 
+/** Indexed CLI argument; the loop bound already guarantees the index is in range. */
+function argumentAt(args: readonly string[], index: number): string {
+  const value = args[index];
+  if (value === undefined) throw new Error(`missing argument at index ${index}`);
+  return value;
+}
+
 /** `glance`: a one-screen neofetch-style summary card of the repository's lifecycle state. */
 export const command: CliCommand = {
   name: "glance",
@@ -22,7 +29,7 @@ export const command: CliCommand = {
     const operands: string[] = [];
     let asOf: string | undefined;
     for (let index = 0; index < args.length; index += 1) {
-      const argument = args[index]!;
+      const argument = argumentAt(args, index);
       if (argument === "--as-of") {
         asOf = args[index + 1];
         if (asOf === undefined) return ctx.fail("usage", usage);

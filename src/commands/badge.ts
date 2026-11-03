@@ -7,6 +7,13 @@ import { builtInDetectors } from "../detectors/index.js";
 import { scanRepository } from "../engine.js";
 import type { CliCommand } from "./types.js";
 
+/** Indexed CLI argument; the loop bound already guarantees the index is in range. */
+function argumentAt(args: readonly string[], index: number): string {
+  const value = args[index];
+  if (value === undefined) throw new Error(`missing argument at index ${index}`);
+  return value;
+}
+
 /** `badge`: prints README markup for the badge a repository publishes from its badge branch. */
 export const command: CliCommand = {
   name: "badge",
@@ -26,7 +33,7 @@ export const command: CliCommand = {
     let branch = "evergreen-badge";
     let shields = false;
     for (let index = 0; index < args.length; index += 1) {
-      const argument = args[index]!;
+      const argument = argumentAt(args, index);
       if (argument === "--shields") {
         shields = true;
         continue;
