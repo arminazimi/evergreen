@@ -222,7 +222,7 @@ The manifest is edited on the lines the fields are written on and never re-seria
 
 Refused, with the reason in `fix --json`:
 
-- a document that contains `{{`, which is a Helm template Evergreen does not render;
+- a document that contains double curly braces, which mark a Helm template Evergreen does not render;
 - an anchor or an alias anywhere in the Ingress document;
 - a backend, `spec`, `rules`, `http`, or `paths` written in flow style, and a document indented with a tab;
 - a backend that points at `resource:`, which has no v1 equivalent;
