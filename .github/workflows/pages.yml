@@ -37,6 +37,12 @@ jobs:
       - name: Build docs/sitemap.xml and docs/rules/index.md for the site
         # Not committed: generate here so Search Console keeps /sitemap.xml without PR churn.
         run: node dist/tools/build-reference-pages.js --site
+      - name: Build docs/dashboard/data.json for the site
+        # Not committed: generate here so Jekyll copies it into _site at the public URL.
+        run: node dist/tools/build-dashboard-data.js --today run-date
+      - name: Build docs/api/v1 for the site
+        # Not committed: generate here so Jekyll copies it into _site at the public URL.
+        run: node dist/tools/build-data-api.js
       - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
           ruby-version: "3.3"

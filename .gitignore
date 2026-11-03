@@ -6,6 +6,8 @@ docs/Gemfile.lock
 docs/llms-full.txt
 docs/sitemap.xml
 docs/rules/index.md
+docs/dashboard/data.json
+docs/api/v1/
 dist/*
 coverage/
 lcov.info

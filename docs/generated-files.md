@@ -18,10 +18,10 @@ Targets:
 | `docs/rules/index.md`, `docs/sitemap.xml` | `npm run build:reference` / `--site` (`tools/build-reference-pages.ts`); also the Pages workflow before Jekyll | Pages artifact (`/rules/`, `/sitemap.xml` for Search Console), `tests/reference-pages.test.ts`, `tests/site-urls.test.ts` | (shared with `docs/rules/`) | Pages, Search Console | Build time. Gitignored; no pull request commits them. `check:reference` skips their on-disk content and still drifts the committed rule pages. |
 | `docs/eol/` (51 files) | `npm run build:answer-pages` (`tools/build-answer-pages.ts`, source `registry/*.json`) | Pages site (answer pages), `tests/answer-pages.test.ts` | 4 | Pages, tests | Keep, for the same reason as `docs/rules/`. |
 | `docs/assets/og/` (706 SVGs) | `npm run build:og-images` (`tools/build-og-images.ts`, source `registry/*.json`) | Social-preview meta tags on the Pages site | 24 | Pages | Keep. |
-| `docs/api/v1/` (1,123 files) | `npm run build:data-api` (`tools/build-data-api.ts`, source `registry/`) | Static API served by Pages, `tests/openapi.test.ts` (checks against `docs/api/openapi.yaml`) | 49 | Pages, tests, agents that call the API | Keep. |
+| `docs/api/v1/` (1,123 files) | `npm run build:data-api` (`tools/build-data-api.ts`, source `registry/`); also the Pages workflow before Jekyll | Static API served by Pages, `tests/openapi.test.ts` (checks against `docs/api/openapi.yaml`) | 49 | Pages, tests, agents that call the API | Build time. Gitignored; no pull request commits it. `check:data-api` verifies it is buildable and schema-valid. |
 | `docs/llms-full.txt` | `npm run build:llms` (`tools/build-llms-full.ts`, source: pages linked from `docs/llms.txt`); also the Pages workflow before Jekyll | Agents (`docs/llms.txt` points to the public URL), Pages artifact, `tests/llms.test.ts` | 285 | Agents, Pages, tests | Build time. Gitignored; no pull request commits it. `check:llms` verifies it is buildable. |
 | `docs/ROADMAP.md` | `node planning/roadmap/roadmap-md.mjs` (source `planning/roadmap/`) | Pages site, contributors, `.github/workflows/ci.yml` (treats it as generated) | 25 | Pages, contributors | Keep. |
-| `docs/dashboard/data.json` | `npm run build:dashboard` (`tools/build-dashboard-data.ts`), also run by `record:corpus-run` | Dashboard page (`docs/dashboard/dashboard.js`), `tests/dashboard-data.test.ts` | 61 | Pages, tests | Keep for now. Most of the churn comes from corpus runs. Candidate for release time. |
+| `docs/dashboard/data.json` | `npm run build:dashboard` (`tools/build-dashboard-data.ts`), also run by `record:corpus-run` and the Pages workflow before Jekyll | Dashboard page (`docs/dashboard/dashboard.js`), `tests/dashboard-data.test.ts` | 61 | Pages, tests | Build time. Gitignored; no pull request commits it. `check:dashboard` verifies it is buildable. |
 | `docs/differential-report.json`, `docs/differential-report.md` | `npm run differential:report` (`benchmarks/differential/report.ts`, `--check` mode) | Pages site (`docs/differential-report.md` links to the JSON) | 2 | Pages | Keep. Not part of `npm run check`, so its drift check runs only when someone runs it. |
 
 ## Outputs that code and packages consume
@@ -65,7 +65,7 @@ These files look generated but have no generator in the repository. Do not add o
 
 ## Who needs what
 
-- **Pages site** (`docs/`, Jekyll): every `docs/` output above. [pages.yml](../.github/workflows/pages.yml) builds `docs/` and deploys the `_site` artifact. Most generated Markdown still lives in the repository for that build; `docs/llms-full.txt`, `docs/sitemap.xml`, and `docs/rules/index.md` are the exceptions — the workflow generates them before Jekyll so the public URLs stay without commit churn.
+- **Pages site** (`docs/`, Jekyll): every `docs/` output above. [pages.yml](../.github/workflows/pages.yml) builds `docs/` and deploys the `_site` artifact. Most generated Markdown still lives in the repository for that build; `docs/llms-full.txt`, `docs/sitemap.xml`, `docs/rules/index.md`, `docs/dashboard/data.json`, and `docs/api/v1/` are the exceptions — the workflow generates them before Jekyll so the public URLs stay without commit churn.
 - **npm package** (`package.json` `files`): `dist/src`, `registry/`, `schemas/`, `skills/`, `data/`, and `examples/` (minus excluded demos). It does not include `docs/`, `plugins/`, or `metrics/`.
 - **GitHub Action** (`action.yml`): `dist/action/index.js` only, from the release tag's commit, not from `main`.
 - **Tests**: all the drift checks named in the tables. `npm run check` runs the build, the Action bundle, the test suite, `check:commands`, `check:plugins`, and the plugin and agent-loop evals. Drift checks for the registry-generated outputs run inside the test suite.
@@ -76,6 +76,5 @@ These files look generated but have no generator in the repository. Do not add o
 These are not part of this inventory. Each one should be its own issue.
 
 1. Move `src/commands/index.generated.ts` to build time (generate before `tsc`).
-2. Decide whether `docs/dashboard/data.json` can move out of the repository, or be generated at deploy time, to cut its churn.
-3. Add `CHANGELOG.md` to the generated-files table in AGENTS.md.
-4. Make `docs/differential-report.*` part of a drift check.
+2. Add `CHANGELOG.md` to the generated-files table in AGENTS.md.
+3. Make `docs/differential-report.*` part of a drift check.

@@ -1,14 +1,15 @@
 // Builds docs/dashboard/data.json: the numbers behind the public accuracy dashboard, from committed files only.
 //
 //   npm run build --silent
-//   node dist/tools/build-dashboard-data.js --today 2026-10-18     # writes docs/dashboard/data.json
+//   node dist/tools/build-dashboard-data.js --today 2026-10-18     # writes docs/dashboard/data.json (gitignored; Pages builds it)
 //   node dist/tools/build-dashboard-data.js --today run-date       # the reference day is lastFullRun.date
 //   node dist/tools/build-dashboard-data.js --today run-date --check
 //
 // Inputs are benchmarks/thresholds.json and benchmarks/public-repositories/. The tool never reads the clock
 // and never uses the network: the reference day is the required --today argument, and it is written into the
-// output. `run-date` is the same thing for the committed file, so that it does not change with the clock.
-// Output is deterministic: the same inputs and the same day give the same bytes.
+// output. `run-date` pins the reference day to the last full run so the published file does not change with the clock.
+// The file is not committed: the Pages workflow generates it before Jekyll builds. Local `npm run build:dashboard`
+// writes the same path for preview. Output is deterministic: the same inputs and the same day give the same bytes.
 
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
@@ -280,6 +281,20 @@ export async function renderDashboardData(root: string, today: string): Promise<
   return `${JSON.stringify(buildDashboardData({ thresholds, corpus, today: day }), null, 2)}\n`;
 }
 
+/** True when the rendered dashboard JSON has the shape Pages must publish. */
+export function isWellFormedDashboardData(text: string, expectedReferenceDay?: string): boolean {
+  if (!text.endsWith("\n") || text.endsWith("\n\n") || text.includes("\r")) return false;
+  try {
+    const data = JSON.parse(text) as { schemaVersion?: string; referenceDay?: string };
+    if (data.schemaVersion !== DASHBOARD_SCHEMA) return false;
+    if (typeof data.referenceDay !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(data.referenceDay)) return false;
+    if (expectedReferenceDay !== undefined && data.referenceDay !== expectedReferenceDay) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function todayArgument(args: readonly string[]): string {
   const index = args.indexOf("--today");
   const value = index === -1 ? undefined : args[index + 1];
@@ -291,15 +306,17 @@ function todayArgument(args: readonly string[]): string {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const args = process.argv.slice(2);
+  const today = todayArgument(args);
   const target = resolve(OUTPUT_FILE);
-  renderDashboardData(".", todayArgument(args)).then(
+  renderDashboardData(".", today).then(
     async (text) => {
       if (args.includes("--check")) {
-        const current = await readFile(target, "utf8").catch(() => "");
-        if (current !== text) {
-          process.stderr.write(`${OUTPUT_FILE} is out of date. Run: npm run build:dashboard\n`);
+        const expectedDay = today === "run-date" ? (JSON.parse(text) as { referenceDay: string }).referenceDay : today;
+        if (!isWellFormedDashboardData(text, expectedDay)) {
+          process.stderr.write(`${OUTPUT_FILE} would be malformed. Fix benchmarks/thresholds.json or the corpus.\n`);
           process.exit(1);
         }
+        process.stdout.write(`${OUTPUT_FILE} is buildable (${text.length} characters)\n`);
         return;
       }
       await mkdir(dirname(target), { recursive: true });

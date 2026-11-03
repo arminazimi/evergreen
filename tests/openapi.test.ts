@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { readFile, readdir } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { parse } from "yaml";
@@ -105,22 +105,9 @@ test("every generated file path is covered by the OpenAPI description", async ()
   }
   assert.deepEqual(uncovered, [], "OpenAPI must cover every generated API file");
 
-  // On-disk tree under docs/api/v1 must match the same coverage (committed output).
-  const onDisk = [
-    `${API_DIRECTORY}/index.json`,
-    `${API_DIRECTORY}/recent.json`,
-    ...(await readdir(resolve(PRODUCTS_DIRECTORY)))
-      .filter((name) => name.endsWith(".json"))
-      .map((name) => join(PRODUCTS_DIRECTORY, name).replaceAll("\\", "/")),
-    ...(await readdir(resolve(TYPES_DIRECTORY)))
-      .filter((name) => name.endsWith(".json"))
-      .map((name) => join(TYPES_DIRECTORY, name).replaceAll("\\", "/")),
-    ...(await readdir(resolve(RULES_DIRECTORY)))
-      .filter((name) => name.endsWith(".json"))
-      .map((name) => join(RULES_DIRECTORY, name).replaceAll("\\", "/")),
-  ].sort();
-  for (const path of onDisk) {
-    const openApiPath = openApiPathFor(path);
-    assert.ok(openApiPath && openApiPaths.has(openApiPath), `missing OpenAPI path for ${path}`);
+  // Same coverage for the rendered tree (build-time output; not committed).
+  for (const file of files) {
+    const openApiPath = openApiPathFor(file.path);
+    assert.ok(openApiPath && openApiPaths.has(openApiPath), `missing OpenAPI path for ${file.path}`);
   }
 });

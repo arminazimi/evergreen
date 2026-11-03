@@ -60,12 +60,14 @@ Trust rules that apply to every change:
 | `dist/action/index.js` | `npm run build:action` (not committed on `main`; the Release workflow builds it onto the `release/<tag>` branch that release tags point at) |
 | `docs/llms-full.txt` | `npm run build:llms` (source: the pages linked from `docs/llms.txt`; gitignored — the Pages workflow builds it before Jekyll; no pull request commits it) |
 | `docs/sitemap.xml`, `docs/rules/index.md` | `npm run build:reference` / `node dist/tools/build-reference-pages.js --site` (source: `registry/*.json`; gitignored — Pages builds them before Jekyll; Search Console URL unchanged) |
+| `docs/dashboard/data.json` | `npm run build:dashboard` (source: `benchmarks/thresholds.json` and `benchmarks/public-repositories/`; gitignored — the Pages workflow builds it before Jekyll; no pull request commits it) |
+| `docs/api/v1/` | `npm run build:data-api` (source: `registry/*.json`; gitignored — the Pages workflow builds it before Jekyll; no pull request commits it) |
 | `docs/rules/` (per-rule pages) | `npm run build:reference` (source: `registry/*.json`) |
 | `docs/assets/og/` | `npm run build:og-images` (source: `registry/*.json`, brand social-preview template) |
 | `docs/eol/` | `npm run build:answer-pages` (source: `registry/*.json`) |
 | `docs/ROADMAP.md` | `node planning/roadmap/roadmap-md.mjs` (source: `planning/roadmap/`) |
 
-CI fails when generated output drifts from its source. Exceptions not committed on `main`: `dist/action/index.js` (each merge rewrote the same minified lines, so parallel pull requests conflicted; release tags still need it — see `docs/RELEASING.md`, step 5); `docs/llms-full.txt`, `docs/sitemap.xml`, and `docs/rules/index.md` (Pages generates them during the site build so rule and linked-page edits stop conflicting on those files; `check:reference` / `check:llms` still fail when the committed pages or linked sources would not produce a well-formed site).
+CI fails when generated output drifts from its source. Exceptions not committed on `main`: `dist/action/index.js` (each merge rewrote the same minified lines, so parallel pull requests conflicted; release tags still need it — see `docs/RELEASING.md`, step 5); and `docs/llms-full.txt`, `docs/sitemap.xml`, `docs/rules/index.md`, `docs/dashboard/data.json`, and `docs/api/v1/` (Pages generates them during the site build; `check:reference`, `check:llms`, `check:dashboard`, and `check:data-api` fail when the sources would not produce a well-formed site).
 
 ## Working on an issue
 

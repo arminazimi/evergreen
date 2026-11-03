@@ -174,7 +174,9 @@ mutation score as the ratio of mutants the tests detect.
 
 - The generated command registry is current, and every command module appears in the CLI help.
 - `docs/llms-full.txt` is buildable from the pages linked from `docs/llms.txt` (generated at site build; not committed).
-- `docs/sitemap.xml` and `docs/rules/index.md` are generated at site build (not committed); committed reference pages, answer pages, Open Graph images, and the data API match `registry/*.json`.
+- `docs/sitemap.xml` and `docs/rules/index.md` are generated at site build (not committed).
+- `docs/dashboard/data.json` is buildable from the corpus thresholds (generated at site build; not committed).
+- Committed reference pages, answer pages, and Open Graph images match `registry/*.json`. The data API is buildable and schema-valid from `registry/*.json` (generated at site build; not committed).
 - The README coverage table names files each detector reads and commands that exist.
 - The documentation site builds with **zero broken internal links** and no accessibility errors at the level
   Seaworthy checks.
@@ -182,9 +184,10 @@ mutation score as the ratio of mutants the tests detect.
 **Enforced by.**
 
 - `npm run check`: the command registry (`generate-commands-index.mjs --check`) and the docs tests.
-- `ci.yml`, Linux Node 24: `check:reference`, `check:og-images`, `check:answer-pages`, and, added here,
-  `check:llms` and `check:data-api`. Reference, Open Graph, answer, and data-API checks fail on drift from
-  their source; `check:llms` fails when the linked pages would not produce a well-formed full text.
+- `ci.yml`, Linux Node 24: `check:reference`, `check:og-images`, `check:answer-pages`, `check:llms`,
+  `check:data-api`, and `check:dashboard`. Reference, Open Graph, and answer checks fail on drift from
+  their source; `check:llms`, `check:data-api`, and `check:dashboard` fail when the sources would not
+  produce a well-formed build-time file.
 - Links and accessibility: **report-only**. `ci.yml` runs Seaworthy with `--fail-on none`, and `docs-doctor.yml`
   sets `level: none`. This change does not turn them into gates, because it did not run the Seaworthy findings to
   a clean state locally. The condition is in the next paragraph.

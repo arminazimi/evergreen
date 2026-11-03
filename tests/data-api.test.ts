@@ -18,6 +18,7 @@ import {
   buildDocuments,
   buildFiles,
   drift,
+  isWellFormedDataApi,
   loadRegistries,
   productId,
   renderDocument,
@@ -208,12 +209,13 @@ test("every generated document matches schemas/api-product.v1.schema.json", asyn
   );
 });
 
-test("the committed API files match the registry and cover every product", async () => {
+test("the generated API matches the registry schemas and covers every product", async () => {
   const registries = await loadRegistries(resolve("registry"));
   const files = buildFiles(registries);
-  assert.deepEqual(await drift(files, resolve(".")), []);
+  assert.ok(isWellFormedDataApi(files));
+  await validateDocuments(buildDocuments(registries), resolve("."));
 
-  const index = JSON.parse(await readFile(resolve(API_DIRECTORY, "index.json"), "utf8")) as ApiIndex;
+  const index = JSON.parse(files.find((file) => file.path === `${API_DIRECTORY}/index.json`)!.contents) as ApiIndex;
   const products = files.filter((file) => file.path.startsWith(`${PRODUCTS_DIRECTORY}/`));
   const types = files.filter((file) => file.path.startsWith(`${TYPES_DIRECTORY}/`));
   const rules = files.filter((file) => file.path.startsWith(`${RULES_DIRECTORY}/`));
@@ -230,7 +232,7 @@ test("the committed API files match the registry and cover every product", async
   }
 });
 
-test("the CLI rebuilds identically, removes stale files, and --check reports drift", async () => {
+test("the CLI rebuilds identically, removes stale files, and --check confirms the API is buildable", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-data-api-"));
   temporaryRoots.push(root);
   await mkdir(join(root, "registry"), { recursive: true });
@@ -242,19 +244,17 @@ test("the CLI rebuilds identically, removes stale files, and --check reports dri
 
   const cli = resolve("dist/tools/build-data-api.js");
   const run = (...args: string[]) => execute(process.execPath, [cli, "--root", root, ...args]);
+  const check = await run("--check");
+  assert.match(check.stdout, /is buildable/);
   await run();
   const index = await readFile(join(root, API_DIRECTORY, "index.json"), "utf8");
   await run();
   assert.equal(await readFile(join(root, API_DIRECTORY, "index.json"), "utf8"), index);
-  await run("--check");
+  assert.deepEqual(await drift(buildFiles(await loadRegistries(join(root, "registry"))), root), []);
 
   const stale = join(root, PRODUCTS_DIRECTORY, "stale.json");
   await writeFile(stale, "{}\n");
-  await assert.rejects(run("--check"), (error: { code: number; stderr: string }) => {
-    assert.equal(error.code, 1);
-    assert.match(error.stderr, /stale: docs\/api\/v1\/products\/stale\.json/);
-    return true;
-  });
+  assert.ok((await drift(buildFiles(await loadRegistries(join(root, "registry"))), root)).some((problem) => problem.includes("stale.json")));
   await run();
   await assert.rejects(readFile(stale), /ENOENT/);
 });

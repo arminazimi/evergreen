@@ -6,9 +6,11 @@
 // newest review dates), types/<type>.json (the products of one PURL type), and rules/<id>.json (one
 // document per registry rule). Every document is validated against schemas/api-product.v1.schema.json
 // before it is written. Paths and object keys are sorted and nothing reads a clock, so the same registry
-// files always produce the same bytes. With --check nothing is written: the command exits 1 and names
-// every file that differs from what the registry would produce. The pages site serves docs/, so the output
-// is published at https://arminazimi.github.io/evergreen/api/v1/.
+// files always produce the same bytes. The tree is not committed: the Pages workflow generates it before
+// Jekyll builds so the public URLs stay the same without pull-request churn. Local `npm run build:data-api`
+// writes the same path for preview. With --check nothing is written: the command validates every document
+// against the schema and exits 1 when the registry would not produce a well-formed API. The pages site
+// serves docs/, so the output is published at https://arminazimi.github.io/evergreen/api/v1/.
 
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -371,18 +373,26 @@ function option(argv: readonly string[], name: string): string | undefined {
   return index >= 0 ? argv[index + 1] : undefined;
 }
 
+/** True when the rendered API tree has the shape Pages must publish. */
+export function isWellFormedDataApi(files: readonly GeneratedFile[]): boolean {
+  if (files.length === 0) return false;
+  const paths = new Set(files.map((file) => file.path));
+  if (!paths.has(`${API_DIRECTORY}/index.json`) || !paths.has(`${API_DIRECTORY}/recent.json`)) return false;
+  return files.every((file) => file.contents.endsWith("\n") && !file.contents.includes("\r"));
+}
+
 export async function main(argv: readonly string[] = process.argv.slice(2), cwd = "."): Promise<number> {
   const root = resolve(option(argv, "--root") ?? cwd);
   const documents = buildDocuments(await loadRegistries(resolve(root, "registry")));
   await validateDocuments(documents, root);
   const files = renderFiles(documents);
   if (argv.includes("--check")) {
-    const problems = await drift(files, root);
-    if (problems.length === 0) return 0;
-    console.error(`The static API is out of date with registry/ (${problems.length} files). Run \`npm run build:data-api\` and commit the result:`);
-    for (const problem of problems.slice(0, 20)) console.error(`  ${problem}`);
-    if (problems.length > 20) console.error(`  … and ${problems.length - 20} more`);
-    return 1;
+    if (!isWellFormedDataApi(files)) {
+      console.error(`The static API under ${API_DIRECTORY}/ would be malformed. Fix registry/*.json.`);
+      return 1;
+    }
+    console.log(`${API_DIRECTORY}/ is buildable (${files.length} files)`);
+    return 0;
   }
   await write(files, root);
   console.log(`Wrote ${files.length} files under ${API_DIRECTORY}/.`);
