@@ -1,0 +1,15 @@
+[
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo/providers/Microsoft.Web/sites/demo-app",
+    "kind": "app,linux",
+    "location": "westus2",
+    "name": "demo-app",
+    "resourceGroup": "demo-rg",
+    "siteConfig": {
+      "appSettings": [],
+      "scmType": "None",
+      "linuxFxVersion": "NODE|20-lts"
+    },
+    "type": "Microsoft.Web/sites"
+  }
+]

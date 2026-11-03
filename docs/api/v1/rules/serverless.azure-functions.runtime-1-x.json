@@ -1,0 +1,60 @@
+{
+  "productId": "generic-azure-functions",
+  "productPath": "products/generic-azure-functions.json",
+  "rule": {
+    "deadline": "2026-09-14",
+    "ecosystem": "serverless",
+    "event": "end-of-life",
+    "id": "serverless.azure-functions.runtime-1-x",
+    "migration": {
+      "constraints": [
+        "Azure Functions supports only version 4.x of the runtime host; a function app pinned to an earlier major version keeps running but is not eligible for new features, security patches, or service support.",
+        "Raising FUNCTIONS_EXTENSION_VERSION alone is not enough: the app settings, bindings, and function code can need changes, so follow the published migration guide for the version being left.",
+        "The runtime version is an app setting in Azure, and this rule fires only when the export writes the version into siteConfig."
+      ],
+      "steps": [
+        {
+          "id": "migrate-functions-runtime",
+          "instructions": "Follow the Azure Functions migration guide for the version being left, then set FUNCTIONS_EXTENSION_VERSION to ~4 in the app's configuration.",
+          "targets": "all",
+          "title": "Migrate the function app to the v4 runtime"
+        },
+        {
+          "id": "align-functions-declaration",
+          "instructions": "Set the same version in the deployment source - the siteConfig.FUNCTIONS_EXTENSION_VERSION app setting in an Azure Resource Manager or Bicep template, the version in host.json or the .csproj AzureFunctionsVersion for a function project, and the azurerm_function_app version in Terraform.",
+          "targets": "declaration",
+          "title": "Align the runtime declaration"
+        }
+      ],
+      "verification": [
+        {
+          "command": "az functionapp config appsettings list --resource-group <group> --name <app> --query \"[?name=='FUNCTIONS_EXTENSION_VERSION'].value\"",
+          "purpose": "Confirm the app targets the v4 runtime."
+        },
+        {
+          "command": "az functionapp deployment list-publishing-credentials --resource-group <group> --name <app>",
+          "purpose": "Confirm the app is still reachable and deploying after the migration."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-11-03",
+      "reviewedAt": "2026-11-03",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/azure-functions",
+    "replacement": "Azure Functions 4.x",
+    "severity": "high",
+    "sources": [
+      {
+        "accessedAt": "2026-11-03",
+        "title": "Compare Azure Functions runtime versions",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions"
+      }
+    ],
+    "summary": "Azure Functions supports only version 4.x of the runtime host and ended support for version 1.x on 2026-09-14. A FUNCTIONS_EXTENSION_VERSION of ~1 no longer receives security patches and the app is not eligible for Azure support.",
+    "title": "Azure Functions runtime 1.x is end-of-life",
+    "vers": "vers:semver/>=1.0.0|<2.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

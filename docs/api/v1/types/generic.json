@@ -1039,6 +1039,129 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2025-11-01",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "end-of-support",
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-azure-aks",
+      "latestReview": "2026-11-03",
+      "name": "azure-aks",
+      "path": "products/generic-azure-aks.json",
+      "purl": "pkg:generic/azure-aks",
+      "rules": 7,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-12-13",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-support",
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-azure-app-service-dotnet",
+      "latestReview": "2026-11-03",
+      "name": "dotnet",
+      "namespace": "azure-app-service",
+      "path": "products/generic-azure-app-service-dotnet.json",
+      "purl": "pkg:generic/azure-app-service/dotnet",
+      "rules": 4,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2024-05-14",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-azure-app-service-dotnet-isolated",
+      "latestReview": "2026-11-03",
+      "name": "dotnet-isolated",
+      "namespace": "azure-app-service",
+      "path": "products/generic-azure-app-service-dotnet-isolated.json",
+      "purl": "pkg:generic/azure-app-service/dotnet-isolated",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-07-29",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-azure-app-service-java",
+      "latestReview": "2026-11-03",
+      "name": "java",
+      "namespace": "azure-app-service",
+      "path": "products/generic-azure-app-service-java.json",
+      "purl": "pkg:generic/azure-app-service/java",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-04-30",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-azure-app-service-node",
+      "latestReview": "2026-11-03",
+      "name": "node",
+      "namespace": "azure-app-service",
+      "path": "products/generic-azure-app-service-node.json",
+      "purl": "pkg:generic/azure-app-service/node",
+      "rules": 4,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-11-28",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-azure-app-service-php",
+      "latestReview": "2026-11-03",
+      "name": "php",
+      "namespace": "azure-app-service",
+      "path": "products/generic-azure-app-service-php.json",
+      "purl": "pkg:generic/azure-app-service/php",
+      "rules": 3,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-10-31",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-azure-app-service-python",
+      "latestReview": "2026-11-03",
+      "name": "python",
+      "namespace": "azure-app-service",
+      "path": "products/generic-azure-app-service-python.json",
+      "purl": "pkg:generic/azure-app-service/python",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2026-09-30",
       "ecosystems": [
         "database"
@@ -1068,6 +1191,23 @@
       "path": "products/generic-azure-database-postgresql.json",
       "purl": "pkg:generic/azure-database-postgresql",
       "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-12-13",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-support",
+        "end-of-life"
+      ],
+      "id": "generic-azure-functions",
+      "latestReview": "2026-11-03",
+      "name": "azure-functions",
+      "path": "products/generic-azure-functions.json",
+      "purl": "pkg:generic/azure-functions",
+      "rules": 2,
       "type": "generic"
     },
     {
@@ -3649,7 +3789,7 @@
       "type": "generic"
     }
   ],
-  "rules": 476,
+  "rules": 501,
   "schemaVersion": "evergreen.api-type.v1",
   "type": "generic"
 }

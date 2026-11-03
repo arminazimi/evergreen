@@ -226,6 +226,13 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [SubjectAccessReview authorization.k8s.io/v1beta1 is no longer served](kubernetes.authorization-k8s-io.subjectaccessreview.v1beta1.removed.html) — removed, `kubernetes.authorization-k8s-io.subjectaccessreview.v1beta1.removed`
 - [HorizontalPodAutoscaler autoscaling/v2beta1 is no longer served](kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed.html) — removed, `kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed`
 - [HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served](kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html) — removed, `kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed`
+- [AKS 1.28 and earlier clusters are no longer supported](kubernetes.azure-aks.1-28-and-older.html) — end of life, `kubernetes.azure-aks.1-28-and-older`
+- [AKS 1.29 cluster is past long-term support](kubernetes.azure-aks.1-29.html) — end of life, `kubernetes.azure-aks.1-29`
+- [AKS 1.30 cluster is past long-term support](kubernetes.azure-aks.1-30.html) — end of life, `kubernetes.azure-aks.1-30`
+- [AKS 1.31 cluster is past its 12-month support window](kubernetes.azure-aks.1-31.html) — end of support, `kubernetes.azure-aks.1-31`
+- [AKS 1.32 cluster is past its 12-month support window](kubernetes.azure-aks.1-32.html) — end of support, `kubernetes.azure-aks.1-32`
+- [AKS 1.33 cluster is past its 12-month support window](kubernetes.azure-aks.1-33.html) — end of support, `kubernetes.azure-aks.1-33`
+- [AKS 1.34 cluster is scheduled to leave its 12-month support window](kubernetes.azure-aks.1-34.html) — scheduled end of life, `kubernetes.azure-aks.1-34`
 - [CronJob batch/v1beta1 is no longer served](kubernetes.batch.cronjob.v1beta1.removed.html) — removed, `kubernetes.batch.cronjob.v1beta1.removed`
 - [CertificateSigningRequest certificates.k8s.io/v1beta1 is no longer served](kubernetes.certificates-k8s-io.certificatesigningrequest.v1beta1.removed.html) — removed, `kubernetes.certificates-k8s-io.certificatesigningrequest.v1beta1.removed`
 - [Lease coordination.k8s.io/v1beta1 is no longer served](kubernetes.coordination-k8s-io.lease.v1beta1.removed.html) — removed, `kubernetes.coordination-k8s-io.lease.v1beta1.removed`
@@ -683,6 +690,24 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [AWS Lambda Ruby 3.3 runtime reaches end of life on 2027-03-31](serverless.aws-lambda.ruby3.3.html) — scheduled end of life, `serverless.aws-lambda.ruby3.3`
 - [AWS Lambda Ruby 3.4 runtime reaches end of life on 2028-03-31](serverless.aws-lambda.ruby3.4.html) — scheduled end of life, `serverless.aws-lambda.ruby3.4`
 - [AWS Lambda Ruby 4.0 runtime reaches end of life on 2029-03-31](serverless.aws-lambda.ruby4.0.html) — scheduled end of life, `serverless.aws-lambda.ruby4.0`
+- [App Service .NET 6 stack is past end of support](serverless.azure-app-service.dotnet-6-0.html) — end of support, `serverless.azure-app-service.dotnet-6-0`
+- [App Service .NET 7 stack is past end of support](serverless.azure-app-service.dotnet-7-0.html) — end of support, `serverless.azure-app-service.dotnet-7-0`
+- [App Service .NET 8 stack is scheduled to leave support](serverless.azure-app-service.dotnet-8-0.html) — scheduled end of life, `serverless.azure-app-service.dotnet-8-0`
+- [App Service .NET stacks older than 6.0 are past end of support](serverless.azure-app-service.dotnet-below-6-0.html) — end of life, `serverless.azure-app-service.dotnet-below-6-0`
+- [App Service .NET 6.0 isolated stack is past end of support](serverless.azure-app-service.dotnet-isolated-6-0.html) — end of support, `serverless.azure-app-service.dotnet-isolated-6-0`
+- [App Service .NET 7.0 isolated stack is past end of support](serverless.azure-app-service.dotnet-isolated-7-0.html) — end of support, `serverless.azure-app-service.dotnet-isolated-7-0`
+- [App Service Java 7 and earlier stacks are retired](serverless.azure-app-service.java-7-and-older.html) — end of life, `serverless.azure-app-service.java-7-and-older`
+- [App Service Node.js 18 stack is past end of support](serverless.azure-app-service.node-18.html) — end of life, `serverless.azure-app-service.node-18`
+- [App Service Node.js 20 stack is past end of support](serverless.azure-app-service.node-20.html) — end of life, `serverless.azure-app-service.node-20`
+- [App Service Node.js 22 stack is scheduled to leave support](serverless.azure-app-service.node-22.html) — scheduled end of life, `serverless.azure-app-service.node-22`
+- [App Service Node.js stacks older than 18 are no longer supported](serverless.azure-app-service.node-below-18.html) — end of life, `serverless.azure-app-service.node-below-18`
+- [App Service PHP 8.0 stack is past end of life](serverless.azure-app-service.php-8-0.html) — end of life, `serverless.azure-app-service.php-8-0`
+- [App Service PHP 8.1 stack is past end of life](serverless.azure-app-service.php-8-1.html) — end of life, `serverless.azure-app-service.php-8-1`
+- [App Service PHP stacks older than 8.0 are past end of life](serverless.azure-app-service.php-below-8-0.html) — end of life, `serverless.azure-app-service.php-below-8-0`
+- [App Service Python 3.10 stack is past end of life](serverless.azure-app-service.python-3-10.html) — end of life, `serverless.azure-app-service.python-3-10`
+- [App Service Python stacks older than 3.10 are past end of life](serverless.azure-app-service.python-below-3-10.html) — end of life, `serverless.azure-app-service.python-below-3-10`
+- [Azure Functions runtime 1.x is end-of-life](serverless.azure-functions.runtime-1-x.html) — end of life, `serverless.azure-functions.runtime-1-x`
+- [Azure Functions runtime 2.x and 3.x are out of support](serverless.azure-functions.runtime-2-x-and-3-x.html) — end of support, `serverless.azure-functions.runtime-2-x-and-3-x`
 - [App Engine Go 1.11 runtime is past end of support](serverless.google-appengine-runtime.go111.html) — end of support, `serverless.google-appengine-runtime.go111`
 - [App Engine Go 1.12 runtime is past end of support](serverless.google-appengine-runtime.go112.html) — end of support, `serverless.google-appengine-runtime.go112`
 - [App Engine Go 1.13 runtime is past end of support](serverless.google-appengine-runtime.go113.html) — end of support, `serverless.google-appengine-runtime.go113`

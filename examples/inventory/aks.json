@@ -1,0 +1,17 @@
+[
+  {
+    "name": "payments-cluster",
+    "location": "westeurope",
+    "kubernetesVersion": "1.31.5",
+    "agentPoolProfiles": [
+      { "name": "nodepool1", "orchestratorVersion": "1.31.5", "osSku": "AzureLinux" },
+      { "name": "pool2", "orchestratorVersion": "1.30.4", "osSku": "Ubuntu" }
+    ]
+  },
+  {
+    "name": "staging-cluster",
+    "location": "northeurope",
+    "kubernetesVersion": "1.35.2",
+    "agentPoolProfiles": [{ "name": "nodepool1", "orchestratorVersion": "1.35.2", "osSku": "AzureLinux" }]
+  }
+]

@@ -6287,6 +6287,1075 @@
           }
         ]
       }
+    },
+    {
+      "id": "serverless.azure-app-service.node-below-18",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/node",
+      "vers": "vers:semver/<18.0.0",
+      "event": "end-of-life",
+      "title": "App Service Node.js stacks older than 18 are no longer supported",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. Node.js 16 and every earlier release reached end of life upstream before 2023-09-11, so a NODE|16 or older app runs an unpatched runtime.",
+      "severity": "critical",
+      "replacement": "App Service Node.js 20 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "Node.js End-of-life",
+          "url": "https://nodejs.org/en/about/eol",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set node to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset node.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      }
+    },
+    {
+      "id": "serverless.azure-app-service.node-18",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/node",
+      "vers": "vers:semver/>=18.0.0|<19.0.0",
+      "event": "end-of-life",
+      "title": "App Service Node.js 18 stack is past end of support",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Node.js release schedule ended support for Node.js 18 on 2025-04-30, so a NODE|18 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service Node.js 20 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "Node.js End-of-life",
+          "url": "https://nodejs.org/en/about/eol",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set node to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset node.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2025-04-30"
+    },
+    {
+      "id": "serverless.azure-app-service.node-20",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/node",
+      "vers": "vers:semver/>=20.0.0|<21.0.0",
+      "event": "end-of-life",
+      "title": "App Service Node.js 20 stack is past end of support",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Node.js release schedule ended support for Node.js 20 on 2026-04-30, so a NODE|20 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service Node.js 22 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "Node.js End-of-life",
+          "url": "https://nodejs.org/en/about/eol",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set node to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset node.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2026-04-30"
+    },
+    {
+      "id": "serverless.azure-app-service.node-22",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/node",
+      "vers": "vers:semver/>=22.0.0|<23.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "App Service Node.js 22 stack is scheduled to leave support",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Node.js release schedule announces the end of support for Node.js 22 on 2027-04-30, so plan the NODE|22 stack upgrade before that date.",
+      "severity": "low",
+      "replacement": "App Service Node.js 24 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "Node.js End-of-life",
+          "url": "https://nodejs.org/en/about/eol",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set node to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset node.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2027-04-30"
+    },
+    {
+      "id": "serverless.azure-app-service.python-below-3-10",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/python",
+      "vers": "vers:semver/<3.10.0",
+      "event": "end-of-life",
+      "title": "App Service Python stacks older than 3.10 are past end of life",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. Python 3.9 and every earlier release reached end of life upstream on or before 2025-10-31, so a PYTHON|3.9 or older app runs an unpatched runtime.",
+      "severity": "high",
+      "replacement": "App Service Python 3.11 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set python to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset python.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2025-10-31"
+    },
+    {
+      "id": "serverless.azure-app-service.python-3-10",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/python",
+      "vers": "vers:semver/>=3.10.0|<3.11.0",
+      "event": "end-of-life",
+      "title": "App Service Python 3.10 stack is past end of life",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Python release cycle ended support for Python 3.10 on 2026-10-01, so a PYTHON|3.10 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service Python 3.11 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set python to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset python.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2026-10-01"
+    },
+    {
+      "id": "serverless.azure-app-service.php-below-8-0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/php",
+      "vers": "vers:semver/<8.0.0",
+      "event": "end-of-life",
+      "title": "App Service PHP stacks older than 8.0 are past end of life",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. PHP 7.4, the newest release in this range, reached end of life on 2022-11-28, so a PHP|7.4 or older app runs an unpatched runtime.",
+      "severity": "high",
+      "replacement": "App Service PHP 8.3 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "PHP: End-of-Life Versions",
+          "url": "https://www.php.net/eol.php",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set php to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset php.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2022-11-28"
+    },
+    {
+      "id": "serverless.azure-app-service.php-8-0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/php",
+      "vers": "vers:semver/>=8.0.0|<8.1.0",
+      "event": "end-of-life",
+      "title": "App Service PHP 8.0 stack is past end of life",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. php.net lists PHP 8.0 as end-of-life since 2023-11-26, so a PHP|8.0 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service PHP 8.3 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "PHP: End-of-Life Versions",
+          "url": "https://www.php.net/eol.php",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set php to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset php.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2023-11-26"
+    },
+    {
+      "id": "serverless.azure-app-service.php-8-1",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/php",
+      "vers": "vers:semver/>=8.1.0|<8.2.0",
+      "event": "end-of-life",
+      "title": "App Service PHP 8.1 stack is past end of life",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. php.net lists PHP 8.1 as end-of-life since 2025-12-31, so a PHP|8.1 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service PHP 8.3 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "PHP: End-of-Life Versions",
+          "url": "https://www.php.net/eol.php",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set php to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset php.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2025-12-31"
+    },
+    {
+      "id": "serverless.azure-app-service.dotnet-below-6-0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/dotnet",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-life",
+      "title": "App Service .NET stacks older than 6.0 are past end of support",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. .NET Core 3.1, the newest release in this range, left support on 2022-12-13, so a DOTNETCORE|3.1 or older app runs an unpatched runtime.",
+      "severity": "high",
+      "replacement": "App Service .NET 8 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": ".NET and ASP.NET Core Support Policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set dotnet to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset dotnet.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2022-12-13"
+    },
+    {
+      "id": "serverless.azure-app-service.dotnet-6-0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/dotnet",
+      "vers": "vers:semver/>=6.0.0|<7.0.0",
+      "event": "end-of-support",
+      "title": "App Service .NET 6 stack is past end of support",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy ended support for .NET 6 on 2024-11-12, so a DOTNETCORE|6.0 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service .NET 8 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": ".NET and ASP.NET Core Support Policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set dotnet to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset dotnet.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2024-11-12"
+    },
+    {
+      "id": "serverless.azure-app-service.dotnet-7-0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/dotnet",
+      "vers": "vers:semver/>=7.0.0|<8.0.0",
+      "event": "end-of-support",
+      "title": "App Service .NET 7 stack is past end of support",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy ended support for .NET 7 on 2024-05-14, so a DOTNETCORE|7.0 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service .NET 8 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": ".NET and ASP.NET Core Support Policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set dotnet to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset dotnet.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2024-05-14"
+    },
+    {
+      "id": "serverless.azure-app-service.dotnet-8-0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/dotnet",
+      "vers": "vers:semver/>=8.0.0|<9.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "App Service .NET 8 stack is scheduled to leave support",
+      "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy announces the end of support for .NET 8 on 2026-11-10, so plan the DOTNETCORE|8.0 stack upgrade before that date.",
+      "severity": "low",
+      "replacement": "App Service .NET 10 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": ".NET and ASP.NET Core Support Policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set dotnet to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset dotnet.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2026-11-10"
+    },
+    {
+      "id": "serverless.azure-app-service.dotnet-isolated-6-0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/dotnet-isolated",
+      "vers": "vers:semver/>=6.0.0|<7.0.0",
+      "event": "end-of-support",
+      "title": "App Service .NET 6.0 isolated stack is past end of support",
+      "summary": "Azure App Service follows the community support timeline for each language stack, and the .NET isolated stack tracks the .NET release it hosts: past its end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy ended support for .NET 6 on 2024-11-12, so a DOTNET-ISOLATED|6.0 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service .NET 8 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": ".NET and ASP.NET Core Support Policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set dotnet-isolated to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset dotnet-isolated.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2024-11-12"
+    },
+    {
+      "id": "serverless.azure-app-service.dotnet-isolated-7-0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/dotnet-isolated",
+      "vers": "vers:semver/>=7.0.0|<8.0.0",
+      "event": "end-of-support",
+      "title": "App Service .NET 7.0 isolated stack is past end of support",
+      "summary": "Azure App Service follows the community support timeline for each language stack, and the .NET isolated stack tracks the .NET release it hosts: past its end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy ended support for .NET 7 on 2024-05-14, so a DOTNET-ISOLATED|7.0 app no longer receives a patched runtime.",
+      "severity": "high",
+      "replacement": "App Service .NET 8 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": ".NET and ASP.NET Core Support Policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set dotnet-isolated to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset dotnet-isolated.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2024-05-14"
+    },
+    {
+      "id": "serverless.azure-app-service.java-7-and-older",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-app-service/java",
+      "vers": "vers:semver/<8.0.0",
+      "event": "end-of-life",
+      "title": "App Service Java 7 and earlier stacks are retired",
+      "summary": "Community support for Java 7 ended on 2022-07-29 and Azure App Service retired Java 7, so a JAVA|7 or older app runs a runtime the platform no longer patches. App Service provides and supports OpenJDK builds for Java 8 and later.",
+      "severity": "high",
+      "replacement": "App Service Java 8 or later",
+      "sources": [
+        {
+          "title": "Language Runtime Support Policy - Azure App Service",
+          "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+          "accessedAt": "2026-11-03"
+        },
+        {
+          "title": "Temurin Support",
+          "url": "https://adoptium.net/support/",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+          "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+          "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+        ],
+        "steps": [
+          {
+            "id": "raise-app-service-stack",
+            "title": "Raise the App Service language stack",
+            "instructions": "Set java to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+            "targets": "all"
+          },
+          {
+            "id": "align-stack-declaration",
+            "title": "Align the stack declaration",
+            "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset java.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+            "purpose": "Confirm the app reports the new stack version."
+          },
+          {
+            "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+            "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+          }
+        ]
+      },
+      "deadline": "2022-07-29"
+    },
+    {
+      "id": "serverless.azure-functions.runtime-1-x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-functions",
+      "vers": "vers:semver/>=1.0.0|<2.0.0",
+      "event": "end-of-life",
+      "title": "Azure Functions runtime 1.x is end-of-life",
+      "summary": "Azure Functions supports only version 4.x of the runtime host and ended support for version 1.x on 2026-09-14. A FUNCTIONS_EXTENSION_VERSION of ~1 no longer receives security patches and the app is not eligible for Azure support.",
+      "severity": "high",
+      "replacement": "Azure Functions 4.x",
+      "deadline": "2026-09-14",
+      "sources": [
+        {
+          "title": "Compare Azure Functions runtime versions",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Azure Functions supports only version 4.x of the runtime host; a function app pinned to an earlier major version keeps running but is not eligible for new features, security patches, or service support.",
+          "Raising FUNCTIONS_EXTENSION_VERSION alone is not enough: the app settings, bindings, and function code can need changes, so follow the published migration guide for the version being left.",
+          "The runtime version is an app setting in Azure, and this rule fires only when the export writes the version into siteConfig."
+        ],
+        "steps": [
+          {
+            "id": "migrate-functions-runtime",
+            "title": "Migrate the function app to the v4 runtime",
+            "instructions": "Follow the Azure Functions migration guide for the version being left, then set FUNCTIONS_EXTENSION_VERSION to ~4 in the app's configuration.",
+            "targets": "all"
+          },
+          {
+            "id": "align-functions-declaration",
+            "title": "Align the runtime declaration",
+            "instructions": "Set the same version in the deployment source - the siteConfig.FUNCTIONS_EXTENSION_VERSION app setting in an Azure Resource Manager or Bicep template, the version in host.json or the .csproj AzureFunctionsVersion for a function project, and the azurerm_function_app version in Terraform.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az functionapp config appsettings list --resource-group <group> --name <app> --query \"[?name=='FUNCTIONS_EXTENSION_VERSION'].value\"",
+            "purpose": "Confirm the app targets the v4 runtime."
+          },
+          {
+            "command": "az functionapp deployment list-publishing-credentials --resource-group <group> --name <app>",
+            "purpose": "Confirm the app is still reachable and deploying after the migration."
+          }
+        ]
+      }
+    },
+    {
+      "id": "serverless.azure-functions.runtime-2-x-and-3-x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/azure-functions",
+      "vers": "vers:semver/>=2.0.0|<4.0.0",
+      "event": "end-of-support",
+      "title": "Azure Functions runtime 2.x and 3.x are out of support",
+      "summary": "Azure Functions lists runtime versions 2.x and 3.x as retired, both at end of extended support since 2022-12-13. Apps on ~2 or ~3 are not eligible for new features, security patches, or service support, and v3 apps in the Linux Consumption plan stop running after 2026-09-30.",
+      "severity": "high",
+      "replacement": "Azure Functions 4.x",
+      "deadline": "2022-12-13",
+      "sources": [
+        {
+          "title": "Compare Azure Functions runtime versions",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions",
+          "accessedAt": "2026-11-03"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-03",
+        "reviewedAt": "2026-11-03",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Azure Functions supports only version 4.x of the runtime host; a function app pinned to an earlier major version keeps running but is not eligible for new features, security patches, or service support.",
+          "Raising FUNCTIONS_EXTENSION_VERSION alone is not enough: the app settings, bindings, and function code can need changes, so follow the published migration guide for the version being left.",
+          "The runtime version is an app setting in Azure, and this rule fires only when the export writes the version into siteConfig."
+        ],
+        "steps": [
+          {
+            "id": "migrate-functions-runtime",
+            "title": "Migrate the function app to the v4 runtime",
+            "instructions": "Follow the Azure Functions migration guide for the version being left, then set FUNCTIONS_EXTENSION_VERSION to ~4 in the app's configuration.",
+            "targets": "all"
+          },
+          {
+            "id": "align-functions-declaration",
+            "title": "Align the runtime declaration",
+            "instructions": "Set the same version in the deployment source - the siteConfig.FUNCTIONS_EXTENSION_VERSION app setting in an Azure Resource Manager or Bicep template, the version in host.json or the .csproj AzureFunctionsVersion for a function project, and the azurerm_function_app version in Terraform.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "az functionapp config appsettings list --resource-group <group> --name <app> --query \"[?name=='FUNCTIONS_EXTENSION_VERSION'].value\"",
+            "purpose": "Confirm the app targets the v4 runtime."
+          },
+          {
+            "command": "az functionapp deployment list-publishing-credentials --resource-group <group> --name <app>",
+            "purpose": "Confirm the app is still reachable and deploying after the migration."
+          }
+        ]
+      }
     }
   ]
 }

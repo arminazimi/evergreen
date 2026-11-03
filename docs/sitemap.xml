@@ -231,6 +231,13 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.authorization-k8s-io.subjectaccessreview.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.azure-aks.1-28-and-older.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.azure-aks.1-29.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.azure-aks.1-30.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.azure-aks.1-31.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.azure-aks.1-32.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.azure-aks.1-33.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.azure-aks.1-34.html</loc><lastmod>2026-11-03</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.certificates-k8s-io.certificatesigningrequest.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.coordination-k8s-io.lease.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
@@ -661,6 +668,24 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby3.3.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby3.4.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby4.0.html</loc><lastmod>2026-10-30</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.dotnet-6-0.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.dotnet-7-0.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.dotnet-8-0.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.dotnet-below-6-0.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.dotnet-isolated-6-0.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.dotnet-isolated-7-0.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.java-7-and-older.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.node-18.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.node-20.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.node-22.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.node-below-18.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.php-8-0.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.php-8-1.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.php-below-8-0.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.python-3-10.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-app-service.python-below-3-10.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-functions.runtime-1-x.html</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.azure-functions.runtime-2-x-and-3-x.html</loc><lastmod>2026-11-03</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.go111.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.go112.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.google-appengine-runtime.go113.html</loc><lastmod>2026-10-30</lastmod></url>

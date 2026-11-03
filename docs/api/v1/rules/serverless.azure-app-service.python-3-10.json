@@ -1,0 +1,65 @@
+{
+  "productId": "generic-azure-app-service-python",
+  "productPath": "products/generic-azure-app-service-python.json",
+  "rule": {
+    "deadline": "2026-10-01",
+    "ecosystem": "serverless",
+    "event": "end-of-life",
+    "id": "serverless.azure-app-service.python-3-10",
+    "migration": {
+      "constraints": [
+        "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+        "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+        "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+      ],
+      "steps": [
+        {
+          "id": "raise-app-service-stack",
+          "instructions": "Set python to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+          "targets": "all",
+          "title": "Raise the App Service language stack"
+        },
+        {
+          "id": "align-stack-declaration",
+          "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset python.",
+          "targets": "declaration",
+          "title": "Align the stack declaration"
+        }
+      ],
+      "verification": [
+        {
+          "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+          "purpose": "Confirm the app reports the new stack version."
+        },
+        {
+          "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+          "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-11-03",
+      "reviewedAt": "2026-11-03",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/azure-app-service/python",
+    "replacement": "App Service Python 3.11 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "accessedAt": "2026-11-03",
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "accessedAt": "2026-11-03",
+        "title": "Status of Python versions",
+        "url": "https://devguide.python.org/versions/"
+      }
+    ],
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Python release cycle ended support for Python 3.10 on 2026-10-01, so a PYTHON|3.10 app no longer receives a patched runtime.",
+    "title": "App Service Python 3.10 stack is past end of life",
+    "vers": "vers:semver/>=3.10.0|<3.11.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

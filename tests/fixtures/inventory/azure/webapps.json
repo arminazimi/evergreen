@@ -1,0 +1,154 @@
+[
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/orders-portal",
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "orders-portal",
+    "resourceGroup": "evergreen-demo",
+    "hostNames": ["orders-portal-placeholder.azurewebsites.net"],
+    "possibleIpAddresses": ["203.0.113.10"],
+    "serverFarmId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/serverfarms/demo-plan",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "NODE|18-lts",
+      "numberOfWorkers": 1,
+      "appSettings": [
+        { "name": "SQL_CONNECTION_STRING", "value": "placeholder-secret-value" },
+        { "name": "FUNCTIONS_EXTENSION_VERSION", "value": "~4" }
+      ]
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/invoices-api",
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "invoices-api",
+    "resourceGroup": "evergreen-demo",
+    "hostNames": ["invoices-api-placeholder.azurewebsites.net"],
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "PYTHON|3.8",
+      "appSettings": [{ "name": "STORAGE_KEY", "value": "placeholder-secret-value" }]
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/legacy-dotnet",
+    "kind": "app,linux,container",
+    "location": "northeurope",
+    "name": "legacy-dotnet",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "DOTNETCORE|6.0"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/search-service",
+    "kind": "app",
+    "location": "westeurope",
+    "name": "search-service",
+    "resourceGroup": "evergreen-demo",
+    "hostNames": ["search-service-placeholder.scm.azurewebsites.net"],
+    "state": "Running",
+    "siteConfig": {
+      "windowsFxVersion": "NODE|14"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/reporting-php",
+    "kind": "app",
+    "location": "francecentral",
+    "name": "reporting-php",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "windowsFxVersion": "PHP|8.0"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/checkout-java",
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "checkout-java",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "JAVA|11-java11"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/queue-worker",
+    "kind": "app,linux,container",
+    "location": "westeurope",
+    "name": "queue-worker",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "DOCKER|placeholderregistry.azurecr.io/worker:1.0",
+      "linuxContainersVersion": "1.0"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/mail-relay",
+    "kind": "app",
+    "location": "westeurope",
+    "name": "mail-relay",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": ""
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/quiet-app",
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "quiet-app",
+    "resourceGroup": "evergreen-demo",
+    "state": "Stopped"
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/java-tomcat",
+    "kind": "app",
+    "location": "westeurope",
+    "name": "java-tomcat",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "windowsFxVersion": "JAVA|8|TOMCAT|9.0"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/auth-isolated",
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "auth-isolated",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "DOTNET-ISOLATED|7.0"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/portal-python",
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "portal-python",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "PYTHON|3.11|3.0"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/other-stack",
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "other-stack",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "GO|1.22"
+    }
+  }
+]

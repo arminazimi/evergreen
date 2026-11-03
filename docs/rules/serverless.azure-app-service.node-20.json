@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "serverless.azure-app-service.node-20",
+  "ecosystem": "serverless",
+  "purl": "pkg:generic/azure-app-service/node",
+  "affectedVersions": "vers:semver/>=20.0.0|<21.0.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "App Service Node.js 20 stack is past end of support",
+  "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Node.js release schedule ended support for Node.js 20 on 2026-04-30, so a NODE|20 app no longer receives a patched runtime.",
+  "replacement": "App Service Node.js 22 or later",
+  "deadline": "2026-04-30",
+  "sources": [
+    {
+      "title": "Language Runtime Support Policy - Azure App Service",
+      "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy",
+      "accessedAt": "2026-11-03"
+    },
+    {
+      "title": "Node.js End-of-life",
+      "url": "https://nodejs.org/en/about/eol",
+      "accessedAt": "2026-11-03"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-11-03",
+    "reviewedAt": "2026-11-03",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "App Service follows the community end-of-support date for each language stack and stops providing security patches and related support for that runtime version past the date.",
+      "The platform controls the minor and patch version of a managed stack, so raising the stack version is the only way to get a patched runtime.",
+      "The stack is declared in siteConfig.linuxFxVersion on Linux and siteConfig.windowsFxVersion on Windows; both are set with az webapp config set."
+    ],
+    "steps": [
+      {
+        "id": "raise-app-service-stack",
+        "title": "Raise the App Service language stack",
+        "instructions": "Set node to a supported stack version (see the replacement) with az webapp config set --linux-fx-version or --windows-fx-version, then redeploy the app.",
+        "targets": "all"
+      },
+      {
+        "id": "align-stack-declaration",
+        "title": "Align the stack declaration",
+        "instructions": "Change the same stack in the deployment source too - the siteConfig resource in an Azure Resource Manager template, the azurerm_linux_web_app linux_fx_version or azurerm_windows_web_app windows_fx_version in Terraform, and the Bicep equivalent - so the next deployment does not reset node.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "az webapp config show --resource-group <group> --name <app> --query linuxFxVersion",
+        "purpose": "Confirm the app reports the new stack version."
+      },
+      {
+        "command": "az webapp restart --resource-group <group> --name <app> && az webapp log tail --resource-group <group> --name <app>",
+        "purpose": "Restart the app and watch the startup log for runtime errors on the new stack."
+      }
+    ]
+  }
+}

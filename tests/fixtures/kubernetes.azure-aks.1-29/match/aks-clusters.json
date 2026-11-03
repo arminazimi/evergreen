@@ -1,0 +1,10 @@
+[
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo/providers/Microsoft.ContainerService/managedClusters/demo-cluster",
+    "kubernetesVersion": "1.29.9",
+    "location": "westus2",
+    "name": "demo-cluster",
+    "resourceGroup": "demo-rg",
+    "type": "Microsoft.ContainerService/managedClusters"
+  }
+]

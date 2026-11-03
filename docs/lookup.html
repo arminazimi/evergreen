@@ -164,7 +164,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 706 rules and makes no network requests after it loads.
+        This page embeds 731 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -180,7 +180,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 706 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 731 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -3894,6 +3894,131 @@ h1 {
       {
         "title": "Kubernetes v1.26: Electrifying (release announcement, 2022-12-09)",
         "url": "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.azure-aks.1-28-and-older",
+    "title": "AKS 1.28 and earlier clusters are no longer supported",
+    "summary": "AKS supports a generally available Kubernetes version for 12 months, with opt-in long-term support beyond that. Versions before 1.29 are no longer listed on the AKS supported-versions page and are past both windows.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/azure-aks",
+    "vers": "vers:semver/\u003c1.29.0",
+    "replacement": "Azure Kubernetes Service 1.35 or later",
+    "sources": [
+      {
+        "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.azure-aks.1-29",
+    "title": "AKS 1.29 cluster is past long-term support",
+    "summary": "AKS 1.29 reached the end of its 12-month support window on 2025-03-31 and the end of long-term support on 2026-04-30. AKS no longer provides patches for this version.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/azure-aks",
+    "vers": "vers:semver/>=1.29.0|\u003c1.30.0",
+    "deadline": "2026-04-30",
+    "replacement": "Azure Kubernetes Service 1.35 or later",
+    "sources": [
+      {
+        "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.azure-aks.1-30",
+    "title": "AKS 1.30 cluster is past long-term support",
+    "summary": "AKS 1.30 reached the end of its 12-month support window on 2025-08-22 and the end of long-term support on 2026-07-31. AKS no longer provides patches for this version.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/azure-aks",
+    "vers": "vers:semver/>=1.30.0|\u003c1.31.0",
+    "deadline": "2026-07-31",
+    "replacement": "Azure Kubernetes Service 1.35 or later",
+    "sources": [
+      {
+        "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.azure-aks.1-31",
+    "title": "AKS 1.31 cluster is past its 12-month support window",
+    "summary": "AKS 1.31 reached the end of its 12-month support window on 2025-11-01. Long-term support, which must be enabled for a cluster, ends on 2026-11-30.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/azure-aks",
+    "vers": "vers:semver/>=1.31.0|\u003c1.32.0",
+    "deadline": "2025-11-01",
+    "replacement": "Azure Kubernetes Service 1.35 or later",
+    "sources": [
+      {
+        "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.azure-aks.1-32",
+    "title": "AKS 1.32 cluster is past its 12-month support window",
+    "summary": "AKS 1.32 reached the end of its 12-month support window on 2026-03-31. Long-term support, which must be enabled for a cluster, ends on 2027-03-31.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/azure-aks",
+    "vers": "vers:semver/>=1.32.0|\u003c1.33.0",
+    "deadline": "2026-03-31",
+    "replacement": "Azure Kubernetes Service 1.35 or later",
+    "sources": [
+      {
+        "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.azure-aks.1-33",
+    "title": "AKS 1.33 cluster is past its 12-month support window",
+    "summary": "AKS 1.33 reached the end of its 12-month support window on 2026-07-31. Long-term support, which must be enabled for a cluster, ends on 2027-07-31.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/azure-aks",
+    "vers": "vers:semver/>=1.33.0|\u003c1.34.0",
+    "deadline": "2026-07-31",
+    "replacement": "Azure Kubernetes Service 1.35 or later",
+    "sources": [
+      {
+        "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      }
+    ]
+  },
+  {
+    "id": "kubernetes.azure-aks.1-34",
+    "title": "AKS 1.34 cluster is scheduled to leave its 12-month support window",
+    "summary": "AKS supports a generally available Kubernetes version for 12 months. The supported-versions page gives AKS 1.34 an end of life of 2026-11-30, with long-term support, which must be enabled for the cluster, ending on 2027-11-30.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "kubernetes",
+    "purl": "pkg:generic/azure-aks",
+    "vers": "vers:semver/>=1.34.0|\u003c1.35.0",
+    "deadline": "2026-11-30",
+    "replacement": "Azure Kubernetes Service 1.35 or later",
+    "sources": [
+      {
+        "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
       }
     ]
   },
@@ -12305,6 +12430,393 @@ h1 {
       {
         "title": "AWS Lambda runtimes",
         "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.dotnet-6-0",
+    "title": "App Service .NET 6 stack is past end of support",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy ended support for .NET 6 on 2024-11-12, so a DOTNETCORE|6.0 app no longer receives a patched runtime.",
+    "event": "end-of-support",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/dotnet",
+    "vers": "vers:semver/>=6.0.0|\u003c7.0.0",
+    "deadline": "2024-11-12",
+    "replacement": "App Service .NET 8 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": ".NET and ASP.NET Core Support Policy",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.dotnet-7-0",
+    "title": "App Service .NET 7 stack is past end of support",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy ended support for .NET 7 on 2024-05-14, so a DOTNETCORE|7.0 app no longer receives a patched runtime.",
+    "event": "end-of-support",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/dotnet",
+    "vers": "vers:semver/>=7.0.0|\u003c8.0.0",
+    "deadline": "2024-05-14",
+    "replacement": "App Service .NET 8 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": ".NET and ASP.NET Core Support Policy",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.dotnet-8-0",
+    "title": "App Service .NET 8 stack is scheduled to leave support",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy announces the end of support for .NET 8 on 2026-11-10, so plan the DOTNETCORE|8.0 stack upgrade before that date.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/dotnet",
+    "vers": "vers:semver/>=8.0.0|\u003c9.0.0",
+    "deadline": "2026-11-10",
+    "replacement": "App Service .NET 10 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": ".NET and ASP.NET Core Support Policy",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.dotnet-below-6-0",
+    "title": "App Service .NET stacks older than 6.0 are past end of support",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. .NET Core 3.1, the newest release in this range, left support on 2022-12-13, so a DOTNETCORE|3.1 or older app runs an unpatched runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/dotnet",
+    "vers": "vers:semver/\u003c6.0.0",
+    "deadline": "2022-12-13",
+    "replacement": "App Service .NET 8 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": ".NET and ASP.NET Core Support Policy",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.dotnet-isolated-6-0",
+    "title": "App Service .NET 6.0 isolated stack is past end of support",
+    "summary": "Azure App Service follows the community support timeline for each language stack, and the .NET isolated stack tracks the .NET release it hosts: past its end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy ended support for .NET 6 on 2024-11-12, so a DOTNET-ISOLATED|6.0 app no longer receives a patched runtime.",
+    "event": "end-of-support",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/dotnet-isolated",
+    "vers": "vers:semver/>=6.0.0|\u003c7.0.0",
+    "deadline": "2024-11-12",
+    "replacement": "App Service .NET 8 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": ".NET and ASP.NET Core Support Policy",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.dotnet-isolated-7-0",
+    "title": "App Service .NET 7.0 isolated stack is past end of support",
+    "summary": "Azure App Service follows the community support timeline for each language stack, and the .NET isolated stack tracks the .NET release it hosts: past its end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The .NET support policy ended support for .NET 7 on 2024-05-14, so a DOTNET-ISOLATED|7.0 app no longer receives a patched runtime.",
+    "event": "end-of-support",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/dotnet-isolated",
+    "vers": "vers:semver/>=7.0.0|\u003c8.0.0",
+    "deadline": "2024-05-14",
+    "replacement": "App Service .NET 8 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": ".NET and ASP.NET Core Support Policy",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.java-7-and-older",
+    "title": "App Service Java 7 and earlier stacks are retired",
+    "summary": "Community support for Java 7 ended on 2022-07-29 and Azure App Service retired Java 7, so a JAVA|7 or older app runs a runtime the platform no longer patches. App Service provides and supports OpenJDK builds for Java 8 and later.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/java",
+    "vers": "vers:semver/\u003c8.0.0",
+    "deadline": "2022-07-29",
+    "replacement": "App Service Java 8 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "Temurin Support",
+        "url": "https://adoptium.net/support/"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.node-18",
+    "title": "App Service Node.js 18 stack is past end of support",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Node.js release schedule ended support for Node.js 18 on 2025-04-30, so a NODE|18 app no longer receives a patched runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/node",
+    "vers": "vers:semver/>=18.0.0|\u003c19.0.0",
+    "deadline": "2025-04-30",
+    "replacement": "App Service Node.js 20 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "Node.js End-of-life",
+        "url": "https://nodejs.org/en/about/eol"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.node-20",
+    "title": "App Service Node.js 20 stack is past end of support",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Node.js release schedule ended support for Node.js 20 on 2026-04-30, so a NODE|20 app no longer receives a patched runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/node",
+    "vers": "vers:semver/>=20.0.0|\u003c21.0.0",
+    "deadline": "2026-04-30",
+    "replacement": "App Service Node.js 22 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "Node.js End-of-life",
+        "url": "https://nodejs.org/en/about/eol"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.node-22",
+    "title": "App Service Node.js 22 stack is scheduled to leave support",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Node.js release schedule announces the end of support for Node.js 22 on 2027-04-30, so plan the NODE|22 stack upgrade before that date.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/node",
+    "vers": "vers:semver/>=22.0.0|\u003c23.0.0",
+    "deadline": "2027-04-30",
+    "replacement": "App Service Node.js 24 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "Node.js End-of-life",
+        "url": "https://nodejs.org/en/about/eol"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.node-below-18",
+    "title": "App Service Node.js stacks older than 18 are no longer supported",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. Node.js 16 and every earlier release reached end of life upstream before 2023-09-11, so a NODE|16 or older app runs an unpatched runtime.",
+    "event": "end-of-life",
+    "severity": "critical",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/node",
+    "vers": "vers:semver/\u003c18.0.0",
+    "replacement": "App Service Node.js 20 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "Node.js End-of-life",
+        "url": "https://nodejs.org/en/about/eol"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.php-8-0",
+    "title": "App Service PHP 8.0 stack is past end of life",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. php.net lists PHP 8.0 as end-of-life since 2023-11-26, so a PHP|8.0 app no longer receives a patched runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/php",
+    "vers": "vers:semver/>=8.0.0|\u003c8.1.0",
+    "deadline": "2023-11-26",
+    "replacement": "App Service PHP 8.3 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "PHP: End-of-Life Versions",
+        "url": "https://www.php.net/eol.php"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.php-8-1",
+    "title": "App Service PHP 8.1 stack is past end of life",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. php.net lists PHP 8.1 as end-of-life since 2025-12-31, so a PHP|8.1 app no longer receives a patched runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/php",
+    "vers": "vers:semver/>=8.1.0|\u003c8.2.0",
+    "deadline": "2025-12-31",
+    "replacement": "App Service PHP 8.3 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "PHP: End-of-Life Versions",
+        "url": "https://www.php.net/eol.php"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.php-below-8-0",
+    "title": "App Service PHP stacks older than 8.0 are past end of life",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. PHP 7.4, the newest release in this range, reached end of life on 2022-11-28, so a PHP|7.4 or older app runs an unpatched runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/php",
+    "vers": "vers:semver/\u003c8.0.0",
+    "deadline": "2022-11-28",
+    "replacement": "App Service PHP 8.3 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "PHP: End-of-Life Versions",
+        "url": "https://www.php.net/eol.php"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.python-3-10",
+    "title": "App Service Python 3.10 stack is past end of life",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. The Python release cycle ended support for Python 3.10 on 2026-10-01, so a PYTHON|3.10 app no longer receives a patched runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/python",
+    "vers": "vers:semver/>=3.10.0|\u003c3.11.0",
+    "deadline": "2026-10-01",
+    "replacement": "App Service Python 3.11 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "Status of Python versions",
+        "url": "https://devguide.python.org/versions/"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-app-service.python-below-3-10",
+    "title": "App Service Python stacks older than 3.10 are past end of life",
+    "summary": "Azure App Service follows the community support timeline for each language stack: past the end-of-support date the app keeps running, but the platform stops providing security patches or related support for that runtime version. Python 3.9 and every earlier release reached end of life upstream on or before 2025-10-31, so a PYTHON|3.9 or older app runs an unpatched runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-app-service/python",
+    "vers": "vers:semver/\u003c3.10.0",
+    "deadline": "2025-10-31",
+    "replacement": "App Service Python 3.11 or later",
+    "sources": [
+      {
+        "title": "Language Runtime Support Policy - Azure App Service",
+        "url": "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy"
+      },
+      {
+        "title": "Status of Python versions",
+        "url": "https://devguide.python.org/versions/"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-functions.runtime-1-x",
+    "title": "Azure Functions runtime 1.x is end-of-life",
+    "summary": "Azure Functions supports only version 4.x of the runtime host and ended support for version 1.x on 2026-09-14. A FUNCTIONS_EXTENSION_VERSION of ~1 no longer receives security patches and the app is not eligible for Azure support.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-functions",
+    "vers": "vers:semver/>=1.0.0|\u003c2.0.0",
+    "deadline": "2026-09-14",
+    "replacement": "Azure Functions 4.x",
+    "sources": [
+      {
+        "title": "Compare Azure Functions runtime versions",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions"
+      }
+    ]
+  },
+  {
+    "id": "serverless.azure-functions.runtime-2-x-and-3-x",
+    "title": "Azure Functions runtime 2.x and 3.x are out of support",
+    "summary": "Azure Functions lists runtime versions 2.x and 3.x as retired, both at end of extended support since 2022-12-13. Apps on ~2 or ~3 are not eligible for new features, security patches, or service support, and v3 apps in the Linux Consumption plan stop running after 2026-09-30.",
+    "event": "end-of-support",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/azure-functions",
+    "vers": "vers:semver/>=2.0.0|\u003c4.0.0",
+    "deadline": "2022-12-13",
+    "replacement": "Azure Functions 4.x",
+    "sources": [
+      {
+        "title": "Compare Azure Functions runtime versions",
+        "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions"
       }
     ]
   },

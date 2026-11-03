@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { checkAgainst } from "../check-dependency.js";
 import { loadDataFile } from "../data-source.js";
 import { validateRegistryV2, type RegistryV2Rule } from "../registry.js";
+import { azureImporter } from "./azure.js";
 import { gcpImporter } from "./gcp.js";
 import { awsLambdaImporter } from "./aws-lambda.js";
 import { awsRdsImporter } from "./aws-rds.js";
@@ -16,7 +17,7 @@ import type { InventoryImporter, InventoryReport, InventoryResult } from "./type
 export type { InventoryImporter, InventoryItem, InventoryReport, InventoryResult } from "./types.js";
 
 /** Every built-in importer. Each task in the inventory epic appends its own entry. */
-export const inventoryImporters: InventoryImporter[] = [k8sWorkloadsImporter, k8sClusterImporter, osReleaseImporter, dockerInventoryImporter, awsRdsImporter, awsLambdaImporter, gcpImporter, terraformStateImporter];
+export const inventoryImporters: InventoryImporter[] = [k8sWorkloadsImporter, k8sClusterImporter, osReleaseImporter, dockerInventoryImporter, awsRdsImporter, awsLambdaImporter, gcpImporter, azureImporter, terraformStateImporter];
 
 /** Parses an export as JSON, or keeps it as text when it is not JSON (for example `/etc/os-release`). */
 export function parseExport(text: string): unknown {

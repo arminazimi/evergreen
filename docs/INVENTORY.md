@@ -357,6 +357,79 @@ Cloud Run has no managed language runtime. The importer reads only container ima
 
 `tests/fixtures/inventory/gcp/` holds one sanitized sample per document type, and `examples/inventory/` holds two runnable samples. Each follows the JSON the commands above print, reduced to the fields this importer reads, with every project id, number, service account, URL, IP address, and environment value replaced by a placeholder. No `gcloud` CLI version is recorded because the contributor who added this importer had no Google Cloud project to capture exports from; the shapes follow the documented JSON output of the commands above rather than a recorded response.
 
+## Azure
+
+```bash
+az webapp list -o json > webapps.json
+az functionapp list -o json > functionapps.json
+az aks list -o json > aks-clusters.json
+evergreen inventory webapps.json functionapps.json aks-clusters.json
+```
+
+**Fields read**
+
+| Export | Fields | PURL |
+| --- | --- | --- |
+| `az webapp list -o json` | `name`, `kind`, `siteConfig.linuxFxVersion` or `siteConfig.windowsFxVersion` | `pkg:generic/azure-app-service/<stack>` |
+| `az functionapp list -o json` | the same, plus `siteConfig.FUNCTIONS_EXTENSION_VERSION` | `pkg:generic/azure-app-service/<stack>` and `pkg:generic/azure-functions` |
+| `az aks list -o json` | `name`, `kubernetesVersion`, `agentPoolProfiles[].orchestratorVersion` | `pkg:generic/azure-aks` |
+
+`name` supplies the resource: the app or cluster name, never the subscription id, the resource group id, a host name, or an ARM `id` path.
+
+**Stack references**
+
+`linuxFxVersion` and `windowsFxVersion` name the managed stack and its version in one string. The prefix selects the stack and the part after the first `|` is read as the version, stopping at the first `-`:
+
+| Reference | Item |
+| --- | --- |
+| `NODE\|18-lts` | `pkg:generic/azure-app-service/node` at `18` |
+| `PYTHON\|3.8` | `pkg:generic/azure-app-service/python` at `3.8` |
+| `DOTNETCORE\|6.0` | `pkg:generic/azure-app-service/dotnet` at `6.0` |
+| `DOTNET-ISOLATED\|7.0` | `pkg:generic/azure-app-service/dotnet-isolated` at `7.0` |
+| `JAVA\|11-java11` | `pkg:generic/azure-app-service/java` at `11` |
+| `PHP\|8.0` | `pkg:generic/azure-app-service/php` at `8.0` |
+
+A reference with a third part (`PYTHON\|3.11\|3.0`) gives the same version. `DOCKER\|<image>` is a custom container with no managed stack, an empty value, a prefix this importer has no rules for, a reference with more than three parts (`JAVA\|8\|TOMCAT\|9.0`, where the app-server release is what a rule would need), and an app with no `siteConfig` are all skipped rather than guessed.
+
+`az webapp list` and `az functionapp list` print the `SiteResource`, whose `siteConfig` the App Service API omits from a normal read because it can hold secrets. When the export has no `siteConfig`, read each app's configuration and keep its name and kind:
+
+```bash
+az webapp list -o tsv --query '[].{group:resourceGroup,name:name,kind:kind}' \
+  | while read -r group name kind; do
+      az webapp config show -g "$group" -n "$name" -o json \
+        | jq --arg name "$name" --arg kind "$kind" '{name: $name, kind: $kind, siteConfig: .}'
+    done \
+  | jq -s '.' > webapps.json
+evergreen inventory webapps.json
+```
+
+`az aks list` returns the cluster versions directly, so no follow-up call is needed.
+
+**Functions runtime**
+
+The Functions runtime version is an app setting in Azure, and app settings are never read: they carry connection strings and keys. An item is therefore produced only for an export that writes the value straight into `siteConfig`, never for one that carries it as a `siteConfig.appSettings` entry, and never for a setting named in an app whose `kind` does not include `functionapp`. Both spellings of the value are read: `~4` becomes version `4` and a pinned build such as `2.0.12345` keeps its build.
+
+**AKS versions**
+
+A cluster produces one item for its control plane (`kubernetesVersion`) and one for each agent pool version that differs from a version already reported for that cluster (`agentPoolProfiles[].orchestratorVersion`), so a pool that matches its control plane is not counted twice.
+
+**Rules matched**
+
+- `registry/serverless.json`: the `pkg:generic/azure-app-service/<stack>` and `pkg:generic/azure-functions` rules, sourced to Azure's [language runtime support policy](https://learn.microsoft.com/en-us/azure/app-service/language-support-policy) and [Functions runtime version page](https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions), each citing the community schedule Azure follows for that runtime.
+- `registry/kubernetes.json`: the `pkg:generic/azure-aks` minor-version rules, sourced to the [AKS supported Kubernetes versions page](https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions). A version past its 12-month support window is `end-of-support` at `medium`; one past opt-in long-term support is `end-of-life` at `high`; an announced window end that has not passed yet is `scheduled-end-of-life` at `low`.
+
+**What is not judged**
+
+- `agentPoolProfiles[].osSku` and `windowsVersion`, and any node operating system or package inside a node image: the AKS rules judge the Kubernetes version only. Scan a node root filesystem export for its packages.
+- `siteConfig.appSettings` and every other app setting, including a `FUNCTIONS_WORKER_RUNTIME` or a `FUNCTIONS_EXTENSION_VERSION` that only lives there.
+- Host names, IPs, URLs, `serverFarmId`, SKU, location, tags, `resourceGroup`, and ARM `id` paths.
+- Custom-container apps, and a Java app server (Tomcat, JBoss) named in a stack reference: no rule is applied to it.
+- A stack version with no rule yet — today for example `NODE|24` or `JAVA|11` — which reports `not-affected`. That is not a statement that the version is supported; it says no Azure rule covers it.
+
+**Fixtures**
+
+`tests/fixtures/inventory/azure/` holds one sanitized sample per document type, with every subscription id, resource group id, ARM path, host name, IP address, DNS prefix, SSH key, service principal, and app-setting value replaced by a placeholder. `examples/inventory/azure-webapps.json` and `examples/inventory/aks.json` are runnable samples. No Azure CLI version is recorded because the contributor who added this importer had no Azure subscription to capture exports from; the shapes follow the documented JSON output of the commands above rather than a recorded response.
+
 ## Terraform state
 
 The `terraform-state` importer reads the values Terraform recorded for deployed resources. It accepts two shapes:
@@ -422,10 +495,10 @@ A leading `~` in a Node.js version is Azure's release-line notation, so `~18` is
 **Rules matched**
 
 - `registry/database.json`: RDS, Aurora, and ElastiCache engine rules, the same rules the AWS RDS importer uses.
-- `registry/kubernetes.json`: GKE minor-version rules.
-- `registry/serverless.json`: AWS Lambda and Google Cloud Functions runtime rules.
+- `registry/kubernetes.json`: GKE and AKS minor-version rules.
+- `registry/serverless.json`: AWS Lambda, Google Cloud Functions, and Azure App Service stack and Functions runtime rules.
 
-`pkg:generic/amazon-eks` currently has rules in `registry/terraform.json` for the Terraform source detector; they are not in the registry this importer reads, so an EKS cluster is reported as `no-data` until the EKS importer's `registry/kubernetes.json` rules land. `pkg:generic/azure-aks` and `pkg:generic/azure-app-service/<stack>` are emitted ahead of their Azure importer rules and report `no-data` for now. `no-data` is never a statement that the version is safe.
+`pkg:generic/amazon-eks` currently has rules in `registry/terraform.json` for the Terraform source detector; they are not in the registry this importer reads, so an EKS cluster is reported as `no-data` until the EKS importer's `registry/kubernetes.json` rules land. `no-data` is never a statement that the version is safe.
 
 **What is not judged**
 

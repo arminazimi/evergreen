@@ -1,0 +1,14 @@
+[
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/demo/providers/Microsoft.Web/sites/demo-function",
+    "kind": "functionapp,linux",
+    "location": "westus2",
+    "name": "demo-function",
+    "resourceGroup": "demo-rg",
+    "siteConfig": {
+      "FUNCTIONS_EXTENSION_VERSION": "~4",
+      "linuxFxVersion": ""
+    },
+    "type": "Microsoft.Web/sites"
+  }
+]

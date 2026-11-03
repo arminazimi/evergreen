@@ -1,0 +1,39 @@
+[
+  {
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "orders-portal",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "NODE|18-lts"
+    }
+  },
+  {
+    "kind": "functionapp,linux",
+    "location": "northeurope",
+    "name": "legacy-timer-jobs",
+    "state": "Running",
+    "siteConfig": {
+      "FUNCTIONS_EXTENSION_VERSION": "~3",
+      "linuxFxVersion": "PYTHON|3.8"
+    }
+  },
+  {
+    "kind": "app",
+    "location": "francecentral",
+    "name": "reporting-php",
+    "state": "Running",
+    "siteConfig": {
+      "windowsFxVersion": "PHP|8.1"
+    }
+  },
+  {
+    "kind": "app,linux",
+    "location": "westeurope",
+    "name": "search-service",
+    "state": "Running",
+    "siteConfig": {
+      "linuxFxVersion": "NODE|24"
+    }
+  }
+]

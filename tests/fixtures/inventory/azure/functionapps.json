@@ -1,0 +1,93 @@
+[
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/timer-jobs",
+    "kind": "functionapp,linux",
+    "location": "westeurope",
+    "name": "timer-jobs",
+    "resourceGroup": "evergreen-demo",
+    "hostNames": ["timer-jobs-placeholder.azurewebsites.net"],
+    "defaultProvider": "Microsoft.Azure.Extensions",
+    "state": "Running",
+    "siteConfig": {
+      "FUNCTIONS_EXTENSION_VERSION": "~3",
+      "linuxFxVersion": "PYTHON|3.8",
+      "appSettings": [
+        { "name": "FUNCTIONS_EXTENSION_VERSION", "value": "~4" },
+        { "name": "AzureWebJobsStorage", "value": "placeholder-secret-value" }
+      ]
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/orders-api",
+    "kind": "functionapp",
+    "location": "northeurope",
+    "name": "orders-api",
+    "resourceGroup": "evergreen-demo",
+    "enabledHostNames": ["orders-api-placeholder.scm.azurewebsites.net"],
+    "state": "Running",
+    "siteConfig": {
+      "FUNCTIONS_EXTENSION_VERSION": "~4",
+      "appSettings": [{ "name": "EVENT_GRID_KEY", "value": "placeholder-secret-value" }]
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/legacy-http-trigger",
+    "kind": "functionapp,linux",
+    "location": "westeurope",
+    "name": "legacy-http-trigger",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "FUNCTIONS_EXTENSION_VERSION": "~1",
+      "linuxFxVersion": "NODE|14"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/pinned-runtime",
+    "kind": "functionapp",
+    "location": "westeurope",
+    "name": "pinned-runtime",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "FUNCTIONS_EXTENSION_VERSION": "2.0.12345"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/settings-only",
+    "kind": "functionapp,linux",
+    "location": "westeurope",
+    "name": "settings-only",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "appSettings": [
+        { "name": "FUNCTIONS_EXTENSION_VERSION", "value": "~2" },
+        { "name": "FUNCTIONS_WORKER_RUNTIME", "value": "node" }
+      ]
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/invoice-workflow",
+    "kind": "workflow",
+    "location": "westeurope",
+    "name": "invoice-workflow",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "FUNCTIONS_EXTENSION_VERSION": "~3",
+      "linuxFxVersion": "NODE|18-lts"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/evergreen-demo/providers/Microsoft.Web/sites/unpinned-runtime",
+    "kind": "functionapp,linux",
+    "location": "westeurope",
+    "name": "unpinned-runtime",
+    "resourceGroup": "evergreen-demo",
+    "state": "Running",
+    "siteConfig": {
+      "FUNCTIONS_EXTENSION_VERSION": "~invalid"
+    }
+  }
+]

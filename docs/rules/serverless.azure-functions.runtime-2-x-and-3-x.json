@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "serverless.azure-functions.runtime-2-x-and-3-x",
+  "ecosystem": "serverless",
+  "purl": "pkg:generic/azure-functions",
+  "affectedVersions": "vers:semver/>=2.0.0|<4.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Azure Functions runtime 2.x and 3.x are out of support",
+  "summary": "Azure Functions lists runtime versions 2.x and 3.x as retired, both at end of extended support since 2022-12-13. Apps on ~2 or ~3 are not eligible for new features, security patches, or service support, and v3 apps in the Linux Consumption plan stop running after 2026-09-30.",
+  "replacement": "Azure Functions 4.x",
+  "deadline": "2022-12-13",
+  "sources": [
+    {
+      "title": "Compare Azure Functions runtime versions",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions",
+      "accessedAt": "2026-11-03"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-11-03",
+    "reviewedAt": "2026-11-03",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Azure Functions supports only version 4.x of the runtime host; a function app pinned to an earlier major version keeps running but is not eligible for new features, security patches, or service support.",
+      "Raising FUNCTIONS_EXTENSION_VERSION alone is not enough: the app settings, bindings, and function code can need changes, so follow the published migration guide for the version being left.",
+      "The runtime version is an app setting in Azure, and this rule fires only when the export writes the version into siteConfig."
+    ],
+    "steps": [
+      {
+        "id": "migrate-functions-runtime",
+        "title": "Migrate the function app to the v4 runtime",
+        "instructions": "Follow the Azure Functions migration guide for the version being left, then set FUNCTIONS_EXTENSION_VERSION to ~4 in the app's configuration.",
+        "targets": "all"
+      },
+      {
+        "id": "align-functions-declaration",
+        "title": "Align the runtime declaration",
+        "instructions": "Set the same version in the deployment source - the siteConfig.FUNCTIONS_EXTENSION_VERSION app setting in an Azure Resource Manager or Bicep template, the version in host.json or the .csproj AzureFunctionsVersion for a function project, and the azurerm_function_app version in Terraform.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "az functionapp config appsettings list --resource-group <group> --name <app> --query \"[?name=='FUNCTIONS_EXTENSION_VERSION'].value\"",
+        "purpose": "Confirm the app targets the v4 runtime."
+      },
+      {
+        "command": "az functionapp deployment list-publishing-credentials --resource-group <group> --name <app>",
+        "purpose": "Confirm the app is still reachable and deploying after the migration."
+      }
+    ]
+  }
+}

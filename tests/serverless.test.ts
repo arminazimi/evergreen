@@ -204,6 +204,16 @@ test("every curated Serverless rule has migration guidance with real verificatio
       );
       continue;
     }
+    if (rule.id.startsWith("serverless.azure-app-service.") || rule.id.startsWith("serverless.azure-functions.")) {
+      assert.ok(
+        rule.migration.verification.length >= 1 &&
+          rule.migration.verification.every(
+            (check) => check.command.startsWith("az ") && !check.command.includes("sam ") && !check.command.includes("serverless "),
+          ),
+        `${rule.id}: Azure verification must be Azure CLI only`,
+      );
+      continue;
+    }
     assert.ok(
       rule.migration.verification.some((check) => check.command === "sam validate || serverless print || terraform validate"),
       `${rule.id}: AWS Lambda verification must keep the SAM/Serverless/Terraform chain`,

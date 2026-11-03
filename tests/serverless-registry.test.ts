@@ -7,6 +7,8 @@ import { validateRegistryV2 } from "../src/registry.js";
 const AWS_RUNTIMES = "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html";
 const GOOGLE_RUNTIMES = "https://cloud.google.com/functions/docs/runtime-support";
 const GOOGLE_APPENGINE = "https://cloud.google.com/appengine/docs/standard/lifecycle/support-schedule";
+const AZURE_APP_SERVICE = "https://learn.microsoft.com/en-us/azure/app-service/language-support-policy";
+const AZURE_FUNCTIONS = "https://learn.microsoft.com/en-us/azure/azure-functions/functions-versions";
 
 /**
  * Deadlines taken from the vendor tables on 2026-10-30 (AWS deprecation date; Google decommission date).
@@ -72,9 +74,9 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/serverless.json", "utf8"))).rules;
 }
 
-test("the serverless registry holds the curated AWS and Google Cloud rules, each citing its vendor table", async () => {
+test("the serverless registry holds the curated AWS, Google Cloud, and Azure rules, each citing its vendor table", async () => {
   const all = await rules();
-  assert.equal(all.length, 120);
+  assert.equal(all.length, 138);
   const aws = all.filter((rule) => rule.id.startsWith("serverless.aws-lambda."));
   assert.deepEqual(
     aws.map((rule) => rule.id).sort(),
@@ -100,6 +102,16 @@ test("the serverless registry holds the curated AWS and Google Cloud rules, each
     assert.ok(rule.sources.some((entry) => entry.url === source), `${rule.id} cites ${source}`);
     assert.match(rule.summary, /runtime ID /, rule.id);
     assert.equal(rule.vers, "vers:semver/*", rule.id);
+  }
+
+  const appService = all.filter((rule) => rule.id.startsWith("serverless.azure-app-service."));
+  const azureFunctions = all.filter((rule) => rule.id.startsWith("serverless.azure-functions."));
+  assert.equal(appService.length, 16);
+  assert.equal(azureFunctions.length, 2);
+  for (const rule of [...appService, ...azureFunctions]) {
+    const source = rule.id.startsWith("serverless.azure-functions.") ? AZURE_FUNCTIONS : AZURE_APP_SERVICE;
+    assert.ok(rule.sources.some((entry) => entry.url === source), `${rule.id} cites ${source}`);
+    assert.match(rule.purl, /^pkg:generic\/azure-/, rule.id);
   }
 });
 
