@@ -159,11 +159,65 @@ today's files.
 - OpenSSF Scorecard floor (scheduled alert until the score meets the quality target).
 - Marketplace-only publish steps.
 
+## Workflow inventory
+
+Every file under [`.github/workflows/`](../.github/workflows/) belongs to a lane above and has a
+stated purpose. **Owner** for all of them is [@arminazimi](https://github.com/arminazimi)
+([`.github/CODEOWNERS`](../.github/CODEOWNERS) `/.github/workflows/`). Count on 2026-11-03: **27**
+files (the issue title still said 24 from an earlier snapshot).
+
+A last-run audit on that date found no unused workflows to delete. Empty run history is expected
+for `evergreen-reusable.yml` (only `workflow_call`, runs in caller repositories) and for
+`scorecard-floor.yml` (added 2026-11-02; first cron is Saturday). Planned merges stay in their own
+issues — one pull request per removal or merge: corpus trio → #2025; `release.yml` stages → #2027;
+join `publish.yml` → #2028. Do not delete a workflow here just because a later task will fold it.
+
+| File | Lane | Trigger | Purpose |
+| --- | --- | --- | --- |
+| `ci.yml` | Pull request / merge queue / main | `pull_request`, `push` to `main`, `merge_group` | Main gate: classify docs vs code, `npm run check` matrix, quality, self-scan path, and the required `ci-ok` aggregator |
+| `decisions.yml` | Pull request | `pull_request` on contract paths | Fail when a public-contract change lacks a decision record |
+| `rules.yml` | Pull request / main | `pull_request` / `push` on registry paths | Lint and fixture-test only the rules the diff touches |
+| `docs-doctor.yml` | Pull request | `pull_request` on docs site paths | Slipway doctor on the documentation site (report-only until the site is clean) |
+| `site-budget.yml` | Pull request | `pull_request` on site paths; `workflow_dispatch` | Fail when the docs site exceeds size or LCP budgets |
+| `fuzz.yml` | Pull request / nightly | `pull_request` on parser paths; nightly schedule; `workflow_dispatch` | Deeper parser fuzz than the tight budget inside `npm run check` |
+| `corpus-pr.yml` | Pull request / main (signal) | `pull_request` / `push` on detector or registry paths | Non-required network corpus for ecosystems the change touches |
+| `workflow-lint.yml` | Main | `push` to `main` on workflow paths; `workflow_dispatch` | actionlint + zizmor on workflow YAML and `action.yml` |
+| `pages.yml` | Main | `push` to `main`; `workflow_dispatch` | Build the docs site, Seaworthy + Lighthouse, deploy to GitHub Pages |
+| `labels.yml` | Main / nightly | `pull_request` / `push` on label paths; weekly schedule; `workflow_dispatch` | Sync `.github/labels.yml` and check good-first-issue briefs |
+| `release.yml` | Main / release | `push` to `main`; `workflow_run` after publish; `workflow_dispatch` | Release notes, Action bundle on `release/<tag>`, binaries, provenance, quickstart and channel smoke |
+| `package-smoke.yml` | Merge queue / nightly | `merge_group`; nightly schedule; `workflow_dispatch` | Prove npm tarball, Docker image, and local Action scan the same fixture |
+| `ci-health.yml` | Nightly | `workflow_run` of CI on `main`; schedules; `workflow_dispatch` | Open/close devops issues on main failures, measure CI duration, quarantine flaky tests |
+| `mutation.yml` | Nightly | Nightly schedule; `workflow_dispatch` | Mutation testing matrix (too slow for the merge gate) |
+| `corpus.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Full public corpus fetch and validate |
+| `corpus-record.yml` | Nightly | Twice-monthly schedule; `workflow_dispatch` | Record a full corpus run into a maintainer-reviewed pull request |
+| `sources.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Evidence URL reachability and rule freshness windows |
+| `importers.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Draft lifecycle rules from authoritative sources; open one PR per importer |
+| `scorecard.yml` | Nightly | Weekly schedule; `branch_protection_rule`; `workflow_dispatch` | OpenSSF Scorecard publish + SARIF upload |
+| `scorecard-floor.yml` | Nightly | Weekly schedule (after Scorecard); `workflow_dispatch` | Alert when the published Scorecard score is below the QUALITY.md floor |
+| `codeql.yml` | Nightly | Weekly schedule; `workflow_dispatch` | CodeQL analysis of `main` |
+| `mcp-listings.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Compare tracked MCP directory listings to `server.json` |
+| `publish.yml` | Release | Version `v*` tags | npm trusted publish with provenance, then post-publish smoke |
+| `data-release.yml` | Release | `data-v*` tags; dry-run `workflow_dispatch` | Build, sign, and publish the lifecycle data bundle |
+| `gitlab-sync.yml` | Release | `v*` tags; `workflow_dispatch` | Push the release commit and tags to the GitLab CI/CD Catalog project |
+| `evergreen-reusable.yml` | Product (caller) | `workflow_call` only | Reusable per-repository Evergreen scan for other repositories to `uses:` |
+| `org-scan.yml` | Product (caller) | `workflow_call`; `workflow_dispatch` | Organization-wide scan, rollup, and optional Slack/Teams digest |
+
+### Last-run audit (2026-11-03)
+
+Checked with `gh run list --workflow <file> --limit 1` against `arminazimi/evergreen`.
+
+| Outcome | Workflows |
+| --- | --- |
+| Ran successfully within about a week | `ci.yml`, `ci-health.yml`, `codeql.yml`, `corpus-pr.yml`, `corpus-record.yml`, `corpus.yml`, `decisions.yml`, `docs-doctor.yml`, `fuzz.yml`, `gitlab-sync.yml`, `labels.yml`, `mcp-listings.yml`, `package-smoke.yml`, `pages.yml`, `publish.yml`, `release.yml`, `rules.yml`, `scorecard.yml`, `site-budget.yml`, `workflow-lint.yml` |
+| Ran (failed — still active signal, not unused) | `mutation.yml` (nightly), `sources.yml` (nightly), `org-scan.yml` (manual/product path) |
+| Older success, still on its trigger | `data-release.yml` (last `data-v*` / release-related push 2026-10-21), `importers.yml` (last schedule 2026-10-27) |
+| No runs in this repository (expected) | `evergreen-reusable.yml` (`workflow_call` only), `scorecard-floor.yml` (first Saturday cron not yet due) |
+
 ## Changing this page
 
 - **Accepted design.** After decision 0024 is accepted, workflow pull requests that move work
   between lanes or raise a budget update this page in the same change.
-- **Inventory and deletions.** Mapping each of today's workflows to a lane and deleting unused ones
-  is #2024; this page does not list every file on purpose so #2024 can own the inventory.
+- **Inventory.** When you add, rename, delete, or change the purpose of a workflow file, update the
+  [Workflow inventory](#workflow-inventory) table in the same pull request.
 - **Shared setup.** Checkout-independent Node install and cache move into one composite action in
   #2026; lanes above stay the same.

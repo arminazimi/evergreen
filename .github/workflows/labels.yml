@@ -1,5 +1,9 @@
 name: Labels
 
+# Keeps GitHub labels aligned with .github/labels.yml and checks that open good-first-issue
+# briefs still match the checker. Dry-run on pull requests; applies on main and on demand.
+# Weekly schedule re-checks briefs. Owner: @arminazimi (CODEOWNERS /.github/workflows/).
+
 on:
   schedule:
     - cron: "0 6 * * 1" # Mondays, 06:00 UTC

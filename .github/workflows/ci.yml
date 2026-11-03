@@ -1,5 +1,9 @@
 name: CI
 
+# Main quality gate for pull requests, the merge queue, and pushes to main. Classifies docs-only
+# vs code, runs npm run check (and related budgets) where needed, and reports the required ci-ok
+# check. Lane design: docs/CI.md. Scans stay offline.
+
 on:
   pull_request:
   push:

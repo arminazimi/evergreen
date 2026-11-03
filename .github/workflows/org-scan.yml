@@ -1,5 +1,9 @@
 name: Evergreen organization scan
 
+# Product workflow: list every repository in a GitHub organization, scan each with Evergreen
+# offline, roll up findings, and optionally post a Slack or Teams digest. Call it from another
+# workflow (`workflow_call`) or run it here with workflow_dispatch. See docs/ORG_ROLLOUT.md.
+
 on:
   workflow_call:
     inputs:
