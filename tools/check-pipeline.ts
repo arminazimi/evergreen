@@ -6,11 +6,10 @@
 // data-age.test executes dist/action/index.js, and ncc would otherwise truncate that file while
 // the test is reading it. The git diff stays after the copy.
 //
-// The suite runs through tools/run-tests.mjs, which applies the quarantine list and retries a failed
-// file once. CI's Linux Node 24 job sets EVERGREEN_CHECK_COVERAGE=1: that job runs the same single
-// `node --test` pass with coverage enabled and leaves lcov.info behind, so the threshold, per-file
-// diff, and badge steps read one run instead of repeating the suite. Every other run keeps the
-// project runner.
+// The suite always runs through tools/run-tests.mjs (quarantine, flaky retry, time-balanced CI
+// shards, and optional coverage). CI's Linux Node 24 shards set EVERGREEN_CHECK_COVERAGE=1 so each
+// shard writes a partial lcov.info; a follow-up job merges those reports before the threshold,
+// per-file diff, and badge steps.
 //
 // The committed bundle is verified only when EVERGREEN_VERIFY_ACTION_BUNDLE=1 (release pull requests
 // and the npm publish). Every other pull request still compiles the bundle, but neither publishes nor
@@ -76,7 +75,7 @@ export interface RunCheckOptions {
   nccCli?: string;
   /** Publish the staged bundle and fail when it differs from the committed one. */
   verifyActionBundle?: boolean;
-  /** Run the suite with coverage instead of tools/run-tests.mjs. Defaults to EVERGREEN_CHECK_COVERAGE=1. */
+  /** Ask the test runner to collect coverage. Defaults to EVERGREEN_CHECK_COVERAGE=1. */
   collectCoverage?: boolean;
   /** The evals that may be skipped. Defaults to the plugin and agent-loop evals. */
   evals?: readonly EvalStep[];
@@ -88,10 +87,10 @@ export interface RunCheckOptions {
   log?: (line: string) => void;
 }
 
-/** Set to `1` to collect coverage from the single suite run; CI sets it on the Linux Node 24 job. */
+/** Set to `1` to collect coverage while running the suite; CI sets it on Linux Node 24 shards. */
 export const COVERAGE_ENV = "EVERGREEN_CHECK_COVERAGE";
 
-/** The report the threshold, per-file diff, and badge steps read after that run. */
+/** The report each coverage shard writes; CI merges shard copies into this path before gates. */
 export const COVERAGE_LCOV_PATH = "lcov.info";
 
 /** Same exclusions as the `test:coverage` script in package.json, so both runs measure the same files. */
@@ -420,8 +419,19 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
       },
       {
         id: "test",
-        run: () =>
-          run(process.execPath, collectCoverage ? coverageTestArgs() : ["tools/run-tests.mjs"]),
+        // Coverage stays in run-tests.mjs so CI can shard by measured time and merge LCOV after.
+        run: async () => {
+          const previous = process.env[COVERAGE_ENV];
+          if (collectCoverage) process.env[COVERAGE_ENV] = "1";
+          try {
+            await run(process.execPath, ["tools/run-tests.mjs"]);
+          } finally {
+            if (collectCoverage) {
+              if (previous === undefined) delete process.env[COVERAGE_ENV];
+              else process.env[COVERAGE_ENV] = previous;
+            }
+          }
+        },
       },
       { id: "check:quality", run: () => run(process.execPath, ["dist/tools/check-quality.js"]) },
       { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },

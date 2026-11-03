@@ -117,10 +117,16 @@ test("runCoverageDiff reads files and appends a summary", async () => {
   assert.equal(code, 1);
 });
 
-test("the CI workflow runs the suite once with coverage and reuses its LCOV", async () => {
+test("the CI workflow shards checks and collects coverage in one unsharded run", async () => {
   const workflow = parseYaml(await readFile(".github/workflows/ci.yml", "utf8")) as {
     jobs: {
-      check: { steps: Array<Record<string, unknown>>; permissions?: Record<string, string> };
+      check: {
+        name?: string;
+        strategy?: { matrix?: Record<string, unknown> };
+        steps: Array<Record<string, unknown>>;
+        permissions?: Record<string, string>;
+      };
+      coverage: { name?: string; steps: Array<Record<string, unknown>>; needs?: unknown };
       "check-cross-os": { steps: Array<Record<string, unknown>> };
     };
   };
@@ -132,38 +138,52 @@ test("the CI workflow runs the suite once with coverage and reuses its LCOV", as
   // The pull-request step no longer needs its own suite run for the diff.
   assert.equal(packageJson.scripts["test:coverage:lcov"], undefined);
 
-  const steps = workflow.jobs.check.steps;
-  const named = (pattern: RegExp): Record<string, unknown> | undefined =>
-    steps.find((step) => typeof step.name === "string" && pattern.test(step.name));
+  assert.match(String(workflow.jobs.check.name), /shard/);
+  assert.deepEqual(workflow.jobs.check.strategy?.matrix?.shard, [0, 1]);
 
-  const check = named(/^npm run check$/);
+  const checkSteps = workflow.jobs.check.steps;
+  const checkNamed = (pattern: RegExp): Record<string, unknown> | undefined =>
+    checkSteps.find((step) => typeof step.name === "string" && pattern.test(step.name));
+
+  const check = checkNamed(/^npm run check$/);
   assert.ok(check);
   const checkEnv = check.env as Record<string, string>;
-  // The Linux Node 24 job collects coverage while it runs its one suite; no other job does.
-  assert.match(String(checkEnv[COVERAGE_ENV]), /runner\.os == 'Linux' && matrix\.node == 24/);
+  // Shards prove the suite; they do not collect coverage (V8 BRDA block ids are process-local).
+  assert.equal(checkEnv[COVERAGE_ENV], undefined);
+  assert.equal(checkEnv.EVERGREEN_TEST_SHARD, "${{ matrix.shard }}");
+  assert.equal(checkEnv.EVERGREEN_TEST_SHARD_COUNT, "2");
   assert.equal(
     workflow.jobs["check-cross-os"].steps.some((step) => (step.env as Record<string, string> | undefined)?.[COVERAGE_ENV] !== undefined),
     false,
   );
 
-  const suiteRuns = steps.filter((step) => /test:coverage|run-tests\.mjs|--test\b/.test(String(step.run ?? "")));
+  const suiteRuns = checkSteps.filter((step) => /test:coverage|run-tests\.mjs|--test\b/.test(String(step.run ?? "")));
   assert.deepEqual(
     suiteRuns.map((step) => String(step.run)),
     [],
   );
 
+  assert.equal(workflow.jobs.coverage.name, "coverage");
+  const coverageSteps = workflow.jobs.coverage.steps;
+  const coverageNamed = (pattern: RegExp): Record<string, unknown> | undefined =>
+    coverageSteps.find((step) => typeof step.name === "string" && pattern.test(step.name));
+
+  const collect = coverageNamed(/Run the suite once with coverage/i);
+  assert.ok(collect);
+  assert.equal((collect.env as Record<string, string>)[COVERAGE_ENV], "1");
+  assert.match(String(collect.run), /run-tests\.mjs/);
+
   // The floors run on every pull request too, not only on pushes to main.
-  const thresholds = named(/coverage floors/i);
+  const thresholds = coverageNamed(/coverage floors/i);
   assert.ok(thresholds);
   assert.match(String(thresholds.run), /coverage-thresholds\.js --lcov lcov\.info/);
   assert.doesNotMatch(String(thresholds.run), /test:coverage/);
-  assert.equal(thresholds.if, "runner.os == 'Linux' && matrix.node == 24");
 
-  const upload = named(/Upload coverage LCOV/i);
+  const upload = coverageNamed(/Upload coverage LCOV/i);
   assert.ok(upload);
   assert.equal((upload.with as Record<string, unknown>).path, "lcov.info");
 
-  const diff = named(/Coverage diff/i);
+  const diff = coverageNamed(/Coverage diff/i);
   assert.ok(diff);
   assert.match(String(diff.run), /coverage-diff\.js/);
   assert.match(String(diff.run), /--head lcov\.info/);
@@ -172,7 +192,7 @@ test("the CI workflow runs the suite once with coverage and reuses its LCOV", as
   assert.doesNotMatch(String(diff.run), /test:coverage/);
   assert.match(String(diff.run), /src\//);
 
-  const badge = named(/coverage badge data/i);
+  const badge = coverageNamed(/coverage badge data/i);
   assert.ok(badge);
   assert.match(String(badge.run), /coverage-badge\.js --lcov lcov\.info/);
 

@@ -4,6 +4,11 @@
 // step summary (and still counts as a pass). Tests listed in tests/quarantine.json are skipped on
 // pull_request and merge_group events; the nightly ci-health job runs them with --quarantine-only.
 // The weekly ci-health job lists flaky tests seen that week with --list-weekly-flaky.
+//
+// Linux CI shards the suite across runners with EVERGREEN_TEST_SHARD / EVERGREEN_TEST_SHARD_COUNT,
+// balancing by measured file times in benchmarks/test-file-timings.json. When
+// EVERGREEN_CHECK_COVERAGE=1 the same run writes lcov.info for the shard; CI merges the shard
+// reports before the coverage floors and diff.
 
 import { spawn } from "node:child_process";
 import { realpathSync } from "node:fs";
@@ -12,7 +17,20 @@ import { tmpdir } from "node:os";
 import { join, relative, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { testProcessArgs } from "../dist/tools/check-pipeline.js";
+import {
+  COVERAGE_EXCLUDES,
+  COVERAGE_LCOV_PATH,
+  coverageRequested,
+  testProcessArgs,
+} from "../dist/tools/check-pipeline.js";
+import {
+  DEFAULT_TEST_FILE_DURATION_MS,
+  mergeLcovReports,
+  parseShardEnv,
+  parseTestFileTimings,
+  selectShardFiles,
+  shardLoadsWithinTolerance,
+} from "../dist/tools/run-tests-sharding.js";
 import {
   TEST_TIMING_MARKER,
   evaluateTestTimeBudget,
@@ -32,10 +50,15 @@ export {
   fileDurationsFromJunit,
   formatTestDuration,
   formatTestTimeBudgetViolation,
+  mergeLcovReports,
   normalizeTestFilePath,
+  parseShardEnv,
+  parseTestFileTimings,
   parseTestTimeBudget,
   renderTestTimeBudgetFailure,
   renderTestTimingSummary,
+  selectShardFiles,
+  shardLoadsWithinTolerance,
   testTimeBudgetAnnotation,
 };
 
@@ -50,6 +73,7 @@ function realpathOrResolve(path) {
 
 export const QUARANTINE_PATH = "tests/quarantine.json";
 export const TIME_BUDGET_PATH = "benchmarks/test-time-budget.json";
+export const FILE_TIMINGS_PATH = "benchmarks/test-file-timings.json";
 export const FLAKY_MARKER = "<!-- evergreen-flaky-tests -->";
 export const FLAKY_LOG_PREFIX = "evergreen-flaky-tests:";
 export const USER_AGENT = "evergreen-run-tests (+https://github.com/arminazimi/evergreen)";
@@ -148,13 +172,31 @@ export function renderFlakySummary(flakyFiles) {
  * @param {string[]} argv
  */
 export function parseArgs(argv) {
-  /** @type {{ quarantineOnly: boolean, listWeeklyFlaky: boolean, selfTest: boolean, files: string[] }} */
-  const options = { quarantineOnly: false, listWeeklyFlaky: false, selfTest: false, files: [] };
-  for (const arg of argv) {
+  /** @type {{ quarantineOnly: boolean, listWeeklyFlaky: boolean, selfTest: boolean, mergeLcov: string[], mergeLcovOut: string, files: string[] }} */
+  const options = {
+    quarantineOnly: false,
+    listWeeklyFlaky: false,
+    selfTest: false,
+    mergeLcov: [],
+    mergeLcovOut: COVERAGE_LCOV_PATH,
+    files: [],
+  };
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
     if (arg === "--quarantine-only") options.quarantineOnly = true;
     else if (arg === "--list-weekly-flaky") options.listWeeklyFlaky = true;
     else if (arg === "--self-test") options.selfTest = true;
-    else if (arg.startsWith("-")) throw new Error(`unknown option: ${arg}`);
+    else if (arg === "--merge-lcov") {
+      const path = argv[index + 1];
+      if (!path || path.startsWith("-")) throw new Error("--merge-lcov needs a path argument");
+      options.mergeLcov.push(path);
+      index += 1;
+    } else if (arg === "--merge-lcov-out") {
+      const path = argv[index + 1];
+      if (!path || path.startsWith("-")) throw new Error("--merge-lcov-out needs a path argument");
+      options.mergeLcovOut = path;
+      index += 1;
+    } else if (arg.startsWith("-")) throw new Error(`unknown option: ${arg}`);
     else options.files.push(arg);
   }
   return options;
@@ -188,30 +230,29 @@ export function insertReportersBeforeFiles(nodeArgs, reporters) {
 /**
  * Dual reporters: human stream on stdout plus junit to a temp file for per-file timing.
  * Capture mode uses TAP (flaky-retry parsing); otherwise spec keeps local output readable.
+ * When coveragePath is set, an lcov reporter writes the shard (or full) coverage report.
  *
  * @param {readonly string[]} nodeArgs
- * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, capture?: boolean, junitPath?: string }} [options]
+ * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, capture?: boolean, junitPath?: string, coveragePath?: string }} [options]
  * @returns {Promise<{ code: number, signal: NodeJS.Signals | null, output: string, junitPath?: string }>}
  */
 export function spawnTest(nodeArgs, options = {}) {
   const junitPath = options.junitPath;
-  const reporters = junitPath
-    ? options.capture
-      ? [
-          "--test-reporter=tap",
-          "--test-reporter=junit",
-          "--test-reporter-destination=stdout",
-          `--test-reporter-destination=${junitPath}`,
-        ]
-      : [
-          "--test-reporter=spec",
-          "--test-reporter=junit",
-          "--test-reporter-destination=stdout",
-          `--test-reporter-destination=${junitPath}`,
-        ]
-    : options.capture
-      ? ["--test-reporter=tap"]
-      : [];
+  const coveragePath = options.coveragePath;
+  /** @type {string[]} */
+  const reporters = [];
+  if (junitPath || coveragePath) {
+    reporters.push(options.capture ? "--test-reporter=tap" : "--test-reporter=spec");
+    reporters.push("--test-reporter-destination=stdout");
+    if (junitPath) {
+      reporters.push("--test-reporter=junit", `--test-reporter-destination=${junitPath}`);
+    }
+    if (coveragePath) {
+      reporters.push("--test-reporter=lcov", `--test-reporter-destination=${coveragePath}`);
+    }
+  } else if (options.capture) {
+    reporters.push("--test-reporter=tap");
+  }
   // Reporter flags must come before test file paths; Node treats later tokens as files.
   const args = insertReportersBeforeFiles(nodeArgs, reporters);
   return new Promise((resolvePromise, reject) => {
@@ -315,19 +356,26 @@ async function loadQuarantine() {
 
 /**
  * @param {string[]} files absolute paths
- * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, concurrencyArg?: string, budget?: import("../dist/tools/run-tests-timing.js").TestTimeBudget }} [options]
+ * @param {{ cwd?: string, env?: NodeJS.ProcessEnv, concurrencyArg?: string, budget?: import("../dist/tools/run-tests-timing.js").TestTimeBudget, coveragePath?: string }} [options]
  */
 async function runFilesWithRetry(files, options = {}) {
   const cwd = options.cwd ?? ROOT;
   const env = options.env ?? process.env;
   const concurrencyArg = options.concurrencyArg;
   const budget = options.budget;
+  const coveragePath = options.coveragePath;
   const shouldRetry = env.EVERGREEN_RETRY_FLAKY !== "0" && (env.CI === "true" || env.EVERGREEN_RETRY_FLAKY === "1");
-  const baseArgs = ["--test", concurrencyArg, ...files].filter((arg) => typeof arg === "string");
+  /** @type {string[]} */
+  const baseArgs = ["--test", concurrencyArg];
+  if (coveragePath) {
+    baseArgs.push("--experimental-test-coverage", ...COVERAGE_EXCLUDES.map((path) => `--test-coverage-exclude=${path}`));
+  }
+  baseArgs.push(...files);
+  const filteredArgs = baseArgs.filter((arg) => typeof arg === "string");
   const junitDir = await mkdtemp(join(tmpdir(), "evergreen-test-junit-"));
   try {
     const junitPath = join(junitDir, "suite.xml");
-    const first = await spawnTest(baseArgs, { cwd, env, capture: shouldRetry, junitPath });
+    const first = await spawnTest(filteredArgs, { cwd, env, capture: shouldRetry, junitPath, coveragePath });
     /** @type {{ file: string, durationMs: number }[]} */
     let timingEntries = [];
     try {
@@ -386,6 +434,23 @@ async function runFilesWithRetry(files, options = {}) {
   }
 }
 
+async function loadFileTimings() {
+  try {
+    return parseTestFileTimings(await readFile(resolve(ROOT, FILE_TIMINGS_PATH), "utf8"));
+  } catch (error) {
+    throw new Error(`cannot read ${FILE_TIMINGS_PATH}: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+/**
+ * @param {string} absoluteFile
+ * @param {import("../dist/tools/run-tests-sharding.js").TestFileTimings} timings
+ */
+function durationMsForFile(absoluteFile, timings) {
+  const sourcePath = normalizeTestFilePath(absoluteFile, ROOT);
+  return timings.durations[sourcePath] ?? DEFAULT_TEST_FILE_DURATION_MS;
+}
+
 /**
  * @param {{ quarantineOnly: boolean, files: string[] }} options
  */
@@ -416,13 +481,47 @@ async function runSuite(options) {
     }
   }
 
+  const shard = parseShardEnv(process.env);
+  if (shard && files.length > 0) {
+    const timings = await loadFileTimings();
+    const assignment = selectShardFiles(
+      files,
+      (file) => durationMsForFile(file, timings),
+      shard.index,
+      shard.count,
+    );
+    files = assignment.files;
+    const balance = shardLoadsWithinTolerance(assignment.loadsMs)
+      ? "within 20%"
+      : "OUTSIDE 20% — update benchmarks/test-file-timings.json";
+    process.stdout.write(
+      `Test shard ${shard.index + 1}/${shard.count}: ${files.length} file(s), planned ${formatTestDuration(assignment.loadMs)} (${balance}; loads ${assignment.loadsMs.map(formatTestDuration).join(", ")}).\n`,
+    );
+  }
+
   if (files.length === 0) {
     process.stdout.write("No test files to run.\n");
     return 0;
   }
 
   const budget = await loadTimeBudget();
-  return runFilesWithRetry(files, { concurrencyArg, budget });
+  // A shard only sees part of the suite; keep the per-file ceiling and drop the suite total.
+  const effectiveBudget = shard ? { ...budget, totalMs: Number.MAX_SAFE_INTEGER } : budget;
+  const coveragePath = coverageRequested(process.env) ? resolve(ROOT, COVERAGE_LCOV_PATH) : undefined;
+  return runFilesWithRetry(files, { concurrencyArg, budget: effectiveBudget, coveragePath });
+}
+
+/**
+ * @param {string[]} inputs
+ * @param {string} outPath
+ */
+async function runMergeLcov(inputs, outPath) {
+  if (inputs.length === 0) throw new Error("--merge-lcov needs at least one input path");
+  const reports = await Promise.all(inputs.map((path) => readFile(resolve(ROOT, path), "utf8")));
+  const merged = mergeLcovReports(reports);
+  await writeFile(resolve(ROOT, outPath), merged);
+  process.stdout.write(`Merged ${inputs.length} LCOV report(s) into ${outPath}\n`);
+  return 0;
 }
 
 /**
@@ -479,7 +578,7 @@ export async function listWeeklyFlaky(repo, token, fetcher = defaultFetcher) {
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
   const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-  // One Linux check job per run is enough: the flaky marker is duplicated across the OS matrix.
+  // One Linux Node 24 shard per run is enough: the flaky marker is duplicated across shards and OS.
   const runsUrl = `https://api.github.com/repos/${repo}/actions/workflows/ci.yml/runs?per_page=30&status=completed&created=${encodeURIComponent(`>=${since}`)}`;
   const runsResponse = await fetcher(runsUrl, headers);
   if (runsResponse.status >= 400) {
@@ -495,7 +594,7 @@ export async function listWeeklyFlaky(repo, token, fetcher = defaultFetcher) {
     if (jobsResponse.status >= 400) continue;
     const jobs = (JSON.parse(jobsResponse.text).jobs ?? []).filter(
       (/** @type {{ name?: string, conclusion?: string | null }} */ job) =>
-        job.conclusion === "success" && /^check \(ubuntu-latest, node 24\)$/.test(job.name ?? ""),
+        job.conclusion === "success" && /^check \(ubuntu-latest, node 24(, shard 0)?\)$/.test(job.name ?? ""),
     );
     for (const job of jobs) {
       const logsUrl = `https://api.github.com/repos/${repo}/actions/jobs/${job.id}/logs`;
@@ -564,6 +663,7 @@ async function main() {
   const options = parseArgs(process.argv.slice(2));
   if (options.selfTest) return runSelfTest();
   if (options.listWeeklyFlaky) return runListWeeklyFlaky();
+  if (options.mergeLcov.length > 0) return runMergeLcov(options.mergeLcov, options.mergeLcovOut);
   return runSuite(options);
 }
 

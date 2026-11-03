@@ -215,22 +215,28 @@ test("coverage is requested only when the environment flag is 1", () => {
   assert.equal(coverageRequested({ [COVERAGE_ENV]: "1" }), true);
 });
 
-test("check runs the suite once, with coverage, when coverage is requested", async () => {
+test("check runs the suite once through run-tests.mjs when coverage is requested", async () => {
   const suiteCommands: string[][] = [];
-  await runCheck({
-    stagingDir: "action-staging",
-    nccCli: "ncc.js",
-    skipEvals: false,
-    verifyActionBundle: false,
-    collectCoverage: true,
-    publish: async () => {},
-    run: async (_command, args) => {
-      if (args[0] === "--test" || args[0] === "tools/run-tests.mjs") suiteCommands.push([...args]);
-    },
-  });
-  assert.equal(suiteCommands.length, 1);
-  assert.ok(suiteCommands[0]!.includes("--experimental-test-coverage"));
-  assert.ok(suiteCommands[0]!.includes(`--test-reporter-destination=${COVERAGE_LCOV_PATH}`));
+  const previous = process.env[COVERAGE_ENV];
+  delete process.env[COVERAGE_ENV];
+  try {
+    await runCheck({
+      stagingDir: "action-staging",
+      nccCli: "ncc.js",
+      skipEvals: false,
+      verifyActionBundle: false,
+      collectCoverage: true,
+      publish: async () => {},
+      run: async (_command, args) => {
+        if (args[0] === "--test" || args[0] === "tools/run-tests.mjs") suiteCommands.push([...args]);
+      },
+    });
+  } finally {
+    if (previous === undefined) delete process.env[COVERAGE_ENV];
+    else process.env[COVERAGE_ENV] = previous;
+  }
+  // Coverage flags live inside run-tests.mjs so CI can shard and merge LCOV.
+  assert.deepEqual(suiteCommands, [["tools/run-tests.mjs"]]);
 });
 
 test("check keeps the project runner when coverage is off", async () => {

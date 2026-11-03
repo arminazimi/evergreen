@@ -1,9 +1,5 @@
 name: CI
 
-# Main quality gate for pull requests, the merge queue, and pushes to main. Classifies docs-only
-# vs code, runs npm run check (and related budgets) where needed, and reports the required ci-ok
-# check. Lane design: docs/CI.md. Scans stay offline.
-
 on:
   pull_request:
   push:
@@ -59,7 +55,7 @@ jobs:
 
           is_generated() {
             case "$1" in
-              docs/rules/*|docs/ROADMAP.md|dist/*|plugins/*|.claude-plugin/*|.agents/plugins/*) return 0 ;;
+              docs/rules/*|docs/ROADMAP.md|docs/llms-full.txt|dist/*|plugins/*|.claude-plugin/*|.agents/plugins/*) return 0 ;;
               *) return 1 ;;
             esac
           }
@@ -94,17 +90,19 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   check:
-    name: check (${{ matrix.os }}, node ${{ matrix.node }})
+    # Two time-balanced shards per Node version cut suite wall time; shard 0 of Node 24 owns
+    # the Linux-only gates. Coverage is collected once in the `coverage` job: V8's LCOV BRDA
+    # block ids are process-local, so partial shard reports cannot be merged into a correct
+    # branch total (lines/functions merge cleanly; branches do not).
+    name: check (${{ matrix.os }}, node ${{ matrix.node }}, shard ${{ matrix.shard }})
     needs: changes
     if: needs.changes.outputs.docs_only != 'true'
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node: [24]
-        include:
-          - os: ubuntu-latest
-            node: 22
+        node: [24, 22]
+        shard: [0, 1]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     permissions:
@@ -126,12 +124,13 @@ jobs:
         # The committed action bundle is verified only for a release; ordinary pull requests would conflict on it.
         env:
           EVERGREEN_VERIFY_ACTION_BUNDLE: "${{ (startsWith(github.event.pull_request.title, 'chore: release') || startsWith(github.event.head_commit.message, 'chore: release')) && '1' || '' }}"
-          # The Linux Node 24 job runs the suite once with coverage; the steps below reuse its lcov.info.
-          EVERGREEN_CHECK_COVERAGE: "${{ runner.os == 'Linux' && matrix.node == 24 && '1' || '' }}"
+          # Shard by measured file times (benchmarks/test-file-timings.json), not by file count.
+          EVERGREEN_TEST_SHARD: "${{ matrix.shard }}"
+          EVERGREEN_TEST_SHARD_COUNT: "2"
         run: npm run check
       - name: Guard the quality gate against main
         # A pull request must not raise an allowlist ceiling, add an entry, or loosen TARGETS — even by editing the checker.
-        if: (github.event_name == 'pull_request' || github.event_name == 'merge_group') && runner.os == 'Linux' && matrix.node == 24
+        if: (github.event_name == 'pull_request' || github.event_name == 'merge_group') && runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         shell: bash
         run: |
           set -euo pipefail
@@ -140,7 +139,7 @@ jobs:
       - name: Audit dependencies (runtime, then the full lockfile)
         # The runtime tree must have no advisory at any level. The full lockfile may carry only the medium and
         # low advisories listed by id in benchmarks/quality-allowlist.json; high and critical always fail.
-        if: runner.os == 'Linux' && matrix.node == 24
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         env:
           AUDIT_JSON: ${{ runner.temp }}/npm-audit.json
         run: |
@@ -149,11 +148,11 @@ jobs:
           npm audit --json > "$AUDIT_JSON" || true
           node dist/tools/check-quality.js --audit "$AUDIT_JSON"
       - name: Enforce the Action cold-start budget
-        if: runner.os == 'Linux' && matrix.node == 24
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         # Build the bundle from the source under test: an ordinary pull request ships only the committed bundle.
         run: npm run build:action --silent && node dist/benchmarks/action-cold-start.js --check
       - name: Upload the build output
-        if: runner.os == 'Linux' && matrix.node == 24 && github.event_name != 'pull_request'
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0 && github.event_name != 'pull_request'
         # self-scan and perf-budget reuse this build instead of compiling again.
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
@@ -162,33 +161,79 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - name: Check the reference pages against the registry
-        if: runner.os == 'Linux' && matrix.node == 24
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         run: node dist/tools/build-reference-pages.js --check
       - name: Check the Open Graph images against the registry
-        if: runner.os == 'Linux' && matrix.node == 24
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         run: node dist/tools/build-og-images.js --check
       - name: Check the answer pages against the registry
-        if: runner.os == 'Linux' && matrix.node == 24
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         run: node dist/tools/build-answer-pages.js --check
       - name: Check the LLM full text is buildable from the index
-        if: runner.os == 'Linux' && matrix.node == 24
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         run: node dist/tools/build-llms-full.js --check
       - name: Check the data API against the registry
-        if: runner.os == 'Linux' && matrix.node == 24
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         run: node dist/tools/build-data-api.js --check
+      - name: Generate the lifecycle calendar
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
+        run: node dist/tools/eol-calendar.js --out-dir "$RUNNER_TEMP/eol-calendar"
+      - name: Upload the lifecycle calendar
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: eol-calendar
+          path: ${{ runner.temp }}/eol-calendar
+          retention-days: 14
+      - name: Dogfood Evergreen action # zizmor: ignore[self-repository] -- it scans this repository with the action under test
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
+        uses: ./
+        with:
+          baseline: .evergreen-baseline.json
+          fail-on-severity: high
+          report-name: evergreen-report-${{ github.sha }}
+          upload-sarif: ${{ github.event_name == 'push' }}
+          upload-badge: ${{ github.event_name == 'push' }}
+
+  # Collect coverage once, unsharded. Check jobs already proved the suite on every shard;
+  # this job only measures. V8 LCOV BRDA block ids are process-local, so merging partial
+  # shard reports under-counts branch coverage by several points versus a single run.
+  coverage:
+    name: coverage
+    needs: [changes, check]
+    if: needs.changes.outputs.docs_only != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Run the suite once with coverage
+        env:
+          EVERGREEN_CHECK_COVERAGE: "1"
+        run: node tools/run-tests.mjs
       - name: Enforce coverage floors
-        if: runner.os == 'Linux' && matrix.node == 24
-        # Reads the lcov.info the `npm run check` step wrote; the suite does not run again. Pull requests meet the same floors as main.
+        # Reads the lcov.info the suite just wrote. Pull requests meet the same floors as main.
         run: node dist/tools/coverage-thresholds.js --lcov lcov.info --summary "$GITHUB_STEP_SUMMARY"
       - name: Upload coverage LCOV (main)
-        if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
+        if: github.event_name == 'push'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: coverage-lcov
           path: lcov.info
           retention-days: 30
       - name: Coverage diff for changed src files
-        if: (github.event_name == 'pull_request' || github.event_name == 'merge_group') && runner.os == 'Linux' && matrix.node == 24
+        if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
         env:
           GH_TOKEN: ${{ github.token }}
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
@@ -224,7 +269,7 @@ jobs:
             exit 0
           fi
           if [ ! -f lcov.info ]; then
-            echo "::error::The check step did not write lcov.info; the per-file coverage diff cannot run."
+            echo "::error::The coverage run did not write lcov.info; the per-file coverage diff cannot run."
             exit 1
           fi
 
@@ -237,35 +282,15 @@ jobs:
           # No total may fall below main's report, beyond rounding.
           node dist/tools/coverage-thresholds.js --lcov lcov.info --baseline "$RUNNER_TEMP/base-coverage/lcov.info"
       - name: Render the coverage badge data
-        if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
-        # The same lcov.info the threshold step read; reading it does not run the suite.
+        if: github.event_name == 'push'
         run: node dist/tools/coverage-badge.js --lcov lcov.info > "$RUNNER_TEMP/coverage.json"
       - name: Upload the coverage badge data
-        if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
+        if: github.event_name == 'push'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: coverage-badge
           path: ${{ runner.temp }}/coverage.json
           retention-days: 1
-      - name: Generate the lifecycle calendar
-        if: runner.os == 'Linux' && matrix.node == 24
-        run: node dist/tools/eol-calendar.js --out-dir "$RUNNER_TEMP/eol-calendar"
-      - name: Upload the lifecycle calendar
-        if: runner.os == 'Linux' && matrix.node == 24
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
-        with:
-          name: eol-calendar
-          path: ${{ runner.temp }}/eol-calendar
-          retention-days: 14
-      - name: Dogfood Evergreen action # zizmor: ignore[self-repository] -- it scans this repository with the action under test
-        if: runner.os == 'Linux' && matrix.node == 24
-        uses: ./
-        with:
-          baseline: .evergreen-baseline.json
-          fail-on-severity: high
-          report-name: evergreen-report-${{ github.sha }}
-          upload-sarif: ${{ github.event_name == 'push' }}
-          upload-badge: ${{ github.event_name == 'push' }}
 
   # Windows runs on code pull requests too, so a path-separator or line-ending bug is caught before the merge
   # instead of turning main red after a stack of merges. macOS runs on main and in the merge queue only: that
@@ -391,7 +416,7 @@ jobs:
 
   coverage-badge:
     if: github.event_name == 'push'
-    needs: check
+    needs: coverage
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -428,7 +453,7 @@ jobs:
     name: ci-ok
     if: always()
     # Seaworthy and Lighthouse run in pages.yml against the Pages build artifact.
-    needs: [changes, check, docs, check-cross-os, self-scan, perf-budget, coverage-badge]
+    needs: [changes, check, coverage, docs, check-cross-os, self-scan, perf-budget, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
