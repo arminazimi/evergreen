@@ -1,0 +1,1 @@
+- Add the AWS EKS inventory importer for `describe-cluster` and `describe-nodegroup` exports, with `registry/kubernetes.json` rules from `1.30 and older` through `1.36` sourced to the AWS EKS release calendar (the calendar's `1.37` is more than twelve months from end of standard support, so it waits for its own rule) and an AMI-type mapping onto the Amazon Linux rules. (#1876)
