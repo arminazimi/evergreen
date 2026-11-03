@@ -51,3 +51,18 @@ jobs:
         uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
           sarif_file: results.sarif
+
+      - name: Run analysis for the floor gate
+        # Second pass of the same pinned action, in JSON, so the step below can read every
+        # per-check score. The SARIF run above already published the results; this one does not.
+        uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e # v2.5.0
+        with:
+          results_file: results.json
+          results_format: json
+          publish_results: false
+
+      - name: Check scores against recorded targets
+        # Fails this run, naming each check, when a score is below its recorded target in
+        # tools/scorecard-floor.mjs. Targets only rise, never fall, without a written reason.
+        # Reads the results file of the step above; no network access.
+        run: node tools/scorecard-floor.mjs results.json

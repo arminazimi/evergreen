@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-01T22:30:17Z",
+  "repo": {
+    "name": "github.com/arminazimi/evergreen",
+    "commit": "435a5c15285fbee5b297b308b6c66731784ba90b"
+  },
+  "scorecard": {
+    "version": "v5.6.0",
+    "commit": "61e84743356275f6ffca23b1b2f2cb945e19eb96"
+  },
+  "score": 5.9,
+  "checks": [
+    {
+      "name": "Dependency-Update-Tool",
+      "score": 10
+    },
+    {
+      "name": "Code-Review",
+      "score": 0
+    },
+    {
+      "name": "Maintained",
+      "score": 0
+    },
+    {
+      "name": "Dangerous-Workflow",
+      "score": 10
+    },
+    {
+      "name": "Security-Policy",
+      "score": 10
+    },
+    {
+      "name": "Token-Permissions",
+      "score": 10
+    },
+    {
+      "name": "CII-Best-Practices",
+      "score": 5
+    },
+    {
+      "name": "Binary-Artifacts",
+      "score": 5
+    },
+    {
+      "name": "SAST",
+      "score": 7
+    },
+    {
+      "name": "Signed-Releases",
+      "score": 2
+    },
+    {
+      "name": "Branch-Protection",
+      "score": -1
+    },
+    {
+      "name": "License",
+      "score": 10
+    },
+    {
+      "name": "Fuzzing",
+      "score": 10
+    },
+    {
+      "name": "Packaging",
+      "score": 10
+    },
+    {
+      "name": "Vulnerabilities",
+      "score": 0
+    },
+    {
+      "name": "Contributors",
+      "score": 3
+    },
+    {
+      "name": "CI-Tests",
+      "score": 10
+    },
+    {
+      "name": "Pinned-Dependencies",
+      "score": 3
+    }
+  ]
+}
