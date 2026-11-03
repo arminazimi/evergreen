@@ -6,7 +6,7 @@ canonical_url: "https://arminazimi.github.io/evergreen/eol/docker-python.html"
 
 # Is Python Docker image end of life?
 
-**Some Python Docker image releases are end of life.** Python image release lines 3.10 and older are end-of-life as of 2026-10-01. This page lists 1 reviewed lifecycle rule for `pkg:docker/library/python`, with the status, date, and source for each.
+**Some Python Docker image releases are end of life.** Python image release lines 3.10 and older are end-of-life as of 2026-10-01. This page lists 2 reviewed lifecycle rules for `pkg:docker/library/python`, with the status, date, and source for each.
 
 Check a version:
 
@@ -19,6 +19,7 @@ evergreen check pkg:docker/library/python
 | Rule | Status | Date | Affected versions | Sources |
 | --- | --- | --- | --- | --- |
 | [Python image release lines 3.10 and older are end-of-life](../rules/container.python.eol-3.10-and-older.html) | End of life | 2026-10-01 | `vers:semver/<3.11.0` | [Status of Python versions](https://devguide.python.org/versions/), [Python release cycle (machine-readable)](https://peps.python.org/api/release-cycle.json) |
+| [Python image release line 3.11 reaches end-of-life on 2027-10-31](../rules/container.python.eol-3.11-and-older.html) | Scheduled end of life | 2027-10-31 | `vers:semver/>=3.11.0\|<3.12.0` | [Status of Python versions](https://devguide.python.org/versions/), [Python release cycle (machine-readable)](https://peps.python.org/api/release-cycle.json) |
 
 ## Data
 
@@ -36,7 +37,7 @@ This page is generated from the lifecycle registry (`registry/`), not written by
       "name": "Is Python Docker image end of life?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Some Python Docker image releases are end of life. Python image release lines 3.10 and older are end-of-life as of 2026-10-01. This page lists 1 reviewed lifecycle rule for pkg:docker/library/python, with the status, date, and source for each."
+        "text": "Some Python Docker image releases are end of life. Python image release lines 3.10 and older are end-of-life as of 2026-10-01. This page lists 2 reviewed lifecycle rules for pkg:docker/library/python, with the status, date, and source for each."
       }
     },
     {

@@ -387,15 +387,16 @@
         "container"
       ],
       "events": [
-        "end-of-life"
+        "end-of-life",
+        "scheduled-end-of-life"
       ],
       "id": "docker-library-python",
-      "latestReview": "2026-10-16",
+      "latestReview": "2026-11-03",
       "name": "python",
       "namespace": "library",
       "path": "products/docker-library-python.json",
       "purl": "pkg:docker/library/python",
-      "rules": 1,
+      "rules": 2,
       "type": "docker"
     },
     {
@@ -6748,7 +6749,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 731,
+  "rules": 732,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -6766,7 +6767,7 @@
     {
       "path": "types/docker.json",
       "products": 19,
-      "rules": 25,
+      "rules": 26,
       "type": "docker"
     },
     {

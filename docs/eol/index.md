@@ -43,7 +43,7 @@ These 50 pages answer “Is it end of life?” for products people search for. E
 - [Is React Native end of life?](react-native.html) — `pkg:npm/react-native`, 1 rule
 - [Is Node Sass end of life?](node-sass.html) — `pkg:npm/node-sass`, 2 rules
 - [Is Node.js Docker image end of life?](docker-node.html) — `pkg:docker/library/node`, 2 rules
-- [Is Python Docker image end of life?](docker-python.html) — `pkg:docker/library/python`, 1 rule
+- [Is Python Docker image end of life?](docker-python.html) — `pkg:docker/library/python`, 2 rules
 - [Is PostgreSQL Docker image end of life?](docker-postgres.html) — `pkg:docker/library/postgres`, 2 rules
 - [Is MySQL Docker image end of life?](docker-mysql.html) — `pkg:docker/library/mysql`, 1 rule
 - [Is Redis Docker image end of life?](docker-redis.html) — `pkg:docker/library/redis`, 2 rules

@@ -66,6 +66,10 @@ The [`container`](../detectors/container.md) detector. See [Detectors](../DETECT
 
 ## Related
 
+### Other versions of this product
+
+- [Python image release line 3.11 reaches end-of-life on 2027-10-31](container.python.eol-3.11-and-older.html)
+
 ### Same ecosystem
 
 - [Alpine Linux image release lines 3.20 and older are end-of-life](container.alpine.eol-3.20-and-older.html)

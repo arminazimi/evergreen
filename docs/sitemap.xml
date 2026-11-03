@@ -19,7 +19,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/eol/docker-mysql.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/docker-node.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/docker-postgres.html</loc><lastmod>2026-10-24</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-python.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/eol/docker-python.html</loc><lastmod>2026-11-03</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/docker-redis.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/docker-ruby.html</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/eol/docker-traefik.html</loc><lastmod>2026-10-20</lastmod></url>
@@ -91,6 +91,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.python.eol-3.11-and-older.html</loc><lastmod>2026-11-03</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html</loc><lastmod>2026-10-16</lastmod></url>

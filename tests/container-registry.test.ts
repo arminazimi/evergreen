@@ -9,12 +9,12 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/container.json", "utf8"))).rules;
 }
 
-test("container registry has twenty-five image rules, two Dockerfile rules, and seven host OS rules with vendor sources", async () => {
+test("container registry has twenty-six image rules, two Dockerfile rules, and seven host OS rules with vendor sources", async () => {
   const all = await rules();
   const images = all.filter((rule) => rule.purl.startsWith("pkg:docker/library/"));
   const dockerfile = all.filter((rule) => rule.purl === "pkg:generic/dockerfile");
   const hosts = all.filter((rule) => rule.purl.startsWith("pkg:generic/") && rule.purl !== "pkg:generic/dockerfile");
-  assert.equal(images.length, 25);
+  assert.equal(images.length, 26);
   assert.equal(dockerfile.length, 2);
   assert.equal(hosts.length, 7);
   assert.equal(all.length, images.length + dockerfile.length + hosts.length);
@@ -59,6 +59,7 @@ test("a scheduled image line is a low-severity rule for exactly that line", asyn
   const scheduled = (await rules()).filter((rule) => rule.event === "scheduled-end-of-life");
   assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]), [
     ["container.node.eol-22-and-older", "vers:semver/>=22.0.0|<23.0.0", "low", "2027-04-30"],
+    ["container.python.eol-3.11-and-older", "vers:semver/>=3.11.0|<3.12.0", "low", "2027-10-31"],
     ["container.postgres.eol-14-and-older", "vers:semver/>=14.0.0|<15.0.0", "low", "2026-11-12"],
     ["container.ruby.eol-3.3-and-older", "vers:semver/>=3.3.0|<3.4.0", "low", "2027-03-31"],
     ["container.redis.eol-6.2-and-older", "vers:semver/>=6.2.0|<6.3.0", "low", "2027-04-01"],

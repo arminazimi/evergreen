@@ -1,6 +1,19 @@
 {
   "changes": [
     {
+      "deadline": "2027-10-31",
+      "ecosystem": "container",
+      "event": "scheduled-end-of-life",
+      "observedAt": "2026-11-03",
+      "path": "products/docker-library-python.json",
+      "productId": "docker-library-python",
+      "purl": "pkg:docker/library/python",
+      "reviewedAt": "2026-11-03",
+      "ruleId": "container.python.eol-3.11-and-older",
+      "severity": "low",
+      "title": "Python image release line 3.11 reaches end-of-life on 2027-10-31"
+    },
+    {
       "ecosystem": "kubernetes",
       "event": "end-of-life",
       "observedAt": "2026-11-03",
@@ -1250,19 +1263,6 @@
       "ruleId": "serverless.aws-lambda.dotnet7",
       "severity": "high",
       "title": "AWS Lambda .NET 7 (container only) runtime is end-of-life"
-    },
-    {
-      "deadline": "2026-11-10",
-      "ecosystem": "serverless",
-      "event": "scheduled-end-of-life",
-      "observedAt": "2026-10-30",
-      "path": "products/generic-aws-lambda-runtime-dotnet8.json",
-      "productId": "generic-aws-lambda-runtime-dotnet8",
-      "purl": "pkg:generic/aws-lambda-runtime/dotnet8",
-      "reviewedAt": "2026-10-30",
-      "ruleId": "serverless.aws-lambda.dotnet8",
-      "severity": "low",
-      "title": "AWS Lambda .NET 8 runtime reaches end of life on 2026-11-10"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

@@ -56,6 +56,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [PostgreSQL image major versions 13 and older are end-of-life](container.postgres.eol-13-and-older.html) — end of life, `container.postgres.eol-13-and-older`
 - [PostgreSQL image release line 14 reaches end-of-life on 2026-11-12](container.postgres.eol-14-and-older.html) — scheduled end of life, `container.postgres.eol-14-and-older`
 - [Python image release lines 3.10 and older are end-of-life](container.python.eol-3.10-and-older.html) — end of life, `container.python.eol-3.10-and-older`
+- [Python image release line 3.11 reaches end-of-life on 2027-10-31](container.python.eol-3.11-and-older.html) — scheduled end of life, `container.python.eol-3.11-and-older`
 - [Redis image release lines 6.0 and older are end-of-life](container.redis.eol-6.0-and-older.html) — end of life, `container.redis.eol-6.0-and-older`
 - [Redis image release line 6.2 reaches end-of-life on 2027-04-01](container.redis.eol-6.2-and-older.html) — scheduled end of life, `container.redis.eol-6.2-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`

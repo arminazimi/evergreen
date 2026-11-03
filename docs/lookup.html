@@ -164,7 +164,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 731 rules and makes no network requests after it loads.
+        This page embeds 732 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -180,7 +180,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 731 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 732 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -905,6 +905,28 @@ h1 {
     "vers": "vers:semver/\u003c3.11.0",
     "deadline": "2026-10-01",
     "replacement": "A python image on a supported release line",
+    "sources": [
+      {
+        "title": "Status of Python versions",
+        "url": "https://devguide.python.org/versions/"
+      },
+      {
+        "title": "Python release cycle (machine-readable)",
+        "url": "https://peps.python.org/api/release-cycle.json"
+      }
+    ]
+  },
+  {
+    "id": "container.python.eol-3.11-and-older",
+    "title": "Python image release line 3.11 reaches end-of-life on 2027-10-31",
+    "summary": "Python 3.11 is scheduled to stop receiving security fixes from the Python core team on 2027-10-31, so images tagged with it will then be built on an unsupported runtime.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "container",
+    "purl": "pkg:docker/library/python",
+    "vers": "vers:semver/>=3.11.0|\u003c3.12.0",
+    "deadline": "2027-10-31",
+    "replacement": "A python image on a later supported release line",
     "sources": [
       {
         "title": "Status of Python versions",

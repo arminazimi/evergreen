@@ -32,6 +32,8 @@
     "github-actions-runtime:github-actions.setup-python.node20": "dd3a7b034c860df3",
     "github-actions-runtime:github-actions.stale.node20": "24a320368d363d7f",
     "github-actions-runtime:github-actions.upload-artifact.node20": "180c83cf8897bb20",
+    "php-2:php.package.swiftmailer.swiftmailer.abandoned": "5d7498b27490f311",
+    "php-2:php.package.zendframework.zend-stdlib.abandoned": "05147f77e0139ef4",
     "swift-1:swift.xcode.app-store-14-1-through-14": "e9f87ae18c1bd595",
     "swift-1:swift.xcode.app-store-below-14-1": "86b8c7d4be2bb11f"
   },
@@ -68,6 +70,8 @@
     "github-actions-runtime:github-actions.setup-python.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
     "github-actions-runtime:github-actions.stale.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
     "github-actions-runtime:github-actions.upload-artifact.node20": "Overlaps github-actions.*-artifact.retired, which already covers these releases (below 7) with a stronger event. Reviewed 2026-10-20.",
+    "php-2:php.package.swiftmailer.swiftmailer.abandoned": "Kept as reviewed in the registry: the draft only swaps the vendor source (symfony.com) for Packagist and drops the end-of-maintenance wording and deadline. Reviewed 2026-11-03.",
+    "php-2:php.package.zendframework.zend-stdlib.abandoned": "Kept as reviewed in the registry: the draft only swaps the vendor source (www.zendframework.com) for Packagist and drops the end-of-maintenance wording and deadline. Reviewed 2026-11-03.",
     "swift-1:swift.xcode.app-store-14-1-through-14": "The draft splits Xcode below 15 into two bands that overlap the hand-written swift.xcode.app-store-below-15, so a project would be reported twice. Reviewed 2026-10-20.",
     "swift-1:swift.xcode.app-store-below-14-1": "The draft splits Xcode below 15 into two bands that overlap the hand-written swift.xcode.app-store-below-15, so a project would be reported twice. Reviewed 2026-10-20."
   }
