@@ -83,30 +83,33 @@ test("the command line prints GITHUB_OUTPUT lines, exits 0 when nothing moves, a
 
 interface Step { name?: string; if?: string; run?: string; uses?: string; with?: Record<string, unknown>; env?: Record<string, string> }
 interface Workflow {
-  on: { workflow_dispatch: { inputs: Record<string, unknown> }; workflow_run: unknown };
-  jobs: Record<string, { if?: string; permissions?: Record<string, string>; env?: Record<string, string>; steps: Step[] }>;
+  on: { workflow_dispatch: { inputs: Record<string, unknown> }; workflow_run?: unknown };
+  jobs: Record<string, { if?: string; uses?: string; permissions?: Record<string, string>; env?: Record<string, string>; steps?: Step[] }>;
 }
 
 test("the workflow uses the script, keeps write access to the major-tag job, and never pushes on a manual run", async () => {
-  const workflow = parse(await readFile(resolve(".github/workflows/release.yml"), "utf8")) as Workflow;
-  assert.ok("release_tag" in workflow.on.workflow_dispatch.inputs, "a manual dry run takes a release tag");
-  const job = workflow.jobs["major-tag"]!;
+  const orchestrator = parse(await readFile(resolve(".github/workflows/release.yml"), "utf8")) as Workflow;
+  const tags = parse(await readFile(resolve(".github/workflows/release-publish-tags.yml"), "utf8")) as Workflow;
+  const verify = parse(await readFile(resolve(".github/workflows/release-verify.yml"), "utf8")) as Workflow;
+  assert.ok("release_tag" in orchestrator.on.workflow_dispatch.inputs, "a manual dry run takes a release tag");
+  assert.match(orchestrator.jobs["publish-tags"]!.if ?? "", /workflow_run/);
+  assert.match(orchestrator.jobs["publish-tags"]!.if ?? "", /inputs\.release_tag != ''/, "a manual run without a release tag does nothing unless dry_run");
+  const job = tags.jobs["major-tag"]!;
+  const steps = job.steps ?? [];
   assert.deepEqual(job.permissions, { contents: "write" });
-  assert.deepEqual(workflow.jobs["notes"]!.permissions ?? {}, {}, "only the major-tag job writes");
-  assert.match(job.env!["DRY_RUN"]!, /workflow_dispatch/, "a manual run is always a dry run");
-  const push = job.steps.find((step) => step.run?.includes("git push"));
+  assert.deepEqual(verify.jobs["notes"]!.permissions ?? {}, {}, "only the major-tag job writes");
+  assert.match(job.env!["DRY_RUN"]!, /inputs\.dry_run/, "a dry_run input skips the push");
+  const push = steps.find((step) => step.run?.includes("git push"));
   assert.ok(push, "there is a push step");
   assert.match(push.if ?? "", /DRY_RUN != 'true'/, "the push step is skipped in a dry run");
-  assert.equal(job.steps.filter((step) => step.run?.includes("git push")).length, 1, "exactly one step pushes");
-  const text = job.steps.map((step) => step.run ?? "").join("\n");
+  assert.equal(steps.filter((step) => step.run?.includes("git push")).length, 1, "exactly one step pushes");
+  const text = steps.map((step) => step.run ?? "").join("\n");
   assert.match(text, /major-tag\.mjs select/);
   assert.match(text, /major-tag\.mjs direction/);
   assert.doesNotMatch(text, /sort -V/, "version ordering is done by the tested script, not by shell");
-  const checkout = job.steps.find((step) => step.uses?.startsWith("actions/checkout"));
+  const checkout = steps.find((step) => step.uses?.startsWith("actions/checkout"));
   assert.ok(checkout, "the job checks out the repository");
   assert.equal(checkout.with?.["ref"], undefined, "the decision script comes from the default branch, not from the release commit");
   assert.match(text, /git rev-list -n 1/, "a dry-run tag is resolved to its commit without checking it out");
   assert.match(text, /git show "\$release_sha:package\.json"/, "the version is read from the release commit");
-  assert.match(job.if ?? "", /workflow_run/);
-  assert.match(job.if ?? "", /inputs\.release_tag != ''/, "a manual run without a release tag does nothing");
 });

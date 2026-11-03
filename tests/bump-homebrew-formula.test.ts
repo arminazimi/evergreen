@@ -96,23 +96,27 @@ interface Workflow {
     string,
     {
       if?: string;
+      uses?: string;
       permissions?: Record<string, string>;
       concurrency?: { group: string; "cancel-in-progress"?: boolean };
-      steps: Step[];
+      steps?: Step[];
     }
   >;
 }
 
 test("the release workflow bumps the tap after a successful publish and skips pre-releases", () => {
-  const workflow = parse(readFileSync(resolve(".github/workflows/release.yml"), "utf8")) as Workflow;
+  const orchestrator = parse(readFileSync(resolve(".github/workflows/release.yml"), "utf8")) as Workflow;
+  const workflow = parse(readFileSync(resolve(".github/workflows/release-publish-homebrew.yml"), "utf8")) as Workflow;
+  assert.match(orchestrator.jobs["publish-homebrew"]!.if ?? "", /workflow_run/);
+  assert.match(orchestrator.jobs["publish-homebrew"]!.if ?? "", /conclusion == 'success'/);
+  assert.equal(orchestrator.jobs["publish-homebrew"]!.uses, "./.github/workflows/release-publish-homebrew.yml");
   const job = workflow.jobs.homebrew;
-  assert.ok(job, "release.yml has no homebrew job");
-  assert.match(job.if ?? "", /workflow_run/);
-  assert.match(job.if ?? "", /conclusion == 'success'/);
+  assert.ok(job, "release-publish-homebrew.yml has no homebrew job");
   assert.equal(job.concurrency?.group, "homebrew-tap");
   assert.deepEqual(job.permissions, { contents: "read" });
 
-  const text = job.steps.map((step) => [step.name, step.if, step.run, step.uses, JSON.stringify(step.with), JSON.stringify(step.env)].join("\n")).join("\n");
+  const steps = job.steps ?? [];
+  const text = steps.map((step) => [step.name, step.if, step.run, step.uses, JSON.stringify(step.with), JSON.stringify(step.env)].join("\n")).join("\n");
   assert.match(text, /bump-homebrew-formula\.mjs/);
   assert.match(text, /HOMEBREW_TAP_DEPLOY_KEY/);
   assert.match(text, /arminazimi\/homebrew-tap/);
@@ -120,8 +124,8 @@ test("the release workflow bumps the tap after a successful publish and skips pr
   assert.match(text, /sha256sum|shasum -a 256/);
   assert.doesNotMatch(text, /curl .* \| *bash/, "the job must not pipe remote scripts into a shell");
 
-  const checkout = job.steps.find((step) => step.uses?.startsWith("actions/checkout") && String(step.with?.repository ?? "").includes("homebrew-tap"));
+  const checkout = steps.find((step) => step.uses?.startsWith("actions/checkout") && String(step.with?.repository ?? "").includes("homebrew-tap"));
   assert.ok(checkout, "the job checks out the Homebrew tap");
   assert.equal(checkout.with?.["ssh-key"], "${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}");
-  assert.ok(job.steps.some((step) => step.run?.includes("git push")), "the job pushes the bump");
+  assert.ok(steps.some((step) => step.run?.includes("git push")), "the job pushes the bump");
 });

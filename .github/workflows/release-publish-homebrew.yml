@@ -1,0 +1,140 @@
+# Release stage: bump arminazimi/homebrew-tap to the npm version just published.
+# Needs HOMEBREW_TAP_DEPLOY_KEY. A dry run computes the bump and pushes nothing.
+name: Release publish homebrew
+
+on:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: Compute the formula bump only; push nothing
+        type: boolean
+        required: true
+      release_sha:
+        description: Commit to check out for a post-publish run; empty uses the default branch
+        type: string
+        required: false
+        default: ""
+    secrets:
+      HOMEBREW_TAP_DEPLOY_KEY:
+        description: Write deploy key for arminazimi/homebrew-tap
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  homebrew:
+    # Real releases only update the tap from arminazimi/evergreen; a dry run may run elsewhere.
+    if: ${{ inputs.dry_run || github.repository == 'arminazimi/evergreen' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: homebrew-tap
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Default branch first: ref: workflow_run.head_sha is a Dangerous-Workflow untrusted checkout.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out the release commit
+        if: inputs.release_sha != ''
+        env:
+          RELEASE_SHA: ${{ inputs.release_sha }}
+        shell: bash
+        run: git checkout --detach "$RELEASE_SHA"
+      - name: Select release
+        id: release
+        shell: bash
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ -n "${{ inputs.release_sha }}" ]; then
+            git tag --points-at HEAD | grep -Fx "v$version"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [[ "$version" == *-* ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Pre-release $version leaves the Homebrew formula unchanged." | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Require the tap deploy key
+        if: steps.release.outputs.skip != 'true' && !inputs.dry_run
+        env:
+          HOMEBREW_TAP_DEPLOY_KEY: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+        run: |
+          if [ -z "$HOMEBREW_TAP_DEPLOY_KEY" ]; then
+            echo "HOMEBREW_TAP_DEPLOY_KEY is not set. Add a write deploy key for arminazimi/homebrew-tap." >&2
+            exit 1
+          fi
+      - name: Wait for the registry to serve the new version
+        if: steps.release.outputs.skip != 'true' && !inputs.dry_run
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          for _ in $(seq 1 40); do
+            if [ "$(npm view "evergreen-deprecation@$VERSION" version 2>/dev/null)" = "$VERSION" ]; then
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "evergreen-deprecation@$VERSION is not on npm yet." >&2
+          exit 1
+      - name: Hash the published tarball
+        id: tarball
+        if: steps.release.outputs.skip != 'true' && !inputs.dry_run
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          url="$(npm view "evergreen-deprecation@$VERSION" dist.tarball)"
+          curl -fsSL "$url" -o "$RUNNER_TEMP/evergreen.tgz"
+          echo "sha256=$(sha256sum "$RUNNER_TEMP/evergreen.tgz" | awk '{ print $1 }')" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        # zizmor: ignore[artipacked] -- it pushes the formula with the deploy key
+        if: steps.release.outputs.skip != 'true' && !inputs.dry_run
+        with:
+          repository: arminazimi/homebrew-tap
+          path: homebrew-tap
+          ssh-key: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+      - name: Bump the formula
+        id: bump
+        if: steps.release.outputs.skip != 'true' && !inputs.dry_run
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          SHA256: ${{ steps.tarball.outputs.sha256 }}
+        run: |
+          node .github/scripts/bump-homebrew-formula.mjs \
+            --version "$VERSION" \
+            --sha256 "$SHA256" \
+            --file homebrew-tap/Formula/evergreen.rb >> "$GITHUB_OUTPUT"
+      - name: Commit and push
+        if: steps.release.outputs.skip != 'true' && !inputs.dry_run && steps.bump.outputs.changed == 'true'
+        working-directory: homebrew-tap
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          PREVIOUS: ${{ steps.bump.outputs.previous }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula/evergreen.rb
+          git commit -m "chore: bump evergreen formula to ${VERSION}"
+          git push origin HEAD:main
+          echo "Homebrew formula moved from ${PREVIOUS:-unknown} to ${VERSION}." | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Already current
+        if: steps.release.outputs.skip != 'true' && !inputs.dry_run && steps.bump.outputs.changed != 'true'
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: echo "Homebrew formula already pins ${VERSION}." | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Record dry-run stage
+        if: inputs.dry_run
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          SKIP: ${{ steps.release.outputs.skip }}
+        run: |
+          if [ "$SKIP" = "true" ]; then
+            echo "Publish stage (homebrew) dry run: pre-release $VERSION would leave the formula unchanged." | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Publish stage (homebrew) dry run for $VERSION: formula bump was not pushed." | tee -a "$GITHUB_STEP_SUMMARY"
+          fi

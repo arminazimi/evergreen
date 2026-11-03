@@ -1,9 +1,11 @@
 # Quickstart smoke test
 
-The release workflow's `quickstart` job runs the commands documented in the README
-[Quickstart](../README.md#quickstart) section with `npx --yes evergreen-deprecation@<version>` — the package users
-get from npm, never a local build — on Linux, macOS, and Windows runners. The job fails the release when any
-command's exit code or output differs from the expectations listed here. A broken quickstart fails the release.
+The release smoke stage's `quickstart` job (via `.github/scripts/quickstart-smoke.mjs`) runs the commands
+documented in the README [Quickstart](../README.md#quickstart) section with
+`npx --yes evergreen-deprecation@<version>` — the package users get from npm, never a local build — on Linux,
+macOS, and Windows runners. The job fails the release when any command's exit code or output differs from the
+expectations listed here. A broken quickstart fails the release. A release dry run runs the same script against
+the local CLI instead.
 
 Everything runs offline once the package is downloaded: Evergreen scans never touch the network.
 

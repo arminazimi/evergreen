@@ -1,0 +1,120 @@
+# Release stage: smoke-test the published package (quickstart + published-vs-built scan).
+# A dry run runs the same checks against the local build instead of npm.
+name: Release smoke
+
+on:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: Smoke against the local build; do not require a published package
+        type: boolean
+        required: true
+      release_sha:
+        description: Commit to check out for a post-publish run; empty uses the default branch
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  published-scan:
+    # Compare a scan of this repository with the published package against the CI build.
+    if: ${{ !inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Default branch first: ref: workflow_run.head_sha is a Dangerous-Workflow untrusted checkout.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out the release commit
+        if: inputs.release_sha != ''
+        env:
+          RELEASE_SHA: ${{ inputs.release_sha }}
+        shell: bash
+        run: git checkout --detach "$RELEASE_SHA"
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Select release
+        id: release
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          git tag --points-at HEAD | grep -Fx "v$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Scan with the build that passed CI
+        run: node dist/src/cli.js scan . --json > "$RUNNER_TEMP/built.json"
+      - name: Scan with the published package
+        # Run from a temporary directory: inside the checkout, npx would resolve this repository's own bin.
+        working-directory: ${{ runner.temp }}
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: npx --yes "evergreen-deprecation@$VERSION" scan "$GITHUB_WORKSPACE" --json > "$RUNNER_TEMP/published.json"
+      - name: Compare the summaries
+        run: node .github/scripts/release-smoke.mjs "$RUNNER_TEMP/built.json" "$RUNNER_TEMP/published.json"
+
+  quickstart:
+    # README quickstart must work from what users install. Dry run uses the local CLI.
+    name: quickstart (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON(inputs.dry_run && '["ubuntu-latest"]' || '["ubuntu-latest","macos-latest","windows-latest"]') }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Default branch first: ref: workflow_run.head_sha is a Dangerous-Workflow untrusted checkout.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out the release commit
+        if: inputs.release_sha != ''
+        env:
+          RELEASE_SHA: ${{ inputs.release_sha }}
+        shell: bash
+        run: git checkout --detach "$RELEASE_SHA"
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Select release
+        id: release
+        shell: bash
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ -n "${{ inputs.release_sha }}" ]; then
+            git tag --points-at HEAD | grep -Fx "v$version"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Build the local CLI (dry run)
+        if: inputs.dry_run
+        run: |
+          npm ci
+          npm run build --silent
+      - name: Run the README quickstart
+        # Run from a temporary directory: inside the checkout, npx would resolve this repository's own bin.
+        working-directory: ${{ runner.temp }}
+        shell: bash
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+        run: |
+          dir="$RUNNER_TEMP/quickstart"
+          mkdir "$dir"
+          cp "$GITHUB_WORKSPACE/tests/fixtures/smoke/package.json" "$dir/package.json"
+          cd "$dir"
+
+          if [ "$DRY_RUN" = "true" ]; then
+            cli="$GITHUB_WORKSPACE/dist/src/cli.js"
+            node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$GITHUB_WORKSPACE/tests/fixtures/smoke" -- node "$cli"
+            node "$GITHUB_WORKSPACE/.github/scripts/quickstart-smoke.mjs" --local "$cli"
+          else
+            node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$GITHUB_WORKSPACE/tests/fixtures/smoke" -- npx --yes "evergreen-deprecation@$VERSION"
+            node "$GITHUB_WORKSPACE/.github/scripts/quickstart-smoke.mjs" --published "$VERSION"
+          fi

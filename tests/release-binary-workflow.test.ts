@@ -17,10 +17,11 @@ interface Job {
 }
 interface Workflow { permissions?: Record<string, string>; jobs: Record<string, Job> }
 
-const workflow = parse(await readFile(resolve(".github/workflows/release.yml"), "utf8")) as Workflow;
-const binary = workflow.jobs.binary!;
-const release = workflow.jobs["binary-release"]!;
-const provenance = workflow.jobs.provenance!;
+const build = parse(await readFile(resolve(".github/workflows/release-build-binaries.yml"), "utf8")) as Workflow;
+const publish = parse(await readFile(resolve(".github/workflows/release-publish-binaries.yml"), "utf8")) as Workflow;
+const binary = build.jobs.binary!;
+const release = publish.jobs["binary-release"]!;
+const provenance = publish.jobs.provenance!;
 const releaseCommands = release.steps!.map((step) => step.run ?? "").join("\n");
 
 test("a binary is built for every supported platform", () => {
@@ -36,9 +37,8 @@ test("every binary is smoke-tested before it is uploaded", () => {
 });
 
 test("the release job needs the builds and holds only the permissions it uses", () => {
-  assert.equal(release.needs, "binary");
   assert.deepEqual(release.permissions, { contents: "write", "id-token": "write", attestations: "write" });
-  assert.deepEqual(workflow.permissions, { contents: "read" });
+  assert.deepEqual(publish.permissions, { contents: "read" });
   assert.ok(release.steps!.some((step) => step.run?.includes("sha256sum")), "checksums are written");
   assert.ok(release.steps!.some((step) => step.uses?.startsWith("actions/attest-build-provenance@")), "provenance is attested");
   assert.ok(release.outputs?.hashes?.includes("steps.release.outputs.hashes"), "hashes are exported for the SLSA generator");
@@ -63,17 +63,18 @@ test("binaries and checksums are signed keylessly with cosign and verified befor
 
   assert.equal(
     release.env?.IDENTITY_PATTERN,
-    String.raw`^https://github\.com/arminazimi/evergreen/\.github/workflows/release\.yml@refs/heads/main$`,
+    String.raw`^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/heads/main$`,
   );
   assert.equal(release.env?.OIDC_ISSUER, "https://token.actions.githubusercontent.com");
   const identity = new RegExp(release.env!.IDENTITY_PATTERN!);
-  const prefix = "https://github.com/arminazimi/evergreen/.github/workflows/release.yml";
+  const prefix = "https://github.com/arminazimi/evergreen/.github/workflows/release-publish-binaries.yml";
   assert.ok(identity.test(`${prefix}@refs/heads/main`));
   for (const rejected of [
     `${prefix}@refs/heads/feature`,
     `${prefix}@refs/tags/v1.0.0`,
     "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/heads/main",
-    "https://github.com/someone/evergreen/.github/workflows/release.yml@refs/heads/main",
+    "https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/heads/main",
+    "https://github.com/someone/evergreen/.github/workflows/release-publish-binaries.yml@refs/heads/main",
   ]) assert.equal(identity.test(rejected), false, rejected);
 });
 

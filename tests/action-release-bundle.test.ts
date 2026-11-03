@@ -27,21 +27,25 @@ interface Job {
 
 const release = parse(await read(".github/workflows/release.yml")) as {
   on: { push?: { branches?: string[] }; workflow_dispatch?: unknown };
+  jobs: Record<string, { if?: string; uses?: string; with?: Record<string, unknown>; permissions?: Record<string, string> }>;
+};
+const buildAction = parse(await read(".github/workflows/release-build-action.yml")) as {
   jobs: Record<string, Job>;
 };
 const publish = parse(await read(".github/workflows/publish.yml")) as {
   jobs: { publish: { steps: Step[] } };
 };
 
-const bundle = release.jobs["action-bundle"]!;
+const bundle = buildAction.jobs["action-bundle"]!;
 const bundleSteps = bundle.steps.map((step) => step.run ?? step.uses ?? "").join("\n");
 
 test("the Release workflow builds the Action bundle only when main gains a version", () => {
   // The bundle is no longer committed, so it is built where it is needed: on the release branch,
   // after the release commit lands on main. Every other job filters by event and ignores this push.
   assert.deepEqual(release.on.push?.branches, ["main"]);
-  assert.match(bundle.if ?? "", /github\.event_name == 'push'/);
-  assert.match(bundle.if ?? "", /refs\/heads\/main/);
+  assert.match(release.jobs["build-action"]!.if ?? "", /github\.event_name == 'push'/);
+  assert.match(release.jobs["build-action"]!.if ?? "", /refs\/heads\/main/);
+  assert.equal(release.jobs["build-action"]!.uses, "./.github/workflows/release-build-action.yml");
   assert.deepEqual(bundle.permissions, { contents: "write" }, "the job pushes the release branch and nothing else");
   assert.match(bundleSteps, /npm run build:action/);
   assert.match(bundleSteps, /git add --force dist\/action/, "dist/ is ignored on main, so the bundle is added by force");

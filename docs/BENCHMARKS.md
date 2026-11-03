@@ -162,7 +162,7 @@ On 2026-10-28, running `npm run benchmark:first-run` against the local build on 
 
 ### Release workflow timing
 
-In CI, the release workflow (`.github/workflows/release.yml`) uses its own inline timing in the `quickstart` job across clean Linux, macOS, and Windows runners after npm publish. The runner executes the package smoke script first (which warms the npm package cache) and then times `scan . --json` on the smoke fixture, isolating execution from npm registry latency. The job asserts that the scan finishes within the two-minute budget (`durationMs <= 120000`) and writes the measured duration to `$GITHUB_STEP_SUMMARY`. Actual per-release runner measurements appear in each release run's summary.
+In CI, the release smoke stage (`.github/workflows/release-smoke.yml`) times the quickstart on clean Linux, macOS, and Windows runners after npm publish via `.github/scripts/quickstart-smoke.mjs`. The runner executes the package smoke script first (which warms the npm package cache) and then times `scan . --json` on the smoke fixture, isolating execution from npm registry latency. The script asserts that the scan finishes within the two-minute budget (`durationMs <= 120000`) and writes the measured duration to `$GITHUB_STEP_SUMMARY`. Actual per-release runner measurements appear in each release run's summary.
 
 ## Scan performance budget
 

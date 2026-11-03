@@ -148,8 +148,9 @@ today's files.
 - Container and Homebrew channels the release docs list.
 - Data-bundle release when registry data changes ([`data-release.yml`](../.github/workflows/data-release.yml)).
 
-**Out of scope for this design page.** Splitting `release.yml` into stages (#2027) and joining
-`publish.yml` into that chain (#2028). Those tasks must keep this lane's budget and the rule that
+**Stages.** `release.yml` is a thin orchestrator that calls reusable stage workflows (verify, build,
+publish per channel, smoke). A manual run with `dry_run` exercises every stage and publishes nothing.
+Joining `publish.yml` into that chain is #2028. Those tasks keep this lane's budget and the rule that
 `main` does not carry the Action bundle.
 
 ## What this design deliberately leaves out of the merge gate

@@ -1,0 +1,95 @@
+# Release stage: build standalone binaries (no Node.js needed at scan time).
+# A dry run builds linux-x64 only, smokes it, and uploads an artifact; it attaches nothing to a release.
+name: Release build binaries
+
+on:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: Build and smoke only; do not attach to a GitHub release
+        type: boolean
+        required: true
+      release_sha:
+        description: Commit to check out for a post-publish run; empty uses the default branch
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  binary:
+    name: binary (${{ matrix.target }})
+    # A dry run exercises the stage on one platform; a real release builds every target.
+    if: ${{ !inputs.dry_run || matrix.target == 'linux-x64' }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, target: linux-x64, exe: "" }
+          - { os: ubuntu-24.04-arm, target: linux-arm64, exe: "" }
+          - { os: macos-15-intel, target: darwin-x64, exe: "" }
+          - { os: macos-latest, target: darwin-arm64, exe: "" }
+          - { os: windows-latest, target: win32-x64, exe: ".exe" }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Default branch first: ref: workflow_run.head_sha is a Dangerous-Workflow untrusted checkout.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out the release commit
+        if: inputs.release_sha != ''
+        env:
+          RELEASE_SHA: ${{ inputs.release_sha }}
+        shell: bash
+        run: git checkout --detach "$RELEASE_SHA"
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          # `node --build-sea` needs 25.5 or newer; the binary carries this runtime.
+          node-version: 26
+          cache: npm
+      - name: Select release
+        id: release
+        shell: bash
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ -n "${{ inputs.release_sha }}" ]; then
+            git tag --points-at HEAD | grep -Fx "v$version"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "file=evergreen-$version-${{ matrix.target }}${{ matrix.exe }}" >> "$GITHUB_OUTPUT"
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Build the binary
+        shell: bash
+        env:
+          FILE: ${{ steps.release.outputs.file }}
+        run: |
+          mkdir binaries
+          node .github/scripts/build-sea.mjs "binaries/$FILE"
+      - name: Sign ad hoc (macOS refuses to run an unsigned executable)
+        if: runner.os == 'macOS'
+        env:
+          FILE: ${{ steps.release.outputs.file }}
+        run: codesign --force --sign - "binaries/$FILE"
+      - name: Smoke test without Node.js on the path
+        if: runner.os != 'Windows'
+        env:
+          FILE: ${{ steps.release.outputs.file }}
+        run: |
+          node .github/scripts/smoke.mjs tests/fixtures/smoke -- env PATH=/usr/bin:/bin "$PWD/binaries/$FILE"
+      - name: Smoke test
+        if: runner.os == 'Windows'
+        shell: bash
+        env:
+          FILE: ${{ steps.release.outputs.file }}
+        run: |
+          node .github/scripts/smoke.mjs tests/fixtures/smoke -- "$PWD/binaries/$FILE"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: binary-${{ matrix.target }}
+          path: binaries/${{ steps.release.outputs.file }}
+          if-no-files-found: error

@@ -1,0 +1,105 @@
+# Release stage: build the compiled Action bundle onto release/<tag>.
+# main does not carry the bundle. A dry run builds and smokes it, then pushes nothing.
+name: Release build action
+
+on:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: Build and smoke only; do not push release/<tag>
+        type: boolean
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  action-bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    concurrency:
+      group: action-release-bundle
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        # zizmor: ignore[artipacked] -- it pushes the release branch with the checkout token
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          # No dependency cache: this job writes to the repository, so a poisoned cache must not
+          # change the commit that a release tag will ship.
+          package-manager-cache: false
+      - name: Select the version this push released
+        id: release
+        shell: bash
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          previous="$(git show 'HEAD^:package.json' | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [ "$version" = "$previous" ]; then
+            echo "create=false" >> "$GITHUB_OUTPUT"
+            echo "This push does not change the version in package.json, so there is no release to build." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ -n "$(git ls-remote --tags --refs origin "refs/tags/v$version")" ]; then
+            echo "create=false" >> "$GITHUB_OUTPUT"
+            echo "v$version is already tagged; release/v$version stays as it is." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ -n "$(git ls-remote --heads origin "refs/heads/release/v$version")" ]; then
+            echo "create=false" >> "$GITHUB_OUTPUT"
+            echo "release/v$version already exists; tag its tip to release v$version." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo "create=true" >> "$GITHUB_OUTPUT"
+      - name: Build the Action bundle
+        if: steps.release.outputs.create == 'true' || inputs.dry_run
+        run: |
+          npm ci
+          npm run build:action --silent
+      - name: Run the bundle the tag will ship
+        if: steps.release.outputs.create == 'true' || inputs.dry_run
+        shell: bash
+        env:
+          INPUT_PATH: tests/fixtures/smoke
+          INPUT_FAIL-ON-SEVERITY: none
+          GITHUB_STEP_SUMMARY: ${{ runner.temp }}/action-summary.md
+        run: |
+          node dist/action/index.js | tee "$RUNNER_TEMP/action-output.txt"
+          grep -E "Evergreen found [0-9]+ new lifecycle finding" "$RUNNER_TEMP/action-output.txt"
+      - name: Commit the bundle on the release branch
+        if: steps.release.outputs.create == 'true' && !inputs.dry_run
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "release/v$VERSION"
+          git add --force dist/action
+          git commit -m "chore(release): add the Action bundle for v$VERSION"
+          git push origin "HEAD:refs/heads/release/v$VERSION"
+      - name: Say how to tag it
+        if: steps.release.outputs.create == 'true' && !inputs.dry_run
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        shell: bash
+        run: |
+          {
+            echo "### Action bundle for v$VERSION is on release/v$VERSION"
+            echo
+            echo "The tag must point at that branch tip, one commit on top of the release commit on main:"
+            echo
+            echo '```bash'
+            echo "git fetch origin \"release/v$VERSION\""
+            echo "git tag -a \"v$VERSION\" -m \"v$VERSION\" FETCH_HEAD"
+            echo "git push origin \"v$VERSION\""
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Record dry-run stage
+        if: inputs.dry_run
+        run: echo "Build stage (action bundle) completed in dry run; nothing was pushed." >> "$GITHUB_STEP_SUMMARY"

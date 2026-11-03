@@ -58,12 +58,17 @@ test("the command exits 1 and prints both summaries on a mismatch, 0 on a match"
 });
 
 test("the release workflow compares the published package with the build after a successful publish", async () => {
-  const workflow = parse(await readFile(resolve(".github/workflows/release.yml"), "utf8")) as {
+  const orchestrator = parse(await readFile(resolve(".github/workflows/release.yml"), "utf8")) as {
+    jobs: Record<string, { if?: string; uses?: string }>;
+  };
+  const smoke = parse(await readFile(resolve(".github/workflows/release-smoke.yml"), "utf8")) as {
     jobs: Record<string, { if?: string; permissions?: Record<string, string>; steps: { run?: string }[] }>;
   };
-  const job = workflow.jobs["published-scan"]!;
-  assert.match(job.if!, /workflow_run/);
-  assert.match(job.if!, /conclusion == 'success'/);
+  assert.match(orchestrator.jobs.smoke!.if!, /workflow_run/);
+  assert.match(orchestrator.jobs.smoke!.if!, /conclusion == 'success'/);
+  assert.equal(orchestrator.jobs.smoke!.uses, "./.github/workflows/release-smoke.yml");
+  const job = smoke.jobs["published-scan"]!;
+  assert.match(job.if!, /!inputs\.dry_run/);
   const commands = job.steps.map((step) => step.run ?? "").join("\n");
   assert.match(commands, /npx --yes "evergreen-deprecation@\$VERSION" scan/);
   assert.match(commands, /dist\/src\/cli\.js scan/);

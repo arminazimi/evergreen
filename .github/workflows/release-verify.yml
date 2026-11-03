@@ -1,0 +1,89 @@
+# Release stage: verify. Drafts changelog notes and checks the packed tarball is reproducible.
+# Called from release.yml. A dry run builds and checks; it publishes nothing.
+name: Release verify
+
+on:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: Build and verify only; publish nothing
+        type: boolean
+        required: true
+      from:
+        description: Tag or commit to start changelog notes from
+        type: string
+        required: false
+        default: ""
+      release_sha:
+        description: Commit to check out for a post-publish run; empty uses the default branch
+        type: string
+        required: false
+        default: ""
+      run_notes:
+        description: Draft release notes from conventional commits
+        type: boolean
+        required: true
+      run_reproducible:
+        description: Run the reproducible pack check
+        type: boolean
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  notes:
+    if: inputs.run_notes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Draft the release notes
+        env:
+          FROM: ${{ inputs.from }}
+        run: |
+          if [ -n "$FROM" ]; then
+            node dist/tools/changelog.js --from "$FROM" > release-notes.md
+          else
+            node dist/tools/changelog.js > release-notes.md
+          fi
+          { echo "## Draft release notes"; echo; cat release-notes.md; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: release-notes-${{ github.run_id }}
+          path: release-notes.md
+
+  reproducible:
+    if: inputs.run_reproducible
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Default branch first: ref: workflow_run.head_sha is a Dangerous-Workflow untrusted checkout.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out the release commit
+        if: inputs.release_sha != ''
+        env:
+          RELEASE_SHA: ${{ inputs.release_sha }}
+        shell: bash
+        run: git checkout --detach "$RELEASE_SHA"
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check:reproducible --silent
+      - name: Record dry-run stage
+        if: inputs.dry_run
+        run: echo "Verify stage (reproducible) completed in dry run." >> "$GITHUB_STEP_SUMMARY"
