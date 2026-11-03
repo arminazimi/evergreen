@@ -27,13 +27,21 @@ test("docs/RELEASING.md links to files and workflows that exist", async () => {
 test("the publish workflow uses trusted publishing with least privilege and guards the tag", async () => {
   const { parse } = await import("yaml");
   const text = await read(".github/workflows/publish.yml");
+  const releaseText = await read(".github/workflows/release.yml");
   const workflow = parse(text) as {
-    on: { push: { tags: string[] } };
+    on: { workflow_call: { inputs: Record<string, { type?: string }> } };
     permissions: unknown;
     jobs: { publish: { permissions: Record<string, string>; steps: Array<{ uses?: string; run?: string; with?: Record<string, unknown> }> } };
   };
-  // Only version tags trigger it, nothing is granted by default, and the job can only read code and mint the OIDC token.
-  assert.ok(workflow.on.push.tags.every((tag) => tag.startsWith("v")));
+  const release = parse(releaseText) as {
+    on: { push?: { tags?: string[] } };
+    jobs: Record<string, { uses?: string; permissions?: Record<string, string> }>;
+  };
+  // The Release orchestrator owns the version-tag trigger and calls this stage.
+  assert.ok(release.on.push?.tags?.every((tag) => tag.startsWith("v")));
+  assert.equal(release.jobs["publish-npm"]?.uses, "./.github/workflows/publish.yml");
+  assert.deepEqual(release.jobs["publish-npm"]?.permissions, { contents: "read", "id-token": "write" });
+  assert.equal(workflow.on.workflow_call.inputs.dry_run?.type, "boolean");
   assert.deepEqual(workflow.permissions, {});
   assert.deepEqual(workflow.jobs.publish.permissions, { contents: "read", "id-token": "write" });
   // No stored npm credential, npm new enough for trusted publishing, and a provenance attestation.
@@ -46,9 +54,9 @@ test("the publish workflow uses trusted publishing with least privilege and guar
   // It refuses a tag that disagrees with package.json and a commit that is not on main.
   assert.match(run, /GITHUB_REF_NAME/);
   assert.match(run, /merge-base --is-ancestor/);
-  // The docs name the same workflow file the npm setup refers to.
+  // The docs name the calling workflow npm matches for trusted publishing.
   const docs = await read("docs/RELEASING.md");
-  assert.match(docs, /workflow filename `publish\.yml`/);
+  assert.match(docs, /workflow filename `release\.yml`/);
   await access(resolve(".github/workflows/publish.yml"));
 });
 

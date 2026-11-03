@@ -26,7 +26,7 @@ interface Job {
 }
 
 const release = parse(await read(".github/workflows/release.yml")) as {
-  on: { push?: { branches?: string[] }; workflow_dispatch?: unknown };
+  on: { push?: { branches?: string[]; tags?: string[] }; workflow_dispatch?: unknown };
   jobs: Record<string, { if?: string; uses?: string; with?: Record<string, unknown>; permissions?: Record<string, string> }>;
 };
 const buildAction = parse(await read(".github/workflows/release-build-action.yml")) as {

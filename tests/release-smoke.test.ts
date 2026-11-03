@@ -64,8 +64,8 @@ test("the release workflow compares the published package with the build after a
   const smoke = parse(await readFile(resolve(".github/workflows/release-smoke.yml"), "utf8")) as {
     jobs: Record<string, { if?: string; permissions?: Record<string, string>; steps: { run?: string }[] }>;
   };
-  assert.match(orchestrator.jobs.smoke!.if!, /workflow_run/);
-  assert.match(orchestrator.jobs.smoke!.if!, /conclusion == 'success'/);
+  assert.match(orchestrator.jobs.smoke!.if!, /publish-npm\.result == 'success'/);
+  assert.match(orchestrator.jobs.smoke!.if!, /refs\/tags\/v/);
   assert.equal(orchestrator.jobs.smoke!.uses, "./.github/workflows/release-smoke.yml");
   const job = smoke.jobs["published-scan"]!;
   assert.match(job.if!, /!inputs\.dry_run/);

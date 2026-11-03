@@ -107,8 +107,8 @@ interface Workflow {
 test("the release workflow bumps the tap after a successful publish and skips pre-releases", () => {
   const orchestrator = parse(readFileSync(resolve(".github/workflows/release.yml"), "utf8")) as Workflow;
   const workflow = parse(readFileSync(resolve(".github/workflows/release-publish-homebrew.yml"), "utf8")) as Workflow;
-  assert.match(orchestrator.jobs["publish-homebrew"]!.if ?? "", /workflow_run/);
-  assert.match(orchestrator.jobs["publish-homebrew"]!.if ?? "", /conclusion == 'success'/);
+  assert.match(orchestrator.jobs["publish-homebrew"]!.if ?? "", /refs\/tags\/v/);
+  assert.match(orchestrator.jobs["publish-homebrew"]!.if ?? "", /publish-npm\.result == 'success'/);
   assert.equal(orchestrator.jobs["publish-homebrew"]!.uses, "./.github/workflows/release-publish-homebrew.yml");
   const job = workflow.jobs.homebrew;
   assert.ok(job, "release-publish-homebrew.yml has no homebrew job");

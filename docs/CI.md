@@ -150,9 +150,10 @@ a green queue. Affected, full, and record corpus runs live in one file (`corpus.
 - Data-bundle release when registry data changes ([`data-release.yml`](../.github/workflows/data-release.yml)).
 
 **Stages.** `release.yml` is a thin orchestrator that calls reusable stage workflows (verify, build,
-publish per channel, smoke). A manual run with `dry_run` exercises every stage and publishes nothing.
-Joining `publish.yml` into that chain is #2028. Those tasks keep this lane's budget and the rule that
-`main` does not carry the Action bundle.
+publish per channel including npm via `publish.yml`, smoke). A version tag runs the full chain in
+one workflow run so a failed stage is safe to re-run. A manual run with `dry_run` exercises every
+stage and publishes nothing. Those tasks keep this lane's budget and the rule that `main` does not
+carry the Action bundle.
 
 ## What this design deliberately leaves out of the merge gate
 
@@ -170,9 +171,8 @@ files (`corpus-pr.yml` and `corpus-record.yml` folded into `corpus.yml`).
 
 A last-run audit on 2026-11-03 found no unused workflows to delete. Empty run history is expected
 for `evergreen-reusable.yml` (only `workflow_call`, runs in caller repositories) and for
-`scorecard-floor.yml` (added 2026-11-02; first cron is Saturday). Planned merges stay in their own
-issues — one pull request per removal or merge: join `publish.yml` → #2028. Do not delete a
-workflow here just because a later task will fold it.
+`scorecard-floor.yml` (added 2026-11-02; first cron is Saturday). Do not delete a workflow here
+just because a later task will fold it.
 
 | File | Lane | Trigger | Purpose |
 | --- | --- | --- | --- |
@@ -185,7 +185,7 @@ workflow here just because a later task will fold it.
 | `workflow-lint.yml` | Main | `push` to `main` on workflow paths; `workflow_dispatch` | actionlint + zizmor on workflow YAML and `action.yml` |
 | `pages.yml` | Main | `push` to `main`; `workflow_dispatch` | Build the docs site, Seaworthy + Lighthouse, deploy to GitHub Pages |
 | `labels.yml` | Main / nightly | `pull_request` / `push` on label paths; weekly schedule; `workflow_dispatch` | Sync `.github/labels.yml` and check good-first-issue briefs |
-| `release.yml` | Main / release | `push` to `main`; `workflow_run` after publish; `workflow_dispatch` | Release notes, Action bundle on `release/<tag>`, binaries, provenance, quickstart and channel smoke |
+| `release.yml` | Main / release | `push` to `main`; version `v*` tags; `workflow_dispatch` | One release chain: Action bundle on `release/<tag>`, npm via `publish.yml`, binaries, provenance, channels, smoke |
 | `package-smoke.yml` | Merge queue / nightly | `merge_group`; nightly schedule; `workflow_dispatch` | Prove npm tarball, Docker image, and local Action scan the same fixture |
 | `ci-health.yml` | Nightly | `workflow_run` of CI on `main`; schedules; `workflow_dispatch` | Open/close devops issues on main failures, measure CI duration, quarantine flaky tests |
 | `mutation.yml` | Nightly | Nightly schedule; `workflow_dispatch` | Mutation testing matrix (too slow for the merge gate) |
@@ -196,7 +196,7 @@ workflow here just because a later task will fold it.
 | `scorecard-floor.yml` | Nightly | Weekly schedule (after Scorecard); `workflow_dispatch` | Alert when the published Scorecard score is below the QUALITY.md floor |
 | `codeql.yml` | Nightly | Weekly schedule; `workflow_dispatch` | CodeQL analysis of `main` |
 | `mcp-listings.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Compare tracked MCP directory listings to `server.json` |
-| `publish.yml` | Release | Version `v*` tags | npm trusted publish with provenance, then post-publish smoke |
+| `publish.yml` | Release | `workflow_call` from `release.yml` | npm trusted publish with provenance, package smoke, MCP Registry |
 | `data-release.yml` | Release | `data-v*` tags; dry-run `workflow_dispatch` | Build, sign, and publish the lifecycle data bundle |
 | `gitlab-sync.yml` | Release | `v*` tags; `workflow_dispatch` | Push the release commit and tags to the GitLab CI/CD Catalog project |
 | `evergreen-reusable.yml` | Product (caller) | `workflow_call` only | Reusable per-repository Evergreen scan for other repositories to `uses:` |

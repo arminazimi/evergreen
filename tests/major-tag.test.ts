@@ -83,7 +83,7 @@ test("the command line prints GITHUB_OUTPUT lines, exits 0 when nothing moves, a
 
 interface Step { name?: string; if?: string; run?: string; uses?: string; with?: Record<string, unknown>; env?: Record<string, string> }
 interface Workflow {
-  on: { workflow_dispatch: { inputs: Record<string, unknown> }; workflow_run?: unknown };
+  on: { workflow_dispatch: { inputs: Record<string, unknown> }; push?: { tags?: string[] } };
   jobs: Record<string, { if?: string; uses?: string; permissions?: Record<string, string>; env?: Record<string, string>; steps?: Step[] }>;
 }
 
@@ -92,7 +92,7 @@ test("the workflow uses the script, keeps write access to the major-tag job, and
   const tags = parse(await readFile(resolve(".github/workflows/release-publish-tags.yml"), "utf8")) as Workflow;
   const verify = parse(await readFile(resolve(".github/workflows/release-verify.yml"), "utf8")) as Workflow;
   assert.ok("release_tag" in orchestrator.on.workflow_dispatch.inputs, "a manual dry run takes a release tag");
-  assert.match(orchestrator.jobs["publish-tags"]!.if ?? "", /workflow_run/);
+  assert.match(orchestrator.jobs["publish-tags"]!.if ?? "", /refs\/tags\/v/);
   assert.match(orchestrator.jobs["publish-tags"]!.if ?? "", /inputs\.release_tag != ''/, "a manual run without a release tag does nothing unless dry_run");
   const job = tags.jobs["major-tag"]!;
   const steps = job.steps ?? [];

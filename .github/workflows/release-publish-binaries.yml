@@ -108,7 +108,7 @@ jobs:
         run: echo "Publish stage (binaries) dry run wrote checksums; nothing was attached to a release." >> "$GITHUB_STEP_SUMMARY"
 
   # SLSA Build L3 provenance. Must be referenced by a vX.Y.Z tag (not a commit SHA).
-  # upload-tag-name is required because the caller is triggered by workflow_run, not by the version tag.
+  # upload-tag-name is set explicitly so a dry-run or detached checkout still names the right tag.
   provenance:
     needs: binary-release
     if: ${{ !inputs.dry_run }}

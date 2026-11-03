@@ -81,9 +81,12 @@ test("the release workflow runs the reproducible check and fails the release on 
     jobs: Record<string, { if?: string; steps?: Array<{ run?: string }> }>;
   };
   assert.match(orchestrator.jobs.verify!.if ?? "", /workflow_dispatch/);
-  assert.match(orchestrator.jobs.verify!.if ?? "", /workflow_run.*conclusion == 'success'/s);
+  assert.match(orchestrator.jobs.verify!.if ?? "", /refs\/tags\/v/);
   assert.equal(orchestrator.jobs.verify!.uses, "./.github/workflows/release-verify.yml");
-  assert.equal(orchestrator.jobs.verify!.with?.run_reproducible, "${{ github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_run' }}");
+  assert.equal(
+    orchestrator.jobs.verify!.with?.run_reproducible,
+    "${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) }}",
+  );
   const job = verify.jobs.reproducible;
   assert.ok(job, "release-verify.yml has no reproducible job");
   assert.match(job.if ?? "", /inputs\.run_reproducible/);

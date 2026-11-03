@@ -1,28 +1,23 @@
 name: Publish to npm
 
-# Publishes the package when a version tag is pushed, with no stored npm token: npm trusted publishing
-# exchanges this job's OIDC identity for a short-lived publish credential, and the package is published
-# with a provenance attestation that names this repository, workflow, and commit.
-#
-# A release tag points at the tip of release/<tag>: the release commit on main plus one commit that adds
-# the compiled Action bundle (built by release.yml, because main does not carry it). The job checks that
-# shape, so a tag pushed at an ordinary commit publishes nothing, and prepack rebuilds the bundle and
-# fails when the committed one is stale.
+# npm publish stage of the release chain. release.yml calls this on a version tag and on a
+# dry-run dispatch. Trusted publishing exchanges this job's OIDC identity for a short-lived
+# publish credential. npm matches the calling workflow filename (release.yml) — see
+# docs/RELEASING.md. A failed later stage in the same Release run is safe to re-run: successful
+# jobs are not re-executed, so a completed publish is not repeated.
 #
 # One-time setup on npmjs.com (package -> Settings -> Trusted publisher -> GitHub Actions):
-#   organization or user: arminazimi    repository: evergreen    workflow filename: publish.yml
+#   organization or user: arminazimi    repository: evergreen    workflow filename: release.yml
 # See docs/RELEASING.md.
 on:
-  push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
-      - "v[0-9]+.[0-9]+.[0-9]+-*"
+  workflow_call:
+    inputs:
+      dry_run:
+        description: Validate the tag shape only; do not publish to npm or the MCP Registry
+        type: boolean
+        required: true
 
 permissions: {}
-
-concurrency:
-  group: publish
-  cancel-in-progress: false
 
 jobs:
   publish:
@@ -45,6 +40,7 @@ jobs:
           package-manager-cache: false
       - run: npm ci
       - name: The tag must match package.json
+        if: ${{ !inputs.dry_run }}
         run: |
           expected="v$(node -p "require('./package.json').version")"
           if [ "$GITHUB_REF_NAME" != "$expected" ]; then
@@ -52,6 +48,7 @@ jobs:
             exit 1
           fi
       - name: The tag must point at a release branch tip that adds the Action bundle
+        if: ${{ !inputs.dry_run }}
         shell: bash
         run: |
           # Release tags point at the tip of release/<tag>: the release commit on main plus the one
@@ -83,6 +80,7 @@ jobs:
             exit 1
           fi
       - name: Publish (prepack runs npm run check)
+        if: ${{ !inputs.dry_run }}
         env:
           EVERGREEN_VERIFY_ACTION_BUNDLE: "1"
         run: |
@@ -90,11 +88,15 @@ jobs:
             *-*) npm publish --provenance --access public --tag next ;;
             *)   npm publish --provenance --access public ;;
           esac
+      - name: Record dry-run stage
+        if: inputs.dry_run
+        run: echo "Publish stage (npm) dry run; nothing was published." >> "$GITHUB_STEP_SUMMARY"
 
   # Runs on a fresh machine against what is on the registry, not against this checkout, so a package that
   # installs but does not work (like 0.1.0, which shipped no `evergreen-deprecation` bin) fails the release.
   smoke:
     needs: publish
+    if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -134,7 +136,7 @@ jobs:
   registry:
     needs: smoke
     # Pre-release tags publish npm versions under `next` and must not move the registry entry.
-    if: needs.smoke.result == 'success' && !contains(github.ref_name, '-')
+    if: ${{ !inputs.dry_run && needs.smoke.result == 'success' && !contains(github.ref_name, '-') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
