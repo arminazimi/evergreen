@@ -1,12 +1,13 @@
 // Builds docs/llms-full.txt: the full text of every page that docs/llms.txt links to, in the order it lists them.
 //
 //   npm run build --silent
-//   node dist/tools/build-llms-full.js            # writes docs/llms-full.txt
-//   node dist/tools/build-llms-full.js --check    # exits 1 if the committed file is out of date
+//   node dist/tools/build-llms-full.js            # writes docs/llms-full.txt (gitignored; Pages builds it)
+//   node dist/tools/build-llms-full.js --check    # exits 1 if a linked page is missing or the text is malformed
 //
 // docs/llms.txt is the curated index and the only thing edited by hand; the full file is generated from it, so the
 // two cannot disagree about which pages exist. Output is deterministic.
-// Both files are committed without front matter, so Jekyll serves them verbatim at the site root instead of a Slipway layout replacing them.
+// The file is not committed: the Pages workflow generates it before Jekyll builds, so the public URL stays the same
+// without pull-request churn. Local `npm run build:llms` writes the same path for preview.
 
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -67,16 +68,27 @@ export async function renderLlmsFull(root = "."): Promise<string> {
   return buildLlmsFull(index, pages);
 }
 
+/** True when the rendered full text has the shape Pages must publish. */
+export function isWellFormedLlmsFull(text: string): boolean {
+  return (
+    text.startsWith("# Evergreen: full documentation\n\n> ") &&
+    text.endsWith("\n") &&
+    !text.endsWith("\n\n") &&
+    !text.includes("\r") &&
+    text.length > 50_000
+  );
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const target = resolve("docs/llms-full.txt");
   renderLlmsFull().then(
     async (text) => {
       if (process.argv.includes("--check")) {
-        const current = await readFile(target, "utf8").catch(() => "");
-        if (current !== text) {
-          process.stderr.write("docs/llms-full.txt is out of date. Run: npm run build:llms\n");
+        if (!isWellFormedLlmsFull(text)) {
+          process.stderr.write("docs/llms-full.txt would be malformed. Fix the pages linked from docs/llms.txt.\n");
           process.exit(1);
         }
+        process.stdout.write(`docs/llms-full.txt is buildable (${text.length} characters)\n`);
         return;
       }
       await writeFile(target, text);

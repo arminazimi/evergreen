@@ -7,8 +7,10 @@ import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 import { promisify } from "node:util";
 
+import { renderLlmsFull } from "../tools/build-llms-full.js";
 import {
   BASELINE_PATH,
+  BUILD_TIME_MACHINE_FILES,
   SITE_URL,
   collectSiteUrls,
   docsPathsForUrl,
@@ -255,16 +257,18 @@ test("README inventory URLs that jekyll-readme-index drops keep a redirect", asy
 test("the machine files stay static and served at their old root URLs", async () => {
   const urls = await collectSiteUrls();
   const machineFiles = ["llms.txt", "llms-full.txt", "sitemap.xml"];
+  const buildTime = new Set<string>(BUILD_TIME_MACHINE_FILES);
   for (const file of machineFiles) {
     assert.ok(urls.includes(`${SITE_URL}/${file}`), `${file} is missing from the URL inventory`);
     assert.deepEqual(docsPathsForUrl(`${SITE_URL}/${file}`), [file]);
-    const text = await readFile(resolve("docs", file), "utf8");
+    const text = buildTime.has(file) ? await renderLlmsFull() : await readFile(resolve("docs", file), "utf8");
     assert.doesNotMatch(
       text,
       /^---\r?\n/,
       `docs/${file} must stay a static file: front matter would make Jekyll render it through a layout instead of serving it as is`,
     );
   }
+  assert.deepEqual([...BUILD_TIME_MACHINE_FILES], ["llms-full.txt"]);
 
   const claimed = new Set(machineFiles.map((file) => `/${file}`));
   for (const entry of await readdir(resolve("docs"), { recursive: true })) {

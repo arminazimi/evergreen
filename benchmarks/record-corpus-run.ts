@@ -1,9 +1,10 @@
 // Records a full corpus run: `npm run record:corpus-run`.
 //
 // It runs the whole corpus in verify mode and, only when the run is complete and clean, updates `lastFullRun`
-// in benchmarks/thresholds.json and regenerates docs/dashboard/data.json, the accuracy table in docs/VALIDATION.md, and docs/llms-full.txt. The changes
-// are left in the working tree for review; nothing is committed. Other flags (for example --concurrency or
-// --offline) are passed to the harness; flags that narrow the run are refused.
+// in benchmarks/thresholds.json and regenerates docs/dashboard/data.json and the accuracy table in docs/VALIDATION.md,
+// plus a local docs/llms-full.txt preview (gitignored). Tracked changes are left in the working tree for review;
+// nothing is committed. Other flags (for example --concurrency or --offline) are passed to the harness; flags that
+// narrow the run are refused.
 
 import { execFile } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
@@ -70,7 +71,7 @@ try {
   await run(process.execPath, [resolve("dist/tools/coverage-matrix.js")]);
   await run(process.execPath, [resolve("dist/tools/build-llms-full.js")]);
   console.log(`Recorded the full run of ${date} at ${commit}: ${record.repositories} repositories, ${record.findings} findings, precision ${record.precision}, recall ${record.recall}.`);
-  console.log("Updated benchmarks/thresholds.json, docs/dashboard/data.json, docs/VALIDATION.md, docs/state-of-eol.md, and docs/llms-full.txt. Review the diff and commit it.");
+  console.log("Updated benchmarks/thresholds.json, docs/dashboard/data.json, docs/VALIDATION.md, and docs/state-of-eol.md. Regenerated gitignored docs/llms-full.txt for local preview. Review the diff and commit the tracked files.");
 } finally {
   await rm(directory, { recursive: true, force: true });
 }

@@ -55,7 +55,7 @@ jobs:
 
           is_generated() {
             case "$1" in
-              docs/rules/*|docs/ROADMAP.md|docs/llms-full.txt|dist/*|plugins/*|.claude-plugin/*|.agents/plugins/*) return 0 ;;
+              docs/rules/*|docs/ROADMAP.md|dist/*|plugins/*|.claude-plugin/*|.agents/plugins/*) return 0 ;;
               *) return 1 ;;
             esac
           }
@@ -166,7 +166,7 @@ jobs:
       - name: Check the answer pages against the registry
         if: runner.os == 'Linux' && matrix.node == 24
         run: node dist/tools/build-answer-pages.js --check
-      - name: Check the LLM index against the pages it lists
+      - name: Check the LLM full text is buildable from the index
         if: runner.os == 'Linux' && matrix.node == 24
         run: node dist/tools/build-llms-full.js --check
       - name: Check the data API against the registry
@@ -316,8 +316,10 @@ jobs:
       - run: npm run build --silent
       - name: Check the reference pages against the registry
         run: node dist/tools/build-reference-pages.js --check
-      - name: Check docs/llms-full.txt against the linked pages
+      - name: Check the LLM full text is buildable from the index
         run: node dist/tools/build-llms-full.js --check
+      - name: Build docs/llms-full.txt for the site
+        run: node dist/tools/build-llms-full.js
       - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
           ruby-version: "3.3"

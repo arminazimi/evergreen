@@ -3,6 +3,7 @@ docs/vendor/
 docs/_site/
 docs/.bundle/
 docs/Gemfile.lock
+docs/llms-full.txt
 dist/*
 coverage/
 lcov.info

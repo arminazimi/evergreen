@@ -58,13 +58,13 @@ Trust rules that apply to every change:
 |---|---|
 | `plugins/claude/`, `plugins/codex/`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json` | `npm run build:plugins` (source: `skills/`) |
 | `dist/action/index.js` | `npm run build:action` (not committed on `main`; the Release workflow builds it onto the `release/<tag>` branch that release tags point at) |
-| `docs/llms-full.txt` | `npm run build:llms` (source: the pages linked from `docs/llms.txt`) |
+| `docs/llms-full.txt` | `npm run build:llms` (source: the pages linked from `docs/llms.txt`; gitignored — the Pages workflow builds it before Jekyll; no pull request commits it) |
 | `docs/rules/` | `npm run build:reference` (source: `registry/*.json`) |
 | `docs/assets/og/` | `npm run build:og-images` (source: `registry/*.json`, brand social-preview template) |
 | `docs/eol/` | `npm run build:answer-pages` (source: `registry/*.json`) |
 | `docs/ROADMAP.md` | `node planning/roadmap/roadmap-md.mjs` (source: `planning/roadmap/`) |
 
-CI fails when generated output drifts from its source. The exception is `dist/action/index.js`: it is one minified bundle that every merge rewrote, so parallel pull requests always conflicted on it. `main` does not carry it, and no pull request commits it. Release tags still need it, so after a version bump lands on `main` the Release workflow builds it onto the `release/vX.Y.Z` branch, and the tag is pushed at that branch tip (`docs/RELEASING.md`, step 5). `EVERGREEN_VERIFY_ACTION_BUNDLE=1 npm run check` rebuilds the bundle and fails when the committed copy differs, which `npm publish` runs on that tag commit.
+CI fails when generated output drifts from its source. Two exceptions are not committed on `main`: `dist/action/index.js` (each merge rewrote the same minified lines, so parallel pull requests conflicted; release tags still need it — see `docs/RELEASING.md`, step 5) and `docs/llms-full.txt` (rebuilt whenever any linked page changes, so it was the largest source of churn; Pages generates it during the site build and `check:llms` fails when the linked pages would not produce a well-formed file).
 
 ## Working on an issue
 

@@ -25,6 +25,11 @@ const SKIP_FILES = new Set(["_config.yml", "coverage-descriptions.json", "differ
 const SKIP_DIRECTORIES = new Set(["assets", "vendor", "_site"]);
 /** Redirect stubs publish only a URL that used to exist, never a new page. */
 const REDIRECT_DIRECTORY = "redirects";
+/**
+ * Static files the Pages workflow generates before Jekyll builds. They are gitignored, so a fresh
+ * checkout has no on-disk copy, but the public URL stays in the inventory and baseline.
+ */
+export const BUILD_TIME_MACHINE_FILES = ["llms-full.txt"] as const;
 
 export function parseSitemapUrls(sitemap: string): string[] {
   return [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]!);
@@ -77,6 +82,10 @@ export async function collectSiteUrls(root = "."): Promise<string[]> {
     const url = urlForDocsPath(file);
     if (url !== undefined) urls.add(url);
   }
+  for (const file of BUILD_TIME_MACHINE_FILES) {
+    const url = urlForDocsPath(file);
+    if (url !== undefined) urls.add(url);
+  }
   return [...urls].sort((left, right) => left.localeCompare(right));
 }
 
@@ -87,8 +96,10 @@ export function renderInventory(urls: readonly string[]): string {
 /** Inventory URLs that have no matching file under docs/. */
 export async function missingFromSite(urls: readonly string[], root = "."): Promise<string[]> {
   const docsRoot = resolve(root, "docs");
+  const buildTime = new Set(BUILD_TIME_MACHINE_FILES.map((file) => urlForDocsPath(file)));
   const missing: string[] = [];
   for (const url of urls) {
+    if (buildTime.has(url)) continue;
     let found = false;
     for (const candidate of docsPathsForUrl(url)) {
       try {

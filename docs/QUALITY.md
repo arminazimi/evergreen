@@ -173,7 +173,7 @@ mutation score as the ratio of mutants the tests detect.
 **Target.**
 
 - The generated command registry is current, and every command module appears in the CLI help.
-- `docs/llms-full.txt` matches the pages linked from `docs/llms.txt`.
+- `docs/llms-full.txt` is buildable from the pages linked from `docs/llms.txt` (generated at site build; not committed).
 - Reference pages, answer pages, Open Graph images, and the data API match `registry/*.json`.
 - The README coverage table names files each detector reads and commands that exist.
 - The documentation site builds with **zero broken internal links** and no accessibility errors at the level
@@ -183,7 +183,8 @@ mutation score as the ratio of mutants the tests detect.
 
 - `npm run check`: the command registry (`generate-commands-index.mjs --check`) and the docs tests.
 - `ci.yml`, Linux Node 24: `check:reference`, `check:og-images`, `check:answer-pages`, and, added here,
-  `check:llms` and `check:data-api`. Each fails on drift from its source.
+  `check:llms` and `check:data-api`. Reference, Open Graph, answer, and data-API checks fail on drift from
+  their source; `check:llms` fails when the linked pages would not produce a well-formed full text.
 - Links and accessibility: **report-only**. `ci.yml` runs Seaworthy with `--fail-on none`, and `docs-doctor.yml`
   sets `level: none`. This change does not turn them into gates, because it did not run the Seaworthy findings to
   a clean state locally. The condition is in the next paragraph.

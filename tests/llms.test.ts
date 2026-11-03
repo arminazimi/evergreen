@@ -6,7 +6,15 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
 
-import { buildLlmsFull, indexedPages, renderLlmsFull, SITE, stripFrontMatter, stripLiquidRaw } from "../tools/build-llms-full.js";
+import {
+  buildLlmsFull,
+  indexedPages,
+  isWellFormedLlmsFull,
+  renderLlmsFull,
+  SITE,
+  stripFrontMatter,
+  stripLiquidRaw,
+} from "../tools/build-llms-full.js";
 
 const execute = promisify(execFile);
 const read = (path: string) => readFile(resolve(path), "utf8");
@@ -36,13 +44,14 @@ test("every page it links exists, is named once, and is a page of this site", as
   assert.ok(index.includes(`${SITE}llms-full.txt`), "the index points at the full file");
 });
 
-test("llms-full.txt is up to date with the pages (CI fails on drift)", async () => {
-  assert.equal(await read("docs/llms-full.txt"), await renderLlmsFull(), "run: npm run build:llms");
+test("llms-full.txt is buildable from the linked pages (CI fails when it is not)", async () => {
+  const full = await renderLlmsFull();
+  assert.ok(isWellFormedLlmsFull(full));
   await execute(process.execPath, [resolve("dist/tools/build-llms-full.js"), "--check"]);
 });
 
 test("the full file has every linked page, in order, without Jekyll front matter", async () => {
-  const full = await read("docs/llms-full.txt");
+  const full = await renderLlmsFull();
   assert.match(full, /^# Evergreen: full documentation\n\n> /);
   const sources = [...full.matchAll(/^Source: (\S+)$/gm)].map((match) => match[1]);
   assert.deepEqual(sources, indexedPages(index).map((page) => page.url));
@@ -62,14 +71,14 @@ test("front matter is removed and everything else is kept", () => {
   assert.equal(stripFrontMatter("text with --- inside\n---\nnot front matter\n"), "text with --- inside\n---\nnot front matter\n");
 });
 
-test("a link to a missing page stops the build with a clear message, and a changed page makes the check fail", async () => {
+test("a link to a missing page stops the build with a clear message, and a changed page changes the full text", async () => {
   assert.throws(() => buildLlmsFull("- [Gone](https://arminazimi.github.io/evergreen/GONE.html): x.\n", new Map()), /docs\/GONE\.md does not exist/);
 
   const root = await mkdtemp(join(tmpdir(), "evergreen-llms-"));
   try {
     await cp(resolve("docs"), join(root, "docs"), { recursive: true });
     const before = await renderLlmsFull(root);
-    assert.equal(before, await read("docs/llms-full.txt"));
+    assert.equal(before, await renderLlmsFull());
     await writeFile(join(root, "docs", "PRIVACY.md"), `${await read("docs/PRIVACY.md")}\nA new sentence.\n`);
     const after = await renderLlmsFull(root);
     assert.notEqual(after, before);

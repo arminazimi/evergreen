@@ -106,7 +106,7 @@ npm run validate:public-repos -- --json > corpus-result.json   # JSON on stdout;
 npm run record:corpus-run
 ```
 
-One command replaces the hand edits. It runs the whole corpus in verify mode and, only when that passes, writes the run into `lastFullRun` in `benchmarks/thresholds.json` (date, the current `HEAD` commit, repository and finding counts, precision, recall, and true positives, false positives, and false negatives for every detector, zero for one that reported nothing), then regenerates `docs/dashboard/data.json` (`npm run build:dashboard`), the accuracy table below (`npm run build:coverage`), and `docs/llms-full.txt`. It leaves the changes uncommitted so you can review the diff.
+One command replaces the hand edits. It runs the whole corpus in verify mode and, only when that passes, writes the run into `lastFullRun` in `benchmarks/thresholds.json` (date, the current `HEAD` commit, repository and finding counts, precision, recall, and true positives, false positives, and false negatives for every detector, zero for one that reported nothing), then regenerates `docs/dashboard/data.json` (`npm run build:dashboard`), the accuracy table below (`npm run build:coverage`), and a local `docs/llms-full.txt` preview (gitignored; Pages builds the published copy). It leaves the tracked changes uncommitted so you can review the diff.
 
 It refuses, and changes nothing, when:
 
