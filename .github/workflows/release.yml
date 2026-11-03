@@ -34,7 +34,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_repository.full_name == github.repository)
-    uses: ./.github/workflows/release-verify.yml
+    uses: ./.github/workflows/release-verify.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     with:
       dry_run: ${{ github.event_name == 'workflow_dispatch' }}
       from: ${{ inputs.from || '' }}
@@ -46,7 +46,7 @@ jobs:
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
       (github.event_name == 'workflow_dispatch' && inputs.dry_run)
-    uses: ./.github/workflows/release-build-action.yml
+    uses: ./.github/workflows/release-build-action.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     permissions:
       contents: write
     with:
@@ -57,7 +57,7 @@ jobs:
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_repository.full_name == github.repository) ||
       (github.event_name == 'workflow_dispatch' && inputs.dry_run)
-    uses: ./.github/workflows/release-build-binaries.yml
+    uses: ./.github/workflows/release-build-binaries.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     with:
       dry_run: ${{ github.event_name == 'workflow_dispatch' }}
       release_sha: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || '' }}
@@ -66,7 +66,7 @@ jobs:
     if: >-
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
       (github.event_name == 'workflow_dispatch' && (inputs.release_tag != '' || inputs.dry_run))
-    uses: ./.github/workflows/release-publish-tags.yml
+    uses: ./.github/workflows/release-publish-tags.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     permissions:
       contents: write
     with:
@@ -79,7 +79,7 @@ jobs:
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_repository.full_name == github.repository) ||
       (github.event_name == 'workflow_dispatch' && inputs.dry_run)
-    uses: ./.github/workflows/release-publish-container.yml
+    uses: ./.github/workflows/release-publish-container.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     permissions:
       contents: read
       packages: write
@@ -93,7 +93,7 @@ jobs:
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_repository.full_name == github.repository) ||
       (github.event_name == 'workflow_dispatch' && inputs.dry_run)
-    uses: ./.github/workflows/release-publish-homebrew.yml
+    uses: ./.github/workflows/release-publish-homebrew.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     secrets:
       HOMEBREW_TAP_DEPLOY_KEY: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
     with:
@@ -107,7 +107,7 @@ jobs:
       ((github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
         github.event.workflow_run.head_repository.full_name == github.repository) ||
        (github.event_name == 'workflow_dispatch' && inputs.dry_run))
-    uses: ./.github/workflows/release-publish-binaries.yml
+    uses: ./.github/workflows/release-publish-binaries.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     permissions:
       contents: write
       id-token: write
@@ -122,7 +122,7 @@ jobs:
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_repository.full_name == github.repository) ||
       (github.event_name == 'workflow_dispatch' && inputs.dry_run)
-    uses: ./.github/workflows/release-smoke.yml
+    uses: ./.github/workflows/release-smoke.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     with:
       dry_run: ${{ github.event_name == 'workflow_dispatch' }}
       release_sha: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || '' }}

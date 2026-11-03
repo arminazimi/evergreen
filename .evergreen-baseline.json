@@ -453,6 +453,11 @@
       "path": "examples/gallery/kubernetes/manifests/psp.yml"
     },
     {
+      "fingerprint": "b8f1232ae6f7864f5ae6917a56a03f8e18cd86dfa4aab0e7b1d058f1aee0fa04",
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ci.yml"
+    },
+    {
       "fingerprint": "396e4d6f05aa27d2f4e52f94563016e21388e49897e8cd6e9d3062d168cd7e58",
       "ruleId": "php.runtime.eol-7.4",
       "path": "examples/gallery/php/.php-version"
