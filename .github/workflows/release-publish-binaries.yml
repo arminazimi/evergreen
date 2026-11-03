@@ -54,9 +54,11 @@ jobs:
           merge-multiple: true
       - name: Select release and write checksums
         id: release
+        env:
+          RELEASE_SHA: ${{ inputs.release_sha }}
         run: |
           version="$(node -p "require('./package.json').version")"
-          if [ -n "${{ inputs.release_sha }}" ]; then
+          if [ -n "$RELEASE_SHA" ]; then
             git tag --points-at HEAD | grep -Fx "v$version"
           fi
           echo "tag=v$version" >> "$GITHUB_OUTPUT"

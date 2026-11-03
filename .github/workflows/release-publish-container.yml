@@ -44,9 +44,11 @@ jobs:
       - name: Select release
         id: release
         shell: bash
+        env:
+          RELEASE_SHA: ${{ inputs.release_sha }}
         run: |
           version="$(node -p "require('./package.json').version")"
-          if [ -n "${{ inputs.release_sha }}" ]; then
+          if [ -n "$RELEASE_SHA" ]; then
             git tag --points-at HEAD | grep -Fx "v$version"
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
