@@ -89,6 +89,30 @@ jobs:
             echo "docs_only=$docs_only"
           } >> "$GITHUB_STEP_SUMMARY"
 
+  # Refuses a pull request that commits a build output back into the tree. The list and the marker
+  # convention come from docs/generated-files.md. It runs on every pull request, including a
+  # documentation-only one, because that is where a stray generated file usually lands.
+  generated-files:
+    name: generated-files
+    if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # The guard diffs the change set against the base commit.
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Refuse newly committed generated files
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
+        run: node tools/check-generated-files.mjs --base "$BASE_SHA"
+
   check:
     # Two time-balanced shards per Node version cut suite wall time; shard 0 of Node 24 owns
     # the Linux-only gates. Coverage is collected once in the `coverage` job: V8's LCOV BRDA
@@ -462,7 +486,7 @@ jobs:
     name: ci-ok
     if: always()
     # Seaworthy and Lighthouse run in pages.yml against the Pages build artifact.
-    needs: [changes, check, coverage, docs, check-cross-os, self-scan, perf-budget, coverage-badge]
+    needs: [changes, generated-files, check, coverage, docs, check-cross-os, self-scan, perf-budget, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
