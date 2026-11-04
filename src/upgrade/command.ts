@@ -33,17 +33,16 @@ export async function upgradeCheck(args: string[]): Promise<number> {
   let json = false;
   let targetText: string | undefined;
   let path: string | undefined;
-  for (let index = 0; index < args.length; index += 1) {
-    const argument = args[index]!;
+  const pending = [...args];
+  for (let argument = pending.shift(); argument !== undefined; argument = pending.shift()) {
     if (argument === "--json") {
       json = true;
       continue;
     }
     if (argument === "--to") {
-      const value = args[index + 1];
+      const value = pending.shift();
       if (value === undefined || value.startsWith("-")) return usage();
       targetText = value;
-      index += 1;
       continue;
     }
     if (argument.startsWith("-")) return usage();

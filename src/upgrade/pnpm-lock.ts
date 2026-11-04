@@ -135,8 +135,7 @@ function snapshotGraph(root: unknown): Map<string, string[]> {
 function reachable(roots: Set<string>, graph: Map<string, string[]>): Set<string> {
   const seen = new Set<string>();
   const queue = [...roots];
-  while (queue.length > 0) {
-    const key = queue.pop()!;
+  for (let key = queue.pop(); key !== undefined; key = queue.pop()) {
     if (seen.has(key)) continue;
     seen.add(key);
     for (const dependency of graph.get(key) ?? []) queue.push(dependency);
@@ -163,7 +162,9 @@ function lineLookup(text: string): (offset: number) => number {
     let high = starts.length - 1;
     while (low < high) {
       const middle = Math.ceil((low + high) / 2);
-      if (starts[middle]! <= offset) low = middle;
+      const start = starts[middle];
+      if (start === undefined) break;
+      if (start <= offset) low = middle;
       else high = middle - 1;
     }
     return low + 1;

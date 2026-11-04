@@ -54,9 +54,10 @@ export function parseVendorModules(contents: string): VendoredModule[] {
   let current: VendoredModule | undefined;
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
     const text = rawLine.trim();
-    const header = /^# (\S+) (\S+)$/.exec(text);
+    const header = /^# \S+ \S+$/.test(text);
     if (header) {
-      current = { module: header[1]!, version: header[2]! };
+      const separator = text.indexOf(" ", 2);
+      current = { module: text.slice(2, separator), version: text.slice(separator + 1) };
       modules.push(current);
       continue;
     }
@@ -84,6 +85,15 @@ async function readOptional(path: string): Promise<string | undefined> {
   } catch {
     return undefined;
   }
+}
+
+/** The module's `go` annotation when the target is below it, undefined otherwise. */
+function goRequirementBelowTarget(module: VendoredModule, targetVersion: string): VendoredModule["go"] {
+  const go = module.go;
+  if (go === undefined) return undefined;
+  const minimum = normalizeGoVersion(go.value);
+  if (minimum === undefined) return undefined;
+  return compareGoVersions(targetVersion, minimum) < 0 ? go : undefined;
 }
 
 async function goRuntimeRules(): Promise<RegistryV2Rule[]> {
@@ -154,17 +164,16 @@ export class GoModulesAnalyzer implements UpgradeAnalyzer {
     const modulesText = await readOptional(join(root, VENDOR_MODULES));
     const vendored = modulesText === undefined ? [] : parseVendorModules(modulesText);
     for (const module of vendored) {
-      if (module.go === undefined) continue;
-      const minimum = normalizeGoVersion(module.go.value)!;
-      if (compareGoVersions(targetVersion, minimum) >= 0) continue;
+      const go = goRequirementBelowTarget(module, targetVersion);
+      if (go === undefined) continue;
       issues.push({
         analyzer: ANALYZER_ID,
         level: "blocker",
         subject: `${module.module}@${module.version}`,
         path: VENDOR_MODULES,
-        line: module.go.line,
-        reason: `The target Go ${target.version} is below Go ${module.go.value}, which ${module.module}@${module.version} declares in ${VENDOR_MODULES}.`,
-        evidence: { kind: "lockfile", value: module.go.text },
+        line: go.line,
+        reason: `The target Go ${target.version} is below Go ${go.value}, which ${module.module}@${module.version} declares in ${VENDOR_MODULES}.`,
+        evidence: { kind: "lockfile", value: go.text },
       });
     }
     if (vendored.every((module) => module.go === undefined)) {

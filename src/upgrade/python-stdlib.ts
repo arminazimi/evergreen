@@ -48,13 +48,14 @@ export const pythonStdlibAnalyzer: UpgradeAnalyzer = {
 
     const analyses = await analyzeSourceUsage(
       root,
-      matching.map((rule) => ({ id: rule.id, matchers: rule.usage! })),
+      matching.flatMap((rule) => (rule.usage === undefined ? [] : [{ id: rule.id, matchers: rule.usage }])),
     );
     const byRule = new Map(matching.map((rule) => [rule.id, rule]));
     const issues: UpgradeIssue[] = [];
     for (const analysis of analyses) {
-      const rule = byRule.get(analysis.contractId)!;
-      const level = levelFor(rule)!;
+      const rule = byRule.get(analysis.contractId);
+      if (rule === undefined) continue;
+      const level: UpgradeIssue["level"] = rule.event === "removed" ? "blocker" : "warning";
       for (const usage of analysis.usages) {
         issues.push({
           analyzer: ID,

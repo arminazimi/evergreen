@@ -156,7 +156,7 @@ function parseTerm(term: string): Predicate | undefined {
   const match = /^(>=|<=|!=|<>|==|=|>|<)?(.+)$/.exec(term);
   if (match === null) return undefined;
   const operator = match[1] ?? "";
-  const versionText = match[2]!;
+  const versionText = match[0].slice(operator.length);
   if (operator === "" && (versionText === "*" || versionText.toLowerCase() === "x")) return () => true;
   if (operator === "" && versionText.startsWith("^")) return caret(versionText.slice(1));
   if (operator === "" && versionText.startsWith("~")) return tilde(versionText.slice(1));

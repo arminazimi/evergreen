@@ -83,8 +83,8 @@ function releaseHasPrefix(release: readonly number[], prefix: readonly number[])
 
 function incrementLast(release: readonly number[]): number[] {
   const copy = release.length === 0 ? [0] : [...release];
-  copy[copy.length - 1] = copy[copy.length - 1]! + 1;
-  return copy;
+  const last = copy.length - 1;
+  return copy.map((value, index) => (index === last ? value + 1 : value));
 }
 
 /** The first non-zero segment is the one Poetry's caret bumps; all-zero releases bump the last segment. */
@@ -92,8 +92,8 @@ function caretUpper(release: readonly number[]): number[] {
   const index = release.findIndex((segment) => segment !== 0);
   if (index === -1) return incrementLast(release);
   const upper = release.slice(0, index + 1);
-  upper[upper.length - 1] = upper[upper.length - 1]! + 1;
-  return upper;
+  const last = upper.length - 1;
+  return upper.map((value, position) => (position === last ? value + 1 : value));
 }
 
 /** Poetry's tilde allows patch updates for three or more segments, and minor updates for fewer. */

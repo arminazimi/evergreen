@@ -1070,7 +1070,7 @@
     {
       "file": "src/upgrade/go-modules.ts",
       "function": "GoModulesAnalyzer.analyze",
-      "lines": 91,
+      "lines": 90,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -2502,14 +2502,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/upgrade/go-modules.ts",
-      "function": "GoModulesAnalyzer.analyze",
-      "complexity": 16,
-      "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/upgrade/pep440.ts",
       "function": "parseClause",
       "complexity": 26,
@@ -3456,55 +3448,6 @@
     {
       "file": "src/tui.ts",
       "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/upgrade/command.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/upgrade/composer-lock.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/upgrade/go-modules.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/upgrade/node-apis.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/upgrade/pep440.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/upgrade/pnpm-lock.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/upgrade/python-stdlib.ts",
-      "count": 3,
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
