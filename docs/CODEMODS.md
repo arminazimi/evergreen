@@ -18,7 +18,13 @@ Rules `container.dockerfile.maintainer` and `container.dockerfile.legacy-env-for
 
 The fixer leaves an instruction alone and reports why when the value contains a double quote or a backslash, when the instruction continues on another line, when the value contains a heredoc, and when the instruction sits inside an `ONBUILD` trigger. An `ENV key=value` assignment is already in the supported form and is not reported.
 
-A worked example lives in [`examples/codemods/dockerfile-legacy`](../examples/codemods/dockerfile-legacy).
+A worked example lives in [`examples/codemods/dockerfile-legacy`](../examples/codemods/dockerfile-legacy). Its before and after files are committed as `before.image.fixture` and `after.image.fixture` (decision 0027), so a scanner never reads them as a `Dockerfile`. The command below copies the directory to a temporary one, restores the real names there, and prints the patches:
+
+```bash
+npm run build
+node dist/tools/examples.js codemods/dockerfile-legacy fix
+```
+
 `evergreen fix` repairs some deprecations exactly, at the lines a scan reports, and prints unified diffs that `git apply` accepts. Nothing is written unless you pass `--branch`, and no codemod uses the network or runs the scanned repository's code. A codemod rewrites a finding only when the replacement behaves identically for every input the matched shape accepts; anything else is left unchanged and listed as a refusal in `fix --json`.
 ## node-renames
 Rewrites the Node.js deprecations that are pure renames: the old name calls the same implementation. Only the member name changes; the receiver expression and the arguments are kept byte-for-byte.

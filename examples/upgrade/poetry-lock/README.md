@@ -3,7 +3,7 @@
 This lockfile has one main-group package that excludes Python 3.13:
 
 ```bash
-evergreen upgrade-check --to python@3.13 examples/upgrade/poetry-lock
+node dist/tools/examples.js upgrade/poetry-lock upgrade-check --to python@3.13
 ```
 
 ```text

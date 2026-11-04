@@ -3,7 +3,7 @@
 `acme/http-client` is locked at `2.1.0`, and its `require.php` constraint is `^7.4`. The project itself only requires `^8.1`.
 
 ```bash
-evergreen upgrade-check --to php@8.4 examples/upgrade/composer-lock
+node dist/tools/examples.js upgrade/composer-lock upgrade-check --to php@8.4
 ```
 
 ```text

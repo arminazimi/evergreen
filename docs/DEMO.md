@@ -31,6 +31,8 @@ For an agent-driven version of the same flow, start `evergreen-mcp` and use `sca
 
 `examples/gallery` holds one minimal repository per detector, each with the exact findings a scan must return in `expected.json`. They exist to show each detector working in thirty seconds; they are deliberately outdated, so do not copy them into a real project.
 
+Files a dependency scanner reads by name are committed under the neutral names from [decision 0027](https://github.com/arminazimi/evergreen/blob/main/docs/decisions/0027-fixtures-invisible-to-scanners.md), such as `Gemfile.lock.fixture`, so an example never appears as the repository's own dependency. The command below copies an example to a temporary directory, restores the real names there, and runs Evergreen inside it; nothing is written to the repository.
+
 | Ecosystem | Directory | What it declares |
 |---|---|---|
 | Android | `examples/gallery/android` | Play Billing 5 in a Groovy and a Kotlin build script |
@@ -61,7 +63,20 @@ For an agent-driven version of the same flow, start `evergreen-mcp` and use `sca
 Scan any example the same way as the demo:
 
 ```bash
-node dist/src/cli.js scan examples/gallery/kubernetes
+npm run build
+node dist/tools/examples.js gallery/kubernetes scan
+```
+
+Use `npm run --silent example -- <example> <command>` for the same thing. With no command the tool prints the temporary directory and leaves it in place:
+
+```bash
+node dist/tools/examples.js gallery/php
+```
+
+Any other command accepts a whole example directory the same way:
+
+```bash
+node dist/tools/examples.js gallery countdown --as-of 2026-10-25
 ```
 
 The gallery is part of `npm run check`. To run only its test:

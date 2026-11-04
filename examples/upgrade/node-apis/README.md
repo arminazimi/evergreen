@@ -3,7 +3,7 @@
 This project can move to Node.js 22 but not to Node.js 24: `app.js` calls `util.isString`, which Node.js 23 removed, and `util.isArray`, which is deprecated.
 
 ```bash
-npx evergreen-deprecation upgrade-check --to nodejs@24 examples/upgrade/node-apis
+node dist/tools/examples.js upgrade/node-apis upgrade-check --to nodejs@24
 ```
 
 ```text

@@ -9,19 +9,19 @@ Short, copy-pasteable ways to show what Evergreen found. Every command runs loca
 ## Live countdown
 
 ```bash
-npx evergreen-deprecation countdown examples/gallery --as-of 2026-10-25
+npm run --silent example -- gallery countdown --as-of 2026-10-25
 ```
 
 Prints one row per dated deadline that affects the project: the subject, a bar scaled to the remaining time in a two-year window, and the time left until 00:00 UTC on the deadline. Bars are green over 180 days, yellow from 30 to 180, red under 30, and dim once the date has passed. Rows are sorted by deadline, and `--limit` keeps the soonest ten by default.
 
 On a terminal the frame redraws once per second for six seconds and stops on the final frame. `--once` prints one frame, `--no-animation` keeps one static frame, and piping the output prints one plain frame. `--json` prints the same rows with `subject`, `deadline`, `remainingSeconds`, `ruleId`, and `location`, so a script can chart or gate on them.
 
-The example uses `examples/gallery`, which has upcoming deadlines across container, runtime, and package rules. `docs/demos/countdown.tape` records the animation with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/countdown.tape`.
+The example uses `examples/gallery`, which has upcoming deadlines across container, runtime, and package rules. The gallery is committed with scanner-neutral names, so the command copies it to a temporary directory and restores the real names before scanning. `docs/demos/countdown.tape` records the animation with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/countdown.tape`.
 
 ## Glance card
 
 ```bash
-npx evergreen-deprecation glance examples/gallery --as-of 2026-10-25
+npm run --silent example -- gallery glance --as-of 2026-10-25
 ```
 
 Prints a one-screen summary of the repository's lifecycle state, laid out like `neofetch`: the Evergreen mark on the left in the brand green, the facts on the right. The facts are the repository name, every detected ecosystem with its maturity level, findings by severity as colored blocks, the next deadline, the oldest ended item, and the lifecycle data version and age. The counts are the ones `scan --json` reports for the same path.

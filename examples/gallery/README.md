@@ -9,3 +9,5 @@ Every example is scanned by `tests/examples-gallery.test.ts`, so a rule or detec
 - Examples are deliberately outdated. Do not copy them into a real project.
 
 The [90-second demo](../../docs/DEMO.md#example-gallery) explains how to scan one and lists what each example shows.
+
+Files a dependency scanner reads by name are committed under the neutral names from [decision 0027](../../docs/decisions/0027-fixtures-invisible-to-scanners.md), such as `Gemfile.lock.fixture` and `image.fixture` for a `Dockerfile`. `node dist/tools/examples.js gallery/<ecosystem> <command>` copies an example to a temporary directory, restores the real names, and runs the command there. The test uses the same copy, so `expected.json` paths are the real names.

@@ -3,7 +3,7 @@
 This repository's `uv.lock` has a `twisted` fork that resolves only below Python 3.13, and its `pdm.lock` has a dev-group `black` that excludes it:
 
 ```bash
-evergreen upgrade-check --to python@3.13 examples/upgrade/uv-pdm-lock
+node dist/tools/examples.js upgrade/uv-pdm-lock upgrade-check --to python@3.13
 ```
 
 ```text

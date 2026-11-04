@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { access } from "node:fs/promises";
-import { readdir, readFile } from "node:fs/promises";
+import { access, readdir, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
-import { test } from "node:test";
+import { after, test } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
 interface ExpectedFinding {
   ruleId: string;
@@ -19,6 +19,7 @@ interface Expected {
 }
 
 const root = "examples/gallery";
+const roots: string[] = [];
 
 const ECOSYSTEMS = [
   "android",
@@ -59,6 +60,10 @@ const observed = async (directory: string): Promise<ExpectedFinding[]> => {
     .sort(order);
 };
 
+after(async () => {
+  await Promise.all(roots.map((directory) => rm(directory, { recursive: true, force: true })));
+});
+
 test("every gallery example produces exactly its expected findings", async () => {
   const directories = (await readdir(root, { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())
@@ -66,8 +71,10 @@ test("every gallery example produces exactly its expected findings", async () =>
     .sort();
   assert.deepEqual(directories, ECOSYSTEMS, "one example directory per supported ecosystem");
 
+  const gallery = await copyFixtureTree(root, roots);
+
   for (const ecosystem of ECOSYSTEMS) {
-    const directory = join(root, ecosystem);
+    const directory = join(gallery, ecosystem);
     const expected = JSON.parse(await readFile(join(directory, "expected.json"), "utf8")) as Expected;
     assert.equal(expected.ecosystem, ecosystem);
     assert.ok(expected.findings.length > 0, `${ecosystem} declares at least one finding`);

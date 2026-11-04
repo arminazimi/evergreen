@@ -11,6 +11,6 @@ Set Theme "Catppuccin Mocha"
 Set TypingSpeed 35ms
 Set Prompt "❯ "
 
-Type "npx evergreen-deprecation countdown examples/gallery --as-of 2026-10-25"
+Type "npm run --silent example -- gallery countdown --as-of 2026-10-25"
 Enter
 Sleep 8s

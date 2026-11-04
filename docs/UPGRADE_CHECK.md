@@ -33,6 +33,8 @@ An analyzer only runs when the repository has the files it reads. Each issue nam
 
 An `unknown` verdict means Evergreen found no evidence for that runtime in this repository. It is not a statement that the upgrade is safe.
 
+The worked commands below read the examples under `examples/upgrade/`. Their manifests and lockfiles are committed with scanner-neutral names ([decision 0027](decisions/0027-fixtures-invisible-to-scanners.md)), so `dist/tools/examples.js` copies an example to a temporary directory, restores the real names there, and runs the command inside it. Run `npm run build` first; nothing is written to the repository.
+
 ## Composer
 
 The Composer analyzer (`composer-lock`) runs for `php` targets when `composer.lock` exists.
@@ -117,7 +119,7 @@ Version syntax: a constraint is `any` or one or more space-joined terms, each `^
 The parsers are the ones the Dart detector uses: `src/detectors/dart/parse-pubspec-lock.ts` and `parse-pubspec.ts`.
 
 ```bash
-evergreen upgrade-check --to dart@3.5 examples/upgrade/dart-sdk
+node dist/tools/examples.js upgrade/dart-sdk upgrade-check --to dart@3.5
 ```
 
 ```text
@@ -137,7 +139,7 @@ Runtime: `nodejs`. Applies when `package-lock.json` or `npm-shrinkwrap.json` exi
 - Deduplication: identical name, version, and range across nested paths keep the first path.
 
 ```bash
-evergreen upgrade-check --to nodejs@22 examples/upgrade/npm-lock
+node dist/tools/examples.js upgrade/npm-lock upgrade-check --to nodejs@22
 ```
 
 ```text
