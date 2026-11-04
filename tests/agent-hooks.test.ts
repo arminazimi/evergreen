@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { HOOK_TIMEOUT_MS, hookResponse, parseHookArguments } from "../src/agent-hooks/command.js";
+import { HOOK_TIMEOUT_MS, findingsAtGate, hookResponse, parseHookArguments } from "../src/agent-hooks/command.js";
 import { failOpen, findingsForEdit } from "../src/agent-hooks/index.js";
 import type { HostAdapter } from "../src/agent-hooks/types.js";
 import type { Finding, Severity } from "../src/domain.js";
@@ -85,11 +85,15 @@ test("arguments parse the host and the gate, and reject an unknown severity", ()
   assert.deepEqual(parseHookArguments(["a", "b"]), undefined);
 });
 
-test("a missing token is a fail-open, never a thrown parse", () => {
+test("a --fail-on with no value, or no host, fails open through the hook and never throws", async () => {
   assert.deepEqual(parseHookArguments(["fake", "--fail-on"]), undefined);
-  const withHole: string[] = ["fake"];
-  withHole.length = 3;
-  assert.deepEqual(parseHookArguments(withHole), { host: "fake", gate: "medium" });
+  assert.deepEqual(await run(["fake", "--fail-on"]), failOpen);
+  assert.deepEqual(await run(["--fail-on", "low"]), failOpen);
+  assert.deepEqual(await run([]), failOpen);
+});
+
+test("a none gate keeps no findings for any edit", () => {
+  assert.deepEqual(findingsAtGate(findings, "none", editPayload), []);
 });
 
 test("an unknown host fails open", async () => {

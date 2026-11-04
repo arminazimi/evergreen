@@ -112,6 +112,12 @@ test("no findings is a silent success", () => {
   assert.deepEqual(claudeCodeAdapter.respond([]), { stdout: "", stderr: "", exitCode: 0 });
 });
 
+test("a finding without a line names the file alone, with no trailing colon", () => {
+  const bare = { ...finding("rule.bare:Dockerfile"), location: { path: "Dockerfile" } };
+  const response = claudeCodeFeedback([bare]);
+  assert.match(response.stderr, /\[high\] Rule rule\.bare:Dockerfile — Dockerfile\n/);
+});
+
 test("feedback stays within the line cap, says how many more, and omits a missing replacement", () => {
   const many = Array.from({ length: 30 }, (_, index) => {
     const { replacement: _replacement, ...bare } = finding(`rule-${index}:Dockerfile:${index + 1}`);
