@@ -1,3 +1,5 @@
+import { required } from "../../required.js";
+
 /**
  * A small, bounded XML reader for MSBuild files. It keeps the 1-based line of every element and attribute,
  * skips comments, processing instructions, and DOCTYPE, treats CDATA as text, and returns `undefined` for
@@ -33,7 +35,7 @@ const predefinedEntities = { lt: "<", gt: ">", amp: "&", quot: '"', apos: "'" };
 
 /** The text of a capture group the patterns above always fill. */
 function groupText(match: RegExpExecArray, index: number): string {
-  return match[index] ?? "";
+  return required(match[index], "matched group");
 }
 
 /** The length of the leading-whitespace run at `start` inside the same 4096-character window the scan uses. */
