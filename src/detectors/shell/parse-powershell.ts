@@ -7,6 +7,9 @@
  * a lexical reader, not a PowerShell syntax validator. No module lifecycle
  * claim is inferred from a version declaration.
  */
+
+import { required } from "../../required.js";
+
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 
@@ -34,7 +37,7 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
   let continuedLine = 0;
   let i = 0;
   while (i < source.length) {
-    const c = source[i]!;
+    const c = source.charAt(i);
     if (c === "\n") {
       line++;
       i++;
@@ -65,16 +68,16 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
     if (c === "#") {
       const end = source.indexOf("\n", i);
       const text = source.slice(i, end < 0 ? source.length : end);
-      const whole = lines[line - 1]!;
+      const whole = required(lines[line - 1], "the current line");
       const match = /^\s*#requires\s+-version\s+(\d+\.\d+(?:\.\d+){0,2})\s*$/i.exec(whole);
       if (line !== continuedLine && whole.length <= MAXIMUM_LINE_LENGTH && match && whole.trimStart() === text) {
-        directives.push({ kind: "powershell-version", value: match[1]!, line });
+        directives.push({ kind: "powershell-version", value: required(match[1], "#Requires version"), line });
       }
       i = end < 0 ? source.length : end;
       continue;
     }
     if (c === "@" && (source[i + 1] === "'" || source[i + 1] === '"') && source[i + 2] === "\n") {
-      const close = source[i + 1]! + "@";
+      const close = source.charAt(i + 1) + "@";
       const startLine = line;
       i += 3;
       line++;
@@ -99,7 +102,7 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
       let closed = false;
       i++;
       while (i < source.length) {
-        const next = source[i]!;
+        const next = source.charAt(i);
         if (next === c) {
           if (source[i + 1] === c) {
             text += c;
@@ -157,18 +160,18 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
   if (tokens[0]?.text !== "@" || tokens[1]?.text !== "{" || tokens.at(-1)?.text !== "}") return results;
   let depth = 0;
   for (let n = 1; n < tokens.length; n++) {
-    const token = tokens[n]!;
+    const token = required(tokens[n], "the manifest token");
     if (!token.string && "([{".includes(token.text)) depth++;
     if (!token.string && ")]}".includes(token.text)) depth--;
     if (depth === 0 && n !== tokens.length - 1) return directives;
     if (depth !== 1 || token.text.toLowerCase() !== "powershellversion") continue;
-    const previous = tokens[n - 1]!;
+    const previous = required(tokens[n - 1], "the token before the key");
     if (previous.line === token.line && previous.text !== "{" && previous.text !== ";") continue;
     const value = tokens[n + 2];
     const after = tokens[n + 3];
     if (tokens[n + 1]?.text !== "=" || !value?.string || !VERSION.test(value.text)) continue;
     if (after && after.line === value.line && after.text !== ";" && after.text !== "}") continue;
-    if (lines[value.line - 1]!.length > MAXIMUM_LINE_LENGTH) continue;
+    if (required(lines[value.line - 1], "the value line").length > MAXIMUM_LINE_LENGTH) continue;
     results.push({ kind: "powershell-version", value: value.text, line: value.line });
   }
   return results.sort((a, b) => a.line - b.line);

@@ -2248,48 +2248,6 @@
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
     },
     {
-      "file": "src/detectors/shell/parse-powershell.ts",
-      "count": 8,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-package-swift.ts",
-      "count": 5,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-xcode-project.ts",
-      "count": 8,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/hcl.ts",
-      "count": 9,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/index.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/kubernetes.ts",
-      "count": 5,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
       "file": "src/detectors/terraform/parse-terraform.ts",
       "count": 15,
       "owner": "#2223",

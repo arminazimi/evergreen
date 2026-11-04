@@ -6,9 +6,14 @@
  * only for literal strings that contain no escape or interpolation.
  */
 
+import { required } from "../../required.js";
+
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 export const MAXIMUM_DECLARATIONS = 5000;
+
+/** A heredoc opener, read with `matchAll` so the marker needs no assertion. */
+const HEREDOC = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/g;
 
 export interface HclSource {
   /** The original text, with overlong lines blanked. */
@@ -39,7 +44,7 @@ function maskHcl(source: string): string | undefined {
   const chunks: string[] = [];
   let index = 0;
   while (index < source.length) {
-    const character = source[index]!;
+    const character = source.charAt(index);
     if (source.startsWith("/*", index)) {
       const end = source.indexOf("*/", index + 2);
       if (end < 0) return undefined;
@@ -51,9 +56,9 @@ function maskHcl(source: string): string | undefined {
       chunks.push(blank(source.slice(index, stop)));
       index = stop;
     } else if (source.startsWith("<<", index) && /^<<-?[A-Za-z_]/.test(source.slice(index, index + 4))) {
-      const marker = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/.exec(source.slice(index))![1]!;
-      const rest = source.slice(index);
-      const closer = new RegExp(`\\n[\\t ]*${marker}[\\t ]*(?:\\r?\\n|$)`).exec(rest);
+      const opener = required(source.slice(index).matchAll(HEREDOC).next().value, "heredoc opener");
+      const marker = required(opener[1], "heredoc marker");
+      const closer = new RegExp(`\\n[\\t ]*${marker}[\\t ]*(?:\\r?\\n|$)`).exec(source.slice(index));
       if (!closer) return undefined;
       const end = index + closer.index + closer[0].length;
       chunks.push(blank(source.slice(index, end)));
@@ -110,7 +115,7 @@ export function closingBrace(masked: string, openBrace: number): number | undefi
 /** True when only whitespace, or the `{` that opens the span, precedes `index` on its line. */
 function atLineStart(masked: string, index: number, start: number): boolean {
   for (let position = index - 1; position >= start; position--) {
-    const character = masked[position]!;
+    const character = masked.charAt(position);
     if (character === "\n" || character === "{") return true;
     if (character !== " " && character !== "\t") return false;
   }
@@ -128,7 +133,7 @@ function directChildren<T>(
   let depth = 0;
   let index = start;
   while (index < end) {
-    const character = masked[index]!;
+    const character = masked.charAt(index);
     if (character === "{" || character === "[" || character === "(") {
       depth++;
     } else if (character === "}" || character === "]" || character === ")") {
@@ -159,7 +164,7 @@ export function directBlocks(hcl: HclSource, start: number, end: number): HclBlo
     if (openBrace >= end) return undefined;
     const close = closingBrace(hcl.masked, openBrace);
     if (close === undefined || close > end) return undefined;
-    const name = match[1]!;
+    const name = required(match[1], "block name");
     const header = hcl.source.slice(index + name.length, openBrace);
     return { value: { name, header, bodyStart: openBrace + 1, bodyEnd: close }, next: close + 1 };
   });
@@ -190,7 +195,7 @@ export function stringAttributes(
     const value = hcl.source.slice(open + 1, close);
     if (value === "" || /[\\$%]\{|\\/.test(value) || value !== value.trim()) return undefined;
     return {
-      value: { name: match[1]!, value, line: lineAt(hcl.source, open + 1) },
+      value: { name: required(match[1], "attribute name"), value, line: lineAt(hcl.source, open + 1) },
       next: close + 1,
     };
   });
@@ -230,7 +235,7 @@ export function attributeValues(hcl: HclSource, start: number, end: number): Hcl
         const literal = value !== "" && value === value.trim() && !/[\\$%]\{/.test(value) && !value.includes("\\");
         return {
           value: {
-            name: match[1]!,
+            name: required(match[1], "attribute name"),
             value: literal ? value : hcl.source.slice(open, close + 1),
             literal,
             line: lineAt(hcl.source, open + 1),
@@ -241,7 +246,12 @@ export function attributeValues(hcl: HclSource, start: number, end: number): Hcl
       return undefined;
     }
     return {
-      value: { name: match[1]!, value: masked, literal: false, line: lineAt(hcl.source, equals + 1) },
+      value: {
+        name: required(match[1], "attribute name"),
+        value: masked,
+        literal: false,
+        line: lineAt(hcl.source, equals + 1),
+      },
       next: equals + 1,
     };
   });

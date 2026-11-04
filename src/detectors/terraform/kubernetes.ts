@@ -1,3 +1,4 @@
+import { required } from "../../required.js";
 import { attributeValues, directBlocks, MAXIMUM_DECLARATIONS, prepareHcl } from "./hcl.js";
 
 /**
@@ -66,8 +67,8 @@ const VERSION_ATTRIBUTES = new Set(["cluster_version", "kubernetes_version", "mi
  * matter. A git, HTTP, or local path returns its own prefix and matches no known module.
  */
 function moduleAddress(source: string): string {
-  const withoutQuery = source.split("?")[0]!;
-  const withoutSubmodule = withoutQuery.split("//")[0]!;
+  const withoutQuery = source.split("?", 1).join();
+  const withoutSubmodule = withoutQuery.split("//", 1).join();
   return withoutSubmodule.replace(/^registry\.terraform\.io\//i, "").toLowerCase();
 }
 
@@ -100,13 +101,13 @@ export function parseManagedKubernetes(contents: string): ManagedKubernetesDecla
     if (block.name === "resource") {
       const labels = /^\s*"([^"\n]+)"\s*"([^"\n]+)"\s*$/.exec(block.header);
       if (!labels) continue;
-      blockType = labels[1]!;
-      name = labels[2]!;
+      blockType = required(labels[1], "resource type");
+      name = required(labels[2], "resource name");
     } else if (block.name === "module") {
       const labels = /^\s*"([^"\n]+)"\s*$/.exec(block.header);
       if (!labels) continue;
       blockType = "module";
-      name = labels[1]!;
+      name = required(labels[1], "module name");
     } else {
       continue;
     }

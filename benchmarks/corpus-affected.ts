@@ -172,7 +172,20 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
     },
     {
       pattern: /^src\/required\.ts$/,
-      ecosystems: ["android", "ci-images", "container", "cpp", "dotnet", "go", "java", "node", "python"],
+      ecosystems: [
+        "android",
+        "ci-images",
+        "container",
+        "cpp",
+        "dotnet",
+        "go",
+        "java",
+        "node",
+        "python",
+        "shell",
+        "swift",
+        "terraform",
+      ],
       reason: "checked lookups in parsers",
     },
     {
