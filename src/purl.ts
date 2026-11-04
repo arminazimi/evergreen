@@ -19,23 +19,6 @@ export class PurlError extends Error {
   }
 }
 
-/** PURL types Evergreen normalizes. Other types are accepted and kept as written. */
-export const supportedPurlTypes = [
-  "npm",
-  "pypi",
-  "golang",
-  "cargo",
-  "maven",
-  "nuget",
-  "gem",
-  "composer",
-  "pub",
-  "swift",
-  "docker",
-  "github",
-  "generic",
-] as const;
-
 const TYPE_PATTERN = /^[a-z][a-z0-9.+-]*$/;
 
 function decode(segment: string): string {

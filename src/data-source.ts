@@ -319,11 +319,6 @@ export function configureActiveData(options: DataSourceOptions = {}): void {
   active = undefined;
 }
 
-/** Forgets the resolved data so the next read resolves again (tests, and after `data update`). */
-export function resetActiveData(): void {
-  active = undefined;
-}
-
 /** Reads one data file such as `registry/npm.json` from the active data. */
 export async function loadDataFile(path: string): Promise<unknown> {
   return (await getActiveData()).read(path);

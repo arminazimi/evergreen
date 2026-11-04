@@ -10,7 +10,7 @@ import { terraformCollector } from "./terraform.js";
 import { phpDriftCollector } from "./php.js";
 import { elixirDriftCollector, erlangDriftCollector } from "./elixir.js";
 
-export type { DriftCollector, DriftReport, RuntimeDrift, RuntimePin } from "./types.js";
+export type { DriftCollector, DriftReport, RuntimePin } from "./types.js";
 
 /** Every built-in collector, one per runtime. Each task in the drift epic appends its own entry. */
 export const driftCollectors: DriftCollector[] = [

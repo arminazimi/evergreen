@@ -1,11 +1,9 @@
 import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
-import { BindingBudget, maximumImportBindings, type ImportBinding } from "./binding-budget.js";
+import { BindingBudget, type ImportBinding } from "./binding-budget.js";
 import { positionalKey, symbolUsages, type SymbolOccurrence } from "./symbols.js";
 import { lineLocator, loadQuery, parseSource } from "./tree-sitter.js";
-
-export { maximumImportBindings };
 
 export interface PythonSourceFile {
   /** Repository-relative POSIX path, reported in every usage location. */

@@ -1,10 +1,9 @@
-export type { ScanCoverage } from "./domain.js";
 export { renderForecastMermaid, renderScanMermaid } from "./mermaid.js";
 
 export { CHAT_MAX_FINDINGS, renderSlack, renderTeams } from "./reporters/chat.js";
 export { COMPACT_MAX_BYTES, COMPACT_MAX_FINDINGS, COMPACT_MAX_LINE, renderCompact } from "./reporters/compact.js";
 export { renderCodeQuality } from "./reporters/codequality.js";
-export { escapeHtml, renderHtml, type HtmlOptions } from "./reporters/html.js";
+export { renderHtml } from "./reporters/html.js";
 export { renderJson } from "./reporters/json.js";
 export { renderJunit } from "./reporters/junit.js";
 export { renderMarkdown } from "./reporters/markdown.js";
@@ -13,13 +12,11 @@ export { renderSarif } from "./reporters/sarif.js";
 export { describeData } from "./reporters/shared.js";
 export {
   deriveScanCoverage,
-  EMPTY_SCAN_PATH_LIST_LIMIT,
   renderCheckText,
   renderEmptyScanHelp,
   renderFindingText,
   renderFirstRunSummary,
   renderMigrationPacketText,
   renderText,
-  type TextOptions,
 } from "./reporters/text.js";
-export { renderWebhook, WEBHOOK_SCHEMA_VERSION } from "./reporters/webhook.js";
+export { renderWebhook } from "./reporters/webhook.js";

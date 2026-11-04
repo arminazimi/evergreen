@@ -21,16 +21,7 @@ import { dirname, join } from "node:path";
 
 import fc from "fast-check";
 
-import {
-  detectorParsers,
-  documentParsers,
-  parsers,
-  sourceParsers,
-  type DetectorParserEntry,
-  type DocumentParserEntry,
-  type ParserEntry,
-  type SourceParserEntry,
-} from "../fuzz/parsers.js";
+import { detectorParsers, documentParsers, parsers, sourceParsers, type ParserEntry } from "../fuzz/parsers.js";
 
 /** Iterations per property. The nightly fuzz job raises this like `tests/fuzz/parsers.test.ts`. */
 export const RUNS = readPositiveInteger("EVERGREEN_FUZZ_RUNS", 40);
@@ -381,7 +372,7 @@ export function registeredParserNames(): string[] {
 }
 
 export { detectorParsers, documentParsers, parsers, sourceParsers };
-export type { DetectorParserEntry, DocumentParserEntry, ParserEntry, SourceParserEntry };
+export type { ParserEntry };
 
 function readPositiveInteger(name: string, fallback: number): number {
   const raw = process.env[name];

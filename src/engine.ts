@@ -640,11 +640,6 @@ export async function scanRepository(
   };
 }
 
-export interface ProjectScan {
-  path: string;
-  result: ScanResult;
-}
-
 export interface MultiScanResult {
   schemaVersion: "evergreen.multi-scan.v1";
   projects: Array<{ path: string; findings: number; result: ScanResult }>;

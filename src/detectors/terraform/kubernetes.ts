@@ -26,8 +26,6 @@ import { attributeValues, directBlocks, MAXIMUM_DECLARATIONS, prepareHcl } from 
  * return nothing. The parser never evaluates HCL and never runs Terraform.
  */
 
-export { MAXIMUM_INPUT_BYTES } from "./hcl.js";
-
 /** The managed Kubernetes products the rules are written for. */
 export type ManagedKubernetesProduct = "amazon-eks" | "google-kubernetes-engine" | "azure-kubernetes-service";
 

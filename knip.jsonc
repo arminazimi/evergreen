@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  // package.json already names the CLI, MCP, and LSP binaries and the library exports, so knip reads
+  // those as entry points. The Action bundle has no manifest entry, and the tool, benchmark, and test
+  // scripts are run from dist, so they are listed here.
+  "entry": ["src/action.ts", "tools/**/*.ts", "benchmarks/**/*.ts", "tests/**/*.test.ts"],
+  "project": ["src/**/*.ts", "tools/**/*.ts", "benchmarks/**/*.ts", "tests/**/*.ts"],
+  "ignore": ["tests/fixtures/**"],
+  // An export used inside its own file is not dead code; only an export nothing imports is reported.
+  "ignoreExportsUsedInFile": true,
+  // Stryker's "command" test runner is built into @stryker-mutator/core; knip's Stryker plugin still
+  // expects a separate @stryker-mutator/command-runner package, which does not exist for v10.
+  "ignoreDependencies": ["@stryker-mutator/command-runner"]
+}

@@ -15,7 +15,7 @@ import { k8sClusterImporter } from "./k8s-cluster.js";
 import { terraformStateImporter } from "./terraform-state.js";
 import type { InventoryImporter, InventoryReport, InventoryResult } from "./types.js";
 
-export type { InventoryImporter, InventoryItem, InventoryReport, InventoryResult } from "./types.js";
+export type { InventoryImporter, InventoryReport } from "./types.js";
 
 /** Every built-in importer. Each task in the inventory epic appends its own entry. */
 export const inventoryImporters: InventoryImporter[] = [

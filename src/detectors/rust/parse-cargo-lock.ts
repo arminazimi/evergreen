@@ -1,4 +1,4 @@
-import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, readTomlLines, stringValue } from "./toml-lines.js";
+import { readTomlLines, stringValue } from "./toml-lines.js";
 
 /**
  * Pure, bounded parser for the resolved crate versions in Cargo.lock.
@@ -8,8 +8,6 @@ import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, readTomlLines, stringValue } 
  * sources, packages with no readable name or version, and a malformed file return nothing. The parser never
  * evaluates contents or runs Cargo.
  */
-
-export { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 
 export interface CargoLockPackage {
   crate: string;

@@ -10,7 +10,7 @@ import { targetLifecycleAnalyzer } from "./target-lifecycle.js";
 import { uvPdmLockAnalyzer } from "./uv-pdm-lock.js";
 import type { UpgradeAnalyzer, UpgradeIssue, UpgradeReport, UpgradeTarget } from "./types.js";
 
-export type { UpgradeAnalyzer, UpgradeIssue, UpgradeReport, UpgradeTarget } from "./types.js";
+export type { UpgradeAnalyzer, UpgradeReport, UpgradeTarget } from "./types.js";
 
 /** Every built-in analyzer. Each task in the upgrade epic appends its own entry. */
 export const upgradeAnalyzers: UpgradeAnalyzer[] = [

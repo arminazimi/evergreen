@@ -1,4 +1,4 @@
-import { MAXIMUM_INPUT_BYTES, member, readJsonLines, type JsonNode } from "../json-lines.js";
+import { member, readJsonLines, type JsonNode } from "../json-lines.js";
 
 /**
  * Pure, bounded parser for the declarations Evergreen reads from `composer.lock`: resolved packages in
@@ -12,8 +12,6 @@ import { MAXIMUM_INPUT_BYTES, member, readJsonLines, type JsonNode } from "../js
  * unsupported forms return nothing for those parts. A malformed file returns nothing. Comments are not
  * accepted (strict JSON only). Nothing is evaluated and Composer is never run.
  */
-
-export { MAXIMUM_INPUT_BYTES };
 
 export interface ComposerLockedPackage {
   kind: "locked-package";

@@ -6,8 +6,6 @@ import { renderHelp } from "./completions.js";
 import { unexpectedFailure } from "./errors.js";
 import { VERSION } from "./version.js";
 
-export { EXIT_CODES } from "./commands/types.js";
-
 const HELP = renderHelp(commands);
 
 /** Dispatches one CLI invocation and returns its exit code. Exported so tests can drive the shipping commands in process. */
