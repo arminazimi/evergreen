@@ -41,7 +41,11 @@ function reportedImage(finding: Finding): ImageReference | undefined {
 function distroFamily(tag: string): string[] | undefined {
   const match = RELEASE_TAG.exec(tag);
   if (!match) return undefined;
-  return match[2]!.toLowerCase().split("-").filter(Boolean).map((part) => part.replace(/[\d.]+$/, ""));
+  return match[2]!
+    .toLowerCase()
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.replace(/[\d.]+$/, ""));
 }
 
 function compareVersions(left: string, right: string): number {
@@ -62,7 +66,9 @@ function compareVersions(left: string, right: string): number {
 function rewriteTarget(finding: Finding, current: ImageReference): { tag: string } | { reason: string } {
   const named = [...(finding.replacement ?? "").matchAll(NAMED_TAG)].flatMap((match) => {
     const parsed = parseImageReference(`${match[1]}:${match[2]}`);
-    return parsed?.tag !== undefined && parsed.registry === current.registry && parsed.repository === current.repository ? [parsed.tag] : [];
+    return parsed?.tag !== undefined && parsed.registry === current.registry && parsed.repository === current.repository
+      ? [parsed.tag]
+      : [];
   });
   const tags = [...new Set(named)];
   if (tags.length === 0) return { reason: "The rule's replacement does not name a tag for this image." };
@@ -95,7 +101,12 @@ function rewriteFrom(line: string, edit: ImageEdit): string {
 }
 
 function sameImage(left: ImageReference, right: ImageReference): boolean {
-  return left.registry === right.registry && left.repository === right.repository && left.tag === right.tag && left.digest === right.digest;
+  return (
+    left.registry === right.registry &&
+    left.repository === right.repository &&
+    left.tag === right.tag &&
+    left.digest === right.digest
+  );
 }
 
 /** Why the line was left as it is, or undefined when it still carries the image the finding names. */
@@ -145,7 +156,10 @@ export const dockerfileBaseImageFixer: Fixer = {
         continue;
       }
       if (current.digest !== undefined) {
-        refuse?.(finding, "The image is pinned by digest; rewriting the tag would leave the digest pointing at the old image.");
+        refuse?.(
+          finding,
+          "The image is pinned by digest; rewriting the tag would leave the digest pointing at the old image.",
+        );
         continue;
       }
       const target = rewriteTarget(finding, current);
@@ -180,10 +194,12 @@ export const dockerfileBaseImageFixer: Fixer = {
         continue;
       }
       const original = before.split("\n");
-      const text = original.map((line, index) => {
-        const edit = lines.get(index + 1);
-        return edit ? rewriteFrom(line, edit) : line;
-      }).join("\n");
+      const text = original
+        .map((line, index) => {
+          const edit = lines.get(index + 1);
+          return edit ? rewriteFrom(line, edit) : line;
+        })
+        .join("\n");
       // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
       if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
       const updated = text.split("\n");

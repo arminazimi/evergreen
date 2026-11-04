@@ -62,19 +62,39 @@ test("fix --dry-run --json reports patches and refusals that match fix.v1.schema
   assert.equal(validate(parsed), true, JSON.stringify(validate.errors));
   assert.equal(parsed.schemaVersion, "evergreen.fix.v1");
 
-  assert.deepEqual(parsed.patches.map((patch: { path: string; fixer: string }) => [patch.path, patch.fixer]), [
-    [".github/workflows/ci.yml", "github-actions-uses"],
-    [".nvmrc", "runtime-pins"],
-  ]);
+  assert.deepEqual(
+    parsed.patches.map((patch: { path: string; fixer: string }) => [patch.path, patch.fixer]),
+    [
+      [".github/workflows/ci.yml", "github-actions-uses"],
+      [".nvmrc", "runtime-pins"],
+    ],
+  );
 
   // The SHA-pinned reference is in a fixer's scope but cannot be raised; the engines range is not an exact pin.
-  assert.deepEqual(parsed.refusals.map((refusal: { fixer: string; path: string; line: number; reason: string }) => [refusal.fixer, refusal.path, refusal.line, refusal.reason]), [
-    ["github-actions-uses", ".github/workflows/ci.yml", 6, "The reference is pinned to a commit SHA, not a major-version tag."],
-    ["runtime-pins", "package.json", 4, "The pin is a range, not an exact version."],
-    ["runtime-pins", "package.json", 4, "The pin is a range, not an exact version."],
-    ["runtime-pins", "package.json", 4, "The pin is a range, not an exact version."],
-  ]);
-  assert.ok(parsed.refusals.every((refusal: { findingId: string; ruleId: string }) => refusal.findingId.startsWith(`${refusal.ruleId}:`)));
+  assert.deepEqual(
+    parsed.refusals.map((refusal: { fixer: string; path: string; line: number; reason: string }) => [
+      refusal.fixer,
+      refusal.path,
+      refusal.line,
+      refusal.reason,
+    ]),
+    [
+      [
+        "github-actions-uses",
+        ".github/workflows/ci.yml",
+        6,
+        "The reference is pinned to a commit SHA, not a major-version tag.",
+      ],
+      ["runtime-pins", "package.json", 4, "The pin is a range, not an exact version."],
+      ["runtime-pins", "package.json", 4, "The pin is a range, not an exact version."],
+      ["runtime-pins", "package.json", 4, "The pin is a range, not an exact version."],
+    ],
+  );
+  assert.ok(
+    parsed.refusals.every((refusal: { findingId: string; ruleId: string }) =>
+      refusal.findingId.startsWith(`${refusal.ruleId}:`),
+    ),
+  );
 
   // Nothing was written.
   assert.equal(await readFile(join(root, ".github", "workflows", "ci.yml"), "utf8"), WORKFLOW);

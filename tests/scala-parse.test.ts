@@ -69,8 +69,12 @@ test("parses build.sbt scalaVersion forms with exact lines", async () => {
 });
 
 test("build.sbt recognizes ThisBuild slash and in ThisBuild forms", () => {
-  assert.deepEqual(parseBuildSbt('ThisBuild / scalaVersion := "2.11.12"\n'), [{ kind: "scala", value: "2.11.12", line: 1 }]);
-  assert.deepEqual(parseBuildSbt('scalaVersion in ThisBuild := "2.11.12"\n'), [{ kind: "scala", value: "2.11.12", line: 1 }]);
+  assert.deepEqual(parseBuildSbt('ThisBuild / scalaVersion := "2.11.12"\n'), [
+    { kind: "scala", value: "2.11.12", line: 1 },
+  ]);
+  assert.deepEqual(parseBuildSbt('scalaVersion in ThisBuild := "2.11.12"\n'), [
+    { kind: "scala", value: "2.11.12", line: 1 },
+  ]);
   assert.deepEqual(parseBuildSbt('scalaVersion := "2.11.12",\n'), [{ kind: "scala", value: "2.11.12", line: 1 }]);
   assert.deepEqual(parseBuildSbt('scalaVersion := s"2.11.12"\n'), []);
 });

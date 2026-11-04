@@ -51,20 +51,30 @@ test("reports Java imports, static imports, and wildcards with exact lines", asy
     ].join("\n"),
   });
   const [analysis] = await analyzeSourceUsage(root, contract);
-  assert.deepEqual(analysis!.usages.map((usage) => [usage.location.path, usage.location.line, usage.location.column, usage.excerpt]), [
-    ["src/main/java/App.java", 3, 8, "import com.mysql.jdbc.Driver;"],
-    ["src/main/java/App.java", 4, 15, "import static com.mysql.cj.util.StringUtils.isNullOrEmpty;"],
-    ["src/main/java/App.java", 5, 8, "import com.mysql.cj.jdbc.*;"],
-  ]);
+  assert.deepEqual(
+    analysis!.usages.map((usage) => [usage.location.path, usage.location.line, usage.location.column, usage.excerpt]),
+    [
+      ["src/main/java/App.java", 3, 8, "import com.mysql.jdbc.Driver;"],
+      ["src/main/java/App.java", 4, 15, "import static com.mysql.cj.util.StringUtils.isNullOrEmpty;"],
+      ["src/main/java/App.java", 5, 8, "import com.mysql.cj.jdbc.*;"],
+    ],
+  );
   assert.deepEqual(analysis!.impact, { usageCount: 3, affectedFiles: 1, level: "low" });
 });
 
 test("reports Kotlin imports with and without an alias", async () => {
   const root = await repository({
-    "src/App.kt": "package app\n\nimport com.mysql.cj.jdbc.Driver as MySql\nimport com.mysql.jdbc.*\nimport kotlin.io.println\n",
+    "src/App.kt":
+      "package app\n\nimport com.mysql.cj.jdbc.Driver as MySql\nimport com.mysql.jdbc.*\nimport kotlin.io.println\n",
   });
   const [analysis] = await analyzeSourceUsage(root, contract);
-  assert.deepEqual(analysis!.usages.map((usage) => [usage.language, usage.location.line]), [["kotlin", 3], ["kotlin", 4]]);
+  assert.deepEqual(
+    analysis!.usages.map((usage) => [usage.language, usage.location.line]),
+    [
+      ["kotlin", 3],
+      ["kotlin", 4],
+    ],
+  );
 });
 
 test("ignores commented imports, strings, and other languages", async () => {
@@ -76,17 +86,27 @@ test("ignores commented imports, strings, and other languages", async () => {
       'class A { String s = "import com.mysql.jdbc.Driver;"; }',
     ].join("\n"),
     "notes.txt": "import com.mysql.jdbc.Driver;\n",
-    "B.kt": "val text = \"import com.mysql.jdbc.Driver\"\n",
+    "B.kt": 'val text = "import com.mysql.jdbc.Driver"\n',
   });
   assert.deepEqual((await analyzeSourceUsage(root, contract))[0]!.usages, []);
 });
 
 test("a java matcher does not match Kotlin files, and the reverse", async () => {
   const root = await repository({ "A.java": "import com.mysql.Driver;\n", "B.kt": "import com.mysql.Driver\n" });
-  const [java] = await analyzeSourceUsage(root, [{ id: "j", matchers: [{ kind: "import", language: "java", module: "com.mysql" }] }]);
-  const [kotlin] = await analyzeSourceUsage(root, [{ id: "k", matchers: [{ kind: "import", language: "kotlin", module: "com.mysql" }] }]);
-  assert.deepEqual(java!.usages.map((usage) => usage.location.path), ["A.java"]);
-  assert.deepEqual(kotlin!.usages.map((usage) => usage.location.path), ["B.kt"]);
+  const [java] = await analyzeSourceUsage(root, [
+    { id: "j", matchers: [{ kind: "import", language: "java", module: "com.mysql" }] },
+  ]);
+  const [kotlin] = await analyzeSourceUsage(root, [
+    { id: "k", matchers: [{ kind: "import", language: "kotlin", module: "com.mysql" }] },
+  ]);
+  assert.deepEqual(
+    java!.usages.map((usage) => usage.location.path),
+    ["A.java"],
+  );
+  assert.deepEqual(
+    kotlin!.usages.map((usage) => usage.location.path),
+    ["B.kt"],
+  );
 });
 
 test("the usage matcher guard accepts java and kotlin imports but not calls", () => {
@@ -97,14 +117,18 @@ test("the usage matcher guard accepts java and kotlin imports but not calls", ()
 
 test("a moved dependency's finding lists the files that import it, in a migration packet", async () => {
   const root = await repository({
-    "pom.xml": "<project><dependencies><dependency><groupId>mysql</groupId><artifactId>mysql-connector-java</artifactId><version>8.0.33</version></dependency></dependencies></project>",
+    "pom.xml":
+      "<project><dependencies><dependency><groupId>mysql</groupId><artifactId>mysql-connector-java</artifactId><version>8.0.33</version></dependency></dependencies></project>",
     "src/main/java/Db.java": "import com.mysql.cj.jdbc.Driver;\n\nclass Db {}\n",
     "src/main/kotlin/Db.kt": "import com.mysql.jdbc.Driver\n",
   });
   const result = await scanRepository(root, [javaDetector]);
   const finding = result.findings.find((item) => item.ruleId === "java.maven.mysql.mysql-connector-java.relocated");
   assert.ok(finding);
-  assert.deepEqual(finding.usages?.map((usage) => usage.location.path), ["src/main/java/Db.java", "src/main/kotlin/Db.kt"]);
+  assert.deepEqual(
+    finding.usages?.map((usage) => usage.location.path),
+    ["src/main/java/Db.java", "src/main/kotlin/Db.kt"],
+  );
   assert.equal(finding.impact?.level, "low");
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.ok(packet.affectedFiles.includes("pom.xml"));

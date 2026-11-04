@@ -180,7 +180,16 @@ export function imagePin(reference: string, line: number, path: string): Runtime
 }
 
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
-const WALK_SKIP_DIRECTORIES = new Set([".git", "node_modules", "dist", "build", "out", "vendor", ".venv", "__pycache__"]);
+const WALK_SKIP_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "dist",
+  "build",
+  "out",
+  "vendor",
+  ".venv",
+  "__pycache__",
+]);
 const MAXIMUM_DOCKERFILE_FILES = 32;
 const MAXIMUM_DOCKERFILE_DEPTH = 4;
 
@@ -252,7 +261,13 @@ function setupAction(uses: unknown): { runtime: string; suffix: string } | undef
 }
 
 /** The pin one version-entry scalar carries, or undefined when it names no concrete version. */
-function versionPin(runtime: string, field: string, path: string, entry: unknown, lineAt: (node: Scalar) => number): RuntimePin | undefined {
+function versionPin(
+  runtime: string,
+  field: string,
+  path: string,
+  entry: unknown,
+  lineAt: (node: Scalar) => number,
+): RuntimePin | undefined {
   if (!isScalar(entry)) return undefined;
   const text = scalarText(entry);
   const normalized = text === undefined ? undefined : normalizePin(text);
@@ -328,7 +343,14 @@ function parserPins(
   for (const declaration of parse(contents)) {
     const normalized = normalizePin(declaration.value);
     if (normalized === undefined) continue;
-    pins.push({ runtime, path, line: declaration.line, value: declaration.value, normalized, field: path.replace(/^\./, "") });
+    pins.push({
+      runtime,
+      path,
+      line: declaration.line,
+      value: declaration.value,
+      normalized,
+      field: path.replace(/^\./, ""),
+    });
   }
   return pins;
 }
@@ -340,7 +362,15 @@ export async function readRuntimePins(root: string): Promise<RuntimePin[]> {
     const contents = await readOptional(join(root, spec.path));
     if (contents === undefined) continue;
     const found = firstVersionLine(contents);
-    if (found !== undefined) pins.push({ runtime: spec.runtime, path: spec.path, line: found.line, value: found.value, normalized: found.normalized, field: spec.field });
+    if (found !== undefined)
+      pins.push({
+        runtime: spec.runtime,
+        path: spec.path,
+        line: found.line,
+        value: found.value,
+        normalized: found.normalized,
+        field: spec.field,
+      });
   }
   pins.push(
     ...parserPins(".ruby-version", "ruby", await readOptional(join(root, ".ruby-version")), parseRubyVersion),
@@ -352,8 +382,13 @@ export async function readRuntimePins(root: string): Promise<RuntimePin[]> {
   if (toolContents !== undefined) pins.push(...toolVersionPins(toolContents));
   pins.push(...(await dockerfilePins(root)));
   pins.push(...(await workflowFilePins(root)));
-  return pins.sort((left, right) =>
-    left.path.localeCompare(right.path) || left.line - right.line || left.field.localeCompare(right.field) || left.value.localeCompare(right.value));
+  return pins.sort(
+    (left, right) =>
+      left.path.localeCompare(right.path) ||
+      left.line - right.line ||
+      left.field.localeCompare(right.field) ||
+      left.value.localeCompare(right.value),
+  );
 }
 
 /** The rule-id prefix that marks a runtime's own lifecycle rules in the bundled registry. */
@@ -387,13 +422,19 @@ function primaryFinding(runtime: string, findings: readonly LookupFinding[]): Lo
 }
 
 /** The lifecycle issue for the target itself, or undefined when the bundled data does not flag it on `today`. */
-export function targetLifecycleIssue(target: UpgradeTarget, findings: readonly LookupFinding[], today: string): UpgradeIssue | undefined {
+export function targetLifecycleIssue(
+  target: UpgradeTarget,
+  findings: readonly LookupFinding[],
+  today: string,
+): UpgradeIssue | undefined {
   const primary = primaryFinding(target.runtime, findings);
   if (primary === undefined) return undefined;
   const deadline = primary.deadline;
   const outOfSupport = primary.event === "end-of-support";
   const ended =
-    primary.event === "end-of-life" || primary.event === "removed" || outOfSupport ||
+    primary.event === "end-of-life" ||
+    primary.event === "removed" ||
+    outOfSupport ||
     (deadline !== undefined && deadline <= today);
   if (!ended && (deadline === undefined || deadline > addDays(today, SOON_ENDING_DAYS))) return undefined;
   const suggestion = primary.replacement ?? "a newer supported line named by the bundled lifecycle data";
@@ -437,7 +478,11 @@ export function pinIssues(pins: readonly RuntimePin[], target: UpgradeTarget): U
 }
 
 /** The full report for one root, on an explicit day so the answer never depends on a hidden clock. */
-export async function analyzeTargetLifecycle(root: string, target: UpgradeTarget, today: string): Promise<UpgradeIssue[]> {
+export async function analyzeTargetLifecycle(
+  root: string,
+  target: UpgradeTarget,
+  today: string,
+): Promise<UpgradeIssue[]> {
   if (!SUPPORTED_RUNTIMES.has(target.runtime)) return [];
   const pins = (await readRuntimePins(root)).filter((pin) => pin.runtime === target.runtime);
   const first = pins[0];

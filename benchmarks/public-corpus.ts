@@ -59,7 +59,9 @@ export async function loadPublicCorpus(cwd: string = process.cwd()): Promise<Pub
   const repositories: Array<{ key: [number, string]; entry: CorpusRepositoryEntry }> = [];
   for (const ecosystem of await ecosystemDirs(root)) {
     const dir = join(root, ecosystem);
-    const files = (await readdir(dir)).filter((name) => name.endsWith(".json")).sort((left, right) => compareKeys(fileSortKey(left), fileSortKey(right)));
+    const files = (await readdir(dir))
+      .filter((name) => name.endsWith(".json"))
+      .sort((left, right) => compareKeys(fileSortKey(left), fileSortKey(right)));
     for (const file of files) {
       const filePath = join(dir, file);
       repositories.push({

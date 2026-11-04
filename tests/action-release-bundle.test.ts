@@ -27,7 +27,10 @@ interface Job {
 
 const release = parse(await read(".github/workflows/release.yml")) as {
   on: { push?: { branches?: string[]; tags?: string[] }; workflow_dispatch?: unknown };
-  jobs: Record<string, { if?: string; uses?: string; with?: Record<string, unknown>; permissions?: Record<string, string> }>;
+  jobs: Record<
+    string,
+    { if?: string; uses?: string; with?: Record<string, unknown>; permissions?: Record<string, string> }
+  >;
 };
 const buildAction = parse(await read(".github/workflows/release-build-action.yml")) as {
   jobs: Record<string, Job>;
@@ -48,10 +51,18 @@ test("the Release workflow builds the Action bundle only when main gains a versi
   assert.equal(release.jobs["build-action"]!.uses, "./.github/workflows/release-build-action.yml");
   assert.deepEqual(bundle.permissions, { contents: "write" }, "the job pushes the release branch and nothing else");
   assert.match(bundleSteps, /npm run build:action/);
-  assert.match(bundleSteps, /git add --force dist\/action/, "dist/ is ignored on main, so the bundle is added by force");
+  assert.match(
+    bundleSteps,
+    /git add --force dist\/action/,
+    "dist/ is ignored on main, so the bundle is added by force",
+  );
   assert.match(bundleSteps, /git push origin "HEAD:refs\/heads\/release\/v\$VERSION"/);
   assert.match(bundleSteps, /git tag -a .*v\$VERSION/, "the job summary prints the tagging command");
-  assert.match(bundleSteps, /git ls-remote --tags .*"refs\/tags\/v\$version"/, "a version that is already tagged is left alone");
+  assert.match(
+    bundleSteps,
+    /git ls-remote --tags .*"refs\/tags\/v\$version"/,
+    "a version that is already tagged is left alone",
+  );
 });
 
 test("the publish guard accepts only the release branch tip that adds the bundle", async (t) => {

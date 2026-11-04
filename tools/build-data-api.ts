@@ -150,7 +150,11 @@ export function productId(purl: string): string {
 
 function idFor(purl: PackageUrl): string {
   const parts = [purl.type, ...(purl.namespace ? purl.namespace.split("/") : []), purl.name];
-  return parts.join("-").replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase();
+  return parts
+    .join("-")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
 }
 
 /** The v2 registries in `directory`, in ecosystem order. Other JSON files there are not rule registries. */
@@ -330,7 +334,9 @@ export async function validateDocuments(documents: readonly ApiDocumentFile[], r
   const validate = ajv.compile(apiSchema);
   for (const file of documents) {
     if (!validate(file.document)) {
-      throw new Error(`${file.path} does not match schemas/api-product.v1.schema.json: ${ajv.errorsText(validate.errors, { separator: "; " })}`);
+      throw new Error(
+        `${file.path} does not match schemas/api-product.v1.schema.json: ${ajv.errorsText(validate.errors, { separator: "; " })}`,
+      );
     }
   }
 }

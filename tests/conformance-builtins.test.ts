@@ -70,9 +70,7 @@ for (const { detector, zero, malformed } of builtIns) {
     const malformedRoot = await fixtureDirectory(malformed);
     await runDetectorConformance({
       detector,
-      fixtures: [
-        { name: `${detector.id} malformed input`, root: malformedRoot, expectedFindings: [] },
-      ],
+      fixtures: [{ name: `${detector.id} malformed input`, root: malformedRoot, expectedFindings: [] }],
       checks: [malformedInputCheck],
     });
   });

@@ -4,7 +4,8 @@ import type { DraftRule, Importer, ImporterContext } from "./types.js";
 
 export const TERRAFORM_RELEASES_PAGE = "https://github.com/hashicorp/terraform/releases";
 export const TERRAFORM_SUPPORT_POLICY = "https://support.hashicorp.com/hc/en-us/articles/360021185113";
-export const releaseUrl = (minor: number) => `https://api.github.com/repos/hashicorp/terraform/releases/tags/v1.${minor}.0`;
+export const releaseUrl = (minor: number) =>
+  `https://api.github.com/repos/hashicorp/terraform/releases/tags/v1.${minor}.0`;
 const GITHUB_JSON = "application/vnd.github+json";
 
 /** Release lines HashiCorp supports at once: the newest and the one before it. */
@@ -48,7 +49,10 @@ async function lineRelease(context: ImporterContext, minor: number): Promise<Lin
   return {
     minor,
     date: published.slice(0, 10),
-    url: typeof payload.html_url === "string" ? payload.html_url : `https://github.com/hashicorp/terraform/releases/tag/v1.${minor}.0`,
+    url:
+      typeof payload.html_url === "string"
+        ? payload.html_url
+        : `https://github.com/hashicorp/terraform/releases/tag/v1.${minor}.0`,
   };
 }
 
@@ -102,7 +106,10 @@ export const terraformCliImporter: Importer = {
     }
 
     if (releases.length === 0) notes.push("No Terraform 1.x release found.");
-    else notes.push(`Newest release line found: 1.${releases[releases.length - 1]!.minor}. Lines inside the support window are not drafted.`);
+    else
+      notes.push(
+        `Newest release line found: 1.${releases[releases.length - 1]!.minor}. Lines inside the support window are not drafted.`,
+      );
     return { rules, notes };
   },
 };

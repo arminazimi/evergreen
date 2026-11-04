@@ -18,7 +18,8 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseCargoToml",
-    file: ({ name, version }) => `[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\n${name} = "${version}"\n`,
+    file: ({ name, version }) =>
+      `[package]\nname = "demo"\nversion = "0.1.0"\n\n[dependencies]\n${name} = "${version}"\n`,
     names: "zzmark",
     versions: "9.8.7",
   },
@@ -80,7 +81,8 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseConanfilePy",
-    file: ({ name, version }) => `from conan import ConanFile\n\nclass Demo(ConanFile):\n    requires = "${name}/${version}"\n`,
+    file: ({ name, version }) =>
+      `from conan import ConanFile\n\nclass Demo(ConanFile):\n    requires = "${name}/${version}"\n`,
     names: "zlib",
     versions: "9.8.7",
     markers: () => ["zlib", "9.8.7"],
@@ -108,7 +110,8 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseComposerLock",
-    file: ({ name, version }) => `{"packages":[{"name":"${name}","version":"${version}"}],"platform":{"php":"8.1.2"}}\n`,
+    file: ({ name, version }) =>
+      `{"packages":[{"name":"${name}","version":"${version}"}],"platform":{"php":"8.1.2"}}\n`,
     names: "zzmark/pkg",
     versions: "9.8.7",
   },
@@ -129,7 +132,8 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseGoMod",
-    file: ({ name, version }) => `module example.com/${name}\n\ngo 1.21\n\nrequire (\n\texample.com/${name} ${version}\n)\n`,
+    file: ({ name, version }) =>
+      `module example.com/${name}\n\ngo 1.21\n\nrequire (\n\texample.com/${name} ${version}\n)\n`,
     names: "zzmark",
     versions: "v9.8.7",
     markers: ({ name, version }) => [`example.com/${name}`, version],
@@ -163,8 +167,7 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseAndroidBuildGradle",
-    file: ({ version }) =>
-      `android {\n    compileSdk ${version}\n    defaultConfig {\n        minSdk 21\n    }\n}\n`,
+    file: ({ version }) => `android {\n    compileSdk ${version}\n    defaultConfig {\n        minSdk 21\n    }\n}\n`,
     names: "agp",
     versions: "34",
     markers: () => ["34", "21"],

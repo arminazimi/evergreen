@@ -59,7 +59,12 @@ export function parseAzurePipelines(contents: string): AzurePipelinesParseResult
   }
 }
 
-function collectJobs(node: unknown, lineCounter: LineCounter, declarations: AzureImageReference[], unclassified: AzureUnclassifiedReference[]): void {
+function collectJobs(
+  node: unknown,
+  lineCounter: LineCounter,
+  declarations: AzureImageReference[],
+  unclassified: AzureUnclassifiedReference[],
+): void {
   if (!isSeq(node)) return;
   for (const job of node.items) {
     if (!isMap(job)) continue;
@@ -67,12 +72,22 @@ function collectJobs(node: unknown, lineCounter: LineCounter, declarations: Azur
   }
 }
 
-function collectPool(node: unknown, lineCounter: LineCounter, declarations: AzureImageReference[], unclassified: AzureUnclassifiedReference[]): void {
+function collectPool(
+  node: unknown,
+  lineCounter: LineCounter,
+  declarations: AzureImageReference[],
+  unclassified: AzureUnclassifiedReference[],
+): void {
   if (!isMap(node)) return;
   collectImage(node.get("vmImage", true), lineCounter, declarations, unclassified);
 }
 
-function collectImage(node: unknown, lineCounter: LineCounter, declarations: AzureImageReference[], unclassified: AzureUnclassifiedReference[]): void {
+function collectImage(
+  node: unknown,
+  lineCounter: LineCounter,
+  declarations: AzureImageReference[],
+  unclassified: AzureUnclassifiedReference[],
+): void {
   if (!isScalar(node) || typeof node.value !== "string" || !node.range) return;
   const value = node.value;
   if (value.length > MAXIMUM_LINE_LENGTH) return;

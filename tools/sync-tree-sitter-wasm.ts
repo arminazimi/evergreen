@@ -58,7 +58,9 @@ let entry: string;
 try {
   entry = require.resolve(PACKAGE_NAME);
 } catch {
-  fail(`Install ${PACKAGE_NAME}@${PINNED_VERSION} first (npm install --no-save --package-lock=false ${PACKAGE_NAME}@${PINNED_VERSION}).`);
+  fail(
+    `Install ${PACKAGE_NAME}@${PINNED_VERSION} first (npm install --no-save --package-lock=false ${PACKAGE_NAME}@${PINNED_VERSION}).`,
+  );
 }
 
 const packageJson = JSON.parse(readFileSync(join(dirname(entry), "..", "package.json"), "utf8")) as {
@@ -88,7 +90,9 @@ for (const upstream of WASM_FILES) {
 }
 
 if (previous && previous.version !== PINNED_VERSION) {
-  console.log(`Pinned version moved from ${previous.version} to ${PINNED_VERSION}; review the new hashes in the pull request.`);
+  console.log(
+    `Pinned version moved from ${previous.version} to ${PINNED_VERSION}; review the new hashes in the pull request.`,
+  );
 }
 
 mkdirSync(destination, { recursive: true });

@@ -26,7 +26,13 @@ const precisionOf = (truePositives: number, falsePositives: number): number =>
 export function scoreEcosystems(results: readonly ReportableResult[]): Row[] {
   const rows = new Map<string, Row>();
   for (const result of results) {
-    const row = rows.get(result.ecosystem) ?? { name: result.ecosystem, truePositives: 0, falsePositives: 0, falseNegatives: 0, precision: 1 };
+    const row = rows.get(result.ecosystem) ?? {
+      name: result.ecosystem,
+      truePositives: 0,
+      falsePositives: 0,
+      falseNegatives: 0,
+      precision: 1,
+    };
     row.truePositives += result.truePositives;
     row.falsePositives += result.falsePositives;
     row.falseNegatives += result.falseNegatives;
@@ -43,7 +49,15 @@ function table(title: string, rows: readonly Row[]): string[] {
     `${name.padEnd(width)}  ${tp.padStart(5)} ${fp.padStart(5)} ${fn.padStart(5)} ${precision.padStart(9)}`;
   return [
     line(title, "TP", "FP", "FN", "precision"),
-    ...rows.map((row) => line(row.name, String(row.truePositives), String(row.falsePositives), String(row.falseNegatives), row.precision.toFixed(4))),
+    ...rows.map((row) =>
+      line(
+        row.name,
+        String(row.truePositives),
+        String(row.falsePositives),
+        String(row.falseNegatives),
+        row.precision.toFixed(4),
+      ),
+    ),
   ];
 }
 

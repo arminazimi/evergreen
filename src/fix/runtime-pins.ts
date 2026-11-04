@@ -29,13 +29,18 @@ interface Pin {
 }
 
 /** The files whose whole first line is the pin, and the runtime each one pins. */
-const VERSION_FILES: Record<string, Runtime> = { ".nvmrc": "node", ".node-version": "node", ".python-version": "python" };
+const VERSION_FILES: Record<string, Runtime> = {
+  ".nvmrc": "node",
+  ".node-version": "node",
+  ".python-version": "python",
+};
 
 function pinFor(path: string): Pin | undefined {
   const name = path.slice(path.lastIndexOf("/") + 1);
   const runtime = VERSION_FILES[name];
   if (runtime) return { runtime, kind: "file", value: versionFileValue, rewrite: rewriteVersionFile };
-  if (name === "package.json") return { runtime: "node", kind: "engines", value: enginesValue, rewrite: rewriteEngines };
+  if (name === "package.json")
+    return { runtime: "node", kind: "engines", value: enginesValue, rewrite: rewriteEngines };
   return undefined;
 }
 
@@ -68,7 +73,9 @@ function rewriteEngines(line: string, target: string): string {
 }
 
 function isRuntimeRule(finding: Finding, runtime: Runtime): boolean {
-  return runtime === "node" ? finding.ruleId.startsWith("nodejs.runtime.") : finding.ruleId.startsWith("python.runtime.");
+  return runtime === "node"
+    ? finding.ruleId.startsWith("nodejs.runtime.")
+    : finding.ruleId.startsWith("python.runtime.");
 }
 
 interface Targets {
@@ -163,7 +170,9 @@ function refusalReason(line: string, pin: Pin, target: string | undefined): stri
     return "The pin is a range, not an exact version.";
   }
   if (target === undefined) {
-    return pin.runtime === "node" ? "The rule names no supported Node.js line." : "No supported Python line is known for the scan date.";
+    return pin.runtime === "node"
+      ? "The rule names no supported Node.js line."
+      : "No supported Python line is known for the scan date.";
   }
   return undefined;
 }
@@ -199,7 +208,13 @@ async function lowestSupportedPython(day: string): Promise<string | undefined> {
   for (const rule of validateRegistryV2(await loadDataFile("registry/python.json")).rules) {
     const bound = PYTHON_UPPER_BOUND.exec(rule.vers)?.[1];
     const ended = rule.event !== "scheduled-end-of-life" && (rule.deadline === undefined || rule.deadline <= day);
-    if (rule.id.startsWith("python.runtime.") && bound && ended && (lowest === undefined || semver.gt(`${bound}.0`, `${lowest}.0`))) lowest = bound;
+    if (
+      rule.id.startsWith("python.runtime.") &&
+      bound &&
+      ended &&
+      (lowest === undefined || semver.gt(`${bound}.0`, `${lowest}.0`))
+    )
+      lowest = bound;
   }
   return lowest;
 }

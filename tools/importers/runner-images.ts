@@ -8,7 +8,20 @@ const README_PAGE = "https://github.com/actions/runner-images#available-images";
 const REPO = "actions/runner-images";
 const GITHUB_JSON = "application/vnd.github+json";
 
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 /** "November 2nd, 2026" → "2026-11-02". */
 export function parseLongDate(text: string): string | undefined {
@@ -32,13 +45,19 @@ export function parseImageTable(readme: string): ImageRow[] {
   const rows: ImageRow[] = [];
   for (const line of section.split("\n")) {
     if (!line.startsWith("|") || /^\|\s*-/.test(line) || /^\|\s*Image\s*\|/.test(line)) continue;
-    const cells = line.split("|").slice(1, -1).map((cell) => cell.trim());
+    const cells = line
+      .split("|")
+      .slice(1, -1)
+      .map((cell) => cell.trim());
     if (cells.length < 3) continue;
     const [first = "", , labelCell = ""] = cells;
     rows.push({
       image: first.split(/\[|<br>/)[0]!.trim(),
       labels: [...labelCell.matchAll(/`([^`]+)`/g)].map((match) => match[1]!),
-      issue: Number(/\[!\[deprecated\][^\]]*\]\(https:\/\/github\.com\/actions\/runner-images\/issues\/(\d+)\)/.exec(first)?.[1]) || undefined,
+      issue:
+        Number(
+          /\[!\[deprecated\][^\]]*\]\(https:\/\/github\.com\/actions\/runner-images\/issues\/(\d+)\)/.exec(first)?.[1],
+        ) || undefined,
     });
   }
   return rows;
@@ -50,7 +69,11 @@ interface Announcement {
   html_url?: string;
 }
 
-const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+const slug = (text: string) =>
+  text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 /** `macOS 14` and `macOS 14 Arm64` share one announcement; the family is the first name with its architecture suffix dropped. */
 const family = (image: string) => image.replace(/\s+arm64$/i, "");
@@ -71,16 +94,22 @@ export const runnerImagesImporter: Importer = {
 
     const readme = await context.fetchText(RUNNER_IMAGES_README_URL);
     const rows = parseImageTable(readme);
-    if (rows.length === 0) throw new Error("The runner-images README has no Available Images table this importer can read.");
+    if (rows.length === 0)
+      throw new Error("The runner-images README has no Available Images table this importer can read.");
 
     const byIssue = new Map<number, ImageRow[]>();
-    for (const row of rows) if (row.issue !== undefined) byIssue.set(row.issue, [...(byIssue.get(row.issue) ?? []), row]);
+    for (const row of rows)
+      if (row.issue !== undefined) byIssue.set(row.issue, [...(byIssue.get(row.issue) ?? []), row]);
     if (byIssue.size === 0) notes.push("No image in the README is marked deprecated.");
 
     for (const [issue, group] of [...byIssue].sort(([a], [b]) => a - b)) {
       const name = family(group[0]!.image);
       const labels = [...new Set(group.flatMap((row) => row.labels))].sort();
-      const announcement = await fetchJson<Announcement>(context, `https://api.github.com/repos/${REPO}/issues/${issue}`, { accept: GITHUB_JSON });
+      const announcement = await fetchJson<Announcement>(
+        context,
+        `https://api.github.com/repos/${REPO}/issues/${issue}`,
+        { accept: GITHUB_JSON },
+      );
 
       const target = /###\s*Target date\s*\n([\s\S]*?)(?=\n###|$)/.exec(announcement.body ?? "")?.[1] ?? "";
       const deprecation = parseLongDate(/^\s*Deprecation:\s*(.+)$/m.exec(target)?.[1] ?? "");
@@ -108,7 +137,10 @@ export const runnerImagesImporter: Importer = {
         severity: "high",
         ...(retirement ? { deadline: retirement } : {}),
         sources: [
-          { title: `Announcement: ${announcement.title ?? `${name} runner image deprecation`}`.slice(0, 200), url: announcement.html_url ?? `https://github.com/${REPO}/issues/${issue}` },
+          {
+            title: `Announcement: ${announcement.title ?? `${name} runner image deprecation`}`.slice(0, 200),
+            url: announcement.html_url ?? `https://github.com/${REPO}/issues/${issue}`,
+          },
           { title: "GitHub-hosted runner images", url: README_PAGE },
         ],
         "x-github-runners": { labels },

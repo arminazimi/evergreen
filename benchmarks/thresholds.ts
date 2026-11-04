@@ -75,15 +75,17 @@ export function scoreDetectors(results: ScoredResult[]): Record<string, Detector
     for (const key of result.missing) entry(detectorOf(key)).fn++;
   }
   return Object.fromEntries(
-    [...scores.entries()].sort(([left], [right]) => left.localeCompare(right)).map(([detector, { tp, fp, fn }]) => [
-      detector,
-      {
-        truePositives: tp,
-        falsePositives: fp,
-        falseNegatives: fn,
-        precision: Number((tp + fp === 0 ? 1 : tp / (tp + fp)).toFixed(4)),
-      },
-    ]),
+    [...scores.entries()]
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([detector, { tp, fp, fn }]) => [
+        detector,
+        {
+          truePositives: tp,
+          falsePositives: fp,
+          falseNegatives: fn,
+          precision: Number((tp + fp === 0 ? 1 : tp / (tp + fp)).toFixed(4)),
+        },
+      ]),
   );
 }
 
@@ -156,7 +158,12 @@ export function earnedLevel(evidence: Evidence): MaturityLevel {
 
 /** Counts a detector's evidence from the corpus. `ecosystems` are the corpus ecosystems the detector reads. */
 export function countEvidence(
-  corpus: ReadonlyArray<{ repository: string; ecosystem: string; selection?: "blind" | "targeted"; expected: ReadonlyArray<{ ruleId: string }> }>,
+  corpus: ReadonlyArray<{
+    repository: string;
+    ecosystem: string;
+    selection?: "blind" | "targeted";
+    expected: ReadonlyArray<{ ruleId: string }>;
+  }>,
   detector: string,
   ecosystems: readonly string[],
 ): Evidence {
@@ -176,7 +183,13 @@ export function countEvidence(
     if (entry.selection === "blind") blindRepositories += 1;
     if (entry.expected.length === 0) zeroFindingRepositories += 1;
   }
-  return { repositoriesWithFindings: withFindings.size, expectedFindings, zeroFindingRepositories, repositories, blindRepositories };
+  return {
+    repositoriesWithFindings: withFindings.size,
+    expectedFindings,
+    zeroFindingRepositories,
+    repositories,
+    blindRepositories,
+  };
 }
 
 /** The longest a recorded full run may stand before a level claim loses its evidence (decision 0013). */

@@ -34,7 +34,20 @@ import { parseDatabaseTerraform } from "./parse-terraform.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", ".terraform", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  ".terraform",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const COMPOSE_NAME = /^(?:docker-)?compose(?:\.[A-Za-z0-9_.-]+)?\.ya?ml$/;
 const OPEN_END = "999999999";
 const VERSION = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:-[0-9A-Za-z][0-9A-Za-z._-]*)?$/;
@@ -126,7 +139,10 @@ export class DatabaseDetector implements Detector {
   };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/database.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/database.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/database.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -167,7 +183,13 @@ export class DatabaseDetector implements Detector {
         for (const declaration of parseDatabaseCompose(contents)) {
           const purl = purlFor(declaration.product);
           const rule = purl === undefined ? undefined : ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} runs ${declaration.product}:${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} runs ${declaration.product}:${declaration.value}. ${rule.summary}`,
+            );
         }
       } else {
         const parsed = parseDatabaseTerraform(contents);
@@ -183,7 +205,12 @@ export class DatabaseDetector implements Detector {
           const purl = purlFor(declaration.product);
           const rule = purl === undefined ? undefined : ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
           if (rule) {
-            report(rule, path, declaration.line, `${path} sets ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`);
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} sets ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`,
+            );
           }
         }
       }

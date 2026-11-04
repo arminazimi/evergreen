@@ -134,10 +134,7 @@ test("scoreCondition reads end state, verification, and the diff from the harnes
   const ok = scoreCondition(task, condition({}));
   assert.equal(ok.success, true);
 
-  const idle = scoreCondition(
-    task,
-    condition({ findingResolved: false, verificationPassed: false, changedFiles: [] }),
-  );
+  const idle = scoreCondition(task, condition({ findingResolved: false, verificationPassed: false, changedFiles: [] }));
   assert.equal(idle.findingResolved, false);
   assert.equal(idle.verificationPassed, false);
   assert.equal(idle.noUnrelatedChanges, true);

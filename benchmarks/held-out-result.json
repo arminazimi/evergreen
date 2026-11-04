@@ -1,11 +1,6 @@
 {
   "schemaVersion": "evergreen.held-out-result.v1",
-  "scope": [
-    "github-actions.checkout",
-    "github-actions.setup-node",
-    "github-actions.cache",
-    "nodejs.runtime"
-  ],
+  "scope": ["github-actions.checkout", "github-actions.setup-node", "github-actions.cache", "nodejs.runtime"],
   "summary": {
     "repositories": 15,
     "truePositives": 73,
@@ -67,10 +62,7 @@
       "falseNegatives": 0,
       "precision": 0.5,
       "recall": 1,
-      "unexpected": [
-        "nodejs.runtime:.github/workflows/test.yml:12",
-        "nodejs.runtime:package.json:49"
-      ],
+      "unexpected": ["nodejs.runtime:.github/workflows/test.yml:12", "nodejs.runtime:package.json:49"],
       "missing": []
     },
     {
@@ -92,9 +84,7 @@
       "falseNegatives": 0,
       "precision": 0.8571,
       "recall": 1,
-      "unexpected": [
-        "nodejs.runtime:package.json:123"
-      ],
+      "unexpected": ["nodejs.runtime:package.json:123"],
       "missing": []
     },
     {

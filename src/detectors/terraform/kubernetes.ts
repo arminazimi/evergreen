@@ -29,15 +29,10 @@ import { attributeValues, directBlocks, MAXIMUM_DECLARATIONS, prepareHcl } from 
 export { MAXIMUM_INPUT_BYTES } from "./hcl.js";
 
 /** The managed Kubernetes products the rules are written for. */
-export type ManagedKubernetesProduct =
-  | "amazon-eks"
-  | "google-kubernetes-engine"
-  | "azure-kubernetes-service";
+export type ManagedKubernetesProduct = "amazon-eks" | "google-kubernetes-engine" | "azure-kubernetes-service";
 
 /** The attribute each managed resource type uses for its control-plane version. */
-const RESOURCE_ATTRIBUTES: Readonly<
-  Record<string, Readonly<Record<string, ManagedKubernetesProduct>>>
-> = {
+const RESOURCE_ATTRIBUTES: Readonly<Record<string, Readonly<Record<string, ManagedKubernetesProduct>>>> = {
   google_container_cluster: { min_master_version: "google-kubernetes-engine" },
   azurerm_kubernetes_cluster: { kubernetes_version: "azure-kubernetes-service" },
 };
@@ -123,7 +118,8 @@ export function parseManagedKubernetes(contents: string): ManagedKubernetesDecla
     if (blockType === "module") {
       const source = attributes.find((attribute) => attribute.name === "source");
       const address = source?.literal ? moduleAddress(source.value) : undefined;
-      const module = address !== undefined && Object.hasOwn(MODULE_SOURCES, address) ? MODULE_SOURCES[address] : undefined;
+      const module =
+        address !== undefined && Object.hasOwn(MODULE_SOURCES, address) ? MODULE_SOURCES[address] : undefined;
       for (const attribute of attributes) {
         if (module ? !module.attributes.includes(attribute.name) : !VERSION_ATTRIBUTES.has(attribute.name)) continue;
         declarations.push({
@@ -140,10 +136,14 @@ export function parseManagedKubernetes(contents: string): ManagedKubernetesDecla
       continue;
     }
 
-    const resourceAttributes = Object.hasOwn(RESOURCE_ATTRIBUTES, blockType) ? RESOURCE_ATTRIBUTES[blockType] : undefined;
+    const resourceAttributes = Object.hasOwn(RESOURCE_ATTRIBUTES, blockType)
+      ? RESOURCE_ATTRIBUTES[blockType]
+      : undefined;
     if (!resourceAttributes) continue;
     for (const attribute of attributes) {
-      const product = Object.hasOwn(resourceAttributes, attribute.name) ? resourceAttributes[attribute.name] : undefined;
+      const product = Object.hasOwn(resourceAttributes, attribute.name)
+        ? resourceAttributes[attribute.name]
+        : undefined;
       if (!product) continue;
       declarations.push({
         product,

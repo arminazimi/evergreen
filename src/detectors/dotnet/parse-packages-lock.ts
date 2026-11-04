@@ -28,7 +28,8 @@ export function parsePackagesLock(contents: string): LockedPackage[] {
     for (const entry of framework.value.members) {
       const type = member(entry.value, "type")?.value;
       const resolved = member(entry.value, "resolved")?.value;
-      if (type?.kind !== "string" || type.value !== "Direct" || resolved?.kind !== "string" || resolved.value === "") continue;
+      if (type?.kind !== "string" || type.value !== "Direct" || resolved?.kind !== "string" || resolved.value === "")
+        continue;
       packages.push({ name: entry.key, version: resolved.value, framework: framework.key, line: resolved.line });
     }
   }

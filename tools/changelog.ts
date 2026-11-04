@@ -63,7 +63,9 @@ export function entries(subjects: string[]): { bullets: string[]; skipped: strin
     }
   }
   const rank = (commit: ParsedCommit) => (commit.breaking ? 0 : commit.type === "feat" ? 1 : 2);
-  const ordered = parsed.map((commit, index) => ({ commit, index })).sort((a, b) => rank(a.commit) - rank(b.commit) || a.index - b.index);
+  const ordered = parsed
+    .map((commit, index) => ({ commit, index }))
+    .sort((a, b) => rank(a.commit) - rank(b.commit) || a.index - b.index);
   return { bullets: ordered.map(({ commit }) => bullet(commit)), skipped };
 }
 
@@ -79,14 +81,21 @@ export function fragments(files: Record<string, string>): { names: string[]; bul
     .sort();
   const bullets = names.map((name) => {
     const text = files[name]!.trim();
-    if (!/^- \S[^\n]*$/.test(text)) throw new Error(`${FRAGMENT_DIR}/${name} must be one changelog bullet on one line, starting with "- ".`);
+    if (!/^- \S[^\n]*$/.test(text))
+      throw new Error(`${FRAGMENT_DIR}/${name} must be one changelog bullet on one line, starting with "- ".`);
     return text;
   });
   return { names, bullets };
 }
 
 /** Moves the Unreleased text into a new version section, followed by the fragment and generated bullets. */
-export function releaseSection(changelog: string, version: string, date: string, generated: string[], fragmentBullets: string[] = []): string {
+export function releaseSection(
+  changelog: string,
+  version: string,
+  date: string,
+  generated: string[],
+  fragmentBullets: string[] = [],
+): string {
   const heading = "## Unreleased";
   const start = changelog.indexOf(heading);
   if (start < 0) throw new Error('CHANGELOG.md has no "## Unreleased" heading.');
@@ -95,7 +104,10 @@ export function releaseSection(changelog: string, version: string, date: string,
   const end = next < 0 ? changelog.length : next + 1;
   const written = changelog.slice(bodyStart, end).trim();
   const body = [written, ...fragmentBullets, ...generated].filter(Boolean).join("\n");
-  return `${changelog.slice(0, start)}${heading}\n\n## ${version} - ${date}\n\n${body}\n\n${changelog.slice(end)}`.replace(/\n{3,}/g, "\n\n");
+  return `${changelog.slice(0, start)}${heading}\n\n## ${version} - ${date}\n\n${body}\n\n${changelog.slice(end)}`.replace(
+    /\n{3,}/g,
+    "\n\n",
+  );
 }
 
 function readFragments(): { names: string[]; bullets: string[] } {
@@ -124,11 +136,17 @@ function main(): void {
   const version = option("--write");
   if (version) {
     const date = option("--date") ?? new Date().toISOString().slice(0, 10);
-    if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version) || !/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("Pass --write X.Y.Z and --date YYYY-MM-DD.");
+    if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version) || !/^\d{4}-\d{2}-\d{2}$/.test(date))
+      throw new Error("Pass --write X.Y.Z and --date YYYY-MM-DD.");
     const pending = readFragments();
-    writeFileSync("CHANGELOG.md", releaseSection(readFileSync("CHANGELOG.md", "utf8"), version, date, bullets, pending.bullets));
+    writeFileSync(
+      "CHANGELOG.md",
+      releaseSection(readFileSync("CHANGELOG.md", "utf8"), version, date, bullets, pending.bullets),
+    );
     for (const name of pending.names) rmSync(join(FRAGMENT_DIR, name));
-    process.stdout.write(`Added ${pending.bullets.length} fragments and ${bullets.length} generated entries to CHANGELOG.md under ${version}.\n`);
+    process.stdout.write(
+      `Added ${pending.bullets.length} fragments and ${bullets.length} generated entries to CHANGELOG.md under ${version}.\n`,
+    );
     return;
   }
   process.stdout.write(`${bullets.join("\n")}\n`);

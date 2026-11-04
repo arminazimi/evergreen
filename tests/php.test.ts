@@ -106,17 +106,22 @@ test("php passes detector conformance on every fixture", async () => {
 
 test("a require.php constraint is not a version, and an exact platform pin is", async () => {
   const root = await repository({
-    "composer.json": '{\n  "require": {\n    "php": ">=7.4"\n  },\n  "config": {\n    "platform": {\n      "php": "7.4.33"\n    }\n  }\n}\n',
+    "composer.json":
+      '{\n  "require": {\n    "php": ">=7.4"\n  },\n  "config": {\n    "platform": {\n      "php": "7.4.33"\n    }\n  }\n}\n',
   });
-  assert.deepEqual((await phpDetector.scan({ root })).map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [
-    ["php.runtime.eol-7.4", "composer.json", 7],
-  ]);
+  assert.deepEqual(
+    (await phpDetector.scan({ root })).map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["php.runtime.eol-7.4", "composer.json", 7]],
+  );
 });
 
 test("matches the phpenv php- prefix to the runtime rule", async () => {
   const root = await repository({ ".php-version": "php-7.4.33\n" });
   const findings = await phpDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["php.runtime.eol-7.4", ".php-version", 1]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["php.runtime.eol-7.4", ".php-version", 1]],
+  );
   assert.match(findings[0]!.summary, /pins PHP 7\.4\.33\./);
 });
 
@@ -125,7 +130,10 @@ test("a malformed rule does not hide a later matching rule", async () => {
   const malformed: RegistryV2Rule = { ...base, id: "php.runtime.malformed", vers: "vers:composer/not-a-version" };
   const detector = new PhpDetector(async () => [malformed, base]);
   const root = await repository({ ".php-version": "7.4.33\n" });
-  assert.deepEqual((await detector.scan({ root })).map((finding) => finding.ruleId), ["php.runtime.eol-7.4"]);
+  assert.deepEqual(
+    (await detector.scan({ root })).map((finding) => finding.ruleId),
+    ["php.runtime.eol-7.4"],
+  );
 });
 
 test("reports a composer.json package only when the rule covers every version", async () => {
@@ -134,23 +142,31 @@ test("reports a composer.json package only when the rule covers every version", 
   const detector = new PhpDetector(async () => [ranged, every]);
   const root = await repository({ "composer.json": '{\n  "require": {\n    "example/pkg": "1.2.3"\n  }\n}\n' });
   const findings = await detector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["php.package.example.abandoned", "composer.json", 3]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["php.package.example.abandoned", "composer.json", 3]],
+  );
   assert.match(findings[0]!.summary, /composer\.json declares example\/pkg 1\.2\.3\./);
 });
 
 test("reports a resolved composer.lock package when a rule contains its version", async () => {
   const rule = (await committedRules()).find((item) => item.id === "php.package.swiftmailer.swiftmailer.abandoned")!;
   const root = await repository({
-    "composer.lock": '{\n  "packages": [\n    {\n      "name": "swiftmailer/swiftmailer",\n      "version": "v6.2.7"\n    }\n  ]\n}\n',
+    "composer.lock":
+      '{\n  "packages": [\n    {\n      "name": "swiftmailer/swiftmailer",\n      "version": "v6.2.7"\n    }\n  ]\n}\n',
   });
   const findings = await phpDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [[rule.id, "composer.lock", 5]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [[rule.id, "composer.lock", 5]],
+  );
   assert.match(findings[0]!.summary, /composer\.lock resolves swiftmailer\/swiftmailer v6\.2\.7\./);
 });
 
 test("an abandoned flag without a matching rule is not a finding", async () => {
   const root = await repository({
-    "composer.lock": '{\n  "packages": [\n    {\n      "name": "old/abandoned",\n      "version": "1.0.0",\n      "abandoned": "new/replacement"\n    }\n  ]\n}\n',
+    "composer.lock":
+      '{\n  "packages": [\n    {\n      "name": "old/abandoned",\n      "version": "1.0.0",\n      "abandoned": "new/replacement"\n    }\n  ]\n}\n',
   });
   assert.deepEqual(await phpDetector.scan({ root }), []);
 });
@@ -161,9 +177,13 @@ test("a ranged package rule matches the lockfile version and not the direct cons
   const declared = await repository({ "composer.json": '{\n  "require": {\n    "example/pkg": "1.2.3"\n  }\n}\n' });
   assert.deepEqual(await detector.scan({ root: declared }), []);
   const locked = await repository({
-    "composer.lock": '{\n  "packages": [\n    {\n      "name": "example/pkg",\n      "version": "1.2.3"\n    }\n  ]\n}\n',
+    "composer.lock":
+      '{\n  "packages": [\n    {\n      "name": "example/pkg",\n      "version": "1.2.3"\n    }\n  ]\n}\n',
   });
-  assert.deepEqual((await detector.scan({ root: locked })).map((finding) => [finding.ruleId, finding.location.line]), [["php.package.example.one", 5]]);
+  assert.deepEqual(
+    (await detector.scan({ root: locked })).map((finding) => [finding.ruleId, finding.location.line]),
+    [["php.package.example.one", 5]],
+  );
 });
 
 test("nested projects are found, vendored and fixture directories and symbolic links are skipped, and a repository without PHP files is empty", async () => {
@@ -173,7 +193,10 @@ test("nested projects are found, vendored and fixture directories and symbolic l
     "tests/fixtures/old/.php-version": "7.4.33\n",
   });
   await symlink(join(root, "apps"), join(root, "linked")).catch(() => undefined);
-  assert.deepEqual((await phpDetector.scan({ root })).map((finding) => finding.location.path), ["apps/api/.php-version"]);
+  assert.deepEqual(
+    (await phpDetector.scan({ root })).map((finding) => finding.location.path),
+    ["apps/api/.php-version"],
+  );
   assert.deepEqual(await phpDetector.scan({ root: await repository({ "README.md": "x\n" }) }), []);
 });
 
@@ -198,10 +221,13 @@ test("a migration packet for a PHP finding names the file, steps, and verificati
 
 test("the detector is registered and PHP is experimental in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "php"));
-  assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "php"), {
-    id: "php",
-    status: "experimental",
-    maturity: "experimental",
-    detectorIds: ["php"],
-  });
+  assert.deepEqual(
+    getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "php"),
+    {
+      id: "php",
+      status: "experimental",
+      maturity: "experimental",
+      detectorIds: ["php"],
+    },
+  );
 });

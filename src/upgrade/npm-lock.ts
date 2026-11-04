@@ -99,7 +99,9 @@ export const npmLockAnalyzer: UpgradeAnalyzer = {
   runtimes: ["nodejs"],
 
   async applies(root: string): Promise<boolean> {
-    return (await readLockfiles(root)).some((lockfile) => lockfile.version === 1 || lockfile.version === 2 || lockfile.version === 3);
+    return (await readLockfiles(root)).some(
+      (lockfile) => lockfile.version === 1 || lockfile.version === 2 || lockfile.version === 3,
+    );
   },
 
   async analyze(root: string, target: UpgradeTarget): Promise<UpgradeIssue[]> {
@@ -127,7 +129,9 @@ export const npmLockAnalyzer: UpgradeAnalyzer = {
         if (seen.has(identity)) continue;
         seen.add(identity);
         const valid = semver.validRange(entry.range) !== null;
-        const satisfied = valid && candidates.some((candidate) => semver.satisfies(candidate, entry.range, { includePrerelease: false }));
+        const satisfied =
+          valid &&
+          candidates.some((candidate) => semver.satisfies(candidate, entry.range, { includePrerelease: false }));
         if (satisfied) continue;
         const level = valid ? (entry.dev ? "warning" : "blocker") : "unknown";
         const subject = `${entry.name}@${entry.version}`;

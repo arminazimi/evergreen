@@ -18,5 +18,7 @@ export interface SdkDeclaration {
 
 export function parseGlobalJson(contents: string): SdkDeclaration[] {
   const version = member(member(readJsonLines(contents, { comments: true }), "sdk")?.value, "version")?.value;
-  return version?.kind === "string" && version.value.trim() !== "" ? [{ value: version.value.trim(), line: version.line }] : [];
+  return version?.kind === "string" && version.value.trim() !== ""
+    ? [{ value: version.value.trim(), line: version.line }]
+    : [];
 }

@@ -41,13 +41,20 @@ async function temporaryRoot(): Promise<string> {
 }
 
 /** Run the built tool in `cwd` and report the exit code instead of throwing. */
-async function runTool(cwd: string, args: readonly string[]): Promise<{ code: number; stdout: string; stderr: string }> {
+async function runTool(
+  cwd: string,
+  args: readonly string[],
+): Promise<{ code: number; stdout: string; stderr: string }> {
   try {
     const { stdout, stderr } = await execute(process.execPath, [TOOL, ...args], { cwd });
     return { code: 0, stdout, stderr };
   } catch (error) {
     const failure = error as { code?: number; stdout?: string; stderr?: string };
-    return { code: typeof failure.code === "number" ? failure.code : 1, stdout: failure.stdout ?? "", stderr: failure.stderr ?? "" };
+    return {
+      code: typeof failure.code === "number" ? failure.code : 1,
+      stdout: failure.stdout ?? "",
+      stderr: failure.stderr ?? "",
+    };
   }
 }
 
@@ -70,7 +77,10 @@ test("docs paths map to the public URLs GitHub Pages serves", () => {
   assert.equal(urlForDocsPath("index.md"), `${SITE_URL}/`);
   assert.equal(urlForDocsPath("MCP.md"), `${SITE_URL}/MCP.html`);
   assert.equal(urlForDocsPath("rules/index.md"), `${SITE_URL}/rules/`);
-  assert.equal(urlForDocsPath("rules/npm.package.request.deprecated.md"), `${SITE_URL}/rules/npm.package.request.deprecated.html`);
+  assert.equal(
+    urlForDocsPath("rules/npm.package.request.deprecated.md"),
+    `${SITE_URL}/rules/npm.package.request.deprecated.html`,
+  );
   assert.equal(urlForDocsPath("dashboard/index.html"), `${SITE_URL}/dashboard/`);
   assert.equal(urlForDocsPath("llms.txt"), `${SITE_URL}/llms.txt`);
   assert.equal(urlForDocsPath("sitemap.xml"), `${SITE_URL}/sitemap.xml`);
@@ -105,7 +115,10 @@ test("the inventory covers the sitemap and every docs page, and every URL exists
   assert.ok(urls.includes(`${SITE_URL}/MCP.html`));
   assert.ok(urls.includes(`${SITE_URL}/sitemap.xml`));
   assert.equal(new Set(urls).size, urls.length);
-  assert.deepEqual(urls, [...urls].sort((left, right) => left.localeCompare(right)));
+  assert.deepEqual(
+    urls,
+    [...urls].sort((left, right) => left.localeCompare(right)),
+  );
 });
 
 test("the current inventory is generated into a temporary file, never a committed fixture", async () => {
@@ -119,7 +132,11 @@ test("the current inventory is generated into a temporary file, never a committe
   const urls = await collectSiteUrls();
   assert.ok(urls.length >= 900);
   assert.equal(await readFile(output, "utf8"), renderInventory(urls));
-  assert.equal(await readFile(resolve(BASELINE_PATH), "utf8"), baselineBefore, "generating must not touch the baseline");
+  assert.equal(
+    await readFile(resolve(BASELINE_PATH), "utf8"),
+    baselineBefore,
+    "generating must not touch the baseline",
+  );
   assert.equal(existsSync(resolve("tests/fixtures/site-urls.json")), false, "the inventory is not a committed fixture");
 });
 
@@ -129,7 +146,10 @@ test("the committed baseline is a published-site snapshot that is still served",
 
   assert.ok(baseline.length >= 900);
   assert.equal(new Set(baseline).size, baseline.length);
-  assert.deepEqual(baseline, [...baseline].sort((left, right) => left.localeCompare(right)));
+  assert.deepEqual(
+    baseline,
+    [...baseline].sort((left, right) => left.localeCompare(right)),
+  );
   assert.ok(baseline.includes(`${SITE_URL}/`));
   // New pages are allowed; a baseline URL may only leave when it still redirects.
   assert.deepEqual(await lostUrls(baseline, urls), []);
@@ -192,7 +212,10 @@ test("removing a baseline URL without a redirect fails, and a redirect fixes it"
 
   // A stub in docs/redirects/ covers one URL; redirect_from on a surviving page covers the other.
   await mkdir(join(root, "docs", "redirects"), { recursive: true });
-  await writeFile(join(root, "docs", "redirects", "old.md"), "---\npermalink: /old.html\nredirect_to: /\nsitemap: false\n---\n");
+  await writeFile(
+    join(root, "docs", "redirects", "old.md"),
+    "---\npermalink: /old.html\nredirect_to: /\nsitemap: false\n---\n",
+  );
   await writeFile(join(root, "docs", "index.md"), "---\nredirect_from:\n  - /gone.html\n---\n# Home\n");
 
   const redirected = await redirectedUrls(root);
@@ -284,7 +307,8 @@ test("the machine files stay static and served at their old root URLs", async ()
   const claimed = new Set(machineFiles.map((file) => `/${file}`));
   for (const entry of await readdir(resolve("docs"), { recursive: true })) {
     if (!entry.endsWith(".md") && !entry.endsWith(".html")) continue;
-    const frontMatter = (await readFile(resolve("docs", entry), "utf8")).match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? "";
+    const frontMatter =
+      (await readFile(resolve("docs", entry), "utf8")).match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? "";
     const permalink = frontMatter.match(/^permalink:\s*["']?([^"'\s]+)/m)?.[1];
     assert.ok(
       permalink === undefined || !claimed.has(permalink),

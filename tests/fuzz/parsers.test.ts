@@ -42,17 +42,98 @@ const TEST_TIMEOUT_MS = TIME_LIMIT_MS + 60_000;
  * characters, and duplicate-inducing whitespace.
  */
 const HOSTILE_FRAGMENTS = [
-  "---", "\n---\n", "{}", "[]", "[[", "]]", "(((", ")))", "{{", "}}", "<%", "%>", "<<<", ">>>",
-  "{\"a\":", "}", "]", ",", ":", "key: value", "- item", "  - nested", "\t\t", "    ", "\n\n\n",
-  "null", "true", "false", "undefined", "NaN", "Infinity", "0x7fffffff", "9223372036854775807",
-  "1e309", "-1e309", "1.2.3-alpha+build", "^1.0.0", "~2", "=>", "->", "=> {",
-  "\"", "'", "'''", "\"\"\"", "\\\\", "\\u0000", "\\n", "$((", "`", "```", "${", "$__",
-  "#comment", "!tag", "&anchor", "*alias", "|literal\n", ">folded\n", "%YAML", "!!binary",
-  "<<1", "<<{", "<< ", "<<-", "<<EOF\nbody\nEOF\n",
-  "@import", "include(", "require(", "eval(", "__proto__", "constructor", "prototype",
-  "pkg:", "pkg:npm/a@1.0.0", "vers:npm/1.0.0", "vers-x/", "com.example:foo:1.2.3",
-  "org.example", "github.com/owner/repo", "https://", "sha256:", "main..HEAD..other",
-  "A".repeat(64), "\n".repeat(64), " ", "\u0000", "﻿", "😀", "&#x0;", "<script>", "%00",
+  "---",
+  "\n---\n",
+  "{}",
+  "[]",
+  "[[",
+  "]]",
+  "(((",
+  ")))",
+  "{{",
+  "}}",
+  "<%",
+  "%>",
+  "<<<",
+  ">>>",
+  '{"a":',
+  "}",
+  "]",
+  ",",
+  ":",
+  "key: value",
+  "- item",
+  "  - nested",
+  "\t\t",
+  "    ",
+  "\n\n\n",
+  "null",
+  "true",
+  "false",
+  "undefined",
+  "NaN",
+  "Infinity",
+  "0x7fffffff",
+  "9223372036854775807",
+  "1e309",
+  "-1e309",
+  "1.2.3-alpha+build",
+  "^1.0.0",
+  "~2",
+  "=>",
+  "->",
+  "=> {",
+  '"',
+  "'",
+  "'''",
+  '"""',
+  "\\\\",
+  "\\u0000",
+  "\\n",
+  "$((",
+  "`",
+  "```",
+  "${",
+  "$__",
+  "#comment",
+  "!tag",
+  "&anchor",
+  "*alias",
+  "|literal\n",
+  ">folded\n",
+  "%YAML",
+  "!!binary",
+  "<<1",
+  "<<{",
+  "<< ",
+  "<<-",
+  "<<EOF\nbody\nEOF\n",
+  "@import",
+  "include(",
+  "require(",
+  "eval(",
+  "__proto__",
+  "constructor",
+  "prototype",
+  "pkg:",
+  "pkg:npm/a@1.0.0",
+  "vers:npm/1.0.0",
+  "vers-x/",
+  "com.example:foo:1.2.3",
+  "org.example",
+  "github.com/owner/repo",
+  "https://",
+  "sha256:",
+  "main..HEAD..other",
+  "A".repeat(64),
+  "\n".repeat(64),
+  " ",
+  "\u0000",
+  "﻿",
+  "😀",
+  "&#x0;",
+  "<script>",
+  "%00",
 ];
 
 const input = fc.oneof(
@@ -61,10 +142,33 @@ const input = fc.oneof(
 );
 
 const DOCUMENT_KEYS = [
-  "components", "metadata", "bomFormat", "specVersion", "packages", "externalRefs",
-  "referenceType", "referenceLocator", "purl", "version", "package", "snapshots",
-  "values", "root_module", "resources", "items", "kind", "apiVersion", "spec",
-  "containers", "image", "Id", "Config", "State", "Service", "default", "develop",
+  "components",
+  "metadata",
+  "bomFormat",
+  "specVersion",
+  "packages",
+  "externalRefs",
+  "referenceType",
+  "referenceLocator",
+  "purl",
+  "version",
+  "package",
+  "snapshots",
+  "values",
+  "root_module",
+  "resources",
+  "items",
+  "kind",
+  "apiVersion",
+  "spec",
+  "containers",
+  "image",
+  "Id",
+  "Config",
+  "State",
+  "Service",
+  "default",
+  "develop",
 ] as const;
 
 /** JSON-shaped input for parsers that read a document rather than text. */
@@ -159,7 +263,8 @@ test("parseTf terminates on `<<` that does not start a heredoc", () => {
   assert.deepEqual(parseTf("<<1"), []);
 });
 
-test("parseCleDocument tolerates hostile input", { timeout: TEST_TIMEOUT_MS }, () => {  fc.assert(
+test("parseCleDocument tolerates hostile input", { timeout: TEST_TIMEOUT_MS }, () => {
+  fc.assert(
     fc.property(fc.jsonValue({ maxDepth: 5 }), (document) => {
       const started = performance.now();
       try {
@@ -203,8 +308,14 @@ test("npm lockfile crashers from the fuzz corpus never fail the scan", async () 
   });
 
   const findings = await new NpmDetector().scan({ root });
-  assert.ok(findings.some((finding) => finding.ruleId.startsWith("npm.")), "the declared dependency is still reported");
-  assert.ok(findings.every((finding) => finding.confidence !== "inferred-from-lock"), "damaged lockfiles resolve nothing");
+  assert.ok(
+    findings.some((finding) => finding.ruleId.startsWith("npm.")),
+    "the declared dependency is still reported",
+  );
+  assert.ok(
+    findings.every((finding) => finding.confidence !== "inferred-from-lock"),
+    "damaged lockfiles resolve nothing",
+  );
 });
 
 test("python project crashers from the fuzz corpus never fail the scan", async () => {
@@ -219,7 +330,10 @@ test("python project crashers from the fuzz corpus never fail the scan", async (
     "Pipfile.lock": await readFile(join(fixtures, "Pipfile.lock"), "utf8"),
   });
   const findings = await new PythonDetector().scan({ root });
-  assert.ok(findings.some((finding) => finding.summary.includes("Python 3.8")), "the project runtime is still reported");
+  assert.ok(
+    findings.some((finding) => finding.summary.includes("Python 3.8")),
+    "the project runtime is still reported",
+  );
 });
 
 type Outcome = { kind: "value"; value: unknown } | { kind: "deliberate"; error: string };
@@ -307,12 +421,16 @@ function recordCrash(entry: { target: string; input: unknown; error: unknown; fi
   mkdirSync(directory, { recursive: true });
   writeFileSync(
     join(directory, `${name}-crash-${count}.json`),
-    JSON.stringify({
-      target: entry.target,
-      ...(entry.file === undefined ? {} : { file: entry.file }),
-      input: entry.input,
-      error: entry.error instanceof Error ? `${entry.error.name}: ${entry.error.message}` : String(entry.error),
-    }, null, 2) + "\n",
+    JSON.stringify(
+      {
+        target: entry.target,
+        ...(entry.file === undefined ? {} : { file: entry.file }),
+        input: entry.input,
+        error: entry.error instanceof Error ? `${entry.error.name}: ${entry.error.message}` : String(entry.error),
+      },
+      null,
+      2,
+    ) + "\n",
   );
 }
 

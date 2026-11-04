@@ -55,7 +55,10 @@ export const intdotScheme: VersionScheme = {
     const segments = (value: string) => {
       const prefix = /^[0-9.]*/.exec(value)?.[0] ?? "";
       if (!/^\d/.test(prefix)) throw new VersError(`Invalid intdot version "${value}".`);
-      return prefix.split(".").filter(Boolean).map((segment) => BigInt(segment));
+      return prefix
+        .split(".")
+        .filter(Boolean)
+        .map((segment) => BigInt(segment));
     };
     const a = segments(left);
     const b = segments(right);

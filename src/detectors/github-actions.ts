@@ -37,8 +37,7 @@ interface ActionReference {
   line: number;
 }
 
-const USES_PATTERN =
-  /^\s*(?:-\s*)?uses\s*:\s*["']?([^\s#"']+)["']?(\s+#.*)?$/;
+const USES_PATTERN = /^\s*(?:-\s*)?uses\s*:\s*["']?([^\s#"']+)["']?(\s+#.*)?$/;
 const VERSION_PATTERN = /^v?(\d+)(?:\.\d+){0,2}$/;
 const SHA_PATTERN = /^[a-fA-F0-9]{40}$/;
 
@@ -49,8 +48,7 @@ const SHA_PATTERN = /^[a-fA-F0-9]{40}$/;
  * The `(?![.\d])` stopper rejects typos such as `# v4..1` and `# v4.1.1.1`, which would otherwise
  * truncate to a plausible version.
  */
-const COMMENT_VERSION =
-  /^#\s*(?:(v?\d+(?:\.\d+){0,2})(?![.\d])|(?:tag=|version:\s*)(v?\d+(?:\.\d+){0,2})(?![.\d]))/;
+const COMMENT_VERSION = /^#\s*(?:(v?\d+(?:\.\d+){0,2})(?![.\d])|(?:tag=|version:\s*)(v?\d+(?:\.\d+){0,2})(?![.\d]))/;
 
 /**
  * A second version token later in the same comment signals conflicting versions (for example
@@ -201,7 +199,12 @@ function judgeSetupDotnet(
     const location = { path, line: entry.line };
     const reference = `dotnet-version: ${entry.value}`;
     if (entry.expression) {
-      unclassified.push({ component: "actions/setup-dotnet", reference, reason: "the version is an expression, which Evergreen does not evaluate", location });
+      unclassified.push({
+        component: "actions/setup-dotnet",
+        reference,
+        reason: "the version is an expression, which Evergreen does not evaluate",
+        location,
+      });
       continue;
     }
     const version = classifyDotnetVersion(entry.value);
@@ -209,7 +212,9 @@ function judgeSetupDotnet(
       unclassified.push({ component: "actions/setup-dotnet", reference, reason: version.reason, location });
       continue;
     }
-    const rule = rules.find((item) => versContains(item.vers, version.lowest) && versContains(item.vers, version.highest));
+    const rule = rules.find(
+      (item) => versContains(item.vers, version.lowest) && versContains(item.vers, version.highest),
+    );
     if (rule) {
       findings.push({
         id: `${rule.id}:${path}:${entry.line}`,
@@ -223,8 +228,15 @@ function judgeSetupDotnet(
         ...(rule.migration ? { migration: rule.migration } : {}),
         sources: rule.sources,
       });
-    } else if (rules.some((item) => versContains(item.vers, version.lowest) || versContains(item.vers, version.highest))) {
-      unclassified.push({ component: "actions/setup-dotnet", reference, reason: `"${entry.value}" is a floating release line that spans supported and unsupported versions`, location });
+    } else if (
+      rules.some((item) => versContains(item.vers, version.lowest) || versContains(item.vers, version.highest))
+    ) {
+      unclassified.push({
+        component: "actions/setup-dotnet",
+        reference,
+        reason: `"${entry.value}" is a floating release line that spans supported and unsupported versions`,
+        location,
+      });
     }
   }
 }
@@ -244,7 +256,12 @@ function judgeSetupNode(
     const location = { path, line: entry.line };
     const reference = `node-version: ${entry.value}`;
     if (entry.expression) {
-      unclassified.push({ component: "actions/setup-node", reference, reason: "the version is an expression, which Evergreen does not evaluate", location });
+      unclassified.push({
+        component: "actions/setup-node",
+        reference,
+        reason: "the version is an expression, which Evergreen does not evaluate",
+        location,
+      });
       continue;
     }
     const version = classifyNodeVersion(entry.value);
@@ -252,7 +269,9 @@ function judgeSetupNode(
       unclassified.push({ component: "actions/setup-node", reference, reason: version.reason, location });
       continue;
     }
-    const rule = rules.find((item) => versContains(item.vers, version.lowest) && versContains(item.vers, version.highest));
+    const rule = rules.find(
+      (item) => versContains(item.vers, version.lowest) && versContains(item.vers, version.highest),
+    );
     if (rule) {
       findings.push({
         id: `${rule.id}:${path}:${entry.line}`,
@@ -266,8 +285,15 @@ function judgeSetupNode(
         ...(rule.migration ? { migration: rule.migration } : {}),
         sources: rule.sources,
       });
-    } else if (rules.some((item) => versContains(item.vers, version.lowest) || versContains(item.vers, version.highest))) {
-      unclassified.push({ component: "actions/setup-node", reference, reason: `"${entry.value}" is a floating release line that spans supported and unsupported versions`, location });
+    } else if (
+      rules.some((item) => versContains(item.vers, version.lowest) || versContains(item.vers, version.highest))
+    ) {
+      unclassified.push({
+        component: "actions/setup-node",
+        reference,
+        reason: `"${entry.value}" is a floating release line that spans supported and unsupported versions`,
+        location,
+      });
     }
   }
 }
@@ -310,11 +336,7 @@ export class GitHubActionsDetector implements Detector {
         const rule = rulesByAction.get(reference.action);
         if (!rule) continue;
 
-        const resolved = resolveReference(
-          reference.ref,
-          reference.comment,
-          shaRegistry.get(reference.action),
-        );
+        const resolved = resolveReference(reference.ref, reference.comment, shaRegistry.get(reference.action));
         if (!resolved) {
           if (SHA_PATTERN.test(reference.ref)) {
             unclassified.push({
@@ -336,11 +358,12 @@ export class GitHubActionsDetector implements Detector {
         }
 
         const path = relativePosix(context.root, workflowFile);
-        const summary = resolved.source === "comment"
-          ? `${reference.action}@${reference.ref} (${resolved.version} from the trailing comment): ${rule.summary}`
-          : resolved.source === "map"
-            ? `${reference.action}@${reference.ref} (${resolved.version} from the bundled SHA map): ${rule.summary}`
-            : `${reference.action}@${reference.ref}: ${rule.summary}`;
+        const summary =
+          resolved.source === "comment"
+            ? `${reference.action}@${reference.ref} (${resolved.version} from the trailing comment): ${rule.summary}`
+            : resolved.source === "map"
+              ? `${reference.action}@${reference.ref} (${resolved.version} from the bundled SHA map): ${rule.summary}`
+              : `${reference.action}@${reference.ref}: ${rule.summary}`;
         findings.push({
           id: `${rule.id}:${path}:${reference.line}`,
           ruleId: rule.id,

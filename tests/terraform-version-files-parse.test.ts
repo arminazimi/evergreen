@@ -22,12 +22,8 @@ test("parses .terraform-version and the .tool-versions terraform entry with exac
   assert.deepEqual(parseToolVersionsTerraform(await fixture("positive/.tool-versions")), [
     { value: "0.12.31", line: 1 },
   ]);
-  assert.deepEqual(parseTerraformVersionFile(await fixture("zero/.terraform-version")), [
-    { value: "1.9.8", line: 1 },
-  ]);
-  assert.deepEqual(parseToolVersionsTerraform(await fixture("zero/.tool-versions")), [
-    { value: "1.9.8", line: 1 },
-  ]);
+  assert.deepEqual(parseTerraformVersionFile(await fixture("zero/.terraform-version")), [{ value: "1.9.8", line: 1 }]);
+  assert.deepEqual(parseToolVersionsTerraform(await fixture("zero/.tool-versions")), [{ value: "1.9.8", line: 1 }]);
 });
 
 test("ignores latest, comments, other tools, and terraformer", async () => {
@@ -43,7 +39,19 @@ test("returns nothing for a missing version", async () => {
 });
 
 test("returns nothing for dynamic and unsupported version forms", () => {
-  for (const value of ["latest", "latest:^1.8", "min-required", "system", "ref:main", "path:/opt/tf", "1.9", "v1.9.8", "1.9.x", "~> 1.9.0", "1.9.8 1.8.0"]) {
+  for (const value of [
+    "latest",
+    "latest:^1.8",
+    "min-required",
+    "system",
+    "ref:main",
+    "path:/opt/tf",
+    "1.9",
+    "v1.9.8",
+    "1.9.x",
+    "~> 1.9.0",
+    "1.9.8 1.8.0",
+  ]) {
     assert.deepEqual(parseTerraformVersionFile(`${value}\n`), [], value);
     if (!value.includes(" ")) assert.deepEqual(parseToolVersionsTerraform(`terraform ${value}\n`), [], value);
   }

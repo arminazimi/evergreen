@@ -9,7 +9,8 @@ export const command: CliCommand = {
   completion: { subcommands: ["bash", "zsh", "fish"] },
   async run(args, ctx) {
     const { isCompletionShell, renderCompletions } = await import("../completions.js");
-    if (args.length !== 1 || !isCompletionShell(args[0])) return ctx.fail("usage", "Usage: evergreen completions <bash|zsh|fish>");
+    if (args.length !== 1 || !isCompletionShell(args[0]))
+      return ctx.fail("usage", "Usage: evergreen completions <bash|zsh|fish>");
     process.stdout.write(renderCompletions(args[0]));
     return 0;
   },

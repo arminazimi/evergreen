@@ -37,10 +37,18 @@ async function committedRules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/rust.json", "utf8"))).rules;
 }
 
-async function expected(ruleId: string, path: string, line: number, summary: (rule: RegistryV2Rule) => string): Promise<DetectorFinding> {
+async function expected(
+  ruleId: string,
+  path: string,
+  line: number,
+  summary: (rule: RegistryV2Rule) => string,
+): Promise<DetectorFinding> {
   const rule = (await committedRules()).find((item) => item.id === ruleId)!;
   // A rule with usage matchers reports where the source uses the crate, even when nowhere.
-  const usage = (rule.usage ?? []).length > 0 ? { usages: [], impact: { usageCount: 0, affectedFiles: 0, level: "none" as const } } : {};
+  const usage =
+    (rule.usage ?? []).length > 0
+      ? { usages: [], impact: { usageCount: 0, affectedFiles: 0, level: "none" as const } }
+      : {};
   return {
     id: `${ruleId}:${path}:${line}`,
     ruleId,
@@ -57,8 +65,15 @@ async function expected(ruleId: string, path: string, line: number, summary: (ru
 }
 
 test("rust passes detector conformance on every fixture", async () => {
-  const crate = (id: string, path: string, line: number, text: string) => expected(id, path, line, (rule) => `${path} declares ${text}. ${rule.summary}`);
-  const toolchain = (path: string, line: number, version: string) => expected("rust.toolchain.end-of-support-1.98-and-older", path, line, (rule) => `${path} pins Rust ${version}. ${rule.summary}`);
+  const crate = (id: string, path: string, line: number, text: string) =>
+    expected(id, path, line, (rule) => `${path} declares ${text}. ${rule.summary}`);
+  const toolchain = (path: string, line: number, version: string) =>
+    expected(
+      "rust.toolchain.end-of-support-1.98-and-older",
+      path,
+      line,
+      (rule) => `${path} pins Rust ${version}. ${rule.summary}`,
+    );
   await runDetectorConformance({
     detector,
     fixtures: [
@@ -102,12 +117,25 @@ test("edition, rust-version, and a moving or non-release channel are never findi
   });
   const analysis = await detector.analyze({ root });
   assert.deepEqual(analysis.findings, []);
-  assert.deepEqual(analysis.unclassified.map((item) => [item.location.path, item.reference]), [["beta/rust-toolchain", "beta"], ["rust-toolchain.toml", "nightly-2022-01-01"]]);
+  assert.deepEqual(
+    analysis.unclassified.map((item) => [item.location.path, item.reference]),
+    [
+      ["beta/rust-toolchain", "beta"],
+      ["rust-toolchain.toml", "nightly-2022-01-01"],
+    ],
+  );
 });
 
 test("the newest supported release and newer are not reported, and a two-part release is read as x.y.0", async () => {
-  const root = await repository({ "a/rust-toolchain": "1.99.0\n", "b/rust-toolchain": "1.100\n", "c/rust-toolchain": "1.98\n" });
-  assert.deepEqual((await detector.scan({ root })).map((finding) => finding.location.path), ["c/rust-toolchain"]);
+  const root = await repository({
+    "a/rust-toolchain": "1.99.0\n",
+    "b/rust-toolchain": "1.100\n",
+    "c/rust-toolchain": "1.98\n",
+  });
+  assert.deepEqual(
+    (await detector.scan({ root })).map((finding) => finding.location.path),
+    ["c/rust-toolchain"],
+  );
 });
 
 const yankedRule: RegistryV2Rule = {
@@ -124,7 +152,8 @@ const yankedRule: RegistryV2Rule = {
   provenance: { observedAt: "2026-10-17", reviewedAt: "2026-10-17", reviewer: "test" },
 };
 
-const lockEntry = (name: string, version: string) => `[[package]]\nname = "${name}"\nversion = "${version}"\nsource = "registry+https://github.com/rust-lang/crates.io-index"\n`;
+const lockEntry = (name: string, version: string) =>
+  `[[package]]\nname = "${name}"\nversion = "${version}"\nsource = "registry+https://github.com/rust-lang/crates.io-index"\n`;
 
 test("a yanked version is reported at its Cargo.lock line, only for a crate a Cargo.toml under it declares directly", async () => {
   const root = await repository({
@@ -133,21 +162,38 @@ test("a yanked version is reported at its Cargo.lock line, only for a crate a Ca
     "Cargo.lock": `version = 3\n\n${lockEntry("bytes", "1.6.0")}\n${lockEntry("memchr", "2.3.1")}`,
   });
   const findings = await new RustDetector(async () => [yankedRule]).scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["rust.crate.bytes.yanked", "Cargo.lock", 5]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["rust.crate.bytes.yanked", "Cargo.lock", 5]],
+  );
   assert.match(findings[0]!.summary, /Cargo\.lock resolves bytes 1\.6\.0, which is yanked/);
 
-  const notYanked = await repository({ "Cargo.toml": '[dependencies]\nbytes = "1"\n', "Cargo.lock": `version = 3\n\n${lockEntry("bytes", "1.7.0")}` });
+  const notYanked = await repository({
+    "Cargo.toml": '[dependencies]\nbytes = "1"\n',
+    "Cargo.lock": `version = 3\n\n${lockEntry("bytes", "1.7.0")}`,
+  });
   assert.deepEqual(await new RustDetector(async () => [yankedRule]).scan({ root: notYanked }), []);
 
-  const transitive = await repository({ "Cargo.toml": '[dependencies]\nserde = "1"\n', "Cargo.lock": `version = 3\n\n${lockEntry("bytes", "1.6.0")}` });
-  assert.deepEqual(await new RustDetector(async () => [yankedRule]).scan({ root: transitive }), [], "bytes is not declared directly");
+  const transitive = await repository({
+    "Cargo.toml": '[dependencies]\nserde = "1"\n',
+    "Cargo.lock": `version = 3\n\n${lockEntry("bytes", "1.6.0")}`,
+  });
+  assert.deepEqual(
+    await new RustDetector(async () => [yankedRule]).scan({ root: transitive }),
+    [],
+    "bytes is not declared directly",
+  );
 });
 
 test("path, git, workspace, and dynamic dependencies are not matched, and a renamed one is matched by its real crate", async () => {
   const root = await repository({
-    "Cargo.toml": '[dependencies]\nfailure = { path = "../failure" }\ntempdir = { git = "https://example.com/tempdir" }\natty = { workspace = true }\nansi_term = "${V}"\nconsole = { package = "atty", version = "0.2" }\n',
+    "Cargo.toml":
+      '[dependencies]\nfailure = { path = "../failure" }\ntempdir = { git = "https://example.com/tempdir" }\natty = { workspace = true }\nansi_term = "${V}"\nconsole = { package = "atty", version = "0.2" }\n',
   });
-  assert.deepEqual((await detector.scan({ root })).map((finding) => [finding.ruleId, finding.location.line]), [["rust.crate.atty.unmaintained", 6]]);
+  assert.deepEqual(
+    (await detector.scan({ root })).map((finding) => [finding.ruleId, finding.location.line]),
+    [["rust.crate.atty.unmaintained", 6]],
+  );
 });
 
 test("nested crates are found, vendored and fixture directories and symbolic links are skipped, and a repository without Rust files is empty", async () => {
@@ -158,8 +204,14 @@ test("nested crates are found, vendored and fixture directories and symbolic lin
     "tests/fixtures/old/Cargo.toml": '[dependencies]\nfailure = "0.1"\n',
   });
   await symlink(join(root, "crates"), join(root, "linked")).catch(() => undefined);
-  assert.deepEqual((await detector.scan({ root })).map((finding) => finding.location.path), ["crates/a/Cargo.toml"]);
-  assert.deepEqual(await detector.analyze({ root: await repository({ "README.md": "x\n" }) }), { findings: [], unclassified: [] });
+  assert.deepEqual(
+    (await detector.scan({ root })).map((finding) => finding.location.path),
+    ["crates/a/Cargo.toml"],
+  );
+  assert.deepEqual(await detector.analyze({ root: await repository({ "README.md": "x\n" }) }), {
+    findings: [],
+    unclassified: [],
+  });
 });
 
 import { scanRepository } from "../src/engine.js";
@@ -168,13 +220,20 @@ import { createMigrationPacket, validateMigrationPacket } from "../src/migration
 test("every curated Rust rule has migration guidance with real verification commands", async () => {
   for (const rule of await committedRules()) {
     assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
-    assert.ok(rule.migration.verification.some((check) => /^(?:rustc --version|cargo build --all-targets && cargo test)/.test(check.command)), rule.id);
+    assert.ok(
+      rule.migration.verification.some((check) =>
+        /^(?:rustc --version|cargo build --all-targets && cargo test)/.test(check.command),
+      ),
+      rule.id,
+    );
   }
 });
 
 test("a migration packet for a Rust finding names the file, steps, and verification", async () => {
   const result = await scanRepository(resolve(fixtures, "positive"), [detector]);
-  const toolchain = result.findings.find((finding) => finding.id === "rust.toolchain.end-of-support-1.98-and-older:rust-toolchain.toml:2");
+  const toolchain = result.findings.find(
+    (finding) => finding.id === "rust.toolchain.end-of-support-1.98-and-older:rust-toolchain.toml:2",
+  );
   assert.ok(toolchain);
   const packet = validateMigrationPacket(createMigrationPacket(result, toolchain.id));
   assert.ok(packet.affectedFiles.includes("rust-toolchain.toml"));

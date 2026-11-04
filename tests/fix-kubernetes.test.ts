@@ -36,7 +36,10 @@ test("the fixer output matches the after fixture and leaves spec-change findings
   // renderDiff emits one hunk spanning the first to the last change, so rebuild the new side of it and compare with the fixture.
   const hunk = patches[0]!.diff.split("\n").slice(2);
   const start = Number(/^@@ -(\d+)/.exec(hunk[0]!)![1]) - 1;
-  const rebuilt = hunk.slice(1).filter((line) => !line.startsWith("-")).map((line) => line.slice(1));
+  const rebuilt = hunk
+    .slice(1)
+    .filter((line) => !line.startsWith("-"))
+    .map((line) => line.slice(1));
   assert.deepEqual(rebuilt, after.split("\n").slice(start, start + rebuilt.length));
   assert.ok(patches[0]!.diff.includes("\n-apiVersion: batch/v1beta1\n"));
   assert.ok(patches[0]!.diff.includes('+apiVersion: "rbac.authorization.k8s.io/v1"\n'));
@@ -58,7 +61,7 @@ test("a chart template with a literal apiVersion is rewritten where the schema i
       "apiVersion: batch/v1beta1",
       "kind: CronJob",
       "metadata:",
-      "  name: {{ include \"demo.fullname\" . }}-nightly",
+      '  name: {{ include "demo.fullname" . }}-nightly',
       "spec:",
       "  schedule: {{ .Values.schedule | quote }}",
       "",
@@ -84,13 +87,15 @@ test("a kustomization patch target is left alone: its version line is not an api
       "    patch: |-",
       "      - op: replace",
       "        path: /spec/schedule",
-      "        value: \"0 1 * * *\"",
+      '        value: "0 1 * * *"',
     ].join("\n"),
   });
   assert.deepEqual(await kubernetesApiVersionFixer.plan(await scanRepository(root, detectors)), []);
 });
 
 test("a manifest without a trailing newline is left alone", async () => {
-  const root = await repository({ "cron.yaml": "apiVersion: batch/v1beta1\nkind: CronJob\nmetadata:\n  name: nightly" });
+  const root = await repository({
+    "cron.yaml": "apiVersion: batch/v1beta1\nkind: CronJob\nmetadata:\n  name: nightly",
+  });
   assert.deepEqual(await kubernetesApiVersionFixer.plan(await scanRepository(root, detectors)), []);
 });

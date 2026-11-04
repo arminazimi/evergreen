@@ -27,7 +27,8 @@ async function fix(root: string): Promise<string> {
 }
 
 test("raises only Go directive values, preserves formatting, and produces an applicable, idempotent patch", async (t) => {
-  const before = "module example.com/app\n\ngo\t1.24.3 // floor\n\nrequire example.com/dep v1.0.0 // indirect\n\ntoolchain go1.25.1 // builder\n";
+  const before =
+    "module example.com/app\n\ngo\t1.24.3 // floor\n\nrequire example.com/dep v1.0.0 // indirect\n\ntoolchain go1.25.1 // builder\n";
   const root = await repository(t, {
     "go.mod": before,
     "go.sum": "unchanged\n",
@@ -60,8 +61,16 @@ test("fixes nested modules and leaves a newer toolchain and go.work unchanged", 
 for (const [name, contents, vendor] of [
   ["higher dependency floor", "require example.com/dep v1.0.0", "# example.com/dep v1.0.0\n## explicit; go 1.27\n"],
   ["higher patch floor", "require example.com/dep v1.0.0", "# example.com/dep v1.0.0\n## explicit; go 1.26.1\n"],
-  ["higher indirect dependency floor", "require example.com/dep v1.0.0 // indirect", "# example.com/dep v1.0.0\n## explicit; go 1.27\n"],
-  ["higher transitive floor", "require example.com/dep v1.0.0", "# example.com/dep v1.0.0\n## explicit; go 1.24\n# example.com/transitive v1.0.0\n## go 1.27\n"],
+  [
+    "higher indirect dependency floor",
+    "require example.com/dep v1.0.0 // indirect",
+    "# example.com/dep v1.0.0\n## explicit; go 1.27\n",
+  ],
+  [
+    "higher transitive floor",
+    "require example.com/dep v1.0.0",
+    "# example.com/dep v1.0.0\n## explicit; go 1.24\n# example.com/transitive v1.0.0\n## go 1.27\n",
+  ],
   ["missing dependency metadata", "require example.com/dep v1.0.0", undefined],
   ["stale vendored version", "require example.com/dep v1.0.0", "# example.com/dep v0.9.0\n## explicit; go 1.24\n"],
   ["missing vendored Go floor", "require example.com/dep v1.0.0", "# example.com/dep v1.0.0\n## explicit\n"],

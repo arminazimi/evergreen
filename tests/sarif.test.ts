@@ -40,34 +40,52 @@ test("a scan without findings is one empty run", () => {
 });
 
 test("every finding becomes one result with an exact location, a rule index, and a stable fingerprint", () => {
-  const sarif = JSON.parse(renderSarif(scan([
-    finding("npm.package.request.deprecated", "package.json", 12, "high"),
-    finding("github-actions.checkout.node20", ".github/workflows/ci.yml", 7, "medium"),
-    finding("github-actions.checkout.node20", ".github/workflows/ci.yml", 30, "low"),
-  ])));
+  const sarif = JSON.parse(
+    renderSarif(
+      scan([
+        finding("npm.package.request.deprecated", "package.json", 12, "high"),
+        finding("github-actions.checkout.node20", ".github/workflows/ci.yml", 7, "medium"),
+        finding("github-actions.checkout.node20", ".github/workflows/ci.yml", 30, "low"),
+      ]),
+    ),
+  );
   const run = sarif.runs[0];
-  assert.deepEqual(run.tool.driver.rules.map((rule: { id: string }) => rule.id), ["github-actions.checkout.node20", "npm.package.request.deprecated"]);
+  assert.deepEqual(
+    run.tool.driver.rules.map((rule: { id: string }) => rule.id),
+    ["github-actions.checkout.node20", "npm.package.request.deprecated"],
+  );
   assert.equal(run.results.length, 3);
   assert.deepEqual(
-    run.results.map((result: { ruleIndex: number; level: string; locations: { physicalLocation: { artifactLocation: { uri: string }; region: { startLine: number } } }[] }) => [
-      result.ruleIndex,
-      result.level,
-      result.locations[0]!.physicalLocation.artifactLocation.uri,
-      result.locations[0]!.physicalLocation.region.startLine,
-    ]),
+    run.results.map(
+      (result: {
+        ruleIndex: number;
+        level: string;
+        locations: { physicalLocation: { artifactLocation: { uri: string }; region: { startLine: number } } }[];
+      }) => [
+        result.ruleIndex,
+        result.level,
+        result.locations[0]!.physicalLocation.artifactLocation.uri,
+        result.locations[0]!.physicalLocation.region.startLine,
+      ],
+    ),
     [
       [0, "warning", ".github/workflows/ci.yml", 7],
       [0, "note", ".github/workflows/ci.yml", 30],
       [1, "error", "package.json", 12],
     ],
   );
-  assert.equal(run.results[0].partialFingerprints["evergreenFindingId/v1"], "github-actions.checkout.node20:.github/workflows/ci.yml:7");
+  assert.equal(
+    run.results[0].partialFingerprints["evergreenFindingId/v1"],
+    "github-actions.checkout.node20:.github/workflows/ci.yml:7",
+  );
   assert.equal(run.results[0].locations[0].physicalLocation.artifactLocation.uriBaseId, "%SRCROOT%");
 });
 
 test("severity maps to SARIF levels", () => {
   const levels = (["critical", "high", "medium", "low", "info"] as const).map((severity) => {
-    const sarif = JSON.parse(renderSarif(scan([finding("npm.package.request.deprecated", "package.json", 1, severity)])));
+    const sarif = JSON.parse(
+      renderSarif(scan([finding("npm.package.request.deprecated", "package.json", 1, severity)])),
+    );
     return sarif.runs[0].results[0].level;
   });
   assert.deepEqual(levels, ["error", "error", "warning", "note", "note"]);
@@ -94,11 +112,17 @@ test("scan --format sarif prints SARIF, and unknown formats are rejected", async
   const root = await mkdtemp(join(tmpdir(), "evergreen-sarif-"));
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
-    await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
+    await writeFile(
+      join(root, ".github", "workflows", "ci.yml"),
+      "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n",
+    );
     const { stdout } = await runCli(["scan", root, "--format", "sarif"]);
     const sarif = JSON.parse(stdout);
     assert.equal(sarif.runs[0].results[0].ruleId, "github-actions.checkout.node20");
-    assert.equal(sarif.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri, ".github/workflows/ci.yml");
+    assert.equal(
+      sarif.runs[0].results[0].locations[0].physicalLocation.artifactLocation.uri,
+      ".github/workflows/ci.yml",
+    );
 
     const unknown = await runCli(["scan", root, "--format", "xml"]);
     assert.equal(unknown.code, 2);
@@ -113,21 +137,28 @@ test("scan --format sarif prints SARIF, and unknown formats are rejected", async
 test("rule help carries the replacement, deadline, migration steps, verification, and sources", async () => {
   const input = JSON.parse(await readFile(resolve("tests/fixtures/sarif-scan.json"), "utf8")) as ScanResult;
   const sarif = JSON.parse(renderSarif(input));
-  const rule = sarif.runs[0].tool.driver.rules.find((candidate: { id: string }) => candidate.id === "npm.package.request.deprecated");
+  const rule = sarif.runs[0].tool.driver.rules.find(
+    (candidate: { id: string }) => candidate.id === "npm.package.request.deprecated",
+  );
   assert.match(rule.help.text, /Replacement: Native fetch or a maintained HTTP client/);
   assert.match(rule.help.text, /Deadline: 2020-02-11/);
   assert.match(rule.help.text, /1\. Rewrite request usages: Translate each reported import/);
   assert.match(rule.help.text, /- npm run test --if-present \(Run the repository tests when defined\.\)/);
   assert.match(rule.help.text, /- request package deprecation notice: https:\/\/www\.npmjs\.com\/package\/request/);
   assert.match(rule.help.markdown, /\*\*Replacement:\*\* Native fetch/);
-  assert.match(rule.help.markdown, /- \[request package deprecation notice\]\(https:\/\/www\.npmjs\.com\/package\/request\)/);
+  assert.match(
+    rule.help.markdown,
+    /- \[request package deprecation notice\]\(https:\/\/www\.npmjs\.com\/package\/request\)/,
+  );
   assert.equal(rule.helpUri, "https://www.npmjs.com/package/request");
 });
 
 test("a rule without migration steps or sources still has help, and no help URI", async () => {
   const input = JSON.parse(await readFile(resolve("tests/fixtures/sarif-scan.json"), "utf8")) as ScanResult;
   const sarif = JSON.parse(renderSarif(input));
-  const rule = sarif.runs[0].tool.driver.rules.find((candidate: { id: string }) => candidate.id === "github-actions.checkout.node20");
+  const rule = sarif.runs[0].tool.driver.rules.find(
+    (candidate: { id: string }) => candidate.id === "github-actions.checkout.node20",
+  );
   assert.equal(rule.help.text, "Unsupported actions/checkout runtime");
   assert.equal("helpUri" in rule, false);
 });
@@ -140,7 +171,10 @@ test("the SARIF for the sample scan matches its snapshot", async () => {
 
 async function sarifValidator() {
   const { Ajv } = await import("ajv");
-  const schema = JSON.parse(await readFile(resolve("schemas/vendor/sarif-2.1.0.json"), "utf8")) as Record<string, unknown>;
+  const schema = JSON.parse(await readFile(resolve("schemas/vendor/sarif-2.1.0.json"), "utf8")) as Record<
+    string,
+    unknown
+  >;
   // The official schema is draft-04; Ajv's draft-07 mode rejects its top-level `id`, so drop that one keyword in memory.
   delete schema.id;
   return new Ajv({ strict: false, validateSchema: false, allErrors: true }).compile(schema);
@@ -150,7 +184,10 @@ test("the vendored SARIF schema is the published file", async () => {
   const { createHash } = await import("node:crypto");
   const text = await readFile(resolve("schemas/vendor/sarif-2.1.0.json"));
   const readme = await readFile(resolve("schemas/vendor/README.md"), "utf8");
-  assert.ok(readme.includes(createHash("sha256").update(text).digest("hex")), "schemas/vendor/README.md must record the file's SHA-256");
+  assert.ok(
+    readme.includes(createHash("sha256").update(text).digest("hex")),
+    "schemas/vendor/README.md must record the file's SHA-256",
+  );
 });
 
 test("SARIF output validates against the official 2.1.0 schema", async () => {
@@ -159,7 +196,11 @@ test("SARIF output validates against the official 2.1.0 schema", async () => {
   const cases: Record<string, ScanResult> = {
     "no findings": scan([]),
     "one finding without a line": scan([finding("python.runtime.eol", ".python-version", undefined, "info")]),
-    "many severities": scan((["critical", "high", "medium", "low", "info"] as const).map((severity, index) => finding(`npm.package.p${index}.deprecated`, "package.json", index + 1, severity))),
+    "many severities": scan(
+      (["critical", "high", "medium", "low", "info"] as const).map((severity, index) =>
+        finding(`npm.package.p${index}.deprecated`, "package.json", index + 1, severity),
+      ),
+    ),
     "sample with help": sample,
   };
   for (const [name, result] of Object.entries(cases)) {
@@ -181,13 +222,17 @@ test("the schema check actually rejects invalid SARIF", async () => {
 test("docs/GITHUB_ACTION.md documents every SARIF field the reporter writes", async () => {
   const docs = await readFile(resolve("docs/GITHUB_ACTION.md"), "utf8");
   const sarif = JSON.parse(await readFile(resolve("tests/fixtures/sarif-scan.expected.json"), "utf8")) as {
-    runs: Array<{ tool: { driver: Record<string, unknown> & { rules: Array<Record<string, unknown>> } }; results: Array<Record<string, unknown>> }>;
+    runs: Array<{
+      tool: { driver: Record<string, unknown> & { rules: Array<Record<string, unknown>> } };
+      results: Array<Record<string, unknown>>;
+    }>;
   };
   const run = sarif.runs[0]!;
   for (const key of ["name", "version"]) assert.ok(key in run.tool.driver, key);
   const mapping = docs.slice(docs.indexOf("| SARIF | Evergreen |"));
   const documented = (key: string) => new RegExp(`\\b${key}\\b`).test(mapping);
-  for (const key of Object.keys(run.tool.driver.rules[0]!)) assert.ok(documented(key), `rule field ${key} is not documented`);
+  for (const key of Object.keys(run.tool.driver.rules[0]!))
+    assert.ok(documented(key), `rule field ${key} is not documented`);
   for (const key of Object.keys(run.results[0]!)) assert.ok(documented(key), `result field ${key} is not documented`);
   assert.ok(docs.includes("evergreenFindingId/v1"));
   assert.ok(docs.includes("--format sarif"));

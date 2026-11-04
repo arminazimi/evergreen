@@ -19,7 +19,8 @@ export const pythonFixer: Fixer = {
   async plan(result, refuse) {
     const targets = new Map<string, Finding[]>();
     for (const finding of result.findings) {
-      if (!finding.ruleId.startsWith("python.runtime.eol-") || basename(finding.location.path) !== "pyproject.toml") continue;
+      if (!finding.ruleId.startsWith("python.runtime.eol-") || basename(finding.location.path) !== "pyproject.toml")
+        continue;
       targets.set(finding.location.path, [...(targets.get(finding.location.path) ?? []), finding]);
     }
     if (targets.size === 0) return [];
@@ -27,11 +28,17 @@ export const pythonFixer: Fixer = {
     let target: string | undefined;
     for (const rule of validateRegistryV2(await loadDataFile("registry/python.json")).rules) {
       const bound = /^vers:pypi\/<(\d+\.\d+)$/.exec(rule.vers)?.[1];
-      if (rule.id.startsWith("python.runtime.eol-") && bound && (!rule.deadline || rule.deadline <= day)
-        && (!target || semver.gt(`${bound}.0`, `${target}.0`))) target = bound;
+      if (
+        rule.id.startsWith("python.runtime.eol-") &&
+        bound &&
+        (!rule.deadline || rule.deadline <= day) &&
+        (!target || semver.gt(`${bound}.0`, `${target}.0`))
+      )
+        target = bound;
     }
     if (!target) {
-      for (const finding of [...targets.values()].flat()) refuse?.(finding, "The registry names no supported Python line for the scan date.");
+      for (const finding of [...targets.values()].flat())
+        refuse?.(finding, "The registry names no supported Python line for the scan date.");
       return [];
     }
 
@@ -58,20 +65,28 @@ export const pythonFixer: Fixer = {
       const document = parseToml(before);
       let project = false;
       const original = before.split("\n");
-      const text = original.map((line) => {
-        const header = /^\s*\[([^\]]+)\]\s*(?:#.*)?\r?$/.exec(line);
-        if (header) project = header[1]!.trim() === "project";
-        if (!project) return line;
-        const match = REQUIRES_PYTHON.exec(line);
-        if (!match) return line;
-        const value = raiseLowerBound(match[3]!, target!);
-        return `${match[1]}${match[2]}${value}${match[2]}${match[4]}`;
-      }).join("\n");
+      const text = original
+        .map((line) => {
+          const header = /^\s*\[([^\]]+)\]\s*(?:#.*)?\r?$/.exec(line);
+          if (header) project = header[1]!.trim() === "project";
+          if (!project) return line;
+          const match = REQUIRES_PYTHON.exec(line);
+          if (!match) return line;
+          const value = raiseLowerBound(match[3]!, target!);
+          return `${match[1]}${match[2]}${value}${match[2]}${match[4]}`;
+        })
+        .join("\n");
       const updated = text === before ? document : parseToml(text);
       const projectBefore = document.project;
       const projectAfter = updated.project;
-      if (!projectBefore || typeof projectBefore !== "object" || Array.isArray(projectBefore)
-        || !projectAfter || typeof projectAfter !== "object" || Array.isArray(projectAfter)) {
+      if (
+        !projectBefore ||
+        typeof projectBefore !== "object" ||
+        Array.isArray(projectBefore) ||
+        !projectAfter ||
+        typeof projectAfter !== "object" ||
+        Array.isArray(projectAfter)
+      ) {
         decline("The file has no `[project]` table to edit.");
         continue;
       }
@@ -104,7 +119,11 @@ function refusalReason(line: string | undefined, target: string): string | undef
   const bounds = value.split(",").map((clause) => BOUND.exec(clause));
   if (bounds.some((bound) => !bound)) return "The `requires-python` constraint is not a set of literal bounds.";
   const version = `${target}.0`;
-  if (bounds.some((bound) => bound![1] !== ">=" && !semver.satisfies(version, `${bound![1]}${semver.coerce(bound![2]!)?.version}`))) {
+  if (
+    bounds.some(
+      (bound) => bound![1] !== ">=" && !semver.satisfies(version, `${bound![1]}${semver.coerce(bound![2]!)?.version}`),
+    )
+  ) {
     return "The `requires-python` constraint excludes the supported Python version.";
   }
   return undefined;
@@ -116,10 +135,17 @@ function raiseLowerBound(value: string, target: string): string {
   const bounds = clauses.map((clause) => BOUND.exec(clause));
   if (bounds.some((bound) => !bound)) return value;
   const version = `${target}.0`;
-  if (bounds.some((bound) => bound![1] !== ">=" && !semver.satisfies(version, `${bound![1]}${semver.coerce(bound![2]!)?.version}`))) return value;
-  return clauses.map((clause, index) => {
-    const bound = bounds[index]!;
-    const current = semver.coerce(bound[2]!);
-    return bound[1] === ">=" && current && semver.lt(current, version) ? clause.replace(bound[2]!, target) : clause;
-  }).join(",");
+  if (
+    bounds.some(
+      (bound) => bound![1] !== ">=" && !semver.satisfies(version, `${bound![1]}${semver.coerce(bound![2]!)?.version}`),
+    )
+  )
+    return value;
+  return clauses
+    .map((clause, index) => {
+      const bound = bounds[index]!;
+      const current = semver.coerce(bound[2]!);
+      return bound[1] === ">=" && current && semver.lt(current, version) ? clause.replace(bound[2]!, target) : clause;
+    })
+    .join(",");
 }

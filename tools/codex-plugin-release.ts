@@ -19,22 +19,13 @@ async function runCommand(command: string, args: string[], cwd: string): Promise
 
 async function main(): Promise<void> {
   const root = process.cwd();
-  const metadata = JSON.parse(
-    await readFile(resolve(root, "package.json"), "utf8"),
-  ) as PackageMetadata;
+  const metadata = JSON.parse(await readFile(resolve(root, "package.json"), "utf8")) as PackageMetadata;
   const outputDirectory = resolve(root, "artifacts");
-  const output = resolve(
-    outputDirectory,
-    `evergreen-codex-plugin-${metadata.version}.zip`,
-  );
+  const output = resolve(outputDirectory, `evergreen-codex-plugin-${metadata.version}.zip`);
 
   await mkdir(outputDirectory, { recursive: true });
   await rm(output, { force: true });
-  await runCommand(
-    "zip",
-    ["-X", "-q", "-r", output, ".", "-x", "*.DS_Store"],
-    resolve(root, "plugins/codex"),
-  );
+  await runCommand("zip", ["-X", "-q", "-r", output, ".", "-x", "*.DS_Store"], resolve(root, "plugins/codex"));
   process.stdout.write(`Created ${basename(output)}\n`);
 }
 

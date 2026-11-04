@@ -1,11 +1,6 @@
 {
   "schemaVersion": "evergreen.held-out.v1",
-  "scope": [
-    "github-actions.checkout",
-    "github-actions.setup-node",
-    "github-actions.cache",
-    "nodejs.runtime"
-  ],
+  "scope": ["github-actions.checkout", "github-actions.setup-node", "github-actions.cache", "nodejs.runtime"],
   "repositories": [
     {
       "repository": "hapijs/catbox",

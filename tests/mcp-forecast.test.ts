@@ -22,7 +22,10 @@ interface Forecast {
   today: string;
   until: string;
   months: number;
-  groups: Array<{ month: string; events: Array<{ date: string; ruleId: string; findings: Array<{ id: string; path: string; line?: number }> }> }>;
+  groups: Array<{
+    month: string;
+    events: Array<{ date: string; ruleId: string; findings: Array<{ id: string; path: string; line?: number }> }>;
+  }>;
   affecting: number;
   total: number;
 }
@@ -37,7 +40,10 @@ async function fixtureRepository(): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-mcp-forecast-"));
   temporaryRoots.push(root);
   await mkdir(join(root, ".github", "workflows"), { recursive: true });
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
   await writeFile(
     join(root, "package.json"),
     JSON.stringify({ name: "fixture", version: "1.0.0", dependencies: { request: "2.88.2" } }, null, 2),
@@ -111,7 +117,11 @@ test("forecast_repository returns the object evergreen forecast --json prints, v
     assert.equal(forecast.until, "2027-10-29");
     assert.equal(forecast.months, 12);
 
-    assert.deepEqual(forecast, await cliForecast(root, 12, "2026-10-29"), "the MCP tool must print what the CLI prints");
+    assert.deepEqual(
+      forecast,
+      await cliForecast(root, 12, "2026-10-29"),
+      "the MCP tool must print what the CLI prints",
+    );
   } finally {
     await client.close();
   }
@@ -128,7 +138,8 @@ test("forecast_repository is deterministic for a fixed as_of and keeps every eve
 
     const forecast = first.structuredContent as unknown as Forecast;
     const scan = await client.request("tools/call", { name: "scan_repository", arguments: { repository_path: root } });
-    const findings = (scan.structuredContent as { findings: Array<{ id: string; location: { path: string } }> }).findings;
+    const findings = (scan.structuredContent as { findings: Array<{ id: string; location: { path: string } }> })
+      .findings;
     const located = new Map(findings.map((finding) => [finding.id, finding.location.path]));
 
     let events = 0;
@@ -156,19 +167,28 @@ test("forecast_repository defaults to twelve months and rejects a window outside
   const root = await fixtureRepository();
   const client = await connect();
   try {
-    const defaults = await client.request("tools/call", { name: "forecast_repository", arguments: { repository_path: root } });
+    const defaults = await client.request("tools/call", {
+      name: "forecast_repository",
+      arguments: { repository_path: root },
+    });
     assert.notEqual(defaults.isError, true);
     const forecast = defaults.structuredContent as unknown as Forecast;
     assert.equal(forecast.months, 12);
     assert.match(forecast.today, /^\d{4}-\d{2}-\d{2}$/, "without as_of the window starts today");
 
     for (const months of [0, 37, 1.5]) {
-      const rejected = await client.request("tools/call", { name: "forecast_repository", arguments: { repository_path: root, months } });
+      const rejected = await client.request("tools/call", {
+        name: "forecast_repository",
+        arguments: { repository_path: root, months },
+      });
       assert.equal(rejected.isError, true, `months ${months} is outside 1 to 36`);
       assert.match((rejected.content as Array<{ text: string }>)[0]!.text, /Input validation error/);
       assert.equal("structuredContent" in rejected, false);
     }
-    const badDate = await client.request("tools/call", { name: "forecast_repository", arguments: { repository_path: root, as_of: "29-10-2026" } });
+    const badDate = await client.request("tools/call", {
+      name: "forecast_repository",
+      arguments: { repository_path: root, as_of: "29-10-2026" },
+    });
     assert.equal(badDate.isError, true);
     assert.match((badDate.content as Array<{ text: string }>)[0]!.text, /as_of must be a date/);
   } finally {

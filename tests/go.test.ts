@@ -38,7 +38,14 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/go.json", "utf8"))).rules;
 }
 
-async function expected(ruleId: string, path: string, line: number, what: string, version: string, severity: "high" | "medium"): Promise<DetectorFinding> {
+async function expected(
+  ruleId: string,
+  path: string,
+  line: number,
+  what: string,
+  version: string,
+  severity: "high" | "medium",
+): Promise<DetectorFinding> {
   const rule = (await rules()).find((item) => item.id === ruleId)!;
   return {
     id: `${ruleId}:${path}:${line}`,
@@ -95,21 +102,34 @@ test("a supported release is not reported, and nested modules are found", async 
     "vendor/x/go.mod": "module c\n\ngo 1.21\n",
     "tests/fixtures/old/go.mod": "module d\n\ngo 1.21\n",
   });
-  assert.deepEqual((await goDetector.scan({ root })).map((finding) => [finding.ruleId, finding.location.path]), [["go.runtime.end-of-support-1.22", "services/api/go.mod"]]);
+  assert.deepEqual(
+    (await goDetector.scan({ root })).map((finding) => [finding.ruleId, finding.location.path]),
+    [["go.runtime.end-of-support-1.22", "services/api/go.mod"]],
+  );
 });
 
 test("a version that is not a Go release number is unclassified, not guessed", async () => {
   const root = await repository({ "go.mod": "module a\n\ngo 1.22\ntoolchain go1.23rc1\n" });
   const analysis = await goDetector.analyze({ root });
-  assert.deepEqual(analysis.findings.map((finding) => finding.location.line), [3, 4]);
+  assert.deepEqual(
+    analysis.findings.map((finding) => finding.location.line),
+    [3, 4],
+  );
   assert.deepEqual(analysis.unclassified, []);
 });
 
 test("a repository without Go files scans to nothing", async () => {
-  assert.deepEqual(await goDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), { findings: [], unclassified: [] });
+  assert.deepEqual(await goDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), {
+    findings: [],
+    unclassified: [],
+  });
 });
 
-const moduleRule = { id: "go.module.example.deprecated", purl: "pkg:golang/example.com/old", vers: "vers:golang/<2.0.0" } as RegistryV2Rule;
+const moduleRule = {
+  id: "go.module.example.deprecated",
+  purl: "pkg:golang/example.com/old",
+  vers: "vers:golang/<2.0.0",
+} as RegistryV2Rule;
 
 test("direct module rules match by module path and version range", () => {
   assert.equal(matchModule([moduleRule], "example.com/old", "v1.9.0"), moduleRule);
@@ -122,7 +142,10 @@ test("direct module rules match by module path and version range", () => {
 test("every curated Go rule has migration guidance with real verification commands", async () => {
   for (const rule of await rules()) {
     assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
-    assert.ok(rule.migration.verification.some((check) => /^go build \.\/\.\.\. && go test \.\/\.\.\.$/.test(check.command)), rule.id);
+    assert.ok(
+      rule.migration.verification.some((check) => /^go build \.\/\.\.\. && go test \.\/\.\.\.$/.test(check.command)),
+      rule.id,
+    );
   }
 });
 
@@ -137,7 +160,11 @@ test("a migration packet for a Go finding names the file, steps, and verificatio
 });
 
 test("a go directive older than Go 1.21 is reported by the 'and older' rule", async () => {
-  const root = await repository({ "go.mod": "module a\n\ngo 1.15\n", "tools/go.mod": "module b\n\ngo 1.20.3\ntoolchain go1.20.14\n", "ok/go.mod": "module c\n\ngo 1.26\n" });
+  const root = await repository({
+    "go.mod": "module a\n\ngo 1.15\n",
+    "tools/go.mod": "module b\n\ngo 1.20.3\ntoolchain go1.20.14\n",
+    "ok/go.mod": "module c\n\ngo 1.26\n",
+  });
   const findings = await goDetector.scan({ root });
   assert.deepEqual(
     findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line, finding.severity]),

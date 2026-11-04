@@ -69,7 +69,9 @@ export function parseMsbuild(contents: string): MsbuildDeclarations {
       const name = element.attributes.get("include")?.value.trim();
       if (!name) continue;
       const attribute = element.attributes.get("version");
-      const child = element.children.find((candidate) => named(candidate, "version") && !candidate.attributes.has("condition"));
+      const child = element.children.find(
+        (candidate) => named(candidate, "version") && !candidate.attributes.has("condition"),
+      );
       const version = attribute?.value.trim() || child?.text;
       declarations.packages.push({
         kind: named(element, "packagereference") ? "reference" : "version",

@@ -16,7 +16,10 @@ interface Line {
   eolFrom: string | null;
 }
 
-function endoflife(products: Record<string, { policy?: string | null; releases: Line[] }>, now = "2026-10-22"): ImporterContext {
+function endoflife(
+  products: Record<string, { policy?: string | null; releases: Line[] }>,
+  now = "2026-10-22",
+): ImporterContext {
   return {
     now: new Date(`${now}T12:00:00Z`),
     async fetchText(url) {
@@ -25,7 +28,10 @@ function endoflife(products: Record<string, { policy?: string | null; releases: 
       assert.ok(product, url);
       return JSON.stringify({
         result: {
-          links: { html: `https://endoflife.date/${slug}`, releasePolicy: product.policy === undefined ? `https://vendor.example/${slug}` : product.policy },
+          links: {
+            html: `https://endoflife.date/${slug}`,
+            releasePolicy: product.policy === undefined ? `https://vendor.example/${slug}` : product.policy,
+          },
           releases: product.releases,
         },
       });
@@ -60,11 +66,20 @@ test("emits drafts that diff against the existing database registry without remo
 
 test("a line with no end date or an end date in the future is never drafted", async () => {
   const context = endoflife({
-    mongodb: { releases: [{ name: "6.0", eolFrom: "2025-07-31" }, { name: "7.0", eolFrom: "2027-08-31" }, { name: "7.1", eolFrom: null }] },
+    mongodb: {
+      releases: [
+        { name: "6.0", eolFrom: "2025-07-31" },
+        { name: "7.0", eolFrom: "2027-08-31" },
+        { name: "7.1", eolFrom: null },
+      ],
+    },
     redis: { releases: [] },
   });
   const result = await runImporter(databaseVendorLifecycleImporter, context);
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["database.mongodb.end-of-life-6.0"]);
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["database.mongodb.end-of-life-6.0"],
+  );
   assert.ok(result.notes.includes("Skipped mongodb 7.0: its end of life (2027-08-31) is in the future."));
   assert.ok(result.notes.includes("Skipped mongodb 7.1: no end date."));
 });
@@ -73,7 +88,9 @@ test("the calendar moving past an end date drafts the rule", async () => {
   const products = { mongodb: { releases: [] }, redis: { releases: [{ name: "6.2", eolFrom: "2027-04-01" }] } };
   assert.deepEqual((await runImporter(databaseVendorLifecycleImporter, endoflife(products, "2027-03-31"))).rules, []);
   assert.deepEqual(
-    (await runImporter(databaseVendorLifecycleImporter, endoflife(products, "2027-04-01"))).rules.map((rule) => rule.id),
+    (await runImporter(databaseVendorLifecycleImporter, endoflife(products, "2027-04-01"))).rules.map(
+      (rule) => rule.id,
+    ),
     ["database.redis.end-of-life-6.2"],
   );
 });
@@ -82,15 +99,34 @@ test("lines below the first drafted major and non-numeric names are skipped", as
   const result = await runImporter(
     databaseVendorLifecycleImporter,
     endoflife({
-      mongodb: { releases: [{ name: "3.6", eolFrom: "2021-04-30" }, { name: "latest", eolFrom: "2020-01-01" }] },
-      redis: { releases: [{ name: "4.0", eolFrom: "2020-01-01" }, { name: "5.0", eolFrom: "2022-04-27" }] },
+      mongodb: {
+        releases: [
+          { name: "3.6", eolFrom: "2021-04-30" },
+          { name: "latest", eolFrom: "2020-01-01" },
+        ],
+      },
+      redis: {
+        releases: [
+          { name: "4.0", eolFrom: "2020-01-01" },
+          { name: "5.0", eolFrom: "2022-04-27" },
+        ],
+      },
     }),
   );
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["database.redis.end-of-life-5.0"]);
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["database.redis.end-of-life-5.0"],
+  );
 });
 
 test("endoflife.date alone is not evidence: a product without a vendor policy link drafts nothing", async () => {
-  for (const policy of [null, "https://endoflife.date/redis", "http://vendor.example/redis", "https://web.archive.org/web/2024/https://redis.io", "not a url"]) {
+  for (const policy of [
+    null,
+    "https://endoflife.date/redis",
+    "http://vendor.example/redis",
+    "https://web.archive.org/web/2024/https://redis.io",
+    "not a url",
+  ]) {
     const result = await runImporter(
       databaseVendorLifecycleImporter,
       endoflife({
@@ -99,6 +135,9 @@ test("endoflife.date alone is not evidence: a product without a vendor policy li
       }),
     );
     assert.deepEqual(result.rules, [], String(policy));
-    assert.ok(result.notes.some((note) => /^Skipped redis: no release-policy link/.test(note)), String(policy));
+    assert.ok(
+      result.notes.some((note) => /^Skipped redis: no release-policy link/.test(note)),
+      String(policy),
+    );
   }
 });

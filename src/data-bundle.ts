@@ -7,7 +7,29 @@ import { DEFAULT_MAX_REVIEW_AGE_DAYS, validateRegistryV2 } from "./registry.js";
 export const DATA_BUNDLE_SCHEMA_VERSION = "evergreen.data-bundle.v1" as const;
 
 /** The registries a bundle carries, in the order they are listed. The SHA map is carried as kind "sha-map". */
-export const BUNDLED_ECOSYSTEMS = ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "osv", "python", "ruby", "rust", "serverless", "shell", "swift", "terraform"] as const;
+export const BUNDLED_ECOSYSTEMS = [
+  "android",
+  "ci-images",
+  "container",
+  "cpp",
+  "dart",
+  "database",
+  "dotnet",
+  "github-actions",
+  "go",
+  "java",
+  "kubernetes",
+  "nodejs",
+  "npm",
+  "osv",
+  "python",
+  "ruby",
+  "rust",
+  "serverless",
+  "shell",
+  "swift",
+  "terraform",
+] as const;
 const SHA_MAP_PATH = "registry/github-actions-shas.json";
 
 /**
@@ -17,7 +39,8 @@ const SHA_MAP_PATH = "registry/github-actions-shas.json";
  */
 export const DATA_SIGNER = {
   issuer: "https://token.actions.githubusercontent.com",
-  identityPattern: "^https://github\\.com/arminazimi/evergreen/\\.github/workflows/data-release\\.yml@refs/(?:tags/data-v\\d{4}\\.\\d{2}\\.\\d{2}(?:\\.\\d+)?|heads/main)$",
+  identityPattern:
+    "^https://github\\.com/arminazimi/evergreen/\\.github/workflows/data-release\\.yml@refs/(?:tags/data-v\\d{4}\\.\\d{2}\\.\\d{2}(?:\\.\\d+)?|heads/main)$",
 } as const;
 
 export interface DataBundleFile {
@@ -109,7 +132,8 @@ export function bundleVersion(createdAt: string, revision = 1): string {
 
 async function readJson(root: string, path: string): Promise<Record<string, unknown>> {
   const value = JSON.parse(await readFile(resolve(root, path), "utf8")) as unknown;
-  if (typeof value !== "object" || value === null || Array.isArray(value)) throw new DataBundleError(`${path} must be a JSON object.`);
+  if (typeof value !== "object" || value === null || Array.isArray(value))
+    throw new DataBundleError(`${path} must be a JSON object.`);
   return value as Record<string, unknown>;
 }
 
@@ -124,7 +148,8 @@ export async function buildDataBundle(options: BuildOptions): Promise<DataBundle
     const path = `registry/${ecosystem}.json`;
     const content = await readJson(root, path);
     const registry = validateRegistryV2(content);
-    if (registry.ecosystem !== ecosystem) throw new DataBundleError(`${path} declares ecosystem "${registry.ecosystem}".`);
+    if (registry.ecosystem !== ecosystem)
+      throw new DataBundleError(`${path} declares ecosystem "${registry.ecosystem}".`);
     files[path] = content;
     entries.push({
       path,
@@ -181,19 +206,24 @@ export function dataBundleIntegrityProblems(bundle: DataBundle): string[] {
       continue;
     }
     if (actual.sha256 !== entry.sha256) problems.push(`${entry.path} does not match its digest.`);
-    else if (actual.bytes !== entry.bytes) problems.push(`${entry.path} has ${actual.bytes} bytes, not ${entry.bytes}.`);
+    else if (actual.bytes !== entry.bytes)
+      problems.push(`${entry.path} has ${actual.bytes} bytes, not ${entry.bytes}.`);
     if (entry.kind === "registry") {
       try {
         const registry = validateRegistryV2(content);
-        if (registry.ecosystem !== entry.ecosystem) problems.push(`${entry.path} declares ecosystem "${registry.ecosystem}", not "${entry.ecosystem}".`);
-        if (registry.rules.length !== entry.rules) problems.push(`${entry.path} has ${registry.rules.length} rules, not ${entry.rules}.`);
+        if (registry.ecosystem !== entry.ecosystem)
+          problems.push(`${entry.path} declares ecosystem "${registry.ecosystem}", not "${entry.ecosystem}".`);
+        if (registry.rules.length !== entry.rules)
+          problems.push(`${entry.path} has ${registry.rules.length} rules, not ${entry.rules}.`);
       } catch (error) {
         problems.push(`${entry.path} is not a valid registry: ${(error as Error).message.split("\n")[0]}`);
       }
     }
   }
-  for (const path of Object.keys(bundle.files)) if (!listed.has(path)) problems.push(`${path} is present but not listed.`);
-  if (computeContentDigest(bundle.manifest.files) !== bundle.manifest.contentDigest) problems.push("The content digest does not match the listed files.");
+  for (const path of Object.keys(bundle.files))
+    if (!listed.has(path)) problems.push(`${path} is present but not listed.`);
+  if (computeContentDigest(bundle.manifest.files) !== bundle.manifest.contentDigest)
+    problems.push("The content digest does not match the listed files.");
   return problems;
 }
 
@@ -209,25 +239,43 @@ const PATH_PATTERN = /^registry\/[a-z0-9][a-z0-9-]*\.json$/;
  */
 export function dataBundleShapeProblems(value: unknown): string[] {
   const problems: string[] = [];
-  const isObject = (item: unknown): item is Record<string, unknown> => typeof item === "object" && item !== null && !Array.isArray(item);
-  if (!isObject(value) || !isObject(value.manifest) || !isObject(value.files)) return ["The bundle must have a manifest and files."];
+  const isObject = (item: unknown): item is Record<string, unknown> =>
+    typeof item === "object" && item !== null && !Array.isArray(item);
+  if (!isObject(value) || !isObject(value.manifest) || !isObject(value.files))
+    return ["The bundle must have a manifest and files."];
   const manifest = value.manifest;
-  if (manifest.schemaVersion !== DATA_BUNDLE_SCHEMA_VERSION) problems.push(`Unsupported bundle format "${String(manifest.schemaVersion)}".`);
-  if (typeof manifest.version !== "string" || !VERSION_PATTERN.test(manifest.version)) problems.push("The version must look like 2026.10.16.");
-  if (typeof manifest.createdAt !== "string" || !CREATED_AT_PATTERN.test(manifest.createdAt)) problems.push("createdAt must be UTC like 2026-10-16T09:30:00Z.");
-  if (typeof manifest.minimumEvergreenVersion !== "string" || !SEMVER_PATTERN.test(manifest.minimumEvergreenVersion)) problems.push("minimumEvergreenVersion must be a semantic version.");
-  if (typeof manifest.contentDigest !== "string" || !/^sha256:[a-f0-9]{64}$/.test(manifest.contentDigest)) problems.push("The content digest is malformed.");
+  if (manifest.schemaVersion !== DATA_BUNDLE_SCHEMA_VERSION)
+    problems.push(`Unsupported bundle format "${String(manifest.schemaVersion)}".`);
+  if (typeof manifest.version !== "string" || !VERSION_PATTERN.test(manifest.version))
+    problems.push("The version must look like 2026.10.16.");
+  if (typeof manifest.createdAt !== "string" || !CREATED_AT_PATTERN.test(manifest.createdAt))
+    problems.push("createdAt must be UTC like 2026-10-16T09:30:00Z.");
+  if (typeof manifest.minimumEvergreenVersion !== "string" || !SEMVER_PATTERN.test(manifest.minimumEvergreenVersion))
+    problems.push("minimumEvergreenVersion must be a semantic version.");
+  if (typeof manifest.contentDigest !== "string" || !/^sha256:[a-f0-9]{64}$/.test(manifest.contentDigest))
+    problems.push("The content digest is malformed.");
   if (!Array.isArray(manifest.files) || manifest.files.length === 0) {
     problems.push("The manifest lists no files.");
     return problems;
   }
   for (const entry of manifest.files as unknown[]) {
-    if (!isObject(entry) || typeof entry.path !== "string" || !PATH_PATTERN.test(entry.path)) problems.push("A manifest entry has an unsafe or missing path.");
-    else if (typeof entry.sha256 !== "string" || !/^[a-f0-9]{64}$/.test(entry.sha256) || !Number.isInteger(entry.bytes) || (entry.kind !== "registry" && entry.kind !== "sha-map")) problems.push(`${entry.path} has a malformed manifest entry.`);
+    if (!isObject(entry) || typeof entry.path !== "string" || !PATH_PATTERN.test(entry.path))
+      problems.push("A manifest entry has an unsafe or missing path.");
+    else if (
+      typeof entry.sha256 !== "string" ||
+      !/^[a-f0-9]{64}$/.test(entry.sha256) ||
+      !Number.isInteger(entry.bytes) ||
+      (entry.kind !== "registry" && entry.kind !== "sha-map")
+    )
+      problems.push(`${entry.path} has a malformed manifest entry.`);
   }
-  for (const [path, content] of Object.entries(value.files)) if (!PATH_PATTERN.test(path) || !isObject(content)) problems.push(`${path} is not a valid bundle file.`);
+  for (const [path, content] of Object.entries(value.files))
+    if (!PATH_PATTERN.test(path) || !isObject(content)) problems.push(`${path} is not a valid bundle file.`);
   return problems;
 }
 
 /** The registries and the SHA map a complete bundle must carry, so a partial bundle is never half-used. */
-export const REQUIRED_BUNDLE_PATHS: readonly string[] = [...BUNDLED_ECOSYSTEMS.map((ecosystem) => `registry/${ecosystem}.json`), SHA_MAP_PATH];
+export const REQUIRED_BUNDLE_PATHS: readonly string[] = [
+  ...BUNDLED_ECOSYSTEMS.map((ecosystem) => `registry/${ecosystem}.json`),
+  SHA_MAP_PATH,
+];

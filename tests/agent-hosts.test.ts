@@ -14,7 +14,15 @@ const { version } = JSON.parse(await readFile(resolve("package.json"), "utf8")) 
 const packageSpec = `evergreen-deprecation@${version}`;
 const serverArguments = ["--yes", "--package", packageSpec, "evergreen-mcp"];
 
-interface Server { command: string; args: string[]; type?: string; tools?: string[]; trust?: boolean; disabled?: boolean; autoApprove?: string[] }
+interface Server {
+  command: string;
+  args: string[];
+  type?: string;
+  tools?: string[];
+  trust?: boolean;
+  disabled?: boolean;
+  autoApprove?: string[];
+}
 
 test("every host starts the pinned MCP server with the current package version", async () => {
   const cursor = await readJson<{ mcpServers: { evergreen: Server } }>("cursor/.cursor/mcp.json");
@@ -24,30 +32,59 @@ test("every host starts the pinned MCP server with the current package version",
   const codingAgent = await readJson<{ mcpServers: { evergreen: Server } }>("copilot/coding-agent-mcp.json");
   const cline = await readRepoJson<{ mcpServers: { evergreen: Server } }>("integrations/cline/cline_mcp_settings.json");
   const windsurf = await readJson<{ mcpServers: { evergreen: Server } }>("windsurf/mcp_config.json");
-  for (const server of [cursor.mcpServers.evergreen, gemini.mcpServers.evergreen, geminiSettings.mcpServers.evergreen, vscode.servers.evergreen, codingAgent.mcpServers.evergreen, cline.mcpServers.evergreen, windsurf.mcpServers.evergreen]) {
+  for (const server of [
+    cursor.mcpServers.evergreen,
+    gemini.mcpServers.evergreen,
+    geminiSettings.mcpServers.evergreen,
+    vscode.servers.evergreen,
+    codingAgent.mcpServers.evergreen,
+    cline.mcpServers.evergreen,
+    windsurf.mcpServers.evergreen,
+  ]) {
     assert.equal(server.command, "npx");
     assert.deepEqual(server.args, serverArguments);
   }
-  const kilo = await readJson<{ mcp: { evergreen: { type: string; command: string[]; enabled: boolean } }; instructions: string[] }>("kilo/kilo.jsonc");
+  const kilo = await readJson<{
+    mcp: { evergreen: { type: string; command: string[]; enabled: boolean } };
+    instructions: string[];
+  }>("kilo/kilo.jsonc");
   assert.deepEqual(kilo.mcp.evergreen.command, ["npx", ...serverArguments]);
   assert.equal(kilo.mcp.evergreen.type, "local");
   assert.deepEqual(kilo.instructions, [".kilo/rules/*.md"]);
 });
 
 test("host-specific fields follow each vendor's documented format", async () => {
-  assert.equal((await readJson<{ mcpServers: { evergreen: Server } }>("cursor/.cursor/mcp.json")).mcpServers.evergreen.type, "stdio");
-  assert.equal((await readJson<{ servers: { evergreen: Server } }>("copilot/.vscode/mcp.json")).servers.evergreen.type, "stdio");
-  const agent = (await readJson<{ mcpServers: { evergreen: Server } }>("copilot/coding-agent-mcp.json")).mcpServers.evergreen;
+  assert.equal(
+    (await readJson<{ mcpServers: { evergreen: Server } }>("cursor/.cursor/mcp.json")).mcpServers.evergreen.type,
+    "stdio",
+  );
+  assert.equal(
+    (await readJson<{ servers: { evergreen: Server } }>("copilot/.vscode/mcp.json")).servers.evergreen.type,
+    "stdio",
+  );
+  const agent = (await readJson<{ mcpServers: { evergreen: Server } }>("copilot/coding-agent-mcp.json")).mcpServers
+    .evergreen;
   assert.equal(agent.type, "local");
-  assert.deepEqual([...agent.tools!].sort(), [...MCP_TOOL_NAMES].sort(), "the coding agent allowlist must name exactly the server's tools, never *");
-  assert.equal((await readJson<{ mcpServers: { evergreen: Server } }>("gemini/settings.json")).mcpServers.evergreen.trust, false);
-  const extension = await readJson<{ name: string; version: string; contextFileName: string }>("gemini/gemini-extension.json");
+  assert.deepEqual(
+    [...agent.tools!].sort(),
+    [...MCP_TOOL_NAMES].sort(),
+    "the coding agent allowlist must name exactly the server's tools, never *",
+  );
+  assert.equal(
+    (await readJson<{ mcpServers: { evergreen: Server } }>("gemini/settings.json")).mcpServers.evergreen.trust,
+    false,
+  );
+  const extension = await readJson<{ name: string; version: string; contextFileName: string }>(
+    "gemini/gemini-extension.json",
+  );
   assert.match(extension.name, /^[a-z0-9-]+$/);
   assert.equal(extension.version, version);
   assert.equal(extension.contextFileName, "GEMINI.md");
   const cursorRule = await read("cursor/.cursor/rules/evergreen.mdc");
   assert.match(cursorRule, /^---\ndescription: .+\nalwaysApply: true\n---\n/);
-  const cline = (await readRepoJson<{ mcpServers: { evergreen: Server } }>("integrations/cline/cline_mcp_settings.json")).mcpServers.evergreen;
+  const cline = (
+    await readRepoJson<{ mcpServers: { evergreen: Server } }>("integrations/cline/cline_mcp_settings.json")
+  ).mcpServers.evergreen;
   assert.equal(cline.disabled, false);
   assert.deepEqual(cline.autoApprove, []);
   const windsurfRule = await read("windsurf/.windsurf/rules/evergreen.md");
@@ -57,31 +94,57 @@ test("host-specific fields follow each vendor's documented format", async () => 
 test("every host's instruction file carries the shared dependency-check text", async () => {
   const shared = (await read("dependency-check.md")).split("\n\n").slice(1).join("\n\n").trim();
   assert.ok(shared.includes("`check_dependency`"));
-  for (const path of ["cursor/.cursor/rules/evergreen.mdc", "gemini/GEMINI.md", "copilot/.github/copilot-instructions.md", "kilo/.kilo/rules/evergreen.md", "windsurf/.windsurf/rules/evergreen.md"]) {
+  for (const path of [
+    "cursor/.cursor/rules/evergreen.mdc",
+    "gemini/GEMINI.md",
+    "copilot/.github/copilot-instructions.md",
+    "kilo/.kilo/rules/evergreen.md",
+    "windsurf/.windsurf/rules/evergreen.md",
+  ]) {
     assert.ok((await read(path)).includes(shared), `${path} must contain the shared instruction text`);
   }
-  assert.ok((await readRepo("integrations/cline/.clinerules/evergreen.md")).includes(shared), "integrations/cline/.clinerules/evergreen.md must contain the shared instruction text");
-  assert.ok((await readRepo("integrations/aider/CONVENTIONS.md")).includes(shared), "integrations/aider/CONVENTIONS.md must contain the shared instruction text");
+  assert.ok(
+    (await readRepo("integrations/cline/.clinerules/evergreen.md")).includes(shared),
+    "integrations/cline/.clinerules/evergreen.md must contain the shared instruction text",
+  );
+  assert.ok(
+    (await readRepo("integrations/aider/CONVENTIONS.md")).includes(shared),
+    "integrations/aider/CONVENTIONS.md must contain the shared instruction text",
+  );
 });
 
 test("the Cursor rule ships with the integration and the example, byte for byte identical", async () => {
   const integration = await readRepo("integrations/cursor/evergreen.mdc");
   assert.equal(integration, await read("cursor/.cursor/rules/evergreen.mdc"));
-  assert.match(integration, /^---\ndescription: Check a dependency with Evergreen before adding it\nalwaysApply: true\n---\n\n/);
-  assert.ok(integration.includes("`check_dependency`") && integration.includes("npx evergreen-deprecation check <purl>"));
+  assert.match(
+    integration,
+    /^---\ndescription: Check a dependency with Evergreen before adding it\nalwaysApply: true\n---\n\n/,
+  );
+  assert.ok(
+    integration.includes("`check_dependency`") && integration.includes("npx evergreen-deprecation check <purl>"),
+  );
 });
 
 test("the Copilot instructions ship with the integration and the example, byte for byte identical", async () => {
   const integration = await readRepo("integrations/copilot/copilot-instructions.md");
   assert.equal(integration, await read("copilot/.github/copilot-instructions.md"));
   assert.ok(integration.startsWith("# Evergreen dependency check\n"));
-  assert.ok(integration.includes("`check_dependency`") && integration.includes("npx evergreen-deprecation check <purl>"));
-  assert.doesNotMatch(integration, /^---/, "Copilot has no front matter like Cursor rules; the file is plain instructions");
+  assert.ok(
+    integration.includes("`check_dependency`") && integration.includes("npx evergreen-deprecation check <purl>"),
+  );
+  assert.doesNotMatch(
+    integration,
+    /^---/,
+    "Copilot has no front matter like Cursor rules; the file is plain instructions",
+  );
 });
 
 test("the instruction text names only tools and CLI commands that exist", async () => {
   const text = await read("dependency-check.md");
-  for (const tool of text.match(/`([a-z_]+)`/g)?.map((name) => name.slice(1, -1)).filter((name) => name.includes("_")) ?? []) {
+  for (const tool of text
+    .match(/`([a-z_]+)`/g)
+    ?.map((name) => name.slice(1, -1))
+    .filter((name) => name.includes("_")) ?? []) {
     assert.ok((MCP_TOOL_NAMES as readonly string[]).includes(tool), `${tool} is not an MCP tool`);
   }
   assert.match(text, /npx evergreen-deprecation check <purl>/);

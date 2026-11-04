@@ -225,11 +225,7 @@ test("only entries naming a file this run would execute count as skipped", async
   const root = resolve("fake-root");
   assert.deepEqual(
     quarantinedEntriesInRun(
-      [
-        join(root, "dist/tests/in-run.test.js"),
-        join(root, DUMMY),
-        join(root, "dist/tests/other.test.js"),
-      ],
+      [join(root, "dist/tests/in-run.test.js"), join(root, DUMMY), join(root, "dist/tests/other.test.js")],
       [
         { file: "tests/in-run.test.ts", issue: `${ISSUER}/1`, expires: "2026-12-01" },
         { file: DUMMY, issue: `${ISSUER}/2`, expires: "2026-12-01" },
@@ -248,9 +244,7 @@ test("the committed quarantine parses and holds no expired entry", async () => {
 });
 
 test("an expired entry fails the run with its issue link, whatever the event", async () => {
-  const root = await fakeRepo(
-    quarantineText([{ file: DUMMY, issue: `${ISSUER}/2084`, expires: "2000-01-01" }]),
-  );
+  const root = await fakeRepo(quarantineText([{ file: DUMMY, issue: `${ISSUER}/2084`, expires: "2000-01-01" }]));
   for (const event of ["", "pull_request", "merge_group", "schedule"]) {
     const run = runRunner(root, event);
     assert.equal(run.code, 1, `event ${JSON.stringify(event)}: ${run.out}${run.err}`);
@@ -263,9 +257,7 @@ test("an expired entry fails the run with its issue link, whatever the event", a
 });
 
 test("an expired entry also fails the nightly quarantined run", async () => {
-  const root = await fakeRepo(
-    quarantineText([{ file: DUMMY, issue: `${ISSUER}/2084`, expires: "2000-01-01" }]),
-  );
+  const root = await fakeRepo(quarantineText([{ file: DUMMY, issue: `${ISSUER}/2084`, expires: "2000-01-01" }]));
   const result = spawnSync(process.execPath, [join(root, "tools", "run-tests.mjs"), "--quarantine-only"], {
     cwd: root,
     env: runnerEnv("schedule"),
@@ -279,9 +271,7 @@ test("an expired entry also fails the nightly quarantined run", async () => {
 });
 
 test("an entry in force skips only pull request events and names what it skipped", async () => {
-  const root = await fakeRepo(
-    quarantineText([{ file: DUMMY, issue: `${ISSUER}/2084`, expires: "2999-12-31" }]),
-  );
+  const root = await fakeRepo(quarantineText([{ file: DUMMY, issue: `${ISSUER}/2084`, expires: "2999-12-31" }]));
 
   const pullRequest = runRunner(root, "pull_request");
   assert.equal(pullRequest.code, 0, `${pullRequest.out}${pullRequest.err}`);

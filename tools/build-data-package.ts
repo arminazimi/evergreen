@@ -123,7 +123,9 @@ export function dataPackageManifest(root: RootPackage, template: DataPackageJson
 export async function buildDataPackage(options: { root?: string; out?: string } = {}): Promise<BuiltDataPackage> {
   const root = resolve(options.root ?? ".");
   const directory = resolve(options.out ?? join(root, DATA_PACKAGE_DIRECTORY));
-  const template = JSON.parse(await readFile(join(root, DATA_PACKAGE_DIRECTORY, "package.json"), "utf8")) as DataPackageJson;
+  const template = JSON.parse(
+    await readFile(join(root, DATA_PACKAGE_DIRECTORY, "package.json"), "utf8"),
+  ) as DataPackageJson;
   const rootPackage = JSON.parse(await readFile(join(root, "package.json"), "utf8")) as RootPackage;
   const packageJson = dataPackageManifest(rootPackage, template);
 
@@ -163,7 +165,11 @@ export async function buildDataPackage(options: { root?: string; out?: string } 
 /** Packs the assembled directory with `npm pack --ignore-scripts` and returns the tarball file name. */
 export async function packDataPackage(directory: string, destination: string): Promise<string> {
   await mkdir(destination, { recursive: true });
-  const output = await capture(process.execPath, [npmCli(), "pack", "--ignore-scripts", "--json", "--pack-destination", destination], directory);
+  const output = await capture(
+    process.execPath,
+    [npmCli(), "pack", "--ignore-scripts", "--json", "--pack-destination", destination],
+    directory,
+  );
   const parsed = JSON.parse(output) as Array<{ filename?: string; files?: PackedFile[] }>;
   const filename = parsed[0]?.filename;
   if (!filename) throw new Error(`npm pack did not report a tarball file name: ${output.trim()}`);
@@ -172,7 +178,11 @@ export async function packDataPackage(directory: string, destination: string): P
 
 /** Lists the packed file entries (paths relative to the package root) without extracting the archive. */
 export async function listPackedFiles(directory: string): Promise<PackedFile[]> {
-  const output = await capture(process.execPath, [npmCli(), "pack", "--dry-run", "--ignore-scripts", "--json"], directory);
+  const output = await capture(
+    process.execPath,
+    [npmCli(), "pack", "--dry-run", "--ignore-scripts", "--json"],
+    directory,
+  );
   const parsed = JSON.parse(output) as Array<{ files?: PackedFile[] }>;
   const files = parsed[0]?.files;
   if (!files) throw new Error(`npm pack --dry-run did not report files: ${output.trim()}`);
@@ -192,7 +202,10 @@ export function tarballContentProblems(files: readonly PackedFile[]): string[] {
     problems.push(
       manifests.length === 0
         ? "missing package.json"
-        : `nested or misplaced manifests: ${manifests.map((file) => file.path).sort().join(", ")}`,
+        : `nested or misplaced manifests: ${manifests
+            .map((file) => file.path)
+            .sort()
+            .join(", ")}`,
     );
   }
   for (const name of DATA_PACKAGE_DOCUMENTS) {
@@ -203,7 +216,12 @@ export function tarballContentProblems(files: readonly PackedFile[]): string[] {
   let schemaCount = 0;
   for (const file of files) {
     const { path, mode } = file;
-    if (path !== "package.json" && !documents.has(path) && !path.startsWith("registry/") && !path.startsWith("schemas/")) {
+    if (
+      path !== "package.json" &&
+      !documents.has(path) &&
+      !path.startsWith("registry/") &&
+      !path.startsWith("schemas/")
+    ) {
       problems.push(`unexpected path: ${path}`);
     }
     if (path.startsWith("registry/")) registryCount += 1;

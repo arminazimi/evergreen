@@ -91,4 +91,3 @@ export function parseGoMod(contents: string): GoModDeclaration[] {
 
   return requireBlock ? [] : declarations;
 }
-

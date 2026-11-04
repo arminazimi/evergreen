@@ -134,27 +134,32 @@ export interface ClaudeGuard {
   run: (
     payload: object,
     runner?: (purl: string, version?: string) => Promise<{ check?: DependencyCheck; error?: string }>,
-  ) => Promise<{
-    systemMessage: string;
-    hookSpecificOutput: {
-      hookEventName: string;
-      permissionDecision: string;
-      permissionDecisionReason: string;
-    };
-  } | undefined>;
+  ) => Promise<
+    | {
+        systemMessage: string;
+        hookSpecificOutput: {
+          hookEventName: string;
+          permissionDecision: string;
+          permissionDecisionReason: string;
+        };
+      }
+    | undefined
+  >;
 }
 
 export interface CodexGuard {
   run: (
     payload: object,
     runner?: (purl: string, version?: string) => { check?: DependencyCheck; error?: string },
-  ) => {
-    systemMessage: string;
-    hookSpecificOutput: {
-      hookEventName: string;
-      additionalContext: string;
-    };
-  } | undefined;
+  ) =>
+    | {
+        systemMessage: string;
+        hookSpecificOutput: {
+          hookEventName: string;
+          additionalContext: string;
+        };
+      }
+    | undefined;
 }
 
 export interface AgentLoopEvalHooks {
@@ -234,7 +239,7 @@ async function evaluateHostCase(
     // Codex warns post-tool-use and urges replacement preference
     warned = Boolean(
       hookResult?.hookSpecificOutput?.additionalContext &&
-      hookResult.hookSpecificOutput.additionalContext.includes("prefer the replacement"),
+        hookResult.hookSpecificOutput.additionalContext.includes("prefer the replacement"),
     );
     hostOutput = hookResult?.hookSpecificOutput?.additionalContext ?? "";
   }
@@ -266,9 +271,7 @@ async function evaluateHostCase(
   };
 }
 
-export async function runAgentLoopEval(
-  options: RunAgentLoopEvalOptions = {},
-): Promise<AgentLoopEvalResult> {
+export async function runAgentLoopEval(options: RunAgentLoopEvalOptions = {}): Promise<AgentLoopEvalResult> {
   const loaded = await loadHooks();
   const hooks: AgentLoopEvalHooks = {
     claudeGuard: options.hooks?.claudeGuard ?? loaded.claudeGuard,
@@ -277,9 +280,7 @@ export async function runAgentLoopEval(
   const hosts = {} as Record<SupportedHost, HostEvalResult>;
 
   for (const host of SUPPORTED_HOSTS) {
-    const cases = await Promise.all(
-      TASK_CASES.map((taskCase) => evaluateHostCase(host, taskCase, hooks)),
-    );
+    const cases = await Promise.all(TASK_CASES.map((taskCase) => evaluateHostCase(host, taskCase, hooks)));
     const checkRecall = cases.filter((c) => c.checked).length / cases.length;
     const refusalRate = host === "claude" ? cases.filter((c) => c.refused).length / cases.length : undefined;
     const warningRate = host === "codex" ? cases.filter((c) => c.warned).length / cases.length : undefined;

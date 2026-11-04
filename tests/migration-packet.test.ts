@@ -53,17 +53,14 @@ test("creates a deterministic, agent-ready migration packet", () => {
   assert.deepEqual(packet.affectedFiles, ["package.json", "src/client.ts"]);
   assert.equal(packet.usages.length, 2);
   assert.match(packet.constraints.join("\n"), /Target replacement: Native fetch/);
-  assert.deepEqual(packet.steps.map((step) => step.id), [
-    "review-evidence",
-    "update-declaration",
-    "migrate-usages",
-    "verify-migration",
-  ]);
-  assert.deepEqual(packet.verification.map((item) => item.command), [
-    "npm run test --if-present",
-    "npm run build --if-present",
-    "evergreen scan . --json",
-  ]);
+  assert.deepEqual(
+    packet.steps.map((step) => step.id),
+    ["review-evidence", "update-declaration", "migrate-usages", "verify-migration"],
+  );
+  assert.deepEqual(
+    packet.verification.map((item) => item.command),
+    ["npm run test --if-present", "npm run build --if-present", "evergreen scan . --json"],
+  );
   assert.deepEqual(createMigrationPacket(result, packet.finding.id), packet);
 });
 
@@ -73,10 +70,7 @@ test("rejects a missing finding", () => {
 
 test("validates packets and keeps the JSON Schema top-level contract in sync", async () => {
   const packet = createMigrationPacket(result, result.findings[0]!.id);
-  assert.equal(
-    validateMigrationPacket(JSON.parse(JSON.stringify(packet))).schemaVersion,
-    packet.schemaVersion,
-  );
+  assert.equal(validateMigrationPacket(JSON.parse(JSON.stringify(packet))).schemaVersion, packet.schemaVersion);
   assert.throws(
     () => validateMigrationPacket({ ...packet, schemaVersion: "evergreen.context.v2" }),
     /Unsupported migration packet schema/,
@@ -94,9 +88,9 @@ test("validates packets and keeps the JSON Schema top-level contract in sync", a
     /Invalid migration packet scope or evidence/,
   );
 
-  const schema = JSON.parse(
-    await readFile(resolve("schemas/context.v1.schema.json"), "utf8"),
-  ) as { required: string[] };
+  const schema = JSON.parse(await readFile(resolve("schemas/context.v1.schema.json"), "utf8")) as {
+    required: string[];
+  };
   assert.deepEqual([...schema.required].sort(), Object.keys(packet).sort());
 });
 
@@ -115,7 +109,15 @@ test("warns when the pinned runtime is below what the replacement requires", () 
 
   for (const pinned of [{ node: "18" }, { node: "lts/*" }, {}]) {
     const quiet = createMigrationPacket(withRequirement, id, [], pinned);
-    assert.equal(quiet.constraints.some((line) => line.startsWith("Warning:")), false);
+    assert.equal(
+      quiet.constraints.some((line) => line.startsWith("Warning:")),
+      false,
+    );
   }
-  assert.equal(createMigrationPacket(result, result.findings[0]!.id, [], { node: "12" }).constraints.some((line) => line.startsWith("Warning:")), false);
+  assert.equal(
+    createMigrationPacket(result, result.findings[0]!.id, [], { node: "12" }).constraints.some((line) =>
+      line.startsWith("Warning:"),
+    ),
+    false,
+  );
 });

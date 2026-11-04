@@ -39,7 +39,10 @@ test("a run that spends the 20% tolerance still fails with the tolerance set to 
 });
 
 test("a failed Action and an empty report are violations, so a broken run cannot pass as fast", () => {
-  assert.match(evaluateActionColdStart({ ...FITTING_MEASUREMENTS, exitCode: 1 })[0]!, /exited 1 instead of writing a report/);
+  assert.match(
+    evaluateActionColdStart({ ...FITTING_MEASUREMENTS, exitCode: 1 })[0]!,
+    /exited 1 instead of writing a report/,
+  );
   assert.match(evaluateActionColdStart({ ...FITTING_MEASUREMENTS, findingsCount: 0 })[0]!, /produced no findings/);
 });
 

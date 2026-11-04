@@ -123,31 +123,37 @@ export const definitions: Readonly<Record<string, MetricDefinition>> = {
   level: {
     label: "Level",
     meaning: "What the detector promises users: experimental, beta, or stable (shown in the docs as Supported).",
-    computation: "Copied from the detector's entry in benchmarks/thresholds.json. A maintainer changes it in a pull request; nothing computes it.",
+    computation:
+      "Copied from the detector's entry in benchmarks/thresholds.json. A maintainer changes it in a pull request; nothing computes it.",
     source: THRESHOLDS_FILE,
   },
   earnedLevel: {
     label: "Earned level",
     meaning: "The highest level the counted corpus evidence supports.",
-    computation: "earnedLevel() in benchmarks/thresholds.ts applied to the three evidence counts below, against the minimums in ADR 0013. It does not check precision, recall, or blind selection.",
+    computation:
+      "earnedLevel() in benchmarks/thresholds.ts applied to the three evidence counts below, against the minimums in ADR 0013. It does not check precision, recall, or blind selection.",
     source: DECISION_FILE,
   },
   precisionFloor: {
     label: "Precision floor",
     meaning: "The lowest precision the corpus run may show for the detector before CI fails.",
-    computation: "minPrecision from the detector's entry in benchmarks/thresholds.json. It is enforced for beta and stable detectors and only reported for experimental ones.",
+    computation:
+      "minPrecision from the detector's entry in benchmarks/thresholds.json. It is enforced for beta and stable detectors and only reported for experimental ones.",
     source: THRESHOLDS_FILE,
   },
   precision: {
     label: "Precision",
     meaning: "Of the findings the detector reported in the last full run, the share that the corpus lists as expected.",
-    computation: "truePositives / (truePositives + falsePositives), rounded to 4 decimals. Not measured when the denominator is zero. (The corpus harness treats an empty result as 1 so it never counts as a regression; the dashboard does not.)",
+    computation:
+      "truePositives / (truePositives + falsePositives), rounded to 4 decimals. Not measured when the denominator is zero. (The corpus harness treats an empty result as 1 so it never counts as a regression; the dashboard does not.)",
     source: THRESHOLDS_FILE,
   },
   recall: {
     label: "Recall",
-    meaning: "Of the findings the corpus lists as expected for the detector, the share it reported in the last full run.",
-    computation: "truePositives / (truePositives + falseNegatives), rounded to 4 decimals. Not measured when the denominator is zero.",
+    meaning:
+      "Of the findings the corpus lists as expected for the detector, the share it reported in the last full run.",
+    computation:
+      "truePositives / (truePositives + falseNegatives), rounded to 4 decimals. Not measured when the denominator is zero.",
     source: THRESHOLDS_FILE,
   },
   truePositives: {
@@ -171,25 +177,30 @@ export const definitions: Readonly<Record<string, MetricDefinition>> = {
   repositoriesWithFindings: {
     label: "Repositories with findings",
     meaning: "Corpus repositories with at least one expected finding of this detector.",
-    computation: "countEvidence() in benchmarks/thresholds.ts over the corpus entries' expected findings, grouped by the first segment of the rule id.",
+    computation:
+      "countEvidence() in benchmarks/thresholds.ts over the corpus entries' expected findings, grouped by the first segment of the rule id.",
     source: CORPUS_FILE,
   },
   expectedFindings: {
     label: "Expected findings",
     meaning: "Findings of this detector that the corpus lists as expected.",
-    computation: "countEvidence() in benchmarks/thresholds.ts: the number of expected findings whose rule id belongs to the detector.",
+    computation:
+      "countEvidence() in benchmarks/thresholds.ts: the number of expected findings whose rule id belongs to the detector.",
     source: CORPUS_FILE,
   },
   zeroFindingRepositories: {
     label: "Zero-finding repositories",
-    meaning: "Corpus repositories of the detector's ecosystem that have no expected findings at all, so a report there would be a false positive.",
-    computation: "countEvidence() in benchmarks/thresholds.ts: entries of the detector's corpus ecosystems with an empty expected list. Detectors that read the same ecosystem share this count.",
+    meaning:
+      "Corpus repositories of the detector's ecosystem that have no expected findings at all, so a report there would be a false positive.",
+    computation:
+      "countEvidence() in benchmarks/thresholds.ts: entries of the detector's corpus ecosystems with an empty expected list. Detectors that read the same ecosystem share this count.",
     source: CORPUS_FILE,
   },
   runAge: {
     label: "Run age",
     meaning: "How many days before the reference day the last full run happened.",
-    computation: "The whole days between lastFullRun.date and the reference day given to the build with --today. It is fixed when the file is built, never read from a clock.",
+    computation:
+      "The whole days between lastFullRun.date and the reference day given to the build with --today. It is fixed when the file is built, never read from a clock.",
     source: THRESHOLDS_FILE,
   },
   scanTime: {
@@ -203,7 +214,11 @@ export const definitions: Readonly<Record<string, MetricDefinition>> = {
 const ratio = (numerator: number, denominator: number): number | null =>
   denominator === 0 ? null : Number((numerator / denominator).toFixed(4));
 
-export function detectorCounts(counts: { truePositives: number; falsePositives: number; falseNegatives: number }): DetectorCounts {
+export function detectorCounts(counts: {
+  truePositives: number;
+  falsePositives: number;
+  falseNegatives: number;
+}): DetectorCounts {
   return {
     truePositives: counts.truePositives,
     falsePositives: counts.falsePositives,
@@ -216,7 +231,8 @@ export function detectorCounts(counts: { truePositives: number; falsePositives: 
 const parseDay = (value: string, name: string): number => {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
   const time = match ? Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])) : Number.NaN;
-  if (!match || new Date(time).toISOString().slice(0, 10) !== value) throw new Error(`${name} must be a calendar day written YYYY-MM-DD, not "${value}".`);
+  if (!match || new Date(time).toISOString().slice(0, 10) !== value)
+    throw new Error(`${name} must be a calendar day written YYYY-MM-DD, not "${value}".`);
   return time;
 };
 
@@ -228,14 +244,19 @@ export function ageInDays(runDate: string, today: string): number {
 
 const byCodePoint = (left: string, right: string): number => (left < right ? -1 : left > right ? 1 : 0);
 
-export function buildDashboardData(input: { thresholds: Thresholds; corpus: readonly CorpusRepository[]; today: string }): DashboardData {
+export function buildDashboardData(input: {
+  thresholds: Thresholds;
+  corpus: readonly CorpusRepository[];
+  today: string;
+}): DashboardData {
   const { thresholds, corpus, today } = input;
   const lastRun = thresholds.lastFullRun;
   const detectors = Object.keys(thresholds.detectors)
     .sort(byCodePoint)
     .map((id): DashboardDetector => {
       const ecosystems = detectorEcosystems[id];
-      if (!ecosystems) throw new Error(`Detector "${id}" in ${THRESHOLDS_FILE} has no corpus ecosystem in detectorEcosystems.`);
+      if (!ecosystems)
+        throw new Error(`Detector "${id}" in ${THRESHOLDS_FILE} has no corpus ecosystem in detectorEcosystems.`);
       const threshold = thresholds.detectors[id]!;
       const evidence = countEvidence(corpus, id, ecosystems);
       const counts = lastRun?.perDetector[id];

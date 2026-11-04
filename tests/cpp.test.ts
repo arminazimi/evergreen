@@ -83,7 +83,12 @@ test("cpp passes detector conformance on every fixture", async () => {
         name: "cpp positive",
         root: resolve(fixtures, "positive"),
         expectedFindings: [
-          expected(removed, "CMakeLists.txt", 1, `CMakeLists.txt declares cmake_minimum_required 3.4. ${removed.summary}`),
+          expected(
+            removed,
+            "CMakeLists.txt",
+            1,
+            `CMakeLists.txt declares cmake_minimum_required 3.4. ${removed.summary}`,
+          ),
         ],
       },
     ],
@@ -105,12 +110,23 @@ test("cpp passes detector conformance on every fixture", async () => {
 });
 
 test("matches a cmake_minimum_required in the deprecation band and ignores a current policy floor", async () => {
-  const deprecated = await cppDetector.scan({ root: await repository({ "CMakeLists.txt": "cmake_minimum_required(VERSION 3.8)\n" }) });
-  assert.deepEqual(deprecated.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["cpp.cmake.policy-below-3.10.deprecated", "CMakeLists.txt", 1]]);
+  const deprecated = await cppDetector.scan({
+    root: await repository({ "CMakeLists.txt": "cmake_minimum_required(VERSION 3.8)\n" }),
+  });
+  assert.deepEqual(
+    deprecated.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["cpp.cmake.policy-below-3.10.deprecated", "CMakeLists.txt", 1]],
+  );
   assert.match(deprecated[0]!.summary, /^CMakeLists\.txt declares cmake_minimum_required 3\.8\./);
 
-  assert.deepEqual(await cppDetector.scan({ root: await repository({ "CMakeLists.txt": "cmake_minimum_required(VERSION 3.16)\n" }) }), []);
-  assert.deepEqual(await cppDetector.scan({ root: await repository({ "CMakeLists.txt": "cmake_minimum_required(VERSION 3.31)\n" }) }), []);
+  assert.deepEqual(
+    await cppDetector.scan({ root: await repository({ "CMakeLists.txt": "cmake_minimum_required(VERSION 3.16)\n" }) }),
+    [],
+  );
+  assert.deepEqual(
+    await cppDetector.scan({ root: await repository({ "CMakeLists.txt": "cmake_minimum_required(VERSION 3.31)\n" }) }),
+    [],
+  );
 });
 
 test("the first matching rule wins, and a malformed VERS does not hide a later rule", async () => {
@@ -118,8 +134,13 @@ test("the first matching rule wins, and a malformed VERS does not hide a later r
   const earlier = { ...removed, id: "cpp.cmake.policy-below-3.5.earlier", vers: "vers:semver/<9.0.0" };
   const malformed = { ...removed, id: "cpp.cmake.malformed", vers: "not-a-vers" };
   const detector = new CppDetector(async () => [malformed, earlier, removed]);
-  const findings = await detector.scan({ root: await repository({ "CMakeLists.txt": "cmake_minimum_required(VERSION 3.4)\n" }) });
-  assert.deepEqual(findings.map((finding) => finding.ruleId), ["cpp.cmake.policy-below-3.5.earlier"]);
+  const findings = await detector.scan({
+    root: await repository({ "CMakeLists.txt": "cmake_minimum_required(VERSION 3.4)\n" }),
+  });
+  assert.deepEqual(
+    findings.map((finding) => finding.ruleId),
+    ["cpp.cmake.policy-below-3.5.earlier"],
+  );
 });
 
 test("a rule whose Package URL cannot be read never matches and does not fail the scan", async () => {
@@ -131,19 +152,37 @@ test("a rule whose Package URL cannot be read never matches and does not fail th
 test("matches a Conan requirement in conanfile.txt and conanfile.py by pkg:conan/<name>", async () => {
   const detector = new CppDetector(async () => [injectedRule()]);
   const text = await repository({ "conanfile.txt": "[requires]\nzlib/1.2.13\nopenssl/1.1.1t\n" });
-  assert.deepEqual((await detector.scan({ root: text })).map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["cpp.package.example.deprecated", "conanfile.txt", 2]]);
+  assert.deepEqual(
+    (await detector.scan({ root: text })).map((finding) => [
+      finding.ruleId,
+      finding.location.path,
+      finding.location.line,
+    ]),
+    [["cpp.package.example.deprecated", "conanfile.txt", 2]],
+  );
 
   const python = await repository({ "conanfile.py": 'requires = "zlib/1.2.13", "openssl/1.1.1t"\n' });
   const findings = await detector.scan({ root: python });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.line]), [["cpp.package.example.deprecated", 1]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [["cpp.package.example.deprecated", 1]],
+  );
   assert.match(findings[0]!.summary, /conanfile\.py requires zlib 1\.2\.13\./);
 });
 
 test("matches a vcpkg version floor, a name-only dependency only against every version, and a baseline commit", async () => {
   const floor = injectedRule({ id: "cpp.vcpkg.zlib.deprecated", purl: "pkg:vcpkg/zlib" });
   const universal = injectedRule({ id: "cpp.vcpkg.fmt.removed", purl: "pkg:vcpkg/fmt", vers: "vers:semver/*" });
-  const baselineRange = injectedRule({ id: "cpp.vcpkg.baseline.range", purl: "pkg:generic/vcpkg-baseline", vers: "vers:semver/<1.0.0" });
-  const baselineAll = injectedRule({ id: "cpp.vcpkg.baseline.all", purl: "pkg:generic/vcpkg-baseline", vers: "vers:semver/*" });
+  const baselineRange = injectedRule({
+    id: "cpp.vcpkg.baseline.range",
+    purl: "pkg:generic/vcpkg-baseline",
+    vers: "vers:semver/<1.0.0",
+  });
+  const baselineAll = injectedRule({
+    id: "cpp.vcpkg.baseline.all",
+    purl: "pkg:generic/vcpkg-baseline",
+    vers: "vers:semver/*",
+  });
   const detector = new CppDetector(async () => [floor, universal, baselineRange, baselineAll]);
   const root = await repository({
     "vcpkg.json": [
@@ -169,8 +208,16 @@ test("matches a vcpkg version floor, a name-only dependency only against every v
 });
 
 test("matches a language standard and a compiler check only when a rule names that Package URL", async () => {
-  const standard = injectedRule({ id: "cpp.standard.cxx.deprecated", purl: "pkg:generic/cxx-standard", vers: "vers:semver/<18.0.0" });
-  const compiler = injectedRule({ id: "cpp.compiler.gnu.deprecated", purl: "pkg:generic/cxx-compiler/gnu", vers: "vers:semver/<10.0.0" });
+  const standard = injectedRule({
+    id: "cpp.standard.cxx.deprecated",
+    purl: "pkg:generic/cxx-standard",
+    vers: "vers:semver/<18.0.0",
+  });
+  const compiler = injectedRule({
+    id: "cpp.compiler.gnu.deprecated",
+    purl: "pkg:generic/cxx-compiler/gnu",
+    vers: "vers:semver/<10.0.0",
+  });
   const detector = new CppDetector(async () => [standard, compiler]);
   const root = await repository({
     "CMakeLists.txt": [
@@ -205,16 +252,25 @@ test("walks nested manifests and skips symlinks, vendored directories, and depth
   await mkdir(join(root, "linked"));
   await symlink(join(root, "src", "CMakeLists.txt"), join(root, "linked", "CMakeLists.txt"));
   const findings = await cppDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => finding.location.path), ["src/CMakeLists.txt"]);
+  assert.deepEqual(
+    findings.map((finding) => finding.location.path),
+    ["src/CMakeLists.txt"],
+  );
 });
 
 test("a repository without C or C++ manifests scans to nothing", async () => {
-  assert.deepEqual(await cppDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), { findings: [], unclassified: [] });
+  assert.deepEqual(await cppDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), {
+    findings: [],
+    unclassified: [],
+  });
 });
 
 test("the engine attributes a C and C++ finding to the detector", async () => {
   const result = await scanRepository(resolve(fixtures, "positive"), [cppDetector]);
-  assert.deepEqual(result.findings.map((finding) => [finding.detector, finding.ruleId, finding.location.path, finding.location.line]), [["cpp", "cpp.cmake.policy-below-3.5.removed", "CMakeLists.txt", 1]]);
+  assert.deepEqual(
+    result.findings.map((finding) => [finding.detector, finding.ruleId, finding.location.path, finding.location.line]),
+    [["cpp", "cpp.cmake.policy-below-3.5.removed", "CMakeLists.txt", 1]],
+  );
 });
 
 test("every curated C and C++ rule has migration guidance", async () => {
@@ -236,10 +292,13 @@ test("a migration packet for a CMake finding names the file, steps, and verifica
 
 test("the detector is registered and C and C++ is experimental in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "cpp"));
-  assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "cpp"), {
-    id: "cpp",
-    status: "experimental",
-    maturity: "experimental",
-    detectorIds: ["cpp"],
-  });
+  assert.deepEqual(
+    getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "cpp"),
+    {
+      id: "cpp",
+      status: "experimental",
+      maturity: "experimental",
+      detectorIds: ["cpp"],
+    },
+  );
 });

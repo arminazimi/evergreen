@@ -9,7 +9,15 @@ import { after, test } from "node:test";
 
 import { parse as parseYaml } from "yaml";
 
-import { readTrackingSnapshot, renderTrackingIssue, trackingIssueEventAllowed, TRACKING_ISSUE_BODY_LIMIT, TRACKING_ISSUE_MARKER, TRACKING_ISSUE_TITLE, upsertTrackingIssue } from "../src/action-tracking-issue.js";
+import {
+  readTrackingSnapshot,
+  renderTrackingIssue,
+  trackingIssueEventAllowed,
+  TRACKING_ISSUE_BODY_LIMIT,
+  TRACKING_ISSUE_MARKER,
+  TRACKING_ISSUE_TITLE,
+  upsertTrackingIssue,
+} from "../src/action-tracking-issue.js";
 import type { Finding } from "../src/domain.js";
 
 const temporaryRoots: string[] = [];
@@ -18,7 +26,15 @@ after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
 });
 
-function finding(id: string, severity: Finding["severity"], title: string, path: string, line?: number, deadline?: string, replacement?: string): Finding {
+function finding(
+  id: string,
+  severity: Finding["severity"],
+  title: string,
+  path: string,
+  line?: number,
+  deadline?: string,
+  replacement?: string,
+): Finding {
   return {
     id,
     ruleId: id.split(":")[0]!,
@@ -53,15 +69,27 @@ test("the issue body lists findings by end-of-life date with links and stores a 
   assert.ok(body.includes("a\\\\b \\| c"));
   assert.match(body, /## First run/);
   assert.match(body, /\*\*4\*\* lifecycle findings; \*\*3\*\* have reached the end-of-life date\./);
-  assert.ok(body.indexOf("| 2026-01-01 (past) | critical | Sooner |") < body.indexOf("| 2026-02-01 (past) | high | Later |"), "dated findings are sorted by date");
-  assert.ok(body.indexOf("Later") < body.indexOf("## Findings without an end-of-life date"), "undated findings come after the dated table");
-  assert.match(body, /\| \[`package\.json:7`\]\(https:\/\/github\.com\/o\/r\/blob\/abc\/package\.json#L7\) \| node@22 \|/);
+  assert.ok(
+    body.indexOf("| 2026-01-01 (past) | critical | Sooner |") < body.indexOf("| 2026-02-01 (past) | high | Later |"),
+    "dated findings are sorted by date",
+  );
+  assert.ok(
+    body.indexOf("Later") < body.indexOf("## Findings without an end-of-life date"),
+    "undated findings come after the dated table",
+  );
+  assert.match(
+    body,
+    /\| \[`package\.json:7`\]\(https:\/\/github\.com\/o\/r\/blob\/abc\/package\.json#L7\) \| node@22 \|/,
+  );
   assert.match(body, /\| \[`a\/package\.json`\]\(https:\/\/github\.com\/o\/r\/blob\/abc\/a\/package\.json\) \| — \|/);
 
   const snapshot = readTrackingSnapshot(body);
   assert.ok(snapshot);
   assert.equal(snapshot.updated, "2026-10-29");
-  assert.deepEqual(snapshot.findings.map((stored) => stored.id), ["sooner:1", "later:1", "escaped:1", "undated:1"]);
+  assert.deepEqual(
+    snapshot.findings.map((stored) => stored.id),
+    ["sooner:1", "later:1", "escaped:1", "undated:1"],
+  );
 });
 
 test("the body says what is new and resolved since the previous run", () => {
@@ -74,7 +102,10 @@ test("the body says what is new and resolved since the previous run", () => {
   const body = renderTrackingIssue([second, third], previous, { ...options, today: "2026-11-05" });
   assert.match(body, /## Changed since the last run on 2026-10-29/);
   assert.match(body, /\*\*1\*\* new, \*\*1\*\* resolved\./);
-  assert.match(body, /\| New \| critical \| Third \| \[`\.nvmrc:1`\]\(https:\/\/github\.com\/o\/r\/blob\/abc\/\.nvmrc#L1\) \|/);
+  assert.match(
+    body,
+    /\| New \| critical \| Third \| \[`\.nvmrc:1`\]\(https:\/\/github\.com\/o\/r\/blob\/abc\/\.nvmrc#L1\) \|/,
+  );
   assert.match(body, /\| Resolved \| high \| First \| `package\.json:1` \|/);
 
   const unchanged = renderTrackingIssue([first, second], previous, { ...options, today: "2026-11-05" });
@@ -82,7 +113,9 @@ test("the body says what is new and resolved since the previous run", () => {
 });
 
 test("an empty scan says so and keeps the markers for the next run", () => {
-  const previous = readTrackingSnapshot(renderTrackingIssue([finding("a:1", "high", "First", "package.json", 1)], undefined, options));
+  const previous = readTrackingSnapshot(
+    renderTrackingIssue([finding("a:1", "high", "First", "package.json", 1)], undefined, options),
+  );
   assert.ok(previous);
   const body = renderTrackingIssue([], previous, { ...options, today: "2026-11-05" });
   assert.match(body, /## No lifecycle findings/);
@@ -92,13 +125,26 @@ test("an empty scan says so and keeps the markers for the next run", () => {
 });
 
 test("the path input prefix is kept in file links", () => {
-  const body = renderTrackingIssue([finding("a:1", "high", "One", "package.json", 3)], undefined, { ...options, pathPrefix: "services/api" });
-  assert.match(body, /\[`services\/api\/package\.json:3`\]\(https:\/\/github\.com\/o\/r\/blob\/abc\/services\/api\/package\.json#L3\)/);
+  const body = renderTrackingIssue([finding("a:1", "high", "One", "package.json", 3)], undefined, {
+    ...options,
+    pathPrefix: "services/api",
+  });
+  assert.match(
+    body,
+    /\[`services\/api\/package\.json:3`\]\(https:\/\/github\.com\/o\/r\/blob\/abc\/services\/api\/package\.json#L3\)/,
+  );
 });
 
 test("a body over the limit shortens the findings table but keeps every finding in the snapshot", () => {
   const many = Array.from({ length: 150 }, (_, index) =>
-    finding(`r${index}:1`, "medium", `Long finding ${index} ${"x".repeat(150)}`, `package-${index}.json`, 1, "2026-01-01"),
+    finding(
+      `r${index}:1`,
+      "medium",
+      `Long finding ${index} ${"x".repeat(150)}`,
+      `package-${index}.json`,
+      1,
+      "2026-01-01",
+    ),
   );
   const body = renderTrackingIssue(many, undefined, options);
   assert.ok(body.length <= TRACKING_ISSUE_BODY_LIMIT, `${body.length} characters`);
@@ -112,7 +158,14 @@ test("a body over the limit shortens the findings table but keeps every finding 
 
 test("a body that cannot fit even after shortening is not written", async () => {
   const many = Array.from({ length: 600 }, (_, index) =>
-    finding(`r${index}:1`, "medium", `Long finding ${index} ${"x".repeat(150)}`, `package-${index}.json`, 1, "2026-01-01"),
+    finding(
+      `r${index}:1`,
+      "medium",
+      `Long finding ${index} ${"x".repeat(150)}`,
+      `package-${index}.json`,
+      1,
+      "2026-01-01",
+    ),
   );
   const realFetch = globalThis.fetch;
   let calls = 0;
@@ -216,7 +269,9 @@ async function runAction(root: string, env: Record<string, string>): Promise<{ c
   child.stdout.setEncoding("utf8");
   child.stderr.resume();
   let stdout = "";
-  child.stdout.on("data", (chunk: string) => { stdout += chunk; });
+  child.stdout.on("data", (chunk: string) => {
+    stdout += chunk;
+  });
   const code = await new Promise<number>((done, reject) => {
     child.once("error", reject);
     child.once("close", (status) => done(status ?? 1));
@@ -231,13 +286,20 @@ interface MockIssue {
   body?: string;
 }
 
-async function trackingServer(): Promise<{ apiUrl: string; issues: MockIssue[]; requests: string[]; close: () => Promise<void> }> {
+async function trackingServer(): Promise<{
+  apiUrl: string;
+  issues: MockIssue[];
+  requests: string[];
+  close: () => Promise<void>;
+}> {
   const issues: MockIssue[] = [];
   const requests: string[] = [];
   let next = 1;
   const server = createServer((request, response) => {
     let raw = "";
-    request.on("data", (chunk) => { raw += chunk; });
+    request.on("data", (chunk) => {
+      raw += chunk;
+    });
     request.on("end", () => {
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
       const method = request.method ?? "GET";
@@ -249,7 +311,12 @@ async function trackingServer(): Promise<{ apiUrl: string; issues: MockIssue[]; 
         return;
       }
       if (method === "POST" && url.pathname.endsWith("/issues")) {
-        const issue: MockIssue = { number: next++, state: "open", title: String(body?.title), body: String(body?.body) };
+        const issue: MockIssue = {
+          number: next++,
+          state: "open",
+          title: String(body?.title),
+          body: String(body?.body),
+        };
         issues.push(issue);
         response.statusCode = 201;
         response.end(JSON.stringify(issue));
@@ -341,7 +408,10 @@ test("the Action skips the tracking issue on pull request runs", async () => {
 });
 
 test("action.yml declares tracking-issue off by default and passes it to the scan step", async () => {
-  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as {
+    inputs: Record<string, { default?: string }>;
+    runs: { steps: Array<{ env?: Record<string, string> }> };
+  };
   assert.equal(action.inputs["tracking-issue"]?.default, "false");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_TRACKING-ISSUE"], "${{ inputs.tracking-issue }}");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_GITHUB-TOKEN"], "${{ inputs.github-token }}");

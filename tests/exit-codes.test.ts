@@ -37,7 +37,10 @@ async function emptyRepository(): Promise<string> {
   return root;
 }
 
-function errorDocument(outcome: Outcome): { schemaVersion: string; error: { code: string; exitCode: number; message: string } } {
+function errorDocument(outcome: Outcome): {
+  schemaVersion: string;
+  error: { code: string; exitCode: number; message: string };
+} {
   return JSON.parse(outcome.stdout) as ReturnType<typeof errorDocument>;
 }
 
@@ -54,7 +57,11 @@ test("usage failures exit 2 with the code usage", async () => {
   assert.equal(errorDocument(unknown).error.exitCode, 2);
   assert.equal(errorDocument(unknown).schemaVersion, "evergreen.error.v1");
   assert.match(unknown.stderr, /Unknown command: frobnicate/);
-  assert.doesNotMatch(errorDocument(unknown).error.message, /Usage:/, "the JSON message is the reason, not the help text");
+  assert.doesNotMatch(
+    errorDocument(unknown).error.message,
+    /Usage:/,
+    "the JSON message is the reason, not the help text",
+  );
 
   const format = await run(["scan", ".", "--format", "yaml"]);
   assert.equal(format.code, 2);
@@ -144,7 +151,9 @@ test("the exit-code table in docs/CAPABILITIES.md cannot drift from the code", a
   const source = await readFile(resolve("dist/src/commands/types.js"), "utf8");
   const codes = source.match(/EXIT_CODES = \{([^}]*)\}/);
   assert.ok(codes, "EXIT_CODES was not found in the compiled CLI");
-  const implemented = new Map([...codes[1]!.matchAll(/([a-z]+): (\d+)/g)].map(([, code, exitCode]) => [code!, Number(exitCode!)]));
+  const implemented = new Map(
+    [...codes[1]!.matchAll(/([a-z]+): (\d+)/g)].map(([, code, exitCode]) => [code!, Number(exitCode!)]),
+  );
 
   for (const [code, exitCode] of implemented) {
     assert.equal(documented.get(code), exitCode, `${code} appeared in the code without its table row`);

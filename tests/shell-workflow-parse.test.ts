@@ -19,7 +19,10 @@ test("the positive workflow fixture reports shells and pinned images with exact 
 });
 
 test("the zero fixture reports its declarations", async () => {
-  assert.deepEqual(parseWorkflow(await fixture("zero")), [image("powershell", "7.5-ubuntu-24.04", 7), shell("pwsh", 11)]);
+  assert.deepEqual(parseWorkflow(await fixture("zero")), [
+    image("powershell", "7.5-ubuntu-24.04", 7),
+    shell("pwsh", 11),
+  ]);
 });
 
 test("negative and malformed fixtures yield nothing and do not throw", async () => {
@@ -28,24 +31,62 @@ test("negative and malformed fixtures yield nothing and do not throw", async () 
 });
 
 test("defaults.run.shell is read at workflow and job level", () => {
-  const input = ["defaults:", "  run:", "    shell: bash", "jobs:", "  a:", "    defaults:", "      run:", "        shell: pwsh", "    steps: []"].join("\n");
+  const input = [
+    "defaults:",
+    "  run:",
+    "    shell: bash",
+    "jobs:",
+    "  a:",
+    "    defaults:",
+    "      run:",
+    "        shell: pwsh",
+    "    steps: []",
+  ].join("\n");
   assert.deepEqual(parseWorkflow(input), [shell("bash", 3), shell("pwsh", 8)]);
 });
 
 test("string container and service images are read", () => {
-  const input = ["jobs:", "  a:", "    container: bash:5.2", "    services:", "      s:", "        image: mcr.microsoft.com/powershell:7.4", "    steps: []"].join("\n");
+  const input = [
+    "jobs:",
+    "  a:",
+    "    container: bash:5.2",
+    "    services:",
+    "      s:",
+    "        image: mcr.microsoft.com/powershell:7.4",
+    "    steps: []",
+  ].join("\n");
   assert.deepEqual(parseWorkflow(input), [image("bash", "5.2", 3), image("powershell", "7.4", 6)]);
 });
 
 test("dynamic, untagged, lookalike and unrelated images are ignored", () => {
-  for (const ref of ["${{ inputs.image }}", "bash", "mcr.microsoft.com/powershell", "ghcr.io/org/bash:5.2", "mcr.microsoft.com/dotnet/sdk:8.0", "bash@sha256:" + "a".repeat(64), "${IMAGE}:5.2"]) {
+  for (const ref of [
+    "${{ inputs.image }}",
+    "bash",
+    "mcr.microsoft.com/powershell",
+    "ghcr.io/org/bash:5.2",
+    "mcr.microsoft.com/dotnet/sdk:8.0",
+    "bash@sha256:" + "a".repeat(64),
+    "${IMAGE}:5.2",
+  ]) {
     const input = `jobs:\n  a:\n    container:\n      image: ${JSON.stringify(ref)}\n    steps: []`;
     assert.deepEqual(parseWorkflow(input), [], ref);
   }
 });
 
 test("expression shells, non-string shells, env keys and comments are ignored", () => {
-  const input = ["jobs:", "  a:", "    env:", "      shell: pwsh", "    steps:", "      - shell: ${{ matrix.shell }}", "        run: x", "      - shell: [pwsh]", "        run: x", "      # shell: pwsh", "      - run: y"].join("\n");
+  const input = [
+    "jobs:",
+    "  a:",
+    "    env:",
+    "      shell: pwsh",
+    "    steps:",
+    "      - shell: ${{ matrix.shell }}",
+    "        run: x",
+    "      - shell: [pwsh]",
+    "        run: x",
+    "      # shell: pwsh",
+    "      - run: y",
+  ].join("\n");
   assert.deepEqual(parseWorkflow(input), []);
 });
 
@@ -58,5 +99,7 @@ test("aliases, invalid YAML, non-map documents and oversized input yield nothing
 });
 
 test("custom shell templates are kept as written", () => {
-  assert.deepEqual(parseWorkflow("jobs:\n  a:\n    steps:\n      - shell: bash -e {0}\n        run: x"), [shell("bash -e {0}", 4)]);
+  assert.deepEqual(parseWorkflow("jobs:\n  a:\n    steps:\n      - shell: bash -e {0}\n        run: x"), [
+    shell("bash -e {0}", 4),
+  ]);
 });

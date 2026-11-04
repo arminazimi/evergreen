@@ -12,15 +12,11 @@
       "path": "kubia-ingress.yaml",
       "kind": "Ingress",
       "version": "networking.k8s.io/v1beta1",
-      "evergreen": [
-        "kubernetes.networking-k8s-io.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.networking-k8s-io.ingress.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
     }
   ],
-  "notComparable": [
-    "container.node"
-  ]
+  "notComparable": ["container.node"]
 }

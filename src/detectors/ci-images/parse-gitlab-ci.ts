@@ -82,14 +82,20 @@ function collectServices(node: unknown, lineCounter: LineCounter, references: Gi
   const items = isSeq(node) ? node.items : node.items.map((item) => item.value);
   for (const item of items) {
     if (isScalar(item)) {
-      if (typeof item.value === "string" && item.range) addReference(item.value, item.range[0], lineCounter, references);
+      if (typeof item.value === "string" && item.range)
+        addReference(item.value, item.range[0], lineCounter, references);
     } else if (isMap(item)) {
       collectImage(item.get("name", true), lineCounter, references);
     }
   }
 }
 
-function addReference(value: string, offset: number, lineCounter: LineCounter, references: GitlabImageReference[]): void {
+function addReference(
+  value: string,
+  offset: number,
+  lineCounter: LineCounter,
+  references: GitlabImageReference[],
+): void {
   const line = lineCounter.linePos(offset).line;
   if (value.length <= MAXIMUM_LINE_LENGTH) references.push({ value, line });
 }

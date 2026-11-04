@@ -15,7 +15,11 @@ after(async () => {
 async function projectsFolder(): Promise<string> {
   const folder = await mkdtemp(join(tmpdir(), "evergreen-multi-"));
   temporaryRoots.push(folder);
-  for (const [name, node] of [["beta", "20"], ["alpha", "20"], ["gamma", "24"]] as const) {
+  for (const [name, node] of [
+    ["beta", "20"],
+    ["alpha", "20"],
+    ["gamma", "24"],
+  ] as const) {
     await mkdir(join(folder, name, ".git"), { recursive: true });
     await writeFile(join(folder, name, "package.json"), JSON.stringify({ engines: { node } }));
   }
@@ -27,11 +31,21 @@ test("scan accepts several paths and prints per-project counts and a total", asy
   const folder = await projectsFolder();
   const invoked = await runCli(["scan", join(folder, "beta"), join(folder, "alpha"), "--json"]);
   assert.equal(invoked.code, 0);
-  const result = JSON.parse(invoked.stdout) as { schemaVersion: string; projects: Array<{ path: string; findings: number }>; total: { projects: number; findings: number } };
+  const result = JSON.parse(invoked.stdout) as {
+    schemaVersion: string;
+    projects: Array<{ path: string; findings: number }>;
+    total: { projects: number; findings: number };
+  };
   assert.equal(result.schemaVersion, "evergreen.multi-scan.v1");
-  assert.deepEqual(result.projects.map((project) => project.path), [join(folder, "alpha"), join(folder, "beta")]);
+  assert.deepEqual(
+    result.projects.map((project) => project.path),
+    [join(folder, "alpha"), join(folder, "beta")],
+  );
   assert.equal(result.total.projects, 2);
-  assert.equal(result.total.findings, result.projects.reduce((sum, project) => sum + project.findings, 0));
+  assert.equal(
+    result.total.findings,
+    result.projects.reduce((sum, project) => sum + project.findings, 0),
+  );
 });
 
 test("scan --all scans every repository in a folder in sorted order", async () => {

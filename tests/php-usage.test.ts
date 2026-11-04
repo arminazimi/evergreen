@@ -94,7 +94,10 @@ test("reports calls spelled Swift_Mailer::newInstance and new Swift_Mailer, incl
     "new Swift_Mailer($transport);",
     "Swift_Mailer::newInstance($transport);",
   ];
-  const found = await usages({ "lib/app.php": lines.join("\n") }, "Swift_Mailer", ["new Swift_Mailer", "Swift_Mailer::newInstance"]);
+  const found = await usages({ "lib/app.php": lines.join("\n") }, "Swift_Mailer", [
+    "new Swift_Mailer",
+    "Swift_Mailer::newInstance",
+  ]);
   assert.deepEqual(
     found.filter((item) => item[0] === "call"),
     [
@@ -131,8 +134,20 @@ test("reports calls spelled Zend\\Stdlib\\ArrayUtils::merge and new Zend\\Stdlib
     [
       ["call", "lib/app.php", 3, at(lines[2]!, "Lists"), "Zend\\Stdlib.Zend\\Stdlib\\ArrayUtils::merge"],
       ["call", "lib/app.php", 4, at(lines[3]!, "new"), "Zend\\Stdlib.new Zend\\Stdlib\\ArrayUtils"],
-      ["call", "lib/app.php", 5, at(lines[4]!, "Zend\\Stdlib\\ArrayUtils"), "Zend\\Stdlib.Zend\\Stdlib\\ArrayUtils::merge"],
-      ["call", "lib/app.php", 6, at(lines[5]!, "Zend\\Stdlib\\ArrayUtils"), "Zend\\Stdlib.Zend\\Stdlib\\ArrayUtils::merge"],
+      [
+        "call",
+        "lib/app.php",
+        5,
+        at(lines[4]!, "Zend\\Stdlib\\ArrayUtils"),
+        "Zend\\Stdlib.Zend\\Stdlib\\ArrayUtils::merge",
+      ],
+      [
+        "call",
+        "lib/app.php",
+        6,
+        at(lines[5]!, "Zend\\Stdlib\\ArrayUtils"),
+        "Zend\\Stdlib.Zend\\Stdlib\\ArrayUtils::merge",
+      ],
       ["call", "lib/app.php", 7, at(lines[6]!, "new"), "Zend\\Stdlib.new Zend\\Stdlib\\Parameters"],
       ["call", "lib/app.php", 9, at(lines[8]!, "Stdlib\\ArrayUtils"), "Zend\\Stdlib.Zend\\Stdlib\\ArrayUtils::merge"],
       ["call", "lib/app.php", 10, at(lines[9]!, "new"), "Zend\\Stdlib.new Zend\\Stdlib\\Parameters"],
@@ -168,7 +183,11 @@ test("does not treat comments, strings, heredocs, nowdocs, or a closure use as u
     "};",
     "#[Deprecated] new Swift_Mailer($transport);",
   ];
-  const found = await usages({ "lib/app.php": lines.join("\n"), "notes.txt": 'require "Swift_Mailer"\n' }, "Swift_Mailer", ["new Swift_Mailer", "Swift_Mailer::newInstance"]);
+  const found = await usages(
+    { "lib/app.php": lines.join("\n"), "notes.txt": 'require "Swift_Mailer"\n' },
+    "Swift_Mailer",
+    ["new Swift_Mailer", "Swift_Mailer::newInstance"],
+  );
   assert.deepEqual(found, [["call", "lib/app.php", 20, at(lines[19]!, "new"), "Swift_Mailer.new Swift_Mailer"]]);
   assert.deepEqual(await findPhpDynamicReferences(await repository({ "lib/app.php": lines.join("\n") })), []);
 });
@@ -177,14 +196,16 @@ test("vendor and fixture trees are skipped, and only .php files are read", async
   const found = await usages(
     {
       "src/app.php": "new Swift_Mailer($transport);\n",
-      "vendor/mail.php": "new Swift_Mailer($transport);\nrequire \"Swift_Mailer\";\n",
-      "fixtures/sample.php": "require \"Swift_Mailer\";\n",
+      "vendor/mail.php": 'new Swift_Mailer($transport);\nrequire "Swift_Mailer";\n',
+      "fixtures/sample.php": 'require "Swift_Mailer";\n',
       "src/app.inc": "new Swift_Mailer($transport);\n",
     },
     "Swift_Mailer",
     ["new Swift_Mailer"],
   );
-  assert.deepEqual(found, [["call", "src/app.php", 1, at("new Swift_Mailer($transport);", "new"), "Swift_Mailer.new Swift_Mailer"]]);
+  assert.deepEqual(found, [
+    ["call", "src/app.php", 1, at("new Swift_Mailer($transport);", "new"), "Swift_Mailer.new Swift_Mailer"],
+  ]);
 });
 
 test("dynamic require, include, new $class, and $class::method are unclassified, not usages", async () => {
@@ -264,18 +285,36 @@ test("the usage-dynamic fixture leaves dynamic require, include, and dynamic cal
 
 test("php matchers are valid, and an abandoned package finding lists source files in the scan and the migration packet", async () => {
   assert.equal(isUsageMatcher({ kind: "import", language: "php", module: "Swift_Mailer" }), true);
-  assert.equal(isUsageMatcher({ kind: "call", language: "php", module: "Swift_Mailer", targets: ["new Swift_Mailer"] }), true);
+  assert.equal(
+    isUsageMatcher({ kind: "call", language: "php", module: "Swift_Mailer", targets: ["new Swift_Mailer"] }),
+    true,
+  );
   const rules = validateRegistryV2(JSON.parse(await readFile("registry/php.json", "utf8"))).rules;
   assert.equal(rules.find((rule) => rule.id === "php.runtime.eol-7.4")!.usage, undefined);
   assert.deepEqual(rules.find((rule) => rule.id === "php.package.swiftmailer.swiftmailer.abandoned")!.usage, [
     { kind: "import", language: "php", module: "Swift_Mailer" },
     { kind: "import", language: "php", module: "Swift_Message" },
-    { kind: "call", language: "php", module: "Swift_Mailer", targets: ["new Swift_Mailer", "Swift_Mailer::newInstance"] },
-    { kind: "call", language: "php", module: "Swift_Message", targets: ["new Swift_Message", "Swift_Message::newInstance"] },
+    {
+      kind: "call",
+      language: "php",
+      module: "Swift_Mailer",
+      targets: ["new Swift_Mailer", "Swift_Mailer::newInstance"],
+    },
+    {
+      kind: "call",
+      language: "php",
+      module: "Swift_Message",
+      targets: ["new Swift_Message", "Swift_Message::newInstance"],
+    },
   ]);
   assert.deepEqual(rules.find((rule) => rule.id === "php.package.zendframework.zend-stdlib.abandoned")!.usage, [
     { kind: "import", language: "php", module: "Zend\\Stdlib" },
-    { kind: "call", language: "php", module: "Zend\\Stdlib", targets: ["Zend\\Stdlib\\ArrayUtils::merge", "new Zend\\Stdlib\\Parameters"] },
+    {
+      kind: "call",
+      language: "php",
+      module: "Zend\\Stdlib",
+      targets: ["Zend\\Stdlib\\ArrayUtils::merge", "new Zend\\Stdlib\\Parameters"],
+    },
   ]);
 
   const root = await repository({
@@ -303,7 +342,11 @@ test("php matchers are valid, and an abandoned package finding lists source file
   assert.match(text, /Usage: src\/app\.php:3 — call Swift_Mailer\.new Swift_Mailer/);
   assert.match(text, /Unclassified: 2 pinned references/);
   assert.deepEqual(
-    result.unclassified?.references.map((reference) => [reference.location.path, reference.location.line, reference.reference]),
+    result.unclassified?.references.map((reference) => [
+      reference.location.path,
+      reference.location.line,
+      reference.reference,
+    ]),
     [
       ["src/dynamic.php", 2, "require $path;"],
       ["src/dynamic.php", 3, "new $mailer"],
@@ -345,7 +388,11 @@ test("a require on a line longer than 4096 characters is unclassified, and a nor
 });
 
 test("cyclic aliases and a long alias chain finish without throwing", async () => {
-  const chain = ["use Swift_Mailer as A0;", ...Array.from({ length: 12 }, (_, index) => `use A${index} as A${index + 1};`), "A1::newInstance($transport);"].join("\n");
+  const chain = [
+    "use Swift_Mailer as A0;",
+    ...Array.from({ length: 12 }, (_, index) => `use A${index} as A${index + 1};`),
+    "A1::newInstance($transport);",
+  ].join("\n");
   const found = await usages(
     {
       "lib/cycle.php": "use A as B;\nuse B as A;\nB::newInstance($transport);\n",
@@ -354,9 +401,10 @@ test("cyclic aliases and a long alias chain finish without throwing", async () =
     "Swift_Mailer",
     ["Swift_Mailer::newInstance"],
   );
-  assert.deepEqual(found.filter((item) => item[0] === "call"), [
-    ["call", "lib/chain.php", 14, at("A1::newInstance($transport);", "A1"), "Swift_Mailer.Swift_Mailer::newInstance"],
-  ]);
+  assert.deepEqual(
+    found.filter((item) => item[0] === "call"),
+    [["call", "lib/chain.php", 14, at("A1::newInstance($transport);", "A1"), "Swift_Mailer.Swift_Mailer::newInstance"]],
+  );
 });
 
 test("alias and receiver tables stop at a fixed size", async () => {
@@ -364,11 +412,9 @@ test("alias and receiver tables stop at a fixed size", async () => {
   const receiverFile = `${receivers}\nM0::newInstance($transport);\nM69::newInstance($transport);\n`;
   const aliases = Array.from({ length: 300 }, (_, index) => `use Swift_Mailer as N${index};`).join("\n");
   const aliasFile = `${aliases}\nN0::newInstance($transport);\nN299::newInstance($transport);\n`;
-  const found = await usages(
-    { "lib/receivers.php": receiverFile, "lib/aliases.php": aliasFile },
-    "Swift_Mailer",
-    ["Swift_Mailer::newInstance"],
-  );
+  const found = await usages({ "lib/receivers.php": receiverFile, "lib/aliases.php": aliasFile }, "Swift_Mailer", [
+    "Swift_Mailer::newInstance",
+  ]);
   assert.deepEqual(
     found.filter((item) => item[0] === "call").map((item) => [item[1], item[2]]),
     [

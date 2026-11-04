@@ -26,7 +26,11 @@ test("container registry has twenty-six image rules, two Dockerfile rules, and s
 });
 
 test("release lines fall on the right side of each range", async () => {
-  const byPurl = new Map((await rules()).filter((rule) => rule.event !== "scheduled-end-of-life" && rule.purl.startsWith("pkg:docker/library/")).map((rule) => [rule.purl.split("/").pop(), rule.vers]));
+  const byPurl = new Map(
+    (await rules())
+      .filter((rule) => rule.event !== "scheduled-end-of-life" && rule.purl.startsWith("pkg:docker/library/"))
+      .map((rule) => [rule.purl.split("/").pop(), rule.vers]),
+  );
   const cases: Array<[string, string, boolean]> = [
     ["node", "18.0.0", true],
     ["node", "20.0.0", true],
@@ -57,16 +61,37 @@ test("release lines fall on the right side of each range", async () => {
 
 test("a scheduled image line is a low-severity rule for exactly that line", async () => {
   const scheduled = (await rules()).filter((rule) => rule.event === "scheduled-end-of-life");
-  assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]), [
-    ["container.node.eol-22-and-older", "vers:semver/>=22.0.0|<23.0.0", "low", "2027-04-30"],
-    ["container.python.eol-3.11-and-older", "vers:semver/>=3.11.0|<3.12.0", "low", "2027-10-31"],
-    ["container.postgres.eol-14-and-older", "vers:semver/>=14.0.0|<15.0.0", "low", "2026-11-12"],
-    ["container.ruby.eol-3.3-and-older", "vers:semver/>=3.3.0|<3.4.0", "low", "2027-03-31"],
-    ["container.redis.eol-6.2-and-older", "vers:semver/>=6.2.0|<6.3.0", "low", "2027-04-01"],
-    ["container.ubuntu.eol-22.04", "vers:semver/>=22.0.0|<22.10.0", "low", "2027-06-01"],
-    ["container.alpine.eol-3.21", "vers:semver/>=3.21.0|<3.22.0", "low", "2026-11-01"],
-  ]);
-  for (const [rule, version, affected] of [["container.node.eol-22-and-older", "22.4.0", true], ["container.node.eol-22-and-older", "21.9.0", false], ["container.node.eol-22-and-older", "24.0.0", false], ["container.postgres.eol-14-and-older", "14.5.0", true], ["container.postgres.eol-14-and-older", "15.0.0", false], ["container.postgres.eol-14-and-older", "13.9.0", false], ["container.redis.eol-6.2-and-older", "6.2.0", true], ["container.redis.eol-6.2-and-older", "6.2.7", true], ["container.redis.eol-6.2-and-older", "6.3.0", false], ["container.redis.eol-6.2-and-older", "6.1.9", false], ["container.ruby.eol-3.3-and-older", "3.3.6", true], ["container.ruby.eol-3.3-and-older", "3.2.8", false], ["container.ruby.eol-3.3-and-older", "3.4.1", false]] as const) {
-    assert.equal(versContains(scheduled.find((item) => item.id === rule)!.vers, version), affected, `${rule} ${version}`);
+  assert.deepEqual(
+    scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]),
+    [
+      ["container.node.eol-22-and-older", "vers:semver/>=22.0.0|<23.0.0", "low", "2027-04-30"],
+      ["container.python.eol-3.11-and-older", "vers:semver/>=3.11.0|<3.12.0", "low", "2027-10-31"],
+      ["container.postgres.eol-14-and-older", "vers:semver/>=14.0.0|<15.0.0", "low", "2026-11-12"],
+      ["container.ruby.eol-3.3-and-older", "vers:semver/>=3.3.0|<3.4.0", "low", "2027-03-31"],
+      ["container.redis.eol-6.2-and-older", "vers:semver/>=6.2.0|<6.3.0", "low", "2027-04-01"],
+      ["container.ubuntu.eol-22.04", "vers:semver/>=22.0.0|<22.10.0", "low", "2027-06-01"],
+      ["container.alpine.eol-3.21", "vers:semver/>=3.21.0|<3.22.0", "low", "2026-11-01"],
+    ],
+  );
+  for (const [rule, version, affected] of [
+    ["container.node.eol-22-and-older", "22.4.0", true],
+    ["container.node.eol-22-and-older", "21.9.0", false],
+    ["container.node.eol-22-and-older", "24.0.0", false],
+    ["container.postgres.eol-14-and-older", "14.5.0", true],
+    ["container.postgres.eol-14-and-older", "15.0.0", false],
+    ["container.postgres.eol-14-and-older", "13.9.0", false],
+    ["container.redis.eol-6.2-and-older", "6.2.0", true],
+    ["container.redis.eol-6.2-and-older", "6.2.7", true],
+    ["container.redis.eol-6.2-and-older", "6.3.0", false],
+    ["container.redis.eol-6.2-and-older", "6.1.9", false],
+    ["container.ruby.eol-3.3-and-older", "3.3.6", true],
+    ["container.ruby.eol-3.3-and-older", "3.2.8", false],
+    ["container.ruby.eol-3.3-and-older", "3.4.1", false],
+  ] as const) {
+    assert.equal(
+      versContains(scheduled.find((item) => item.id === rule)!.vers, version),
+      affected,
+      `${rule} ${version}`,
+    );
   }
 });

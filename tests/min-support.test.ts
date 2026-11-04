@@ -46,9 +46,27 @@ test("a window that is already past stays untouched", async () => {
 
 test("the warning stays below the default high gate", async () => {
   const root = await node22Repository();
-  const belowHigh = await runCli(["scan", root, "--fail-on", "high", "--as-of", "2027-04-01", "--min-support-days", "90"]);
+  const belowHigh = await runCli([
+    "scan",
+    root,
+    "--fail-on",
+    "high",
+    "--as-of",
+    "2027-04-01",
+    "--min-support-days",
+    "90",
+  ]);
   assert.equal(belowHigh.code, 0);
-  const atMedium = await runCli(["scan", root, "--fail-on", "medium", "--as-of", "2027-04-01", "--min-support-days", "90"]);
+  const atMedium = await runCli([
+    "scan",
+    root,
+    "--fail-on",
+    "medium",
+    "--as-of",
+    "2027-04-01",
+    "--min-support-days",
+    "90",
+  ]);
   assert.equal(atMedium.code, 1);
 });
 

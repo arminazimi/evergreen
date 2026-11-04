@@ -17,11 +17,17 @@ after(async () => {
 async function threePackageMonorepo(): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-action-monorepo-"));
   temporaryRoots.push(root);
-  await writeFile(join(root, "package.json"), JSON.stringify({ name: "monorepo", private: true, workspaces: ["packages/*"] }));
+  await writeFile(
+    join(root, "package.json"),
+    JSON.stringify({ name: "monorepo", private: true, workspaces: ["packages/*"] }),
+  );
   for (const name of ["api", "web", "worker"] as const) {
     const directory = join(root, "packages", name);
     await mkdir(directory, { recursive: true });
-    await writeFile(join(directory, "package.json"), JSON.stringify({ name: `@demo/${name}`, engines: { node: "24" } }));
+    await writeFile(
+      join(directory, "package.json"),
+      JSON.stringify({ name: `@demo/${name}`, engines: { node: "24" } }),
+    );
   }
   for (const name of ["api", "web"] as const) {
     const workflows = join(root, "packages", name, ".github", "workflows");
@@ -31,7 +37,10 @@ async function threePackageMonorepo(): Promise<string> {
   return root;
 }
 
-async function runAction(root: string, inputs: Record<string, string> = {}): Promise<{ code: number; stdout: string; summary: string; outputs: string }> {
+async function runAction(
+  root: string,
+  inputs: Record<string, string> = {},
+): Promise<{ code: number; stdout: string; summary: string; outputs: string }> {
   const runner = join(root, ".runner");
   const output = join(runner, "outputs.txt");
   const summary = join(runner, "summary.md");
@@ -69,7 +78,11 @@ async function runAction(root: string, inputs: Record<string, string> = {}): Pro
 }
 
 test("parsePathsInput keeps non-empty lines and drops blanks", () => {
-  assert.deepEqual(parsePathsInput("packages/api\n\n  packages/web  \n\npackages/worker\n"), ["packages/api", "packages/web", "packages/worker"]);
+  assert.deepEqual(parsePathsInput("packages/api\n\n  packages/web  \n\npackages/worker\n"), [
+    "packages/api",
+    "packages/web",
+    "packages/worker",
+  ]);
   assert.deepEqual(parsePathsInput(""), []);
 });
 
@@ -112,17 +125,29 @@ test("a three-package paths scan writes one report, one SARIF, and three summary
 
   const report = JSON.parse(await readFile(reportPath, "utf8")) as { findings: Array<{ location: { path: string } }> };
   assert.equal(report.findings.length, 2);
-  assert.deepEqual(
-    report.findings.map((finding) => finding.location.path).sort(),
-    ["packages/api/.github/workflows/ci.yml", "packages/web/.github/workflows/ci.yml"],
-  );
+  assert.deepEqual(report.findings.map((finding) => finding.location.path).sort(), [
+    "packages/api/.github/workflows/ci.yml",
+    "packages/web/.github/workflows/ci.yml",
+  ]);
 
   const sarif = JSON.parse(await readFile(sarifPath, "utf8")) as { runs: Array<{ results: unknown[] }> };
   assert.equal(sarif.runs[0]?.results.length, 2);
 
   const { renderSummary } = await import("../src/github-action.js");
-  const summary = renderSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, false, undefined, undefined, outcome.packages);
-  assert.match(summary, /Found \*\*2\*\* new lifecycle findings across \*\*3\*\* packages; failed the \*\*high\*\* severity gate\./);
+  const summary = renderSummary(
+    outcome.result.findings,
+    outcome.gateFailed,
+    outcome.gate,
+    outcome.result.data,
+    false,
+    undefined,
+    undefined,
+    outcome.packages,
+  );
+  assert.match(
+    summary,
+    /Found \*\*2\*\* new lifecycle findings across \*\*3\*\* packages; failed the \*\*high\*\* severity gate\./,
+  );
   assert.match(summary, /^## `packages\/api`$/m);
   assert.match(summary, /^## `packages\/web`$/m);
   assert.match(summary, /^## `packages\/worker`$/m);

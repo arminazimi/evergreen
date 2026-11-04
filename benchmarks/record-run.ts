@@ -30,19 +30,31 @@ export function findFilterFlag(argv: readonly string[]): string | undefined {
 }
 
 /** Throws unless `report` is a complete, passing, verify-mode run over the whole corpus. */
-export function assertRecordable(report: RecordableReport, corpusSize: number): asserts report is Required<Pick<RecordableReport, "summary" | "detectors">> & RecordableReport {
-  if (report.schemaVersion !== "evergreen.public-validation-result.v1") throw new Error("Refusing to record: this is not a corpus report.");
-  if (report.mode !== "verify") throw new Error(`Refusing to record: the run was in "${report.mode}" mode, not verify.`);
-  if (report.fullRun !== true || report.filter !== undefined) throw new Error("Refusing to record: the run was filtered, so it is not a full run.");
+export function assertRecordable(
+  report: RecordableReport,
+  corpusSize: number,
+): asserts report is Required<Pick<RecordableReport, "summary" | "detectors">> & RecordableReport {
+  if (report.schemaVersion !== "evergreen.public-validation-result.v1")
+    throw new Error("Refusing to record: this is not a corpus report.");
+  if (report.mode !== "verify")
+    throw new Error(`Refusing to record: the run was in "${report.mode}" mode, not verify.`);
+  if (report.fullRun !== true || report.filter !== undefined)
+    throw new Error("Refusing to record: the run was filtered, so it is not a full run.");
   if (!report.summary || !report.detectors) throw new Error("Refusing to record: the report has no summary.");
   if (report.summary.repositoryCount !== corpusSize) {
-    throw new Error(`Refusing to record: the run covered ${report.summary.repositoryCount} repositories but the corpus has ${corpusSize}.`);
+    throw new Error(
+      `Refusing to record: the run covered ${report.summary.repositoryCount} repositories but the corpus has ${corpusSize}.`,
+    );
   }
   if (report.summary.falsePositives > 0 || report.summary.falseNegatives > 0) {
-    throw new Error(`Refusing to record: the run has ${report.summary.falsePositives} false positives and ${report.summary.falseNegatives} false negatives.`);
+    throw new Error(
+      `Refusing to record: the run has ${report.summary.falsePositives} false positives and ${report.summary.falseNegatives} false negatives.`,
+    );
   }
-  if ((report.thresholdViolations ?? []).length > 0) throw new Error("Refusing to record: a detector is below its precision floor.");
-  if ((report.recallViolations ?? []).length > 0) throw new Error("Refusing to record: a detector is below its recall floor.");
+  if ((report.thresholdViolations ?? []).length > 0)
+    throw new Error("Refusing to record: a detector is below its precision floor.");
+  if ((report.recallViolations ?? []).length > 0)
+    throw new Error("Refusing to record: a detector is below its recall floor.");
 }
 
 /** The `lastFullRun` entry for `report`; every detector in `thresholds` appears, with zeros when it reported nothing. */

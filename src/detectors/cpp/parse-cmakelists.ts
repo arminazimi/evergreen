@@ -246,7 +246,8 @@ function compilerCheck(args: readonly Token[]): CmakeCompilerCheckDeclaration | 
     if (idIndex < 0) continue;
     const idOperator = words[idIndex + 1];
     const compiler = args[idIndex + 2];
-    if (idOperator !== "STREQUAL" || !literal(compiler) || !compiler.quoted || !COMPILER_ID.test(compiler.value)) continue;
+    if (idOperator !== "STREQUAL" || !literal(compiler) || !compiler.quoted || !COMPILER_ID.test(compiler.value))
+      continue;
 
     const versionIndex = words.indexOf(variables.version);
     if (versionIndex < 0) continue;

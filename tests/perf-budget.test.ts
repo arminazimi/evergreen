@@ -34,7 +34,10 @@ test("the evaluator passes at the exact budget boundary", () => {
 });
 
 test("the evaluator fails a wall-time regression and names both numbers", () => {
-  const violations = evaluatePerfBudget({ ...FITTING_MEASUREMENTS, meanWallMs: PERF_BUDGET.maxMeanWallMs + 1 }, PERF_BUDGET);
+  const violations = evaluatePerfBudget(
+    { ...FITTING_MEASUREMENTS, meanWallMs: PERF_BUDGET.maxMeanWallMs + 1 },
+    PERF_BUDGET,
+  );
   assert.equal(violations.length, 1);
   assert.match(violations[0]!, /wall time .* exceeded the 2000 ms budget/);
 });

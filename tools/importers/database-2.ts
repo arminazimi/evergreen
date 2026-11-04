@@ -35,7 +35,13 @@ function vendorLink(value: unknown): string | undefined {
     const url = new URL(value);
     if (url.protocol !== "https:") return undefined;
     const host = url.hostname.toLowerCase();
-    if (host === "endoflife.date" || host.endsWith(".endoflife.date") || host === "web.archive.org" || host === "archive.org") return undefined;
+    if (
+      host === "endoflife.date" ||
+      host.endsWith(".endoflife.date") ||
+      host === "web.archive.org" ||
+      host === "archive.org"
+    )
+      return undefined;
     return url.toString();
   } catch {
     return undefined;
@@ -51,7 +57,8 @@ function vendorLink(value: unknown): string | undefined {
 export const databaseVendorLifecycleImporter: Importer = {
   id: "database-2",
   ecosystem: "database",
-  description: "Redis and MongoDB release lines that have reached end of life, indexed by endoflife.date and evidenced by the vendor's own policy",
+  description:
+    "Redis and MongoDB release lines that have reached end of life, indexed by endoflife.date and evidenced by the vendor's own policy",
   sources: [{ title: "endoflife.date API v1 (index only)", url: ENDOFLIFE_API }],
 
   async import(context) {
@@ -67,14 +74,18 @@ export const databaseVendorLifecycleImporter: Importer = {
       }
       const vendor = vendorLink(payload.links?.releasePolicy);
       if (!vendor) {
-        notes.push(`Skipped ${product.name}: no release-policy link to the vendor's own page, and endoflife.date alone is not evidence.`);
+        notes.push(
+          `Skipped ${product.name}: no release-policy link to the vendor's own page, and endoflife.date alone is not evidence.`,
+        );
         continue;
       }
 
       const lines = payload.releases
         .map((release) => {
           const match = RELEASE_NAME.exec(release.name ?? "");
-          return match ? { name: release.name!, major: Number(match[1]), minor: Number(match[2]), end: release.eolFrom } : undefined;
+          return match
+            ? { name: release.name!, major: Number(match[1]), minor: Number(match[2]), end: release.eolFrom }
+            : undefined;
         })
         .filter((line): line is NonNullable<typeof line> => line !== undefined && line.major >= product.firstMajor)
         .sort((left, right) => left.major - right.major || left.minor - right.minor);
@@ -100,13 +111,17 @@ export const databaseVendorLifecycleImporter: Importer = {
           deadline: line.end,
           sources: [
             { title: `${product.label} support policy (vendor)`, url: vendor },
-            ...(payload.links?.html ? [{ title: "endoflife.date (index; the vendor page above is the evidence)", url: payload.links.html }] : []),
+            ...(payload.links?.html
+              ? [{ title: "endoflife.date (index; the vendor page above is the evidence)", url: payload.links.html }]
+              : []),
           ],
         });
       }
     }
 
-    notes.push(`Drafted ${rules.length} rule(s) for ${PRODUCTS.length} product(s); only the vendor policy link counts as evidence.`);
+    notes.push(
+      `Drafted ${rules.length} rule(s) for ${PRODUCTS.length} product(s); only the vendor policy link counts as evidence.`,
+    );
     return { rules, notes };
   },
 };

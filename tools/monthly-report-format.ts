@@ -44,15 +44,25 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   lines.push("");
   lines.push("| Area | Current total | Momentum |");
   lines.push("| --- | --- | --- |");
-  lines.push(`| Lifecycle rules | ${formatNumber(data.rules.total)} rules | ${formatNumber(data.rules.reviewedInMonth || data.rules.total)} reviewed across ${Object.keys(data.rules.byEcosystem).length} ecosystems |`);
-  lines.push(`| Supported ecosystems | ${data.ecosystems.total} ecosystems | ${data.ecosystems.supported} supported, ${data.ecosystems.experimental} experimental |`);
-  lines.push(`| Validation corpus | ${formatNumber(data.corpus.totalRepositories)} repositories | ${formatNumber(data.corpus.totalExpectedFindings)} expected findings across ${Object.keys(data.corpus.byEcosystem).length} ecosystems |`);
+  lines.push(
+    `| Lifecycle rules | ${formatNumber(data.rules.total)} rules | ${formatNumber(data.rules.reviewedInMonth || data.rules.total)} reviewed across ${Object.keys(data.rules.byEcosystem).length} ecosystems |`,
+  );
+  lines.push(
+    `| Supported ecosystems | ${data.ecosystems.total} ecosystems | ${data.ecosystems.supported} supported, ${data.ecosystems.experimental} experimental |`,
+  );
+  lines.push(
+    `| Validation corpus | ${formatNumber(data.corpus.totalRepositories)} repositories | ${formatNumber(data.corpus.totalExpectedFindings)} expected findings across ${Object.keys(data.corpus.byEcosystem).length} ecosystems |`,
+  );
   const contributorHighlight = data.contributors.isShallow
     ? `${data.contributors.totalContributors} contributors, ${data.contributors.totalExternalContributors} external (partial: shallow history)`
     : `${data.contributors.totalContributors} contributors, ${data.contributors.totalExternalContributors} external`;
-  lines.push(`| Contributors | ${contributorHighlight} | ${formatNumber(data.contributors.monthCommits)} commits in ${data.month}; ${data.contributors.monthExternalContributors} external contributors |`);
+  lines.push(
+    `| Contributors | ${contributorHighlight} | ${formatNumber(data.contributors.monthCommits)} commits in ${data.month}; ${data.contributors.monthExternalContributors} external contributors |`,
+  );
   const starsCell =
-    data.adoption.githubStars !== "unavailable" ? `${formatNumber(data.adoption.githubStars)} GitHub stars` : "unavailable";
+    data.adoption.githubStars !== "unavailable"
+      ? `${formatNumber(data.adoption.githubStars)} GitHub stars`
+      : "unavailable";
   const adoptionMomentum = (() => {
     if (
       data.adoption.githubStars !== "unavailable" &&
@@ -84,10 +94,13 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   // Lifecycle rules section
   lines.push("## Lifecycle rules");
   lines.push("");
-  lines.push(`Evergreen tracks evidence-backed lifecycle events across ${Object.keys(data.rules.byEcosystem).length} ecosystems. Every rule links to an authoritative, versioned public source.`);
+  lines.push(
+    `Evergreen tracks evidence-backed lifecycle events across ${Object.keys(data.rules.byEcosystem).length} ecosystems. Every rule links to an authoritative, versioned public source.`,
+  );
   lines.push("");
   lines.push(`- **Total rules:** ${formatNumber(data.rules.total)}`);
-  const replacementPct = data.rules.total > 0 ? ((data.rules.withReplacements / data.rules.total) * 100).toFixed(1) : "0.0";
+  const replacementPct =
+    data.rules.total > 0 ? ((data.rules.withReplacements / data.rules.total) * 100).toFixed(1) : "0.0";
   lines.push(`- **Rules with replacements:** ${formatNumber(data.rules.withReplacements)} (${replacementPct}%)`);
   const migrationPct = data.rules.total > 0 ? ((data.rules.withMigration / data.rules.total) * 100).toFixed(1) : "0.0";
   lines.push(`- **Rules with migration guidance:** ${formatNumber(data.rules.withMigration)} (${migrationPct}%)`);
@@ -143,7 +156,9 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   // Validation corpus section
   lines.push("## Validation corpus");
   lines.push("");
-  lines.push("To ensure accuracy and guard against regressions, Evergreen validates all detectors against a pinned benchmark corpus.");
+  lines.push(
+    "To ensure accuracy and guard against regressions, Evergreen validates all detectors against a pinned benchmark corpus.",
+  );
   lines.push("");
   lines.push(`- **Total repositories:** ${formatNumber(data.corpus.totalRepositories)}`);
   const targeted = data.corpus.bySelection.targeted ?? 0;
@@ -166,7 +181,9 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   // Adoption section
   lines.push("## Adoption");
   lines.push("");
-  lines.push("Adoption is measured from public sources, plus the Search Console landing pages the maintainer enters by hand. Evergreen has no telemetry.");
+  lines.push(
+    "Adoption is measured from public sources, plus the Search Console landing pages the maintainer enters by hand. Evergreen has no telemetry.",
+  );
   lines.push("");
   if (data.adoption.snapshotDate) {
     lines.push(`*Snapshot: ${data.adoption.snapshotDate}*`);
@@ -203,19 +220,25 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   lines.push("### Top landing pages");
   lines.push("");
   if (data.adoption.landingPages.length > 0) {
-    lines.push(`Entered by the maintainer from Search Console's Performance report for ${data.month}; Search Console data is visible only to the verified owner.`);
+    lines.push(
+      `Entered by the maintainer from Search Console's Performance report for ${data.month}; Search Console data is visible only to the verified owner.`,
+    );
     lines.push("");
     lines.push("| Landing page | Clicks | Impressions |");
     lines.push("| --- | --- | --- |");
     for (const page of data.adoption.landingPages) {
-      lines.push(`| ${page.page.replace(/\|/g, "\\|")} | ${formatNumber(page.clicks)} | ${formatNumber(page.impressions)} |`);
+      lines.push(
+        `| ${page.page.replace(/\|/g, "\\|")} | ${formatNumber(page.clicks)} | ${formatNumber(page.impressions)} |`,
+      );
     }
   } else {
     lines.push(`No Search Console landing pages were entered for ${data.month}.`);
   }
   lines.push("");
   if (data.adoption.snapshotDate) {
-    lines.push(`Methodology and sources: [docs/ADOPTION.md](docs/ADOPTION.md) · Snapshot: [\`metrics/adoption/${data.adoption.snapshotDate}.json\`](metrics/adoption/${data.adoption.snapshotDate}.json)`);
+    lines.push(
+      `Methodology and sources: [docs/ADOPTION.md](docs/ADOPTION.md) · Snapshot: [\`metrics/adoption/${data.adoption.snapshotDate}.json\`](metrics/adoption/${data.adoption.snapshotDate}.json)`,
+    );
   } else {
     lines.push("Methodology and sources: [docs/ADOPTION.md](docs/ADOPTION.md)");
   }
@@ -226,13 +249,19 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   // Review responsiveness section
   lines.push("## Review responsiveness");
   lines.push("");
-  lines.push(`Evergreen's published target is a first review within **${FIRST_REVIEW_TARGET_WORKING_DAYS} working days** of a first-time contributor opening a pull request; the clock starts when the pull request is opened for review, or when a draft is marked ready for review. See [CONTRIBUTING.md](CONTRIBUTING.md#review-expectations).`);
+  lines.push(
+    `Evergreen's published target is a first review within **${FIRST_REVIEW_TARGET_WORKING_DAYS} working days** of a first-time contributor opening a pull request; the clock starts when the pull request is opened for review, or when a draft is marked ready for review. See [CONTRIBUTING.md](CONTRIBUTING.md#review-expectations).`,
+  );
   lines.push("");
   lines.push("| Metric | This report | Target |");
   lines.push("| --- | --- | --- |");
-  lines.push(`| First review of a first-time contributor's pull request | not measured | ${FIRST_REVIEW_TARGET_WORKING_DAYS} working days |`);
+  lines.push(
+    `| First review of a first-time contributor's pull request | not measured | ${FIRST_REVIEW_TARGET_WORKING_DAYS} working days |`,
+  );
   lines.push("");
-  lines.push("*This report reads local files and git history, which do not record when a pull request was first reviewed. The target is published here every month so it stays visible; the report does not print a number it cannot reproduce.*");
+  lines.push(
+    "*This report reads local files and git history, which do not record when a pull request was first reviewed. The target is published here every month so it stays visible; the report does not print a number it cannot reproduce.*",
+  );
   lines.push("");
 
   // Contributors section
@@ -242,7 +271,9 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
     lines.push("*Note: Contributor counts are partial because the history is shallow.*");
     lines.push("");
   }
-  lines.push(`Evergreen is built with contributions from ${data.contributors.totalContributors} authors and co-authors across ${formatNumber(data.contributors.totalCommits)} commits:`);
+  lines.push(
+    `Evergreen is built with contributions from ${data.contributors.totalContributors} authors and co-authors across ${formatNumber(data.contributors.totalCommits)} commits:`,
+  );
   lines.push("");
   for (const contributor of data.contributors.contributors) {
     lines.push(`- ${contributor}`);
@@ -250,13 +281,16 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   lines.push("");
   lines.push("### External contributors");
   lines.push("");
-  lines.push(`${data.contributors.totalExternalContributors} external contributors in total, ${data.contributors.monthExternalContributors} in ${data.month}. External means an author or \`Co-authored-by\` name that is not a maintainer in [MAINTAINERS.md](MAINTAINERS.md) and not a bot. Source: \`git log\` authors and \`Co-authored-by\` trailers, with \`.mailmap\` applied.`);
+  lines.push(
+    `${data.contributors.totalExternalContributors} external contributors in total, ${data.contributors.monthExternalContributors} in ${data.month}. External means an author or \`Co-authored-by\` name that is not a maintainer in [MAINTAINERS.md](MAINTAINERS.md) and not a bot. Source: \`git log\` authors and \`Co-authored-by\` trailers, with \`.mailmap\` applied.`,
+  );
   lines.push("");
   for (const contributor of data.contributors.externalContributors) {
-    lines.push(`- ${contributor}${data.contributors.monthExternalContributorsList.includes(contributor) ? ` (active in ${data.month})` : ""}`);
+    lines.push(
+      `- ${contributor}${data.contributors.monthExternalContributorsList.includes(contributor) ? ` (active in ${data.month})` : ""}`,
+    );
   }
   lines.push("");
 
   return lines.join("\n");
 }
-

@@ -21,7 +21,9 @@ export const command: CliCommand = {
   run(args, ctx) {
     return afterGates("watch", args, ctx, async (state) => {
       const usageText = "Usage: evergreen watch add|remove <path> | list [--json] | [run] [--weekly] [--json]";
-      const rest = args.filter((argument, index) => argument !== "--json" && argument !== "--format" && args[index - 1] !== "--format");
+      const rest = args.filter(
+        (argument, index) => argument !== "--json" && argument !== "--format" && args[index - 1] !== "--format",
+      );
       const [subcommand = "run", ...operands] = rest;
       try {
         if (subcommand === "add" || subcommand === "remove") {
@@ -37,11 +39,16 @@ export const command: CliCommand = {
         if (subcommand === "list") {
           if (operands.length > 0) return ctx.fail("usage", usageText);
           const projects = await listWatched();
-          process.stdout.write(state.json ? `${JSON.stringify({ projects }, null, 2)}\n` : `${projects.length === 0 ? "No projects are watched. Add one with `evergreen watch add <path>`." : projects.join("\n")}\n`);
+          process.stdout.write(
+            state.json
+              ? `${JSON.stringify({ projects }, null, 2)}\n`
+              : `${projects.length === 0 ? "No projects are watched. Add one with `evergreen watch add <path>`." : projects.join("\n")}\n`,
+          );
           return 0;
         }
         const weekly = operands.includes("--weekly");
-        if (subcommand !== "run" || operands.some((argument) => argument !== "--weekly")) return ctx.fail("usage", usageText);
+        if (subcommand !== "run" || operands.some((argument) => argument !== "--weekly"))
+          return ctx.fail("usage", usageText);
         const digest = await runWatch(builtInDetectors, { weekly });
         process.stdout.write(`${state.json ? JSON.stringify(digest, null, 2) : renderWatchText(digest)}\n`);
         return 0;

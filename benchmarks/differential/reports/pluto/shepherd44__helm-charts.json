@@ -8,8 +8,5 @@
     "pluto-deprecated-only": 0
   },
   "comparisons": [],
-  "notComparable": [
-    "github-actions.checkout",
-    "github-actions.setup-python"
-  ]
+  "notComparable": ["github-actions.checkout", "github-actions.setup-python"]
 }

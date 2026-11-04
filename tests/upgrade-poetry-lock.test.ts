@@ -106,50 +106,59 @@ test("a ready lockfile reports the analyzer and no issues", async () => {
 test("a main-group package that excludes the target is a blocker with exact evidence and line", async () => {
   const report = await checkUpgrade(fixture("blocked"), target);
   assert.equal(report.verdict, "blocked");
-  assert.deepEqual(report.issues, [{
-    analyzer: "poetry-lock",
-    level: "blocker",
-    subject: "numpy@1.24.0",
-    path: "poetry.lock",
-    line: 6,
-    reason: 'numpy@1.24.0 declares python-versions ">=3.8,<3.12", which excludes Python 3.13.',
-    evidence: { kind: "lockfile", value: "python-versions: >=3.8,<3.12" },
-  }]);
+  assert.deepEqual(report.issues, [
+    {
+      analyzer: "poetry-lock",
+      level: "blocker",
+      subject: "numpy@1.24.0",
+      path: "poetry.lock",
+      line: 6,
+      reason: 'numpy@1.24.0 declares python-versions ">=3.8,<3.12", which excludes Python 3.13.',
+      evidence: { kind: "lockfile", value: "python-versions: >=3.8,<3.12" },
+    },
+  ]);
 });
 
 test("dev and other groups are warnings, in both the groups and category lockfile formats", async () => {
   const report = await checkUpgrade(fixture("dev-warning"), target);
   assert.equal(report.verdict, "ready", "a warning alone does not block");
-  assert.deepEqual(report.issues.map((issue) => [issue.level, issue.subject, issue.line]), [
-    ["warning", "black@23.1.0", 6],
-    ["warning", "isort@5.12.0", 15],
-  ]);
+  assert.deepEqual(
+    report.issues.map((issue) => [issue.level, issue.subject, issue.line]),
+    [
+      ["warning", "black@23.1.0", 6],
+      ["warning", "isort@5.12.0", 15],
+    ],
+  );
   assert.match(report.issues[0]!.reason, /in the dev group/);
 });
 
 test("an unparsable python-versions value is unknown, never a match", async () => {
   const report = await checkUpgrade(fixture("unparsable"), target);
-  assert.deepEqual(report.issues, [{
-    analyzer: "poetry-lock",
-    level: "unknown",
-    subject: "legacy@1.0.0",
-    path: "poetry.lock",
-    line: 6,
-    reason: 'Cannot parse the python-versions constraint "unsupported" for legacy@1.0.0.',
-    evidence: { kind: "lockfile", value: "python-versions: unsupported" },
-  }]);
+  assert.deepEqual(report.issues, [
+    {
+      analyzer: "poetry-lock",
+      level: "unknown",
+      subject: "legacy@1.0.0",
+      path: "poetry.lock",
+      line: 6,
+      reason: 'Cannot parse the python-versions constraint "unsupported" for legacy@1.0.0.',
+      evidence: { kind: "lockfile", value: "python-versions: unsupported" },
+    },
+  ]);
 });
 
 test("a project-level Poetry python constraint that excludes the target is a blocker", async () => {
   const report = await checkUpgrade(fixture("project-exclusion"), target);
   assert.equal(report.verdict, "blocked");
-  assert.deepEqual(report.issues, [{
-    analyzer: "poetry-lock",
-    level: "blocker",
-    subject: "python",
-    path: "pyproject.toml",
-    line: 7,
-    reason: 'The project\'s [tool.poetry.dependencies] python constraint ">=3.8,<3.12" excludes Python 3.13.',
-    evidence: { kind: "manifest", value: "python: >=3.8,<3.12" },
-  }]);
+  assert.deepEqual(report.issues, [
+    {
+      analyzer: "poetry-lock",
+      level: "blocker",
+      subject: "python",
+      path: "pyproject.toml",
+      line: 7,
+      reason: 'The project\'s [tool.poetry.dependencies] python constraint ">=3.8,<3.12" excludes Python 3.13.',
+      evidence: { kind: "manifest", value: "python: >=3.8,<3.12" },
+    },
+  ]);
 });

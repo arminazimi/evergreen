@@ -77,7 +77,10 @@ export interface LanguageServerOptions {
 }
 
 class RpcError extends Error {
-  constructor(readonly code: number, message: string) {
+  constructor(
+    readonly code: number,
+    message: string,
+  ) {
     super(message);
     this.name = "RpcError";
   }
@@ -415,9 +418,11 @@ export class EvergreenLanguageServer {
     this.cancel(document);
     const run = (): void => {
       document.timer = undefined;
-      document.latestScan = document.latestScan.then(() => this.scanDocument(document)).catch((error: unknown) => {
-        this.log(`Evergreen language server: scanning ${document.uri} failed: ${errorMessage(error)}`);
-      });
+      document.latestScan = document.latestScan
+        .then(() => this.scanDocument(document))
+        .catch((error: unknown) => {
+          this.log(`Evergreen language server: scanning ${document.uri} failed: ${errorMessage(error)}`);
+        });
     };
     if (immediate || this.debounceMs <= 0) run();
     else document.timer = setTimeout(run, this.debounceMs);
@@ -662,7 +667,8 @@ function hoverMarkdown(finding: Finding, range: LspRange): string {
   ];
   if (finding.replacement) lines.push(`- **Replacement:** ${finding.replacement}`);
   if (finding.deadline) lines.push(`- **Deadline:** ${finding.deadline}`);
-  if (finding.impact) lines.push(`- **Usages:** ${finding.impact.usageCount} in ${finding.impact.affectedFiles} file(s)`);
+  if (finding.impact)
+    lines.push(`- **Usages:** ${finding.impact.usageCount} in ${finding.impact.affectedFiles} file(s)`);
 
   if (finding.sources.length > 0) {
     lines.push("", "**Evidence**");

@@ -46,7 +46,9 @@ test("bounds untrusted input without losing later lines", () => {
   assert.deepEqual(parseRubyVersion("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
   assert.deepEqual(parseToolVersions("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
   assert.deepEqual(parseRubyVersion(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\n3.2.2\n`), [{ value: "3.2.2", line: 2 }]);
-  assert.deepEqual(parseToolVersions(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\nruby 3.2.2\n`), [{ value: "3.2.2", line: 2 }]);
+  assert.deepEqual(parseToolVersions(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\nruby 3.2.2\n`), [
+    { value: "3.2.2", line: 2 },
+  ]);
 });
 
 test("handles CRLF, blank lines, comments, and 1-based lines", () => {
@@ -167,7 +169,15 @@ test("a malformed Gemfile.lock returns nothing and never throws", async () => {
   const contents = await fixture("malformed/Gemfile.lock");
   assert.doesNotThrow(() => parseGemfileLock(contents));
   assert.deepEqual(parseGemfileLock(contents), []);
-  for (const junk of ["GEM\n  specs:\n    rack (2.2.8\n", "GEM\n  specs:\n    rack (2.2.8)\n    broken (\n", "GEM\n  specs:\n    rack ()\n", "\u0000\u0001", "\uFEFF", "}}}", "\r\n\r\n"]) {
+  for (const junk of [
+    "GEM\n  specs:\n    rack (2.2.8\n",
+    "GEM\n  specs:\n    rack (2.2.8)\n    broken (\n",
+    "GEM\n  specs:\n    rack ()\n",
+    "\u0000\u0001",
+    "\uFEFF",
+    "}}}",
+    "\r\n\r\n",
+  ]) {
     assert.doesNotThrow(() => parseGemfileLock(junk));
     assert.deepEqual(parseGemfileLock(junk), []);
   }
@@ -206,10 +216,13 @@ test("Gemfile.lock reads only GEM specs, skips dependency requirements, and hand
     { kind: "gem", name: "rails", value: "7.1.3", line: 4 },
     { kind: "gem", name: "rake", value: "13.0.6", line: 6 },
   ]);
-  assert.deepEqual(parseGemfileLock("GEM\r\n  specs:\r\n    rack (2.2.8)\r\n\r\nRUBY VERSION\r\n   ruby 3.2.2p53\r\n"), [
-    { kind: "gem", name: "rack", value: "2.2.8", line: 3 },
-    { kind: "ruby", value: "3.2.2p53", line: 6 },
-  ]);
+  assert.deepEqual(
+    parseGemfileLock("GEM\r\n  specs:\r\n    rack (2.2.8)\r\n\r\nRUBY VERSION\r\n   ruby 3.2.2p53\r\n"),
+    [
+      { kind: "gem", name: "rack", value: "2.2.8", line: 3 },
+      { kind: "ruby", value: "3.2.2p53", line: 6 },
+    ],
+  );
   assert.deepEqual(parseGemfileLock("CHECKSUMS\n  rake (13.0.6) sha256=abc\n"), []);
 });
 
@@ -267,9 +280,10 @@ test("gemspec supports single quotes and Gem::Requirement.new, and ignores unsup
 });
 
 test("gemspec parsing handles CRLF, multiple assignments, and bounds", () => {
-  assert.deepEqual(parseGemspec('Gem::Specification.new do |spec|\r\n  spec.required_ruby_version = ">= 3.1.0"\r\nend\r\n'), [
-    { value: ">= 3.1.0", line: 2 },
-  ]);
+  assert.deepEqual(
+    parseGemspec('Gem::Specification.new do |spec|\r\n  spec.required_ruby_version = ">= 3.1.0"\r\nend\r\n'),
+    [{ value: ">= 3.1.0", line: 2 }],
+  );
   assert.deepEqual(parseGemspec('spec.required_ruby_version = ">= 3.1.0"\ns.required_ruby_version = "~> 3.2"\n'), [
     { value: ">= 3.1.0", line: 1 },
     { value: "~> 3.2", line: 2 },

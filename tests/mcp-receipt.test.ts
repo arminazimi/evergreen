@@ -110,7 +110,10 @@ test("verify_migration returns a receipt when the migration resolved the finding
     const receipt = content.receipt!;
     assert.equal(receipt.schema, "evergreen.receipt.v1");
     assert.deepEqual(receipt.counts, { resolved: 1, remaining: 0, introduced: 0 });
-    assert.deepEqual(receipt.resolved.map((finding) => finding.id), [findingId]);
+    assert.deepEqual(
+      receipt.resolved.map((finding) => finding.id),
+      [findingId],
+    );
     assert.deepEqual(receipt.remaining, []);
     assert.deepEqual(receipt.introduced, []);
 
@@ -135,13 +138,19 @@ test("verify_migration returns a receipt when the finding remains", async () => 
     });
     const content = verification.structuredContent as VerificationContent;
     assert.equal(content.verified, false);
-    assert.deepEqual(content.remainingFindings.map((finding) => finding.id), [findingId]);
+    assert.deepEqual(
+      content.remainingFindings.map((finding) => finding.id),
+      [findingId],
+    );
     assert.ok(content.receipt);
 
     const receipt = content.receipt!;
     assert.deepEqual(receipt.counts, { resolved: 0, remaining: 1, introduced: 0 });
     assert.deepEqual(receipt.resolved, []);
-    assert.deepEqual(receipt.remaining.map((finding) => finding.id), [findingId]);
+    assert.deepEqual(
+      receipt.remaining.map((finding) => finding.id),
+      [findingId],
+    );
     assert.deepEqual(receipt.introduced, []);
 
     assert.match(content.receipt_markdown!, /Findings remain/);

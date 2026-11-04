@@ -22,9 +22,16 @@ export function applyMinSupport(result: ScanResult, days: number, today: string)
   return {
     ...result,
     findings: result.findings.map((finding) =>
-      finding.deadline !== undefined && finding.deadline >= today && finding.deadline <= limit && severityValues.indexOf(finding.severity) < floor
-        ? { ...finding, severity: WARNING_SEVERITY, summary: `Support ends ${finding.deadline}, within ${days} days. ${finding.summary}` }
-        : finding
+      finding.deadline !== undefined &&
+      finding.deadline >= today &&
+      finding.deadline <= limit &&
+      severityValues.indexOf(finding.severity) < floor
+        ? {
+            ...finding,
+            severity: WARNING_SEVERITY,
+            summary: `Support ends ${finding.deadline}, within ${days} days. ${finding.summary}`,
+          }
+        : finding,
     ),
   };
 }

@@ -23,7 +23,11 @@ test("drafts a removed rule for every API version the recorded guide says is no 
   assert.equal(drafts.rules.length, 50);
   assert.deepEqual(drafts.notes, []);
   assert.ok(drafts.rules.every((rule) => rule.event === "removed" && rule.severity === "high"));
-  assert.ok(drafts.rules.every((rule) => rule.provenance.importer === "kubernetes-1" && rule.provenance.observedAt === "2026-10-17"));
+  assert.ok(
+    drafts.rules.every(
+      (rule) => rule.provenance.importer === "kubernetes-1" && rule.provenance.observedAt === "2026-10-17",
+    ),
+  );
   assert.ok(drafts.rules.every((rule) => rule.sources[0]?.url === KUBERNETES_DEPRECATION_GUIDE_URL));
 });
 
@@ -35,8 +39,14 @@ test("reads sentences that list several versions and several kinds", async () =>
     assert.equal(byId.get(`kubernetes.${id}.removed`)?.deadline, "2019-09-18", id);
   }
   // "The extensions/v1beta1 and networking.k8s.io/v1beta1 API versions of Ingress ... v1.22"
-  assert.equal(byId.get("kubernetes.extensions.ingress.v1beta1.removed")?.purl, "pkg:generic/kubernetes/extensions/Ingress");
-  assert.equal(byId.get("kubernetes.networking-k8s-io.ingress.v1beta1.removed")?.purl, "pkg:generic/kubernetes/networking.k8s.io/Ingress");
+  assert.equal(
+    byId.get("kubernetes.extensions.ingress.v1beta1.removed")?.purl,
+    "pkg:generic/kubernetes/extensions/Ingress",
+  );
+  assert.equal(
+    byId.get("kubernetes.networking-k8s-io.ingress.v1beta1.removed")?.purl,
+    "pkg:generic/kubernetes/networking.k8s.io/Ingress",
+  );
   // "... CSIDriver, CSINode, StorageClass, and VolumeAttachment ... v1.22": four kinds, one version
   for (const kind of ["csidriver", "csinode", "storageclass", "volumeattachment"]) {
     assert.ok(byId.has(`kubernetes.storage-k8s-io.${kind}.v1beta1.removed`), kind);
@@ -103,7 +113,10 @@ test("a statement it cannot read is counted in the notes, not guessed", async ()
     "<p>The batch/v1beta1 API version of CronJob is no longer served as of v1.25.</p>" +
       "<p>Something unusual is no longer served as of v1.30.</p>",
   );
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["kubernetes.batch.cronjob.v1beta1.removed"]);
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["kubernetes.batch.cronjob.v1beta1.removed"],
+  );
   assert.deepEqual(result.notes, ["1 removal statements do not match a known sentence form and were not drafted."]);
 });
 

@@ -20,7 +20,8 @@ function version(value: string): string | undefined {
 async function readInside(root: string, path: string): Promise<string | undefined> {
   try {
     const inside = relative(await realpath(root), await realpath(path));
-    if (inside === ".." || inside.startsWith("../") || inside.startsWith("..\\") || isAbsolute(inside)) return undefined;
+    if (inside === ".." || inside.startsWith("../") || inside.startsWith("..\\") || isAbsolute(inside))
+      return undefined;
     return await readFile(path, "utf8");
   } catch {
     return undefined;
@@ -33,11 +34,18 @@ async function readInside(root: string, path: string): Promise<string | undefine
  * and exclusions need module resolution and are deliberately left to the user as well.
  * Returns why the module cannot be shown to keep its dependencies working, or undefined when it can.
  */
-async function dependencyProblem(root: string, path: string, contents: string, target: string): Promise<string | undefined> {
+async function dependencyProblem(
+  root: string,
+  path: string,
+  contents: string,
+  target: string,
+): Promise<string | undefined> {
   const code = contents.replace(/\/\/[^\n]*/g, "");
-  if (/^\s*(?:replace|exclude)\b/m.test(code)) return "The module has `replace` or `exclude` directives, which need module resolution.";
+  if (/^\s*(?:replace|exclude)\b/m.test(code))
+    return "The module has `replace` or `exclude` directives, which need module resolution.";
   const requirements = parseGoMod(code).filter((item) => item.kind === "require");
-  if (requirements.length === 0) return /^\s*require\b/m.test(code) ? "The module's `require` block could not be parsed." : undefined;
+  if (requirements.length === 0)
+    return /^\s*require\b/m.test(code) ? "The module's `require` block could not be parsed." : undefined;
   const vendor = await readInside(root, resolve(dirname(path), "vendor/modules.txt"));
   if (vendor === undefined) return "There is no `vendor/modules.txt` to verify requirements offline.";
   const modules = new Set<string>();
@@ -50,11 +58,13 @@ async function dependencyProblem(root: string, path: string, contents: string, t
     } else if (line.startsWith("## ")) {
       const floor = /(?:^|[; ])go (\S+)/.exec(line)?.[1];
       const normalized = floor && version(floor);
-      if (!module || !normalized || semver.gt(normalized, target)) return "A vendored module's Go floor is above the target or is not a literal version.";
+      if (!module || !normalized || semver.gt(normalized, target))
+        return "A vendored module's Go floor is above the target or is not a literal version.";
       modules.add(module);
     }
   }
-  if (!requirements.every((item) => modules.has(`${item.module} ${item.value}`))) return "`vendor/modules.txt` does not list every requirement.";
+  if (!requirements.every((item) => modules.has(`${item.module} ${item.value}`)))
+    return "`vendor/modules.txt` does not list every requirement.";
   return undefined;
 }
 
@@ -113,11 +123,12 @@ export const goModFixer: Fixer = {
       const edits = new Map<number, string>();
       const text = before.slice(0, -1).split("\n");
       if (!semver.gt(floor, normalized)) {
-        const problem = toolchain.length > 1
-          ? "The module has more than one `toolchain` directive."
-          : toolchain.some((item) => !version(item.value.replace(/^go/, "")))
-            ? "The module has a computed `toolchain` value."
-            : await dependencyProblem(result.root, absolute, before, normalized);
+        const problem =
+          toolchain.length > 1
+            ? "The module has more than one `toolchain` directive."
+            : toolchain.some((item) => !version(item.value.replace(/^go/, "")))
+              ? "The module has a computed `toolchain` value."
+              : await dependencyProblem(result.root, absolute, before, normalized);
         if (problem !== undefined) {
           decline(problem);
           continue;
@@ -139,7 +150,15 @@ export const goModFixer: Fixer = {
           const after = edits.get(start + offset);
           return after === undefined ? [` ${line}`] : [`-${line}`, `+${after}`];
         });
-        patches.push({ path, diff: [`--- a/${path}`, `+++ b/${path}`, `@@ -${start + 1},${end - start} +${start + 1},${end - start} @@`, ...hunk].join("\n") });
+        patches.push({
+          path,
+          diff: [
+            `--- a/${path}`,
+            `+++ b/${path}`,
+            `@@ -${start + 1},${end - start} +${start + 1},${end - start} @@`,
+            ...hunk,
+          ].join("\n"),
+        });
       }
       for (const finding of findings) {
         const index = (finding.location.line ?? 0) - 1;

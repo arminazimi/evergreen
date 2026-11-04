@@ -195,7 +195,13 @@ test("collectQualityMetrics compares the newest snapshots of this month and the 
     const curr = {
       ...prev,
       date: "2026-11-03",
-      counts: { ...prev.counts, filesOverWarn: 1, functionsOverComplexity: 187, nonNullAssertions: 573, boundaryViolations: 0 },
+      counts: {
+        ...prev.counts,
+        filesOverWarn: 1,
+        functionsOverComplexity: 187,
+        nonNullAssertions: 573,
+        boundaryViolations: 0,
+      },
     };
     await writeFile(join(tempDir, "2026-10-15.json"), `${JSON.stringify(prev)}\n`);
     await writeFile(join(tempDir, "2026-11-03.json"), `${JSON.stringify(curr)}\n`);

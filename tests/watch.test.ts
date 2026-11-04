@@ -25,16 +25,19 @@ const detectorFor = (findings: Array<{ id: string; deadline?: string }>): Detect
     id: "fake",
     apiVersion: "evergreen.detector.v1",
     scan: async () =>
-      findings.map(({ id, deadline }) => ({
-        id,
-        ruleId: "rule",
-        title: `Finding ${id}`,
-        summary: "",
-        severity: "high",
-        location: { path: "package.json" },
-        sources: [],
-        ...(deadline ? { deadline } : {}),
-      }) as Omit<Finding, "detector" | "confidence">),
+      findings.map(
+        ({ id, deadline }) =>
+          ({
+            id,
+            ruleId: "rule",
+            title: `Finding ${id}`,
+            summary: "",
+            severity: "high",
+            location: { path: "package.json" },
+            sources: [],
+            ...(deadline ? { deadline } : {}),
+          }) as Omit<Finding, "detector" | "confidence">,
+      ),
   }) as unknown as Detector;
 
 test("projects are registered once, sorted, and can be removed", async () => {
@@ -55,13 +58,19 @@ test("a new end-of-life date appears in the next digest once", async () => {
   const findings: Array<{ id: string; deadline?: string }> = [{ id: "a" }];
 
   const first = await runWatch([detectorFor(findings)], { env });
-  assert.deepEqual(first.changes.map((change) => change.finding.id), ["a"]);
+  assert.deepEqual(
+    first.changes.map((change) => change.finding.id),
+    ["a"],
+  );
   assert.equal((await runWatch([detectorFor(findings)], { env })).changes.length, 0);
 
   findings[0] = { id: "a", deadline: "2027-03-01" };
   findings.push({ id: "b" });
   const third = await runWatch([detectorFor(findings)], { env });
-  assert.deepEqual(third.changes.map((change) => change.finding.id), ["a", "b"]);
+  assert.deepEqual(
+    third.changes.map((change) => change.finding.id),
+    ["a", "b"],
+  );
   assert.match(renderWatchText(third), /deadline 2027-03-01/);
   assert.equal((await runWatch([detectorFor(findings)], { env })).changes.length, 0);
 });
@@ -80,7 +89,13 @@ test("a project that cannot be scanned is reported and does not lose its history
   const { home, env } = await machine();
   await addWatched(home, { env });
   await runWatch([detectorFor([{ id: "a" }])], { env });
-  const broken = { id: "broken", apiVersion: "evergreen.detector.v1", scan: async () => { throw new Error("boom"); } } as unknown as Detector;
+  const broken = {
+    id: "broken",
+    apiVersion: "evergreen.detector.v1",
+    scan: async () => {
+      throw new Error("boom");
+    },
+  } as unknown as Detector;
   const digest = await runWatch([broken], { env });
   assert.equal(digest.failed.length, 1);
   assert.match(renderWatchText(digest), /Could not scan .*: boom/);

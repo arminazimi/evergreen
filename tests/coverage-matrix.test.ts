@@ -87,13 +87,28 @@ test("a missing, orphaned, duplicate, or ecosystem-less description is an error"
   const missing = { ...descriptions, rows: descriptions.rows.filter((row) => !row.ecosystems.includes("rust")) };
   assert.throws(() => validateDescriptions(manifest, missing), /Ecosystem "rust" has no coverage description/);
 
-  const orphaned = { ...descriptions, rows: [...descriptions.rows, { ecosystems: ["cobol"], name: "COBOL", coverage: "COBOL." }] };
-  assert.throws(() => validateDescriptions(manifest, orphaned), /names "cobol", which is not in the capability manifest/);
+  const orphaned = {
+    ...descriptions,
+    rows: [...descriptions.rows, { ecosystems: ["cobol"], name: "COBOL", coverage: "COBOL." }],
+  };
+  assert.throws(
+    () => validateDescriptions(manifest, orphaned),
+    /names "cobol", which is not in the capability manifest/,
+  );
 
-  const duplicate = { ...descriptions, rows: [...descriptions.rows, { ecosystems: ["rust"], name: "Rust again", coverage: "Rust." }] };
-  assert.throws(() => validateDescriptions(manifest, duplicate), /Ecosystem "rust" has more than one coverage description/);
+  const duplicate = {
+    ...descriptions,
+    rows: [...descriptions.rows, { ecosystems: ["rust"], name: "Rust again", coverage: "Rust." }],
+  };
+  assert.throws(
+    () => validateDescriptions(manifest, duplicate),
+    /Ecosystem "rust" has more than one coverage description/,
+  );
 
-  const ecosystemless = { ...descriptions, rows: [...descriptions.rows, { ecosystems: [], name: "Nothing", coverage: "Nothing." }] };
+  const ecosystemless = {
+    ...descriptions,
+    rows: [...descriptions.rows, { ecosystems: [], name: "Nothing", coverage: "Nothing." }],
+  };
   assert.throws(() => validateDescriptions(manifest, ecosystemless), /Coverage row "Nothing" names no ecosystem/);
 });
 
@@ -106,7 +121,10 @@ test("the table keeps the documented rows, order, one Node.js and npm row, and t
     previous = index;
   }
   assert.equal(table.match(/\| Node\.js and npm \|/g)?.length, 1);
-  assert.match(table, /\| Other language and platform ecosystems \| Unsupported \| Report the limitation; do not infer lifecycle status without a detector\. \|/);
+  assert.match(
+    table,
+    /\| Other language and platform ecosystems \| Unsupported \| Report the limitation; do not infer lifecycle status without a detector\. \|/,
+  );
 });
 
 test("status words are derived from maturity", () => {
@@ -213,16 +231,37 @@ test("a missing, orphaned, duplicate, empty, or textless README row is an error"
   const missing = { ...descriptions, rows: descriptions.rows.filter((row) => !row.ecosystems.includes("rust")) };
   assert.throws(() => validateReadmeDescriptions(manifest, missing), /Ecosystem "rust" has no README coverage row/);
 
-  const orphaned = { ...descriptions, rows: [...descriptions.rows, { ecosystems: ["cobol"], name: "COBOL", reads: "`x`", reports: "COBOL." }] };
-  assert.throws(() => validateReadmeDescriptions(manifest, orphaned), /names "cobol", which is not in the capability manifest/);
+  const orphaned = {
+    ...descriptions,
+    rows: [...descriptions.rows, { ecosystems: ["cobol"], name: "COBOL", reads: "`x`", reports: "COBOL." }],
+  };
+  assert.throws(
+    () => validateReadmeDescriptions(manifest, orphaned),
+    /names "cobol", which is not in the capability manifest/,
+  );
 
-  const duplicate = { ...descriptions, rows: [...descriptions.rows, { ecosystems: ["rust"], name: "Rust again", reads: "`x`", reports: "Rust." }] };
-  assert.throws(() => validateReadmeDescriptions(manifest, duplicate), /Ecosystem "rust" has more than one README coverage row/);
+  const duplicate = {
+    ...descriptions,
+    rows: [...descriptions.rows, { ecosystems: ["rust"], name: "Rust again", reads: "`x`", reports: "Rust." }],
+  };
+  assert.throws(
+    () => validateReadmeDescriptions(manifest, duplicate),
+    /Ecosystem "rust" has more than one README coverage row/,
+  );
 
-  const ecosystemless = { ...descriptions, rows: [...descriptions.rows, { ecosystems: [], name: "Nothing", reads: "`x`", reports: "Nothing." }] };
-  assert.throws(() => validateReadmeDescriptions(manifest, ecosystemless), /README coverage row "Nothing" names no ecosystem/);
+  const ecosystemless = {
+    ...descriptions,
+    rows: [...descriptions.rows, { ecosystems: [], name: "Nothing", reads: "`x`", reports: "Nothing." }],
+  };
+  assert.throws(
+    () => validateReadmeDescriptions(manifest, ecosystemless),
+    /README coverage row "Nothing" names no ecosystem/,
+  );
 
-  const textless = { ...descriptions, rows: [...descriptions.rows, { ecosystems: ["go"], name: "Go again", reads: " ", reports: "Go." }] };
+  const textless = {
+    ...descriptions,
+    rows: [...descriptions.rows, { ecosystems: ["go"], name: "Go again", reads: " ", reports: "Go." }],
+  };
   assert.throws(() => validateReadmeDescriptions(manifest, textless), /needs a name, a reads, and a reports value/);
 });
 
@@ -308,12 +347,7 @@ test("product names come from the Package URL namespace and name", () => {
   assert.equal(productNameFromPurl("pkg:github/actions/checkout"), "actions/checkout");
 });
 
-function rule(partial: {
-  id: string;
-  purl: string;
-  title: string;
-  event?: LifecycleEvent;
-}): RegistryV2Rule {
+function rule(partial: { id: string; purl: string; title: string; event?: LifecycleEvent }): RegistryV2Rule {
   return {
     id: partial.id,
     ecosystem: "test",
@@ -330,8 +364,14 @@ function rule(partial: {
 
 test("State of EOL aggregates findings by product and release line", () => {
   const rules = new Map<string, RegistryV2Rule>([
-    ["nodejs.runtime.eol-18", rule({ id: "nodejs.runtime.eol-18", purl: "pkg:generic/nodejs", title: "Node.js 18 is end-of-life" })],
-    ["nodejs.runtime.eol-20", rule({ id: "nodejs.runtime.eol-20", purl: "pkg:generic/nodejs", title: "Node.js 20 is end-of-life" })],
+    [
+      "nodejs.runtime.eol-18",
+      rule({ id: "nodejs.runtime.eol-18", purl: "pkg:generic/nodejs", title: "Node.js 18 is end-of-life" }),
+    ],
+    [
+      "nodejs.runtime.eol-20",
+      rule({ id: "nodejs.runtime.eol-20", purl: "pkg:generic/nodejs", title: "Node.js 20 is end-of-life" }),
+    ],
     [
       "actions.checkout.v2",
       rule({
@@ -406,9 +446,7 @@ test("State of EOL aggregates findings by product and release line", () => {
 test("State of EOL section cites the method, corpus revision, and both aggregate tables", () => {
   const summary = aggregateStateOfEol(
     {
-      repositories: [
-        { repository: "one/repo", expected: [{ ruleId: "nodejs.runtime.eol-18" }] },
-      ],
+      repositories: [{ repository: "one/repo", expected: [{ ruleId: "nodejs.runtime.eol-18" }] }],
     },
     new Map([
       [
@@ -432,7 +470,10 @@ test("State of EOL section cites the method, corpus revision, and both aggregate
   assert.match(section, /### By product/);
   assert.match(section, /\| nodejs \| 1 \| 1 \| 1 \|/);
   assert.match(section, /### By product and release line/);
-  assert.match(section, /\| nodejs \| Node\.js 18 is end-of-life \| \[`nodejs\.runtime\.eol-18`\]\(rules\/nodejs\.runtime\.eol-18\.html\) \| end-of-life \| 1 \| 1 \|/);
+  assert.match(
+    section,
+    /\| nodejs \| Node\.js 18 is end-of-life \| \[`nodejs\.runtime\.eol-18`\]\(rules\/nodejs\.runtime\.eol-18\.html\) \| end-of-life \| 1 \| 1 \|/,
+  );
   assert.throws(() => replaceStateOfEolSection("no markers", section), /state-of-eol:start/);
   assert.equal(
     replaceStateOfEolSection(`before\n${STATE_OF_EOL_START_MARKER}\nold\n${STATE_OF_EOL_END_MARKER}\nafter\n`, "new"),

@@ -5,10 +5,21 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { MAX_FEEDBACK_LINES, claudeCodeAdapter, claudeCodeFeedback, parseClaudeCodePayload } from "../src/agent-hooks/claude-code.js";
+import {
+  MAX_FEEDBACK_LINES,
+  claudeCodeAdapter,
+  claudeCodeFeedback,
+  parseClaudeCodePayload,
+} from "../src/agent-hooks/claude-code.js";
 import type { HookResponse } from "../src/agent-hooks/types.js";
 import type { Finding } from "../src/domain.js";
-import { CLAUDE_CODE_HOOK_COMMAND, CLAUDE_CODE_HOOK_MATCHER, CLAUDE_CODE_SETTINGS_FILE, initClaudeHooks, withClaudeCodePostToolUse } from "../src/init-agents.js";
+import {
+  CLAUDE_CODE_HOOK_COMMAND,
+  CLAUDE_CODE_HOOK_MATCHER,
+  CLAUDE_CODE_SETTINGS_FILE,
+  initClaudeHooks,
+  withClaudeCodePostToolUse,
+} from "../src/init-agents.js";
 
 const fixture = (name: string) => readFile(resolve("tests/fixtures/agent-hooks/claude-code", name), "utf8");
 const payload = async (name: string) => JSON.parse(await fixture(name)) as unknown;
@@ -51,22 +62,40 @@ test("each write tool parses to one repository-relative path", async () => {
 
 test("other tools and payloads without a file are not edit events", async () => {
   assert.equal(parseClaudeCodePayload(await payload("bash.json"), {}), undefined);
-  assert.equal(parseClaudeCodePayload({ tool_name: "Read", tool_input: { file_path: "/Users/dev/app/a.ts" }, cwd: "/Users/dev/app" }, {}), undefined);
+  assert.equal(
+    parseClaudeCodePayload(
+      { tool_name: "Read", tool_input: { file_path: "/Users/dev/app/a.ts" }, cwd: "/Users/dev/app" },
+      {},
+    ),
+    undefined,
+  );
   assert.equal(parseClaudeCodePayload({ tool_name: "Write", tool_input: {}, cwd: "/Users/dev/app" }, {}), undefined);
-  assert.equal(parseClaudeCodePayload({ tool_name: "Write", tool_input: { file_path: "/Users/dev/app/a.ts" } }, {}), undefined);
+  assert.equal(
+    parseClaudeCodePayload({ tool_name: "Write", tool_input: { file_path: "/Users/dev/app/a.ts" } }, {}),
+    undefined,
+  );
   assert.equal(parseClaudeCodePayload("not an object", {}), undefined);
 });
 
 test("CLAUDE_PROJECT_DIR supplies the root when the payload has no cwd", () => {
   const root = resolve("/Users/dev/app");
   assert.deepEqual(
-    parseClaudeCodePayload({ tool_name: "Write", tool_input: { file_path: "packages/app/Dockerfile" } }, { CLAUDE_PROJECT_DIR: "/Users/dev/app" }),
+    parseClaudeCodePayload(
+      { tool_name: "Write", tool_input: { file_path: "packages/app/Dockerfile" } },
+      { CLAUDE_PROJECT_DIR: "/Users/dev/app" },
+    ),
     { root, files: ["packages/app/Dockerfile"] },
   );
 });
 
 test("a path outside the repository root is not an edit to report", () => {
-  assert.equal(parseClaudeCodePayload({ tool_name: "Write", tool_input: { file_path: "/tmp/elsewhere/Dockerfile" }, cwd: "/Users/dev/app" }, {}), undefined);
+  assert.equal(
+    parseClaudeCodePayload(
+      { tool_name: "Write", tool_input: { file_path: "/tmp/elsewhere/Dockerfile" }, cwd: "/Users/dev/app" },
+      {},
+    ),
+    undefined,
+  );
 });
 
 test("findings become exit-2 stderr feedback naming the rule, location, replacement, and evidence", () => {
@@ -114,7 +143,9 @@ test("a new settings file is created, and a second run changes nothing", async (
   const root = await repository();
   const created = await initClaudeHooks({ root });
   assert.deepEqual([created.file, created.change, created.written], [CLAUDE_CODE_SETTINGS_FILE, "created", true]);
-  const written = JSON.parse(await readFile(join(root, CLAUDE_CODE_SETTINGS_FILE), "utf8")) as { hooks: Record<string, Array<{ matcher: string }>> };
+  const written = JSON.parse(await readFile(join(root, CLAUDE_CODE_SETTINGS_FILE), "utf8")) as {
+    hooks: Record<string, Array<{ matcher: string }>>;
+  };
   assert.equal(written.hooks.PostToolUse!.length, 1);
   assert.equal(written.hooks.PostToolUse![0]!.matcher, CLAUDE_CODE_HOOK_MATCHER);
 
@@ -127,7 +158,9 @@ test("merging into an existing settings file keeps every existing entry", async 
   const root = await repository({ [CLAUDE_CODE_SETTINGS_FILE]: await fixture("settings-with-guard.json") });
   const result = await initClaudeHooks({ root });
   assert.equal(result.change, "updated");
-  const written = JSON.parse(await readFile(join(root, CLAUDE_CODE_SETTINGS_FILE), "utf8")) as { hooks: Record<string, unknown[]> };
+  const written = JSON.parse(await readFile(join(root, CLAUDE_CODE_SETTINGS_FILE), "utf8")) as {
+    hooks: Record<string, unknown[]>;
+  };
   assert.equal(written.hooks.PreToolUse!.length, 1);
   assert.equal(written.hooks.PostToolUse!.length, 2);
   assert.match(result.diff, /^--- a\/\.claude\/settings\.json\n\+\+\+ b\/\.claude\/settings\.json/);
@@ -153,7 +186,9 @@ test("invalid JSON or an unexpected hooks shape is refused with the file untouch
 test("the init command writes the hook and honors --dry-run", async () => {
   const root = await repository();
   const cli = resolve("dist/src/cli.js");
-  const dry = spawnSync(process.execPath, [cli, "init", "--hooks-for", "claude-code", root, "--dry-run"], { encoding: "utf8" });
+  const dry = spawnSync(process.execPath, [cli, "init", "--hooks-for", "claude-code", root, "--dry-run"], {
+    encoding: "utf8",
+  });
   assert.equal(dry.status, 0, dry.stderr);
   assert.match(dry.stdout, /Would create \.claude\/settings\.json:/);
   await assert.rejects(readFile(join(root, CLAUDE_CODE_SETTINGS_FILE), "utf8"));
@@ -161,7 +196,10 @@ test("the init command writes the hook and honors --dry-run", async () => {
   const written = spawnSync(process.execPath, [cli, "init", "--hooks-for", "claude-code", root], { encoding: "utf8" });
   assert.equal(written.status, 0, written.stderr);
   assert.match(written.stdout, /Claude Code now runs Evergreen after Write, Edit, and MultiEdit/);
-  assert.match(await readFile(join(root, CLAUDE_CODE_SETTINGS_FILE), "utf8"), /npx --no-install evergreen-deprecation hook claude-code/);
+  assert.match(
+    await readFile(join(root, CLAUDE_CODE_SETTINGS_FILE), "utf8"),
+    /npx --no-install evergreen-deprecation hook claude-code/,
+  );
 
   const unknown = spawnSync(process.execPath, [cli, "init", "--hooks-for", "cursor", root], { encoding: "utf8" });
   assert.equal(unknown.status, 2);
@@ -179,7 +217,11 @@ test("end to end: writing FROM node:16 gets the rule and replacement back on std
   const write: Record<string, unknown> = { ...((await payload("write.json")) as Record<string, unknown>), cwd: root };
   write["tool_input"] = { file_path: join(root, "Dockerfile"), content: "FROM node:16\n" };
 
-  const flagged = spawnSync(process.execPath, [cli, "hook", "claude-code"], { encoding: "utf8", env, input: JSON.stringify(write) });
+  const flagged = spawnSync(process.execPath, [cli, "hook", "claude-code"], {
+    encoding: "utf8",
+    env,
+    input: JSON.stringify(write),
+  });
   assert.equal(flagged.status, 2, flagged.stderr);
   assert.equal(flagged.stdout, "");
   assert.match(flagged.stderr, /Node\.js image release lines 21 and older are end-of-life/);
@@ -188,9 +230,22 @@ test("end to end: writing FROM node:16 gets the rule and replacement back on std
   assert.match(flagged.stderr, /Evidence: https:\/\/nodejs\.org\/en\/about\/eol/);
 
   const clean: Record<string, unknown> = { ...((await payload("edit.json")) as Record<string, unknown>), cwd: root };
-  clean["tool_input"] = { file_path: join(root, "README.md"), old_string: "# App", new_string: "# App", replace_all: false };
-  const silent = spawnSync(process.execPath, [cli, "hook", "claude-code"], { encoding: "utf8", env, input: JSON.stringify(clean) });
+  clean["tool_input"] = {
+    file_path: join(root, "README.md"),
+    old_string: "# App",
+    new_string: "# App",
+    replace_all: false,
+  };
+  const silent = spawnSync(process.execPath, [cli, "hook", "claude-code"], {
+    encoding: "utf8",
+    env,
+    input: JSON.stringify(clean),
+  });
   assert.equal(silent.status, 0, silent.stderr);
   assert.deepEqual([silent.stdout, silent.stderr], ["", ""]);
-  assert.equal(await readFile(join(root, "Dockerfile"), "utf8"), "FROM node:16\nWORKDIR /app\nCOPY . .\nCMD [\"node\", \"index.js\"]\n", "the hook never edits files");
+  assert.equal(
+    await readFile(join(root, "Dockerfile"), "utf8"),
+    'FROM node:16\nWORKDIR /app\nCOPY . .\nCMD ["node", "index.js"]\n',
+    "the hook never edits files",
+  );
 });

@@ -39,7 +39,11 @@ export function dataInfoFrom(data: ActiveData, now: Date = new Date()): DataInfo
 export const staleDataWarning = (info: Pick<DataInfo, "ageDays">): string =>
   `The lifecycle data is ${info.ageDays} days old (stale after ${STALE_AFTER_DAYS}). Findings may be missing recent changes; run "evergreen data update".`;
 
-export function dataStatusFrom(data: ActiveData, now: Date = new Date(), cacheDirectory: string = defaultCacheDirectory()): DataStatus {
+export function dataStatusFrom(
+  data: ActiveData,
+  now: Date = new Date(),
+  cacheDirectory: string = defaultCacheDirectory(),
+): DataStatus {
   const { info } = data;
   const ageBasis = info.createdAt ? "createdAt" : "reviewedThrough";
   const since = Date.parse(info.createdAt ?? `${info.reviewedThrough}T00:00:00Z`);

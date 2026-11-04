@@ -22,7 +22,13 @@ jobs:
       - uses: actions/checkout@v4
 `;
 
-const identity = { ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@example.com", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@example.com" };
+const identity = {
+  ...process.env,
+  GIT_AUTHOR_NAME: "t",
+  GIT_AUTHOR_EMAIL: "t@example.com",
+  GIT_COMMITTER_NAME: "t",
+  GIT_COMMITTER_EMAIL: "t@example.com",
+};
 
 async function git(root: string, ...args: string[]): Promise<string> {
   return (await execute("git", args, { cwd: root, env: identity })).stdout;
@@ -47,7 +53,10 @@ test("fix --branch commits the patches on a new local branch", async () => {
   assert.equal((await git(root, "rev-parse", "--abbrev-ref", "HEAD")).trim(), "evergreen/fix");
   assert.equal((await git(root, "log", "-1", "--format=%s")).trim(), "chore: apply Evergreen lifecycle fixes");
   assert.equal((await git(root, "status", "--porcelain")).trim(), "");
-  assert.match((await readFile(join(root, ".github", "workflows", "ci.yml"), "utf8")).replace(/\r\n/g, "\n"), /actions\/checkout@v5\n/);
+  assert.match(
+    (await readFile(join(root, ".github", "workflows", "ci.yml"), "utf8")).replace(/\r\n/g, "\n"),
+    /actions\/checkout@v5\n/,
+  );
   assert.equal((await git(root, "show", "main:.github/workflows/ci.yml")).replace(/\r\n/g, "\n"), WORKFLOW);
   assert.equal((await git(root, "remote")).trim(), "");
 });

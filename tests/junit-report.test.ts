@@ -7,7 +7,7 @@ import { test } from "node:test";
 import type { Finding, ScanResult } from "../src/domain.js";
 import { renderJunit } from "../src/reporters.js";
 import { runCli } from "./cli-runner.js";
-const hostile = '<script>alert("x")</script> & \'quote\' \u0000\u001b';
+const hostile = "<script>alert(\"x\")</script> & 'quote' \u0000\u001b";
 
 const finding = (overrides: Partial<Finding> = {}): Finding => ({
   id: "a:1",
@@ -52,9 +52,20 @@ test("maps each finding to a failed test case with location and evidence, in det
 });
 
 test("escapes untrusted text and drops characters XML cannot represent", () => {
-  const xml = renderJunit(scan([
-    finding({ title: hostile, summary: hostile, replacement: hostile, location: { path: hostile, line: 1 }, sources: [{ title: hostile, url: "https://example.com/?a=1&b=2" }] }),
-  ], [hostile]));
+  const xml = renderJunit(
+    scan(
+      [
+        finding({
+          title: hostile,
+          summary: hostile,
+          replacement: hostile,
+          location: { path: hostile, line: 1 },
+          sources: [{ title: hostile, url: "https://example.com/?a=1&b=2" }],
+        }),
+      ],
+      [hostile],
+    ),
+  );
   assert.ok(!xml.includes("<script>"));
   assert.ok(xml.includes("&lt;script&gt;"));
   assert.ok(xml.includes("&quot;x&quot;"));
@@ -72,7 +83,10 @@ test("scan --format junit writes the report and other commands reject the format
   const root = await mkdtemp(join(tmpdir(), "evergreen-junit-"));
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
-    await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
+    await writeFile(
+      join(root, ".github", "workflows", "ci.yml"),
+      "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n",
+    );
     const { stdout } = await runCli(["scan", root, "--format", "junit"]);
     assert.ok(stdout.startsWith('<?xml version="1.0" encoding="UTF-8"?>'));
     assert.ok(stdout.includes("<testsuites "));

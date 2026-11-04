@@ -33,14 +33,21 @@ const scan = (findings: Finding[]): ScanResult => ({
 
 test("a scan without findings is an empty rdjson result", () => {
   const rdjson = JSON.parse(renderRdjson(scan([])));
-  assert.deepEqual(rdjson, { source: { name: "Evergreen", url: "https://github.com/arminazimi/evergreen" }, diagnostics: [] });
+  assert.deepEqual(rdjson, {
+    source: { name: "Evergreen", url: "https://github.com/arminazimi/evergreen" },
+    diagnostics: [],
+  });
 });
 
 test("each finding becomes one diagnostic with path, range, severity, and rule code, sorted like SARIF", () => {
-  const rdjson = JSON.parse(renderRdjson(scan([
-    finding("npm.package.request.deprecated", "package.json", 12, "high"),
-    finding("python.runtime.eol", ".python-version", undefined, "info"),
-  ])));
+  const rdjson = JSON.parse(
+    renderRdjson(
+      scan([
+        finding("npm.package.request.deprecated", "package.json", 12, "high"),
+        finding("python.runtime.eol", ".python-version", undefined, "info"),
+      ]),
+    ),
+  );
   assert.deepEqual(rdjson.diagnostics, [
     {
       message: "Summary at .python-version",
@@ -59,7 +66,9 @@ test("each finding becomes one diagnostic with path, range, severity, and rule c
 
 test("severity maps to reviewdog severities", () => {
   const severities = (["critical", "high", "medium", "low", "info"] as const).map((severity) => {
-    const rdjson = JSON.parse(renderRdjson(scan([finding("npm.package.request.deprecated", "package.json", 1, severity)])));
+    const rdjson = JSON.parse(
+      renderRdjson(scan([finding("npm.package.request.deprecated", "package.json", 1, severity)])),
+    );
     return rdjson.diagnostics[0].severity;
   });
   assert.deepEqual(severities, ["ERROR", "ERROR", "WARNING", "INFO", "INFO"]);
@@ -68,7 +77,10 @@ test("severity maps to reviewdog severities", () => {
 test("a finding without a line has no range, and a column is written only with a line", () => {
   const withoutLine = JSON.parse(renderRdjson(scan([finding("python.runtime.eol", ".python-version", undefined)])));
   assert.equal("range" in withoutLine.diagnostics[0].location, false);
-  const withColumn = { ...finding("npm.package.request.deprecated", "package.json", 4), location: { path: "package.json", line: 4, column: 9 } };
+  const withColumn = {
+    ...finding("npm.package.request.deprecated", "package.json", 4),
+    location: { path: "package.json", line: 4, column: 9 },
+  };
   const rdjson = JSON.parse(renderRdjson(scan([withColumn])));
   assert.deepEqual(rdjson.diagnostics[0].location.range, { start: { line: 4, column: 9 } });
 });
@@ -89,7 +101,10 @@ test("scan --format rdjson prints rdjson, and it is refused for other commands",
   const root = await mkdtemp(join(tmpdir(), "evergreen-rdjson-"));
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
-    await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
+    await writeFile(
+      join(root, ".github", "workflows", "ci.yml"),
+      "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n",
+    );
     const { stdout } = await runCli(["scan", root, "--format", "rdjson"]);
     const rdjson = JSON.parse(stdout);
     assert.equal(rdjson.diagnostics[0].code.value, "github-actions.checkout.node20");
@@ -98,7 +113,10 @@ test("scan --format rdjson prints rdjson, and it is refused for other commands",
 
     const unknown = await runCli(["scan", root, "--format", "xml"]);
     assert.equal(unknown.code, 2);
-    assert.match(unknown.stderr, /expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid/);
+    assert.match(
+      unknown.stderr,
+      /expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid/,
+    );
     const check = await runCli(["check", "pkg:npm/request", "--format", "rdjson"]);
     assert.equal(check.code, 2);
     const explain = await runCli(["explain", "x", root, "--format", "rdjson"]);
@@ -111,14 +129,20 @@ test("scan --format rdjson prints rdjson, and it is refused for other commands",
 
 async function rdjsonValidator() {
   const { Ajv } = await import("ajv");
-  const schema = JSON.parse(await readFile(resolve("schemas/vendor/rdjson-diagnostic-result.json"), "utf8")) as Record<string, unknown>;
+  const schema = JSON.parse(await readFile(resolve("schemas/vendor/rdjson-diagnostic-result.json"), "utf8")) as Record<
+    string,
+    unknown
+  >;
   return new Ajv({ strict: false, validateSchema: false, allErrors: true }).compile(schema);
 }
 
 test("the vendored reviewdog schema is the published file", async () => {
   const text = await readFile(resolve("schemas/vendor/rdjson-diagnostic-result.json"));
   const readme = await readFile(resolve("schemas/vendor/README.md"), "utf8");
-  assert.ok(readme.includes(createHash("sha256").update(text).digest("hex")), "schemas/vendor/README.md must record the file's SHA-256");
+  assert.ok(
+    readme.includes(createHash("sha256").update(text).digest("hex")),
+    "schemas/vendor/README.md must record the file's SHA-256",
+  );
 });
 
 test("rdjson output validates against the reviewdog DiagnosticResult schema", async () => {
@@ -127,7 +151,11 @@ test("rdjson output validates against the reviewdog DiagnosticResult schema", as
   const cases: Record<string, ScanResult> = {
     "no findings": scan([]),
     "one finding without a line": scan([finding("python.runtime.eol", ".python-version", undefined, "info")]),
-    "many severities": scan((["critical", "high", "medium", "low", "info"] as const).map((severity, index) => finding(`npm.package.p${index}.deprecated`, "package.json", index + 1, severity))),
+    "many severities": scan(
+      (["critical", "high", "medium", "low", "info"] as const).map((severity, index) =>
+        finding(`npm.package.p${index}.deprecated`, "package.json", index + 1, severity),
+      ),
+    ),
     "sample scan": sample,
   };
   for (const [name, result] of Object.entries(cases)) {

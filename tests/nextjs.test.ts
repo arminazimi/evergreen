@@ -112,7 +112,10 @@ test("covers every unsupported and recently retired major, with the dates from t
   ] as const;
   const rules = await nextRules();
 
-  assert.deepEqual(rules.map((rule) => rule.id), expected.map((item) => `npm.package.next.${item.major}.support-end`));
+  assert.deepEqual(
+    rules.map((rule) => rule.id),
+    expected.map((item) => `npm.package.next.${item.major}.support-end`),
+  );
   for (const item of expected) {
     const rule = rules.find((candidate) => candidate.id === `npm.package.next.${item.major}.support-end`)!;
     const windowEnd = addYears(item.released, 2);
@@ -137,13 +140,26 @@ test("Next.js 16, the Active LTS major, has no lifecycle rule", async () => {
 
 test("every Next.js rule cites the support policy, has an https source, and carries migration guidance", async () => {
   for (const rule of await nextRules()) {
-    assert.ok(rule.sources.some((source) => source.url === SUPPORT_POLICY), `${rule.id} cites the support policy`);
-    assert.ok(rule.sources.every((source) => /^https:\/\/\S+$/.test(source.url)), `${rule.id} sources use https`);
+    assert.ok(
+      rule.sources.some((source) => source.url === SUPPORT_POLICY),
+      `${rule.id} cites the support policy`,
+    );
+    assert.ok(
+      rule.sources.every((source) => /^https:\/\/\S+$/.test(source.url)),
+      `${rule.id} sources use https`,
+    );
     assert.deepEqual(rule["x-npm"], { package: "next" }, rule.id);
     assert.ok(rule.migration && rule.migration.constraints.length >= 1, rule.id);
     assert.ok(rule.migration!.steps.length >= 1, rule.id);
-    assert.equal(new Set(rule.migration!.steps.map((step) => step.id)).size, rule.migration!.steps.length, `${rule.id} step ids are unique`);
-    assert.ok(rule.migration!.verification.some((check) => check.command === "npm run build --if-present"), rule.id);
+    assert.equal(
+      new Set(rule.migration!.steps.map((step) => step.id)).size,
+      rule.migration!.steps.length,
+      `${rule.id} step ids are unique`,
+    );
+    assert.ok(
+      rule.migration!.verification.some((check) => check.command === "npm run build --if-present"),
+      rule.id,
+    );
   }
 });
 
@@ -154,7 +170,15 @@ test("reports each Next.js major a declared range allows, and no supported or no
     ["^14.2.0", ["npm.package.next.14.support-end"]],
     ["15.5.0", ["npm.package.next.15.support-end"]],
     ["^13.0.0 || ^14.0.0", ["npm.package.next.13.support-end", "npm.package.next.14.support-end"]],
-    ["*", ["npm.package.next.12.support-end", "npm.package.next.13.support-end", "npm.package.next.14.support-end", "npm.package.next.15.support-end"]],
+    [
+      "*",
+      [
+        "npm.package.next.12.support-end",
+        "npm.package.next.13.support-end",
+        "npm.package.next.14.support-end",
+        "npm.package.next.15.support-end",
+      ],
+    ],
     ["^16.0.0", []],
     ["latest", []],
     ["canary", []],
@@ -169,12 +193,14 @@ test("reports each Next.js major a declared range allows, and no supported or no
 
 test("a lockfile version decides which Next.js rule applies, even when the declared range is broad", async () => {
   const resolvedTo = async (version: string) =>
-    (await npmDetector.scan({
-      root: await repository({
-        "package.json": JSON.stringify({ dependencies: { next: "^14.0.0 || ^16.0.0" } }),
-        "package-lock.json": JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/next": { version } } }),
-      }),
-    })).map((finding) => finding.ruleId);
+    (
+      await npmDetector.scan({
+        root: await repository({
+          "package.json": JSON.stringify({ dependencies: { next: "^14.0.0 || ^16.0.0" } }),
+          "package-lock.json": JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/next": { version } } }),
+        }),
+      })
+    ).map((finding) => finding.ruleId);
 
   assert.deepEqual(await resolvedTo("14.2.15"), ["npm.package.next.14.support-end"]);
   assert.deepEqual(await resolvedTo("16.0.1"), []);

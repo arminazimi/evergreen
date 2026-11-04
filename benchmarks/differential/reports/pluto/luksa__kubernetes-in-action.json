@@ -12,9 +12,7 @@
       "path": "Chapter04/cronjob.yaml",
       "kind": "CronJob",
       "version": "batch/v1beta1",
-      "evergreen": [
-        "kubernetes.batch.cronjob.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.batch.cronjob.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -23,9 +21,7 @@
       "path": "Chapter04/kubia-replicaset-matchexpressions.yaml",
       "kind": "ReplicaSet",
       "version": "apps/v1beta2",
-      "evergreen": [
-        "kubernetes.apps.replicaset.v1beta2.removed"
-      ],
+      "evergreen": ["kubernetes.apps.replicaset.v1beta2.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -34,9 +30,7 @@
       "path": "Chapter04/kubia-replicaset.yaml",
       "kind": "ReplicaSet",
       "version": "apps/v1beta2",
-      "evergreen": [
-        "kubernetes.apps.replicaset.v1beta2.removed"
-      ],
+      "evergreen": ["kubernetes.apps.replicaset.v1beta2.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -45,9 +39,7 @@
       "path": "Chapter04/ssd-monitor-daemonset.yaml",
       "kind": "DaemonSet",
       "version": "apps/v1beta2",
-      "evergreen": [
-        "kubernetes.apps.daemonset.v1beta2.removed"
-      ],
+      "evergreen": ["kubernetes.apps.daemonset.v1beta2.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -56,9 +48,7 @@
       "path": "Chapter05/kubia-ingress-tls.yaml",
       "kind": "Ingress",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.ingress.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -67,9 +57,7 @@
       "path": "Chapter05/kubia-ingress.yaml",
       "kind": "Ingress",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.ingress.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -78,9 +66,7 @@
       "path": "Chapter09/kubia-deployment-and-service-v1.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -89,9 +75,7 @@
       "path": "Chapter09/kubia-deployment-v2.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -100,9 +84,7 @@
       "path": "Chapter09/kubia-deployment-v3-with-readinesscheck.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -111,9 +93,7 @@
       "path": "Chapter09/kubia-deployment-v3.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -122,9 +102,7 @@
       "path": "Chapter10/kubia-statefulset-peers.yaml",
       "kind": "StatefulSet",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.statefulset.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.statefulset.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -133,9 +111,7 @@
       "path": "Chapter13/pod-security-policy.yaml",
       "kind": "PodSecurityPolicy",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.podsecuritypolicy.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.podsecuritypolicy.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -144,9 +120,7 @@
       "path": "Chapter13/psp-capabilities.yaml",
       "kind": "PodSecurityPolicy",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.podsecuritypolicy.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.podsecuritypolicy.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -155,9 +129,7 @@
       "path": "Chapter13/psp-must-run-as.yaml",
       "kind": "PodSecurityPolicy",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.podsecuritypolicy.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.podsecuritypolicy.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -166,9 +138,7 @@
       "path": "Chapter13/psp-privileged.yaml",
       "kind": "PodSecurityPolicy",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.podsecuritypolicy.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.podsecuritypolicy.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -177,9 +147,7 @@
       "path": "Chapter13/psp-volumes.yaml",
       "kind": "PodSecurityPolicy",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.podsecuritypolicy.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.podsecuritypolicy.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -188,9 +156,7 @@
       "path": "Chapter15/deployment-apps-v1beta2.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta2",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta2.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta2.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -199,9 +165,7 @@
       "path": "Chapter15/deployment.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -210,9 +174,7 @@
       "path": "Chapter16/frontend-podaffinity-host.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -221,9 +183,7 @@
       "path": "Chapter16/frontend-podaffinity-preferred-host.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -232,9 +192,7 @@
       "path": "Chapter16/frontend-podaffinity-rack.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -243,9 +201,7 @@
       "path": "Chapter16/frontend-podantiaffinity-host.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -254,9 +210,7 @@
       "path": "Chapter16/preferred-deployment.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -265,9 +219,7 @@
       "path": "Chapter16/production-deployment.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -276,9 +228,7 @@
       "path": "Chapter17/replicaset-crashingpods.yaml",
       "kind": "ReplicaSet",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.replicaset.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.replicaset.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -287,9 +237,7 @@
       "path": "Chapter18/website-controller.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -298,15 +246,11 @@
       "path": "Chapter18/website-crd.yaml",
       "kind": "CustomResourceDefinition",
       "version": "apiextensions.k8s.io/v1beta1",
-      "evergreen": [
-        "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
     }
   ],
-  "notComparable": [
-    "container.node"
-  ]
+  "notComparable": ["container.node"]
 }

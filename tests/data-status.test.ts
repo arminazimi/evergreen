@@ -15,28 +15,54 @@ after(async () => {
   await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
 });
 
-const validator = new Ajv2020({ allErrors: true }).compile(JSON.parse(await readFile(resolve("schemas/data-status.v1.schema.json"), "utf8")) as object);
+const validator = new Ajv2020({ allErrors: true }).compile(
+  JSON.parse(await readFile(resolve("schemas/data-status.v1.schema.json"), "utf8")) as object,
+);
 
 const data = (info: Partial<DataSourceInfo>): ActiveData => ({
-  info: { source: "bundled", version: "0.1.0", createdAt: null, contentDigest: null, reviewedThrough: "2026-10-16", signer: null, warnings: [], ...info },
+  info: {
+    source: "bundled",
+    version: "0.1.0",
+    createdAt: null,
+    contentDigest: null,
+    reviewedThrough: "2026-10-16",
+    signer: null,
+    warnings: [],
+    ...info,
+  },
   read: async () => ({}),
 });
 const at = (day: string) => new Date(`${day}T12:00:00Z`);
 
 test("bundled data is aged from its newest review date", () => {
   const status = dataStatusFrom(data({}), at("2026-10-26"), "/cache");
-  assert.deepEqual([status.source, status.ageBasis, status.ageDays, status.stale, status.createdAt], ["bundled", "reviewedThrough", 10, false, null]);
+  assert.deepEqual(
+    [status.source, status.ageBasis, status.ageDays, status.stale, status.createdAt],
+    ["bundled", "reviewedThrough", 10, false, null],
+  );
   assert.equal(validator(status), true, JSON.stringify(validator.errors));
 });
 
 test("downloaded data is aged from the time the bundle was built", () => {
-  const signer = { identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2026.10.01", issuer: "https://token.actions.githubusercontent.com" };
+  const signer = {
+    identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2026.10.01",
+    issuer: "https://token.actions.githubusercontent.com",
+  };
   const status = dataStatusFrom(
-    data({ source: "cache", version: "2026.10.01", createdAt: "2026-10-01T06:00:00Z", contentDigest: `sha256:${"a".repeat(64)}`, signer }),
+    data({
+      source: "cache",
+      version: "2026.10.01",
+      createdAt: "2026-10-01T06:00:00Z",
+      contentDigest: `sha256:${"a".repeat(64)}`,
+      signer,
+    }),
     at("2026-10-16"),
     "/cache",
   );
-  assert.deepEqual([status.source, status.version, status.ageBasis, status.ageDays, status.stale], ["cache", "2026.10.01", "createdAt", 15, false]);
+  assert.deepEqual(
+    [status.source, status.version, status.ageBasis, status.ageDays, status.stale],
+    ["cache", "2026.10.01", "createdAt", 15, false],
+  );
   assert.deepEqual(status.signer, signer);
   assert.equal(validator(status), true, JSON.stringify(validator.errors));
 });
@@ -47,7 +73,11 @@ test("data becomes stale after 30 days, not before", () => {
   assert.equal(dataStatusFrom(info, new Date("2026-10-01T00:00:00Z")).stale, false, "exactly 30 days");
   assert.equal(dataStatusFrom(info, new Date("2026-10-01T23:59:59Z")).ageDays, 30);
   assert.equal(dataStatusFrom(info, new Date("2026-10-02T00:00:00Z")).stale, true, "31 days");
-  assert.equal(dataStatusFrom(data({ reviewedThrough: "2099-01-01" }), at("2026-10-16")).ageDays, 0, "a future date is never negative");
+  assert.equal(
+    dataStatusFrom(data({ reviewedThrough: "2099-01-01" }), at("2026-10-16")).ageDays,
+    0,
+    "a future date is never negative",
+  );
 });
 
 test("the text output says where the data came from, how old it is, and what went wrong", () => {
@@ -57,12 +87,31 @@ test("the text output says where the data came from, how old it is, and what wen
   assert.match(fresh, /Cache directory: \/cache/);
   assert.doesNotMatch(fresh, /stale|Update with/);
 
-  const stale = renderDataStatusText(dataStatusFrom(data({ reviewedThrough: "2026-08-01", warnings: ["Ignoring downloaded lifecycle data 2026.09.30: the signature did not verify."] }), at("2026-10-16")));
+  const stale = renderDataStatusText(
+    dataStatusFrom(
+      data({
+        reviewedThrough: "2026-08-01",
+        warnings: ["Ignoring downloaded lifecycle data 2026.09.30: the signature did not verify."],
+      }),
+      at("2026-10-16"),
+    ),
+  );
   assert.match(stale, /76 days since the evidence was last reviewed — older than 30 days, so it is stale/);
   assert.match(stale, /Warning: Ignoring downloaded lifecycle data 2026\.09\.30/);
   assert.match(stale, /Update with: evergreen data update/);
 
-  const downloaded = renderDataStatusText(dataStatusFrom(data({ source: "cache", version: "2026.10.01", createdAt: "2026-10-01T06:00:00Z", contentDigest: `sha256:${"b".repeat(64)}`, signer: { identity: "id", issuer: "iss" } }), at("2026-10-16")));
+  const downloaded = renderDataStatusText(
+    dataStatusFrom(
+      data({
+        source: "cache",
+        version: "2026.10.01",
+        createdAt: "2026-10-01T06:00:00Z",
+        contentDigest: `sha256:${"b".repeat(64)}`,
+        signer: { identity: "id", issuer: "iss" },
+      }),
+      at("2026-10-16"),
+    ),
+  );
   assert.match(downloaded, /Source: cache$/m);
   assert.match(downloaded, /Built: 2026-10-01T06:00:00Z/);
   assert.match(downloaded, /Signed by: id\nIssuer: iss/);

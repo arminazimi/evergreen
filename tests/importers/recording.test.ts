@@ -7,7 +7,14 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 
 import { exampleImporter } from "../../tools/importers/example.js";
-import { readRecording, recordingContext, redactCredentials, replayContext, validateRecording, writeRecording } from "../../tools/importers/recording.js";
+import {
+  readRecording,
+  recordingContext,
+  redactCredentials,
+  replayContext,
+  validateRecording,
+  writeRecording,
+} from "../../tools/importers/recording.js";
 import type { Recording } from "../../tools/importers/recording.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
 import { ImporterError } from "../../tools/importers/types.js";
@@ -17,38 +24,75 @@ const exampleRecording = resolve("tests/importers/recordings/example-feed.json")
 
 test("the example importer runs offline from its recording", async () => {
   const drafts = await execute(exampleImporter, { replay: exampleRecording });
-  assert.deepEqual(drafts.rules.map((rule) => rule.id), ["npm.package.acme-widget.deprecated", "npm.package.zeta.eol"]);
+  assert.deepEqual(
+    drafts.rules.map((rule) => rule.id),
+    ["npm.package.acme-widget.deprecated", "npm.package.zeta.eol"],
+  );
   assert.deepEqual(drafts.notes, ['Skipped mystery: unknown status "sunsetting".']);
   // Without --now, a replay runs on the day it was recorded, so the result never changes.
   assert.equal(drafts.observedAt, "2026-10-15");
   assert.equal(drafts.rules[0]!.provenance.observedAt, "2026-10-15");
   assert.equal(JSON.stringify(drafts), JSON.stringify(await execute(exampleImporter, { replay: exampleRecording })));
-  assert.equal((await execute(exampleImporter, { replay: exampleRecording, now: "2027-01-02" })).observedAt, "2027-01-02");
+  assert.equal(
+    (await execute(exampleImporter, { replay: exampleRecording, now: "2027-01-02" })).observedAt,
+    "2027-01-02",
+  );
 });
 
 test("a recording captured from a real server replays to identical drafts", async (t) => {
   const server = createServer((request, response) => {
-    if (request.url === "/feed.json") return void response.writeHead(200).end(JSON.stringify({ products: [{ name: "left", status: "eol", title: "left is end-of-life", summary: "Gone.", url: "https://example.com/left" }] }));
+    if (request.url === "/feed.json")
+      return void response.writeHead(200).end(
+        JSON.stringify({
+          products: [
+            {
+              name: "left",
+              status: "eol",
+              title: "left is end-of-life",
+              summary: "Gone.",
+              url: "https://example.com/left",
+            },
+          ],
+        }),
+      );
     response.writeHead(404).end("no");
   });
   await new Promise<void>((resolveListen) => server.listen(0, "127.0.0.1", resolveListen));
   const directory = await mkdtemp(join(tmpdir(), "evergreen-recording-"));
-  t.after(async () => { server.closeAllConnections(); server.close(); await rm(directory, { recursive: true, force: true }); });
+  t.after(async () => {
+    server.closeAllConnections();
+    server.close();
+    await rm(directory, { recursive: true, force: true });
+  });
   const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
 
   const importer: Importer = {
     ...exampleImporter,
     import: async (context) => {
       const rules = JSON.parse(await context.fetchText(`${base}/feed.json`)) as { products: { name: string }[] };
-      const absent = await context.fetchText(`${base}/absent`).then(() => "present", (error: Error) => error.message);
-      return exampleImporter.import({ ...context, fetchText: async () => JSON.stringify(rules) }).then((out) => ({ ...out, notes: [...out.notes, `absent: ${absent.replace(base, "<base>")}`] }));
+      const absent = await context.fetchText(`${base}/absent`).then(
+        () => "present",
+        (error: Error) => error.message,
+      );
+      return exampleImporter
+        .import({ ...context, fetchText: async () => JSON.stringify(rules) })
+        .then((out) => ({ ...out, notes: [...out.notes, `absent: ${absent.replace(base, "<base>")}`] }));
     },
   };
 
   const file = join(directory, "example-feed.json");
   const live = await execute(importer, { record: file, now: "2026-10-15" });
   const recording = await readRecording(file);
-  assert.deepEqual(recording.responses.map((response) => [response.url.replace(base, "<base>"), response.body === undefined ? "error" : "body"]), [["<base>/feed.json", "body"], ["<base>/absent", "error"]]);
+  assert.deepEqual(
+    recording.responses.map((response) => [
+      response.url.replace(base, "<base>"),
+      response.body === undefined ? "error" : "body",
+    ]),
+    [
+      ["<base>/feed.json", "body"],
+      ["<base>/absent", "error"],
+    ],
+  );
   assert.match(recording.responses[1]!.error!, /failed: HTTP 404/);
   assert.equal(recording.recordedAt, "2026-10-15");
 
@@ -60,23 +104,40 @@ test("a recording captured from a real server replays to identical drafts", asyn
 test("a failed run still saves what it read", async (t) => {
   const directory = await mkdtemp(join(tmpdir(), "evergreen-recording-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
-  const failing: Importer = { ...exampleImporter, import: async (context) => { await context.fetchText("http://127.0.0.1:1/never"); return { rules: [], notes: [] }; } };
+  const failing: Importer = {
+    ...exampleImporter,
+    import: async (context) => {
+      await context.fetchText("http://127.0.0.1:1/never");
+      return { rules: [], notes: [] };
+    },
+  };
   const file = join(directory, "partial.json");
   await assert.rejects(execute(failing, { record: file }), /failed/);
   assert.equal((await readRecording(file)).responses[0]!.url, "http://127.0.0.1:1/never");
 });
 
 test("replay answers only from the recording and explains what is missing", async () => {
-  const recording: Recording = { schemaVersion: "evergreen.importer-recording.v1", importer: "x", recordedAt: "2026-10-15", responses: [
-    { url: "https://example.com/a", body: "A" },
-    { url: "https://example.com/a", accept: "application/json", body: "A-json" },
-    { url: "https://example.com/gone", error: "GET https://example.com/gone failed: HTTP 404" },
-  ] };
+  const recording: Recording = {
+    schemaVersion: "evergreen.importer-recording.v1",
+    importer: "x",
+    recordedAt: "2026-10-15",
+    responses: [
+      { url: "https://example.com/a", body: "A" },
+      { url: "https://example.com/a", accept: "application/json", body: "A-json" },
+      { url: "https://example.com/gone", error: "GET https://example.com/gone failed: HTTP 404" },
+    ],
+  };
   const replay = replayContext(recording);
   assert.equal(await replay.fetchText("https://example.com/a"), "A");
   assert.equal(await replay.fetchText("https://example.com/a", { accept: "application/json" }), "A-json");
-  await assert.rejects(replay.fetchText("https://example.com/gone"), (error: unknown) => error instanceof ImporterError && /HTTP 404/.test(error.message));
-  await assert.rejects(replay.fetchText("https://example.com/other"), /No recorded response for https:\/\/example\.com\/other\. Record it with --record/);
+  await assert.rejects(
+    replay.fetchText("https://example.com/gone"),
+    (error: unknown) => error instanceof ImporterError && /HTTP 404/.test(error.message),
+  );
+  await assert.rejects(
+    replay.fetchText("https://example.com/other"),
+    /No recorded response for https:\/\/example\.com\/other\. Record it with --record/,
+  );
   await assert.rejects(replay.fetchText("https://example.com/a", { accept: "text/html" }), /Accept: text\/html/);
   assert.deepEqual(replay.unused(), []);
   assert.deepEqual(replayContext(recording).unused().length, 3);
@@ -89,11 +150,17 @@ test("recordings that no longer match the importer are reported", async (t) => {
   stale.responses.push({ url: "https://example.com/old-source.json", body: "{}" });
   const file = join(directory, "stale.json");
   await writeFile(file, JSON.stringify(stale));
-  await assert.rejects(execute(exampleImporter, { replay: file }), /no longer reads: https:\/\/example\.com\/old-source\.json/);
+  await assert.rejects(
+    execute(exampleImporter, { replay: file }),
+    /no longer reads: https:\/\/example\.com\/old-source\.json/,
+  );
 
   stale.importer = "other-importer";
   await writeFile(file, JSON.stringify(stale));
-  await assert.rejects(execute(exampleImporter, { replay: file }), /Recording is for "other-importer", not "example-feed"/);
+  await assert.rejects(
+    execute(exampleImporter, { replay: file }),
+    /Recording is for "other-importer", not "example-feed"/,
+  );
 });
 
 test("run options are checked", async () => {
@@ -102,7 +169,12 @@ test("run options are checked", async () => {
 });
 
 test("recordings are validated", () => {
-  const good: Recording = { schemaVersion: "evergreen.importer-recording.v1", importer: "x", recordedAt: "2026-10-15", responses: [{ url: "https://example.com/", body: "" }] };
+  const good: Recording = {
+    schemaVersion: "evergreen.importer-recording.v1",
+    importer: "x",
+    recordedAt: "2026-10-15",
+    responses: [{ url: "https://example.com/", body: "" }],
+  };
   assert.doesNotThrow(() => validateRecording(good));
   for (const [name, change, expected] of [
     ["schema", { schemaVersion: "v0" }, /schemaVersion/],
@@ -112,7 +184,16 @@ test("recordings are validated", () => {
     ["url", { responses: [{ url: "example.com", body: "" }] }, /responses\[0\]\.url must be a URL/],
     ["neither", { responses: [{ url: "https://example.com/" }] }, /exactly one of body or error/],
     ["both", { responses: [{ url: "https://example.com/", body: "", error: "x" }] }, /exactly one of body or error/],
-    ["duplicate", { responses: [{ url: "https://example.com/", body: "" }, { url: "https://example.com/", body: "" }] }, /repeats/],
+    [
+      "duplicate",
+      {
+        responses: [
+          { url: "https://example.com/", body: "" },
+          { url: "https://example.com/", body: "" },
+        ],
+      },
+      /repeats/,
+    ],
   ] as const) {
     assert.throws(() => validateRecording({ ...good, ...change }), expected, name);
   }
@@ -127,7 +208,13 @@ test("recording keeps the first and last response for repeated requests in call 
   await recorder.context.fetchText("https://example.com/other");
   await recorder.context.fetchText("https://example.com/same");
   const { responses } = recorder.recording("x");
-  assert.deepEqual(responses.map((response) => [response.url, response.body]), [["https://example.com/same", "call 3"], ["https://example.com/other", "call 2"]]);
+  assert.deepEqual(
+    responses.map((response) => [response.url, response.body]),
+    [
+      ["https://example.com/same", "call 3"],
+      ["https://example.com/other", "call 2"],
+    ],
+  );
 });
 
 test("every committed recording is valid and named for its importer", async () => {
@@ -138,7 +225,8 @@ test("every committed recording is valid and named for its importer", async () =
     const raw = await readFile(join(directory, name), "utf8");
     const recording = validateRecording(JSON.parse(raw) as unknown);
     assert.equal(`${recording.importer}.json`, name);
-    if (name === "example-feed.json") assert.equal(recording.synthetic, true, "the example recording is written by hand and says so");
+    if (name === "example-feed.json")
+      assert.equal(recording.synthetic, true, "the example recording is written by hand and says so");
     assert.equal(redactCredentials(raw), raw, `${name} contains a credential; re-record it or remove the value`);
   }
 });
@@ -161,7 +249,10 @@ test("a recording written with a credential keeps the request shape but not the 
   const raw = await readFile(file, "utf8");
   assert.doesNotMatch(raw, /ghp_|AKIA|abcdefghijklmnop1234/);
   const saved = await readRecording(file);
-  assert.deepEqual(saved.responses.map((response) => response.url), ["https://example.com/feed?access_token=[REDACTED]", "https://example.com/key", "https://example.com/failed"]);
+  assert.deepEqual(
+    saved.responses.map((response) => response.url),
+    ["https://example.com/feed?access_token=[REDACTED]", "https://example.com/key", "https://example.com/failed"],
+  );
   assert.equal(saved.responses[0]!.body, `{"auth":"[REDACTED]"}`);
   assert.equal(saved.responses[1]!.body, `{"key":"[REDACTED]"}`);
   assert.equal(saved.responses[2]!.error, "GET failed with token [REDACTED]");

@@ -32,7 +32,10 @@ test("orders versions exactly as PEP 440 specifies", () => {
     "1.1.dev1",
   ];
   const shuffled = [...expected].reverse();
-  assert.deepEqual(shuffled.sort((left, right) => pypi.compare(left, right)), expected);
+  assert.deepEqual(
+    shuffled.sort((left, right) => pypi.compare(left, right)),
+    expected,
+  );
 });
 
 test("normalizes equivalent spellings", () => {
@@ -75,6 +78,7 @@ test("passes the VERS pypi containment vectors", async (t) => {
   };
   for (const vector of file.tests) {
     await t.test(`${vector.input.vers} contains ${vector.input.version}`, () =>
-      assert.equal(versContains(vector.input.vers, vector.input.version), vector.expected_output));
+      assert.equal(versContains(vector.input.vers, vector.input.version), vector.expected_output),
+    );
   }
 });

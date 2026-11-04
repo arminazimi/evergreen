@@ -62,17 +62,20 @@ test("accepts CRLF and a byte order mark", () => {
 
 test("skips dynamic, unlabeled, nested, and non-provider forms", () => {
   const address = '"registry.terraform.io/hashicorp/aws"';
-  for (const body of ["version = var.v", 'version = "${var.v}"', 'version = ""', 'version = ["5.0.0"]', 'other = "5.0.0"']) {
+  for (const body of [
+    "version = var.v",
+    'version = "${var.v}"',
+    'version = ""',
+    'version = ["5.0.0"]',
+    'other = "5.0.0"',
+  ]) {
     assert.deepEqual(parseTerraformLock(`provider ${address} {\n  ${body}\n}\n`), [], body);
   }
   assert.deepEqual(parseTerraformLock('provider {\n  version = "5.0.0"\n}\n'), []);
   assert.deepEqual(parseTerraformLock('provider "aws" {\n  version = "5.0.0"\n}\n'), []);
   assert.deepEqual(parseTerraformLock('provider "a" "b" {\n  version = "5.0.0"\n}\n'), []);
   assert.deepEqual(parseTerraformLock('module "x" {\n  version = "5.0.0"\n}\n'), []);
-  assert.deepEqual(
-    parseTerraformLock(`provider ${address} {\n  nested = {\n    version = "9.9.9"\n  }\n}\n`),
-    [],
-  );
+  assert.deepEqual(parseTerraformLock(`provider ${address} {\n  nested = {\n    version = "9.9.9"\n  }\n}\n`), []);
 });
 
 test("bounds oversized input", () => {

@@ -18,7 +18,12 @@ export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 
 export type PomDeclaration = JdkDeclaration | DynamicJdkDeclaration | DependencyDeclaration;
 
-const PROPERTIES = new Set(["maven.compiler.release", "maven.compiler.source", "maven.compiler.target", "java.version"]);
+const PROPERTIES = new Set([
+  "maven.compiler.release",
+  "maven.compiler.source",
+  "maven.compiler.target",
+  "java.version",
+]);
 const COMPILER_SETTINGS = new Set(["release", "source", "target"]);
 const COORDINATE = /^[A-Za-z0-9_.-]+$/;
 
@@ -55,7 +60,13 @@ function dependencyDeclarations(project: XmlElement): PomDeclaration[] {
     if (!group || !artifact || !version) continue;
     if (![group.text, artifact.text].every((part) => COORDINATE.test(part))) continue;
     if (version.text === "" || version.text.includes("${") || /\s/.test(version.text)) continue;
-    found.push({ kind: "dependency", group: group.text, artifact: artifact.text, version: version.text, line: version.line });
+    found.push({
+      kind: "dependency",
+      group: group.text,
+      artifact: artifact.text,
+      version: version.text,
+      line: version.line,
+    });
   }
   return found;
 }

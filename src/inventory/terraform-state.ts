@@ -52,7 +52,8 @@ const AZURE_STACKS = [
 
 type JsonObject = Record<string, unknown>;
 
-const isObject = (value: unknown): value is JsonObject => typeof value === "object" && value !== null && !Array.isArray(value);
+const isObject = (value: unknown): value is JsonObject =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 const isText = (value: unknown): value is string => typeof value === "string" && value !== "";
 
 /** One resource instance, with the pointer to the object its attributes sit in. */
@@ -185,7 +186,14 @@ function functionV2Items(instance: StateInstance, file: string): InventoryItem[]
   if (!Array.isArray(buildConfig) || !isObject(buildConfig[0])) return [];
   const runtime = buildConfig[0].runtime;
   if (!isText(runtime) || !GCP_RUNTIME_ID.test(runtime)) return [];
-  return [item(file, `${instance.pointer}/build_config/0/runtime`, instance.resource, `${GOOGLE_FUNCTIONS_RUNTIME}${runtime}`)];
+  return [
+    item(
+      file,
+      `${instance.pointer}/build_config/0/runtime`,
+      instance.resource,
+      `${GOOGLE_FUNCTIONS_RUNTIME}${runtime}`,
+    ),
+  ];
 }
 
 function azureStackItems(instance: StateInstance, file: string): InventoryItem[] {
@@ -200,7 +208,15 @@ function azureStackItems(instance: StateInstance, file: string): InventoryItem[]
     if (!isText(value)) continue;
     const version = value.startsWith("~") ? value.slice(1) : value;
     if (!STACK_VERSION.test(version)) continue;
-    items.push(item(file, `${instance.pointer}/site_config/0/application_stack/0/${field}`, instance.resource, `${AZURE_APP_SERVICE}${name}`, version));
+    items.push(
+      item(
+        file,
+        `${instance.pointer}/site_config/0/application_stack/0/${field}`,
+        instance.resource,
+        `${AZURE_APP_SERVICE}${name}`,
+        version,
+      ),
+    );
   }
   return items;
 }

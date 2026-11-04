@@ -9,21 +9,29 @@ const read = (path: string) => readFile(resolve(path), "utf8");
 
 test("docs/IMPORTERS.md lists every registered importer with its registry", async () => {
   const text = await read("docs/IMPORTERS.md");
-  const rows = new Map([...text.matchAll(/^\| `([a-z0-9-]+)` \| `([a-z0-9-]+)` \|/gm)].map((match) => [match[1]!, match[2]!]));
+  const rows = new Map(
+    [...text.matchAll(/^\| `([a-z0-9-]+)` \| `([a-z0-9-]+)` \|/gm)].map((match) => [match[1]!, match[2]!]),
+  );
   assert.deepEqual([...rows.keys()].sort(), importers.map((importer) => importer.id).sort());
   for (const importer of importers) assert.equal(rows.get(importer.id), importer.ecosystem, importer.id);
 });
 
 test("every command and file path in docs/IMPORTERS.md exists", async () => {
   const text = await read("docs/IMPORTERS.md");
-  for (const script of new Set([...text.matchAll(/node (dist\/tools\/importers\/[a-z-]+\.js)/g)].map((match) => match[1]!))) {
+  for (const script of new Set(
+    [...text.matchAll(/node (dist\/tools\/importers\/[a-z-]+\.js)/g)].map((match) => match[1]!),
+  )) {
     await access(resolve(script));
   }
-  for (const path of new Set([...text.matchAll(/`(tools\/importers\/[a-z-]+\.ts|tests\/importers\/[A-Za-z<>./-]+)`/g)].map((match) => match[1]!))) {
+  for (const path of new Set(
+    [...text.matchAll(/`(tools\/importers\/[a-z-]+\.ts|tests\/importers\/[A-Za-z<>./-]+)`/g)].map((match) => match[1]!),
+  )) {
     if (path.includes("<")) continue;
     await access(resolve(path));
   }
-  for (const link of new Set([...text.matchAll(/\]\((\.\.\/[^)#]+|[A-Za-z0-9_./-]+\.md)[^)]*\)/g)].map((match) => match[1]!))) {
+  for (const link of new Set(
+    [...text.matchAll(/\]\((\.\.\/[^)#]+|[A-Za-z0-9_./-]+\.md)[^)]*\)/g)].map((match) => match[1]!),
+  )) {
     await access(resolve("docs", link));
   }
 });
@@ -57,20 +65,32 @@ test("the weekly workflow runs every schedulable importer whose registry file ex
   const workflow = parse(await read(".github/workflows/importers.yml")) as {
     permissions: unknown;
     jobs: {
-      draft: { permissions: Record<string, string>; strategy: { matrix: { include: Array<{ importer: string; ecosystem: string }> } } };
+      draft: {
+        permissions: Record<string, string>;
+        strategy: { matrix: { include: Array<{ importer: string; ecosystem: string }> } };
+      };
       propose: { permissions: Record<string, string>; strategy: { matrix: { importer: string[] } } };
     };
   };
   for (const id of UNSCHEDULED_IMPORTERS) {
-    assert.ok(importers.some((importer) => importer.id === id), `${id} must stay registered for local runs`);
+    assert.ok(
+      importers.some((importer) => importer.id === id),
+      `${id} must stay registered for local runs`,
+    );
   }
   const expected = importers
-    .filter((importer) => existsSync(resolve(`registry/${importer.ecosystem}.json`)) && !UNSCHEDULED_IMPORTERS.has(importer.id))
+    .filter(
+      (importer) =>
+        existsSync(resolve(`registry/${importer.ecosystem}.json`)) && !UNSCHEDULED_IMPORTERS.has(importer.id),
+    )
     .map((importer) => [importer.id, importer.ecosystem])
     .sort();
   const drafted = workflow.jobs.draft.strategy.matrix.include.map((entry) => [entry.importer, entry.ecosystem]).sort();
   assert.deepEqual(drafted, expected);
-  assert.deepEqual([...workflow.jobs.propose.strategy.matrix.importer].sort(), expected.map(([id]) => id));
+  assert.deepEqual(
+    [...workflow.jobs.propose.strategy.matrix.importer].sort(),
+    expected.map(([id]) => id),
+  );
   for (const id of UNSCHEDULED_IMPORTERS) {
     assert.ok(!drafted.some(([importerId]) => importerId === id), `${id} must not be in the draft matrix`);
   }

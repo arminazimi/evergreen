@@ -140,7 +140,9 @@ test("an unknown field is reported with a field hint", async () => {
   const directory = await registryDirectory({ "npm.json": text });
 
   const result = await lintRuleFiles([join(directory, "npm.json")]);
-  assert.ok(result.issues.some((issue) => /unknown field "typo"/.test(issue.message) && /x-<ecosystem>/.test(issue.hint)));
+  assert.ok(
+    result.issues.some((issue) => /unknown field "typo"/.test(issue.message) && /x-<ecosystem>/.test(issue.hint)),
+  );
 });
 
 test("the command exits 1 on problems, 0 on clean files, and 2 on misuse", async () => {
@@ -153,7 +155,9 @@ test("the command exits 1 on problems, 0 on clean files, and 2 on misuse", async
 
   const badRule = validRule();
   (badRule.sources as Array<{ url: string }>)[0]!.url = "http://example.com/sample";
-  const badDirectory = await registryDirectory({ "npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [badRule] }, null, 2)}\n` });
+  const badDirectory = await registryDirectory({
+    "npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [badRule] }, null, 2)}\n`,
+  });
   const bad = await run(["rules", "lint", join(badDirectory, "npm.json")], resolve("."));
   assert.equal(bad.code, 1, bad.stderr);
   assert.match(bad.stdout, /must be an https URL/);

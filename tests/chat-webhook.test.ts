@@ -4,7 +4,13 @@ import { test } from "node:test";
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import { CHAT_MAX_FINDINGS, renderSlack, renderTeams, renderWebhook } from "../src/reporters.js";
 
-function finding(ruleId: string, path: string, line: number | undefined, severity: Severity = "high", summary = `Summary at ${path}`): Finding {
+function finding(
+  ruleId: string,
+  path: string,
+  line: number | undefined,
+  severity: Severity = "high",
+  summary = `Summary at ${path}`,
+): Finding {
   return {
     id: `${ruleId}:${path}:${line ?? ""}`,
     ruleId,
@@ -26,15 +32,22 @@ const scan = (findings: Finding[]): ScanResult => ({
   diagnostics: [],
 });
 
-const many = Array.from({ length: CHAT_MAX_FINDINGS + 5 }, (_, index) => finding("npm.package.request.deprecated", `pkg-${String(index).padStart(2, "0")}/package.json`, index + 1));
+const many = Array.from({ length: CHAT_MAX_FINDINGS + 5 }, (_, index) =>
+  finding("npm.package.request.deprecated", `pkg-${String(index).padStart(2, "0")}/package.json`, index + 1),
+);
 
 test("Slack payload has a fallback text, a header, and one section per finding within Slack's limits", () => {
-  const payload = JSON.parse(renderSlack(scan([finding("npm.package.request.deprecated", "package.json", 3, "critical")])));
+  const payload = JSON.parse(
+    renderSlack(scan([finding("npm.package.request.deprecated", "package.json", 3, "critical")])),
+  );
   assert.equal(payload.text, "Evergreen: 1 finding (critical 1)");
   assert.equal(payload.blocks[0].type, "header");
   assert.ok(payload.blocks[0].text.text.length <= 150);
   assert.equal(payload.blocks[2].type, "section");
-  assert.match(payload.blocks[2].text.text, /^\*critical\* Title of npm\.package\.request\.deprecated\npackage\.json:3\nSummary at package\.json/);
+  assert.match(
+    payload.blocks[2].text.text,
+    /^\*critical\* Title of npm\.package\.request\.deprecated\npackage\.json:3\nSummary at package\.json/,
+  );
   assert.ok(payload.blocks.length <= 50);
 });
 
@@ -48,7 +61,9 @@ test("Slack payload caps the listed findings and says how many were left out", (
 });
 
 test("Slack payload escapes control characters and clips long section text", () => {
-  const payload = JSON.parse(renderSlack(scan([finding("npm.package.request.deprecated", "a<b>&c.json", 1, "high", "x".repeat(4000))])));
+  const payload = JSON.parse(
+    renderSlack(scan([finding("npm.package.request.deprecated", "a<b>&c.json", 1, "high", "x".repeat(4000))])),
+  );
   const text: string = payload.blocks[2].text.text;
   assert.ok(text.includes("a&lt;b&gt;&amp;c.json:1"));
   assert.ok(text.length <= 3000);
@@ -57,7 +72,9 @@ test("Slack payload escapes control characters and clips long section text", () 
 
 test("Slack clipping never leaves a partial entity at the cut", () => {
   for (const character of ["<", "&"]) {
-    const payload = JSON.parse(renderSlack(scan([finding("npm.package.request.deprecated", "package.json", 1, "high", character.repeat(4000))])));
+    const payload = JSON.parse(
+      renderSlack(scan([finding("npm.package.request.deprecated", "package.json", 1, "high", character.repeat(4000))])),
+    );
     const text: string = payload.blocks[2].text.text;
     assert.ok(text.length <= 3000, `${character}: ${text.length} characters`);
     assert.ok(text.endsWith("…"));
@@ -85,7 +102,8 @@ test("Teams payload is a message with a version 1.4 Adaptive Card", () => {
 test("Teams payload caps the listed findings and escapes Markdown in finding text", () => {
   const capped = JSON.parse(renderTeams(scan(many))).attachments[0].content.body;
   assert.ok(capped.some((block: { text: string }) => block.text.includes(`${5} more findings omitted`)));
-  const escaped = JSON.parse(renderTeams(scan([finding("npm.package.request.deprecated", "*evil*.json", 1)]))).attachments[0].content.body;
+  const escaped = JSON.parse(renderTeams(scan([finding("npm.package.request.deprecated", "*evil*.json", 1)])))
+    .attachments[0].content.body;
   assert.ok(escaped.some((block: { text: string }) => block.text.includes("\\*evil\\*")));
 });
 
@@ -100,8 +118,19 @@ test("webhook payload carries the schema tag, zero-filled severity counts, and s
   assert.equal(payload.source, "evergreen");
   assert.equal(payload.scannedAt, "2026-10-16T00:00:00.000Z");
   assert.deepEqual(payload.summary, { findings: 3, bySeverity: { info: 0, low: 1, medium: 0, high: 0, critical: 2 } });
-  assert.deepEqual(payload.findings.map((item: { location: { path: string } }) => item.location.path), [".python-version", "a/package.json", "b/package.json"]);
-  assert.deepEqual(Object.keys(payload.findings[0]).sort(), ["id", "location", "ruleId", "severity", "sources", "summary", "title"]);
+  assert.deepEqual(
+    payload.findings.map((item: { location: { path: string } }) => item.location.path),
+    [".python-version", "a/package.json", "b/package.json"],
+  );
+  assert.deepEqual(Object.keys(payload.findings[0]).sort(), [
+    "id",
+    "location",
+    "ruleId",
+    "severity",
+    "sources",
+    "summary",
+    "title",
+  ]);
 });
 
 test("webhook payload is not capped and is identical for reversed input", () => {
@@ -111,7 +140,10 @@ test("webhook payload is not capped and is identical for reversed input", () => 
 });
 
 test("chat payloads are identical for reversed input", () => {
-  const findings = [finding("npm.package.request.deprecated", "b.json", 1, "high"), finding("python.runtime.eol", "a.json", 2, "medium")];
+  const findings = [
+    finding("npm.package.request.deprecated", "b.json", 1, "high"),
+    finding("python.runtime.eol", "a.json", 2, "medium"),
+  ];
   assert.equal(renderSlack(scan([...findings].reverse())), renderSlack(scan(findings)));
   assert.equal(renderTeams(scan([...findings].reverse())), renderTeams(scan(findings)));
 });

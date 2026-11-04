@@ -12,16 +12,23 @@ const recording = resolve("tests/importers/recordings/java-1.json");
 
 test("drafts one rule per ended non-LTS group from the real recordings", async () => {
   const drafts = await execute(javaJdkSupportImporter, { replay: recording });
-  assert.deepEqual(drafts.rules.map((rule) => rule.id), [
-    "java.jdk.end-of-support-12-16",
-    "java.jdk.end-of-support-18-20",
-    "java.jdk.end-of-support-22-24",
-    "java.jdk.end-of-support-26",
-    "java.jdk.end-of-support-9-10",
-  ]);
+  assert.deepEqual(
+    drafts.rules.map((rule) => rule.id),
+    [
+      "java.jdk.end-of-support-12-16",
+      "java.jdk.end-of-support-18-20",
+      "java.jdk.end-of-support-22-24",
+      "java.jdk.end-of-support-26",
+      "java.jdk.end-of-support-9-10",
+    ],
+  );
   assert.ok(drafts.rules.every((rule) => rule.event === "end-of-support" && rule.deadline === undefined));
-  assert.ok(drafts.rules.every((rule) => rule.provenance.importer === "java-1" && rule.provenance.observedAt === "2026-10-17"));
-  assert.deepEqual(drafts.notes, ["Long-term-support releases are not drafted: Java 8, 11, 17, 21, and 25 stay in Premier or Extended Support."]);
+  assert.ok(
+    drafts.rules.every((rule) => rule.provenance.importer === "java-1" && rule.provenance.observedAt === "2026-10-17"),
+  );
+  assert.deepEqual(drafts.notes, [
+    "Long-term-support releases are not drafted: Java 8, 11, 17, 21, and 25 stay in Premier or Extended Support.",
+  ]);
 });
 
 test("recorded drafts match the reviewed Java registry", async () => {
@@ -52,21 +59,37 @@ function java(oracle: string, temurin: string, now: string) {
 
 test("time decides which groups have ended", async () => {
   const later = await java(ORACLE(ROWS), TEMURIN, "2026-10-17T12:00:00Z");
-  assert.deepEqual(later.rules.map((rule) => rule.id), ["java.jdk.end-of-support-12-16", "java.jdk.end-of-support-26"]);
+  assert.deepEqual(
+    later.rules.map((rule) => rule.id),
+    ["java.jdk.end-of-support-12-16", "java.jdk.end-of-support-26"],
+  );
   const earlier = await java(ORACLE(ROWS), TEMURIN, "2026-09-15T12:00:00Z");
-  assert.deepEqual(earlier.rules.map((rule) => rule.id), ["java.jdk.end-of-support-12-16"]);
+  assert.deepEqual(
+    earlier.rules.map((rule) => rule.id),
+    ["java.jdk.end-of-support-12-16"],
+  );
 });
 
 test("a group Temurin does not list cites only the Oracle roadmap", async () => {
   const result = await java(ORACLE(ROWS), TEMURIN, "2026-10-17T12:00:00Z");
   const [sixteen, twentySix] = result.rules;
-  assert.deepEqual(sixteen!.sources.map((source) => source.url), [ORACLE_ROADMAP_URL, TEMURIN_SUPPORT_URL]);
-  assert.deepEqual(twentySix!.sources.map((source) => source.url), [ORACLE_ROADMAP_URL]);
+  assert.deepEqual(
+    sixteen!.sources.map((source) => source.url),
+    [ORACLE_ROADMAP_URL, TEMURIN_SUPPORT_URL],
+  );
+  assert.deepEqual(
+    twentySix!.sources.map((source) => source.url),
+    [ORACLE_ROADMAP_URL],
+  );
   assert.doesNotMatch(twentySix!.summary, /Temurin/);
 });
 
 test("a changed table header produces a review note, not rules", async () => {
-  const result = await java("<table><tr><th>Release Premier Support Until GA Date</th></tr></table>", TEMURIN, "2026-10-17T12:00:00Z");
+  const result = await java(
+    "<table><tr><th>Release Premier Support Until GA Date</th></tr></table>",
+    TEMURIN,
+    "2026-10-17T12:00:00Z",
+  );
   assert.deepEqual(result.rules, []);
   assert.deepEqual(result.notes, ["No usable support table was found in the Oracle Java SE roadmap."]);
 });

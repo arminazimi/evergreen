@@ -4,7 +4,13 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, test } from "node:test";
 
-import { buildGlanceFacts, GLANCE_MARK, GLANCE_MARK_COLUMNS, GLANCE_MARK_MIN_COLUMNS, renderGlance } from "../src/glance.js";
+import {
+  buildGlanceFacts,
+  GLANCE_MARK,
+  GLANCE_MARK_COLUMNS,
+  GLANCE_MARK_MIN_COLUMNS,
+  renderGlance,
+} from "../src/glance.js";
 import type { GlanceFacts, GlanceInput } from "../src/glance.js";
 import { severityValues } from "../src/domain.js";
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
@@ -17,22 +23,23 @@ after(async () => {
 });
 
 let sequence = 0;
-const finding = (overrides: Partial<Finding> = {}): Finding => ({
-  id: `id-${++sequence}`,
-  ruleId: "demo.rule",
-  detector: "npm",
-  title: "Demo finding",
-  summary: "A demo finding.",
-  severity: "medium",
-  confidence: "high",
-  location: { path: "package.json", line: 1 },
-  sources: [],
-  ...overrides,
-}) as Finding;
+const finding = (overrides: Partial<Finding> = {}): Finding =>
+  ({
+    id: `id-${++sequence}`,
+    ruleId: "demo.rule",
+    detector: "npm",
+    title: "Demo finding",
+    summary: "A demo finding.",
+    severity: "medium",
+    confidence: "high",
+    location: { path: "package.json", line: 1 },
+    sources: [],
+    ...overrides,
+  }) as Finding;
 
 const emptyCoverage = { ecosystems: [], filesRead: [], unsupportedFiles: [] };
 const scan = (findings: Finding[], coverage?: ScanResult["coverage"]): GlanceInput =>
-  (coverage === undefined && findings.length > 0 ? { findings } : { findings, coverage: coverage ?? emptyCoverage });
+  coverage === undefined && findings.length > 0 ? { findings } : { findings, coverage: coverage ?? emptyCoverage };
 
 const factsOf = (findings: Finding[], asOf = "2026-10-25"): GlanceFacts =>
   buildGlanceFacts(scan(findings), { repository: "acme/widgets", asOf });
@@ -97,7 +104,18 @@ test("absent facts are omitted from the JSON document, never null", () => {
   assert.ok(!("oldestEnded" in parsed));
   assert.ok(!("data" in parsed));
   const withData = buildGlanceFacts(
-    { findings: [], coverage: emptyCoverage, data: { source: "bundled", version: "2026.10.1", createdAt: null, reviewedThrough: "2026-10-01", ageDays: 12, stale: false } },
+    {
+      findings: [],
+      coverage: emptyCoverage,
+      data: {
+        source: "bundled",
+        version: "2026.10.1",
+        createdAt: null,
+        reviewedThrough: "2026-10-01",
+        ageDays: 12,
+        stale: false,
+      },
+    },
     { repository: "acme/widgets", asOf: "2026-10-25" },
   );
   assert.deepEqual(withData.data, { version: "2026.10.1", ageDays: 12, stale: false });
@@ -151,7 +169,10 @@ test("long values wrap inside the fact column", () => {
   assert.ok(lines.filter((line) => line.includes("stable")).length >= 2, "the ecosystem list wraps");
   const continuation = lines.findIndex((line, index) => index > 0 && line.includes("python stable"));
   assert.ok(continuation !== -1, "a wrapped ecosystem line exists");
-  assert.ok(lines[continuation]!.indexOf("python stable") >= GLANCE_MARK_COLUMNS, "continuations align at the fact column");
+  assert.ok(
+    lines[continuation]!.indexOf("python stable") >= GLANCE_MARK_COLUMNS,
+    "continuations align at the fact column",
+  );
   for (const line of lines) assert.ok([...line].length <= 80, `line exceeds 80 columns: ${line}`);
 });
 

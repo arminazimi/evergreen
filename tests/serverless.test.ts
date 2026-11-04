@@ -115,7 +115,12 @@ test("matches AWS and Google identifiers by Package URL and ignores Azure versio
       ["serverless.aws-lambda.ruby2.7", "template.yml", 12],
     ],
   );
-  assert.ok(!findings.some((finding) => finding.location.path === "main.tf" && (finding.location.line === 13 || finding.location.line === 23)));
+  assert.ok(
+    !findings.some(
+      (finding) =>
+        finding.location.path === "main.tf" && (finding.location.line === 13 || finding.location.line === 23),
+    ),
+  );
 });
 
 test("a Node.js 12 Lambda runtime is reported, while a lookalike and a supported runtime are not", async () => {
@@ -136,11 +141,16 @@ test("the Python 3.7 rule flags that runtime and not a supported one", async () 
   const fixtures = resolve("tests/fixtures/serverless.aws-lambda.python3.7");
   const match = await serverlessDetector.scan({ root: resolve(fixtures, "match") });
   assert.deepEqual(
-    match.filter((finding) => finding.ruleId === ruleId).map((finding) => [finding.location.path, finding.location.line]),
+    match
+      .filter((finding) => finding.ruleId === ruleId)
+      .map((finding) => [finding.location.path, finding.location.line]),
     [["template.yaml", 6]],
   );
   const clean = await serverlessDetector.scan({ root: resolve(fixtures, "clean") });
-  assert.deepEqual(clean.filter((finding) => finding.ruleId === ruleId), []);
+  assert.deepEqual(
+    clean.filter((finding) => finding.ruleId === ruleId),
+    [],
+  );
 });
 
 test("the first matching rule wins, and a malformed VERS does not hide a later rule", async () => {
@@ -150,10 +160,14 @@ test("the first matching rule wins, and a malformed VERS does not hide a later r
   const detector = new ServerlessDetector(async () => [malformed, earlier, node14]);
   const findings = await detector.scan({
     root: await repository({
-      "template.yaml": "Resources:\n  F:\n    Type: AWS::Serverless::Function\n    Properties:\n      Runtime: nodejs14.x\n",
+      "template.yaml":
+        "Resources:\n  F:\n    Type: AWS::Serverless::Function\n    Properties:\n      Runtime: nodejs14.x\n",
     }),
   });
-  assert.deepEqual(findings.map((finding) => finding.ruleId), ["serverless.aws-lambda.nodejs14.x.earlier"]);
+  assert.deepEqual(
+    findings.map((finding) => finding.ruleId),
+    ["serverless.aws-lambda.nodejs14.x.earlier"],
+  );
 });
 
 test("candidate Package URLs cover AWS Lambda and Google Cloud Functions identifiers", () => {
@@ -179,26 +193,42 @@ test("walks nested manifests and skips symlinks, vendored directories, and depth
   await mkdir(join(root, "linked"));
   await symlink(join(root, "src", "template.yaml"), join(root, "linked", "template.yaml"));
   const findings = await serverlessDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => finding.location.path), ["src/template.yaml"]);
+  assert.deepEqual(
+    findings.map((finding) => finding.location.path),
+    ["src/template.yaml"],
+  );
 });
 
 test("a repository without serverless manifests scans to nothing", async () => {
-  assert.deepEqual(await serverlessDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), { findings: [], unclassified: [] });
+  assert.deepEqual(await serverlessDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), {
+    findings: [],
+    unclassified: [],
+  });
 });
 
 test("the engine attributes a serverless finding to the detector", async () => {
   const result = await scanRepository(resolve(fixtures, "positive"), [serverlessDetector]);
-  assert.ok(result.findings.some((finding) => finding.detector === "serverless" && finding.ruleId === "serverless.aws-lambda.nodejs14.x"));
+  assert.ok(
+    result.findings.some(
+      (finding) => finding.detector === "serverless" && finding.ruleId === "serverless.aws-lambda.nodejs14.x",
+    ),
+  );
 });
 
 test("every curated Serverless rule has migration guidance with real verification commands", async () => {
   for (const rule of await committedRules()) {
     assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
-    if (rule.id.startsWith("serverless.google-cloud-functions.") || rule.id.startsWith("serverless.google-appengine-runtime.")) {
+    if (
+      rule.id.startsWith("serverless.google-cloud-functions.") ||
+      rule.id.startsWith("serverless.google-appengine-runtime.")
+    ) {
       assert.ok(
         rule.migration.verification.length >= 1 &&
           rule.migration.verification.every(
-            (check) => check.command.startsWith("terraform ") && !check.command.includes("sam ") && !check.command.includes("serverless "),
+            (check) =>
+              check.command.startsWith("terraform ") &&
+              !check.command.includes("sam ") &&
+              !check.command.includes("serverless "),
           ),
         `${rule.id}: Google Cloud verification must be Terraform-only`,
       );
@@ -208,14 +238,19 @@ test("every curated Serverless rule has migration guidance with real verificatio
       assert.ok(
         rule.migration.verification.length >= 1 &&
           rule.migration.verification.every(
-            (check) => check.command.startsWith("az ") && !check.command.includes("sam ") && !check.command.includes("serverless "),
+            (check) =>
+              check.command.startsWith("az ") &&
+              !check.command.includes("sam ") &&
+              !check.command.includes("serverless "),
           ),
         `${rule.id}: Azure verification must be Azure CLI only`,
       );
       continue;
     }
     assert.ok(
-      rule.migration.verification.some((check) => check.command === "sam validate || serverless print || terraform validate"),
+      rule.migration.verification.some(
+        (check) => check.command === "sam validate || serverless print || terraform validate",
+      ),
       `${rule.id}: AWS Lambda verification must keep the SAM/Serverless/Terraform chain`,
     );
   }
@@ -229,17 +264,22 @@ test("a migration packet for a Serverless finding names the file, steps, and ver
   assert.ok(packet.affectedFiles.includes("serverless.yml"));
   assert.ok(packet.steps.some((step) => step.id === "raise-lambda-runtime"));
   assert.ok(packet.steps.some((step) => step.id === "align-lambda-runtime-surfaces"));
-  assert.ok(packet.verification.some((check) => check.command === "sam validate || serverless print || terraform validate"));
+  assert.ok(
+    packet.verification.some((check) => check.command === "sam validate || serverless print || terraform validate"),
+  );
 });
 
 test("the detector is registered and serverless is beta in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "serverless"));
-  assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "serverless"), {
-    id: "serverless",
-    status: "supported",
-    maturity: "beta",
-    detectorIds: ["serverless"],
-  });
+  assert.deepEqual(
+    getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "serverless"),
+    {
+      id: "serverless",
+      status: "supported",
+      maturity: "beta",
+      detectorIds: ["serverless"],
+    },
+  );
 });
 
 test("a Terraform resource picks the rule of its own cloud when AWS and Cloud Functions share a runtime id", async () => {

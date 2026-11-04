@@ -20,12 +20,17 @@ export const command: CliCommand = {
       scaffold = await import("../../tools/scaffold/index.js");
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code === "ERR_MODULE_NOT_FOUND") {
-        return ctx.fail("usage", "new-detector is for contributors: run it from a checkout of the Evergreen repository after npm run build.");
+        return ctx.fail(
+          "usage",
+          "new-detector is for contributors: run it from a checkout of the Evergreen repository after npm run build.",
+        );
       }
       throw error;
     }
     try {
-      process.stdout.write(`${scaffold.renderScaffoldResult(await scaffold.scaffoldDetector(id, ecosystem ? { ecosystem } : {}))}\n`);
+      process.stdout.write(
+        `${scaffold.renderScaffoldResult(await scaffold.scaffoldDetector(id, ecosystem ? { ecosystem } : {}))}\n`,
+      );
       return 0;
     } catch (error) {
       if (error instanceof scaffold.ScaffoldError) return ctx.fail("usage", error.message);

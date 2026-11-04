@@ -13,9 +13,7 @@
       },
       "expectedEndState": {
         "description": "Cargo.toml no longer depends on atty; terminal detection uses std::io::IsTerminal or an equivalent maintained API.",
-        "checks": [
-          { "path": "Cargo.toml", "mustNotMatch": "^atty\\s*=" }
-        ]
+        "checks": [{ "path": "Cargo.toml", "mustNotMatch": "^atty\\s*=" }]
       },
       "verification": ["cargo build --all-targets && cargo test"],
       "migrationEvidence": {
@@ -35,9 +33,7 @@
       },
       "expectedEndState": {
         "description": "Cargo.toml no longer depends on ansi_term; styling uses a maintained terminal-styling crate.",
-        "checks": [
-          { "path": "Cargo.toml", "mustNotMatch": "^ansi_term\\s*=" }
-        ]
+        "checks": [{ "path": "Cargo.toml", "mustNotMatch": "^ansi_term\\s*=" }]
       },
       "verification": ["cargo build --all-targets && cargo test"],
       "migrationEvidence": {
@@ -57,9 +53,7 @@
       },
       "expectedEndState": {
         "description": "Cargo.toml no longer depends on ansi_term; styling uses a maintained terminal-styling crate.",
-        "checks": [
-          { "path": "Cargo.toml", "mustNotMatch": "^ansi_term\\s*=" }
-        ]
+        "checks": [{ "path": "Cargo.toml", "mustNotMatch": "^ansi_term\\s*=" }]
       },
       "verification": ["cargo build --all-targets && cargo test"],
       "migrationEvidence": {
@@ -79,9 +73,7 @@
       },
       "expectedEndState": {
         "description": "Cargo.toml no longer depends on atty; terminal detection uses std::io::IsTerminal or an equivalent maintained API.",
-        "checks": [
-          { "path": "Cargo.toml", "mustNotMatch": "^atty\\s*=" }
-        ]
+        "checks": [{ "path": "Cargo.toml", "mustNotMatch": "^atty\\s*=" }]
       },
       "verification": ["cargo test --all --locked"],
       "migrationEvidence": {
@@ -231,9 +223,7 @@
       },
       "expectedEndState": {
         "description": "Sloth.Web no longer targets the retired netcoreapp3.1 runtime, and the solution still builds.",
-        "checks": [
-          { "path": "Sloth.Web/Sloth.Web.csproj", "mustNotMatch": "netcoreapp3\\.1" }
-        ]
+        "checks": [{ "path": "Sloth.Web/Sloth.Web.csproj", "mustNotMatch": "netcoreapp3\\.1" }]
       },
       "verification": ["dotnet build Sloth.sln"],
       "migrationEvidence": {
@@ -382,9 +372,7 @@
       },
       "expectedEndState": {
         "description": ".ruby-version no longer pins the retired Ruby 3.0 line.",
-        "checks": [
-          { "path": ".ruby-version", "mustNotMatch": "^3\\.0\\." }
-        ]
+        "checks": [{ "path": ".ruby-version", "mustNotMatch": "^3\\.0\\." }]
       },
       "verification": ["bundle install && bundle exec rake test"],
       "migrationEvidence": {
@@ -404,9 +392,7 @@
       },
       "expectedEndState": {
         "description": "package.json no longer depends on request; HTTP calls use native fetch or a maintained client.",
-        "checks": [
-          { "path": "package.json", "mustNotMatch": "\"request\":" }
-        ]
+        "checks": [{ "path": "package.json", "mustNotMatch": "\"request\":" }]
       },
       "verification": ["npm ci && npm test"],
       "migrationEvidence": {
@@ -475,9 +461,7 @@
       },
       "expectedEndState": {
         "description": "package.json no longer depends on crypto-js; cryptography uses Web Crypto or a maintained library, and the repository type-checks.",
-        "checks": [
-          { "path": "package.json", "mustNotMatch": "\"(?:@types/)?crypto-js\":" }
-        ]
+        "checks": [{ "path": "package.json", "mustNotMatch": "\"(?:@types/)?crypto-js\":" }]
       },
       "verification": ["yarn install --frozen-lockfile && yarn tsc"],
       "migrationEvidence": {

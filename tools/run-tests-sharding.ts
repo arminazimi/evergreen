@@ -250,7 +250,9 @@ function mergeLcovFileRecords(left: readonly string[], right: readonly string[])
   const fnh = [...fnda.values()].filter((hits) => hits > 0).length;
   out.push(`FNF:${fnda.size}`);
   out.push(`FNH:${fnh}`);
-  for (const [lineNo, hits] of [...da.entries()].sort((a, b) => Number(a[0]) - Number(b[0]) || a[0].localeCompare(b[0]))) {
+  for (const [lineNo, hits] of [...da.entries()].sort(
+    (a, b) => Number(a[0]) - Number(b[0]) || a[0].localeCompare(b[0]),
+  )) {
     out.push(`DA:${lineNo},${hits}`);
   }
   const lh = [...da.values()].filter((hits) => hits > 0).length;

@@ -19,7 +19,10 @@ const FONT_SANS = "Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, Sego
 const FONT_CARD = "Verdana,Geneva,DejaVu Sans,sans-serif";
 
 const escape = (value: string): string =>
-  value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!);
+  value.replace(
+    /[&<>"']/g,
+    (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!,
+  );
 
 const isDate = (value: string | undefined): value is string => value !== undefined && /^\d{4}-\d{2}-\d{2}$/.test(value);
 
@@ -106,7 +109,10 @@ const renderSocial = ({ repository, message, color, description, metrics }: Card
  * A static SVG summary of one scan: findings, the next dated end of life, and the age of the data.
  * Reads only the scan result, so the same input always renders the same bytes.
  */
-export function renderStatusCard(result: Pick<ScanResult, "findings" | "data">, options: StatusCardOptions = {}): string {
+export function renderStatusCard(
+  result: Pick<ScanResult, "findings" | "data">,
+  options: StatusCardOptions = {},
+): string {
   const body = content(result, options);
   return options.size === "social" ? renderSocial(body) : renderCompact(body);
 }

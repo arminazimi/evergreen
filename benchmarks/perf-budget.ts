@@ -196,7 +196,8 @@ function parseArgv(argv: readonly string[]): CliOptions {
     return Number(raw);
   };
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === "--max-wall-ms") draft.budget = { ...(draft.budget ?? PERF_BUDGET), maxMeanWallMs: number("--max-wall-ms") };
+    if (argv[i] === "--max-wall-ms")
+      draft.budget = { ...(draft.budget ?? PERF_BUDGET), maxMeanWallMs: number("--max-wall-ms") };
     else if (argv[i] === "--max-rss-mb")
       draft.budget = { ...(draft.budget ?? PERF_BUDGET), maxPeakRssBytes: number("--max-rss-mb") * 1024 * 1024 };
     else if (argv[i] === "--warmup") draft.warmupRuns = number("--warmup");

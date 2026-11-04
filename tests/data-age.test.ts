@@ -34,8 +34,14 @@ const scratch = async (name: string) => {
 async function project(): Promise<string> {
   const directory = await scratch("project");
   await mkdir(join(directory, ".github", "workflows"), { recursive: true });
-  await writeFile(join(directory, "package.json"), JSON.stringify({ name: "demo", dependencies: { request: "^2.88.2" } }));
-  await writeFile(join(directory, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
+  await writeFile(
+    join(directory, "package.json"),
+    JSON.stringify({ name: "demo", dependencies: { request: "^2.88.2" } }),
+  );
+  await writeFile(
+    join(directory, ".github", "workflows", "ci.yml"),
+    "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n",
+  );
   return directory;
 }
 
@@ -61,7 +67,14 @@ const validateScan = ajv.getSchema("https://github.com/arminazimi/evergreen/sche
 test("a scan says which data it used and how old it is, in JSON and text", async () => {
   const result = await scanRepository(await project(), builtInDetectors);
   assert.equal(validateScan(JSON.parse(JSON.stringify(result))), true, JSON.stringify(validateScan.errors));
-  assert.deepEqual(Object.keys(result.data!).sort(), ["ageDays", "createdAt", "reviewedThrough", "source", "stale", "version"]);
+  assert.deepEqual(Object.keys(result.data!).sort(), [
+    "ageDays",
+    "createdAt",
+    "reviewedThrough",
+    "source",
+    "stale",
+    "version",
+  ]);
   assert.equal(result.data!.source, "bundled");
   assert.equal(result.data!.stale, false);
   assert.ok(Number.isInteger(result.data!.ageDays));
@@ -87,7 +100,10 @@ test("data older than 30 days is flagged everywhere a result is shown", async ()
   const check = await checkDependency("pkg:npm/request@2.88.2");
   assert.equal(check.data!.stale, true);
   assert.match(renderCheckText(check), /Data: pinned .+, stale\n/);
-  assert.match(renderCheckText(check), /Warning: The lifecycle data is \d+ days old \(stale after 30\), so this answer may miss recent changes\. Run "evergreen data update"\./);
+  assert.match(
+    renderCheckText(check),
+    /Warning: The lifecycle data is \d+ days old \(stale after 30\), so this answer may miss recent changes\. Run "evergreen data update"\./,
+  );
 
   const list = await new EvergreenAgentTools().list(root);
   assert.deepEqual(list.data, result.data);
@@ -102,8 +118,14 @@ test("fresh data produces no warning on any surface", async () => {
 
 test("SARIF records which data was used without anything that changes with the calendar", async () => {
   const result = await scanRepository(await project(), builtInDetectors);
-  const sarif = JSON.parse(renderSarif(result)) as { runs: Array<{ properties: { evergreenData: Record<string, string> } }> };
-  assert.deepEqual(Object.keys(sarif.runs[0]!.properties.evergreenData).sort(), ["reviewedThrough", "source", "version"]);
+  const sarif = JSON.parse(renderSarif(result)) as {
+    runs: Array<{ properties: { evergreenData: Record<string, string> } }>;
+  };
+  assert.deepEqual(Object.keys(sarif.runs[0]!.properties.evergreenData).sort(), [
+    "reviewedThrough",
+    "source",
+    "version",
+  ]);
   assert.equal(sarif.runs[0]!.properties.evergreenData.version, result.data!.version);
   const later = { ...result, data: { ...result.data!, ageDays: result.data!.ageDays + 400, stale: true } };
   assert.equal(renderSarif(later), renderSarif(result), "the SARIF file does not depend on the data's age");
@@ -125,7 +147,14 @@ test("the CLI and the Action carry the data information too", async () => {
   // (release tags do), and this test is about what the Action reports, not about how it is packaged.
   // Keep a real spawn: github-action process boundary.
   const output = await execute(process.execPath, [resolve("dist/src/action.js")], {
-    env: { ...process.env, INPUT_PATH: directory, "INPUT_FAIL-ON-SEVERITY": "none", GITHUB_STEP_SUMMARY: summary, RUNNER_TEMP: await scratch("temp"), GITHUB_WORKSPACE: directory },
+    env: {
+      ...process.env,
+      INPUT_PATH: directory,
+      "INPUT_FAIL-ON-SEVERITY": "none",
+      GITHUB_STEP_SUMMARY: summary,
+      RUNNER_TEMP: await scratch("temp"),
+      GITHUB_WORKSPACE: directory,
+    },
   });
   assert.match(await readFile(summary, "utf8"), /Data: bundled .+evidence reviewed through \d{4}-\d{2}-\d{2}/);
   assert.doesNotMatch(output.stdout, /::warning title=Evergreen lifecycle data is stale/);

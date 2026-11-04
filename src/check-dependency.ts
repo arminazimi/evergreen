@@ -101,7 +101,12 @@ function bySeverity(left: DependencyFinding, right: DependencyFinding): number {
   );
 }
 
-function summarize(status: CheckStatus, purl: string, version: string | undefined, findings: DependencyFinding[]): string {
+function summarize(
+  status: CheckStatus,
+  purl: string,
+  version: string | undefined,
+  findings: DependencyFinding[],
+): string {
   const subject = version ? `${purl}@${version}` : purl;
   const top = findings[0];
   switch (status) {
@@ -144,7 +149,9 @@ export function checkAgainst(rules: readonly RegistryV2Rule[], input: CheckDepen
     try {
       matching = candidates.filter((rule) => versContains(rule.vers, version));
     } catch (error) {
-      throw new CheckDependencyError(`"${rawVersion}" is not a valid version for ${identity}: ${error instanceof Error ? error.message : String(error)}`);
+      throw new CheckDependencyError(
+        `"${rawVersion}" is not a valid version for ${identity}: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
     status = matching.length > 0 ? "affected" : "not-affected";
   }

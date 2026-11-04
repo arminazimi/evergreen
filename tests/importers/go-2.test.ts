@@ -43,7 +43,8 @@ test("only a Deprecated paragraph adjacent to the module directive is authoritat
     async fetchText(url) {
       if (url === "https://go.dev/ref/mod") return '<h4 id="go-mod-file-module-deprecation">Deprecated:</h4>';
       if (url === latestUrl(candidate)) return JSON.stringify({ Version: version });
-      if (url === goModUrl(candidate, version)) return "// Deprecated: use example.com/new/module instead.\n// Continue migration there.\nmodule example.com/old/module\n";
+      if (url === goModUrl(candidate, version))
+        return "// Deprecated: use example.com/new/module instead.\n// Continue migration there.\nmodule example.com/old/module\n";
       if (url.endsWith("/@latest")) return JSON.stringify({ Version: version });
       return "// Deprecated: mentioned elsewhere, not the module declaration.\n\nmodule example.com/active\n";
     },
@@ -61,5 +62,7 @@ test("a changed policy page fails closed instead of guessing deprecations", asyn
     fetchText: async () => "<html>reference moved</html>",
   });
   assert.deepEqual(result.rules, []);
-  assert.deepEqual(result.notes, ["The Go module reference no longer describes module deprecation comments; no drafts were produced."]);
+  assert.deepEqual(result.notes, [
+    "The Go module reference no longer describes module deprecation comments; no drafts were produced.",
+  ]);
 });

@@ -12,7 +12,13 @@ import { EvergreenAgentTools } from "../src/agent-tools.js";
 import { checkDependency } from "../src/check-dependency.js";
 import { buildDataBundle, serializeDataBundle } from "../src/data-bundle.js";
 import { verifyArtifactSignature } from "../src/data-signature.js";
-import { ACTIVE_FILE, BUNDLE_FILE, cachedBundleDirectory, configureActiveData, SIGNATURE_FILE } from "../src/data-source.js";
+import {
+  ACTIVE_FILE,
+  BUNDLE_FILE,
+  cachedBundleDirectory,
+  configureActiveData,
+  SIGNATURE_FILE,
+} from "../src/data-source.js";
 import { getDataStatus } from "../src/data-status.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
@@ -33,16 +39,32 @@ const scratch = async (name: string) => {
 
 async function sourceFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
-  const nested = await Promise.all(entries.map((entry) => (entry.isDirectory() ? sourceFiles(join(directory, entry.name)) : entry.name.endsWith(".ts") ? [join(directory, entry.name)] : [])));
+  const nested = await Promise.all(
+    entries.map((entry) =>
+      entry.isDirectory()
+        ? sourceFiles(join(directory, entry.name))
+        : entry.name.endsWith(".ts")
+          ? [join(directory, entry.name)]
+          : [],
+    ),
+  );
   return nested.flat();
 }
 
-const NETWORK_USE = /node:(?:https?|net|tls|dns|dgram|http2)\b|from ["'](?:https?|net|tls|dns|dgram|http2)["']|\bfetch\(|undici|WebSocket|XMLHttpRequest/;
+const NETWORK_USE =
+  /node:(?:https?|net|tls|dns|dgram|http2)\b|from ["'](?:https?|net|tls|dns|dgram|http2)["']|\bfetch\(|undici|WebSocket|XMLHttpRequest/;
 
 test("only the update command, the CLI entry point, and the Action's GitHub API calls can reach the network in the source tree", async () => {
   const using: string[] = [];
-  for (const file of await sourceFiles(resolve("src"))) if (NETWORK_USE.test(await readFile(file, "utf8"))) using.push(relative(process.cwd(), file).replaceAll("\\", "/"));
-  assert.deepEqual(using.sort(), ["src/action-fix-pr.ts", "src/action-tracking-issue.ts", "src/commands/data.ts", "src/data-update.ts", "src/pr-comment.ts"]);
+  for (const file of await sourceFiles(resolve("src")))
+    if (NETWORK_USE.test(await readFile(file, "utf8"))) using.push(relative(process.cwd(), file).replaceAll("\\", "/"));
+  assert.deepEqual(using.sort(), [
+    "src/action-fix-pr.ts",
+    "src/action-tracking-issue.ts",
+    "src/commands/data.ts",
+    "src/data-update.ts",
+    "src/pr-comment.ts",
+  ]);
   // The data command only imports `http` to configure proxy support inside `data update`.
   const cli = await readFile(resolve("src/commands/data.ts"), "utf8");
   assert.equal((cli.match(/fetch\(/g) ?? []).length, 0);
@@ -56,7 +78,11 @@ test("the signature verification libraries contain no network code", async () =>
     assert.ok(files.length > 0, name);
     for (const file of files) {
       const text = await readFile(join(directory, file), "utf8");
-      assert.doesNotMatch(text, /require\(["'](?:node:)?(?:https?|net|tls|dns|dgram|http2)["']\)|\bfetch\(/, `@sigstore/${name}/${file}`);
+      assert.doesNotMatch(
+        text,
+        /require\(["'](?:node:)?(?:https?|net|tls|dns|dgram|http2)["']\)|\bfetch\(/,
+        `@sigstore/${name}/${file}`,
+      );
     }
   }
 });
@@ -94,9 +120,15 @@ function trapNetwork(): Trap {
 async function projectWithEverything(): Promise<string> {
   const project = await scratch("project");
   await mkdir(join(project, ".github", "workflows"), { recursive: true });
-  await writeFile(join(project, "package.json"), JSON.stringify({ name: "demo", engines: { node: "18" }, dependencies: { request: "^2.88.2" } }));
+  await writeFile(
+    join(project, "package.json"),
+    JSON.stringify({ name: "demo", engines: { node: "18" }, dependencies: { request: "^2.88.2" } }),
+  );
   await writeFile(join(project, "requirements.txt"), "nose==1.3.7\n");
-  await writeFile(join(project, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n      - uses: actions/setup-python@v4\n");
+  await writeFile(
+    join(project, ".github", "workflows", "ci.yml"),
+    "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n      - uses: actions/setup-python@v4\n",
+  );
   return project;
 }
 
@@ -117,7 +149,10 @@ async function cacheWithUnverifiableBundle(): Promise<string> {
 test("the trap really catches network use", async () => {
   const trap = trapNetwork();
   try {
-    await assert.rejects(Promise.resolve().then(() => fetch("http://127.0.0.1:9/")), /Network access during a scan/);
+    await assert.rejects(
+      Promise.resolve().then(() => fetch("http://127.0.0.1:9/")),
+      /Network access during a scan/,
+    );
     assert.throws(() => net.connect(9, "127.0.0.1"), /Network access during a scan/);
     assert.throws(() => dns.lookup("example.com", () => undefined), /Network access during a scan/);
   } finally {
@@ -134,7 +169,11 @@ test("scans, checks, MCP-style tools, status, and signature verification make no
   try {
     const result = await scanRepository(project, builtInDetectors);
     assert.ok(result.findings.length >= 4, "the scan really found things");
-    assert.match(result.diagnostics.join("\n"), /Ignoring downloaded lifecycle data 2999\.01\.01/, "the cache was loaded and verified");
+    assert.match(
+      result.diagnostics.join("\n"),
+      /Ignoring downloaded lifecycle data 2999\.01\.01/,
+      "the cache was loaded and verified",
+    );
 
     assert.equal((await checkDependency("pkg:npm/request@2.88.2")).status, "affected");
     const tools = new EvergreenAgentTools();
@@ -145,7 +184,13 @@ test("scans, checks, MCP-style tools, status, and signature verification make no
 
     const artifact = await readFile(resolve("tests/fixtures/sigstore/cosign_checksums.txt"));
     const signature = await readFile(resolve("tests/fixtures/sigstore/cosign_checksums.txt.sigstore.json"), "utf8");
-    assert.equal(verifyArtifactSignature(artifact, signature, { issuer: "https://accounts.google.com", identityPattern: "^keyless@projectsigstore\\.iam\\.gserviceaccount\\.com$" }).issuer, "https://accounts.google.com");
+    assert.equal(
+      verifyArtifactSignature(artifact, signature, {
+        issuer: "https://accounts.google.com",
+        identityPattern: "^keyless@projectsigstore\\.iam\\.gserviceaccount\\.com$",
+      }).issuer,
+      "https://accounts.google.com",
+    );
   } finally {
     trap.restore();
   }
@@ -175,14 +220,24 @@ globalThis.fetch = function (input, ...rest) { record("fetch " + input); return 
   const run = async (args: string[], extra: Record<string, string> = {}) => {
     await writeFile(log, "");
     try {
-      await execute(process.execPath, [resolve("dist/src/cli.js"), ...args], { env: { ...process.env, EVERGREEN_DATA_DIR: cache, NODE_OPTIONS: `--require ${preload}`, ...extra } });
+      await execute(process.execPath, [resolve("dist/src/cli.js"), ...args], {
+        env: { ...process.env, EVERGREEN_DATA_DIR: cache, NODE_OPTIONS: `--require ${preload}`, ...extra },
+      });
     } catch {
       // Exit codes do not matter here; only what the process tried to reach does.
     }
     return (await readFile(log, "utf8")).split("\n").filter(Boolean);
   };
 
-  const findingId = (JSON.parse((await execute(process.execPath, [resolve("dist/src/cli.js"), "scan", project, "--json"], { env: { ...process.env, EVERGREEN_DATA_DIR: cache } }).catch((error: { stdout: string }) => error)).stdout) as { findings: Array<{ id: string }> }).findings[0]!.id;
+  const findingId = (
+    JSON.parse(
+      (
+        await execute(process.execPath, [resolve("dist/src/cli.js"), "scan", project, "--json"], {
+          env: { ...process.env, EVERGREEN_DATA_DIR: cache },
+        }).catch((error: { stdout: string }) => error)
+      ).stdout,
+    ) as { findings: Array<{ id: string }> }
+  ).findings[0]!.id;
   for (const args of [
     ["scan", project, "--json"],
     ["scan", project, "--format", "sarif"],
@@ -194,8 +249,12 @@ globalThis.fetch = function (input, ...rest) { record("fetch " + input); return 
     ["doctor", project],
     ["capabilities", "--json"],
     ["data", "status"],
-  ]) assert.deepEqual(await run(args), [], `evergreen ${args[0]} reached the network`);
+  ])
+    assert.deepEqual(await run(args), [], `evergreen ${args[0]} reached the network`);
 
   const update = await run(["data", "update"], { EVERGREEN_DATA_URL: "http://127.0.0.1:9/releases" });
-  assert.ok(update.some((entry) => entry.startsWith("fetch ") || entry.startsWith("connect ")), `data update is the one command that uses the network: ${update.join(", ")}`);
+  assert.ok(
+    update.some((entry) => entry.startsWith("fetch ") || entry.startsWith("connect ")),
+    `data update is the one command that uses the network: ${update.join(", ")}`,
+  );
 });

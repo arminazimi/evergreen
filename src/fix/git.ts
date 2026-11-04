@@ -29,7 +29,11 @@ async function git(root: string, args: string[], input?: string): Promise<string
  * `git branch -D`. It refuses a repository with uncommitted changes, never touches a remote, and restores the
  * original checkout if the patches do not apply.
  */
-export async function applyOnBranch(root: string, patches: FilePatch[], branch: string = FIX_BRANCH): Promise<BranchResult> {
+export async function applyOnBranch(
+  root: string,
+  patches: FilePatch[],
+  branch: string = FIX_BRANCH,
+): Promise<BranchResult> {
   try {
     await git(root, ["rev-parse", "--is-inside-work-tree"]);
   } catch {

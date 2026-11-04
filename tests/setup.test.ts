@@ -119,7 +119,10 @@ test("the command prints a plan with --dry-run, needs --yes without a terminal, 
   assert.equal(dry.code, 0, dry.stderr);
   assert.match(dry.stdout, /Would create CLAUDE\.md/);
   assert.match(dry.stdout, /Skill install \(supported hosts\):/);
-  assert.match(dry.stdout, /Claude Code: npx skills add arminazimi\/evergreen --agent claude-code --skill evergreen-deprecation --yes/);
+  assert.match(
+    dry.stdout,
+    /Claude Code: npx skills add arminazimi\/evergreen --agent claude-code --skill evergreen-deprecation --yes/,
+  );
   assert.match(dry.stdout, /Dry run: nothing was written/);
   await assert.rejects(readFile(join(root, "CLAUDE.md"), "utf8"));
 

@@ -9,7 +9,9 @@ const SLACK_SECTION_MAX = 3000;
 
 /** The findings most severe first, in the same order `--format compact` uses. */
 export function sortedFindings(result: ScanResult): Finding[] {
-  return [...result.findings].sort((left, right) => severityRank(right.severity) - severityRank(left.severity) || findingOrder(left, right));
+  return [...result.findings].sort(
+    (left, right) => severityRank(right.severity) - severityRank(left.severity) || findingOrder(left, right),
+  );
 }
 
 /** One line of counts, such as "Evergreen: 3 findings (high 2, low 1)". It names no path and no time, so it is deterministic. */
@@ -71,7 +73,15 @@ export function renderSlack(result: ScanResult): string {
   ];
   const omitted = findings.length - CHAT_MAX_FINDINGS;
   if (omitted > 0) {
-    blocks.push({ type: "context", elements: [{ type: "mrkdwn", text: escapeSlack(`${omitted} more finding${omitted === 1 ? "" : "s"} omitted; use --format json for all.`) }] });
+    blocks.push({
+      type: "context",
+      elements: [
+        {
+          type: "mrkdwn",
+          text: escapeSlack(`${omitted} more finding${omitted === 1 ? "" : "s"} omitted; use --format json for all.`),
+        },
+      ],
+    });
   }
   return JSON.stringify({ text: headline, blocks }, null, 2);
 }
@@ -99,7 +109,12 @@ export function renderTeams(result: ScanResult): string {
   ];
   const omitted = findings.length - CHAT_MAX_FINDINGS;
   if (omitted > 0) {
-    body.push({ type: "TextBlock", text: escapeMarkdown(`${omitted} more finding${omitted === 1 ? "" : "s"} omitted; use --format json for all.`), wrap: true, isSubtle: true });
+    body.push({
+      type: "TextBlock",
+      text: escapeMarkdown(`${omitted} more finding${omitted === 1 ? "" : "s"} omitted; use --format json for all.`),
+      wrap: true,
+      isSubtle: true,
+    });
   }
   const message = {
     type: "message",
@@ -107,7 +122,12 @@ export function renderTeams(result: ScanResult): string {
       {
         contentType: "application/vnd.microsoft.card.adaptive",
         contentUrl: null,
-        content: { $schema: "http://adaptivecards.io/schemas/adaptive-card.json", type: "AdaptiveCard", version: "1.4", body },
+        content: {
+          $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+          type: "AdaptiveCard",
+          version: "1.4",
+          body,
+        },
       },
     ],
   };

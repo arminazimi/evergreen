@@ -25,14 +25,20 @@ async function fixtureRepository(): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-mcp-readonly-"));
   temporaryRoots.push(root);
   await mkdir(join(root, ".github", "workflows"), { recursive: true });
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
   await writeFile(
     join(root, "package.json"),
     JSON.stringify({ name: "fixture", version: "1.0.0", dependencies: { request: "2.88.2" } }, null, 2),
   );
   await mkdir(join(root, "src"), { recursive: true });
   await writeFile(join(root, "src", "index.js"), "const request = require('request');\nmodule.exports = request;\n");
-  await writeFile(join(root, "evergreen-baseline.json"), JSON.stringify({ schemaVersion: "evergreen.baseline.v1", findings: [] }));
+  await writeFile(
+    join(root, "evergreen-baseline.json"),
+    JSON.stringify({ schemaVersion: "evergreen.baseline.v1", findings: [] }),
+  );
   return root;
 }
 
@@ -48,7 +54,9 @@ async function snapshot(root: string): Promise<string[]> {
         entries.push(`dir ${name} ${info.mtimeMs}`);
         await walk(path);
       } else {
-        const digest = createHash("sha256").update(await readFile(path)).digest("hex");
+        const digest = createHash("sha256")
+          .update(await readFile(path))
+          .digest("hex");
         entries.push(`file ${name} ${info.size} ${info.mtimeMs} ${digest}`);
       }
     }
@@ -101,7 +109,10 @@ test("every MCP tool is annotated read-only and takes no write option", async ()
       annotations?: Record<string, unknown>;
       inputSchema: { properties?: Record<string, unknown> };
     }>;
-    assert.deepEqual(tools.map((tool) => tool.name), [...MCP_TOOL_NAMES]);
+    assert.deepEqual(
+      tools.map((tool) => tool.name),
+      [...MCP_TOOL_NAMES],
+    );
     for (const tool of tools) {
       assert.equal(tool.annotations?.readOnlyHint, true, `${tool.name} must be readOnlyHint`);
       assert.equal(tool.annotations?.destructiveHint, false, `${tool.name} must not be destructive`);
@@ -160,8 +171,15 @@ test("no tool, resource, or prompt changes the repository tree", async () => {
     assert.deepEqual(await snapshot(root), before, "scan_repository with a baseline changed the repository");
 
     await client.request("resources/list");
-    await client.request("resources/read", { uri: `evergreen://findings/${encodeURIComponent(root)}/${encodeURIComponent(findingId)}` }).catch(() => undefined);
-    await client.request("prompts/get", { name: "migrate-finding", arguments: { finding_id: findingId, repository_path: root } });
+    await client
+      .request("resources/read", {
+        uri: `evergreen://findings/${encodeURIComponent(root)}/${encodeURIComponent(findingId)}`,
+      })
+      .catch(() => undefined);
+    await client.request("prompts/get", {
+      name: "migrate-finding",
+      arguments: { finding_id: findingId, repository_path: root },
+    });
     assert.deepEqual(await snapshot(root), before, "resources or prompts changed the repository");
   } finally {
     await client.close();

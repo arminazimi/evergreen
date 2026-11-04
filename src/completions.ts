@@ -133,7 +133,10 @@ complete -o default -F _evergreen evergreen
 const zsh = (): string => {
   const subcommandNames = new Set(withSubcommands(commands).map((command) => command.name));
   const cases = COMMANDS.filter((command) => !subcommandNames.has(command.name))
-    .map(({ name, flags }) => `        ${name}) _arguments ${flags.map((flag) => `'${flag}'`).join(" ")} '*:path:_files' ;;`)
+    .map(
+      ({ name, flags }) =>
+        `        ${name}) _arguments ${flags.map((flag) => `'${flag}'`).join(" ")} '*:path:_files' ;;`,
+    )
     .join("\n");
   const special = withSubcommands(commands)
     .map((command) => `    ${command.name}) compadd ${subcommandWords(command, true)} ;;`)
@@ -168,14 +171,22 @@ const fish = (): string => {
     "complete -c evergreen -f",
     ...COMMANDS.map(({ name }) => `complete -c evergreen -n __fish_use_subcommand -a ${name}`),
     ...globalFlags.map((flag) => `complete -c evergreen -n __fish_use_subcommand -l ${flag.slice(2)}`),
-    ...withSubcommands(commands).map((command) => `complete -c evergreen -n '__fish_seen_subcommand_from ${command.name}' -a '${subcommandWords(command, false)}'`),
+    ...withSubcommands(commands).map(
+      (command) =>
+        `complete -c evergreen -n '__fish_seen_subcommand_from ${command.name}' -a '${subcommandWords(command, false)}'`,
+    ),
     `complete -c evergreen -n '__fish_seen_subcommand_from scan check' -l fail-on -x -a '${severities}'`,
     `complete -c evergreen -n '__fish_seen_subcommand_from scan' -l format -x -a '${formats}'`,
     `complete -c evergreen -n '__fish_seen_subcommand_from forecast' -l format -x -a '${formats}'`,
     `complete -c evergreen -n '__fish_seen_subcommand_from scan' -l on-expired -x -a 'resurface fail'`,
     ...COMMANDS.flatMap(({ name, flags }) =>
       flags
-        .filter((flag) => !(flag === "--fail-on" && (name === "scan" || name === "check")) && !(flag === "--format" && name === "scan") && !(flag === "--on-expired" && name === "scan"))
+        .filter(
+          (flag) =>
+            !(flag === "--fail-on" && (name === "scan" || name === "check")) &&
+            !(flag === "--format" && name === "scan") &&
+            !(flag === "--on-expired" && name === "scan"),
+        )
         .map((flag) => `complete -c evergreen -n '__fish_seen_subcommand_from ${name}' -l ${flag.slice(2)}`),
     ),
   ];

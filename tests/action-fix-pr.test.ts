@@ -65,7 +65,11 @@ interface RecordedCall {
 /** Answers the pulls API in memory and records every request, so the tests never open a socket. */
 function stubGitHub(initial: PullRequestState[] = []): { calls: RecordedCall[]; restore: () => void } {
   const calls: RecordedCall[] = [];
-  let pulls = initial.map((pull) => ({ ...pull, head: { ref: "evergreen/fixes" }, html_url: `https://github.com/o/r/pull/${pull.number}` }));
+  let pulls = initial.map((pull) => ({
+    ...pull,
+    head: { ref: "evergreen/fixes" },
+    html_url: `https://github.com/o/r/pull/${pull.number}`,
+  }));
   let next = 7;
   const realFetch = globalThis.fetch;
   globalThis.fetch = (async (input: string | URL | Request, init?: RequestInit) => {
@@ -75,7 +79,12 @@ function stubGitHub(initial: PullRequestState[] = []): { calls: RecordedCall[]; 
     calls.push({ method, path: `${url.pathname}${url.search}`, ...(body === undefined ? {} : { body }) });
     if (method === "GET") return Response.json(pulls);
     if (method === "POST") {
-      const pull = { number: next, state: "open" as const, head: { ref: "evergreen/fixes" }, html_url: `https://github.com/o/r/pull/${next}` };
+      const pull = {
+        number: next,
+        state: "open" as const,
+        head: { ref: "evergreen/fixes" },
+        html_url: `https://github.com/o/r/pull/${next}`,
+      };
       next += 1;
       pulls = [pull, ...pulls];
       return Response.json(pull);
@@ -105,7 +114,9 @@ test("the pull request body lists every fix with its location and evidence link"
     id: "github-actions.checkout.node20:.github/workflows/ci.yml:4",
     title: "Unsupported actions/checkout runtime",
     location: { path: ".github/workflows/ci.yml", line: 4 },
-    sources: [{ title: "Node 20 is no longer available in GitHub Actions", url: "https://github.blog/changelog/node-20" }],
+    sources: [
+      { title: "Node 20 is no longer available in GitHub Actions", url: "https://github.blog/changelog/node-20" },
+    ],
   } as unknown as Finding;
   const body = renderFixPullRequestBody(
     [finding],
@@ -116,7 +127,10 @@ test("the pull request body lists every fix with its location and evidence link"
 
   assert.match(body, /^## Evergreen lifecycle fixes\n/);
   assert.match(body, /applies \*\*1\*\* deterministic lifecycle fix\b/);
-  assert.match(body, /\| Unsupported actions\/checkout runtime \| `\.github\/workflows\/ci\.yml:4` \| \[Node 20 is no longer available in GitHub Actions\]\(https:\/\/github\.blog\/changelog\/node-20\) \|/);
+  assert.match(
+    body,
+    /\| Unsupported actions\/checkout runtime \| `\.github\/workflows\/ci\.yml:4` \| \[Node 20 is no longer available in GitHub Actions\]\(https:\/\/github\.blog\/changelog\/node-20\) \|/,
+  );
   assert.match(body, /`npm test` — Run the test suite/);
   assert.doesNotMatch(body, /Scanned by/);
   assert.match(renderFixPullRequestBody([finding], [], [], true), /Scanned by \[Evergreen\]/);
@@ -133,7 +147,10 @@ test("the first run opens one pull request with every fix and a second run updat
     assert.equal(first.status, "opened");
     assert.equal(first.number, 7);
     assert.equal(first.fixes, 1);
-    assert.match(execFileSync("git", ["--git-dir", remote, "show-ref", "refs/heads/evergreen/fixes"], { encoding: "utf8" }), /refs\/heads\/evergreen\/fixes/);
+    assert.match(
+      execFileSync("git", ["--git-dir", remote, "show-ref", "refs/heads/evergreen/fixes"], { encoding: "utf8" }),
+      /refs\/heads\/evergreen\/fixes/,
+    );
 
     const created = github.calls.filter((call) => call.method === "POST");
     assert.equal(created.length, 1);
@@ -167,7 +184,10 @@ test("a run with nothing to fix opens no pull request and closes the one it left
   try {
     const done = await publishFixPullRequest(result, target(root));
     assert.equal(done.status, "nothing");
-    assert.deepEqual(quiet.calls.map((call) => call.method), ["GET"]);
+    assert.deepEqual(
+      quiet.calls.map((call) => call.method),
+      ["GET"],
+    );
   } finally {
     quiet.restore();
   }
@@ -236,7 +256,9 @@ async function runAction(root: string, inputs: Record<string, string>): Promise<
   });
   child.stdout.setEncoding("utf8");
   let stdout = "";
-  child.stdout.on("data", (chunk: string) => { stdout += chunk; });
+  child.stdout.on("data", (chunk: string) => {
+    stdout += chunk;
+  });
   const code = await new Promise<number>((resolveCode, reject) => {
     child.once("error", reject);
     child.once("close", (status) => resolveCode(status ?? 1));
@@ -254,7 +276,10 @@ test("the Action skips fix-pr on events other than schedule and workflow_dispatc
   });
 
   assert.equal(run.code, 0);
-  assert.match(run.stdout, /::notice title=Evergreen fix pull request skipped::fix-pr runs on schedule and workflow_dispatch events/);
+  assert.match(
+    run.stdout,
+    /::notice title=Evergreen fix pull request skipped::fix-pr runs on schedule and workflow_dispatch events/,
+  );
   assert.equal(git(root, ["branch", "--list", "evergreen/fixes"]).trim(), "");
 });
 

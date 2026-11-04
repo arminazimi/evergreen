@@ -30,19 +30,10 @@ test("CLI scans, explains, creates context, and suppresses baseline findings", a
   const result = JSON.parse(firstScan.stdout) as { findings: Array<{ id: string }> };
   assert.equal(result.findings.length, 2);
 
-  const explanation = await runCli([
-    "explain",
-    result.findings[0]?.id ?? "",
-    root,
-  ]);
+  const explanation = await runCli(["explain", result.findings[0]?.id ?? "", root]);
   assert.match(explanation.stdout, /Sources:/);
 
-  const context = await runCli([
-    "context",
-    result.findings[0]?.id ?? "",
-    root,
-    "--json",
-  ]);
+  const context = await runCli(["context", result.findings[0]?.id ?? "", root, "--json"]);
   const packet = JSON.parse(context.stdout) as {
     schemaVersion: string;
     affectedFiles: string[];
@@ -62,13 +53,7 @@ test("CLI scans, explains, creates context, and suppresses baseline findings", a
   const baseline = JSON.parse(await readFile(baselinePath, "utf8")) as { findings: unknown[] };
   assert.equal(baseline.findings.length, 2);
 
-  const filteredScan = await runCli([
-    "scan",
-    root,
-    "--baseline",
-    baselinePath,
-    "--json",
-  ]);
+  const filteredScan = await runCli(["scan", root, "--baseline", baselinePath, "--json"]);
   const filtered = JSON.parse(filteredScan.stdout) as { findings: unknown[]; diagnostics: string[] };
   assert.deepEqual(filtered.findings, []);
   assert.match(filtered.diagnostics.at(-1) ?? "", /Suppressed 2 findings/);
@@ -135,13 +120,16 @@ test("CLI scan --demo scans an in-memory fixture without shipping a manifest", a
   assert.equal(scan.schemaVersion, "evergreen.scan.v1");
   assert.equal(scan.root, "demo");
   assert.equal(scan.findings.length, 5);
-  assert.deepEqual(scan.findings.map((finding) => finding.ruleId), [
-    "github-actions.checkout.node20",
-    "nodejs.runtime.eol-18",
-    "nodejs.runtime.eol-19",
-    "nodejs.runtime.eol-20",
-    "npm.package.request.deprecated",
-  ]);
+  assert.deepEqual(
+    scan.findings.map((finding) => finding.ruleId),
+    [
+      "github-actions.checkout.node20",
+      "nodejs.runtime.eol-18",
+      "nodejs.runtime.eol-19",
+      "nodejs.runtime.eol-20",
+      "npm.package.request.deprecated",
+    ],
+  );
 
   const invalidUsage = await runFailing(["check", "--demo", "pkg:npm/request@2.88.2"]);
   assert.equal(invalidUsage.code, 2);

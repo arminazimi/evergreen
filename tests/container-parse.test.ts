@@ -23,7 +23,10 @@ test("parses FROM lines with stage names, platforms, and qualified references", 
   assert.deepEqual(parseDockerfile(await fixture("positive", "api.Dockerfile")), [
     { kind: "image", value: "postgres:11.5-bullseye", line: 1 },
   ]);
-  assert.equal(parseDockerfile(await fixture("positive", "Containerfile"))[0]?.value.startsWith("redis:5@sha256:"), true);
+  assert.equal(
+    parseDockerfile(await fixture("positive", "Containerfile"))[0]?.value.startsWith("redis:5@sha256:"),
+    true,
+  );
 });
 
 test("reports dynamic references and skips comments, scratch, stages, and RUN strings", async () => {
@@ -76,7 +79,9 @@ test("reports MAINTAINER and the legacy ENV form with exact lines and values", (
     "",
   ].join("\n");
   assert.deepEqual(
-    parseDockerfile(contents).filter((declaration) => declaration.kind === "maintainer" || declaration.kind === "legacy-env"),
+    parseDockerfile(contents).filter(
+      (declaration) => declaration.kind === "maintainer" || declaration.kind === "legacy-env",
+    ),
     [
       { kind: "maintainer", value: "Evergreen Team <team@example.com>", line: 2 },
       { kind: "legacy-env", key: "NODE_ENV", value: "production", line: 3 },

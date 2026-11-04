@@ -3,11 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import {
-  MAXIMUM_INPUT_BYTES,
-  parseFvmConfigJson,
-  parseFvmrc,
-} from "../src/detectors/dart/parse-fvm.js";
+import { MAXIMUM_INPUT_BYTES, parseFvmConfigJson, parseFvmrc } from "../src/detectors/dart/parse-fvm.js";
 
 const fixtures = resolve("tests/fixtures/dart");
 
@@ -17,13 +13,9 @@ async function fixture(path: string): Promise<string> {
 
 test("parses modern and legacy FVM pins with exact lines", async () => {
   assert.deepEqual(parseFvmrc(await fixture("positive/.fvmrc")), [{ value: "3.7.12", line: 2 }]);
-  assert.deepEqual(parseFvmConfigJson(await fixture("positive/.fvm/fvm_config.json")), [
-    { value: "3.7.12", line: 2 },
-  ]);
+  assert.deepEqual(parseFvmConfigJson(await fixture("positive/.fvm/fvm_config.json")), [{ value: "3.7.12", line: 2 }]);
   assert.deepEqual(parseFvmrc(await fixture("zero/.fvmrc")), [{ value: "3.47.7", line: 2 }]);
-  assert.deepEqual(parseFvmConfigJson(await fixture("zero/.fvm/fvm_config.json")), [
-    { value: "3.47.7", line: 2 },
-  ]);
+  assert.deepEqual(parseFvmConfigJson(await fixture("zero/.fvm/fvm_config.json")), [{ value: "3.47.7", line: 2 }]);
 });
 
 test("ignores channels, flavors, unrelated keys, and the other FVM file shape", async () => {
@@ -56,9 +48,7 @@ test("returns nothing for dynamic and unsupported pin forms", () => {
 });
 
 test("accepts prerelease, build metadata, CRLF, and a byte order mark", () => {
-  assert.deepEqual(parseFvmrc('{\r\n  "flutter": "3.24.0-0.1.pre"\r\n}\r\n'), [
-    { value: "3.24.0-0.1.pre", line: 2 },
-  ]);
+  assert.deepEqual(parseFvmrc('{\r\n  "flutter": "3.24.0-0.1.pre"\r\n}\r\n'), [{ value: "3.24.0-0.1.pre", line: 2 }]);
   assert.deepEqual(parseFvmConfigJson('\uFEFF{\n  "flutterSdkVersion": "3.7.12+hotfix.1"\n}\n'), [
     { value: "3.7.12+hotfix.1", line: 2 },
   ]);

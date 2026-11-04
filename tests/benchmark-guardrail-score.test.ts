@@ -30,10 +30,7 @@ test("each outcome is reachable from a task and the added package URLs", () => {
 });
 
 test("adding the deprecated package wins over a replacement in the same attempt", () => {
-  assert.equal(
-    scoreAttempt({ task: jade, addedPurls: ["pkg:npm/pug", "pkg:npm/jade"] }),
-    "added-deprecated",
-  );
+  assert.equal(scoreAttempt({ task: jade, addedPurls: ["pkg:npm/pug", "pkg:npm/jade"] }), "added-deprecated");
 });
 
 test("purl comparison ignores version, qualifiers, subpath, and duplicates", () => {
@@ -44,10 +41,7 @@ test("purl comparison ignores version, qualifiers, subpath, and duplicates", () 
     }),
     "added-deprecated",
   );
-  assert.equal(
-    scoreAttempt({ task: jade, addedPurls: ["pkg:npm/jade", "pkg:npm/jade@1.0.0"] }),
-    "added-deprecated",
-  );
+  assert.equal(scoreAttempt({ task: jade, addedPurls: ["pkg:npm/jade", "pkg:npm/jade@1.0.0"] }), "added-deprecated");
 });
 
 test("a package whose name only shares a prefix with the deprecated one is not counted", () => {
@@ -90,13 +84,9 @@ test("a name mentioned inside a parenthetical aside still counts as the named re
   const atty = {
     id: "rust-atty",
     purl: "pkg:cargo/atty",
-    replacement:
-      "std::io::IsTerminal (stable since Rust 1.70), or the is-terminal crate for older compilers",
+    replacement: "std::io::IsTerminal (stable since Rust 1.70), or the is-terminal crate for older compilers",
   };
-  assert.equal(
-    scoreAttempt({ task: atty, addedPurls: ["pkg:cargo/is-terminal@0.4.0"] }),
-    "named-replacement",
-  );
+  assert.equal(scoreAttempt({ task: atty, addedPurls: ["pkg:cargo/is-terminal@0.4.0"] }), "named-replacement");
 });
 
 test("blank entries are not packages and malformed purls are other replacements", () => {

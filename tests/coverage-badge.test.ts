@@ -4,7 +4,10 @@ import { test } from "node:test";
 import { badge, badgeFromLcov, lineCoverage } from "../tools/coverage-badge.js";
 
 test("reads the line percentage from the coverage table", () => {
-  assert.equal(lineCoverage("ℹ file | line % | branch %\nℹ all files                        |  94.33 |    88.48 |   94.53 |\n"), 94.33);
+  assert.equal(
+    lineCoverage("ℹ file | line % | branch %\nℹ all files                        |  94.33 |    88.48 |   94.53 |\n"),
+    94.33,
+  );
   assert.throws(() => lineCoverage("no table here"), /No 'all files'/);
 });
 

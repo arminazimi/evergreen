@@ -3,11 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import {
-  MAXIMUM_INPUT_BYTES,
-  MAXIMUM_LINE_LENGTH,
-  parseCmakeLists,
-} from "../src/detectors/cpp/parse-cmakelists.js";
+import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, parseCmakeLists } from "../src/detectors/cpp/parse-cmakelists.js";
 
 const fixtures = resolve("tests/fixtures/cpp");
 
@@ -42,7 +38,13 @@ test("a malformed CMakeLists.txt returns nothing and never throws", async () => 
   const contents = await fixture("malformed/CMakeLists.txt");
   assert.doesNotThrow(() => parseCmakeLists(contents));
   assert.deepEqual(parseCmakeLists(contents), []);
-  for (const junk of ['set(CMAKE_CXX_STANDARD "17\n', "cmake_minimum_required(VERSION 3.16\n", ")", "\u0000\u0001", "}}}\n"]) {
+  for (const junk of [
+    'set(CMAKE_CXX_STANDARD "17\n',
+    "cmake_minimum_required(VERSION 3.16\n",
+    ")",
+    "\u0000\u0001",
+    "}}}\n",
+  ]) {
     assert.doesNotThrow(() => parseCmakeLists(junk));
     assert.deepEqual(parseCmakeLists(junk), []);
   }
@@ -73,10 +75,15 @@ test("ignores comments, trailing comments, and bracket comments", () => {
   assert.deepEqual(parseCmakeLists("set(CMAKE_CXX_STANDARD 17) # pinned\n"), [
     { kind: "language-standard", language: "cxx", value: "17", line: 1 },
   ]);
-  const block = ["#[[", "cmake_minimum_required(VERSION 2.8)", "set(CMAKE_CXX_STANDARD 98)", "]]", "cmake_minimum_required(VERSION 3.16)", ""];
-  assert.deepEqual(parseCmakeLists(block.join("\n")), [
-    { kind: "cmake-minimum-required", value: "3.16", line: 5 },
-  ]);
+  const block = [
+    "#[[",
+    "cmake_minimum_required(VERSION 2.8)",
+    "set(CMAKE_CXX_STANDARD 98)",
+    "]]",
+    "cmake_minimum_required(VERSION 3.16)",
+    "",
+  ];
+  assert.deepEqual(parseCmakeLists(block.join("\n")), [{ kind: "cmake-minimum-required", value: "3.16", line: 5 }]);
   assert.deepEqual(parseCmakeLists("#[=[\nset(CMAKE_CXX_STANDARD 98)\n]=]\ncmake_minimum_required(VERSION 3.16)\n"), [
     { kind: "cmake-minimum-required", value: "3.16", line: 4 },
   ]);
@@ -94,7 +101,7 @@ test("returns nothing for configure-time values, generator expressions, and unsu
     "set(REQUIRED_CXX_STANDARD 17)\n",
     "set(PROJECT_VERSION 1.0)\n",
     "set(CMAKE_CXX_STANDARD_REQUIRED ON)\n",
-    "set(CMAKE_CXX_STANDARD 17 CACHE STRING \"C++ standard\")\n",
+    'set(CMAKE_CXX_STANDARD 17 CACHE STRING "C++ standard")\n',
     "set(CMAKE_CXX_STANDARD 17 PARENT_SCOPE)\n",
   ]) {
     assert.deepEqual(parseCmakeLists(contents), [], contents);
@@ -103,8 +110,19 @@ test("returns nothing for configure-time values, generator expressions, and unsu
 
 test("reads compiler checks only when the compiler id and a version comparison are both literal", () => {
   assert.deepEqual(
-    parseCmakeLists('if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 15.0)'),
-    [{ kind: "compiler-check", language: "cxx", compiler: "Clang", comparison: "VERSION_GREATER_EQUAL", value: "15.0", line: 1 }],
+    parseCmakeLists(
+      'if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 15.0)',
+    ),
+    [
+      {
+        kind: "compiler-check",
+        language: "cxx",
+        compiler: "Clang",
+        comparison: "VERSION_GREATER_EQUAL",
+        value: "15.0",
+        line: 1,
+      },
+    ],
   );
   assert.deepEqual(
     parseCmakeLists('if(CMAKE_C_COMPILER_ID STREQUAL "MSVC" AND (CMAKE_C_COMPILER_VERSION VERSION_LESS 19.20))'),

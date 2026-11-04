@@ -119,8 +119,14 @@ function hintFor(message: string): string {
   const hints: Array<[RegExp, string]> = [
     [/^id is duplicated/, "Rule ids are global; keep one definition and rename the other."],
     [/^id must use/, 'Use lowercase letters, numbers, dots, and hyphens, for example "npm.package.name.deprecated".'],
-    [/^sources\[\d+\]\.url must be an https URL/, "Link the authoritative notice over https; http and relative URLs are not evidence."],
-    [/^provenance\.reviewedAt must not be earlier/, "Set reviewedAt to the date you last checked the sources; it cannot precede observedAt."],
+    [
+      /^sources\[\d+\]\.url must be an https URL/,
+      "Link the authoritative notice over https; http and relative URLs are not evidence.",
+    ],
+    [
+      /^provenance\.reviewedAt must not be earlier/,
+      "Set reviewedAt to the date you last checked the sources; it cannot precede observedAt.",
+    ],
     [/must be a valid date/, "Write a real calendar date as YYYY-MM-DD."],
     [/^purl must be canonical/, "Write the version-less canonical PURL, for example pkg:npm/request."],
     [/^purl is invalid/, "See the Package URL specification; the name must be percent-encoded when it is scoped."],
@@ -129,7 +135,10 @@ function hintFor(message: string): string {
     [/^severity must be one of/, "Use info, low, medium, high, or critical."],
     [/^event must be one of/, "Use deprecated, end-of-support, end-of-life, removed, or scheduled-end-of-life."],
     [/^a scheduled-end-of-life rule/, "Give the announced date as deadline and set severity to low (decision 0010)."],
-    [/^requires has unknown runtime/, "Only node and python are known runtimes; drop the entry or open an issue to add one."],
+    [
+      /^requires has unknown runtime/,
+      "Only node and python are known runtimes; drop the entry or open an issue to add one.",
+    ],
     [/^unknown field/, "Remove the field, or name it x-<ecosystem> when it is a matching hint for one detector."],
     [/ is required$/, "Add the field; every rule needs it. See docs/RULES.md for the field reference."],
     [/^ecosystem ".*" does not match/, "Set the rule ecosystem to the registry ecosystem."],
@@ -197,7 +206,14 @@ async function lintFile(file: string): Promise<FileResult> {
     return {
       rules: 0,
       ids: [],
-      issues: [{ file: shown, line: 1, message: `cannot read the file: ${(error as Error).message}`, hint: "Check the path and file permissions." }],
+      issues: [
+        {
+          file: shown,
+          line: 1,
+          message: `cannot read the file: ${(error as Error).message}`,
+          hint: "Check the path and file permissions.",
+        },
+      ],
     };
   }
   const starts = lineStarts(text);
@@ -209,7 +225,14 @@ async function lintFile(file: string): Promise<FileResult> {
     return {
       rules: 0,
       ids: [],
-      issues: [{ file: shown, line: syntaxErrorLine(text, starts, message), message: `invalid JSON: ${message}`, hint: "Fix the JSON syntax; the linter needs a valid document before it can check rules." }],
+      issues: [
+        {
+          file: shown,
+          line: syntaxErrorLine(text, starts, message),
+          message: `invalid JSON: ${message}`,
+          hint: "Fix the JSON syntax; the linter needs a valid document before it can check rules.",
+        },
+      ],
     };
   }
 
@@ -281,7 +304,8 @@ export async function lintRuleFiles(files: readonly string[]): Promise<RuleLintR
     files: files.map((file) => displayPath(file)),
     rules: results.reduce((total, result) => total + result.rules, 0),
     issues: issues.sort(
-      (left, right) => left.file.localeCompare(right.file) || left.line - right.line || left.message.localeCompare(right.message),
+      (left, right) =>
+        left.file.localeCompare(right.file) || left.line - right.line || left.message.localeCompare(right.message),
     ),
   };
 }

@@ -96,11 +96,14 @@ export function buildGlanceFacts(result: GlanceInput, options: GlanceOptions): G
   for (const ecosystem of manifest.ecosystems) {
     for (const detector of ecosystem.detectorIds) {
       const known = ecosystemsByDetector.get(detector) ?? [];
-      known.push(ecosystem.maturity === undefined ? { id: ecosystem.id } : { id: ecosystem.id, maturity: ecosystem.maturity });
+      known.push(
+        ecosystem.maturity === undefined ? { id: ecosystem.id } : { id: ecosystem.id, maturity: ecosystem.maturity },
+      );
       ecosystemsByDetector.set(detector, known);
     }
   }
-  const detectors = result.coverage?.ecosystems ?? [...new Set(result.findings.map((finding) => finding.detector))].sort();
+  const detectors =
+    result.coverage?.ecosystems ?? [...new Set(result.findings.map((finding) => finding.detector))].sort();
   const ecosystems = [...new Set(detectors.flatMap((detector) => ecosystemsByDetector.get(detector) ?? []))]
     .map((ecosystem) => JSON.stringify(ecosystem))
     .filter((value, index, all) => all.indexOf(value) === index)
@@ -112,8 +115,17 @@ export function buildGlanceFacts(result: GlanceInput, options: GlanceOptions): G
 
   const dated = result.findings
     .filter((finding) => finding.deadline !== undefined)
-    .sort((left, right) => left.deadline!.localeCompare(right.deadline!) || left.ruleId.localeCompare(right.ruleId) || left.id.localeCompare(right.id));
-  const asDeadline = (finding: (typeof dated)[number]): GlanceDeadline => ({ date: finding.deadline!, title: finding.title, ruleId: finding.ruleId });
+    .sort(
+      (left, right) =>
+        left.deadline!.localeCompare(right.deadline!) ||
+        left.ruleId.localeCompare(right.ruleId) ||
+        left.id.localeCompare(right.id),
+    );
+  const asDeadline = (finding: (typeof dated)[number]): GlanceDeadline => ({
+    date: finding.deadline!,
+    title: finding.title,
+    ruleId: finding.ruleId,
+  });
   const next = dated.find((finding) => finding.deadline! >= options.asOf);
   const oldestEnded = dated.find((finding) => finding.deadline! < options.asOf);
 
@@ -125,7 +137,9 @@ export function buildGlanceFacts(result: GlanceInput, options: GlanceOptions): G
     findings: { total: result.findings.length, bySeverity },
     ...(next === undefined ? {} : { nextDeadline: asDeadline(next) }),
     ...(oldestEnded === undefined ? {} : { oldestEnded: asDeadline(oldestEnded) }),
-    ...(result.data === undefined ? {} : { data: { version: result.data.version, ageDays: result.data.ageDays, stale: result.data.stale } }),
+    ...(result.data === undefined
+      ? {}
+      : { data: { version: result.data.version, ageDays: result.data.ageDays, stale: result.data.stale } }),
   };
 }
 
@@ -167,7 +181,9 @@ export function renderGlance(facts: GlanceFacts, options: { columns?: number; co
   if (facts.ecosystems.length > 0) {
     factList.push({
       label: "ecosystems",
-      value: facts.ecosystems.map((ecosystem) => (ecosystem.maturity === undefined ? ecosystem.id : `${ecosystem.id} ${ecosystem.maturity}`)).join(" · "),
+      value: facts.ecosystems
+        .map((ecosystem) => (ecosystem.maturity === undefined ? ecosystem.id : `${ecosystem.id} ${ecosystem.maturity}`))
+        .join(" · "),
     });
   }
   if (facts.findings.total === 0) {
@@ -177,13 +193,22 @@ export function renderGlance(facts: GlanceFacts, options: { columns?: number; co
     for (const severity of DISPLAY_SEVERITIES) {
       const count = facts.findings.bySeverity[severity];
       if (count === 0) continue;
-      factList.push({ label: "", value: `${severity}  ${"█".repeat(Math.min(count, 10))} ${count}`, color: SEVERITY_COLOR[severity] });
+      factList.push({
+        label: "",
+        value: `${severity}  ${"█".repeat(Math.min(count, 10))} ${count}`,
+        color: SEVERITY_COLOR[severity],
+      });
     }
   }
-  if (facts.nextDeadline !== undefined) factList.push({ label: "next", value: `${facts.nextDeadline.date}  ${facts.nextDeadline.title}` });
-  if (facts.oldestEnded !== undefined) factList.push({ label: "ended", value: `${facts.oldestEnded.date}  ${facts.oldestEnded.title}` });
+  if (facts.nextDeadline !== undefined)
+    factList.push({ label: "next", value: `${facts.nextDeadline.date}  ${facts.nextDeadline.title}` });
+  if (facts.oldestEnded !== undefined)
+    factList.push({ label: "ended", value: `${facts.oldestEnded.date}  ${facts.oldestEnded.title}` });
   if (facts.data !== undefined) {
-    factList.push({ label: "data", value: `v${facts.data.version} · ${facts.data.ageDays} day${facts.data.ageDays === 1 ? "" : "s"} old${facts.data.stale ? " · stale" : ""}` });
+    factList.push({
+      label: "data",
+      value: `v${facts.data.version} · ${facts.data.ageDays} day${facts.data.ageDays === 1 ? "" : "s"} old${facts.data.stale ? " · stale" : ""}`,
+    });
   }
 
   const labelWidth = Math.max(...factList.map((fact) => fact.label.length));
@@ -204,9 +229,14 @@ export function renderGlance(facts: GlanceFacts, options: { columns?: number; co
   const lines: string[] = [];
   for (let index = 0; index < height; index += 1) {
     const mark = showMark ? GLANCE_MARK[index] : undefined;
-    const left = mark === undefined
-      ? (showMark ? " ".repeat(MARK_CHARS) : "")
-      : color ? `${ANSI.green}${mark}${ANSI.reset}${" ".repeat(MARK_CHARS - mark.length)}` : mark.padEnd(MARK_CHARS);
+    const left =
+      mark === undefined
+        ? showMark
+          ? " ".repeat(MARK_CHARS)
+          : ""
+        : color
+          ? `${ANSI.green}${mark}${ANSI.reset}${" ".repeat(MARK_CHARS - mark.length)}`
+          : mark.padEnd(MARK_CHARS);
     lines.push(`${left}${factLines[index] ?? ""}`.trimEnd());
   }
   return lines.join("\n");

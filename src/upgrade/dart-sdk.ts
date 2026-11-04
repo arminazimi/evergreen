@@ -41,7 +41,12 @@ function versionOf(major: number, minor: number, patch: number, prerelease: stri
 function parseVersion(text: string): DartVersion | undefined {
   const match = FULL_VERSION.exec(text);
   if (!match) return undefined;
-  return versionOf(Number(match[1]), Number(match[2]), Number(match[3]), match[4] === undefined ? [] : match[4].split("."));
+  return versionOf(
+    Number(match[1]),
+    Number(match[2]),
+    Number(match[3]),
+    match[4] === undefined ? [] : match[4].split("."),
+  );
 }
 
 /** Expands a target such as `3` or `3.5` to `3.0.0` or `3.5.0`, keeping a pre-release suffix. */
@@ -103,17 +108,40 @@ export function matchesDartConstraint(version: string, constraint: string): bool
   return terms.every((term) => {
     if (term.startsWith("^")) {
       const minimum = parseVersion(term.slice(1));
-      return minimum !== undefined && compareVersions(target, minimum) >= 0 && compareVersions(target, caretUpper(minimum)) < 0;
+      return (
+        minimum !== undefined &&
+        compareVersions(target, minimum) >= 0 &&
+        compareVersions(target, caretUpper(minimum)) < 0
+      );
     }
-    const operator = term.startsWith(">=") ? ">=" : term.startsWith("<=") ? "<=" : term.startsWith(">") ? ">" : term.startsWith("<") ? "<" : "";
+    const operator = term.startsWith(">=")
+      ? ">="
+      : term.startsWith("<=")
+        ? "<="
+        : term.startsWith(">")
+          ? ">"
+          : term.startsWith("<")
+            ? "<"
+            : "";
     const value = parseVersion(operator === "" ? term : term.slice(operator.length));
     if (!value) return false;
     const order = compareVersions(target, value);
-    return operator === ">=" ? order >= 0 : operator === "<=" ? order <= 0 : operator === ">" ? order > 0 : operator === "<" ? order < 0 : order === 0;
+    return operator === ">="
+      ? order >= 0
+      : operator === "<="
+        ? order <= 0
+        : operator === ">"
+          ? order > 0
+          : operator === "<"
+            ? order < 0
+            : order === 0;
   });
 }
 
-function bound(kind: (typeof versions)[Runtime]["kind"], contents: string | undefined): { value: string; line: number } | undefined {
+function bound(
+  kind: (typeof versions)[Runtime]["kind"],
+  contents: string | undefined,
+): { value: string; line: number } | undefined {
   if (contents === undefined) return undefined;
   for (const declaration of parsePubspec(contents)) {
     if (declaration.kind === kind) return { value: declaration.value, line: declaration.line };
@@ -121,7 +149,10 @@ function bound(kind: (typeof versions)[Runtime]["kind"], contents: string | unde
   return undefined;
 }
 
-function lockBound(kind: (typeof versions)[Runtime]["kind"], contents: string): { value: string; line: number } | undefined {
+function lockBound(
+  kind: (typeof versions)[Runtime]["kind"],
+  contents: string,
+): { value: string; line: number } | undefined {
   for (const declaration of parsePubspecLock(contents)) {
     if (declaration.kind === kind) return { value: declaration.value, line: declaration.line };
   }

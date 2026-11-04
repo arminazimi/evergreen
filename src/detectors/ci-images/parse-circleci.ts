@@ -56,7 +56,12 @@ function collectOrbs(node: unknown, lineCounter: LineCounter, unclassified: Circ
   }
 }
 
-function collectExecutors(node: unknown, lineCounter: LineCounter, declarations: CircleciImageReference[], unclassified: CircleciUnclassifiedReference[]): void {
+function collectExecutors(
+  node: unknown,
+  lineCounter: LineCounter,
+  declarations: CircleciImageReference[],
+  unclassified: CircleciUnclassifiedReference[],
+): void {
   if (!isMap(node)) return;
   for (const item of node.items) {
     if (!isMap(item.value)) continue;
@@ -65,7 +70,12 @@ function collectExecutors(node: unknown, lineCounter: LineCounter, declarations:
   }
 }
 
-function collectDocker(node: unknown, lineCounter: LineCounter, declarations: CircleciImageReference[], unclassified: CircleciUnclassifiedReference[]): void {
+function collectDocker(
+  node: unknown,
+  lineCounter: LineCounter,
+  declarations: CircleciImageReference[],
+  unclassified: CircleciUnclassifiedReference[],
+): void {
   if (!isSeq(node)) return;
   for (const item of node.items) {
     if (!isMap(item)) continue;
@@ -73,12 +83,22 @@ function collectDocker(node: unknown, lineCounter: LineCounter, declarations: Ci
   }
 }
 
-function collectMachine(node: unknown, lineCounter: LineCounter, declarations: CircleciImageReference[], unclassified: CircleciUnclassifiedReference[]): void {
+function collectMachine(
+  node: unknown,
+  lineCounter: LineCounter,
+  declarations: CircleciImageReference[],
+  unclassified: CircleciUnclassifiedReference[],
+): void {
   if (!isMap(node)) return;
   collectImage(node.get("image", true), lineCounter, declarations, unclassified);
 }
 
-function collectImage(node: unknown, lineCounter: LineCounter, declarations: CircleciImageReference[], unclassified: CircleciUnclassifiedReference[]): void {
+function collectImage(
+  node: unknown,
+  lineCounter: LineCounter,
+  declarations: CircleciImageReference[],
+  unclassified: CircleciUnclassifiedReference[],
+): void {
   if (!isScalar(node) || typeof node.value !== "string" || !node.range) return;
   const value = node.value;
   const line = lineCounter.linePos(node.range[0]).line;
@@ -88,12 +108,24 @@ function collectImage(node: unknown, lineCounter: LineCounter, declarations: Cir
   else declarations.push({ value, line });
 }
 
-function addReference(value: string, offset: number, lineCounter: LineCounter, reason: "orb-not-resolved", unclassified: CircleciUnclassifiedReference[]): void {
+function addReference(
+  value: string,
+  offset: number,
+  lineCounter: LineCounter,
+  reason: "orb-not-resolved",
+  unclassified: CircleciUnclassifiedReference[],
+): void {
   if (value.length <= MAXIMUM_LINE_LENGTH) unclassified.push({ value, line: lineCounter.linePos(offset).line, reason });
 }
 
 function classify(value: string): "dynamic" | "floating" | undefined {
   if (value.includes("$") || value.includes("<<")) return "dynamic";
-  if (value === "latest" || value.endsWith("-latest") || value.endsWith(":latest") || /^cimg\/[^:]+:current$/.test(value)) return "floating";
+  if (
+    value === "latest" ||
+    value.endsWith("-latest") ||
+    value.endsWith(":latest") ||
+    /^cimg\/[^:]+:current$/.test(value)
+  )
+    return "floating";
   return undefined;
 }

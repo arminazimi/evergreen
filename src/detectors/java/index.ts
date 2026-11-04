@@ -30,10 +30,25 @@ import { MAXIMUM_INPUT_BYTES, parsePom } from "./parse-pom.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".gradle", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".gradle",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const JDK_PURL = "pkg:generic/java";
 
-type Parser = (contents: string) => Array<JdkDeclaration | DynamicJdkDeclaration | DependencyDeclaration | { kind: string; line: number }>;
+type Parser = (
+  contents: string,
+) => Array<JdkDeclaration | DynamicJdkDeclaration | DependencyDeclaration | { kind: string; line: number }>;
 
 const PARSERS = new Map<string, Parser>([
   ["pom.xml", parsePom],
@@ -93,7 +108,15 @@ export class JavaDetector implements Detector {
   readonly id = "java";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: ["pom.xml", "build.gradle", "build.gradle.kts", "libs.versions.toml", ".java-version", ".sdkmanrc", ".tool-versions"],
+    fileNames: [
+      "pom.xml",
+      "build.gradle",
+      "build.gradle.kts",
+      "libs.versions.toml",
+      ".java-version",
+      ".sdkmanrc",
+      ".tool-versions",
+    ],
     sourceExtensions: [".java", ".kt"],
   };
 
@@ -174,7 +197,12 @@ export class JavaDetector implements Detector {
 
     // Where the repository's Java and Kotlin source imports an affected dependency, so a packet can list the files.
     const analyses = new Map(
-      (await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]),
+      (
+        await analyzeSourceUsage(
+          context.root,
+          withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })),
+        )
+      ).map((analysis) => [analysis.contractId, analysis]),
     );
     for (const finding of findings) {
       const analysis = analyses.get(finding.id);

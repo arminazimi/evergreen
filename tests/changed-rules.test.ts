@@ -23,25 +23,29 @@ function manifest(name: string, version: string): string {
 }
 
 function registryText(summary = "The package is deprecated."): string {
-  return `${JSON.stringify({
-    schemaVersion: "evergreen.registry.v2",
-    ecosystem: "npm",
-    rules: [
-      {
-        id: RULE_ID,
-        ecosystem: "npm",
-        purl: "pkg:npm/request",
-        vers: "vers:npm/*",
-        event: "deprecated",
-        title: "request is deprecated",
-        summary,
-        severity: "high",
-        replacement: "Native fetch",
-        sources: [{ title: "Deprecation notice", url: "https://example.com/request" }],
-        provenance: { observedAt: "2026-01-01", reviewedAt: "2026-01-02", reviewer: "test" },
-      },
-    ],
-  }, null, 2)}\n`;
+  return `${JSON.stringify(
+    {
+      schemaVersion: "evergreen.registry.v2",
+      ecosystem: "npm",
+      rules: [
+        {
+          id: RULE_ID,
+          ecosystem: "npm",
+          purl: "pkg:npm/request",
+          vers: "vers:npm/*",
+          event: "deprecated",
+          title: "request is deprecated",
+          summary,
+          severity: "high",
+          replacement: "Native fetch",
+          sources: [{ title: "Deprecation notice", url: "https://example.com/request" }],
+          provenance: { observedAt: "2026-01-01", reviewedAt: "2026-01-02", reviewer: "test" },
+        },
+      ],
+    },
+    null,
+    2,
+  )}\n`;
 }
 
 // The same rule with its keys written in another order. Only the content counts.
@@ -118,7 +122,13 @@ test("a new, changed, or reordered rule is reported; an unchanged or deleted one
   assert.deepEqual(changedRuleIds(registryText(), registryText()), []);
   assert.deepEqual(changedRuleIds(registryText(), registryText("Updated summary.")), [RULE_ID]);
   assert.deepEqual(changedRuleIds(registryText(), REORDERED), []);
-  assert.deepEqual(changedRuleIds(registryText(), `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [] })}\n`), []);
+  assert.deepEqual(
+    changedRuleIds(
+      registryText(),
+      `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [] })}\n`,
+    ),
+    [],
+  );
   assert.deepEqual(changedRuleIds(registryText(), "{ not json"), []);
 });
 
@@ -198,7 +208,10 @@ test("a rule deleted with its fixtures is skipped instead of failing", async () 
   const { root, base } = await repository();
   try {
     await rm(join(root, "tests", "fixtures", RULE_ID), { recursive: true, force: true });
-    await writeFile(join(root, "registry", "npm.json"), `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [] })}\n`);
+    await writeFile(
+      join(root, "registry", "npm.json"),
+      `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [] })}\n`,
+    );
     await commit(root, "remove the rule");
     const result = await runChangedRules({ base, root });
     assert.equal(result.passed, true);
@@ -275,7 +288,14 @@ test("the rules workflow runs on pushes to main and on pull requests for rule an
   assert.deepEqual(Object.keys(workflow.on), ["push", "pull_request"]);
   assert.deepEqual(workflow.on.pull_request!.paths, workflow.on.push!.paths);
   const paths = workflow.on.push!.paths!;
-  for (const path of ["registry/**", "tests/fixtures/**", "src/rule-lint.ts", "src/rule-test.ts", "tools/changed-rules.ts", ".github/workflows/rules.yml"]) {
+  for (const path of [
+    "registry/**",
+    "tests/fixtures/**",
+    "src/rule-lint.ts",
+    "src/rule-test.ts",
+    "tools/changed-rules.ts",
+    ".github/workflows/rules.yml",
+  ]) {
     assert.ok(paths.includes(path), path);
   }
   assert.ok(!workflowText.includes("pull_request_target"));

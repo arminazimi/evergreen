@@ -67,7 +67,8 @@ const LITERAL = /^(\d+)(?:\.(\d+|x|\*))?(?:\.(\d+|x|\*|\dxx))?$/i;
 
 export function classifyDotnetVersion(value: string): DotnetVersionClass {
   const match = LITERAL.exec(value);
-  if (!match) return { kind: "unclassified", reason: `"${value}" is not a plain version, so Evergreen does not read it` };
+  if (!match)
+    return { kind: "unclassified", reason: `"${value}" is not a plain version, so Evergreen does not read it` };
   const [, major, minor] = match;
   if (minor === undefined || /^[x*]$/i.test(minor)) {
     return { kind: "versions", lowest: `${major}.0.0`, highest: `${major}.${UNBOUNDED}.${UNBOUNDED}` };

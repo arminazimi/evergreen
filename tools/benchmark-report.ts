@@ -21,12 +21,7 @@ import type { ErrorObject, ValidateFunction } from "ajv";
 export const SCHEMA_VERSION = "evergreen.benchmark-result.v1" as const;
 export const SCHEMA_PATH = "schemas/benchmark-result.v1.schema.json";
 
-export const GUARDRAIL_OUTCOMES = [
-  "refused",
-  "named-replacement",
-  "other-replacement",
-  "added-deprecated",
-] as const;
+export const GUARDRAIL_OUTCOMES = ["refused", "named-replacement", "other-replacement", "added-deprecated"] as const;
 
 export type GuardrailOutcome = (typeof GUARDRAIL_OUTCOMES)[number];
 
@@ -107,9 +102,7 @@ function rate(value: number): string {
 
 function formatErrors(errors: ErrorObject[] | null | undefined): string {
   if (errors === undefined || errors === null || errors.length === 0) return "unknown schema error";
-  return errors
-    .map((error) => `${error.instancePath || "/"} ${error.message ?? "is invalid"}`)
-    .join("; ");
+  return errors.map((error) => `${error.instancePath || "/"} ${error.message ?? "is invalid"}`).join("; ");
 }
 
 let cachedValidator: ValidateFunction | undefined;
@@ -135,10 +128,7 @@ export function assertValidResult(
 }
 
 /** Reads and validates every `*.json` file in `directory`, sorted by basename. */
-export async function loadResults(
-  directory: string,
-  options: { schemaPath?: string } = {},
-): Promise<LoadedResult[]> {
+export async function loadResults(directory: string, options: { schemaPath?: string } = {}): Promise<LoadedResult[]> {
   const root = resolve(directory);
   const names = (await readdir(root)).filter((name) => name.endsWith(".json")).sort(compare);
   if (names.length === 0) {
@@ -242,16 +232,7 @@ function renderPlanArm(arm: PlanArm, results: readonly LoadedResult[]): string |
   }
   if (rows.length === 0) return undefined;
   const table = markdownTable(
-    [
-      "Agent",
-      "Agent version",
-      "Model",
-      "Model version",
-      "Duration (ms)",
-      "Findings",
-      "Resolved",
-      "Resolution rate",
-    ],
+    ["Agent", "Agent version", "Model", "Model version", "Duration (ms)", "Findings", "Resolved", "Resolution rate"],
     rows,
   );
   return `### ${arm}\n\n${table}`;
@@ -282,10 +263,7 @@ export function renderReport(results: readonly LoadedResult[]): string {
 }
 
 /** Loads results from `directory` and returns the Markdown report. */
-export async function generateReport(
-  directory: string,
-  options: { schemaPath?: string } = {},
-): Promise<string> {
+export async function generateReport(directory: string, options: { schemaPath?: string } = {}): Promise<string> {
   return renderReport(await loadResults(directory, options));
 }
 

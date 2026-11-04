@@ -46,7 +46,10 @@ test("orders pre-releases as semver does", () => {
 });
 
 test("expands a partial target to its release", () => {
-  assert.deepEqual(parseTargetVersion("3"), { text: "3.0.0", version: { major: 3, minor: 0, patch: 0, prerelease: [] } });
+  assert.deepEqual(parseTargetVersion("3"), {
+    text: "3.0.0",
+    version: { major: 3, minor: 0, patch: 0, prerelease: [] },
+  });
   assert.equal(parseTargetVersion("3.5")?.text, "3.5.0");
   assert.equal(parseTargetVersion("3.5.2")?.text, "3.5.2");
   assert.equal(parseTargetVersion("3.5.0-beta.1")?.text, "3.5.0-beta.1");
@@ -135,7 +138,10 @@ test("reports unknown instead of throwing when pubspec.lock cannot be read as a 
   try {
     await mkdir(join(root, "pubspec.lock"));
     const report = await checkUpgrade(root, { runtime: "dart", version: "3.5" });
-    assert.deepEqual(report.issues.map((entry) => entry.level), ["unknown"]);
+    assert.deepEqual(
+      report.issues.map((entry) => entry.level),
+      ["unknown"],
+    );
   } finally {
     await rm(root, { recursive: true, force: true });
   }

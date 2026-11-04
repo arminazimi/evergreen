@@ -12,9 +12,7 @@
       "path": "e2e/tests/assets/chart/templates/deployment-deprecated.yaml",
       "kind": "deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "not-seen",
       "outcome": "evergreen-only",
       "note": "Pluto did not list this manifest (a Helm template or a form it does not parse)."
@@ -23,9 +21,7 @@
       "path": "e2e/tests/assets/deprecated116/deployment-extensions-v1beta1.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -58,7 +54,5 @@
       "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
     }
   ],
-  "notComparable": [
-    "github-actions.stale"
-  ]
+  "notComparable": ["github-actions.stale"]
 }

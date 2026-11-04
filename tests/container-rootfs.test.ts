@@ -57,20 +57,60 @@ async function expected(ruleId: string, path: string, line: number, subject: str
 async function rootfsFindings(prefix = ""): Promise<DetectorFinding[]> {
   const location = (path: string): string => `${prefix}${path}`;
   return Promise.all([
-    expected("container.debian.eol-11-and-older", location("etc/os-release"), 3, `${location("etc/os-release")} reports Debian GNU/Linux 11 (bullseye)`),
-    expected("dotnet.runtime.end-of-support-6.0", location("usr/share/dotnet/shared/Microsoft.NETCore.App/6.0.21"), 1, `${location("usr/share/dotnet/shared/Microsoft.NETCore.App/6.0.21")} ships dotnet 6.0.21`),
-    expected("go.runtime.end-of-support-1.20-and-older", location("usr/local/go/VERSION"), 1, `${location("usr/local/go/VERSION")} ships golang 1.20.14`),
-    expected("java.jdk.end-of-support-12-16", location("usr/lib/jvm/java-13-openjdk-amd64/release"), 2, `${location("usr/lib/jvm/java-13-openjdk-amd64/release")} ships java 13.0.14`),
-    expected("nodejs.runtime.legacy", location("usr/local/include/node/node_version.h"), 1, `${location("usr/local/include/node/node_version.h")} ships nodejs 16.20.2`),
+    expected(
+      "container.debian.eol-11-and-older",
+      location("etc/os-release"),
+      3,
+      `${location("etc/os-release")} reports Debian GNU/Linux 11 (bullseye)`,
+    ),
+    expected(
+      "dotnet.runtime.end-of-support-6.0",
+      location("usr/share/dotnet/shared/Microsoft.NETCore.App/6.0.21"),
+      1,
+      `${location("usr/share/dotnet/shared/Microsoft.NETCore.App/6.0.21")} ships dotnet 6.0.21`,
+    ),
+    expected(
+      "go.runtime.end-of-support-1.20-and-older",
+      location("usr/local/go/VERSION"),
+      1,
+      `${location("usr/local/go/VERSION")} ships golang 1.20.14`,
+    ),
+    expected(
+      "java.jdk.end-of-support-12-16",
+      location("usr/lib/jvm/java-13-openjdk-amd64/release"),
+      2,
+      `${location("usr/lib/jvm/java-13-openjdk-amd64/release")} ships java 13.0.14`,
+    ),
+    expected(
+      "nodejs.runtime.legacy",
+      location("usr/local/include/node/node_version.h"),
+      1,
+      `${location("usr/local/include/node/node_version.h")} ships nodejs 16.20.2`,
+    ),
     expected("php.runtime.eol-8.1", location("usr/bin/php8.1"), 1, `${location("usr/bin/php8.1")} ships php 8.1`),
-    expected("python.runtime.eol-3.9-and-older", location("usr/local/lib/python3.9"), 1, `${location("usr/local/lib/python3.9")} ships python 3.9`),
-    expected("ruby.runtime.eol-3.1", location("usr/local/lib/ruby/3.1.0"), 1, `${location("usr/local/lib/ruby/3.1.0")} ships ruby 3.1.0`),
+    expected(
+      "python.runtime.eol-3.9-and-older",
+      location("usr/local/lib/python3.9"),
+      1,
+      `${location("usr/local/lib/python3.9")} ships python 3.9`,
+    ),
+    expected(
+      "ruby.runtime.eol-3.1",
+      location("usr/local/lib/ruby/3.1.0"),
+      1,
+      `${location("usr/local/lib/ruby/3.1.0")} ships ruby 3.1.0`,
+    ),
   ]);
 }
 
-async function fixtureFiles(directory: string = fixtures, prefix = ""): Promise<Array<{ path: string; contents: Buffer }>> {
+async function fixtureFiles(
+  directory: string = fixtures,
+  prefix = "",
+): Promise<Array<{ path: string; contents: Buffer }>> {
   const files: Array<{ path: string; contents: Buffer }> = [];
-  for (const entry of (await readdir(directory, { withFileTypes: true })).sort((left, right) => left.name.localeCompare(right.name))) {
+  for (const entry of (await readdir(directory, { withFileTypes: true })).sort((left, right) =>
+    left.name.localeCompare(right.name),
+  )) {
     if (entry.name === "README.md") continue;
     const path = `${prefix}${entry.name}`;
     if (entry.isDirectory()) files.push(...(await fixtureFiles(join(directory, entry.name), `${path}/`)));
@@ -277,10 +317,12 @@ test("a symlinked runtime directory that leaves the rootfs is not listed", async
 });
 
 test("os-release parsing reads quoted values and falls back to a codename", () => {
-  assert.deepEqual(
-    parseOsRelease('PRETTY_NAME="Ubuntu 22.04.3 LTS"\nID=ubuntu\nVERSION_ID="22.04"\n'),
-    { id: "ubuntu", line: 3, versionId: "22.04", prettyName: "Ubuntu 22.04.3 LTS" },
-  );
+  assert.deepEqual(parseOsRelease('PRETTY_NAME="Ubuntu 22.04.3 LTS"\nID=ubuntu\nVERSION_ID="22.04"\n'), {
+    id: "ubuntu",
+    line: 3,
+    versionId: "22.04",
+    prettyName: "Ubuntu 22.04.3 LTS",
+  });
   assert.deepEqual(parseOsRelease("ID=ubuntu\nVERSION_CODENAME=focal\n"), { id: "ubuntu", line: 2, codename: "focal" });
   assert.deepEqual(parseOsRelease("export ID=debian\n"), { id: "debian", line: 1 });
   assert.equal(parseOsRelease("NAME=something\n"), undefined);
@@ -290,10 +332,15 @@ test("os-release parsing reads quoted values and falls back to a codename", () =
 
 test("runtime version parsers reject malformed evidence", () => {
   assert.deepEqual(parseNodeVersionHeader("#define NODE_MAJOR_VERSION 18\n"), { version: "18.0.0", line: 1 });
-  assert.deepEqual(parseNodeVersionHeader("#define NODE_MAJOR_VERSION 18\n#define NODE_MINOR_VERSION 20\n#define NODE_PATCH_VERSION 4\n"), {
-    version: "18.20.4",
-    line: 1,
-  });
+  assert.deepEqual(
+    parseNodeVersionHeader(
+      "#define NODE_MAJOR_VERSION 18\n#define NODE_MINOR_VERSION 20\n#define NODE_PATCH_VERSION 4\n",
+    ),
+    {
+      version: "18.20.4",
+      line: 1,
+    },
+  );
   assert.equal(parseNodeVersionHeader("/* no version */\n"), undefined);
   assert.deepEqual(parseGoVersion("go1.21.5\ntime 2024-01-01\n"), { version: "1.21.5", line: 1 });
   assert.equal(parseGoVersion("go version go1.21.5\n"), undefined);

@@ -11,7 +11,8 @@ const COORDINATE = /^[a-z0-9][a-z0-9._-]*$/;
 
 const path = (group: string, artifact: string) => `${MAVEN_CENTRAL}/${group.replace(/\./g, "/")}/${artifact}`;
 export const metadataUrl = (group: string, artifact: string) => `${path(group, artifact)}/maven-metadata.xml`;
-export const pomUrl = (group: string, artifact: string, version: string) => `${path(group, artifact)}/${version}/${artifact}-${version}.pom`;
+export const pomUrl = (group: string, artifact: string, version: string) =>
+  `${path(group, artifact)}/${version}/${artifact}-${version}.pom`;
 
 interface Relocation {
   group?: string;
@@ -29,7 +30,9 @@ function relocationOf(pom: string): Relocation | undefined {
   return {
     ...(tag(block, "groupId") ? { group: tag(block, "groupId")! } : {}),
     ...(tag(block, "artifactId") ? { artifact: tag(block, "artifactId")! } : {}),
-    ...(message ? { message: message.length > MAX_MESSAGE ? `${message.slice(0, MAX_MESSAGE - 1).trimEnd()}…` : message } : {}),
+    ...(message
+      ? { message: message.length > MAX_MESSAGE ? `${message.slice(0, MAX_MESSAGE - 1).trimEnd()}…` : message }
+      : {}),
   };
 }
 

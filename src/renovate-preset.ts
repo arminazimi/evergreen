@@ -88,7 +88,10 @@ function pythonFloorFromMaximum(maximumVersion: unknown): string | undefined {
 
 function compareVersionFloors(left: string, right: string): number {
   const parse = (value: string): number[] =>
-    value.replace(/^>=/, "").split(".").map((part) => Number(part) || 0);
+    value
+      .replace(/^>=/, "")
+      .split(".")
+      .map((part) => Number(part) || 0);
   const a = parse(left);
   const b = parse(right);
   const length = Math.max(a.length, b.length);
@@ -108,10 +111,7 @@ function ruleKey(rule: RenovatePackageRule): string {
  * become `replacementName` rules; Node.js and Python runtime findings become `allowedVersions`
  * pins. Prose replacements and unknown PURLs are skipped. Output is deterministic.
  */
-export function buildRenovatePreset(
-  findings: readonly Finding[],
-  rules: readonly RegistryV2Rule[],
-): RenovatePreset {
+export function buildRenovatePreset(findings: readonly Finding[], rules: readonly RegistryV2Rule[]): RenovatePreset {
   const byId = new Map(rules.map((rule) => [rule.id, rule]));
   const replacements = new Map<string, RenovatePackageRule>();
   const runtimes = new Map<string, RenovatePackageRule>();
@@ -170,7 +170,8 @@ export function buildRenovatePreset(
   }
 
   const packageRules = [...replacements.values(), ...runtimes.values()].sort((left, right) =>
-    ruleKey(left).localeCompare(ruleKey(right)));
+    ruleKey(left).localeCompare(ruleKey(right)),
+  );
 
   return {
     $schema: RENOVATE_SCHEMA,

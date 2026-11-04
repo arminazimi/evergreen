@@ -28,7 +28,10 @@ async function fixtureRepository(): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-mcp-plan-"));
   temporaryRoots.push(root);
   await mkdir(join(root, ".github", "workflows"), { recursive: true });
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
   await writeFile(
     join(root, "package.json"),
     JSON.stringify({ name: "fixture", version: "1.0.0", dependencies: { request: "2.88.2" } }, null, 2),
@@ -103,7 +106,11 @@ test("plan_migrations returns buildPlan(scan), valid against its published schem
       arguments: { repository_path: root },
     });
     const scanResult = scan.structuredContent as unknown as ScanResult;
-    assert.deepEqual(plan, buildPlan(scanResult), "the MCP tool must return what buildPlan produces from the same scan");
+    assert.deepEqual(
+      plan,
+      buildPlan(scanResult),
+      "the MCP tool must return what buildPlan produces from the same scan",
+    );
   } finally {
     await client.close();
   }

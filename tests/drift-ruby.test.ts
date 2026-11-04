@@ -31,7 +31,8 @@ async function copyFixture(name: string): Promise<string> {
 
 test("collects every Ruby source the collector claims", async () => {
   const runtime = await collect("drifted");
-  const pin = (path: string, source: string) => runtime.pins.find((item) => item.path === path && item.source === source);
+  const pin = (path: string, source: string) =>
+    runtime.pins.find((item) => item.path === path && item.source === source);
 
   assert.equal(pin(".ruby-version", ".ruby-version")?.release, "3.3");
   assert.equal(pin(".tool-versions", ".tool-versions")?.raw, "3.4.1");
@@ -54,7 +55,10 @@ test("a Gemfile.lock that disagrees with .ruby-version is reported as drift", as
 
 test("a gemspec floor above the lowest pinned release is a floor conflict", async () => {
   const runtime = await collect("drifted");
-  assert.deepEqual(runtime.floorConflicts.map((pin) => [pin.path, pin.release]), [["demo.gemspec", "3.5"]]);
+  assert.deepEqual(
+    runtime.floorConflicts.map((pin) => [pin.path, pin.release]),
+    [["demo.gemspec", "3.5"]],
+  );
 });
 
 test("a repository whose pins agree reports no drift and no floor conflict", async () => {
@@ -68,8 +72,18 @@ test("a repository whose pins agree reports no drift and no floor conflict", asy
 test("Gemfile and gemspec requirements are floors, not pins", async () => {
   const runtime = await collect("floors");
   const bySource = new Map(runtime.pins.map((pin) => [pin.source, pin]));
-  assert.deepEqual([bySource.get("Gemfile ruby")?.kind, bySource.get("Gemfile ruby")?.raw, bySource.get("Gemfile ruby")?.release], ["floor", ">= 3.1.0", "3.1"]);
-  assert.deepEqual([bySource.get("gemspec required_ruby_version")?.kind, bySource.get("gemspec required_ruby_version")?.raw, bySource.get("gemspec required_ruby_version")?.release], ["floor", "~> 3.2", "3.2"]);
+  assert.deepEqual(
+    [bySource.get("Gemfile ruby")?.kind, bySource.get("Gemfile ruby")?.raw, bySource.get("Gemfile ruby")?.release],
+    ["floor", ">= 3.1.0", "3.1"],
+  );
+  assert.deepEqual(
+    [
+      bySource.get("gemspec required_ruby_version")?.kind,
+      bySource.get("gemspec required_ruby_version")?.raw,
+      bySource.get("gemspec required_ruby_version")?.release,
+    ],
+    ["floor", "~> 3.2", "3.2"],
+  );
   assert.deepEqual(runtime.releases, []);
   assert.equal(runtime.drifted, false);
 });
@@ -83,7 +97,10 @@ test("values that cannot be resolved offline are reported with a reason", async 
     assert.equal(pin.release, undefined);
     assert.ok(pin.unresolved, `${pin.source} has no unresolved reason`);
   }
-  assert.match(runtime.pins.find((pin) => pin.source === "GitHub Actions ruby/setup-ruby ruby-version")?.unresolved ?? "", /expression/);
+  assert.match(
+    runtime.pins.find((pin) => pin.source === "GitHub Actions ruby/setup-ruby ruby-version")?.unresolved ?? "",
+    /expression/,
+  );
   assert.match(runtime.pins.find((pin) => pin.source === "Dockerfile FROM")?.unresolved ?? "", /no tag/);
 });
 

@@ -11,7 +11,11 @@ test("parses conventional subjects with scope, breaking marker, and pull request
     description: "classify SHA pins",
     pullRequest: "560",
   });
-  assert.deepEqual(parseSubject("fix!: drop the v1 output"), { type: "fix", breaking: true, description: "drop the v1 output" });
+  assert.deepEqual(parseSubject("fix!: drop the v1 output"), {
+    type: "fix",
+    breaking: true,
+    description: "drop the v1 output",
+  });
   assert.equal(parseSubject("Validate the public corpus (#19)"), undefined);
   assert.equal(parseSubject("Merge pull request #5 from x/y"), undefined);
 });
@@ -85,7 +89,22 @@ test("the default start is the latest release tag, not a data release tag", asyn
   const { join, resolve } = await import("node:path");
   const repo = await mkdtemp(join(tmpdir(), "evergreen-changelog-"));
   try {
-    const git = (...args: string[]) => execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@example.com", "-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false", ...args], { cwd: repo, encoding: "utf8" });
+    const git = (...args: string[]) =>
+      execFileSync(
+        "git",
+        [
+          "-c",
+          "user.name=t",
+          "-c",
+          "user.email=t@example.com",
+          "-c",
+          "commit.gpgsign=false",
+          "-c",
+          "tag.gpgsign=false",
+          ...args,
+        ],
+        { cwd: repo, encoding: "utf8" },
+      );
     git("init", "-q");
     git("commit", "-q", "--allow-empty", "-m", "feat: before the release");
     git("tag", "v0.1.0");

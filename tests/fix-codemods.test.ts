@@ -12,7 +12,13 @@ const fixtures = resolve("tests/fixtures/fix-codemods");
 const temporaryRoots: string[] = [];
 const manifest = JSON.stringify({
   name: "app",
-  dependencies: { boom: "^3.2.2", cryptiles: "^4.1.3", sntp: "^3.0.2", "koa-router": "^7.4.0", "sourcemap-codec": "^1.4.8" },
+  dependencies: {
+    boom: "^3.2.2",
+    cryptiles: "^4.1.3",
+    sntp: "^3.0.2",
+    "koa-router": "^7.4.0",
+    "sourcemap-codec": "^1.4.8",
+  },
 });
 
 after(async () => {
@@ -37,7 +43,10 @@ test("each codemod rewrites its import to the successor and the output matches t
   assert.equal(patches[0]!.path, "index.js");
   const hunk = patches[0]!.diff.split("\n").slice(2);
   const start = Number(/^@@ -(\d+)/.exec(hunk[0]!)![1]) - 1;
-  const rebuilt = hunk.slice(1).filter((line) => !line.startsWith("-")).map((line) => line.slice(1));
+  const rebuilt = hunk
+    .slice(1)
+    .filter((line) => !line.startsWith("-"))
+    .map((line) => line.slice(1));
   assert.deepEqual(rebuilt, after.split("\n").slice(start, start + rebuilt.length));
   assert.ok(rebuilt.includes('import type { Config } from "koa-router/types";'));
   assert.ok(rebuilt.includes('const notes = "boom is a word";'));
@@ -46,7 +55,12 @@ test("each codemod rewrites its import to the successor and the output matches t
 
 test("the codemods cover five packages and each names the successor its rule names", async () => {
   assert.equal(renameCodemods.length, 5);
-  const rules = new Map((await scanRepository(await repository('require("boom");\n'), detectors)).findings.map((finding) => [finding.ruleId, finding.replacement]));
+  const rules = new Map(
+    (await scanRepository(await repository('require("boom");\n'), detectors)).findings.map((finding) => [
+      finding.ruleId,
+      finding.replacement,
+    ]),
+  );
   for (const codemod of renameCodemods) assert.equal(rules.get(codemod.ruleId), codemod.to);
 });
 

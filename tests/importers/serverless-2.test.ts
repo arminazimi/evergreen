@@ -67,10 +67,10 @@ test("parses schedule tables from a minimal page", async () => {
     },
   };
   const result = await gcloudFunctionsRuntimesImporter.import(context);
-  assert.deepEqual(
-    result.rules.map((rule) => rule.id).sort(),
-    ["serverless.google-cloud-functions.nodejs14", "serverless.google-cloud-functions.nodejs20"],
-  );
+  assert.deepEqual(result.rules.map((rule) => rule.id).sort(), [
+    "serverless.google-cloud-functions.nodejs14",
+    "serverless.google-cloud-functions.nodejs20",
+  ]);
   assert.ok(result.notes.some((note) => note.includes("nodejs8") && note.includes("not a calendar date")));
   assert.ok(result.notes.some((note) => note.includes("nodejs26") && note.includes("no decommission date")));
   assert.ok(result.notes.some((note) => note.includes("nodejs22") && note.includes("twelve months")));

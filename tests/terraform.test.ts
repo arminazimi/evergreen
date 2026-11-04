@@ -123,7 +123,9 @@ test("terraform passes detector conformance on every fixture", async () => {
       {
         name: "terraform positive",
         root: positiveRoot,
-        expectedFindings: [expected(cli, ".terraform-version", 1, `.terraform-version pins Terraform 1.12.3. ${cli.summary}`)],
+        expectedFindings: [
+          expected(cli, ".terraform-version", 1, `.terraform-version pins Terraform 1.12.3. ${cli.summary}`),
+        ],
       },
     ],
     checks: [determinismCheck, evidenceCheck, boundsCheck, locationsCheck],
@@ -161,12 +163,15 @@ test("reports a CLI pin in .terraform-version, .tool-versions, and an exact or ~
       "infra/main.tf": 'terraform {\n  required_version = "~> 1.5.0"\n}\n',
     }),
   });
-  assert.deepEqual(findings.map((finding) => [finding.location.path, finding.location.line]), [
-    [".terraform-version", 1],
-    ["app/.tool-versions", 2],
-    ["infra/main.tf", 2],
-    ["main.tf", 2],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.path, finding.location.line]),
+    [
+      [".terraform-version", 1],
+      ["app/.tool-versions", 2],
+      ["infra/main.tf", 2],
+      ["main.tf", 2],
+    ],
+  );
   assert.match(findings[0]!.summary, /^\.terraform-version pins Terraform 1\.5\.7\. /);
   assert.match(findings[3]!.summary, /^main\.tf requires Terraform 1\.5\.7\. /);
 });
@@ -184,7 +189,9 @@ test("a constraint that admits other release lines is not matched by a single-li
 
 test("a rule that covers every version matches any declared constraint", async () => {
   const detector = new TerraformDetector(async () => [rule({ vers: "vers:semver/*" })]);
-  const findings = await detector.scan({ root: await repository({ "main.tf": 'terraform {\n  required_version = ">= 1.5.0"\n}\n' }) });
+  const findings = await detector.scan({
+    root: await repository({ "main.tf": 'terraform {\n  required_version = ">= 1.5.0"\n}\n' }),
+  });
   assert.equal(findings.length, 1);
 });
 
@@ -192,14 +199,19 @@ test("matches provider versions in .terraform.lock.hcl and required_providers", 
   const detector = new TerraformDetector(async () => [PROVIDER_RULE]);
   const findings = await detector.scan({
     root: await repository({
-      ".terraform.lock.hcl": 'provider "registry.terraform.io/hashicorp/aws" {\n  version = "4.67.0"\n}\nprovider "registry.terraform.io/hashicorp/google" {\n  version = "4.1.0"\n}\nprovider "example.com/hashicorp/aws" {\n  version = "4.67.0"\n}\n',
-      "main.tf": 'terraform {\n  required_providers {\n    aws = {\n      source  = "hashicorp/aws"\n      version = "~> 4.67.0"\n    }\n    other = {\n      source  = "example.com/hashicorp/aws"\n      version = "4.67.0"\n    }\n    default = {\n      version = "4.0.0"\n    }\n  }\n}\n',
+      ".terraform.lock.hcl":
+        'provider "registry.terraform.io/hashicorp/aws" {\n  version = "4.67.0"\n}\nprovider "registry.terraform.io/hashicorp/google" {\n  version = "4.1.0"\n}\nprovider "example.com/hashicorp/aws" {\n  version = "4.67.0"\n}\n',
+      "main.tf":
+        'terraform {\n  required_providers {\n    aws = {\n      source  = "hashicorp/aws"\n      version = "~> 4.67.0"\n    }\n    other = {\n      source  = "example.com/hashicorp/aws"\n      version = "4.67.0"\n    }\n    default = {\n      version = "4.0.0"\n    }\n  }\n}\n',
     }),
   });
-  assert.deepEqual(findings.map((finding) => [finding.location.path, finding.location.line]), [
-    [".terraform.lock.hcl", 2],
-    ["main.tf", 5],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.path, finding.location.line]),
+    [
+      [".terraform.lock.hcl", 2],
+      ["main.tf", 5],
+    ],
+  );
   assert.match(findings[0]!.summary, /^\.terraform\.lock\.hcl locks provider hashicorp\/aws 4\.67\.0\. /);
   assert.match(findings[1]!.summary, /^main\.tf requires provider hashicorp\/aws ~> 4\.67\.0\. /);
 });
@@ -233,8 +245,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     ],
   );
   assert.match(analysis.findings[0]!.summary, /^main\.tf sets module\.eks cluster_version 1\.33\. /);
-  assert.match(analysis.findings[1]!.summary, /^main\.tf sets google_container_cluster\.primary min_master_version 1\.30\. /);
-  assert.match(analysis.findings[2]!.summary, /^main\.tf sets azurerm_kubernetes_cluster\.main kubernetes_version 1\.31\.4\. /);
+  assert.match(
+    analysis.findings[1]!.summary,
+    /^main\.tf sets google_container_cluster\.primary min_master_version 1\.30\. /,
+  );
+  assert.match(
+    analysis.findings[2]!.summary,
+    /^main\.tf sets azurerm_kubernetes_cluster\.main kubernetes_version 1\.31\.4\. /,
+  );
   assert.equal(analysis.findings[2]!.deadline, "2025-11-01");
 });
 
@@ -306,12 +324,14 @@ test("matches a patch release and a GKE version suffix in its minor line", async
   const detector = new TerraformDetector(async () => [GKE_RULE]);
   const findings = await detector.scan({
     root: await repository({
-      "main.tf": 'module "gke" {\n  source             = "terraform-google-modules/kubernetes-engine/google"\n  min_master_version = "1.30.4-gke.1200"\n}\n',
+      "main.tf":
+        'module "gke" {\n  source             = "terraform-google-modules/kubernetes-engine/google"\n  min_master_version = "1.30.4-gke.1200"\n}\n',
     }),
   });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.line]), [
-    ["terraform.gke.end-of-life-1.30", 3],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [["terraform.gke.end-of-life-1.30", 3]],
+  );
 });
 
 test("the committed registry judges EKS, GKE, and AKS control-plane versions", async () => {
@@ -323,7 +343,10 @@ test("the committed registry judges EKS, GKE, and AKS control-plane versions", a
   ]) {
     const matching = rules.filter((item) => item.purl === purl);
     assert.ok(matching.length > 0, purl);
-    assert.ok(matching.every((item) => item.sources.every((source) => source.url.startsWith("https://"))), purl);
+    assert.ok(
+      matching.every((item) => item.sources.every((source) => source.url.startsWith("https://"))),
+      purl,
+    );
   }
   const findings = await terraformDetector.scan({
     root: await repository({
@@ -340,18 +363,29 @@ resource "azurerm_kubernetes_cluster" "main" {
 `,
     }),
   });
-  assert.deepEqual(findings.map((finding) => finding.ruleId), [
-    "terraform.eks.end-of-life-1.30-and-older",
-    "terraform.gke.end-of-life-1.29-and-older",
-    "terraform.aks.end-of-life-1.28-and-older",
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => finding.ruleId),
+    [
+      "terraform.eks.end-of-life-1.30-and-older",
+      "terraform.gke.end-of-life-1.29-and-older",
+      "terraform.aks.end-of-life-1.28-and-older",
+    ],
+  );
 });
 
 test("a module version is judged by the vendor named in the module source", async () => {
   const detector = new TerraformDetector(async () => [
     rule({ id: "terraform.eks.example", purl: "pkg:generic/amazon-eks", vers: "vers:semver/>=1.31.0|<1.32.0" }),
-    rule({ id: "terraform.gke.example", purl: "pkg:generic/google-kubernetes-engine", vers: "vers:semver/>=1.31.0|<1.32.0" }),
-    rule({ id: "terraform.aks.example", purl: "pkg:generic/azure-kubernetes-service", vers: "vers:semver/>=1.31.0|<1.32.0" }),
+    rule({
+      id: "terraform.gke.example",
+      purl: "pkg:generic/google-kubernetes-engine",
+      vers: "vers:semver/>=1.31.0|<1.32.0",
+    }),
+    rule({
+      id: "terraform.aks.example",
+      purl: "pkg:generic/azure-kubernetes-service",
+      vers: "vers:semver/>=1.31.0|<1.32.0",
+    }),
   ]);
   const findings = await detector.scan({
     root: await repository({
@@ -372,11 +406,14 @@ module "aks" {
 `,
     }),
   });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.line]), [
-    ["terraform.eks.example", 3],
-    ["terraform.gke.example", 8],
-    ["terraform.aks.example", 13],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["terraform.eks.example", 3],
+      ["terraform.gke.example", 8],
+      ["terraform.aks.example", 13],
+    ],
+  );
   assert.match(findings[0]!.summary, /^main\.tf sets module\.eks kubernetes_version 1\.31\. /);
   assert.match(findings[1]!.summary, /^main\.tf sets module\.gke kubernetes_version 1\.31\. /);
   assert.match(findings[2]!.summary, /^main\.tf sets module\.aks kubernetes_version 1\.31\. /);
@@ -405,18 +442,27 @@ module "no-source" {
       ["kubernetes", "1.31", 7],
     ],
   );
-  assert.ok(analysis.unclassified.every((item) => item.reason === "the module source is not a known managed Kubernetes module"));
+  assert.ok(
+    analysis.unclassified.every((item) => item.reason === "the module source is not a known managed Kubernetes module"),
+  );
 });
 
 test("a malformed VERS rule never matches and does not hide a later rule", async () => {
   const detector = new TerraformDetector(async () => [rule({ id: "terraform.cli.bad", vers: "not-vers" }), rule()]);
   const findings = await detector.scan({ root: await repository(POSITIVE) });
-  assert.deepEqual(findings.map((finding) => finding.ruleId), ["terraform.cli.example", "terraform.cli.example"]);
+  assert.deepEqual(
+    findings.map((finding) => finding.ruleId),
+    ["terraform.cli.example", "terraform.cli.example"],
+  );
 });
 
 test("scanRepository attributes findings to the terraform detector", async () => {
   const result = await scanRepository(await repository({ ".terraform-version": "1.12.3\n" }), builtInDetectors);
-  assert.ok(result.findings.some((finding) => finding.detector === "terraform" && finding.ruleId === "terraform.cli.end-of-support-1.12"));
+  assert.ok(
+    result.findings.some(
+      (finding) => finding.detector === "terraform" && finding.ruleId === "terraform.cli.end-of-support-1.12",
+    ),
+  );
 });
 
 test("ignores .terraform, vendored directories, symbolic names, and a repository without Terraform files", async () => {
@@ -441,8 +487,16 @@ test("a rule file with an unreadable Package URL is skipped", async () => {
 test("every curated Terraform rule has migration guidance with real verification commands", async () => {
   for (const item of await committedRules()) {
     assert.ok(item.migration && item.migration.constraints.length >= 1 && item.migration.steps.length >= 1, item.id);
-    assert.ok(item.migration.verification.some((check) => check.command === "terraform init -backend=false && terraform validate"), item.id);
-    assert.ok(item.migration.verification.some((check) => check.command === "terraform plan"), item.id);
+    assert.ok(
+      item.migration.verification.some(
+        (check) => check.command === "terraform init -backend=false && terraform validate",
+      ),
+      item.id,
+    );
+    assert.ok(
+      item.migration.verification.some((check) => check.command === "terraform plan"),
+      item.id,
+    );
   }
 });
 
@@ -501,11 +555,19 @@ test("the Terraform 1.15 rule flags that line in .terraform-version and required
   const fixtures = resolve("tests/fixtures/terraform.cli.end-of-support-1.15");
   const match = await terraformDetector.scan({ root: resolve(fixtures, "match") });
   assert.deepEqual(
-    match.filter((finding) => finding.ruleId === ruleId).map((finding) => [finding.location.path, finding.location.line]),
-    [[".terraform-version", 1], ["main.tf", 2]],
+    match
+      .filter((finding) => finding.ruleId === ruleId)
+      .map((finding) => [finding.location.path, finding.location.line]),
+    [
+      [".terraform-version", 1],
+      ["main.tf", 2],
+    ],
   );
   const clean = await terraformDetector.scan({ root: resolve(fixtures, "clean") });
-  assert.deepEqual(clean.filter((finding) => finding.ruleId === ruleId), []);
+  assert.deepEqual(
+    clean.filter((finding) => finding.ruleId === ruleId),
+    [],
+  );
 });
 
 test("a migration packet for a Terraform CLI finding names the file, steps, and verification", async () => {
@@ -518,7 +580,9 @@ test("a migration packet for a Terraform CLI finding names the file, steps, and 
     packet.steps.map((step) => step.id).filter((id) => !["review-evidence", "verify-migration"].includes(id)),
     ["raise-cli-pin", "raise-required-version", "align-ci-toolchain"],
   );
-  assert.ok(packet.verification.some((check) => check.command === "terraform init -backend=false && terraform validate"));
+  assert.ok(
+    packet.verification.some((check) => check.command === "terraform init -backend=false && terraform validate"),
+  );
 });
 
 test("reports interpolation-only strings and removed list()/map() calls with exact locations", async () => {

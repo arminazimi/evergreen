@@ -24,9 +24,18 @@ test("time past end of life grows with the days and stops at 50 points after two
 });
 
 test("usages add 5 points each up to 25, preferring the impact count", () => {
-  const usage = { kind: "import" as const, language: "javascript" as const, symbol: "x", location: { path: "a.js" }, excerpt: "" };
+  const usage = {
+    kind: "import" as const,
+    language: "javascript" as const,
+    symbol: "x",
+    location: { path: "a.js" },
+    excerpt: "",
+  };
   assert.equal(riskScore({ usages: [usage, usage] }, "2026-10-25").points.usage, 10);
-  assert.equal(riskScore({ impact: { usageCount: 9, affectedFiles: 2, level: "high" } }, "2026-10-25").points.usage, 25);
+  assert.equal(
+    riskScore({ impact: { usageCount: 9, affectedFiles: 2, level: "high" } }, "2026-10-25").points.usage,
+    25,
+  );
 });
 
 test("advisories add 5 points each up to 25", () => {

@@ -52,7 +52,9 @@ function git(root: string, args: string[]): string {
 }
 
 /** A commit with a clean tree, then a commit that applies `writeHead`. The worktree ends at `head`. */
-async function committedChange(writeHead: (root: string) => Promise<void>): Promise<{ root: string; base: string; head: string }> {
+async function committedChange(
+  writeHead: (root: string) => Promise<void>,
+): Promise<{ root: string; base: string; head: string }> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-suggestions-"));
   temporaryRoots.push(root);
   git(root, ["init", "-q"]);
@@ -78,7 +80,10 @@ async function workflowChange(): Promise<{ root: string; base: string; head: str
 
 test("a fixer patch becomes one suggestion per run of replaced lines", () => {
   assert.deepEqual(suggestionsFromPatch(".github/workflows/ci.yml", PATCH), [CHECKOUT_SUGGESTION]);
-  assert.equal(renderSuggestion(CHECKOUT_SUGGESTION.replacement), "```suggestion\n      - uses: actions/checkout@v5\n```");
+  assert.equal(
+    renderSuggestion(CHECKOUT_SUGGESTION.replacement),
+    "```suggestion\n      - uses: actions/checkout@v5\n```",
+  );
   assert.deepEqual(suggestionComment(CHECKOUT_SUGGESTION), {
     path: ".github/workflows/ci.yml",
     line: 4,
@@ -86,16 +91,7 @@ test("a fixer patch becomes one suggestion per run of replaced lines", () => {
     body: "```suggestion\n      - uses: actions/checkout@v5\n```",
   });
 
-  const multiLine = [
-    "@@ -3,4 +3,5 @@",
-    " a",
-    "-b",
-    "-c",
-    "+B",
-    "+C",
-    "+D",
-    " e",
-  ].join("\n");
+  const multiLine = ["@@ -3,4 +3,5 @@", " a", "-b", "-c", "+B", "+C", "+D", " e"].join("\n");
   assert.deepEqual(suggestionsFromPatch("x.txt", multiLine), [
     { path: "x.txt", startLine: 4, line: 5, replacement: ["B", "C", "D"] },
   ]);
@@ -117,7 +113,10 @@ test("diff mode plans suggestions only for deterministic fixes on lines the pull
     suggestFixes: true,
   });
   assert.deepEqual(outcome.suggestions, [CHECKOUT_SUGGESTION]);
-  assert.equal(renderSuggestionReview(1), `${FIX_SUGGESTION_MARKER}\nEvergreen can fix 1 lifecycle finding on lines this pull request changed. Apply a suggestion, or run \`npx evergreen-deprecation fix\` to make every change locally.`);
+  assert.equal(
+    renderSuggestionReview(1),
+    `${FIX_SUGGESTION_MARKER}\nEvergreen can fix 1 lifecycle finding on lines this pull request changed. Apply a suggestion, or run \`npx evergreen-deprecation fix\` to make every change locally.`,
+  );
 
   const without = await runGitHubAction({
     root,
@@ -149,7 +148,10 @@ test("a finding without a deterministic fix, or on a line the pull request did n
 
   const workflow = await workflowChange();
   const scan = await scanRepository(workflow.root, builtInDetectors);
-  assert.equal((await planFixSuggestions(scan, new Map([[".github/workflows/ci.yml", [{ start: 4, end: 4 }]]]))).length, 1);
+  assert.equal(
+    (await planFixSuggestions(scan, new Map([[".github/workflows/ci.yml", [{ start: 4, end: 4 }]]]))).length,
+    1,
+  );
   assert.deepEqual(
     await planFixSuggestions(scan, new Map([[".github/workflows/ci.yml", [{ start: 1, end: 3 }]]])),
     [],
@@ -172,7 +174,12 @@ interface StoredComment {
 }
 
 /** A fake GitHub API that stores one review and its comments, and records every call. */
-function fakeGitHub(): { calls: Call[]; reviews: Array<{ id: number; body: string }>; comments: StoredComment[]; restore: () => void } {
+function fakeGitHub(): {
+  calls: Call[];
+  reviews: Array<{ id: number; body: string }>;
+  comments: StoredComment[];
+  restore: () => void;
+} {
   const calls: Call[] = [];
   const reviews: Array<{ id: number; body: string }> = [];
   const comments: StoredComment[] = [];
@@ -182,7 +189,7 @@ function fakeGitHub(): { calls: Call[]; reviews: Array<{ id: number; body: strin
   globalThis.fetch = (async (url: string | URL | Request, init?: RequestInit) => {
     const method = init?.method ?? "GET";
     const path = new URL(String(url)).pathname;
-    const body = init?.body === undefined ? undefined : JSON.parse(String(init.body)) as Record<string, unknown>;
+    const body = init?.body === undefined ? undefined : (JSON.parse(String(init.body)) as Record<string, unknown>);
     calls.push({ method, path, ...(body === undefined ? {} : { body }) });
     const reviewPath = /^\/repos\/o\/r\/pulls\/7\/reviews$/;
     const reviewCommentsPath = /^\/repos\/o\/r\/pulls\/7\/reviews\/(\d+)\/comments$/;
@@ -223,7 +230,14 @@ function fakeGitHub(): { calls: Call[]; reviews: Array<{ id: number; body: strin
     return new Response("unexpected", { status: 500 });
   }) as typeof fetch;
 
-  return { calls, reviews, comments, restore: () => { globalThis.fetch = realFetch; } };
+  return {
+    calls,
+    reviews,
+    comments,
+    restore: () => {
+      globalThis.fetch = realFetch;
+    },
+  };
 }
 
 const target = { apiUrl: "https://api.github.com", repository: "o/r", pullRequest: 7, token: "t" };
@@ -231,32 +245,46 @@ const target = { apiUrl: "https://api.github.com", repository: "o/r", pullReques
 test("the suggestion review is created once and a re-run updates it instead of adding another", async () => {
   const api = fakeGitHub();
   try {
-    const review = { body: renderSuggestionReview(1), commitId: "head-sha", comments: [suggestionComment(CHECKOUT_SUGGESTION)] };
+    const review = {
+      body: renderSuggestionReview(1),
+      commitId: "head-sha",
+      comments: [suggestionComment(CHECKOUT_SUGGESTION)],
+    };
     assert.equal(await upsertFixSuggestionsReview(target, review), "created");
     const posted = api.calls.find((call) => call.method === "POST")!;
     assert.equal(posted.path, "/repos/o/r/pulls/7/reviews");
     assert.equal(posted.body?.commit_id, "head-sha");
     assert.equal(posted.body?.event, "COMMENT");
     assert.deepEqual(posted.body?.comments, [
-      { path: ".github/workflows/ci.yml", line: 4, side: "RIGHT", body: "```suggestion\n      - uses: actions/checkout@v5\n```" },
+      {
+        path: ".github/workflows/ci.yml",
+        line: 4,
+        side: "RIGHT",
+        body: "```suggestion\n      - uses: actions/checkout@v5\n```",
+      },
     ]);
     assert.equal(api.reviews.length, 1);
 
     const before = api.calls.length;
     assert.equal(await upsertFixSuggestionsReview(target, review), "updated");
-    assert.deepEqual(api.calls.slice(before).map((call) => `${call.method} ${call.path}`), [
-      "GET /repos/o/r/pulls/7/reviews",
-      "GET /repos/o/r/pulls/7/reviews/7/comments",
-    ], "an unchanged re-run rewrites nothing and adds no review");
+    assert.deepEqual(
+      api.calls.slice(before).map((call) => `${call.method} ${call.path}`),
+      ["GET /repos/o/r/pulls/7/reviews", "GET /repos/o/r/pulls/7/reviews/7/comments"],
+      "an unchanged re-run rewrites nothing and adds no review",
+    );
     assert.equal(api.reviews.length, 1);
 
     const beforeBodyChange = api.calls.length;
     assert.equal(await upsertFixSuggestionsReview(target, { ...review, body: renderSuggestionReview(2) }), "updated");
-    assert.deepEqual(api.calls.slice(beforeBodyChange).map((call) => `${call.method} ${call.path}`), [
-      "GET /repos/o/r/pulls/7/reviews",
-      "PUT /repos/o/r/pulls/7/reviews/7",
-      "GET /repos/o/r/pulls/7/reviews/7/comments",
-    ], "a different body updates the same review");
+    assert.deepEqual(
+      api.calls.slice(beforeBodyChange).map((call) => `${call.method} ${call.path}`),
+      [
+        "GET /repos/o/r/pulls/7/reviews",
+        "PUT /repos/o/r/pulls/7/reviews/7",
+        "GET /repos/o/r/pulls/7/reviews/7/comments",
+      ],
+      "a different body updates the same review",
+    );
   } finally {
     api.restore();
   }
@@ -265,18 +293,31 @@ test("the suggestion review is created once and a re-run updates it instead of a
 test("a re-run rewrites changed suggestions, deletes stale ones, and posts new lines as one more review", async () => {
   const api = fakeGitHub();
   try {
-    const first = { body: renderSuggestionReview(2), commitId: "head-sha", comments: [
-      suggestionComment(CHECKOUT_SUGGESTION),
-      suggestionComment({ path: ".nvmrc", startLine: 1, line: 1, replacement: ["24"] }),
-    ] };
+    const first = {
+      body: renderSuggestionReview(2),
+      commitId: "head-sha",
+      comments: [
+        suggestionComment(CHECKOUT_SUGGESTION),
+        suggestionComment({ path: ".nvmrc", startLine: 1, line: 1, replacement: ["24"] }),
+      ],
+    };
     await upsertFixSuggestionsReview(target, first);
     const [checkout, nvmrc] = api.comments;
     assert.deepEqual([checkout!.path, nvmrc!.path], [".github/workflows/ci.yml", ".nvmrc"]);
 
-    const second = { body: renderSuggestionReview(2), commitId: "next-sha", comments: [
-      suggestionComment({ ...CHECKOUT_SUGGESTION, replacement: ["      - uses: actions/checkout@v6"] }),
-      suggestionComment({ path: ".github/workflows/release.yml", startLine: 2, line: 2, replacement: ["      - uses: actions/upload-artifact@v7"] }),
-    ] };
+    const second = {
+      body: renderSuggestionReview(2),
+      commitId: "next-sha",
+      comments: [
+        suggestionComment({ ...CHECKOUT_SUGGESTION, replacement: ["      - uses: actions/checkout@v6"] }),
+        suggestionComment({
+          path: ".github/workflows/release.yml",
+          startLine: 2,
+          line: 2,
+          replacement: ["      - uses: actions/upload-artifact@v7"],
+        }),
+      ],
+    };
     const before = api.calls.length;
     assert.equal(await upsertFixSuggestionsReview(target, second), "updated");
     const calls = api.calls.slice(before).map((call) => `${call.method} ${call.path}`);
@@ -302,7 +343,11 @@ test("action.yml declares suggest-fixes off by default and passes it to the scan
   assert.equal(action.runs.steps[0]?.env?.["INPUT_SUGGEST-FIXES"], "${{ inputs.suggest-fixes }}");
 });
 
-async function runAction(root: string, event: unknown, extra: Record<string, string> = {}): Promise<{ code: number; stdout: string }> {
+async function runAction(
+  root: string,
+  event: unknown,
+  extra: Record<string, string> = {},
+): Promise<{ code: number; stdout: string }> {
   const runner = join(root, ".runner");
   await mkdir(runner, { recursive: true });
   const output = join(runner, "outputs.txt");
@@ -328,7 +373,9 @@ async function runAction(root: string, event: unknown, extra: Record<string, str
   });
   child.stdout.setEncoding("utf8");
   let stdout = "";
-  child.stdout.on("data", (chunk: string) => { stdout += chunk; });
+  child.stdout.on("data", (chunk: string) => {
+    stdout += chunk;
+  });
   const code = await new Promise<number>((resolveCode, reject) => {
     child.once("error", reject);
     child.once("close", (status) => resolveCode(status ?? 1));
@@ -351,7 +398,9 @@ test("the runner posts one review of suggestions to the pull request", async () 
   const requests: Array<{ method: string; path: string; body: string }> = [];
   const server = createServer((request, response) => {
     let raw = "";
-    request.on("data", (chunk: string) => { raw += chunk; });
+    request.on("data", (chunk: string) => {
+      raw += chunk;
+    });
     request.on("end", () => {
       requests.push({ method: request.method ?? "GET", path: request.url ?? "", body: raw });
       response.setHeader("content-type", "application/json");
@@ -371,12 +420,22 @@ test("the runner posts one review of suggestions to the pull request", async () 
 
     const posted = requests.find((request) => request.method === "POST")!;
     assert.equal(posted.path, "/repos/o/r/pulls/7/reviews");
-    const body = JSON.parse(posted.body) as { commit_id: string; event: string; body: string; comments: Array<{ path: string; line: number; side: string; body: string }> };
+    const body = JSON.parse(posted.body) as {
+      commit_id: string;
+      event: string;
+      body: string;
+      comments: Array<{ path: string; line: number; side: string; body: string }>;
+    };
     assert.equal(body.commit_id, head);
     assert.equal(body.event, "COMMENT");
     assert.ok(body.body.startsWith(FIX_SUGGESTION_MARKER));
     assert.deepEqual(body.comments, [
-      { path: ".github/workflows/ci.yml", line: 4, side: "RIGHT", body: "```suggestion\n      - uses: actions/checkout@v5\n```" },
+      {
+        path: ".github/workflows/ci.yml",
+        line: 4,
+        side: "RIGHT",
+        body: "```suggestion\n      - uses: actions/checkout@v5\n```",
+      },
     ]);
   } finally {
     server.close();

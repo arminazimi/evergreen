@@ -43,7 +43,8 @@ export function parseXml(contents: string): XmlElement | undefined {
     if (chunk.includes("\0")) return undefined;
     if (chunk.trim() !== "") {
       if (stack.length === 1) return undefined;
-      if (!textStart.has(current)) textStart.set(current, line + countNewlines(chunk.slice(0, chunk.length - chunk.trimStart().length)));
+      if (!textStart.has(current))
+        textStart.set(current, line + countNewlines(chunk.slice(0, chunk.length - chunk.trimStart().length)));
       current.text += chunk;
     }
     if (open < 0) break;

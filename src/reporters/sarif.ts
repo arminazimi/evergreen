@@ -79,7 +79,17 @@ export function renderSarif(result: ScanResult): string {
           },
         },
         // Only fixed facts about the data are written, so the same data always gives the same file.
-        ...(result.data ? { properties: { evergreenData: { source: result.data.source, version: result.data.version, reviewedThrough: result.data.reviewedThrough } } } : {}),
+        ...(result.data
+          ? {
+              properties: {
+                evergreenData: {
+                  source: result.data.source,
+                  version: result.data.version,
+                  reviewedThrough: result.data.reviewedThrough,
+                },
+              },
+            }
+          : {}),
         results: findings.map((finding) => ({
           ruleId: finding.ruleId,
           ruleIndex: ruleIds.indexOf(finding.ruleId),

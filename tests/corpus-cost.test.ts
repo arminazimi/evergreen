@@ -4,7 +4,13 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "../benchmarks/corpus-cost.js";
+import {
+  budgetWarnings,
+  createCostTracker,
+  directorySize,
+  formatCost,
+  slowestFetches,
+} from "../benchmarks/corpus-cost.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 import { readFile } from "node:fs/promises";
 
@@ -48,7 +54,14 @@ test("thresholds.json documents a positive budget", async () => {
 });
 
 test("slowestFetches lists the slowest entries first, keeping corpus order on ties", () => {
-  const results = ["a", "b", "c", "d"].map((name, index) => ({ repository: `o/${name}`, commit: "f".repeat(40), checkoutMs: [100, 900, 900, 5][index]! }));
-  assert.deepEqual(slowestFetches(results, 3).map((entry) => entry.repository), ["o/b", "o/c", "o/a"]);
+  const results = ["a", "b", "c", "d"].map((name, index) => ({
+    repository: `o/${name}`,
+    commit: "f".repeat(40),
+    checkoutMs: [100, 900, 900, 5][index]!,
+  }));
+  assert.deepEqual(
+    slowestFetches(results, 3).map((entry) => entry.repository),
+    ["o/b", "o/c", "o/a"],
+  );
   assert.equal(slowestFetches(results).length, 4);
 });

@@ -72,7 +72,8 @@ interface GitHubIssue {
 
 const severityRank = new Map(severityValues.map((severity, index) => [severity, index]));
 
-const cell = (text: string): string => text.replace(/\r?\n/g, " ").replaceAll("\\", "\\\\").replaceAll("|", "\\|").trim();
+const cell = (text: string): string =>
+  text.replace(/\r?\n/g, " ").replaceAll("\\", "\\\\").replaceAll("|", "\\|").trim();
 
 function toTrackingFinding(finding: Finding): TrackingFinding {
   return {
@@ -126,7 +127,8 @@ function encodeSnapshot(findings: readonly TrackingFinding[], today: string): st
 
 /** Compares by end-of-life date, dated findings first, then severity and location for a stable order. */
 function compareFindings(left: TrackingFinding, right: TrackingFinding): number {
-  if (left.deadline && right.deadline && left.deadline !== right.deadline) return left.deadline.localeCompare(right.deadline);
+  if (left.deadline && right.deadline && left.deadline !== right.deadline)
+    return left.deadline.localeCompare(right.deadline);
   if (left.deadline && !right.deadline) return -1;
   if (!left.deadline && right.deadline) return 1;
   return (
@@ -157,27 +159,55 @@ function locationLabel(finding: TrackingFinding, options: TrackingIssueOptions, 
   return `[\`${label}\`](${server}/${options.repository}/blob/${ref}/${encodePath(path)}${line})`;
 }
 
-function renderChanges(previous: TrackingSnapshot | undefined, added: readonly TrackingFinding[], resolved: readonly TrackingFinding[], options: TrackingIssueOptions): string[] {
+function renderChanges(
+  previous: TrackingSnapshot | undefined,
+  added: readonly TrackingFinding[],
+  resolved: readonly TrackingFinding[],
+  options: TrackingIssueOptions,
+): string[] {
   if (!previous) return ["## First run", "", "This is the first run of the tracking issue.", ""];
   const since = previous.updated ? ` since the last run on ${previous.updated}` : " since the last run";
-  if (added.length === 0 && resolved.length === 0) return [`## Changed${since}`, "", "No lifecycle findings changed.", ""];
-  const lines = [`## Changed${since}`, "", `**${added.length}** new, **${resolved.length}** resolved.`, "", "| Change | Severity | Finding | Location |", "|---|---|---|---|"];
-  for (const finding of added) lines.push(`| New | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} |`);
-  for (const finding of resolved) lines.push(`| Resolved | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, false)} |`);
+  if (added.length === 0 && resolved.length === 0)
+    return [`## Changed${since}`, "", "No lifecycle findings changed.", ""];
+  const lines = [
+    `## Changed${since}`,
+    "",
+    `**${added.length}** new, **${resolved.length}** resolved.`,
+    "",
+    "| Change | Severity | Finding | Location |",
+    "|---|---|---|---|",
+  ];
+  for (const finding of added)
+    lines.push(`| New | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} |`);
+  for (const finding of resolved)
+    lines.push(
+      `| Resolved | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, false)} |`,
+    );
   lines.push("");
   return lines;
 }
 
-function renderFindings(findings: readonly TrackingFinding[], options: TrackingIssueOptions, shown = findings.length): string[] {
+function renderFindings(
+  findings: readonly TrackingFinding[],
+  options: TrackingIssueOptions,
+  shown = findings.length,
+): string[] {
   if (findings.length === 0) {
-    return ["## No lifecycle findings", "", `Nothing to track as of ${options.today}. This issue closes itself; a later run reopens it if findings return.`, ""];
+    return [
+      "## No lifecycle findings",
+      "",
+      `Nothing to track as of ${options.today}. This issue closes itself; a later run reopens it if findings return.`,
+      "",
+    ];
   }
 
   const sorted = [...findings].sort(compareFindings);
   const visible = sorted.slice(0, shown);
   const dated = visible.filter((finding) => finding.deadline !== undefined);
   const undated = visible.filter((finding) => finding.deadline === undefined);
-  const passed = findings.filter((finding) => finding.deadline !== undefined && finding.deadline < options.today).length;
+  const passed = findings.filter(
+    (finding) => finding.deadline !== undefined && finding.deadline < options.today,
+  ).length;
   const reached = passed === 0 ? "" : `; **${passed}** ${passed === 1 ? "has" : "have"} reached the end-of-life date`;
   const lines = [
     "## Findings by end-of-life date",
@@ -190,28 +220,45 @@ function renderFindings(findings: readonly TrackingFinding[], options: TrackingI
     lines.push("| End of life | Severity | Finding | Location | Replacement |", "|---|---|---|---|---|");
     for (const finding of dated) {
       const deadline = `${finding.deadline}${finding.deadline! < options.today ? " (past)" : ""}`;
-      lines.push(`| ${deadline} | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`);
+      lines.push(
+        `| ${deadline} | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`,
+      );
     }
     lines.push("");
   }
 
   if (undated.length > 0) {
-    lines.push("## Findings without an end-of-life date", "", "| Severity | Finding | Location | Replacement |", "|---|---|---|---|");
+    lines.push(
+      "## Findings without an end-of-life date",
+      "",
+      "| Severity | Finding | Location | Replacement |",
+      "|---|---|---|---|",
+    );
     for (const finding of undated) {
-      lines.push(`| ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`);
+      lines.push(
+        `| ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`,
+      );
     }
     lines.push("");
   }
 
   const hidden = findings.length - visible.length;
-  if (hidden > 0) lines.push(`…and ${hidden} more finding${hidden === 1 ? "" : "s"}; the hidden snapshot still tracks every finding.`, "");
+  if (hidden > 0)
+    lines.push(
+      `…and ${hidden} more finding${hidden === 1 ? "" : "s"}; the hidden snapshot still tracks every finding.`,
+      "",
+    );
 
   lines.push("Run `npx evergreen-deprecation scan .` for evidence and migration steps.", "");
   return lines;
 }
 
 /** The tracking issue body: the two hidden markers, what changed, and every finding by end-of-life date. */
-export function renderTrackingIssue(findings: readonly Finding[], previous: TrackingSnapshot | undefined, options: TrackingIssueOptions): string {
+export function renderTrackingIssue(
+  findings: readonly Finding[],
+  previous: TrackingSnapshot | undefined,
+  options: TrackingIssueOptions,
+): string {
   const current = findings.map(toTrackingFinding).sort(compareFindings);
   const known = new Set(previous?.findings.map((finding) => finding.id) ?? []);
   const currentIds = new Set(current.map((finding) => finding.id));
@@ -245,7 +292,12 @@ export function trackingIssueEventAllowed(eventName: string | undefined): boolea
   return eventName === undefined || eventName === "schedule" || eventName === "workflow_dispatch";
 }
 
-async function githubRequest(target: TrackingIssueTarget, method: string, path: string, body?: unknown): Promise<unknown> {
+async function githubRequest(
+  target: TrackingIssueTarget,
+  method: string,
+  path: string,
+  body?: unknown,
+): Promise<unknown> {
   const response = await fetch(`${target.apiUrl}${path}`, {
     method,
     headers: {
@@ -265,7 +317,9 @@ async function findTrackingIssue(target: TrackingIssueTarget): Promise<GitHubIss
   const base = `/repos/${target.repository}/issues?state=all&sort=updated&direction=desc&per_page=100`;
   for (let page = 1; page <= REPOSITORY_LIST_LIMIT; page += 1) {
     const issues = (await githubRequest(target, "GET", `${base}&page=${page}`)) as GitHubIssue[];
-    const existing = issues.find((issue) => issue.pull_request === undefined && issue.body?.includes(TRACKING_ISSUE_MARKER));
+    const existing = issues.find(
+      (issue) => issue.pull_request === undefined && issue.body?.includes(TRACKING_ISSUE_MARKER),
+    );
     if (existing) return existing;
     if (issues.length < 100) break;
   }
@@ -276,7 +330,11 @@ async function findTrackingIssue(target: TrackingIssueTarget): Promise<GitHubIss
  * Creates the one tracking issue, updates it, closes it when nothing is left, or reopens it when findings
  * return. Returns what happened; the caller logs it.
  */
-export async function upsertTrackingIssue(target: TrackingIssueTarget, findings: readonly Finding[], today: string): Promise<TrackingIssueAction> {
+export async function upsertTrackingIssue(
+  target: TrackingIssueTarget,
+  findings: readonly Finding[],
+  today: string,
+): Promise<TrackingIssueAction> {
   const existing = await findTrackingIssue(target);
   const previous = existing?.body ? readTrackingSnapshot(existing.body) : undefined;
   const options: TrackingIssueOptions = {

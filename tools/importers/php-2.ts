@@ -134,7 +134,10 @@ function draft(name: string, abandoned: Abandoned): DraftRule {
 }
 
 /** Drafts abandoned-package rules for `names`. Exported so tests can cover names the candidate list does not hold. */
-export async function importAbandonedPackages(context: ImporterContext, names: readonly string[]): Promise<ImporterOutput> {
+export async function importAbandonedPackages(
+  context: ImporterContext,
+  names: readonly string[],
+): Promise<ImporterOutput> {
   const rules: DraftRule[] = [];
   const notes: string[] = [];
   const active: string[] = [];
@@ -177,7 +180,9 @@ export async function importAbandonedPackages(context: ImporterContext, names: r
   }
 
   if (active.length > 0) {
-    notes.push(`Not abandoned on Packagist, so no rule (remove them from PHP_PACKAGE_CANDIDATES if they stay that way): ${active.join(", ")}.`);
+    notes.push(
+      `Not abandoned on Packagist, so no rule (remove them from PHP_PACKAGE_CANDIDATES if they stay that way): ${active.join(", ")}.`,
+    );
   }
   return { rules, notes };
 }

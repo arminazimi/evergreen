@@ -15,20 +15,30 @@ export const command: CliCommand = {
     const usage = "Usage: evergreen setup [path] [--yes] [--dry-run]";
     const flags = new Set(["--yes", "-y", "--dry-run"]);
     const positional = args.filter((argument) => !argument.startsWith("-"));
-    if (args.some((argument) => argument.startsWith("-") && !flags.has(argument)) || positional.length > 1) return ctx.fail("usage", usage);
+    if (args.some((argument) => argument.startsWith("-") && !flags.has(argument)) || positional.length > 1)
+      return ctx.fail("usage", usage);
     const dryRun = args.includes("--dry-run");
     const yes = args.includes("--yes") || args.includes("-y");
     const root = positional[0] ?? ".";
     try {
       const plan = await planSetup(root);
       if (plan.entries.length === 0) {
-        process.stdout.write("No agent host configuration found (looked for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Kilo Code, Windsurf, Cline, and Aider).\nRun `evergreen init --agents` to add the section to AGENTS.md or CLAUDE.md.\n");
+        process.stdout.write(
+          "No agent host configuration found (looked for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Kilo Code, Windsurf, Cline, and Aider).\nRun `evergreen init --agents` to add the section to AGENTS.md or CLAUDE.md.\n",
+        );
         return 0;
       }
       process.stdout.write(`Detected: ${plan.detected.join(", ")}\n\n`);
       for (const entry of plan.entries) {
-        const verb = { created: "create", added: "add the Evergreen section to", updated: "update the Evergreen section in", unchanged: "leave unchanged" }[entry.change];
-        process.stdout.write(`${verb === "leave unchanged" ? "Already current:" : `Would ${verb}`} ${entry.file} (${entry.hosts.join(", ")})\n`);
+        const verb = {
+          created: "create",
+          added: "add the Evergreen section to",
+          updated: "update the Evergreen section in",
+          unchanged: "leave unchanged",
+        }[entry.change];
+        process.stdout.write(
+          `${verb === "leave unchanged" ? "Already current:" : `Would ${verb}`} ${entry.file} (${entry.hosts.join(", ")})\n`,
+        );
         if (entry.diff) process.stdout.write(`\n${entry.diff}\n\n`);
       }
       if (plan.skills.length > 0) {
@@ -45,7 +55,11 @@ export const command: CliCommand = {
         return 0;
       }
       if (filesNeedWrite && !yes) {
-        if (!process.stdin.isTTY) return ctx.fail("usage", "Confirmation needed: pass --yes to write these changes, or --dry-run to only print them.");
+        if (!process.stdin.isTTY)
+          return ctx.fail(
+            "usage",
+            "Confirmation needed: pass --yes to write these changes, or --dry-run to only print them.",
+          );
         const readline = await import("node:readline/promises");
         const prompt = readline.createInterface({ input: process.stdin, output: process.stdout });
         const answer = await prompt.question("Apply these changes? [y/N] ");
@@ -64,9 +78,12 @@ export const command: CliCommand = {
       // Skill install uses the network; only with `--yes`, never in dry-run, never on interactive file confirm alone.
       if (plan.skills.length > 0 && yes) {
         const result = installSetupSkills(plan, { cwd: root });
-        if (result.installed.length > 0) process.stdout.write(`Installed the Skill for ${result.installed.join(", ")}.\n`);
-        for (const failure of result.failed) process.stderr.write(`Skill install failed for ${failure.host}: ${failure.detail}\n`);
-        if (result.failed.length > 0) return ctx.fail("internal", `Skill install failed for ${result.failed.map((item) => item.host).join(", ")}.`);
+        if (result.installed.length > 0)
+          process.stdout.write(`Installed the Skill for ${result.installed.join(", ")}.\n`);
+        for (const failure of result.failed)
+          process.stderr.write(`Skill install failed for ${failure.host}: ${failure.detail}\n`);
+        if (result.failed.length > 0)
+          return ctx.fail("internal", `Skill install failed for ${result.failed.map((item) => item.host).join(", ")}.`);
       } else if (plan.skills.length > 0) {
         process.stdout.write("Pass --yes to install the Skill, or run the command above.\n");
       }

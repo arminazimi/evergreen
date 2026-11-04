@@ -6,7 +6,9 @@ export const command: CliCommand = {
   name: "hook",
   flags: ["--fail-on"],
   example: "evergreen hook claude-code",
-  usage: ["  evergreen hook <host> [--fail-on <severity|none>]   # check the file an agent just wrote and answer in its hook protocol"],
+  usage: [
+    "  evergreen hook <host> [--fail-on <severity|none>]   # check the file an agent just wrote and answer in its hook protocol",
+  ],
   async run(args) {
     return runHook(args);
   },

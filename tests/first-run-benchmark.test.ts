@@ -100,7 +100,10 @@ test("formatFirstRunMarkdown renders a markdown table with header and rows", () 
 
   const markdown = formatFirstRunMarkdown(results);
   assert.match(markdown, /### Time to first useful finding/);
-  assert.match(markdown, /\| Platform \| Runner \| First run duration \| Goal \| Findings \| First finding \| Result \|/);
+  assert.match(
+    markdown,
+    /\| Platform \| Runner \| First run duration \| Goal \| Findings \| First finding \| Result \|/,
+  );
   assert.match(markdown, /\| linux \| Test Runner 1 \| 1\.00 s \| < 120 s \| 1 \| `test\.rule\.id` \| Pass \|/);
   assert.match(markdown, /\| darwin \| Test Runner 2 \| 2\.00 s \| < 120 s \| 0 \| none \| \*\*Fail\*\* \|/);
 });

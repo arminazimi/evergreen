@@ -35,7 +35,12 @@ interface ReviewComment {
   original_start_line?: number | null;
 }
 
-async function githubRequest(target: PullRequestCommentTarget, method: string, path: string, body?: unknown): Promise<unknown> {
+async function githubRequest(
+  target: PullRequestCommentTarget,
+  method: string,
+  path: string,
+  body?: unknown,
+): Promise<unknown> {
   const response = await fetch(`${target.apiUrl}${path}`, {
     method,
     headers: {
@@ -63,10 +68,17 @@ async function listAll<T>(target: PullRequestCommentTarget, path: string): Promi
 }
 
 /** Creates the Evergreen comment on the pull request, or updates the one a previous run left. Returns "created" or "updated". */
-export async function upsertPullRequestComment(target: PullRequestCommentTarget, body: string): Promise<"created" | "updated"> {
+export async function upsertPullRequestComment(
+  target: PullRequestCommentTarget,
+  body: string,
+): Promise<"created" | "updated"> {
   const base = `/repos/${target.repository}/issues`;
   for (let page = 1; page <= 10; page += 1) {
-    const comments = (await githubRequest(target, "GET", `${base}/${target.pullRequest}/comments?per_page=100&page=${page}`)) as IssueComment[];
+    const comments = (await githubRequest(
+      target,
+      "GET",
+      `${base}/${target.pullRequest}/comments?per_page=100&page=${page}`,
+    )) as IssueComment[];
     const existing = comments.find((comment) => comment.body?.startsWith(PR_COMMENT_MARKER));
     if (existing) {
       await githubRequest(target, "PATCH", `${base}/comments/${existing.id}`, { body });
@@ -97,7 +109,10 @@ function suggestionKey(path: string, start: number | null | undefined, line: num
  * and a suggestion at a new line arrives as one more review, because the API cannot add comments to a
  * submitted review.
  */
-export async function upsertFixSuggestionsReview(target: PullRequestCommentTarget, review: FixSuggestionsReview): Promise<"created" | "updated"> {
+export async function upsertFixSuggestionsReview(
+  target: PullRequestCommentTarget,
+  review: FixSuggestionsReview,
+): Promise<"created" | "updated"> {
   const base = `/repos/${target.repository}/pulls/${target.pullRequest}`;
   const payload = {
     ...(review.commitId === undefined ? {} : { commit_id: review.commitId }),
@@ -112,7 +127,8 @@ export async function upsertFixSuggestionsReview(target: PullRequestCommentTarge
     return "created";
   }
 
-  if (existing.body !== review.body) await githubRequest(target, "PUT", `${base}/reviews/${existing.id}`, { body: review.body });
+  if (existing.body !== review.body)
+    await githubRequest(target, "PUT", `${base}/reviews/${existing.id}`, { body: review.body });
 
   const comments = await listAll<ReviewComment>(target, `${base}/reviews/${existing.id}/comments`);
   const remaining = new Map<string, ReviewComment>();
@@ -132,7 +148,9 @@ export async function upsertFixSuggestionsReview(target: PullRequestCommentTarge
     }
     remaining.delete(key);
     if (match.body !== comment.body) {
-      await githubRequest(target, "PATCH", `/repos/${target.repository}/pulls/comments/${match.id}`, { body: comment.body });
+      await githubRequest(target, "PATCH", `/repos/${target.repository}/pulls/comments/${match.id}`, {
+        body: comment.body,
+      });
     }
   }
   for (const comment of remaining.values()) {

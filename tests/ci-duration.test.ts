@@ -296,7 +296,10 @@ test("opens one issue, updates the existing one, and does nothing while fast", a
   };
   assert.equal((await ensureSlowIssue(report, "arminazimi/evergreen", existingClient)).action, "updated");
   assert.deepEqual(updated, [7]);
-  assert.equal((await ensureSlowIssue({ ...report, slowPullRequests: false }, "arminazimi/evergreen", existingClient)).action, "none");
+  assert.equal(
+    (await ensureSlowIssue({ ...report, slowPullRequests: false }, "arminazimi/evergreen", existingClient)).action,
+    "none",
+  );
 });
 
 test("parses arguments, defaults the metrics path to the date, and rejects bad input", () => {

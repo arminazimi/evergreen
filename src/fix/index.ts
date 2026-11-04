@@ -57,10 +57,46 @@ export interface FixPlan {
   refusals: FixRefusal[];
 }
 
-export { dockerfileBaseImageFixer, githubActionsUsesFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, kubernetesIngressV1Fixer, nodeBufferFixer, nodeUtilIsFixer, renameCodemodsFixer, runtimePinsFixer, pythonFixer, terraformLegacyFixer, pythonImpFixer, pythonRenamesFixer, pythonUtcnowFixer, nodeRenamesFixer, dockerfileLegacyFixer };
+export {
+  dockerfileBaseImageFixer,
+  githubActionsUsesFixer,
+  goModFixer,
+  javaFixer,
+  kubernetesApiVersionFixer,
+  kubernetesIngressV1Fixer,
+  nodeBufferFixer,
+  nodeUtilIsFixer,
+  renameCodemodsFixer,
+  runtimePinsFixer,
+  pythonFixer,
+  terraformLegacyFixer,
+  pythonImpFixer,
+  pythonRenamesFixer,
+  pythonUtcnowFixer,
+  nodeRenamesFixer,
+  dockerfileLegacyFixer,
+};
 
 /** Every fixer Evergreen ships, in the order their patches are printed. */
-export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer, pythonFixer, goModFixer, javaFixer, kubernetesApiVersionFixer, kubernetesIngressV1Fixer, dockerfileBaseImageFixer, renameCodemodsFixer, nodeBufferFixer, terraformLegacyFixer, pythonImpFixer, pythonRenamesFixer, pythonUtcnowFixer, nodeRenamesFixer, dockerfileLegacyFixer, nodeUtilIsFixer];
+export const fixers: Fixer[] = [
+  githubActionsUsesFixer,
+  runtimePinsFixer,
+  pythonFixer,
+  goModFixer,
+  javaFixer,
+  kubernetesApiVersionFixer,
+  kubernetesIngressV1Fixer,
+  dockerfileBaseImageFixer,
+  renameCodemodsFixer,
+  nodeBufferFixer,
+  terraformLegacyFixer,
+  pythonImpFixer,
+  pythonRenamesFixer,
+  pythonUtcnowFixer,
+  nodeRenamesFixer,
+  dockerfileLegacyFixer,
+  nodeUtilIsFixer,
+];
 
 /**
  * Plans every fixer over a scan and returns the patches with the fixer that produced them, ordered by file, along with
@@ -83,8 +119,14 @@ export async function planFixReport(result: ScanResult, available: Fixer[] = fix
     for (const patch of await fixer.plan(result, refuse)) patches.push({ ...patch, fixer: fixer.id });
   }
   patches.sort((a, b) => a.path.localeCompare(b.path));
-  refusals.sort((a, b) =>
-    a.path.localeCompare(b.path) || (a.line ?? 0) - (b.line ?? 0) || a.findingId.localeCompare(b.findingId) || a.fixer.localeCompare(b.fixer) || a.reason.localeCompare(b.reason));
+  refusals.sort(
+    (a, b) =>
+      a.path.localeCompare(b.path) ||
+      (a.line ?? 0) - (b.line ?? 0) ||
+      a.findingId.localeCompare(b.findingId) ||
+      a.fixer.localeCompare(b.fixer) ||
+      a.reason.localeCompare(b.reason),
+  );
   return { patches, refusals };
 }
 

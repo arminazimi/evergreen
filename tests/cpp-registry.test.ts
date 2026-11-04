@@ -16,12 +16,18 @@ test("the C and C++ registry has five valid rules, each citing cmake.org or a Ki
   const all = await rules();
   assert.equal(all.length, 5);
   for (const rule of all) {
-    assert.ok(rule.sources.every((source) => source.url.startsWith("https://")), rule.id);
+    assert.ok(
+      rule.sources.every((source) => source.url.startsWith("https://")),
+      rule.id,
+    );
     assert.ok(
       rule.sources.every((source) => CMAKE_ORG.test(source.url) || KITWARE_RELEASE.test(source.url)),
       `${rule.id} cites cmake.org docs or a Kitware GitHub release`,
     );
-    assert.ok(rule.sources.some((source) => CMAKE_ORG.test(source.url)), `${rule.id} cites cmake.org docs`);
+    assert.ok(
+      rule.sources.some((source) => CMAKE_ORG.test(source.url)),
+      `${rule.id} cites cmake.org docs`,
+    );
   }
 });
 
@@ -42,18 +48,26 @@ test("the cmake_minimum_required policy rules cover below 3.5 and the 3.5–3.10
     ["3.16.0", undefined],
     ["4.0.0", undefined],
   ] as const) {
-    const match = all.filter((rule) => rule.purl === "pkg:generic/cmake" && versContains(rule.vers, version)).map((rule) =>
-      rule.id.includes("removed") ? "removed" : "deprecated",
-    );
+    const match = all
+      .filter((rule) => rule.purl === "pkg:generic/cmake" && versContains(rule.vers, version))
+      .map((rule) => (rule.id.includes("removed") ? "removed" : "deprecated"));
     assert.deepEqual(match, hit === undefined ? [] : [hit], version);
   }
 });
 
 test("the generator and module rules match any version of their generic PURL", async () => {
   const targets = [
-    ["cpp.cmake.generator.visual-studio-12-2013.removed", "pkg:generic/cmake-generator/visual-studio-12-2013", "removed"],
+    [
+      "cpp.cmake.generator.visual-studio-12-2013.removed",
+      "pkg:generic/cmake-generator/visual-studio-12-2013",
+      "removed",
+    ],
     ["cpp.cmake.module.find-gdal.deprecated", "pkg:generic/cmake-module/find-gdal", "deprecated"],
-    ["cpp.cmake.module.cmake-find-frameworks.deprecated", "pkg:generic/cmake-module/cmake-find-frameworks", "deprecated"],
+    [
+      "cpp.cmake.module.cmake-find-frameworks.deprecated",
+      "pkg:generic/cmake-module/cmake-find-frameworks",
+      "deprecated",
+    ],
   ] as const;
   const all = await rules();
   for (const [id, purl, event] of targets) {

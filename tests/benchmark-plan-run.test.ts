@@ -42,7 +42,11 @@ test("the plan fixture produces at least eight tasks across six waves in wave or
   assert.equal(new Set(tasks.map((task) => task.id)).size, tasks.length, "task ids are unique");
 
   const waves = tasks.map((task) => task.wave);
-  assert.deepEqual([...waves].sort((left, right) => left - right), waves, "tasks are in wave order");
+  assert.deepEqual(
+    [...waves].sort((left, right) => left - right),
+    waves,
+    "tasks are in wave order",
+  );
   const waveCount = new Set(waves).size;
   assert.ok(waveCount >= 1 && waveCount < tasks.length, "at least one wave holds several tasks");
 
@@ -52,11 +56,7 @@ test("the plan fixture produces at least eight tasks across six waves in wave or
     assert.ok(task.touches.length > 0, `${task.id} touches at least one file`);
     assert.ok(task.resolutionPath.startsWith(`${RESOLUTION_DIR}/`), task.resolutionPath);
   }
-  assert.equal(
-    new Set(tasks.map((task) => task.resolutionPath)).size,
-    tasks.length,
-    "resolution paths are unique",
-  );
+  assert.equal(new Set(tasks.map((task) => task.resolutionPath)).size, tasks.length, "resolution paths are unique");
 });
 
 test("the fake adapter reports both timings and every finding resolved", async () => {

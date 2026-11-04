@@ -12,9 +12,7 @@
       "family": "base-image",
       "path": ".codesandbox/Dockerfile",
       "name": "node",
-      "evergreen": [
-        "container.node.eol-21-and-older"
-      ],
+      "evergreen": ["container.node.eol-21-and-older"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -23,9 +21,7 @@
       "family": "base-image",
       "path": "Dockerfile",
       "name": "node",
-      "evergreen": [
-        "container.node.eol-21-and-older"
-      ],
+      "evergreen": ["container.node.eol-21-and-older"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -34,9 +30,7 @@
       "family": "base-image",
       "path": "examples/with-script-in-browser/.codesandbox/Dockerfile",
       "name": "node",
-      "evergreen": [
-        "container.node.eol-21-and-older"
-      ],
+      "evergreen": ["container.node.eol-21-and-older"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -45,9 +39,7 @@
       "family": "deprecated-package",
       "path": "examples/with-nextjs/package.json",
       "name": "next.14",
-      "evergreen": [
-        "npm.package.next.14.support-end"
-      ],
+      "evergreen": ["npm.package.next.14.support-end"],
       "renovate": "not-seen",
       "outcome": "evergreen-only",
       "note": "Renovate did not list this npm package at all."
@@ -65,9 +57,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "types.socket.io-client",
-      "evergreen": [
-        "npm.package.types.socket.io-client.deprecated"
-      ],
+      "evergreen": ["npm.package.types.socket.io-client.deprecated"],
       "renovate": "not-seen",
       "outcome": "evergreen-only",
       "note": "Renovate did not list this npm package at all."
@@ -85,9 +75,7 @@
       "family": "github-action",
       "path": ".github/workflows/autorelease-excalidraw.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -96,9 +84,7 @@
       "family": "github-action",
       "path": ".github/workflows/autorelease-excalidraw.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -107,9 +93,7 @@
       "family": "github-action",
       "path": ".github/workflows/build-docker.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -118,9 +102,7 @@
       "family": "github-action",
       "path": ".github/workflows/lint.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -129,9 +111,7 @@
       "family": "github-action",
       "path": ".github/workflows/lint.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -140,9 +120,7 @@
       "family": "github-action",
       "path": ".github/workflows/locales-coverage.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -151,9 +129,7 @@
       "family": "github-action",
       "path": ".github/workflows/locales-coverage.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -162,9 +138,7 @@
       "family": "github-action",
       "path": ".github/workflows/publish-docker.yml",
       "name": "build-push-action",
-      "evergreen": [
-        "github-actions.build-push-action.node20"
-      ],
+      "evergreen": ["github-actions.build-push-action.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -173,9 +147,7 @@
       "family": "github-action",
       "path": ".github/workflows/publish-docker.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -184,9 +156,7 @@
       "family": "github-action",
       "path": ".github/workflows/publish-docker.yml",
       "name": "login-action",
-      "evergreen": [
-        "github-actions.login-action.node20"
-      ],
+      "evergreen": ["github-actions.login-action.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -195,9 +165,7 @@
       "family": "github-action",
       "path": ".github/workflows/publish-docker.yml",
       "name": "setup-buildx-action",
-      "evergreen": [
-        "github-actions.setup-buildx-action.node20"
-      ],
+      "evergreen": ["github-actions.setup-buildx-action.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -206,9 +174,7 @@
       "family": "github-action",
       "path": ".github/workflows/publish-docker.yml",
       "name": "setup-qemu-action",
-      "evergreen": [
-        "github-actions.setup-qemu-action.node20"
-      ],
+      "evergreen": ["github-actions.setup-qemu-action.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -217,9 +183,7 @@
       "family": "github-action",
       "path": ".github/workflows/sentry-production.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -228,9 +192,7 @@
       "family": "github-action",
       "path": ".github/workflows/sentry-production.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -239,9 +201,7 @@
       "family": "github-action",
       "path": ".github/workflows/size-limit.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -250,9 +210,7 @@
       "family": "github-action",
       "path": ".github/workflows/size-limit.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -261,9 +219,7 @@
       "family": "github-action",
       "path": ".github/workflows/test-coverage-pr.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -272,9 +228,7 @@
       "family": "github-action",
       "path": ".github/workflows/test-coverage-pr.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -283,9 +237,7 @@
       "family": "github-action",
       "path": ".github/workflows/test.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -294,15 +246,11 @@
       "family": "github-action",
       "path": ".github/workflows/test.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     }
   ],
-  "notComparable": [
-    "nodejs.runtime"
-  ]
+  "notComparable": ["nodejs.runtime"]
 }

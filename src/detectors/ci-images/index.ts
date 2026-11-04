@@ -24,7 +24,21 @@ import { parseGitlabCi } from "./parse-gitlab-ci.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "bin", "obj", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "bin",
+  "obj",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 
 type CiImageFileKind = "gitlab" | "circleci" | "azure";
 interface CiImageFile {
@@ -50,7 +64,8 @@ async function ciImageFiles(root: string): Promise<CiImageFile[]> {
         const name = entry.name;
         if (name === ".gitlab-ci.yml") files.push({ path: join(directory, name), name: "gitlab" });
         else if (name === "azure-pipelines.yml") files.push({ path: join(directory, name), name: "azure" });
-        else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path: join(directory, name), name: "circleci" });
+        else if (name === "config.yml" && basename(directory) === ".circleci")
+          files.push({ path: join(directory, name), name: "circleci" });
       }
     }
   }
@@ -69,9 +84,15 @@ export class CiImagesDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "ci-images";
   /** The files `scan` may read; conformance fails a scan that reads another. */
-  readonly inputs: DetectorInputs = { fileNames: [".gitlab-ci.yml", "azure-pipelines.yml"], directories: [".circleci"] };
+  readonly inputs: DetectorInputs = {
+    fileNames: [".gitlab-ci.yml", "azure-pipelines.yml"],
+    directories: [".circleci"],
+  };
 
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/ci-images.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/ci-images.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -118,11 +139,21 @@ export class CiImagesDetector implements Detector {
 
       if (file.name === "gitlab") {
         for (const item of parseGitlabCi(contents).unclassified) {
-          unclassified.push({ component: "gitlab-ci-image", reference: item.value, reason: item.reason, location: { path, line: item.line } });
+          unclassified.push({
+            component: "gitlab-ci-image",
+            reference: item.value,
+            reason: item.reason,
+            location: { path, line: item.line },
+          });
         }
       } else if (file.name === "circleci") {
         for (const item of parseCircleci(contents).unclassified) {
-          unclassified.push({ component: "circleci-image", reference: item.value, reason: item.reason, location: { path, line: item.line } });
+          unclassified.push({
+            component: "circleci-image",
+            reference: item.value,
+            reason: item.reason,
+            location: { path, line: item.line },
+          });
         }
       } else {
         const azure = parseAzurePipelines(contents);
@@ -136,12 +167,22 @@ export class CiImagesDetector implements Detector {
           }
         }
         for (const item of azure.unclassified) {
-          unclassified.push({ component: "azure-pipelines-image", reference: item.value, reason: item.reason, location: { path, line: item.line } });
+          unclassified.push({
+            component: "azure-pipelines-image",
+            reference: item.value,
+            reason: item.reason,
+            location: { path, line: item.line },
+          });
         }
       }
     }
 
-    findings.sort((left, right) => left.location.path.localeCompare(right.location.path) || (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id));
+    findings.sort(
+      (left, right) =>
+        left.location.path.localeCompare(right.location.path) ||
+        (left.location.line ?? 0) - (right.location.line ?? 0) ||
+        left.id.localeCompare(right.id),
+    );
     return { findings, unclassified };
   }
 }

@@ -14,7 +14,12 @@ after(async () => {
 });
 
 const finding = (path: string, line?: number): Finding =>
-  ({ id: "f", title: "Old thing", severity: "high", location: { path, ...(line ? { line } : {}) } }) as unknown as Finding;
+  ({
+    id: "f",
+    title: "Old thing",
+    severity: "high",
+    location: { path, ...(line ? { line } : {}) },
+  }) as unknown as Finding;
 
 test("keys move the selection within bounds and switch views", () => {
   let state = reduce({ view: "list", selected: 0 }, { name: "up" }, 2);
@@ -40,8 +45,14 @@ test("the list marks the selected finding and shows its location", () => {
 test("editorCommand jumps to the line for known editors and stays inside the repository", () => {
   const root = resolve("repo");
   const file = resolve(root, "package.json");
-  assert.deepEqual(editorCommand(root, finding("package.json", 4), { EDITOR: "vim" }), { command: "vim", args: ["+4", file] });
-  assert.deepEqual(editorCommand(root, finding("package.json", 4), { VISUAL: "code -r" }), { command: "code", args: ["-r", "--goto", `${file}:4`] });
+  assert.deepEqual(editorCommand(root, finding("package.json", 4), { EDITOR: "vim" }), {
+    command: "vim",
+    args: ["+4", file],
+  });
+  assert.deepEqual(editorCommand(root, finding("package.json", 4), { VISUAL: "code -r" }), {
+    command: "code",
+    args: ["-r", "--goto", `${file}:4`],
+  });
   assert.deepEqual(editorCommand(root, finding("package.json"), { EDITOR: "nano" }), { command: "nano", args: [file] });
   assert.equal(editorCommand(root, finding("../secret", 1), { EDITOR: "vim" }), undefined);
   assert.equal(editorCommand(root, finding(resolve("elsewhere/x"), 1), { EDITOR: "vim" }), undefined);

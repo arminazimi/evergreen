@@ -3,10 +3,14 @@ import { isoDate } from "./canonical.js";
 import { fetchJson } from "./types.js";
 import type { DraftRule, Importer } from "./types.js";
 
-export const DOTNET_RELEASES_INDEX_URL = "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json";
+export const DOTNET_RELEASES_INDEX_URL =
+  "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json";
 
 const SOURCES = [
-  { title: ".NET and .NET Core official support policy", url: "https://dotnet.microsoft.com/platform/support/policy/dotnet-core" },
+  {
+    title: ".NET and .NET Core official support policy",
+    url: "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+  },
   { title: ".NET releases index (channel, support phase, end-of-life date)", url: DOTNET_RELEASES_INDEX_URL },
 ];
 
@@ -29,7 +33,8 @@ function lines(index: { "releases-index"?: unknown }): Line[] {
   const found: Line[] = [];
   const channels = Array.isArray(index["releases-index"]) ? (index["releases-index"] as Channel[]) : [];
   for (const channel of channels) {
-    const match = typeof channel["channel-version"] === "string" ? /^(\d+)\.(\d+)$/.exec(channel["channel-version"]) : null;
+    const match =
+      typeof channel["channel-version"] === "string" ? /^(\d+)\.(\d+)$/.exec(channel["channel-version"]) : null;
     const type = channel["release-type"];
     if (!match || (type !== "lts" && type !== "sts") || typeof channel["support-phase"] !== "string") continue;
     const eol = isIsoDate(channel["eol-date"]) ? channel["eol-date"] : undefined;
@@ -40,7 +45,8 @@ function lines(index: { "releases-index"?: unknown }): Line[] {
 
 const name = (line: Line): string => `${line.major >= 5 ? ".NET" : ".NET Core"} ${line.major}.${line.minor}`;
 // ".NET 8" for the unified releases, but ".NET Core 1.0" and ".NET Core 3.0": the vendor never dropped the minor from those names.
-const shortName = (line: Line): string => (line.minor === 0 && line.major >= 5 ? name(line).replace(/\.0$/, "") : name(line));
+const shortName = (line: Line): string =>
+  line.minor === 0 && line.major >= 5 ? name(line).replace(/\.0$/, "") : name(line);
 
 export const dotnetReleasesImporter: Importer = {
   id: "dotnet-1",
@@ -58,15 +64,23 @@ export const dotnetReleasesImporter: Importer = {
     }
 
     // An announced end within a year becomes a scheduled rule (decision 0010); a later one is only noted.
-    const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
+    const horizon = isoDate(
+      new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())),
+    );
     const undated = all.filter((line) => line.eol === undefined && line.phase === "eol");
-    for (const line of undated) notes.push(`${shortName(line)} is marked end of life but has no end-of-life date, so no rule was drafted.`);
-    for (const line of all.filter((candidate) => candidate.eol !== undefined && candidate.eol > horizon)) notes.push(`${shortName(line)} ends support on ${line.eol}, which is more than twelve months after ${today}, so no rule was drafted.`);
+    for (const line of undated)
+      notes.push(`${shortName(line)} is marked end of life but has no end-of-life date, so no rule was drafted.`);
+    for (const line of all.filter((candidate) => candidate.eol !== undefined && candidate.eol > horizon))
+      notes.push(
+        `${shortName(line)} ends support on ${line.eol}, which is more than twelve months after ${today}, so no rule was drafted.`,
+      );
 
     const current = all
       .filter((line) => line.type === "lts" && line.phase !== "eol" && (line.eol === undefined || line.eol > today))
       .sort((left, right) => right.major - left.major || right.minor - left.minor)[0];
-    const replacement = current ? `.NET ${current.major} (LTS), or the newest supported .NET release` : "The newest supported .NET release";
+    const replacement = current
+      ? `.NET ${current.major} (LTS), or the newest supported .NET release`
+      : "The newest supported .NET release";
 
     const rules: DraftRule[] = all
       .filter((line): line is Line & { eol: string } => line.eol !== undefined && line.eol <= horizon)
@@ -92,7 +106,9 @@ export const dotnetReleasesImporter: Importer = {
         };
       });
     const scheduledCount = rules.filter((rule) => rule.event === "scheduled-end-of-life").length;
-    notes.unshift(`Drafted ${rules.length} rule${rules.length === 1 ? "" : "s"} on ${today}: ${rules.length - scheduledCount} past end of support, ${scheduledCount} scheduled.`);
+    notes.unshift(
+      `Drafted ${rules.length} rule${rules.length === 1 ? "" : "s"} on ${today}: ${rules.length - scheduledCount} past end of support, ${scheduledCount} scheduled.`,
+    );
     return { rules, notes };
   },
 };

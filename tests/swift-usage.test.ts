@@ -46,7 +46,14 @@ const packageRule: RegistryV2Rule = {
   provenance: { observedAt: "2026-10-20", reviewedAt: "2026-10-20", reviewer: "test" },
   migration: {
     constraints: ["Keep the package and source imports on the same major version."],
-    steps: [{ id: "replace-api", title: "Replace the API", instructions: "Update the package and affected calls.", targets: "all" }],
+    steps: [
+      {
+        id: "replace-api",
+        title: "Replace the API",
+        instructions: "Update the package and affected calls.",
+        targets: "all",
+      },
+    ],
     verification: [{ command: "swift build && swift test", purpose: "Build and test the Swift package." }],
   },
   usage,
@@ -101,7 +108,10 @@ test("reports runtime lookup forms as unclassified and ignores comments", async 
 
 test("Swift matchers are valid usage matchers", () => {
   assert.equal(isUsageMatcher({ kind: "import", language: "swift", module: "ExampleLibrary" }), true);
-  assert.equal(isUsageMatcher({ kind: "call", language: "swift", module: "ExampleLibrary", targets: ["Client.request"] }), true);
+  assert.equal(
+    isUsageMatcher({ kind: "call", language: "swift", module: "ExampleLibrary", targets: ["Client.request"] }),
+    true,
+  );
 });
 
 test("a deprecated Swift package includes source usage in scan output and migration context", async () => {
@@ -134,7 +144,10 @@ test("a deprecated Swift package includes source usage in scan output and migrat
     ],
   );
   assert.deepEqual(finding.impact, { usageCount: 2, affectedFiles: 1, level: "low" });
-  assert.deepEqual(result.unclassified?.references.map((item) => [item.location.path, item.location.line]), [["Sources/Dynamic.swift", 1]]);
+  assert.deepEqual(
+    result.unclassified?.references.map((item) => [item.location.path, item.location.line]),
+    [["Sources/Dynamic.swift", 1]],
+  );
 
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.deepEqual(packet.affectedFiles, ["Package.swift", "Sources/App.swift"]);

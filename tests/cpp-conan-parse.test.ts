@@ -82,18 +82,18 @@ test("parses the requires attribute and literal self.requires calls from a conan
 test("conanfile.py ignores comments, prose, build tools, and dynamic values", async () => {
   assert.deepEqual(parseConanfilePy(await fixture("negative/conanfile.py")), []);
   for (const contents of [
-    "class P(ConanFile):\n    build_requires = \"cmake/3.27.9\"\n",
-    "class P(ConanFile):\n    tool_requires = \"cmake/3.27.9\"\n",
-    "def requirements(self):\n    self.tool_requires(\"cmake/3.27.9\")\n",
+    'class P(ConanFile):\n    build_requires = "cmake/3.27.9"\n',
+    'class P(ConanFile):\n    tool_requires = "cmake/3.27.9"\n',
+    'def requirements(self):\n    self.tool_requires("cmake/3.27.9")\n',
     "def requirements(self):\n    self.requires(VERSION)\n",
     "def requirements(self):\n    self.requires(VERSION, headers=True)\n",
-    "def requirements(self):\n    self.requires(f\"zlib/{VERSION}\")\n",
+    'def requirements(self):\n    self.requires(f"zlib/{VERSION}")\n',
     "class P(ConanFile):\n    requires = [pkg for pkg in PACKAGES]\n",
     "class P(ConanFile):\n    requires = get_requirements()\n",
-    "class P(ConanFile):\n    requires = \"zlib/\" + VERSION\n",
-    "class P(ConanFile):\n    requires = \"zlib/1.2.13\" \"openssl/1.1.1t\"\n",
-    "class P(ConanFile):\n    requires: list = [\"zlib/1.2.13\"]\n",
-    "def requirements(self):\n    self.requires(\n        \"zlib/1.2.13\"\n    )\n",
+    'class P(ConanFile):\n    requires = "zlib/" + VERSION\n',
+    'class P(ConanFile):\n    requires = "zlib/1.2.13" "openssl/1.1.1t"\n',
+    'class P(ConanFile):\n    requires: list = ["zlib/1.2.13"]\n',
+    'def requirements(self):\n    self.requires(\n        "zlib/1.2.13"\n    )\n',
   ]) {
     assert.deepEqual(parseConanfilePy(contents), [], contents);
   }
@@ -103,20 +103,22 @@ test("conanfile.py parses single strings, tuples, lists, and several call argume
   assert.deepEqual(parseConanfilePy("class P(ConanFile):\n    requires = 'zlib/1.2.13'\n"), [
     { kind: "conan-requirement", name: "zlib", value: "1.2.13", line: 2 },
   ]);
-  assert.deepEqual(parseConanfilePy("class P(ConanFile):\n    requires = (\"zlib/1.2.13\", \"openssl/1.1.1t\",)\n"), [
+  assert.deepEqual(parseConanfilePy('class P(ConanFile):\n    requires = ("zlib/1.2.13", "openssl/1.1.1t",)\n'), [
     { kind: "conan-requirement", name: "zlib", value: "1.2.13", line: 2 },
     { kind: "conan-requirement", name: "openssl", value: "1.1.1t", line: 2 },
   ]);
-  assert.deepEqual(parseConanfilePy("class P(ConanFile):\n    requires = [\"zlib/1.2.13\"]\n"), [
+  assert.deepEqual(parseConanfilePy('class P(ConanFile):\n    requires = ["zlib/1.2.13"]\n'), [
     { kind: "conan-requirement", name: "zlib", value: "1.2.13", line: 2 },
   ]);
-  assert.deepEqual(parseConanfilePy("def requirements(self):\n    self.requires(\"zlib/1.2.13\", headers=True)  # pinned\n"), [
-    { kind: "conan-requirement", name: "zlib", value: "1.2.13", line: 2 },
-  ]);
-  assert.deepEqual(parseConanfilePy("def requirements(self):\n    self.requires(\"zlib/1.2.13\", options={\"shared\": True})\n"), [
-    { kind: "conan-requirement", name: "zlib", value: "1.2.13", line: 2 },
-  ]);
-  assert.deepEqual(parseConanfilePy("class P(ConanFile):\n    requires = \"zlib/1.2.13\", f\"openssl/{VERSION}\"\n"), [
+  assert.deepEqual(
+    parseConanfilePy('def requirements(self):\n    self.requires("zlib/1.2.13", headers=True)  # pinned\n'),
+    [{ kind: "conan-requirement", name: "zlib", value: "1.2.13", line: 2 }],
+  );
+  assert.deepEqual(
+    parseConanfilePy('def requirements(self):\n    self.requires("zlib/1.2.13", options={"shared": True})\n'),
+    [{ kind: "conan-requirement", name: "zlib", value: "1.2.13", line: 2 }],
+  );
+  assert.deepEqual(parseConanfilePy('class P(ConanFile):\n    requires = "zlib/1.2.13", f"openssl/{VERSION}"\n'), [
     { kind: "conan-requirement", name: "zlib", value: "1.2.13", line: 2 },
   ]);
 });
@@ -128,14 +130,12 @@ test("conanfile.py never reads declarations out of comments, strings, or docstri
     'self.requires("openssl/1.1.1t")',
     '"""',
     '# requires = "zlib/1.2.13"',
-    'class P(ConanFile):',
-    '    description = "self.requires(\'curl/8.4.0\')"',
+    "class P(ConanFile):",
+    "    description = \"self.requires('curl/8.4.0')\"",
     '    requires = "fmt/11.0.2"',
     "",
   ].join("\n");
-  assert.deepEqual(parseConanfilePy(contents), [
-    { kind: "conan-requirement", name: "fmt", value: "11.0.2", line: 8 },
-  ]);
+  assert.deepEqual(parseConanfilePy(contents), [{ kind: "conan-requirement", name: "fmt", value: "11.0.2", line: 8 }]);
 });
 
 test("a malformed conanfile.py returns nothing and never throws", async () => {

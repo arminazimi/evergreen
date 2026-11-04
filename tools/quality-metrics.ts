@@ -100,7 +100,9 @@ function sum(values: readonly number[]): number {
 }
 
 /** Debt counts from the allowlist; the checker keeps each ceiling equal to the measured value. */
-export function countsFromAllowlist(allowlist: Allowlist): Pick<
+export function countsFromAllowlist(
+  allowlist: Allowlist,
+): Pick<
   QualityCounts,
   | "filesOverWarn"
   | "functionsOverComplexity"
@@ -154,7 +156,10 @@ async function scorecardFromAdoption(adoptionDir: string): Promise<{ score: numb
   } catch {
     return { score: null, source: null };
   }
-  const matches = entries.filter((name) => name.endsWith(".json")).sort().reverse();
+  const matches = entries
+    .filter((name) => name.endsWith(".json"))
+    .sort()
+    .reverse();
   for (const name of matches) {
     const snapshot = await readJsonFile<{
       metrics?: { scorecardScore?: { status?: string; value?: unknown } };
@@ -264,7 +269,10 @@ export function rowsFromSnapshots(
 ): QualityTargetRow[] {
   if (!current) {
     return [
-      unavailable("File size", `median ≤${QUALITY_TARGETS.medianLines}; none over ${QUALITY_TARGETS.warnLines} without an entry`),
+      unavailable(
+        "File size",
+        `median ≤${QUALITY_TARGETS.medianLines}; none over ${QUALITY_TARGETS.warnLines} without an entry`,
+      ),
       unavailable("Complexity", `≤${QUALITY_TARGETS.complexity} per function`),
       unavailable("Type safety", `0 any; 0 @ts-ignore; as unknown as and non-null may not grow`),
       unavailable("Boundaries", "zero violations without an entry"),
@@ -272,7 +280,10 @@ export function rowsFromSnapshots(
         "Coverage",
         `lines ≥${QUALITY_TARGETS.coverageLines}; branches ≥${QUALITY_TARGETS.coverageBranches}; functions ≥${QUALITY_TARGETS.coverageFunctions}`,
       ),
-      unavailable("Mutation score", `break at ${QUALITY_TARGETS.mutationBreak}; high at ${QUALITY_TARGETS.mutationHigh}`),
+      unavailable(
+        "Mutation score",
+        `break at ${QUALITY_TARGETS.mutationBreak}; high at ${QUALITY_TARGETS.mutationHigh}`,
+      ),
       unavailable("Docs", "generated checks gate; links and accessibility clean"),
       unavailable("Security", `no high/critical; Scorecard ≥${QUALITY_TARGETS.scorecardFloor}`),
       unavailable("Remaining debt", "allowlist ceilings equal measured values; expire by 2027-01-26"),
@@ -333,11 +344,7 @@ export function rowsFromSnapshots(
       criterion: "Docs",
       target: "generated checks gate; links and accessibility clean",
       current:
-        c.docsStatus === "pass"
-          ? "pass"
-          : c.docsStatus === "partial"
-            ? "partial (links report-only)"
-            : "unavailable",
+        c.docsStatus === "pass" ? "pass" : c.docsStatus === "partial" ? "partial (links report-only)" : "unavailable",
       value: null,
       previous: null,
     },
@@ -356,10 +363,7 @@ export function rowsFromSnapshots(
       target: "allowlist ceilings equal measured values; expire by 2027-01-26",
       current: `${c.functionsOverComplexity} over complexity; ${c.nonNullAssertions} non-null`,
       value: c.functionsOverComplexity + c.nonNullAssertions,
-      previous:
-        p === undefined
-          ? null
-          : p.functionsOverComplexity + p.nonNullAssertions,
+      previous: p === undefined ? null : p.functionsOverComplexity + p.nonNullAssertions,
     },
   ];
 }

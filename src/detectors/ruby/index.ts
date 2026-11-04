@@ -26,7 +26,19 @@ import { parseRubyVersion, parseToolVersions } from "./parse-ruby-runtime.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const RUNTIME_PURL = "pkg:generic/ruby";
 const RUBY_FILES = new Set([".ruby-version", ".tool-versions", "Gemfile", "Gemfile.lock"]);
 
@@ -83,10 +95,16 @@ export class RubyDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "ruby";
   /** The files `scan` may read; conformance fails a scan that reads another. */
-  readonly inputs: DetectorInputs = { fileNames: [".ruby-version", ".tool-versions", "Gemfile", "Gemfile.lock"], sourceExtensions: [".rb", ".rake", ".ru"] };
+  readonly inputs: DetectorInputs = {
+    fileNames: [".ruby-version", ".tool-versions", "Gemfile", "Gemfile.lock"],
+    sourceExtensions: [".rb", ".rake", ".ru"],
+  };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/ruby.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/ruby.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/ruby.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -140,28 +158,58 @@ export class RubyDetector implements Detector {
         const declarations = name === ".ruby-version" ? parseRubyVersion(contents) : parseToolVersions(contents);
         for (const declaration of declarations) {
           const rule = firstMatchingRule(runtimeRules, runtimeVersion(declaration.value));
-          if (rule) report(rule, path, declaration.line, `${path} pins Ruby ${displayRuntimeVersion(declaration.value)}. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} pins Ruby ${displayRuntimeVersion(declaration.value)}. ${rule.summary}`,
+            );
         }
       } else if (name === "Gemfile") {
         for (const declaration of parseGemfile(contents)) {
           if (declaration.kind === "ruby") {
             const rule = firstMatchingRule(runtimeRules, runtimeVersion(declaration.value));
-            if (rule) report(rule, path, declaration.line, `${path} requires Ruby ${displayRuntimeVersion(declaration.value)}. ${rule.summary}`);
+            if (rule)
+              report(
+                rule,
+                path,
+                declaration.line,
+                `${path} requires Ruby ${displayRuntimeVersion(declaration.value)}. ${rule.summary}`,
+              );
             continue;
           }
           for (const rule of gemRules.get(declaration.name) ?? []) {
-            if (coversEveryVersion(rule)) report(rule, path, declaration.line, `${path} declares ${declaration.name} ${declaration.value}. ${rule.summary}`);
+            if (coversEveryVersion(rule))
+              report(
+                rule,
+                path,
+                declaration.line,
+                `${path} declares ${declaration.name} ${declaration.value}. ${rule.summary}`,
+              );
           }
         }
       } else if (name === "Gemfile.lock") {
         for (const declaration of parseGemfileLock(contents)) {
           if (declaration.kind === "ruby") {
             const rule = firstMatchingRule(runtimeRules, runtimeVersion(declaration.value));
-            if (rule) report(rule, path, declaration.line, `${path} resolves Ruby ${displayRuntimeVersion(declaration.value)}. ${rule.summary}`);
+            if (rule)
+              report(
+                rule,
+                path,
+                declaration.line,
+                `${path} resolves Ruby ${displayRuntimeVersion(declaration.value)}. ${rule.summary}`,
+              );
             continue;
           }
           const rule = firstMatchingRule(gemRules.get(declaration.name) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
+            );
         }
       }
     }
@@ -174,7 +222,14 @@ export class RubyDetector implements Detector {
     }> = [];
 
     if (withUsage.length > 0) {
-      const analyses = new Map((await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
+      const analyses = new Map(
+        (
+          await analyzeSourceUsage(
+            context.root,
+            withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })),
+          )
+        ).map((analysis) => [analysis.contractId, analysis]),
+      );
       for (const finding of findings) {
         const analysis = analyses.get(finding.id);
         if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });

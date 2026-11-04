@@ -14,8 +14,11 @@ const findings = JSON.parse(await readFile(resolve("tests/fixtures/cyclonedx/vex
 const ajv = new Ajv({ allErrors: true, strict: false });
 ajv.addFormat("iri-reference", (value: string) => !/\s/.test(value));
 ajv.addFormat("uri", (value: string) => URL.canParse(value));
-ajv.addFormat("date-time", (value: string) =>
-  /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?(?:Z|[+-]\d\d:\d\d)$/.test(value) && Number.isFinite(Date.parse(value)));
+ajv.addFormat(
+  "date-time",
+  (value: string) =>
+    /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?(?:Z|[+-]\d\d:\d\d)$/.test(value) && Number.isFinite(Date.parse(value)),
+);
 ajv.addFormat("idn-email", (value: string) => /^[^\s@]+@[^\s@]+$/.test(value));
 for (const file of ["spdx.schema.json", "jsf-0.82.schema.json"]) {
   ajv.addSchema(JSON.parse(await readFile(resolve("tests/fixtures/cyclonedx", file), "utf8")));
@@ -58,11 +61,10 @@ test("fixture findings produce a valid CycloneDX 1.5 VEX document with evidence 
 
   const vulnerabilities = document.vulnerabilities as Array<Record<string, unknown>>;
   assert.equal(vulnerabilities.length, 3);
-  assert.deepEqual(vulnerabilities.map((entry) => entry.id), [
-    "evergreen:nodejs.18",
-    "evergreen:npm.left-pad",
-    "GHSA-p8p7-x288-28g6",
-  ]);
+  assert.deepEqual(
+    vulnerabilities.map((entry) => entry.id),
+    ["evergreen:nodejs.18", "evergreen:npm.left-pad", "GHSA-p8p7-x288-28g6"],
+  );
 
   const exposed = vulnerabilities.find((entry) => entry.id === "GHSA-p8p7-x288-28g6")!;
   assert.deepEqual(exposed.analysis, {
@@ -86,9 +88,7 @@ test("fixture findings produce a valid CycloneDX 1.5 VEX document with evidence 
 
   const triage = vulnerabilities.find((entry) => entry.id === "evergreen:nodejs.18")!;
   assert.deepEqual((triage.analysis as { state: string }).state, "in_triage");
-  assert.deepEqual(triage.properties, [
-    { name: VEX_EVIDENCE_LOCATION_PROPERTY, value: "declaration:package.json:5" },
-  ]);
+  assert.deepEqual(triage.properties, [{ name: VEX_EVIDENCE_LOCATION_PROPERTY, value: "declaration:package.json:5" }]);
 });
 
 test("exportVex is deterministic and omits optional metadata when not provided", () => {

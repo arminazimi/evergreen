@@ -20,7 +20,9 @@ interface PackageEntry {
 }
 
 function scalarValue(node: unknown): string | undefined {
-  return isScalar(node) && (typeof node.value === "string" || typeof node.value === "number") ? String(node.value) : undefined;
+  return isScalar(node) && (typeof node.value === "string" || typeof node.value === "number")
+    ? String(node.value)
+    : undefined;
 }
 
 function mapValue(node: unknown, key: string): unknown {
@@ -248,7 +250,8 @@ export const pnpmLockAnalyzer: UpgradeAnalyzer = {
       if (seen.has(identity)) continue;
       seen.add(identity);
       const valid = semver.validRange(entry.range) !== null;
-      const satisfied = valid && versions.some((candidate) => semver.satisfies(candidate, entry.range, { includePrerelease: false }));
+      const satisfied =
+        valid && versions.some((candidate) => semver.satisfies(candidate, entry.range, { includePrerelease: false }));
       if (satisfied) continue;
       const level = valid ? (entry.dev ? "warning" : "blocker") : "unknown";
       issues.push({

@@ -8,7 +8,9 @@ export const command: CliCommand = {
   name: "guard",
   flags: ["--fail-on", "--force", "--data-version"],
   example: "evergreen guard npm install request",
-  usage: ["  evergreen guard [--fail-on <severity|none>] [--force] npm install <package>...   # check first; flags after npm go to npm"],
+  usage: [
+    "  evergreen guard [--fail-on <severity|none>] [--force] npm install <package>...   # check first; flags after npm go to npm",
+  ],
   usageSlots: [39],
   run(args, ctx) {
     return afterGates("guard", args, ctx, async () => {

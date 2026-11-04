@@ -49,11 +49,13 @@ export async function readFailedRepositories(reportPath: string): Promise<string
   } catch (error) {
     throw new Error(`Cannot read the report ${reportPath}: ${error instanceof Error ? error.message : String(error)}`);
   }
-  if (!Array.isArray(report.repositories)) throw new Error(`${reportPath} is not a corpus report: it has no "repositories" list.`);
+  if (!Array.isArray(report.repositories))
+    throw new Error(`${reportPath} is not a corpus report: it has no "repositories" list.`);
   const failed = report.repositories.filter(
     (result) =>
       typeof result.repository === "string" &&
-      ((Array.isArray(result.unexpected) && result.unexpected.length > 0) || (Array.isArray(result.missing) && result.missing.length > 0)),
+      ((Array.isArray(result.unexpected) && result.unexpected.length > 0) ||
+        (Array.isArray(result.missing) && result.missing.length > 0)),
   );
   return failed.map((result) => result.repository as string);
 }
@@ -73,17 +75,23 @@ export function selectCorpusEntries(
   const ecosystems = [...new Set(entries.map((entry) => entry.ecosystem))].sort();
   const unknownEcosystems = filter.ecosystems.filter((name) => !ecosystems.includes(name as never));
   if (unknownEcosystems.length > 0) {
-    throw new Error(`Unknown ecosystem ${unknownEcosystems.map((name) => `"${name}"`).join(", ")}. Valid ecosystems: ${ecosystems.join(", ")}.`);
+    throw new Error(
+      `Unknown ecosystem ${unknownEcosystems.map((name) => `"${name}"`).join(", ")}. Valid ecosystems: ${ecosystems.join(", ")}.`,
+    );
   }
   const repositories = entries.map((entry) => entry.repository).sort();
   // A repository named by an old report may have left the corpus since; it is skipped, not an error.
-  const known = failedRepositories.filter((name) => repositories.some((repository) => repository.toLowerCase() === name.toLowerCase()));
+  const known = failedRepositories.filter((name) =>
+    repositories.some((repository) => repository.toLowerCase() === name.toLowerCase()),
+  );
   const wanted = new Set([...filter.repositories, ...known].map((name) => name.toLowerCase()));
   const unknownRepositories = filter.repositories.filter(
     (name) => !repositories.some((repository) => repository.toLowerCase() === name.toLowerCase()),
   );
   if (unknownRepositories.length > 0) {
-    throw new Error(`Unknown repository ${unknownRepositories.map((name) => `"${name}"`).join(", ")}. Valid repositories:\n${repositories.join("\n")}`);
+    throw new Error(
+      `Unknown repository ${unknownRepositories.map((name) => `"${name}"`).join(", ")}. Valid repositories:\n${repositories.join("\n")}`,
+    );
   }
   const selected = entries.filter(
     (entry) => filter.ecosystems.includes(entry.ecosystem) || wanted.has(entry.repository.toLowerCase()),

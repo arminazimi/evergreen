@@ -76,9 +76,9 @@ export interface SuggestionComment {
 function unquotePath(header: string): string {
   if (!header.startsWith('"') || !header.endsWith('"')) return header;
   const named: Record<string, string> = { b: "\b", f: "\f", n: "\n", r: "\r", t: "\t", v: "\v", '"': '"', "\\": "\\" };
-  return header.slice(1, -1).replace(/\\([0-7]{1,3}|.)/g, (_, escape: string) =>
-    /^[0-7]+$/.test(escape) ? String.fromCharCode(parseInt(escape, 8)) : (named[escape] ?? escape),
-  );
+  return header
+    .slice(1, -1)
+    .replace(/\\([0-7]{1,3}|.)/g, (_, escape: string) => (/^[0-7]+$/.test(escape) ? String.fromCharCode(parseInt(escape, 8)) : (named[escape] ?? escape)));
 }
 
 /** Parses `git diff --unified=0` into the new-side line ranges it added or changed, keyed by repository-relative path. */
@@ -102,7 +102,10 @@ export function parseChangedLines(diff: string): Map<string, LineRange[]> {
 }
 
 /** Splits findings into those on a line the range changed and the rest; a finding without a line is never on a changed line. */
-export function selectChangedAnnotations(findings: readonly Finding[], changed: ReadonlyMap<string, readonly LineRange[]>): { annotated: Finding[]; unannotated: Finding[] } {
+export function selectChangedAnnotations(
+  findings: readonly Finding[],
+  changed: ReadonlyMap<string, readonly LineRange[]>,
+): { annotated: Finding[]; unannotated: Finding[] } {
   const annotated: Finding[] = [];
   const unannotated: Finding[] = [];
   for (const finding of findings) {
@@ -192,8 +195,7 @@ export async function planFixSuggestions(result: ScanResult, changed: ReadonlyMa
       if (touchesOnlyChangedLines) suggestions.push(suggestion);
     }
   }
-  return suggestions.sort((left, right) =>
-    left.path.localeCompare(right.path) || left.startLine - right.startLine || left.line - right.line);
+  return suggestions.sort((left, right) => left.path.localeCompare(right.path) || left.startLine - right.startLine || left.line - right.line);
 }
 
 /** A `suggestion` block: the lines GitHub replaces the commented lines with. */
@@ -301,11 +303,7 @@ function annotationFor(finding: Finding): GitHubAnnotation {
   return {
     level: annotationLevel(finding),
     title: `Evergreen: ${finding.title}`,
-    message: [
-      finding.summary,
-      finding.replacement ? `Replacement: ${finding.replacement}` : undefined,
-      `Finding: ${finding.id}`,
-    ]
+    message: [finding.summary, finding.replacement ? `Replacement: ${finding.replacement}` : undefined, `Finding: ${finding.id}`]
       .filter((value): value is string => value !== undefined)
       .join("\n"),
     location: finding.location,
@@ -554,9 +552,7 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   }
   const scope = parseAnnotations(options.annotations, options.mode === "diff" ? "diff" : "scan");
   const diffRange = options.mode === "diff" ? options.diffRange : undefined;
-  const changed = diffRange !== undefined && (scope === "changed" || options.suggestFixes === true)
-    ? changedLines(root, diffRange)
-    : undefined;
+  const changed = diffRange !== undefined && (scope === "changed" || options.suggestFixes === true) ? changedLines(root, diffRange) : undefined;
   let annotatedFindings: readonly Finding[] = result.findings;
   let unannotated = 0;
   if (scope === "none") {
@@ -656,7 +652,8 @@ function renderTimeline(findings: readonly Finding[]): string[] {
         : `\`${cell(first.path)}${first.line === undefined ? "" : `:${first.line}`}\`${rest.length === 0 ? "" : ` +${rest.length} more`}`;
     lines.push(`| ${event.date} | ${left === 0 ? "today" : `${plural(left, "day")} left`} | ${event.severity} | ${cell(event.title)} | ${location} |`);
   }
-  if (events.length > SUMMARY_TIMELINE_EVENTS) lines.push("", `…and ${events.length - SUMMARY_TIMELINE_EVENTS} more dated events; the JSON report artifact lists every deadline.`);
+  if (events.length > SUMMARY_TIMELINE_EVENTS)
+    lines.push("", `…and ${events.length - SUMMARY_TIMELINE_EVENTS} more dated events; the JSON report artifact lists every deadline.`);
   lines.push("");
   return lines;
 }
@@ -673,7 +670,9 @@ function appendFindingTables(lines: string[], findings: readonly Finding[]): voi
   }
   lines.push("");
 
-  const top = [...findings].sort((left, right) => (severityRank.get(right.severity) ?? 0) - (severityRank.get(left.severity) ?? 0) || left.id.localeCompare(right.id)).slice(0, SUMMARY_FINDINGS);
+  const top = [...findings]
+    .sort((left, right) => (severityRank.get(right.severity) ?? 0) - (severityRank.get(left.severity) ?? 0) || left.id.localeCompare(right.id))
+    .slice(0, SUMMARY_FINDINGS);
   lines.push("| Severity | Finding | Location | Evidence |", "|---|---|---|---|");
   for (const finding of top) {
     const source = finding.sources[0];
@@ -739,15 +738,28 @@ export function renderSummary(
 
   if (unannotated && unannotated.count > 0) {
     const report = unannotated.reportUrl ? `[JSON report](${unannotated.reportUrl})` : "JSON report";
-    lines.push(`Not annotated: **${unannotated.count}** finding${unannotated.count === 1 ? "" : "s"} not on lines this pull request changed; the ${report} lists every finding.`, "");
+    lines.push(
+      `Not annotated: **${unannotated.count}** finding${unannotated.count === 1 ? "" : "s"} not on lines this pull request changed; the ${report} lists every finding.`,
+      "",
+    );
   }
 
   if (suppressions) {
-    lines.push(`Baseline: ${suppressions.suppressed} finding${suppressions.suppressed === 1 ? "" : "s"} suppressed, ${suppressions.expiring.length} expiring${suppressions.warnWithinDays === undefined ? "" : ` within ${suppressions.warnWithinDays} days`}, ${suppressions.expired.length} expired.`, "");
-    const rows = [...suppressions.expired.map((ref) => ({ ref, when: `expired ${ref.daysAgo === 0 ? "today" : `${ref.daysAgo} day${ref.daysAgo === 1 ? "" : "s"} ago`}` })), ...suppressions.expiring.map((ref) => ({ ref, when: ref.daysLeft === 0 ? "expires today" : `expires in ${ref.daysLeft} day${ref.daysLeft === 1 ? "" : "s"}` }))];
+    lines.push(
+      `Baseline: ${suppressions.suppressed} finding${suppressions.suppressed === 1 ? "" : "s"} suppressed, ${suppressions.expiring.length} expiring${suppressions.warnWithinDays === undefined ? "" : ` within ${suppressions.warnWithinDays} days`}, ${suppressions.expired.length} expired.`,
+      "",
+    );
+    const rows = [
+      ...suppressions.expired.map((ref) => ({ ref, when: `expired ${ref.daysAgo === 0 ? "today" : `${ref.daysAgo} day${ref.daysAgo === 1 ? "" : "s"} ago`}` })),
+      ...suppressions.expiring.map((ref) => ({
+        ref,
+        when: ref.daysLeft === 0 ? "expires today" : `expires in ${ref.daysLeft} day${ref.daysLeft === 1 ? "" : "s"}`,
+      })),
+    ];
     if (rows.length > 0) {
       lines.push("| Suppression | Location | When | Owner |", "|---|---|---|---|");
-      for (const { ref, when } of rows.slice(0, SUMMARY_FINDINGS)) lines.push(`| ${cell(ref.ruleId)} | \`${cell(ref.path)}\` | ${when} (${ref.expires}) | ${ref.owner ? cell(ref.owner) : "—"} |`);
+      for (const { ref, when } of rows.slice(0, SUMMARY_FINDINGS))
+        lines.push(`| ${cell(ref.ruleId)} | \`${cell(ref.path)}\` | ${when} (${ref.expires}) | ${ref.owner ? cell(ref.owner) : "—"} |`);
       if (rows.length > SUMMARY_FINDINGS) lines.push("", `…and ${rows.length - SUMMARY_FINDINGS} more.`);
       lines.push("");
     }

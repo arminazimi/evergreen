@@ -57,4 +57,3 @@ export function parseGoWork(contents: string): GoWorkDeclaration[] {
 
   return block || malformed ? [] : declarations;
 }
-

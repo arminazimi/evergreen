@@ -85,7 +85,9 @@ test("dart passes detector conformance on every fixture", async () => {
       {
         name: "dart positive",
         root: positiveRoot,
-        expectedFindings: [expected(dart38, "pubspec.yaml", 3, `pubspec.yaml declares Dart SDK 3.8.1. ${dart38.summary}`)],
+        expectedFindings: [
+          expected(dart38, "pubspec.yaml", 3, `pubspec.yaml declares Dart SDK 3.8.1. ${dart38.summary}`),
+        ],
       },
     ],
     checks: [determinismCheck, evidenceCheck, boundsCheck, locationsCheck],
@@ -114,14 +116,21 @@ test("is registered as a built-in detector", () => {
 });
 
 test("reports an exact Dart SDK pin and ignores a constraint that admits newer SDKs", async () => {
-  const findings = await dartDetector.scan({ root: await repository({ "pubspec.yaml": "environment:\n  sdk: \">=3.8.0 <4.0.0\"\n" }) });
+  const findings = await dartDetector.scan({
+    root: await repository({ "pubspec.yaml": 'environment:\n  sdk: ">=3.8.0 <4.0.0"\n' }),
+  });
   assert.deepEqual(findings, []);
   const pinned = await dartDetector.scan({ root: await repository(POSITIVE) });
-  assert.deepEqual(pinned.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["dart.sdk.end-of-support-3.8", "pubspec.yaml", 3]]);
+  assert.deepEqual(
+    pinned.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["dart.sdk.end-of-support-3.8", "pubspec.yaml", 3]],
+  );
 });
 
 test("reports a Flutter version pinned in .fvmrc and .fvm/fvm_config.json", async () => {
-  const detector = new DartDetector(async () => [rule({ id: "dart.flutter.old", purl: "pkg:generic/flutter", vers: "vers:semver/<3.30.0", event: "end-of-support" })]);
+  const detector = new DartDetector(async () => [
+    rule({ id: "dart.flutter.old", purl: "pkg:generic/flutter", vers: "vers:semver/<3.30.0", event: "end-of-support" }),
+  ]);
   const findings = await detector.scan({
     root: await repository({
       ".fvmrc": '{\n  "flutter": "3.29.0"\n}\n',
@@ -129,10 +138,13 @@ test("reports a Flutter version pinned in .fvmrc and .fvm/fvm_config.json", asyn
       "other/fvm_config.json": '{\n  "flutterSdkVersion": "3.29.1"\n}\n',
     }),
   });
-  assert.deepEqual(findings.map((finding) => [finding.location.path, finding.location.line]), [
-    [".fvmrc", 2],
-    ["app/.fvm/fvm_config.json", 2],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.path, finding.location.line]),
+    [
+      [".fvmrc", 2],
+      ["app/.fvm/fvm_config.json", 2],
+    ],
+  );
   assert.match(findings[0]!.summary, /^\.fvmrc pins Flutter 3\.29\.0\./);
 });
 
@@ -140,13 +152,17 @@ test("matches a discontinued package in pubspec.yaml and pubspec.lock", async ()
   const detector = new DartDetector(async () => [rule()]);
   const root = await repository({
     "pubspec.yaml": "name: app\ndependencies:\n  example_widgets: ^2.1.0\n  http: ^1.0.0\n",
-    "pubspec.lock": 'packages:\n  example_widgets:\n    dependency: "direct main"\n    description:\n      name: example_widgets\n      url: "https://pub.dev"\n    source: hosted\n    version: "2.1.4"\nsdks:\n  dart: ">=3.13.0 <4.0.0"\n',
+    "pubspec.lock":
+      'packages:\n  example_widgets:\n    dependency: "direct main"\n    description:\n      name: example_widgets\n      url: "https://pub.dev"\n    source: hosted\n    version: "2.1.4"\nsdks:\n  dart: ">=3.13.0 <4.0.0"\n',
   });
   const findings = await detector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.location.path, finding.location.line]), [
-    ["pubspec.lock", 8],
-    ["pubspec.yaml", 3],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.path, finding.location.line]),
+    [
+      ["pubspec.lock", 8],
+      ["pubspec.yaml", 3],
+    ],
+  );
   assert.match(findings[0]!.summary, /^pubspec\.lock resolves example_widgets 2\.1\.4\./);
   assert.match(findings[1]!.summary, /^pubspec\.yaml depends on example_widgets \^2\.1\.0\./);
 });
@@ -158,10 +174,13 @@ test("the committed discontinued rule flags analysis_server_client and ignores l
   assert.notEqual(discontinued.provenance.reviewer, "pending-review");
 
   const findings = await dartDetector.scan({ root: resolve(fixtures, "discontinued") });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [
-    [ruleId, "pubspec.lock", 11],
-    [ruleId, "pubspec.yaml", 10],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [
+      [ruleId, "pubspec.lock", 11],
+      [ruleId, "pubspec.yaml", 10],
+    ],
+  );
   assert.match(findings[0]!.summary, /^pubspec\.lock resolves analysis_server_client 2\.0\.1\./);
   assert.match(findings[1]!.summary, /^pubspec\.yaml depends on analysis_server_client \^2\.0\.1\./);
   assert.ok(findings.every((finding) => finding.severity === "medium"));
@@ -173,32 +192,57 @@ test("a package rule limited to a version range matches only a resolved version 
   const detector = new DartDetector(async () => [rule({ vers: "vers:semver/<2.0.0" })]);
   const root = await repository({
     "pubspec.yaml": "dependencies:\n  example_widgets: ^1.0.0\n",
-    "pubspec.lock": 'packages:\n  example_widgets:\n    dependency: "direct main"\n    description:\n      name: example_widgets\n      url: "https://pub.dev"\n    source: hosted\n    version: "1.4.0"\n',
+    "pubspec.lock":
+      'packages:\n  example_widgets:\n    dependency: "direct main"\n    description:\n      name: example_widgets\n      url: "https://pub.dev"\n    source: hosted\n    version: "1.4.0"\n',
   });
-  assert.deepEqual((await detector.scan({ root })).map((finding) => finding.location.path), ["pubspec.lock"]);
+  assert.deepEqual(
+    (await detector.scan({ root })).map((finding) => finding.location.path),
+    ["pubspec.lock"],
+  );
 });
 
 test("a malformed VERS rule never matches and does not hide a later rule", async () => {
   const detector = new DartDetector(async () => [rule({ id: "dart.package.bad", vers: "not-vers" }), rule()]);
-  const findings = await detector.scan({ root: await repository({ "pubspec.yaml": "dependencies:\n  example_widgets: 1.0.0\n" }) });
-  assert.deepEqual(findings.map((finding) => finding.ruleId), ["dart.package.example-widgets.discontinued"]);
+  const findings = await detector.scan({
+    root: await repository({ "pubspec.yaml": "dependencies:\n  example_widgets: 1.0.0\n" }),
+  });
+  assert.deepEqual(
+    findings.map((finding) => finding.ruleId),
+    ["dart.package.example-widgets.discontinued"],
+  );
 });
 
 test("scanRepository attributes findings to the dart detector", async () => {
   const result = await scanRepository(await repository(POSITIVE), builtInDetectors);
-  assert.ok(result.findings.some((finding) => finding.detector === "dart" && finding.ruleId === "dart.sdk.end-of-support-3.8"));
+  assert.ok(
+    result.findings.some((finding) => finding.detector === "dart" && finding.ruleId === "dart.sdk.end-of-support-3.8"),
+  );
 });
 
 test("ignores generated and vendored directories and returns nothing without Dart files", async () => {
   assert.deepEqual(await dartDetector.scan({ root: await repository({ "README.md": "hello\n" }) }), []);
-  assert.deepEqual(await dartDetector.scan({ root: await repository({ ".dart_tool/pubspec.yaml": POSITIVE["pubspec.yaml"], "node_modules/x/pubspec.yaml": POSITIVE["pubspec.yaml"] }) }), []);
+  assert.deepEqual(
+    await dartDetector.scan({
+      root: await repository({
+        ".dart_tool/pubspec.yaml": POSITIVE["pubspec.yaml"],
+        "node_modules/x/pubspec.yaml": POSITIVE["pubspec.yaml"],
+      }),
+    }),
+    [],
+  );
 });
 
 test("every curated Dart rule has migration guidance with real verification commands", async () => {
   for (const item of await committedRules()) {
     assert.ok(item.migration && item.migration.constraints.length >= 1 && item.migration.steps.length >= 1, item.id);
-    assert.ok(item.migration.verification.some((check) => check.command === "dart analyze && flutter test"), item.id);
-    assert.ok(item.migration.verification.some((check) => check.command === "dart analyze && dart test"), item.id);
+    assert.ok(
+      item.migration.verification.some((check) => check.command === "dart analyze && flutter test"),
+      item.id,
+    );
+    assert.ok(
+      item.migration.verification.some((check) => check.command === "dart analyze && dart test"),
+      item.id,
+    );
   }
 });
 
@@ -208,6 +252,9 @@ test("a migration packet for a Dart SDK finding names the file, steps, and verif
   assert.ok(finding);
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.ok(packet.affectedFiles.includes("pubspec.yaml"));
-  assert.deepEqual(packet.steps.map((step) => step.id).filter((id) => !["review-evidence", "verify-migration"].includes(id)), ["raise-sdk-pin", "raise-sdk-constraint", "align-ci-toolchain"]);
+  assert.deepEqual(
+    packet.steps.map((step) => step.id).filter((id) => !["review-evidence", "verify-migration"].includes(id)),
+    ["raise-sdk-pin", "raise-sdk-constraint", "align-ci-toolchain"],
+  );
   assert.ok(packet.verification.some((check) => check.command === "dart analyze && flutter test"));
 });

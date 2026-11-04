@@ -46,7 +46,8 @@ export const RECORDED_TARGETS = Object.freeze([
   {
     check: "Branch-Protection",
     floor: -1,
-    reason: "Baseline 2026-11-01: -1 (error) because admin-only fields need a PAT this workflow does not store; accepted in SECURITY.md.",
+    reason:
+      "Baseline 2026-11-01: -1 (error) because admin-only fields need a PAT this workflow does not store; accepted in SECURITY.md.",
   },
   {
     check: "CI-Tests",
@@ -61,12 +62,14 @@ export const RECORDED_TARGETS = Object.freeze([
   {
     check: "Code-Review",
     floor: 0,
-    reason: "Baseline 2026-11-01: approving reviews are deliberately not a merge gate (SECURITY.md); floor 0 only catches a check regression.",
+    reason:
+      "Baseline 2026-11-01: approving reviews are deliberately not a merge gate (SECURITY.md); floor 0 only catches a check regression.",
   },
   {
     check: "Contributors",
     floor: 3,
-    reason: "Baseline 2026-11-01: contributors from one organization; no repository change raises this (docs/ADOPTION.md).",
+    reason:
+      "Baseline 2026-11-01: contributors from one organization; no repository change raises this (docs/ADOPTION.md).",
   },
   {
     check: "Dangerous-Workflow",
@@ -91,7 +94,8 @@ export const RECORDED_TARGETS = Object.freeze([
   {
     check: "Maintained",
     floor: 0,
-    reason: "Baseline 2026-11-01: repository is younger than the 90-day window; the score lifts automatically (docs/ADOPTION.md).",
+    reason:
+      "Baseline 2026-11-01: repository is younger than the 90-day window; the score lifts automatically (docs/ADOPTION.md).",
   },
   {
     check: "Packaging",
@@ -101,12 +105,14 @@ export const RECORDED_TARGETS = Object.freeze([
   {
     check: "Pinned-Dependencies",
     floor: 3,
-    reason: "Baseline 2026-11-01: 3 because unpinned example and test Dockerfiles count; this check fell 4 to 3 on 2026-10-31, so regressions must be visible.",
+    reason:
+      "Baseline 2026-11-01: 3 because unpinned example and test Dockerfiles count; this check fell 4 to 3 on 2026-10-31, so regressions must be visible.",
   },
   {
     check: "SAST",
     floor: 7,
-    reason: "Baseline 2026-11-01: CodeQL configured but weekly, not per commit; hold at 7 until codeql.yml runs on pull requests.",
+    reason:
+      "Baseline 2026-11-01: CodeQL configured but weekly, not per commit; hold at 7 until codeql.yml runs on pull requests.",
   },
   {
     check: "Security-Policy",
@@ -116,7 +122,8 @@ export const RECORDED_TARGETS = Object.freeze([
   {
     check: "Signed-Releases",
     floor: 2,
-    reason: "Baseline 2026-11-01: 1 of the last 4 releases has provenance; release.yml signs now, so this floor rises as signed releases age in (docs/ADOPTION.md).",
+    reason:
+      "Baseline 2026-11-01: 1 of the last 4 releases has provenance; release.yml signs now, so this floor rises as signed releases age in (docs/ADOPTION.md).",
   },
   {
     check: "Token-Permissions",
@@ -126,7 +133,8 @@ export const RECORDED_TARGETS = Object.freeze([
   {
     check: "Vulnerabilities",
     floor: 0,
-    reason: "Baseline 2026-11-01: open OSV findings in shipped fixtures; the runtime audit is clean, floor 0 keeps the check listed and watchable.",
+    reason:
+      "Baseline 2026-11-01: open OSV findings in shipped fixtures; the runtime audit is clean, floor 0 keeps the check listed and watchable.",
   },
 ]);
 
@@ -210,7 +218,9 @@ export function findViolations(scores, targets) {
 /** One report line per breach; empty when every target is met. */
 export function violationLines({ below, missing }) {
   return [
-    ...below.map(({ check, score, floor }) => `BELOW TARGET: ${check} scored ${score}, its recorded target is ${floor}`),
+    ...below.map(
+      ({ check, score, floor }) => `BELOW TARGET: ${check} scored ${score}, its recorded target is ${floor}`,
+    ),
     ...missing.map(({ check, floor }) => `BELOW TARGET: ${check} has no result, its recorded target is ${floor}`),
   ];
 }

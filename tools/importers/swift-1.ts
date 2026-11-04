@@ -288,7 +288,9 @@ export function xcodeFloors(articles: Article[]): { floors: XcodeFloor[]; notes:
     });
   }
 
-  floors.sort((left, right) => compareVersions(left.version, right.version) || left.deadline.localeCompare(right.deadline));
+  floors.sort(
+    (left, right) => compareVersions(left.version, right.version) || left.deadline.localeCompare(right.deadline),
+  );
   const unique: XcodeFloor[] = [];
   for (const floor of floors) {
     const previous = unique[unique.length - 1];
@@ -314,9 +316,7 @@ export const swiftAppStoreImporter: Importer = {
       return {
         rules: [],
         notes:
-          parsed.notes.length > 0
-            ? parsed.notes
-            : ["No usable upcoming-requirements articles were found in the page."],
+          parsed.notes.length > 0 ? parsed.notes : ["No usable upcoming-requirements articles were found in the page."],
       };
     }
 
@@ -329,7 +329,9 @@ export const swiftAppStoreImporter: Importer = {
     const rules: DraftRule[] = [];
     for (const [index, floor] of floors.entries()) {
       if (floor.deadline > today) {
-        notes.push(`Skipped Xcode ${floor.version} floor from "${floor.title}": deadline ${floor.deadline} is still in the future.`);
+        notes.push(
+          `Skipped Xcode ${floor.version} floor from "${floor.title}": deadline ${floor.deadline} is still in the future.`,
+        );
         continue;
       }
       const lower = index === 0 ? undefined : floors[index - 1]!.version;

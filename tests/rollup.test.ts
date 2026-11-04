@@ -7,7 +7,14 @@ import { after, test } from "node:test";
 import { parse } from "yaml";
 
 import type { Finding, Severity } from "../src/domain.js";
-import { RollupError, productOf, renderRollupHtml, repositoryNameFromPath, rollup, rollupFiles } from "../src/rollup.js";
+import {
+  RollupError,
+  productOf,
+  renderRollupHtml,
+  repositoryNameFromPath,
+  rollup,
+  rollupFiles,
+} from "../src/rollup.js";
 import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
@@ -17,15 +24,33 @@ after(async () => {
 });
 
 function finding(ruleId: string, severity: Severity, deadline?: string): Finding {
-  return { id: `${ruleId}:${severity}`, ruleId, detector: "d", title: "t", summary: "s", severity, confidence: "exact", location: { path: "package.json" }, sources: [], ...(deadline !== undefined ? { deadline } : {}) };
+  return {
+    id: `${ruleId}:${severity}`,
+    ruleId,
+    detector: "d",
+    title: "t",
+    summary: "s",
+    severity,
+    confidence: "exact",
+    location: { path: "package.json" },
+    sources: [],
+    ...(deadline !== undefined ? { deadline } : {}),
+  };
 }
 
-const report = (...findings: Finding[]) => ({ schemaVersion: "evergreen.scan.v1", root: "/x", scannedAt: "2026-01-01T00:00:00Z", findings, diagnostics: [] });
+const report = (...findings: Finding[]) => ({
+  schemaVersion: "evergreen.scan.v1",
+  root: "/x",
+  scannedAt: "2026-01-01T00:00:00Z",
+  findings,
+  diagnostics: [],
+});
 
 async function files(reports: Record<string, unknown>): Promise<string> {
   const directory = await mkdtemp(join(tmpdir(), "evergreen-rollup-"));
   roots.push(directory);
-  for (const [name, content] of Object.entries(reports)) await writeFile(join(directory, name), JSON.stringify(content));
+  for (const [name, content] of Object.entries(reports))
+    await writeFile(join(directory, name), JSON.stringify(content));
   return directory;
 }
 
@@ -35,14 +60,30 @@ test("productOf takes the rule prefix", () => {
 });
 
 test("rollup groups by product and owner and ignores input order", () => {
-  const a = { repository: "api", owner: "platform", report: report(finding("nodejs.runtime.eol-18", "high"), finding("python.runtime.eol-3-8", "medium")) };
+  const a = {
+    repository: "api",
+    owner: "platform",
+    report: report(finding("nodejs.runtime.eol-18", "high"), finding("python.runtime.eol-3-8", "medium")),
+  };
   const b = { repository: "web", report: report(finding("nodejs.runtime.eol-18", "high")) };
   const result = rollup([a, b]);
   assert.deepEqual(result, rollup([b, a]));
   assert.equal(result.repositories, 2);
   assert.equal(result.findings, 3);
-  assert.deepEqual(result.byProduct.map((group) => [group.name, group.findings, group.repositories]), [["nodejs", 2, ["api", "web"]], ["python", 1, ["api"]]]);
-  assert.deepEqual(result.byOwner.map((group) => [group.name, group.findings]), [["platform", 2], ["unowned", 1]]);
+  assert.deepEqual(
+    result.byProduct.map((group) => [group.name, group.findings, group.repositories]),
+    [
+      ["nodejs", 2, ["api", "web"]],
+      ["python", 1, ["api"]],
+    ],
+  );
+  assert.deepEqual(
+    result.byOwner.map((group) => [group.name, group.findings]),
+    [
+      ["platform", 2],
+      ["unowned", 1],
+    ],
+  );
   assert.equal(result.severities.high, 2);
   assert.equal(result.byProduct[0]?.severities.high, 2);
 });
@@ -55,13 +96,23 @@ test("an empty repository counts as a repository with no findings", () => {
 });
 
 test("rollupFiles reads reports and owners from files", async () => {
-  const directory = await files({ "api.json": report(finding("nodejs.runtime.eol-18", "high")), "owners.json": { api: "platform" } });
+  const directory = await files({
+    "api.json": report(finding("nodejs.runtime.eol-18", "high")),
+    "owners.json": { api: "platform" },
+  });
   const result = await rollupFiles([join(directory, "api.json")], join(directory, "owners.json"));
-  assert.deepEqual(result.byOwner.map((group) => group.name), ["platform"]);
+  assert.deepEqual(
+    result.byOwner.map((group) => group.name),
+    ["platform"],
+  );
 });
 
 test("rollupFiles refuses input that is not a scan report or owners map", async () => {
-  const directory = await files({ "bad.json": { schemaVersion: "other" }, "owners.json": ["api"], "ok.json": report() });
+  const directory = await files({
+    "bad.json": { schemaVersion: "other" },
+    "owners.json": ["api"],
+    "ok.json": report(),
+  });
   await assert.rejects(rollupFiles([join(directory, "bad.json")]), RollupError);
   await assert.rejects(rollupFiles([join(directory, "ok.json")], join(directory, "owners.json")), RollupError);
   await assert.rejects(rollupFiles([join(directory, "missing.json")]), RollupError);
@@ -69,7 +120,10 @@ test("rollupFiles refuses input that is not a scan report or owners map", async 
 });
 
 test("the rollup command prints the same JSON for the same files", async () => {
-  const directory = await files({ "api.json": report(finding("nodejs.runtime.eol-18", "high")), "web.json": report(finding("nodejs.runtime.eol-18", "low")) });
+  const directory = await files({
+    "api.json": report(finding("nodejs.runtime.eol-18", "high")),
+    "web.json": report(finding("nodejs.runtime.eol-18", "low")),
+  });
   const run = async () => {
     const result = await runCli(["rollup", join(directory, "web.json"), join(directory, "api.json"), "--json"]);
     assert.equal(result.code, 0);
@@ -89,8 +143,19 @@ test("repositoryNameFromPath handles bare files, matrix artifacts, and subdirect
 });
 
 test("renderRollupHtml renders deterministic static HTML with per-repository counts and deadlines", () => {
-  const a = { repository: "api", owner: "platform", report: report(finding("nodejs.runtime.eol-18", "high", "2025-04-30"), finding("python.runtime.eol-3-8", "medium", "2024-10-07")) };
-  const b = { repository: "web", owner: "frontend", report: report(finding("nodejs.runtime.eol-18", "high", "2025-04-30")) };
+  const a = {
+    repository: "api",
+    owner: "platform",
+    report: report(
+      finding("nodejs.runtime.eol-18", "high", "2025-04-30"),
+      finding("python.runtime.eol-3-8", "medium", "2024-10-07"),
+    ),
+  };
+  const b = {
+    repository: "web",
+    owner: "frontend",
+    report: report(finding("nodejs.runtime.eol-18", "high", "2025-04-30")),
+  };
   const clean = { repository: "docs", report: report() };
 
   const result1 = rollup([a, b, clean]);
@@ -130,7 +195,10 @@ test("renderRollupHtml renders deterministic static HTML with per-repository cou
 
 test("the report renders from the sample organization's artifacts", async () => {
   const directory = await files({
-    "evergreen-report-backend.json": report(finding("nodejs.runtime.eol-18", "high", "2025-04-30"), finding("postgres.database.eol-11", "critical", "2023-11-09")),
+    "evergreen-report-backend.json": report(
+      finding("nodejs.runtime.eol-18", "high", "2025-04-30"),
+      finding("postgres.database.eol-11", "critical", "2023-11-09"),
+    ),
     "evergreen-report-frontend.json": report(finding("npm.package.request.deprecated", "medium")),
     "evergreen-report-infra.json": report(finding("github-actions.action.node16", "high", "2024-03-31")),
     "evergreen-report-clean.json": report(),
@@ -151,7 +219,10 @@ test("the report renders from the sample organization's artifacts", async () => 
   assert.equal(result.severities.high, 2);
   assert.equal(result.severities.medium, 1);
 
-  assert.deepEqual(result.byRepository.map((r) => r.name), ["backend", "frontend", "infra", "clean"]);
+  assert.deepEqual(
+    result.byRepository.map((r) => r.name),
+    ["backend", "frontend", "infra", "clean"],
+  );
   assert.equal(result.byRepository[0]?.nearestDeadline, "2023-11-09");
   assert.equal(result.byRepository[2]?.nearestDeadline, "2024-03-31");
 
@@ -162,7 +233,9 @@ test("the report renders from the sample organization's artifacts", async () => 
   assert.ok(html.includes("clean"));
   assert.ok(html.includes('id="evergreen-rollup"'));
 
-  const parsedJson = JSON.parse(html.split('<script type="application/json" id="evergreen-rollup">')[1]!.split("</script>")[0]!) as typeof result;
+  const parsedJson = JSON.parse(
+    html.split('<script type="application/json" id="evergreen-rollup">')[1]!.split("</script>")[0]!,
+  ) as typeof result;
   assert.deepEqual(parsedJson.severities, result.severities);
   assert.equal(parsedJson.repositories, 4);
 });
@@ -175,7 +248,14 @@ test("the rollup command outputs identical HTML across multiple runs with --html
   });
 
   const run = async () => {
-    const result = await runCli(["rollup", join(directory, "evergreen-report-api.json"), join(directory, "evergreen-report-web.json"), "--owners", join(directory, "owners.json"), "--html"]);
+    const result = await runCli([
+      "rollup",
+      join(directory, "evergreen-report-api.json"),
+      join(directory, "evergreen-report-web.json"),
+      "--owners",
+      join(directory, "owners.json"),
+      "--html",
+    ]);
     assert.equal(result.code, 0);
     return result.stdout;
   };

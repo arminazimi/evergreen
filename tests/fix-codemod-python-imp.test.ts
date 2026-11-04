@@ -96,17 +96,24 @@ test("a file with a rewritable and a refused call keeps import imp and adds the 
 });
 
 test("each removed function without an exact equivalent is refused", async () => {
-  const { patches, refusals } = await plan({ "app.py": await readFile(join(fixtures, "refusals", "functions.py"), "utf8") });
+  const { patches, refusals } = await plan({
+    "app.py": await readFile(join(fixtures, "refusals", "functions.py"), "utf8"),
+  });
 
   assert.deepEqual(patches, []);
   assert.equal(refusals.length, 4);
   for (const symbol of ["find_module", "load_module", "load_source", "get_suffixes"]) {
-    assert.ok(refusals.some((refusal) => refusal.reason.includes(`imp.${symbol}`)), `${symbol} is refused by name`);
+    assert.ok(
+      refusals.some((refusal) => refusal.reason.includes(`imp.${symbol}`)),
+      `${symbol} is refused by name`,
+    );
   }
 });
 
 test("keyword arguments and positional arguments the replacement reads differently are refused", async () => {
-  const { patches, refusals } = await plan({ "app.py": await readFile(join(fixtures, "refusals", "keywords.py"), "utf8") });
+  const { patches, refusals } = await plan({
+    "app.py": await readFile(join(fixtures, "refusals", "keywords.py"), "utf8"),
+  });
 
   assert.deepEqual(patches, []);
   assert.equal(refusals.length, 4);
@@ -127,7 +134,10 @@ test("from-import, aliased-import, rebinding, and multi-name import shapes are r
     const { patches, refusals } = await plan({ "app.py": await readFile(join(fixtures, "refusals", file), "utf8") });
     assert.deepEqual(patches, [], `${file} is unchanged`);
     assert.ok(refusals.length > 0, `${file} is refused`);
-    assert.ok(refusals.some((refusal) => reason.test(refusal.reason)), `${file} refusal: ${refusals[0]!.reason}`);
+    assert.ok(
+      refusals.some((refusal) => reason.test(refusal.reason)),
+      `${file} refusal: ${refusals[0]!.reason}`,
+    );
   }
 });
 
@@ -153,7 +163,8 @@ test("an import the file already has is not added twice", async () => {
 
 test("every needed import is added in rule order", async () => {
   const before = "import imp\n\nmodule = imp.reload(existing)\nmagic = imp.get_magic()\n";
-  const expected = "import importlib\nimport importlib.util\n\nmodule = importlib.reload(existing)\nmagic = importlib.util.MAGIC_NUMBER\n";
+  const expected =
+    "import importlib\nimport importlib.util\n\nmodule = importlib.reload(existing)\nmagic = importlib.util.MAGIC_NUMBER\n";
   const { root, patches } = await plan({ "app.py": before });
 
   assert.equal(patches.length, 1);

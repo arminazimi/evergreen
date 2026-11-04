@@ -35,14 +35,14 @@ function stripJsoncComments(text: string): string {
         // Escaped character — consume it verbatim so `\"` doesn't end the string.
         i++;
         result += text[i]!;
-      } else if (ch === "\"") {
+      } else if (ch === '"') {
         inString = false;
       }
       i++;
       continue;
     }
 
-    if (ch === "\"") {
+    if (ch === '"') {
       inString = true;
       result += ch;
       i++;
@@ -94,13 +94,13 @@ function stripTrailingCommas(text: string): string {
     if (inString) {
       if (ch === "\\" && i + 1 < chars.length) {
         i++;
-      } else if (ch === "\"") {
+      } else if (ch === '"') {
         inString = false;
       }
       continue;
     }
 
-    if (ch === "\"") {
+    if (ch === '"') {
       inString = true;
       continue;
     }

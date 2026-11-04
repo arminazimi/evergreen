@@ -38,7 +38,19 @@ import type { ApiDeclaration } from "./parse-manifest.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const YAML_FILE = /\.ya?ml$/;
 const KUSTOMIZATION_FILE = /^kustomization\.ya?ml$|^Kustomization$/;
 const CHART_FILE = "Chart.yaml";
@@ -65,16 +77,10 @@ export function helmRepositoryPurl(repository: string): string | undefined {
   } catch {
     return undefined;
   }
-  if (
-    hostPath === "charts.helm.sh/stable" ||
-    hostPath === "kubernetes-charts.storage.googleapis.com"
-  ) {
+  if (hostPath === "charts.helm.sh/stable" || hostPath === "kubernetes-charts.storage.googleapis.com") {
     return `${HELM_REPOSITORY_PURL_PREFIX}stable`;
   }
-  if (
-    hostPath === "charts.helm.sh/incubator" ||
-    hostPath === "kubernetes-charts-incubator.storage.googleapis.com"
-  ) {
+  if (hostPath === "charts.helm.sh/incubator" || hostPath === "kubernetes-charts-incubator.storage.googleapis.com") {
     return `${HELM_REPOSITORY_PURL_PREFIX}incubator`;
   }
   return undefined;
@@ -215,13 +221,7 @@ function coversEveryVersion(rule: RegistryV2Rule): boolean {
   }
 }
 
-function report(
-  findings: DetectorFinding[],
-  rule: RegistryV2Rule,
-  path: string,
-  line: number,
-  summary: string,
-): void {
+function report(findings: DetectorFinding[], rule: RegistryV2Rule, path: string, line: number, summary: string): void {
   findings.push({
     id: `${rule.id}:${path}:${line}`,
     ruleId: rule.id,
@@ -280,13 +280,11 @@ export class KubernetesDetector implements Detector {
       if (!purl) continue;
       const candidates = rules.get(purl) ?? [];
       const rule = dependency.version
-        ? candidates.find((item) => versContains(item.vers, dependency.version!)) ??
-          candidates.find(coversEveryVersion)
+        ? (candidates.find((item) => versContains(item.vers, dependency.version!)) ??
+          candidates.find(coversEveryVersion))
         : candidates.find(coversEveryVersion);
       if (!rule) continue;
-      const named = dependency.version
-        ? `${dependency.name} ${dependency.version}`
-        : dependency.name;
+      const named = dependency.version ? `${dependency.name} ${dependency.version}` : dependency.name;
       report(
         findings,
         rule,

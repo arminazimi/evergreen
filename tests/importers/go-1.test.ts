@@ -12,15 +12,23 @@ const recording = resolve("tests/importers/recordings/go-1.json");
 
 test("drafts the five newest unsupported Go release lines from the real recording", async () => {
   const drafts = await execute(goReleasePolicyImporter, { replay: recording });
-  assert.deepEqual(drafts.rules.map((rule) => rule.id), [
-    "go.runtime.end-of-support-1.21",
-    "go.runtime.end-of-support-1.22",
-    "go.runtime.end-of-support-1.23",
-    "go.runtime.end-of-support-1.24",
-    "go.runtime.end-of-support-1.25",
-  ]);
-  assert.deepEqual(drafts.rules.map((rule) => rule.deadline), ["2024-08-13", "2025-02-11", "2025-08-12", "2026-02-10", "2026-08-19"]);
-  assert.ok(drafts.rules.every((rule) => rule.provenance.importer === "go-1" && rule.provenance.observedAt === "2026-10-16"));
+  assert.deepEqual(
+    drafts.rules.map((rule) => rule.id),
+    [
+      "go.runtime.end-of-support-1.21",
+      "go.runtime.end-of-support-1.22",
+      "go.runtime.end-of-support-1.23",
+      "go.runtime.end-of-support-1.24",
+      "go.runtime.end-of-support-1.25",
+    ],
+  );
+  assert.deepEqual(
+    drafts.rules.map((rule) => rule.deadline),
+    ["2024-08-13", "2025-02-11", "2025-08-12", "2026-02-10", "2026-08-19"],
+  );
+  assert.ok(
+    drafts.rules.every((rule) => rule.provenance.importer === "go-1" && rule.provenance.observedAt === "2026-10-16"),
+  );
   assert.deepEqual(drafts.notes, [
     "Supported release lines: Go 1.26 and Go 1.27.",
     "No scheduled rule was drafted: Go announces no end date for Go 1.26 or Go 1.27; each ends when a release two majors newer ships.",
@@ -46,7 +54,10 @@ test("a release line inside a script block is ignored, even when its closing tag
       ].join("\n");
     },
   });
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["go.runtime.end-of-support-1.25"]);
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["go.runtime.end-of-support-1.25"],
+  );
   assert.equal(result.rules[0]!.deadline, "2027-08-11");
 });
 
@@ -62,4 +73,3 @@ test("missing or incomplete release history produces a review note, not guessed 
   assert.deepEqual(result.rules, []);
   assert.deepEqual(result.notes, ["No usable Go release history was found."]);
 });
-

@@ -19,7 +19,11 @@ const clusterExample = resolve("examples/inventory/k8s-cluster.json");
 const nodesExample = resolve("examples/inventory/k8s-nodes.json");
 
 /** The fixture files that are genuine k8s-cluster exports. A `Node` list the workloads fixtures hold is one too. */
-const CLUSTER_EXPORTS = [join("k8s-cluster", "version.json"), join("k8s-cluster", "nodes.json"), join("k8s-workloads", "nodes.json")];
+const CLUSTER_EXPORTS = [
+  join("k8s-cluster", "version.json"),
+  join("k8s-cluster", "nodes.json"),
+  join("k8s-workloads", "nodes.json"),
+];
 
 async function readJson(path: string): Promise<unknown> {
   return JSON.parse(await readFile(path, "utf8")) as unknown;
@@ -59,9 +63,18 @@ async function invokeCli(...args: string[]) {
 test("detect accepts the version and node exports and rejects other shapes", async () => {
   assert.equal(k8sClusterImporter.detect(await readJson(versionExport), "version.json"), true);
   assert.equal(k8sClusterImporter.detect(await readJson(nodesExport), "nodes.json"), true);
-  assert.equal(k8sClusterImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/workloads.json")), "workloads.json"), false);
-  assert.equal(k8sClusterImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/empty-list.json")), "empty-list.json"), false);
-  assert.equal(k8sClusterImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/single-pod.json")), "single-pod.json"), false);
+  assert.equal(
+    k8sClusterImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/workloads.json")), "workloads.json"),
+    false,
+  );
+  assert.equal(
+    k8sClusterImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/empty-list.json")), "empty-list.json"),
+    false,
+  );
+  assert.equal(
+    k8sClusterImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/single-pod.json")), "single-pod.json"),
+    false,
+  );
   assert.equal(k8sClusterImporter.detect({}, "empty.json"), false);
   assert.equal(k8sClusterImporter.detect({ clientVersion: { gitVersion: "v1.31.5" } }, "client-only.json"), false);
   assert.equal(k8sClusterImporter.detect({ serverVersion: {} }, "serverless.json"), false);
@@ -84,13 +97,18 @@ test("the control plane is reported from serverVersion with the provider suffix 
 test("each node reports its kubelet version with suffixes stripped, and an IP-named node is skipped", async () => {
   const report = await runInventory([nodesExport], [k8sClusterImporter]);
   const kubelets = new Map(
-    report.results.filter(({ item }) => item.purl === "pkg:generic/kubernetes").map(({ item, check }) => [item.pointer, { version: item.version, check }]),
+    report.results
+      .filter(({ item }) => item.purl === "pkg:generic/kubernetes")
+      .map(({ item, check }) => [item.pointer, { version: item.version, check }]),
   );
 
   assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.version, "1.34.2");
   assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.status, "affected");
   assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.severity, "low");
-  assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.findings[0]!.event, "scheduled-end-of-life");
+  assert.equal(
+    kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.findings[0]!.event,
+    "scheduled-end-of-life",
+  );
   assert.equal(kubelets.get("/items/0/status/nodeInfo/kubeletVersion")?.check.findings[0]!.deadline, "2026-10-27");
   assert.equal(kubelets.get("/items/1/status/nodeInfo/kubeletVersion")?.version, "1.30.5");
   assert.equal(kubelets.get("/items/1/status/nodeInfo/kubeletVersion")?.check.status, "affected");
@@ -164,11 +182,19 @@ test("every pointer resolves to the value its claim rests on", async () => {
       if (item.purl === "pkg:generic/kubernetes") {
         assert.equal(upstreamVersion(String(resolved)), item.version, `${item.pointer} does not name ${item.version}`);
       } else if (item.pointer.endsWith("/osImage")) {
-        assert.equal(imageVersion(String(resolved)), item.version, `${item.pointer} does not name ${item.version ?? "any version"}`);
+        assert.equal(
+          imageVersion(String(resolved)),
+          item.version,
+          `${item.pointer} does not name ${item.version ?? "any version"}`,
+        );
       } else {
         const value = String(resolved).split("://")[1];
         assert.ok(value !== undefined, `${item.pointer} is not a runtime string`);
-        assert.equal(/^\d+(?:\.\d+)*$/.test(value) ? value : undefined, item.version, `${item.pointer} does not name ${item.version}`);
+        assert.equal(
+          /^\d+(?:\.\d+)*$/.test(value) ? value : undefined,
+          item.version,
+          `${item.pointer} does not name ${item.version}`,
+        );
       }
     }
   }
@@ -181,7 +207,10 @@ test("output contains no IP addresses and nothing from the IP-named node", async
   for (const secret of ["10.0.0.7", "10.0.0.12", "10.0.0.13", "fd00::1", "fd00::2", "1.25.16"]) {
     assert.equal(output.includes(secret), false, `output leaks ${secret}`);
   }
-  assert.equal(report.results.some(({ item }) => item.resource === "10.0.0.7"), false);
+  assert.equal(
+    report.results.some(({ item }) => item.resource === "10.0.0.7"),
+    false,
+  );
 });
 
 test("detect rejects every other fixture under tests/fixtures/inventory", async () => {
@@ -212,8 +241,12 @@ test("the examples report affected items with pointers that resolve", async () =
     const document = await readJson(path);
     const report = await runInventory([path], [k8sClusterImporter]);
     assert.deepEqual(report.unrecognized, []);
-    assert.ok(report.results.some((result) => result.check.status === "affected"), path);
-    for (const { item } of report.results) assert.notEqual(resolvePointer(document, item.pointer), undefined, item.pointer);
+    assert.ok(
+      report.results.some((result) => result.check.status === "affected"),
+      path,
+    );
+    for (const { item } of report.results)
+      assert.notEqual(resolvePointer(document, item.pointer), undefined, item.pointer);
   }
   const nodes = await runInventory([nodesExample], [k8sClusterImporter]);
   const ubuntu = nodes.results.find(({ item }) => item.purl === "pkg:generic/ubuntu");
@@ -229,9 +262,9 @@ test("the CLI exits 1 on affected examples, validates against the schema, and ho
   assert.ok(report.results.some((result) => result.check.status === "affected"));
 
   const ajv = new Ajv2020({ allErrors: true, strict: false });
-  ajv.addSchema(await readJson(resolve("schemas/scan.v1.schema.json")) as object);
-  ajv.addSchema(await readJson(resolve("schemas/check.v1.schema.json")) as object);
-  const validate = ajv.compile(await readJson(resolve("schemas/inventory.v1.schema.json")) as object);
+  ajv.addSchema((await readJson(resolve("schemas/scan.v1.schema.json"))) as object);
+  ajv.addSchema((await readJson(resolve("schemas/check.v1.schema.json"))) as object);
+  const validate = ajv.compile((await readJson(resolve("schemas/inventory.v1.schema.json"))) as object);
   assert.equal(validate(report), true, JSON.stringify(validate.errors));
 
   assert.equal((await invokeCli("inventory", clusterExample, nodesExample, "--fail-on", "critical")).code, 0);

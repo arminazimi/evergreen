@@ -52,17 +52,18 @@ function formatLocation(location: SourceLocation): string {
 }
 
 function compareLocations(left: SourceLocation, right: SourceLocation): number {
-  return left.path < right.path ? -1 : left.path > right.path ? 1 :
-    (left.line ?? -1) - (right.line ?? -1) || (left.column ?? -1) - (right.column ?? -1);
+  return left.path < right.path
+    ? -1
+    : left.path > right.path
+      ? 1
+      : (left.line ?? -1) - (right.line ?? -1) || (left.column ?? -1) - (right.column ?? -1);
 }
 
 /**
  * Maps a finding's usage evidence to a VEX analysis state. Never guesses: when usage analysis did not run,
  * the state is `in_triage`. Reads no clock and no network.
  */
-export function exposureFromUsage(
-  finding: Pick<Finding, "location" | "usages" | "impact" | "title">,
-): ExposureResult {
+export function exposureFromUsage(finding: Pick<Finding, "location" | "usages" | "impact" | "title">): ExposureResult {
   const declaration: ExposureLocation = { ...finding.location, role: "declaration" };
   const usageLocations = (finding.usages ?? [])
     .map((usage): ExposureLocation => ({ ...usage.location, role: "usage" }))
@@ -95,7 +96,13 @@ export function exposureFromUsage(
 
 function git(root: string, args: string[]): string | undefined {
   try {
-    return execFileSync("git", args, { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], timeout: 10_000, windowsHide: true });
+    return execFileSync("git", args, {
+      cwd: root,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+      timeout: 10_000,
+      windowsHide: true,
+    });
   } catch {
     return undefined;
   }
@@ -110,15 +117,21 @@ function dayNumber(day: string): number {
  * and never contacts a remote. Returns a reason instead of a day when history cannot answer.
  */
 function introducedOn(root: string, path: string, line: number | undefined): { day: string } | { reason: string } {
-  if (git(root, ["rev-parse", "--git-dir"]) === undefined) return { reason: "introduction date unknown: not a git repository" };
-  if (git(root, ["rev-parse", "--is-shallow-repository"])?.trim() === "true") return { reason: "introduction date unknown: shallow clone has no full history" };
+  if (git(root, ["rev-parse", "--git-dir"]) === undefined)
+    return { reason: "introduction date unknown: not a git repository" };
+  if (git(root, ["rev-parse", "--is-shallow-repository"])?.trim() === "true")
+    return { reason: "introduction date unknown: shallow clone has no full history" };
   const args =
     line === undefined
       ? ["log", "--follow", "--format=%cs", "--", path]
       : ["log", `-L${line},${line}:${path}`, "-s", "--format=%cs"];
-  const days = git(root, args)?.split("\n").map((entry) => entry.trim()).filter(Boolean);
+  const days = git(root, args)
+    ?.split("\n")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
   const oldest = days?.at(-1);
-  if (oldest === undefined || !/^\d{4}-\d{2}-\d{2}$/.test(oldest)) return { reason: `introduction date unknown: no history for ${path}` };
+  if (oldest === undefined || !/^\d{4}-\d{2}-\d{2}$/.test(oldest))
+    return { reason: `introduction date unknown: no history for ${path}` };
   return { day: oldest };
 }
 
@@ -127,8 +140,13 @@ function introducedOn(root: string, path: string, line: number | undefined): { d
  * clock and no network: the caller passes `today` (YYYY-MM-DD) and the repository `root`. Anything that cannot be
  * known, such as a shallow clone or a missing deadline, is named in `unknown` instead of guessed.
  */
-export function exposureTimeline(finding: Pick<Finding, "deadline" | "location">, root: string, today: string): ExposureTimeline {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(today) || Number.isNaN(Date.parse(`${today}T00:00:00Z`))) throw new Error(`"${today}" is not a date (YYYY-MM-DD).`);
+export function exposureTimeline(
+  finding: Pick<Finding, "deadline" | "location">,
+  root: string,
+  today: string,
+): ExposureTimeline {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(today) || Number.isNaN(Date.parse(`${today}T00:00:00Z`)))
+    throw new Error(`"${today}" is not a date (YYYY-MM-DD).`);
   const now = dayNumber(today);
   const timeline: ExposureTimeline = { unknown: [] };
 

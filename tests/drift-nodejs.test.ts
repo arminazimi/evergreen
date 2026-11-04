@@ -109,13 +109,25 @@ test("every Node.js source is collected with its exact location and release", as
   assert.deepEqual([floor?.kind, floor?.release, floor?.line], ["floor", "18", 5]);
 
   const azure = runtime.pins.filter((pin) => pin.source === "Azure Pipelines container");
-  assert.deepEqual(azure.map((pin) => [pin.line, pin.release]), [[5, "18"], [13, "18"]]);
+  assert.deepEqual(
+    azure.map((pin) => [pin.line, pin.release]),
+    [
+      [5, "18"],
+      [13, "18"],
+    ],
+  );
 });
 
 test("a Dockerfile stage out of line is a pin and drifts", async () => {
   const runtime = await report("drifted");
   const stages = runtime.pins.filter((pin) => pin.source === "Dockerfile FROM");
-  assert.deepEqual(stages.map((pin) => [pin.line, pin.raw, pin.release]), [[1, "18-alpine", "18"], [4, "22-alpine", "22"]]);
+  assert.deepEqual(
+    stages.map((pin) => [pin.line, pin.raw, pin.release]),
+    [
+      [1, "18-alpine", "18"],
+      [4, "22-alpine", "22"],
+    ],
+  );
   assert.equal(runtime.pins.filter((pin) => pin.path === "Dockerfile" && pin.release === "22").length, 1);
 });
 
@@ -135,8 +147,14 @@ test("lts/hydrogen resolves through the release schedule and lts/* does not", as
   }
   assert.match(find(unresolved, "Dockerfile.unknown", "Dockerfile.unknown FROM")?.unresolved ?? "", /codename/);
   assert.match(find(unresolved, ".node-version", ".node-version")?.unresolved ?? "", /floating/);
-  assert.match(find(unresolved, ".devcontainer/optional/devcontainer.json", "devcontainer.json image")?.unresolved ?? "", /no tag/);
-  assert.match(find(unresolved, ".devcontainer/optional/devcontainer.json", "devcontainer.json node feature")?.unresolved ?? "", /installs no Node/);
+  assert.match(
+    find(unresolved, ".devcontainer/optional/devcontainer.json", "devcontainer.json image")?.unresolved ?? "",
+    /no tag/,
+  );
+  assert.match(
+    find(unresolved, ".devcontainer/optional/devcontainer.json", "devcontainer.json node feature")?.unresolved ?? "",
+    /installs no Node/,
+  );
   const bare = unresolved.pins.find((pin) => pin.source === ".tool-versions" && pin.raw === "nodejs");
   assert.match(bare?.unresolved ?? "", /no version/);
 });
@@ -147,7 +165,10 @@ test("a matrix is intentional: its entries are one group and do not drift agains
   assert.deepEqual(runtime.releases, ["18", "20"]);
   assert.deepEqual(runtime.floorConflicts, []);
   const matrix = runtime.pins.filter((pin) => pin.source === "setup-node matrix");
-  assert.deepEqual(matrix.map((pin) => pin.raw), ["18", "20"]);
+  assert.deepEqual(
+    matrix.map((pin) => pin.raw),
+    ["18", "20"],
+  );
   assert.ok(matrix.every((pin) => pin.line === 8));
   assert.ok(matrix.every((pin) => pin.group === "setup-node matrix"));
 });
@@ -156,7 +177,10 @@ test("engines.node above the pinned release is a floor conflict", async () => {
   const runtime = await report("floor-conflict");
   assert.equal(runtime.drifted, false);
   assert.deepEqual(runtime.releases, ["18"]);
-  assert.deepEqual(runtime.floorConflicts.map((pin) => [pin.path, pin.line, pin.raw, pin.release]), [["package.json", 5, ">=20", "20"]]);
+  assert.deepEqual(
+    runtime.floorConflicts.map((pin) => [pin.path, pin.line, pin.raw, pin.release]),
+    [["package.json", 5, ">=20", "20"]],
+  );
   const check = await run("drift", resolve(fixtures, "floor-conflict"), "--runtime", "nodejs", "--check");
   assert.equal(check.code, 1);
   assert.match(check.stdout, /floor conflict/);
@@ -184,7 +208,14 @@ test("align patches every understood source, applies cleanly, and removes the dr
 
   const aligned = await run("drift", root, "--runtime", "nodejs", "--align", "20");
   assert.equal(aligned.code, 0, aligned.stderr);
-  for (const file of [".nvmrc", ".node-version", ".tool-versions", "package.json", "Dockerfile", ".github/workflows/ci.yml"]) {
+  for (const file of [
+    ".nvmrc",
+    ".node-version",
+    ".tool-versions",
+    "package.json",
+    "Dockerfile",
+    ".github/workflows/ci.yml",
+  ]) {
     assert.ok(aligned.stdout.includes(`+++ b/${file}`), file);
   }
   assert.match(aligned.stderr, /Refused \.github\/workflows\/ci\.yml:8 \(setup-node matrix 18\)/);

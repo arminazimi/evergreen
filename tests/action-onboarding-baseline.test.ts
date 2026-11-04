@@ -23,7 +23,10 @@ async function fixtureRepository(): Promise<string> {
   roots.push(root);
   await writeFile(join(root, "package.json"), JSON.stringify({ engines: { node: "24" } }));
   await mkdir(join(root, ".github", "workflows"), { recursive: true });
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
   return root;
 }
 
@@ -45,7 +48,9 @@ async function commentApi(): Promise<CommentApi> {
     }
     let raw = "";
     request.setEncoding("utf8");
-    request.on("data", (chunk: string) => { raw += chunk; });
+    request.on("data", (chunk: string) => {
+      raw += chunk;
+    });
     request.on("end", () => {
       bodies.push((JSON.parse(raw) as { body: string }).body);
       response.writeHead(201, { "content-type": "application/json" });
@@ -63,13 +68,19 @@ async function commentApi(): Promise<CommentApi> {
 
 async function pullRequestEvent(root: string, headRepository = "acme/app"): Promise<string> {
   const path = join(root, "event.json");
-  await writeFile(path, JSON.stringify({
-    pull_request: { number: 7, head: { ref: "evergreen/onboarding", repo: { full_name: headRepository } } },
-  }));
+  await writeFile(
+    path,
+    JSON.stringify({
+      pull_request: { number: 7, head: { ref: "evergreen/onboarding", repo: { full_name: headRepository } } },
+    }),
+  );
   return path;
 }
 
-async function runAction(root: string, inputs: Record<string, string>): Promise<{ code: number; stdout: string; outputs: string; summary: string }> {
+async function runAction(
+  root: string,
+  inputs: Record<string, string>,
+): Promise<{ code: number; stdout: string; outputs: string; summary: string }> {
   const runner = join(root, ".runner");
   const output = join(runner, "outputs.txt");
   const summary = join(runner, "summary.md");
@@ -91,7 +102,9 @@ async function runAction(root: string, inputs: Record<string, string>): Promise<
   child.stdout.setEncoding("utf8");
   child.stderr.setEncoding("utf8");
   let stdout = "";
-  child.stdout.on("data", (chunk: string) => { stdout += chunk; });
+  child.stdout.on("data", (chunk: string) => {
+    stdout += chunk;
+  });
   const code = await new Promise<number>((resolveCode, reject) => {
     child.once("error", reject);
     child.once("close", (status) => resolveCode(status ?? 1));
@@ -124,7 +137,11 @@ test("the first onboarding run proposes a valid baseline instead of failing the 
     assert.equal(run.stdout.includes("policy gate failed"), false);
     assert.match(run.summary, /\*\*Suggested baseline:\*\* `\.evergreen-baseline\.json` does not exist yet/);
     assert.match(run.outputs, /finding-count=1/);
-    await assert.rejects(readFile(join(root, ".evergreen-baseline.json")), { code: "ENOENT" }, "the run never writes the file");
+    await assert.rejects(
+      readFile(join(root, ".evergreen-baseline.json")),
+      { code: "ENOENT" },
+      "the run never writes the file",
+    );
 
     assert.equal(api.bodies.length, 1, "the proposal comment is posted without pr-comment");
     const body = api.bodies[0]!;
@@ -132,13 +149,18 @@ test("the first onboarding run proposes a valid baseline instead of failing the 
     assert.match(body, /### Suggested file: `\.evergreen-baseline\.json`/);
     assert.equal(body.includes("Baseline:"), false, "nothing was applied, so there is no baseline line");
 
-    const report = JSON.parse(await readFile(join(root, ".runner", "evergreen-report.json"), "utf8")) as { findings: unknown[] };
+    const report = JSON.parse(await readFile(join(root, ".runner", "evergreen-report.json"), "utf8")) as {
+      findings: unknown[];
+    };
     const baselinePath = join(root, "proposed-baseline.json");
     await writeFile(baselinePath, fencedJson(body)!);
     const baseline = await readBaseline(baselinePath);
     assert.equal(baseline.schemaVersion, "evergreen.baseline.v1");
     assert.equal(baseline.findings.length, report.findings.length);
-    assert.deepEqual(baseline.history?.map((entry) => entry.count), [report.findings.length]);
+    assert.deepEqual(
+      baseline.history?.map((entry) => entry.count),
+      [report.findings.length],
+    );
 
     const fresh = await scanRepository(root, builtInDetectors);
     assert.deepEqual(applyBaseline(fresh, baseline).findings, [], "the proposal suppresses every finding it recorded");

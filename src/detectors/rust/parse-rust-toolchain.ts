@@ -23,7 +23,9 @@ export function parseRustToolchain(contents: string): ToolchainDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
 
   // The legacy form is a single line with the channel and no TOML structure.
-  const meaningful = contents.split(/\r?\n/).map((raw, index) => ({ text: stripComment(raw).trim(), line: index + 1, long: raw.length > MAXIMUM_LINE_LENGTH }));
+  const meaningful = contents
+    .split(/\r?\n/)
+    .map((raw, index) => ({ text: stripComment(raw).trim(), line: index + 1, long: raw.length > MAXIMUM_LINE_LENGTH }));
   if (meaningful.some((entry) => entry.long)) return [];
   const content = meaningful.filter((entry) => entry.text !== "");
   if (content.length === 1 && /^[A-Za-z0-9._-]+$/.test(content[0]!.text)) {

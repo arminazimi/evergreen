@@ -34,7 +34,13 @@ export function parseRange(range: string): { base: string; head: string } {
 
 function git(root: string, args: string[], input?: Buffer): Buffer {
   try {
-    return execFileSync("git", args, { cwd: root, input, maxBuffer: MAX_ARCHIVE_BYTES, stdio: ["pipe", "pipe", "pipe"], windowsHide: true });
+    return execFileSync("git", args, {
+      cwd: root,
+      input,
+      maxBuffer: MAX_ARCHIVE_BYTES,
+      stdio: ["pipe", "pipe", "pipe"],
+      windowsHide: true,
+    });
   } catch (error) {
     const stderr = (error as { stderr?: Buffer }).stderr?.toString().trim();
     throw new DiffError(stderr || `git ${args[0]} failed.`);
@@ -45,8 +51,13 @@ function git(root: string, args: string[], input?: Buffer): Buffer {
 function exportRef(root: string, ref: string, directory: string): void {
   if (ref.startsWith("-")) throw new DiffError(`"${ref}" is not a valid ref.`);
   const archive = git(root, ["archive", "--format=tar", ref, "--"]);
-  const extracted = spawnSync("tar", ["-x", "-C", directory], { input: archive, stdio: ["pipe", "ignore", "pipe"], windowsHide: true });
-  if (extracted.status !== 0) throw new DiffError(`Cannot unpack ${ref}: ${extracted.stderr?.toString().trim() || "tar failed"}.`);
+  const extracted = spawnSync("tar", ["-x", "-C", directory], {
+    input: archive,
+    stdio: ["pipe", "ignore", "pipe"],
+    windowsHide: true,
+  });
+  if (extracted.status !== 0)
+    throw new DiffError(`Cannot unpack ${ref}: ${extracted.stderr?.toString().trim() || "tar failed"}.`);
 }
 
 async function scanRef(root: string, ref: string, detectors: readonly Detector[]): Promise<Finding[]> {
@@ -69,7 +80,10 @@ function byFingerprint(findings: readonly Finding[]): Map<string, Finding[]> {
 }
 
 /** Compares findings by fingerprint, so a finding that only moved to another line is not "new". */
-export function compareFindings(base: readonly Finding[], head: readonly Finding[]): { introduced: Finding[]; fixed: Finding[]; unchanged: number } {
+export function compareFindings(
+  base: readonly Finding[],
+  head: readonly Finding[],
+): { introduced: Finding[]; fixed: Finding[]; unchanged: number } {
   const before = byFingerprint(base);
   const after = byFingerprint(head);
   const introduced: Finding[] = [];
@@ -80,7 +94,8 @@ export function compareFindings(base: readonly Finding[], head: readonly Finding
     unchanged += kept;
     introduced.push(...findings.slice(kept));
   }
-  for (const [key, findings] of before) fixed.push(...findings.slice(Math.min(findings.length, after.get(key)?.length ?? 0)));
+  for (const [key, findings] of before)
+    fixed.push(...findings.slice(Math.min(findings.length, after.get(key)?.length ?? 0)));
   const order = (left: Finding, right: Finding): number => left.id.localeCompare(right.id);
   return { introduced: introduced.sort(order), fixed: fixed.sort(order), unchanged };
 }
@@ -94,11 +109,17 @@ export async function diffRefs(root: string, range: string, detectors: readonly 
 }
 
 export function renderDiffText(result: DiffResult): string {
-  const lines = [`Evergreen diff ${result.base}..${result.head}`, `Introduced: ${result.introduced.length}  Fixed: ${result.fixed.length}  Unchanged: ${result.unchanged}`];
+  const lines = [
+    `Evergreen diff ${result.base}..${result.head}`,
+    `Introduced: ${result.introduced.length}  Fixed: ${result.fixed.length}  Unchanged: ${result.unchanged}`,
+  ];
   const section = (title: string, findings: Finding[]): void => {
     if (findings.length === 0) return;
     lines.push("", `${title}:`);
-    for (const finding of findings) lines.push(`  [${finding.severity}] ${finding.summary} (${finding.location.path}${finding.location.line === undefined ? "" : `:${finding.location.line}`})`);
+    for (const finding of findings)
+      lines.push(
+        `  [${finding.severity}] ${finding.summary} (${finding.location.path}${finding.location.line === undefined ? "" : `:${finding.location.line}`})`,
+      );
   };
   section("Introduced", result.introduced);
   section("Fixed", result.fixed);

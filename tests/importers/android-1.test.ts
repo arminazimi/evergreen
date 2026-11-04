@@ -34,12 +34,7 @@ const NEW_APPS =
 const EXISTING =
   "Existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running Android OS higher than your app's target API level. Apps that target Android 14 (API level 34) or lower, including Android 13 (API level 33) or lower for Wear OS, Android TV, and Android XR, and Android 12 (API level 31) or lower for Android Automotive OS, will only be available on devices running Android OS that are the same or lower than your app's target API level.";
 
-function page(options: {
-  start?: string;
-  newApps?: string;
-  existing?: string;
-  extension?: string | false;
-}): string {
+function page(options: { start?: string; newApps?: string; existing?: string; extension?: string | false }): string {
   const start = options.start ?? "Starting August 31 2026:";
   const newApps = options.newApps ?? NEW_APPS;
   const existing = options.existing ?? EXISTING;
@@ -115,7 +110,12 @@ const EXPECTED_AFTER_DEADLINE = [
     "end-of-support",
     "high",
     "2026-08-31",
-    { declaration: "targetSdk", audience: "new-apps-and-updates", formFactors: ["wear", "automotive"], minApiLevel: 35 },
+    {
+      declaration: "targetSdk",
+      audience: "new-apps-and-updates",
+      formFactors: ["wear", "automotive"],
+      minApiLevel: 35,
+    },
   ],
 ] as const;
 
@@ -136,7 +136,9 @@ test("drafts one form-factor rule per Play targetSdk floor from the recording", 
   assert.equal(phoneNew.purl, "pkg:generic/android/targetSdk");
   assert.match(phoneNew.summary, /New apps and app updates must target Android 16 \(API level 36\)/);
   assert.match(phoneNew.summary, /extension to 2026-11-01/);
-  assert.deepEqual(phoneNew.sources, [{ title: "Meet Google Play's target API level requirement", url: TARGET_SDK_URL }]);
+  assert.deepEqual(phoneNew.sources, [
+    { title: "Meet Google Play's target API level requirement", url: TARGET_SDK_URL },
+  ]);
   assert.deepEqual(phoneNew.provenance, {
     observedAt: "2026-10-19",
     reviewedAt: "2026-10-19",

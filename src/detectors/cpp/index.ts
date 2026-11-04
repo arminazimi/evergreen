@@ -44,7 +44,19 @@ import type { VcpkgDeclaration } from "./parse-vcpkg.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const CPP_FILES = new Set(["CMakeLists.txt", "conanfile.txt", "conanfile.py", "vcpkg.json"]);
 /** Rules for the policy version in `cmake_minimum_required(VERSION)`. */
 const CMAKE_PURL = "pkg:generic/cmake";
@@ -153,48 +165,108 @@ function toFinding(rule: RegistryV2Rule, path: string, line: number, summary: st
 }
 
 /** Findings for one CMakeLists.txt declaration, or none. */
-function findingsForCmake(byPurl: Map<string, RegistryV2Rule[]>, path: string, declaration: CmakeDeclaration): DetectorFinding[] {
+function findingsForCmake(
+  byPurl: Map<string, RegistryV2Rule[]>,
+  path: string,
+  declaration: CmakeDeclaration,
+): DetectorFinding[] {
   if (declaration.kind === "cmake-minimum-required") {
     const rule = firstMatchingRule(byPurl.get(CMAKE_PURL) ?? [], declaration.value);
-    return rule ? [toFinding(rule, path, declaration.line, `${path} declares cmake_minimum_required ${declaration.value}. ${rule.summary}`)] : [];
+    return rule
+      ? [
+          toFinding(
+            rule,
+            path,
+            declaration.line,
+            `${path} declares cmake_minimum_required ${declaration.value}. ${rule.summary}`,
+          ),
+        ]
+      : [];
   }
   if (declaration.kind === "language-standard") {
     const variable = declaration.language === "c" ? "CMAKE_C_STANDARD" : "CMAKE_CXX_STANDARD";
     const rule = firstMatchingRule(byPurl.get(languageStandardPurl(declaration.language)) ?? [], declaration.value);
-    return rule ? [toFinding(rule, path, declaration.line, `${path} sets ${variable} ${declaration.value}. ${rule.summary}`)] : [];
+    return rule
+      ? [toFinding(rule, path, declaration.line, `${path} sets ${variable} ${declaration.value}. ${rule.summary}`)]
+      : [];
   }
-  const rule = firstMatchingRule(byPurl.get(compilerPurl(declaration.language, declaration.compiler)) ?? [], declaration.value);
+  const rule = firstMatchingRule(
+    byPurl.get(compilerPurl(declaration.language, declaration.compiler)) ?? [],
+    declaration.value,
+  );
   if (!rule) return [];
   const language = declaration.language === "c" ? "C" : "C++";
-  return [toFinding(rule, path, declaration.line, `${path} checks ${declaration.compiler} ${declaration.comparison} ${declaration.value} for ${language}. ${rule.summary}`)];
+  return [
+    toFinding(
+      rule,
+      path,
+      declaration.line,
+      `${path} checks ${declaration.compiler} ${declaration.comparison} ${declaration.value} for ${language}. ${rule.summary}`,
+    ),
+  ];
 }
 
 /** Findings for the Conan requirements in one file. */
-function findingsForConan(byPurl: Map<string, RegistryV2Rule[]>, path: string, declarations: readonly ConanDeclaration[]): DetectorFinding[] {
+function findingsForConan(
+  byPurl: Map<string, RegistryV2Rule[]>,
+  path: string,
+  declarations: readonly ConanDeclaration[],
+): DetectorFinding[] {
   const findings: DetectorFinding[] = [];
   for (const declaration of declarations) {
     const rule = firstMatchingRule(byPurl.get(conanPurl(declaration.name)) ?? [], declaration.value);
-    if (rule) findings.push(toFinding(rule, path, declaration.line, `${path} requires ${declaration.name} ${declaration.value}. ${rule.summary}`));
+    if (rule)
+      findings.push(
+        toFinding(
+          rule,
+          path,
+          declaration.line,
+          `${path} requires ${declaration.name} ${declaration.value}. ${rule.summary}`,
+        ),
+      );
   }
   return findings;
 }
 
 /** Findings for the baseline and direct dependencies in one vcpkg.json. */
-function findingsForVcpkg(byPurl: Map<string, RegistryV2Rule[]>, path: string, declarations: readonly VcpkgDeclaration[]): DetectorFinding[] {
+function findingsForVcpkg(
+  byPurl: Map<string, RegistryV2Rule[]>,
+  path: string,
+  declarations: readonly VcpkgDeclaration[],
+): DetectorFinding[] {
   const findings: DetectorFinding[] = [];
   for (const declaration of declarations) {
     if (declaration.kind === "vcpkg-baseline") {
       const rule = firstMatchingRule(byPurl.get(VCPKG_BASELINE_PURL) ?? [], declaration.value);
-      if (rule) findings.push(toFinding(rule, path, declaration.line, `${path} pins builtin-baseline ${declaration.value}. ${rule.summary}`));
+      if (rule)
+        findings.push(
+          toFinding(
+            rule,
+            path,
+            declaration.line,
+            `${path} pins builtin-baseline ${declaration.value}. ${rule.summary}`,
+          ),
+        );
       continue;
     }
     const rules = byPurl.get(vcpkgPurl(declaration.name)) ?? [];
     if (declaration.value === undefined) {
       const rule = firstUniversalRule(rules);
-      if (rule) findings.push(toFinding(rule, path, declaration.line, `${path} depends on ${declaration.name}. ${rule.summary}`));
+      if (rule)
+        findings.push(
+          toFinding(rule, path, declaration.line, `${path} depends on ${declaration.name}. ${rule.summary}`),
+        );
     } else {
       const rule = firstMatchingRule(rules, declaration.value);
-      if (rule) findings.push(toFinding(rule, path, declaration.line, `${path} requires ${declaration.name} ${declaration.value} or newer. ${rule.summary}`));
+      if (rule)
+        findings.push(
+          toFinding(
+            rule,
+            path,
+            declaration.line,
+            `${path} requires ${declaration.name} ${declaration.value} or newer. ${rule.summary}`,
+          ),
+        );
     }
   }
   return findings;
@@ -207,7 +279,10 @@ export class CppDetector implements Detector {
   readonly inputs: DetectorInputs = { fileNames: ["CMakeLists.txt", "conanfile.txt", "conanfile.py", "vcpkg.json"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/cpp.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/cpp.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/cpp.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -231,7 +306,8 @@ export class CppDetector implements Detector {
       const name = basename(file);
 
       if (name === "CMakeLists.txt") {
-        for (const declaration of parseCmakeLists(contents)) findings.push(...findingsForCmake(byPurl, path, declaration));
+        for (const declaration of parseCmakeLists(contents))
+          findings.push(...findingsForCmake(byPurl, path, declaration));
       } else if (name === "conanfile.txt") {
         findings.push(...findingsForConan(byPurl, path, parseConanfileTxt(contents)));
       } else if (name === "conanfile.py") {

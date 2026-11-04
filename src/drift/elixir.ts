@@ -9,7 +9,13 @@ import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
 import { parseDockerfile } from "../detectors/container/parse-dockerfile.js";
 import { parseImageReference } from "../detectors/container/parse-image.js";
 import type { ImageReference } from "../detectors/container/parse-image.js";
-import { MAXIMUM_INPUT_BYTES, PINNED_ELIXIR_VERSION, PINNED_ERLANG_VERSION, elixirVersion, otpFromElixirPin } from "../detectors/elixir/parse-elixir-runtime.js";
+import {
+  MAXIMUM_INPUT_BYTES,
+  PINNED_ELIXIR_VERSION,
+  PINNED_ERLANG_VERSION,
+  elixirVersion,
+  otpFromElixirPin,
+} from "../detectors/elixir/parse-elixir-runtime.js";
 import { parseMixExs } from "../detectors/elixir/parse-mix-exs.js";
 import { relativePosix } from "../paths.js";
 import type { DriftCollector, RuntimePin } from "./types.js";
@@ -34,16 +40,33 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "deps", "_build", ".elixir_ls", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "deps",
+  "_build",
+  ".elixir_ls",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const WORKFLOW_NAME = /\.ya?ml$/i;
 const SETUP_BEAM = /^erlef\/setup-beam@/i;
 const MATRIX_REFERENCE = /^\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}$/;
 
 /** An `elixir` image tag: `<version>[-otp-<otp>][-variant]`, such as `1.16.3-otp-26.2.5-alpine`. */
-const ELIXIR_IMAGE_TAG = /^([1-9][0-9]*\.[0-9]+(?:\.\d+)*)(?:(-otp-)([1-9][0-9]*(?:\.\d+)*))?((?:[-+][0-9A-Za-z._-]+)?)$/;
+const ELIXIR_IMAGE_TAG =
+  /^([1-9][0-9]*\.[0-9]+(?:\.\d+)*)(?:(-otp-)([1-9][0-9]*(?:\.\d+)*))?((?:[-+][0-9A-Za-z._-]+)?)$/;
 /** The `hexpm/elixir:<elixir>-erlang-<otp>-<os>` build tag. */
-const HEXPM_IMAGE_TAG = /^([1-9][0-9]*\.[0-9]+(?:\.\d+)*)-erlang-([1-9][0-9]*(?:\.\d+)*)(?:-[0-9A-Za-z][0-9A-Za-z._-]*)?$/;
+const HEXPM_IMAGE_TAG =
+  /^([1-9][0-9]*\.[0-9]+(?:\.\d+)*)-erlang-([1-9][0-9]*(?:\.\d+)*)(?:-[0-9A-Za-z][0-9A-Za-z._-]*)?$/;
 /** The lower bound of a `mix.exs` constraint, such as `~> 1.15` or `>= 1.15.7`. */
 const FLOOR_BOUND = /(?:~>|>=|==|>)\s*([1-9][0-9]*)\.([0-9]+)/;
 /** A setup-beam `otp-version`, which may carry the `OTP-` prefix, such as `OTP-26.2.5`. */
@@ -84,7 +107,8 @@ function fileKind(name: string, directory: string): ElixirFileKind | undefined {
   if (DOCKERFILE_NAME.test(name)) return "dockerfile";
   if (name === ".gitlab-ci.yml") return "gitlab";
   if (name === "config.yml" && basename(directory) === ".circleci") return "circleci";
-  if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github") return "workflow";
+  if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github")
+    return "workflow";
   return undefined;
 }
 
@@ -141,7 +165,15 @@ function floorRelease(value: string): string | undefined {
   return elixirReleaseOf(value);
 }
 
-function makePin(path: string, line: number, source: string, raw: string, kind: "pin" | "floor", resolved: Resolved, group?: string): RuntimePin {
+function makePin(
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  kind: "pin" | "floor",
+  resolved: Resolved,
+  group?: string,
+): RuntimePin {
   return { path, line, source, raw, kind, ...(group === undefined ? {} : { group }), ...resolved };
 }
 
@@ -156,14 +188,29 @@ function collectElixirVersionFile(contents: string, path: string, pins: ElixirPi
     const value = rawLine.trim();
     if (value === "" || value.startsWith("#")) continue;
     const release = elixirReleaseOf(value);
-    pins.elixir.push(makePin(path, index + 1, SOURCE_ELIXIR_VERSION, value, "pin",
-      release === undefined ? { unresolved: `"${value}" is not an Elixir version Evergreen reads` } : { release }));
+    pins.elixir.push(
+      makePin(
+        path,
+        index + 1,
+        SOURCE_ELIXIR_VERSION,
+        value,
+        "pin",
+        release === undefined ? { unresolved: `"${value}" is not an Elixir version Evergreen reads` } : { release },
+      ),
+    );
     pushOtpDerived(path, index + 1, SOURCE_ELIXIR_VERSION, value, otpFromElixirPin(value), pins);
   }
 }
 
 /** The OTP major named by an Elixir value that carries one is also an Erlang pin. */
-function pushOtpDerived(path: string, line: number, source: string, raw: string, otpMajor: string | undefined, pins: ElixirPins): void {
+function pushOtpDerived(
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  otpMajor: string | undefined,
+  pins: ElixirPins,
+): void {
   if (otpMajor === undefined) return;
   pins.erlang.push(makePin(path, line, source, raw, "pin", { release: otpMajor }));
 }
@@ -181,15 +228,33 @@ function collectToolVersions(contents: string, path: string, pins: ElixirPins): 
     if (tool === "elixir") {
       for (const value of values) {
         const release = elixirReleaseOf(value);
-        pins.elixir.push(makePin(path, line, SOURCE_TOOL_VERSIONS, value, "pin",
-          release === undefined ? { unresolved: `"${value}" is not an Elixir version Evergreen reads` } : { release }));
+        pins.elixir.push(
+          makePin(
+            path,
+            line,
+            SOURCE_TOOL_VERSIONS,
+            value,
+            "pin",
+            release === undefined ? { unresolved: `"${value}" is not an Elixir version Evergreen reads` } : { release },
+          ),
+        );
         pushOtpDerived(path, line, SOURCE_TOOL_VERSIONS, value, otpFromElixirPin(value), pins);
       }
     } else if (tool === "erlang") {
       for (const value of values) {
         const release = erlangReleaseOf(value);
-        pins.erlang.push(makePin(path, line, SOURCE_TOOL_VERSIONS, value, "pin",
-          release === undefined ? { unresolved: `"${value}" is not an Erlang/OTP version Evergreen reads` } : { release }));
+        pins.erlang.push(
+          makePin(
+            path,
+            line,
+            SOURCE_TOOL_VERSIONS,
+            value,
+            "pin",
+            release === undefined
+              ? { unresolved: `"${value}" is not an Erlang/OTP version Evergreen reads` }
+              : { release },
+          ),
+        );
       }
     }
   }
@@ -199,13 +264,23 @@ function collectMixExs(contents: string, path: string, pins: ElixirPins): void {
   for (const declaration of parseMixExs(contents)) {
     if (declaration.kind !== "elixir") continue;
     const release = floorRelease(declaration.value);
-    pins.elixir.push(makePin(path, declaration.line, SOURCE_MIX_EXS, declaration.value, "floor",
-      release === undefined ? { unresolved: `"${declaration.value}" states no minimum Elixir release` } : { release }));
+    pins.elixir.push(
+      makePin(
+        path,
+        declaration.line,
+        SOURCE_MIX_EXS,
+        declaration.value,
+        "floor",
+        release === undefined ? { unresolved: `"${declaration.value}" states no minimum Elixir release` } : { release },
+      ),
+    );
   }
 }
 
 function isElixirImage(image: ImageReference): boolean {
-  return image.registry === "docker.io" && (image.repository === "library/elixir" || image.repository === "hexpm/elixir");
+  return (
+    image.registry === "docker.io" && (image.repository === "library/elixir" || image.repository === "hexpm/elixir")
+  );
 }
 
 /** The `major.minor` of a version an image tag regex captured; a missing capture is reported unresolved. */
@@ -226,7 +301,9 @@ function imagePins(value: string, line: number, source: string, path: string, pi
   if (image.repository === "hexpm/elixir") {
     const match = HEXPM_IMAGE_TAG.exec(tag);
     if (match === null) {
-      pins.elixir.push(makePin(path, line, source, tag, "pin", { unresolved: `"${tag}" is not a hexpm/elixir tag Evergreen reads` }));
+      pins.elixir.push(
+        makePin(path, line, source, tag, "pin", { unresolved: `"${tag}" is not a hexpm/elixir tag Evergreen reads` }),
+      );
       return;
     }
     pins.elixir.push(makePin(path, line, source, tag, "pin", capturedElixirRelease(match[1], tag)));
@@ -235,7 +312,9 @@ function imagePins(value: string, line: number, source: string, path: string, pi
   }
   const match = ELIXIR_IMAGE_TAG.exec(tag);
   if (match === null) {
-    pins.elixir.push(makePin(path, line, source, tag, "pin", { unresolved: `"${tag}" does not name an Elixir release` }));
+    pins.elixir.push(
+      makePin(path, line, source, tag, "pin", { unresolved: `"${tag}" does not name an Elixir release` }),
+    );
     return;
   }
   pins.elixir.push(makePin(path, line, source, tag, "pin", capturedElixirRelease(match[1], tag)));
@@ -249,7 +328,12 @@ function collectDockerfile(contents: string, path: string, pins: ElixirPins): vo
   }
 }
 
-function imagePinsAll(references: ReadonlyArray<{ value: string; line: number }>, source: string, path: string, pins: ElixirPins): void {
+function imagePinsAll(
+  references: ReadonlyArray<{ value: string; line: number }>,
+  source: string,
+  path: string,
+  pins: ElixirPins,
+): void {
   for (const reference of references) imagePins(reference.value, reference.line, source, path, pins);
 }
 
@@ -269,14 +353,21 @@ interface SetupBeamInput {
   matrix: boolean;
 }
 
-function readSetupBeamInput(inputs: YAMLMap, name: SetupBeamInput["input"], matrix: unknown, lineOf: (node: Node) => number, found: SetupBeamInput[]): void {
+function readSetupBeamInput(
+  inputs: YAMLMap,
+  name: SetupBeamInput["input"],
+  matrix: unknown,
+  lineOf: (node: Node) => number,
+  found: SetupBeamInput[],
+): void {
   const node = inputs.get(name, true) as Node | null;
   if (!node || !isScalar(node)) return;
   const key = typeof node.value === "string" ? MATRIX_REFERENCE.exec(node.value.trim())?.[1] : undefined;
   const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
   const add = (item: Node, isMatrix: boolean): void => {
     const value = textOf(item);
-    if (value !== undefined && value !== "") found.push({ input: name, value, line: lineOf(item), expression: value.includes("${{"), matrix: isMatrix });
+    if (value !== undefined && value !== "")
+      found.push({ input: name, value, line: lineOf(item), expression: value.includes("${{"), matrix: isMatrix });
   };
   if (isSeq(list)) for (const item of list.items) add(item as Node, true);
   else add(node, false);
@@ -318,7 +409,9 @@ function elixirResolved(value: string): Resolved {
 
 function otpVersionResolved(value: string): Resolved {
   const release = otpInputReleaseOf(value);
-  return release === undefined ? { unresolved: `"${value}" is not an Erlang/OTP version Evergreen reads` } : { release };
+  return release === undefined
+    ? { unresolved: `"${value}" is not an Erlang/OTP version Evergreen reads` }
+    : { release };
 }
 
 function collectWorkflow(contents: string, path: string, pins: ElixirPins): void {
@@ -329,9 +422,20 @@ function collectWorkflow(contents: string, path: string, pins: ElixirPins): void
     const matrixSource = isElixir ? SOURCE_SETUP_ELIXIR_MATRIX : SOURCE_SETUP_OTP_MATRIX;
     const resolved = entry.expression
       ? { unresolved: `"${entry.value}" is an expression, which Evergreen does not evaluate` }
-      : isElixir ? elixirResolved(entry.value) : otpVersionResolved(entry.value);
-    target.push(makePin(path, entry.line, entry.matrix ? matrixSource : source, entry.value, "pin", resolved,
-      entry.matrix ? matrixSource : undefined));
+      : isElixir
+        ? elixirResolved(entry.value)
+        : otpVersionResolved(entry.value);
+    target.push(
+      makePin(
+        path,
+        entry.line,
+        entry.matrix ? matrixSource : source,
+        entry.value,
+        "pin",
+        resolved,
+        entry.matrix ? matrixSource : undefined,
+      ),
+    );
   }
 }
 

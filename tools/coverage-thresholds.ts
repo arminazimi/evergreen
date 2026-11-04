@@ -164,14 +164,13 @@ export function renderThresholdSummary(result: ThresholdResult, floors: Coverage
   lines.push("| --- | ---: | ---: | --- |");
   for (const metric of METRICS) {
     const failed = result.failures.some((failure) => failure.metric === metric);
-    lines.push(`| ${metric} | ${floors[metric]}% | ${formatPercent(result.totals[metric].percent)} | ${failed ? "**fail**" : "ok"} |`);
+    lines.push(
+      `| ${metric} | ${floors[metric]}% | ${formatPercent(result.totals[metric].percent)} | ${failed ? "**fail**" : "ok"} |`,
+    );
   }
   lines.push("");
   if (result.passed) {
-    lines.push(
-      `Every floor holds: ${METRICS.map((metric) => `${floors[metric]}% ${metric}`).join(", ")}.`,
-      "",
-    );
+    lines.push(`Every floor holds: ${METRICS.map((metric) => `${floors[metric]}% ${metric}`).join(", ")}.`, "");
   } else {
     lines.push(
       `Failed: ${result.failures
@@ -202,7 +201,8 @@ export async function main(argv: readonly string[]): Promise<number> {
     const argument = argv[index]!;
     if (!argument.startsWith("--")) throw new Error(`Unexpected argument "${argument}".`);
     if (!known.has(argument)) throw new Error(`Unknown argument "${argument}".`);
-    if (argv[index + 1] === undefined || argv[index + 1]!.startsWith("--")) throw new Error(`${argument} needs a value.`);
+    if (argv[index + 1] === undefined || argv[index + 1]!.startsWith("--"))
+      throw new Error(`${argument} needs a value.`);
     index += 1;
   }
 
@@ -219,7 +219,9 @@ export async function main(argv: readonly string[]): Promise<number> {
   if (baselinePath === undefined) return result.passed ? 0 : 1;
   const drops = checkCoverageAgainstBase(totals, parseLcovTotals(await readFile(baselinePath, "utf8")));
   for (const drop of drops) {
-    process.stderr.write(`${drop.metric} is ${formatPercent(drop.percent)}, below main's ${formatPercent(drop.base)}.\n`);
+    process.stderr.write(
+      `${drop.metric} is ${formatPercent(drop.percent)}, below main's ${formatPercent(drop.base)}.\n`,
+    );
   }
   if (drops.length === 0) process.stdout.write("No metric fell below main's report.\n");
   return result.passed && drops.length === 0 ? 0 : 1;

@@ -14,11 +14,18 @@ export const command: CliCommand = {
     const usageText = "Usage: evergreen usage [--file <path>] [--json]";
     const fileIndex = args.indexOf("--file");
     const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
-    const rest = fileIndex === -1 ? args : args.filter((_argument, index) => index !== fileIndex && index !== fileIndex + 1);
-    if ((fileIndex !== -1 && (!fileValue || fileValue.startsWith("-"))) || rest.some((argument) => argument !== "--json")) return ctx.fail("usage", usageText);
+    const rest =
+      fileIndex === -1 ? args : args.filter((_argument, index) => index !== fileIndex && index !== fileIndex + 1);
+    if (
+      (fileIndex !== -1 && (!fileValue || fileValue.startsWith("-"))) ||
+      rest.some((argument) => argument !== "--json")
+    )
+      return ctx.fail("usage", usageText);
     const file = fileValue ?? usageLogPath();
     if (!file) {
-      process.stdout.write("Usage logging is off. Set EVERGREEN_USAGE_LOG=1 (or a file path) to record dependency checks locally, then run `evergreen usage`. Nothing leaves this machine.\n");
+      process.stdout.write(
+        "Usage logging is off. Set EVERGREEN_USAGE_LOG=1 (or a file path) to record dependency checks locally, then run `evergreen usage`. Nothing leaves this machine.\n",
+      );
       return 0;
     }
     const summary = await summarizeUsage(file);

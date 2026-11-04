@@ -43,7 +43,10 @@ const SUFFIX_RANK: Record<string, number> = {
 
 /** Parses a PHP version such as `8.4`, `8.4.0`, or `8.4.0RC1`. Returns undefined for anything else. */
 export function parsePhpVersion(text: string): PhpVersion | undefined {
-  const match = /^[vV]?(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:[-._]?(dev|alpha|beta|rc|pl|patch|a|b|p)(\d*))?$/i.exec(text.trim());
+  const match =
+    /^[vV]?(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?(?:[-._]?(dev|alpha|beta|rc|pl|patch|a|b|p)(\d*))?$/i.exec(
+      text.trim(),
+    );
   if (!match) return undefined;
   const numbers = [match[1], match[2], match[3], match[4]].map((part) => (part === undefined ? 0 : Number(part)));
   const [major, minor, patch, extra] = numbers as [number, number, number, number];
@@ -286,7 +289,11 @@ function targetVersions(version: string): string[] | undefined {
   return [`${major}.0.0`, `${major}.99.99`];
 }
 
-function judge(requirement: PhpRequirement, target: UpgradeTarget, candidates: readonly string[]): UpgradeIssue | undefined {
+function judge(
+  requirement: PhpRequirement,
+  target: UpgradeTarget,
+  candidates: readonly string[],
+): UpgradeIssue | undefined {
   const outcomes = candidates.map((candidate) => matchesComposerConstraint(requirement.constraint, candidate));
   const evidence = { kind: requirement.kind, value: `${requirement.field}: ${requirement.constraint}` } as const;
   if (outcomes.some((outcome) => outcome === undefined)) {
@@ -334,7 +341,10 @@ export const composerLockAnalyzer: UpgradeAnalyzer = {
     const lockText = await readText(root, LOCKFILE);
     const lock = lockText === undefined ? undefined : readJsonLines(lockText, { comments: false });
     if (lock?.kind === "object") {
-      for (const declaration of [...packagesFrom(member(lock, "packages")?.value, false), ...packagesFrom(member(lock, "packages-dev")?.value, true)]) {
+      for (const declaration of [
+        ...packagesFrom(member(lock, "packages")?.value, false),
+        ...packagesFrom(member(lock, "packages-dev")?.value, true),
+      ]) {
         const key = `${declaration.name}\u0000${declaration.version}\u0000${declaration.constraint}`;
         if (seen.has(key)) continue;
         seen.add(key);
@@ -355,7 +365,10 @@ export const composerLockAnalyzer: UpgradeAnalyzer = {
         );
         if (issue !== undefined) issues.push(issue);
       }
-      for (const [key, field] of [["platform", "platform.php"], ["platform-overrides", "platform-overrides.php"]] as const) {
+      for (const [key, field] of [
+        ["platform", "platform.php"],
+        ["platform-overrides", "platform-overrides.php"],
+      ] as const) {
         const platform = platformPhp(lock, key);
         if (platform === undefined) continue;
         const issue = judge(

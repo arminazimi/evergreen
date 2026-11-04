@@ -19,7 +19,10 @@ const LEFT = 64;
 const RIGHT = 24;
 
 const escape = (value: string): string =>
-  value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!);
+  value.replace(
+    /[&<>"']/g,
+    (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!,
+  );
 
 const pad = (value: number): string => String(value).padStart(2, "0");
 
@@ -49,7 +52,10 @@ function laneY(severity: Severity): number {
 }
 
 function describe(event: ForecastEvent): string {
-  const affects = event.findings.length === 0 ? "" : `, affects ${event.findings.length} finding${event.findings.length === 1 ? "" : "s"}`;
+  const affects =
+    event.findings.length === 0
+      ? ""
+      : `, affects ${event.findings.length} finding${event.findings.length === 1 ? "" : "s"}`;
   return `${event.date}: ${event.title} (${event.severity}${affects})`;
 }
 
@@ -133,7 +139,10 @@ export function renderForecastSvg(forecast: Forecast, options: ForecastSvgOption
     '<rect class="forecast-background" width="100%" height="100%"/>',
     `<text x="${PAD}" y="30" font-size="15" font-weight="700">End-of-life forecast</text>`,
     `<text class="forecast-muted" x="${PAD}" y="50" font-size="11">${escape(`${forecast.total} events · ${forecast.affecting} affecting this repository · ${forecast.today} to ${forecast.until}`)}</text>`,
-    ...severityOrder.map((severity, index) => `<text class="forecast-muted" x="8" y="${LANE_TOP + index * LANE_HEIGHT + 4}" font-size="9">${severity}</text>`),
+    ...severityOrder.map(
+      (severity, index) =>
+        `<text class="forecast-muted" x="8" y="${LANE_TOP + index * LANE_HEIGHT + 4}" font-size="9">${severity}</text>`,
+    ),
     `<line class="forecast-line" x1="${LEFT}" y1="${AXIS_Y}" x2="${width - RIGHT}" y2="${AXIS_Y}"/>`,
     ...ticks,
     ...bars,

@@ -11,12 +11,7 @@ import { pathToFileURL } from "node:url";
 import { isDeepStrictEqual } from "node:util";
 
 import { formatPurl, parsePurl } from "../src/purl.js";
-import {
-  legacyRule,
-  lifecycleEvents,
-  REGISTRY_V2_SCHEMA_VERSION,
-  validateRegistryV2,
-} from "../src/registry.js";
+import { legacyRule, lifecycleEvents, REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../src/registry.js";
 import type { LifecycleEvent, RegistryV2, RegistryV2Rule } from "../src/registry.js";
 
 export interface ConvertOptions {
@@ -58,7 +53,18 @@ type UnknownRecord = Record<string, unknown>;
 const supportedEcosystems = ["github-actions", "nodejs", "npm", "python"];
 
 /** Fields that move into the v2 rule unchanged; everything else in a v1 rule is a detector hint. */
-const SHARED_FIELDS = ["id", "ecosystem", "title", "summary", "severity", "replacement", "deadline", "sources", "migration", "usage"];
+const SHARED_FIELDS = [
+  "id",
+  "ecosystem",
+  "title",
+  "summary",
+  "severity",
+  "replacement",
+  "deadline",
+  "sources",
+  "migration",
+  "usage",
+];
 
 interface Identity {
   purl: string;
@@ -190,14 +196,22 @@ function parseArguments(argv: string[]): { file: string; options: ConvertOptions
     if (next === undefined) throw new Error(`${argument} needs a value.`);
     if (argument === "--event") {
       const [id, event] = next.split("=");
-      if (!id || !event || !lifecycleEvents.includes(event as LifecycleEvent)) throw new Error(`--event expects <rule-id>=<${lifecycleEvents.join("|")}>.`);
+      if (!id || !event || !lifecycleEvents.includes(event as LifecycleEvent))
+        throw new Error(`--event expects <rule-id>=<${lifecycleEvents.join("|")}>.`);
       events[id] = event as LifecycleEvent;
     } else {
       values.set(argument, next);
     }
   }
-  const required = (name: string) => values.get(name) ?? (() => { throw new Error(`${name} is required.`); })();
-  if (!file) throw new Error("Usage: registry-v1-to-v2 <registry.json> --observed-at D --reviewed-at D --reviewer NAME [--freshness-days N] [--event ID=EVENT] [--out FILE]");
+  const required = (name: string) =>
+    values.get(name) ??
+    (() => {
+      throw new Error(`${name} is required.`);
+    })();
+  if (!file)
+    throw new Error(
+      "Usage: registry-v1-to-v2 <registry.json> --observed-at D --reviewed-at D --reviewer NAME [--freshness-days N] [--event ID=EVENT] [--out FILE]",
+    );
   const days = values.get("--freshness-days");
   return {
     file,

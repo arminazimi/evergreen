@@ -23,27 +23,29 @@ const SLIPWAY_THEME_GEM = /^\s*gem\s+["']slipway(?:-theme)?["']/m;
 
 /** The GitHub Actions workflow `init` generates for a detected GitHub Actions repository. */
 export function ciWorkflow(gate: Severity): string {
-  return [
-    "name: Evergreen",
-    "",
-    "on:",
-    "  pull_request:",
-    "  push:",
-    "    branches: [main]",
-    "",
-    "permissions:",
-    "  contents: read",
-    "",
-    "jobs:",
-    "  lifecycle:",
-    "    runs-on: ubuntu-latest",
-    "    steps:",
-    "      - uses: actions/checkout@v7",
-    `      - uses: arminazimi/evergreen@v${VERSION}`,
-    "        with:",
-    "          baseline: .evergreen-baseline.json",
-    `          fail-on-severity: ${gate}`,
-  ].join("\n") + "\n";
+  return (
+    [
+      "name: Evergreen",
+      "",
+      "on:",
+      "  pull_request:",
+      "  push:",
+      "    branches: [main]",
+      "",
+      "permissions:",
+      "  contents: read",
+      "",
+      "jobs:",
+      "  lifecycle:",
+      "    runs-on: ubuntu-latest",
+      "    steps:",
+      "      - uses: actions/checkout@v7",
+      `      - uses: arminazimi/evergreen@v${VERSION}`,
+      "        with:",
+      "          baseline: .evergreen-baseline.json",
+      `          fail-on-severity: ${gate}`,
+    ].join("\n") + "\n"
+  );
 }
 
 export type InitStepKind = "ci" | "hooks" | "agents";
@@ -164,14 +166,22 @@ export function siteSuggestion(site: SiteStarterSuggestion): string {
  */
 export async function planInitSetup(input: InitSetupInput): Promise<InitSetupPlan> {
   const root = resolve(input.root);
-  if (!(await lstat(root).catch(() => undefined))?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  if (!(await lstat(root).catch(() => undefined))?.isDirectory())
+    throw new AgentFileError(`${root} is not a directory.`);
 
   const steps: InitStep[] = [];
   const detectedCi = new Set<string>();
 
   if (await exists(resolve(root, ".gitlab-ci.yml"))) {
     detectedCi.add("GitLab CI/CD");
-    steps.push({ kind: "ci", file: ".gitlab-ci.yml", change: "advice", diff: "", snippet: GITLAB_INCLUDE_SNIPPET, hosts: [] });
+    steps.push({
+      kind: "ci",
+      file: ".gitlab-ci.yml",
+      change: "advice",
+      diff: "",
+      snippet: GITLAB_INCLUDE_SNIPPET,
+      hosts: [],
+    });
   }
   if (await exists(resolve(root, ".github"))) {
     detectedCi.add("GitHub Actions");
@@ -202,7 +212,9 @@ export async function planInitSetup(input: InitSetupInput): Promise<InitSetupPla
 /** One-line summary of what a plan writes, used for the confirmation prompt. */
 export function planSummary(plan: InitSetupPlan): string {
   const touches: string[] = [];
-  const writableSteps = plan.steps.filter((step) => step.change === "created" || step.change === "added" || step.change === "updated");
+  const writableSteps = plan.steps.filter(
+    (step) => step.change === "created" || step.change === "added" || step.change === "updated",
+  );
   if (writableSteps.some((step) => step.kind === "ci")) touches.push(`CI at ${plan.detectedCi.join(" and ")}`);
   if (writableSteps.some((step) => step.kind === "hooks")) touches.push("the Git pre-push hook");
   const files = [...new Set(writableSteps.filter((step) => step.kind === "agents").map((step) => step.file))];
@@ -242,7 +254,11 @@ export async function applyInitSetup(options: { plan: InitSetupPlan; gate: Sever
       }
       await mkdir(dirname(path), { recursive: true });
       await writeFile(path, target);
-      steps.push({ ...step, change: before === undefined ? "created" : "updated", diff: renderDiff(CI_WORKFLOW_FILE, before ?? "", target) });
+      steps.push({
+        ...step,
+        change: before === undefined ? "created" : "updated",
+        diff: renderDiff(CI_WORKFLOW_FILE, before ?? "", target),
+      });
       written.push(CI_WORKFLOW_FILE);
       continue;
     }
@@ -281,12 +297,12 @@ export interface InitAgentResult {
  */
 export async function initAgent(options: InitAgentOptions): Promise<InitAgentResult> {
   const root = resolve(options.root);
-  if (!(await lstat(root).catch(() => undefined))?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  if (!(await lstat(root).catch(() => undefined))?.isDirectory())
+    throw new AgentFileError(`${root} is not a directory.`);
 
   const plan = await planSetup(root);
   const detected = plan.detected;
-  const entries: SetupEntry[] =
-    plan.entries.length > 0 ? plan.entries : [await fallbackAgentEntry(root, options.file)];
+  const entries: SetupEntry[] = plan.entries.length > 0 ? plan.entries : [await fallbackAgentEntry(root, options.file)];
 
   if (options.dryRun) {
     return { detected, entries, written: [] };

@@ -57,8 +57,14 @@ test("collects every listed .NET source with its exact location and release", as
   const build = entry(pins, "Dockerfile", "Dockerfile FROM", "mcr.microsoft.com/dotnet/sdk:6.0");
   assert.deepEqual([build.line, build.release], [1, "6.0"]);
   assert.equal(entry(pins, "Dockerfile", "Dockerfile FROM", "mcr.microsoft.com/dotnet/aspnet:7.0").release, "7.0");
-  assert.equal(entry(pins, "Dockerfile.prod", "Dockerfile.prod FROM", "mcr.microsoft.com/dotnet/runtime:8.0-alpine").release, "8.0");
-  assert.equal(entry(pins, "Dockerfile.legacy", "Dockerfile.legacy FROM", "mcr.microsoft.com/dotnet/core/sdk:3.1").release, "3.1");
+  assert.equal(
+    entry(pins, "Dockerfile.prod", "Dockerfile.prod FROM", "mcr.microsoft.com/dotnet/runtime:8.0-alpine").release,
+    "8.0",
+  );
+  assert.equal(
+    entry(pins, "Dockerfile.legacy", "Dockerfile.legacy FROM", "mcr.microsoft.com/dotnet/core/sdk:3.1").release,
+    "3.1",
+  );
 
   const floating = entry(pins, "Dockerfile.legacy", "Dockerfile.legacy FROM", "mcr.microsoft.com/dotnet/sdk:latest");
   assert.equal(floating.release, undefined);
@@ -66,7 +72,12 @@ test("collects every listed .NET source with its exact location and release", as
 
   const setup = entry(pins, ".github/workflows/ci.yml", "actions/setup-dotnet dotnet-version", "8.0.x");
   assert.deepEqual([setup.line, setup.release], [10, "8.0"]);
-  const expression = entry(pins, ".github/workflows/ci.yml", "actions/setup-dotnet dotnet-version", "${{ matrix.dotnet }}");
+  const expression = entry(
+    pins,
+    ".github/workflows/ci.yml",
+    "actions/setup-dotnet dotnet-version",
+    "${{ matrix.dotnet }}",
+  );
   assert.equal(expression.release, undefined);
   assert.match(expression.unresolved ?? "", /expression/);
 
@@ -99,7 +110,10 @@ test("a source outside a multi-target list still drifts against it", async () =>
   const report = await analyzeDrift(resolve(fixtures, "multi-target-out-of-line"), [dotnetCollector]);
   assert.deepEqual(report.runtimes[0]!.releases, ["6.0", "8.0", "9.0"]);
   assert.equal(report.runtimes[0]!.drifted, true);
-  assert.equal((await run("drift", resolve(fixtures, "multi-target-out-of-line"), "--runtime", "dotnet", "--check")).code, 1);
+  assert.equal(
+    (await run("drift", resolve(fixtures, "multi-target-out-of-line"), "--runtime", "dotnet", "--check")).code,
+    1,
+  );
 });
 
 test("reports drift for the drifted repository and none for the consistent one", async () => {
@@ -179,7 +193,10 @@ test("--align patches apply, remove the drift, and refuse multi-targeting and pr
     const globalJson = await readFile(join(temporary, "global.json"), "utf8");
     assert.match(globalJson, /"version": "8\.0"/);
     assert.match(globalJson, /"rollForward": "latestPatch"/);
-    assert.match(await readFile(join(temporary, "App/App.csproj"), "utf8"), /<TargetFramework>net8\.0<\/TargetFramework>/);
+    assert.match(
+      await readFile(join(temporary, "App/App.csproj"), "utf8"),
+      /<TargetFramework>net8\.0<\/TargetFramework>/,
+    );
     assert.match(await readFile(join(temporary, "Dockerfile"), "utf8"), /dotnet\/sdk:8\.0-alpine/);
   } finally {
     await rm(temporary, { recursive: true, force: true });

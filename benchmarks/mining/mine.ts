@@ -32,8 +32,19 @@ const SEARCH_GROUPS = {
     "upgrade download-artifact v7",
   ],
   node: ["drop node 20 support", "drop node 18 support", "upgrade node 22", "require node 22"],
-  npm: ["replace request with fetch", "migrate from node-sass to sass", "remove left-pad", "remove deprecated request package"],
-  python: ["drop python 3.9 support", "replace nose with pytest", "replace django-nose", "replace pycrypto", "migrate from nose to pytest"],
+  npm: [
+    "replace request with fetch",
+    "migrate from node-sass to sass",
+    "remove left-pad",
+    "remove deprecated request package",
+  ],
+  python: [
+    "drop python 3.9 support",
+    "replace nose with pytest",
+    "replace django-nose",
+    "replace pycrypto",
+    "migrate from nose to pytest",
+  ],
 } as const;
 type SearchGroup = keyof typeof SEARCH_GROUPS;
 
@@ -84,7 +95,10 @@ function key(location: Location): string {
 }
 
 function slug(value: string): string {
-  return value.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replaceAll(/^-|-$/g, "");
+  return value
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replaceAll(/^-|-$/g, "");
 }
 
 async function github<T>(endpoint: string, fields: Record<string, string>): Promise<T> {
@@ -120,11 +134,7 @@ async function scanCommit(root: string, repository: string, commit: string, name
   return (await scanRepository(directory, builtInDetectors)).findings.map(findingLocation);
 }
 
-async function inspect(
-  root: string,
-  commit: SearchCommit,
-  query: string,
-): Promise<Candidate[]> {
+async function inspect(root: string, commit: SearchCommit, query: string): Promise<Candidate[]> {
   const parentCommit = commit.parents[0]?.sha;
   if (
     !parentCommit ||
@@ -133,7 +143,8 @@ async function inspect(
     commit.parents.length !== 1 ||
     commit.repository.fork ||
     commit.repository.archived
-  ) return [];
+  )
+    return [];
 
   const candidateRoot = join(root, commit.sha);
   await mkdir(candidateRoot, { recursive: true });
@@ -163,7 +174,8 @@ async function inspect(
 async function main(): Promise<void> {
   const append = process.argv.includes("--append");
   const limit = Number.parseInt(argument("--limit", "30"), 10);
-  if (!Number.isInteger(limit) || limit < (append ? 1 : 30)) throw new Error(`--limit must be at least ${append ? 1 : 30}`);
+  if (!Number.isInteger(limit) || limit < (append ? 1 : 30))
+    throw new Error(`--limit must be at least ${append ? 1 : 30}`);
   const groups = argument("--queries", Object.keys(SEARCH_GROUPS).join(",")).split(",") as SearchGroup[];
   for (const group of groups) if (!(group in SEARCH_GROUPS)) throw new Error(`Unknown query group "${group}".`);
   const searches = groups.flatMap((group) => [...SEARCH_GROUPS[group]]);
@@ -173,7 +185,9 @@ async function main(): Promise<void> {
   const seen = new Set<string>();
   const existing = new Set(
     append
-      ? (JSON.parse(await readFile(join(output, "index.json"), "utf8").catch(() => "[]")) as string[]).map((file) => file.replace(/\.json$/, ""))
+      ? (JSON.parse(await readFile(join(output, "index.json"), "utf8").catch(() => "[]")) as string[]).map((file) =>
+          file.replace(/\.json$/, ""),
+        )
       : [],
   );
 
@@ -209,9 +223,13 @@ async function main(): Promise<void> {
     if (!append) await Promise.all(oldFiles.map((file) => rm(join(output, file), { force: true })));
     const selected = [...candidates.values()].sort((left, right) => left.id.localeCompare(right.id)).slice(0, limit);
     await Promise.all(
-      selected.map((candidate) => writeFile(join(output, `${candidate.id}.json`), `${JSON.stringify(candidate, null, 2)}\n`)),
+      selected.map((candidate) =>
+        writeFile(join(output, `${candidate.id}.json`), `${JSON.stringify(candidate, null, 2)}\n`),
+      ),
     );
-    const files = [...new Set([...(append ? oldFiles : []), ...selected.map((candidate) => `${candidate.id}.json`)])].sort();
+    const files = [
+      ...new Set([...(append ? oldFiles : []), ...selected.map((candidate) => `${candidate.id}.json`)]),
+    ].sort();
     await writeFile(join(output, "index.json"), `${JSON.stringify(files, null, 2)}\n`);
     process.stdout.write(`Wrote ${selected.length} pinned candidates to ${output} (${files.length} in the index)\n`);
   } finally {

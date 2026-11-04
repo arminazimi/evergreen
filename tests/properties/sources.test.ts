@@ -48,7 +48,8 @@ const CASES: readonly SourceRoundTripCase[] = [
   {
     name: "analyzeTypeScriptFile",
     source: ({ name, version }) => `import legacy from "${name}";\nlegacy.get("https://example.com/${version}");\n`,
-    run: (source) => analyzeJavaScriptFile({ path: "source.ts", language: "typescript", source }, [contract(source, "typescript")]),
+    run: (source) =>
+      analyzeJavaScriptFile({ path: "source.ts", language: "typescript", source }, [contract(source, "typescript")]),
     names: "zzmark|zlegacy-tool",
     versions: "9.8.7|1.21.0",
     markers: ({ name, version }) => [name, `${name}.get`, `legacy.get("https://example.com/${version}");`],

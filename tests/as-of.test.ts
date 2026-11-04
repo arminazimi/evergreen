@@ -36,9 +36,18 @@ test("a future date flips a scheduled end of life to high severity", async () =>
   const after = await scan(root, "--as-of", "2027-04-30");
 
   assert.equal(now.asOf, undefined);
-  assert.deepEqual(now.findings.map((finding) => finding.severity), ["low"]);
-  assert.deepEqual(before.findings.map((finding) => finding.severity), ["low"]);
-  assert.deepEqual(after.findings.map((finding) => finding.severity), ["high"]);
+  assert.deepEqual(
+    now.findings.map((finding) => finding.severity),
+    ["low"],
+  );
+  assert.deepEqual(
+    before.findings.map((finding) => finding.severity),
+    ["low"],
+  );
+  assert.deepEqual(
+    after.findings.map((finding) => finding.severity),
+    ["high"],
+  );
   assert.equal(after.asOf, "2027-04-30");
   assert.equal(after.findings[0]?.id, now.findings[0]?.id);
 });

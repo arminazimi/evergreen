@@ -31,7 +31,11 @@ test("--help carries one example per command", () => {
 });
 
 test("the generated scripts parse in the shells that are installed", () => {
-  for (const [shell, args] of [["bash", ["-n"]], ["zsh", ["-n"]], ["fish", ["--no-execute"]]] as const) {
+  for (const [shell, args] of [
+    ["bash", ["-n"]],
+    ["zsh", ["-n"]],
+    ["fish", ["--no-execute"]],
+  ] as const) {
     if (spawnSync(shell, ["--version"]).error) continue;
     const result = spawnSync(shell, [...args], { input: renderCompletions(shell), encoding: "utf8" });
     assert.equal(result.status, 0, `${shell}: ${result.stderr}`);

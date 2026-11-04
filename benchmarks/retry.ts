@@ -39,10 +39,7 @@ export function resolveFetchTimeoutMs(env: NodeJS.ProcessEnv = process.env): num
  * Runs `operation` with an abort signal that fires after `timeoutMs`. A stalled operation rejects with a
  * timeout error, which `withRetries` counts as a failed attempt.
  */
-export async function withTimeout<T>(
-  timeoutMs: number,
-  operation: (signal: AbortSignal) => Promise<T>,
-): Promise<T> {
+export async function withTimeout<T>(timeoutMs: number, operation: (signal: AbortSignal) => Promise<T>): Promise<T> {
   const controller = new AbortController();
   let timer: NodeJS.Timeout | undefined;
   const timedOut = new Promise<never>((_, reject) => {

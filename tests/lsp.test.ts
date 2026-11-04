@@ -143,7 +143,10 @@ test("a workflow fixture shows its diagnostic with evidence on hover", async () 
       end: { line: 6, character: "      - uses: actions/checkout@v4".length },
     });
     assert.match(String((first.codeDescription as Record<string, unknown>).href), /^https:\/\//);
-    assert.equal((first.data as Record<string, unknown>).findingId, "github-actions.checkout.node20:.github/workflows/legacy.yml:7");
+    assert.equal(
+      (first.data as Record<string, unknown>).findingId,
+      "github-actions.checkout.node20:.github/workflows/legacy.yml:7",
+    );
 
     send(client.input, {
       id: 2,
@@ -168,7 +171,10 @@ test("a workflow fixture shows its diagnostic with evidence on hover", async () 
       params: { textDocument: { uri: legacyUri }, position: { line: 6, character: 500 } },
     });
     const fallback = await client.messages.waitFor((message) => message.id === 9);
-    assert.match(String(((fallback.result as Record<string, unknown>).contents as Record<string, unknown>).value), /Unsupported actions\/checkout runtime/);
+    assert.match(
+      String(((fallback.result as Record<string, unknown>).contents as Record<string, unknown>).value),
+      /Unsupported actions\/checkout runtime/,
+    );
 
     send(client.input, {
       id: 3,
@@ -179,7 +185,9 @@ test("a workflow fixture shows its diagnostic with evidence on hover", async () 
         context: { diagnostics: [first] },
       },
     });
-    const actions = (await client.messages.waitFor((message) => message.id === 3)).result as Array<Record<string, unknown>>;
+    const actions = (await client.messages.waitFor((message) => message.id === 3)).result as Array<
+      Record<string, unknown>
+    >;
     assert.deepEqual(
       actions.map((action) => (action.command as Record<string, unknown>).command),
       [EXPLAIN_FINDING_COMMAND, OPEN_EVIDENCE_COMMAND],
@@ -188,7 +196,10 @@ test("a workflow fixture shows its diagnostic with evidence on hover", async () 
     send(client.input, {
       id: 4,
       method: "workspace/executeCommand",
-      params: { command: EXPLAIN_FINDING_COMMAND, arguments: [(first.data as Record<string, unknown>).findingId, legacyUri] },
+      params: {
+        command: EXPLAIN_FINDING_COMMAND,
+        arguments: [(first.data as Record<string, unknown>).findingId, legacyUri],
+      },
     });
     const [executed, explained] = await Promise.all([
       client.messages.waitFor((message) => message.id === 4),
@@ -209,13 +220,13 @@ test("a workflow fixture shows its diagnostic with evidence on hover", async () 
     });
     await client.messages.waitFor((message) => message.id === 10);
     const fallbackExplanation = await client.messages.waitFor(
-      (message) => message.method === "window/showMessage" && String(params(message).message).includes("actions/checkout@v5 or later"),
+      (message) =>
+        message.method === "window/showMessage" &&
+        String(params(message).message).includes("actions/checkout@v5 or later"),
     );
     assert.match(String(params(fallbackExplanation).message), /Unsupported actions\/checkout runtime/);
 
-    const evidenceUrl = String(
-      ((actions[1]!.command as Record<string, unknown>).arguments as string[])[0],
-    );
+    const evidenceUrl = String(((actions[1]!.command as Record<string, unknown>).arguments as string[])[0]);
     send(client.input, {
       id: 5,
       method: "workspace/executeCommand",
@@ -251,7 +262,11 @@ test("scans only the open document and refreshes diagnostics from the buffer", a
     );
     assert.equal(scannedRoots.length, 1);
     assert.match(scannedRoots[0]!, new RegExp(`^${tmpdir().replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
-    assert.deepEqual(scannedFiles[0], ["legacy.yml"], "the other workflow in the workspace is not copied to the scan root");
+    assert.deepEqual(
+      scannedFiles[0],
+      ["legacy.yml"],
+      "the other workflow in the workspace is not copied to the scan root",
+    );
 
     const updated = text.replace("actions/checkout@v4", "actions/checkout@v5");
     send(client.input, {
@@ -287,7 +302,8 @@ test("serves documents outside the workspace and ignores unknown or untitled doc
       params: { textDocument: { uri: "untitled:Untitled-1", languageId: "yaml", version: 1, text: "x" } },
     });
     const published = await client.messages.waitFor(
-      (message) => message.method === "textDocument/publishDiagnostics" && params(message).uri === "untitled:Untitled-1",
+      (message) =>
+        message.method === "textDocument/publishDiagnostics" && params(message).uri === "untitled:Untitled-1",
     );
     assert.deepEqual(params(published).diagnostics, []);
 
@@ -309,7 +325,10 @@ test("serves documents outside the workspace and ignores unknown or untitled doc
     });
     assert.deepEqual((await client.messages.waitFor((message) => message.id === 7)).result, []);
 
-    send(client.input, { method: "textDocument/didChange", params: { textDocument: { uri: "untitled:Untitled-1", version: 2 }, contentChanges: [{ text: "y" }] } });
+    send(client.input, {
+      method: "textDocument/didChange",
+      params: { textDocument: { uri: "untitled:Untitled-1", version: 2 }, contentChanges: [{ text: "y" }] },
+    });
     send(client.input, { method: "textDocument/didSave", params: { textDocument: { uri: "untitled:Untitled-1" } } });
     send(client.input, { method: "textDocument/didClose", params: { textDocument: { uri: "untitled:missing" } } });
     send(client.input, { id: 8, method: "workspace/unknownMethod", params: {} });
@@ -383,7 +402,10 @@ test("debounces rapid changes and cancels the pending scan when the document clo
 
     send(input, {
       method: "textDocument/didChange",
-      params: { textDocument: { uri: legacyUri, version: 2 }, contentChanges: [{ text: text.replace("checkout@v4", "checkout@v5") }] },
+      params: {
+        textDocument: { uri: legacyUri, version: 2 },
+        contentChanges: [{ text: text.replace("checkout@v4", "checkout@v5") }],
+      },
     });
     send(input, {
       method: "textDocument/didChange",
@@ -552,7 +574,10 @@ test("logs scan failures and publishes no diagnostics", async () => {
       });
       await server.settled();
       assert.ok(logs.some((message) => message.includes("engine exploded")));
-      assert.equal(messages.messages.filter((message) => message.method === "textDocument/publishDiagnostics").length, 0);
+      assert.equal(
+        messages.messages.filter((message) => message.method === "textDocument/publishDiagnostics").length,
+        0,
+      );
     } finally {
       await server.dispose();
       input.end();
@@ -656,18 +681,36 @@ test("reports executeCommand failures and falls back when showDocument is unsupp
     await messages.waitFor((message) => message.id === 1);
     send(input, { method: "initialized", params: {} });
 
-    send(input, { id: 2, method: "workspace/executeCommand", params: { command: EXPLAIN_FINDING_COMMAND, arguments: ["missing"] } });
+    send(input, {
+      id: 2,
+      method: "workspace/executeCommand",
+      params: { command: EXPLAIN_FINDING_COMMAND, arguments: ["missing"] },
+    });
     const missingFinding = await messages.waitFor((message) => message.id === 2);
     assert.equal((missingFinding.error as Record<string, unknown>).code, -32602);
 
-    send(input, { id: 3, method: "workspace/executeCommand", params: { command: OPEN_EVIDENCE_COMMAND, arguments: ["file:///tmp/evidence"] } });
-    assert.equal(((await messages.waitFor((message) => message.id === 3)).error as Record<string, unknown>).code, -32602);
+    send(input, {
+      id: 3,
+      method: "workspace/executeCommand",
+      params: { command: OPEN_EVIDENCE_COMMAND, arguments: ["file:///tmp/evidence"] },
+    });
+    assert.equal(
+      ((await messages.waitFor((message) => message.id === 3)).error as Record<string, unknown>).code,
+      -32602,
+    );
 
     send(input, { id: 4, method: "workspace/executeCommand", params: { command: "evergreen.unknown", arguments: [] } });
-    assert.equal(((await messages.waitFor((message) => message.id === 4)).error as Record<string, unknown>).code, -32602);
+    assert.equal(
+      ((await messages.waitFor((message) => message.id === 4)).error as Record<string, unknown>).code,
+      -32602,
+    );
 
     const url = "https://example.com/evidence";
-    send(input, { id: 5, method: "workspace/executeCommand", params: { command: OPEN_EVIDENCE_COMMAND, arguments: [url] } });
+    send(input, {
+      id: 5,
+      method: "workspace/executeCommand",
+      params: { command: OPEN_EVIDENCE_COMMAND, arguments: [url] },
+    });
     await messages.waitFor((message) => message.id === 5);
     const message = await messages.waitFor(
       (candidate) => candidate.method === "window/showMessage" && String(params(candidate).message).includes(url),
@@ -705,7 +748,11 @@ test("bounds a header without a terminator and keeps reading", async () => {
   const stream = new PassThrough();
   const received: Message[] = [];
   const errors: string[] = [];
-  readFramedMessages(stream, (message) => received.push(message), (error) => errors.push(error.message));
+  readFramedMessages(
+    stream,
+    (message) => received.push(message),
+    (error) => errors.push(error.message),
+  );
 
   stream.write(`Content-Length: 5\r\n${"x".repeat(9000)}`);
   await new Promise((resolvePromise) => setImmediate(resolvePromise));
@@ -723,7 +770,11 @@ test("reads Content-Length framed messages split across chunks and reports malfo
   const stream = new PassThrough();
   const received: Message[] = [];
   const errors: string[] = [];
-  readFramedMessages(stream, (message) => received.push(message), (error) => errors.push(error.message));
+  readFramedMessages(
+    stream,
+    (message) => received.push(message),
+    (error) => errors.push(error.message),
+  );
 
   const first = "{}";
   const second = JSON.stringify({ jsonrpc: "2.0", id: 7, method: "x" });

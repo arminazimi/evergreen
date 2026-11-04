@@ -119,7 +119,10 @@ export function countMigrations(files: Evidence["files"], reported: Set<string>,
   for (const file of files) {
     if (!reported.has(file.filename)) continue;
     const lines = file.patch.split("\n").filter((line) => /^[+-]/.test(line) && !/^(\+\+\+|---)/.test(line));
-    const added = lines.filter((line) => line.startsWith("+")).map(reference).filter((entry) => entry?.action === hint.action);
+    const added = lines
+      .filter((line) => line.startsWith("+"))
+      .map(reference)
+      .filter((entry) => entry?.action === hint.action);
     const unused = [...added];
     for (const line of lines.filter((candidate) => candidate.startsWith("-"))) {
       const old = reference(line);
@@ -147,7 +150,9 @@ function countTokenMigrations(files: Evidence["files"], reported: Set<string>, h
     const removed = file.patch.split("\n").filter((line) => line.startsWith("-") && !line.startsWith("---"));
     const hit = removed.some((line) =>
       hint.runtime
-        ? RUNTIME_PIN_FILES.has(base) || hint.tokens.some((token) => mentions(line, token)) || /engines|requires-python|python_requires|node-version|python-version/i.test(line)
+        ? RUNTIME_PIN_FILES.has(base) ||
+          hint.tokens.some((token) => mentions(line, token)) ||
+          /engines|requires-python|python_requires|node-version|python-version/i.test(line)
         : hint.tokens.some((token) => mentions(line, token)),
     );
     if (hit) moves++;
@@ -160,23 +165,37 @@ export function statesIntent(message: string | null, hint: Hint): boolean {
   if (!message) return false;
   const text = message.toLowerCase();
   if (!isActionHint(hint)) {
-    const verb = /\b(bump|upgrade|update|migrate|move|replace|remove|drop|switch|require|require[sd]?|deprecat|eol|end of life|retire)/.test(text);
-    const names = hint.tokens.some((token) => mentions(text, token)) || (hint.runtime && /\b(node(\.js)?|python|py)\s?\d|\b3\.\d+\b/.test(text));
+    const verb =
+      /\b(bump|upgrade|update|migrate|move|replace|remove|drop|switch|require|require[sd]?|deprecat|eol|end of life|retire)/.test(
+        text,
+      );
+    const names =
+      hint.tokens.some((token) => mentions(text, token)) ||
+      (hint.runtime && /\b(node(\.js)?|python|py)\s?\d|\b3\.\d+\b/.test(text));
     return verb && names;
   }
   const name = hint.action.split("/")[1]!.toLowerCase();
-  return /\b(bump|upgrade|update|migrate|move)/.test(text) && (text.includes(name) || /node(\.js)?\s?(20|24)/.test(text) || /\bv?\d+\s*(to|→|->)\s*v?\d+/.test(text) || /\bto\s+v\d+\b/.test(text));
+  return (
+    /\b(bump|upgrade|update|migrate|move)/.test(text) &&
+    (text.includes(name) ||
+      /node(\.js)?\s?(20|24)/.test(text) ||
+      /\bv?\d+\s*(to|→|->)\s*v?\d+/.test(text) ||
+      /\bto\s+v\d+\b/.test(text))
+  );
 }
 
 /** A license GitHub could identify; a repository with none, or text it cannot identify, is not usable. */
-export const hasUsableLicense = (license: string | null) => license !== null && license !== "NOASSERTION" && license !== "NONE";
+export const hasUsableLicense = (license: string | null) =>
+  license !== null && license !== "NOASSERTION" && license !== "NONE";
 
 export function evaluate(candidate: Candidate, evidence: Evidence, hint: Hint): { checks: Checks; moves: number } {
   const reported = new Set(candidate.before.map((location) => location.path));
   const moves = countMigrations(evidence.files, reported, hint);
   const checks: Checks = {
     parentReportsRule: candidate.before.length > 0,
-    migrationClearsRule: candidate.before.every((location) => !candidate.after.some((later) => later.path === location.path)),
+    migrationClearsRule: candidate.before.every(
+      (location) => !candidate.after.some((later) => later.path === location.path),
+    ),
     singleParent: evidence.parents.length === 1 && evidence.parents[0] === candidate.parentCommit,
     directMigration: moves > 0,
     intentStated: statesIntent(evidence.message, hint),
@@ -190,13 +209,20 @@ const FAILURES: Record<keyof Checks, (license: string | null) => string> = {
   parentReportsRule: () => "The parent commit does not report the rule.",
   migrationClearsRule: () => "The migration commit still reports the rule at a reported location.",
   singleParent: () => "The commit is a merge or its parent does not match the candidate.",
-  directMigration: () => "The diff does not move the component off the deprecated version or package at a reported location.",
+  directMigration: () =>
+    "The diff does not move the component off the deprecated version or package at a reported location.",
   intentStated: () => "The commit message does not state a version bump or lifecycle migration.",
   licensed: (license) => `The repository has no usable license (${license ?? "none"}).`,
   publicAndActive: () => "The repository is private, a fork, or archived.",
 };
 
-export function review(candidate: Candidate, evidence: Evidence, hint: Hint, reviewer: string, reviewedAt: string): ReviewEntry {
+export function review(
+  candidate: Candidate,
+  evidence: Evidence,
+  hint: Hint,
+  reviewer: string,
+  reviewedAt: string,
+): ReviewEntry {
   const { checks, moves } = evaluate(candidate, evidence, hint);
   const failed = (Object.keys(checks) as (keyof Checks)[]).filter((name) => !checks[name]);
   const accepted = failed.length === 0;
@@ -231,10 +257,15 @@ async function gh<T>(endpoint: string): Promise<T | undefined> {
 }
 
 export async function fetchEvidence(candidate: Candidate): Promise<Evidence> {
-  const commit = await gh<{ commit: { message: string }; parents: { sha: string }[]; files?: { filename: string; patch?: string }[] }>(`repos/${candidate.repository}/commits/${candidate.migrationCommit}`);
+  const commit = await gh<{
+    commit: { message: string };
+    parents: { sha: string }[];
+    files?: { filename: string; patch?: string }[];
+  }>(`repos/${candidate.repository}/commits/${candidate.migrationCommit}`);
   const repo = await gh<{ private?: boolean; fork?: boolean; archived?: boolean }>(`repos/${candidate.repository}`);
   const license = await gh<{ license?: { spdx_id?: string } }>(`repos/${candidate.repository}/license`);
-  if (!commit || !repo) throw new Error(`Could not read ${candidate.repository}@${candidate.migrationCommit} from GitHub.`);
+  if (!commit || !repo)
+    throw new Error(`Could not read ${candidate.repository}@${candidate.migrationCommit} from GitHub.`);
   return {
     message: commit.commit.message,
     parents: commit.parents.map((parent) => parent.sha),
@@ -247,7 +278,8 @@ export async function fetchEvidence(candidate: Candidate): Promise<Evidence> {
 async function hints(): Promise<Map<string, Hint>> {
   const map = new Map<string, Hint>();
   const registry = async (name: string) =>
-    (JSON.parse(await readFile(resolve(`registry/${name}.json`), "utf8")) as { rules: Record<string, unknown>[] }).rules;
+    (JSON.parse(await readFile(resolve(`registry/${name}.json`), "utf8")) as { rules: Record<string, unknown>[] })
+      .rules;
   for (const rule of await registry("github-actions")) {
     const hint = rule["x-github-actions"] as ActionHint | undefined;
     if (hint) map.set(rule.id as string, hint);
@@ -258,7 +290,8 @@ async function hints(): Promise<Map<string, Hint>> {
   }
   for (const rule of await registry("python")) {
     const hint = rule["x-python"] as { kind?: string; package?: string } | undefined;
-    if (hint?.kind === "package" && hint.package) map.set(rule.id as string, { tokens: [hint.package], runtime: false });
+    if (hint?.kind === "package" && hint.package)
+      map.set(rule.id as string, { tokens: [hint.package], runtime: false });
     if (hint?.kind === "runtime") map.set(rule.id as string, { tokens: ["python"], runtime: true });
   }
   for (const rule of await registry("nodejs")) map.set(rule.id as string, { tokens: ["node"], runtime: true });
@@ -278,7 +311,10 @@ async function main(): Promise<void> {
   const directory = resolve("benchmarks/mining/candidates");
   const logPath = resolve("benchmarks/mining/review-log.json");
   const ruleHints = await hints();
-  const existing: ReviewLog = await readFile(logPath, "utf8").then((text) => JSON.parse(text) as ReviewLog, () => ({ schemaVersion: REVIEW_LOG_SCHEMA, method: METHOD, entries: [] }));
+  const existing: ReviewLog = await readFile(logPath, "utf8").then(
+    (text) => JSON.parse(text) as ReviewLog,
+    () => ({ schemaVersion: REVIEW_LOG_SCHEMA, method: METHOD, entries: [] }),
+  );
   const entries = new Map(existing.entries.map((entry) => [entry.candidate, entry]));
 
   const files = JSON.parse(await readFile(resolve(directory, "index.json"), "utf8")) as string[];
@@ -286,15 +322,22 @@ async function main(): Promise<void> {
     const candidate = JSON.parse(await readFile(resolve(directory, file), "utf8")) as Candidate;
     if (entries.has(candidate.id) && !refresh) continue;
     const hint = ruleHints.get(candidate.ruleId);
-    if (!hint) throw new Error(`${candidate.id}: no review hint exists for rule ${candidate.ruleId}; review it by hand.`);
+    if (!hint)
+      throw new Error(`${candidate.id}: no review hint exists for rule ${candidate.ruleId}; review it by hand.`);
     process.stderr.write(`review ${candidate.id}\n`);
     entries.set(candidate.id, review(candidate, await fetchEvidence(candidate), hint, reviewer, reviewedAt));
   }
 
-  const log: ReviewLog = { schemaVersion: REVIEW_LOG_SCHEMA, method: METHOD, entries: [...entries.values()].sort((a, b) => a.candidate.localeCompare(b.candidate)) };
+  const log: ReviewLog = {
+    schemaVersion: REVIEW_LOG_SCHEMA,
+    method: METHOD,
+    entries: [...entries.values()].sort((a, b) => a.candidate.localeCompare(b.candidate)),
+  };
   await writeFile(logPath, `${JSON.stringify(log, null, 2)}\n`);
   const accepted = log.entries.filter((entry) => entry.decision === "accepted").length;
-  process.stdout.write(`${log.entries.length} reviewed: ${accepted} accepted, ${log.entries.length - accepted} rejected\n`);
+  process.stdout.write(
+    `${log.entries.length} reviewed: ${accepted} accepted, ${log.entries.length - accepted} rejected\n`,
+  );
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

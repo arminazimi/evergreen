@@ -28,7 +28,9 @@ const adapter: HostAdapter = {
     return value.files === undefined ? undefined : { root: value.root ?? "/repo", files: value.files };
   },
   respond(findings) {
-    return findings.length === 0 ? failOpen : { stdout: findings.map((entry) => entry.id).join("\n") + "\n", stderr: "", exitCode: 2 };
+    return findings.length === 0
+      ? failOpen
+      : { stdout: findings.map((entry) => entry.id).join("\n") + "\n", stderr: "", exitCode: 2 };
   },
 };
 
@@ -67,7 +69,11 @@ test("the default gate is medium: low and info findings stay quiet", async () =>
 
 test("--fail-on raises and lowers the gate, and none reports nothing", async () => {
   assert.deepEqual((await run(["fake", "--fail-on", "critical"])).stdout.trimEnd().split("\n"), ["a.rule:Dockerfile"]);
-  assert.deepEqual((await run(["fake", "--fail-on", "low"])).stdout.trimEnd().split("\n"), ["a.rule:Dockerfile", "b.rule:Dockerfile", "a.rule:Dockerfile:line9"]);
+  assert.deepEqual((await run(["fake", "--fail-on", "low"])).stdout.trimEnd().split("\n"), [
+    "a.rule:Dockerfile",
+    "b.rule:Dockerfile",
+    "a.rule:Dockerfile:line9",
+  ]);
   assert.deepEqual(await run(["fake", "--fail-on", "none"]), failOpen);
 });
 

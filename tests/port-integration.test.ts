@@ -7,7 +7,13 @@ import { promisify } from "node:util";
 import { pathToFileURL } from "node:url";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-interface SeverityCounts { info: number; low: number; medium: number; high: number; critical: number }
+interface SeverityCounts {
+  info: number;
+  low: number;
+  medium: number;
+  high: number;
+  critical: number;
+}
 
 interface PortalService {
   path: string;
@@ -16,7 +22,10 @@ interface PortalService {
   reportLink: string;
 }
 
-interface PortalCatalog { schemaVersion: string; services: PortalService[] }
+interface PortalCatalog {
+  schemaVersion: string;
+  services: PortalService[];
+}
 
 interface PortEntity {
   identifier: string;
@@ -39,7 +48,9 @@ interface Blueprint {
 const execute = promisify(execFile);
 const mapperPath = resolve("integrations/port/map.mjs");
 const mapper = (await import(pathToFileURL(mapperPath).href)) as PortMapper;
-const sample = JSON.parse(await readFile(resolve("integrations/port/sample-data/portal-export.json"), "utf8")) as PortalCatalog;
+const sample = JSON.parse(
+  await readFile(resolve("integrations/port/sample-data/portal-export.json"), "utf8"),
+) as PortalCatalog;
 const blueprint = JSON.parse(await readFile(resolve("integrations/port/blueprint.json"), "utf8")) as Blueprint;
 const validateSample = new Ajv2020({ allErrors: true }).compile(
   JSON.parse(await readFile(resolve("schemas/portal.v1.schema.json"), "utf8")) as object,
@@ -66,7 +77,10 @@ test("each service becomes one entity with its severity counts, total, and repor
     assert.equal(entity.properties.findings_medium, service.severities.medium);
     assert.equal(entity.properties.findings_high, service.severities.high);
     assert.equal(entity.properties.findings_critical, service.severities.critical);
-    assert.equal(entity.properties.findings_total, Object.values(service.severities).reduce((total, count) => total + count, 0));
+    assert.equal(
+      entity.properties.findings_total,
+      Object.values(service.severities).reduce((total, count) => total + count, 0),
+    );
     assert.equal(entity.properties.report_link, service.reportLink);
   }
   const legacy = entityFor(entities, "/repos/legacy-batch");
@@ -116,13 +130,22 @@ test("mapping is deterministic and refuses two paths that produce the same ident
   const backward = mapper.toPortEntities({ ...sample, services: [...sample.services].reverse() });
   assert.deepEqual(backward, forward);
   assert.throws(
-    () => mapper.toPortEntities({
-      schemaVersion: "evergreen.portal.v1",
-      services: [
-        { path: "/repos/api", severities: { info: 0, low: 0, medium: 0, high: 0, critical: 0 }, reportLink: "a.json" },
-        { path: "/repos-api", severities: { info: 0, low: 0, medium: 0, high: 0, critical: 0 }, reportLink: "b.json" },
-      ],
-    }),
+    () =>
+      mapper.toPortEntities({
+        schemaVersion: "evergreen.portal.v1",
+        services: [
+          {
+            path: "/repos/api",
+            severities: { info: 0, low: 0, medium: 0, high: 0, critical: 0 },
+            reportLink: "a.json",
+          },
+          {
+            path: "/repos-api",
+            severities: { info: 0, low: 0, medium: 0, high: 0, critical: 0 },
+            reportLink: "b.json",
+          },
+        ],
+      }),
     /two scanned paths map to the Port identifier "repos-api"/,
   );
 });
@@ -133,10 +156,11 @@ test("mapping refuses other schema versions and incomplete services", () => {
     /expected a evergreen\.portal\.v1 export/,
   );
   assert.throws(
-    () => mapper.toPortEntities({
-      schemaVersion: "evergreen.portal.v1",
-      services: [{ path: "/repos/api", reportLink: "a.json" }] as unknown as PortalService[],
-    }),
+    () =>
+      mapper.toPortEntities({
+        schemaVersion: "evergreen.portal.v1",
+        services: [{ path: "/repos/api", reportLink: "a.json" }] as unknown as PortalService[],
+      }),
     /"\/repos\/api" has no info count/,
   );
 });

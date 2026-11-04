@@ -24,7 +24,10 @@ test("drafts the Node.js and Python image rules from the vendors' schedules, off
     assert.equal(rule.provenance.reviewer, "pending-review");
     assert.equal(rule.provenance.importer, "container-official-images");
     assert.ok(rule.sources.every((source) => source.url.startsWith("https://")));
-    assert.ok(rule.sources.every((source) => !/docker-library/.test(source.url)), "official-images is not a lifecycle source");
+    assert.ok(
+      rule.sources.every((source) => !/docker-library/.test(source.url)),
+      "official-images is not a lifecycle source",
+    );
   }
   assert.match(drafts.notes.join("\n"), /PostgreSQL, MySQL, and Ruby/);
 });
@@ -50,7 +53,10 @@ test("parses the tag lists of a library file", () => {
 
 test("an end date in the future or a supported older line stops 'and older' from being drafted", async () => {
   const schedule = { v18: { end: "2025-04-30" }, v20: { end: "2099-01-01" }, v22: { end: "2099-01-01" } };
-  const cycle = { "3.9": { status: "end-of-life", end_of_life: "2025-10-31" }, "3.10": { status: "bugfix", end_of_life: "2099-10" } };
+  const cycle = {
+    "3.9": { status: "end-of-life", end_of_life: "2025-10-31" },
+    "3.10": { status: "bugfix", end_of_life: "2099-10" },
+  };
   const bodies: Record<string, string> = {
     "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json": JSON.stringify(schedule),
     "https://peps.python.org/api/release-cycle.json": JSON.stringify(cycle),
@@ -61,8 +67,11 @@ test("an end date in the future or a supported older line stops 'and older' from
       return bodies[url] ?? "Tags: none\n";
     },
   });
-  assert.deepEqual(output.rules.map((rule) => [rule.id, rule.vers]), [
-    ["container.node.eol-18-and-older", "vers:semver/<20.0.0"],
-    ["container.python.eol-3.9-and-older", "vers:semver/<3.10.0"],
-  ]);
+  assert.deepEqual(
+    output.rules.map((rule) => [rule.id, rule.vers]),
+    [
+      ["container.node.eol-18-and-older", "vers:semver/<20.0.0"],
+      ["container.python.eol-3.9-and-older", "vers:semver/<3.10.0"],
+    ],
+  );
 });

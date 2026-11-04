@@ -54,7 +54,10 @@ export const renameCodemodsFixer: Fixer = {
         continue;
       }
       const usages = (finding.usages ?? []).flatMap((usage) =>
-        usage.kind === "import" && usage.location.line !== undefined ? [{ path: usage.location.path, line: usage.location.line }] : []);
+        usage.kind === "import" && usage.location.line !== undefined
+          ? [{ path: usage.location.path, line: usage.location.line }]
+          : [],
+      );
       if (usages.length === 0) {
         refuse?.(finding, "No `import` statement was found to rename.");
         continue;
@@ -88,10 +91,12 @@ export const renameCodemodsFixer: Fixer = {
         continue;
       }
       const original = before.split("\n");
-      const text = original.map((line, index) => {
-        const codemod = lines.get(index + 1);
-        return codemod ? renameSpecifier(line, codemod) : line;
-      }).join("\n");
+      const text = original
+        .map((line, index) => {
+          const codemod = lines.get(index + 1);
+          return codemod ? renameSpecifier(line, codemod) : line;
+        })
+        .join("\n");
       originals.set(path, original);
       updated.set(path, text.split("\n"));
       // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
@@ -99,10 +104,13 @@ export const renameCodemodsFixer: Fixer = {
     }
 
     for (const { finding, codemod, usages } of tracked) {
-      const changed = usages.some((usage) => updated.get(usage.path)?.[usage.line - 1] !== originals.get(usage.path)?.[usage.line - 1]);
+      const changed = usages.some(
+        (usage) => updated.get(usage.path)?.[usage.line - 1] !== originals.get(usage.path)?.[usage.line - 1],
+      );
       if (changed) continue;
-      const reason = usages.map((usage) => failures.get(usage.path)).find((failure) => failure !== undefined)
-        ?? refusalReason(usages, originals, codemod);
+      const reason =
+        usages.map((usage) => failures.get(usage.path)).find((failure) => failure !== undefined) ??
+        refusalReason(usages, originals, codemod);
       refuse?.(finding, reason);
     }
     return patches;

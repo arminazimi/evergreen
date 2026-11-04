@@ -17,7 +17,9 @@ interface Announcement {
 const AZURE_BASE_LABEL = /^(ubuntu|macos|windows)-[\d.]+$/;
 
 function azureFamilyVersion(labels: string[]): { family: string; version: string; label: string } | undefined {
-  const base = labels.filter((label) => AZURE_BASE_LABEL.test(label)).sort((left, right) => left.length - right.length)[0];
+  const base = labels
+    .filter((label) => AZURE_BASE_LABEL.test(label))
+    .sort((left, right) => left.length - right.length)[0];
   if (!base) return undefined;
   const [family, ...rest] = base.split("-");
   return { family: family!, version: rest.join("-"), label: base };
@@ -47,38 +49,52 @@ export const ciImagesImporter: Importer = {
 
     const readme = await context.fetchText(RUNNER_IMAGES_README_URL);
     const rows = parseImageTable(readme);
-    if (rows.length === 0) throw new Error("The runner-images README has no Available Images table this importer can read.");
+    if (rows.length === 0)
+      throw new Error("The runner-images README has no Available Images table this importer can read.");
 
     const byIssue = new Map<number, typeof rows>();
-    for (const row of rows) if (row.issue !== undefined) byIssue.set(row.issue, [...(byIssue.get(row.issue) ?? []), row]);
+    for (const row of rows)
+      if (row.issue !== undefined) byIssue.set(row.issue, [...(byIssue.get(row.issue) ?? []), row]);
     if (byIssue.size === 0) notes.push("No image in the README is marked deprecated.");
 
     for (const [issue, group] of [...byIssue].sort(([left], [right]) => left - right)) {
       const labels = [...new Set(group.flatMap((row) => row.labels))].sort();
       const mapped = azureFamilyVersion(labels);
       if (!mapped) {
-        notes.push(`Skipped ${familyName(group[0]!.image)} (issue #${issue}): it has no Azure Pipelines vmImage label.`);
+        notes.push(
+          `Skipped ${familyName(group[0]!.image)} (issue #${issue}): it has no Azure Pipelines vmImage label.`,
+        );
         continue;
       }
 
-      const announcement = await fetchJson<Announcement>(context, `https://api.github.com/repos/${REPO}/issues/${issue}`, { accept: GITHUB_JSON });
+      const announcement = await fetchJson<Announcement>(
+        context,
+        `https://api.github.com/repos/${REPO}/issues/${issue}`,
+        { accept: GITHUB_JSON },
+      );
       const azureAffected = /-\s*\[x\]\s*Azure DevOps/.test(announcement.body ?? "");
       if (!azureAffected) {
-        notes.push(`Skipped ${familyName(group[0]!.image)} (issue #${issue}): its announcement does not list Azure DevOps as affected.`);
+        notes.push(
+          `Skipped ${familyName(group[0]!.image)} (issue #${issue}): its announcement does not list Azure DevOps as affected.`,
+        );
         continue;
       }
 
       const target = /###\s*Target date\s*\n([\s\S]*?)(?=\n###|$)/.exec(announcement.body ?? "")?.[1] ?? "";
       const retirement = parseLongDate(/^\s*Retirement:\s*(.+)$/m.exec(target)?.[1] ?? "");
       if (!retirement) {
-        notes.push(`Skipped ${familyName(group[0]!.image)} (issue #${issue}): its announcement has no readable Retirement date.`);
+        notes.push(
+          `Skipped ${familyName(group[0]!.image)} (issue #${issue}): its announcement has no readable Retirement date.`,
+        );
         continue;
       }
 
       const retired = retirement <= today;
       const replacement = replacementFor(announcement.body ?? "", mapped.label);
       if (!replacement) {
-        notes.push(`Skipped ${familyName(group[0]!.image)} (issue #${issue}): its announcement names no replacement label.`);
+        notes.push(
+          `Skipped ${familyName(group[0]!.image)} (issue #${issue}): its announcement names no replacement label.`,
+        );
         continue;
       }
 
@@ -94,7 +110,13 @@ export const ciImagesImporter: Importer = {
         replacement,
         ...(retirement ? { deadline: retirement } : {}),
         sources: [
-          { title: `Announcement: ${announcement.title ?? `${familyName(group[0]!.image)} image retirement`}`.slice(0, 200), url: announcement.html_url ?? `https://github.com/${REPO}/issues/${issue}` },
+          {
+            title: `Announcement: ${announcement.title ?? `${familyName(group[0]!.image)} image retirement`}`.slice(
+              0,
+              200,
+            ),
+            url: announcement.html_url ?? `https://github.com/${REPO}/issues/${issue}`,
+          },
           { title: "GitHub-hosted runner images", url: README_PAGE },
         ],
       });

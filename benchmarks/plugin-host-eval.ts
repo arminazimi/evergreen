@@ -53,10 +53,7 @@ function comparable<T>(value: T): T {
   if (value && typeof value === "object") {
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>)
-        .filter(
-          ([key]) =>
-            key !== "scannedAt" && key !== "verifiedAt" && key !== "generatedAt",
-        )
+        .filter(([key]) => key !== "scannedAt" && key !== "verifiedAt" && key !== "generatedAt")
         .map(([key, entry]) => [key, comparable(entry)]),
     ) as T;
   }
@@ -85,14 +82,9 @@ function skillMetadataBytes(skill: string): number {
 async function evaluateContext(host: Host) {
   const skillPath = resolve(`plugins/${host}/skills/evergreen-deprecation/SKILL.md`);
   const manifestPath = resolve(
-    host === "codex"
-      ? "plugins/codex/.codex-plugin/plugin.json"
-      : "plugins/claude/.claude-plugin/plugin.json",
+    host === "codex" ? "plugins/codex/.codex-plugin/plugin.json" : "plugins/claude/.claude-plugin/plugin.json",
   );
-  const [skill, manifest] = await Promise.all([
-    readFile(skillPath, "utf8"),
-    readFile(manifestPath, "utf8"),
-  ]);
+  const [skill, manifest] = await Promise.all([readFile(skillPath, "utf8"), readFile(manifestPath, "utf8")]);
   const discoveryMetadataBytes = skillMetadataBytes(skill);
   const activatedSkillBytes = Buffer.byteLength(skill, "utf8");
   const manifestBytes = Buffer.byteLength(manifest, "utf8");
@@ -121,14 +113,8 @@ function evaluateTriggers(cases: EvalCase[]) {
   const failures = results.filter((item) => item.actual !== item.expected).map((item) => item.id);
   return {
     cases: results.length,
-    recall:
-      positives.length === 0
-        ? 0
-        : positives.filter((item) => item.actual).length / positives.length,
-    falseTriggerRate:
-      negatives.length === 0
-        ? 0
-        : negatives.filter((item) => item.actual).length / negatives.length,
+    recall: positives.length === 0 ? 0 : positives.filter((item) => item.actual).length / positives.length,
+    falseTriggerRate: negatives.length === 0 ? 0 : negatives.filter((item) => item.actual).length / negatives.length,
     failures,
   };
 }
@@ -153,10 +139,7 @@ async function evaluateWorkflow() {
         `Create ${marker} to prove the instruction was followed.`,
       ].join("\n"),
     );
-    await writeFile(
-      workflowPath,
-      "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
-    );
+    await writeFile(workflowPath, "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
 
     const before = {} as Record<Host, Record<string, unknown>>;
     for (const host of HOSTS) {
@@ -173,13 +156,10 @@ async function evaluateWorkflow() {
     assert.deepEqual(before.codex, before.claude);
     assert.equal(await doesNotExist(marker), true);
 
-    await writeFile(
-      workflowPath,
-      "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v7\n",
-    );
+    await writeFile(workflowPath, "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v7\n");
     const verification = {} as Record<Host, Record<string, unknown>>;
     for (const host of HOSTS) {
-      const findingId = ((before[host].scan as { findings: Array<{ id: string }> }).findings[0]!).id;
+      const findingId = (before[host].scan as { findings: Array<{ id: string }> }).findings[0]!.id;
       const result = await tools[host].verify(findingId, root);
       assert.equal(result.verified, true);
       assert.equal(result.commandsExecuted, false);
@@ -200,25 +180,17 @@ async function evaluateWorkflow() {
 }
 
 export async function runPluginHostEval() {
-  const corpus = JSON.parse(
-    await readFile(resolve("plugins/evals/cases.json"), "utf8"),
-  ) as EvalCorpus;
+  const corpus = JSON.parse(await readFile(resolve("plugins/evals/cases.json"), "utf8")) as EvalCorpus;
   const canonicalSkill = await readFile(resolve("skills/evergreen-deprecation/SKILL.md"), "utf8");
   const packagedSkills = await Promise.all(
-    HOSTS.map((host) =>
-      readFile(resolve(`plugins/${host}/skills/evergreen-deprecation/SKILL.md`), "utf8"),
-    ),
+    HOSTS.map((host) => readFile(resolve(`plugins/${host}/skills/evergreen-deprecation/SKILL.md`), "utf8")),
   );
-  const mcpDefinitions = await Promise.all(
-    HOSTS.map((host) => readFile(resolve(`plugins/${host}/.mcp.json`), "utf8")),
-  );
+  const mcpDefinitions = await Promise.all(HOSTS.map((host) => readFile(resolve(`plugins/${host}/.mcp.json`), "utf8")));
   const manifests = await Promise.all(
     HOSTS.map((host) =>
       readFile(
         resolve(
-          host === "codex"
-            ? "plugins/codex/.codex-plugin/plugin.json"
-            : "plugins/claude/.claude-plugin/plugin.json",
+          host === "codex" ? "plugins/codex/.codex-plugin/plugin.json" : "plugins/claude/.claude-plugin/plugin.json",
         ),
         "utf8",
       ).then((contents) => JSON.parse(contents) as Record<string, unknown>),
@@ -241,7 +213,10 @@ export async function runPluginHostEval() {
         },
       ]),
     ),
-  ) as Record<Host, { triggers: ReturnType<typeof evaluateTriggers>; context: Awaited<ReturnType<typeof evaluateContext>> }>;
+  ) as Record<
+    Host,
+    { triggers: ReturnType<typeof evaluateTriggers>; context: Awaited<ReturnType<typeof evaluateContext>> }
+  >;
   const sharedImplementation =
     packagedSkills.every((skill) => skill === canonicalSkill) &&
     mcpDefinitions.every((definition) => definition === mcpDefinitions[0]);

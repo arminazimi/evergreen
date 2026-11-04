@@ -20,9 +20,21 @@ interface ProjectDetail {
 
 // Each status, in the words of PEP 792, mapped to the lifecycle event it means for someone who depends on the project.
 const STATUSES: Record<string, { event: DraftRule["event"]; severity: DraftRule["severity"]; meaning: string }> = {
-  archived: { event: "end-of-life", severity: "medium", meaning: "the project does not expect to be updated in the future" },
-  deprecated: { event: "deprecated", severity: "medium", meaning: "the project is considered obsolete and may have been superseded by another project" },
-  quarantined: { event: "removed", severity: "critical", meaning: "the project is considered generally unsafe for use, and the index no longer offers its files" },
+  archived: {
+    event: "end-of-life",
+    severity: "medium",
+    meaning: "the project does not expect to be updated in the future",
+  },
+  deprecated: {
+    event: "deprecated",
+    severity: "medium",
+    meaning: "the project is considered obsolete and may have been superseded by another project",
+  },
+  quarantined: {
+    event: "removed",
+    severity: "critical",
+    meaning: "the project is considered generally unsafe for use, and the index no longer offers its files",
+  },
 };
 
 export const pypiStatusImporter: Importer = {
@@ -89,7 +101,8 @@ export const pypiStatusImporter: Importer = {
       });
     }
 
-    if (active.length > 0) notes.push(`Active, so no rule (remove them from PYPI_CANDIDATES if they stay active): ${active.join(", ")}.`);
+    if (active.length > 0)
+      notes.push(`Active, so no rule (remove them from PYPI_CANDIDATES if they stay active): ${active.join(", ")}.`);
     if (unreported.length > 0) notes.push(`PyPI reported no project status for: ${unreported.join(", ")}.`);
     return { rules, notes };
   },

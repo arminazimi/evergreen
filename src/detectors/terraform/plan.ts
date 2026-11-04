@@ -148,9 +148,7 @@ export function parseTerraformPlanJson(contents: string): TerraformPlanDeclarati
 
       const providerName = typeof config.name === "string" ? config.name : key.split(".")[0]!;
       const fullName = extractStringOrNumber(config.full_name) ?? extractStringOrNumber(config.source);
-      const constraint =
-        extractStringOrNumber(config.version_constraint) ??
-        extractStringOrNumber(config.version);
+      const constraint = extractStringOrNumber(config.version_constraint) ?? extractStringOrNumber(config.version);
 
       if (constraint) {
         const pointer = configuration?.provider_config
@@ -184,9 +182,7 @@ export function parseTerraformPlanJson(contents: string): TerraformPlanDeclarati
       if (constraint) {
         const pointer = `/configuration/provider_requirements/${key}`;
         // Only add if not already added from provider_config
-        const exists = declarations.some(
-          (d) => d.kind === "provider_version" && d.provider === key,
-        );
+        const exists = declarations.some((d) => d.kind === "provider_version" && d.provider === key);
         if (!exists) {
           declarations.push({
             kind: "provider_version",

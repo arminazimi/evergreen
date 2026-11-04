@@ -13,7 +13,19 @@ import { elixirDriftCollector, erlangDriftCollector } from "./elixir.js";
 export type { DriftCollector, DriftReport, RuntimeDrift, RuntimePin } from "./types.js";
 
 /** Every built-in collector, one per runtime. Each task in the drift epic appends its own entry. */
-export const driftCollectors: DriftCollector[] = [goDriftCollector, pythonCollector, rustDriftCollector, dotnetCollector, javaCollector, rubyDriftCollector, nodejsDriftCollector, terraformCollector, phpDriftCollector, elixirDriftCollector, erlangDriftCollector];
+export const driftCollectors: DriftCollector[] = [
+  goDriftCollector,
+  pythonCollector,
+  rustDriftCollector,
+  dotnetCollector,
+  javaCollector,
+  rubyDriftCollector,
+  nodejsDriftCollector,
+  terraformCollector,
+  phpDriftCollector,
+  elixirDriftCollector,
+  erlangDriftCollector,
+];
 
 /** Compares dotted numeric releases such as `3.9` and `3.11`; non-numeric parts compare as text. */
 export function compareReleases(a: string, b: string): number {
@@ -61,7 +73,10 @@ function lowestInScope(directory: string | undefined, pins: readonly RuntimePin[
 }
 
 /** Runs every collector over a repository and reports, per runtime, whether its pins agree. Deterministic. */
-export async function analyzeDrift(root: string, collectors: readonly DriftCollector[] = driftCollectors): Promise<DriftReport> {
+export async function analyzeDrift(
+  root: string,
+  collectors: readonly DriftCollector[] = driftCollectors,
+): Promise<DriftReport> {
   const runtimes: RuntimeDrift[] = [];
   for (const collector of collectors) {
     const pins = [...(await collector.collect(root))].sort(byLocation);
@@ -78,13 +93,28 @@ export async function analyzeDrift(root: string, collectors: readonly DriftColle
     }
     let common: Set<string> | undefined;
     for (const alternatives of groups.values()) {
-      common = common === undefined ? new Set(alternatives) : new Set([...common].filter((release) => alternatives.has(release)));
+      common =
+        common === undefined
+          ? new Set(alternatives)
+          : new Set([...common].filter((release) => alternatives.has(release)));
     }
     const lowest = releases[0];
-    const floorConflicts = lowest === undefined
-      ? []
-      : pins.filter((pin) => pin.kind === "floor" && pin.release !== undefined && compareReleases(pin.release, lowestInScope(pin.scope, pinned) ?? lowest) > 0);
-    runtimes.push({ runtime: collector.runtime, pins, releases, floorConflicts, drifted: common !== undefined && common.size === 0 });
+    const floorConflicts =
+      lowest === undefined
+        ? []
+        : pins.filter(
+            (pin) =>
+              pin.kind === "floor" &&
+              pin.release !== undefined &&
+              compareReleases(pin.release, lowestInScope(pin.scope, pinned) ?? lowest) > 0,
+          );
+    runtimes.push({
+      runtime: collector.runtime,
+      pins,
+      releases,
+      floorConflicts,
+      drifted: common !== undefined && common.size === 0,
+    });
   }
   runtimes.sort((a, b) => a.runtime.localeCompare(b.runtime));
   return { schemaVersion: "evergreen.drift.v1", runtimes };

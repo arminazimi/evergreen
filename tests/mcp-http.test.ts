@@ -109,10 +109,13 @@ test("refills the client bucket over time", async () => {
 
 test("rejects a declared body over the size limit before reading it", async () => {
   let called = false;
-  const guard = createLookupGuard(async () => {
-    called = true;
-    return ok();
-  }, { maxBodyBytes: 16 });
+  const guard = createLookupGuard(
+    async () => {
+      called = true;
+      return ok();
+    },
+    { maxBodyBytes: 16 },
+  );
 
   const request = new Request(URL, {
     method: "POST",
@@ -130,10 +133,13 @@ test("rejects a declared body over the size limit before reading it", async () =
 
 test("rejects a streamed body over the size limit", async () => {
   let called = false;
-  const guard = createLookupGuard(async () => {
-    called = true;
-    return ok();
-  }, { maxBodyBytes: 16 });
+  const guard = createLookupGuard(
+    async () => {
+      called = true;
+      return ok();
+    },
+    { maxBodyBytes: 16 },
+  );
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
       controller.enqueue(new TextEncoder().encode("0123456789"));

@@ -20,7 +20,15 @@ function fake(id: string, runtimes: readonly string[], applies: boolean, issues:
 }
 
 function issue(level: UpgradeIssue["level"], subject: string, path: string, line: number): UpgradeIssue {
-  return { analyzer: "fake", level, subject, path, line, reason: `${subject} is reported at ${path}`, evidence: { kind: "rule", value: `rule: ${subject}` } };
+  return {
+    analyzer: "fake",
+    level,
+    subject,
+    path,
+    line,
+    reason: `${subject} is reported at ${path}`,
+    evidence: { kind: "rule", value: `rule: ${subject}` },
+  };
 }
 
 test("parseUpgradeTarget reads runtime@version and resolves aliases", () => {
@@ -42,29 +50,33 @@ test("checkUpgrade reports unknown when no analyzer applies", async () => {
 });
 
 test("checkUpgrade reports ready when only warnings and unknown issues remain", async () => {
-  const report = await checkUpgrade(".", target, [fake("fake", ["php"], true, [
-    issue("warning", "dev-package@1.0.0", "composer.lock", 3),
-    issue("unknown", "mystery", "composer.lock", 4),
-  ])]);
+  const report = await checkUpgrade(".", target, [
+    fake("fake", ["php"], true, [
+      issue("warning", "dev-package@1.0.0", "composer.lock", 3),
+      issue("unknown", "mystery", "composer.lock", 4),
+    ]),
+  ]);
   assert.equal(report.verdict, "ready");
   assert.deepEqual(report.analyzers, ["fake"]);
 });
 
 test("checkUpgrade reports blocked when any blocker is present", async () => {
-  const report = await checkUpgrade(".", target, [fake("fake", ["php"], true, [
-    issue("blocker", "package@1.0.0", "composer.lock", 2),
-  ])]);
+  const report = await checkUpgrade(".", target, [
+    fake("fake", ["php"], true, [issue("blocker", "package@1.0.0", "composer.lock", 2)]),
+  ]);
   assert.equal(report.verdict, "blocked");
 });
 
 test("checkUpgrade sorts issues by level, path, line, subject, and analyzer", async () => {
-  const report = await checkUpgrade(".", target, [fake("fake", ["php"], true, [
-    issue("unknown", "u", "a.lock", 1),
-    issue("warning", "w", "b.lock", 2),
-    issue("blocker", "b2", "z.lock", 3),
-    issue("blocker", "b1", "a.lock", 2),
-    issue("blocker", "a0", "a.lock", 1),
-  ])]);
+  const report = await checkUpgrade(".", target, [
+    fake("fake", ["php"], true, [
+      issue("unknown", "u", "a.lock", 1),
+      issue("warning", "w", "b.lock", 2),
+      issue("blocker", "b2", "z.lock", 3),
+      issue("blocker", "b1", "a.lock", 2),
+      issue("blocker", "a0", "a.lock", 1),
+    ]),
+  ]);
   assert.deepEqual(
     report.issues.map((entry) => `${entry.level}:${entry.path}:${entry.line ?? 0}:${entry.subject}`),
     ["blocker:a.lock:1:a0", "blocker:a.lock:2:b1", "blocker:z.lock:3:b2", "warning:b.lock:2:w", "unknown:a.lock:1:u"],
@@ -106,7 +118,10 @@ test("the CLI and the check_upgrade MCP tool return the same report, and both va
     assert.ok(tool, "check_upgrade is a tool");
     assert.match(tool.description, /not a statement that the upgrade is safe/);
 
-    const result = await client.request("tools/call", { name: "check_upgrade", arguments: { path: blocked, target: "php@8.4" } });
+    const result = await client.request("tools/call", {
+      name: "check_upgrade",
+      arguments: { path: blocked, target: "php@8.4" },
+    });
     assert.notEqual(result.isError, true);
     assert.deepEqual(result.structuredContent, fromCli);
 
@@ -129,7 +144,10 @@ test("exit codes are 0 for ready and unknown, 1 for blocked, and 2 for bad input
     const unknown = await run("--to", "php@8.4", empty);
     assert.equal(unknown.code, 0);
     assert.match(unknown.stdout, /^php@8\.4: unknown/);
-    assert.match(unknown.stdout, /Evergreen found no evidence for this runtime in this repository\. This is not a statement that the upgrade is safe\./);
+    assert.match(
+      unknown.stdout,
+      /Evergreen found no evidence for this runtime in this repository\. This is not a statement that the upgrade is safe\./,
+    );
   } finally {
     await rm(empty, { recursive: true, force: true });
   }

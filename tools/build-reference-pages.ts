@@ -79,7 +79,9 @@ const yaml = (value: string) => JSON.stringify(value);
 const inline = (value: string) =>
   value
     .split(/(`[^`\n]*`)/)
-    .map((part, index) => (index % 2 === 1 ? part : part.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")))
+    .map((part, index) =>
+      index % 2 === 1 ? part : part.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+    )
     .join("");
 
 /** Escape the characters that would break Markdown, and the escape character itself, then collapse newlines. */
@@ -143,7 +145,12 @@ export function checkCommand(rule: RegistryV2Rule): string {
 }
 
 function detectorsFor(ecosystem: string): string[] {
-  return getCapabilityManifest().ecosystems.find((entry) => entry.id === ecosystem)?.detectorIds.slice().sort() ?? [];
+  return (
+    getCapabilityManifest()
+      .ecosystems.find((entry) => entry.id === ecosystem)
+      ?.detectorIds.slice()
+      .sort() ?? []
+  );
 }
 
 /** Plain-text FAQ answers that mirror the lead paragraph, without Markdown. */
@@ -153,9 +160,7 @@ export function faqMainEntity(rule: RegistryV2Rule): Array<{
   acceptedAnswer: { "@type": "Answer"; text: string };
 }> {
   const status = EVENT_LABELS[rule.event];
-  const statusText = rule.deadline
-    ? `${status} as of ${rule.deadline}.`
-    : `${status}. The source gives no day.`;
+  const statusText = rule.deadline ? `${status} as of ${rule.deadline}.` : `${status}. The source gives no day.`;
   const source = rule.sources[0];
   const statusAnswer = [
     statusText,
@@ -331,23 +336,49 @@ export function renderRulePage(
     "",
     "## Sources",
     "",
-    ...rule.sources.map((source) => `- [${linkLabel(source.title)}](${source.url})${source.accessedAt ? ` (accessed ${source.accessedAt})` : ""}`),
+    ...rule.sources.map(
+      (source) =>
+        `- [${linkLabel(source.title)}](${source.url})${source.accessedAt ? ` (accessed ${source.accessedAt})` : ""}`,
+    ),
   ];
 
   if (rule.migration) {
-    lines.push("", "## Migration", "", "**Constraints**", "", ...rule.migration.constraints.map((constraint) => `- ${inline(constraint)}`));
-    lines.push("", "**Steps**", "", ...rule.migration.steps.map((step, index) => `${index + 1}. **${inline(step.title)}.** ${inline(step.instructions)}`));
-    lines.push("", "**Verification**", "", ...rule.migration.verification.map((check) => `- \`${check.command}\`: ${inline(check.purpose)}`));
+    lines.push(
+      "",
+      "## Migration",
+      "",
+      "**Constraints**",
+      "",
+      ...rule.migration.constraints.map((constraint) => `- ${inline(constraint)}`),
+    );
+    lines.push(
+      "",
+      "**Steps**",
+      "",
+      ...rule.migration.steps.map(
+        (step, index) => `${index + 1}. **${inline(step.title)}.** ${inline(step.instructions)}`,
+      ),
+    );
+    lines.push(
+      "",
+      "**Verification**",
+      "",
+      ...rule.migration.verification.map((check) => `- \`${check.command}\`: ${inline(check.purpose)}`),
+    );
   }
 
   const url = ruleUrl(rule.id);
   const detectors = detectorsFor(rule.ecosystem);
   lines.push("", "## Detected by", "");
   if (detectors.length === 0) {
-    lines.push(`No built-in detector reads \`${rule.ecosystem}\` declarations yet; the rule is data in the [lifecycle registry](${dataUrl(rule.ecosystem)}).`);
+    lines.push(
+      `No built-in detector reads \`${rule.ecosystem}\` declarations yet; the rule is data in the [lifecycle registry](${dataUrl(rule.ecosystem)}).`,
+    );
   } else {
     const links = detectors.map((id) => (DETECTOR_PAGES.has(id) ? `[\`${id}\`](../detectors/${id}.md)` : `\`${id}\``));
-    lines.push(`The ${links.join(" and ")} detector${detectors.length > 1 ? "s" : ""}. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).`);
+    lines.push(
+      `The ${links.join(" and ")} detector${detectors.length > 1 ? "s" : ""}. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).`,
+    );
   }
 
   lines.push(...renderRelatedLinks(rule, catalog));
@@ -792,7 +823,9 @@ export function renderIndex(registries: readonly RegistryV2[]): string {
   for (const registry of registries) {
     lines.push("", `## ${registry.ecosystem}`, "");
     for (const rule of [...registry.rules].sort((left, right) => left.id.localeCompare(right.id))) {
-      lines.push(`- [${linkLabel(rule.title)}](${rule.id}.html) — ${EVENT_LABELS[rule.event].toLowerCase()}, \`${rule.id}\``);
+      lines.push(
+        `- [${linkLabel(rule.title)}](${rule.id}.html) — ${EVENT_LABELS[rule.event].toLowerCase()}, \`${rule.id}\``,
+      );
     }
   }
   lines.push("");
@@ -814,7 +847,9 @@ export function renderSitemap(registries: readonly RegistryV2[]): string {
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...entries.map((entry) => `  <url><loc>${entry.loc}</loc>${entry.lastmod ? `<lastmod>${entry.lastmod}</lastmod>` : ""}</url>`),
+    ...entries.map(
+      (entry) => `  <url><loc>${entry.loc}</loc>${entry.lastmod ? `<lastmod>${entry.lastmod}</lastmod>` : ""}</url>`,
+    ),
     "</urlset>",
     "",
   ].join("\n");
@@ -876,7 +911,8 @@ export async function write(files: readonly GeneratedFile[], root = "."): Promis
   const expected = new Set(files.map((file) => file.path));
   await mkdir(resolve(root, RULES_DIRECTORY), { recursive: true });
   for (const name of await readdir(resolve(root, RULES_DIRECTORY))) {
-    if ((name.endsWith(".md") || name.endsWith(".json")) && !expected.has(`${RULES_DIRECTORY}/${name}`)) await rm(resolve(root, RULES_DIRECTORY, name));
+    if ((name.endsWith(".md") || name.endsWith(".json")) && !expected.has(`${RULES_DIRECTORY}/${name}`))
+      await rm(resolve(root, RULES_DIRECTORY, name));
   }
   for (const file of files) await writeFile(resolve(root, file.path), file.contents);
 }
@@ -894,7 +930,9 @@ export async function main(argv: readonly string[] = process.argv.slice(2)): Pro
   if (argv.includes("--check")) {
     const problems = await drift(files, ".", { skipContentCheck: BUILD_TIME_REFERENCE_PATHS });
     if (problems.length === 0) return 0;
-    console.error(`The reference pages are out of date with registry/ (${problems.length} files). Run \`npm run build:reference\` and commit the result:`);
+    console.error(
+      `The reference pages are out of date with registry/ (${problems.length} files). Run \`npm run build:reference\` and commit the result:`,
+    );
     for (const problem of problems.slice(0, 20)) console.error(`  ${problem}`);
     if (problems.length > 20) console.error(`  … and ${problems.length - 20} more`);
     return 1;

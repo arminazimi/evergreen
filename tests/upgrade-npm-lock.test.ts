@@ -35,11 +35,41 @@ test("npm 3: ready packages are silent, production blockers and dev warnings are
   const root = resolve(fixtures, "v3");
   assert.equal(await npmLockAnalyzer.applies(root), true);
   assert.deepEqual(summarize(await npmLockAnalyzer.analyze(root, target)), [
-    { level: "blocker", subject: "blocked-prod@2.0.0", path: "package-lock.json", line: 22, evidence: "engines.node: >=24" },
-    { level: "blocker", subject: "nested-dup@3.0.0", path: "package-lock.json", line: 28, evidence: "engines.node: >=26" },
-    { level: "warning", subject: "dev-only@1.0.0", path: "package-lock.json", line: 41, evidence: "engines.node: >=24" },
-    { level: "warning", subject: "optional-dev@1.0.0", path: "package-lock.json", line: 48, evidence: "engines.node: >=24" },
-    { level: "unknown", subject: "invalid-range@1.0.0", path: "package-lock.json", line: 54, evidence: "engines.node: >=not-a-version" },
+    {
+      level: "blocker",
+      subject: "blocked-prod@2.0.0",
+      path: "package-lock.json",
+      line: 22,
+      evidence: "engines.node: >=24",
+    },
+    {
+      level: "blocker",
+      subject: "nested-dup@3.0.0",
+      path: "package-lock.json",
+      line: 28,
+      evidence: "engines.node: >=26",
+    },
+    {
+      level: "warning",
+      subject: "dev-only@1.0.0",
+      path: "package-lock.json",
+      line: 41,
+      evidence: "engines.node: >=24",
+    },
+    {
+      level: "warning",
+      subject: "optional-dev@1.0.0",
+      path: "package-lock.json",
+      line: 48,
+      evidence: "engines.node: >=24",
+    },
+    {
+      level: "unknown",
+      subject: "invalid-range@1.0.0",
+      path: "package-lock.json",
+      line: 54,
+      evidence: "engines.node: >=not-a-version",
+    },
   ]);
 });
 
@@ -54,7 +84,13 @@ test("npm 2 lockfiles are read the same way", async () => {
   const root = resolve(fixtures, "v2");
   assert.equal(await npmLockAnalyzer.applies(root), true);
   assert.deepEqual(summarize(await npmLockAnalyzer.analyze(root, target)), [
-    { level: "blocker", subject: "legacy@1.0.0", path: "package-lock.json", line: 9, evidence: "engines.node: >=16 <18" },
+    {
+      level: "blocker",
+      subject: "legacy@1.0.0",
+      path: "package-lock.json",
+      line: 9,
+      evidence: "engines.node: >=16 <18",
+    },
   ]);
 });
 
@@ -70,10 +106,19 @@ test("lockfile version 1 reports one unknown that names the missing engines evid
   const root = resolve(fixtures, "v1");
   assert.equal(await npmLockAnalyzer.applies(root), true);
   assert.deepEqual(summarize(await npmLockAnalyzer.analyze(root, target)), [
-    { level: "unknown", subject: "package-lock.json", path: "package-lock.json", line: 4, evidence: "lockfileVersion: 1" },
+    {
+      level: "unknown",
+      subject: "package-lock.json",
+      path: "package-lock.json",
+      line: 4,
+      evidence: "lockfileVersion: 1",
+    },
   ]);
   const issue = (await npmLockAnalyzer.analyze(root, target))[0]!;
-  assert.equal(issue.reason, "package-lock.json uses lockfileVersion 1, which does not record package engines, so support for Node.js 22 is unknown.");
+  assert.equal(
+    issue.reason,
+    "package-lock.json uses lockfileVersion 1, which does not record package engines, so support for Node.js 22 is unknown.",
+  );
 });
 
 test("the reasons name the package, the range as written, and the target", async () => {
@@ -103,13 +148,16 @@ test("checkUpgrade reports a blocked verdict with the analyzer id and stable ord
   const report = await checkUpgrade(resolve(fixtures, "v3"), target);
   assert.equal(report.verdict, "blocked");
   assert.deepEqual(report.analyzers, ["npm-lock"]);
-  assert.deepEqual(report.issues.map((issue) => `${issue.level}:${issue.subject}`), [
-    "blocker:blocked-prod@2.0.0",
-    "blocker:nested-dup@3.0.0",
-    "warning:dev-only@1.0.0",
-    "warning:optional-dev@1.0.0",
-    "unknown:invalid-range@1.0.0",
-  ]);
+  assert.deepEqual(
+    report.issues.map((issue) => `${issue.level}:${issue.subject}`),
+    [
+      "blocker:blocked-prod@2.0.0",
+      "blocker:nested-dup@3.0.0",
+      "warning:dev-only@1.0.0",
+      "warning:optional-dev@1.0.0",
+      "unknown:invalid-range@1.0.0",
+    ],
+  );
 });
 
 test("the CLI exits 1 for a blocker and prints the evidence at its line", async () => {
@@ -138,7 +186,10 @@ test("the CLI exits 0 when every eligible package accepts the target", async () 
 test("a two-part target is checked as its .0 release and an unreadable target reports nothing", async () => {
   const root = resolve(fixtures, "v3");
   const twoPart = await npmLockAnalyzer.analyze(root, { runtime: "nodejs", version: "26.1" });
-  assert.deepEqual(twoPart.map((issue) => issue.subject), ["invalid-range@1.0.0"]);
+  assert.deepEqual(
+    twoPart.map((issue) => issue.subject),
+    ["invalid-range@1.0.0"],
+  );
   assert.deepEqual(await npmLockAnalyzer.analyze(root, { runtime: "nodejs", version: "nightly" }), []);
 });
 

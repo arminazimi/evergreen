@@ -39,7 +39,19 @@ import { parseSwiftVersion, parseXcodeVersion } from "./parse-swift-toolchain.js
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const SWIFT_FILES = new Set(["Package.swift", "Package.resolved", ".swift-version", ".xcode-version"]);
 /** The Xcode project file. It is read only inside an `.xcodeproj` bundle. */
 const XCODE_PROJECT_FILE = "project.pbxproj";
@@ -64,7 +76,11 @@ async function swiftFiles(root: string): Promise<string[]> {
       if (entry.isSymbolicLink()) continue;
       if (entry.isDirectory()) {
         if (!SKIPPED_DIRECTORIES.has(entry.name)) await walk(join(directory, entry.name), depth + 1);
-      } else if (entry.isFile() && (SWIFT_FILES.has(entry.name) || (entry.name === XCODE_PROJECT_FILE && basename(directory).endsWith(".xcodeproj")))) {
+      } else if (
+        entry.isFile() &&
+        (SWIFT_FILES.has(entry.name) ||
+          (entry.name === XCODE_PROJECT_FILE && basename(directory).endsWith(".xcodeproj")))
+      ) {
         files.push(join(directory, entry.name));
       }
     }
@@ -139,10 +155,16 @@ export class SwiftDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "swift";
   /** The files `scan` may read; conformance fails a scan that reads another. */
-  readonly inputs: DetectorInputs = { fileNames: ["Package.swift", "Package.resolved", ".swift-version", ".xcode-version", "project.pbxproj"], sourceExtensions: [".swift"] };
+  readonly inputs: DetectorInputs = {
+    fileNames: ["Package.swift", "Package.resolved", ".swift-version", ".xcode-version", "project.pbxproj"],
+    sourceExtensions: [".swift"],
+  };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/swift.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/swift.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/swift.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -196,7 +218,13 @@ export class SwiftDetector implements Detector {
         for (const declaration of parsePackageSwift(contents)) {
           if (declaration.kind === "tools-version") {
             const rule = firstMatchingRule(byPurl.get(SWIFT_PURL) ?? [], declaration.value);
-            if (rule) report(rule, path, declaration.line, `${path} declares swift-tools-version ${declaration.value}. ${rule.summary}`);
+            if (rule)
+              report(
+                rule,
+                path,
+                declaration.line,
+                `${path} declares swift-tools-version ${declaration.value}. ${rule.summary}`,
+              );
             continue;
           }
           const identity = packageIdentity(declaration.url);
@@ -204,16 +232,29 @@ export class SwiftDetector implements Detector {
           const rules = byPurl.get(packagePurl(identity)) ?? [];
           if (declaration.requirement === "exact") {
             const rule = firstMatchingRule(rules, declaration.value);
-            if (rule) report(rule, path, declaration.line, `${path} pins ${identity} ${declaration.value}. ${rule.summary}`);
+            if (rule)
+              report(rule, path, declaration.line, `${path} pins ${identity} ${declaration.value}. ${rule.summary}`);
           } else {
             const rule = rules.find(coversEveryVersion);
-            if (rule) report(rule, path, declaration.line, `${path} requires ${identity} from ${declaration.value}. ${rule.summary}`);
+            if (rule)
+              report(
+                rule,
+                path,
+                declaration.line,
+                `${path} requires ${identity} from ${declaration.value}. ${rule.summary}`,
+              );
           }
         }
       } else if (name === XCODE_PROJECT_FILE) {
         for (const declaration of parseXcodeProjectIOSDeploymentTargets(contents)) {
           const rule = firstMatchingRule(byPurl.get(IOS_PURL) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} sets IPHONEOS_DEPLOYMENT_TARGET ${declaration.value} on an app target. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} sets IPHONEOS_DEPLOYMENT_TARGET ${declaration.value} on an app target. ${rule.summary}`,
+            );
         }
       } else if (name === "Package.resolved") {
         for (const pin of parsePackageResolved(contents)) {
@@ -225,7 +266,14 @@ export class SwiftDetector implements Detector {
 
     const unclassified: Array<DetectorAnalysis["unclassified"][number]> = [];
     if (usageContracts.length > 0) {
-      const analyses = new Map((await analyzeSourceUsage(context.root, usageContracts.map(({ id, rule }) => ({ id, matchers: rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
+      const analyses = new Map(
+        (
+          await analyzeSourceUsage(
+            context.root,
+            usageContracts.map(({ id, rule }) => ({ id, matchers: rule.usage ?? [] })),
+          )
+        ).map((analysis) => [analysis.contractId, analysis]),
+      );
       for (const finding of findings) {
         const analysis = analyses.get(finding.id);
         if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });

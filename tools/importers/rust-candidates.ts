@@ -4,4 +4,11 @@
  * also adds its index response to the recording (`tests/importers/recordings/rust-2.json`), which stays small
  * because each response is the crate's whole version list.
  */
-export const RUST_CRATE_CANDIDATES: readonly string[] = ["bytes", "memchr", "once_cell", "smallvec", "tempfile", "tower"];
+export const RUST_CRATE_CANDIDATES: readonly string[] = [
+  "bytes",
+  "memchr",
+  "once_cell",
+  "smallvec",
+  "tempfile",
+  "tower",
+];

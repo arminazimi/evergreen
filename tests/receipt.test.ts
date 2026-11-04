@@ -18,7 +18,14 @@ interface FindingOptions {
 }
 
 function finding(id: string, options: FindingOptions = {}): Finding {
-  const { rule = "demo.eol", title = `Title ${id}`, severity = "high", path = `${id}.yml`, line = 1, commands = [] } = options;
+  const {
+    rule = "demo.eol",
+    title = `Title ${id}`,
+    severity = "high",
+    path = `${id}.yml`,
+    line = 1,
+    commands = [],
+  } = options;
   return {
     id,
     ruleId: rule,
@@ -31,7 +38,13 @@ function finding(id: string, options: FindingOptions = {}): Finding {
     sources: [],
     ...(commands.length === 0
       ? {}
-      : { migration: { constraints: [], steps: [], verification: commands.map((command) => ({ command, purpose: `run ${command}` })) } }),
+      : {
+          migration: {
+            constraints: [],
+            steps: [],
+            verification: commands.map((command) => ({ command, purpose: `run ${command}` })),
+          },
+        }),
   };
 }
 
@@ -46,7 +59,14 @@ function scan(findings: Finding[], data?: DataInfo): ScanResult {
   };
 }
 
-const bundled = (version: string): DataInfo => ({ source: "bundled", version, createdAt: null, reviewedThrough: "2026-10-30", ageDays: 0, stale: false });
+const bundled = (version: string): DataInfo => ({
+  source: "bundled",
+  version,
+  createdAt: null,
+  reviewedThrough: "2026-10-30",
+  ageDays: 0,
+  stale: false,
+});
 
 async function validator() {
   const ajv = new Ajv2020({ allErrors: true, strict: false });
@@ -60,9 +80,16 @@ test("buildReceipt splits the comparison into resolved, remaining, and introduce
 
   assert.equal(receipt.schema, RECEIPT_SCHEMA);
   assert.deepEqual(receipt.counts, { resolved: 1, remaining: 1, introduced: 1 });
-  assert.deepEqual(receipt.resolved, [{ id: "a", rule: "demo.eol", title: "Title a", severity: "high", path: "a.yml", line: 1 }]);
-  assert.deepEqual(receipt.remaining, [{ id: "b", rule: "demo.retired", title: "Title b", severity: "medium", path: "package.json", line: 7 }]);
-  assert.deepEqual(receipt.introduced.map((entry) => entry.id), ["c"]);
+  assert.deepEqual(receipt.resolved, [
+    { id: "a", rule: "demo.eol", title: "Title a", severity: "high", path: "a.yml", line: 1 },
+  ]);
+  assert.deepEqual(receipt.remaining, [
+    { id: "b", rule: "demo.retired", title: "Title b", severity: "medium", path: "package.json", line: 7 },
+  ]);
+  assert.deepEqual(
+    receipt.introduced.map((entry) => entry.id),
+    ["c"],
+  );
 });
 
 test("identical scans leave every finding in remaining", () => {
@@ -70,7 +97,10 @@ test("identical scans leave every finding in remaining", () => {
   const receipt = buildReceipt(scan(findings), scan(findings));
 
   assert.deepEqual(receipt.counts, { resolved: 0, remaining: 2, introduced: 0 });
-  assert.deepEqual(receipt.remaining.map((entry) => entry.id), ["a", "b"]);
+  assert.deepEqual(
+    receipt.remaining.map((entry) => entry.id),
+    ["a", "b"],
+  );
   assert.deepEqual(receipt.resolved, []);
   assert.deepEqual(receipt.introduced, []);
 });
@@ -85,7 +115,9 @@ test("an empty change over a clean repository reports nothing", () => {
 test("a finding without a line omits it", () => {
   const receipt = buildReceipt(scan([finding("a", { line: null })]), scan([]));
 
-  assert.deepEqual(receipt.resolved, [{ id: "a", rule: "demo.eol", title: "Title a", severity: "high", path: "a.yml" }]);
+  assert.deepEqual(receipt.resolved, [
+    { id: "a", rule: "demo.eol", title: "Title a", severity: "high", path: "a.yml" },
+  ]);
 });
 
 test("commands are deduplicated, sorted, and recorded rather than run", () => {
@@ -110,7 +142,10 @@ test("output is sorted and depends only on the two scans", () => {
   });
 
   assert.equal(JSON.stringify(first), JSON.stringify(second));
-  assert.deepEqual(first.resolved.map((entry) => entry.id), ["m", "z"]);
+  assert.deepEqual(
+    first.resolved.map((entry) => entry.id),
+    ["m", "z"],
+  );
 });
 
 test("data records each scan's lifecycle data and can be supplied for either side", () => {

@@ -69,7 +69,12 @@ test("scala passes detector conformance on every fixture", async () => {
         expectedFindings: [
           expected(eol211, ".scala-version", 1, `.scala-version pins Scala 2.11.12. ${eol211.summary}`),
           expected(eol211, "build.sbt", 7, `build.sbt declares Scala 2.11.12. ${eol211.summary}`),
-          expected(eolSbt, "project/build.properties", 1, `project/build.properties pins sbt 0.13.18. ${eolSbt.summary}`),
+          expected(
+            eolSbt,
+            "project/build.properties",
+            1,
+            `project/build.properties pins sbt 0.13.18. ${eolSbt.summary}`,
+          ),
         ],
       },
     ],
@@ -102,7 +107,11 @@ test("a build.sbt scalaVersion constraint is not a version pin, and an exact pin
     "build.sbt": 'scalaVersion := "2.11.12"\n',
   });
   assert.deepEqual(
-    (await scalaDetector.scan({ root: pinned })).map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    (await scalaDetector.scan({ root: pinned })).map((finding) => [
+      finding.ruleId,
+      finding.location.path,
+      finding.location.line,
+    ]),
     [["scala.runtime.eol-2.11", "build.sbt", 1]],
   );
 });
@@ -136,12 +145,15 @@ test("a migration packet for a Scala finding names the file, steps, and verifica
 
 test("the detector is registered and Scala is experimental in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "scala"));
-  assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "scala"), {
-    id: "scala",
-    status: "experimental",
-    maturity: "experimental",
-    detectorIds: ["scala"],
-  });
+  assert.deepEqual(
+    getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "scala"),
+    {
+      id: "scala",
+      status: "experimental",
+      maturity: "experimental",
+      detectorIds: ["scala"],
+    },
+  );
 });
 
 test("injected rules still match only by Package URL", async () => {

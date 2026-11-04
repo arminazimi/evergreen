@@ -4,7 +4,7 @@
   "fileSize": [
     {
       "file": "src/source-usage.ts",
-      "lines": 1898,
+      "lines": 1894,
       "owner": "#2224",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-03. Over the 1,000-line ceiling; split it in the file-size follow-up."

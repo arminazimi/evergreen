@@ -54,10 +54,14 @@ if (command === "status") {
   const dryRun = flags.includes("--dry-run");
   const maxIndex = flags.indexOf("--max-size");
   const maxSizeMb = maxIndex >= 0 ? Number(flags[maxIndex + 1]) : undefined;
-  if (maxSizeMb !== undefined && (!Number.isFinite(maxSizeMb) || maxSizeMb < 0)) fail("--max-size needs a number of megabytes.");
+  if (maxSizeMb !== undefined && (!Number.isFinite(maxSizeMb) || maxSizeMb < 0))
+    fail("--max-size needs a number of megabytes.");
   let doomed: CorpusCacheListing[];
   try {
-    doomed = planPrune(listings, currentKeys, { all: flags.includes("--all"), ...(maxSizeMb === undefined ? {} : { maxSizeMb }) });
+    doomed = planPrune(listings, currentKeys, {
+      all: flags.includes("--all"),
+      ...(maxSizeMb === undefined ? {} : { maxSizeMb }),
+    });
   } catch (error) {
     fail(error instanceof Error ? error.message : String(error));
   }
@@ -66,5 +70,7 @@ if (command === "status") {
     // Only names matching the cache entry pattern reach this point, directly under the cache directory.
     if (!dryRun) await rm(entry.path, { recursive: true, force: true });
   }
-  console.log(`${dryRun ? "would remove" : "removed"} ${doomed.length} of ${listings.length} entries (${megabytes(total(doomed))})`);
+  console.log(
+    `${dryRun ? "would remove" : "removed"} ${doomed.length} of ${listings.length} entries (${megabytes(total(doomed))})`,
+  );
 }

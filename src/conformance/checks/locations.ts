@@ -6,10 +6,7 @@ import type { ConformanceCheck } from "../index.js";
 function isInsideRepository(root: string, target: string): boolean {
   const pathFromRoot = relative(root, target);
   return (
-    pathFromRoot !== "" &&
-    pathFromRoot !== ".." &&
-    !pathFromRoot.startsWith(`..${sep}`) &&
-    !isAbsolute(pathFromRoot)
+    pathFromRoot !== "" && pathFromRoot !== ".." && !pathFromRoot.startsWith(`..${sep}`) && !isAbsolute(pathFromRoot)
   );
 }
 
@@ -44,9 +41,7 @@ export const locationsCheck: ConformanceCheck = {
 
       const lineCount = contents.split(/\r?\n/).length;
       if (line > lineCount) {
-        throw new Error(
-          `finding "${finding.id}" points to line ${line}, but ${path} has ${lineCount} lines`,
-        );
+        throw new Error(`finding "${finding.id}" points to line ${line}, but ${path} has ${lineCount} lines`);
       }
     }
   },

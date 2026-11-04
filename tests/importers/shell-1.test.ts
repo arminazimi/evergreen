@@ -66,14 +66,23 @@ test("a supported release is never drafted, and the calendar moving past its dat
   ];
   assert.deepEqual((await runImporter(powershellLifecycleImporter, page(rows, "2026-11-09"))).rules, []);
   const result = await runImporter(powershellLifecycleImporter, page(rows, "2026-11-10"));
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["shell.powershell.end-of-life-7.4"]);
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["shell.powershell.end-of-life-7.4"],
+  );
   assert.equal(result.rules[0]!.replacement, "PowerShell 7.6 (LTS) or later");
 });
 
 test("PowerShell 6 is drafted only once every 6.x row has ended", async () => {
-  const six = [["PowerShell 6.2", "29-Mar-2019", "04-Sep-2020", ".NET Core 2.1"], ["PowerShell 6.1", "13-Sep-2018", "28-Sep-2019", ".NET Core 2.1"]];
+  const six = [
+    ["PowerShell 6.2", "29-Mar-2019", "04-Sep-2020", ".NET Core 2.1"],
+    ["PowerShell 6.1", "13-Sep-2018", "28-Sep-2019", ".NET Core 2.1"],
+  ];
   const result = await runImporter(powershellLifecycleImporter, page(six));
-  assert.deepEqual(result.rules.map((rule) => [rule.id, rule.deadline]), [["shell.powershell.end-of-life-6", "2020-09-04"]]);
+  assert.deepEqual(
+    result.rules.map((rule) => [rule.id, rule.deadline]),
+    [["shell.powershell.end-of-life-6", "2020-09-04"]],
+  );
   assert.deepEqual((await runImporter(powershellLifecycleImporter, page(six, "2020-09-03"))).rules, []);
 });
 

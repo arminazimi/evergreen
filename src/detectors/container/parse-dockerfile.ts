@@ -102,11 +102,12 @@ const ASDF_RUNTIMES: Readonly<Record<string, Runtime>> = {
   ruby: "ruby",
 };
 const LITERAL_VERSION = /^v?\d+(?:\.\d+){0,3}(?:[-+][A-Za-z0-9][A-Za-z0-9._+-]*)?$/;
-const RUN_INSTALL = /(?:^|&&)\s*(?:(nvm|pyenv)\s+install\s+([^\s;&|]+)|(sdk|asdf)\s+install\s+([^\s;&|]+)\s+([^\s;&|]+))/g;
+const RUN_INSTALL =
+  /(?:^|&&)\s*(?:(nvm|pyenv)\s+install\s+([^\s;&|]+)|(sdk|asdf)\s+install\s+([^\s;&|]+)\s+([^\s;&|]+))/g;
 
 function literalVersion(token: string): string | undefined {
   const quote = token[0];
-  const value = quote === "\"" || quote === "'" ? (token.endsWith(quote) ? token.slice(1, -1) : "") : token;
+  const value = quote === '"' || quote === "'" ? (token.endsWith(quote) ? token.slice(1, -1) : "") : token;
   return value.length <= 64 && LITERAL_VERSION.test(value) ? value : undefined;
 }
 
@@ -154,7 +155,9 @@ function runtimePins(logical: LogicalLine): DockerfileRuntimeDeclaration[] {
 const LEGACY_INSTRUCTION = /^(?:ONBUILD\s+)?(MAINTAINER|ENV)\s+([\s\S]+)$/i;
 
 /** The deprecated `MAINTAINER` text and the legacy `ENV key value` form, including inside an `ONBUILD` trigger. */
-function legacyInstructions(logical: LogicalLine): Array<DockerfileMaintainerDeclaration | DockerfileLegacyEnvDeclaration> {
+function legacyInstructions(
+  logical: LogicalLine,
+): Array<DockerfileMaintainerDeclaration | DockerfileLegacyEnvDeclaration> {
   const match = LEGACY_INSTRUCTION.exec(logical.text);
   if (!match) return [];
   const [, instruction, rest] = match;

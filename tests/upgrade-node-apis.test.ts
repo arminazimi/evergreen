@@ -47,13 +47,16 @@ test("an API the target removed is a blocker at its exact location, from the rul
   const removed = await rule("nodejs.symbol.util.isstring");
   assert.equal(result.verdict, "blocked");
   assert.deepEqual(result.analyzers, ["node-apis"]);
-  assert.deepEqual(result.issues[0], issue({
-    level: "blocker",
-    subject: "util.isString",
-    line: 4,
-    reason: removed.summary,
-    evidence: { kind: "rule", value: "nodejs.symbol.util.isstring" },
-  }));
+  assert.deepEqual(
+    result.issues[0],
+    issue({
+      level: "blocker",
+      subject: "util.isString",
+      line: 4,
+      reason: removed.summary,
+      evidence: { kind: "rule", value: "nodejs.symbol.util.isstring" },
+    }),
+  );
 });
 
 test("an API the target deprecated is a warning, and a later deprecation is not reported", async () => {

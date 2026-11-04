@@ -53,9 +53,7 @@ function findSkillPath(start = HERE): string {
     } catch {
       const parent = dirname(current);
       if (parent === current) {
-        throw new Error(
-          `Could not find skills/evergreen-check-before-add/SKILL.md above ${start}.`,
-        );
+        throw new Error(`Could not find skills/evergreen-check-before-add/SKILL.md above ${start}.`);
       }
       current = parent;
     }
@@ -213,7 +211,16 @@ async function prepareFixtureRepository(root: string): Promise<{ repositoryPath:
   await git(["init", "--quiet"], repositoryPath);
   await git(["add", "package.json", "README.md"], repositoryPath);
   await git(
-    ["-c", "user.name=Guardrail Harness", "-c", "user.email=guardrail@example.com", "commit", "--quiet", "-m", "fixture"],
+    [
+      "-c",
+      "user.name=Guardrail Harness",
+      "-c",
+      "user.email=guardrail@example.com",
+      "commit",
+      "--quiet",
+      "-m",
+      "fixture",
+    ],
     repositoryPath,
   );
   const commit = (await git(["rev-parse", "HEAD"], repositoryPath)).trim();
@@ -409,9 +416,7 @@ export async function runGuardrailTask(
     const { repositoryPath, commit } = await prepareFixtureRepository(root);
     for (const arm of arms) {
       const slug = task.id.replace(/[^A-Za-z0-9._-]/g, "-");
-      attempts.push(
-        await runArm(task, arm, options, repositoryPath, commit, join(root, `${slug}-${arm}`), timeoutMs),
-      );
+      attempts.push(await runArm(task, arm, options, repositoryPath, commit, join(root, `${slug}-${arm}`), timeoutMs));
     }
   } finally {
     if (options.keepWorktrees !== true) await rm(root, { recursive: true, force: true });

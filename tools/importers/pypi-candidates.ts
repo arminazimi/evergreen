@@ -7,11 +7,4 @@
  * lists them in its notes and they can be removed. Keep the list sorted, and prefer projects whose
  * simple-API page is small: each run downloads every listed project's file list.
  */
-export const PYPI_CANDIDATES: readonly string[] = [
-  "PIL",
-  "argparse",
-  "enum",
-  "google-cloud",
-  "pathlib",
-  "typing",
-];
+export const PYPI_CANDIDATES: readonly string[] = ["PIL", "argparse", "enum", "google-cloud", "pathlib", "typing"];

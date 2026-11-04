@@ -32,7 +32,8 @@ const MONTHS: Record<string, string> = {
 };
 
 const IDENTIFIER = /^[a-z][a-z0-9.+_-]*$/i;
-const DATE = /^(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2}),\s+(\d{4})$/;
+const DATE =
+  /^(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2}),\s+(\d{4})$/;
 
 export interface RuntimeRow {
   name: string;
@@ -56,7 +57,9 @@ function parseAwsDate(text: string): string | undefined {
   const day = match[2]!.padStart(2, "0");
   const value = `${year}-${mm}-${day}`;
   const date = new Date(`${value}T00:00:00Z`);
-  return date.getUTCFullYear() === Number(year) && date.getUTCMonth() + 1 === Number(mm) && date.getUTCDate() === Number(day)
+  return date.getUTCFullYear() === Number(year) &&
+    date.getUTCMonth() + 1 === Number(mm) &&
+    date.getUTCDate() === Number(day)
     ? value
     : undefined;
 }
@@ -195,12 +198,18 @@ export const awsLambdaRuntimesImporter: Importer = {
     const supportedSection = sectionAfterHeading(html, "runtimes-supported");
     const deprecatedSection = sectionAfterHeading(html, "runtimes-deprecated");
     if (!supportedSection || !deprecatedSection) {
-      return { rules: [], notes: ["The AWS Lambda runtimes page is missing the supported or deprecated heading this importer expects."] };
+      return {
+        rules: [],
+        notes: ["The AWS Lambda runtimes page is missing the supported or deprecated heading this importer expects."],
+      };
     }
     const supportedTable = firstTable(supportedSection);
     const deprecatedTable = firstTable(deprecatedSection);
     if (!supportedTable || !deprecatedTable) {
-      return { rules: [], notes: ["The AWS Lambda runtimes page is missing a supported or deprecated table this importer can read."] };
+      return {
+        rules: [],
+        notes: ["The AWS Lambda runtimes page is missing a supported or deprecated table this importer can read."],
+      };
     }
 
     const supported = parseRuntimeTable(supportedTable);
@@ -210,17 +219,23 @@ export const awsLambdaRuntimesImporter: Importer = {
     }
 
     const today = isoDate(context.now);
-    const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
+    const horizon = isoDate(
+      new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())),
+    );
     const notes: string[] = [];
     const rules: DraftRule[] = [];
 
     for (const row of deprecated) {
       if (row.deprecation === undefined) {
-        notes.push(`Skipped ${row.identifier}: deprecation cell "${row.deprecationText || "(empty)"}" is not a calendar date.`);
+        notes.push(
+          `Skipped ${row.identifier}: deprecation cell "${row.deprecationText || "(empty)"}" is not a calendar date.`,
+        );
         continue;
       }
       if (row.deprecation > horizon) {
-        notes.push(`${row.identifier} is deprecated on ${row.deprecation}, which is more than twelve months after ${today}, so no rule was drafted.`);
+        notes.push(
+          `${row.identifier} is deprecated on ${row.deprecation}, which is more than twelve months after ${today}, so no rule was drafted.`,
+        );
         continue;
       }
       rules.push(draftRule(row, row.deprecation, today, pickReplacement(row.identifier, supported)));

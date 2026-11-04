@@ -88,7 +88,12 @@ function rule(overrides: Partial<RegistryV2Rule> = {}): RegistryV2Rule {
     summary: "PowerShell 7.0 is no longer supported.",
     severity: "high",
     replacement: "PowerShell 7.6 (LTS) or later",
-    sources: [{ title: "PowerShell support lifecycle", url: "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle" }],
+    sources: [
+      {
+        title: "PowerShell support lifecycle",
+        url: "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle",
+      },
+    ],
     provenance: { observedAt: "2026-10-22", reviewedAt: "2026-10-22", reviewer: "test" },
     ...overrides,
   };
@@ -136,16 +141,23 @@ test("reports requirements, manifests, and workflow images with exact lines", as
       "a.ps1": "#Requires -Version 7.0\nWrite-Host hi\n",
       "lib/B.psm1": "# note\n#requires -version 7.0.3\n",
       "lib/B.psd1": "@{\n  PowerShellVersion = '7.0'\n}\n",
-      ".github/workflows/ci.yml": "jobs:\n  a:\n    container:\n      image: mcr.microsoft.com/powershell:7.0-ubuntu-22.04\n    steps: []\n",
+      ".github/workflows/ci.yml":
+        "jobs:\n  a:\n    container:\n      image: mcr.microsoft.com/powershell:7.0-ubuntu-22.04\n    steps: []\n",
     }),
   });
-  assert.deepEqual(findings.map((finding) => [finding.location.path, finding.location.line]), [
-    [".github/workflows/ci.yml", 4],
-    ["a.ps1", 1],
-    ["lib/B.psd1", 2],
-    ["lib/B.psm1", 2],
-  ]);
-  assert.match(findings[0]!.summary, /^\.github\/workflows\/ci\.yml runs mcr\.microsoft\.com\/powershell:7\.0-ubuntu-22\.04\. /);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.path, finding.location.line]),
+    [
+      [".github/workflows/ci.yml", 4],
+      ["a.ps1", 1],
+      ["lib/B.psd1", 2],
+      ["lib/B.psm1", 2],
+    ],
+  );
+  assert.match(
+    findings[0]!.summary,
+    /^\.github\/workflows\/ci\.yml runs mcr\.microsoft\.com\/powershell:7\.0-ubuntu-22\.04\. /,
+  );
   assert.match(findings[1]!.summary, /^a\.ps1 requires PowerShell 7\.0\. /);
 });
 
@@ -175,7 +187,9 @@ test("a version outside the range, shell names, Bash images, and versionless tag
 
 test("workflow files outside .github/workflows are not read", async () => {
   const detector = new ShellDetector(async () => [rule()]);
-  const root = await repository({ "ci.yml": "jobs:\n  a:\n    container: mcr.microsoft.com/powershell:7.0\n    steps: []\n" });
+  const root = await repository({
+    "ci.yml": "jobs:\n  a:\n    container: mcr.microsoft.com/powershell:7.0\n    steps: []\n",
+  });
   assert.deepEqual(await detector.scan({ root }), []);
 });
 
@@ -187,12 +201,19 @@ test("only PowerShell rules apply, and a malformed VERS or unreadable Package UR
     rule(),
   ]);
   const findings = await detector.scan({ root: await repository({ "a.ps1": "#Requires -Version 7.0\n" }) });
-  assert.deepEqual(findings.map((finding) => finding.ruleId), ["shell.powershell.example"]);
+  assert.deepEqual(
+    findings.map((finding) => finding.ruleId),
+    ["shell.powershell.example"],
+  );
 });
 
 test("scanRepository attributes findings to the shell detector", async () => {
   const result = await scanRepository(await repository({ "a.ps1": "#Requires -Version 7.0\n" }), builtInDetectors);
-  assert.ok(result.findings.some((finding) => finding.detector === "shell" && finding.ruleId === "shell.powershell.end-of-life-7.0"));
+  assert.ok(
+    result.findings.some(
+      (finding) => finding.detector === "shell" && finding.ruleId === "shell.powershell.end-of-life-7.0",
+    ),
+  );
 });
 
 test("ignores vendored and fixture directories, and a repository without PowerShell files", async () => {
@@ -211,12 +232,18 @@ test("ignores vendored and fixture directories, and a repository without PowerSh
 test("every curated shell rule has migration guidance with real verification commands", async () => {
   for (const item of await committedRules()) {
     assert.ok(item.migration && item.migration.constraints.length >= 1 && item.migration.steps.length >= 1, item.id);
-    assert.ok(item.migration.verification.some((check) => check.command === 'pwsh -NoProfile -Command "$PSVersionTable"'), item.id);
+    assert.ok(
+      item.migration.verification.some((check) => check.command === 'pwsh -NoProfile -Command "$PSVersionTable"'),
+      item.id,
+    );
   }
 });
 
 test("a migration packet for a PowerShell finding names the file, steps, and verification", async () => {
-  const result = await scanRepository(await repository({ "scripts/build.ps1": "#Requires -Version 7.0\nWrite-Host hi\n" }), [shellDetector]);
+  const result = await scanRepository(
+    await repository({ "scripts/build.ps1": "#Requires -Version 7.0\nWrite-Host hi\n" }),
+    [shellDetector],
+  );
   const finding = result.findings.find((item) => item.id === "shell.powershell.end-of-life-7.0:scripts/build.ps1:1");
   assert.ok(finding);
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));

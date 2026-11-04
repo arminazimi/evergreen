@@ -45,12 +45,22 @@ function finding(path: string, line: number): Finding {
     confidence: "exact",
     location: { path, line },
     replacement: "Java 25 (LTS) or later",
-    sources: [{ title: "Oracle Java SE support roadmap", url: "https://www.oracle.com/java/technologies/java-se-support-roadmap.html" }],
+    sources: [
+      {
+        title: "Oracle Java SE support roadmap",
+        url: "https://www.oracle.com/java/technologies/java-se-support-roadmap.html",
+      },
+    ],
   };
 }
 
-const scanOf = (root: string, findings: Finding[]): ScanResult =>
-  ({ schemaVersion: "evergreen.scan.v1", root, scannedAt: "2026-10-28T00:00:00.000Z", findings, diagnostics: [] });
+const scanOf = (root: string, findings: Finding[]): ScanResult => ({
+  schemaVersion: "evergreen.scan.v1",
+  root,
+  scannedAt: "2026-10-28T00:00:00.000Z",
+  findings,
+  diagnostics: [],
+});
 
 test("raises the Maven release property and the compiler plugin release, keeps everything else", async (t) => {
   const before = `<?xml version="1.0" encoding="UTF-8"?>
@@ -81,12 +91,21 @@ test("raises the Maven release property and the compiler plugin release, keeps e
 `;
   const root = await repository(t, { "pom.xml": before });
   const patches = await javaFixer.plan(await scan(root));
-  assert.deepEqual(patches.map((patch) => patch.path), ["pom.xml"]);
+  assert.deepEqual(
+    patches.map((patch) => patch.path),
+    ["pom.xml"],
+  );
   assert.equal(await readFile(join(root, "pom.xml"), "utf8"), before);
   await apply(root, patches);
-  assert.equal(await readFile(join(root, "pom.xml"), "utf8"),
-    before.replace("<maven.compiler.release>16</maven.compiler.release>", "<maven.compiler.release>25</maven.compiler.release>")
-      .replace("<release>13</release>", "<release>25</release>"));
+  assert.equal(
+    await readFile(join(root, "pom.xml"), "utf8"),
+    before
+      .replace(
+        "<maven.compiler.release>16</maven.compiler.release>",
+        "<maven.compiler.release>25</maven.compiler.release>",
+      )
+      .replace("<release>13</release>", "<release>25</release>"),
+  );
   assert.deepEqual(await javaFixer.plan(await scan(root)), []);
 });
 
@@ -112,18 +131,29 @@ sourceCompatibility = "24"
 `;
   const root = await repository(t, { "build.gradle": groovy, "nested/build.gradle.kts": kotlin });
   const patches = await planFixes(await scan(root));
-  assert.deepEqual(patches.map((patch) => patch.path), ["build.gradle", "nested/build.gradle.kts"]);
+  assert.deepEqual(
+    patches.map((patch) => patch.path),
+    ["build.gradle", "nested/build.gradle.kts"],
+  );
   await apply(root, patches);
-  assert.equal(await readFile(join(root, "build.gradle"), "utf8"),
-    groovy.replace("JavaLanguageVersion.of(20)", "JavaLanguageVersion.of(25)").replace("JavaVersion.VERSION_22", "JavaVersion.VERSION_25"));
-  assert.equal(await readFile(join(root, "nested/build.gradle.kts"), "utf8"),
-    kotlin.replace("jvmToolchain(19)", "jvmToolchain(25)").replace('"24"', '"25"'));
+  assert.equal(
+    await readFile(join(root, "build.gradle"), "utf8"),
+    groovy
+      .replace("JavaLanguageVersion.of(20)", "JavaLanguageVersion.of(25)")
+      .replace("JavaVersion.VERSION_22", "JavaVersion.VERSION_25"),
+  );
+  assert.equal(
+    await readFile(join(root, "nested/build.gradle.kts"), "utf8"),
+    kotlin.replace("jvmToolchain(19)", "jvmToolchain(25)").replace('"24"', '"25"'),
+  );
   assert.deepEqual(await javaFixer.plan(await scan(root)), []);
 });
 
 for (const [name, path, contents, line] of [
   ["a computed compatibility value", "build.gradle", "sourceCompatibility = JavaVersion.toVersion(22)\n", 1],
-  ["a computed release", "pom.xml",
+  [
+    "a computed release",
+    "pom.xml",
     `<project>
   <build>
     <plugins>
@@ -136,7 +166,9 @@ for (const [name, path, contents, line] of [
     </plugins>
   </build>
 </project>
-`, 7],
+`,
+    7,
+  ],
   ["a target compatibility level", "build.gradle", "targetCompatibility = JavaVersion.VERSION_22\n", 1],
 ] as const) {
   test(`refuses to patch ${name}`, async (t) => {
@@ -155,18 +187,28 @@ test("refuses to raise an already supported value, an outside path, a pin file, 
 });
 
 test("leaves a file without a final newline alone", async (t) => {
-  const root = await repository(t, { "pom.xml": "<project>\n  <properties>\n    <maven.compiler.release>16</maven.compiler.release>\n  </properties>\n</project>" });
+  const root = await repository(t, {
+    "pom.xml":
+      "<project>\n  <properties>\n    <maven.compiler.release>16</maven.compiler.release>\n  </properties>\n</project>",
+  });
   const result = await scan(root);
-  assert.ok(result.findings.some((item) => item.ruleId.startsWith("java.jdk.")), "the detector reports the property");
+  assert.ok(
+    result.findings.some((item) => item.ruleId.startsWith("java.jdk.")),
+    "the detector reports the property",
+  );
   assert.deepEqual(await javaFixer.plan(result), []);
 });
 
 test("preserves CRLF line endings", async (t) => {
-  const before = "<project>\r\n  <properties>\r\n    <maven.compiler.release>16</maven.compiler.release>\r\n  </properties>\r\n</project>\r\n";
+  const before =
+    "<project>\r\n  <properties>\r\n    <maven.compiler.release>16</maven.compiler.release>\r\n  </properties>\r\n</project>\r\n";
   const root = await repository(t, { "pom.xml": before });
   const patches = await javaFixer.plan(await scan(root));
   assert.equal(patches.length, 1);
   assert.match(patches[0]!.diff, /\+    <maven\.compiler\.release>25<\/maven\.compiler\.release>\r\n/);
   await apply(root, patches);
-  assert.equal(await readFile(join(root, "pom.xml"), "utf8"), before.replace("16</maven.compiler.release>", "25</maven.compiler.release>"));
+  assert.equal(
+    await readFile(join(root, "pom.xml"), "utf8"),
+    before.replace("16</maven.compiler.release>", "25</maven.compiler.release>"),
+  );
 });

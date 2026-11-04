@@ -3,7 +3,23 @@ import type { CliCommand } from "./types.js";
 
 export const command: CliCommand = {
   name: "scan",
-  flags: ["--demo", "--json", "--format", "--baseline", "--baseline-warn-days", "--on-expired", "--today", "--write-status", "--interactive", "--fail-on", "--all", "--by-owner", "--data-version", "--only", "--exclude"],
+  flags: [
+    "--demo",
+    "--json",
+    "--format",
+    "--baseline",
+    "--baseline-warn-days",
+    "--on-expired",
+    "--today",
+    "--write-status",
+    "--interactive",
+    "--fail-on",
+    "--all",
+    "--by-owner",
+    "--data-version",
+    "--only",
+    "--exclude",
+  ],
   example: "evergreen scan . --fail-on high",
   usage: [
     "  evergreen scan [path] [--no-cache] [--json | --format <text|json|markdown|junit|sarif|rdjson|codequality|compact|html|slack|teams|webhook|mermaid>]",

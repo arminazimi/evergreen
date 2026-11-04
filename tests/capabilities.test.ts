@@ -43,7 +43,11 @@ test("ecosystem maturity is the lowest detector level in benchmarks/thresholds.j
       return detector.level;
     });
     const lowest = levels.reduce((low, level) => (maturityRank[level] < maturityRank[low] ? level : low), levels[0]!);
-    assert.equal(ecosystem.maturity, lowest, `${ecosystem.id} must take the lowest level of ${ecosystem.detectorIds.join(", ")}`);
+    assert.equal(
+      ecosystem.maturity,
+      lowest,
+      `${ecosystem.id} must take the lowest level of ${ecosystem.detectorIds.join(", ")}`,
+    );
   }
 });
 

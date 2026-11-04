@@ -65,7 +65,10 @@ test("slugs come from the Package URL and stay stable", () => {
   assert.equal(productSlug("pkg:npm/@angular/core"), "npm-angular-core");
   assert.equal(productSlug("pkg:npm/%40angular/core"), "npm-angular-core");
   assert.equal(productSlug("pkg:docker/library/node"), "docker-node");
-  assert.equal(productSlug("pkg:maven/org.springframework.boot/spring-boot@2.7.0"), "maven-org-springframework-boot-spring-boot");
+  assert.equal(
+    productSlug("pkg:maven/org.springframework.boot/spring-boot@2.7.0"),
+    "maven-org-springframework-boot-spring-boot",
+  );
   assert.equal(productSlug("pkg:composer/laravel/framework"), "composer-laravel-framework");
 });
 
@@ -75,11 +78,22 @@ test("selection keeps the curated order, then fills by lifecycle-rule count and 
       registry([
         rule({ id: "priority.nodejs", purl: "pkg:generic/nodejs", event: "deprecated", title: "Node.js symbol" }),
         rule({ id: "fill.many.a", purl: "pkg:generic/zeta", title: "Zeta old" }),
-        rule({ id: "fill.many.b", purl: "pkg:generic/zeta", event: "end-of-support", title: "Zeta support", deadline: "2025-01-01" }),
+        rule({
+          id: "fill.many.b",
+          purl: "pkg:generic/zeta",
+          event: "end-of-support",
+          title: "Zeta support",
+          deadline: "2025-01-01",
+        }),
         rule({ id: "fill.alpha", purl: "pkg:generic/alpha", event: "scheduled-end-of-life", title: "Alpha scheduled" }),
         rule({ id: "fill.beta", purl: "pkg:generic/beta", title: "Beta ended" }),
         rule({ id: "fill.deprecated", purl: "pkg:generic/mmm", event: "deprecated", title: "Mmm deprecated" }),
-        rule({ id: "versioned", purl: "pkg:generic/nodejs@20.0.0", event: "end-of-life", title: "Node.js 20 is end of life" }),
+        rule({
+          id: "versioned",
+          purl: "pkg:generic/nodejs@20.0.0",
+          event: "end-of-life",
+          title: "Node.js 20 is end of life",
+        }),
       ]),
     ],
     4,
@@ -195,7 +209,10 @@ test("a rule cannot inject markup into the page or close the structured-data ele
     ],
   });
   assert.match(page, /^# Is Demo &lt;script&gt; end of life\?$/m);
-  assert.match(page, /\[Demo &lt;\/script&gt;&lt;script&gt;alert\(1\)&lt;\/script&gt; \\\| now\]\(\.\.\/rules\/demo\.thing\.eol-1\.html\)/);
+  assert.match(
+    page,
+    /\[Demo &lt;\/script&gt;&lt;script&gt;alert\(1\)&lt;\/script&gt; \\\| now\]\(\.\.\/rules\/demo\.thing\.eol-1\.html\)/,
+  );
   assert.match(page, /`vers:semver\/<2\\\|>=1`/);
   assert.match(page, /\[Demo \\\[doc\\\] &lt;x&gt;\]\(https:\/\/example\.com\/a\?b=1&c=2\)/);
   const body = page.slice(page.indexOf("\n---\n", 4));
@@ -264,7 +281,9 @@ test("CI and the npm scripts run the answer-page drift check", async () => {
   const workflow = parse(await readFile(".github/workflows/ci.yml", "utf8")) as {
     jobs: { check: { steps: Array<{ name?: string; run?: string; if?: string }> } };
   };
-  const reference = workflow.jobs.check.steps.find((item) => item.run === "node dist/tools/build-reference-pages.js --check");
+  const reference = workflow.jobs.check.steps.find(
+    (item) => item.run === "node dist/tools/build-reference-pages.js --check",
+  );
   const step = workflow.jobs.check.steps.find((item) => item.run === "node dist/tools/build-answer-pages.js --check");
   assert.ok(reference, "ci.yml has no reference-page drift step");
   assert.ok(step, "ci.yml has no answer-page drift step");
@@ -274,6 +293,9 @@ test("CI and the npm scripts run the answer-page drift check", async () => {
 
   const pkg = JSON.parse(await readFile("package.json", "utf8")) as { scripts: Record<string, string> };
   assert.equal(pkg.scripts["build:answer-pages"], "npm run build --silent && node dist/tools/build-answer-pages.js");
-  assert.equal(pkg.scripts["check:answer-pages"], "npm run build --silent && node dist/tools/build-answer-pages.js --check");
+  assert.equal(
+    pkg.scripts["check:answer-pages"],
+    "npm run build --silent && node dist/tools/build-answer-pages.js --check",
+  );
   assert.match(await readFile("AGENTS.md", "utf8"), /`docs\/eol\/` \| `npm run build:answer-pages`/);
 });

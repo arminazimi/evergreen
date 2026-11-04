@@ -8,7 +8,7 @@ const collapse = (html: string) => stripHtml(html).replace(/\s+/g, " ").trim();
 test("stripHtml removes a script block whose closing tag has whitespace before the angle bracket", () => {
   // CodeQL's js/bad-tag-filter names exactly this case: `</script >` next to `</script>`.
   assert.equal(collapse("a<script>evil()</script >b"), "a b");
-  assert.equal(collapse("a<SCRIPT type=\"text/javascript\">evil()</SCRIPT\n>b"), "a b");
+  assert.equal(collapse('a<SCRIPT type="text/javascript">evil()</SCRIPT\n>b'), "a b");
   assert.equal(collapse("a<style>body{}</style\t>b"), "a b");
 });
 
@@ -41,7 +41,8 @@ test("decodeEntities decodes in one pass so an escaped tag stays text", () => {
 
 test("decodeEntities handles named, decimal, and hex references", () => {
   assert.equal(decodeEntities("A&nbsp;B"), "A B");
-  assert.equal(decodeEntities("&quot;&#39;&apos;"), "\"''");  assert.equal(decodeEntities("&#65;&#x42;&#x63;"), "ABc");
+  assert.equal(decodeEntities("&quot;&#39;&apos;"), "\"''");
+  assert.equal(decodeEntities("&#65;&#x42;&#x63;"), "ABc");
   assert.equal(decodeEntities("&AMP;"), "&");
 });
 

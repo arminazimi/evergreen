@@ -166,7 +166,9 @@ function parse(input: string): ListItem {
   for (let index = 0; index < version.length; index++) {
     const character = version[index]!;
     if (character === ".") {
-      list.items.push(index === start ? new IntItem(0n) : parseItem(isCombination, isDigit, version.slice(start, index)));
+      list.items.push(
+        index === start ? new IntItem(0n) : parseItem(isCombination, isDigit, version.slice(start, index)),
+      );
       isCombination = false;
       start = index + 1;
     } else if (character === "-") {

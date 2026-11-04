@@ -18,7 +18,10 @@ async function repository(): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-status-"));
   roots.push(root);
   await mkdir(join(root, ".github", "workflows"), { recursive: true });
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
   return root;
 }
 
@@ -47,7 +50,14 @@ const scan = (overrides: Partial<ScanResult> = {}): ScanResult => ({
 test("the status file lists counts, the baseline, the data version, and the findings", () => {
   const text = renderStatusFile(
     scan({
-      data: { source: "cache", version: "2026.10.01", createdAt: "2026-10-01T00:00:00Z", reviewedThrough: "2026-09-30", ageDays: 9, stale: false },
+      data: {
+        source: "cache",
+        version: "2026.10.01",
+        createdAt: "2026-10-01T00:00:00Z",
+        reviewedThrough: "2026-09-30",
+        ageDays: 9,
+        stale: false,
+      },
       suppressions: { suppressed: 4, expiring: [], expired: [] },
     }),
   );
@@ -60,15 +70,32 @@ test("the status file lists counts, the baseline, the data version, and the find
 });
 
 test("the status file does not depend on the machine, the time, or how old the data is", () => {
-  const data = { source: "bundled" as const, version: "2026.10.01", createdAt: null, reviewedThrough: "2026-09-30", ageDays: 1, stale: false };
+  const data = {
+    source: "bundled" as const,
+    version: "2026.10.01",
+    createdAt: null,
+    reviewedThrough: "2026-09-30",
+    ageDays: 1,
+    stale: false,
+  };
   const first = renderStatusFile(scan({ data }));
-  const later = renderStatusFile(scan({ root: "/elsewhere", scannedAt: "2027-01-01T00:00:00.000Z", data: { ...data, source: "cache", ageDays: 90, stale: true } }));
+  const later = renderStatusFile(
+    scan({
+      root: "/elsewhere",
+      scannedAt: "2027-01-01T00:00:00.000Z",
+      data: { ...data, source: "cache", ageDays: 90, stale: true },
+    }),
+  );
   assert.equal(later, first);
   assert.doesNotMatch(first, /machine|2026-10-16|ageDays|stale/i);
 });
 
 test("a long scan stays short", () => {
-  const findings = Array.from({ length: 400 }, (_, index) => ({ ...sample, id: `id-${index}`, location: { path: `src/${index}.ts`, line: 1 } }));
+  const findings = Array.from({ length: 400 }, (_, index) => ({
+    ...sample,
+    id: `id-${index}`,
+    location: { path: `src/${index}.ts`, line: 1 },
+  }));
   const text = renderStatusFile(scan({ findings }));
   assert.ok(text.split("\n").length < 50);
   assert.match(text, /375 more findings omitted/);
@@ -78,7 +105,11 @@ test("scan --write-status writes the file next to the scan, and a second run cha
   const root = await repository();
   const first = await runCli(["scan", root, "--write-status", "--json"]);
   assert.equal(first.code, 0);
-  assert.equal((JSON.parse(first.stdout) as { schemaVersion: string }).schemaVersion, "evergreen.scan.v1", "stdout is still the scan result");
+  assert.equal(
+    (JSON.parse(first.stdout) as { schemaVersion: string }).schemaVersion,
+    "evergreen.scan.v1",
+    "stdout is still the scan result",
+  );
   assert.match(first.stderr, /Wrote EVERGREEN_STATUS\.md/);
   const written = await readFile(join(root, STATUS_FILE_NAME), "utf8");
   assert.match(written, /- Findings: 1 /);

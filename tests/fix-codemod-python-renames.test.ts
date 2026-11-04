@@ -108,7 +108,10 @@ test("each refused shape is reported and the file is left unchanged", async () =
     assert.deepEqual(patches, [], `${file} is unchanged`);
     assert.equal(refusals.length, count, `${file} refusal count`);
     if (reason !== undefined) {
-      assert.ok(refusals.every((refusal) => reason.test(refusal.reason)), `${file} refusal: ${refusals[0]?.reason}`);
+      assert.ok(
+        refusals.every((refusal) => reason.test(refusal.reason)),
+        `${file} refusal: ${refusals[0]?.reason}`,
+      );
     }
     assert.equal(await readFile(join(root, "app.py"), "utf8"), contents);
   }
@@ -124,19 +127,28 @@ const assertEquals: SymbolUsageMatcher = {
 
 test("the method shape reports an alias call on any receiver inside a TestCase and not outside one", async () => {
   const source = await readFile(join(fixtures, "testcase-aliases", "before.py"), "utf8");
-  const inside = await analyzePythonFile({ path: "app.py", language: "python", source }, [{ id: "rule", matchers: [assertEquals] }]);
+  const inside = await analyzePythonFile({ path: "app.py", language: "python", source }, [
+    { id: "rule", matchers: [assertEquals] },
+  ]);
   assert.ok(inside);
   const usages = inside.get("rule")!;
-  assert.deepEqual(usages.map((usage) => usage.location.line), [7, 23]);
+  assert.deepEqual(
+    usages.map((usage) => usage.location.line),
+    [7, 23],
+  );
   assert.ok(usages.some((usage) => usage.excerpt.includes("helper")));
 
   const negative = await readFile(join(fixtures, "refusals", "not-unittest.py"), "utf8");
-  const outside = await analyzePythonFile({ path: "app.py", language: "python", source: negative }, [{ id: "rule", matchers: [assertEquals] }]);
+  const outside = await analyzePythonFile({ path: "app.py", language: "python", source: negative }, [
+    { id: "rule", matchers: [assertEquals] },
+  ]);
   assert.ok(outside);
   assert.deepEqual(outside.get("rule"), []);
 
   const plain = await readFile(join(fixtures, "refusals", "non-testcase.py"), "utf8");
-  const plainResult = await analyzePythonFile({ path: "app.py", language: "python", source: plain }, [{ id: "rule", matchers: [assertEquals] }]);
+  const plainResult = await analyzePythonFile({ path: "app.py", language: "python", source: plain }, [
+    { id: "rule", matchers: [assertEquals] },
+  ]);
   assert.ok(plainResult);
   assert.deepEqual(plainResult.get("rule"), []);
 });
@@ -144,7 +156,10 @@ test("the method shape reports an alias call on any receiver inside a TestCase a
 test("fix --json reports the refusal", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-python-renames-cli-"));
   temporaryRoots.push(root);
-  await writeFile(join(root, "app.py"), await readFile(join(fixtures, "refusals", "assert-dict-contains-subset.py"), "utf8"));
+  await writeFile(
+    join(root, "app.py"),
+    await readFile(join(fixtures, "refusals", "assert-dict-contains-subset.py"), "utf8"),
+  );
 
   const { stdout } = await runCli(["fix", root, "--json"]);
   const report = JSON.parse(stdout) as { schemaVersion: string; refusals: FixRefusal[] };

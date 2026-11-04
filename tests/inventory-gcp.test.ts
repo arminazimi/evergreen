@@ -151,21 +151,48 @@ test("detection rejects every other importer's fixtures", async () => {
 
 test("output never contains a project id, number, service account, URL, IP address, or environment value", async () => {
   const files = DOCUMENTS.map((name) => join(GCP, name));
-  const identifiers = ["evergreen-demo-427819", "427819", "s3cr3t-token", "10.128.0.42", "iam.gserviceaccount.com", "cloudfunctions.net", "a.run.app", "appspot.com", "container.googleapis.com"];
+  const identifiers = [
+    "evergreen-demo-427819",
+    "427819",
+    "s3cr3t-token",
+    "10.128.0.42",
+    "iam.gserviceaccount.com",
+    "cloudfunctions.net",
+    "a.run.app",
+    "appspot.com",
+    "container.googleapis.com",
+  ];
   for (const extra of [[], ["--json"]]) {
     const result = await invokeCli("inventory", ...files, ...extra);
     assert.equal(result.code, 1);
-    for (const identifier of identifiers) assert.ok(!result.stdout.includes(identifier), `${identifier} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
+    for (const identifier of identifiers)
+      assert.ok(
+        !result.stdout.includes(identifier),
+        `${identifier} leaked${extra.length > 0 ? " in JSON" : " in text"}`,
+      );
   }
 });
 
 test("--redact hides every resource name in text and JSON output", async () => {
   const files = DOCUMENTS.map((name) => join(GCP, name));
-  const resources = ["legacy-thumbnail", "billing-report", "audit-export", "image-resize", "healthy-api", "invoice-api", "reporting", "multi-container", "analytics", "checkout", "payments"];
+  const resources = [
+    "legacy-thumbnail",
+    "billing-report",
+    "audit-export",
+    "image-resize",
+    "healthy-api",
+    "invoice-api",
+    "reporting",
+    "multi-container",
+    "analytics",
+    "checkout",
+    "payments",
+  ];
   for (const extra of [[], ["--json"]]) {
     const result = await invokeCli("inventory", ...files, "--redact", ...extra);
     assert.equal(result.code, 1);
-    for (const resource of resources) assert.ok(!result.stdout.includes(resource), `${resource} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
+    for (const resource of resources)
+      assert.ok(!result.stdout.includes(resource), `${resource} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
     assert.match(result.stdout, /[0-9a-f]{12}/);
   }
 });
@@ -175,7 +202,10 @@ test("the examples report an affected Google Cloud resource and exit 1", async (
     const result = await invokeCli("inventory", file, "--json");
     assert.equal(result.code, 1, file);
     const report = JSON.parse(result.stdout) as { results: Array<{ check: { status: string } }> };
-    assert.ok(report.results.some((entry) => entry.check.status === "affected"), file);
+    assert.ok(
+      report.results.some((entry) => entry.check.status === "affected"),
+      file,
+    );
   }
 });
 

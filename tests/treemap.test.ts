@@ -90,13 +90,26 @@ test("file and directory areas are proportional to their severity-weighted findi
   const directory = layout.directories.find((candidate) => candidate.path === "src")!;
   const inner = sum(directory.leaves.map(area));
   for (const leaf of directory.leaves) {
-    assert.ok(Math.abs(area(leaf) / inner - leaf.weight / directory.weight) <= 0.01, `${leaf.path} keeps its share of the area`);
-    assert.equal(leaf.weight, sum(findings.filter((item) => item.location.path === leaf.path).map((item) => TREEMAP_SEVERITY_WEIGHT[item.severity])));
+    assert.ok(
+      Math.abs(area(leaf) / inner - leaf.weight / directory.weight) <= 0.01,
+      `${leaf.path} keeps its share of the area`,
+    );
+    assert.equal(
+      leaf.weight,
+      sum(
+        findings
+          .filter((item) => item.location.path === leaf.path)
+          .map((item) => TREEMAP_SEVERITY_WEIGHT[item.severity]),
+      ),
+    );
   }
   const whole = layout.width * layout.height;
   const totalWeight = sum(layout.directories.map((item) => item.weight));
   for (const item of layout.directories) {
-    assert.ok(Math.abs(area(item) / whole - item.weight / totalWeight) <= 0.01, `${item.path} keeps its share of the canvas`);
+    assert.ok(
+      Math.abs(area(item) / whole - item.weight / totalWeight) <= 0.01,
+      `${item.path} keeps its share of the canvas`,
+    );
   }
 });
 
@@ -143,7 +156,9 @@ test("a directory past the limit folds its smallest files into one rectangle", (
 });
 
 test("a directory at the limit is not collapsed", () => {
-  const files = Array.from({ length: TREEMAP_DIRECTORY_FILE_LIMIT }, (_, index) => treemapFinding(`src/file-${index}.ts`, "high"));
+  const files = Array.from({ length: TREEMAP_DIRECTORY_FILE_LIMIT }, (_, index) =>
+    treemapFinding(`src/file-${index}.ts`, "high"),
+  );
   const layout = layoutTreemap(files);
   assert.equal(layout.directories[0]!.leaves.length, TREEMAP_DIRECTORY_FILE_LIMIT);
   assert.ok(layout.directories[0]!.leaves.every((leaf) => leaf.path !== undefined));
@@ -159,11 +174,7 @@ test("text on every severity color has at least 4.5:1 contrast in light and dark
 });
 
 test("every file rectangle links to its report section, is focusable, and names its path and counts", () => {
-  const result = scan([
-    finding("src/a.ts", "high"),
-    finding("src/a.ts", "low"),
-    finding("package.json", "critical"),
-  ]);
+  const result = scan([finding("src/a.ts", "high"), finding("src/a.ts", "low"), finding("package.json", "critical")]);
   const html = renderHtml(result);
   const svg = /<svg [^>]*class="evergreen-treemap"[^]*?<\/svg>/.exec(html)?.[0];
   assert.ok(svg, "the treemap is rendered");
@@ -194,7 +205,10 @@ test("the width and height options set the canvas and keep a readable minimum", 
   const wide = layoutTreemap(findings, { width: 900, height: 500 });
   assert.equal(wide.width, 900);
   assert.equal(wide.height, 500);
-  assert.match(renderTreemapSvg(findings, { width: 900, height: 500 }), /width="900" height="500" viewBox="0 0 900 500"/);
+  assert.match(
+    renderTreemapSvg(findings, { width: 900, height: 500 }),
+    /width="900" height="500" viewBox="0 0 900 500"/,
+  );
   const small = layoutTreemap(findings, { width: 100, height: 80 });
   assert.equal(small.width, 320);
   assert.equal(small.height, 160);

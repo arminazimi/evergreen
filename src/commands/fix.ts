@@ -27,12 +27,19 @@ export const command: CliCommand = {
       const json = state.args.includes("--json");
       const fixFlags = new Set(["--dry-run", "--branch", "--data-version", "--json"]);
       const unknownFlag = state.args.slice(1).find((argument) => argument.startsWith("-") && !fixFlags.has(argument));
-      if (unknownFlag !== undefined || state.positional.length > 1 || (state.args.includes("--dry-run") && state.args.includes("--branch")) || (json && state.args.includes("--branch"))) {
+      if (
+        unknownFlag !== undefined ||
+        state.positional.length > 1 ||
+        (state.args.includes("--dry-run") && state.args.includes("--branch")) ||
+        (json && state.args.includes("--branch"))
+      ) {
         return ctx.fail("usage", "Usage: evergreen fix [path] [--dry-run | --branch] [--json]");
       }
       const scanned = await scanRepository(state.pathArgument, builtInDetectors, { noCache: state.noCache });
       if (json) {
-        process.stdout.write(`${JSON.stringify({ schemaVersion: "evergreen.fix.v1", ...await planFixReport(scanned) }, null, 2)}\n`);
+        process.stdout.write(
+          `${JSON.stringify({ schemaVersion: "evergreen.fix.v1", ...(await planFixReport(scanned)) }, null, 2)}\n`,
+        );
         return 0;
       }
       const patches = await planFixes(scanned);
@@ -42,12 +49,20 @@ export const command: CliCommand = {
       }
       if (state.args.includes("--branch")) {
         const applied = await applyOnBranch(state.pathArgument, patches);
-        process.stderr.write(`Committed ${applied.files.length} file${applied.files.length === 1 ? "" : "s"} on branch ${applied.branch} (${applied.commit}). Nothing was pushed; undo with: git branch -D ${applied.branch}\n`);
-        process.stderr.write(renderVerification(verifyFix(scanned, await scanRepository(state.pathArgument, builtInDetectors, { noCache: state.noCache }))));
+        process.stderr.write(
+          `Committed ${applied.files.length} file${applied.files.length === 1 ? "" : "s"} on branch ${applied.branch} (${applied.commit}). Nothing was pushed; undo with: git branch -D ${applied.branch}\n`,
+        );
+        process.stderr.write(
+          renderVerification(
+            verifyFix(scanned, await scanRepository(state.pathArgument, builtInDetectors, { noCache: state.noCache })),
+          ),
+        );
         return 0;
       }
       process.stdout.write(renderPatches(patches));
-      process.stderr.write(`${patches.length} patch${patches.length === 1 ? "" : "es"} printed; nothing was written. Apply with: evergreen fix | git apply\n`);
+      process.stderr.write(
+        `${patches.length} patch${patches.length === 1 ? "" : "es"} printed; nothing was written. Apply with: evergreen fix | git apply\n`,
+      );
       return 0;
     });
   },

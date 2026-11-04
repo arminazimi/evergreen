@@ -26,7 +26,8 @@ function releases(text: string): Release[] {
 export const rustToolchainImporter: Importer = {
   id: "rust-1",
   ecosystem: "rust",
-  description: "The Rust releases that are no longer supported, from the policy that only the most recent stable release is",
+  description:
+    "The Rust releases that are no longer supported, from the policy that only the most recent stable release is",
   sources: SOURCES,
 
   async import(context) {
@@ -35,12 +36,19 @@ export const rustToolchainImporter: Importer = {
     const all = releases(await context.fetchText(RUST_RELEASES_URL));
     // Only releases that have happened: a heading can carry the date of a release that is still to come.
     const out = all.filter((release) => release.date > today);
-    if (out.length > 0) notes.push(`Ignored ${out.length} release heading${out.length === 1 ? "" : "s"} dated after ${today}.`);
+    if (out.length > 0)
+      notes.push(`Ignored ${out.length} release heading${out.length === 1 ? "" : "s"} dated after ${today}.`);
     const happened = all.filter((release) => release.date <= today);
 
     const firsts = new Map<number, string>();
     for (const release of happened) if (release.patch === 0) firsts.set(release.minor, release.date);
-    const newest = happened.reduce<Release | undefined>((best, release) => (!best || release.minor > best.minor || (release.minor === best.minor && release.patch > best.patch) ? release : best), undefined);
+    const newest = happened.reduce<Release | undefined>(
+      (best, release) =>
+        !best || release.minor > best.minor || (release.minor === best.minor && release.patch > best.patch)
+          ? release
+          : best,
+      undefined,
+    );
     const newestMinor = newest?.minor;
     const first = newestMinor === undefined ? undefined : firsts.get(newestMinor);
     if (newest === undefined || newestMinor === undefined || first === undefined || newestMinor < 1) {

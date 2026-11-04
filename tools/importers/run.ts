@@ -31,13 +31,18 @@ export async function runImporter(importer: Importer, context: ImporterContext):
   if (!SLUG.test(importer.ecosystem)) throw new ImporterError(`${name}: ecosystem must be a lowercase slug.`);
 
   const output = await importer.import(context);
-  if (!Array.isArray(output.rules) || !Array.isArray(output.notes) || !output.notes.every((note) => typeof note === "string" && note.trim())) {
+  if (
+    !Array.isArray(output.rules) ||
+    !Array.isArray(output.notes) ||
+    !output.notes.every((note) => typeof note === "string" && note.trim())
+  ) {
     throw new ImporterError(`${name}: must return rules and notes (a list of non-empty strings).`);
   }
 
   const observedAt = isoDate(context.now);
   const rules = output.rules.map((draft) => {
-    if ("provenance" in draft) throw new ImporterError(`${name}: draft rules must not set provenance; the runner stamps it.`);
+    if ("provenance" in draft)
+      throw new ImporterError(`${name}: draft rules must not set provenance; the runner stamps it.`);
     return canonicalRule({
       ...draft,
       provenance: { observedAt, reviewedAt: observedAt, reviewer: PENDING_REVIEWER, importer: importer.id },
@@ -47,7 +52,12 @@ export async function runImporter(importer: Importer, context: ImporterContext):
 
   const issues = registryV2Issues({ schemaVersion: REGISTRY_V2_SCHEMA_VERSION, ecosystem: importer.ecosystem, rules });
   if (issues.length > 0) {
-    throw new ImporterError(`${name} produced invalid draft rules:\n${issues.slice(0, 20).map((issue) => `- ${issue}`).join("\n")}`);
+    throw new ImporterError(
+      `${name} produced invalid draft rules:\n${issues
+        .slice(0, 20)
+        .map((issue) => `- ${issue}`)
+        .join("\n")}`,
+    );
   }
   return { importer: importer.id, ecosystem: importer.ecosystem, observedAt, rules, notes: output.notes };
 }
@@ -96,17 +106,21 @@ export interface ExecuteOptions {
 /** Runs an importer live, while recording, or from a recording. */
 export async function execute(importer: Importer, options: ExecuteOptions = {}): Promise<DraftRegistry> {
   if (options.record && options.replay) throw new ImporterError("Use either --record or --replay, not both.");
-  if (options.now !== undefined && !isIsoDate(options.now)) throw new ImporterError("--now must be a date (YYYY-MM-DD).");
+  if (options.now !== undefined && !isIsoDate(options.now))
+    throw new ImporterError("--now must be a date (YYYY-MM-DD).");
   const now = options.now ? new Date(`${options.now}T12:00:00Z`) : undefined;
 
   if (options.replay) {
     const recording = await readRecording(options.replay);
-    if (recording.importer !== importer.id) throw new ImporterError(`Recording is for "${recording.importer}", not "${importer.id}".`);
+    if (recording.importer !== importer.id)
+      throw new ImporterError(`Recording is for "${recording.importer}", not "${importer.id}".`);
     const replay = replayContext(recording, now);
     const drafts = await runImporter(importer, replay);
     const unused = replay.unused();
     if (unused.length > 0) {
-      throw new ImporterError(`Recording has responses the importer no longer reads: ${unused.map((response) => response.url).join(", ")}. Record it again.`);
+      throw new ImporterError(
+        `Recording has responses the importer no longer reads: ${unused.map((response) => response.url).join(", ")}. Record it again.`,
+      );
     }
     return drafts;
   }
@@ -132,21 +146,36 @@ export async function main(argv: string[]): Promise<number> {
   for (let index = 0; index < argv.length; index++) {
     const argument = argv[index]!;
     if (argument === "--list") flags.add(argument);
-    else if (argument.startsWith("--")) values.set(argument, argv[++index] ?? (() => { throw new ImporterError(`${argument} needs a value.`); })());
+    else if (argument.startsWith("--"))
+      values.set(
+        argument,
+        argv[++index] ??
+          (() => {
+            throw new ImporterError(`${argument} needs a value.`);
+          })(),
+      );
     else if (id === undefined) id = argument;
     else throw new ImporterError(`Unexpected argument "${argument}".`);
   }
 
   const importers = await registeredImporters();
   if (flags.has("--list")) {
-    process.stdout.write(importers.length === 0
-      ? "No importers are registered yet.\n"
-      : `${importers.map((importer) => `${importer.id}\t${importer.ecosystem}\t${importer.description}`).join("\n")}\n`);
+    process.stdout.write(
+      importers.length === 0
+        ? "No importers are registered yet.\n"
+        : `${importers.map((importer) => `${importer.id}\t${importer.ecosystem}\t${importer.description}`).join("\n")}\n`,
+    );
     return 0;
   }
-  if (!id) throw new ImporterError("Usage: run <importer-id> [--out FILE] [--now DATE] [--record FILE | --replay FILE], or run --list");
+  if (!id)
+    throw new ImporterError(
+      "Usage: run <importer-id> [--out FILE] [--now DATE] [--record FILE | --replay FILE], or run --list",
+    );
   const importer = importers.find((candidate) => candidate.id === id);
-  if (!importer) throw new ImporterError(`Unknown importer "${id}". Known: ${importers.map((candidate) => candidate.id).join(", ") || "none"}.`);
+  if (!importer)
+    throw new ImporterError(
+      `Unknown importer "${id}". Known: ${importers.map((candidate) => candidate.id).join(", ") || "none"}.`,
+    );
 
   const drafts = await execute(importer, {
     ...(values.has("--record") ? { record: values.get("--record")! } : {}),

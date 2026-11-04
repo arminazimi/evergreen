@@ -19,9 +19,13 @@ const scratch = async () => {
 };
 
 test("logging is off unless EVERGREEN_USAGE_LOG is set", () => {
-  for (const value of [undefined, "", "0", "false", "off"]) assert.equal(usageLogPath({ EVERGREEN_USAGE_LOG: value }), undefined);
+  for (const value of [undefined, "", "0", "false", "off"])
+    assert.equal(usageLogPath({ EVERGREEN_USAGE_LOG: value }), undefined);
   assert.equal(usageLogPath({ EVERGREEN_USAGE_LOG: "/tmp/x.jsonl" }), "/tmp/x.jsonl");
-  assert.match(usageLogPath({ EVERGREEN_USAGE_LOG: "1", EVERGREEN_DATA_DIR: "/cache" }) ?? "", /[\\/]cache[\\/]usage\.jsonl$/);
+  assert.match(
+    usageLogPath({ EVERGREEN_USAGE_LOG: "1", EVERGREEN_DATA_DIR: "/cache" }) ?? "",
+    /[\\/]cache[\\/]usage\.jsonl$/,
+  );
 });
 
 test("a check writes nothing while disabled and one line without repository details while enabled", async () => {
@@ -40,7 +44,10 @@ test("a check writes nothing while disabled and one line without repository deta
     if (saved === undefined) delete process.env.EVERGREEN_USAGE_LOG;
     else process.env.EVERGREEN_USAGE_LOG = saved;
   }
-  const lines = (await readFile(file, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+  const lines = (await readFile(file, "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line));
   assert.equal(lines.length, 2);
   assert.deepEqual(Object.keys(lines[0]).sort(), ["at", "purl", "ruleIds", "severity", "status", "version"]);
   assert.equal(lines[0].status, "affected");
@@ -64,21 +71,40 @@ test("an unwritable log never fails the check", async () => {
 test("the summary lists checks and blocks, skips bad lines, and treats a missing file as empty", async () => {
   const dir = await scratch();
   const file = join(dir, "usage.jsonl");
-  const entry = (purl: string, status: string, at: string, extra = {}) => JSON.stringify({ at, purl, status, ruleIds: [], ...extra });
-  await writeFile(file, [
-    entry("pkg:npm/request", "affected", "2026-10-01T00:00:00.000Z", { severity: "high", ruleIds: ["npm.package.request.deprecated"] }),
-    entry("pkg:npm/request", "affected", "2026-10-02T00:00:00.000Z", { severity: "high", ruleIds: ["npm.package.request.deprecated"] }),
-    entry("pkg:pypi/nose", "affected", "2026-10-03T00:00:00.000Z", { severity: "medium", ruleIds: ["python.package.nose.unmaintained"] }),
-    entry("pkg:npm/express", "no-data", "2026-10-04T00:00:00.000Z"),
-    "not json",
-    '{"at":1}',
-  ].join("\n"));
+  const entry = (purl: string, status: string, at: string, extra = {}) =>
+    JSON.stringify({ at, purl, status, ruleIds: [], ...extra });
+  await writeFile(
+    file,
+    [
+      entry("pkg:npm/request", "affected", "2026-10-01T00:00:00.000Z", {
+        severity: "high",
+        ruleIds: ["npm.package.request.deprecated"],
+      }),
+      entry("pkg:npm/request", "affected", "2026-10-02T00:00:00.000Z", {
+        severity: "high",
+        ruleIds: ["npm.package.request.deprecated"],
+      }),
+      entry("pkg:pypi/nose", "affected", "2026-10-03T00:00:00.000Z", {
+        severity: "medium",
+        ruleIds: ["python.package.nose.unmaintained"],
+      }),
+      entry("pkg:npm/express", "no-data", "2026-10-04T00:00:00.000Z"),
+      "not json",
+      '{"at":1}',
+    ].join("\n"),
+  );
 
   const summary = await summarizeUsage(file);
   assert.equal(summary.checks, 4);
   assert.equal(summary.skipped, 2);
   assert.deepEqual(summary.byStatus, { affected: 3, "version-dependent": 0, "not-affected": 0, "no-data": 1 });
-  assert.deepEqual(summary.blocked.map((item) => [item.purl, item.count]), [["pkg:npm/request", 2], ["pkg:pypi/nose", 1]]);
+  assert.deepEqual(
+    summary.blocked.map((item) => [item.purl, item.count]),
+    [
+      ["pkg:npm/request", 2],
+      ["pkg:pypi/nose", 1],
+    ],
+  );
   assert.equal(summary.firstAt, "2026-10-01T00:00:00.000Z");
   const text = renderUsageText(summary);
   assert.match(text, /blocked \(affected\): 3/);
@@ -99,7 +125,10 @@ test("the command reports that logging is off, and summarizes a file once it is 
   assert.equal(off.code, 0, off.stderr);
   assert.match(off.stdout, /Usage logging is off/);
 
-  assert.equal((await run({ EVERGREEN_USAGE_LOG: file }, "check", "pkg:npm/request@2.88.2", "--fail-on", "none")).code, 0);
+  assert.equal(
+    (await run({ EVERGREEN_USAGE_LOG: file }, "check", "pkg:npm/request@2.88.2", "--fail-on", "none")).code,
+    0,
+  );
   const on = await run({ EVERGREEN_USAGE_LOG: file }, "usage", "--json");
   assert.equal(on.code, 0, on.stderr);
   const summary = JSON.parse(on.stdout);

@@ -94,7 +94,13 @@ test("every Rust source is collected, and the report is a drift", async () => {
 test("rust-version is a floor, never a pin, in package and workspace.package", async () => {
   const runtime = await report("drifted");
   const floors = runtime.pins.filter((pin) => pin.source === "Cargo.toml rust-version");
-  assert.deepEqual(floors.map((pin) => [pin.line, pin.raw, pin.kind]), [[4, "1.70", "floor"], [7, "1.75", "floor"]]);
+  assert.deepEqual(
+    floors.map((pin) => [pin.line, pin.raw, pin.kind]),
+    [
+      [4, "1.70", "floor"],
+      [7, "1.75", "floor"],
+    ],
+  );
   assert.deepEqual(runtime.floorConflicts, []);
 });
 
@@ -103,14 +109,20 @@ test("a consistent repository has one release and no conflicts", async () => {
   assert.equal(runtime.drifted, false);
   assert.deepEqual(runtime.releases, ["1.79"]);
   assert.deepEqual(runtime.floorConflicts, []);
-  assert.equal(runtime.pins.every((pin) => pin.release === "1.79" || pin.kind === "floor"), true);
+  assert.equal(
+    runtime.pins.every((pin) => pin.release === "1.79" || pin.kind === "floor"),
+    true,
+  );
 });
 
 test("a rust-version above the toolchain is a floor conflict", async () => {
   const runtime = await report("floor-conflict");
   assert.equal(runtime.drifted, false);
   assert.deepEqual(runtime.releases, ["1.75"]);
-  assert.deepEqual(runtime.floorConflicts.map((pin) => [pin.path, pin.line, pin.raw, pin.release]), [["Cargo.toml", 4, "1.79", "1.79"]]);
+  assert.deepEqual(
+    runtime.floorConflicts.map((pin) => [pin.path, pin.line, pin.raw, pin.release]),
+    [["Cargo.toml", 4, "1.79", "1.79"]],
+  );
   assert.equal((await run("drift", resolve(fixtures, "floor-conflict"), "--runtime", "rust", "--check")).code, 1);
 });
 
@@ -154,9 +166,18 @@ test("align prints a patch for every understood source, applies cleanly, and rem
   await writeFile(join(root, ".tool-versions"), "rust 1.75.0\nnodejs 22.11.0\n");
   await writeFile(join(root, "Cargo.toml"), '[package]\nname = "align"\nversion = "0.1.0"\nrust-version = "1.75"\n');
   await writeFile(join(root, "Dockerfile"), "FROM rust:1.75.0-slim-bookworm AS build\nRUN cargo build\n");
-  await writeFile(join(root, ".github", "workflows", "ref.yml"), "jobs:\n  test:\n    steps:\n      - uses: dtolnay/rust-toolchain@1.75.0\n");
-  await writeFile(join(root, ".github", "workflows", "input.yml"), "jobs:\n  test:\n    steps:\n      - uses: dtolnay/rust-toolchain@stable\n        with:\n          toolchain: 1.75.0\n");
-  await writeFile(join(root, ".github", "workflows", "actions-rs.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions-rs/toolchain@v1\n        with:\n          toolchain: 1.75.0\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ref.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: dtolnay/rust-toolchain@1.75.0\n",
+  );
+  await writeFile(
+    join(root, ".github", "workflows", "input.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: dtolnay/rust-toolchain@stable\n        with:\n          toolchain: 1.75.0\n",
+  );
+  await writeFile(
+    join(root, ".github", "workflows", "actions-rs.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions-rs/toolchain@v1\n        with:\n          toolchain: 1.75.0\n",
+  );
   await writeFile(join(root, ".github", "workflows", "container.yml"), "jobs:\n  test:\n    container: rust:1.75.0\n");
   await writeFile(join(root, ".gitlab-ci.yml"), "build:\n  image: rust:1.75.0\n");
   await writeFile(join(root, ".circleci", "config.yml"), "jobs:\n  build:\n    docker:\n      - image: rust:1.75.0\n");
@@ -165,7 +186,19 @@ test("align prints a patch for every understood source, applies cleanly, and rem
 
   const aligned = await run("drift", root, "--runtime", "rust", "--align", "1.82");
   assert.equal(aligned.code, 0, aligned.stderr);
-  for (const file of ["rust-toolchain.toml", "rust-toolchain", ".tool-versions", "Dockerfile", ".github/workflows/ref.yml", ".github/workflows/input.yml", ".github/workflows/actions-rs.yml", ".github/workflows/container.yml", ".gitlab-ci.yml", ".circleci/config.yml", "azure-pipelines.yml"]) {
+  for (const file of [
+    "rust-toolchain.toml",
+    "rust-toolchain",
+    ".tool-versions",
+    "Dockerfile",
+    ".github/workflows/ref.yml",
+    ".github/workflows/input.yml",
+    ".github/workflows/actions-rs.yml",
+    ".github/workflows/container.yml",
+    ".gitlab-ci.yml",
+    ".circleci/config.yml",
+    "azure-pipelines.yml",
+  ]) {
     assert.ok(aligned.stdout.includes(`+++ b/${file}`), file);
   }
   assert.ok(!aligned.stdout.includes("+++ b/Cargo.toml"));

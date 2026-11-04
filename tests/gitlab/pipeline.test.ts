@@ -7,7 +7,10 @@ import { test } from "node:test";
 
 import { parseAllDocuments } from "yaml";
 
-interface Job { variables: Record<string, string>; script: string[] }
+interface Job {
+  variables: Record<string, string>;
+  script: string[];
+}
 
 // Forward slashes keep the path intact inside a POSIX shell script on Windows too.
 const cli = resolve("dist/src/cli.js").replaceAll("\\", "/");
@@ -19,7 +22,10 @@ async function runJob(fixture: string, inputs: Record<string, string> = {}) {
   const [spec, body] = parseAllDocuments(await readFile(resolve("templates/evergreen.yml"), "utf8"));
   const declared = (spec!.toJS() as { spec: { inputs: Record<string, { default: unknown }> } }).spec.inputs;
   const substitute = (text: string) =>
-    text.replace(/\$\[\[\s*inputs\.(\w+)\s*\]\]/g, (_, name: string) => inputs[name] ?? String(declared[name]!.default));
+    text.replace(
+      /\$\[\[\s*inputs\.(\w+)\s*\]\]/g,
+      (_, name: string) => inputs[name] ?? String(declared[name]!.default),
+    );
   const job = (body!.toJS() as { evergreen: Job }).evergreen;
   const published = substitute(job.script.join("\n"));
   const script = published.replace(/npx --yes "evergreen-deprecation@[^"]*"/, `node "${cli}"`);
@@ -30,8 +36,17 @@ async function runJob(fixture: string, inputs: Record<string, string> = {}) {
     await cp(join(fixtures, fixture), dir, { recursive: true });
     const result = spawnSync("sh", ["-c", script], { cwd: dir, env: { ...process.env, ...env }, encoding: "utf8" });
     const report = await readFile(join(dir, env.EVERGREEN_REPORT!), "utf8").catch(() => undefined);
-    const codeQuality = await readFile(join(dir, env.EVERGREEN_CODE_QUALITY_REPORT!), "utf8").then((text) => JSON.parse(text) as { check_name: string }[], () => undefined);
-    return { codeQuality, status: result.status, stdout: result.stdout, stderr: result.stderr, report: report === undefined ? undefined : (JSON.parse(report) as { findings: unknown[] }) };
+    const codeQuality = await readFile(join(dir, env.EVERGREEN_CODE_QUALITY_REPORT!), "utf8").then(
+      (text) => JSON.parse(text) as { check_name: string }[],
+      () => undefined,
+    );
+    return {
+      codeQuality,
+      status: result.status,
+      stdout: result.stdout,
+      stderr: result.stderr,
+      report: report === undefined ? undefined : (JSON.parse(report) as { findings: unknown[] }),
+    };
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

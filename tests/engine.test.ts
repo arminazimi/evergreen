@@ -76,12 +76,14 @@ test("reports optional detector classifications in JSON and text", async () => {
     async analyze() {
       return {
         findings: [],
-        unclassified: [{
-          component: "owner/action",
-          reference: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          reason: "unknown-sha",
-          location: { path: ".github/workflows/ci.yml", line: 4 },
-        }],
+        unclassified: [
+          {
+            component: "owner/action",
+            reference: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            reason: "unknown-sha",
+            location: { path: ".github/workflows/ci.yml", line: 4 },
+          },
+        ],
       };
     },
   };
@@ -163,7 +165,8 @@ test("a coverage walk prefixes a detector directory with a long run of slashes i
 
 test("an unreadable directory does not crash a zero-finding coverage walk", async (t) => {
   if (process.platform === "win32") return t.skip("chmod 000 is not meaningful on Windows");
-  if (typeof process.getuid === "function" && process.getuid() === 0) return t.skip("root can read chmod 000 directories");
+  if (typeof process.getuid === "function" && process.getuid() === 0)
+    return t.skip("root can read chmod 000 directories");
 
   const root = await mkdtemp(join(tmpdir(), "evergreen-coverage-eacces-"));
   const locked = join(root, "locked");

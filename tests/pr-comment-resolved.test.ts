@@ -52,7 +52,11 @@ test("the comment is unchanged when the pull request resolved nothing", () => {
     ].join("\n"),
   );
   assert.equal(body.includes("| Severity | Fixed finding | Location |"), false, "no table when nothing was resolved");
-  assert.equal(renderComment([], false, "high", undefined, false).includes("Fixed by this pull request"), false, "a scan-mode comment has no resolved section");
+  assert.equal(
+    renderComment([], false, "high", undefined, false).includes("Fixed by this pull request"),
+    false,
+    "a scan-mode comment has no resolved section",
+  );
 });
 
 test("more than ten resolved findings are capped with a count of the rest", () => {

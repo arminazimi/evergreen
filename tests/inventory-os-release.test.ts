@@ -46,7 +46,7 @@ function lineValue(text: string, pointer: string): string | undefined {
   if (!match?.[1]) return undefined;
   const value = match[1];
   const quote = value[0];
-  return value.length >= 2 && (quote === "\"" || quote === "'") && value.endsWith(quote) ? value.slice(1, -1) : value;
+  return value.length >= 2 && (quote === '"' || quote === "'") && value.endsWith(quote) ? value.slice(1, -1) : value;
 }
 
 const distributions: Array<[file: string, purl: string, version: string, pointer: string, rule: string]> = [
@@ -74,7 +74,10 @@ test("every listed distribution is affected by a rule with a distribution source
     assert.equal(check.findings[0]?.ruleId, rule, name);
     const sources = check.findings[0]?.sources ?? [];
     assert.ok(sources.length > 0, name);
-    assert.ok(sources.every((source) => source.url.startsWith("https://")), name);
+    assert.ok(
+      sources.every((source) => source.url.startsWith("https://")),
+      name,
+    );
     assert.ok(!sources.some((source) => /endoflife\.date/.test(source.url)), `${name} cites an aggregator`);
   }
 });
@@ -146,8 +149,8 @@ test("a rolling version tag is recognized but not judged", async () => {
 });
 
 test("a supported release is not affected, and a distribution with no rule is no-data", async () => {
-  const supported = await temporaryExport("alpine-3.22.txt", "NAME=\"Alpine Linux\"\nID=alpine\nVERSION_ID=3.22.0\n");
-  const unknown = await temporaryExport("fedora-42.txt", "NAME=\"Fedora Linux\"\nID=fedora\nVERSION_ID=42\n");
+  const supported = await temporaryExport("alpine-3.22.txt", 'NAME="Alpine Linux"\nID=alpine\nVERSION_ID=3.22.0\n');
+  const unknown = await temporaryExport("fedora-42.txt", 'NAME="Fedora Linux"\nID=fedora\nVERSION_ID=42\n');
   const report = await runInventory([supported, unknown]);
   const statuses = new Map(report.results.map((result) => [result.item.resource, result.check.status]));
   assert.equal(statuses.get("alpine-3.22.txt"), "not-affected");
@@ -169,9 +172,14 @@ test("--json matches inventory.v1.schema.json, and --redact removes every host n
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   ajv.addSchema(JSON.parse(await readFile(resolve("schemas/check.v1.schema.json"), "utf8")) as object);
   ajv.addSchema(JSON.parse(await readFile(resolve("schemas/scan.v1.schema.json"), "utf8")) as object);
-  const validate = ajv.compile(JSON.parse(await readFile(resolve("schemas/inventory.v1.schema.json"), "utf8")) as object);
+  const validate = ajv.compile(
+    JSON.parse(await readFile(resolve("schemas/inventory.v1.schema.json"), "utf8")) as object,
+  );
   assert.equal(validate(report), true, JSON.stringify(validate.errors));
-  assert.deepEqual(report.results.map((result: { item: { resource: string } }) => result.item.resource), ["edge-1", "web-1", "db-1"]);
+  assert.deepEqual(
+    report.results.map((result: { item: { resource: string } }) => result.item.resource),
+    ["edge-1", "web-1", "db-1"],
+  );
 
   const redacted = await invokeCli("inventory", file, "--json", "--redact");
   assert.equal(redacted.code, 1);

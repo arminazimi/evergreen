@@ -53,7 +53,9 @@ export function renderInventoryText(report: InventoryReport, options: { color?: 
   const color = options.color ?? (Boolean(process.stdout.isTTY) && !process.env.NO_COLOR);
   const dim = (text: string): string => (color ? `${DIM}${text}${RESET}` : text);
   const affected = report.results.filter((result) => result.check.status === "affected");
-  const checked = report.results.filter((result) => result.check.status === "version-dependent" || result.check.status === "not-affected");
+  const checked = report.results.filter(
+    (result) => result.check.status === "version-dependent" || result.check.status === "not-affected",
+  );
   const noData = report.results.filter((result) => result.check.status === "no-data");
   const lines: string[] = [];
 
@@ -123,7 +125,9 @@ function parseArguments(args: string[]): InventoryOptions {
 function gateOf(option: string | undefined, configured: Severity | "none" | undefined): Severity | "none" {
   const gate = option ?? configured ?? "high";
   if (gate !== "none" && !severityValues.includes(gate as Severity)) {
-    throw new InventoryUsageError(`Unknown severity for --fail-on: ${gate} (expected none, ${severityValues.join(", ")}).`);
+    throw new InventoryUsageError(
+      `Unknown severity for --fail-on: ${gate} (expected none, ${severityValues.join(", ")}).`,
+    );
   }
   return gate as Severity | "none";
 }
@@ -162,13 +166,15 @@ export async function inventoryCommand(args: string[]): Promise<number> {
   const importers = inventoryImporters;
   if (options.format !== "auto" && !importers.some((importer) => importer.id === options.format)) {
     const ids = importers.map((importer) => importer.id);
-    throw new InventoryUsageError(`Unknown importer for --format: ${options.format}. Use auto${ids.length > 0 ? ` or one of: ${ids.join(", ")}` : ""}.`);
+    throw new InventoryUsageError(
+      `Unknown importer for --format: ${options.format}. Use auto${ids.length > 0 ? ` or one of: ${ids.join(", ")}` : ""}.`,
+    );
   }
 
   const open: string[] = [];
   const unreadable: string[] = [];
   for (const file of options.files) {
-    (await readableFile(file) ? open : unreadable).push(file);
+    ((await readableFile(file)) ? open : unreadable).push(file);
   }
 
   const report = await runInventory(open, importers, options.format === "auto" ? undefined : options.format);

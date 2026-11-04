@@ -27,19 +27,27 @@ function endOfLifeLines(text: string): ReleaseLine[] | undefined {
   const start = text.indexOf(END_OF_LIFE_HEADER);
   if (start < 0) return undefined;
   const lines = new Map<string, string>();
-  for (const row of text.slice(start + END_OF_LIFE_HEADER.length).matchAll(/\b(1\.\d+) (1\.\d+\.\d+) (\d{4}-\d{2}-\d{2})\b/g)) {
+  for (const row of text
+    .slice(start + END_OF_LIFE_HEADER.length)
+    .matchAll(/\b(1\.\d+) (1\.\d+\.\d+) (\d{4}-\d{2}-\d{2})\b/g)) {
     if (row[2]!.startsWith(`${row[1]}.`)) lines.set(row[1]!, row[3]!);
   }
-  return [...lines].map(([minor, endOfLife]) => ({ minor, endOfLife })).sort((left, right) => minorNumber(left.minor) - minorNumber(right.minor));
+  return [...lines]
+    .map(([minor, endOfLife]) => ({ minor, endOfLife }))
+    .sort((left, right) => minorNumber(left.minor) - minorNumber(right.minor));
 }
 
 /** Release lines that are still maintained: "1.37 Latest Release: 1.37.1 (released: ...) End of Life: 2027-10-28". */
 function maintainedLines(text: string): ReleaseLine[] {
   const lines = new Map<string, string>();
-  for (const row of text.matchAll(/\b(1\.\d+) Latest Release: 1\.\d+\.\d+ \(released: \d{4}-\d{2}-\d{2} ?\) End of Life: (\d{4}-\d{2}-\d{2})\b/g)) {
+  for (const row of text.matchAll(
+    /\b(1\.\d+) Latest Release: 1\.\d+\.\d+ \(released: \d{4}-\d{2}-\d{2} ?\) End of Life: (\d{4}-\d{2}-\d{2})\b/g,
+  )) {
     lines.set(row[1]!, row[2]!);
   }
-  return [...lines].map(([minor, endOfLife]) => ({ minor, endOfLife })).sort((left, right) => minorNumber(left.minor) - minorNumber(right.minor));
+  return [...lines]
+    .map(([minor, endOfLife]) => ({ minor, endOfLife }))
+    .sort((left, right) => minorNumber(left.minor) - minorNumber(right.minor));
 }
 
 function scheduledRule(line: ReleaseLine, oldest: string | undefined): DraftRule {
@@ -88,7 +96,11 @@ export const kubernetesReleasesImporter: Importer = {
     const maintained = maintainedLines(text).filter((line) => line.endOfLife > today);
     const oldest = maintained[0]?.minor;
     // An announced end within a year becomes a scheduled rule (decision 0010); a later one is only noted.
-    const horizon = new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())).toISOString().slice(0, 10);
+    const horizon = new Date(
+      Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate()),
+    )
+      .toISOString()
+      .slice(0, 10);
     const scheduled = maintained.filter((line) => line.endOfLife <= horizon);
 
     const notes: string[] = [];
@@ -98,6 +110,17 @@ export const kubernetesReleasesImporter: Importer = {
         : "No maintained release lines were found; the drafts have no replacement.",
     );
     notes.push("The drafts describe Kubernetes releases, not API versions; no detector reads them yet.");
-    return { rules: [...ended.map((line) => rule(line, oldest)), ...scheduled.map((line) => scheduledRule(line, maintained.find((candidate) => candidate.endOfLife > horizon)?.minor ?? maintained.at(-1)?.minor))], notes };
+    return {
+      rules: [
+        ...ended.map((line) => rule(line, oldest)),
+        ...scheduled.map((line) =>
+          scheduledRule(
+            line,
+            maintained.find((candidate) => candidate.endOfLife > horizon)?.minor ?? maintained.at(-1)?.minor,
+          ),
+        ),
+      ],
+      notes,
+    };
   },
 };

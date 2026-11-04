@@ -17,11 +17,7 @@ test("the agent guardrail tasks define 20 add-dependency prompts", () => {
 
 test("every guardrail task validates against the bundled registry offline", () => {
   const result = validateGuardrailTasks(loadGuardrailTasks(), loadBundledRegistryRules());
-  assert.deepEqual(
-    result.issues,
-    [],
-    result.issues.map((issue) => `${issue.taskId}: ${issue.message}`).join("\n"),
-  );
+  assert.deepEqual(result.issues, [], result.issues.map((issue) => `${issue.taskId}: ${issue.message}`).join("\n"));
   assert.equal(result.ok, true);
   assert.equal(result.taskCount, EXPECTED_TASK_COUNT);
 });

@@ -35,7 +35,12 @@ async function makeRepo(files: Record<string, string>): Promise<string> {
   return dir;
 }
 
-function has(pins: Awaited<ReturnType<typeof javaCollector.collect>>, source: string, raw: string, release: string): boolean {
+function has(
+  pins: Awaited<ReturnType<typeof javaCollector.collect>>,
+  source: string,
+  raw: string,
+  release: string,
+): boolean {
   return pins.some((pin) => pin.source === source && pin.raw === raw && pin.release === release);
 }
 
@@ -150,7 +155,10 @@ test("a multi-module build with one module out of line is drifted", async () => 
   const runtime = report.runtimes[0];
   assert.equal(runtime?.drifted, true);
   assert.deepEqual(runtime?.releases, ["17", "21"]);
-  assert.deepEqual(runtime?.pins.map((pin) => pin.path), ["module-a/pom.xml", "module-b/pom.xml", "pom.xml"]);
+  assert.deepEqual(
+    runtime?.pins.map((pin) => pin.path),
+    ["module-a/pom.xml", "module-b/pom.xml", "pom.xml"],
+  );
 });
 
 test("the text report names every pin and the drift", async () => {

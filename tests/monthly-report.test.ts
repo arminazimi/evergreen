@@ -96,23 +96,48 @@ test("collectCorpusMetrics parses repository counts and expected findings", asyn
     await mkdir(pythonDir, { recursive: true });
     await writeFile(
       join(nodeDir, "0000--org--repo-a.json"),
-      `${JSON.stringify({
-        repository: "org/repo-a",
-        commit: "a".repeat(40),
-        ecosystem: "node",
-        selection: "targeted",
-        expected: [{ ruleId: "r1", path: "package.json", groundTruthSource: { kind: "maintainer-review", note: "package.json" } }, { ruleId: "r2", path: "package.json", groundTruthSource: { kind: "maintainer-review", note: "package.json" } }],
-      }, null, 2)}\n`,
+      `${JSON.stringify(
+        {
+          repository: "org/repo-a",
+          commit: "a".repeat(40),
+          ecosystem: "node",
+          selection: "targeted",
+          expected: [
+            {
+              ruleId: "r1",
+              path: "package.json",
+              groundTruthSource: { kind: "maintainer-review", note: "package.json" },
+            },
+            {
+              ruleId: "r2",
+              path: "package.json",
+              groundTruthSource: { kind: "maintainer-review", note: "package.json" },
+            },
+          ],
+        },
+        null,
+        2,
+      )}\n`,
     );
     await writeFile(
       join(pythonDir, "0001--org--repo-b.json"),
-      `${JSON.stringify({
-        repository: "org/repo-b",
-        commit: "b".repeat(40),
-        ecosystem: "python",
-        selection: "blind",
-        expected: [{ ruleId: "r3", path: "pyproject.toml", groundTruthSource: { kind: "maintainer-review", note: "pyproject.toml" } }],
-      }, null, 2)}\n`,
+      `${JSON.stringify(
+        {
+          repository: "org/repo-b",
+          commit: "b".repeat(40),
+          ecosystem: "python",
+          selection: "blind",
+          expected: [
+            {
+              ruleId: "r3",
+              path: "pyproject.toml",
+              groundTruthSource: { kind: "maintainer-review", note: "pyproject.toml" },
+            },
+          ],
+        },
+        null,
+        2,
+      )}\n`,
     );
 
     const metrics = await collectCorpusMetrics(tempDir);
@@ -145,15 +170,45 @@ test("formatContributorName extracts name and trims correctly", () => {
 test("collectContributorMetrics counts authors and co-authors in a temporary git repository", async () => {
   const tempRepo = await mkdtemp(join(tmpdir(), "evergreen-test-git-repo-"));
   try {
-    const git = (...args: string[]) => execFileSync(
-      "git",
-      ["-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false", ...args],
-      { cwd: tempRepo, encoding: "utf8" },
-    );
+    const git = (...args: string[]) =>
+      execFileSync("git", ["-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false", ...args], {
+        cwd: tempRepo,
+        encoding: "utf8",
+      });
     git("init", "-q");
-    git("-c", "user.name=Alice", "-c", "user.email=alice@example.com", "commit", "-q", "--allow-empty", "-m", "initial commit");
-    git("-c", "user.name=Bob", "-c", "user.email=bob@example.com", "commit", "-q", "--allow-empty", "-m", "second commit\n\nCo-authored-by: Carol <carol@example.com>");
-    git("-c", "user.name=Alice", "-c", "user.email=alice@example.com", "commit", "-q", "--allow-empty", "-m", "third commit");
+    git(
+      "-c",
+      "user.name=Alice",
+      "-c",
+      "user.email=alice@example.com",
+      "commit",
+      "-q",
+      "--allow-empty",
+      "-m",
+      "initial commit",
+    );
+    git(
+      "-c",
+      "user.name=Bob",
+      "-c",
+      "user.email=bob@example.com",
+      "commit",
+      "-q",
+      "--allow-empty",
+      "-m",
+      "second commit\n\nCo-authored-by: Carol <carol@example.com>",
+    );
+    git(
+      "-c",
+      "user.name=Alice",
+      "-c",
+      "user.email=alice@example.com",
+      "commit",
+      "-q",
+      "--allow-empty",
+      "-m",
+      "third commit",
+    );
 
     const runner = createGitRunner(tempRepo);
     const metrics = collectContributorMetrics(runner);
@@ -175,13 +230,23 @@ test("collectContributorMetrics degrades gracefully in a shallow repository", as
   const sourceRepo = await mkdtemp(join(tmpdir(), "evergreen-shallow-source-"));
   const shallowClone = await mkdtemp(join(tmpdir(), "evergreen-shallow-clone-"));
   try {
-    const git = (...args: string[]) => execFileSync(
-      "git",
-      ["-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false", ...args],
-      { cwd: sourceRepo, encoding: "utf8" },
-    );
+    const git = (...args: string[]) =>
+      execFileSync("git", ["-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false", ...args], {
+        cwd: sourceRepo,
+        encoding: "utf8",
+      });
     git("init", "-q");
-    git("-c", "user.name=Alice", "-c", "user.email=alice@example.com", "commit", "-q", "--allow-empty", "-m", "commit 1");
+    git(
+      "-c",
+      "user.name=Alice",
+      "-c",
+      "user.email=alice@example.com",
+      "commit",
+      "-q",
+      "--allow-empty",
+      "-m",
+      "commit 1",
+    );
     git("-c", "user.name=Bob", "-c", "user.email=bob@example.com", "commit", "-q", "--allow-empty", "-m", "commit 2");
 
     execFileSync("git", ["clone", "--depth", "1", `file://${sourceRepo}`, shallowClone], { encoding: "utf8" });
@@ -400,7 +465,10 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /\| Lifecycle rules \| 100 rules \| 50 reviewed across 2 ecosystems \|/);
   assert.match(report, /\| Supported ecosystems \| 2 ecosystems \| 1 supported, 1 experimental \|/);
   assert.match(report, /\| Validation corpus \| 50 repositories \| 200 expected findings across 2 ecosystems \|/);
-  assert.match(report, /\| Contributors \| 2 contributors, 2 external \| 30 commits in 2026-10; 1 external contributors \|/);
+  assert.match(
+    report,
+    /\| Contributors \| 2 contributors, 2 external \| 30 commits in 2026-10; 1 external contributors \|/,
+  );
   assert.match(report, /\| Adoption \| 10 GitHub stars \| 10 stars \(\+2 vs last month\) \|/);
   assert.match(report, /\| Reference quality \| 187 over complexity; 573 non-null \|/);
   assert.doesNotMatch(report, /total across channels/);
@@ -416,7 +484,10 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /### North-star trend/);
   assert.match(report, /\*\*GitHub stars:\*\* 10 \(\+2 vs previous month\)/);
   assert.match(report, /### Channel breakdown/);
-  assert.match(report, /The change compares the newest snapshot of this month with the newest snapshot of the previous month\./);
+  assert.match(
+    report,
+    /The change compares the newest snapshot of this month with the newest snapshot of the previous month\./,
+  );
   assert.match(report, /\| Channel \| Count \| Change vs last month \|/);
   assert.match(report, /\| GitHub Action repositories \| 5 \(2 recurring\) \| \+1 \|/);
   assert.match(report, /\| Pre-commit hook repositories \| 1 \| 0 \|/);
@@ -441,7 +512,10 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /^## Review responsiveness$/m);
   assert.match(report, /\*\*2 working days\*\* of a first-time contributor opening a pull request/);
   assert.match(report, /\[CONTRIBUTING\.md\]\(CONTRIBUTING\.md#review-expectations\)/);
-  assert.match(report, /\| First review of a first-time contributor's pull request \| not measured \| 2 working days \|/);
+  assert.match(
+    report,
+    /\| First review of a first-time contributor's pull request \| not measured \| 2 working days \|/,
+  );
   assert.match(report, /does not print a number it cannot reproduce/);
   assert.match(report, /^## Contributors$/m);
   assert.match(report, /- Alice Smith/);
@@ -631,11 +705,9 @@ test("the review target in the report matches the one published in CONTRIBUTING.
 });
 
 test("CLI execution runs and exits successfully", async () => {
-  const stdoutResult = spawnSync(
-    process.execPath,
-    [resolve("dist/tools/monthly-report.js"), "--date", "2026-10"],
-    { encoding: "utf8" },
-  );
+  const stdoutResult = spawnSync(process.execPath, [resolve("dist/tools/monthly-report.js"), "--date", "2026-10"], {
+    encoding: "utf8",
+  });
   assert.equal(stdoutResult.status, 0, stdoutResult.stderr);
   assert.match(stdoutResult.stdout, /^# Evergreen Monthly Progress Report: 2026-10$/m);
 

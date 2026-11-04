@@ -5,11 +5,23 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { codexAdapter, codexFeedbackText, codexResponse, parseCodexPayload, patchFileNames } from "../src/agent-hooks/codex.js";
+import {
+  codexAdapter,
+  codexFeedbackText,
+  codexResponse,
+  parseCodexPayload,
+  patchFileNames,
+} from "../src/agent-hooks/codex.js";
 import { MAX_FEEDBACK_LINES } from "../src/agent-hooks/claude-code.js";
 import type { HookResponse } from "../src/agent-hooks/types.js";
 import type { Finding } from "../src/domain.js";
-import { CODEX_HOOK_COMMAND, CODEX_HOOK_MATCHER, CODEX_HOOKS_FILE, initCodexHooks, withCodexPostToolUse } from "../src/init-agents.js";
+import {
+  CODEX_HOOK_COMMAND,
+  CODEX_HOOK_MATCHER,
+  CODEX_HOOKS_FILE,
+  initCodexHooks,
+  withCodexPostToolUse,
+} from "../src/init-agents.js";
 
 const fixture = (name: string) => readFile(resolve("tests/fixtures/agent-hooks/codex", name), "utf8");
 const payload = async (name: string) => JSON.parse(await fixture(name)) as unknown;
@@ -50,13 +62,21 @@ test("a single-file patch payload parses to one repository-relative path", async
 
 test("a multi-file patch yields every added and updated file, in order, without the deleted one", async () => {
   const root = resolve("/Users/dev/app");
-  assert.deepEqual(parseCodexPayload(await payload("patch-multi.json"), {}), { root, files: ["scripts/healthcheck.js", "Dockerfile"] });
+  assert.deepEqual(parseCodexPayload(await payload("patch-multi.json"), {}), {
+    root,
+    files: ["scripts/healthcheck.js", "Dockerfile"],
+  });
   const multi = (await payload("patch-multi.json")) as { tool_input: { command: string } };
   assert.deepEqual(patchFileNames(multi.tool_input.command), ["scripts/healthcheck.js", "Dockerfile"]);
 });
 
 test("patch headers are read for add and update only, duplicates collapse, and a bare header is ignored", () => {
-  assert.deepEqual(patchFileNames("*** Begin Patch\n*** Update File: a.ts\n*** Update File: a.ts\n*** Add File: b.ts\n*** Delete File: c.ts\n*** Update File:  \n*** End Patch"), ["a.ts", "b.ts"]);
+  assert.deepEqual(
+    patchFileNames(
+      "*** Begin Patch\n*** Update File: a.ts\n*** Update File: a.ts\n*** Add File: b.ts\n*** Delete File: c.ts\n*** Update File:  \n*** End Patch",
+    ),
+    ["a.ts", "b.ts"],
+  );
   assert.deepEqual(patchFileNames("*** Begin Patch\n*** Delete File: only-removal.ts\n*** End Patch"), []);
 });
 
@@ -64,23 +84,55 @@ test("other tools and payloads without a changed file are not edit events", asyn
   assert.equal(parseCodexPayload(await payload("bash.json"), {}), undefined);
   assert.equal(parseCodexPayload({ tool_name: "apply_patch", tool_input: {}, cwd: "/Users/dev/app" }, {}), undefined);
   assert.equal(parseCodexPayload({ tool_name: "apply_patch", cwd: "/Users/dev/app" }, {}), undefined);
-  assert.equal(parseCodexPayload({ tool_name: "WebSearch", tool_input: { command: "*** Update File: Dockerfile" }, cwd: "/Users/dev/app" }, {}), undefined);
+  assert.equal(
+    parseCodexPayload(
+      { tool_name: "WebSearch", tool_input: { command: "*** Update File: Dockerfile" }, cwd: "/Users/dev/app" },
+      {},
+    ),
+    undefined,
+  );
   assert.equal(parseCodexPayload("not an object", {}), undefined);
 });
 
 test("Edit and Write tool names carry one file path; CODEX_PROJECT_DIR supplies the root", () => {
   const root = resolve("/Users/dev/app");
-  assert.deepEqual(parseCodexPayload({ tool_name: "Edit", tool_input: { file_path: "Dockerfile" }, cwd: "/Users/dev/app" }, {}), { root, files: ["Dockerfile"] });
-  assert.deepEqual(parseCodexPayload({ tool_name: "Write", tool_input: { file_path: "packages/app/Dockerfile" } }, { CODEX_PROJECT_DIR: "/Users/dev/app" }), {
-    root,
-    files: ["packages/app/Dockerfile"],
-  });
+  assert.deepEqual(
+    parseCodexPayload({ tool_name: "Edit", tool_input: { file_path: "Dockerfile" }, cwd: "/Users/dev/app" }, {}),
+    { root, files: ["Dockerfile"] },
+  );
+  assert.deepEqual(
+    parseCodexPayload(
+      { tool_name: "Write", tool_input: { file_path: "packages/app/Dockerfile" } },
+      { CODEX_PROJECT_DIR: "/Users/dev/app" },
+    ),
+    {
+      root,
+      files: ["packages/app/Dockerfile"],
+    },
+  );
 });
 
 test("paths that leave the repository root are dropped, and a patch of only such paths is not an edit", () => {
-  assert.equal(parseCodexPayload({ tool_name: "apply_patch", tool_input: { command: "*** Update File: ../outside/Dockerfile\n*** Add File: /etc/hosts" }, cwd: "/Users/dev/app" }, {}), undefined);
+  assert.equal(
+    parseCodexPayload(
+      {
+        tool_name: "apply_patch",
+        tool_input: { command: "*** Update File: ../outside/Dockerfile\n*** Add File: /etc/hosts" },
+        cwd: "/Users/dev/app",
+      },
+      {},
+    ),
+    undefined,
+  );
   assert.deepEqual(
-    parseCodexPayload({ tool_name: "apply_patch", tool_input: { command: "*** Update File: ../outside/Dockerfile\n*** Add File: Dockerfile" }, cwd: "/Users/dev/app" }, {}),
+    parseCodexPayload(
+      {
+        tool_name: "apply_patch",
+        tool_input: { command: "*** Update File: ../outside/Dockerfile\n*** Add File: Dockerfile" },
+        cwd: "/Users/dev/app",
+      },
+      {},
+    ),
     { root: resolve("/Users/dev/app"), files: ["Dockerfile"] },
   );
 });
@@ -96,7 +148,10 @@ test("findings come back as Codex stdout JSON: systemMessage plus hookSpecificOu
   assert.equal(document.hookSpecificOutput.hookEventName, "PostToolUse");
   assert.match(document.systemMessage, /Evergreen found 1 lifecycle issue/);
   assert.match(document.hookSpecificOutput.additionalContext, /Evergreen found 1 lifecycle issue in Dockerfile:/);
-  assert.match(document.hookSpecificOutput.additionalContext, /\[high\] Rule container\.node\.eol-21-and-older:Dockerfile:1 — Dockerfile:1/);
+  assert.match(
+    document.hookSpecificOutput.additionalContext,
+    /\[high\] Rule container\.node\.eol-21-and-older:Dockerfile:1 — Dockerfile:1/,
+  );
   assert.match(document.hookSpecificOutput.additionalContext, /Replacement: node:22/);
   assert.match(document.hookSpecificOutput.additionalContext, /Evidence: https:\/\/nodejs\.org\/en\/about\/eol/);
 });
@@ -115,7 +170,10 @@ test("feedback stays within the line cap, says how many more, and omits a missin
   const document = JSON.parse(response.stdout) as { hookSpecificOutput: { additionalContext: string } };
   const lines = document.hookSpecificOutput.additionalContext.trimEnd().split("\n");
   assert.ok(lines.length <= MAX_FEEDBACK_LINES, `${lines.length} lines`);
-  assert.match(document.hookSpecificOutput.additionalContext, /and \d+ more findings; run `evergreen scan \.` to see them all\./);
+  assert.match(
+    document.hookSpecificOutput.additionalContext,
+    /and \d+ more findings; run `evergreen scan \.` to see them all\./,
+  );
   assert.ok(!document.hookSpecificOutput.additionalContext.includes("Replacement:"));
   assert.equal(codexFeedbackText([finding("a:Dockerfile:1")]).split("\n").length <= MAX_FEEDBACK_LINES, true);
 });
@@ -138,7 +196,9 @@ test("a new hooks file is created, and a second run changes nothing", async () =
   const root = await repository();
   const created = await initCodexHooks({ root });
   assert.deepEqual([created.file, created.change, created.written], [CODEX_HOOKS_FILE, "created", true]);
-  const written = JSON.parse(await readFile(join(root, CODEX_HOOKS_FILE), "utf8")) as { hooks: Record<string, Array<{ matcher: string }>> };
+  const written = JSON.parse(await readFile(join(root, CODEX_HOOKS_FILE), "utf8")) as {
+    hooks: Record<string, Array<{ matcher: string }>>;
+  };
   assert.equal(written.hooks.PostToolUse!.length, 1);
   assert.equal(written.hooks.PostToolUse![0]!.matcher, CODEX_HOOK_MATCHER);
 
@@ -151,7 +211,9 @@ test("merging into an existing hooks file keeps every existing entry", async () 
   const root = await repository({ [CODEX_HOOKS_FILE]: await fixture("hooks-with-existing.json") });
   const result = await initCodexHooks({ root });
   assert.equal(result.change, "updated");
-  const written = JSON.parse(await readFile(join(root, CODEX_HOOKS_FILE), "utf8")) as { hooks: Record<string, unknown[]> };
+  const written = JSON.parse(await readFile(join(root, CODEX_HOOKS_FILE), "utf8")) as {
+    hooks: Record<string, unknown[]>;
+  };
   assert.equal(written.hooks.PreToolUse!.length, 1);
   assert.equal(written.hooks.PostToolUse!.length, 2);
   assert.match(result.diff, /^--- a\/\.codex\/hooks\.json\n\+\+\+ b\/\.codex\/hooks\.json/);
@@ -177,7 +239,9 @@ test("invalid JSON or an unexpected hooks shape is refused with the file untouch
 test("the init command writes the hook and honors --dry-run", async () => {
   const root = await repository();
   const cli = resolve("dist/src/cli.js");
-  const dry = spawnSync(process.execPath, [cli, "init", "--hooks-for", "codex", root, "--dry-run"], { encoding: "utf8" });
+  const dry = spawnSync(process.execPath, [cli, "init", "--hooks-for", "codex", root, "--dry-run"], {
+    encoding: "utf8",
+  });
   assert.equal(dry.status, 0, dry.stderr);
   assert.match(dry.stdout, /Would create \.codex\/hooks\.json:/);
   await assert.rejects(readFile(join(root, CODEX_HOOKS_FILE), "utf8"));
@@ -185,7 +249,10 @@ test("the init command writes the hook and honors --dry-run", async () => {
   const written = spawnSync(process.execPath, [cli, "init", "--hooks-for", "codex", root], { encoding: "utf8" });
   assert.equal(written.status, 0, written.stderr);
   assert.match(written.stdout, /Codex now runs Evergreen after apply_patch/);
-  assert.match(await readFile(join(root, CODEX_HOOKS_FILE), "utf8"), /npx --no-install evergreen-deprecation hook codex/);
+  assert.match(
+    await readFile(join(root, CODEX_HOOKS_FILE), "utf8"),
+    /npx --no-install evergreen-deprecation hook codex/,
+  );
 
   const unknown = spawnSync(process.execPath, [cli, "init", "--hooks-for", "cursor", root], { encoding: "utf8" });
   assert.equal(unknown.status, 2);
@@ -200,23 +267,51 @@ test("end to end: a patch that writes FROM node:16 gets the rule and replacement
   const cache = await repository();
   const cli = resolve("dist/src/cli.js");
   const env = { ...process.env, EVERGREEN_CACHE_DIR: cache };
-  const patch: Record<string, unknown> = { ...((await payload("patch-update.json")) as Record<string, unknown>), cwd: root };
-  patch["tool_input"] = { command: "*** Begin Patch\n*** Update File: Dockerfile\n@@\n-FROM node:22\n+FROM node:16\n*** End Patch\n" };
+  const patch: Record<string, unknown> = {
+    ...((await payload("patch-update.json")) as Record<string, unknown>),
+    cwd: root,
+  };
+  patch["tool_input"] = {
+    command: "*** Begin Patch\n*** Update File: Dockerfile\n@@\n-FROM node:22\n+FROM node:16\n*** End Patch\n",
+  };
 
-  const flagged = spawnSync(process.execPath, [cli, "hook", "codex"], { encoding: "utf8", env, input: JSON.stringify(patch) });
+  const flagged = spawnSync(process.execPath, [cli, "hook", "codex"], {
+    encoding: "utf8",
+    env,
+    input: JSON.stringify(patch),
+  });
   assert.equal(flagged.status, 0, flagged.stderr);
   assert.equal(flagged.stderr, "");
-  const document = JSON.parse(flagged.stdout) as { hookSpecificOutput: { hookEventName: string; additionalContext: string } };
+  const document = JSON.parse(flagged.stdout) as {
+    hookSpecificOutput: { hookEventName: string; additionalContext: string };
+  };
   assert.equal(document.hookSpecificOutput.hookEventName, "PostToolUse");
-  assert.match(document.hookSpecificOutput.additionalContext, /Node\.js image release lines 21 and older are end-of-life/);
+  assert.match(
+    document.hookSpecificOutput.additionalContext,
+    /Node\.js image release lines 21 and older are end-of-life/,
+  );
   assert.match(document.hookSpecificOutput.additionalContext, /Dockerfile:1/);
-  assert.match(document.hookSpecificOutput.additionalContext, /Replacement: A node image on a supported release line, such as node:22/);
+  assert.match(
+    document.hookSpecificOutput.additionalContext,
+    /Replacement: A node image on a supported release line, such as node:22/,
+  );
   assert.match(document.hookSpecificOutput.additionalContext, /Evidence: https:\/\/nodejs\.org\/en\/about\/eol/);
 
-  const clean: Record<string, unknown> = { ...((await payload("patch-update.json")) as Record<string, unknown>), cwd: root };
+  const clean: Record<string, unknown> = {
+    ...((await payload("patch-update.json")) as Record<string, unknown>),
+    cwd: root,
+  };
   clean["tool_input"] = { command: "*** Begin Patch\n*** Update File: README.md\n@@\n-# App\n+# App\n*** End Patch\n" };
-  const silent = spawnSync(process.execPath, [cli, "hook", "codex"], { encoding: "utf8", env, input: JSON.stringify(clean) });
+  const silent = spawnSync(process.execPath, [cli, "hook", "codex"], {
+    encoding: "utf8",
+    env,
+    input: JSON.stringify(clean),
+  });
   assert.equal(silent.status, 0, silent.stderr);
   assert.deepEqual([silent.stdout, silent.stderr], ["", ""]);
-  assert.equal(await readFile(join(root, "Dockerfile"), "utf8"), "FROM node:16\nWORKDIR /app\nCOPY . .\nCMD [\"node\", \"index.js\"]\n", "the hook never edits files");
+  assert.equal(
+    await readFile(join(root, "Dockerfile"), "utf8"),
+    'FROM node:16\nWORKDIR /app\nCOPY . .\nCMD ["node", "index.js"]\n',
+    "the hook never edits files",
+  );
 });

@@ -7,7 +7,13 @@ import { promisify } from "node:util";
 import { pathToFileURL } from "node:url";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-interface SeverityCounts { info: number; low: number; medium: number; high: number; critical: number }
+interface SeverityCounts {
+  info: number;
+  low: number;
+  medium: number;
+  high: number;
+  critical: number;
+}
 
 interface PortalService {
   path: string;
@@ -16,7 +22,10 @@ interface PortalService {
   reportLink: string;
 }
 
-interface PortalCatalog { schemaVersion: string; services: PortalService[] }
+interface PortalCatalog {
+  schemaVersion: string;
+  services: PortalService[];
+}
 
 interface CortexValue {
   path: string;
@@ -25,7 +34,9 @@ interface CortexValue {
   reportLink: string;
 }
 
-interface CortexPayload { values: Record<string, Array<{ key: string; value: CortexValue }>> }
+interface CortexPayload {
+  values: Record<string, Array<{ key: string; value: CortexValue }>>;
+}
 
 interface CortexMapper {
   CORTEX_CUSTOM_DATA_KEY: string;
@@ -36,7 +47,9 @@ interface CortexMapper {
 const execute = promisify(execFile);
 const mapperPath = resolve("integrations/cortex/map.mjs");
 const mapper = (await import(pathToFileURL(mapperPath).href)) as CortexMapper;
-const sample = JSON.parse(await readFile(resolve("integrations/cortex/sample-data/portal-export.json"), "utf8")) as PortalCatalog;
+const sample = JSON.parse(
+  await readFile(resolve("integrations/cortex/sample-data/portal-export.json"), "utf8"),
+) as PortalCatalog;
 const validateSample = new Ajv2020({ allErrors: true }).compile(
   JSON.parse(await readFile(resolve("schemas/portal.v1.schema.json"), "utf8")) as object,
 );
@@ -93,7 +106,11 @@ test("mapping is deterministic and refuses two paths that produce the same tag",
     reportLink: "report.json",
   });
   assert.throws(
-    () => mapper.toCortexCustomData({ schemaVersion: "evergreen.portal.v1", services: [service("/apps/api"), service("/services/api")] }),
+    () =>
+      mapper.toCortexCustomData({
+        schemaVersion: "evergreen.portal.v1",
+        services: [service("/apps/api"), service("/services/api")],
+      }),
     /two scanned paths map to the Cortex tag "api"/,
   );
 });
@@ -104,16 +121,20 @@ test("mapping refuses other schema versions and incomplete services", () => {
     /expected a evergreen\.portal\.v1 export/,
   );
   assert.throws(
-    () => mapper.toCortexCustomData({
-      schemaVersion: "evergreen.portal.v1",
-      services: [{ path: "/repos/api", reportLink: "a.json" }] as unknown as PortalService[],
-    }),
+    () =>
+      mapper.toCortexCustomData({
+        schemaVersion: "evergreen.portal.v1",
+        services: [{ path: "/repos/api", reportLink: "a.json" }] as unknown as PortalService[],
+      }),
     /"\/repos\/api" has no info count/,
   );
 });
 
 test("the CLI prints the same payload for the sample and exits 2 without a file", async () => {
-  const { stdout } = await execute(process.execPath, [mapperPath, "integrations/cortex/sample-data/portal-export.json"]);
+  const { stdout } = await execute(process.execPath, [
+    mapperPath,
+    "integrations/cortex/sample-data/portal-export.json",
+  ]);
   assert.deepEqual(JSON.parse(stdout), mapper.toCortexCustomData(sample));
   await assert.rejects(execute(process.execPath, [mapperPath]), (error: unknown) => {
     const failure = error as { code: number; stderr: string };

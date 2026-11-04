@@ -77,7 +77,12 @@ export function buildCountdownRows(forecast: Forecast, options: CountdownRowsOpt
   const events = forecast.groups
     .flatMap((group) => group.events)
     .filter((event) => event.findings.length > 0)
-    .sort((left, right) => left.date.localeCompare(right.date) || left.title.localeCompare(right.title) || left.ruleId.localeCompare(right.ruleId));
+    .sort(
+      (left, right) =>
+        left.date.localeCompare(right.date) ||
+        left.title.localeCompare(right.title) ||
+        left.ruleId.localeCompare(right.ruleId),
+    );
   const seen = new Set<string>();
   const rows: CountdownRow[] = [];
   for (const event of events) {
@@ -105,15 +110,21 @@ function renderBar(remainingSeconds: number, width: number, color: boolean): str
 
 /** The static frame: one header and one line per row. */
 export function renderCountdown(rows: readonly CountdownRow[], options: CountdownRenderOptions = {}): string {
-  const header = options.asOf === undefined ? "Lifecycle countdown" : `Lifecycle countdown as of ${options.asOf} (deadlines at 00:00 UTC)`;
+  const header =
+    options.asOf === undefined
+      ? "Lifecycle countdown"
+      : `Lifecycle countdown as of ${options.asOf} (deadlines at 00:00 UTC)`;
   if (rows.length === 0) return `${header}\n\nNo dated lifecycle deadlines affect this repository.`;
-  const width = options.barWidth === undefined || options.barWidth < 1 ? COUNTDOWN_BAR_WIDTH : Math.floor(options.barWidth);
+  const width =
+    options.barWidth === undefined || options.barWidth < 1 ? COUNTDOWN_BAR_WIDTH : Math.floor(options.barWidth);
   const durations = rows.map((row) => formatCountdown(row.remainingSeconds));
   const subjectWidth = Math.max(...rows.map((row) => row.subject.length));
   const durationWidth = Math.max(...durations.map((duration) => duration.length));
   const lines = [header, ""];
   rows.forEach((row, index) => {
-    lines.push(`${row.subject.padEnd(subjectWidth)}  ${renderBar(row.remainingSeconds, width, options.color === true)}  ${durations[index]!.padStart(durationWidth)}`);
+    lines.push(
+      `${row.subject.padEnd(subjectWidth)}  ${renderBar(row.remainingSeconds, width, options.color === true)}  ${durations[index]!.padStart(durationWidth)}`,
+    );
   });
   return lines.join("\n");
 }
@@ -176,10 +187,16 @@ export async function runCountdown(options: CountdownOptions): Promise<number> {
   const io = options.io ?? defaultIo();
   const color = options.color ?? (io.isTTY && !process.env.NO_COLOR);
   const frame = (elapsedSeconds: number): string =>
-    renderCountdown(buildCountdownRows(options.forecast, { now: options.now + elapsedSeconds * 1000, ...(options.limit === undefined ? {} : { limit: options.limit }) }), {
-      asOf: options.asOf,
-      color,
-    });
+    renderCountdown(
+      buildCountdownRows(options.forecast, {
+        now: options.now + elapsedSeconds * 1000,
+        ...(options.limit === undefined ? {} : { limit: options.limit }),
+      }),
+      {
+        asOf: options.asOf,
+        color,
+      },
+    );
 
   const first = frame(0);
   io.write(`${first}\n`);

@@ -35,12 +35,7 @@ const SKIPPED_DIRECTORIES = new Set([
   "testdata",
 ]);
 
-const DENO_BUN_FILES = new Set([
-  "deno.json",
-  "deno.jsonc",
-  "bunfig.toml",
-  ".bun-version",
-]);
+const DENO_BUN_FILES = new Set(["deno.json", "deno.jsonc", "bunfig.toml", ".bun-version"]);
 
 const DENO_PURL = "pkg:generic/deno";
 const BUN_PURL = "pkg:generic/bun";

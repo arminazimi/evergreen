@@ -54,7 +54,11 @@ export function parseHookArguments(argv: readonly string[]): HookArguments | und
 }
 
 /** Keeps findings at or above the gate, in a stable order, for the files the payload named. */
-export function findingsAtGate(findings: readonly Finding[], gate: HookGate, edit: Parameters<typeof findingsForEdit>[1]): Finding[] {
+export function findingsAtGate(
+  findings: readonly Finding[],
+  gate: HookGate,
+  edit: Parameters<typeof findingsForEdit>[1],
+): Finding[] {
   if (gate === "none") return [];
   const minimum = severityRank[gate];
   return findingsForEdit(findings, edit).filter((finding) => severityRank[finding.severity] >= minimum);
@@ -79,7 +83,11 @@ function scanWithTimeout(
  * payload, an event that is not an edit, a scan error, or a timeout — is a silent success, because a hook must
  * never break the agent's session.
  */
-export async function hookResponse(argv: readonly string[], stdin: string, options: HookOptions = {}): Promise<HookResponse> {
+export async function hookResponse(
+  argv: readonly string[],
+  stdin: string,
+  options: HookOptions = {},
+): Promise<HookResponse> {
   const args = parseHookArguments(argv);
   if (args === undefined) return failOpen;
   const adapters = options.adapters ?? hostAdapters;
@@ -90,7 +98,11 @@ export async function hookResponse(argv: readonly string[], stdin: string, optio
     const edit = adapter.parse(JSON.parse(stdin), options.env ?? process.env);
     if (edit === undefined) return failOpen;
     if (args.gate === "none") return failOpen;
-    const scanned = await scanWithTimeout(options.scan ?? ((root, detectors) => scanRepository(root, detectors)), edit.root, options.timeoutMs ?? HOOK_TIMEOUT_MS);
+    const scanned = await scanWithTimeout(
+      options.scan ?? ((root, detectors) => scanRepository(root, detectors)),
+      edit.root,
+      options.timeoutMs ?? HOOK_TIMEOUT_MS,
+    );
     if (scanned === undefined) return failOpen;
     return adapter.respond(findingsAtGate(scanned.findings, args.gate, edit));
   } catch {
@@ -106,7 +118,10 @@ export async function readStdin(): Promise<string> {
 }
 
 /** Runs `evergreen hook <host>`: reads the host payload from stdin and writes the response. */
-export async function runHook(argv: readonly string[], options: HookOptions & { readonly stdin?: () => Promise<string> } = {}): Promise<number> {
+export async function runHook(
+  argv: readonly string[],
+  options: HookOptions & { readonly stdin?: () => Promise<string> } = {},
+): Promise<number> {
   const read = options.stdin ?? readStdin;
   const response = await hookResponse(argv, await read().catch(() => ""), options);
   if (response.stdout !== "") process.stdout.write(response.stdout);

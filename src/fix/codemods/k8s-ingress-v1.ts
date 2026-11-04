@@ -94,17 +94,26 @@ function keyName(pair: Pair): string {
 function inlineValue(source: Source, node: unknown, what: string): InlineValue | Refusal {
   const unsupported: Refusal = { reason: `The ${what} is not written on one line.` };
   if (!isScalar(node) || !node.range) return unsupported;
-  if (node.type !== Scalar.PLAIN && node.type !== Scalar.QUOTE_DOUBLE && node.type !== Scalar.QUOTE_SINGLE) return unsupported;
+  if (node.type !== Scalar.PLAIN && node.type !== Scalar.QUOTE_DOUBLE && node.type !== Scalar.QUOTE_SINGLE)
+    return unsupported;
   const start = source.at(node.range[0]);
   if (start.line !== source.at(node.range[1]).line) return unsupported;
-  const resolved = typeof node.value === "string" ? node.value : typeof node.value === "number" ? String(node.value) : "";
+  const resolved =
+    typeof node.value === "string" ? node.value : typeof node.value === "number" ? String(node.value) : "";
   if (resolved.length === 0) return unsupported;
   const text = source.contents.slice(node.range[0], node.range[1]);
   const opening = text.charAt(0);
   const quote = opening === '"' || opening === "'" ? opening : "";
   const endOfLine = source.contents.indexOf("\n", node.range[1]);
   const tail = source.contents.slice(node.range[1], endOfLine === -1 ? undefined : endOfLine).trim();
-  return { value: resolved, text, quote, comment: tail.startsWith("#") ? ` ${tail}` : "", line: start.line, column: start.col };
+  return {
+    value: resolved,
+    text,
+    quote,
+    comment: tail.startsWith("#") ? ` ${tail}` : "",
+    line: start.line,
+    column: start.col,
+  };
 }
 
 /** The block mapping a node was written as, or the reason it cannot be rewritten line by line. */
@@ -152,7 +161,8 @@ function documentRefusal(source: Source, document: Document.Parsed): string | un
   const lines = source.lines.slice(source.at(range[0]).line - 1, source.at(range[1]).line);
   if (lines.some((line) => line.includes("{{"))) return HELM_REASON;
   if (usesAnchor(document)) return "The Ingress uses a YAML anchor or alias.";
-  if (lines.some((line) => leadingWhitespace(line).includes("\t"))) return "The document is not indented with consistent spaces.";
+  if (lines.some((line) => leadingWhitespace(line).includes("\t")))
+    return "The document is not indented with consistent spaces.";
   return undefined;
 }
 
@@ -183,7 +193,8 @@ function renameKey(source: Source, pair: Pair, from: string, to: string): { text
 
 /** The `port:` block for a `servicePort`, which was either a port number or a port name. */
 function portBlock(port: InlineValue, pad: string, inner: string): string[] | Refusal {
-  if (port.quote !== "") return { reason: "The `servicePort` is quoted, so its number and its name are not distinguishable." };
+  if (port.quote !== "")
+    return { reason: "The `servicePort` is quoted, so its number and its name are not distinguishable." };
   if (PORT_NUMBER.test(port.value)) {
     const number = Number(port.value);
     if (number < 1 || number > 65_535) return { reason: "The `servicePort` is outside the range of a port number." };
@@ -225,7 +236,8 @@ function backendRewrite(source: Source, pair: Pair, mapping: YAMLMap, rename: st
   const key = position(source, pair.key);
   if (!name || !port || !key) return { reason: "The backend is not written with its fields on their own lines." };
   const start = Math.min(name.line, port.line);
-  if (Math.max(name.line, port.line) !== start + 1) return { reason: "The `serviceName` and the `servicePort` are not on adjacent lines." };
+  if (Math.max(name.line, port.line) !== start + 1)
+    return { reason: "The `serviceName` and the `servicePort` are not on adjacent lines." };
   if (name.column !== port.column) return { reason: "The document is not indented with consistent spaces." };
   const step = name.column - key.column;
   if (step < 1) return { reason: "The backend's fields are not indented under it." };
@@ -246,7 +258,11 @@ function pathTypeRewrite(source: Source, item: YAMLMap): Rewrite | Refusal {
   const original = source.lines[at.line - 1] ?? "";
   const indent = " ".repeat(at.column - 1);
   if (path !== undefined) return { start: at.line, end: at.line, lines: [original, `${indent}${PATH_TYPE}`] };
-  return { start: at.line, end: at.line, lines: [`${original.slice(0, at.column - 1)}${PATH_TYPE}`, `${indent}${original.slice(at.column - 1)}`] };
+  return {
+    start: at.line,
+    end: at.line,
+    lines: [`${original.slice(0, at.column - 1)}${PATH_TYPE}`, `${indent}${original.slice(at.column - 1)}`],
+  };
 }
 
 /** The rewrites one `paths` entry needs: the `pathType` v1 requires and its backend. */
@@ -358,7 +374,8 @@ function parseSource(contents: string): Source | Refusal {
     const parsed = parseAllDocuments(contents, { lineCounter: counter, merge: false });
     const documents = Array.isArray(parsed) ? parsed : [parsed];
     if (documents.some((document) => document.errors.length > 0)) return { reason: "The manifest is not valid YAML." };
-    if (documents.length > MAXIMUM_DOCUMENTS) return { reason: "The manifest has more documents than Evergreen rewrites." };
+    if (documents.length > MAXIMUM_DOCUMENTS)
+      return { reason: "The manifest has more documents than Evergreen rewrites." };
     return { contents, lines: contents.split("\n"), documents, at: (offset) => counter.linePos(offset) };
   } catch {
     return { reason: "The manifest is not valid YAML." };
@@ -394,7 +411,12 @@ function targetsByPath(findings: Finding[], refuse: Refuse | undefined): Map<str
 }
 
 /** The rewrites one manifest needs, or nothing when the whole file is declined. */
-async function rewritesForFile(root: string, path: string, targets: Target[], refuse: Refuse | undefined): Promise<FileRewrites | undefined> {
+async function rewritesForFile(
+  root: string,
+  path: string,
+  targets: Target[],
+  refuse: Refuse | undefined,
+): Promise<FileRewrites | undefined> {
   const decline = (reason: string) => {
     for (const target of targets) refuse?.(target.finding, reason);
     return undefined;
@@ -405,7 +427,8 @@ async function rewritesForFile(root: string, path: string, targets: Target[], re
   const contents = await readFile(absolute, "utf8").catch(() => undefined);
   if (contents === undefined) return decline("The manifest could not be read.");
   if (!contents.endsWith("\n")) return decline("The manifest does not end with a newline.");
-  if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return decline("The manifest is larger than Evergreen reads.");
+  if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES)
+    return decline("The manifest is larger than Evergreen reads.");
   const source = parseSource(contents);
   // A chart template is not valid YAML on its own; its own refusal reads truer than a syntax error.
   if ("reason" in source) return decline(contents.includes("{{") ? HELM_REASON : source.reason);
@@ -441,15 +464,15 @@ async function rewritesForFile(root: string, path: string, targets: Target[], re
 export const kubernetesIngressV1Fixer: Fixer = {
   id: "kubernetes-ingress-v1",
   async plan(result, refuse) {
-    const grouped = [...targetsByPath(result.findings, refuse)]
-      .sort(([left], [right]) => left.localeCompare(right));
+    const grouped = [...targetsByPath(result.findings, refuse)].sort(([left], [right]) => left.localeCompare(right));
     const patches: FilePatch[] = [];
     for (const [path, targets] of grouped) {
       const file = await rewritesForFile(result.root, path, targets, refuse);
       if (file === undefined || file.rewrites.length === 0) continue;
       const text = applyRewrites(file.lines, file.rewrites).join("\n");
       // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (text !== file.contents) patches.push({ path, diff: renderDiff(path, file.contents.slice(0, -1), text.slice(0, -1)) });
+      if (text !== file.contents)
+        patches.push({ path, diff: renderDiff(path, file.contents.slice(0, -1), text.slice(0, -1)) });
     }
     return patches;
   },

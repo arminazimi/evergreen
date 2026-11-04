@@ -79,25 +79,120 @@ async function planValidator() {
 type Mutation = (value: Plan) => void;
 
 const mutations: Array<[string, Mutation]> = [
-  ["wrong schema value", (value) => { (value as { schema: string }).schema = "evergreen.plan.v2"; }],
-  ["missing waves", (value) => { delete (value as Partial<Plan>).waves; }],
-  ["missing items", (value) => { delete (value as Partial<Plan>).items; }],
-  ["missing summary", (value) => { delete (value as Partial<Plan>).summary; }],
-  ["unknown top-level field", (value) => { (value as unknown as Record<string, unknown>).generatedAt = "2026-10-30T00:00:00Z"; }],
-  ["negative wave index", (value) => { value.waves[0]!.index = -1; }],
-  ["empty wave", (value) => { value.waves[0]!.itemIds = []; }],
-  ["duplicate id in one wave", (value) => { value.waves[0]!.itemIds.push(value.waves[0]!.itemIds[0]!); }],
-  ["missing item field", (value) => { delete (value.items[0] as Partial<Plan["items"][number]>).branch; }],
-  ["unknown item field", (value) => { (value.items[0] as unknown as Record<string, unknown>).note = "not in the contract"; }],
-  ["unknown severity", (value) => { (value.items[0] as { severity: string }).severity = "urgent"; }],
-  ["negative item wave", (value) => { value.items[0]!.wave = -1; }],
-  ["item without touched files", (value) => { value.items[0]!.touches = []; }],
-  ["absolute touch path", (value) => { value.items[0]!.touches = ["/etc/passwd"]; }],
-  ["touch path with a parent segment", (value) => { value.items[0]!.touches = ["../package.json"]; }],
-  ["touch path with a backslash", (value) => { value.items[0]!.touches = ["src\\client.ts"]; }],
-  ["duplicate touch path", (value) => { value.items[0]!.touches = ["package.json", "package.json"]; }],
-  ["missing severity count", (value) => { delete (value.summary.bySeverity as Partial<PlanSummary["bySeverity"]>).high; }],
-  ["unknown summary field", (value) => { (value.summary as unknown as Record<string, unknown>).files = 4; }],
+  [
+    "wrong schema value",
+    (value) => {
+      (value as { schema: string }).schema = "evergreen.plan.v2";
+    },
+  ],
+  [
+    "missing waves",
+    (value) => {
+      delete (value as Partial<Plan>).waves;
+    },
+  ],
+  [
+    "missing items",
+    (value) => {
+      delete (value as Partial<Plan>).items;
+    },
+  ],
+  [
+    "missing summary",
+    (value) => {
+      delete (value as Partial<Plan>).summary;
+    },
+  ],
+  [
+    "unknown top-level field",
+    (value) => {
+      (value as unknown as Record<string, unknown>).generatedAt = "2026-10-30T00:00:00Z";
+    },
+  ],
+  [
+    "negative wave index",
+    (value) => {
+      value.waves[0]!.index = -1;
+    },
+  ],
+  [
+    "empty wave",
+    (value) => {
+      value.waves[0]!.itemIds = [];
+    },
+  ],
+  [
+    "duplicate id in one wave",
+    (value) => {
+      value.waves[0]!.itemIds.push(value.waves[0]!.itemIds[0]!);
+    },
+  ],
+  [
+    "missing item field",
+    (value) => {
+      delete (value.items[0] as Partial<Plan["items"][number]>).branch;
+    },
+  ],
+  [
+    "unknown item field",
+    (value) => {
+      (value.items[0] as unknown as Record<string, unknown>).note = "not in the contract";
+    },
+  ],
+  [
+    "unknown severity",
+    (value) => {
+      (value.items[0] as { severity: string }).severity = "urgent";
+    },
+  ],
+  [
+    "negative item wave",
+    (value) => {
+      value.items[0]!.wave = -1;
+    },
+  ],
+  [
+    "item without touched files",
+    (value) => {
+      value.items[0]!.touches = [];
+    },
+  ],
+  [
+    "absolute touch path",
+    (value) => {
+      value.items[0]!.touches = ["/etc/passwd"];
+    },
+  ],
+  [
+    "touch path with a parent segment",
+    (value) => {
+      value.items[0]!.touches = ["../package.json"];
+    },
+  ],
+  [
+    "touch path with a backslash",
+    (value) => {
+      value.items[0]!.touches = ["src\\client.ts"];
+    },
+  ],
+  [
+    "duplicate touch path",
+    (value) => {
+      value.items[0]!.touches = ["package.json", "package.json"];
+    },
+  ],
+  [
+    "missing severity count",
+    (value) => {
+      delete (value.summary.bySeverity as Partial<PlanSummary["bySeverity"]>).high;
+    },
+  ],
+  [
+    "unknown summary field",
+    (value) => {
+      (value.summary as unknown as Record<string, unknown>).files = 4;
+    },
+  ],
 ];
 
 test("the sample plan matches the schema", async () => {

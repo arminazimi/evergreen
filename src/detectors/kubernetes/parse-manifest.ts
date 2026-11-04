@@ -73,12 +73,7 @@ function hasAlias(document: Document.Parsed): boolean {
 }
 
 /** Parse Kubernetes manifest declarations without file, network, or process I/O. */
-function processMap(
-  map: YAMLMap,
-  lines: LineCounter,
-  declarations: ApiDeclaration[],
-  depth = 0,
-): void {
+function processMap(map: YAMLMap, lines: LineCounter, declarations: ApiDeclaration[], depth = 0): void {
   if (depth > 10) return;
 
   const declaration = readApiDeclaration(map, lines);

@@ -11,7 +11,12 @@ import {
   resolveCorpusConcurrency,
   runCorpusRepositories,
 } from "./corpus-harness.js";
-import { describeMissingEntries, ensureCorpusCacheEntry, missingCorpusEntries, resolveCorpusCacheDir } from "./corpus-cache.js";
+import {
+  describeMissingEntries,
+  ensureCorpusCacheEntry,
+  missingCorpusEntries,
+  resolveCorpusCacheDir,
+} from "./corpus-cache.js";
 import { fetchWith, isCheckoutUsable, resolveFetchStrategy } from "./corpus-fetch.js";
 import { budgetWarnings, createCostTracker, formatCost, slowestFetches } from "./corpus-cost.js";
 import { affectedEcosystems, changedPaths, describeAffected, parseChangedFlag } from "./corpus-affected.js";
@@ -21,7 +26,6 @@ import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "
 import { loadPublicCorpus } from "./public-corpus.js";
 import { recallViolations, scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
-
 
 const fetchStrategy = resolveFetchStrategy();
 
@@ -98,7 +102,9 @@ process.env.EVERGREEN_DATA_DIR ??= join(tmpdir(), `evergreen-corpus-no-data-cach
 const offline = process.argv.includes("--offline");
 const warmOnly = process.argv.includes("--warm");
 if ((offline || warmOnly) && !cacheDir) {
-  console.error(`${warmOnly ? "--warm" : "--offline"} needs EVERGREEN_CORPUS_CACHE, for example ~/.cache/evergreen-corpus.`);
+  console.error(
+    `${warmOnly ? "--warm" : "--offline"} needs EVERGREEN_CORPUS_CACHE, for example ~/.cache/evergreen-corpus.`,
+  );
   process.exit(2);
 }
 if (offline && warmOnly) {
@@ -106,11 +112,17 @@ if (offline && warmOnly) {
   process.exit(2);
 }
 if (!cacheDir) {
-  console.error("WARNING: EVERGREEN_CORPUS_CACHE is not set, so every repository is fetched again. Set it to ~/.cache/evergreen-corpus and run `npm run corpus:warm` once.");
+  console.error(
+    "WARNING: EVERGREEN_CORPUS_CACHE is not set, so every repository is fetched again. Set it to ~/.cache/evergreen-corpus and run `npm run corpus:warm` once.",
+  );
 }
 if (cacheDir) {
-  const missing = await missingCorpusEntries(cacheDir, selection.entries, (existing) => isCheckoutUsable(existing, fetchStrategy));
-  console.error(`cache: ${selection.entries.length - missing.length} of ${selection.entries.length} entries already cached in ${cacheDir}`);
+  const missing = await missingCorpusEntries(cacheDir, selection.entries, (existing) =>
+    isCheckoutUsable(existing, fetchStrategy),
+  );
+  console.error(
+    `cache: ${selection.entries.length - missing.length} of ${selection.entries.length} entries already cached in ${cacheDir}`,
+  );
   // An offline run fails before scanning anything, naming every entry it cannot serve.
   if (offline && missing.length > 0) {
     console.error(describeMissingEntries(missing));
@@ -119,13 +131,20 @@ if (cacheDir) {
   if (warmOnly) {
     let fetched = 0;
     await inBatches(missing, concurrency, async (entry) => {
-      await ensureCorpusCacheEntry(cacheDir, entry, async (directory) => {
-        await fetchInto(directory, entry);
-      }, (existing) => isCheckoutUsable(existing, fetchStrategy));
+      await ensureCorpusCacheEntry(
+        cacheDir,
+        entry,
+        async (directory) => {
+          await fetchInto(directory, entry);
+        },
+        (existing) => isCheckoutUsable(existing, fetchStrategy),
+      );
       fetched += 1;
       console.error(`${fetched}/${missing.length} ${entry.repository}`);
     });
-    console.error(`cache warmed: ${fetched} fetched, ${selection.entries.length - missing.length} were already cached.`);
+    console.error(
+      `cache warmed: ${fetched} fetched, ${selection.entries.length - missing.length} were already cached.`,
+    );
     process.exit(0);
   }
 }
@@ -173,12 +192,8 @@ try {
   const falseNegatives = results.reduce((total, result) => total + result.falseNegatives, 0);
   const durations = results.map((result) => result.durationMs);
   const checkoutDurations = results.map((result) => result.checkoutMs);
-  const precision = truePositives + falsePositives === 0
-    ? 1
-    : truePositives / (truePositives + falsePositives);
-  const recall = truePositives + falseNegatives === 0
-    ? 1
-    : truePositives / (truePositives + falseNegatives);
+  const precision = truePositives + falsePositives === 0 ? 1 : truePositives / (truePositives + falsePositives);
+  const recall = truePositives + falseNegatives === 0 ? 1 : truePositives / (truePositives + falseNegatives);
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   const detectors = scoreDetectors(results);
   // Precision floors are calibrated for the whole corpus, so a filtered run never enforces them.
@@ -221,13 +236,19 @@ try {
   for (const line of mismatchLines(results)) say(line);
   if (comparePath) {
     try {
-      for (const line of compareRuns({ repositories: results, detectors, full: selection.full }, await loadBaseline(comparePath))) say(line);
+      for (const line of compareRuns(
+        { repositories: results, detectors, full: selection.full },
+        await loadBaseline(comparePath),
+      ))
+        say(line);
     } catch (error) {
       // A comparison problem is reported but never decides the exit code.
       console.error(error instanceof Error ? error.message : String(error));
     }
   }
-  say(`${selection.full ? "full run" : "filtered run"}: ${results.length} repositories, wall ${(cost.wallMs / 1000).toFixed(1)} s${outputPath ? `, report written to ${outputPath}` : ""}`);
+  say(
+    `${selection.full ? "full run" : "filtered run"}: ${results.length} repositories, wall ${(cost.wallMs / 1000).toFixed(1)} s${outputPath ? `, report written to ${outputPath}` : ""}`,
+  );
   console.error(`COST      ${formatCost(cost)}`);
   for (const slow of slowestFetches(results)) {
     console.error(`SLOWEST   ${slow.repository}@${slow.commit.slice(0, 10)}: ${(slow.checkoutMs / 1000).toFixed(1)} s`);
@@ -238,12 +259,20 @@ try {
     if (process.env.GITHUB_ACTIONS === "true") console.error(`::warning title=Corpus budget::${warning}`);
   }
   for (const regression of regressions) {
-    console.error(`THRESHOLD  ${regression.detector}: precision ${regression.precision} is below the required ${regression.minPrecision}`);
+    console.error(
+      `THRESHOLD  ${regression.detector}: precision ${regression.precision} is below the required ${regression.minPrecision}`,
+    );
   }
   for (const regression of recallRegressions) {
-    console.error(`THRESHOLD  ${regression.detector}: recall ${regression.recall} is below the required ${regression.minRecall}`);
+    console.error(
+      `THRESHOLD  ${regression.detector}: recall ${regression.recall} is below the required ${regression.minRecall}`,
+    );
   }
-  if (!observeOnly && (falsePositives > 0 || falseNegatives > 0 || regressions.length > 0 || recallRegressions.length > 0)) process.exitCode = 1;
+  if (
+    !observeOnly &&
+    (falsePositives > 0 || falseNegatives > 0 || regressions.length > 0 || recallRegressions.length > 0)
+  )
+    process.exitCode = 1;
 } finally {
   await rm(root, { recursive: true, force: true });
 }

@@ -11,7 +11,9 @@ export const command: CliCommand = {
   name: "plan",
   flags: ["--json", "--wave", "--data-version"],
   example: "evergreen plan . --json",
-  usage: ["  evergreen plan [path] [--json] [--wave <n>]   # migration waves from a scan; --wave prints one zero-based wave"],
+  usage: [
+    "  evergreen plan [path] [--json] [--wave <n>]   # migration waves from a scan; --wave prints one zero-based wave",
+  ],
   usageSlots: [16],
   run(args, ctx) {
     return afterGates("plan", args, ctx, async (state) => {
@@ -21,7 +23,9 @@ export const command: CliCommand = {
       if (pre !== undefined) return pre;
       const planUsage = "Usage: evergreen plan [path] [--json] [--wave <n>]";
       const planFlags = new Set(["--json", "--wave", "--data-version", "--no-cache"]);
-      const unknownPlanFlag = state.args.slice(1).find((argument) => argument.startsWith("-") && !planFlags.has(argument));
+      const unknownPlanFlag = state.args
+        .slice(1)
+        .find((argument) => argument.startsWith("-") && !planFlags.has(argument));
       if (unknownPlanFlag !== undefined || state.positional.length > 1) return ctx.fail("usage", planUsage);
       const waveFlag = state.args.includes("--wave");
       const waveValue = state.optionValue("--wave");

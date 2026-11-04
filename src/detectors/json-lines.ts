@@ -75,7 +75,16 @@ export function readJsonLines(contents: string, options: ReadJsonLinesOptions): 
       }
       const escaped = text[position];
       position += 1;
-      const simple: Record<string, string> = { '"': '"', "\\": "\\", "/": "/", b: "\b", f: "\f", n: "\n", r: "\r", t: "\t" };
+      const simple: Record<string, string> = {
+        '"': '"',
+        "\\": "\\",
+        "/": "/",
+        b: "\b",
+        f: "\f",
+        n: "\n",
+        r: "\r",
+        t: "\t",
+      };
       if (escaped !== undefined && simple[escaped] !== undefined) {
         value += simple[escaped];
       } else if (escaped === "u" && /^[0-9a-fA-F]{4}$/.test(text.slice(position, position + 4))) {
@@ -141,7 +150,9 @@ export function readJsonLines(contents: string, options: ReadJsonLinesOptions): 
         }
       }
     }
-    const literal = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/.exec(text.slice(position, position + 64));
+    const literal = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/.exec(
+      text.slice(position, position + 64),
+    );
     if (!literal) return fail();
     position += literal[0].length;
     if (literal[0] === "true") return { kind: "boolean", line: start, value: true };

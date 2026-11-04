@@ -91,7 +91,10 @@ test("reports nothing for projects without Angular", async () => {
 test("version ranges put each release on exactly one lifecycle rule", async () => {
   const rules = await angularRules();
   const matching = (version: string): string[] =>
-    rules.filter((rule) => versContains(rule.vers, version)).map((rule) => rule.id).sort();
+    rules
+      .filter((rule) => versContains(rule.vers, version))
+      .map((rule) => rule.id)
+      .sort();
 
   assert.deepEqual(matching("18.2.0"), [RULE_PRE_V19]);
   assert.deepEqual(matching("19.0.0-next.3"), [RULE_V19]);
@@ -112,8 +115,14 @@ test("every Angular rule cites the release schedule and has a verifiable migrati
 
   assert.equal(rules.length, 5);
   for (const rule of rules) {
-    assert.ok(rule.sources.some((source) => source.url === "https://angular.dev/reference/releases"), rule.id);
-    assert.ok(rule.sources.some((source) => source.url === "https://angular.dev/update-guide"), rule.id);
+    assert.ok(
+      rule.sources.some((source) => source.url === "https://angular.dev/reference/releases"),
+      rule.id,
+    );
+    assert.ok(
+      rule.sources.some((source) => source.url === "https://angular.dev/update-guide"),
+      rule.id,
+    );
     assert.ok((rule.migration?.steps.length ?? 0) > 0, rule.id);
     assert.ok((rule.migration?.verification.length ?? 0) > 0, rule.id);
   }

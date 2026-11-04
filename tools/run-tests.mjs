@@ -159,7 +159,7 @@ export function renderQuarantineExpiryFailure(expired) {
     "",
     ...expired.map((entry) => `  - ${entry.file} expired on ${entry.expires} — ${entry.issue}`),
     "",
-    "Fix the file and delete its entry, or move \"expires\" forward with the reason in the pull request.",
+    'Fix the file and delete its entry, or move "expires" forward with the reason in the pull request.',
     "Do not add another entry, a skip, or a filter to hide the failure.",
   ];
   return lines.join("\n");
@@ -426,7 +426,9 @@ async function loadTimeBudget() {
  */
 async function reportTimeBudgetViolations(violations) {
   const lines = violations.map((violation) => formatTestTimeBudgetViolation(violation));
-  process.stderr.write(`\nTest time budget exceeded (${TIME_BUDGET_PATH}):\n${lines.map((line) => `  ${line}`).join("\n")}\n`);
+  process.stderr.write(
+    `\nTest time budget exceeded (${TIME_BUDGET_PATH}):\n${lines.map((line) => `  ${line}`).join("\n")}\n`,
+  );
   for (const violation of violations) process.stdout.write(`${testTimeBudgetAnnotation(violation)}\n`);
   const summary = renderTestTimeBudgetFailure(violations, { budgetPath: TIME_BUDGET_PATH });
   process.stdout.write(`\n${summary}`);
@@ -458,7 +460,10 @@ async function runFilesWithRetry(files, options = {}) {
   /** @type {string[]} */
   const baseArgs = ["--test", concurrencyArg];
   if (coveragePath) {
-    baseArgs.push("--experimental-test-coverage", ...COVERAGE_EXCLUDES.map((path) => `--test-coverage-exclude=${path}`));
+    baseArgs.push(
+      "--experimental-test-coverage",
+      ...COVERAGE_EXCLUDES.map((path) => `--test-coverage-exclude=${path}`),
+    );
   }
   baseArgs.push(...files);
   const filteredArgs = baseArgs.filter((arg) => typeof arg === "string");
@@ -499,11 +504,14 @@ async function runFilesWithRetry(files, options = {}) {
     /** @type {string[]} */
     const hard = [];
     for (const file of failed) {
-      const result = await spawnTest(["--test", concurrencyArg, file].filter((arg) => typeof arg === "string"), {
-        cwd,
-        env,
-        capture: true,
-      });
+      const result = await spawnTest(
+        ["--test", concurrencyArg, file].filter((arg) => typeof arg === "string"),
+        {
+          cwd,
+          env,
+          capture: true,
+        },
+      );
       if (result.signal) {
         process.kill(process.pid, result.signal);
         return 1;
@@ -548,10 +556,7 @@ async function runSuite(options) {
   const concurrencyArg = testProcessArgs().find((arg) => arg.startsWith("--test-concurrency="));
   const quarantined = await loadQuarantine();
   const quarantinePaths = quarantineDistSet(quarantined);
-  let files =
-    options.files.length > 0
-      ? options.files.map((file) => resolve(ROOT, file))
-      : await listDistTests();
+  let files = options.files.length > 0 ? options.files.map((file) => resolve(ROOT, file)) : await listDistTests();
 
   if (options.quarantineOnly) {
     files = [...quarantinePaths].sort();
@@ -577,12 +582,7 @@ async function runSuite(options) {
   const shard = parseShardEnv(process.env);
   if (shard && files.length > 0) {
     const timings = await loadFileTimings();
-    const assignment = selectShardFiles(
-      files,
-      (file) => durationMsForFile(file, timings),
-      shard.index,
-      shard.count,
-    );
+    const assignment = selectShardFiles(files, (file) => durationMsForFile(file, timings), shard.index, shard.count);
     files = assignment.files;
     const balance = shardLoadsWithinTolerance(assignment.loadsMs)
       ? "within 20%"
@@ -745,10 +745,7 @@ async function runListWeeklyFlaky() {
   if (stepSummary) await appendFile(stepSummary, `\n${summary}`);
   await mkdir("metrics/ci", { recursive: true });
   const date = new Date().toISOString().slice(0, 10);
-  await writeFile(
-    join("metrics/ci", `flaky-${date}.json`),
-    `${JSON.stringify({ date, flaky: entries }, null, 2)}\n`,
-  );
+  await writeFile(join("metrics/ci", `flaky-${date}.json`), `${JSON.stringify({ date, flaky: entries }, null, 2)}\n`);
   return 0;
 }
 

@@ -19,10 +19,32 @@ import type { DriftCollector, RuntimePin } from "./types.js";
  * code is never evaluated. `setup.py` contributes literal `python_requires` strings only.
  */
 
-const ROOT_FILES = [".python-version", ".tool-versions", "runtime.txt", "Pipfile", "pyproject.toml", "setup.cfg", "setup.py"] as const;
+const ROOT_FILES = [
+  ".python-version",
+  ".tool-versions",
+  "runtime.txt",
+  "Pipfile",
+  "pyproject.toml",
+  "setup.cfg",
+  "setup.py",
+] as const;
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "bin", "obj", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "bin",
+  "obj",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const PYTHON_CI_IMAGES = new Set(["library/python", "cimg/python", "circleci/python"]);
 const PYTHON_IMAGE_PREFIX = /^(?:[a-z0-9.-]+\/)?(?:library\/|cimg\/|circleci\/)?python(?::|@|$)/i;
@@ -80,7 +102,15 @@ function namesPythonImage(value: string): boolean {
   return PYTHON_IMAGE_PREFIX.test(value);
 }
 
-function addPin(pins: RuntimePin[], path: string, line: number, source: string, raw: string, kind: "pin" | "floor", resolved: Resolved): void {
+function addPin(
+  pins: RuntimePin[],
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  kind: "pin" | "floor",
+  resolved: Resolved,
+): void {
   pins.push({ path, line, source, raw, kind, ...resolved });
 }
 
@@ -208,25 +238,31 @@ function collectRootFiles(pins: RuntimePin[], path: string, contents: string): v
   if (name === "pyproject.toml") {
     const document = parseToml(contents) as Record<string, unknown>;
     const project = document.project;
-    const requires = typeof project === "object" && project !== null ? Reflect.get(project, "requires-python") : undefined;
+    const requires =
+      typeof project === "object" && project !== null ? Reflect.get(project, "requires-python") : undefined;
     if (typeof requires === "string") {
       const line = tomlLine(lines, "project", "requires-python");
-      if (line !== undefined) addPin(pins, path, line, "pyproject.toml requires-python", requires, "floor", resolveFloor(requires));
+      if (line !== undefined)
+        addPin(pins, path, line, "pyproject.toml requires-python", requires, "floor", resolveFloor(requires));
     }
     const tool = document.tool;
     const poetry = typeof tool === "object" && tool !== null ? Reflect.get(tool, "poetry") : undefined;
-    const dependencies = typeof poetry === "object" && poetry !== null ? Reflect.get(poetry, "dependencies") : undefined;
-    const python = typeof dependencies === "object" && dependencies !== null ? Reflect.get(dependencies, "python") : undefined;
+    const dependencies =
+      typeof poetry === "object" && poetry !== null ? Reflect.get(poetry, "dependencies") : undefined;
+    const python =
+      typeof dependencies === "object" && dependencies !== null ? Reflect.get(dependencies, "python") : undefined;
     if (typeof python === "string") {
       const line = tomlLine(lines, "tool.poetry.dependencies", "python");
-      if (line !== undefined) addPin(pins, path, line, "pyproject.toml poetry python", python, "floor", resolveFloor(python));
+      if (line !== undefined)
+        addPin(pins, path, line, "pyproject.toml poetry python", python, "floor", resolveFloor(python));
     }
     return;
   }
 
   if (name === "setup.cfg") {
     const value = iniValue(lines, "options", "python_requires");
-    if (value !== undefined) addPin(pins, path, value.line, "setup.cfg python_requires", value.value, "floor", resolveFloor(value.value));
+    if (value !== undefined)
+      addPin(pins, path, value.line, "setup.cfg python_requires", value.value, "floor", resolveFloor(value.value));
     return;
   }
 
@@ -244,7 +280,9 @@ function collectDockerfile(pins: RuntimePin[], path: string, contents: string): 
   for (const declaration of parseDockerfile(contents)) {
     if (declaration.kind === "dynamic") {
       if (namesPythonImage(declaration.value)) {
-        addPin(pins, path, declaration.line, "Dockerfile FROM", declaration.value, "pin", { unresolved: "the image reference is dynamic." });
+        addPin(pins, path, declaration.line, "Dockerfile FROM", declaration.value, "pin", {
+          unresolved: "the image reference is dynamic.",
+        });
       }
       continue;
     }
@@ -252,7 +290,9 @@ function collectDockerfile(pins: RuntimePin[], path: string, contents: string): 
     const reference = parseImageReference(declaration.value);
     if (!reference || !isPythonImage(reference)) continue;
     if (reference.tag === undefined) {
-      addPin(pins, path, declaration.line, "Dockerfile FROM", declaration.value, "pin", { unresolved: "the image names no tag." });
+      addPin(pins, path, declaration.line, "Dockerfile FROM", declaration.value, "pin", {
+        unresolved: "the image names no tag.",
+      });
       continue;
     }
     addPin(pins, path, declaration.line, "Dockerfile FROM", declaration.value, "pin", resolveTag(reference.tag));
@@ -288,7 +328,10 @@ function setupPythonVersions(contents: string): Array<{ value: string; line: num
       if (!isMap(inputs)) continue;
       const version = inputs.get("python-version", true) as Node | null;
       if (!version || !isScalar(version)) continue;
-      const key = typeof version.value === "string" ? /^\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}$/.exec(version.value.trim())?.[1] : undefined;
+      const key =
+        typeof version.value === "string"
+          ? /^\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}$/.exec(version.value.trim())?.[1]
+          : undefined;
       const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
       if (isSeq(list)) {
         for (const item of list.items) {
@@ -306,15 +349,28 @@ function setupPythonVersions(contents: string): Array<{ value: string; line: num
 
 function collectWorkflow(pins: RuntimePin[], path: string, contents: string): void {
   for (const version of setupPythonVersions(contents)) {
-    const unresolved = version.value.includes("${{") ? { unresolved: "the value is an expression." } : resolvePython(version.value);
-    addPin(pins, path, version.line, version.matrix ? "setup-python matrix" : "setup-python python-version", version.value, "pin", unresolved);
+    const unresolved = version.value.includes("${{")
+      ? { unresolved: "the value is an expression." }
+      : resolvePython(version.value);
+    addPin(
+      pins,
+      path,
+      version.line,
+      version.matrix ? "setup-python matrix" : "setup-python python-version",
+      version.value,
+      "pin",
+      unresolved,
+    );
   }
 }
 
 function collectGitlab(pins: RuntimePin[], path: string, contents: string): void {
   for (const reference of parseGitlabCi(contents).unclassified) {
     if (reference.reason === "dynamic") {
-      if (namesPythonImage(reference.value)) addPin(pins, path, reference.line, "GitLab CI image", reference.value, "pin", { unresolved: "the image reference is dynamic." });
+      if (namesPythonImage(reference.value))
+        addPin(pins, path, reference.line, "GitLab CI image", reference.value, "pin", {
+          unresolved: "the image reference is dynamic.",
+        });
       continue;
     }
     const image = parseImageReference(reference.value);
@@ -325,9 +381,15 @@ function collectGitlab(pins: RuntimePin[], path: string, contents: string): void
 
 function collectCircleci(pins: RuntimePin[], path: string, contents: string): void {
   const parsed = parseCircleci(contents);
-  for (const reference of [...parsed.declarations, ...parsed.unclassified.filter((item) => item.reason !== "orb-not-resolved")]) {
+  for (const reference of [
+    ...parsed.declarations,
+    ...parsed.unclassified.filter((item) => item.reason !== "orb-not-resolved"),
+  ]) {
     if ("reason" in reference && reference.reason === "dynamic") {
-      if (namesPythonImage(reference.value)) addPin(pins, path, reference.line, "CircleCI image", reference.value, "pin", { unresolved: "the image reference is dynamic." });
+      if (namesPythonImage(reference.value))
+        addPin(pins, path, reference.line, "CircleCI image", reference.value, "pin", {
+          unresolved: "the image reference is dynamic.",
+        });
       continue;
     }
     const image = parseImageReference(reference.value);
@@ -352,7 +414,9 @@ function collectConda(pins: RuntimePin[], path: string, contents: string): void 
     if (operator === ">=" || operator === ">" || operator === "~=") {
       addPin(pins, path, line, "conda environment.yml", raw, "floor", resolveFloor(`${operator}${match[2]!}`));
     } else if (operator === "<" || operator === "<=" || operator === "!=") {
-      addPin(pins, path, line, "conda environment.yml", raw, "pin", { unresolved: "the constraint names no lower bound." });
+      addPin(pins, path, line, "conda environment.yml", raw, "pin", {
+        unresolved: "the constraint names no lower bound.",
+      });
     } else {
       addPin(pins, path, line, "conda environment.yml", raw, "pin", resolvePython(match[2]!));
     }
@@ -363,7 +427,10 @@ function collectAzure(pins: RuntimePin[], path: string, contents: string): void 
   const images = azureContainerImages(contents);
   for (const reference of images) {
     if (reference.value.includes("$")) {
-      if (namesPythonImage(reference.value)) addPin(pins, path, reference.line, "Azure Pipelines image", reference.value, "pin", { unresolved: "the image reference is dynamic." });
+      if (namesPythonImage(reference.value))
+        addPin(pins, path, reference.line, "Azure Pipelines image", reference.value, "pin", {
+          unresolved: "the image reference is dynamic.",
+        });
       continue;
     }
     const image = parseImageReference(reference.value);

@@ -15,7 +15,12 @@ import { docsTemplate } from "./templates/docs.js";
 import { fixturePlaceholder, fixtureReadmeTemplate } from "./templates/fixtures.js";
 import { parserTemplate, parserTestTemplate } from "./templates/parser.js";
 import { registryTemplate } from "./templates/registry.js";
-import { cleanFixtureTemplate, matchFixtureTemplate, ruleFixtureReadmeTemplate, ruleTemplate } from "./templates/rule.js";
+import {
+  cleanFixtureTemplate,
+  matchFixtureTemplate,
+  ruleFixtureReadmeTemplate,
+  ruleTemplate,
+} from "./templates/rule.js";
 import { testTemplate } from "./templates/test.js";
 
 export { ScaffoldError } from "./names.js";
@@ -64,7 +69,9 @@ async function assertEvergreenCheckout(root: string): Promise<void> {
   const manifest = await readFile(join(root, "package.json"), "utf8").catch(() => undefined);
   const name = manifest === undefined ? undefined : (JSON.parse(manifest) as { name?: string }).name;
   if (name !== "evergreen-deprecation" || !(await exists(join(root, "src", "detectors", "index.ts")))) {
-    throw new ScaffoldError("new-detector creates files in a checkout of the Evergreen repository. Run it from the repository root.");
+    throw new ScaffoldError(
+      "new-detector creates files in a checkout of the Evergreen repository. Run it from the repository root.",
+    );
   }
 }
 
@@ -82,7 +89,9 @@ export async function scaffoldDetector(id: string, options: ScaffoldOptions = {}
   const existing: string[] = [];
   for (const path of files.keys()) if (await exists(join(root, path))) existing.push(path);
   if (existing.length > 0) {
-    throw new ScaffoldError(`Nothing was written: ${existing.join(", ")} already ${existing.length === 1 ? "exists" : "exist"}.`);
+    throw new ScaffoldError(
+      `Nothing was written: ${existing.join(", ")} already ${existing.length === 1 ? "exists" : "exist"}.`,
+    );
   }
 
   for (const [path, contents] of files) {
@@ -134,7 +143,8 @@ export function renderRuleScaffold(names: RuleScaffoldNames, _today: string): Ma
   ]);
 }
 
-const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null && !Array.isArray(value);
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 /** Adds the rule to a registry document, keeping the existing formatting. */
 export function registryWithRule(contents: string, rule: Record<string, unknown>): string {
@@ -156,7 +166,13 @@ async function existingRuleIds(root: string): Promise<Map<string, string>> {
   const directory = join(root, "registry");
   const ids = new Map<string, string>();
   for (const entry of await readdir(directory, { withFileTypes: true }).catch(() => [])) {
-    if (!entry.isFile() || !entry.name.endsWith(".json") || entry.name === "sources.lock.json" || entry.name.endsWith("-shas.json")) continue;
+    if (
+      !entry.isFile() ||
+      !entry.name.endsWith(".json") ||
+      entry.name === "sources.lock.json" ||
+      entry.name.endsWith("-shas.json")
+    )
+      continue;
     const file = `registry/${entry.name}`;
     let value: unknown;
     try {
@@ -176,7 +192,9 @@ async function assertRuleCheckout(root: string): Promise<void> {
   const manifest = await readFile(join(root, "package.json"), "utf8").catch(() => undefined);
   const name = manifest === undefined ? undefined : (JSON.parse(manifest) as { name?: string }).name;
   if (name !== "evergreen-deprecation" || !(await exists(join(root, "registry")))) {
-    throw new ScaffoldError("new-rule creates a rule in a checkout of the Evergreen repository. Run it from the repository root.");
+    throw new ScaffoldError(
+      "new-rule creates a rule in a checkout of the Evergreen repository. Run it from the repository root.",
+    );
   }
 }
 
@@ -188,7 +206,9 @@ export async function scaffoldRule(id: string, options: RuleScaffoldOptions = {}
 
   const registry = `registry/${names.ecosystem}.json`;
   if (!(await exists(join(root, registry)))) {
-    throw new ScaffoldError(`Nothing was written: ${registry} does not exist. Create the ecosystem first with evergreen new-detector ${names.ecosystem}, or pass --ecosystem with a registry that exists.`);
+    throw new ScaffoldError(
+      `Nothing was written: ${registry} does not exist. Create the ecosystem first with evergreen new-detector ${names.ecosystem}, or pass --ecosystem with a registry that exists.`,
+    );
   }
   const owner = (await existingRuleIds(root)).get(names.id);
   if (owner !== undefined) {
@@ -200,7 +220,9 @@ export async function scaffoldRule(id: string, options: RuleScaffoldOptions = {}
   if (await exists(join(root, RULE_FIXTURES(names)))) existing.push(`${RULE_FIXTURES(names)}/`);
   for (const path of files.keys()) if (await exists(join(root, path))) existing.push(path);
   if (existing.length > 0) {
-    throw new ScaffoldError(`Nothing was written: ${existing.join(", ")} already ${existing.length === 1 ? "exists" : "exist"}.`);
+    throw new ScaffoldError(
+      `Nothing was written: ${existing.join(", ")} already ${existing.length === 1 ? "exists" : "exist"}.`,
+    );
   }
 
   const updated = registryWithRule(await readFile(join(root, registry), "utf8"), ruleTemplate(names, today));
@@ -222,9 +244,21 @@ export async function scaffoldRule(id: string, options: RuleScaffoldOptions = {}
 }
 
 export function renderRuleScaffoldResult(result: RuleScaffoldResult): string {
-  return [`Created the ${result.names.id} rule in ${result.registry}:`, ...result.files.map((file) => `  ${file}`), "", "Next:", ...result.nextSteps.map((step, index) => `  ${index + 1}. ${step}`)].join("\n");
+  return [
+    `Created the ${result.names.id} rule in ${result.registry}:`,
+    ...result.files.map((file) => `  ${file}`),
+    "",
+    "Next:",
+    ...result.nextSteps.map((step, index) => `  ${index + 1}. ${step}`),
+  ].join("\n");
 }
 
 export function renderScaffoldResult(result: ScaffoldResult): string {
-  return [`Created the ${result.names.title} detector skeleton:`, ...result.files.map((file) => `  ${file}`), "", "Next:", ...result.nextSteps.map((step, index) => `  ${index + 1}. ${step}`)].join("\n");
+  return [
+    `Created the ${result.names.title} detector skeleton:`,
+    ...result.files.map((file) => `  ${file}`),
+    "",
+    "Next:",
+    ...result.nextSteps.map((step, index) => `  ${index + 1}. ${step}`),
+  ].join("\n");
 }

@@ -47,21 +47,21 @@ async function tags(action: string): Promise<GitHubTag[]> {
     const url = `https://api.github.com/repos/${action}/tags?per_page=100&page=${page}`;
     const response = await fetch(url, { headers: requestHeaders() });
     if (!response.ok) throw new Error(`GET ${url} failed: HTTP ${response.status}`);
-    const batch = await response.json() as GitHubTag[];
+    const batch = (await response.json()) as GitHubTag[];
     results.push(...batch);
     if (batch.length < 100) return results;
   }
 }
 
 async function coveredActions(): Promise<string[]> {
-  const registry = JSON.parse(
-    await readFile(resolve("registry/github-actions.json"), "utf8"),
-  ) as GitHubActionsRegistry;
-  return [...new Set(
-    registry.rules
-      .map((rule) => rule["x-github-actions"]?.action?.toLowerCase())
-      .filter((action): action is string => action !== undefined),
-  )];
+  const registry = JSON.parse(await readFile(resolve("registry/github-actions.json"), "utf8")) as GitHubActionsRegistry;
+  return [
+    ...new Set(
+      registry.rules
+        .map((rule) => rule["x-github-actions"]?.action?.toLowerCase())
+        .filter((action): action is string => action !== undefined),
+    ),
+  ];
 }
 
 async function buildShaRegistry(): Promise<{
@@ -77,9 +77,7 @@ async function buildShaRegistry(): Promise<{
       const existing = versions.get(sha);
       versions.set(sha, existing && existing !== tag.name ? chooseTag(action, sha, existing, tag.name) : tag.name);
     }
-    actions[action] = Object.fromEntries(
-      [...versions].sort(([left], [right]) => left.localeCompare(right)),
-    );
+    actions[action] = Object.fromEntries([...versions].sort(([left], [right]) => left.localeCompare(right)));
   }
   return { schemaVersion: SCHEMA_VERSION, actions };
 }

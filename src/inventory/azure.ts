@@ -114,7 +114,11 @@ function isAppServiceSite(document: unknown): boolean {
     entries !== undefined &&
     entries.some((entry) => {
       const config = siteConfigOf(entry);
-      return config !== undefined && string(entry.kind) !== undefined && (stackReference(config) !== undefined || runtimeVersion(config) !== undefined);
+      return (
+        config !== undefined &&
+        string(entry.kind) !== undefined &&
+        (stackReference(config) !== undefined || runtimeVersion(config) !== undefined)
+      );
     })
   );
 }
@@ -123,12 +127,23 @@ function isAppServiceSite(document: unknown): boolean {
 function aksVersions(entry: JsonObject): { pointerSuffix: string; version: string | undefined }[] {
   const controlPlane = [{ pointerSuffix: "kubernetesVersion", version: string(entry.kubernetesVersion) }];
   const pools = Array.isArray(entry.agentPoolProfiles) ? entry.agentPoolProfiles.filter(isObject) : [];
-  return [...controlPlane, ...pools.map((pool, index) => ({ pointerSuffix: `agentPoolProfiles/${index}/orchestratorVersion`, version: string(pool.orchestratorVersion) }))];
+  return [
+    ...controlPlane,
+    ...pools.map((pool, index) => ({
+      pointerSuffix: `agentPoolProfiles/${index}/orchestratorVersion`,
+      version: string(pool.orchestratorVersion),
+    })),
+  ];
 }
 
 function isAks(document: unknown): boolean {
   const entries = resourceList(document);
-  return entries !== undefined && entries.some((entry) => string(entry.name) !== undefined && aksVersions(entry).some((field) => field.version !== undefined));
+  return (
+    entries !== undefined &&
+    entries.some(
+      (entry) => string(entry.name) !== undefined && aksVersions(entry).some((field) => field.version !== undefined),
+    )
+  );
 }
 
 function siteItems(document: unknown, file: string): InventoryItem[] {
@@ -140,11 +155,25 @@ function siteItems(document: unknown, file: string): InventoryItem[] {
     if (resource === undefined || kind === undefined || config === undefined) continue;
     const stack = declaredStack(config);
     if (stack !== undefined) {
-      items.push({ importer: IMPORTER_ID, file, pointer: `/${index}/siteConfig/${stack.field}`, resource, purl: `${APP_SERVICE}${stack.stack}`, version: stack.version });
+      items.push({
+        importer: IMPORTER_ID,
+        file,
+        pointer: `/${index}/siteConfig/${stack.field}`,
+        resource,
+        purl: `${APP_SERVICE}${stack.stack}`,
+        version: stack.version,
+      });
     }
     const version = isFunctionApp(kind) ? runtimeVersion(config) : undefined;
     if (version !== undefined && isComparableVersion(version)) {
-      items.push({ importer: IMPORTER_ID, file, pointer: `/${index}/siteConfig/${EXTENSION_VERSION}`, resource, purl: FUNCTIONS_RUNTIME, version });
+      items.push({
+        importer: IMPORTER_ID,
+        file,
+        pointer: `/${index}/siteConfig/${EXTENSION_VERSION}`,
+        resource,
+        purl: FUNCTIONS_RUNTIME,
+        version,
+      });
     }
   }
   return items;
@@ -160,7 +189,14 @@ function aksItems(document: unknown, file: string): InventoryItem[] {
       const version = field.version;
       if (version === undefined || seen.has(version) || !isComparableVersion(version)) continue;
       seen.add(version);
-      items.push({ importer: IMPORTER_ID, file, pointer: `/${index}/${field.pointerSuffix}`, resource, purl: AKS, version });
+      items.push({
+        importer: IMPORTER_ID,
+        file,
+        pointer: `/${index}/${field.pointerSuffix}`,
+        resource,
+        purl: AKS,
+        version,
+      });
     }
   }
   return items;

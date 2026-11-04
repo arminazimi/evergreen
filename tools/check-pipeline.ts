@@ -129,12 +129,15 @@ async function inputFiles(path: string): Promise<string[]> {
   const files = await Promise.all(
     listed.map(async (entry) => {
       const full = join(path, entry);
-      return (await stat(full).then((s) => s.isFile(), () => false)) ? full : undefined;
+      return (await stat(full).then(
+        (s) => s.isFile(),
+        () => false,
+      ))
+        ? full
+        : undefined;
     }),
   );
-  return files
-    .filter((file): file is string => file !== undefined)
-    .sort((a, b) => a.localeCompare(b));
+  return files.filter((file): file is string => file !== undefined).sort((a, b) => a.localeCompare(b));
 }
 
 export interface InputDigest {
@@ -415,7 +418,8 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
       },
       {
         id: "build:action",
-        run: () => run(process.execPath, [nccCli, "build", "src/action.ts", "-o", stagingDir, "--minify", "--transpile-only"]),
+        run: () =>
+          run(process.execPath, [nccCli, "build", "src/action.ts", "-o", stagingDir, "--minify", "--transpile-only"]),
       },
       {
         id: "test",

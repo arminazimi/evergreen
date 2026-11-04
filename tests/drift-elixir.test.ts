@@ -43,12 +43,25 @@ function atPath(runtime: RuntimeDrift, path: string, line: number) {
 
 test("collects every Elixir source the collector claims", async () => {
   const [elixir] = await collect("drifted");
-  const pin = (path: string, source: string) => elixir.pins.find((item) => item.path === path && item.source === source);
+  const pin = (path: string, source: string) =>
+    elixir.pins.find((item) => item.path === path && item.source === source);
 
-  assert.deepEqual([pin(".elixir-version", ".elixir-version")?.raw, pin(".elixir-version", ".elixir-version")?.release], ["1.16.3", "1.16"]);
-  assert.deepEqual([pin(".tool-versions", ".tool-versions")?.raw, pin(".tool-versions", ".tool-versions")?.release], ["1.15.7-otp-25", "1.15"]);
-  assert.deepEqual([pin("Dockerfile", "Dockerfile FROM")?.raw, pin("Dockerfile", "Dockerfile FROM")?.release], ["1.16.3-otp-26-alpine", "1.16"]);
-  assert.deepEqual([pin(".github/workflows/ci.yml", "GitHub Actions erlef/setup-beam elixir-version")?.release], ["1.17"]);
+  assert.deepEqual(
+    [pin(".elixir-version", ".elixir-version")?.raw, pin(".elixir-version", ".elixir-version")?.release],
+    ["1.16.3", "1.16"],
+  );
+  assert.deepEqual(
+    [pin(".tool-versions", ".tool-versions")?.raw, pin(".tool-versions", ".tool-versions")?.release],
+    ["1.15.7-otp-25", "1.15"],
+  );
+  assert.deepEqual(
+    [pin("Dockerfile", "Dockerfile FROM")?.raw, pin("Dockerfile", "Dockerfile FROM")?.release],
+    ["1.16.3-otp-26-alpine", "1.16"],
+  );
+  assert.deepEqual(
+    [pin(".github/workflows/ci.yml", "GitHub Actions erlef/setup-beam elixir-version")?.release],
+    ["1.17"],
+  );
   assert.deepEqual([pin(".gitlab-ci.yml", "GitLab CI image")?.release], ["1.16"]);
   assert.deepEqual([pin(".circleci/config.yml", "CircleCI image")?.release], ["1.17"]);
 
@@ -57,7 +70,10 @@ test("collects every Elixir source the collector claims", async () => {
   assert.deepEqual(elixir.floorConflicts, []);
 
   const matrix = elixir.pins.filter((item) => item.source === "setup-beam elixir matrix");
-  assert.deepEqual(matrix.map((item) => item.release), ["1.16", "1.17"]);
+  assert.deepEqual(
+    matrix.map((item) => item.release),
+    ["1.16", "1.17"],
+  );
   assert.deepEqual([...new Set(matrix.map((item) => item.group))], ["setup-beam elixir matrix"]);
 
   assert.deepEqual(
@@ -81,17 +97,34 @@ test("collects every Elixir source the collector claims", async () => {
 test("collects every Erlang/OTP source the collector claims", async () => {
   const [, erlang] = await collect("drifted");
   const pin = (path: string, source: string, line?: number) =>
-    erlang.pins.find((item) => item.path === path && item.source === source && (line === undefined || item.line === line));
+    erlang.pins.find(
+      (item) => item.path === path && item.source === source && (line === undefined || item.line === line),
+    );
 
-  assert.deepEqual([pin(".tool-versions", ".tool-versions", 2)?.raw, pin(".tool-versions", ".tool-versions", 2)?.release], ["25.3.2", "25"]);
-  assert.deepEqual([pin(".tool-versions", ".tool-versions", 1)?.raw, pin(".tool-versions", ".tool-versions", 1)?.release], ["1.15.7-otp-25", "25"]);
-  assert.deepEqual([pin(".github/workflows/ci.yml", "GitHub Actions erlef/setup-beam otp-version")?.raw, pin(".github/workflows/ci.yml", "GitHub Actions erlef/setup-beam otp-version")?.release], ["OTP-27.1.1", "27"]);
+  assert.deepEqual(
+    [pin(".tool-versions", ".tool-versions", 2)?.raw, pin(".tool-versions", ".tool-versions", 2)?.release],
+    ["25.3.2", "25"],
+  );
+  assert.deepEqual(
+    [pin(".tool-versions", ".tool-versions", 1)?.raw, pin(".tool-versions", ".tool-versions", 1)?.release],
+    ["1.15.7-otp-25", "25"],
+  );
+  assert.deepEqual(
+    [
+      pin(".github/workflows/ci.yml", "GitHub Actions erlef/setup-beam otp-version")?.raw,
+      pin(".github/workflows/ci.yml", "GitHub Actions erlef/setup-beam otp-version")?.release,
+    ],
+    ["OTP-27.1.1", "27"],
+  );
   assert.equal(pin("Dockerfile", "Dockerfile FROM", 1)?.release, "26");
   assert.equal(pin(".gitlab-ci.yml", "GitLab CI image")?.release, "26");
   assert.equal(pin(".circleci/config.yml", "CircleCI image")?.release, "27");
 
   const matrix = erlang.pins.filter((item) => item.source === "setup-beam otp matrix");
-  assert.deepEqual(matrix.map((item) => item.release), ["26", "27"]);
+  assert.deepEqual(
+    matrix.map((item) => item.release),
+    ["26", "27"],
+  );
   assert.deepEqual([...new Set(matrix.map((item) => item.group))], ["setup-beam otp matrix"]);
 
   assert.deepEqual(erlang.releases, ["25", "26", "27"]);
@@ -131,7 +164,10 @@ test("a mix.exs floor above the pinned release is a floor conflict", async () =>
   const [elixir, erlang] = await collect("floor-conflict");
   assert.deepEqual(elixir.releases, ["1.16"]);
   assert.equal(elixir.drifted, false);
-  assert.deepEqual(elixir.floorConflicts.map((pin) => [pin.path, pin.line, pin.raw, pin.release]), [["mix.exs", 8, "~> 1.17", "1.17"]]);
+  assert.deepEqual(
+    elixir.floorConflicts.map((pin) => [pin.path, pin.line, pin.raw, pin.release]),
+    [["mix.exs", 8, "~> 1.17", "1.17"]],
+  );
   assert.deepEqual(erlang.floorConflicts, [], "mix.exs constrains Elixir, not OTP");
   const check = await run("drift", fixture("floor-conflict"), "--runtime", "elixir", "--check");
   assert.equal(check.code, 1);
@@ -176,14 +212,25 @@ test("values Evergreen cannot resolve are reported with a reason and never guess
 
   assert.equal(atPath(elixir, "Dockerfile", 4).length, 0, "the erlang image is not an Elixir source");
   assert.equal(atPath(erlang, "Dockerfile", 4).length, 0, "the erlang image is not an Erlang source either");
-  assert.equal(elixir.pins.filter((pin) => pin.path === ".github/workflows/broken.yml").length, 0, "malformed YAML is skipped, not guessed");
+  assert.equal(
+    elixir.pins.filter((pin) => pin.path === ".github/workflows/broken.yml").length,
+    0,
+    "malformed YAML is skipped, not guessed",
+  );
 });
 
 test("align patches every understood source, applies cleanly, and removes the drift", async () => {
   const root = await copyFixture("align");
   const elixirAlign = await run("drift", root, "--runtime", "elixir", "--align", "1.17");
   assert.equal(elixirAlign.code, 0, elixirAlign.stderr);
-  for (const file of [".elixir-version", ".tool-versions", "Dockerfile", ".gitlab-ci.yml", ".circleci/config.yml", ".github/workflows/ci.yml"]) {
+  for (const file of [
+    ".elixir-version",
+    ".tool-versions",
+    "Dockerfile",
+    ".gitlab-ci.yml",
+    ".circleci/config.yml",
+    ".github/workflows/ci.yml",
+  ]) {
     assert.ok(elixirAlign.stdout.includes(`+++ b/${file}`), file);
   }
   assert.match(elixirAlign.stderr, /Refused mix\.exs:8 \(mix\.exs elixir ~> 1\.15\)/);
@@ -197,7 +244,10 @@ test("align patches every understood source, applies cleanly, and removes the dr
 
   assert.equal(await readFile(join(root, ".elixir-version"), "utf8"), "1.17-otp-27\n");
   assert.equal(await readFile(join(root, ".tool-versions"), "utf8"), "elixir 1.17-otp-27\nerlang 27\n");
-  assert.equal(await readFile(join(root, "Dockerfile"), "utf8"), "FROM elixir:1.17-otp-27-alpine AS build\nFROM hexpm/elixir:1.17.3-erlang-27.1.1-alpine-3.20\nCOPY . /app\n");
+  assert.equal(
+    await readFile(join(root, "Dockerfile"), "utf8"),
+    "FROM elixir:1.17-otp-27-alpine AS build\nFROM hexpm/elixir:1.17.3-erlang-27.1.1-alpine-3.20\nCOPY . /app\n",
+  );
   const workflow = await readFile(join(root, ".github/workflows/ci.yml"), "utf8");
   assert.match(workflow, /elixir-version: "1\.17"/);
   assert.match(workflow, /otp-version: "27"/);
@@ -209,15 +259,25 @@ test("align patches every understood source, applies cleanly, and removes the dr
   assert.equal((await run("drift", root, "--runtime", "erlang", "--check")).code, 0);
   const recheck = await run("drift", root, "--check", "--json");
   assert.equal(recheck.code, 0, `${recheck.stdout}${recheck.stderr}`);
-  const runtimes = (JSON.parse(recheck.stdout) as { runtimes: Array<{ runtime: string; releases: string[] }> }).runtimes;
-  assert.deepEqual(runtimes.map((runtime) => [runtime.runtime, runtime.releases]), [["elixir", ["1.17"]], ["erlang", ["27"]]]);
+  const runtimes = (JSON.parse(recheck.stdout) as { runtimes: Array<{ runtime: string; releases: string[] }> })
+    .runtimes;
+  assert.deepEqual(
+    runtimes.map((runtime) => [runtime.runtime, runtime.releases]),
+    [
+      ["elixir", ["1.17"]],
+      ["erlang", ["27"]],
+    ],
+  );
 });
 
 test("align refuses hexpm/elixir tags, floors, and matrix values", async () => {
   const elixir = await run("drift", fixture("drifted"), "--runtime", "elixir", "--align", "1.18");
   assert.equal(elixir.code, 0, elixir.stderr);
   assert.match(elixir.stderr, /Refused Dockerfile:2 \(Dockerfile FROM 1\.17\.3-erlang-27\.1\.1-alpine-3\.20\)/);
-  assert.match(elixir.stderr, /Refused \.circleci\/config\.yml:5 \(CircleCI image 1\.17\.3-erlang-27\.1\.1-debian-12\)/);
+  assert.match(
+    elixir.stderr,
+    /Refused \.circleci\/config\.yml:5 \(CircleCI image 1\.17\.3-erlang-27\.1\.1-debian-12\)/,
+  );
   assert.match(elixir.stderr, /Refused mix\.exs:8 \(mix\.exs elixir ~> 1\.14\)/);
   assert.match(elixir.stderr, /Refused \.github\/workflows\/ci\.yml:8 \(setup-beam elixir matrix 1\.16\)/);
   assert.doesNotMatch(elixir.stdout, /^\+.*-erlang-/m);
@@ -265,7 +325,9 @@ test("empty, oversized, unreadable, and structurally odd inputs are skipped, not
 
   await mkdir(join(root, "many"));
   await mkdir(join(root, "more"));
-  await Promise.all(Array.from({ length: 2000 }, (_, index) => writeFile(join(root, "many", `Dockerfile.${index}`), "")));
+  await Promise.all(
+    Array.from({ length: 2000 }, (_, index) => writeFile(join(root, "many", `Dockerfile.${index}`), "")),
+  );
   await writeFile(join(root, "more", "Dockerfile.0"), "");
 
   await mkdir(join(root, ".github/workflows"), { recursive: true });
@@ -315,16 +377,29 @@ test("empty, oversized, unreadable, and structurally odd inputs are skipped, not
   for (const runtime of [elixir, erlang]) {
     for (const pin of runtime.pins) assert.ok(!ignored.test(pin.path), `${pin.path} must not be read`);
   }
-  const lockedReadable = await readdir(join(root, "locked")).then(() => true, () => false);
+  const lockedReadable = await readdir(join(root, "locked")).then(
+    () => true,
+    () => false,
+  );
   if (!lockedReadable) {
     for (const runtime of [elixir, erlang]) {
-      assert.equal(runtime.pins.filter((pin) => pin.path.startsWith("locked/")).length, 0, "an unreadable directory is skipped");
+      assert.equal(
+        runtime.pins.filter((pin) => pin.path.startsWith("locked/")).length,
+        0,
+        "an unreadable directory is skipped",
+      );
     }
   }
 
-  assert.deepEqual(atPath(elixir, ".github/workflows/odd.yml", 24).map((pin) => [pin.source, pin.raw]), [["GitHub Actions erlef/setup-beam elixir-version", "${{ matrix.beam }}"]]);
+  assert.deepEqual(
+    atPath(elixir, ".github/workflows/odd.yml", 24).map((pin) => [pin.source, pin.raw]),
+    [["GitHub Actions erlef/setup-beam elixir-version", "${{ matrix.beam }}"]],
+  );
   assert.match(atPath(elixir, ".github/workflows/odd.yml", 24)[0]?.unresolved ?? "", /expression/);
-  assert.deepEqual(atPath(erlang, ".github/workflows/odd.yml", 18).map((pin) => [pin.raw, pin.release]), [["26", "26"]]);
+  assert.deepEqual(
+    atPath(erlang, ".github/workflows/odd.yml", 18).map((pin) => [pin.raw, pin.release]),
+    [["26", "26"]],
+  );
   assert.deepEqual(elixir.releases, []);
   assert.equal(elixir.drifted, false);
   assert.deepEqual(erlang.releases, ["26"]);
@@ -373,7 +448,10 @@ test("align refuses values it cannot rewrite safely", async () => {
   assert.match(elixir.stderr, /Refused \.tool-versions:1 \(\.tool-versions 1\.17\.2-otp-26\)/);
   assert.match(elixir.stderr, /Refused \.gitlab-ci\.yml:1 \(GitLab CI image latest\)/);
   assert.match(elixir.stderr, /Refused Dockerfile:3 \(Dockerfile FROM 1\.16\.3-otp-25-alpine\)/);
-  assert.match(elixir.stderr, /Refused \.github\/workflows\/ci\.yml:9 \(GitHub Actions erlef\/setup-beam elixir-version 1\.16 extra\)/);
+  assert.match(
+    elixir.stderr,
+    /Refused \.github\/workflows\/ci\.yml:9 \(GitHub Actions erlef\/setup-beam elixir-version 1\.16 extra\)/,
+  );
 
   const erlang = await run("drift", root, "--runtime", "erlang", "--align", "28");
   assert.equal(erlang.code, 0, erlang.stderr);
@@ -381,7 +459,10 @@ test("align refuses values it cannot rewrite safely", async () => {
   assert.match(erlang.stderr, /Refused \.tool-versions:1 \(\.tool-versions 1\.17\.2-otp-26\)/);
   assert.match(erlang.stderr, /Refused \.tool-versions:2 \(\.tool-versions 25\.3\.2\)/);
   assert.match(erlang.stderr, /Refused \.tool-versions:2 \(\.tool-versions 26\)/);
-  assert.match(erlang.stderr, /Refused \.github\/workflows\/ci\.yml:10 \(GitHub Actions erlef\/setup-beam otp-version 26 trailing\)/);
+  assert.match(
+    erlang.stderr,
+    /Refused \.github\/workflows\/ci\.yml:10 \(GitHub Actions erlef\/setup-beam otp-version 26 trailing\)/,
+  );
 
   const badElixir = await run("drift", root, "--runtime", "elixir", "--align", "1.16.3");
   assert.equal(badElixir.code, 0, badElixir.stderr);
@@ -413,7 +494,10 @@ test("--json output conforms to the drift schema", async () => {
 
 test("both collectors are registered in the drift index", async () => {
   const runtimes = driftCollectors.map((collector) => collector.runtime);
-  assert.deepEqual(runtimes.filter((runtime) => runtime === "elixir" || runtime === "erlang"), ["elixir", "erlang"]);
+  assert.deepEqual(
+    runtimes.filter((runtime) => runtime === "elixir" || runtime === "erlang"),
+    ["elixir", "erlang"],
+  );
   const unknown = await run("drift", fixture("consistent"), "--runtime", "elixir", "--check");
   assert.equal(unknown.code, 0, unknown.stderr);
   assert.equal(unknown.stderr, "");

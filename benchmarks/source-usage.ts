@@ -48,14 +48,29 @@ async function compareEngines(): Promise<Record<string, unknown>> {
   const repositoryRoot = join(import.meta.dirname, "..", "..");
   const corpus = join(repositoryRoot, "src");
   const files = await typeScriptFiles(corpus);
-  const sources = await Promise.all(files.map(async (path) => ({ path: relative(corpus, path).split("\\").join("/"), source: await readFile(path, "utf8") })));
+  const sources = await Promise.all(
+    files.map(async (path) => ({
+      path: relative(corpus, path).split("\\").join("/"),
+      source: await readFile(path, "utf8"),
+    })),
+  );
   const usageContract: SourceUsageContract = {
     id: "node-modules",
     matchers: [
       { kind: "import", language: "typescript", module: "node:fs/promises" },
-      { kind: "call", language: "typescript", module: "node:fs/promises", targets: ["readFile", "writeFile", "mkdir", "readdir", "rm"] },
+      {
+        kind: "call",
+        language: "typescript",
+        module: "node:fs/promises",
+        targets: ["readFile", "writeFile", "mkdir", "readdir", "rm"],
+      },
       { kind: "import", language: "typescript", module: "node:path" },
-      { kind: "call", language: "typescript", module: "node:path", targets: ["join", "resolve", "dirname", "relative"] },
+      {
+        kind: "call",
+        language: "typescript",
+        module: "node:path",
+        targets: ["join", "resolve", "dirname", "relative"],
+      },
     ],
   };
   const regexRun = async (): Promise<number> => {
@@ -65,7 +80,8 @@ async function compareEngines(): Promise<Record<string, unknown>> {
   };
   const treeSitterRun = async (): Promise<number> => {
     const startedAt = performance.now();
-    for (const file of sources) await analyzeJavaScriptFile({ path: file.path, language: "typescript", source: file.source }, [usageContract]);
+    for (const file of sources)
+      await analyzeJavaScriptFile({ path: file.path, language: "typescript", source: file.source }, [usageContract]);
     return performance.now() - startedAt;
   };
   const treeSitterCold = await treeSitterRun();
@@ -112,11 +128,7 @@ try {
       `call:src/client-${index}.ts:2`,
     ]),
   );
-  const detected = new Set(
-    usages.map((usage) =>
-      [usage.kind, usage.location.path, usage.location.line].join(":"),
-    ),
-  );
+  const detected = new Set(usages.map((usage) => [usage.kind, usage.location.path, usage.location.line].join(":")));
   const truePositives = [...detected].filter((usage) => expected.has(usage)).length;
   const precision = detectedUsages === 0 ? 0 : truePositives / detectedUsages;
   const recall = truePositives / expectedUsages;

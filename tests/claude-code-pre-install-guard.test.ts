@@ -15,12 +15,29 @@ interface PreInstallGuard {
   denialFor(check: {
     purl: string;
     version?: string;
-    findings: Array<{ title: string; severity: string; event: string; summary: string; replacement?: string; deadline?: string; sources: Array<{ url: string }> }>;
+    findings: Array<{
+      title: string;
+      severity: string;
+      event: string;
+      summary: string;
+      replacement?: string;
+      deadline?: string;
+      sources: Array<{ url: string }>;
+    }>;
   }): string;
   run(
     payload: object,
-    runner?: (purl: string, version?: string) => { check?: unknown; error?: string } | Promise<{ check?: unknown; error?: string }>,
-  ): Promise<{ systemMessage: string; hookSpecificOutput: { hookEventName: string; permissionDecision: string; permissionDecisionReason: string } } | undefined>;
+    runner?: (
+      purl: string,
+      version?: string,
+    ) => { check?: unknown; error?: string } | Promise<{ check?: unknown; error?: string }>,
+  ): Promise<
+    | {
+        systemMessage: string;
+        hookSpecificOutput: { hookEventName: string; permissionDecision: string; permissionDecisionReason: string };
+      }
+    | undefined
+  >;
 }
 
 const guardPath = resolve("integrations/claude-code/pre-install-guard.mjs");
@@ -98,25 +115,42 @@ test("an affected package produces a PreToolUse deny with reason and replacement
   assert.equal(output.hookSpecificOutput.hookEventName, "PreToolUse");
   assert.equal(output.hookSpecificOutput.permissionDecision, "deny");
   assert.match(output.hookSpecificOutput.permissionDecisionReason, /pkg:npm\/request@2\.88\.2 — request is deprecated/);
-  assert.match(output.hookSpecificOutput.permissionDecisionReason, /Replacement: Native fetch or a maintained HTTP client/);
+  assert.match(
+    output.hookSpecificOutput.permissionDecisionReason,
+    /Replacement: Native fetch or a maintained HTTP client/,
+  );
   assert.match(output.systemMessage, /blocked 1 deprecated/);
 });
 
 test("safe installs, missing rules, check errors, and timeouts do not block", async () => {
   assert.equal(
-    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install express@4.18.0" } }, () => ({ check: { status: "no-data", findings: [] } })),
+    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install express@4.18.0" } }, () => ({
+      check: { status: "no-data", findings: [] },
+    })),
     undefined,
   );
   assert.equal(
-    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }, () => ({ error: "offline" })),
+    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }, () => ({
+      error: "offline",
+    })),
     undefined,
   );
   assert.equal(
-    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }, () => ({ error: "evergreen check timed out" })),
+    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }, () => ({
+      error: "evergreen check timed out",
+    })),
     undefined,
   );
-  assert.equal(await guard.run({ tool_name: "Bash", tool_input: { command: "npm test" } }, () => ({ check: affectedRequest })), undefined);
-  assert.equal(await guard.run({ tool_name: "Edit", tool_input: { command: "npm install request@2.88.2" } }, () => ({ check: affectedRequest })), undefined);
+  assert.equal(
+    await guard.run({ tool_name: "Bash", tool_input: { command: "npm test" } }, () => ({ check: affectedRequest })),
+    undefined,
+  );
+  assert.equal(
+    await guard.run({ tool_name: "Edit", tool_input: { command: "npm install request@2.88.2" } }, () => ({
+      check: affectedRequest,
+    })),
+    undefined,
+  );
 });
 
 test("EVERGREEN_SKIP treats only 1 and true as skip", async () => {
@@ -140,7 +174,11 @@ test("EVERGREEN_SKIP treats only 1 and true as skip", async () => {
   }
 });
 
-function runHook(payload: object, checkCommand = `"${process.execPath}" "${resolve("dist/src/cli.js")}"`, env: NodeJS.ProcessEnv = process.env): {
+function runHook(
+  payload: object,
+  checkCommand = `"${process.execPath}" "${resolve("dist/src/cli.js")}"`,
+  env: NodeJS.ProcessEnv = process.env,
+): {
   status: number | null;
   stdout: string;
 } {

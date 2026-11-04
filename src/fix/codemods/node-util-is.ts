@@ -188,7 +188,8 @@ const rules: readonly Rule[] = [
     types: false,
     title: "Util.isError has been removed",
     severity: "high",
-    reason: "Node.js offers no exact native equivalent of `util.isError` on every supported version; the codemod leaves the call unchanged.",
+    reason:
+      "Node.js offers no exact native equivalent of `util.isError` on every supported version; the codemod leaves the call unchanged.",
   },
 ];
 
@@ -203,7 +204,6 @@ interface Edit {
   end: number;
   replacement: string;
 }
-
 
 /** What a call's callee reads: the deprecated function, and the util expression when the call already has one. */
 interface Callee {
@@ -270,9 +270,10 @@ export const nodeUtilIsFixer: Fixer = {
         const calls = callsByCallee(root);
         const targetOffsets = new Set<number>();
         for (const target of fileTargets) {
-          const offset = target.usage.location.line === undefined || target.usage.location.column === undefined
-            ? -1
-            : offsetOf(before, target.usage.location.line, target.usage.location.column);
+          const offset =
+            target.usage.location.line === undefined || target.usage.location.column === undefined
+              ? -1
+              : offsetOf(before, target.usage.location.line, target.usage.location.column);
           if (offset !== -1) targetOffsets.add(offset);
         }
         const edits: Edit[] = [];
@@ -316,11 +317,17 @@ function syntheticFinding(rule: Rule, usage: SourceUsage): Finding {
  */
 async function targetsFor(result: ScanResult): Promise<Target[]> {
   const targets: Target[] = [];
-  const reported = new Map(rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]));
+  const reported = new Map(
+    rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
+  );
   const missing = rules.filter((rule) => reported.get(rule.id)!.length === 0);
-  const analyses = missing.length === 0
-    ? []
-    : await analyzeSourceUsage(result.root, missing.map((rule) => ({ id: rule.id, matchers: matchers(rule.name) })));
+  const analyses =
+    missing.length === 0
+      ? []
+      : await analyzeSourceUsage(
+          result.root,
+          missing.map((rule) => ({ id: rule.id, matchers: matchers(rule.name) })),
+        );
   const derived = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
 
   for (const rule of rules) {
@@ -331,15 +338,18 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
       }
       continue;
     }
-    for (const usage of derived.get(rule.id) ?? []) targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
+    for (const usage of derived.get(rule.id) ?? [])
+      targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
   }
   return targets;
 }
 
 function compareTargets(left: Target, right: Target): number {
-  return (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
+  return (
+    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
     (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.rule.id.localeCompare(right.rule.id);
+    left.rule.id.localeCompare(right.rule.id)
+  );
 }
 
 /** Calls keyed by the offset where their callee starts, which is the location a symbol usage reports. */
@@ -362,7 +372,13 @@ interface FileContext {
   namespace: string | undefined;
 }
 
-function rewriteFor(target: Target, calls: Map<number, Node[]>, targetOffsets: ReadonlySet<number>, context: FileContext, source: string): Edit | { reason: string } {
+function rewriteFor(
+  target: Target,
+  calls: Map<number, Node[]>,
+  targetOffsets: ReadonlySet<number>,
+  context: FileContext,
+  source: string,
+): Edit | { reason: string } {
   const { usage, rule } = target;
   if (usage.location.line === undefined || usage.location.column === undefined) {
     return { reason: "The usage has no line and column to rewrite." };
@@ -381,25 +397,39 @@ function rewriteFor(target: Target, calls: Map<number, Node[]>, targetOffsets: R
     const callee = resolveCallee(calleeNode, context.bindings);
     if (callee?.symbol !== rule.name) continue;
     if (callee.local !== undefined && context.reassigned.has(callee.local)) {
-      return { reason: `The binding \`${callee.local}\` is reassigned in this file, so the call may not reach \`util.${rule.name}\`.` };
+      return {
+        reason: `The binding \`${callee.local}\` is reassigned in this file, so the call may not reach \`util.${rule.name}\`.`,
+      };
     }
     const args = call.childForFieldName("arguments");
     if (!args) return { reason: "The call has no argument list." };
     if (nestedTarget(call, targetOffsets)) {
-      return { reason: "The call contains another `util.is*` call, so replacing both would overlap; the codemod leaves the outer call unchanged." };
+      return {
+        reason:
+          "The call contains another `util.is*` call, so replacing both would overlap; the codemod leaves the outer call unchanged.",
+      };
     }
     const values = args.namedChildren.filter((value): value is Node => value !== null);
     if (values.length === 0) return { reason: `The call passes no argument; \`util.${rule.name}\` takes exactly one.` };
-    if (values.length > 1) return { reason: `The call passes ${values.length} arguments; \`util.${rule.name}\` takes exactly one.` };
+    if (values.length > 1)
+      return { reason: `The call passes ${values.length} arguments; \`util.${rule.name}\` takes exactly one.` };
     const argument = values[0]!;
-    if (argument.type === "spread_element") return { reason: "The call spreads its argument, so the single value is not visible in the source text." };
-    if (rule.form === "refuse") return { reason: rule.reason ?? `\`util.${rule.name}\` has no exact native equivalent.` };
+    if (argument.type === "spread_element")
+      return { reason: "The call spreads its argument, so the single value is not visible in the source text." };
+    if (rule.form === "refuse")
+      return { reason: rule.reason ?? `\`util.${rule.name}\` has no exact native equivalent.` };
     if (rule.durable && !durableReference(argument)) {
-      return { reason: "The argument is not an identifier or a member chain without calls, so the replacement would evaluate it more than once." };
+      return {
+        reason:
+          "The argument is not an identifier or a member chain without calls, so the replacement would evaluate it more than once.",
+      };
     }
-    const util = rule.types ? callee.utilExpression ?? context.namespace : undefined;
+    const util = rule.types ? (callee.utilExpression ?? context.namespace) : undefined;
     if (rule.types && util === undefined) {
-      return { reason: "This file imports `util` only by name, so `util.types` is not reachable; the codemod does not add an import." };
+      return {
+        reason:
+          "This file imports `util` only by name, so `util.types` is not reachable; the codemod does not add an import.",
+      };
     }
     const replacement = render(rule, argumentText(argument, source), util);
     const wrapped = rule.form === "binary" && needsParentheses(call) ? `(${replacement})` : replacement;
@@ -409,7 +439,11 @@ function rewriteFor(target: Target, calls: Map<number, Node[]>, targetOffsets: R
 }
 
 function render(rule: Rule, argument: string, util: string | undefined): string {
-  return rule.template.split("{arg}").join(argument).split("{util}").join(util ?? "");
+  return rule.template
+    .split("{arg}")
+    .join(argument)
+    .split("{util}")
+    .join(util ?? "");
 }
 
 /** True when another `util.is*` target starts inside this call, which would make the two whole-call edits overlap. */
@@ -460,7 +494,8 @@ function utilBindings(root: Node): Map<string, string> {
   };
   for (const statement of root.descendantsOfType("import_statement")) {
     if (!statement) continue;
-    const source = statement.childForFieldName("source") ?? statement.namedChildren.find((child) => child?.type === "string");
+    const source =
+      statement.childForFieldName("source") ?? statement.namedChildren.find((child) => child?.type === "string");
     if (!source || normalizeModule(unquote(source.text)) !== utilModule) continue;
     const clause = statement.namedChildren.find((child) => child?.type === "import_clause");
     if (!clause) continue;
@@ -589,13 +624,21 @@ function durableReference(node: Node): boolean {
     case "member_expression": {
       const object = node.childForFieldName("object");
       const property = node.childForFieldName("property");
-      return property?.type === "property_identifier" && object !== null && object !== undefined && durableReference(object);
+      return (
+        property?.type === "property_identifier" && object !== null && object !== undefined && durableReference(object)
+      );
     }
     case "subscript_expression": {
       const object = node.childForFieldName("object");
       const index = node.childForFieldName("index");
-      return object !== null && object !== undefined && durableReference(object) &&
-        index !== null && index !== undefined && ["identifier", "number", "string"].includes(index.type);
+      return (
+        object !== null &&
+        object !== undefined &&
+        durableReference(object) &&
+        index !== null &&
+        index !== undefined &&
+        ["identifier", "number", "string"].includes(index.type)
+      );
     }
 
     case "parenthesized_expression":
@@ -611,9 +654,27 @@ function durableReference(node: Node): boolean {
 
 /** Argument node types that bind tighter than every operator in a replacement, so they need no parentheses. */
 const primaryArgumentTypes = new Set([
-  "identifier", "this", "number", "string", "true", "false", "null", "undefined", "member_expression",
-  "subscript_expression", "call_expression", "new_expression", "parenthesized_expression", "template_string",
-  "regex", "array", "object", "unary_expression", "await_expression", "non_null_expression", "type_assertion",
+  "identifier",
+  "this",
+  "number",
+  "string",
+  "true",
+  "false",
+  "null",
+  "undefined",
+  "member_expression",
+  "subscript_expression",
+  "call_expression",
+  "new_expression",
+  "parenthesized_expression",
+  "template_string",
+  "regex",
+  "array",
+  "object",
+  "unary_expression",
+  "await_expression",
+  "non_null_expression",
+  "type_assertion",
 ]);
 
 function argumentText(node: Node, source: string): string {

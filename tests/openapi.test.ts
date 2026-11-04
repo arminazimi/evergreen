@@ -5,7 +5,14 @@ import { test } from "node:test";
 
 import { parse } from "yaml";
 
-import { API_DIRECTORY, PRODUCTS_DIRECTORY, RULES_DIRECTORY, TYPES_DIRECTORY, buildFiles, loadRegistries } from "../tools/build-data-api.js";
+import {
+  API_DIRECTORY,
+  PRODUCTS_DIRECTORY,
+  RULES_DIRECTORY,
+  TYPES_DIRECTORY,
+  buildFiles,
+  loadRegistries,
+} from "../tools/build-data-api.js";
 
 const OPENAPI_PATH = "docs/api/openapi.yaml";
 const SCHEMA_REF_PREFIX =
@@ -78,7 +85,13 @@ test("OpenAPI describes the static API and links each path to its JSON Schema", 
   const doc = await loadOpenApi();
   assert.match(String(doc.openapi ?? ""), /^3\./);
 
-  const expectedPaths = ["/v1/index.json", "/v1/products/{id}.json", "/v1/recent.json", "/v1/rules/{id}.json", "/v1/types/{type}.json"];
+  const expectedPaths = [
+    "/v1/index.json",
+    "/v1/products/{id}.json",
+    "/v1/recent.json",
+    "/v1/rules/{id}.json",
+    "/v1/types/{type}.json",
+  ];
   assert.deepEqual(Object.keys(doc.paths ?? {}).sort(), expectedPaths);
 
   for (const path of expectedPaths) {

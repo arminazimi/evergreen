@@ -38,7 +38,10 @@ function normalized(text: string): string {
   return text.replace(/\r\n/g, "\n");
 }
 
-for (const [extension, language] of [["js", "javascript"], ["ts", "typescript"]] as const) {
+for (const [extension, language] of [
+  ["js", "javascript"],
+  ["ts", "typescript"],
+] as const) {
   test(`rewrites every literal form in ${extension} and the patch applies cleanly`, async () => {
     const before = await readFile(join(fixtures, `before.${extension}`), "utf8");
     const expected = await readFile(join(fixtures, `after.${extension}`), "utf8");

@@ -31,7 +31,8 @@ export interface Calendar {
   recent: CalendarEntry[];
 }
 
-const order = (left: CalendarEntry, right: CalendarEntry) => left.date.localeCompare(right.date) || left.ruleId.localeCompare(right.ruleId);
+const order = (left: CalendarEntry, right: CalendarEntry) =>
+  left.date.localeCompare(right.date) || left.ruleId.localeCompare(right.ruleId);
 
 export function buildCalendar(rules: readonly RegistryV2Rule[], today: string, months = 6, recentDays = 30): Calendar {
   if (!isIsoDate(today)) throw new Error(`"${today}" is not a date (YYYY-MM-DD).`);
@@ -39,7 +40,16 @@ export function buildCalendar(rules: readonly RegistryV2Rule[], today: string, m
   const since = addDays(today, -recentDays);
   const entries = rules
     .filter((rule) => rule.deadline !== undefined && isIsoDate(rule.deadline))
-    .map((rule): CalendarEntry => ({ date: rule.deadline!, ruleId: rule.id, ecosystem: rule.ecosystem, title: rule.title, severity: rule.severity, source: rule.sources[0]?.url ?? "" }));
+    .map(
+      (rule): CalendarEntry => ({
+        date: rule.deadline!,
+        ruleId: rule.id,
+        ecosystem: rule.ecosystem,
+        title: rule.title,
+        severity: rule.severity,
+        source: rule.sources[0]?.url ?? "",
+      }),
+    );
   return {
     today,
     until,
@@ -53,7 +63,14 @@ export function renderMarkdown(calendar: Calendar): string {
   const table = (entries: CalendarEntry[]) =>
     entries.length === 0
       ? "None in the registry.\n"
-      : ["| Date | Ecosystem | Event | Severity | Rule | Source |", "|---|---|---|---|---|---|", ...entries.map((entry) => `| ${entry.date} | ${entry.ecosystem} | ${escapeTableCell(entry.title)} | ${entry.severity} | \`${entry.ruleId}\` | [source](${entry.source}) |`)].join("\n") + "\n";
+      : [
+          "| Date | Ecosystem | Event | Severity | Rule | Source |",
+          "|---|---|---|---|---|---|",
+          ...entries.map(
+            (entry) =>
+              `| ${entry.date} | ${entry.ecosystem} | ${escapeTableCell(entry.title)} | ${entry.severity} | \`${entry.ruleId}\` | [source](${entry.source}) |`,
+          ),
+        ].join("\n") + "\n";
   return [
     "# Lifecycle calendar",
     "",
@@ -95,10 +112,16 @@ export function renderWeeklyPost(post: WeeklyPost): string {
     "",
   ];
   if (post.entries.length === 0) {
-    lines.push("No lifecycle date in the registry fell in this window. Delete this draft rather than publishing an empty post.", "");
+    lines.push(
+      "No lifecycle date in the registry fell in this window. Delete this draft rather than publishing an empty post.",
+      "",
+    );
   } else {
     const count = post.entries.length;
-    lines.push(`The registry recorded ${count} lifecycle ${count === 1 ? "date" : "dates"} in this window. Each entry is a claim with its source; check it before publishing.`, "");
+    lines.push(
+      `The registry recorded ${count} lifecycle ${count === 1 ? "date" : "dates"} in this window. Each entry is a claim with its source; check it before publishing.`,
+      "",
+    );
     for (const entry of post.entries) {
       lines.push(
         `## ${heading(entry)}`,
@@ -124,13 +147,17 @@ export function renderWeeklyPost(post: WeeklyPost): string {
   return lines.join("\n");
 }
 
-const escapeText = (text: string) => text.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+const escapeText = (text: string) =>
+  text.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
 
 /** Strips characters XML 1.0 cannot represent, then escapes the rest for use in text or attribute values. */
 function escapeXml(value: string | number): string {
   return String(value)
     .replace(/[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]/gu, "")
-    .replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!);
+    .replace(
+      /[&<>"']/g,
+      (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!,
+    );
 }
 
 function toRfc822(isoDate: string): string {
@@ -243,7 +270,11 @@ export async function loadRulesFromBundle(bundlePath: string): Promise<RegistryV
   if (bundle.files && typeof bundle.files === "object") {
     const rules: RegistryV2Rule[] = [];
     for (const file of Object.values(bundle.files)) {
-      if (file && typeof file === "object" && (file as { schemaVersion?: string }).schemaVersion === "evergreen.registry.v2") {
+      if (
+        file &&
+        typeof file === "object" &&
+        (file as { schemaVersion?: string }).schemaVersion === "evergreen.registry.v2"
+      ) {
         rules.push(...validateRegistryV2(file as any).rules);
       }
     }
@@ -270,8 +301,13 @@ export async function main(argv: string[]): Promise<number> {
   const options = new Map<string, string>();
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]!;
-    if (!["--today", "--months", "--recent-days", "--post-days", "--out-dir", "--bundle", "--registry"].includes(flag) || argv[index + 1] === undefined) {
-      throw new Error("Usage: eol-calendar [--today YYYY-MM-DD] [--months N] [--recent-days N] [--post-days N] [--out-dir DIR] [--bundle FILE] [--registry DIR]");
+    if (
+      !["--today", "--months", "--recent-days", "--post-days", "--out-dir", "--bundle", "--registry"].includes(flag) ||
+      argv[index + 1] === undefined
+    ) {
+      throw new Error(
+        "Usage: eol-calendar [--today YYYY-MM-DD] [--months N] [--recent-days N] [--post-days N] [--out-dir DIR] [--bundle FILE] [--registry DIR]",
+      );
     }
     options.set(flag, argv[index + 1]!);
   }
@@ -279,7 +315,12 @@ export async function main(argv: string[]): Promise<number> {
   const bundleFile = options.get("--bundle");
   const registrySource = options.get("--registry") ?? "registry";
   const rules = bundleFile ? await loadRulesFromBundle(bundleFile) : await loadRules(registrySource);
-  const calendar = buildCalendar(rules, today, Number(options.get("--months") ?? 6), Number(options.get("--recent-days") ?? 30));
+  const calendar = buildCalendar(
+    rules,
+    today,
+    Number(options.get("--months") ?? 6),
+    Number(options.get("--recent-days") ?? 30),
+  );
   const directory = resolve(options.get("--out-dir") ?? ".");
   await mkdir(directory, { recursive: true });
   await writeFile(join(directory, "eol-calendar.md"), renderMarkdown(calendar));
@@ -293,9 +334,13 @@ export async function main(argv: string[]): Promise<number> {
     const post = buildWeeklyPost(rules, today, days);
     const draftPath = join(directory, "weekly-post.md");
     await writeFile(draftPath, renderWeeklyPost(post));
-    process.stdout.write(`Wrote a weekly post draft from ${post.entries.length} entries to ${draftPath}. Review it before publishing.\n`);
+    process.stdout.write(
+      `Wrote a weekly post draft from ${post.entries.length} entries to ${draftPath}. Review it before publishing.\n`,
+    );
   }
-  process.stdout.write(`Wrote ${calendar.upcoming.length} upcoming and ${calendar.recent.length} recent entries to ${directory}.\n`);
+  process.stdout.write(
+    `Wrote ${calendar.upcoming.length} upcoming and ${calendar.recent.length} recent entries to ${directory}.\n`,
+  );
   return 0;
 }
 

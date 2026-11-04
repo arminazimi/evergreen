@@ -22,18 +22,27 @@ function inline(packages: Record<string, unknown>, now = "2026-10-18"): Importer
   };
 }
 
-const leaf = (version: string, deprecation?: object, listed = true) => ({ catalogEntry: { version, listed, ...(deprecation ? { deprecation } : {}) } });
+const leaf = (version: string, deprecation?: object, listed = true) => ({
+  catalogEntry: { version, listed, ...(deprecation ? { deprecation } : {}) },
+});
 const registration = (...items: object[]) => ({ items: [{ items }] });
-const legacy = { reasons: ["Legacy"], message: "Please note, this package is obsolete as of 3/31/2023.", alternatePackage: { id: "Azure.Storage.Common" } };
+const legacy = {
+  reasons: ["Legacy"],
+  message: "Please note, this package is obsolete as of 3/31/2023.",
+  alternatePackage: { id: "Azure.Storage.Common" },
+};
 
 test("dotnet-2 drafts a rule for each candidate whose every version is deprecated as legacy, offline", async () => {
   const drafts = await execute(nugetDeprecationImporter, { replay: recording });
-  assert.deepEqual(drafts.rules.map((rule) => rule.id), [
-    "dotnet.package.microsoft-azure-documentdb.deprecated",
-    "dotnet.package.microsoft-azure-servicebus.deprecated",
-    "dotnet.package.microsoft-azure-storage-blob.deprecated",
-    "dotnet.package.windowsazure-storage.deprecated",
-  ]);
+  assert.deepEqual(
+    drafts.rules.map((rule) => rule.id),
+    [
+      "dotnet.package.microsoft-azure-documentdb.deprecated",
+      "dotnet.package.microsoft-azure-servicebus.deprecated",
+      "dotnet.package.microsoft-azure-storage-blob.deprecated",
+      "dotnet.package.windowsazure-storage.deprecated",
+    ],
+  );
   const storage = drafts.rules.find((rule) => rule.purl === "pkg:nuget/WindowsAzure.Storage")!;
   assert.equal(storage.vers, "vers:nuget/*");
   assert.equal(storage.event, "deprecated");
@@ -41,7 +50,10 @@ test("dotnet-2 drafts a rule for each candidate whose every version is deprecate
   assert.equal(storage.replacement, "Azure.Storage.Common");
   assert.equal(storage.provenance.importer, "dotnet-2");
   assert.equal(storage.provenance.reviewer, "pending-review");
-  assert.equal(drafts.rules.find((rule) => rule.purl === "pkg:nuget/Microsoft.Azure.ServiceBus")!.deadline, "2026-09-30");
+  assert.equal(
+    drafts.rules.find((rule) => rule.purl === "pkg:nuget/Microsoft.Azure.ServiceBus")!.deadline,
+    "2026-09-30",
+  );
   assert.match(drafts.notes.join("\n"), /System\.Data\.SqlClient: only 2 of \d+ versions are deprecated/);
 });
 
@@ -53,7 +65,8 @@ test("the committed package rule matches what the importer drafts from the recor
   for (const rule of committed) {
     const draft = drafts.find((candidate) => candidate.id === rule.id);
     assert.ok(draft, `${rule.id} is drafted by the importer`);
-    for (const field of ["purl", "vers", "event", "deadline"] as const) assert.deepEqual(rule[field], draft[field], `${rule.id} ${field}`);
+    for (const field of ["purl", "vers", "event", "deadline"] as const)
+      assert.deepEqual(rule[field], draft[field], `${rule.id} ${field}`);
   }
 });
 
@@ -68,7 +81,10 @@ test("dotnet-2 drafts nothing for a partly deprecated package, a non-legacy reas
     [id(NUGET_CANDIDATES[4]!)]: registration(leaf("1.0.0", legacy)),
   };
   const out = await nugetDeprecationImporter.import(inline(responses));
-  assert.deepEqual(out.rules.map((rule) => rule.purl), [`pkg:nuget/${NUGET_CANDIDATES[4]}`]);
+  assert.deepEqual(
+    out.rules.map((rule) => rule.purl),
+    [`pkg:nuget/${NUGET_CANDIDATES[4]}`],
+  );
   const notes = out.notes.join("\n");
   assert.match(notes, /only 1 of 2 versions are deprecated/);
   assert.match(notes, /deprecated for CriticalBugs, not as legacy/);
@@ -84,7 +100,15 @@ test("dotnet-2 follows linked pages and stops the run on a failed request", asyn
     responses[`https://example.test/${name}/page0.json`] = { items: [leaf("1.0.0", legacy)] };
   }
   assert.equal((await nugetDeprecationImporter.import(inline(responses))).rules.length, NUGET_CANDIDATES.length);
-  await assert.rejects(nugetDeprecationImporter.import({ now: new Date(), async fetchText() { throw new Error("HTTP 503"); } }), /HTTP 503/);
+  await assert.rejects(
+    nugetDeprecationImporter.import({
+      now: new Date(),
+      async fetchText() {
+        throw new Error("HTTP 503");
+      },
+    }),
+    /HTTP 503/,
+  );
 });
 
 test("obsoleteDate reads the Azure SDK wording and nothing else", () => {

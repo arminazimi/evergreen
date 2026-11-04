@@ -29,7 +29,10 @@ async function fixtureRepository(): Promise<string> {
   return root;
 }
 
-async function runActionFixture(root: string, inputs: Record<string, string> = {}): Promise<{ code: number; stdout: string; outputs: string; summary: string }> {
+async function runActionFixture(
+  root: string,
+  inputs: Record<string, string> = {},
+): Promise<{ code: number; stdout: string; outputs: string; summary: string }> {
   const runner = join(root, ".runner");
   const output = join(runner, "outputs.txt");
   const summary = join(runner, "summary.md");
@@ -52,8 +55,12 @@ async function runActionFixture(root: string, inputs: Record<string, string> = {
   child.stderr.setEncoding("utf8");
   let stdout = "";
   let stderr = "";
-  child.stdout.on("data", (chunk: string) => { stdout += chunk; });
-  child.stderr.on("data", (chunk: string) => { stderr += chunk; });
+  child.stdout.on("data", (chunk: string) => {
+    stdout += chunk;
+  });
+  child.stderr.on("data", (chunk: string) => {
+    stderr += chunk;
+  });
   const code = await new Promise<number>((resolveCode, reject) => {
     child.once("error", reject);
     child.once("close", (status) => resolveCode(status ?? 1));
@@ -110,12 +117,20 @@ test("representative public, private, and no-findings Action runs honor baseline
   temporaryRoots.push(publicRoot);
   await writeFile(join(publicRoot, "package.json"), JSON.stringify({ engines: { node: "24" } }));
   await mkdir(join(publicRoot, ".github", "workflows"), { recursive: true });
-  await writeFile(join(publicRoot, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(publicRoot, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
   const publicRun = await runActionFixture(publicRoot, { "INPUT_FAIL-ON-SEVERITY": "high" });
   assert.equal(publicRun.code, 1, "a public repository without a baseline fails its configured gate");
   assert.match(publicRun.stdout, /Evergreen policy gate failed/);
   assert.match(publicRun.stdout, /1 finding met or exceeded the high severity gate/);
-  assert.match(publicRun.stdout, new RegExp(`JSON report: ${join(publicRoot, ".runner", "evergreen-report.json").replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+  assert.match(
+    publicRun.stdout,
+    new RegExp(
+      `JSON report: ${join(publicRoot, ".runner", "evergreen-report.json").replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`,
+    ),
+  );
   assert.match(publicRun.outputs, /finding-count=1/);
 
   const privateRoot = await fixtureRepository();
@@ -177,12 +192,19 @@ test("the GitHub Action writes SARIF only when asked, and it matches the report"
   assert.equal(outcome.sarifPath, sarifPath);
   const sarif = JSON.parse(await readFile(sarifPath, "utf8")) as {
     version: string;
-    runs: Array<{ results: Array<{ ruleId: string; locations: Array<{ physicalLocation: { artifactLocation: { uri: string } } }> }> }>;
+    runs: Array<{
+      results: Array<{ ruleId: string; locations: Array<{ physicalLocation: { artifactLocation: { uri: string } } }> }>;
+    }>;
   };
-  const report = JSON.parse(await readFile(reportPath, "utf8")) as { findings: Array<{ ruleId: string; location: { path: string } }> };
+  const report = JSON.parse(await readFile(reportPath, "utf8")) as {
+    findings: Array<{ ruleId: string; location: { path: string } }>;
+  };
   assert.equal(sarif.version, "2.1.0");
   assert.deepEqual(
-    sarif.runs[0]!.results.map((result) => [result.ruleId, result.locations[0]!.physicalLocation.artifactLocation.uri]).sort(),
+    sarif.runs[0]!.results.map((result) => [
+      result.ruleId,
+      result.locations[0]!.physicalLocation.artifactLocation.uri,
+    ]).sort(),
     report.findings.map((finding) => [finding.ruleId, finding.location.path]).sort(),
   );
 });
@@ -214,7 +236,14 @@ const finding = (id: string, severity: Finding["severity"], title: string, path:
   sources: [{ title: "Vendor | notice", url: "https://example.com/notice" }],
 });
 
-const data = { source: "bundled" as const, version: "0.2.0", createdAt: null, reviewedThrough: "2026-10-17", ageDays: 3, stale: false };
+const data = {
+  source: "bundled" as const,
+  version: "0.2.0",
+  createdAt: null,
+  reviewedThrough: "2026-10-17",
+  ageDays: 3,
+  stale: false,
+};
 
 test("the job summary snapshot: severity counts, top findings with evidence, data age, and attribution", async () => {
   const { renderSummary } = await import("../src/github-action.js");
@@ -254,7 +283,9 @@ test("the job summary snapshot: severity counts, top findings with evidence, dat
 
 test("the summary lists at most ten findings, says how many more there are, and warns about stale data", async () => {
   const { renderSummary } = await import("../src/github-action.js");
-  const many = Array.from({ length: 13 }, (_, index) => finding(`r${String(index).padStart(2, "0")}:p:1`, "medium", `Finding ${index}`, "package.json", index + 1));
+  const many = Array.from({ length: 13 }, (_, index) =>
+    finding(`r${String(index).padStart(2, "0")}:p:1`, "medium", `Finding ${index}`, "package.json", index + 1),
+  );
   const text = renderSummary(many, false, "high", { ...data, stale: true, ageDays: 40 }, false);
   assert.equal(text.split("\n").filter((line) => line.startsWith("| medium | Finding")).length, 10);
   assert.match(text, /…and 3 more; the JSON report artifact lists every finding\./);
@@ -265,15 +296,24 @@ test("the summary lists at most ten findings, says how many more there are, and 
 
 test("with no findings the summary has no tables, and the attribution line can be switched off", async () => {
   const { ATTRIBUTION_LINE, renderSummary } = await import("../src/github-action.js");
-  assert.equal(renderSummary([], false, "high", undefined, true), `## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n\n${ATTRIBUTION_LINE}\n`);
-  assert.equal(renderSummary([], false, "high", undefined, false), "## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n");
+  assert.equal(
+    renderSummary([], false, "high", undefined, true),
+    `## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n\n${ATTRIBUTION_LINE}\n`,
+  );
+  assert.equal(
+    renderSummary([], false, "high", undefined, false),
+    "## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n",
+  );
   assert.match(ATTRIBUTION_LINE, /\[Evergreen\]\(https:\/\/github\.com\/arminazimi\/evergreen\)/);
 });
 
 test("action.yml declares the attribution input, on by default, and passes it to the scan step", async () => {
   const { readFile } = await import("node:fs/promises");
   const { parse } = await import("yaml");
-  const action = parse(await readFile("action.yml", "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  const action = parse(await readFile("action.yml", "utf8")) as {
+    inputs: Record<string, { default?: string }>;
+    runs: { steps: Array<{ env?: Record<string, string> }> };
+  };
   assert.equal(action.inputs.attribution?.default, "true");
   assert.equal(action.runs.steps[0]?.env?.INPUT_ATTRIBUTION, "${{ inputs.attribution }}");
 });
@@ -286,7 +326,10 @@ test("the Action runner warns about suppressions that expire soon, for the day i
     const baseline = join(directory, "baseline.json");
     await writeBaseline(baseline, createBaseline(scan, { owner: "platform", expires: "2026-11-05" }));
     const options = { root: smoke, reportPath: join(directory, "report.json"), baselinePath: baseline };
-    const lines = async (extra: object) => (await runGitHubAction({ ...options, ...extra })).result.diagnostics.filter((line) => line.startsWith("Baseline suppression expires"));
+    const lines = async (extra: object) =>
+      (await runGitHubAction({ ...options, ...extra })).result.diagnostics.filter((line) =>
+        line.startsWith("Baseline suppression expires"),
+      );
     assert.equal((await lines({ today: "2026-10-25" })).length, 4);
     assert.equal((await lines({ today: "2026-10-01" })).length, 0);
     assert.equal((await lines({ today: "2026-10-01", baselineWarnDays: 60 })).length, 4);
@@ -296,7 +339,10 @@ test("the Action runner warns about suppressions that expire soon, for the day i
 });
 
 test("action.yml declares baseline-warn-days with a 14-day default and passes it to the scan step", async () => {
-  const action = parseYaml(await readFile("action.yml", "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  const action = parseYaml(await readFile("action.yml", "utf8")) as {
+    inputs: Record<string, { default?: string }>;
+    runs: { steps: Array<{ env?: Record<string, string> }> };
+  };
   assert.equal(action.inputs["baseline-warn-days"]?.default, "14");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_BASELINE-WARN-DAYS"], "${{ inputs.baseline-warn-days }}");
 });
@@ -308,7 +354,13 @@ test("the Action runner brings back an expired suppression and fails the job onl
     const scan = await scanRepository(smoke, builtInDetectors);
     const baseline = join(directory, "baseline.json");
     await writeBaseline(baseline, createBaseline(scan, { expires: "2026-10-01" }));
-    const options = { root: smoke, reportPath: join(directory, "report.json"), baselinePath: baseline, today: "2026-10-17", failOnSeverity: "none" as const };
+    const options = {
+      root: smoke,
+      reportPath: join(directory, "report.json"),
+      baselinePath: baseline,
+      today: "2026-10-17",
+      failOnSeverity: "none" as const,
+    };
     const resurface = await runGitHubAction(options);
     assert.equal(resurface.result.findings.length, scan.findings.length);
     assert.equal(resurface.failed, false, "resurface does not fail a job whose gate is none");
@@ -329,7 +381,10 @@ test("the Action runner brings back an expired suppression and fails the job onl
 });
 
 test("action.yml declares on-expired, defaulting to resurface, and passes it to the scan step", async () => {
-  const action = parseYaml(await readFile("action.yml", "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  const action = parseYaml(await readFile("action.yml", "utf8")) as {
+    inputs: Record<string, { default?: string }>;
+    runs: { steps: Array<{ env?: Record<string, string> }> };
+  };
   assert.equal(action.inputs["on-expired"]?.default, "resurface");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_ON-EXPIRED"], "${{ inputs.on-expired }}");
 });
@@ -340,32 +395,69 @@ test("the job summary shows the baseline counts and the suppressions that are ex
     suppressed: 5,
     today: "2026-10-17",
     warnWithinDays: 14,
-    expiring: [{ ruleId: "nodejs.runtime.eol-18", path: "package.json", expires: "2026-10-20", daysLeft: 3, owner: "platform" }],
+    expiring: [
+      { ruleId: "nodejs.runtime.eol-18", path: "package.json", expires: "2026-10-20", daysLeft: 3, owner: "platform" },
+    ],
     expired: [{ ruleId: "npm.package.request.deprecated", path: "a/package.json", expires: "2026-10-10", daysAgo: 7 }],
   });
   assert.match(text, /Baseline: 5 findings suppressed, 1 expiring within 14 days, 1 expired\./);
-  assert.match(text, /\| npm\.package\.request\.deprecated \| `a\/package\.json` \| expired 7 days ago \(2026-10-10\) \| — \|/);
-  assert.match(text, /\| nodejs\.runtime\.eol-18 \| `package\.json` \| expires in 3 days \(2026-10-20\) \| platform \|/);
+  assert.match(
+    text,
+    /\| npm\.package\.request\.deprecated \| `a\/package\.json` \| expired 7 days ago \(2026-10-10\) \| — \|/,
+  );
+  assert.match(
+    text,
+    /\| nodejs\.runtime\.eol-18 \| `package\.json` \| expires in 3 days \(2026-10-20\) \| platform \|/,
+  );
   assert.equal(renderSummary([], false, "high", undefined, false).includes("Baseline:"), false, "no baseline, no line");
 });
 
-
 test("badge endpoints count remaining findings, warn about stale data, and honor expiry failures", () => {
-  for (const [severity, color] of [["critical", "#B84A3E"], ["high", "#B84A3E"], ["medium", "#C9822F"], ["low", "#B89B3C"], ["info", "#4C7C6D"]] as const) {
-    const findings = [finding("a:p:1", "info", "Info", "secret.json"), finding("b:p:1", severity, "Title", "private.json")];
+  for (const [severity, color] of [
+    ["critical", "#B84A3E"],
+    ["high", "#B84A3E"],
+    ["medium", "#C9822F"],
+    ["low", "#B89B3C"],
+    ["info", "#4C7C6D"],
+  ] as const) {
+    const findings = [
+      finding("a:p:1", "info", "Info", "secret.json"),
+      finding("b:p:1", severity, "Title", "private.json"),
+    ];
     assert.deepEqual(JSON.parse(renderBadge({ findings })), {
-      schemaVersion: 1, label: "evergreen", message: `2 ${severity}`, color, labelColor: "#23423A",
+      schemaVersion: 1,
+      label: "evergreen",
+      message: `2 ${severity}`,
+      color,
+      labelColor: "#23423A",
     });
   }
   assert.deepEqual(JSON.parse(renderBadge({ findings: [] })), {
-    schemaVersion: 1, label: "evergreen", message: "clean", color: "#2F7D5B", labelColor: "#23423A",
+    schemaVersion: 1,
+    label: "evergreen",
+    message: "clean",
+    color: "#2F7D5B",
+    labelColor: "#23423A",
   });
   assert.deepEqual(JSON.parse(renderBadge({ findings: [], data: { ...data, stale: true } })), {
-    schemaVersion: 1, label: "evergreen", message: "stale", color: "#4C7C6D", labelColor: "#23423A",
+    schemaVersion: 1,
+    label: "evergreen",
+    message: "stale",
+    color: "#4C7C6D",
+    labelColor: "#23423A",
   });
-  assert.equal(JSON.parse(renderBadge({ findings: [finding("r:p:1", "low", "Low", "package.json")], data: { ...data, stale: true } })).message, "1 low · stale");
+  assert.equal(
+    JSON.parse(
+      renderBadge({ findings: [finding("r:p:1", "low", "Low", "package.json")], data: { ...data, stale: true } }),
+    ).message,
+    "1 low · stale",
+  );
   assert.deepEqual(JSON.parse(renderBadge({ findings: [finding("r:p:1", "low", "Low", "package.json")] }, true)), {
-    schemaVersion: 1, label: "evergreen", message: "1 low · expired", color: "#8E3B34", labelColor: "#23423A",
+    schemaVersion: 1,
+    label: "evergreen",
+    message: "1 low · expired",
+    color: "#8E3B34",
+    labelColor: "#23423A",
   });
   assert.equal(JSON.parse(renderBadge({ findings: [] }, true)).message, "expired");
 });
@@ -377,7 +469,11 @@ test("the SVG badge carries the same message and color, with a fixed-width layou
   assert.match(svg, /fill="#B84A3E"/);
   assert.match(svg, /textLength="52"[^>]*>evergreen<\/text>/);
   assert.match(renderBadgeSvg({ findings: [] }), /fill="#2F7D5B"[^>]*\/>/);
-  assert.equal(renderBadgeSvg({ findings: [] }).includes("package.json"), false, "no paths or titles leak into the badge");
+  assert.equal(
+    renderBadgeSvg({ findings: [] }).includes("package.json"),
+    false,
+    "no paths or titles leak into the badge",
+  );
 });
 
 test("the badge is opt-in and is generated after baseline comparison even when the gate fails", async () => {
@@ -404,7 +500,15 @@ test("badge upload is opt-in and skips scans that produced no endpoint", async (
   const action = parseYaml(await readFile("action.yml", "utf8")) as {
     inputs: Record<string, { default?: string }>;
     outputs: Record<string, { value: string }>;
-    runs: { steps: Array<{ env?: Record<string, string>; name?: string; if?: string; uses?: string; with?: Record<string, unknown> }> };
+    runs: {
+      steps: Array<{
+        env?: Record<string, string>;
+        name?: string;
+        if?: string;
+        uses?: string;
+        with?: Record<string, unknown>;
+      }>;
+    };
   };
   assert.equal(action.inputs["upload-badge"]?.default, "false");
   assert.equal(action.outputs["badge-path"]?.value, "${{ steps.scan.outputs.badge-path }}");
@@ -438,17 +542,23 @@ test("the pull request comment starts with the marker and re-runs update that co
   } finally {
     globalThis.fetch = realFetch;
   }
-  assert.deepEqual(calls.map((call) => `${call.method} ${new URL(call.url).pathname}`), [
-    "GET /repos/o/r/issues/7/comments",
-    "POST /repos/o/r/issues/7/comments",
-    "GET /repos/o/r/issues/7/comments",
-    "PATCH /repos/o/r/issues/comments/2",
-  ]);
+  assert.deepEqual(
+    calls.map((call) => `${call.method} ${new URL(call.url).pathname}`),
+    [
+      "GET /repos/o/r/issues/7/comments",
+      "POST /repos/o/r/issues/7/comments",
+      "GET /repos/o/r/issues/7/comments",
+      "PATCH /repos/o/r/issues/comments/2",
+    ],
+  );
   assert.ok(calls.every((call) => call.auth === "Bearer t"));
 });
 
 test("action.yml declares pr-comment off by default and passes it and the token to the scan step", async () => {
-  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as {
+    inputs: Record<string, { default?: string }>;
+    runs: { steps: Array<{ env?: Record<string, string> }> };
+  };
   assert.equal(action.inputs["pr-comment"]?.default, "false");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_PR-COMMENT"], "${{ inputs.pr-comment }}");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_GITHUB-TOKEN"], "${{ inputs.github-token }}");
@@ -470,7 +580,10 @@ async function gitRepositoryWithFinding(): Promise<{ root: string; base: string;
   git(root, ["commit", "-q", "-m", "base"]);
   const base = git(root, ["rev-parse", "HEAD"]).trim();
   await mkdir(join(root, ".github", "workflows"), { recursive: true });
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
   git(root, ["add", "."]);
   git(root, ["commit", "-q", "-m", "head"]);
   const head = git(root, ["rev-parse", "HEAD"]).trim();
@@ -481,14 +594,26 @@ test("diff mode gates only what the pull request introduces and reports what it 
   const { root, base, head } = await gitRepositoryWithFinding();
   const reportPath = join(root, "report.json");
 
-  const introduced = await runGitHubAction({ root, reportPath, mode: "diff", diffRange: `${base}..${head}`, failOnSeverity: "high" });
+  const introduced = await runGitHubAction({
+    root,
+    reportPath,
+    mode: "diff",
+    diffRange: `${base}..${head}`,
+    failOnSeverity: "high",
+  });
   assert.equal(introduced.result.findings.length, 1);
   assert.equal(introduced.failed, true, "the PR introduced the checkout finding, so the gate fails");
   assert.equal(introduced.gateFailed, true);
   assert.deepEqual(introduced.diff, { base, head, fixed: [], unchanged: 0 });
   assert.deepEqual(introduced.result.diagnostics, [], "the diff path adds no baseline diagnostics");
 
-  const fixed = await runGitHubAction({ root, reportPath, mode: "diff", diffRange: `${head}..${base}`, failOnSeverity: "high" });
+  const fixed = await runGitHubAction({
+    root,
+    reportPath,
+    mode: "diff",
+    diffRange: `${head}..${base}`,
+    failOnSeverity: "high",
+  });
   assert.deepEqual(fixed.result.findings, []);
   assert.equal(fixed.failed, false, "a PR that only removes findings passes");
   assert.equal(fixed.gateFailed, false);
@@ -508,10 +633,16 @@ test("the job summary in diff mode lists the findings the pull request fixed", a
   const text = renderSummary([], false, "high", undefined, false, undefined, {
     base: "abc",
     head: "def",
-    fixed: [finding("r.high:p:1", "high", "High one", "package.json", 2), finding("s.low:p:2", "low", "Low one", "package.json", 4)],
+    fixed: [
+      finding("r.high:p:1", "high", "High one", "package.json", 2),
+      finding("s.low:p:2", "low", "Low one", "package.json", 4),
+    ],
     unchanged: 3,
   });
-  assert.match(text, /Found \*\*0\*\* lifecycle findings introduced by this pull request \(abc\.\.def\); passed the severity gate\./);
+  assert.match(
+    text,
+    /Found \*\*0\*\* lifecycle findings introduced by this pull request \(abc\.\.def\); passed the severity gate\./,
+  );
   assert.match(text, /Fixed by this pull request: \*\*2\*\* findings \(3 unchanged\)\./);
   assert.match(text, /\| high \| High one \| `package\.json:2` \|/);
   assert.match(text, /\| low \| Low one \| `package\.json:4` \|/);
@@ -522,7 +653,10 @@ test("the job summary in diff mode lists the findings the pull request fixed", a
 
 test("mode: diff reads the pull request base and head from the event payload", async () => {
   const { root, base, head } = await gitRepositoryWithFinding();
-  await writeFile(join(root, "event.json"), JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }));
+  await writeFile(
+    join(root, "event.json"),
+    JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }),
+  );
   const run = await runActionFixture(root, { INPUT_MODE: "diff", GITHUB_EVENT_PATH: join(root, "event.json") });
   assert.equal(run.code, 1);
   assert.match(run.summary, /introduced by this pull request/);
@@ -534,7 +668,11 @@ test("mode: diff reads the pull request base and head from the event payload", a
 test("mode: diff falls back to a scan outside pull request events", async () => {
   const { root } = await gitRepositoryWithFinding();
   await writeFile(join(root, "event.json"), JSON.stringify({ push: { after: "abc" } }));
-  const run = await runActionFixture(root, { INPUT_MODE: "diff", GITHUB_EVENT_PATH: join(root, "event.json"), "INPUT_FAIL-ON-SEVERITY": "high" });
+  const run = await runActionFixture(root, {
+    INPUT_MODE: "diff",
+    GITHUB_EVENT_PATH: join(root, "event.json"),
+    "INPUT_FAIL-ON-SEVERITY": "high",
+  });
   assert.equal(run.code, 1, "the fallback scans the checked-out tree, which carries the finding");
   assert.match(run.stdout, /diff mode skipped/);
   assert.match(run.summary, /Found \*\*1\*\* new lifecycle finding; failed the \*\*high\*\* severity gate/);
@@ -549,7 +687,10 @@ test("an invalid mode fails the run before any scan", async () => {
 });
 
 test("action.yml declares mode with a scan default and passes it to the scan step", async () => {
-  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as {
+    inputs: Record<string, { default?: string }>;
+    runs: { steps: Array<{ env?: Record<string, string> }> };
+  };
   assert.equal(action.inputs.mode?.default, "scan");
   assert.equal(action.runs.steps[0]?.env?.INPUT_MODE, "${{ inputs.mode }}");
 });

@@ -1,10 +1,6 @@
 import { test } from "node:test";
 
-import {
-  checkDetectorRoundTrip,
-  TEST_TIMEOUT_MS,
-  type DetectorRoundTripCase,
-} from "./harness.js";
+import { checkDetectorRoundTrip, TEST_TIMEOUT_MS, type DetectorRoundTripCase } from "./harness.js";
 
 /**
  * Property tests for the package-manifest detectors: npm and Python.

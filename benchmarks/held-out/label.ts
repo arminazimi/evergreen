@@ -20,7 +20,11 @@ const run = promisify(execFile);
 const FILE = resolve("benchmarks/held-out-repositories.json");
 const ACTIONS = ["checkout", "setup-node", "cache"];
 
-export interface HeldOutExpected { family: string; path: string; line: number }
+export interface HeldOutExpected {
+  family: string;
+  path: string;
+  line: number;
+}
 
 /** The ground truth in one file's text; `path` is relative to the repository root. */
 export function labelFile(path: string, text: string): HeldOutExpected[] {
@@ -37,7 +41,8 @@ export function labelFile(path: string, text: string): HeldOutExpected[] {
     if (uses && ACTIONS.includes(uses[1]!)) {
       const ref = uses[2]!;
       const major = /^[0-9a-f]{40}$/.test(ref) ? /#\s*v?(\d+)/.exec(line)?.[1] : /^v?(\d+)(?:[.\d]*)$/.exec(ref)?.[1];
-      if (major !== undefined && Number(major) <= 4) found.push({ family: `github-actions.${uses[1]}`, path, line: index + 1 });
+      if (major !== undefined && Number(major) <= 4)
+        found.push({ family: `github-actions.${uses[1]}`, path, line: index + 1 });
     }
     const node = /^\s*-?\s*node-version:\s*(.+)$/.exec(code);
     if (node) {
@@ -51,7 +56,9 @@ export function labelFile(path: string, text: string): HeldOutExpected[] {
 async function api(path: string): Promise<string> {
   for (let attempt = 1; ; attempt++) {
     try {
-      return (await run("gh", ["api", path, "-H", "Accept: application/vnd.github.raw+json"], { maxBuffer: 16 * 1024 * 1024 })).stdout;
+      return (
+        await run("gh", ["api", path, "-H", "Accept: application/vnd.github.raw+json"], { maxBuffer: 16 * 1024 * 1024 })
+      ).stdout;
     } catch (error) {
       if (attempt === 4) throw error;
       await new Promise((done) => setTimeout(done, 2000 * attempt));
@@ -60,12 +67,24 @@ async function api(path: string): Promise<string> {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const file = JSON.parse(await readFile(FILE, "utf8")) as { repositories: Array<{ repository: string; commit: string; expected: HeldOutExpected[] }> };
+  const file = JSON.parse(await readFile(FILE, "utf8")) as {
+    repositories: Array<{ repository: string; commit: string; expected: HeldOutExpected[] }>;
+  };
   for (const entry of file.repositories) {
-    const tree = JSON.parse(await api(`repos/${entry.repository}/git/trees/${entry.commit}?recursive=1`)) as { tree: Array<{ path: string; type: string }> };
-    const paths = tree.tree.filter((item) => item.type === "blob" && (/^\.github\/workflows\/[^/]+\.ya?ml$/.test(item.path) || item.path === ".nvmrc")).map((item) => item.path);
+    const tree = JSON.parse(await api(`repos/${entry.repository}/git/trees/${entry.commit}?recursive=1`)) as {
+      tree: Array<{ path: string; type: string }>;
+    };
+    const paths = tree.tree
+      .filter(
+        (item) =>
+          item.type === "blob" && (/^\.github\/workflows\/[^/]+\.ya?ml$/.test(item.path) || item.path === ".nvmrc"),
+      )
+      .map((item) => item.path);
     entry.expected = [];
-    for (const path of paths) entry.expected.push(...labelFile(path, await api(`repos/${entry.repository}/contents/${path}?ref=${entry.commit}`)));
+    for (const path of paths)
+      entry.expected.push(
+        ...labelFile(path, await api(`repos/${entry.repository}/contents/${path}?ref=${entry.commit}`)),
+      );
     console.error(`${entry.repository}: ${entry.expected.length}`);
   }
   await writeFile(FILE, `${JSON.stringify(file, null, 2)}\n`);

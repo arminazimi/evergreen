@@ -33,7 +33,12 @@ async function write(root: string, files: Record<string, string>): Promise<void>
 }
 
 /** The detector module both samples share: read the rules from the registry, parse the file, report matches. */
-const detectorSource = (camel: string, id: string, file: string, ruleVersion: (value: string) => string) => `import { readFile } from "node:fs/promises";
+const detectorSource = (
+  camel: string,
+  id: string,
+  file: string,
+  ruleVersion: (value: string) => string,
+) => `import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { loadDataFile } from "../data-source.js";
@@ -76,7 +81,12 @@ export const ${camel}Detector = defineDetector({
 });
 `;
 
-const testSource = (camel: string, id: string, positive: string, expected: string) => `import { resolve } from "node:path";
+const testSource = (
+  camel: string,
+  id: string,
+  positive: string,
+  expected: string,
+) => `import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { boundsCheck } from "../src/conformance/checks/bounds.js";
@@ -130,12 +140,40 @@ export function parseLineVersion(contents: string): LineVersionDeclaration[] {
   return declarations;
 }
 `,
-    "src/detectors/line-version.ts": detectorSource("lineVersion", "line-version", ".line-version", (value) => `\`\${${value}}.0.0\``),
-    "registry/line-version.json": JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "line-version", rules: [{ ...rule("line-version.release.below-5", "pkg:generic/line-version", "vers:semver/<5.0.0", "Release line is end of life"), ecosystem: "line-version" }] }, null, 2),
+    "src/detectors/line-version.ts": detectorSource(
+      "lineVersion",
+      "line-version",
+      ".line-version",
+      (value) => `\`\${${value}}.0.0\``,
+    ),
+    "registry/line-version.json": JSON.stringify(
+      {
+        schemaVersion: "evergreen.registry.v2",
+        ecosystem: "line-version",
+        rules: [
+          {
+            ...rule(
+              "line-version.release.below-5",
+              "pkg:generic/line-version",
+              "vers:semver/<5.0.0",
+              "Release line is end of life",
+            ),
+            ecosystem: "line-version",
+          },
+        ],
+      },
+      null,
+      2,
+    ),
     "tests/fixtures/line-version/old/.line-version": "3\n",
     "tests/fixtures/line-version/zero/.line-version": "7\n",
     "tests/fixtures/line-version/malformed/.line-version": "three\n\u0000\u0001\n99999999999\n",
-    "tests/line-version-detector.test.ts": testSource("lineVersion", "line-version", "old", expectedFinding("line-version.release.below-5", "Release line is end of life", "3", ".line-version", 1)),
+    "tests/line-version-detector.test.ts": testSource(
+      "lineVersion",
+      "line-version",
+      "old",
+      expectedFinding("line-version.release.below-5", "Release line is end of life", "3", ".line-version", 1),
+    ),
 
     // Ecosystem 2: a list of `name@version` tags; any version of a legacy tag is deprecated.
     "src/detectors/tag-list/parse.ts": `export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
@@ -157,11 +195,34 @@ export function parseTagList(contents: string): TagListDeclaration[] {
 }
 `,
     "src/detectors/tag-list.ts": detectorSource("tagList", "tag-list", "tags.txt", () => '"1.0.0"'),
-    "registry/tag-list.json": JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "tags", rules: [{ ...rule("tags.tag.legacy-tag.deprecated", "pkg:generic/legacy-tag", "vers:semver/*", "legacy-tag is deprecated"), ecosystem: "tags" }] }, null, 2),
+    "registry/tag-list.json": JSON.stringify(
+      {
+        schemaVersion: "evergreen.registry.v2",
+        ecosystem: "tags",
+        rules: [
+          {
+            ...rule(
+              "tags.tag.legacy-tag.deprecated",
+              "pkg:generic/legacy-tag",
+              "vers:semver/*",
+              "legacy-tag is deprecated",
+            ),
+            ecosystem: "tags",
+          },
+        ],
+      },
+      null,
+      2,
+    ),
     "tests/fixtures/tag-list/old/tags.txt": "# tags\nmodern-tag@2.0.0\nlegacy-tag@1.2.3\n",
     "tests/fixtures/tag-list/zero/tags.txt": "# legacy-tag@1.0.0 is only mentioned in a comment\nmodern-tag@2.0.0\n",
     "tests/fixtures/tag-list/malformed/tags.txt": "legacy-tag@\n@@@\n\u0000\n",
-    "tests/tag-list-detector.test.ts": testSource("tagList", "tag-list", "old", expectedFinding("tags.tag.legacy-tag.deprecated", "legacy-tag is deprecated", "legacy-tag@1.2.3", "tags.txt", 3)),
+    "tests/tag-list-detector.test.ts": testSource(
+      "tagList",
+      "tag-list",
+      "old",
+      expectedFinding("tags.tag.legacy-tag.deprecated", "legacy-tag is deprecated", "legacy-tag@1.2.3", "tags.txt", 3),
+    ),
   });
 
   const compiled = await compile(checkout);

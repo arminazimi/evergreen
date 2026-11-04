@@ -35,10 +35,28 @@ test("declaresInput matches names, wildcards, extensions, source extensions, and
     sourceExtensions: [".ts"],
     directories: [".github/workflows"],
   };
-  for (const path of ["package.json", "a/b/Package.JSON", "requirements.txt", "requirements-dev.txt", "x/api.Dockerfile", "src/App.csproj", "src/index.ts", ".github/workflows/ci.yml", "sub/.github/workflows/x.yml"]) {
+  for (const path of [
+    "package.json",
+    "a/b/Package.JSON",
+    "requirements.txt",
+    "requirements-dev.txt",
+    "x/api.Dockerfile",
+    "src/App.csproj",
+    "src/index.ts",
+    ".github/workflows/ci.yml",
+    "sub/.github/workflows/x.yml",
+  ]) {
     assert.ok(declaresInput(inputs, path), path);
   }
-  for (const path of ["package.jsonx", "notes.txt", "src/index.js", ".github/ci.yml", "workflows/ci.yml", "xgithub/workflows/a.yml", "requirements.md"]) {
+  for (const path of [
+    "package.jsonx",
+    "notes.txt",
+    "src/index.js",
+    ".github/ci.yml",
+    "workflows/ci.yml",
+    "xgithub/workflows/a.yml",
+    "requirements.md",
+  ]) {
     assert.ok(!declaresInput(inputs, path), path);
   }
   assert.ok(!declaresInput({}, "package.json"));
@@ -87,7 +105,11 @@ function leaky(): Detector {
 test("a scan that reads a file outside its declaration fails conformance and names the file", async () => {
   const root = await tree({ "package.json": "{}", "secrets/token.txt": "x" });
   await assert.rejects(
-    runDetectorConformance({ detector: leaky(), fixtures: [{ name: "leak", root, expectedFindings: [] }], checks: [declaredInputsCheck] }),
+    runDetectorConformance({
+      detector: leaky(),
+      fixtures: [{ name: "leak", root, expectedFindings: [] }],
+      checks: [declaredInputsCheck],
+    }),
     (error: unknown) =>
       error instanceof ConformanceError &&
       error.guarantee === "declared inputs" &&
@@ -97,10 +119,29 @@ test("a scan that reads a file outside its declaration fails conformance and nam
 
 test("a detector that declares nothing, or only declared files, passes", async () => {
   const root = await tree({ "package.json": "{}" });
-  const quiet: Detector = { apiVersion: DETECTOR_API_VERSION, id: "quiet", inputs: { fileNames: ["package.json"] }, async scan({ root: where }) { await readFile(join(where, "package.json")); return []; } };
-  const silent: Detector = { apiVersion: DETECTOR_API_VERSION, id: "silent", async scan({ root: where }) { await readFile(join(where, "package.json")); return []; } };
+  const quiet: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "quiet",
+    inputs: { fileNames: ["package.json"] },
+    async scan({ root: where }) {
+      await readFile(join(where, "package.json"));
+      return [];
+    },
+  };
+  const silent: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "silent",
+    async scan({ root: where }) {
+      await readFile(join(where, "package.json"));
+      return [];
+    },
+  };
   for (const detector of [quiet, silent]) {
-    await runDetectorConformance({ detector, fixtures: [{ name: "f", root, expectedFindings: [] }], checks: [declaredInputsCheck] });
+    await runDetectorConformance({
+      detector,
+      fixtures: [{ name: "f", root, expectedFindings: [] }],
+      checks: [declaredInputsCheck],
+    });
   }
 });
 
@@ -116,7 +157,11 @@ test("every built-in detector declares its inputs", () => {
   for (const detector of builtInDetectors) {
     const inputs = detector.inputs;
     assert.ok(inputs, `${detector.id} declares no inputs`);
-    const total = (inputs.fileNames?.length ?? 0) + (inputs.extensions?.length ?? 0) + (inputs.directories?.length ?? 0) + (inputs.sourceExtensions?.length ?? 0);
+    const total =
+      (inputs.fileNames?.length ?? 0) +
+      (inputs.extensions?.length ?? 0) +
+      (inputs.directories?.length ?? 0) +
+      (inputs.sourceExtensions?.length ?? 0);
     assert.ok(total > 0, `${detector.id} declares empty inputs`);
   }
 });
@@ -132,7 +177,13 @@ test("no built-in detector reads a file outside its declaration on the repositor
 });
 
 test("a tree holding every declared name and unrelated files is read only where declared", async () => {
-  const noise = { "README.md": "# readme", "notes.txt": "x", "secret.pem": "key", "docs/guide.md": "guide", "data/blob.bin": "bin" };
+  const noise = {
+    "README.md": "# readme",
+    "notes.txt": "x",
+    "secret.pem": "key",
+    "docs/guide.md": "guide",
+    "data/blob.bin": "bin",
+  };
   for (const detector of builtInDetectors) {
     const inputs = detector.inputs!;
     const files: Record<string, string> = { ...noise };

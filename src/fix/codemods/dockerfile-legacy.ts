@@ -57,14 +57,14 @@ function rewrite(line: string, ruleId: string): Rewrite {
     const parsed = parseMaintainer(line);
     if ("reason" in parsed) return parsed;
     if (HEREDOC.test(parsed.value)) return { reason: HEREDOC_REASON };
-    if (parsed.value.includes("\"")) return { reason: QUOTE_REASON };
+    if (parsed.value.includes('"')) return { reason: QUOTE_REASON };
     if (parsed.value.includes("\\")) return { reason: BACKSLASH_REASON };
     return { text: `${parsed.indent}LABEL org.opencontainers.image.authors="${parsed.value}"${lineEnding(line)}` };
   }
   const parsed = parseLegacyEnv(line);
   if ("reason" in parsed) return parsed;
   if (HEREDOC.test(parsed.value)) return { reason: HEREDOC_REASON };
-  if (parsed.value.includes("\"")) return { reason: QUOTE_REASON };
+  if (parsed.value.includes('"')) return { reason: QUOTE_REASON };
   if (parsed.value.includes("\\")) return { reason: BACKSLASH_REASON };
   return { text: `${parsed.indent}ENV ${parsed.key}="${parsed.value}"${lineEnding(line)}` };
 }
@@ -116,16 +116,18 @@ export const dockerfileLegacyFixer: Fixer = {
       }
       const refusals = new Map<number, string>();
       const original = before.split("\n");
-      const text = original.map((line, index) => {
-        const target = lines.get(index + 1);
-        if (!target) return line;
-        const rewritten = rewrite(line, target.ruleId);
-        if ("reason" in rewritten) {
-          refusals.set(index + 1, rewritten.reason);
-          return line;
-        }
-        return rewritten.text;
-      }).join("\n");
+      const text = original
+        .map((line, index) => {
+          const target = lines.get(index + 1);
+          if (!target) return line;
+          const rewritten = rewrite(line, target.ruleId);
+          if ("reason" in rewritten) {
+            refusals.set(index + 1, rewritten.reason);
+            return line;
+          }
+          return rewritten.text;
+        })
+        .join("\n");
       // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
       if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
       const updated = text.split("\n");

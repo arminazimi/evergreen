@@ -1,7 +1,15 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { badgeSnippet, badgeState, badgeStyles, contrastRatio, readableTextColor, renderBadgeSvg, repositoryFromRemote } from "../src/badge.js";
+import {
+  badgeSnippet,
+  badgeState,
+  badgeStyles,
+  contrastRatio,
+  readableTextColor,
+  renderBadgeSvg,
+  repositoryFromRemote,
+} from "../src/badge.js";
 import { severityValues } from "../src/domain.js";
 import type { Finding, Severity } from "../src/domain.js";
 import { EXIT_CODES, type CommandContext, type FailureClass } from "../src/commands/types.js";
@@ -35,7 +43,11 @@ test("every style renders a deterministic, self-contained SVG for every state", 
       assert.match(svg, /<title>[^<]+<\/title>/);
       assert.match(svg, /<\/svg>$/);
       assert.doesNotMatch(svg, /<script|<image|\b(?:href|src)=|url\(http/i, "no script or external reference");
-      assert.equal(renderBadgeSvg(sample.result, sample.expired, style), svg, `${style}/${sample.name} is not deterministic`);
+      assert.equal(
+        renderBadgeSvg(sample.result, sample.expired, style),
+        svg,
+        `${style}/${sample.name} is not deterministic`,
+      );
     }
   }
 });
@@ -64,9 +76,18 @@ test("prints README markup for every snippet format", () => {
   const image = "https://raw.githubusercontent.com/arminazimi/evergreen/evergreen-badge/evergreen-badge.svg";
   const target = "https://github.com/arminazimi/evergreen";
   assert.equal(badgeSnippet("arminazimi/evergreen", "markdown"), `[![evergreen](${image})](${target})`);
-  assert.equal(badgeSnippet("arminazimi/evergreen", "html"), `<a href="${target}"><img alt="evergreen" src="${image}"></a>`);
-  assert.equal(badgeSnippet("arminazimi/evergreen", "rst"), `.. image:: ${image}\n   :target: ${target}\n   :alt: evergreen`);
-  assert.match(badgeSnippet("arminazimi/evergreen", "markdown", "badges/evergreen"), /\/badges\/evergreen\/evergreen-badge\.svg/);
+  assert.equal(
+    badgeSnippet("arminazimi/evergreen", "html"),
+    `<a href="${target}"><img alt="evergreen" src="${image}"></a>`,
+  );
+  assert.equal(
+    badgeSnippet("arminazimi/evergreen", "rst"),
+    `.. image:: ${image}\n   :target: ${target}\n   :alt: evergreen`,
+  );
+  assert.match(
+    badgeSnippet("arminazimi/evergreen", "markdown", "badges/evergreen"),
+    /\/badges\/evergreen\/evergreen-badge\.svg/,
+  );
 });
 
 test("escapes a hostile repository name instead of emitting it into the markup", () => {
@@ -117,7 +138,10 @@ test("the badge handler reads --repo and --branch in-process", async () => {
   }) as typeof process.stdout.write;
   let code: number;
   try {
-    code = await command.run(["--repo", "arminazimi/evergreen", "--snippet", "markdown", "--branch", "badges/evergreen"], ctx);
+    code = await command.run(
+      ["--repo", "arminazimi/evergreen", "--snippet", "markdown", "--branch", "badges/evergreen"],
+      ctx,
+    );
   } finally {
     process.stdout.write = write;
   }
@@ -125,6 +149,9 @@ test("the badge handler reads --repo and --branch in-process", async () => {
   assert.deepEqual(failures, []);
   assert.equal(written.join("").trim(), badgeSnippet("arminazimi/evergreen", "markdown", "badges/evergreen"));
 
-  assert.equal(await command.run(["--repo", "arminazimi/evergreen", "--snippet", "markdown", "--branch"], ctx), EXIT_CODES.usage);
+  assert.equal(
+    await command.run(["--repo", "arminazimi/evergreen", "--snippet", "markdown", "--branch"], ctx),
+    EXIT_CODES.usage,
+  );
   assert.match(failures[0]!, /Usage: evergreen badge/);
 });

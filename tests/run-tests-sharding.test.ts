@@ -59,15 +59,8 @@ test("the committed timings file is valid and shards within 20%", async () => {
   assert.equal(timings.schemaVersion, TEST_FILE_TIMINGS_SCHEMA_VERSION);
   const files = Object.keys(timings.durations);
   assert.ok(files.length > 100);
-  const { loadsMs } = assignFilesByTime(
-    files,
-    (file) => timings.durations[file] ?? DEFAULT_TEST_FILE_DURATION_MS,
-    2,
-  );
-  assert.ok(
-    shardLoadsWithinTolerance(loadsMs, 0.2),
-    `shard loads ${loadsMs.join(", ")} must stay within 20%`,
-  );
+  const { loadsMs } = assignFilesByTime(files, (file) => timings.durations[file] ?? DEFAULT_TEST_FILE_DURATION_MS, 2);
+  assert.ok(shardLoadsWithinTolerance(loadsMs, 0.2), `shard loads ${loadsMs.join(", ")} must stay within 20%`);
 });
 
 test("mergeLcovReports sums hit counts for the same source file", () => {

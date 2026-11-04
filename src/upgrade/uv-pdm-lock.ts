@@ -17,9 +17,7 @@ interface PythonTarget {
 type MinorRelease = readonly [number, number];
 
 function asRecord(value: unknown): UnknownRecord | undefined {
-  return typeof value === "object" && value !== null && !Array.isArray(value)
-    ? (value as UnknownRecord)
-    : undefined;
+  return typeof value === "object" && value !== null && !Array.isArray(value) ? (value as UnknownRecord) : undefined;
 }
 
 async function readOptional(path: string): Promise<string | undefined> {
@@ -96,7 +94,9 @@ function scanLines(contents: string): LockLines {
 /** PDM groups decide the level; its main group is `default`. uv has no groups, so everything blocks. */
 function isMainGroup(groups: unknown): boolean {
   if (!Array.isArray(groups)) return true;
-  const names = groups.filter((group): group is string => typeof group === "string").map((group) => group.toLowerCase());
+  const names = groups
+    .filter((group): group is string => typeof group === "string")
+    .map((group) => group.toLowerCase());
   return names.length === 0 || names.includes("default");
 }
 
@@ -162,8 +162,13 @@ function parsePythonTag(tag: string): "any" | MinorRelease | undefined {
 }
 
 /** Wheel filenames end `-<python tag>-<ABI tag>-<platform tag>`; the tags, not availability, are the bound. */
-function wheelPythonTag(url: string): { tag: string; abi: string; bound: "any" | MinorRelease | undefined } | undefined {
-  const name = url.split("/").pop()?.replace(/\.whl$/, "");
+function wheelPythonTag(
+  url: string,
+): { tag: string; abi: string; bound: "any" | MinorRelease | undefined } | undefined {
+  const name = url
+    .split("/")
+    .pop()
+    ?.replace(/\.whl$/, "");
   if (!name) return undefined;
   const parts = name.split("-");
   if (parts.length < 5) return undefined;
@@ -191,7 +196,8 @@ function evaluateEntry(record: UnknownRecord, lines: BlockLines, target: PythonT
     const verdicts = markers.map((marker) => evaluateMarker(marker, target));
     if (verdicts.includes("allows")) return { verdict: "allows", value: "resolution-markers", line: markerLine };
     const unknownMarker = markers[verdicts.indexOf("unknown")];
-    if (typeof unknownMarker === "string") return { verdict: "unknown", value: `resolution-markers: ${unknownMarker}`, line: markerLine };
+    if (typeof unknownMarker === "string")
+      return { verdict: "unknown", value: `resolution-markers: ${unknownMarker}`, line: markerLine };
     const excludingMarker = markers[verdicts.indexOf("excludes")];
     if (typeof excludingMarker === "string") {
       return { verdict: "excludes", value: `resolution-markers: ${excludingMarker}`, line: markerLine };
@@ -203,12 +209,20 @@ function evaluateEntry(record: UnknownRecord, lines: BlockLines, target: PythonT
     for (const wheel of record.wheels) {
       const entry = asRecord(wheel);
       if (!entry || typeof entry.url !== "string") {
-        return { verdict: "unknown", value: "wheels", line: lines.fields.get("wheels") ?? lines.fields.get("__block") ?? 1 };
+        return {
+          verdict: "unknown",
+          value: "wheels",
+          line: lines.fields.get("wheels") ?? lines.fields.get("__block") ?? 1,
+        };
       }
       const bound = wheelPythonTag(entry.url);
       if (!bound || bound.bound === undefined) {
         const tag = bound?.tag ?? entry.url.split("/").pop() ?? entry.url;
-        return { verdict: "unknown", value: `wheels: ${tag}`, line: lines.fields.get("wheels") ?? lines.fields.get("__block") ?? 1 };
+        return {
+          verdict: "unknown",
+          value: `wheels: ${tag}`,
+          line: lines.fields.get("wheels") ?? lines.fields.get("__block") ?? 1,
+        };
       }
       known.push({ tag: bound.tag, abi: bound.abi, bound: bound.bound });
     }
@@ -226,7 +240,11 @@ function evaluateEntry(record: UnknownRecord, lines: BlockLines, target: PythonT
       return {
         verdict: "excludes",
         value: `wheels: ${tags}`,
-        line: (first >= 0 ? lines.wheelUrls[first] : undefined) ?? lines.fields.get("wheels") ?? lines.fields.get("__block") ?? 1,
+        line:
+          (first >= 0 ? lines.wheelUrls[first] : undefined) ??
+          lines.fields.get("wheels") ??
+          lines.fields.get("__block") ??
+          1,
       };
     }
   }
@@ -275,17 +293,31 @@ async function analyzeUvLock(root: string, target: UpgradeTarget, issues: Upgrad
     const matches = matchesSpecifier(requirement, target.version);
     if (matches === undefined) {
       issues.push(
-        makeIssue("unknown", "python", "uv.lock", lines.pythonRequirement, `Cannot parse the project's requires-python constraint "${requirement}".`, {
-          kind: "lockfile",
-          value: `requires-python: ${requirement}`,
-        }),
+        makeIssue(
+          "unknown",
+          "python",
+          "uv.lock",
+          lines.pythonRequirement,
+          `Cannot parse the project's requires-python constraint "${requirement}".`,
+          {
+            kind: "lockfile",
+            value: `requires-python: ${requirement}`,
+          },
+        ),
       );
     } else if (!matches) {
       issues.push(
-        makeIssue("blocker", "python", "uv.lock", lines.pythonRequirement, `The project's requires-python "${requirement}" excludes Python ${target.version}.`, {
-          kind: "lockfile",
-          value: `requires-python: ${requirement}`,
-        }),
+        makeIssue(
+          "blocker",
+          "python",
+          "uv.lock",
+          lines.pythonRequirement,
+          `The project's requires-python "${requirement}" excludes Python ${target.version}.`,
+          {
+            kind: "lockfile",
+            value: `requires-python: ${requirement}`,
+          },
+        ),
       );
     }
   }
@@ -311,20 +343,31 @@ async function analyzeUvLock(root: string, target: UpgradeTarget, issues: Upgrad
     const unknown = verdicts.find((verdict) => verdict.verdict === "unknown");
     if (unknown) {
       issues.push(
-        makeIssue("unknown", subject, "uv.lock", unknown.line, `Cannot read the Python bounds of ${subject} in uv.lock: ${unknown.value}.`, {
-          kind: "lockfile",
-          value: unknown.value,
-        }),
+        makeIssue(
+          "unknown",
+          subject,
+          "uv.lock",
+          unknown.line,
+          `Cannot read the Python bounds of ${subject} in uv.lock: ${unknown.value}.`,
+          {
+            kind: "lockfile",
+            value: unknown.value,
+          },
+        ),
       );
       continue;
     }
     const excluding = verdicts.find((verdict) => verdict.verdict === "excludes");
     if (!excluding) continue;
-    const marker = excluding.value.startsWith("resolution-markers: ") ? excluding.value.slice("resolution-markers: ".length) : undefined;
+    const marker = excluding.value.startsWith("resolution-markers: ")
+      ? excluding.value.slice("resolution-markers: ".length)
+      : undefined;
     const reason = marker
       ? `${subject} resolves only for Python versions matching "${marker}", which excludes Python ${target.version}.`
       : `${subject} has no wheel for Python ${target.version} and no sdist to fall back on (${excluding.value.slice("wheels: ".length)}).`;
-    issues.push(makeIssue("blocker", subject, "uv.lock", excluding.line, reason, { kind: "lockfile", value: excluding.value }));
+    issues.push(
+      makeIssue("blocker", subject, "uv.lock", excluding.line, reason, { kind: "lockfile", value: excluding.value }),
+    );
   }
 }
 
@@ -336,10 +379,17 @@ async function analyzePdmLock(root: string, target: UpgradeTarget, issues: Upgra
     document = asRecord(parseToml(contents));
   } catch {
     issues.push(
-      makeIssue("unknown", "pdm.lock", "pdm.lock", 1, "pdm.lock is not valid TOML, so requires_python cannot be read.", {
-        kind: "lockfile",
-        value: "pdm.lock: invalid TOML",
-      }),
+      makeIssue(
+        "unknown",
+        "pdm.lock",
+        "pdm.lock",
+        1,
+        "pdm.lock is not valid TOML, so requires_python cannot be read.",
+        {
+          kind: "lockfile",
+          value: "pdm.lock: invalid TOML",
+        },
+      ),
     );
     return;
   }
@@ -351,17 +401,31 @@ async function analyzePdmLock(root: string, target: UpgradeTarget, issues: Upgra
     const matches = matchesSpecifier(requirement, target.version);
     if (matches === undefined) {
       issues.push(
-        makeIssue("unknown", "python", "pdm.lock", lines.pythonRequirement, `Cannot parse the project's [metadata] requires_python constraint "${requirement}".`, {
-          kind: "lockfile",
-          value: `requires_python: ${requirement}`,
-        }),
+        makeIssue(
+          "unknown",
+          "python",
+          "pdm.lock",
+          lines.pythonRequirement,
+          `Cannot parse the project's [metadata] requires_python constraint "${requirement}".`,
+          {
+            kind: "lockfile",
+            value: `requires_python: ${requirement}`,
+          },
+        ),
       );
     } else if (!matches) {
       issues.push(
-        makeIssue("blocker", "python", "pdm.lock", lines.pythonRequirement, `The project's [metadata] requires_python "${requirement}" excludes Python ${target.version}.`, {
-          kind: "lockfile",
-          value: `requires_python: ${requirement}`,
-        }),
+        makeIssue(
+          "blocker",
+          "python",
+          "pdm.lock",
+          lines.pythonRequirement,
+          `The project's [metadata] requires_python "${requirement}" excludes Python ${target.version}.`,
+          {
+            kind: "lockfile",
+            value: `requires_python: ${requirement}`,
+          },
+        ),
       );
     }
   }
@@ -379,10 +443,17 @@ async function analyzePdmLock(root: string, target: UpgradeTarget, issues: Upgra
     const matches = matchesSpecifier(specifier, target.version);
     if (matches === undefined) {
       issues.push(
-        makeIssue("unknown", subject, "pdm.lock", line, `Cannot parse the requires_python constraint "${specifier}" for ${subject}.`, {
-          kind: "lockfile",
-          value: `requires_python: ${specifier}`,
-        }),
+        makeIssue(
+          "unknown",
+          subject,
+          "pdm.lock",
+          line,
+          `Cannot parse the requires_python constraint "${specifier}" for ${subject}.`,
+          {
+            kind: "lockfile",
+            value: `requires_python: ${specifier}`,
+          },
+        ),
       );
       continue;
     }
@@ -412,7 +483,8 @@ export class UvPdmLockAnalyzer implements UpgradeAnalyzer {
 
   async applies(root: string): Promise<boolean> {
     return (
-      (await readOptional(resolve(root, "uv.lock"))) !== undefined || (await readOptional(resolve(root, "pdm.lock"))) !== undefined
+      (await readOptional(resolve(root, "uv.lock"))) !== undefined ||
+      (await readOptional(resolve(root, "pdm.lock"))) !== undefined
     );
   }
 

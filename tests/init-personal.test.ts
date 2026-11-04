@@ -16,8 +16,20 @@ after(async () => {
 const machine = async () => {
   const home = await mkdtemp(join(tmpdir(), "evergreen-personal-"));
   roots.push(home);
-  const env = { ...process.env, HOME: home, USERPROFILE: home, XDG_CONFIG_HOME: join(home, ".config"), GIT_CONFIG_GLOBAL: join(home, ".gitconfig"), GIT_CONFIG_NOSYSTEM: "1" };
-  return { home, env, hooks: join(home, ".config", "evergreen", "git-hooks"), config: join(home, ".config", "evergreen", "config.json") };
+  const env = {
+    ...process.env,
+    HOME: home,
+    USERPROFILE: home,
+    XDG_CONFIG_HOME: join(home, ".config"),
+    GIT_CONFIG_GLOBAL: join(home, ".gitconfig"),
+    GIT_CONFIG_NOSYSTEM: "1",
+  };
+  return {
+    home,
+    env,
+    hooks: join(home, ".config", "evergreen", "git-hooks"),
+    config: join(home, ".config", "evergreen", "config.json"),
+  };
 };
 const yes = async () => true;
 
@@ -65,7 +77,12 @@ test("the hook runs in a fresh repository and still runs the repository's own pr
   spawnSync("git", ["init", "-q", "-b", "main"], { cwd: repo, env });
   const marker = join(home, "repo-hook-ran");
   await writeFile(join(repo, ".git", "hooks", "pre-push"), `#!/bin/sh\ntouch ${marker}\n`, { mode: 0o755 });
-  const git = (...args: string[]) => spawnSync("git", ["-c", "user.name=t", "-c", "user.email=t@t", ...args], { cwd: repo, env: { ...env, EVERGREEN_SKIP: "1" }, encoding: "utf8" });
+  const git = (...args: string[]) =>
+    spawnSync("git", ["-c", "user.name=t", "-c", "user.email=t@t", ...args], {
+      cwd: repo,
+      env: { ...env, EVERGREEN_SKIP: "1" },
+      encoding: "utf8",
+    });
   git("commit", "-q", "--allow-empty", "-m", "x");
   const push = git("push", remote, "main");
   assert.equal(push.status, 0, push.stderr);

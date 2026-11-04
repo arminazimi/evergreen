@@ -27,7 +27,13 @@ interface Detector {
   level: string;
   earnedLevel: string;
   precisionFloor: { value: number; enforced: boolean };
-  run: { truePositives: number; falsePositives: number; falseNegatives: number; precision: number | null; recall: number | null } | null;
+  run: {
+    truePositives: number;
+    falsePositives: number;
+    falseNegatives: number;
+    precision: number | null;
+    recall: number | null;
+  } | null;
   evidence: { repositoriesWithFindings?: number; expectedFindings?: number; zeroFindingRepositories?: number };
 }
 
@@ -53,7 +59,10 @@ interface DashboardApi {
   runAgeDays(run: unknown): number | null;
   isStale(run: unknown): boolean;
   visitorAgeDays(run: unknown, now: unknown): number | null;
-  runStatus(data: unknown, now: unknown): {
+  runStatus(
+    data: unknown,
+    now: unknown,
+  ): {
     stale: boolean;
     ageDays: number | null;
     runDate: string | null;
@@ -130,7 +139,8 @@ function fakePage(ids: string[]) {
   return { doc, byId };
 }
 
-const response = (body: unknown, status = 200) => Promise.resolve({ ok: status === 200, status, json: () => Promise.resolve(body) });
+const response = (body: unknown, status = 200) =>
+  Promise.resolve({ ok: status === 200, status, json: () => Promise.resolve(body) });
 
 /** The two DOM methods the page uses, with nodes that record what was written. */
 function fakeDocument() {
@@ -150,8 +160,7 @@ function fakeDocument() {
   };
 }
 
-const text = (node: Node): string =>
-  node.kind === "text" ? node.text : node.children.map(text).join("");
+const text = (node: Node): string => (node.kind === "text" ? node.text : node.children.map(text).join(""));
 
 function walk(node: ElementNode): ElementNode[] {
   return [node, ...node.children.flatMap((child) => (child.kind === "element" ? walk(child) : []))];
@@ -161,7 +170,11 @@ function find(node: ElementNode, predicate: (element: ElementNode) => boolean): 
   return walk(node).find(predicate);
 }
 
-const normalize = (value: string): string => value.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+const normalize = (value: string): string =>
+  value
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 
 test("a missing number reads not measured, never 0, 1, or NaN", () => {
   for (const value of [null, undefined, Number.NaN, Infinity, "1", {}, []]) {
@@ -189,10 +202,22 @@ test("a detector with no run data renders not measured, not zeros", () => {
   const row = api.rowModel(detector, {});
   assert.equal(row.id, "example");
   const cells = Object.fromEntries(row.cells.map((cell) => [cell.key, cell.text]));
-  assert.deepEqual(row.cells.map((cell) => cell.key), api.COLUMNS);
+  assert.deepEqual(
+    row.cells.map((cell) => cell.key),
+    api.COLUMNS,
+  );
   assert.equal(cells.level, "experimental");
   assert.equal(cells.earnedLevel, "experimental");
-  for (const key of ["precision", "recall", "truePositives", "falsePositives", "falseNegatives", "repositoriesWithFindings", "expectedFindings", "zeroFindingRepositories"]) {
+  for (const key of [
+    "precision",
+    "recall",
+    "truePositives",
+    "falsePositives",
+    "falseNegatives",
+    "repositoriesWithFindings",
+    "expectedFindings",
+    "zeroFindingRepositories",
+  ]) {
     assert.equal(cells[key], "not measured", key);
   }
   assert.equal(api.runFacts(null).length, 0);
@@ -208,8 +233,13 @@ test("a level above the counted evidence is marked, not hidden", () => {
   assert.equal(api.isAboveEvidence("stable", "stable"), false);
   assert.equal(api.isAboveEvidence("unknown", "experimental"), false);
   assert.equal(api.isAboveEvidence(undefined, "experimental"), false);
-  const flagged = data.detectors.filter((detector) => api.rowModel(detector, data.sources).cells.find((cell) => cell.key === "level")!.flag);
-  assert.deepEqual(flagged.map((detector) => detector.id), []);
+  const flagged = data.detectors.filter(
+    (detector) => api.rowModel(detector, data.sources).cells.find((cell) => cell.key === "level")!.flag,
+  );
+  assert.deepEqual(
+    flagged.map((detector) => detector.id),
+    [],
+  );
   // No shipped detector is above its evidence any more, so the marker is checked on a detector made to be.
   const real = data.detectors.find((detector) => detector.id === "npm")!;
   const above = api.rowModel({ ...real, level: "stable", earnedLevel: "beta" }, data.sources);
@@ -223,13 +253,31 @@ test("a level above the counted evidence is marked, not hidden", () => {
 });
 
 test("links are built only for plain repository paths and known definition anchors", () => {
-  assert.equal(api.sourceUrl("benchmarks/thresholds.json"), "https://github.com/arminazimi/evergreen/blob/main/benchmarks/thresholds.json");
-  assert.equal(api.sourceUrl("docs/decisions/0013-detector-maturity.md"), api.BLOB_URL + "docs/decisions/0013-detector-maturity.md");
-  for (const unsafe of ["javascript:alert(1)", "https://evil.example/x", "//evil.example/x", "../../etc/passwd", "/etc/passwd", "a//b", "a/./b", "", null, 42]) {
+  assert.equal(
+    api.sourceUrl("benchmarks/thresholds.json"),
+    "https://github.com/arminazimi/evergreen/blob/main/benchmarks/thresholds.json",
+  );
+  assert.equal(
+    api.sourceUrl("docs/decisions/0013-detector-maturity.md"),
+    api.BLOB_URL + "docs/decisions/0013-detector-maturity.md",
+  );
+  for (const unsafe of [
+    "javascript:alert(1)",
+    "https://evil.example/x",
+    "//evil.example/x",
+    "../../etc/passwd",
+    "/etc/passwd",
+    "a//b",
+    "a/./b",
+    "",
+    null,
+    42,
+  ]) {
     assert.equal(api.sourceUrl(unsafe), null, String(unsafe));
   }
   assert.equal(api.definitionAnchor("precision"), "def-precision");
-  for (const unsafe of ["def-x", "a b", "../x", "", "1st", null]) assert.equal(api.definitionAnchor(unsafe), null, String(unsafe));
+  for (const unsafe of ["def-x", "a b", "../x", "", "1st", null])
+    assert.equal(api.definitionAnchor(unsafe), null, String(unsafe));
 
   const doc = fakeDocument();
   const table = api.buildTable(doc, data);
@@ -255,7 +303,14 @@ test("data is written as text nodes, never as markup", () => {
   const page = {
     ...data,
     detectors: [{ ...data.detectors[0]!, id: hostileId }],
-    definitions: { precision: { label: "<b>bold</b>", meaning: "<script>x</script>", computation: "<svg onload=1>", source: "benchmarks/thresholds.json" } },
+    definitions: {
+      precision: {
+        label: "<b>bold</b>",
+        meaning: "<script>x</script>",
+        computation: "<svg onload=1>",
+        source: "benchmarks/thresholds.json",
+      },
+    },
     limitations: ["<img src=x onerror=alert(3)>"],
   };
   const doc = fakeDocument();
@@ -266,7 +321,11 @@ test("data is written as text nodes, never as markup", () => {
       for (const name of element.attributes.keys()) assert.ok(!name.startsWith("on"), name);
       for (const value of element.attributes.values()) assert.ok(!value.includes("alert("), value);
     }
-    assert.ok(text(node).includes(hostileId) || text(node).includes("<img src=x onerror=alert(3)>") || text(node).includes("<script>x</script>"));
+    assert.ok(
+      text(node).includes(hostileId) ||
+        text(node).includes("<img src=x onerror=alert(3)>") ||
+        text(node).includes("<script>x</script>"),
+    );
   }
   assert.ok(text(api.buildTable(doc, page)).includes(hostileId), "the hostile id is kept as text");
   assert.ok(text(api.buildLimitations(doc, page)[0]!).includes("<img src=x onerror=alert(3)>"));
@@ -277,7 +336,10 @@ test("the data contract is checked before anything renders", () => {
   assert.equal(api.validateData(data), null);
   assert.match(api.validateData({})!, /schemaVersion/);
   assert.match(api.validateData({ schemaVersion: api.SCHEMA })!, /detectors/);
-  assert.match(api.validateData({ schemaVersion: api.SCHEMA, detectors: [], definitions: {}, limitations: "x" })!, /limitations/);
+  assert.match(
+    api.validateData({ schemaVersion: api.SCHEMA, detectors: [], definitions: {}, limitations: "x" })!,
+    /limitations/,
+  );
   assert.match(api.validateData(null)!, /not an object/);
 });
 
@@ -292,7 +354,10 @@ test("the page renders a semantic table with a caption and scope attributes", ()
   for (const row of bodyRows.filter((node) => node.tag === "tr")) {
     const rowHeader = find(row, (node) => node.tag === "th")!;
     assert.equal(rowHeader.attributes.get("scope"), "row");
-    assert.equal(row.children.filter((node): node is ElementNode => node.kind === "element" && node.tag === "td").length, api.COLUMNS.length);
+    assert.equal(
+      row.children.filter((node): node is ElementNode => node.kind === "element" && node.tag === "td").length,
+      api.COLUMNS.length,
+    );
   }
   const minimums = api.buildMinimums(doc, data);
   assert.equal(walk(minimums).filter((node) => node.tag === "tr").length, 3);
@@ -303,13 +368,23 @@ test("the real data renders every detector with its counts", () => {
   const table = api.buildTable(doc, data);
   const body = walk(find(table, (node) => node.tag === "tbody")!);
   const headers = body.filter((node) => node.tag === "th").map(text);
-  assert.deepEqual(headers, data.detectors.map((detector) => detector.id));
-  const githubActions = api.rowModel(data.detectors.find((detector) => detector.id === "github-actions")!, data.sources);
+  assert.deepEqual(
+    headers,
+    data.detectors.map((detector) => detector.id),
+  );
+  const githubActions = api.rowModel(
+    data.detectors.find((detector) => detector.id === "github-actions")!,
+    data.sources,
+  );
   const cells = Object.fromEntries(githubActions.cells.map((cell) => [cell.key, cell.text]));
   // The expected strings come from the recorded run and the evidence counts, not from literals, so recording a
   // newer run does not break this test; it still checks that the page shows what the data says.
   const detector = data.detectors.find((candidate) => candidate.id === "github-actions")!;
-  assert.equal(detector.run!.truePositives, recorded.perDetector["github-actions"]!.truePositives, "data.json carries the recorded counts");
+  assert.equal(
+    detector.run!.truePositives,
+    recorded.perDetector["github-actions"]!.truePositives,
+    "data.json carries the recorded counts",
+  );
   assert.equal(cells.precision, api.formatRatio(detector.run!.precision as number));
   assert.equal(cells.recall, api.formatRatio(detector.run!.recall as number));
   assert.equal(cells.truePositives, api.formatCount(recorded.perDetector["github-actions"]!.truePositives));
@@ -326,7 +401,15 @@ test("the first limitation is in the HTML and reads without JavaScript", () => {
 });
 
 test("a page served over HTTP fills every section and hides the status", async () => {
-  const { doc, byId } = fakePage(["status", "data-sections", "run", "detectors-table", "minimums-table", "definitions-list", "limitations-list"]);
+  const { doc, byId } = fakePage([
+    "status",
+    "data-sections",
+    "run",
+    "detectors-table",
+    "minimums-table",
+    "definitions-list",
+    "limitations-list",
+  ]);
   let requested: string | undefined;
   await api.start(doc, (url: string) => {
     requested = url;
@@ -345,19 +428,39 @@ test("a page served over HTTP fills every section and hides the status", async (
 });
 
 test("a page opened from disk says how to serve it, instead of failing silently", async () => {
-  const { doc, byId } = fakePage(["status", "data-sections", "run", "detectors-table", "minimums-table", "definitions-list", "limitations-list"]);
+  const { doc, byId } = fakePage([
+    "status",
+    "data-sections",
+    "run",
+    "detectors-table",
+    "minimums-table",
+    "definitions-list",
+    "limitations-list",
+  ]);
   await api.start(doc, () => Promise.reject(new TypeError("Failed to fetch")));
   const status = byId.get("status")!;
   assert.ok(!status.attributes.has("hidden"));
   assert.match(text(status), /Serve this folder/);
   assert.match(text(status), /python3 -m http\.server/);
   assert.match(text(status), /published page/);
-  assert.ok(walk(status).some((node) => node.tag === "a" && node.attributes.get("href") === "https://arminazimi.github.io/evergreen/dashboard/"));
+  assert.ok(
+    walk(status).some(
+      (node) => node.tag === "a" && node.attributes.get("href") === "https://arminazimi.github.io/evergreen/dashboard/",
+    ),
+  );
   assert.ok(byId.get("data-sections")!.attributes.has("hidden"), "the empty sections are hidden");
 });
 
 test("a failed request, or data in another schema, is reported with the reason", async () => {
-  const ids = ["status", "data-sections", "run", "detectors-table", "minimums-table", "definitions-list", "limitations-list"];
+  const ids = [
+    "status",
+    "data-sections",
+    "run",
+    "detectors-table",
+    "minimums-table",
+    "definitions-list",
+    "limitations-list",
+  ];
   const notFound = fakePage(ids);
   await api.start(notFound.doc, () => response({}, 404));
   assert.match(text(notFound.byId.get("status")!), /HTTP 404/);
@@ -376,7 +479,14 @@ test("a run is stale only after 14 days, counting from the recorded age", () => 
   assert.equal(api.isStale(at(100)), true);
   assert.equal(api.runAgeDays(at(0)), 0);
   assert.equal(api.runAgeDays(at(15)), 15);
-  for (const missing of [null, {}, { runAgeDays: "15" }, { runAgeDays: -1 }, { runAgeDays: 15.5 }, { runAgeDays: null }]) {
+  for (const missing of [
+    null,
+    {},
+    { runAgeDays: "15" },
+    { runAgeDays: -1 },
+    { runAgeDays: 15.5 },
+    { runAgeDays: null },
+  ]) {
     assert.equal(api.isStale(missing), false, JSON.stringify(missing));
     assert.equal(api.runAgeDays(missing), null, JSON.stringify(missing));
   }
@@ -392,10 +502,16 @@ test("the stale badge carries the run date and appears only past the limit", () 
   const now = new Date(2026, 10, 1, 12);
 
   const fresh = api.buildRun(doc, withAge(14, "2026-11-01"), now);
-  assert.equal(find(fresh, (node) => node.tag === "strong" && node.attributes.get("class") === "badge"), undefined);
+  assert.equal(
+    find(fresh, (node) => node.tag === "strong" && node.attributes.get("class") === "badge"),
+    undefined,
+  );
   assert.match(text(fresh), /Computed on 2026-11-01\./);
   assert.doesNotMatch(text(fresh), /stale/);
-  assert.ok(find(fresh, (node) => node.tag === "a" && node.attributes.get("href") === "#def-runAge"), "run age links its definition");
+  assert.ok(
+    find(fresh, (node) => node.tag === "a" && node.attributes.get("href") === "#def-runAge"),
+    "run age links its definition",
+  );
   assert.match(text(fresh), /Run age definition14 days/);
 
   const stale = api.buildRun(doc, withAge(15, "2026-11-02"), now);
@@ -416,7 +532,11 @@ test("a visitor-clock age is extra text and never decides the badge", () => {
   });
 
   const agrees = api.buildRun(doc, aged(14), new Date(2026, 10, 1, 12));
-  assert.equal(find(agrees, (node) => node.attributes.get("class") === "visitor-clock"), undefined, "no note when the clocks agree");
+  assert.equal(
+    find(agrees, (node) => node.attributes.get("class") === "visitor-clock"),
+    undefined,
+    "no note when the clocks agree",
+  );
 
   const differs = api.buildRun(doc, aged(14), new Date(2026, 10, 2, 1));
   const note = find(differs, (node) => node.attributes.get("class") === "visitor-clock");
@@ -431,16 +551,28 @@ test("a visitor-clock age is extra text and never decides the badge", () => {
 });
 
 test("run status reads the recorded age and the reference day", () => {
-  assert.deepEqual({ ...api.runStatus({ ...data, referenceDay: "2026-11-02", run: { ...data.run, runAgeDays: 15 } }, new Date(2026, 10, 3)) }, {
-    stale: true,
-    ageDays: 15,
-    runDate: data.run!.date,
-    referenceDay: "2026-11-02",
-    visitorAgeDays: Math.round((Date.UTC(2026, 10, 3) - Date.parse(`${data.run!.date}T00:00:00Z`)) / 86_400_000),
-    staleAfterDays: 14,
-  });
+  assert.deepEqual(
+    {
+      ...api.runStatus(
+        { ...data, referenceDay: "2026-11-02", run: { ...data.run, runAgeDays: 15 } },
+        new Date(2026, 10, 3),
+      ),
+    },
+    {
+      stale: true,
+      ageDays: 15,
+      runDate: data.run!.date,
+      referenceDay: "2026-11-02",
+      visitorAgeDays: Math.round((Date.UTC(2026, 10, 3) - Date.parse(`${data.run!.date}T00:00:00Z`)) / 86_400_000),
+      staleAfterDays: 14,
+    },
+  );
   assert.equal(api.runStatus({ run: null, referenceDay: "2026-11-02" }, new Date()).stale, false);
-  assert.equal(api.visitorAgeDays({ date: "2026-10-18" }, new Date(2026, 9, 17)), null, "a run in the future has no age");
+  assert.equal(
+    api.visitorAgeDays({ date: "2026-10-18" }, new Date(2026, 9, 17)),
+    null,
+    "a run in the future has no age",
+  );
   assert.equal(api.visitorAgeDays({ date: "18/10/2026" }, new Date()), null);
   assert.equal(api.visitorAgeDays({ date: "2026-10-18" }, "not a date"), null);
 });
@@ -453,11 +585,20 @@ test("the page loads nothing from elsewhere and is not in the sitemap", async ()
   assert.equal((script.match(/"data\.json"/g) ?? []).length, 1, "one request target: data.json");
   const urls = [...script.matchAll(/https?:\/\/[^\s"'`]+/g)].map((match) => match[0]);
   assert.ok(urls.length > 0);
-  for (const url of urls) assert.ok(url.startsWith(api.BLOB_URL) || url === "https://arminazimi.github.io/evergreen/dashboard/", url);
+  for (const url of urls)
+    assert.ok(url.startsWith(api.BLOB_URL) || url === "https://arminazimi.github.io/evergreen/dashboard/", url);
   assert.doesNotMatch(script, /XMLHttpRequest|sendBeacon|WebSocket|EventSource/);
   const sitemap = renderSitemap(await loadRegistries());
   assert.doesNotMatch(sitemap, /dashboard/);
-  for (const id of ["status", "data-sections", "run", "detectors-table", "minimums-table", "definitions-list", "limitations-list"]) {
+  for (const id of [
+    "status",
+    "data-sections",
+    "run",
+    "detectors-table",
+    "minimums-table",
+    "definitions-list",
+    "limitations-list",
+  ]) {
     assert.ok(html.includes(`id="${id}"`), id);
   }
 });

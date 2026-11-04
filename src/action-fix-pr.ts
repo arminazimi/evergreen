@@ -82,8 +82,18 @@ async function githubRequest(target: GitHubTarget, method: string, path: string,
 /** The one pull request whose head is the fixes branch, open or closed, so a re-run updates it instead of adding another. */
 async function findPullRequest(target: GitHubTarget, branch: string): Promise<PullRequest | undefined> {
   const owner = target.repository.split("/")[0] ?? "";
-  const query = new URLSearchParams({ state: "all", head: `${owner}:${branch}`, sort: "created", direction: "desc", per_page: "100" });
-  const pulls = (await githubRequest(target, "GET", `/repos/${target.repository}/pulls?${query.toString()}`)) as PullRequest[];
+  const query = new URLSearchParams({
+    state: "all",
+    head: `${owner}:${branch}`,
+    sort: "created",
+    direction: "desc",
+    per_page: "100",
+  });
+  const pulls = (await githubRequest(
+    target,
+    "GET",
+    `/repos/${target.repository}/pulls?${query.toString()}`,
+  )) as PullRequest[];
   const ours = pulls.filter((pull) => pull.head?.ref === branch);
   return ours.find((pull) => pull.state === "open") ?? ours[0];
 }
@@ -108,7 +118,16 @@ async function applyFixesOnBranch(root: string, branch: string, patches: FilePat
   await git(root, ["checkout", "-q", "-B", branch]);
   await git(root, ["apply", "--whitespace=nowarn", "-"], renderPatches(patches));
   await git(root, ["add", "--", ...files]);
-  await git(root, ["-c", `user.name=${BOT_NAME}`, "-c", `user.email=${BOT_EMAIL}`, "commit", "-q", "-m", FIX_COMMIT_MESSAGE]);
+  await git(root, [
+    "-c",
+    `user.name=${BOT_NAME}`,
+    "-c",
+    `user.email=${BOT_EMAIL}`,
+    "commit",
+    "-q",
+    "-m",
+    FIX_COMMIT_MESSAGE,
+  ]);
 }
 
 async function pushBranch(root: string, branch: string): Promise<void> {
@@ -117,17 +136,24 @@ async function pushBranch(root: string, branch: string): Promise<void> {
 
 const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\\/g, "\\\\").replace(/\|/g, "\\|").trim();
 
-const location = (finding: Finding): string => `${finding.location.path}${finding.location.line ? `:${finding.location.line}` : ""}`;
+const location = (finding: Finding): string =>
+  `${finding.location.path}${finding.location.line ? `:${finding.location.line}` : ""}`;
 
 /**
  * The pull request body: one row per applied fix with the location it changed and the evidence it cites,
  * then the verification commands Evergreen prints and never runs.
  */
-export function renderFixPullRequestBody(fixed: readonly Finding[], commands: readonly VerificationCommand[], files: readonly string[], attribution: boolean): string {
+export function renderFixPullRequestBody(
+  fixed: readonly Finding[],
+  commands: readonly VerificationCommand[],
+  files: readonly string[],
+  attribution: boolean,
+): string {
   const count = fixed.length;
-  const summary = count > 0
-    ? `This pull request applies **${count}** deterministic lifecycle fix${count === 1 ? "" : "es"} found by Evergreen.`
-    : `This pull request applies deterministic lifecycle changes to **${files.length}** file${files.length === 1 ? "" : "s"}.`;
+  const summary =
+    count > 0
+      ? `This pull request applies **${count}** deterministic lifecycle fix${count === 1 ? "" : "es"} found by Evergreen.`
+      : `This pull request applies deterministic lifecycle changes to **${files.length}** file${files.length === 1 ? "" : "s"}.`;
   const lines = [
     "## Evergreen lifecycle fixes",
     "",
@@ -139,7 +165,9 @@ export function renderFixPullRequestBody(fixed: readonly Finding[], commands: re
     lines.push("| Finding | Location | Evidence |", "|---|---|---|");
     for (const finding of fixed) {
       const source = finding.sources[0];
-      lines.push(`| ${cell(finding.title)} | \`${cell(location(finding))}\` | ${source ? `[${cell(source.title)}](${source.url})` : "—"} |`);
+      lines.push(
+        `| ${cell(finding.title)} | \`${cell(location(finding))}\` | ${source ? `[${cell(source.title)}](${source.url})` : "—"} |`,
+      );
     }
     lines.push("");
   } else if (files.length > 0) {
@@ -163,7 +191,10 @@ export function renderFixPullRequestBody(fixed: readonly Finding[], commands: re
  * the pull request. A closed pull request is reopened when fixes come back, and a merged one is not: the next
  * run opens a new pull request from the same branch.
  */
-export async function publishFixPullRequest(result: ScanResult, target: FixPullRequestTarget): Promise<FixPullRequestOutcome> {
+export async function publishFixPullRequest(
+  result: ScanResult,
+  target: FixPullRequestTarget,
+): Promise<FixPullRequestOutcome> {
   const root = target.root ?? result.root;
   const branch = target.branch ?? FIX_PR_BRANCH;
   const github: GitHubTarget = {
@@ -176,7 +207,12 @@ export async function publishFixPullRequest(result: ScanResult, target: FixPullR
     const existing = await findPullRequest(github, branch);
     if (existing?.state === "open") {
       await githubRequest(github, "PATCH", `/repos/${github.repository}/pulls/${existing.number}`, { state: "closed" });
-      return { status: "closed", fixes: 0, number: existing.number, ...(existing.html_url ? { url: existing.html_url } : {}) };
+      return {
+        status: "closed",
+        fixes: 0,
+        number: existing.number,
+        ...(existing.html_url ? { url: existing.html_url } : {}),
+      };
     }
     return { status: "nothing", fixes: 0 };
   }
@@ -184,7 +220,12 @@ export async function publishFixPullRequest(result: ScanResult, target: FixPullR
   await applyFixesOnBranch(root, branch, patches);
   const verification = verifyFix(result, await scanRepository(root, builtInDetectors));
   const files = [...new Set(patches.map((patch) => patch.path))].sort();
-  const body = renderFixPullRequestBody(verification.resolved, verification.commands, files, target.attribution ?? true);
+  const body = renderFixPullRequestBody(
+    verification.resolved,
+    verification.commands,
+    files,
+    target.attribution ?? true,
+  );
   await pushBranch(root, branch);
 
   const existing = await findPullRequest(github, branch);
@@ -195,7 +236,12 @@ export async function publishFixPullRequest(result: ScanResult, target: FixPullR
       body,
       ...(existing.state === "open" ? {} : { state: "open" }),
     });
-    return { status: "updated", fixes: verification.resolved.length, number: existing.number, ...(existing.html_url ? { url: existing.html_url } : {}) };
+    return {
+      status: "updated",
+      fixes: verification.resolved.length,
+      number: existing.number,
+      ...(existing.html_url ? { url: existing.html_url } : {}),
+    };
   }
 
   const created = (await githubRequest(github, "POST", `/repos/${github.repository}/pulls`, {
@@ -204,5 +250,10 @@ export async function publishFixPullRequest(result: ScanResult, target: FixPullR
     base: target.baseBranch,
     body,
   })) as { number: number; html_url?: string };
-  return { status: "opened", fixes: verification.resolved.length, number: created.number, ...(created.html_url ? { url: created.html_url } : {}) };
+  return {
+    status: "opened",
+    fixes: verification.resolved.length,
+    number: created.number,
+    ...(created.html_url ? { url: created.html_url } : {}),
+  };
 }

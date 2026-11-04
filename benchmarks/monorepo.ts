@@ -70,9 +70,7 @@ export function evaluateMonorepoBudget(
 ): string[] {
   const violations: string[] = [];
   if (measurements.fileCount < budget.minFiles) {
-    violations.push(
-      `file count ${measurements.fileCount} is below the ${budget.minFiles} file floor`,
-    );
+    violations.push(`file count ${measurements.fileCount} is below the ${budget.minFiles} file floor`);
   }
   if (measurements.meanWallMs > budget.maxMeanWallMs) {
     violations.push(
@@ -175,10 +173,7 @@ export async function createSyntheticMonorepo(options: SyntheticMonorepoOptions 
     );
     created += 1;
     if (withDeprecated) {
-      writeFileSync(
-        join(packageDir, "index.ts"),
-        'import request from "request";\nrequest("https://example.com");\n',
-      );
+      writeFileSync(join(packageDir, "index.ts"), 'import request from "request";\nrequest("https://example.com");\n');
       created += 1;
     }
     const fillers = fillerPerPackage + (fillerRemainder > 0 ? 1 : 0);

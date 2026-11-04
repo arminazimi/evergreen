@@ -14,7 +14,12 @@ interface Fixture {
 
 async function fixtures(): Promise<Fixture[]> {
   const directory = resolve("tests/fixtures/differential");
-  return Promise.all((await readdir(directory)).filter((name) => name.endsWith(".json")).sort().map(async (name) => JSON.parse(await readFile(resolve(directory, name), "utf8")) as Fixture));
+  return Promise.all(
+    (await readdir(directory))
+      .filter((name) => name.endsWith(".json"))
+      .sort()
+      .map(async (name) => JSON.parse(await readFile(resolve(directory, name), "utf8")) as Fixture),
+  );
 }
 
 test("umami: image and action findings agree with Renovate updates, deprecations agree, and no lookup is skipped", async () => {
@@ -22,17 +27,50 @@ test("umami: image and action findings agree with Renovate updates, deprecations
   const result = report(umami.repository, umami.findings, renovateDependencies(umami.renovate));
   assert.deepEqual(result.summary, { agree: 8, "evergreen-only": 1, "renovate-only": 0, inconclusive: 0 });
   const byName = (name: string) => result.comparisons.filter((item) => item.name === name);
-  assert.deepEqual(byName("node").map((item) => [item.outcome, item.renovate]), [["agree", "major-update"]]);
-  assert.deepEqual(byName("postgres").map((item) => [item.outcome, item.renovate]), [["agree", "major-update"]]);
-  assert.deepEqual(byName("checkout").map((item) => item.renovate), ["major-update", "major-update", "major-update"]);
-  assert.deepEqual(byName("checkout").map((item) => item.outcome), ["agree", "agree", "agree"]);
-  assert.deepEqual(byName("react-beautiful-dnd").map((item) => [item.outcome, item.renovate]), [["agree", "deprecated"]]);
+  assert.deepEqual(
+    byName("node").map((item) => [item.outcome, item.renovate]),
+    [["agree", "major-update"]],
+  );
+  assert.deepEqual(
+    byName("postgres").map((item) => [item.outcome, item.renovate]),
+    [["agree", "major-update"]],
+  );
+  assert.deepEqual(
+    byName("checkout").map((item) => item.renovate),
+    ["major-update", "major-update", "major-update"],
+  );
+  assert.deepEqual(
+    byName("checkout").map((item) => item.outcome),
+    ["agree", "agree", "agree"],
+  );
+  assert.deepEqual(
+    byName("react-beautiful-dnd").map((item) => [item.outcome, item.renovate]),
+    [["agree", "deprecated"]],
+  );
 });
 
 test("a Renovate dependency skipped for a missing token is inconclusive, not a disagreement", () => {
-  const dependencies = renovateDependencies({ repositories: { local: { packageFiles: { "github-actions": [{ packageFile: "ci.yml", deps: [{ depName: "actions/checkout", currentValue: "v3", skipReason: "github-token-required", updates: [] }] }] } } } });
+  const dependencies = renovateDependencies({
+    repositories: {
+      local: {
+        packageFiles: {
+          "github-actions": [
+            {
+              packageFile: "ci.yml",
+              deps: [
+                { depName: "actions/checkout", currentValue: "v3", skipReason: "github-token-required", updates: [] },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  });
   const result = compare([{ ruleId: "github-actions.checkout.node20", path: "ci.yml" }], dependencies);
-  assert.deepEqual(result.comparisons.map((item) => [item.outcome, item.renovate]), [["inconclusive", "skipped"]]);
+  assert.deepEqual(
+    result.comparisons.map((item) => [item.outcome, item.renovate]),
+    [["inconclusive", "skipped"]],
+  );
   assert.match(result.comparisons[0]!.note, /github-token-required/);
 });
 
@@ -40,18 +78,36 @@ test("every committed comparison accounts for each Evergreen finding family exac
   for (const fixture of await fixtures()) {
     const dependencies = renovateDependencies(fixture.renovate);
     const first = report(fixture.repository, fixture.findings, dependencies);
-    assert.deepEqual(first, report(fixture.repository, [...fixture.findings].reverse(), dependencies), fixture.repository);
+    assert.deepEqual(
+      first,
+      report(fixture.repository, [...fixture.findings].reverse(), dependencies),
+      fixture.repository,
+    );
     const comparable = fixture.findings.filter((finding) => classify(finding));
-    const covered = first.comparisons.filter((item) => item.outcome !== "renovate-only").reduce((total, item) => total + item.evergreen.length, 0);
-    assert.ok(covered <= comparable.length && covered > 0 || comparable.length === 0, fixture.repository);
-    assert.equal(Object.values(first.summary).reduce((total, count) => total + count, 0), first.comparisons.length);
+    const covered = first.comparisons
+      .filter((item) => item.outcome !== "renovate-only")
+      .reduce((total, item) => total + item.evergreen.length, 0);
+    assert.ok((covered <= comparable.length && covered > 0) || comparable.length === 0, fixture.repository);
+    assert.equal(
+      Object.values(first.summary).reduce((total, count) => total + count, 0),
+      first.comparisons.length,
+    );
   }
 });
 
 test("rule ids map to the dependency Renovate would name", () => {
-  assert.deepEqual(classify({ ruleId: "npm.package.node-sass.eol", path: "package.json" }), { family: "deprecated-package", name: "node-sass" });
-  assert.deepEqual(classify({ ruleId: "container.postgres.eol-13-and-older", path: "Dockerfile" }), { family: "base-image", name: "postgres" });
-  assert.deepEqual(classify({ ruleId: "github-actions.setup-node.node20", path: "ci.yml" }), { family: "github-action", name: "setup-node" });
+  assert.deepEqual(classify({ ruleId: "npm.package.node-sass.eol", path: "package.json" }), {
+    family: "deprecated-package",
+    name: "node-sass",
+  });
+  assert.deepEqual(classify({ ruleId: "container.postgres.eol-13-and-older", path: "Dockerfile" }), {
+    family: "base-image",
+    name: "postgres",
+  });
+  assert.deepEqual(classify({ ruleId: "github-actions.setup-node.node20", path: "ci.yml" }), {
+    family: "github-action",
+    name: "setup-node",
+  });
   assert.equal(classify({ ruleId: "nodejs.runtime.eol-20", path: "package.json" }), undefined);
 });
 
@@ -62,11 +118,25 @@ test("runtime findings are listed as not comparable, never counted as disagreeme
 
 test("a finding in a file Renovate never listed is Evergreen-only, and says so", () => {
   const result = compare([{ ruleId: "container.node.eol-21-and-older", path: "docker/Dockerfile" }], []);
-  assert.deepEqual(result.comparisons.map((item) => [item.outcome, item.renovate]), [["evergreen-only", "not-seen"]]);
+  assert.deepEqual(
+    result.comparisons.map((item) => [item.outcome, item.renovate]),
+    [["evergreen-only", "not-seen"]],
+  );
 });
 
 test("scoped npm names match their dashed rule names", () => {
-  const dependencies = renovateDependencies({ repositories: { r: { packageFiles: { npm: [{ packageFile: "package.json", deps: [{ depName: "@hapi/joi", deprecationMessage: "deprecated" }] }] } } } });
+  const dependencies = renovateDependencies({
+    repositories: {
+      r: {
+        packageFiles: {
+          npm: [{ packageFile: "package.json", deps: [{ depName: "@hapi/joi", deprecationMessage: "deprecated" }] }],
+        },
+      },
+    },
+  });
   const result = compare([{ ruleId: "npm.package.hapi-joi.deprecated", path: "package.json" }], dependencies);
-  assert.deepEqual(result.comparisons.map((item) => item.outcome), ["agree"]);
+  assert.deepEqual(
+    result.comparisons.map((item) => item.outcome),
+    ["agree"],
+  );
 });

@@ -29,7 +29,9 @@ export function verifyFix(before: ScanResult, after: ScanResult): FixVerificatio
 /** The lines `fix --branch` prints after the commit: the outcome, then the commands to run next. */
 export function renderVerification(verification: FixVerification): string {
   const count = (findings: Finding[], word: string): string => `${findings.length} ${word}`;
-  const lines = [`Re-scan: ${count(verification.resolved, "resolved")}, ${count(verification.remaining, "remaining")}, ${count(verification.introduced, "new")}.`];
+  const lines = [
+    `Re-scan: ${count(verification.resolved, "resolved")}, ${count(verification.remaining, "remaining")}, ${count(verification.introduced, "new")}.`,
+  ];
   for (const finding of verification.introduced) lines.push(`  new: ${finding.ruleId} at ${finding.location.path}`);
   if (verification.commands.length > 0) {
     lines.push("Verify the migration yourself; Evergreen did not run these:");

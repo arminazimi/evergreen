@@ -49,7 +49,10 @@ test("a Node fixture proposes the workflow, config, and README badge snippet", a
   const before = await readdir(root);
   const proposal = await proposeOnboarding({ root, repository: "acme/node-app" });
   assert.deepEqual(proposal.stacks, ["node"]);
-  assert.deepEqual(Object.keys(proposal.files).sort(), [CI_WORKFLOW_FILE, CONFIG_FILE_NAME, ONBOARDING_BADGE_FILE].sort());
+  assert.deepEqual(
+    Object.keys(proposal.files).sort(),
+    [CI_WORKFLOW_FILE, CONFIG_FILE_NAME, ONBOARDING_BADGE_FILE].sort(),
+  );
   assert.equal(proposal.files[CI_WORKFLOW_FILE], pinnedCiWorkflow("high"));
   assert.equal(proposal.files[CONFIG_FILE_NAME], onboardingConfig(["node"], "high"));
   assert.equal(proposal.files[ONBOARDING_BADGE_FILE], badgeSnippet("acme/node-app", "markdown"));
@@ -73,7 +76,10 @@ test("a Go fixture proposes the same file keys with a go stack", async () => {
   const root = await fixture({ "go.mod": "module example.com/app\n\ngo 1.22\n" });
   const proposal = await proposeOnboarding({ root, repository: "acme/go-app" });
   assert.deepEqual(proposal.stacks, ["go"]);
-  assert.deepEqual(Object.keys(proposal.files).sort(), [CI_WORKFLOW_FILE, CONFIG_FILE_NAME, ONBOARDING_BADGE_FILE].sort());
+  assert.deepEqual(
+    Object.keys(proposal.files).sort(),
+    [CI_WORKFLOW_FILE, CONFIG_FILE_NAME, ONBOARDING_BADGE_FILE].sort(),
+  );
   assert.equal(proposal.files[CONFIG_FILE_NAME], onboardingConfig(["go"], "high"));
 });
 

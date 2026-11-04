@@ -63,7 +63,9 @@ test("parses Elixir and Erlang pins from .tool-versions with exact lines", async
 });
 
 test(".tool-versions ignores other tools and rejects a mixed unsupported line", () => {
-  assert.deepEqual(parseToolVersions("nodejs 22.11.0\nelixir 1.17.3\n"), [{ kind: "elixir", value: "1.17.3", line: 2 }]);
+  assert.deepEqual(parseToolVersions("nodejs 22.11.0\nelixir 1.17.3\n"), [
+    { kind: "elixir", value: "1.17.3", line: 2 },
+  ]);
   assert.deepEqual(parseToolVersions("elixir 1.14.5 system\n"), []);
   assert.deepEqual(parseToolVersions("erlang 25.3 latest\n"), []);
 });

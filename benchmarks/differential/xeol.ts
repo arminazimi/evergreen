@@ -66,7 +66,13 @@ const XEOL_NAMES: Record<string, string[]> = {
 };
 
 /** Container image repository names that are a product under another name. */
-const IMAGE_PRODUCT: Record<string, string> = { node: "nodejs", golang: "go", postgres: "postgresql", openjdk: "java", eclipse_temurin: "java" };
+const IMAGE_PRODUCT: Record<string, string> = {
+  node: "nodejs",
+  golang: "go",
+  postgres: "postgresql",
+  openjdk: "java",
+  eclipse_temurin: "java",
+};
 
 /** Evergreen detectors whose rules are about a runtime, and the product each one reads. */
 const RUNTIME_DETECTORS = new Set(["nodejs", "python", "go", "ruby", "php", "rust", "dotnet", "java"]);
@@ -112,7 +118,10 @@ export function classify(finding: EvergreenFinding): string | undefined {
 
 const namesFor = (product: string): string[] => XEOL_NAMES[product] ?? [product];
 
-export function compare(findings: readonly EvergreenFinding[], matches: readonly XeolEol[]): { comparisons: Comparison[]; notComparable: string[] } {
+export function compare(
+  findings: readonly EvergreenFinding[],
+  matches: readonly XeolEol[],
+): { comparisons: Comparison[]; notComparable: string[] } {
   const comparisons = new Map<string, Comparison>();
   const notComparable = new Set<string>();
   const claimed = new Set<XeolEol>();
@@ -136,7 +145,10 @@ export function compare(findings: readonly EvergreenFinding[], matches: readonly
       evergreen: [finding.ruleId],
       xeol: seen.map(({ cycle, version, eol, path }) => ({ cycle, version, eol, path })),
       outcome: seen.length > 0 ? "agree" : "evergreen-only",
-      note: seen.length > 0 ? "Both report a release of this product as past end of life." : "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry.",
+      note:
+        seen.length > 0
+          ? "Both report a release of this product as past end of life."
+          : "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry.",
     });
   }
 
@@ -157,7 +169,12 @@ export function compare(findings: readonly EvergreenFinding[], matches: readonly
   }
 
   for (const item of comparisons.values()) item.evergreen.sort();
-  for (const item of comparisons.values()) item.xeol.sort((left, right) => [left.cycle, left.version, left.path].join("\n").localeCompare([right.cycle, right.version, right.path].join("\n")));
+  for (const item of comparisons.values())
+    item.xeol.sort((left, right) =>
+      [left.cycle, left.version, left.path]
+        .join("\n")
+        .localeCompare([right.cycle, right.version, right.path].join("\n")),
+    );
   return {
     comparisons: [...comparisons.values()].sort((left, right) => left.product.localeCompare(right.product)),
     notComparable: [...notComparable].sort(),
@@ -172,7 +189,11 @@ export interface DifferentialReport {
   notComparable: string[];
 }
 
-export function report(repository: string, findings: readonly EvergreenFinding[], matches: readonly XeolEol[]): DifferentialReport {
+export function report(
+  repository: string,
+  findings: readonly EvergreenFinding[],
+  matches: readonly XeolEol[],
+): DifferentialReport {
   const { comparisons, notComparable } = compare(findings, matches);
   const summary = { agree: 0, "evergreen-only": 0, "xeol-only": 0 };
   for (const item of comparisons) summary[item.outcome]++;
@@ -183,7 +204,8 @@ export async function main(argv: string[]): Promise<number> {
   const values = new Map<string, string>();
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]!;
-    if (!["--xeol", "--repository", "--out", "--name"].includes(flag) || argv[index + 1] === undefined) throw new Error("Usage: xeol --xeol <report.json> --repository <checkout> [--name <label>] [--out <file>]");
+    if (!["--xeol", "--repository", "--out", "--name"].includes(flag) || argv[index + 1] === undefined)
+      throw new Error("Usage: xeol --xeol <report.json> --repository <checkout> [--name <label>] [--out <file>]");
     values.set(flag, argv[index + 1]!);
   }
   const reportPath = values.get("--xeol");
@@ -194,7 +216,11 @@ export async function main(argv: string[]): Promise<number> {
   const scan = await scanRepository(resolve(repository), builtInDetectors);
   const result = report(
     values.get("--name") ?? repository,
-    scan.findings.map((finding) => ({ ruleId: finding.ruleId, path: finding.location.path, ...(finding.location.line === undefined ? {} : { line: finding.location.line }) })),
+    scan.findings.map((finding) => ({
+      ruleId: finding.ruleId,
+      path: finding.location.path,
+      ...(finding.location.line === undefined ? {} : { line: finding.location.line }),
+    })),
     xeolMatches(JSON.parse(await readFile(reportPath, "utf8"))),
   );
   const text = `${JSON.stringify(result, null, 2)}\n`;

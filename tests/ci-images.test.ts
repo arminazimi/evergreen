@@ -61,8 +61,18 @@ test("ci-images passes detector conformance on every fixture", async () => {
         name: "ci-images positive",
         root: resolve(fixtures, "positive"),
         expectedFindings: [
-          expected(ubuntu2004, "azure-pipelines.yml", 2, `azure-pipelines.yml uses vmImage ubuntu-20.04. ${ubuntu2004.summary}`),
-          expected(windows2019, "azure-pipelines.yml", 7, `azure-pipelines.yml uses vmImage windows-2019. ${windows2019.summary}`),
+          expected(
+            ubuntu2004,
+            "azure-pipelines.yml",
+            2,
+            `azure-pipelines.yml uses vmImage ubuntu-20.04. ${ubuntu2004.summary}`,
+          ),
+          expected(
+            windows2019,
+            "azure-pipelines.yml",
+            7,
+            `azure-pipelines.yml uses vmImage windows-2019. ${windows2019.summary}`,
+          ),
         ],
       },
     ],
@@ -93,7 +103,12 @@ const ubuntuRule: RegistryV2Rule = {
   summary: "The Ubuntu 20.04 hosted image was retired.",
   severity: "high",
   replacement: "ubuntu-latest",
-  sources: [{ title: "Microsoft-hosted image deprecation schedule", url: "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule" }],
+  sources: [
+    {
+      title: "Microsoft-hosted image deprecation schedule",
+      url: "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+    },
+  ],
   provenance: { observedAt: "2026-10-18", reviewedAt: "2026-10-18", reviewer: "test" },
 };
 
@@ -107,15 +122,21 @@ const rule = (id: string, family: string, version: string): RegistryV2Rule => ({
   summary: `The ${family} ${version} hosted image was retired.`,
   severity: "high",
   replacement: "latest",
-  sources: [{ title: "Microsoft-hosted image deprecation schedule", url: "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule" }],
+  sources: [
+    {
+      title: "Microsoft-hosted image deprecation schedule",
+      url: "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+    },
+  ],
   provenance: { observedAt: "2026-10-18", reviewedAt: "2026-10-18", reviewer: "test" },
 });
 
 test("an Azure vmImage matches a rule for its image family and version", async () => {
   const findings = await new CiImagesDetector(async () => [ubuntuRule]).scan({ root: resolve(fixtures, "positive") });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [
-    ["ci-images.azure-pipelines.ubuntu-20.04", "azure-pipelines.yml", 2],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["ci-images.azure-pipelines.ubuntu-20.04", "azure-pipelines.yml", 2]],
+  );
 });
 
 test("Azure vmImage matching is case-insensitive and rejects suffixes", async () => {
@@ -126,10 +147,13 @@ test("Azure vmImage matching is case-insensitive and rejects suffixes", async ()
     rule("ci-images.azure-pipelines.ubuntu-22.04", "ubuntu", "22.04"),
     rule("ci-images.azure-pipelines.macos-14", "macos", "14"),
   ]).scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.line]), [
-    ["ci-images.azure-pipelines.ubuntu-22.04", 4],
-    ["ci-images.azure-pipelines.macos-14", 7],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["ci-images.azure-pipelines.ubuntu-22.04", 4],
+      ["ci-images.azure-pipelines.macos-14", 7],
+    ],
+  );
 });
 
 test("GitLab and CircleCI references stay unclassified while retired Azure labels are findings", async () => {
@@ -137,14 +161,20 @@ test("GitLab and CircleCI references stay unclassified while retired Azure label
   const ubuntu2004 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.ubuntu-20.04")!;
   const windows2019 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.windows-2019")!;
   const analysis = await detector.analyze({ root: resolve(fixtures, "positive") });
-  assert.deepEqual(analysis.findings.map((finding) => finding.ruleId), [ubuntu2004.id, windows2019.id]);
-  assert.deepEqual(analysis.unclassified.map((item) => [item.location.path, item.location.line, item.reason]), [
-    [".circleci/config.yml", 3, "orb-not-resolved"],
-    [".gitlab-ci.yml", 1, "gitlab-not-judged"],
-    [".gitlab-ci.yml", 4, "gitlab-not-judged"],
-    [".gitlab-ci.yml", 5, "gitlab-not-judged"],
-    [".gitlab-ci.yml", 8, "gitlab-not-judged"],
-  ]);
+  assert.deepEqual(
+    analysis.findings.map((finding) => finding.ruleId),
+    [ubuntu2004.id, windows2019.id],
+  );
+  assert.deepEqual(
+    analysis.unclassified.map((item) => [item.location.path, item.location.line, item.reason]),
+    [
+      [".circleci/config.yml", 3, "orb-not-resolved"],
+      [".gitlab-ci.yml", 1, "gitlab-not-judged"],
+      [".gitlab-ci.yml", 4, "gitlab-not-judged"],
+      [".gitlab-ci.yml", 5, "gitlab-not-judged"],
+      [".gitlab-ci.yml", 8, "gitlab-not-judged"],
+    ],
+  );
 });
 
 test("every curated ci-images rule has migration guidance with real verification commands", async () => {
@@ -161,7 +191,9 @@ test("every curated ci-images rule has migration guidance with real verification
 
 test("a migration packet for an Azure hosted-image finding names the file, steps, and verification", async () => {
   const result = await scanRepository(resolve(fixtures, "positive"), [detector]);
-  const finding = result.findings.find((item) => item.id === "ci-images.azure-pipelines.ubuntu-20.04:azure-pipelines.yml:2");
+  const finding = result.findings.find(
+    (item) => item.id === "ci-images.azure-pipelines.ubuntu-20.04:azure-pipelines.yml:2",
+  );
   assert.ok(finding);
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.ok(packet.affectedFiles.includes("azure-pipelines.yml"));

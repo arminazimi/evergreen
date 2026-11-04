@@ -7,12 +7,9 @@ import { RECEIPT_MARKER, receiptVerdict, renderReceiptMarkdown } from "../src/re
 
 const reproduceTemplate = "Reproduce with: `evergreen receipt <path> --before <scan.json>`";
 
-const hostile ='<script>alert("x")</script> | \\ [label](javascript:alert(1)) &';
+const hostile = '<script>alert("x")</script> | \\ [label](javascript:alert(1)) &';
 
-function entry(
-  id: string,
-  overrides: Partial<ReceiptFinding> = {},
-): ReceiptFinding {
+function entry(id: string, overrides: Partial<ReceiptFinding> = {}): ReceiptFinding {
   return {
     id,
     rule: "demo.eol",
@@ -294,19 +291,22 @@ test("escapes hostile titles and paths, and never prints absolute paths", () => 
   assert.ok(markdown.includes("&#92;"));
   assert.ok(!markdown.includes("/Users/me/repo/"));
   assert.ok(markdown.includes(escapeSnippet(hostile)));
-  assert.equal(markdown, renderReceiptMarkdown(
-    receipt({
-      resolved: [
-        entry("x", {
-          title: hostile,
-          path: `/Users/me/repo/${hostile}`,
-          line: 3,
-        }),
-      ],
-      remaining: [],
-      introduced: [],
-    }),
-  ));
+  assert.equal(
+    markdown,
+    renderReceiptMarkdown(
+      receipt({
+        resolved: [
+          entry("x", {
+            title: hostile,
+            path: `/Users/me/repo/${hostile}`,
+            line: 3,
+          }),
+        ],
+        remaining: [],
+        introduced: [],
+      }),
+    ),
+  );
 });
 
 test("the reproduce line names the command it was given, in a code span that hostile text cannot close", () => {

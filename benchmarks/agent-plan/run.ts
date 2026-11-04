@@ -325,8 +325,7 @@ export async function runPlanBenchmark(options: PlanBenchmarkOptions): Promise<P
   const waveParallel = arms.find((arm) => arm.arm === "wave-parallel");
   if (sequential === undefined || waveParallel === undefined) throw new Error("Both plan arms must run.");
 
-  const runId =
-    options.runId ?? `plan-${slug(agentName) || "agent"}-${startedAt.replace(/[:.]/g, "-")}`;
+  const runId = options.runId ?? `plan-${slug(agentName) || "agent"}-${startedAt.replace(/[:.]/g, "-")}`;
   const result: PlanResult = {
     schemaVersion: SCHEMA_VERSION,
     kind: "plan",

@@ -16,7 +16,10 @@ after(async () => {
 });
 
 function git(cwd: string, ...args: string[]): void {
-  execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@example.com", "-c", "commit.gpgsign=false", ...args], { cwd, stdio: "ignore" });
+  execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@example.com", "-c", "commit.gpgsign=false", ...args], {
+    cwd,
+    stdio: "ignore",
+  });
 }
 
 async function commit(root: string, node: string, message: string, name = "x"): Promise<void> {
@@ -80,12 +83,16 @@ test("the working tree is not touched and an unknown ref is a usage error", asyn
   await writeFile(join(root, "package.json"), JSON.stringify({ name: "x", engines: { node: "16" } }));
   const { code } = await run(root, "good..nope");
   assert.equal(code, 2);
-  assert.equal(execFileSync("git", ["status", "--porcelain"], { cwd: root, encoding: "utf8" }).trim(), "M package.json");
+  assert.equal(
+    execFileSync("git", ["status", "--porcelain"], { cwd: root, encoding: "utf8" }).trim(),
+    "M package.json",
+  );
 });
 
 test("parseRange wants exactly two refs separated by two dots", () => {
   assert.deepEqual(parseRange("main..HEAD"), { base: "main", head: "HEAD" });
-  for (const bad of ["main", "main...HEAD", "..HEAD", "main..", "a..b..c"]) assert.throws(() => parseRange(bad), /not a range/);
+  for (const bad of ["main", "main...HEAD", "..HEAD", "main..", "a..b..c"])
+    assert.throws(() => parseRange(bad), /not a range/);
 });
 
 test("compareFindings matches by fingerprint and counts duplicates", () => {

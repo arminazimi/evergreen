@@ -22,7 +22,11 @@ async function pointerDocument(path: string): Promise<unknown> {
   const raw = await readFile(path, "utf8");
   const parsed = parseExport(raw);
   if (typeof parsed !== "string") return parsed;
-  return raw.split(/\r?\n/).map((line) => line.trim()).filter((line) => line.length > 0).map((line) => JSON.parse(line) as unknown);
+  return raw
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+    .map((line) => JSON.parse(line) as unknown);
 }
 
 function resolvePointer(document: unknown, pointer: string): unknown {
@@ -162,7 +166,10 @@ test("every pointer resolves, and names the value the item uses", async () => {
       if (item.pointer.endsWith("/org.opencontainers.image.version") || item.version.startsWith("sha256:")) {
         assert.equal(value, item.version, `${path} ${item.pointer}`);
       } else {
-        assert.ok(String(value).includes(item.version), `${path} ${item.pointer} names ${String(value)}, not ${item.version}`);
+        assert.ok(
+          String(value).includes(item.version),
+          `${path} ${item.pointer} names ${String(value)}, not ${item.version}`,
+        );
       }
     }
   }

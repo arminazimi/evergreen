@@ -28,7 +28,21 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "bin", "obj", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "bin",
+  "obj",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const PROJECT_FILE = /\.(?:cs|fs|vb)proj$/i;
 const AZURE_PIPELINES_NAME = /^azure-pipelines\.ya?ml$/i;
@@ -86,7 +100,12 @@ async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
       else if (name === ".gitlab-ci.yml") files.push({ path, kind: "gitlab" });
       else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path, kind: "circleci" });
       else if (AZURE_PIPELINES_NAME.test(name)) files.push({ path, kind: "azure" });
-      else if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github") files.push({ path, kind: "workflow" });
+      else if (
+        WORKFLOW_NAME.test(name) &&
+        basename(directory) === "workflows" &&
+        basename(dirname(directory)) === ".github"
+      )
+        files.push({ path, kind: "workflow" });
     }
   }
   await visit(root, 0);
@@ -134,18 +153,36 @@ function resolveTargetFramework(moniker: string): Resolved {
   const modern = /^net(\d+)\.(\d+)(?:-.*)?$/.exec(value);
   if (modern && Number(modern[1]) >= 5) return { release: `${Number(modern[1])}.${Number(modern[2])}` };
   if (/^net4\d{1,2}(?:-.*)?$/.test(value) || /^net[1-3]\d?$/.test(value)) {
-    return { unresolved: "the target is .NET Framework, which follows the Windows lifecycle and is not compared with .NET releases." };
+    return {
+      unresolved:
+        "the target is .NET Framework, which follows the Windows lifecycle and is not compared with .NET releases.",
+    };
   }
   return { unresolved: `"${moniker.trim()}" is not a .NET release moniker Evergreen reads.` };
 }
 
-function addPin(pins: RuntimePin[], path: string, line: number, source: string, raw: string, resolved: Resolved, group?: string): void {
+function addPin(
+  pins: RuntimePin[],
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  resolved: Resolved,
+  group?: string,
+): void {
   pins.push({ path, line, source, raw, kind: "pin", ...(group === undefined ? {} : { group }), ...resolved });
 }
 
 function collectGlobalJson(pins: RuntimePin[], path: string, contents: string): void {
   for (const declaration of parseGlobalJson(contents)) {
-    addPin(pins, path, declaration.line, "global.json sdk.version", declaration.value, resolveVersion(declaration.value));
+    addPin(
+      pins,
+      path,
+      declaration.line,
+      "global.json sdk.version",
+      declaration.value,
+      resolveVersion(declaration.value),
+    );
   }
 }
 
@@ -198,7 +235,9 @@ function collectDockerfile(pins: RuntimePin[], path: string, contents: string): 
   for (const declaration of parseDockerfile(contents)) {
     if (declaration.kind === "dynamic") {
       if (namesDotnetImage(declaration.value)) {
-        addPin(pins, path, declaration.line, source, declaration.value, { unresolved: "the image reference is dynamic." });
+        addPin(pins, path, declaration.line, source, declaration.value, {
+          unresolved: "the image reference is dynamic.",
+        });
       }
       continue;
     }
@@ -217,7 +256,10 @@ function collectWorkflow(pins: RuntimePin[], path: string, contents: string): vo
 function collectGitlab(pins: RuntimePin[], path: string, contents: string): void {
   for (const reference of parseGitlabCi(contents).unclassified) {
     if (reference.reason === "dynamic") {
-      if (namesDotnetImage(reference.value)) addPin(pins, path, reference.line, "GitLab CI image", reference.value, { unresolved: "the image reference is dynamic." });
+      if (namesDotnetImage(reference.value))
+        addPin(pins, path, reference.line, "GitLab CI image", reference.value, {
+          unresolved: "the image reference is dynamic.",
+        });
       continue;
     }
     imagePin(pins, path, reference.line, "GitLab CI image", reference.value);
@@ -229,7 +271,10 @@ function collectCircleci(pins: RuntimePin[], path: string, contents: string): vo
   for (const reference of [...parsed.declarations, ...parsed.unclassified]) {
     if ("reason" in reference && reference.reason === "orb-not-resolved") continue;
     if ("reason" in reference && reference.reason === "dynamic") {
-      if (namesDotnetImage(reference.value)) addPin(pins, path, reference.line, "CircleCI image", reference.value, { unresolved: "the image reference is dynamic." });
+      if (namesDotnetImage(reference.value))
+        addPin(pins, path, reference.line, "CircleCI image", reference.value, {
+          unresolved: "the image reference is dynamic.",
+        });
       continue;
     }
     imagePin(pins, path, reference.line, "CircleCI image", reference.value);
@@ -269,7 +314,10 @@ function azureContainerImages(contents: string): Array<{ value: string; line: nu
 function collectAzure(pins: RuntimePin[], path: string, contents: string): void {
   for (const reference of azureContainerImages(contents)) {
     if (reference.value.includes("$")) {
-      if (namesDotnetImage(reference.value)) addPin(pins, path, reference.line, "Azure Pipelines container", reference.value, { unresolved: "the image reference is dynamic." });
+      if (namesDotnetImage(reference.value))
+        addPin(pins, path, reference.line, "Azure Pipelines container", reference.value, {
+          unresolved: "the image reference is dynamic.",
+        });
       continue;
     }
     imagePin(pins, path, reference.line, "Azure Pipelines container", reference.value);

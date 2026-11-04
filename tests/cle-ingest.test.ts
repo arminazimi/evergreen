@@ -31,32 +31,36 @@ async function installedFixture(): Promise<string> {
   return root;
 }
 
-async function packageWithCle(event: {
-  type?: string;
-  effective: string;
-  version?: string;
-}): Promise<string> {
+async function packageWithCle(event: { type?: string; effective: string; version?: string }): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-cle-dated-"));
   temporaryRoots.push(root);
   const pkg = join(root, "node_modules", "dated-widget");
   await mkdir(pkg, { recursive: true });
-  await writeFile(join(pkg, "package.json"), JSON.stringify({
-    name: "dated-widget",
-    version: event.version ?? "1.0.0",
-  }));
-  await writeFile(join(pkg, CLE_FILE_NAME), JSON.stringify({
-    $schema: CLE_SCHEMA,
-    identifier: "pkg:npm/dated-widget",
-    updatedAt: "2024-01-01T00:00:00Z",
-    events: [{
-      id: 1,
-      type: event.type ?? "endOfLife",
-      effective: event.effective,
-      published: "2024-01-01T00:00:00Z",
-      versions: [{ range: "vers:npm/*" }],
-      description: "Dated CLE event for scheduled-vs-reached tests.",
-    }],
-  }));
+  await writeFile(
+    join(pkg, "package.json"),
+    JSON.stringify({
+      name: "dated-widget",
+      version: event.version ?? "1.0.0",
+    }),
+  );
+  await writeFile(
+    join(pkg, CLE_FILE_NAME),
+    JSON.stringify({
+      $schema: CLE_SCHEMA,
+      identifier: "pkg:npm/dated-widget",
+      updatedAt: "2024-01-01T00:00:00Z",
+      events: [
+        {
+          id: 1,
+          type: event.type ?? "endOfLife",
+          effective: event.effective,
+          published: "2024-01-01T00:00:00Z",
+          versions: [{ range: "vers:npm/*" }],
+          description: "Dated CLE event for scheduled-vs-reached tests.",
+        },
+      ],
+    }),
+  );
   return root;
 }
 
@@ -72,10 +76,7 @@ test("fixture package with CLE produces a finding with provenance", async () => 
   assert.equal(finding.location.line, 1);
   assert.match(finding.summary, /1\.x line is end of life/);
   assert.equal(finding.sources[0]!.title, "Maintainer CLE declaration");
-  assert.equal(
-    finding.sources[0]!.url,
-    pathToFileURL(resolve(root, "node_modules/legacy-widget/cle.json")).href,
-  );
+  assert.equal(finding.sources[0]!.url, pathToFileURL(resolve(root, "node_modules/legacy-widget/cle.json")).href);
   assert.equal(finding.sources[1]!.url, "https://example.com/legacy-widget/eol");
   assert.deepEqual(await ingestCle(root, { scannedAt: SCAN_AT }), findings);
 });
@@ -138,23 +139,34 @@ test("mismatched identifier, unsupported schema, and non-matching versions produ
   const pkg = join(directory, "node_modules", "other");
   await mkdir(pkg, { recursive: true });
   await writeFile(join(pkg, "package.json"), JSON.stringify({ name: "other", version: "1.0.0" }));
-  await writeFile(join(pkg, CLE_FILE_NAME), JSON.stringify({
-    $schema: CLE_SCHEMA,
-    identifier: "pkg:npm/not-other",
-    updatedAt: "2024-01-01T00:00:00Z",
-    events: [{
-      id: 1, type: "endOfLife", effective: "2024-01-01T00:00:00Z", published: "2024-01-01T00:00:00Z",
-      versions: [{ range: "vers:npm/*" }],
-    }],
-  }));
+  await writeFile(
+    join(pkg, CLE_FILE_NAME),
+    JSON.stringify({
+      $schema: CLE_SCHEMA,
+      identifier: "pkg:npm/not-other",
+      updatedAt: "2024-01-01T00:00:00Z",
+      events: [
+        {
+          id: 1,
+          type: "endOfLife",
+          effective: "2024-01-01T00:00:00Z",
+          published: "2024-01-01T00:00:00Z",
+          versions: [{ range: "vers:npm/*" }],
+        },
+      ],
+    }),
+  );
   assert.deepEqual(await ingestCle(directory, { scannedAt: SCAN_AT }), []);
 
-  await writeFile(join(pkg, CLE_FILE_NAME), JSON.stringify({
-    $schema: "https://example.com/not-cle.json",
-    identifier: "pkg:npm/other",
-    updatedAt: "2024-01-01T00:00:00Z",
-    events: [],
-  }));
+  await writeFile(
+    join(pkg, CLE_FILE_NAME),
+    JSON.stringify({
+      $schema: "https://example.com/not-cle.json",
+      identifier: "pkg:npm/other",
+      updatedAt: "2024-01-01T00:00:00Z",
+      events: [],
+    }),
+  );
   assert.deepEqual(await ingestCle(directory, { scannedAt: SCAN_AT }), []);
   assert.equal(parseCleDocument(JSON.parse(await readFile(join(pkg, CLE_FILE_NAME), "utf8"))), undefined);
 });
@@ -164,10 +176,15 @@ test("parseCleDocument accepts valid CLE and rejects incomplete documents", () =
     $schema: CLE_SCHEMA,
     identifier: "pkg:npm/example",
     updatedAt: "2024-01-01T00:00:00Z",
-    events: [{
-      id: 1, type: "endOfSupport", effective: "2024-01-01T00:00:00Z", published: "2024-01-01T00:00:00Z",
-      versions: [{ range: "vers:npm/<2" }],
-    }],
+    events: [
+      {
+        id: 1,
+        type: "endOfSupport",
+        effective: "2024-01-01T00:00:00Z",
+        published: "2024-01-01T00:00:00Z",
+        versions: [{ range: "vers:npm/<2" }],
+      },
+    ],
   };
   assert.deepEqual(parseCleDocument(valid)?.identifier, "pkg:npm/example");
   assert.equal(parseCleDocument(null), undefined);

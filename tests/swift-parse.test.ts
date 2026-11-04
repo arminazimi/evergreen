@@ -3,13 +3,19 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { MAXIMUM_INPUT_BYTES as RESOLVED_MAXIMUM_INPUT_BYTES, parsePackageResolved } from "../src/detectors/swift/parse-package-resolved.js";
+import {
+  MAXIMUM_INPUT_BYTES as RESOLVED_MAXIMUM_INPUT_BYTES,
+  parsePackageResolved,
+} from "../src/detectors/swift/parse-package-resolved.js";
 import {
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
   parsePackageSwift,
 } from "../src/detectors/swift/parse-package-swift.js";
-import { MAXIMUM_PROJECT_BYTES, parseXcodeProjectIOSDeploymentTargets } from "../src/detectors/swift/parse-xcode-project.js";
+import {
+  MAXIMUM_PROJECT_BYTES,
+  parseXcodeProjectIOSDeploymentTargets,
+} from "../src/detectors/swift/parse-xcode-project.js";
 import {
   MAXIMUM_INPUT_BYTES as TOOLCHAIN_MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH as TOOLCHAIN_MAXIMUM_LINE_LENGTH,
@@ -64,7 +70,14 @@ test("malformed package call skips the pin but keeps a valid tools-version", asy
 });
 
 test("malformed and junk input returns nothing and never throws", () => {
-  for (const junk of ["\u0000\u0001", "\uFEFF", "}}}", "\r\n\r\n", 'let x = .package(url: "https://x", from: "1.', "x".repeat(MAXIMUM_LINE_LENGTH + 1)]) {
+  for (const junk of [
+    "\u0000\u0001",
+    "\uFEFF",
+    "}}}",
+    "\r\n\r\n",
+    'let x = .package(url: "https://x", from: "1.',
+    "x".repeat(MAXIMUM_LINE_LENGTH + 1),
+  ]) {
     assert.doesNotThrow(() => parsePackageSwift(junk));
     assert.deepEqual(parsePackageSwift(junk), []);
   }
@@ -93,13 +106,15 @@ test("handles CRLF, spacing in the tools-version directive, and 1-based lines", 
 
 test("rejects branch, revision, ranges, and lookalike tools-version prose", () => {
   assert.deepEqual(
-    parsePackageSwift([
-      "// Notes: once used swift-tools-version:4.0 here",
-      '.package(url: "https://example.com/a", branch: "main")',
-      '.package(url: "https://example.com/b", revision: "abc")',
-      '.package(url: "https://example.com/c", "1.0.0"..<"2.0.0")',
-      '.package(url: "https://example.com/d", .upToNextMajor(from: "1.0.0"))',
-    ].join("\n")),
+    parsePackageSwift(
+      [
+        "// Notes: once used swift-tools-version:4.0 here",
+        '.package(url: "https://example.com/a", branch: "main")',
+        '.package(url: "https://example.com/b", revision: "abc")',
+        '.package(url: "https://example.com/c", "1.0.0"..<"2.0.0")',
+        '.package(url: "https://example.com/d", .upToNextMajor(from: "1.0.0"))',
+      ].join("\n"),
+    ),
     [],
   );
 });
@@ -110,7 +125,11 @@ test("strips a single-line block comment that contains a package", () => {
 
 test("strips a multi-line block comment that contains a package", () => {
   assert.deepEqual(
-    parsePackageSwift(['/*', '.package(url: "https://x/a", from: "1.0.0")', '*/', '.package(url: "https://x/b", exact: "2.0.0")'].join("\n")),
+    parsePackageSwift(
+      ["/*", '.package(url: "https://x/a", from: "1.0.0")', "*/", '.package(url: "https://x/b", exact: "2.0.0")'].join(
+        "\n",
+      ),
+    ),
     [{ kind: "package", url: "https://x/b", requirement: "exact", value: "2.0.0", line: 4 }],
   );
 });
@@ -126,7 +145,7 @@ test("reads every package call on one line", () => {
 });
 
 test("ignores tools-version on line 2 or later", () => {
-  assert.deepEqual(parsePackageSwift('import PackageDescription\n// swift-tools-version:5.9\n'), []);
+  assert.deepEqual(parsePackageSwift("import PackageDescription\n// swift-tools-version:5.9\n"), []);
 });
 
 test("accepts tools-version after a UTF-8 BOM on line 1", () => {
@@ -136,17 +155,15 @@ test("accepts tools-version after a UTF-8 BOM on line 1", () => {
 });
 
 test("a /* inside a string literal does not start a block comment", () => {
-  assert.deepEqual(
-    parsePackageSwift('let s = "/*"; .package(url: "https://x/a", from: "1.0.0")\n'),
-    [{ kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 1 }],
-  );
+  assert.deepEqual(parsePackageSwift('let s = "/*"; .package(url: "https://x/a", from: "1.0.0")\n'), [
+    { kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 1 },
+  ]);
 });
 
 test("a string containing // before a real package on the same line still parses", () => {
-  assert.deepEqual(
-    parsePackageSwift('let s = "https://example.com"; .package(url: "https://x/a", from: "1.0.0")\n'),
-    [{ kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 1 }],
-  );
+  assert.deepEqual(parsePackageSwift('let s = "https://example.com"; .package(url: "https://x/a", from: "1.0.0")\n'), [
+    { kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 1 },
+  ]);
 });
 
 test("tools-version inside a block comment does not count", () => {
@@ -156,28 +173,43 @@ test("tools-version inside a block comment does not count", () => {
 
 test("a /* inside a // line comment does not open a block comment", () => {
   assert.deepEqual(
-    parsePackageSwift(['// exclude Sources/*', '.package(url: "https://x/a", from: "1.0.0")'].join("\n")),
+    parsePackageSwift(["// exclude Sources/*", '.package(url: "https://x/a", from: "1.0.0")'].join("\n")),
     [{ kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 2 }],
   );
 });
 
 test("an unbalanced quote inside a // comment does not poison later stripping", () => {
   assert.deepEqual(
-    parsePackageSwift(['// the "foo', '/* .package(url: "https://x/a", from: "1.0.0") */', '.package(url: "https://x/b", exact: "2.0.0")'].join("\n")),
+    parsePackageSwift(
+      [
+        '// the "foo',
+        '/* .package(url: "https://x/a", from: "1.0.0") */',
+        '.package(url: "https://x/b", exact: "2.0.0")',
+      ].join("\n"),
+    ),
     [{ kind: "package", url: "https://x/b", requirement: "exact", value: "2.0.0", line: 3 }],
   );
 });
 
 test("a multiline string containing /* and .package is ignored", () => {
   assert.deepEqual(
-    parsePackageSwift(['let s = """', '/* .package(url: "https://x/a", from: "1.0.0") */', '"""', '.package(url: "https://x/b", from: "2.0.0")'].join("\n")),
+    parsePackageSwift(
+      [
+        'let s = """',
+        '/* .package(url: "https://x/a", from: "1.0.0") */',
+        '"""',
+        '.package(url: "https://x/b", from: "2.0.0")',
+      ].join("\n"),
+    ),
     [{ kind: "package", url: "https://x/b", requirement: "from", value: "2.0.0", line: 4 }],
   );
 });
 
 test("nested block comments blank the whole nest", () => {
   assert.deepEqual(
-    parsePackageSwift('/* outer /* inner .package(url: "https://x/a", from: "1.0.0") */ still */\n.package(url: "https://x/b", exact: "2.0.0")\n'),
+    parsePackageSwift(
+      '/* outer /* inner .package(url: "https://x/a", from: "1.0.0") */ still */\n.package(url: "https://x/b", exact: "2.0.0")\n',
+    ),
     [{ kind: "package", url: "https://x/b", requirement: "exact", value: "2.0.0", line: 2 }],
   );
 });
@@ -208,10 +240,7 @@ test("Package.resolved: malformed and truncated JSON returns nothing", async () 
 });
 
 test("Package.resolved: ignores the file format version and legacy v1 object.pins", () => {
-  assert.deepEqual(
-    parsePackageResolved('{"pins":[],"version":2}\n'),
-    [],
-  );
+  assert.deepEqual(parsePackageResolved('{"pins":[],"version":2}\n'), []);
   assert.deepEqual(
     parsePackageResolved(
       JSON.stringify({
@@ -241,7 +270,14 @@ test("malformed and empty toolchain pins return nothing and never throw", async 
   assert.deepEqual(parseSwiftVersion(await fixture("malformed/.swift-version")), []);
   assert.deepEqual(parseXcodeVersion(await fixture("malformed/.xcode-version")), []);
   for (const parser of [parseSwiftVersion, parseXcodeVersion]) {
-    for (const junk of ["\u0000\u0001", "\uFEFF", "latest", "stable", "\r\n\r\n", "x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1)]) {
+    for (const junk of [
+      "\u0000\u0001",
+      "\uFEFF",
+      "latest",
+      "stable",
+      "\r\n\r\n",
+      "x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1),
+    ]) {
       assert.doesNotThrow(() => parser(junk));
       assert.deepEqual(parser(junk), []);
     }
@@ -251,8 +287,12 @@ test("malformed and empty toolchain pins return nothing and never throw", async 
 test("toolchain pins bound untrusted input and keep a later valid line", () => {
   assert.deepEqual(parseSwiftVersion("x".repeat(TOOLCHAIN_MAXIMUM_INPUT_BYTES + 1)), []);
   assert.deepEqual(parseXcodeVersion("x".repeat(TOOLCHAIN_MAXIMUM_INPUT_BYTES + 1)), []);
-  assert.deepEqual(parseSwiftVersion(`${"x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1)}\n5.9\n`), [{ value: "5.9", line: 2 }]);
-  assert.deepEqual(parseXcodeVersion(`${"x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1)}\n15.4\n`), [{ value: "15.4", line: 2 }]);
+  assert.deepEqual(parseSwiftVersion(`${"x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1)}\n5.9\n`), [
+    { value: "5.9", line: 2 },
+  ]);
+  assert.deepEqual(parseXcodeVersion(`${"x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1)}\n15.4\n`), [
+    { value: "15.4", line: 2 },
+  ]);
 });
 
 test("toolchain pins handle CRLF, blank lines, comments, and reject multiple pins", () => {
@@ -264,7 +304,9 @@ test("toolchain pins handle CRLF, blank lines, comments, and reject multiple pin
 });
 
 /** A minimal Xcode project: one app target with two configurations, one library target, and one app target that inherits its minimum. */
-function xcodeProject(options: { appProductType?: string; appDeployment?: string; libraryDeployment?: string } = {}): string {
+function xcodeProject(
+  options: { appProductType?: string; appDeployment?: string; libraryDeployment?: string } = {},
+): string {
   const appDeployment = options.appDeployment ?? "12.0";
   const libraryDeployment = options.libraryDeployment ?? "12.0";
   const lines = [
@@ -275,12 +317,12 @@ function xcodeProject(options: { appProductType?: string; appDeployment?: string
     "/* Begin PBXNativeTarget section */",
     "\t\tA100000000000000000000A1 /* MyApp */ = {",
     "\t\t\tisa = PBXNativeTarget;",
-    "\t\t\tbuildConfigurationList = B100000000000000000000B1 /* Build configuration list for PBXNativeTarget \"MyApp\" */;",
+    '\t\t\tbuildConfigurationList = B100000000000000000000B1 /* Build configuration list for PBXNativeTarget "MyApp" */;',
     `\t\t\tproductType = "${options.appProductType ?? "com.apple.product-type.application"}";`,
     "\t\t};",
     "\t\tA200000000000000000000A2 /* MyKit */ = {",
     "\t\t\tisa = PBXNativeTarget;",
-    "\t\t\tbuildConfigurationList = B200000000000000000000B2 /* Build configuration list for PBXNativeTarget \"MyKit\" */;",
+    '\t\t\tbuildConfigurationList = B200000000000000000000B2 /* Build configuration list for PBXNativeTarget "MyKit" */;',
     `\t\t\tproductType = "com.apple.product-type.framework";`,
     "\t\t};",
     "/* End PBXNativeTarget section */",
@@ -311,14 +353,14 @@ function xcodeProject(options: { appProductType?: string; appDeployment?: string
     "\t\tC400000000000000000000C4 /* Release */ = {",
     "\t\t\tisa = XCBuildConfiguration;",
     "\t\t\tbuildSettings = {",
-    "\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = \"$(inherited)\";",
+    '\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = "$(inherited)";',
     "\t\t\t};",
     "\t\t\tname = Release;",
     "\t\t};",
     "/* End XCBuildConfiguration section */",
     "",
     "/* Begin XCConfigurationList section */",
-    "\t\tB100000000000000000000B1 /* Build configuration list for PBXNativeTarget \"MyApp\" */ = {",
+    '\t\tB100000000000000000000B1 /* Build configuration list for PBXNativeTarget "MyApp" */ = {',
     "\t\t\tisa = XCConfigurationList;",
     "\t\t\tbuildConfigurations = (",
     "\t\t\t\tC100000000000000000000C1 /* Debug */,",
@@ -326,7 +368,7 @@ function xcodeProject(options: { appProductType?: string; appDeployment?: string
     "\t\t\t);",
     "\t\t\tdefaultConfigurationIsVisible = 0;",
     "\t\t};",
-    "\t\tB200000000000000000000B2 /* Build configuration list for PBXNativeTarget \"MyKit\" */ = {",
+    '\t\tB200000000000000000000B2 /* Build configuration list for PBXNativeTarget "MyKit" */ = {',
     "\t\t\tisa = XCConfigurationList;",
     "\t\t\tbuildConfigurations = (",
     "\t\t\t\tC300000000000000000000C3 /* Debug */,",
@@ -350,7 +392,10 @@ test("reads the iOS deployment target of each build configuration of an app targ
 });
 
 test("reads no deployment target from a library target or a non-application product", () => {
-  assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(xcodeProject({ appProductType: "com.apple.product-type.framework" })), []);
+  assert.deepEqual(
+    parseXcodeProjectIOSDeploymentTargets(xcodeProject({ appProductType: "com.apple.product-type.framework" })),
+    [],
+  );
   assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(xcodeProject({ appDeployment: "13.0" })), [
     { value: "13.0", line: 22 },
     { value: "13.0", line: 30 },
@@ -358,7 +403,10 @@ test("reads no deployment target from a library target or a non-application prod
 });
 
 test("skips inherited, variable, and non-numeric deployment targets", () => {
-  assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(xcodeProject({ appDeployment: "$(IOS_DEPLOYMENT_TARGET)" })), []);
+  assert.deepEqual(
+    parseXcodeProjectIOSDeploymentTargets(xcodeProject({ appDeployment: "$(IOS_DEPLOYMENT_TARGET)" })),
+    [],
+  );
 });
 
 test("returns nothing for a truncated, oversized, or ambiguous project", () => {
@@ -366,6 +414,9 @@ test("returns nothing for a truncated, oversized, or ambiguous project", () => {
   const truncated = complete.slice(0, complete.indexOf("\t\t\tname = Release;"));
   assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(truncated), []);
   assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(complete + " ".repeat(MAXIMUM_PROJECT_BYTES)), []);
-  const duplicated = complete.replace("C200000000000000000000C2 /* Release */ = {", "C100000000000000000000C1 /* Debug */ = {");
+  const duplicated = complete.replace(
+    "C200000000000000000000C2 /* Release */ = {",
+    "C100000000000000000000C1 /* Debug */ = {",
+  );
   assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(duplicated), []);
 });

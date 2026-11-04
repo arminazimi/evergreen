@@ -8,7 +8,14 @@ import { after, test } from "node:test";
 import { parse as parseYaml } from "yaml";
 
 import { DEFAULT_AGENT_AUTHORS } from "../src/agent-pr.js";
-import { parseChangedLines, PR_COMMENT_MARKER, renderComment, renderSummary, runGitHubAction, selectChangedAnnotations } from "../src/github-action.js";
+import {
+  parseChangedLines,
+  PR_COMMENT_MARKER,
+  renderComment,
+  renderSummary,
+  runGitHubAction,
+  selectChangedAnnotations,
+} from "../src/github-action.js";
 import { upsertPullRequestComment } from "../src/pr-comment.js";
 import type { Finding } from "../src/domain.js";
 
@@ -51,8 +58,12 @@ async function runAction(root: string, inputs: Record<string, string> = {}): Pro
   child.stderr.setEncoding("utf8");
   let stdout = "";
   let stderr = "";
-  child.stdout.on("data", (chunk: string) => { stdout += chunk; });
-  child.stderr.on("data", (chunk: string) => { stderr += chunk; });
+  child.stdout.on("data", (chunk: string) => {
+    stdout += chunk;
+  });
+  child.stderr.on("data", (chunk: string) => {
+    stderr += chunk;
+  });
   const code = await new Promise<number>((resolveCode, reject) => {
     child.once("error", reject);
     child.once("close", (status) => resolveCode(status ?? 1));
@@ -148,7 +159,10 @@ test("the outputs name the most severe finding and the earliest deadline", async
   temporaryRoots.push(root);
   await writeFile(join(root, "Dockerfile"), "FROM node:22\n");
   await mkdir(join(root, ".github", "workflows"), { recursive: true });
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
 
   const run = await runAction(root, { "INPUT_FAIL-ON-SEVERITY": "none" });
 
@@ -159,12 +173,19 @@ test("the outputs name the most severe finding and the earliest deadline", async
   const line = run.outputs.split("\n").find((entry) => entry.startsWith("findings-json="))!;
   const entries = JSON.parse(line.slice("findings-json=".length)) as Array<Record<string, unknown>>;
   assert.deepEqual(entries.map((entry) => entry.severity).sort(), ["high", "low"]);
-  assert.deepEqual(Object.keys(entries[0]!).sort(), ["deadline", "id", "line", "path", "ruleId", "severity", "title"], "the JSON stays compact");
+  assert.deepEqual(
+    Object.keys(entries[0]!).sort(),
+    ["deadline", "id", "line", "path", "ruleId", "severity", "title"],
+    "the JSON stays compact",
+  );
 });
 
 test("diff mode outputs cover only the findings the pull request introduces", async () => {
   const { root, base, head } = await repositoryWithAddedFinding();
-  await writeFile(join(root, "event.json"), JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }));
+  await writeFile(
+    join(root, "event.json"),
+    JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }),
+  );
   const run = await runAction(root, {
     INPUT_MODE: "diff",
     GITHUB_EVENT_PATH: join(root, "event.json"),
@@ -176,17 +197,22 @@ test("diff mode outputs cover only the findings the pull request introduces", as
   assert.match(run.outputs, /^highest-severity=high$/m);
   assert.match(run.outputs, /^next-eol-date=2026-09-23$/m);
   const line = run.outputs.split("\n").find((entry) => entry.startsWith("findings-json="))!;
-  assert.deepEqual(JSON.parse(line.slice("findings-json=".length)), [{
-    id: "github-actions.checkout.node20:.github/workflows/ci.yml:4",
-    ruleId: "github-actions.checkout.node20",
-    severity: "high",
-    title: "Unsupported actions/checkout runtime",
-    path: ".github/workflows/ci.yml",
-    line: 4,
-    deadline: "2026-09-23",
-  }]);
+  assert.deepEqual(JSON.parse(line.slice("findings-json=".length)), [
+    {
+      id: "github-actions.checkout.node20:.github/workflows/ci.yml:4",
+      ruleId: "github-actions.checkout.node20",
+      severity: "high",
+      title: "Unsupported actions/checkout runtime",
+      path: ".github/workflows/ci.yml",
+      line: 4,
+      deadline: "2026-09-23",
+    },
+  ]);
 
-  await writeFile(join(root, "event.json"), JSON.stringify({ pull_request: { base: { sha: head }, head: { sha: base } } }));
+  await writeFile(
+    join(root, "event.json"),
+    JSON.stringify({ pull_request: { base: { sha: head }, head: { sha: base } } }),
+  );
   const reversed = await runAction(root, {
     INPUT_MODE: "diff",
     GITHUB_EVENT_PATH: join(root, "event.json"),
@@ -200,7 +226,9 @@ test("diff mode outputs cover only the findings the pull request introduces", as
 });
 
 test("action.yml declares the downstream outputs and wires them to the scan step", async () => {
-  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { outputs: Record<string, { value: string }> };
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as {
+    outputs: Record<string, { value: string }>;
+  };
   for (const name of ["has-new-findings", "highest-severity", "next-eol-date", "findings-json"]) {
     assert.equal(action.outputs[name]?.value, "${{ steps.scan.outputs." + name + " }}");
   }
@@ -227,7 +255,10 @@ async function repositoryWithAddedFinding(): Promise<{ root: string; base: strin
   git(root, ["commit", "-q", "-m", "base"]);
   const base = git(root, ["rev-parse", "HEAD"]).trim();
   await mkdir(join(root, ".github", "workflows"), { recursive: true });
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+  );
   git(root, ["add", "."]);
   git(root, ["commit", "-q", "-m", "head"]);
   const head = git(root, ["rev-parse", "HEAD"]).trim();
@@ -237,11 +268,17 @@ async function repositoryWithAddedFinding(): Promise<{ root: string; base: strin
 /** The head only adds the lockfile that resolves the deprecated package, so the finding stays on an untouched package.json line. */
 async function repositoryWithUnchangedFindingLine(): Promise<{ root: string; base: string; head: string }> {
   const root = await gitRepository("evergreen-diff-unchanged-");
-  await writeFile(join(root, "package.json"), `${JSON.stringify({ name: "x", dependencies: { request: "^2.88.2" } }, null, 2)}\n`);
+  await writeFile(
+    join(root, "package.json"),
+    `${JSON.stringify({ name: "x", dependencies: { request: "^2.88.2" } }, null, 2)}\n`,
+  );
   git(root, ["add", "."]);
   git(root, ["commit", "-q", "-m", "base"]);
   const base = git(root, ["rev-parse", "HEAD"]).trim();
-  await writeFile(join(root, "package-lock.json"), `${JSON.stringify({ name: "x", lockfileVersion: 3, packages: { "": { name: "x", dependencies: { request: "^2.88.2" } }, "node_modules/request": { version: "2.88.2" } } }, null, 2)}\n`);
+  await writeFile(
+    join(root, "package-lock.json"),
+    `${JSON.stringify({ name: "x", lockfileVersion: 3, packages: { "": { name: "x", dependencies: { request: "^2.88.2" } }, "node_modules/request": { version: "2.88.2" } } }, null, 2)}\n`,
+  );
   git(root, ["add", "."]);
   git(root, ["commit", "-q", "-m", "lockfile"]);
   const head = git(root, ["rev-parse", "HEAD"]).trim();
@@ -260,10 +297,13 @@ test("parseChangedLines reads the new-side ranges git diff reports", () => {
     '+++ "b/a file.txt"',
     "@@ -0,0 +1,3 @@",
   ].join("\n");
-  assert.deepEqual([...parseChangedLines(diff)], [
-    ["package.json", [{ start: 2, end: 3 }]],
-    ["a file.txt", [{ start: 1, end: 3 }]],
-  ]);
+  assert.deepEqual(
+    [...parseChangedLines(diff)],
+    [
+      ["package.json", [{ start: 2, end: 3 }]],
+      ["a file.txt", [{ start: 1, end: 3 }]],
+    ],
+  );
 });
 
 test("selectChangedAnnotations keeps findings on changed lines and counts the rest", () => {
@@ -273,20 +313,35 @@ test("selectChangedAnnotations keeps findings on changed lines and counts the re
     [finding("package.json", 4), finding("package.json", 9), finding("package.json"), finding("other.json", 4)],
     new Map([["package.json", [{ start: 3, end: 5 }]]]),
   );
-  assert.deepEqual(selected.annotated.map((entry) => entry.location), [{ path: "package.json", line: 4 }]);
+  assert.deepEqual(
+    selected.annotated.map((entry) => entry.location),
+    [{ path: "package.json", line: 4 }],
+  );
   assert.equal(selected.unannotated.length, 3);
 });
 
 test("diff mode annotates findings on changed lines and leaves out the rest by default", async () => {
   const added = await repositoryWithAddedFinding();
   const reportPath = join(added.root, ".runner", "evergreen-report.json");
-  const onChangedLine = await runGitHubAction({ root: added.root, reportPath, mode: "diff", diffRange: `${added.base}..${added.head}`, failOnSeverity: "none" });
+  const onChangedLine = await runGitHubAction({
+    root: added.root,
+    reportPath,
+    mode: "diff",
+    diffRange: `${added.base}..${added.head}`,
+    failOnSeverity: "none",
+  });
   assert.equal(onChangedLine.result.findings.length, 1);
   assert.equal(onChangedLine.annotations.length, 1);
   assert.equal(onChangedLine.unannotated, 0);
 
   const unchanged = await repositoryWithUnchangedFindingLine();
-  const base = { root: unchanged.root, reportPath: join(unchanged.root, ".runner", "evergreen-report.json"), mode: "diff" as const, diffRange: `${unchanged.base}..${unchanged.head}`, failOnSeverity: "none" as const };
+  const base = {
+    root: unchanged.root,
+    reportPath: join(unchanged.root, ".runner", "evergreen-report.json"),
+    mode: "diff" as const,
+    diffRange: `${unchanged.base}..${unchanged.head}`,
+    failOnSeverity: "none" as const,
+  };
 
   const changed = await runGitHubAction(base);
   assert.equal(changed.result.findings.length, 1, "the lockfile resolves the deprecated package");
@@ -318,24 +373,55 @@ test("diff mode flags the stale choices an agent-authored pull request introduce
 
   const agent = await run({ pullRequestAuthor: "Copilot" });
   assert.equal(agent.agent?.author, "Copilot");
-  assert.deepEqual(agent.agent?.findings.map((entry) => entry.id), agent.result.findings.map((entry) => entry.id));
-  const body = renderComment(agent.result.findings, agent.gateFailed, agent.gate, agent.result.data, false, agent.result.suppressions, agent.diff, agent.packages, undefined, agent.agent);
+  assert.deepEqual(
+    agent.agent?.findings.map((entry) => entry.id),
+    agent.result.findings.map((entry) => entry.id),
+  );
+  const body = renderComment(
+    agent.result.findings,
+    agent.gateFailed,
+    agent.gate,
+    agent.result.data,
+    false,
+    agent.result.suppressions,
+    agent.diff,
+    agent.packages,
+    undefined,
+    agent.agent,
+  );
   assert.ok(body.includes("## Stale choices this agent introduced"), body);
   assert.ok(body.includes("`.github/workflows/ci.yml:4`"), body);
   assert.ok(body.includes("actions/checkout@v5 or later"), body);
   assert.ok(body.includes("Replace these and push again; Evergreen will re-check."), body);
-  assert.ok(body.indexOf("## Stale choices this agent introduced") < body.indexOf("| Severity | Findings |"), "the section opens the comment");
+  assert.ok(
+    body.indexOf("## Stale choices this agent introduced") < body.indexOf("| Severity | Findings |"),
+    "the section opens the comment",
+  );
   assert.equal(body.split(PR_COMMENT_MARKER).length - 1, 1, "the section stays in the one Evergreen comment");
 
   assert.equal((await run({ pullRequestAuthor: "octocat" })).agent, undefined, "human authors get no section");
-  assert.equal((await run({ pullRequestAuthor: "Copilot", agentAuthors: "none" })).agent, undefined, "none turns it off");
-  assert.equal((await run({ pullRequestAuthor: "my-agent[bot]", agentAuthors: "my-agent[bot]" })).agent?.author, "my-agent[bot]");
-  assert.equal((await run({ pullRequestAuthor: "Copilot", range: `${head}..${base}` })).agent, undefined, "a pull request that introduced nothing gets no section");
+  assert.equal(
+    (await run({ pullRequestAuthor: "Copilot", agentAuthors: "none" })).agent,
+    undefined,
+    "none turns it off",
+  );
+  assert.equal(
+    (await run({ pullRequestAuthor: "my-agent[bot]", agentAuthors: "my-agent[bot]" })).agent?.author,
+    "my-agent[bot]",
+  );
+  assert.equal(
+    (await run({ pullRequestAuthor: "Copilot", range: `${head}..${base}` })).agent,
+    undefined,
+    "a pull request that introduced nothing gets no section",
+  );
 });
 
 test("an agent comment re-run updates the same comment instead of posting another", async () => {
   const introduced = [datedFinding("a.high:package.json:3", "high", "High one", "package.json", undefined, 3)];
-  const body = renderComment(introduced, false, "high", undefined, false, undefined, undefined, undefined, undefined, { author: "Copilot", findings: introduced });
+  const body = renderComment(introduced, false, "high", undefined, false, undefined, undefined, undefined, undefined, {
+    author: "Copilot",
+    findings: introduced,
+  });
   assert.ok(body.startsWith(`${PR_COMMENT_MARKER}\n## Evergreen`));
 
   const calls: string[] = [];
@@ -358,14 +444,20 @@ test("an agent comment re-run updates the same comment instead of posting anothe
 });
 
 test("action.yml declares agent-authors with the known agents and passes it to the scan step", async () => {
-  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as {
+    inputs: Record<string, { default?: string }>;
+    runs: { steps: Array<{ env?: Record<string, string> }> };
+  };
   assert.equal(action.inputs["agent-authors"]?.default, DEFAULT_AGENT_AUTHORS.join(", "));
   assert.equal(action.runs.steps[0]?.env?.["INPUT_AGENT-AUTHORS"], "${{ inputs.agent-authors }}");
 });
 
 test("the diff summary counts the findings left out of the annotations and links the report", async () => {
   const { root, base, head } = await repositoryWithUnchangedFindingLine();
-  await writeFile(join(root, "event.json"), JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }));
+  await writeFile(
+    join(root, "event.json"),
+    JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }),
+  );
   const run = await runAction(root, {
     INPUT_MODE: "diff",
     GITHUB_EVENT_PATH: join(root, "event.json"),
@@ -385,7 +477,10 @@ test("the diff summary counts the findings left out of the annotations and links
 
 test("annotations: none suppresses every annotation without adding the summary line", async () => {
   const { root, base, head } = await repositoryWithUnchangedFindingLine();
-  await writeFile(join(root, "event.json"), JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }));
+  await writeFile(
+    join(root, "event.json"),
+    JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }),
+  );
   const run = await runAction(root, {
     INPUT_MODE: "diff",
     INPUT_ANNOTATIONS: "none",
@@ -417,9 +512,17 @@ test("an invalid annotations value fails the run before any scan", async () => {
 
 const DAY = 86_400_000;
 const today = (): string => new Date().toISOString().slice(0, 10);
-const inDays = (days: number): string => new Date(Date.parse(`${today()}T00:00:00Z`) + days * DAY).toISOString().slice(0, 10);
+const inDays = (days: number): string =>
+  new Date(Date.parse(`${today()}T00:00:00Z`) + days * DAY).toISOString().slice(0, 10);
 
-function datedFinding(id: string, severity: Finding["severity"], title: string, path: string, deadline?: string, line?: number): Finding {
+function datedFinding(
+  id: string,
+  severity: Finding["severity"],
+  title: string,
+  path: string,
+  deadline?: string,
+  line?: number,
+): Finding {
   return {
     id,
     ruleId: id.split(":")[0]!,
@@ -448,16 +551,25 @@ test("the job summary opens with a twelve-month timeline and days left for each 
     false,
   );
 
-  assert.match(text, /\*\*Next 12 months:\*\* 3 dated lifecycle events affect this repository \(\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}\)\./);
+  assert.match(
+    text,
+    /\*\*Next 12 months:\*\* 3 dated lifecycle events affect this repository \(\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}\)\./,
+  );
   assert.ok(text.includes(`| ${inDays(0)} | today | high | Soon \\| one | \`package.json:3\` |`), text);
   assert.ok(text.includes(`| ${inDays(1)} | 1 day left | high | One day | \`package.json:4\` |`), text);
   assert.ok(text.includes(`| ${inDays(200)} | 200 days left | low | Later one | \`.nvmrc\` |`), text);
-  assert.equal(text.split("\n").filter((line) => /^\| \d{4}-\d{2}-\d{2} \|/.test(line)).length, 3, "the undated finding is not in the timeline");
+  assert.equal(
+    text.split("\n").filter((line) => /^\| \d{4}-\d{2}-\d{2} \|/.test(line)).length,
+    3,
+    "the undated finding is not in the timeline",
+  );
   assert.ok(text.indexOf("### Timeline") < text.indexOf("| Severity | Findings |"), "the timeline opens the summary");
 });
 
 test("the timeline keeps ten dated events and points at the report for the rest", () => {
-  const many = Array.from({ length: 13 }, (_, index) => datedFinding(`r${index + 1}:p:1`, "low", `Event ${index + 1}`, "package.json", inDays(index + 1)));
+  const many = Array.from({ length: 13 }, (_, index) =>
+    datedFinding(`r${index + 1}:p:1`, "low", `Event ${index + 1}`, "package.json", inDays(index + 1)),
+  );
   const text = renderSummary(many, false, "high", undefined, false);
 
   assert.equal(text.split("\n").filter((line) => /^\| \d{4}-\d{2}-\d{2} \|/.test(line)).length, 10);
@@ -476,13 +588,18 @@ test("a scan with a dated finding writes the timeline with days left into the jo
   const days = Math.round((Date.parse(`${deadline}T00:00:00Z`) - Date.parse(`${today()}T00:00:00Z`)) / DAY);
   assert.match(run.summary, /### Timeline/);
   assert.ok(
-    run.summary.includes(`| ${deadline} | ${days} days left | low | Node.js image release line 22 reaches end-of-life on 2027-04-30 | \`Dockerfile:1\` |`),
+    run.summary.includes(
+      `| ${deadline} | ${days} days left | low | Node.js image release line 22 reaches end-of-life on 2027-04-30 | \`Dockerfile:1\` |`,
+    ),
     run.summary,
   );
 });
 
 test("action.yml declares annotations with an empty default and passes it to the scan step", async () => {
-  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as {
+    inputs: Record<string, { default?: string }>;
+    runs: { steps: Array<{ env?: Record<string, string> }> };
+  };
   assert.equal(action.inputs.annotations?.default, "");
   assert.equal(action.runs.steps[0]?.env?.INPUT_ANNOTATIONS, "${{ inputs.annotations }}");
 });

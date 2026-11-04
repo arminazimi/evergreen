@@ -26,7 +26,9 @@ interface ThresholdFile extends DetectorThreshold {
 /** One threshold per detector, in document order: each file's `order`, then its id. */
 export function loadDetectorThresholds(directory = THRESHOLDS_DIRECTORY): Record<string, DetectorThreshold> {
   const entries: Array<{ id: string; order: number; threshold: DetectorThreshold }> = [];
-  for (const file of readdirSync(directory).filter((name) => name.endsWith(".json")).sort()) {
+  for (const file of readdirSync(directory)
+    .filter((name) => name.endsWith(".json"))
+    .sort()) {
     const id = file.slice(0, -".json".length);
     const { order, ...threshold } = JSON.parse(readFileSync(resolve(directory, file), "utf8")) as ThresholdFile;
     entries.push({ id, order: order ?? Number.MAX_SAFE_INTEGER, threshold });

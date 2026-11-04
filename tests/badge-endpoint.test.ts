@@ -33,7 +33,10 @@ test("the endpoint reuses the SVG badge state", () => {
 });
 
 test("the endpoint records an expired failure", () => {
-  const json = JSON.parse(renderBadgeEndpoint({ findings: [{ severity: "high" }], data: {} } as never, true)) as Record<string, unknown>;
+  const json = JSON.parse(renderBadgeEndpoint({ findings: [{ severity: "high" }], data: {} } as never, true)) as Record<
+    string,
+    unknown
+  >;
   assert.equal(json.message, "1 high · expired");
 });
 

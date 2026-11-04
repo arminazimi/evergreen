@@ -49,7 +49,12 @@ async function expected(ruleId: string, path: string, line: number, declaration:
   };
 }
 
-async function expectedHelmDep(ruleId: string, path: string, line: number, dependency: string): Promise<DetectorFinding> {
+async function expectedHelmDep(
+  ruleId: string,
+  path: string,
+  line: number,
+  dependency: string,
+): Promise<DetectorFinding> {
   const registry = validateRegistryV2(JSON.parse(await readFile("registry/kubernetes.json", "utf8")));
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
@@ -81,13 +86,38 @@ test("kubernetes passes detector conformance on every fixture", async () => {
           expected(NETWORKING_INGRESS, "helm/mychart/templates/ingress.yaml", 2, "networking.k8s.io/v1beta1 Ingress"),
           expected(NETWORKING_INGRESS, "kustomize/ingress.yaml", 1, "networking.k8s.io/v1beta1 Ingress"),
           expected(CRONJOB, "kustomize/kustomization.yaml", 10, "batch/v1beta1 CronJob"),
-          expected("kubernetes.policy.poddisruptionbudget.v1beta1.removed", "kustomize/kustomization.yaml", 18, "policy/v1beta1 PodDisruptionBudget"),
-          expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/dump.yaml", 4, "extensions/v1beta1 Ingress"),
+          expected(
+            "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+            "kustomize/kustomization.yaml",
+            18,
+            "policy/v1beta1 PodDisruptionBudget",
+          ),
+          expected(
+            "kubernetes.extensions.ingress.v1beta1.removed",
+            "manifests/dump.yaml",
+            4,
+            "extensions/v1beta1 Ingress",
+          ),
           expected(CRONJOB, "manifests/dump.yaml", 34, "batch/v1beta1 CronJob"),
-          expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/helm-rendered.yaml", 5, "extensions/v1beta1 Ingress"),
+          expected(
+            "kubernetes.extensions.ingress.v1beta1.removed",
+            "manifests/helm-rendered.yaml",
+            5,
+            "extensions/v1beta1 Ingress",
+          ),
           expected(CRONJOB, "manifests/helm-rendered.yaml", 20, "batch/v1beta1 CronJob"),
-          expected("kubernetes.policy.podsecuritypolicy.v1beta1.removed", "manifests/psp.yml", 3, "policy/v1beta1 PodSecurityPolicy"),
-          expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/web.yaml", 2, "extensions/v1beta1 Ingress"),
+          expected(
+            "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+            "manifests/psp.yml",
+            3,
+            "policy/v1beta1 PodSecurityPolicy",
+          ),
+          expected(
+            "kubernetes.extensions.ingress.v1beta1.removed",
+            "manifests/web.yaml",
+            2,
+            "extensions/v1beta1 Ingress",
+          ),
           expected(CRONJOB, "manifests/web.yaml", 34, "batch/v1beta1 CronJob"),
           expectedHelmDep(
             "kubernetes.helm.repository.stable.end-of-life",
@@ -147,7 +177,10 @@ test("rendered helm template output reports APIs a Capabilities-guarded template
 
   const templateRoot = await repository({
     "chart/Chart.yaml": "apiVersion: v2\nname: mychart\nversion: 0.1.0\n",
-    "chart/templates/ingress.yaml": await readFile(resolve(fixtures, "negative/helm/mychart/templates/ingress.yaml"), "utf8"),
+    "chart/templates/ingress.yaml": await readFile(
+      resolve(fixtures, "negative/helm/mychart/templates/ingress.yaml"),
+      "utf8",
+    ),
   });
   assert.deepEqual(await kubernetesDetector.scan({ root: templateRoot }), []);
 
@@ -185,10 +218,13 @@ test("only a rule's own group, kind, and version produce a finding", async () =>
     ].join("\n"),
   });
   const findings = await kubernetesDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.line]), [
-    ["kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed", 7],
-    ["kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed", 10],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed", 7],
+      ["kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed", 10],
+    ],
+  );
 });
 
 test("a Helm template is read as a template, and a chart's nested charts and tests are not read", async () => {
@@ -219,7 +255,10 @@ test("a file with template actions outside a chart is read as a template", async
     ].join("\n"),
   });
   const findings = await kubernetesDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path]), [[CRONJOB, "templates/job.yaml"]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path]),
+    [[CRONJOB, "templates/job.yaml"]],
+  );
 });
 
 test("a kustomization patch target and inline patch are read, and the file's own API is not", async () => {
@@ -235,7 +274,10 @@ test("a kustomization patch target and inline patch are read, and the file's own
     ].join("\n"),
   });
   const findings = await kubernetesDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location]), [[CRONJOB, { path: "kustomization.yaml", line: 5 }]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location]),
+    [[CRONJOB, { path: "kustomization.yaml", line: 5 }]],
+  );
 });
 
 test("skips dependency and fixture directories and symbolic links, and finds nested files", async () => {
@@ -249,7 +291,10 @@ test("skips dependency and fixture directories and symbolic links, and finds nes
   });
   await symlink(join(root, "deploy"), join(root, "linked")).catch(() => undefined);
   const findings = await kubernetesDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => finding.location.path), ["deploy/prod/cron.yaml"]);
+  assert.deepEqual(
+    findings.map((finding) => finding.location.path),
+    ["deploy/prod/cron.yaml"],
+  );
 });
 
 test("files that are too large or too deep are skipped without failing", async () => {
@@ -259,7 +304,10 @@ test("files that are too large or too deep are skipped without failing", async (
     "a/b/c/d/e/f/g/h/i/deep.yaml": legacy,
     "ok.yaml": legacy,
   });
-  assert.deepEqual((await kubernetesDetector.scan({ root })).map((finding) => finding.location.path), ["ok.yaml"]);
+  assert.deepEqual(
+    (await kubernetesDetector.scan({ root })).map((finding) => finding.location.path),
+    ["ok.yaml"],
+  );
 });
 
 test("a repository with no Kubernetes files scans to nothing without reading the registry", async () => {
@@ -324,9 +372,13 @@ test("every curated kubernetes rule has migration guidance with real verificatio
   for (const rule of registry.rules) {
     assert.ok(rule.migration, rule.id);
     assert.ok(rule.migration.constraints.length >= 1, rule.id);
-    assert.ok(rule.migration.steps.some((step) => step.targets === "declaration"), rule.id);
+    assert.ok(
+      rule.migration.steps.some((step) => step.targets === "declaration"),
+      rule.id,
+    );
     assert.ok(rule.migration.verification.length >= 1, rule.id);
-    for (const check of rule.migration.verification) assert.match(check.command, /^(?:kubeconform|kubectl|helm|kustomize) /, rule.id);
+    for (const check of rule.migration.verification)
+      assert.match(check.command, /^(?:kubeconform|kubectl|helm|kustomize) /, rule.id);
   }
 });
 

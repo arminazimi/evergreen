@@ -28,7 +28,9 @@ const API_VERSIONS: Record<string, Record<string, string>> = {
   "networking.k8s.io/IngressClass": { "networking.k8s.io/v1beta1": "networking.k8s.io/v1" },
   "node.k8s.io/RuntimeClass": { "node.k8s.io/v1beta1": "node.k8s.io/v1" },
   "rbac.authorization.k8s.io/ClusterRole": { "rbac.authorization.k8s.io/v1beta1": "rbac.authorization.k8s.io/v1" },
-  "rbac.authorization.k8s.io/ClusterRoleBinding": { "rbac.authorization.k8s.io/v1beta1": "rbac.authorization.k8s.io/v1" },
+  "rbac.authorization.k8s.io/ClusterRoleBinding": {
+    "rbac.authorization.k8s.io/v1beta1": "rbac.authorization.k8s.io/v1",
+  },
   "rbac.authorization.k8s.io/Role": { "rbac.authorization.k8s.io/v1beta1": "rbac.authorization.k8s.io/v1" },
   "rbac.authorization.k8s.io/RoleBinding": { "rbac.authorization.k8s.io/v1beta1": "rbac.authorization.k8s.io/v1" },
   "scheduling.k8s.io/PriorityClass": { "scheduling.k8s.io/v1beta1": "scheduling.k8s.io/v1" },
@@ -104,13 +106,15 @@ export const kubernetesApiVersionFixer: Fixer = {
         continue;
       }
       const original = before.split("\n");
-      const text = original.map((line, index) => {
-        const edit = lines.get(index + 1);
-        if (!edit) return line;
-        const match = API_VERSION_LINE.exec(line);
-        // The summary named the declaration; the line must still carry that exact value.
-        return match && match[2] === edit.from ? `${match[1]}${edit.to}${match[3]}` : line;
-      }).join("\n");
+      const text = original
+        .map((line, index) => {
+          const edit = lines.get(index + 1);
+          if (!edit) return line;
+          const match = API_VERSION_LINE.exec(line);
+          // The summary named the declaration; the line must still carry that exact value.
+          return match && match[2] === edit.from ? `${match[1]}${edit.to}${match[3]}` : line;
+        })
+        .join("\n");
       if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
       const updated = text.split("\n");
       for (const finding of findings) {

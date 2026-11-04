@@ -7,7 +7,13 @@ import { after, test } from "node:test";
 import { promisify } from "node:util";
 
 import { validateRegistryV2 } from "../src/registry.js";
-import { renderScaffold, renderScaffoldResult, scaffoldDetector, scaffoldNames, ScaffoldError } from "../tools/scaffold/index.js";
+import {
+  renderScaffold,
+  renderScaffoldResult,
+  scaffoldDetector,
+  scaffoldNames,
+  ScaffoldError,
+} from "../tools/scaffold/index.js";
 import { runCli } from "./cli-runner.js";
 import { compile, compileCheckout, removeAll, runTest, scaffoldCheckout } from "./scaffold-helpers.js";
 
@@ -16,18 +22,51 @@ const roots: string[] = [];
 
 after(() => removeAll(roots));
 
-const exists = (path: string) => access(path).then(() => true, () => false);
+const exists = (path: string) =>
+  access(path).then(
+    () => true,
+    () => false,
+  );
 
 test("names are derived from the id", () => {
-  assert.deepEqual(scaffoldNames("go-modules"), { id: "go-modules", ecosystem: "go-modules", camel: "goModules", pascal: "GoModules", title: "Go modules" });
-  assert.deepEqual(scaffoldNames("rust-crates", "cargo"), { id: "rust-crates", ecosystem: "cargo", camel: "rustCrates", pascal: "RustCrates", title: "Rust crates" });
+  assert.deepEqual(scaffoldNames("go-modules"), {
+    id: "go-modules",
+    ecosystem: "go-modules",
+    camel: "goModules",
+    pascal: "GoModules",
+    title: "Go modules",
+  });
+  assert.deepEqual(scaffoldNames("rust-crates", "cargo"), {
+    id: "rust-crates",
+    ecosystem: "cargo",
+    camel: "rustCrates",
+    pascal: "RustCrates",
+    title: "Rust crates",
+  });
   assert.deepEqual(scaffoldNames("go"), { id: "go", ecosystem: "go", camel: "go", pascal: "Go", title: "Go" });
   assert.equal(scaffoldNames("k8s-api").camel, "k8sApi");
 });
 
 test("ids that the SDK would reject, or that could escape the repository, are refused", () => {
-  for (const bad of ["", "Go", "go_modules", "1go", "go--modules", "-go", "go-", "go modules", "../evil", "go/modules", "go.mod", "GO-MODULES"]) {
-    assert.throws(() => scaffoldNames(bad), (error: unknown) => error instanceof ScaffoldError && /not a valid detector id/.test(error.message), JSON.stringify(bad));
+  for (const bad of [
+    "",
+    "Go",
+    "go_modules",
+    "1go",
+    "go--modules",
+    "-go",
+    "go-",
+    "go modules",
+    "../evil",
+    "go/modules",
+    "go.mod",
+    "GO-MODULES",
+  ]) {
+    assert.throws(
+      () => scaffoldNames(bad),
+      (error: unknown) => error instanceof ScaffoldError && /not a valid detector id/.test(error.message),
+      JSON.stringify(bad),
+    );
   }
   assert.throws(() => scaffoldNames("go", "Go"), /not a valid ecosystem slug/);
   assert.throws(() => scaffoldNames("go", "../x"), /not a valid ecosystem slug/);
@@ -36,17 +75,20 @@ test("ids that the SDK would reject, or that could escape the repository, are re
 test("the skeleton is nine files at predictable paths, and its registry is a valid empty v2 registry", () => {
   const names = scaffoldNames("go-modules", "go");
   const files = renderScaffold(names);
-  assert.deepEqual([...files.keys()], [
-    "src/detectors/go-modules.ts",
-    "src/detectors/go-modules/parse.ts",
-    "registry/go-modules.json",
-    "tests/go-modules-detector.test.ts",
-    "tests/go-modules-parse.test.ts",
-    "tests/fixtures/go-modules/README.md",
-    "tests/fixtures/go-modules/zero/README.md",
-    "tests/fixtures/go-modules/malformed/README.md",
-    "docs/detectors/go-modules.md",
-  ]);
+  assert.deepEqual(
+    [...files.keys()],
+    [
+      "src/detectors/go-modules.ts",
+      "src/detectors/go-modules/parse.ts",
+      "registry/go-modules.json",
+      "tests/go-modules-detector.test.ts",
+      "tests/go-modules-parse.test.ts",
+      "tests/fixtures/go-modules/README.md",
+      "tests/fixtures/go-modules/zero/README.md",
+      "tests/fixtures/go-modules/malformed/README.md",
+      "docs/detectors/go-modules.md",
+    ],
+  );
   const registry = validateRegistryV2(JSON.parse(files.get("registry/go-modules.json")!));
   assert.deepEqual([registry.ecosystem, registry.rules.length], ["go", 0]);
 
@@ -55,9 +97,13 @@ test("the skeleton is nine files at predictable paths, and its registry is a val
   assert.match(detector, /export const goModulesDetector = defineDetector\(\{/);
   assert.match(detector, /id: "go-modules",/);
   assert.doesNotMatch(detector, /from "\.\.\/(?!sdk\.js)/, "a detector uses the public SDK only");
-  assert.match(files.get("tests/go-modules-detector.test.ts")!, /import \{ goModulesDetector \} from "\.\.\/src\/detectors\/go-modules\.js";/);
+  assert.match(
+    files.get("tests/go-modules-detector.test.ts")!,
+    /import \{ goModulesDetector \} from "\.\.\/src\/detectors\/go-modules\.js";/,
+  );
   assert.match(files.get("docs/detectors/go-modules.md")!, /^# Go modules detector/);
-  for (const contents of files.values()) assert.ok(!/\{\{\s*\w+\s*\}\}|\$\{names\.|\bundefined\b|\[object /.test(contents), "no unrendered placeholder");
+  for (const contents of files.values())
+    assert.ok(!/\{\{\s*\w+\s*\}\}|\$\{names\.|\bundefined\b|\[object /.test(contents), "no unrendered placeholder");
 });
 
 test("it refuses to run outside a checkout of the repository", async () => {
@@ -73,9 +119,17 @@ test("an existing file stops the whole run before anything is written", async ()
   const checkout = await scaffoldCheckout(roots);
   await mkdir(join(checkout, "docs", "detectors"), { recursive: true });
   await writeFile(join(checkout, "docs", "detectors", "sample.md"), "mine\n");
-  await assert.rejects(scaffoldDetector("sample", { root: checkout }), /Nothing was written: docs\/detectors\/sample\.md already exists/);
+  await assert.rejects(
+    scaffoldDetector("sample", { root: checkout }),
+    /Nothing was written: docs\/detectors\/sample\.md already exists/,
+  );
   assert.equal(await readFile(join(checkout, "docs", "detectors", "sample.md"), "utf8"), "mine\n");
-  for (const path of ["src/detectors/sample.ts", "registry/sample.json", "tests/sample-detector.test.ts", "tests/fixtures/sample"]) {
+  for (const path of [
+    "src/detectors/sample.ts",
+    "registry/sample.json",
+    "tests/sample-detector.test.ts",
+    "tests/fixtures/sample",
+  ]) {
     assert.equal(await exists(join(checkout, path)), false, path);
   }
 });
@@ -106,8 +160,12 @@ test("the result lists the files and the manual steps that remain", async () => 
 
 test("the command creates the skeleton from a checkout, and explains itself elsewhere", async () => {
   // One real spawn keeps the process boundary covered; the rest run in process, where a call costs milliseconds.
-  const spawned = (args: string[], cwd: string) => execute(process.execPath, [resolve("dist/src/cli.js"), ...args], { cwd }).then((value) => ({ code: 0, ...value }), (error: { code: number; stdout: string; stderr: string }) => error);
-  const run = async (args: string[], cwd: string) => (await runCli(args, { cwd }));
+  const spawned = (args: string[], cwd: string) =>
+    execute(process.execPath, [resolve("dist/src/cli.js"), ...args], { cwd }).then(
+      (value) => ({ code: 0, ...value }),
+      (error: { code: number; stdout: string; stderr: string }) => error,
+    );
+  const run = async (args: string[], cwd: string) => await runCli(args, { cwd });
 
   const checkout = await scaffoldCheckout(roots);
   const created = await run(["new-detector", "tiny-lang"], checkout);
@@ -123,7 +181,12 @@ test("the command creates the skeleton from a checkout, and explains itself else
   roots.push(outside);
   assert.match((await run(["new-detector", "tiny-lang"], outside)).stderr, /checkout of the Evergreen repository/);
 
-  for (const args of [["new-detector"], ["new-detector", "Bad_Id"], ["new-detector", "ok", "--ecosystem"], ["new-detector", "ok", "--ecosystem", "--json"]]) {
+  for (const args of [
+    ["new-detector"],
+    ["new-detector", "Bad_Id"],
+    ["new-detector", "ok", "--ecosystem"],
+    ["new-detector", "ok", "--ecosystem", "--json"],
+  ]) {
     const failure = await run(args, checkout);
     assert.equal(failure.code, 2, args.join(" "));
     assert.notEqual(failure.stderr, "", args.join(" "));
@@ -136,7 +199,10 @@ test("a detector id that is already taken is refused, and nothing is written", a
   for (const taken of ["npm", "python", "github-actions"]) {
     await assert.rejects(
       scaffoldDetector(taken, { root: checkout }),
-      (error: unknown) => error instanceof ScaffoldError && error.message.startsWith("Nothing was written:") && error.message.includes(`the detector id "${taken}" is already used by src/detectors/${taken}.ts`),
+      (error: unknown) =>
+        error instanceof ScaffoldError &&
+        error.message.startsWith("Nothing was written:") &&
+        error.message.includes(`the detector id "${taken}" is already used by src/detectors/${taken}.ts`),
       taken,
     );
   }
@@ -147,34 +213,66 @@ test("a detector id that is already taken is refused, and nothing is written", a
 test("a registry name or rule namespace that is already taken is refused", async () => {
   const checkout = await scaffoldCheckout(roots);
   // nodejs has a registry but no detector of its own: the npm detector reads it.
-  await assert.rejects(scaffoldDetector("nodejs", { root: checkout }), /"nodejs" is already a registry name or rule namespace, used by registry\/nodejs\.json/);
-  await assert.rejects(scaffoldDetector("my-runtimes", { root: checkout, ecosystem: "nodejs" }), /the ecosystem "nodejs" is already used by registry\/nodejs\.json; rule ids and registries must stay unique/);
-  await assert.rejects(scaffoldDetector("my-npm", { root: checkout, ecosystem: "npm" }), /the ecosystem "npm" is already used by registry\/npm\.json/);
+  await assert.rejects(
+    scaffoldDetector("nodejs", { root: checkout }),
+    /"nodejs" is already a registry name or rule namespace, used by registry\/nodejs\.json/,
+  );
+  await assert.rejects(
+    scaffoldDetector("my-runtimes", { root: checkout, ecosystem: "nodejs" }),
+    /the ecosystem "nodejs" is already used by registry\/nodejs\.json; rule ids and registries must stay unique/,
+  );
+  await assert.rejects(
+    scaffoldDetector("my-npm", { root: checkout, ecosystem: "npm" }),
+    /the ecosystem "npm" is already used by registry\/npm\.json/,
+  );
 
   // A rule-id prefix counts even when no registry file or ecosystem carries that name.
   await writeFile(
     join(checkout, "registry", "legacy-rules.json"),
-    JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "legacy-rules", rules: [{ id: "oldstuff.package.thing.deprecated" }] }),
+    JSON.stringify({
+      schemaVersion: "evergreen.registry.v2",
+      ecosystem: "legacy-rules",
+      rules: [{ id: "oldstuff.package.thing.deprecated" }],
+    }),
   );
-  await assert.rejects(scaffoldDetector("oldstuff", { root: checkout }), /"oldstuff" is already a registry name or rule namespace, used by registry\/legacy-rules\.json/);
-  await assert.rejects(scaffoldDetector("legacy-rules", { root: checkout }), /"legacy-rules" is already a registry name/);
+  await assert.rejects(
+    scaffoldDetector("oldstuff", { root: checkout }),
+    /"oldstuff" is already a registry name or rule namespace, used by registry\/legacy-rules\.json/,
+  );
+  await assert.rejects(
+    scaffoldDetector("legacy-rules", { root: checkout }),
+    /"legacy-rules" is already a registry name/,
+  );
 });
 
 test("every collision is reported at once, so one run is enough to fix a name", async () => {
   const checkout = await scaffoldCheckout(roots);
   await assert.rejects(scaffoldDetector("npm", { root: checkout, ecosystem: "python" }), (error: unknown) => {
     const message = (error as Error).message;
-    return message.includes('the detector id "npm"') && message.includes('"npm" is already a registry name') && message.includes('the ecosystem "python" is already used by registry/python.json');
+    return (
+      message.includes('the detector id "npm"') &&
+      message.includes('"npm" is already a registry name') &&
+      message.includes('the ecosystem "python" is already used by registry/python.json')
+    );
   });
 });
 
 test("detectors written as classes are found too, and fresh names still work", async () => {
   const checkout = await scaffoldCheckout(roots);
-  await writeFile(join(checkout, "src", "detectors", "legacy.ts"), 'export class Legacy {\n  readonly id = "legacy-class";\n}\n');
-  await assert.rejects(scaffoldDetector("legacy-class", { root: checkout }), /the detector id "legacy-class" is already used by src\/detectors\/legacy\.ts/);
+  await writeFile(
+    join(checkout, "src", "detectors", "legacy.ts"),
+    'export class Legacy {\n  readonly id = "legacy-class";\n}\n',
+  );
+  await assert.rejects(
+    scaffoldDetector("legacy-class", { root: checkout }),
+    /the detector id "legacy-class" is already used by src\/detectors\/legacy\.ts/,
+  );
   const created = await scaffoldDetector("fresh-one", { root: checkout });
   assert.equal(created.files.length, 9);
-  await assert.rejects(scaffoldDetector("fresh-one", { root: checkout }), /Nothing was written: the detector id "fresh-one" is already used by src\/detectors\/fresh-one\.ts/);
+  await assert.rejects(
+    scaffoldDetector("fresh-one", { root: checkout }),
+    /Nothing was written: the detector id "fresh-one" is already used by src\/detectors\/fresh-one\.ts/,
+  );
 });
 
 test("the command reports a collision with a usage-style exit code", async () => {

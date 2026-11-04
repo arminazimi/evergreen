@@ -103,7 +103,10 @@ test("a consistent repository has one release, matrix values included, and no co
   assert.deepEqual(runtime.releases, ["1.22"]);
   assert.deepEqual(runtime.floorConflicts, []);
   const matrix = runtime.pins.filter((pin) => pin.source === "actions/setup-go matrix");
-  assert.deepEqual(matrix.map((pin) => pin.raw), ["1.22.5", "1.22.6"]);
+  assert.deepEqual(
+    matrix.map((pin) => pin.raw),
+    ["1.22.5", "1.22.6"],
+  );
   assert.ok(matrix.every((pin) => pin.line === 8));
 });
 
@@ -111,7 +114,10 @@ test("a go directive above a golang:1.21 image is a floor conflict", async () =>
   const runtime = await report("floor-conflict");
   assert.equal(runtime.drifted, false);
   assert.deepEqual(runtime.releases, ["1.21"]);
-  assert.deepEqual(runtime.floorConflicts.map((pin) => [pin.path, pin.line, pin.raw, pin.release]), [["go.mod", 3, "1.23", "1.23"]]);
+  assert.deepEqual(
+    runtime.floorConflicts.map((pin) => [pin.path, pin.line, pin.raw, pin.release]),
+    [["go.mod", 3, "1.23", "1.23"]],
+  );
   assert.equal((await run("drift", resolve(fixtures, "floor-conflict"), "--runtime", "go", "--check")).code, 1);
 });
 
@@ -151,7 +157,10 @@ test("align prints a patch for every understood source, applies cleanly, and rem
   await writeFile(join(root, ".go-version"), "1.22.4\n");
   await writeFile(join(root, ".tool-versions"), "golang 1.22.4\nnodejs 22.11.0\n");
   await writeFile(join(root, "Dockerfile"), "FROM golang:1.22.4-alpine AS build\nRUN go build ./...\n");
-  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/setup-go@v5\n        with:\n          go-version: '1.22.4'\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    steps:\n      - uses: actions/setup-go@v5\n        with:\n          go-version: '1.22.4'\n",
+  );
   await execute("git", ["init", "-q"], { cwd: root });
 
   const aligned = await run("drift", root, "--runtime", "go", "--align", "1.24");

@@ -43,22 +43,42 @@ test("a scan without findings is an empty array", () => {
 });
 
 test("each finding becomes one valid issue, sorted, with a line of at least 1", () => {
-  const issues = JSON.parse(renderCodeQuality(scan([
-    finding("npm.package.request.deprecated", "package.json", 12, "high"),
-    finding("python.runtime.eol", ".python-version", undefined, "info"),
-  ])));
+  const issues = JSON.parse(
+    renderCodeQuality(
+      scan([
+        finding("npm.package.request.deprecated", "package.json", 12, "high"),
+        finding("python.runtime.eol", ".python-version", undefined, "info"),
+      ]),
+    ),
+  );
   assert.equal(issues.length, 2);
   for (const issue of issues) assertValidIssue(issue);
-  assert.deepEqual(issues.map((issue: { location: { path: string; lines: { begin: number } } }) => [issue.location.path, issue.location.lines.begin]), [[".python-version", 1], ["package.json", 12]]);
+  assert.deepEqual(
+    issues.map((issue: { location: { path: string; lines: { begin: number } } }) => [
+      issue.location.path,
+      issue.location.lines.begin,
+    ]),
+    [
+      [".python-version", 1],
+      ["package.json", 12],
+    ],
+  );
 });
 
 test("severity maps to Code Quality severities", () => {
-  const mapped = (["critical", "high", "medium", "low", "info"] as const).map((severity) => JSON.parse(renderCodeQuality(scan([finding("npm.package.request.deprecated", "package.json", 1, severity)])))[0].severity);
+  const mapped = (["critical", "high", "medium", "low", "info"] as const).map(
+    (severity) =>
+      JSON.parse(renderCodeQuality(scan([finding("npm.package.request.deprecated", "package.json", 1, severity)])))[0]
+        .severity,
+  );
   assert.deepEqual(mapped, ["blocker", "critical", "major", "minor", "info"]);
 });
 
 test("fingerprints are stable, distinct per finding, and the output is deterministic", () => {
-  const findings = [finding("npm.package.request.deprecated", "package.json", 12), finding("github-actions.checkout.node20", ".github/workflows/ci.yml", 7)];
+  const findings = [
+    finding("npm.package.request.deprecated", "package.json", 12),
+    finding("github-actions.checkout.node20", ".github/workflows/ci.yml", 7),
+  ];
   const forward = renderCodeQuality(scan(findings));
   assert.equal(renderCodeQuality(scan([...findings].reverse())), forward);
   const prints = JSON.parse(forward).map((issue: { fingerprint: string }) => issue.fingerprint);

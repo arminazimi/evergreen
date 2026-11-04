@@ -30,10 +30,7 @@ export interface SkillTriggerMetrics {
   falseTriggerRate: number;
 }
 
-const deprecationTerms = [
-  /\bdeprecated?\b/,
-  /\bdeprecation\b/,
-];
+const deprecationTerms = [/\bdeprecated?\b/, /\bdeprecation\b/];
 
 const lifecycleStatusTerms = [
   /\bend[ -]of[ -](?:life|support)\b/,
@@ -153,13 +150,18 @@ export interface DependencyEvalCorpus {
   cases: SkillEvalCase[];
 }
 
-const packageManagerCommand = /\b(?:npm|pnpm|yarn|bun|pip3?|pipx|poetry|uv|cargo|gem|go)\s+(?:install|add|i|get)\b(?:\s+-{1,2}[\w-]+)*\s+(?!and\b|then\b|the\b|before\b|to\b|from\b|in\b|so\b|if\b|for\b|again\b)[@\w.\/-]*[a-z]/;
-const addVerb = /\b(?:add|install|introduce|include|adopt|pull in|bring in|switch to|swap in|pick|choose|start using|use)\b/;
+const packageManagerCommand =
+  /\b(?:npm|pnpm|yarn|bun|pip3?|pipx|poetry|uv|cargo|gem|go)\s+(?:install|add|i|get)\b(?:\s+-{1,2}[\w-]+)*\s+(?!and\b|then\b|the\b|before\b|to\b|from\b|in\b|so\b|if\b|for\b|again\b)[@\w.\/-]*[a-z]/;
+const addVerb =
+  /\b(?:add|install|introduce|include|adopt|pull in|bring in|switch to|swap in|pick|choose|start using|use)\b/;
 const dependencyNoun = /\b(?:package|library|dependency|dependencies|github action|action|npm package|pypi package)\b/;
-const namedPackageAfterVerb = /\b(?:install|pull in|bring in|introduce|adopt|include|start using)\s+(?:the |a |an )?(?!all\b|dependencies\b|packages\b)[@\w.\/-]*[-.@\/][@\w.\/-]+/;
-const addToManifest = /\b(?:add|put|append)\b[^.?!]{0,50}\bto\b[^.?!]{0,20}\b(?:requirements(?:\.txt)?|package\.json|pyproject(?:\.toml)?|dependencies|devdependencies|go\.mod|cargo\.toml)\b/;
+const namedPackageAfterVerb =
+  /\b(?:install|pull in|bring in|introduce|adopt|include|start using)\s+(?:the |a |an )?(?!all\b|dependencies\b|packages\b)[@\w.\/-]*[-.@\/][@\w.\/-]+/;
+const addToManifest =
+  /\b(?:add|put|append)\b[^.?!]{0,50}\bto\b[^.?!]{0,20}\b(?:requirements(?:\.txt)?|package\.json|pyproject(?:\.toml)?|dependencies|devdependencies|go\.mod|cargo\.toml)\b/;
 const actionReference = /\b(?:add|use|include|insert)\b[^.?!]{0,40}\b(?:actions\/[\w.-]+|[\w.-]+\/[\w.-]+@v?\d)/;
-const choosePackage = /\b(?:which|what) (?:package|library|module)\b[^.?!]*\b(?:use|pick|choose|adopt)\b|\breplace\b[^.?!]{0,40}\bwith\b[^.?!]{0,30}\b(?:package|library|module)\b/;
+const choosePackage =
+  /\b(?:which|what) (?:package|library|module)\b[^.?!]*\b(?:use|pick|choose|adopt)\b|\breplace\b[^.?!]{0,40}\bwith\b[^.?!]{0,30}\b(?:package|library|module)\b/;
 const notAnAddition = [
   /\bdependency injection\b/,
   /\b(?:from the lockfile|project's dependencies|all (?:the )?dependencies|declared dependencies)\b/,
@@ -175,7 +177,11 @@ const notAnAddition = [
  */
 export function classifyDependencyAddition(prompt: string): boolean {
   const normalized = prompt.toLowerCase().replaceAll("’", "'");
-  if (matchesAny(normalized, notAnAddition) && !packageManagerCommand.test(normalized) && !addToManifest.test(normalized)) {
+  if (
+    matchesAny(normalized, notAnAddition) &&
+    !packageManagerCommand.test(normalized) &&
+    !addToManifest.test(normalized)
+  ) {
     return choosePackage.test(normalized);
   }
   const strongAdd =
@@ -272,10 +278,18 @@ export function classifyRuntimeActionUpgrade(prompt: string): boolean {
   if (classifyDependencyAddition(normalized)) {
     return false;
   }
-  if (packageWideUpgrade.test(normalized) && !runtimeUpgradeTarget.test(normalized) && !actionUpgradeTarget.test(normalized)) {
+  if (
+    packageWideUpgrade.test(normalized) &&
+    !runtimeUpgradeTarget.test(normalized) &&
+    !actionUpgradeTarget.test(normalized)
+  ) {
     return false;
   }
-  if (packageNameBump.test(normalized) && !runtimeUpgradeTarget.test(normalized) && !actionUpgradeTarget.test(normalized)) {
+  if (
+    packageNameBump.test(normalized) &&
+    !runtimeUpgradeTarget.test(normalized) &&
+    !actionUpgradeTarget.test(normalized)
+  ) {
     return false;
   }
   if (!upgradeIntent.test(normalized)) {
@@ -312,10 +326,7 @@ async function run(): Promise<void> {
   const corpus = await loadSkillEvalCorpus();
   const overall = calculateMetrics(corpus.cases);
   const byHost = Object.fromEntries(
-    skillEvalHosts.map((host) => [
-      host,
-      calculateMetrics(corpus.cases.filter((item) => item.host === host)),
-    ]),
+    skillEvalHosts.map((host) => [host, calculateMetrics(corpus.cases.filter((item) => item.host === host))]),
   );
   const failures = corpus.cases
     .filter((item) => classifySkillTrigger(item.prompt) !== item.shouldTrigger)
@@ -325,7 +336,10 @@ async function run(): Promise<void> {
   const guardrailByHost = Object.fromEntries(
     skillEvalHosts.map((host) => [
       host,
-      calculateMetrics(guardrail.cases.filter((item) => item.host === host), classifyDependencyAddition),
+      calculateMetrics(
+        guardrail.cases.filter((item) => item.host === host),
+        classifyDependencyAddition,
+      ),
     ]),
   );
   const guardrailFailures = guardrail.cases
@@ -336,7 +350,10 @@ async function run(): Promise<void> {
   const upgradeByHost = Object.fromEntries(
     skillEvalHosts.map((host) => [
       host,
-      calculateMetrics(upgradeJob.cases.filter((item) => item.host === host), classifyRuntimeActionUpgrade),
+      calculateMetrics(
+        upgradeJob.cases.filter((item) => item.host === host),
+        classifyRuntimeActionUpgrade,
+      ),
     ]),
   );
   const upgradeFailures = upgradeJob.cases
@@ -390,21 +407,15 @@ async function run(): Promise<void> {
     corpus.cases.length < 50 ||
     overall.recall < 0.9 ||
     overall.falseTriggerRate >= 0.05 ||
-    Object.values(byHost).some(
-      (metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05,
-    ) ||
+    Object.values(byHost).some((metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05) ||
     guardrail.cases.length < 40 ||
     guardrailOverall.recall < 0.9 ||
     guardrailOverall.falseTriggerRate >= 0.05 ||
-    Object.values(guardrailByHost).some(
-      (metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05,
-    ) ||
+    Object.values(guardrailByHost).some((metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05) ||
     upgradeJob.cases.length < 40 ||
     upgradeOverall.recall < 0.9 ||
     upgradeOverall.falseTriggerRate >= 0.05 ||
-    Object.values(upgradeByHost).some(
-      (metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05,
-    ) ||
+    Object.values(upgradeByHost).some((metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05) ||
     lifecycleFalseOnAdd.length > 0 ||
     addFalseOnLifecycle.length > 0 ||
     upgradeOnAdd.length > 0 ||

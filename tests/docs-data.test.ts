@@ -26,13 +26,26 @@ test("docs/DATA.md documents the real commands, options, variables, and threshol
   const implementation = `${help}\n${await read("src/commands/data.ts")}\n${await read("src/commands/runtime.ts")}`;
   for (const text of ["data status", "data update", "--data-version"]) {
     assert.ok(docs.includes(text), `docs mention ${text}`);
-    assert.ok(implementation.includes(text.replace("data ", "")) || implementation.includes(text), `the CLI implements ${text}`);
+    assert.ok(
+      implementation.includes(text.replace("data ", "")) || implementation.includes(text),
+      `the CLI implements ${text}`,
+    );
   }
-  for (const variable of ["EVERGREEN_DATA_DIR", "EVERGREEN_DATA_VERSION", "EVERGREEN_DATA_URL", "HTTP_PROXY", "HTTPS_PROXY", "NO_PROXY"]) {
+  for (const variable of [
+    "EVERGREEN_DATA_DIR",
+    "EVERGREEN_DATA_VERSION",
+    "EVERGREEN_DATA_URL",
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "NO_PROXY",
+  ]) {
     assert.ok(docs.includes(variable), `docs mention ${variable}`);
   }
   for (const variable of ["EVERGREEN_DATA_DIR", "EVERGREEN_DATA_VERSION"]) {
-    assert.ok((await read("src/data-source.ts")).includes(variable) || implementation.includes(variable), `${variable} is read by the code`);
+    assert.ok(
+      (await read("src/data-source.ts")).includes(variable) || implementation.includes(variable),
+      `${variable} is read by the code`,
+    );
   }
   assert.ok((await read("src/data-update.ts")).includes("EVERGREEN_DATA_URL"));
   assert.match(docs, new RegExp(`more than ${STALE_AFTER_DAYS} days|after ${STALE_AFTER_DAYS} days`));
@@ -53,12 +66,17 @@ test("the release checklist describes the data release the workflow performs", a
   assert.match(releasing, /data-v2026\.10\.16/);
   assert.match(workflow, /tags: \["data-v\*"\]/);
   assert.match(workflow, /dry_run/);
-  for (const asset of ["evergreen-data-", ".sigstore.json", "SHA256SUMS"]) assert.ok(workflow.includes(asset) && releasing.includes(asset.replace("evergreen-data-", "evergreen-data-")), asset);
+  for (const asset of ["evergreen-data-", ".sigstore.json", "SHA256SUMS"])
+    assert.ok(
+      workflow.includes(asset) && releasing.includes(asset.replace("evergreen-data-", "evergreen-data-")),
+      asset,
+    );
 });
 
 test("every file and page that docs/DATA.md links to exists", async () => {
   for (const link of new Set([...docs.matchAll(/\]\((?!https?:)([^)#]+)(?:#[^)]*)?\)/g)].map((match) => match[1]!))) {
     await access(resolve("docs", link));
   }
-  for (const path of ["data/sigstore-trusted-root.json", "schemas/data-bundle.v1.schema.json"]) assert.ok(docs.includes(path.replace("schemas/", "")) || docs.includes(path), path);
+  for (const path of ["data/sigstore-trusted-root.json", "schemas/data-bundle.v1.schema.json"])
+    assert.ok(docs.includes(path.replace("schemas/", "")) || docs.includes(path), path);
 });

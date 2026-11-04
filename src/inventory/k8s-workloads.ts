@@ -45,10 +45,17 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 /** The list items, or undefined when the document is not a workload export. */
 function listItems(document: unknown): Record<string, unknown>[] | undefined {
-  if (!isRecord(document) || document.kind !== "List" || !Array.isArray(document.items) || document.items.length === 0) return undefined;
+  if (!isRecord(document) || document.kind !== "List" || !Array.isArray(document.items) || document.items.length === 0)
+    return undefined;
   const items: Record<string, unknown>[] = [];
   for (const entry of document.items) {
-    if (!isRecord(entry) || typeof entry.apiVersion !== "string" || typeof entry.kind !== "string" || !isRecord(entry.metadata)) return undefined;
+    if (
+      !isRecord(entry) ||
+      typeof entry.apiVersion !== "string" ||
+      typeof entry.kind !== "string" ||
+      !isRecord(entry.metadata)
+    )
+      return undefined;
     // Node lists belong to the cluster importer, which judges the kubelet's version.
     if (entry.kind === "Node") return undefined;
     items.push(entry);
@@ -64,11 +71,17 @@ function pointer(segments: readonly (string | number)[]): string {
 function resourceOf(metadata: Record<string, unknown>, kind: string): string | undefined {
   const name = metadata.name;
   if (typeof name !== "string" || name.length === 0) return undefined;
-  const namespace = typeof metadata.namespace === "string" && metadata.namespace.length > 0 ? metadata.namespace : CLUSTER_SCOPE;
+  const namespace =
+    typeof metadata.namespace === "string" && metadata.namespace.length > 0 ? metadata.namespace : CLUSTER_SCOPE;
   return `${namespace}/${kind}/${name}`;
 }
 
-function apiVersionItem(item: Record<string, unknown>, file: string, index: number, resource: string): InventoryItem | undefined {
+function apiVersionItem(
+  item: Record<string, unknown>,
+  file: string,
+  index: number,
+  resource: string,
+): InventoryItem | undefined {
   const kind = item.kind;
   const apiVersion = item.apiVersion;
   if (typeof kind !== "string" || typeof apiVersion !== "string" || !isKind(kind)) return undefined;

@@ -3,11 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import {
-  MAXIMUM_INPUT_BYTES,
-  MAXIMUM_LINE_LENGTH,
-  parsePubspec,
-} from "../src/detectors/dart/parse-pubspec.js";
+import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, parsePubspec } from "../src/detectors/dart/parse-pubspec.js";
 
 const fixtures = resolve("tests/fixtures/dart");
 
@@ -51,11 +47,11 @@ test("ignores any, templates, nested mappings, path and git sources, and lookali
     "environment:\n  sdk: ^3.0\n",
     "environment:\n  sdk: 3\n",
     "environment:\n  sdk: =3.0.0\n",
-    "environment:\n  sdk: \">=3.0.0 || <2.0.0\"\n",
-    "environment:\n  sdk: \">=${MIN_SDK}\"\n",
+    'environment:\n  sdk: ">=3.0.0 || <2.0.0"\n',
+    'environment:\n  sdk: ">=${MIN_SDK}"\n',
     "environment:\n  sdk: >=2.19.0\n",
-    "environment:\n  sdk: [\"3.0.0\"]\n",
-    "environment: { sdk: \">=3.0.0\" }\n",
+    'environment:\n  sdk: ["3.0.0"]\n',
+    'environment: { sdk: ">=3.0.0" }\n',
     "dependencies: { http: ^1.0.0 }\n",
     "dependencies:\n  flutter:\n    sdk: flutter\n  local_ui:\n    path: ../local_ui\n  git_tool:\n    git:\n      url: https://example.com/git_tool.git\n",
     "dependencies:\n  hosted_without_version:\n    hosted: https://pub.example.com\n",
@@ -65,11 +61,11 @@ test("ignores any, templates, nested mappings, path and git sources, and lookali
     "dependencies:\n  http: ^1.0.0 || ^2.0.0\n",
     "dependencies:\n  Http: ^1.0.0\n",
     "dependencies:\n  my-pkg: ^1.0.0\n",
-    "dependencies:\n  \"http\": ^1.0.0\n",
+    'dependencies:\n  "http": ^1.0.0\n',
     "dependencies:\n  http: ^1.0\n",
     "dev_dependencies:\n  http: ^1.0.0\ndependency_overrides:\n  http: ^2.0.0\n",
-    "description: \"sdk: ^3.0.0\"\n",
-    "# environment:\n#   sdk: \">=3.0.0 <4.0.0\"\n# dependencies:\n#   http: ^1.0.0\n",
+    'description: "sdk: ^3.0.0"\n',
+    '# environment:\n#   sdk: ">=3.0.0 <4.0.0"\n# dependencies:\n#   http: ^1.0.0\n',
   ]) {
     assert.deepEqual(parsePubspec(contents), [], contents);
   }
@@ -121,14 +117,18 @@ test("accepts pre-release constraints, single quotes, CRLF, and a byte order mar
     { kind: "dart-sdk", value: ">=3.0.0 <4.0.0", line: 2 },
   ]);
   assert.deepEqual(
-    parsePubspec('environment:\r\n  sdk: ">=3.0.0 <4.0.0"\r\n  flutter: "^3.7.0"\r\n\r\ndependencies:\r\n  http: ^1.0.0 # pinned\r\n'),
+    parsePubspec(
+      'environment:\r\n  sdk: ">=3.0.0 <4.0.0"\r\n  flutter: "^3.7.0"\r\n\r\ndependencies:\r\n  http: ^1.0.0 # pinned\r\n',
+    ),
     [
       { kind: "dart-sdk", value: ">=3.0.0 <4.0.0", line: 2 },
       { kind: "flutter-sdk", value: "^3.7.0", line: 3 },
       { kind: "pub-dependency", name: "http", value: "^1.0.0", line: 6 },
     ],
   );
-  assert.deepEqual(parsePubspec("\uFEFFenvironment:\n  sdk: ^3.0.0\n"), [{ kind: "dart-sdk", value: "^3.0.0", line: 2 }]);
+  assert.deepEqual(parsePubspec("\uFEFFenvironment:\n  sdk: ^3.0.0\n"), [
+    { kind: "dart-sdk", value: "^3.0.0", line: 2 },
+  ]);
 });
 
 test("a malformed document returns nothing for the whole file", () => {
@@ -136,7 +136,7 @@ test("a malformed document returns nothing for the whole file", () => {
     'environment:\n  sdk: ">=3.13.0 <4.0.0\n  flutter: ">=3.47.0"\n',
     'dependencies:\n  http: "^1.0.0\n',
     'environment:\n  sdk: ">=3.0.0" trailing\n  flutter: ">=3.7.0"\n',
-    "environment:\n\tsdk: \">=3.0.0\"\n",
+    'environment:\n\tsdk: ">=3.0.0"\n',
     "dependencies:\n  http: ^1.0.0\n\t  intl: ^0.20.3\n",
     "dependencies:\n  http: ^1.0.0\n  http: ^1.1.0\n",
     "environment:\n  sdk: ^3.0.0\nenvironment:\n  sdk: ^2.0.0\n",
@@ -157,9 +157,10 @@ test("bounds untrusted input without losing later lines", () => {
   assert.deepEqual(parsePubspec(`x: ${"a".repeat(MAXIMUM_LINE_LENGTH + 1)}\n${dependency}`), [
     { kind: "pub-dependency", name: "http", value: "^1.0.0", line: 3 },
   ]);
-  assert.deepEqual(parsePubspec(`dependencies:\n  intl: ^0.20.3 # ${"x".repeat(MAXIMUM_LINE_LENGTH)}\n  http: ^1.0.0\n`), [
-    { kind: "pub-dependency", name: "http", value: "^1.0.0", line: 3 },
-  ]);
+  assert.deepEqual(
+    parsePubspec(`dependencies:\n  intl: ^0.20.3 # ${"x".repeat(MAXIMUM_LINE_LENGTH)}\n  http: ^1.0.0\n`),
+    [{ kind: "pub-dependency", name: "http", value: "^1.0.0", line: 3 }],
+  );
 });
 
 test("parsing is deterministic", async () => {

@@ -5,10 +5,7 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { todoCommentsDetector } from "../examples/detectors/todo-comments.js";
-import {
-  CONFORMANCE_API_VERSION,
-  runDetectorConformance,
-} from "../src/conformance/index.js";
+import { CONFORMANCE_API_VERSION, runDetectorConformance } from "../src/conformance/index.js";
 import { scanRepository } from "../src/engine.js";
 import {
   DETECTOR_API_VERSION,
@@ -60,8 +57,7 @@ test("the engine rejects incompatible detector versions", async () => {
 
   await assert.rejects(
     scanRepository(".", [incompatible as never]),
-    (error: unknown) =>
-      error instanceof DetectorCompatibilityError && /evergreen\.detector\.v1/.test(error.message),
+    (error: unknown) => error instanceof DetectorCompatibilityError && /evergreen\.detector\.v1/.test(error.message),
   );
 });
 
@@ -92,22 +88,15 @@ test("registry validation checks the envelope, schema, and every rule", () => {
   };
 
   assert.equal(
-    validateRegistry({ schemaVersion: "example.registry.v1", rules: [rule] }, definition).rules[0]
-      ?.id,
+    validateRegistry({ schemaVersion: "example.registry.v1", rules: [rule] }, definition).rules[0]?.id,
     "example.rule",
   );
   assert.throws(
     () => validateRegistry({ schemaVersion: "example.registry.v0", rules: [rule] }, definition),
     RegistryValidationError,
   );
-  assert.throws(
-    () => validateRegistry({ schemaVersion: "example.registry.v1", rules: [{}] }, definition),
-    /index 0/,
-  );
-  assert.equal(
-    isDeprecationRule({ ...rule, migration: { ...rule.migration, verification: [] } }),
-    false,
-  );
+  assert.throws(() => validateRegistry({ schemaVersion: "example.registry.v1", rules: [{}] }, definition), /index 0/);
+  assert.equal(isDeprecationRule({ ...rule, migration: { ...rule.migration, verification: [] } }), false);
 });
 
 test("the documented example detector remains compatible", async () => {

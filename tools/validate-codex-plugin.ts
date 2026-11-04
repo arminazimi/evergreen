@@ -5,11 +5,14 @@ import { join, resolve } from "node:path";
 import { createInterface } from "node:readline";
 
 interface McpConfiguration {
-  mcpServers: Record<string, {
-    type: "stdio";
-    command: string;
-    args?: string[];
-  }>;
+  mcpServers: Record<
+    string,
+    {
+      type: "stdio";
+      command: string;
+      args?: string[];
+    }
+  >;
 }
 
 interface RpcResponse {
@@ -25,9 +28,7 @@ function argument(name: string, fallback: string): string {
 
 async function main(): Promise<void> {
   const pluginRoot = resolve(argument("--plugin-root", "plugins/codex"));
-  const configuration = JSON.parse(
-    await readFile(resolve(pluginRoot, "mcp.json"), "utf8"),
-  ) as McpConfiguration;
+  const configuration = JSON.parse(await readFile(resolve(pluginRoot, "mcp.json"), "utf8")) as McpConfiguration;
   const server = configuration.mcpServers.evergreen;
   if (!server || server.type !== "stdio") {
     throw new Error("The installed Evergreen stdio MCP server is missing");
@@ -37,10 +38,7 @@ async function main(): Promise<void> {
   const workflows = join(fixture, ".github", "workflows");
   await mkdir(workflows, { recursive: true });
   const workflow = join(workflows, "ci.yml");
-  await writeFile(
-    workflow,
-    "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
-  );
+  await writeFile(workflow, "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
 
   const child = spawn(server.command, server.args ?? [], {
     cwd: pluginRoot,
@@ -50,7 +48,9 @@ async function main(): Promise<void> {
   const pending = new Map<number, (response: RpcResponse) => void>();
   let nextId = 1;
   let stderr = "";
-  child.stderr.on("data", (chunk) => { stderr += String(chunk); });
+  child.stderr.on("data", (chunk) => {
+    stderr += String(chunk);
+  });
   lines.on("line", (line) => {
     const response = JSON.parse(line) as RpcResponse;
     pending.get(response.id)?.(response);
@@ -106,10 +106,7 @@ async function main(): Promise<void> {
       throw new Error("Installed plugin returned invalid migration context");
     }
 
-    await writeFile(
-      workflow,
-      "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v7\n",
-    );
+    await writeFile(workflow, "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v7\n");
     const verification = await request("tools/call", {
       name: "verify_migration",
       arguments: { finding_id: finding.id, repository_path: fixture },

@@ -55,7 +55,9 @@ export function computeFileHash(content: string | Buffer): string {
  */
 export function computeCacheKey(input: ScanCacheKeyInput): string {
   return createHash("sha256")
-    .update(`${input.detectorId}:${input.detectorVersion}:${input.dataVersion}:${toPosixPath(input.filePath)}:${input.fileHash}`)
+    .update(
+      `${input.detectorId}:${input.detectorVersion}:${input.dataVersion}:${toPosixPath(input.filePath)}:${input.fileHash}`,
+    )
     .digest("hex");
 }
 

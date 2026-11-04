@@ -301,10 +301,7 @@ export function measureFile(path: string, text: string): FileMeasure {
     const target = resolveSpecifier(path, specifier);
     if (ENGINE_FILES.includes(path) && target.startsWith(DETECTOR_DIR)) bump(BOUNDARY_RULES.engineNoDetectors);
     if (ADAPTER_FILES.includes(path) && target.startsWith(DETECTOR_DIR)) bump(BOUNDARY_RULES.adaptersNoDetectors);
-    if (
-      (path.startsWith(DETECTOR_DIR) || ENGINE_FILES.includes(path)) &&
-      NETWORK_MODULES.includes(target)
-    ) {
+    if ((path.startsWith(DETECTOR_DIR) || ENGINE_FILES.includes(path)) && NETWORK_MODULES.includes(target)) {
       bump(BOUNDARY_RULES.detectorsNoNetwork);
     }
   }
@@ -366,7 +363,9 @@ const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const OWNER = /^#\d+$/;
 
 /** Fields every entry of a list must carry, and whether each is a number or a string. */
-const REQUIRED_FIELDS: Readonly<Record<keyof Omit<Allowlist, "schemaVersion">, Readonly<Record<string, "string" | "count">>>> = {
+const REQUIRED_FIELDS: Readonly<
+  Record<keyof Omit<Allowlist, "schemaVersion">, Readonly<Record<string, "string" | "count">>>
+> = {
   fileSize: { file: "string", lines: "count" },
   nonNull: { file: "string", count: "count" },
   complexity: { file: "string", function: "string", complexity: "count" },
@@ -380,8 +379,14 @@ function validateEntry(list: string, entry: Record<string, unknown>, problems: F
   const fields = REQUIRED_FIELDS[list as keyof typeof REQUIRED_FIELDS];
   for (const [field, kind] of Object.entries(fields)) {
     const value = entry[field];
-    const valid = kind === "count" ? Number.isInteger(value) && (value as number) >= 0 : typeof value === "string" && value !== "";
-    if (!valid) problems.push({ check: "allowlist", location: where, message: `${field} must be ${kind === "count" ? "a whole number" : "a non-empty string"}` });
+    const valid =
+      kind === "count" ? Number.isInteger(value) && (value as number) >= 0 : typeof value === "string" && value !== "";
+    if (!valid)
+      problems.push({
+        check: "allowlist",
+        location: where,
+        message: `${field} must be ${kind === "count" ? "a whole number" : "a non-empty string"}`,
+      });
   }
   if (typeof entry.owner !== "string" || !OWNER.test(entry.owner)) {
     problems.push({ check: "allowlist", location: where, message: `owner must be an issue number such as "#2041"` });
@@ -415,7 +420,11 @@ export function parseAllowlist(raw: unknown): { allowlist: Allowlist; problems: 
     audit: [],
   };
   if (!isRecord(raw) || raw.schemaVersion !== ALLOWLIST_SCHEMA) {
-    problems.push({ check: "allowlist", location: ALLOWLIST_PATH, message: `schemaVersion must be "${ALLOWLIST_SCHEMA}"` });
+    problems.push({
+      check: "allowlist",
+      location: ALLOWLIST_PATH,
+      message: `schemaVersion must be "${ALLOWLIST_SCHEMA}"`,
+    });
     return { allowlist: empty, problems };
   }
   const rows = (name: keyof typeof REQUIRED_FIELDS): Record<string, unknown>[] => {
@@ -441,22 +450,38 @@ export function parseAllowlist(raw: unknown): { allowlist: Allowlist; problems: 
   return {
     allowlist: {
       schemaVersion: ALLOWLIST_SCHEMA,
-      fileSize: lists.fileSize.map((entry) => ({ ...details(entry), file: textOf(entry, "file"), lines: numberOf(entry, "lines") })),
+      fileSize: lists.fileSize.map((entry) => ({
+        ...details(entry),
+        file: textOf(entry, "file"),
+        lines: numberOf(entry, "lines"),
+      })),
       complexity: lists.complexity.map((entry) => ({
         ...details(entry),
         file: textOf(entry, "file"),
         function: textOf(entry, "function"),
         complexity: numberOf(entry, "complexity"),
       })),
-      asUnknownAs: lists.asUnknownAs.map((entry) => ({ ...details(entry), file: textOf(entry, "file"), count: numberOf(entry, "count") })),
-      nonNull: lists.nonNull.map((entry) => ({ ...details(entry), file: textOf(entry, "file"), count: numberOf(entry, "count") })),
+      asUnknownAs: lists.asUnknownAs.map((entry) => ({
+        ...details(entry),
+        file: textOf(entry, "file"),
+        count: numberOf(entry, "count"),
+      })),
+      nonNull: lists.nonNull.map((entry) => ({
+        ...details(entry),
+        file: textOf(entry, "file"),
+        count: numberOf(entry, "count"),
+      })),
       boundaries: lists.boundaries.map((entry) => ({
         ...details(entry),
         file: textOf(entry, "file"),
         rule: textOf(entry, "rule"),
         count: numberOf(entry, "count"),
       })),
-      audit: lists.audit.map((entry) => ({ ...details(entry), advisory: textOf(entry, "advisory"), package: textOf(entry, "package") })),
+      audit: lists.audit.map((entry) => ({
+        ...details(entry),
+        advisory: textOf(entry, "advisory"),
+        package: textOf(entry, "package"),
+      })),
     },
     problems,
   };
@@ -483,13 +508,7 @@ function expiredFinding(check: string, location: string, expires: string, today:
 }
 
 /** The shared rule for a counted entry: it may shrink (tighten it) but not grow, and it must still match. */
-function compareCount(
-  check: string,
-  location: string,
-  current: number,
-  ceiling: number,
-  noun: string,
-): Finding | null {
+function compareCount(check: string, location: string, current: number, ceiling: number, noun: string): Finding | null {
   if (current === 0) {
     return { check, location, message: `no ${noun} remain; remove this allowlist entry` };
   }
@@ -535,7 +554,11 @@ export function evaluateQuality(input: QualityInput): Finding[] {
       const expired = expiredFinding("file-size", file.path, entry.expires, today);
       if (expired) findings.push(expired);
       if (file.lines <= TARGETS.warnLines) {
-        findings.push({ check: "file-size", location: file.path, message: "now under 800 lines; remove this allowlist entry" });
+        findings.push({
+          check: "file-size",
+          location: file.path,
+          message: "now under 800 lines; remove this allowlist entry",
+        });
       } else if (file.lines > entry.lines) {
         findings.push({
           check: "file-size",
@@ -543,18 +566,28 @@ export function evaluateQuality(input: QualityInput): Finding[] {
           message: `grew from ${entry.lines} to ${file.lines} lines; the allowlist is a ceiling, so split the change`,
         });
       } else if (file.lines < entry.lines) {
-        findings.push({ check: "file-size", location: file.path, message: `is now ${file.lines} lines; set this entry to ${file.lines}` });
+        findings.push({
+          check: "file-size",
+          location: file.path,
+          message: `is now ${file.lines} lines; set this entry to ${file.lines}`,
+        });
       }
     }
   }
   for (const entry of allowlist.fileSize) {
     if (!files.some((file) => file.path === entry.file)) {
-      findings.push({ check: "file-size", location: entry.file, message: "the file no longer exists; remove this allowlist entry" });
+      findings.push({
+        check: "file-size",
+        location: entry.file,
+        message: "the file no longer exists; remove this allowlist entry",
+      });
     }
   }
 
   // Complexity.
-  const complexityEntries = new Map(allowlist.complexity.map((entry) => [`${entry.file}\u0000${entry.function}`, entry]));
+  const complexityEntries = new Map(
+    allowlist.complexity.map((entry) => [`${entry.file}\u0000${entry.function}`, entry]),
+  );
   const measuredFunctions = new Map<string, number>();
   for (const file of files) {
     for (const fn of file.functions) {
@@ -573,7 +606,11 @@ export function evaluateQuality(input: QualityInput): Finding[] {
         const expired = expiredFinding("complexity", location, entry.expires, today);
         if (expired) findings.push(expired);
         if (fn.complexity <= TARGETS.complexity) {
-          findings.push({ check: "complexity", location, message: "is now at or under 15; remove this allowlist entry" });
+          findings.push({
+            check: "complexity",
+            location,
+            message: "is now at or under 15; remove this allowlist entry",
+          });
         } else if (fn.complexity > entry.complexity) {
           findings.push({
             check: "complexity",
@@ -581,7 +618,11 @@ export function evaluateQuality(input: QualityInput): Finding[] {
             message: `complexity grew from ${entry.complexity} to ${fn.complexity}; the allowlist is a ceiling, so reduce it`,
           });
         } else if (fn.complexity < entry.complexity) {
-          findings.push({ check: "complexity", location, message: `complexity is now ${fn.complexity}; set this entry to ${fn.complexity}` });
+          findings.push({
+            check: "complexity",
+            location,
+            message: `complexity is now ${fn.complexity}; set this entry to ${fn.complexity}`,
+          });
         }
       }
     }
@@ -599,17 +640,29 @@ export function evaluateQuality(input: QualityInput): Finding[] {
   // Type safety.
   for (const file of files) {
     if (file.explicitAny > 0) {
-      findings.push({ check: "type-safety", location: file.path, message: `${file.explicitAny} explicit \`any\`. Use a real type, \`unknown\` with a narrowing check, or a generic.` });
+      findings.push({
+        check: "type-safety",
+        location: file.path,
+        message: `${file.explicitAny} explicit \`any\`. Use a real type, \`unknown\` with a narrowing check, or a generic.`,
+      });
     }
     if (file.tsDirectives > 0) {
-      findings.push({ check: "type-safety", location: file.path, message: `${file.tsDirectives} \`@ts-ignore\` or \`@ts-expect-error\`. Fix the type instead.` });
+      findings.push({
+        check: "type-safety",
+        location: file.path,
+        message: `${file.tsDirectives} \`@ts-ignore\` or \`@ts-expect-error\`. Fix the type instead.`,
+      });
     }
   }
   const unknownEntries = new Map(allowlist.asUnknownAs.map((entry) => [entry.file, entry]));
   for (const file of files) {
     const entry = unknownEntries.get(file.path);
     if (file.asUnknownAs > 0 && !entry) {
-      findings.push({ check: "type-safety", location: file.path, message: `${file.asUnknownAs} new \`as unknown as\`. Narrow the type instead; this count may not grow.` });
+      findings.push({
+        check: "type-safety",
+        location: file.path,
+        message: `${file.asUnknownAs} new \`as unknown as\`. Narrow the type instead; this count may not grow.`,
+      });
     }
     if (entry) {
       const expired = expiredFinding("type-safety", file.path, entry.expires, today);
@@ -620,14 +673,22 @@ export function evaluateQuality(input: QualityInput): Finding[] {
   }
   for (const entry of allowlist.asUnknownAs) {
     if (!files.some((file) => file.path === entry.file)) {
-      findings.push({ check: "type-safety", location: entry.file, message: "the file no longer exists; remove this allowlist entry" });
+      findings.push({
+        check: "type-safety",
+        location: entry.file,
+        message: "the file no longer exists; remove this allowlist entry",
+      });
     }
   }
   const nonNullEntries = new Map(allowlist.nonNull.map((entry) => [entry.file, entry]));
   for (const file of files) {
     const entry = nonNullEntries.get(file.path);
     if (file.nonNull > 0 && !entry) {
-      findings.push({ check: "type-safety", location: file.path, message: `${file.nonNull} non-null assertions and no allowlist entry; this count may not grow` });
+      findings.push({
+        check: "type-safety",
+        location: file.path,
+        message: `${file.nonNull} non-null assertions and no allowlist entry; this count may not grow`,
+      });
     }
     if (entry) {
       const expired = expiredFinding("type-safety", file.path, entry.expires, today);
@@ -638,7 +699,11 @@ export function evaluateQuality(input: QualityInput): Finding[] {
   }
   for (const entry of allowlist.nonNull) {
     if (!files.some((file) => file.path === entry.file)) {
-      findings.push({ check: "type-safety", location: entry.file, message: "the file no longer exists; remove this allowlist entry" });
+      findings.push({
+        check: "type-safety",
+        location: entry.file,
+        message: "the file no longer exists; remove this allowlist entry",
+      });
     }
   }
 
@@ -655,7 +720,11 @@ export function evaluateQuality(input: QualityInput): Finding[] {
     const [file, rule] = key.split("\u0000") as [string, string];
     const entry = boundaryEntries.get(key);
     if (!entry) {
-      findings.push({ check: "boundaries", location: file, message: `breaks rule \`${rule}\` (${count}); move the code to the layer that owns it (AGENTS.md, Architecture boundaries)` });
+      findings.push({
+        check: "boundaries",
+        location: file,
+        message: `breaks rule \`${rule}\` (${count}); move the code to the layer that owns it (AGENTS.md, Architecture boundaries)`,
+      });
       continue;
     }
     const expired = expiredFinding("boundaries", file, entry.expires, today);
@@ -665,7 +734,11 @@ export function evaluateQuality(input: QualityInput): Finding[] {
   }
   for (const entry of allowlist.boundaries) {
     if (!boundaryCounts.has(`${entry.file}\u0000${entry.rule}`)) {
-      findings.push({ check: "boundaries", location: `${entry.file} ${entry.rule}`, message: "no violation remains; remove this allowlist entry" });
+      findings.push({
+        check: "boundaries",
+        location: `${entry.file} ${entry.rule}`,
+        message: "no violation remains; remove this allowlist entry",
+      });
     }
   }
 
@@ -674,16 +747,28 @@ export function evaluateQuality(input: QualityInput): Finding[] {
     const audited = new Set(allowlist.audit.map((entry) => entry.advisory));
     for (const advisory of input.audit) {
       if (advisory.severity === "high" || advisory.severity === "critical") {
-        findings.push({ check: "security", location: advisory.package, message: `${advisory.severity} advisory ${advisory.id}; fix or replace the dependency. High and critical advisories are never allowlisted.` });
+        findings.push({
+          check: "security",
+          location: advisory.package,
+          message: `${advisory.severity} advisory ${advisory.id}; fix or replace the dependency. High and critical advisories are never allowlisted.`,
+        });
       } else if (!audited.has(advisory.id)) {
-        findings.push({ check: "security", location: advisory.package, message: `${advisory.severity} advisory ${advisory.id} is not allowlisted; update the dependency or add an entry with an owner and expiry` });
+        findings.push({
+          check: "security",
+          location: advisory.package,
+          message: `${advisory.severity} advisory ${advisory.id} is not allowlisted; update the dependency or add an entry with an owner and expiry`,
+        });
       }
     }
     for (const entry of allowlist.audit) {
       const expired = expiredFinding("security", entry.advisory, entry.expires, today);
       if (expired) findings.push(expired);
       if (!input.audit.some((advisory) => advisory.id === entry.advisory)) {
-        findings.push({ check: "security", location: entry.advisory, message: "no longer reported; remove this allowlist entry" });
+        findings.push({
+          check: "security",
+          location: entry.advisory,
+          message: "no longer reported; remove this allowlist entry",
+        });
       }
     }
   }
@@ -698,10 +783,7 @@ function isoToday(): string {
 /** The hand-written TypeScript under src/, minus the vendored tree and the generated index. */
 export function isHandWritten(path: string): boolean {
   return (
-    path.startsWith("src/") &&
-    path.endsWith(".ts") &&
-    !path.includes("/vendor/") &&
-    !path.endsWith(".generated.ts")
+    path.startsWith("src/") && path.endsWith(".ts") && !path.includes("/vendor/") && !path.endsWith(".generated.ts")
   );
 }
 
@@ -756,11 +838,15 @@ function formatTable(rows: readonly (readonly [label: string, value: number, uni
   if (rows.length === 0) return [];
   const labelWidth = Math.max(...rows.map(([label]) => label.length));
   const valueWidth = Math.max(...rows.map(([, value]) => String(value).length));
-  return rows.map(([label, value, unit]) => `${label.padEnd(labelWidth)}  ${String(value).padStart(valueWidth)}  ${unit}`.trimEnd());
+  return rows.map(([label, value, unit]) =>
+    `${label.padEnd(labelWidth)}  ${String(value).padStart(valueWidth)}  ${unit}`.trimEnd(),
+  );
 }
 
 /** Sums one number per file into its directory, largest first; ties sort by name so the output is stable. */
-function directoryTotals(entries: readonly (readonly [file: string, size: number])[]): [label: string, value: number, unit: string][] {
+function directoryTotals(
+  entries: readonly (readonly [file: string, size: number])[],
+): [label: string, value: number, unit: string][] {
   const totals = new Map<string, number>();
   for (const [file, size] of entries) {
     const directory = posix.dirname(file);
@@ -880,7 +966,12 @@ function compareGateEntries(
       });
       continue;
     }
-    if (ceilingNoun !== undefined && head.ceiling !== undefined && base.ceiling !== undefined && head.ceiling > base.ceiling) {
+    if (
+      ceilingNoun !== undefined &&
+      head.ceiling !== undefined &&
+      base.ceiling !== undefined &&
+      head.ceiling > base.ceiling
+    ) {
       findings.push({
         check: "gate",
         location: where,
@@ -934,7 +1025,12 @@ export function compareAllowlists(baseline: Allowlist, current: Allowlist): Find
   };
   const auditKey = (entry: AllowEntry): string => (entry as AuditEntry).advisory;
   return [
-    ...compareGateEntries("fileSize", gateMap(baseline.fileSize, fileKey, (e) => (e as FileSizeEntry).lines), gateMap(current.fileSize, fileKey, (e) => (e as FileSizeEntry).lines), "lines"),
+    ...compareGateEntries(
+      "fileSize",
+      gateMap(baseline.fileSize, fileKey, (e) => (e as FileSizeEntry).lines),
+      gateMap(current.fileSize, fileKey, (e) => (e as FileSizeEntry).lines),
+      "lines",
+    ),
     ...compareGateEntries(
       "complexity",
       gateMap(baseline.complexity, complexityKey, (e) => (e as ComplexityEntry).complexity),

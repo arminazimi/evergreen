@@ -45,7 +45,10 @@ test("the evaluator fails a wall-time regression and names both numbers", () => 
 });
 
 test("the evaluator fails when the file count is below the floor", () => {
-  const violations = evaluateMonorepoBudget({ ...FITTING_MEASUREMENTS, fileCount: MONOREPO_BUDGET.minFiles - 1 }, MONOREPO_BUDGET);
+  const violations = evaluateMonorepoBudget(
+    { ...FITTING_MEASUREMENTS, fileCount: MONOREPO_BUDGET.minFiles - 1 },
+    MONOREPO_BUDGET,
+  );
   assert.equal(violations.length, 1);
   assert.match(violations[0]!, /file count .* below the 100000 file floor/);
 });

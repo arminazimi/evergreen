@@ -197,9 +197,7 @@ test("a failure opens exactly one issue, later failures comment on it, and recov
 });
 
 test("a new failure after recovery opens a new issue for the new incident", async () => {
-  const store = new FakeIssueStore([
-    { number: 5, title: ISSUE_TITLE, body: ISSUE_MARKER, state: "closed" },
-  ]);
+  const store = new FakeIssueStore([{ number: 5, title: ISSUE_TITLE, body: ISSUE_MARKER, state: "closed" }]);
   const result = await reconcile({ run: runAt(200, "failure"), jobs: [CHECK_JOB] }, REPO, store);
   assert.equal(result.action, "created");
   assert.equal(store.issues.length, 2);
@@ -295,10 +293,7 @@ test("filters the run's jobs down to the failed ones", async () => {
   const jobs = await fetchFailingJobs(REPO, 42, fetcher, "secret");
   assert.equal(jobs.length, 2);
   assert.equal(requested[0], `https://api.github.com/repos/${REPO}/actions/runs/42/jobs?filter=latest&per_page=100`);
-  await assert.rejects(
-    () => fetchFailingJobs(REPO, 42, async () => ({ status: 403, text: "" }), "secret"),
-    /HTTP 403/,
-  );
+  await assert.rejects(() => fetchFailingJobs(REPO, 42, async () => ({ status: 403, text: "" }), "secret"), /HTTP 403/);
 });
 
 test("the GitHub client uses the documented endpoints", async () => {
@@ -320,7 +315,10 @@ test("the GitHub client uses the documented endpoints", async () => {
   await client.commentOnIssue(REPO, 7, "still red");
   await client.closeIssue(REPO, 7);
 
-  assert.deepEqual(requests.map((request) => request.method), ["POST", "POST", "PATCH"]);
+  assert.deepEqual(
+    requests.map((request) => request.method),
+    ["POST", "POST", "PATCH"],
+  );
   assert.equal(requests[0]!.url, `https://api.github.com/repos/${REPO}/issues`);
   assert.equal(requests[1]!.url, `https://api.github.com/repos/${REPO}/issues/7/comments`);
   assert.equal(requests[2]!.url, `https://api.github.com/repos/${REPO}/issues/7`);
@@ -360,10 +358,11 @@ test("main reads the payload, names the failed job, and appends the step summary
       status: 200,
       text: jobsResponse([{ name: CHECK_JOB.name, status: "completed", conclusion: "failure" }]),
     });
-    const code = await main(
-      ["--event", "event.json", "--repo", REPO, "--token", "secret", "--summary", summaryPath],
-      { readTextFile: async () => payload({ conclusion: "failure" }), issueClient: store, fetcher },
-    );
+    const code = await main(["--event", "event.json", "--repo", REPO, "--token", "secret", "--summary", summaryPath], {
+      readTextFile: async () => payload({ conclusion: "failure" }),
+      issueClient: store,
+      fetcher,
+    });
     assert.equal(code, 0);
     assert.equal(store.creates.length, 1);
     assert.match(store.creates[0]!.body, /check \(ubuntu-latest, node 22\)/);

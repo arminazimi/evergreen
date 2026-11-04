@@ -49,15 +49,23 @@ test("exportPortal counts severities, picks the earliest deadline, and sorts by 
       reportLink: "https://ci.example.com/evergreen-report-api.json",
     },
   ]);
-  assert.deepEqual(catalog, exportPortal([...catalog.services].reverse().map((service) => ({
-    path: service.path,
-    findings: service.path.endsWith("web")
-      ? [finding("high", "2026-06-01"), finding("low"), finding("high", "2025-01-01")]
-      : [finding("medium", "2027-01-01")],
-    reportLink: service.reportLink,
-  }))));
+  assert.deepEqual(
+    catalog,
+    exportPortal(
+      [...catalog.services].reverse().map((service) => ({
+        path: service.path,
+        findings: service.path.endsWith("web")
+          ? [finding("high", "2026-06-01"), finding("low"), finding("high", "2025-01-01")]
+          : [finding("medium", "2027-01-01")],
+        reportLink: service.reportLink,
+      })),
+    ),
+  );
   assert.equal(catalog.schemaVersion, PORTAL_SCHEMA_VERSION);
-  assert.deepEqual(catalog.services.map((service) => service.path), ["/repos/api", "/repos/web"]);
+  assert.deepEqual(
+    catalog.services.map((service) => service.path),
+    ["/repos/api", "/repos/web"],
+  );
   assert.equal(catalog.services[0]!.nextEndOfLife, "2027-01-01");
   assert.equal(catalog.services[1]!.nextEndOfLife, "2025-01-01");
   assert.deepEqual(catalog.services[1]!.severities, { info: 0, low: 1, medium: 0, high: 2, critical: 0 });
@@ -66,7 +74,9 @@ test("exportPortal counts severities, picks the earliest deadline, and sorts by 
 
 test("exportPortal omits nextEndOfLife when no finding has a deadline", async () => {
   const validate = await loadValidate();
-  const catalog = exportPortal([{ path: "/clean", findings: [finding("info")], reportLink: "evergreen-report-clean.json" }]);
+  const catalog = exportPortal([
+    { path: "/clean", findings: [finding("info")], reportLink: "evergreen-report-clean.json" },
+  ]);
   assert.equal(catalog.services[0]!.nextEndOfLife, undefined);
   assert.equal(validate(catalog), true, JSON.stringify(validate.errors));
   assert.equal(validate({ ...catalog, extra: true }), false);
@@ -96,9 +106,15 @@ test("CLI export --format portal scans paths and matches schemas/portal.v1.schem
   await writeFile(join(web, "package.json"), JSON.stringify({ name: "web", dependencies: { express: "4.18.2" } }));
 
   const args = [
-    "export", "--format", "portal", api, web,
-    "--data-version", "bundled",
-    "--report-base-url", "https://ci.example.com/artifacts/",
+    "export",
+    "--format",
+    "portal",
+    api,
+    web,
+    "--data-version",
+    "bundled",
+    "--report-base-url",
+    "https://ci.example.com/artifacts/",
   ];
   const first = await runCli(args);
   const second = await runCli(args);
@@ -109,7 +125,10 @@ test("CLI export --format portal scans paths and matches schemas/portal.v1.schem
   assert.equal(validate(catalog), true, JSON.stringify(validate.errors));
   assert.equal(catalog.schemaVersion, PORTAL_SCHEMA_VERSION);
   assert.equal(catalog.services.length, 2);
-  assert.deepEqual(catalog.services.map((service: { path: string }) => service.path), [api, web].map((path) => resolve(path)).sort());
+  assert.deepEqual(
+    catalog.services.map((service: { path: string }) => service.path),
+    [api, web].map((path) => resolve(path)).sort(),
+  );
   for (const service of catalog.services) {
     assert.match(service.reportLink, /^https:\/\/ci\.example\.com\/artifacts\/evergreen-report-(api|web)\.json$/);
     assert.equal(typeof service.severities.high, "number");

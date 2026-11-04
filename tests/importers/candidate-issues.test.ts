@@ -71,7 +71,7 @@ test("renderCandidateIssue formats the issue title, marker, evidence, and fixtur
   assert.ok(rendered.body.includes("## Agent brief"));
   assert.ok(rendered.body.includes("`registry/npm.json`"));
   assert.ok(rendered.body.includes("`tests/fixtures/npm/`"));
-  assert.ok(rendered.body.includes("provenance.reviewer: \"pending-review\""));
+  assert.ok(rendered.body.includes('provenance.reviewer: "pending-review"'));
 
   // Fixture checklist
   assert.ok(rendered.body.includes("## Fixture checklist"));
@@ -162,7 +162,10 @@ test("selectCandidatesToOpen never duplicates existing candidate issues (open or
   });
 
   assert.deepEqual(selection.skippedTracked, [r1.id, r2.id]);
-  assert.deepEqual(selection.toOpen.map((r) => r.id), [r3.id]);
+  assert.deepEqual(
+    selection.toOpen.map((r) => r.id),
+    [r3.id],
+  );
 });
 
 test("selectCandidatesToOpen respects the open issues cap", () => {
@@ -212,7 +215,10 @@ test("selectCandidatesToOpen skips duplicate component rules", () => {
   });
 
   assert.deepEqual(selection.skippedDuplicates, [r1.id]);
-  assert.deepEqual(selection.toOpen.map((r) => r.id), [r2.id]);
+  assert.deepEqual(
+    selection.toOpen.map((r) => r.id),
+    [r2.id],
+  );
 });
 
 test("processCandidateIssues opens issues through runner and supports dry-run with outDir", async () => {

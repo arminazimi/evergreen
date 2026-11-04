@@ -54,7 +54,8 @@ interface Wrapper {
   prefix: string;
 }
 
-const isObject = (value: unknown): value is JsonObject => typeof value === "object" && value !== null && !Array.isArray(value);
+const isObject = (value: unknown): value is JsonObject =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 const isText = (value: unknown): value is string => typeof value === "string" && value !== "";
 
 /** The object under `cluster` or `nodegroup`, or undefined when the entry carries neither or names a non-object. */
@@ -110,13 +111,17 @@ function nodegroupClaims(nodegroup: JsonObject | undefined, prefix: string): Cla
   const version = releaseLine(nodegroup.version);
   if (version !== undefined) claims.push({ pointer: `${prefix}/nodegroup/version`, resource, purl: EKS, version });
   const amiType = isText(nodegroup.amiType) ? AMI_TYPES.get(nodegroup.amiType) : undefined;
-  if (amiType !== undefined) claims.push({ pointer: `${prefix}/nodegroup/amiType`, resource, purl: AMAZON_LINUX, version: amiType });
+  if (amiType !== undefined)
+    claims.push({ pointer: `${prefix}/nodegroup/amiType`, resource, purl: AMAZON_LINUX, version: amiType });
   return claims;
 }
 
 /** Every version the document names, in file order; a shape this importer does not know produces none. */
 function claims(document: unknown): Claim[] {
-  return wrappers(document).flatMap(({ entry, prefix }) => [...clusterClaims(wrapped(entry, "cluster"), prefix), ...nodegroupClaims(wrapped(entry, "nodegroup"), prefix)]);
+  return wrappers(document).flatMap(({ entry, prefix }) => [
+    ...clusterClaims(wrapped(entry, "cluster"), prefix),
+    ...nodegroupClaims(wrapped(entry, "nodegroup"), prefix),
+  ]);
 }
 
 export const eksImporter: InventoryImporter = {

@@ -315,12 +315,16 @@ test("cached and uncached scans produce identical findings on a real repository 
 
   await writeFile(
     join(repo, "package.json"),
-    JSON.stringify({
-      name: "example-repo",
-      dependencies: {
-        request: "2.88.2",
+    JSON.stringify(
+      {
+        name: "example-repo",
+        dependencies: {
+          request: "2.88.2",
+        },
       },
-    }, null, 2),
+      null,
+      2,
+    ),
   );
 
   const uncached = await scanRepository(repo, builtInDetectors, {
@@ -359,8 +363,14 @@ test("scannedAt is always fresh on cache hit unless fixed with options.scannedAt
   assert.deepEqual(first.findings, second.findings);
 
   const pinnedTimestamp = "2026-10-28T12:00:00.000Z";
-  const pinnedFirst = await scanRepository(repo, builtInDetectors, { cacheDirectory: cacheDir, scannedAt: pinnedTimestamp });
-  const pinnedSecond = await scanRepository(repo, builtInDetectors, { cacheDirectory: cacheDir, scannedAt: pinnedTimestamp });
+  const pinnedFirst = await scanRepository(repo, builtInDetectors, {
+    cacheDirectory: cacheDir,
+    scannedAt: pinnedTimestamp,
+  });
+  const pinnedSecond = await scanRepository(repo, builtInDetectors, {
+    cacheDirectory: cacheDir,
+    scannedAt: pinnedTimestamp,
+  });
   assert.equal(JSON.stringify(pinnedFirst), JSON.stringify(pinnedSecond));
 });
 

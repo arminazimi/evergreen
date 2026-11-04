@@ -16,7 +16,11 @@ export interface PowerShellVersionDeclaration {
   line: number;
 }
 
-interface Token { text: string; line: number; string?: boolean }
+interface Token {
+  text: string;
+  line: number;
+  string?: boolean;
+}
 const VERSION = /^\d+\.\d+(?:\.\d+){0,2}$/;
 
 export function parsePowerShell(contents: string): PowerShellVersionDeclaration[] {
@@ -31,15 +35,29 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
   let i = 0;
   while (i < source.length) {
     const c = source[i]!;
-    if (c === "\n") { line++; i++; continue; }
-    if (/\s/.test(c)) { i++; continue; }
+    if (c === "\n") {
+      line++;
+      i++;
+      continue;
+    }
+    if (/\s/.test(c)) {
+      i++;
+      continue;
+    }
     if (source.startsWith("<#", i)) {
       let depth = 1;
       i += 2;
       while (i < source.length && depth > 0) {
-        if (source.startsWith("<#", i)) { depth++; i += 2; }
-        else if (source.startsWith("#>", i)) { depth--; i += 2; }
-        else { if (source[i] === "\n") line++; i++; }
+        if (source.startsWith("<#", i)) {
+          depth++;
+          i += 2;
+        } else if (source.startsWith("#>", i)) {
+          depth--;
+          i += 2;
+        } else {
+          if (source[i] === "\n") line++;
+          i++;
+        }
       }
       if (depth) return [];
       continue;
@@ -58,10 +76,15 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
     if (c === "@" && (source[i + 1] === "'" || source[i + 1] === '"') && source[i + 2] === "\n") {
       const close = source[i + 1]! + "@";
       const startLine = line;
-      i += 3; line++;
+      i += 3;
+      line++;
       let closed = false;
       while (i < source.length) {
-        if (source.startsWith(close, i) && source[i - 1] === "\n") { i += 2; closed = true; break; }
+        if (source.startsWith(close, i) && source[i - 1] === "\n") {
+          i += 2;
+          closed = true;
+          break;
+        }
         if (source[i] === "\n") line++;
         i++;
       }
@@ -78,17 +101,25 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
       while (i < source.length) {
         const next = source[i]!;
         if (next === c) {
-          if (source[i + 1] === c) { text += c; i += 2; continue; }
-          i++; closed = true; break;
+          if (source[i + 1] === c) {
+            text += c;
+            i += 2;
+            continue;
+          }
+          i++;
+          closed = true;
+          break;
         }
         if (c === '"' && next === "`") {
           literal = false;
           if (source[i + 1] === "\n") line++;
-          i += 2; continue;
+          i += 2;
+          continue;
         }
         if (c === '"' && next === "$") literal = false;
         if (next === "\n") line++;
-        text += next; i++;
+        text += next;
+        i++;
       }
       if (!closed) return [];
       tokens.push({ text: literal ? text : "<dynamic>", line: startLine, string: true });
@@ -97,16 +128,28 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
     if (c === "`") {
       // A continued line can turn the following # into part of a command, so a
       // comment that starts the continued line is never read as a directive.
-      if (source[i + 1] === "\n") { line++; continuedLine = line; i += 2; continue; }
-      tokens.push({ text: "<escaped>", line }); i += 2; continue;
+      if (source[i + 1] === "\n") {
+        line++;
+        continuedLine = line;
+        i += 2;
+        continue;
+      }
+      tokens.push({ text: "<escaped>", line });
+      i += 2;
+      continue;
     }
     if ("([{".includes(c)) stack.push(c);
     if (")]}".includes(c)) {
       if (stack.pop() !== ({ ")": "(", "]": "[", "}": "{" } as Record<string, string>)[c]) return [];
     }
     const word = /^[\w.$-]+/.exec(source.slice(i));
-    if (word) { tokens.push({ text: word[0], line }); i += word[0].length; }
-    else { tokens.push({ text: c, line }); i++; }
+    if (word) {
+      tokens.push({ text: word[0], line });
+      i += word[0].length;
+    } else {
+      tokens.push({ text: c, line });
+      i++;
+    }
   }
   if (stack.length) return [];
   const results = [...directives];

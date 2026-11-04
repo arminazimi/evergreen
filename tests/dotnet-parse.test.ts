@@ -19,7 +19,9 @@ test("global.json: msbuild-sdks, a missing version, comments, and malformed inpu
   assert.deepEqual(parseGlobalJson(read("malformed/global.json")), []);
   assert.deepEqual(parseGlobalJson(""), []);
   assert.deepEqual(parseGlobalJson('{ "sdk": { "version": 6 } }'), []);
-  assert.deepEqual(parseGlobalJson('// pinned\n{\n  /* sdk */ "sdk": { "version": "6.0.100" }\n}'), [{ value: "6.0.100", line: 3 }]);
+  assert.deepEqual(parseGlobalJson('// pinned\n{\n  /* sdk */ "sdk": { "version": "6.0.100" }\n}'), [
+    { value: "6.0.100", line: 3 },
+  ]);
   assert.deepEqual(parseGlobalJson('﻿{"sdk":{"version":"6.0.100"}}'), [{ value: "6.0.100", line: 1 }]);
 });
 
@@ -66,7 +68,11 @@ test("project files: comments, prose, conditions, and a missing version are not 
 
 test("project files: malformed or non-project XML returns nothing", () => {
   for (const name of ["Broken.csproj", "Directory.Packages.props"]) {
-    assert.deepEqual(parseMsbuild(read(`malformed/${name}`)), { targets: [], packages: [], centralPackageManagement: false }, name);
+    assert.deepEqual(
+      parseMsbuild(read(`malformed/${name}`)),
+      { targets: [], packages: [], centralPackageManagement: false },
+      name,
+    );
   }
   assert.deepEqual(parseMsbuild("<Other><TargetFramework>net6.0</TargetFramework></Other>").targets, []);
   assert.deepEqual(parseMsbuild("<Project><PropertyGroup></Project>").targets, []);
@@ -74,7 +80,9 @@ test("project files: malformed or non-project XML returns nothing", () => {
 });
 
 test("project files: attributes spanning lines and entities", () => {
-  const parsed = parseMsbuild('<Project>\n<ItemGroup>\n<PackageReference\n  Include="A&amp;B"\n  Version="1.0.0"\n/>\n</ItemGroup>\n</Project>');
+  const parsed = parseMsbuild(
+    '<Project>\n<ItemGroup>\n<PackageReference\n  Include="A&amp;B"\n  Version="1.0.0"\n/>\n</ItemGroup>\n</Project>',
+  );
   assert.deepEqual(parsed.packages, [{ kind: "reference", name: "A&B", version: "1.0.0", line: 5 }]);
 });
 

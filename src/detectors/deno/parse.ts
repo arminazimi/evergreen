@@ -70,18 +70,8 @@ export function parseBunfig(contents: string): DenoDeclaration[] {
 
   const declarations: DenoDeclaration[] = [];
   for (const entry of lines) {
-    if (
-      entry.table === "" ||
-      entry.table === "runtime" ||
-      entry.table === "bun" ||
-      entry.table === "install"
-    ) {
-      if (
-        entry.key === "version" ||
-        entry.key === "bun" ||
-        entry.key === "bunVersion" ||
-        entry.key === "runtime"
-      ) {
+    if (entry.table === "" || entry.table === "runtime" || entry.table === "bun" || entry.table === "install") {
+      if (entry.key === "version" || entry.key === "bun" || entry.key === "bunVersion" || entry.key === "runtime") {
         const val = stringValue(entry.value);
         if (val) {
           const exact = exactVersionPin(val);
@@ -104,11 +94,7 @@ export function parseDenoJson(contents: string): DenoDeclaration[] {
 
   const declarations: DenoDeclaration[] = [];
 
-  const checkMember = (
-    parent: typeof root,
-    key: string,
-    kind: "deno-runtime" | "bun-runtime",
-  ) => {
+  const checkMember = (parent: typeof root, key: string, kind: "deno-runtime" | "bun-runtime") => {
     const mem = member(parent, key);
     if (mem && mem.value.kind === "string") {
       const exact = exactVersionPin(mem.value.value);

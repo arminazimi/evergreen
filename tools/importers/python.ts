@@ -19,7 +19,14 @@ interface ReleaseLine {
 const SOURCES = (pep: number | undefined, version: string) => [
   { title: "Status of Python versions", url: "https://devguide.python.org/versions/" },
   { title: "Python release cycle (machine-readable)", url: PYTHON_RELEASE_CYCLE_URL },
-  ...(pep ? [{ title: `PEP ${pep} — Python ${version} release schedule`, url: `https://peps.python.org/pep-${String(pep).padStart(4, "0")}/` }] : []),
+  ...(pep
+    ? [
+        {
+          title: `PEP ${pep} — Python ${version} release schedule`,
+          url: `https://peps.python.org/pep-${String(pep).padStart(4, "0")}/`,
+        },
+      ]
+    : []),
 ];
 
 const MIGRATION: NonNullable<DraftRule["migration"]> = {
@@ -59,7 +66,10 @@ function endDate(value: unknown): { date: string; exact: boolean } | undefined {
   return isIsoDate(date) ? { date, exact: false } : undefined;
 }
 
-function scheduledRule(entry: { name: string; major: number; minor: number; line: ReleaseLine }, end: string): DraftRule {
+function scheduledRule(
+  entry: { name: string; major: number; minor: number; line: ReleaseLine },
+  end: string,
+): DraftRule {
   return {
     id: `python.runtime.eol-${entry.name}-and-older`,
     ecosystem: "python",
@@ -95,7 +105,9 @@ export const pythonReleaseCycleImporter: Importer = {
       })
       .filter((entry): entry is NonNullable<typeof entry> => entry !== undefined)
       .sort((left, right) => left.major - right.major || left.minor - right.minor);
-    for (const name of Object.keys(cycle).filter((key) => !/^(\d+)\.(\d+)$/.test(key)).sort()) {
+    for (const name of Object.keys(cycle)
+      .filter((key) => !/^(\d+)\.(\d+)$/.test(key))
+      .sort()) {
       notes.push(`Skipped ${name}: not a release line name this importer understands.`);
     }
 
@@ -104,8 +116,14 @@ export const pythonReleaseCycleImporter: Importer = {
       const end = endDate(entry.line?.end_of_life);
       const byStatus = entry.line?.status === "end-of-life";
       const byDate = end?.exact === true && end.date <= today;
-      if (byDate && !byStatus) notes.push(`Python ${entry.name}: the end date ${end!.date} has passed but the schedule's status is "${entry.line?.status}".`);
-      if (byStatus && end?.exact && end.date > today) notes.push(`Python ${entry.name}: the schedule's status is end-of-life but its end date ${end.date} is in the future.`);
+      if (byDate && !byStatus)
+        notes.push(
+          `Python ${entry.name}: the end date ${end!.date} has passed but the schedule's status is "${entry.line?.status}".`,
+        );
+      if (byStatus && end?.exact && end.date > today)
+        notes.push(
+          `Python ${entry.name}: the schedule's status is end-of-life but its end date ${end.date} is in the future.`,
+        );
       return byStatus || byDate;
     };
     const endedLines = lines.filter(ended);
@@ -113,7 +131,9 @@ export const pythonReleaseCycleImporter: Importer = {
     const notYet = lines.filter((entry) => !endedLines.includes(entry));
 
     // An announced end within a year becomes a scheduled rule for that one line (decision 0010); a later one is only noted.
-    const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
+    const horizon = isoDate(
+      new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())),
+    );
     const scheduled: DraftRule[] = [];
     const later: typeof notYet = [];
     for (const entry of notYet) {
@@ -122,7 +142,9 @@ export const pythonReleaseCycleImporter: Importer = {
       else scheduled.push(scheduledRule(entry, end.date));
     }
     if (later.length > 0) {
-      notes.push(`Not yet end-of-life: ${later.map((entry) => `${entry.name} (ends ${entry.line?.end_of_life ?? "unknown"})`).join(", ")}.`);
+      notes.push(
+        `Not yet end-of-life: ${later.map((entry) => `${entry.name} (ends ${entry.line?.end_of_life ?? "unknown"})`).join(", ")}.`,
+      );
     }
     if (!newest) {
       notes.push("No Python release line has reached end of life, so there is nothing to draft.");
@@ -130,9 +152,13 @@ export const pythonReleaseCycleImporter: Importer = {
     }
 
     // "and older" is only true if every older line has ended too.
-    const stillSupportedBelow = notYet.filter((entry) => entry.major < newest.major || (entry.major === newest.major && entry.minor < newest.minor));
+    const stillSupportedBelow = notYet.filter(
+      (entry) => entry.major < newest.major || (entry.major === newest.major && entry.minor < newest.minor),
+    );
     if (stillSupportedBelow.length > 0) {
-      notes.push(`Not drafted: Python ${newest.name} has ended but ${stillSupportedBelow.map((entry) => entry.name).join(", ")} has not, so "and older" would be wrong.`);
+      notes.push(
+        `Not drafted: Python ${newest.name} has ended but ${stillSupportedBelow.map((entry) => entry.name).join(", ")} has not, so "and older" would be wrong.`,
+      );
       return { rules: scheduled, notes };
     }
 
@@ -141,25 +167,29 @@ export const pythonReleaseCycleImporter: Importer = {
       notes.push(`Not drafted: the schedule gives no usable end date for Python ${newest.name}.`);
       return { rules: scheduled, notes };
     }
-    if (!end.exact) notes.push(`Python ${newest.name} has no exact end date yet; the deadline is the last day of its end month.`);
+    if (!end.exact)
+      notes.push(`Python ${newest.name} has no exact end date yet; the deadline is the last day of its end month.`);
 
     const version = newest.name;
     return {
-      rules: [{
-        id: `python.runtime.eol-${version}-and-older`,
-        ecosystem: "python",
-        purl: "pkg:generic/python",
-        vers: `vers:pypi/<${newest.major}.${newest.minor + 1}`,
-        event: "end-of-life",
-        title: `Python ${version} and older are end-of-life`,
-        summary: "These Python release lines no longer receive security or bug fixes from the Python core team.",
-        severity: "high",
-        replacement: "A supported Python release",
-        deadline: end.date,
-        sources: SOURCES(newest.line?.pep, version),
-        migration: MIGRATION,
-        "x-python": { kind: "runtime", maximumVersion: version },
-      }, ...scheduled],
+      rules: [
+        {
+          id: `python.runtime.eol-${version}-and-older`,
+          ecosystem: "python",
+          purl: "pkg:generic/python",
+          vers: `vers:pypi/<${newest.major}.${newest.minor + 1}`,
+          event: "end-of-life",
+          title: `Python ${version} and older are end-of-life`,
+          summary: "These Python release lines no longer receive security or bug fixes from the Python core team.",
+          severity: "high",
+          replacement: "A supported Python release",
+          deadline: end.date,
+          sources: SOURCES(newest.line?.pep, version),
+          migration: MIGRATION,
+          "x-python": { kind: "runtime", maximumVersion: version },
+        },
+        ...scheduled,
+      ],
       notes,
     };
   },

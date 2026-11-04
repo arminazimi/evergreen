@@ -29,9 +29,17 @@ async function fixtures(files: Record<string, string>): Promise<string> {
 
 const requestMatch = {
   [`${requestRule}/match/package.json`]: JSON.stringify({ dependencies: { request: "^2.88.0" } }, null, 2),
-  [`${requestRule}/match/package-lock.json`]: JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/request": { version: "2.88.2" } } }, null, 2),
+  [`${requestRule}/match/package-lock.json`]: JSON.stringify(
+    { lockfileVersion: 3, packages: { "node_modules/request": { version: "2.88.2" } } },
+    null,
+    2,
+  ),
   [`${requestRule}/clean/package.json`]: JSON.stringify({ dependencies: { "left-pad": "^1.3.0" } }, null, 2),
-  [`${requestRule}/clean/package-lock.json`]: JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/left-pad": { version: "1.3.0" } } }, null, 2),
+  [`${requestRule}/clean/package-lock.json`]: JSON.stringify(
+    { lockfileVersion: 3, packages: { "node_modules/left-pad": { version: "1.3.0" } } },
+    null,
+    2,
+  ),
 };
 
 test("a rule passes when the match fixture reports it and the clean fixture does not", async () => {
@@ -45,16 +53,25 @@ test("a rule passes when the match fixture reports it and the clean fixture does
 });
 
 test("a match fixture that reports nothing fails and says what was expected", async () => {
-  const root = await fixtures({ ...requestMatch, [`${requestRule}/match/package.json`]: JSON.stringify({ dependencies: { "left-pad": "^1.3.0" } }) });
+  const root = await fixtures({
+    ...requestMatch,
+    [`${requestRule}/match/package.json`]: JSON.stringify({ dependencies: { "left-pad": "^1.3.0" } }),
+  });
   const result = await testRule(requestRule, { fixturesRoot: root });
   assert.equal(result.passed, false);
   assert.equal(result.fixtures[0]!.passed, false);
-  assert.match(result.fixtures[0]!.problem ?? "", /expected at least one finding for "npm\.package\.request\.deprecated"; got none/);
+  assert.match(
+    result.fixtures[0]!.problem ?? "",
+    /expected at least one finding for "npm\.package\.request\.deprecated"; got none/,
+  );
   assert.match(renderRuleTestText(result), /^Failed /);
 });
 
 test("a clean fixture that reports the rule fails", async () => {
-  const root = await fixtures({ ...requestMatch, [`${requestRule}/clean/package.json`]: JSON.stringify({ dependencies: { request: "^2.88.0" } }) });
+  const root = await fixtures({
+    ...requestMatch,
+    [`${requestRule}/clean/package.json`]: JSON.stringify({ dependencies: { request: "^2.88.0" } }),
+  });
   const result = await testRule(requestRule, { fixturesRoot: root });
   assert.equal(result.passed, false);
   assert.equal(result.fixtures[1]!.passed, false);
@@ -63,10 +80,15 @@ test("a clean fixture that reports the rule fails", async () => {
 });
 
 test("a rule without both fixtures fails the harness", async () => {
-  const root = await fixtures({ [`${requestRule}/match/package.json`]: requestMatch[`${requestRule}/match/package.json`]! });
+  const root = await fixtures({
+    [`${requestRule}/match/package.json`]: requestMatch[`${requestRule}/match/package.json`]!,
+  });
   const result = await testRule(requestRule, { fixturesRoot: root });
   assert.equal(result.passed, false);
-  assert.match(result.fixtures[1]!.problem ?? "", /missing fixture: .*npm\.package\.request\.deprecated\/clean is not a directory/);
+  assert.match(
+    result.fixtures[1]!.problem ?? "",
+    /missing fixture: .*npm\.package\.request\.deprecated\/clean is not a directory/,
+  );
 });
 
 test("usage matchers observe a rule when no detector finding is available", async () => {
@@ -83,7 +105,8 @@ test("usage matchers observe a rule when no detector finding is available", asyn
 
 test("an inventory export observes a rule that only `evergreen inventory` judges", async () => {
   const rule = "serverless.google-appengine-runtime.python38";
-  const version = (runtime: string) => `[{ "name": "apps/example/services/default/versions/v1", "runtime": "${runtime}" }]\n`;
+  const version = (runtime: string) =>
+    `[{ "name": "apps/example/services/default/versions/v1", "runtime": "${runtime}" }]\n`;
   const root = await fixtures({
     [`${rule}/match/app-engine-versions.json`]: version("python38"),
     [`${rule}/clean/app-engine-versions.json`]: version("python313"),
@@ -95,14 +118,24 @@ test("an inventory export observes a rule that only `evergreen inventory` judges
 });
 
 test("an unknown rule is a clear error", async () => {
-  await assert.rejects(testRule("npm.package.does-not-exist.deprecated"), (error: unknown) => error instanceof RuleTestError && /No rule has the id/.test(error.message));
+  await assert.rejects(
+    testRule("npm.package.does-not-exist.deprecated"),
+    (error: unknown) => error instanceof RuleTestError && /No rule has the id/.test(error.message),
+  );
 });
 
 test("the command exits 0 on a pass, 1 on a failure, and 2 on an unknown rule", async () => {
-  const rule = (JSON.parse(await readFile(resolve("registry/npm.json"), "utf8")) as { rules: Array<{ id: string }> }).rules.find((candidate) => candidate.id === requestRule);
+  const rule = (
+    JSON.parse(await readFile(resolve("registry/npm.json"), "utf8")) as { rules: Array<{ id: string }> }
+  ).rules.find((candidate) => candidate.id === requestRule);
   assert.ok(rule);
-  const checkoutFixtures = Object.fromEntries(Object.entries(requestMatch).map(([path, contents]) => [`tests/fixtures/${path}`, contents]));
-  const root = await fixtures({ ...checkoutFixtures, "registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [rule] }, null, 2)}\n` });
+  const checkoutFixtures = Object.fromEntries(
+    Object.entries(requestMatch).map(([path, contents]) => [`tests/fixtures/${path}`, contents]),
+  );
+  const root = await fixtures({
+    ...checkoutFixtures,
+    "registry/npm.json": `${JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: [rule] }, null, 2)}\n`,
+  });
   const run = (args: string[]) => runCli(args, { cwd: root });
 
   const passed = await run(["rules", "test", requestRule]);
@@ -111,7 +144,10 @@ test("the command exits 0 on a pass, 1 on a failure, and 2 on an unknown rule", 
 
   const clean = join(root, "tests", "fixtures", requestRule, "clean");
   await writeFile(join(clean, "package.json"), JSON.stringify({ dependencies: { request: "^2.88.0" } }));
-  await writeFile(join(clean, "package-lock.json"), JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/request": { version: "2.88.2" } } }));
+  await writeFile(
+    join(clean, "package-lock.json"),
+    JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/request": { version: "2.88.2" } } }),
+  );
   const failed = await run(["rules", "test", requestRule]);
   assert.equal(failed.code, 1);
   assert.match(failed.stdout, /^Failed /);

@@ -56,9 +56,7 @@ export function renderEmptyScanHelp(result: ScanResult, coverage?: ScanCoverage)
     `Files read: ${formatCoveragePaths(resolved.filesRead)}`,
     `Data version: ${result.data?.version ?? "none"}`,
     `Unsupported files: ${formatCoveragePaths(resolved.unsupportedFiles)}`,
-    ...(resolved.truncated
-      ? [`Coverage is partial: only the first ${COVERAGE_WALK_LIMIT} entries were checked.`]
-      : []),
+    ...(resolved.truncated ? [`Coverage is partial: only the first ${COVERAGE_WALK_LIMIT} entries were checked.`] : []),
     "",
     "Next: run `evergreen scan --demo` to see what a finding looks like.",
     "Next: after a scan reports findings, run `evergreen explain <finding-id>` for details.",
@@ -69,7 +67,11 @@ export function renderEmptyScanHelp(result: ScanResult, coverage?: ScanCoverage)
 export function renderFirstRunSummary(result: ScanResult): string[] {
   const count = result.findings.length;
   if (count === 0) {
-    return ["No lifecycle risks found. Evergreen checked this repository and it looks healthy.", "Next: run `evergreen init --personal` to check every repository before you push.", ""];
+    return [
+      "No lifecycle risks found. Evergreen checked this repository and it looks healthy.",
+      "Next: run `evergreen init --personal` to check every repository before you push.",
+      "",
+    ];
   }
   const lines = [`Found ${count} lifecycle risk${count === 1 ? "" : "s"}. The most urgent:`];
   for (const finding of result.findings.slice(0, 3)) {
@@ -133,7 +135,10 @@ export function renderText(result: ScanResult, options: TextOptions = {}): strin
 
   if (result.suppressions) {
     const state = result.suppressions;
-    lines.push("", `Baseline: ${state.suppressed} finding${state.suppressed === 1 ? "" : "s"} suppressed, ${state.expiring.length} expiring${state.warnWithinDays === undefined ? "" : ` within ${state.warnWithinDays} days`}, ${state.expired.length} expired.`);
+    lines.push(
+      "",
+      `Baseline: ${state.suppressed} finding${state.suppressed === 1 ? "" : "s"} suppressed, ${state.expiring.length} expiring${state.warnWithinDays === undefined ? "" : ` within ${state.warnWithinDays} days`}, ${state.expired.length} expired.`,
+    );
   }
 
   for (const diagnostic of result.diagnostics) {
@@ -152,7 +157,11 @@ export function renderCheckText(check: DependencyCheck): string {
     "",
     check.message,
   ];
-  if (check.data?.stale) lines.push("", `Warning: The lifecycle data is ${check.data.ageDays} days old (stale after 30), so this answer may miss recent changes. Run "evergreen data update".`);
+  if (check.data?.stale)
+    lines.push(
+      "",
+      `Warning: The lifecycle data is ${check.data.ageDays} days old (stale after 30), so this answer may miss recent changes. Run "evergreen data update".`,
+    );
   for (const finding of check.findings) {
     lines.push("", `${finding.severity.toUpperCase()} ${finding.title}`, finding.summary);
     lines.push(`Event: ${finding.event}`, `Affected versions: ${finding.affectedVersions}`);
@@ -203,7 +212,10 @@ function renderUpgradePath(path: UpgradePath): string[] {
   return [
     "Upgrade path:",
     `- From: ${path.from.title} (${path.from.versions})`,
-    ...path.skipped.map((line) => `- Skip: ${line.title} (${line.versions}) — ${line.status === "ended" ? "support has ended" : `support ends ${line.endsOn}`}`),
+    ...path.skipped.map(
+      (line) =>
+        `- Skip: ${line.title} (${line.versions}) — ${line.status === "ended" ? "support has ended" : `support ends ${line.endsOn}`}`,
+    ),
     `- Land on: ${target}`,
   ];
 }
@@ -225,9 +237,7 @@ export function renderMigrationPacketText(packet: MigrationPacket): string {
     ...(packet.upgradePath ? ["", ...renderUpgradePath(packet.upgradePath)] : []),
     "",
     "Verification:",
-    ...packet.verification.map((verification) =>
-      `- ${verification.command} — ${verification.purpose}`
-    ),
+    ...packet.verification.map((verification) => `- ${verification.command} — ${verification.purpose}`),
     "",
     "Sources:",
     ...packet.sources.map((source) => `- ${source.title}: ${source.url}`),

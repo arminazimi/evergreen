@@ -10,7 +10,8 @@ import { parseExport, runInventory } from "../src/inventory/index.js";
 const FIXTURES = resolve("tests/fixtures/inventory");
 const LAMBDA = join(FIXTURES, "aws-lambda");
 
-const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null && !Array.isArray(value);
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 /** RFC 6901: the value `pointer` names in `document`. */
 function resolvePointer(document: unknown, pointer: string): unknown {
@@ -28,32 +29,56 @@ function resolvePointer(document: unknown, pointer: string): unknown {
 }
 
 async function lambdaFiles(): Promise<string[]> {
-  return (await readdir(LAMBDA)).filter((name) => name.endsWith(".json")).sort().map((name) => join(LAMBDA, name));
+  return (await readdir(LAMBDA))
+    .filter((name) => name.endsWith(".json"))
+    .sort()
+    .map((name) => join(LAMBDA, name));
 }
 
 test("a single page is detected and each zip function is read as name and runtime", async () => {
   const document = parseExport(await readFile(join(LAMBDA, "deprecated.json"), "utf8"));
   assert.equal(awsLambdaImporter.detect(document, "deprecated.json"), true);
   const items = awsLambdaImporter.items(document, "deprecated.json");
-  assert.deepEqual(items.map((item) => item.resource), ["orders-worker", "reports-job"]);
-  assert.deepEqual(items.map((item) => item.purl), ["pkg:generic/aws-lambda-runtime/nodejs14.x", "pkg:generic/aws-lambda-runtime/python3.7"]);
-  assert.deepEqual(items.map((item) => item.version), ["nodejs14.x", "python3.7"]);
-  assert.deepEqual(items.map((item) => item.pointer), ["/Functions/0/Runtime", "/Functions/1/Runtime"]);
+  assert.deepEqual(
+    items.map((item) => item.resource),
+    ["orders-worker", "reports-job"],
+  );
+  assert.deepEqual(
+    items.map((item) => item.purl),
+    ["pkg:generic/aws-lambda-runtime/nodejs14.x", "pkg:generic/aws-lambda-runtime/python3.7"],
+  );
+  assert.deepEqual(
+    items.map((item) => item.version),
+    ["nodejs14.x", "python3.7"],
+  );
+  assert.deepEqual(
+    items.map((item) => item.pointer),
+    ["/Functions/0/Runtime", "/Functions/1/Runtime"],
+  );
   assert.ok(items.every((item) => item.importer === "aws-lambda" && item.file === "deprecated.json"));
 });
 
 test("container-image functions have no runtime, so they are skipped; zip functions beside them are not", async () => {
   const document = parseExport(await readFile(join(LAMBDA, "image.json"), "utf8"));
   const items = awsLambdaImporter.items(document, "image.json");
-  assert.deepEqual(items.map((item) => item.resource), ["zip-inventory"]);
+  assert.deepEqual(
+    items.map((item) => item.resource),
+    ["zip-inventory"],
+  );
 });
 
 test("a paginated export (an array of pages) keeps a pointer that resolves per page", async () => {
   const document = parseExport(await readFile(join(LAMBDA, "pages.json"), "utf8"));
   assert.equal(awsLambdaImporter.detect(document, "pages.json"), true);
   const items = awsLambdaImporter.items(document, "pages.json");
-  assert.deepEqual(items.map((item) => item.resource), ["page-one-worker", "page-two-worker"]);
-  assert.deepEqual(items.map((item) => item.pointer), ["/0/Functions/0/Runtime", "/1/Functions/0/Runtime"]);
+  assert.deepEqual(
+    items.map((item) => item.resource),
+    ["page-one-worker", "page-two-worker"],
+  );
+  assert.deepEqual(
+    items.map((item) => item.pointer),
+    ["/0/Functions/0/Runtime", "/1/Functions/0/Runtime"],
+  );
   for (const item of items) assert.equal(resolvePointer(document, item.pointer), item.version);
 });
 
@@ -64,7 +89,11 @@ test("every pointer in every fixture resolves to exactly the value used as the v
   const byFile = new Map<string, unknown>();
   for (const file of files) byFile.set(file, parseExport(await readFile(file, "utf8")));
   for (const result of report.results) {
-    assert.equal(resolvePointer(byFile.get(result.item.file), result.item.pointer), result.item.version, `${result.item.file}${result.item.pointer}`);
+    assert.equal(
+      resolvePointer(byFile.get(result.item.file), result.item.pointer),
+      result.item.version,
+      `${result.item.file}${result.item.pointer}`,
+    );
   }
 });
 
@@ -76,7 +105,11 @@ test("supported, deprecated, and scheduled runtimes each get their lifecycle che
   assert.ok(status("orders-worker").findings.some((finding) => finding.ruleId === "serverless.aws-lambda.nodejs14.x"));
   assert.equal(status("search-indexer").status, "affected");
   assert.equal(status("search-indexer").severity, "low");
-  assert.ok(status("search-indexer").findings.some((finding) => finding.ruleId === "serverless.aws-lambda.nodejs22.x" && finding.event === "scheduled-end-of-life"));
+  assert.ok(
+    status("search-indexer").findings.some(
+      (finding) => finding.ruleId === "serverless.aws-lambda.nodejs22.x" && finding.event === "scheduled-end-of-life",
+    ),
+  );
   assert.equal(status("billing-preview").status, "no-data");
   assert.equal(status("notifications-preview").status, "no-data");
 });
@@ -86,7 +119,18 @@ test("no ARN, account id, role, environment variable, or bucket from the export 
   const report = await runInventory(files);
   const json = JSON.stringify(report);
   const text = renderInventoryText(report);
-  for (const secret of ["123456789012", "arn:aws", "lambda-orders", "lambda-reports", "ORDERS_TOKEN", "placeholder-token", "MODEL_BUCKET", "placeholder-bucket", "placeholder-marker", "CodeSha256"]) {
+  for (const secret of [
+    "123456789012",
+    "arn:aws",
+    "lambda-orders",
+    "lambda-reports",
+    "ORDERS_TOKEN",
+    "placeholder-token",
+    "MODEL_BUCKET",
+    "placeholder-bucket",
+    "placeholder-marker",
+    "CodeSha256",
+  ]) {
     assert.ok(!json.includes(secret), `JSON output contains ${secret}`);
     assert.ok(!text.includes(secret), `text output contains ${secret}`);
   }
@@ -111,7 +155,8 @@ test("the importer rejects exports of other shapes, including the other importer
     [],
     "text export",
   ];
-  for (const document of otherShapes) assert.equal(awsLambdaImporter.detect(document, "other.json"), false, JSON.stringify(document));
+  for (const document of otherShapes)
+    assert.equal(awsLambdaImporter.detect(document, "other.json"), false, JSON.stringify(document));
 
   for (const entry of await readdir(FIXTURES, { withFileTypes: true })) {
     if (!entry.isDirectory() || entry.name === "aws-lambda") continue;

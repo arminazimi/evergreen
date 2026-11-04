@@ -67,10 +67,7 @@ export interface ChartParseResult {
 const EMPTY_CHART: ChartParseResult = { kubeVersions: [], dependencies: [], unclassified: [] };
 
 /** Read a scalar string with its line; undefined when the node is not a bounded string. */
-function scalarField(
-  node: unknown,
-  lines: LineCounter,
-): { value: string; line: number } | undefined {
+function scalarField(node: unknown, lines: LineCounter): { value: string; line: number } | undefined {
   if (!isScalar(node) || !node.range) return undefined;
   const raw: unknown = node.value;
   if (typeof raw !== "string") return undefined;

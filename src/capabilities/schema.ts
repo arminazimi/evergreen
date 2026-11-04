@@ -39,15 +39,17 @@ export const capabilityManifestSchema = z.object({
     unlistedEcosystems: z.literal("unsupported"),
     unknownSchemaMajor: z.literal("reject"),
   }),
-  ecosystems: z.array(z.object({
-    id: z.string().min(1),
-    status: supportStatusSchema,
-    // The lowest `level` among the detectors in `detectorIds` (decision 0013); an ecosystem served by
-    // several detectors is only as mature as its least mature detector. Optional so the exported schema
-    // still parses a 1.0.0 manifest, which predates the field; Evergreen's own manifest always sets it.
-    maturity: maturityLevelSchema.optional(),
-    detectorIds: z.array(z.string().min(1)),
-  })),
+  ecosystems: z.array(
+    z.object({
+      id: z.string().min(1),
+      status: supportStatusSchema,
+      // The lowest `level` among the detectors in `detectorIds` (decision 0013); an ecosystem served by
+      // several detectors is only as mature as its least mature detector. Optional so the exported schema
+      // still parses a 1.0.0 manifest, which predates the field; Evergreen's own manifest always sets it.
+      maturity: maturityLevelSchema.optional(),
+      detectorIds: z.array(z.string().min(1)),
+    }),
+  ),
   capabilities: z.array(capabilitySchema),
   surfaces: z.array(surfaceSchema),
 });

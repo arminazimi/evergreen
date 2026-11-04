@@ -67,15 +67,21 @@ test("orders rows by deadline, folds duplicate subjects, drops events without fi
     event(".NET ends", "2026-11-10", "dotnet.runtime"),
   ]);
   const rows = buildCountdownRows(forecast, { now });
-  assert.deepEqual(rows.map((candidate) => [candidate.subject, candidate.deadline]), [
-    ["Alpine ends", "2026-11-01"],
-    [".NET ends", "2026-11-10"],
-    ["Ubuntu ends", "2027-06-01"],
-  ]);
+  assert.deepEqual(
+    rows.map((candidate) => [candidate.subject, candidate.deadline]),
+    [
+      ["Alpine ends", "2026-11-01"],
+      [".NET ends", "2026-11-10"],
+      ["Ubuntu ends", "2027-06-01"],
+    ],
+  );
   assert.equal(rows[0]!.remainingSeconds, 7 * DAY);
   assert.equal(rows[0]!.ruleId, "container.alpine");
   assert.deepEqual(rows[0]!.location, { path: "package.json", line: 3 });
-  assert.deepEqual(buildCountdownRows(forecast, { now, limit: 2 }).map((candidate) => candidate.subject), ["Alpine ends", ".NET ends"]);
+  assert.deepEqual(
+    buildCountdownRows(forecast, { now, limit: 2 }).map((candidate) => candidate.subject),
+    ["Alpine ends", ".NET ends"],
+  );
 });
 
 test("colors turn at the 180-day and 30-day boundaries and dim once ended", () => {
@@ -113,15 +119,30 @@ test("an ended deadline reads as the days since it passed", () => {
   const text = renderCountdown([row(-37 * DAY)], { asOf: "2026-12-01" });
   assert.match(text, /Lifecycle countdown as of 2026-12-01 \(deadlines at 00:00 UTC\)/);
   assert.match(text, /ended 37 days ago/);
-  assert.equal(renderCountdown([], { asOf: "2026-12-01" }), "Lifecycle countdown as of 2026-12-01 (deadlines at 00:00 UTC)\n\nNo dated lifecycle deadlines affect this repository.");
+  assert.equal(
+    renderCountdown([], { asOf: "2026-12-01" }),
+    "Lifecycle countdown as of 2026-12-01 (deadlines at 00:00 UTC)\n\nNo dated lifecycle deadlines affect this repository.",
+  );
 });
 
 test("the JSON document carries the five row fields and a fixed as-of instant", () => {
-  const rows = buildCountdownRows(forecastOf([event("Node.js 22 ends", "2027-04-30", "nodejs.runtime.eol-22")]), { now });
-  const parsed = JSON.parse(renderCountdownJson(rows, now)) as { schemaVersion: string; asOf: string; rows: Array<Record<string, unknown>> };
+  const rows = buildCountdownRows(forecastOf([event("Node.js 22 ends", "2027-04-30", "nodejs.runtime.eol-22")]), {
+    now,
+  });
+  const parsed = JSON.parse(renderCountdownJson(rows, now)) as {
+    schemaVersion: string;
+    asOf: string;
+    rows: Array<Record<string, unknown>>;
+  };
   assert.equal(parsed.schemaVersion, "evergreen.countdown.v1");
   assert.equal(parsed.asOf, "2026-10-25T00:00:00.000Z");
-  assert.deepEqual(Object.keys(parsed.rows[0]!).sort(), ["deadline", "location", "remainingSeconds", "ruleId", "subject"]);
+  assert.deepEqual(Object.keys(parsed.rows[0]!).sort(), [
+    "deadline",
+    "location",
+    "remainingSeconds",
+    "ruleId",
+    "subject",
+  ]);
   assert.equal(parsed.rows[0]!.deadline, "2027-04-30");
   assert.equal(parsed.rows[0]!.remainingSeconds, 187 * DAY);
   assert.deepEqual(parsed.rows[0]!.location, { path: "package.json", line: 3 });
@@ -224,7 +245,10 @@ test("the CLI prints one plain frame off a terminal and a JSON document with --j
   assert.match(text, /Lifecycle countdown as of 2026-10-25/);
   assert.doesNotMatch(text, /\u001b/);
 
-  const parsed = JSON.parse(await run("--json")) as { schemaVersion: string; rows: Array<{ ruleId: string; deadline: string; remainingSeconds: number }> };
+  const parsed = JSON.parse(await run("--json")) as {
+    schemaVersion: string;
+    rows: Array<{ ruleId: string; deadline: string; remainingSeconds: number }>;
+  };
   assert.equal(parsed.schemaVersion, "evergreen.countdown.v1");
   assert.equal(parsed.rows[0]!.ruleId, "nodejs.runtime.eol-22");
   assert.equal(parsed.rows[0]!.deadline, "2027-04-30");

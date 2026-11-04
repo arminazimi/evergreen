@@ -47,9 +47,18 @@ async function invokeCli(...args: string[]) {
 
 test("detect accepts a workload List and rejects another shape or a node list", async () => {
   assert.equal(k8sWorkloadsImporter.detect(await readJson(workloads), workloads), true);
-  assert.equal(k8sWorkloadsImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/nodes.json")), "nodes.json"), false);
-  assert.equal(k8sWorkloadsImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/single-pod.json")), "single-pod.json"), false);
-  assert.equal(k8sWorkloadsImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/empty-list.json")), "empty-list.json"), false);
+  assert.equal(
+    k8sWorkloadsImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/nodes.json")), "nodes.json"),
+    false,
+  );
+  assert.equal(
+    k8sWorkloadsImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/single-pod.json")), "single-pod.json"),
+    false,
+  );
+  assert.equal(
+    k8sWorkloadsImporter.detect(await readJson(resolve(fixtures, "k8s-workloads/empty-list.json")), "empty-list.json"),
+    false,
+  );
 });
 
 test("every recorded kind contributes images or an API item", async () => {
@@ -64,10 +73,19 @@ test("init containers and the CronJob job template are read", async () => {
   const report = await runInventory([workloads], [k8sWorkloadsImporter]);
   const byPointer = new Map(report.results.map((result) => [result.item.pointer, result]));
 
-  assert.equal(byPointer.get("/items/0/spec/template/spec/initContainers/0/image")?.item.purl, "pkg:docker/library/python");
+  assert.equal(
+    byPointer.get("/items/0/spec/template/spec/initContainers/0/image")?.item.purl,
+    "pkg:docker/library/python",
+  );
   assert.equal(byPointer.get("/items/0/spec/template/spec/initContainers/0/image")?.check.status, "affected");
-  assert.equal(byPointer.get("/items/5/spec/jobTemplate/spec/template/spec/containers/0/image")?.item.purl, "pkg:docker/library/python");
-  assert.equal(byPointer.get("/items/5/spec/jobTemplate/spec/template/spec/initContainers/0/image")?.item.purl, "pkg:docker/library/redis");
+  assert.equal(
+    byPointer.get("/items/5/spec/jobTemplate/spec/template/spec/containers/0/image")?.item.purl,
+    "pkg:docker/library/python",
+  );
+  assert.equal(
+    byPointer.get("/items/5/spec/jobTemplate/spec/template/spec/initContainers/0/image")?.item.purl,
+    "pkg:docker/library/redis",
+  );
 });
 
 test("identical image references are reported once per workload and namespace", async () => {
@@ -115,7 +133,9 @@ test("the live apiVersion maps to the Kubernetes rules, including a cluster-scop
   assert.equal(deployment.item.version, "1.0.0");
   assert.equal(deployment.check.status, "not-affected");
 
-  const core = report.results.filter((result) => result.item.resource === "shop/Pod/legacy" && result.item.purl.startsWith("pkg:generic/kubernetes/"));
+  const core = report.results.filter(
+    (result) => result.item.resource === "shop/Pod/legacy" && result.item.purl.startsWith("pkg:generic/kubernetes/"),
+  );
   assert.deepEqual(core, []);
 });
 
@@ -143,16 +163,39 @@ test("every pointer resolves to the value its claim rests on", async () => {
 test("output contains no IP addresses, node names, account ids, or resource uids", async () => {
   const report = await runInventory([workloads], [k8sWorkloadsImporter]);
   const output = JSON.stringify(report);
-  for (const secret of ["10.0.0.12", "fd00::1", "ip-10-0-0-12", "ec2.internal", "123456789012", "9d0f7f4e", ".dkr.ecr", "ghcr.io", "mcr.microsoft.com"]) {
+  for (const secret of [
+    "10.0.0.12",
+    "fd00::1",
+    "ip-10-0-0-12",
+    "ec2.internal",
+    "123456789012",
+    "9d0f7f4e",
+    ".dkr.ecr",
+    "ghcr.io",
+    "mcr.microsoft.com",
+  ]) {
     assert.equal(output.includes(secret), false, `output leaks ${secret}`);
   }
-  assert.equal(report.results.some((result) => result.item.purl.includes("10.0.0.12")), false);
+  assert.equal(
+    report.results.some((result) => result.item.purl.includes("10.0.0.12")),
+    false,
+  );
 });
 
 test("images from registries other than Docker Hub are skipped, not guessed", async () => {
   const report = await runInventory([workloads], [k8sWorkloadsImporter]);
-  for (const pointer of ["/items/0/spec/template/spec/containers/1/image", "/items/2/spec/template/spec/containers/0/image", "/items/6/spec/containers/2/image", "/items/6/spec/containers/3/image", "/items/6/spec/containers/4/image"]) {
-    assert.equal(report.results.some((result) => result.item.pointer === pointer), false, pointer);
+  for (const pointer of [
+    "/items/0/spec/template/spec/containers/1/image",
+    "/items/2/spec/template/spec/containers/0/image",
+    "/items/6/spec/containers/2/image",
+    "/items/6/spec/containers/3/image",
+    "/items/6/spec/containers/4/image",
+  ]) {
+    assert.equal(
+      report.results.some((result) => result.item.pointer === pointer),
+      false,
+      pointer,
+    );
   }
 });
 
@@ -180,7 +223,8 @@ test("the example file reports affected items with pointers that resolve", async
   const document = await readJson(example);
   const report = await runInventory([example], [k8sWorkloadsImporter]);
   assert.ok(report.results.some((result) => result.check.status === "affected"));
-  for (const { item } of report.results) assert.notEqual(resolvePointer(document, item.pointer), undefined, item.pointer);
+  for (const { item } of report.results)
+    assert.notEqual(resolvePointer(document, item.pointer), undefined, item.pointer);
 });
 
 test("the CLI exits 1 on an affected example, validates against the schema, and honours --fail-on", async () => {
@@ -191,9 +235,9 @@ test("the CLI exits 1 on an affected example, validates against the schema, and 
   assert.ok(report.results.some((result) => result.check.status === "affected"));
 
   const ajv = new Ajv2020({ allErrors: true, strict: false });
-  ajv.addSchema(await readJson(resolve("schemas/scan.v1.schema.json")) as object);
-  ajv.addSchema(await readJson(resolve("schemas/check.v1.schema.json")) as object);
-  const validate = ajv.compile(await readJson(resolve("schemas/inventory.v1.schema.json")) as object);
+  ajv.addSchema((await readJson(resolve("schemas/scan.v1.schema.json"))) as object);
+  ajv.addSchema((await readJson(resolve("schemas/check.v1.schema.json"))) as object);
+  const validate = ajv.compile((await readJson(resolve("schemas/inventory.v1.schema.json"))) as object);
   assert.equal(validate(report), true, JSON.stringify(validate.errors));
 
   assert.equal((await invokeCli("inventory", example, "--fail-on", "critical")).code, 0);

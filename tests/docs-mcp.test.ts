@@ -16,7 +16,13 @@ test("docs/MCP.md documents every tool with its output schema", () => {
 });
 
 test("docs/MCP.md documents the resource URIs, the prompt, and the notification the server uses", () => {
-  for (const text of ["evergreen://rules/{id}", "evergreen://findings/{repository}/{id}", "`migrate-finding`", "notifications/resources/list_changed", "`resources`, `prompts`"]) {
+  for (const text of [
+    "evergreen://rules/{id}",
+    "evergreen://findings/{repository}/{id}",
+    "`migrate-finding`",
+    "notifications/resources/list_changed",
+    "`resources`, `prompts`",
+  ]) {
     assert.ok(docs.includes(text), `docs/MCP.md should mention ${text}`);
   }
 });

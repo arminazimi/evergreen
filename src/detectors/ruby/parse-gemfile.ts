@@ -82,7 +82,13 @@ function tokenize(line: string): Token[] | undefined {
 
 /** A non-empty quoted literal that does not interpolate a value at runtime. */
 function literal(token: Token | undefined): token is Token & { quoted: true } {
-  return token !== undefined && token.quoted && token.value !== "" && !token.value.includes("#{") && !token.value.includes("${");
+  return (
+    token !== undefined &&
+    token.quoted &&
+    token.value !== "" &&
+    !token.value.includes("#{") &&
+    !token.value.includes("${")
+  );
 }
 
 /** Parse the supported declarations from a Gemfile without file, network, or process I/O. */
@@ -105,7 +111,9 @@ export function parseGemfile(contents: string): GemfileDeclaration[] {
       continue;
     }
     if (first.value === "gem") {
-      const source = tokens.slice(3).some((token) => !token.quoted && (token.value === "git:" || token.value === "path:"));
+      const source = tokens
+        .slice(3)
+        .some((token) => !token.quoted && (token.value === "git:" || token.value === "path:"));
       if (!source && literal(second) && literal(third)) {
         declarations.push({ kind: "gem", name: second.value, value: third.value, line });
       }

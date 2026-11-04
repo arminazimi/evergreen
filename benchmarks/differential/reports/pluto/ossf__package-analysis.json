@@ -12,16 +12,11 @@
       "path": "infra/worker/scaler.yaml",
       "kind": "HorizontalPodAutoscaler",
       "version": "autoscaling/v2beta2",
-      "evergreen": [
-        "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed"
-      ],
+      "evergreen": ["kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
     }
   ],
-  "notComparable": [
-    "container.python",
-    "go.module"
-  ]
+  "notComparable": ["container.python", "go.module"]
 }

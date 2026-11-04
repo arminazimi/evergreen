@@ -73,12 +73,14 @@ export function exportVex(findings: readonly Finding[], options: ExportVexOption
     metadata: {
       ...(options.timestamp !== undefined ? { timestamp: options.timestamp } : {}),
       tools: {
-        components: [{
-          type: "application",
-          name: "evergreen",
-          version: VERSION,
-          "bom-ref": "evergreen",
-        }],
+        components: [
+          {
+            type: "application",
+            name: "evergreen",
+            version: VERSION,
+            "bom-ref": "evergreen",
+          },
+        ],
       },
     },
     vulnerabilities,

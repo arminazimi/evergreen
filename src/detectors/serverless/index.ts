@@ -26,7 +26,19 @@ import { parseTf } from "./parse-tf.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const TEMPLATE_NAMES = new Set(["template.yaml", "template.yml"]);
 const SERVERLESS_YML = "serverless.yml";
 const AWS_PURL_PREFIX = "pkg:generic/aws-lambda-runtime/";
@@ -111,7 +123,10 @@ export class ServerlessDetector implements Detector {
     extensions: [".tf"],
   };
 
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/serverless.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/serverless.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -158,7 +173,12 @@ export class ServerlessDetector implements Detector {
       }
     }
 
-    findings.sort((left, right) => left.location.path.localeCompare(right.location.path) || (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id));
+    findings.sort(
+      (left, right) =>
+        left.location.path.localeCompare(right.location.path) ||
+        (left.location.line ?? 0) - (right.location.line ?? 0) ||
+        left.id.localeCompare(right.id),
+    );
     return { findings, unclassified: [] };
   }
 }

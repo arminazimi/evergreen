@@ -15,7 +15,17 @@ after(async () => {
 });
 
 function finding(path: string): Finding {
-  return { id: `f:${path}`, ruleId: "nodejs.runtime.eol-18", detector: "d", title: `Problem in ${path}`, summary: "s", severity: "high", confidence: "exact", location: { path, line: 3 }, sources: [] };
+  return {
+    id: `f:${path}`,
+    ruleId: "nodejs.runtime.eol-18",
+    detector: "d",
+    title: `Problem in ${path}`,
+    summary: "s",
+    severity: "high",
+    confidence: "exact",
+    location: { path, line: 3 },
+    sources: [],
+  };
 }
 
 const rules = parseCodeowners(`
@@ -48,9 +58,23 @@ test("no rules means no owners", () => {
 });
 
 test("groupByOwner lists files with no owner explicitly", () => {
-  const groups = groupByOwner({ root: "/x", findings: [finding("apps/api/package.json"), finding("a.js"), finding("legacy/keep.txt")] }, rules, "CODEOWNERS");
-  assert.deepEqual(groups.owners.map((group) => [group.owner, group.findings.length]), [["@alice", 1], ["@org/apps", 1], ["@org/frontend", 1]]);
-  assert.deepEqual(groups.unowned.map((item) => item.location.path), ["legacy/keep.txt"]);
+  const groups = groupByOwner(
+    { root: "/x", findings: [finding("apps/api/package.json"), finding("a.js"), finding("legacy/keep.txt")] },
+    rules,
+    "CODEOWNERS",
+  );
+  assert.deepEqual(
+    groups.owners.map((group) => [group.owner, group.findings.length]),
+    [
+      ["@alice", 1],
+      ["@org/apps", 1],
+      ["@org/frontend", 1],
+    ],
+  );
+  assert.deepEqual(
+    groups.unowned.map((item) => item.location.path),
+    ["legacy/keep.txt"],
+  );
   assert.match(renderOwnerGroupsText(groups), /Unowned \(1\)/);
 });
 
@@ -67,7 +91,10 @@ test("scan --by-owner groups a real scan by CODEOWNERS", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-owners-"));
   roots.push(root);
   await mkdir(join(root, ".git"));
-  await writeFile(join(root, "package.json"), JSON.stringify({ name: "x", version: "1.0.0", engines: { node: "18" }, dependencies: { request: "2.88.2" } }));
+  await writeFile(
+    join(root, "package.json"),
+    JSON.stringify({ name: "x", version: "1.0.0", engines: { node: "18" }, dependencies: { request: "2.88.2" } }),
+  );
   await mkdir(dirname(join(root, ".github/CODEOWNERS")), { recursive: true });
   await writeFile(join(root, ".github/CODEOWNERS"), "package.json @org/platform\n");
   const json = await runCli(["scan", root, "--by-owner", "--json"]);
@@ -75,7 +102,10 @@ test("scan --by-owner groups a real scan by CODEOWNERS", async () => {
   const groups = JSON.parse(json.stdout);
   assert.equal(groups.schemaVersion, "evergreen.owners.v1");
   assert.equal(groups.codeowners, ".github/CODEOWNERS");
-  assert.deepEqual(groups.owners.map((group: { owner: string }) => group.owner), ["@org/platform"]);
+  assert.deepEqual(
+    groups.owners.map((group: { owner: string }) => group.owner),
+    ["@org/platform"],
+  );
   assert.deepEqual(groups.unowned, []);
   const text = await runCli(["scan", root, "--by-owner"]);
   assert.equal(text.code, 0);

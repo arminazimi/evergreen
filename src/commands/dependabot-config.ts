@@ -12,7 +12,9 @@ export const command: CliCommand = {
   name: "dependabot-config",
   flags: ["--data-version"],
   example: "evergreen dependabot-config .",
-  usage: ["  evergreen dependabot-config [path]   # print a dependabot.yml that groups updates for deprecated packages; does not write files"],
+  usage: [
+    "  evergreen dependabot-config [path]   # print a dependabot.yml that groups updates for deprecated packages; does not write files",
+  ],
   usageSlots: [33],
   run(args, ctx) {
     return afterGates("dependabot-config", args, ctx, async (state) => {

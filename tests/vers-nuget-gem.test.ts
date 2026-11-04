@@ -16,7 +16,8 @@ test("passes every VERS nuget equality and comparison vector", async () => {
   for (const vector of file.tests) {
     const versions = vector.input.versions;
     // The vectors spell pre-release labels in lowercase in expected output; NuGet labels are case-insensitive.
-    const lower = (value: boolean | string[]) => (Array.isArray(value) ? value.map((item) => item.toLowerCase()) : value);
+    const lower = (value: boolean | string[]) =>
+      Array.isArray(value) ? value.map((item) => item.toLowerCase()) : value;
     const actual =
       vector.test_type === "equality"
         ? nuget.compare(versions[0]!, versions[1]!) === 0
@@ -26,12 +27,28 @@ test("passes every VERS nuget equality and comparison vector", async () => {
 });
 
 test("orders NuGet pre-releases and four-part versions", () => {
-  const expected = ["1.0.0-alpha", "1.0.0-alpha.1", "1.0.0-alpha.beta", "1.0.0-beta", "1.0.0-beta.2", "1.0.0-beta.11", "1.0.0-rc.1", "1.0.0", "1.0.0.1", "1.0.1", "2.0.0"];
-  assert.deepEqual([...expected].reverse().sort((left, right) => nuget.compare(left, right)), expected);
+  const expected = [
+    "1.0.0-alpha",
+    "1.0.0-alpha.1",
+    "1.0.0-alpha.beta",
+    "1.0.0-beta",
+    "1.0.0-beta.2",
+    "1.0.0-beta.11",
+    "1.0.0-rc.1",
+    "1.0.0",
+    "1.0.0.1",
+    "1.0.1",
+    "2.0.0",
+  ];
+  assert.deepEqual(
+    [...expected].reverse().sort((left, right) => nuget.compare(left, right)),
+    expected,
+  );
 });
 
 test("rejects invalid NuGet versions", () => {
-  for (const value of ["", "latest", "1.0.0.0.0", "1.0.0-"]) assert.throws(() => nuget.compare(value, "1.0"), VersError, value);
+  for (const value of ["", "latest", "1.0.0.0.0", "1.0.0-"])
+    assert.throws(() => nuget.compare(value, "1.0"), VersError, value);
 });
 
 test("matches RubyGems Gem::Version on generated pairs", async () => {
@@ -46,7 +63,10 @@ test("matches RubyGems Gem::Version on generated pairs", async () => {
 
 test("orders common gem releases and pre-releases", () => {
   const expected = ["1.0.a", "1.0.b", "1.0.rc1", "1.0", "1.0.1", "1.1", "2.0.pre", "2.0", "7.1.3", "10.0"];
-  assert.deepEqual([...expected].reverse().sort((left, right) => gem.compare(left, right)), expected);
+  assert.deepEqual(
+    [...expected].reverse().sort((left, right) => gem.compare(left, right)),
+    expected,
+  );
 });
 
 test("rejects invalid gem versions", () => {

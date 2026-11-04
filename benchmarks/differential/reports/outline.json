@@ -12,9 +12,7 @@
       "family": "base-image",
       "path": "Dockerfile",
       "name": "node",
-      "evergreen": [
-        "container.node.eol-21-and-older"
-      ],
+      "evergreen": ["container.node.eol-21-and-older"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -23,9 +21,7 @@
       "family": "base-image",
       "path": "Dockerfile.base",
       "name": "node",
-      "evergreen": [
-        "container.node.eol-21-and-older"
-      ],
+      "evergreen": ["container.node.eol-21-and-older"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -142,9 +138,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "babel-eslint",
-      "evergreen": [
-        "npm.package.babel-eslint.deprecated"
-      ],
+      "evergreen": ["npm.package.babel-eslint.deprecated"],
       "renovate": "deprecated",
       "outcome": "agree",
       "note": "Both report the package as deprecated."
@@ -153,9 +147,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "crypto-js",
-      "evergreen": [
-        "npm.package.crypto-js.deprecated"
-      ],
+      "evergreen": ["npm.package.crypto-js.deprecated"],
       "renovate": "deprecated",
       "outcome": "agree",
       "note": "Both report the package as deprecated."
@@ -164,9 +156,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "i18next-parser",
-      "evergreen": [
-        "npm.package.i18next-parser.deprecated"
-      ],
+      "evergreen": ["npm.package.i18next-parser.deprecated"],
       "renovate": "deprecated",
       "outcome": "agree",
       "note": "Both report the package as deprecated."
@@ -175,9 +165,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "koa-router",
-      "evergreen": [
-        "npm.package.koa-router.deprecated"
-      ],
+      "evergreen": ["npm.package.koa-router.deprecated"],
       "renovate": "deprecated",
       "outcome": "agree",
       "note": "Both report the package as deprecated."
@@ -195,9 +183,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "socket.io-redis",
-      "evergreen": [
-        "npm.package.socket.io-redis.deprecated"
-      ],
+      "evergreen": ["npm.package.socket.io-redis.deprecated"],
       "renovate": "deprecated",
       "outcome": "agree",
       "note": "Both report the package as deprecated."
@@ -206,9 +192,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "types.dotenv",
-      "evergreen": [
-        "npm.package.types.dotenv.deprecated"
-      ],
+      "evergreen": ["npm.package.types.dotenv.deprecated"],
       "renovate": "not-seen",
       "outcome": "evergreen-only",
       "note": "Renovate did not list this npm package at all."
@@ -217,9 +201,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "types.emoji-regex",
-      "evergreen": [
-        "npm.package.types.emoji-regex.deprecated"
-      ],
+      "evergreen": ["npm.package.types.emoji-regex.deprecated"],
       "renovate": "not-seen",
       "outcome": "evergreen-only",
       "note": "Renovate did not list this npm package at all."
@@ -228,9 +210,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "types.form-data",
-      "evergreen": [
-        "npm.package.types.form-data.deprecated"
-      ],
+      "evergreen": ["npm.package.types.form-data.deprecated"],
       "renovate": "not-seen",
       "outcome": "evergreen-only",
       "note": "Renovate did not list this npm package at all."
@@ -239,9 +219,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "types.koa-useragent",
-      "evergreen": [
-        "npm.package.types.koa-useragent.deprecated"
-      ],
+      "evergreen": ["npm.package.types.koa-useragent.deprecated"],
       "renovate": "not-seen",
       "outcome": "evergreen-only",
       "note": "Renovate did not list this npm package at all."
@@ -250,9 +228,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "types.sanitize-filename",
-      "evergreen": [
-        "npm.package.types.sanitize-filename.deprecated"
-      ],
+      "evergreen": ["npm.package.types.sanitize-filename.deprecated"],
       "renovate": "not-seen",
       "outcome": "evergreen-only",
       "note": "Renovate did not list this npm package at all."
@@ -261,9 +237,7 @@
       "family": "github-action",
       "path": ".github/workflows/auto_close_prs.yml",
       "name": "github-script",
-      "evergreen": [
-        "github-actions.github-script.node20"
-      ],
+      "evergreen": ["github-actions.github-script.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -272,9 +246,7 @@
       "family": "github-action",
       "path": ".github/workflows/calibreapp-image-actions.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -283,9 +255,7 @@
       "family": "github-action",
       "path": ".github/workflows/ci.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -294,9 +264,7 @@
       "family": "github-action",
       "path": ".github/workflows/ci.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -305,9 +273,7 @@
       "family": "github-action",
       "path": ".github/workflows/codeql-analysis.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -316,9 +282,7 @@
       "family": "github-action",
       "path": ".github/workflows/docker.yml",
       "name": "build-push-action",
-      "evergreen": [
-        "github-actions.build-push-action.node20"
-      ],
+      "evergreen": ["github-actions.build-push-action.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -327,9 +291,7 @@
       "family": "github-action",
       "path": ".github/workflows/docker.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -338,9 +300,7 @@
       "family": "github-action",
       "path": ".github/workflows/docker.yml",
       "name": "download-artifact",
-      "evergreen": [
-        "github-actions.download-artifact.retired"
-      ],
+      "evergreen": ["github-actions.download-artifact.retired"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -349,9 +309,7 @@
       "family": "github-action",
       "path": ".github/workflows/docker.yml",
       "name": "login-action",
-      "evergreen": [
-        "github-actions.login-action.node20"
-      ],
+      "evergreen": ["github-actions.login-action.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -360,9 +318,7 @@
       "family": "github-action",
       "path": ".github/workflows/docker.yml",
       "name": "metadata-action",
-      "evergreen": [
-        "github-actions.metadata-action.node20"
-      ],
+      "evergreen": ["github-actions.metadata-action.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -371,9 +327,7 @@
       "family": "github-action",
       "path": ".github/workflows/docker.yml",
       "name": "setup-buildx-action",
-      "evergreen": [
-        "github-actions.setup-buildx-action.node20"
-      ],
+      "evergreen": ["github-actions.setup-buildx-action.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -382,9 +336,7 @@
       "family": "github-action",
       "path": ".github/workflows/docker.yml",
       "name": "upload-artifact",
-      "evergreen": [
-        "github-actions.upload-artifact.retired"
-      ],
+      "evergreen": ["github-actions.upload-artifact.retired"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -393,9 +345,7 @@
       "family": "github-action",
       "path": ".github/workflows/lint.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -404,9 +354,7 @@
       "family": "github-action",
       "path": ".github/workflows/lint.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -415,15 +363,11 @@
       "family": "github-action",
       "path": ".github/workflows/stale.yml",
       "name": "stale",
-      "evergreen": [
-        "github-actions.stale.node20"
-      ],
+      "evergreen": ["github-actions.stale.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     }
   ],
-  "notComparable": [
-    "nodejs.runtime"
-  ]
+  "notComparable": ["nodejs.runtime"]
 }

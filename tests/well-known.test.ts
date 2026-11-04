@@ -101,7 +101,10 @@ test("docs/.well-known/agent.json describes the same skills as the MCP tools", (
 
 test("Jekyll publishes the .well-known folder", async () => {
   const config = parse(await read("docs/_config.yml")) as { include?: string[] };
-  assert.ok(config.include?.includes(".well-known"), "docs/_config.yml must include .well-known so Jekyll does not skip the dot folder");
+  assert.ok(
+    config.include?.includes(".well-known"),
+    "docs/_config.yml must include .well-known so Jekyll does not skip the dot folder",
+  );
 });
 
 test("llms.txt links both discovery documents", async () => {

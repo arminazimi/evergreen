@@ -5,11 +5,7 @@ import { test } from "node:test";
 
 import type { RegistryV2 } from "../../src/registry.js";
 import { diffDrafts } from "../../tools/importers/diff.js";
-import {
-  FIRST_DRAFTED_BRANCH,
-  PHP_BRANCHES_URL,
-  phpSupportedVersionsImporter,
-} from "../../tools/importers/php-1.js";
+import { FIRST_DRAFTED_BRANCH, PHP_BRANCHES_URL, phpSupportedVersionsImporter } from "../../tools/importers/php-1.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
@@ -70,9 +66,15 @@ test("recorded drafts match the curated registry lines and leave nothing to add"
   assert.ok(diff.unchanged.includes("php.runtime.eol-7.0"));
   assert.equal(diff.added.length, 0);
   assert.ok(!diff.added.some((rule) => rule.id === "php.runtime.eol-5.6"));
-  assert.ok(diff.unchanged.includes("php.runtime.eol-8.1") || diff.changed.some((entry) => entry.id === "php.runtime.eol-8.1"));
-  assert.ok(diff.unchanged.includes("php.runtime.eol-8.0") || diff.changed.some((entry) => entry.id === "php.runtime.eol-8.0"));
-  assert.ok(diff.unchanged.includes("php.runtime.eol-7.4") || diff.changed.some((entry) => entry.id === "php.runtime.eol-7.4"));
+  assert.ok(
+    diff.unchanged.includes("php.runtime.eol-8.1") || diff.changed.some((entry) => entry.id === "php.runtime.eol-8.1"),
+  );
+  assert.ok(
+    diff.unchanged.includes("php.runtime.eol-8.0") || diff.changed.some((entry) => entry.id === "php.runtime.eol-8.0"),
+  );
+  assert.ok(
+    diff.unchanged.includes("php.runtime.eol-7.4") || diff.changed.some((entry) => entry.id === "php.runtime.eol-7.4"),
+  );
   // Replacement differs from curated "PHP 8.3 or later" (security floor) vs importer "PHP 8.4 or later" (active only).
   const eol81 = diff.changed.find((entry) => entry.id === "php.runtime.eol-8.1");
   assert.ok(eol81, "php.runtime.eol-8.1 should differ from the curated rule (replacement/sources)");
@@ -128,7 +130,10 @@ test("skips entries it cannot use and says so in source order", async () => {
       "not an object",
     ]),
   );
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["php.runtime.eol-8.0", "php.runtime.eol-8.1"]);
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["php.runtime.eol-8.0", "php.runtime.eol-8.1"],
+  );
   assert.equal(result.rules[1]!.replacement, "PHP 8.4 or later");
   assert.deepEqual(result.notes, [
     "Skipped PHP 7.4: no valid security-support end date.",

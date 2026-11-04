@@ -28,7 +28,9 @@ const SEVERITIES = ["none", "info", "low", "medium", "high", "critical"];
 async function load() {
   const text = await readFile(resolve(TEMPLATE), "utf8");
   const template = parse(text) as { parameters: Parameter[]; steps: Step[] };
-  const action = parse(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: unknown }> };
+  const action = parse(await readFile(resolve("action.yml"), "utf8")) as {
+    inputs: Record<string, { default?: unknown }>;
+  };
   const pkg = JSON.parse(await readFile(resolve("package.json"), "utf8")) as { version: string };
   return { text, template, action, pkg };
 }
@@ -50,7 +52,11 @@ test("the Azure template gates on the Action's severity default and pins the dat
   const dataVersion = template.parameters.find((parameter) => parameter.name === "dataVersion");
   assert.ok(failOn, "failOn parameter is missing");
   assert.ok(dataVersion, "dataVersion parameter is missing");
-  assert.equal(String(failOn.default), String(action.inputs["fail-on-severity"]!.default), 'default of "failOn" differs from action.yml');
+  assert.equal(
+    String(failOn.default),
+    String(action.inputs["fail-on-severity"]!.default),
+    'default of "failOn" differs from action.yml',
+  );
   assert.deepEqual(failOn.values, SEVERITIES);
   assert.equal(dataVersion.default, "bundled");
 });

@@ -9,9 +9,7 @@
   "comparisons": [
     {
       "product": "next",
-      "evergreen": [
-        "npm.package.next.13.support-end"
-      ],
+      "evergreen": ["npm.package.next.13.support-end"],
       "xeol": [
         {
           "cycle": "13",
@@ -25,36 +23,28 @@
     },
     {
       "product": "nodejs",
-      "evergreen": [
-        "container.node.eol-21-and-older"
-      ],
+      "evergreen": ["container.node.eol-21-and-older"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "postgresql",
-      "evergreen": [
-        "container.postgres.eol-13-and-older"
-      ],
+      "evergreen": ["container.postgres.eol-13-and-older"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "react-beautiful-dnd",
-      "evergreen": [
-        "npm.package.react-beautiful-dnd.deprecated"
-      ],
+      "evergreen": ["npm.package.react-beautiful-dnd.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "rollup-plugin-terser",
-      "evergreen": [
-        "npm.package.rollup-plugin-terser.deprecated"
-      ],
+      "evergreen": ["npm.package.rollup-plugin-terser.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
@@ -74,9 +64,5 @@
       "note": "xeol reports a release of this product as past end of life; Evergreen has no rule for it."
     }
   ],
-  "notComparable": [
-    "database.postgresql",
-    "github-actions.checkout",
-    "github-actions.setup-node"
-  ]
+  "notComparable": ["database.postgresql", "github-actions.checkout", "github-actions.setup-node"]
 }

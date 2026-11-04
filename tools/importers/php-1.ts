@@ -81,7 +81,8 @@ function draft(branch: Branch, next: string, replacement: string | undefined): D
 export const phpSupportedVersionsImporter: Importer = {
   id: "php-1",
   ecosystem: "php",
-  description: "PHP release lines that have reached end of life, from the official release-branch states (supported-versions / eol)",
+  description:
+    "PHP release lines that have reached end of life, from the official release-branch states (supported-versions / eol)",
   sources: SOURCES,
 
   async import(context) {
@@ -147,7 +148,8 @@ export const phpSupportedVersionsImporter: Importer = {
       rules.push(draft(branch, next, replacement));
     }
 
-    if (replacement === undefined) notes.push("No release line in active support was found, so drafts have no replacement.");
+    if (replacement === undefined)
+      notes.push("No release line in active support was found, so drafts have no replacement.");
     return { rules, notes };
   },
 };

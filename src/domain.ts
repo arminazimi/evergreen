@@ -45,7 +45,19 @@ export type SourceLanguage = (typeof sourceLanguageValues)[number];
 
 export interface ImportUsageMatcher {
   kind: "import";
-  language: "javascript" | "typescript" | "python" | "go" | "java" | "kotlin" | "rust" | "csharp" | "ruby" | "php" | "swift" | "dart";
+  language:
+    | "javascript"
+    | "typescript"
+    | "python"
+    | "go"
+    | "java"
+    | "kotlin"
+    | "rust"
+    | "csharp"
+    | "ruby"
+    | "php"
+    | "swift"
+    | "dart";
   module: string;
 }
 
@@ -303,9 +315,14 @@ const DAY_MS = 86_400_000;
  * up to 25). Popularity is never an input. Reads no clock: the caller passes `today` (YYYY-MM-DD), so the same
  * finding scores the same everywhere. Documented in docs/RULES.md.
  */
-export function riskScore(finding: Pick<Finding, "deadline" | "usages" | "impact">, today: string, advisories = 0): RiskScore {
+export function riskScore(
+  finding: Pick<Finding, "deadline" | "usages" | "impact">,
+  today: string,
+  advisories = 0,
+): RiskScore {
   const todayMs = Date.parse(`${today}T00:00:00Z`);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(today) || Number.isNaN(todayMs)) throw new Error(`"${today}" is not a date (YYYY-MM-DD).`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(today) || Number.isNaN(todayMs))
+    throw new Error(`"${today}" is not a date (YYYY-MM-DD).`);
   const deadlineMs = finding.deadline === undefined ? Number.NaN : Date.parse(`${finding.deadline}T00:00:00Z`);
   const daysPastEndOfLife = Number.isNaN(deadlineMs) ? 0 : Math.max(0, Math.floor((todayMs - deadlineMs) / DAY_MS));
   const usageCount = finding.impact?.usageCount ?? finding.usages?.length ?? 0;

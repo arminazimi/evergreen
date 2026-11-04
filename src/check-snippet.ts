@@ -14,8 +14,7 @@ export const MAX_SNIPPET_PATH_LENGTH = 256;
 export const MAX_SNIPPET_CONTENT_BYTES = 1_000_000;
 
 /** The message a clean snippet carries, so a caller can show why nothing was flagged. */
-export const NO_FINDINGS_MESSAGE =
-  "No lifecycle findings in this snippet. Evergreen only checks what its rules cover.";
+export const NO_FINDINGS_MESSAGE = "No lifecycle findings in this snippet. Evergreen only checks what its rules cover.";
 
 export interface SnippetCheck {
   schemaVersion: typeof CHECK_SNIPPET_SCHEMA_VERSION;

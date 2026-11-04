@@ -1,5 +1,11 @@
 import { jdkDeclaration } from "./jdk-version.js";
-import type { DependencyDeclaration, DynamicJdkDeclaration, JdkDeclaration, JdkRole, KotlinPluginDeclaration } from "./jdk-version.js";
+import type {
+  DependencyDeclaration,
+  DynamicJdkDeclaration,
+  JdkDeclaration,
+  JdkRole,
+  KotlinPluginDeclaration,
+} from "./jdk-version.js";
 
 /**
  * Pure, bounded parser for `build.gradle` and `build.gradle.kts`.
@@ -21,7 +27,11 @@ export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 export const MAXIMUM_DECLARATIONS = 5000;
 
-export type GradleDeclaration = JdkDeclaration | DynamicJdkDeclaration | KotlinPluginDeclaration | DependencyDeclaration;
+export type GradleDeclaration =
+  | JdkDeclaration
+  | DynamicJdkDeclaration
+  | KotlinPluginDeclaration
+  | DependencyDeclaration;
 
 interface Scanned {
   /** The source with comments replaced by spaces; line structure is unchanged. */
@@ -75,8 +85,10 @@ function scan(source: string): Scanned | undefined {
 
 const TOOLCHAIN = /(?:languageVersion\s*(?:=|\.set\()\s*JavaLanguageVersion\s*\.\s*of\(|jvmToolchain\()/g;
 const COMPATIBILITY = /\b(?:sourceCompatibility|targetCompatibility)\b\s*(?:=|\.set\()?\s*([^\n;]*)/g;
-const KOTLIN_PLUGIN = /(?:\bkotlin\(\s*["'][A-Za-z0-9.-]+["']\s*\)|\bid\s*\(?\s*["']org\.jetbrains\.kotlin\.[A-Za-z0-9.-]+["']\s*\)?)\s*version\s+["']([^"'$]+)["']/g;
-const CONFIGURATION = /\b(?:implementation|api|compileOnly|runtimeOnly|testImplementation|testRuntimeOnly|testCompileOnly|annotationProcessor|kapt|ksp|compile|runtime|testCompile)\s*\(?\s*["']([A-Za-z0-9_.-]+:[A-Za-z0-9_.-]+:[^"'$:@\s]+)(?::[A-Za-z0-9_.-]+)?(?:@[a-z]+)?["']/g;
+const KOTLIN_PLUGIN =
+  /(?:\bkotlin\(\s*["'][A-Za-z0-9.-]+["']\s*\)|\bid\s*\(?\s*["']org\.jetbrains\.kotlin\.[A-Za-z0-9.-]+["']\s*\)?)\s*version\s+["']([^"'$]+)["']/g;
+const CONFIGURATION =
+  /\b(?:implementation|api|compileOnly|runtimeOnly|testImplementation|testRuntimeOnly|testCompileOnly|annotationProcessor|kapt|ksp|compile|runtime|testCompile)\s*\(?\s*["']([A-Za-z0-9_.-]+:[A-Za-z0-9_.-]+:[^"'$:@\s]+)(?::[A-Za-z0-9_.-]+)?(?:@[a-z]+)?["']/g;
 
 function unquote(text: string): string {
   return text.replace(/^["']|["']$/g, "");
@@ -123,7 +135,10 @@ export function parseGradle(contents: string): GradleDeclaration[] {
     const scanned = scan(contents);
     if (!scanned) return [];
     // Overlong lines are not read.
-    const code = scanned.code.split("\n").map((line) => (line.length > MAXIMUM_LINE_LENGTH ? " ".repeat(line.length) : line)).join("\n");
+    const code = scanned.code
+      .split("\n")
+      .map((line) => (line.length > MAXIMUM_LINE_LENGTH ? " ".repeat(line.length) : line))
+      .join("\n");
     const lineStarts = [0];
     for (let index = code.indexOf("\n"); index >= 0; index = code.indexOf("\n", index + 1)) lineStarts.push(index + 1);
     const lineAt = (offset: number): number => {

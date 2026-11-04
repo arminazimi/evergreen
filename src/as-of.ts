@@ -25,8 +25,12 @@ export async function applyAsOf(
     asOf,
     findings: result.findings.map((finding) =>
       reached.has(finding.ruleId)
-        ? { ...finding, severity: REACHED_SEVERITY, summary: `As of ${asOf}, this has ended (deadline ${finding.deadline}). ${finding.summary}` }
-        : finding
+        ? {
+            ...finding,
+            severity: REACHED_SEVERITY,
+            summary: `As of ${asOf}, this has ended (deadline ${finding.deadline}). ${finding.summary}`,
+          }
+        : finding,
     ),
   };
 }

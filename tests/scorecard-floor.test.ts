@@ -71,7 +71,16 @@ test("parseScores refuses documents without a usable checks array", () => {
   assert.throws(() => tool.parseScores(null), tool.ScorecardFloorError);
   assert.throws(() => tool.parseScores({ checks: "no" }), tool.ScorecardFloorError);
   assert.throws(() => tool.parseScores({ checks: [{ name: "SAST", score: "7" }] }), /SAST/);
-  assert.throws(() => tool.parseScores({ checks: [{ name: "SAST", score: 7 }, { name: "SAST", score: 8 }] }), /twice/);
+  assert.throws(
+    () =>
+      tool.parseScores({
+        checks: [
+          { name: "SAST", score: 7 },
+          { name: "SAST", score: 8 },
+        ],
+      }),
+    /twice/,
+  );
 });
 
 test("findViolations passes the measured baseline and flags a lowered score by name", () => {
@@ -92,9 +101,15 @@ test("findViolations flags a missing result and treats the -1 error floor as a r
   assert.deepEqual(tool.findViolations(scores, tool.RECORDED_TARGETS).missing, [{ check: "License", floor: 10 }]);
 
   const errors = new Map([["Branch-Protection", -1]]);
-  assert.equal(tool.findViolations(errors, [{ check: "Branch-Protection", floor: -1, reason: "error floor" }]).below.length, 0);
+  assert.equal(
+    tool.findViolations(errors, [{ check: "Branch-Protection", floor: -1, reason: "error floor" }]).below.length,
+    0,
+  );
   const recovering = new Map([["Branch-Protection", 0]]);
-  assert.equal(tool.findViolations(recovering, [{ check: "Branch-Protection", floor: -1, reason: "error floor" }]).below.length, 0);
+  assert.equal(
+    tool.findViolations(recovering, [{ check: "Branch-Protection", floor: -1, reason: "error floor" }]).below.length,
+    0,
+  );
 });
 
 test("the command passes the measured baseline fixture from the 2026-11-01 run", () => {
@@ -141,7 +156,10 @@ test("unreadable or malformed results exit 2 without claiming a breach", () => {
 test("--list-targets prints the table and the measurement it came from", () => {
   const run = runTool("--list-targets");
   assert.equal(run.status, 0, run.stderr);
-  const listed = JSON.parse(run.stdout) as { measurement: string; targets: { check: string; floor: number; reason: string }[] };
+  const listed = JSON.parse(run.stdout) as {
+    measurement: string;
+    targets: { check: string; floor: number; reason: string }[];
+  };
   assert.equal(listed.measurement, tool.MEASUREMENT);
   assert.match(listed.measurement, /41357434463/);
   assert.deepEqual(listed.targets, tool.RECORDED_TARGETS);

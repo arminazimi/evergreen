@@ -35,7 +35,10 @@ export interface GeneratedOgFile {
 }
 
 const escape = (value: string): string =>
-  value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!);
+  value.replace(
+    /[&<>"']/g,
+    (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!,
+  );
 
 /** Approximate Inter advance width so titles wrap without a font engine. */
 export function wrapText(text: string, maxWidth: number, fontSize: number, maxLines: number): string[] {
@@ -92,7 +95,10 @@ function brandChrome(title: string, description: string): string[] {
 /** Site-wide default: the brand social-preview card (tagline + command). */
 export function renderDefaultOgImage(): string {
   return [
-    ...brandChrome("Evergreen", "Know what breaks next. Local-first deprecation intelligence for software repositories."),
+    ...brandChrome(
+      "Evergreen",
+      "Know what breaks next. Local-first deprecation intelligence for software repositories.",
+    ),
     `<g font-family="Inter, Arial, sans-serif">`,
     `<text x="552" y="256" fill="#F3F6F4" font-size="68" font-weight="700" letter-spacing="7">EVERGREEN</text>`,
     `<text x="555" y="310" fill="#9AC7B6" font-size="27" font-weight="500">Know what breaks next.</text>`,
@@ -128,7 +134,10 @@ export function renderRuleOgImage(rule: RegistryV2Rule): string {
     `</g>`,
     `<g font-family="Inter, Arial, sans-serif">`,
     `<text x="552" y="200" fill="#9AC7B6" font-size="22" font-weight="600">${escape(status)}</text>`,
-    ...lines.map((line, index) => `<text x="552" y="${titleStart + index * titleGap}" fill="#F3F6F4" font-size="36" font-weight="700">${escape(line)}</text>`),
+    ...lines.map(
+      (line, index) =>
+        `<text x="552" y="${titleStart + index * titleGap}" fill="#F3F6F4" font-size="36" font-weight="700">${escape(line)}</text>`,
+    ),
     `<text x="552" y="${metaY}" fill="#F3F6F4" fill-opacity=".72" font-size="20">${escape(meta)}</text>`,
     `<text x="552" y="500" fill="#9AC7B6" font-size="18" font-weight="500">evergreen</text>`,
     `</g>`,
@@ -188,7 +197,9 @@ export async function main(argv: readonly string[] = process.argv.slice(2)): Pro
   if (argv.includes("--check")) {
     const problems = await drift(files);
     if (problems.length === 0) return 0;
-    console.error(`The OG images are out of date (${problems.length} files). Run \`npm run build:og-images\` and commit the result:`);
+    console.error(
+      `The OG images are out of date (${problems.length} files). Run \`npm run build:og-images\` and commit the result:`,
+    );
     for (const problem of problems.slice(0, 20)) console.error(`  ${problem}`);
     if (problems.length > 20) console.error(`  … and ${problems.length - 20} more`);
     return 1;

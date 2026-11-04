@@ -22,23 +22,53 @@ interface Host {
   skillAgent?: string;
 }
 
-const CURSOR_FRONT_MATTER = "---\ndescription: Check a dependency with Evergreen before adding it\nalwaysApply: true\n---\n\n";
-const WINDSURF_FRONT_MATTER = "---\ntrigger: always_on\ndescription: Check a dependency with Evergreen before adding it\n---\n\n";
+const CURSOR_FRONT_MATTER =
+  "---\ndescription: Check a dependency with Evergreen before adding it\nalwaysApply: true\n---\n\n";
+const WINDSURF_FRONT_MATTER =
+  "---\ntrigger: always_on\ndescription: Check a dependency with Evergreen before adding it\n---\n\n";
 
 const SKILL_SOURCE = "arminazimi/evergreen";
 const SKILL_NAME = "evergreen-deprecation";
 
 const HOSTS: Host[] = [
-  { id: "claude-code", label: "Claude Code", markers: [".claude", "CLAUDE.md"], file: () => "CLAUDE.md", skillAgent: "claude-code" },
+  {
+    id: "claude-code",
+    label: "Claude Code",
+    markers: [".claude", "CLAUDE.md"],
+    file: () => "CLAUDE.md",
+    skillAgent: "claude-code",
+  },
   { id: "codex", label: "Codex", markers: [".codex"], file: () => "AGENTS.md", skillAgent: "codex" },
-  { id: "cursor", label: "Cursor", markers: [".cursor", ".cursorrules"], file: () => ".cursor/rules/evergreen.mdc", createPrefix: CURSOR_FRONT_MATTER, skillAgent: "cursor" },
-  { id: "gemini-cli", label: "Gemini CLI", markers: [".gemini", "GEMINI.md"], file: () => "GEMINI.md", skillAgent: "gemini-cli" },
-  { id: "copilot", label: "GitHub Copilot", markers: [".github/copilot-instructions.md", ".github/instructions"], file: () => ".github/copilot-instructions.md", skillAgent: "github-copilot" },
+  {
+    id: "cursor",
+    label: "Cursor",
+    markers: [".cursor", ".cursorrules"],
+    file: () => ".cursor/rules/evergreen.mdc",
+    createPrefix: CURSOR_FRONT_MATTER,
+    skillAgent: "cursor",
+  },
+  {
+    id: "gemini-cli",
+    label: "Gemini CLI",
+    markers: [".gemini", "GEMINI.md"],
+    file: () => "GEMINI.md",
+    skillAgent: "gemini-cli",
+  },
+  {
+    id: "copilot",
+    label: "GitHub Copilot",
+    markers: [".github/copilot-instructions.md", ".github/instructions"],
+    file: () => ".github/copilot-instructions.md",
+    skillAgent: "github-copilot",
+  },
   {
     id: "kilo",
     label: "Kilo Code",
     markers: [".kilo", ".kilocode", "kilo.jsonc", "kilo.json"],
-    file: (found) => (found.includes(".kilocode") && !found.includes(".kilo") ? ".kilocode/rules/evergreen.md" : ".kilo/rules/evergreen.md"),
+    file: (found) =>
+      found.includes(".kilocode") && !found.includes(".kilo")
+        ? ".kilocode/rules/evergreen.md"
+        : ".kilo/rules/evergreen.md",
   },
   {
     id: "windsurf",
@@ -51,7 +81,10 @@ const HOSTS: Host[] = [
     id: "cline",
     label: "Cline",
     markers: [".cline", ".clinerules"],
-    file: (found) => (found.includes(".cline") && !found.includes(".clinerules") ? ".cline/rules/evergreen.md" : ".clinerules/evergreen.md"),
+    file: (found) =>
+      found.includes(".cline") && !found.includes(".clinerules")
+        ? ".cline/rules/evergreen.md"
+        : ".clinerules/evergreen.md",
   },
   {
     id: "aider",
@@ -113,7 +146,10 @@ export function skillInstallCommand(agent: string): string {
   return ["npx", ...skillInstallArgs(agent)].join(" ");
 }
 
-function defaultSkillInstallRunner(args: string[], options: { cwd: string }): { status: number | null; stdout: string; stderr: string } {
+function defaultSkillInstallRunner(
+  args: string[],
+  options: { cwd: string },
+): { status: number | null; stdout: string; stderr: string } {
   // Tests set this so CLI integration never reaches the network; production leaves it unset.
   if (process.env.EVERGREEN_SETUP_SKILL_INSTALL === "0") {
     return { status: 0, stdout: "", stderr: "" };
@@ -134,7 +170,8 @@ function defaultSkillInstallRunner(args: string[], options: { cwd: string }): { 
  */
 export async function planSetup(rootInput: string): Promise<SetupPlan> {
   const root = resolve(rootInput);
-  if (!(await lstat(root).catch(() => undefined))?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  if (!(await lstat(root).catch(() => undefined))?.isDirectory())
+    throw new AgentFileError(`${root} is not a directory.`);
 
   const detected: string[] = [];
   const skills: SetupSkillOffer[] = [];
@@ -155,8 +192,17 @@ export async function planSetup(rootInput: string): Promise<SetupPlan> {
 
   const entries: SetupEntry[] = [];
   for (const [file, target] of targets) {
-    const result = await updateAgentFile(root, file, { dryRun: true, ...(target.prefix ? { createPrefix: target.prefix } : {}) });
-    entries.push({ file: result.file, change: result.change, diff: result.diff, hosts: target.hosts, ...(target.prefix ? { prefix: target.prefix } : {}) });
+    const result = await updateAgentFile(root, file, {
+      dryRun: true,
+      ...(target.prefix ? { createPrefix: target.prefix } : {}),
+    });
+    entries.push({
+      file: result.file,
+      change: result.change,
+      diff: result.diff,
+      hosts: target.hosts,
+      ...(target.prefix ? { prefix: target.prefix } : {}),
+    });
   }
   return { detected, entries, skills };
 }

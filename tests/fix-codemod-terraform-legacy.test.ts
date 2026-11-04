@@ -37,7 +37,11 @@ interface Refusal {
   reason: string;
 }
 
-async function plan(root: string): Promise<{ result: ScanResult; patches: Awaited<ReturnType<typeof terraformLegacyFixer.plan>>; refusals: Refusal[] }> {
+async function plan(root: string): Promise<{
+  result: ScanResult;
+  patches: Awaited<ReturnType<typeof terraformLegacyFixer.plan>>;
+  refusals: Refusal[];
+}> {
   const result = await scanRepository(root, detectors);
   const refusals: Refusal[] = [];
   const patches = await terraformLegacyFixer.plan(result, (finding, reason) => {
@@ -54,7 +58,12 @@ async function apply(root: string, patches: Awaited<ReturnType<typeof terraformL
   await execute("git", ["apply", "fix.patch"], { cwd: root });
 }
 
-function finding(path: string, line: number | undefined, ruleId = "terraform.syntax.interpolation-only", column?: number): Finding {
+function finding(
+  path: string,
+  line: number | undefined,
+  ruleId = "terraform.syntax.interpolation-only",
+  column?: number,
+): Finding {
   return {
     id: `${ruleId}:${path}:${line ?? 0}:${column ?? 0}`,
     ruleId,
@@ -91,7 +100,11 @@ test("the planner rewrites the before fixture to the after fixture and never wri
   assert.ok(patches[0]!.diff.includes("\n-  ports       = list(80, 443)\n"));
   assert.ok(patches[0]!.diff.includes("\n+  ports       = tolist([80, 443])\n"));
   assert.equal(await readFile(join(root, "main.tf"), "utf8"), before, "planning must not modify the file");
-  assert.deepEqual(await terraformLegacyFixer.plan(await scanRepository(root, detectors)), patches, "the plan is deterministic");
+  assert.deepEqual(
+    await terraformLegacyFixer.plan(await scanRepository(root, detectors)),
+    patches,
+    "the plan is deterministic",
+  );
 
   await apply(root, patches);
   assert.equal(await readFile(join(root, "main.tf"), "utf8"), after);
@@ -170,7 +183,9 @@ test("refuses generated files and files without a trailing newline", async () =>
 
   assert.deepEqual(patches, []);
   assert.deepEqual(
-    refusals.map((refusal) => [refusal.ruleId, refusal.line, refusal.reason]).sort((left, right) => String(left[0]).localeCompare(String(right[0]))),
+    refusals
+      .map((refusal) => [refusal.ruleId, refusal.line, refusal.reason])
+      .sort((left, right) => String(left[0]).localeCompare(String(right[0]))),
     [
       ["terraform.syntax.interpolation-only", 3, "The file says another tool generates it."],
       ["terraform.syntax.interpolation-only", 2, "The Terraform file does not end with a newline."],
@@ -193,13 +208,16 @@ test("refuses a finding under .terraform/, outside the root, at a missing file, 
   });
 
   assert.deepEqual(patches, []);
-  assert.deepEqual(refusals.map((refusal) => refusal.reason), [
-    "The file is inside .terraform/, which Terraform generates.",
-    "The finding names no line to rewrite.",
-    "The path resolves outside the repository.",
-    "The line no longer holds the legacy syntax the finding names.",
-    "The Terraform file could not be read.",
-  ]);
+  assert.deepEqual(
+    refusals.map((refusal) => refusal.reason),
+    [
+      "The file is inside .terraform/, which Terraform generates.",
+      "The finding names no line to rewrite.",
+      "The path resolves outside the repository.",
+      "The line no longer holds the legacy syntax the finding names.",
+      "The Terraform file could not be read.",
+    ],
+  );
 });
 
 test("ignores findings from other detectors and other rule ids", async () => {

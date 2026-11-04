@@ -10,7 +10,13 @@ export const REGISTRY_V2_SCHEMA_VERSION = "evergreen.registry.v2" as const;
 /** Review window applied when a registry does not declare `freshness.maxReviewAgeDays`. */
 export const DEFAULT_MAX_REVIEW_AGE_DAYS = 365;
 
-export const lifecycleEvents = ["deprecated", "end-of-support", "end-of-life", "removed", "scheduled-end-of-life"] as const;
+export const lifecycleEvents = [
+  "deprecated",
+  "end-of-support",
+  "end-of-life",
+  "removed",
+  "scheduled-end-of-life",
+] as const;
 export type LifecycleEvent = (typeof lifecycleEvents)[number];
 
 export interface Provenance {
@@ -65,8 +71,21 @@ const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const RULE_ID = /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/;
 const EXTENSION = /^x-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const RULE_FIELDS = new Set([
-  "id", "ecosystem", "purl", "vers", "event", "title", "summary", "severity", "replacement",
-  "requires", "deadline", "sources", "provenance", "migration", "usage",
+  "id",
+  "ecosystem",
+  "purl",
+  "vers",
+  "event",
+  "title",
+  "summary",
+  "severity",
+  "replacement",
+  "requires",
+  "deadline",
+  "sources",
+  "provenance",
+  "migration",
+  "usage",
 ]);
 
 /** Version schemes each PURL type may use. Types not listed accept any registered scheme. */
@@ -111,7 +130,8 @@ function ruleIssues(rule: unknown, index: number, ecosystem: string | undefined)
   if (!isNonEmptyString(rule.id)) problem("id is required");
   else if (!RULE_ID.test(rule.id)) problem("id must use lowercase letters, numbers, dots, and hyphens");
 
-  if (!isNonEmptyString(rule.ecosystem) || !SLUG.test(rule.ecosystem)) problem("ecosystem is required and must be a lowercase slug");
+  if (!isNonEmptyString(rule.ecosystem) || !SLUG.test(rule.ecosystem))
+    problem("ecosystem is required and must be a lowercase slug");
   else if (ecosystem !== undefined && rule.ecosystem !== ecosystem) {
     problem(`ecosystem "${rule.ecosystem}" does not match the registry ecosystem "${ecosystem}"`);
   }
@@ -124,16 +144,20 @@ function ruleIssues(rule: unknown, index: number, ecosystem: string | undefined)
   for (const field of ["title", "summary"] as const) {
     if (!isNonEmptyString(rule[field])) problem(`${field} is required`);
   }
-  if (!severityValues.includes(rule.severity as Severity)) problem(`severity must be one of ${severityValues.join(", ")}`);
-  if (!lifecycleEvents.includes(rule.event as LifecycleEvent)) problem(`event must be one of ${lifecycleEvents.join(", ")}`);
-  if (rule.replacement !== undefined && !isNonEmptyString(rule.replacement)) problem("replacement must be a non-empty string");
+  if (!severityValues.includes(rule.severity as Severity))
+    problem(`severity must be one of ${severityValues.join(", ")}`);
+  if (!lifecycleEvents.includes(rule.event as LifecycleEvent))
+    problem(`event must be one of ${lifecycleEvents.join(", ")}`);
+  if (rule.replacement !== undefined && !isNonEmptyString(rule.replacement))
+    problem("replacement must be a non-empty string");
   if (rule.requires !== undefined) {
     if (!isRecord(rule.requires) || Object.keys(rule.requires).length === 0) {
       problem("requires must be an object with at least one runtime");
     } else {
       for (const [runtime, minimum] of Object.entries(rule.requires)) {
         if (!REQUIRES_RUNTIMES.includes(runtime)) problem(`requires has unknown runtime "${runtime}"`);
-        else if (typeof minimum !== "string" || !/^\d+(?:\.\d+){0,2}$/.test(minimum)) problem(`requires.${runtime} must be a version such as "18.0.0"`);
+        else if (typeof minimum !== "string" || !/^\d+(?:\.\d+){0,2}$/.test(minimum))
+          problem(`requires.${runtime} must be a version such as "18.0.0"`);
       }
     }
   }
@@ -200,10 +224,12 @@ function ruleIssues(rule: unknown, index: number, ecosystem: string | undefined)
       problem("provenance.reviewedAt must not be earlier than provenance.observedAt");
     }
     if (!isNonEmptyString(reviewer)) problem("provenance.reviewer is required");
-    if (importer !== undefined && !isNonEmptyString(importer)) problem("provenance.importer must be a non-empty string");
+    if (importer !== undefined && !isNonEmptyString(importer))
+      problem("provenance.importer must be a non-empty string");
   }
 
-  if (rule.migration !== undefined && !isMigrationGuidance(rule.migration)) problem("migration is not valid migration guidance");
+  if (rule.migration !== undefined && !isMigrationGuidance(rule.migration))
+    problem("migration is not valid migration guidance");
   if (rule.usage !== undefined && (!Array.isArray(rule.usage) || !rule.usage.every(isUsageMatcher))) {
     problem("usage must be a list of valid usage matchers");
   }
@@ -215,7 +241,9 @@ export function registryV2Issues(value: unknown): string[] {
   if (!isRecord(value)) return ["registry must be a JSON object"];
   const issues: string[] = [];
   if (value.schemaVersion !== REGISTRY_V2_SCHEMA_VERSION) {
-    issues.push(`schemaVersion must be "${REGISTRY_V2_SCHEMA_VERSION}", found "${String(value.schemaVersion ?? "missing")}"`);
+    issues.push(
+      `schemaVersion must be "${REGISTRY_V2_SCHEMA_VERSION}", found "${String(value.schemaVersion ?? "missing")}"`,
+    );
   }
   const ecosystem = isNonEmptyString(value.ecosystem) && SLUG.test(value.ecosystem) ? value.ecosystem : undefined;
   if (!ecosystem) issues.push("ecosystem is required and must be a lowercase slug");
@@ -252,7 +280,9 @@ export function validateRegistryV2(value: unknown): RegistryV2 {
   if (issues.length > 0) {
     const shown = issues.slice(0, 20).map((issue) => `- ${issue}`);
     if (issues.length > 20) shown.push(`- … and ${issues.length - 20} more`);
-    throw new RegistryValidationError(`Invalid registry (${issues.length} problem${issues.length === 1 ? "" : "s"}):\n${shown.join("\n")}`);
+    throw new RegistryValidationError(
+      `Invalid registry (${issues.length} problem${issues.length === 1 ? "" : "s"}):\n${shown.join("\n")}`,
+    );
   }
   return value as RegistryV2;
 }
@@ -295,10 +325,7 @@ export function legacyRule(rule: RegistryV2Rule): Record<string, unknown> {
  * Loads a registry file that is either the detector's own v1 format or the shared v2 format.
  * Both produce the detector's rule type, so a registry can move to v2 without changing the detector.
  */
-export function loadRegistryRules<Rule>(
-  value: unknown,
-  definition: RegistryDefinition<Rule>,
-): Registry<Rule> {
+export function loadRegistryRules<Rule>(value: unknown, definition: RegistryDefinition<Rule>): Registry<Rule> {
   if (isRecord(value) && value.schemaVersion === REGISTRY_V2_SCHEMA_VERSION) {
     const registry = validateRegistryV2(value);
     const rules = registry.rules.map((rule) => {
@@ -327,7 +354,13 @@ export function loadRegistryRules<Rule>(
 export function withoutSymbolRules(data: unknown): unknown {
   if (typeof data !== "object" || data === null || !("rules" in data) || !Array.isArray(data.rules)) return data;
   const isSymbolRule = (rule: unknown): boolean =>
-    typeof rule === "object" && rule !== null && "usage" in rule && Array.isArray(rule.usage) &&
-    rule.usage.some((matcher: unknown) => typeof matcher === "object" && matcher !== null && "kind" in matcher && matcher.kind === "symbol");
+    typeof rule === "object" &&
+    rule !== null &&
+    "usage" in rule &&
+    Array.isArray(rule.usage) &&
+    rule.usage.some(
+      (matcher: unknown) =>
+        typeof matcher === "object" && matcher !== null && "kind" in matcher && matcher.kind === "symbol",
+    );
   return { ...data, rules: data.rules.filter((rule: unknown) => !isSymbolRule(rule)) };
 }

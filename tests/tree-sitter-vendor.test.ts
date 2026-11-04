@@ -69,7 +69,11 @@ test("the committed payloads match the manifest and no wasm binary is committed"
   assert.equal(manifest.files.length, 5);
 
   const vendor = await readdir(resolve("src/usage/vendor/tree-sitter"));
-  assert.deepEqual(vendor.filter((name) => name.endsWith(".wasm")), [], "wasm binaries must be stored as base64 text");
+  assert.deepEqual(
+    vendor.filter((name) => name.endsWith(".wasm")),
+    [],
+    "wasm binaries must be stored as base64 text",
+  );
   for (const file of manifest.files) {
     const bytes = decodePayload(await readFile(resolve("src/usage/vendor/tree-sitter", file.file), "utf8"));
     assert.equal(bytes.byteLength, file.bytes, file.file);
@@ -83,12 +87,21 @@ test("the checker reports a tampered payload and a stray wasm binary", async () 
 
   const payload = join(directory, "tree-sitter-python.wasm.b64");
   const encoded = await readFile(payload, "utf8");
-  await writeFile(payload, encoded.replace(/[A-Za-z0-9+/]/, (character) => (character === "A" ? "B" : "A")));
+  await writeFile(
+    payload,
+    encoded.replace(/[A-Za-z0-9+/]/, (character) => (character === "A" ? "B" : "A")),
+  );
   await writeFile(join(directory, "tree-sitter-cpp.wasm"), "");
 
   const { problems } = await verifyVendor(directory);
-  assert.ok(problems.some((problem) => problem.startsWith("tree-sitter-python.wasm.b64: sha256")), problems.join("\n"));
-  assert.ok(problems.some((problem) => problem.startsWith("tree-sitter-cpp.wasm: committed WebAssembly binary")), problems.join("\n"));
+  assert.ok(
+    problems.some((problem) => problem.startsWith("tree-sitter-python.wasm.b64: sha256")),
+    problems.join("\n"),
+  );
+  assert.ok(
+    problems.some((problem) => problem.startsWith("tree-sitter-cpp.wasm: committed WebAssembly binary")),
+    problems.join("\n"),
+  );
 });
 
 test("an installed package scans source usage offline from the base64 payloads", async () => {

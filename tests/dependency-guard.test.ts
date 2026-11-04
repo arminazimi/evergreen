@@ -10,8 +10,14 @@ import { pathToFileURL } from "node:url";
 interface Guard {
   patchFiles(command: string): Array<{ path: string; before: string; after: string }>;
   addedDependencies(path: string, before: string, after: string): Array<{ purl: string; version?: string }>;
-  changesFrom(payload: object, readPrevious?: (path: string) => string): { added: Array<{ purl: string; version?: string }> };
-  run(payload: object, runner?: (purl: string, version?: string) => { check?: unknown; error?: string }): { systemMessage: string; hookSpecificOutput: { additionalContext: string } } | undefined;
+  changesFrom(
+    payload: object,
+    readPrevious?: (path: string) => string,
+  ): { added: Array<{ purl: string; version?: string }> };
+  run(
+    payload: object,
+    runner?: (purl: string, version?: string) => { check?: unknown; error?: string },
+  ): { systemMessage: string; hookSpecificOutput: { additionalContext: string } } | undefined;
 }
 
 const guardPath = resolve("integrations/dependency-guard/guard.mjs");
@@ -20,7 +26,8 @@ const purls = (added: Array<{ purl: string }>) => added.map((item) => item.purl)
 
 test("an npm edit reports only the dependencies it adds, with the lower bound of the range", () => {
   const before = '  "dependencies": {\n    "express": "^4.18.0"\n  }';
-  const after = '  "dependencies": {\n    "express": "^4.18.0",\n    "request": "^2.88.2",\n    "@scope/pkg": "~1.2"\n  }';
+  const after =
+    '  "dependencies": {\n    "express": "^4.18.0",\n    "request": "^2.88.2",\n    "@scope/pkg": "~1.2"\n  }';
   assert.deepEqual(guard.addedDependencies("package.json", before, after), [
     { purl: "pkg:npm/request", version: "2.88.2" },
     { purl: "pkg:npm/%40scope/pkg", version: "1.2.0" },
@@ -29,19 +36,40 @@ test("an npm edit reports only the dependencies it adds, with the lower bound of
 });
 
 test("changing a version counts as adding it; fields that are not dependencies are ignored", () => {
-  assert.deepEqual(guard.addedDependencies("package.json", '"left-pad": "^1.0.0"', '"left-pad": "^1.3.0"'), [{ purl: "pkg:npm/left-pad", version: "1.3.0" }]);
-  assert.deepEqual(guard.addedDependencies("package.json", "", '"name": "demo", "version": "1.0.0", "main": "index.js"'), []);
+  assert.deepEqual(guard.addedDependencies("package.json", '"left-pad": "^1.0.0"', '"left-pad": "^1.3.0"'), [
+    { purl: "pkg:npm/left-pad", version: "1.3.0" },
+  ]);
+  assert.deepEqual(
+    guard.addedDependencies("package.json", "", '"name": "demo", "version": "1.0.0", "main": "index.js"'),
+    [],
+  );
 });
 
 test("Python requirements and pyproject dependencies are found", () => {
   const requirements = "# pinned\n-r base.txt\nnose==1.3.7\nDjango_Nose>=1.4\nrequests\nhttps://example.com/x.whl\n";
-  assert.deepEqual(purls(guard.addedDependencies("requirements-dev.txt", "", requirements)), ["pkg:pypi/django-nose", "pkg:pypi/nose", "pkg:pypi/requests"]);
-  assert.deepEqual(guard.addedDependencies("requirements.txt", "", "nose==1.3.7\n"), [{ purl: "pkg:pypi/nose", version: "1.3.7" }]);
-  assert.deepEqual(purls(guard.addedDependencies("pyproject.toml", "", 'dependencies = [\n  "nose>=1.3",\n  "requests[socks]==2.31.0",\n]')), ["pkg:pypi/nose", "pkg:pypi/requests"]);
+  assert.deepEqual(purls(guard.addedDependencies("requirements-dev.txt", "", requirements)), [
+    "pkg:pypi/django-nose",
+    "pkg:pypi/nose",
+    "pkg:pypi/requests",
+  ]);
+  assert.deepEqual(guard.addedDependencies("requirements.txt", "", "nose==1.3.7\n"), [
+    { purl: "pkg:pypi/nose", version: "1.3.7" },
+  ]);
+  assert.deepEqual(
+    purls(
+      guard.addedDependencies(
+        "pyproject.toml",
+        "",
+        'dependencies = [\n  "nose>=1.3",\n  "requests[socks]==2.31.0",\n]',
+      ),
+    ),
+    ["pkg:pypi/nose", "pkg:pypi/requests"],
+  );
 });
 
 test("workflow actions are found only with a version, in workflows and action files", () => {
-  const edit = "      - uses: actions/checkout@v4\n      - uses: actions/cache@v4.2.0\n      - uses: ./local\n      - uses: owner/repo/sub@main\n";
+  const edit =
+    "      - uses: actions/checkout@v4\n      - uses: actions/cache@v4.2.0\n      - uses: ./local\n      - uses: owner/repo/sub@main\n";
   assert.deepEqual(guard.addedDependencies(".github/workflows/ci.yml", "", edit), [
     { purl: "pkg:github/actions/checkout", version: "v4" },
     { purl: "pkg:github/actions/cache", version: "v4.2.0" },
@@ -51,13 +79,34 @@ test("workflow actions are found only with a version, in workflows and action fi
 });
 
 test("Edit, MultiEdit, and Write payloads are understood, and other files are skipped", () => {
-  const edit = { tool_name: "Edit", tool_input: { file_path: "/repo/package.json", old_string: "", new_string: '"request": "^2.88.2"' } };
+  const edit = {
+    tool_name: "Edit",
+    tool_input: { file_path: "/repo/package.json", old_string: "", new_string: '"request": "^2.88.2"' },
+  };
   assert.deepEqual(purls(guard.changesFrom(edit).added), ["pkg:npm/request"]);
-  const multi = { tool_name: "MultiEdit", tool_input: { file_path: "/repo/requirements.txt", edits: [{ old_string: "", new_string: "nose==1.3.7" }, { old_string: "", new_string: "pep8==1.7.1" }] } };
+  const multi = {
+    tool_name: "MultiEdit",
+    tool_input: {
+      file_path: "/repo/requirements.txt",
+      edits: [
+        { old_string: "", new_string: "nose==1.3.7" },
+        { old_string: "", new_string: "pep8==1.7.1" },
+      ],
+    },
+  };
   assert.deepEqual(purls(guard.changesFrom(multi).added), ["pkg:pypi/nose", "pkg:pypi/pep8"]);
-  const write = { tool_name: "Write", tool_input: { file_path: "/repo/requirements.txt", content: "nose==1.3.7\nrequests==2.31.0\n" } };
+  const write = {
+    tool_name: "Write",
+    tool_input: { file_path: "/repo/requirements.txt", content: "nose==1.3.7\nrequests==2.31.0\n" },
+  };
   assert.deepEqual(purls(guard.changesFrom(write, () => "requests==2.31.0\n").added), ["pkg:pypi/nose"]);
-  assert.deepEqual(guard.changesFrom({ tool_name: "Edit", tool_input: { file_path: "/repo/src/index.ts", old_string: "", new_string: '"request": "1.0.0"' } }).added, []);
+  assert.deepEqual(
+    guard.changesFrom({
+      tool_name: "Edit",
+      tool_input: { file_path: "/repo/src/index.ts", old_string: "", new_string: '"request": "1.0.0"' },
+    }).added,
+    [],
+  );
   assert.deepEqual(guard.changesFrom({ tool_name: "Read", tool_input: { file_path: "/repo/package.json" } }).added, []);
 });
 
@@ -83,16 +132,54 @@ test("Codex apply_patch commands are split into files and only added dependencie
     "+      - uses: actions/cache@v4",
     "*** End Patch",
   ].join("\n");
-  assert.deepEqual(guard.patchFiles(command).map((file) => file.path), ["package.json", "requirements.txt", "src/api.ts", "old/requirements.txt", ".github/workflows/ci.yml"]);
-  assert.deepEqual(purls(guard.changesFrom({ tool_name: "apply_patch", tool_input: { command } }).added), ["pkg:github/actions/cache", "pkg:npm/request", "pkg:pypi/nose"]);
-  assert.deepEqual(guard.changesFrom({ tool_name: "apply_patch", tool_input: { command: "*** Begin Patch\n*** End Patch" } }).added, []);
+  assert.deepEqual(
+    guard.patchFiles(command).map((file) => file.path),
+    ["package.json", "requirements.txt", "src/api.ts", "old/requirements.txt", ".github/workflows/ci.yml"],
+  );
+  assert.deepEqual(purls(guard.changesFrom({ tool_name: "apply_patch", tool_input: { command } }).added), [
+    "pkg:github/actions/cache",
+    "pkg:npm/request",
+    "pkg:pypi/nose",
+  ]);
+  assert.deepEqual(
+    guard.changesFrom({ tool_name: "apply_patch", tool_input: { command: "*** Begin Patch\n*** End Patch" } }).added,
+    [],
+  );
   assert.deepEqual(guard.changesFrom({ tool_name: "apply_patch", tool_input: {} }).added, []);
 });
 
 test("only affected dependencies produce a warning, and a failing check is reported, not hidden", () => {
-  const payload = { tool_name: "Edit", tool_input: { file_path: "package.json", old_string: "", new_string: '"request": "^2.88.2", "express": "^4.0.0", "left-pad": "^1.3.0"' } };
-  const affected = { status: "affected", purl: "pkg:npm/request", version: "2.88.2", findings: [{ title: "request is deprecated", severity: "high", event: "deprecated", summary: "No new changes are expected.", replacement: "Native fetch", deadline: "2020-02-11", sources: [{ url: "https://www.npmjs.com/package/request" }] }] };
-  const output = guard.run(payload, (purl) => (purl.endsWith("/request") ? { check: affected } : purl.endsWith("/left-pad") ? { error: "offline" } : { check: { status: "no-data", findings: [] } }));
+  const payload = {
+    tool_name: "Edit",
+    tool_input: {
+      file_path: "package.json",
+      old_string: "",
+      new_string: '"request": "^2.88.2", "express": "^4.0.0", "left-pad": "^1.3.0"',
+    },
+  };
+  const affected = {
+    status: "affected",
+    purl: "pkg:npm/request",
+    version: "2.88.2",
+    findings: [
+      {
+        title: "request is deprecated",
+        severity: "high",
+        event: "deprecated",
+        summary: "No new changes are expected.",
+        replacement: "Native fetch",
+        deadline: "2020-02-11",
+        sources: [{ url: "https://www.npmjs.com/package/request" }],
+      },
+    ],
+  };
+  const output = guard.run(payload, (purl) =>
+    purl.endsWith("/request")
+      ? { check: affected }
+      : purl.endsWith("/left-pad")
+        ? { error: "offline" }
+        : { check: { status: "no-data", findings: [] } },
+  );
   assert.ok(output);
   assert.match(output.systemMessage, /1 deprecated dependency/);
   const context = output.hookSpecificOutput.additionalContext;
@@ -100,10 +187,22 @@ test("only affected dependencies produce a warning, and a failing check is repor
   assert.match(context, /Replacement: Native fetch\./);
   assert.match(context, /Evidence: https:\/\/www\.npmjs\.com\/package\/request/);
   assert.match(context, /could not check: pkg:npm\/left-pad: offline/);
-  assert.equal(guard.run({ tool_name: "Edit", tool_input: { file_path: "package.json", old_string: "", new_string: '"express": "^4.0.0"' } }, () => ({ check: { status: "no-data", findings: [] } })), undefined);
+  assert.equal(
+    guard.run(
+      {
+        tool_name: "Edit",
+        tool_input: { file_path: "package.json", old_string: "", new_string: '"express": "^4.0.0"' },
+      },
+      () => ({ check: { status: "no-data", findings: [] } }),
+    ),
+    undefined,
+  );
 });
 
-function runHook(payload: object, checkCommand = `"${process.execPath}" "${resolve("dist/src/cli.js")}"`): { status: number | null; stdout: string } {
+function runHook(
+  payload: object,
+  checkCommand = `"${process.execPath}" "${resolve("dist/src/cli.js")}"`,
+): { status: number | null; stdout: string } {
   const result = spawnSync(process.execPath, [guardPath], {
     input: JSON.stringify(payload),
     encoding: "utf8",
@@ -125,7 +224,11 @@ test("EVERGREEN_CHECK_COMMAND accepts quoted, JSON-array, and space-separated fo
     const fakePlain = join(plain, "fake-evergreen.mjs");
     writeFileSync(fakeWithSpace, standIn);
     writeFileSync(fakePlain, standIn);
-    const payload = { tool_name: "Edit", cwd: process.cwd(), tool_input: { file_path: "package.json", old_string: "", new_string: '"request": "^2.88.2"' } };
+    const payload = {
+      tool_name: "Edit",
+      cwd: process.cwd(),
+      tool_input: { file_path: "package.json", old_string: "", new_string: '"request": "^2.88.2"' },
+    };
     const forms = [
       `"${process.execPath}" "${fakeWithSpace}"`,
       JSON.stringify([process.execPath, fakeWithSpace]),
@@ -143,31 +246,56 @@ test("EVERGREEN_CHECK_COMMAND accepts quoted, JSON-array, and space-separated fo
 });
 
 test("the hook script warns for a real deprecated dependency and stays quiet otherwise", () => {
-  const bad = runHook({ tool_name: "Edit", cwd: process.cwd(), tool_input: { file_path: "package.json", old_string: "", new_string: '"request": "^2.88.2"' } });
+  const bad = runHook({
+    tool_name: "Edit",
+    cwd: process.cwd(),
+    tool_input: { file_path: "package.json", old_string: "", new_string: '"request": "^2.88.2"' },
+  });
   assert.equal(bad.status, 0);
   const output = JSON.parse(bad.stdout) as { hookSpecificOutput: { hookEventName: string; additionalContext: string } };
   assert.equal(output.hookSpecificOutput.hookEventName, "PostToolUse");
   assert.match(output.hookSpecificOutput.additionalContext, /request is deprecated/);
 
-  const action = runHook({ tool_name: "Edit", cwd: process.cwd(), tool_input: { file_path: ".github/workflows/ci.yml", old_string: "", new_string: "- uses: actions/checkout@v4" } });
+  const action = runHook({
+    tool_name: "Edit",
+    cwd: process.cwd(),
+    tool_input: { file_path: ".github/workflows/ci.yml", old_string: "", new_string: "- uses: actions/checkout@v4" },
+  });
   assert.match(JSON.parse(action.stdout).hookSpecificOutput.additionalContext, /actions\/checkout/);
 
   for (const quiet of [
-    { tool_name: "Edit", tool_input: { file_path: "package.json", old_string: "", new_string: '"express": "^4.18.0"' } },
-    { tool_name: "Edit", tool_input: { file_path: "src/index.ts", old_string: "", new_string: '"request": "^2.88.2"' } },
-    { tool_name: "Edit", tool_input: { file_path: ".github/workflows/ci.yml", old_string: "", new_string: "- uses: actions/checkout@v5" } },
+    {
+      tool_name: "Edit",
+      tool_input: { file_path: "package.json", old_string: "", new_string: '"express": "^4.18.0"' },
+    },
+    {
+      tool_name: "Edit",
+      tool_input: { file_path: "src/index.ts", old_string: "", new_string: '"request": "^2.88.2"' },
+    },
+    {
+      tool_name: "Edit",
+      tool_input: { file_path: ".github/workflows/ci.yml", old_string: "", new_string: "- uses: actions/checkout@v5" },
+    },
   ]) {
     const result = runHook({ cwd: process.cwd(), ...quiet });
     assert.deepEqual([result.status, result.stdout], [0, ""]);
   }
-  const patch = runHook({ tool_name: "apply_patch", cwd: process.cwd(), tool_input: { command: "*** Begin Patch\n*** Update File: package.json\n@@\n+    \"request\": \"^2.88.2\"\n*** End Patch" } });
+  const patch = runHook({
+    tool_name: "apply_patch",
+    cwd: process.cwd(),
+    tool_input: {
+      command: '*** Begin Patch\n*** Update File: package.json\n@@\n+    "request": "^2.88.2"\n*** End Patch',
+    },
+  });
   assert.match(JSON.parse(patch.stdout).hookSpecificOutput.additionalContext, /request is deprecated/);
   assert.deepEqual(runHook({}).stdout, "");
   assert.equal(spawnSync(process.execPath, [guardPath], { input: "not json", encoding: "utf8" }).status, 0);
 });
 
 test("the Claude plugin ships the guard with a pinned package and a PostToolUse hook", async () => {
-  const hooks = JSON.parse(await readFile(resolve("plugins/claude/hooks/hooks.json"), "utf8")) as { hooks: { PostToolUse: Array<{ matcher: string; hooks: Array<{ type: string; command: string }> }> } };
+  const hooks = JSON.parse(await readFile(resolve("plugins/claude/hooks/hooks.json"), "utf8")) as {
+    hooks: { PostToolUse: Array<{ matcher: string; hooks: Array<{ type: string; command: string }> }> };
+  };
   const [entry] = hooks.hooks.PostToolUse;
   assert.equal(entry!.matcher, "Write|Edit|MultiEdit");
   assert.match(entry!.hooks[0]!.command, /\$\{CLAUDE_PLUGIN_ROOT\}\/hooks\/dependency-guard\.mjs/);
@@ -178,10 +306,17 @@ test("the Claude plugin ships the guard with a pinned package and a PostToolUse 
 });
 
 test("the Codex plugin ships the same guard, matched to apply_patch and addressed through PLUGIN_ROOT", async () => {
-  const hooks = JSON.parse(await readFile(resolve("plugins/codex/hooks/hooks.json"), "utf8")) as { hooks: { PostToolUse: Array<{ matcher: string; hooks: Array<{ type: string; command: string; timeout: number }> }> } };
+  const hooks = JSON.parse(await readFile(resolve("plugins/codex/hooks/hooks.json"), "utf8")) as {
+    hooks: {
+      PostToolUse: Array<{ matcher: string; hooks: Array<{ type: string; command: string; timeout: number }> }>;
+    };
+  };
   const [entry] = hooks.hooks.PostToolUse;
   assert.equal(entry!.matcher, "^apply_patch$");
   assert.equal(entry!.hooks[0]!.command, 'node "${PLUGIN_ROOT}/hooks/dependency-guard.mjs"');
   assert.ok(entry!.hooks[0]!.timeout > 0);
-  assert.equal(await readFile(resolve("plugins/codex/hooks/dependency-guard.mjs"), "utf8"), await readFile(resolve("plugins/claude/hooks/dependency-guard.mjs"), "utf8"));
+  assert.equal(
+    await readFile(resolve("plugins/codex/hooks/dependency-guard.mjs"), "utf8"),
+    await readFile(resolve("plugins/claude/hooks/dependency-guard.mjs"), "utf8"),
+  );
 });

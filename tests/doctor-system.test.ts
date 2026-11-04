@@ -25,7 +25,10 @@ test("system check lists each tool, its line, and its status", async () => {
   const system = await diagnoseSystem({ versionRunner: runner(outputs, calls) });
   const byTool = Object.fromEntries(system.map((entry) => [entry.tool, entry]));
 
-  assert.deepEqual(system.map((entry) => entry.tool), ["node", "python3", "go", "java", "dotnet", "terraform"]);
+  assert.deepEqual(
+    system.map((entry) => entry.tool),
+    ["node", "python3", "go", "java", "dotnet", "terraform"],
+  );
   assert.equal(byTool.node?.version, "20.11.1");
   assert.equal(byTool.node?.line, "20");
   assert.equal(byTool.node?.status, "end-of-life");
@@ -51,7 +54,10 @@ test("system check lists each tool, its line, and its status", async () => {
 
 test("system check skips tools that are not installed", async () => {
   const system = await diagnoseSystem({ versionRunner: runner({ node: outputs.node! }) });
-  assert.deepEqual(system.map((entry) => entry.tool), ["node"]);
+  assert.deepEqual(
+    system.map((entry) => entry.tool),
+    ["node"],
+  );
   assert.deepEqual(await diagnoseSystem({ versionRunner: runner({}) }), []);
 });
 
@@ -59,14 +65,20 @@ test("system check ignores output it cannot read and understands Java 8", async 
   const system = await diagnoseSystem({
     versionRunner: runner({ node: "not a version", java: 'java version "1.8.0_292"\n' }),
   });
-  assert.deepEqual(system.map((entry) => `${entry.tool} ${entry.version}`), ["java 8.0.0"]);
+  assert.deepEqual(
+    system.map((entry) => `${entry.tool} ${entry.version}`),
+    ["java 8.0.0"],
+  );
 });
 
 test("doctor adds system checks as warnings only when asked", async () => {
   const base = { environment: {}, nodeVersion: "22.12.0", platform: "linux" as const };
   const without = await diagnoseEnvironment(".", { ...base, versionRunner: runner(outputs) });
   assert.equal(without.system, undefined);
-  assert.equal(without.checks.some((check) => check.category === "system"), false);
+  assert.equal(
+    without.checks.some((check) => check.category === "system"),
+    false,
+  );
 
   const withSystem = await diagnoseEnvironment(".", { ...base, system: true, versionRunner: runner(outputs) });
   const checks = withSystem.checks.filter((check) => check.category === "system");

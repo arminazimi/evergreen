@@ -82,12 +82,15 @@ export function parseCleDocument(input: unknown): CleDocumentRecord | undefined 
   if (!isNonEmptyString(input.updatedAt) || !Array.isArray(input.events)) return undefined;
   const identifiers = Array.isArray(input.identifier)
     ? input.identifier.filter(isNonEmptyString)
-    : isNonEmptyString(input.identifier) ? [input.identifier] : [];
+    : isNonEmptyString(input.identifier)
+      ? [input.identifier]
+      : [];
   if (identifiers.length === 0) return undefined;
   const events: CleEventRecord[] = [];
   for (const raw of input.events) {
     if (!isRecord(raw) || typeof raw.id !== "number" || !Number.isInteger(raw.id) || raw.id < 1) return undefined;
-    if (!isNonEmptyString(raw.type) || !isNonEmptyString(raw.effective) || !isNonEmptyString(raw.published)) return undefined;
+    if (!isNonEmptyString(raw.type) || !isNonEmptyString(raw.effective) || !isNonEmptyString(raw.published))
+      return undefined;
     const event: CleEventRecord = {
       id: raw.id,
       type: raw.type,
@@ -174,9 +177,7 @@ function eventApplies(event: CleEventRecord, version: string): boolean {
 }
 
 function sourcesFor(clePath: string, event: CleEventRecord): EvidenceSource[] {
-  const sources: EvidenceSource[] = [
-    { title: "Maintainer CLE declaration", url: pathToFileURL(clePath).href },
-  ];
+  const sources: EvidenceSource[] = [{ title: "Maintainer CLE declaration", url: pathToFileURL(clePath).href }];
   for (const reference of event.references ?? []) {
     if (/^https?:\/\//i.test(reference)) sources.push({ title: "CLE event reference", url: reference });
   }
@@ -184,7 +185,10 @@ function sourcesFor(clePath: string, event: CleEventRecord): EvidenceSource[] {
 }
 
 function ruleIdFor(packageIdentity: string, event: CleEventRecord): string {
-  const slug = packageIdentity.replace(/^pkg:/, "").replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const slug = packageIdentity
+    .replace(/^pkg:/, "")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
   return `cle.${event.type}.${slug}.${event.id}`;
 }
 
@@ -200,13 +204,10 @@ function findingFor(
   const path = relativePosix(root, clePath);
   const deadline = deadlineOf(event.effective);
   const scheduled = isScheduled(event.effective, scannedAt);
-  const title = scheduled
-    ? `${TITLE[type]} scheduled (maintainer CLE)`
-    : `${TITLE[type]} (maintainer CLE)`;
-  const detail = event.description?.trim() || `${packageIdentity}@${version} matches a maintainer-declared ${type} event.`;
-  const when = deadline
-    ? scheduled ? ` Scheduled for ${deadline}.` : ` Effective ${deadline}.`
-    : "";
+  const title = scheduled ? `${TITLE[type]} scheduled (maintainer CLE)` : `${TITLE[type]} (maintainer CLE)`;
+  const detail =
+    event.description?.trim() || `${packageIdentity}@${version} matches a maintainer-declared ${type} event.`;
+  const when = deadline ? (scheduled ? ` Scheduled for ${deadline}.` : ` Effective ${deadline}.`) : "";
   const ruleId = ruleIdFor(packageIdentity, event);
   return {
     id: `${ruleId}:${path}:1`,

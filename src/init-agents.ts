@@ -59,14 +59,20 @@ export interface AgentFileOptions {
 }
 
 /** Adds or refreshes the Evergreen section in one file under `root`, creating the file and its folders when needed. */
-export async function updateAgentFile(root: string, file: string, options: AgentFileOptions = {}): Promise<InitAgentsResult> {
+export async function updateAgentFile(
+  root: string,
+  file: string,
+  options: AgentFileOptions = {},
+): Promise<InitAgentsResult> {
   const path = join(root, file);
   await assertInside(root, path);
   const before = await read(path);
   const update = withAgentSection(before);
-  const text = update.change === "created" && options.createPrefix ? `${options.createPrefix}${update.text}` : update.text;
+  const text =
+    update.change === "created" && options.createPrefix ? `${options.createPrefix}${update.text}` : update.text;
   const diff = update.change === "unchanged" ? "" : renderDiff(file, before ?? "", text);
-  if (update.change === "unchanged" || options.dryRun) return { file: file as AgentFileName, change: update.change, written: false, diff };
+  if (update.change === "unchanged" || options.dryRun)
+    return { file: file as AgentFileName, change: update.change, written: false, diff };
   await mkdir(dirname(path), { recursive: true });
   await writeFile(path, text);
   return { file: file as AgentFileName, change: update.change, written: true, diff };
@@ -102,21 +108,31 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function hasEvergreenPostToolUse(entries: readonly unknown[]): boolean {
   return entries.some((entry) => {
     if (!isRecord(entry) || !Array.isArray(entry.hooks)) return false;
-    return entry.hooks.some((hook) => isRecord(hook) && typeof hook.command === "string" && EVERGREEN_HOOK_COMMAND.test(hook.command));
+    return entry.hooks.some(
+      (hook) => isRecord(hook) && typeof hook.command === "string" && EVERGREEN_HOOK_COMMAND.test(hook.command),
+    );
   });
 }
 
 /** Merges the post-edit entry into a parsed settings document, keeping every existing key and hook in place. */
-export function withClaudeCodePostToolUse(settings: unknown): { settings: Record<string, unknown>; change: "added" | "unchanged" } {
-  if (!isRecord(settings)) throw new AgentFileError(`${CLAUDE_CODE_SETTINGS_FILE} does not hold a JSON object, so it was not changed.`);
+export function withClaudeCodePostToolUse(settings: unknown): {
+  settings: Record<string, unknown>;
+  change: "added" | "unchanged";
+} {
+  if (!isRecord(settings))
+    throw new AgentFileError(`${CLAUDE_CODE_SETTINGS_FILE} does not hold a JSON object, so it was not changed.`);
   const hooksValue = settings.hooks;
   if (hooksValue !== undefined && !isRecord(hooksValue)) {
-    throw new AgentFileError(`${CLAUDE_CODE_SETTINGS_FILE} has a "hooks" value that is not an object, so it was not changed.`);
+    throw new AgentFileError(
+      `${CLAUDE_CODE_SETTINGS_FILE} has a "hooks" value that is not an object, so it was not changed.`,
+    );
   }
   const hooks = (hooksValue ?? {}) as Record<string, unknown>;
   const postValue = hooks.PostToolUse;
   if (postValue !== undefined && !Array.isArray(postValue)) {
-    throw new AgentFileError(`${CLAUDE_CODE_SETTINGS_FILE} has a "hooks.PostToolUse" value that is not an array, so it was not changed.`);
+    throw new AgentFileError(
+      `${CLAUDE_CODE_SETTINGS_FILE} has a "hooks.PostToolUse" value that is not an array, so it was not changed.`,
+    );
   }
   const postToolUse = (postValue ?? []) as unknown[];
   if (hasEvergreenPostToolUse(postToolUse)) return { settings: structuredClone(settings), change: "unchanged" };
@@ -125,7 +141,10 @@ export function withClaudeCodePostToolUse(settings: unknown): { settings: Record
     hooks: [{ type: "command", command: CLAUDE_CODE_HOOK_COMMAND, timeout: 60 }],
   };
   return {
-    settings: { ...structuredClone(settings), hooks: { ...hooks, PostToolUse: [...structuredClone(postToolUse), entry] } },
+    settings: {
+      ...structuredClone(settings),
+      hooks: { ...hooks, PostToolUse: [...structuredClone(postToolUse), entry] },
+    },
     change: "added",
   };
 }
@@ -150,7 +169,8 @@ export async function initClaudeHooks(options: InitClaudeHooksOptions): Promise<
   const text = `${JSON.stringify(update.settings, null, 2)}\n`;
   const change = before === undefined ? "created" : update.change === "unchanged" ? "unchanged" : "updated";
   const diff = change === "unchanged" ? "" : renderDiff(CLAUDE_CODE_SETTINGS_FILE, before ?? "", text);
-  if (change === "unchanged" || options.dryRun) return { file: CLAUDE_CODE_SETTINGS_FILE, change, written: false, diff };
+  if (change === "unchanged" || options.dryRun)
+    return { file: CLAUDE_CODE_SETTINGS_FILE, change, written: false, diff };
   await mkdir(dirname(path), { recursive: true });
   await writeFile(path, text);
   return { file: CLAUDE_CODE_SETTINGS_FILE, change, written: true, diff };
@@ -170,13 +190,19 @@ const EVERGREEN_CODEX_HOOK_COMMAND = /\bevergreen(?:-deprecation)?\b.*\bhook\s+c
 function hasEvergreenCodexPostToolUse(entries: readonly unknown[]): boolean {
   return entries.some((entry) => {
     if (!isRecord(entry) || !Array.isArray(entry.hooks)) return false;
-    return entry.hooks.some((hook) => isRecord(hook) && typeof hook.command === "string" && EVERGREEN_CODEX_HOOK_COMMAND.test(hook.command));
+    return entry.hooks.some(
+      (hook) => isRecord(hook) && typeof hook.command === "string" && EVERGREEN_CODEX_HOOK_COMMAND.test(hook.command),
+    );
   });
 }
 
 /** Merges the post-edit entry into a parsed hooks document, keeping every existing key and hook in place. */
-export function withCodexPostToolUse(hooks: unknown): { hooks: Record<string, unknown>; change: "added" | "unchanged" } {
-  if (!isRecord(hooks)) throw new AgentFileError(`${CODEX_HOOKS_FILE} does not hold a JSON object, so it was not changed.`);
+export function withCodexPostToolUse(hooks: unknown): {
+  hooks: Record<string, unknown>;
+  change: "added" | "unchanged";
+} {
+  if (!isRecord(hooks))
+    throw new AgentFileError(`${CODEX_HOOKS_FILE} does not hold a JSON object, so it was not changed.`);
   const hooksValue = hooks.hooks;
   if (hooksValue !== undefined && !isRecord(hooksValue)) {
     throw new AgentFileError(`${CODEX_HOOKS_FILE} has a "hooks" value that is not an object, so it was not changed.`);
@@ -184,7 +210,9 @@ export function withCodexPostToolUse(hooks: unknown): { hooks: Record<string, un
   const events = (hooksValue ?? {}) as Record<string, unknown>;
   const postValue = events.PostToolUse;
   if (postValue !== undefined && !Array.isArray(postValue)) {
-    throw new AgentFileError(`${CODEX_HOOKS_FILE} has a "hooks.PostToolUse" value that is not an array, so it was not changed.`);
+    throw new AgentFileError(
+      `${CODEX_HOOKS_FILE} has a "hooks.PostToolUse" value that is not an array, so it was not changed.`,
+    );
   }
   const postToolUse = (postValue ?? []) as unknown[];
   if (hasEvergreenCodexPostToolUse(postToolUse)) return { hooks: structuredClone(hooks), change: "unchanged" };

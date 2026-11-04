@@ -37,11 +37,14 @@ test("passes the VERS canonical parse vectors", async (t) => {
     if (!scheme || !hasVersionScheme(scheme)) continue;
     await t.test(vector.description, () => {
       if (vector.expected_failure) {
-        assert.throws(() => parseVers(input), (error: unknown) => {
-          assert.ok(error instanceof VersError);
-          assert.match(error.message, new RegExp(vector.expected_message!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-          return true;
-        });
+        assert.throws(
+          () => parseVers(input),
+          (error: unknown) => {
+            assert.ok(error instanceof VersError);
+            assert.match(error.message, new RegExp(vector.expected_message!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+            return true;
+          },
+        );
         return;
       }
       const expected = vector.expected_output as { type: string; constraints: [string, string][] };

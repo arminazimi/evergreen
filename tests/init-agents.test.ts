@@ -4,7 +4,15 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { AGENT_SECTION, AgentFileError, DEPENDENCY_CHECK_INSTRUCTIONS, renderDiff, SECTION_BEGIN, SECTION_END, withAgentSection } from "../src/agent-instructions.js";
+import {
+  AGENT_SECTION,
+  AgentFileError,
+  DEPENDENCY_CHECK_INSTRUCTIONS,
+  renderDiff,
+  SECTION_BEGIN,
+  SECTION_END,
+  withAgentSection,
+} from "../src/agent-instructions.js";
 import { initAgents } from "../src/init-agents.js";
 import { runCli } from "./cli-runner.js";
 
@@ -81,7 +89,11 @@ test("damaged markers are refused with the file untouched, never guessed at", as
     ["two sections", `${AGENT_SECTION}\n\n${AGENT_SECTION}\n`],
     ["end before begin", `${SECTION_END}\n${SECTION_BEGIN}\n`],
   ] as const) {
-    assert.throws(() => withAgentSection(contents), (error: unknown) => error instanceof AgentFileError && /Nothing was changed/.test(error.message), name);
+    assert.throws(
+      () => withAgentSection(contents),
+      (error: unknown) => error instanceof AgentFileError && /Nothing was changed/.test(error.message),
+      name,
+    );
     const root = await repository({ "AGENTS.md": contents });
     await assert.rejects(initAgents({ root }), AgentFileError, name);
     assert.equal(await readFile(join(root, "AGENTS.md"), "utf8"), contents, `${name}: file untouched`);
@@ -139,7 +151,8 @@ test("a link that points outside the repository is never written through", async
     await symlink(join(outside, "target.md"), join(root, "AGENTS.md"));
   } catch (error) {
     // Creating links needs a privilege on some Windows setups; there is nothing to test without one.
-    if ((error as NodeJS.ErrnoException).code === "EPERM") return context.skip("this system does not allow creating symbolic links");
+    if ((error as NodeJS.ErrnoException).code === "EPERM")
+      return context.skip("this system does not allow creating symbolic links");
     throw error;
   }
   await assert.rejects(initAgents({ root }), /link to a file outside the repository/);
@@ -168,7 +181,10 @@ test("the command line reports each outcome with the right exit code", async () 
   assert.equal(await readFile(join(root, "AGENTS.md"), "utf8"), "# Rules\n");
 
   assert.match((await run(["init", "--agents", root])).stdout, /^Added the Evergreen section to AGENTS\.md\.\n$/);
-  assert.match((await run(["init", "--agents", root])).stdout, /already has the current Evergreen section; nothing to change/);
+  assert.match(
+    (await run(["init", "--agents", root])).stdout,
+    /already has the current Evergreen section; nothing to change/,
+  );
 
   const stale = await repository({ "AGENTS.md": `${SECTION_BEGIN}\nold\n${SECTION_END}\n` });
   assert.match((await run(["init", "--agents", stale])).stdout, /^Updated the Evergreen section in AGENTS\.md\.\n$/);
@@ -179,7 +195,11 @@ test("the command line reports each outcome with the right exit code", async () 
   assert.equal(refused.code, 4);
   assert.match(refused.stderr, /Nothing was changed/);
 
-  for (const args of [["init", "--agents", "--file", "README.md"], ["init", "--agents", "--bogus"], ["init", "--agents", root, root]]) {
+  for (const args of [
+    ["init", "--agents", "--file", "README.md"],
+    ["init", "--agents", "--bogus"],
+    ["init", "--agents", root, root],
+  ]) {
     const usage = await run(args);
     assert.equal(usage.code, 2, args.join(" "));
     assert.match(usage.stderr, /Usage: evergreen init|--file must be/);

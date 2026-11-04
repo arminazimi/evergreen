@@ -42,7 +42,9 @@ export function hookBlock(gate: Severity, chain = false): string {
     `  npx --no-install evergreen-deprecation scan . --fail-on ${gate} --format compact`,
     "  evergreen_status=$?",
     '  if [ "$evergreen_status" -eq 1 ]; then',
-    '    echo "Evergreen found a lifecycle risk at or above \\"' + gate + '\\". Push blocked; bypass with --no-verify or EVERGREEN_SKIP=1." >&2',
+    '    echo "Evergreen found a lifecycle risk at or above \\"' +
+      gate +
+      '\\". Push blocked; bypass with --no-verify or EVERGREEN_SKIP=1." >&2',
     "    exit 1",
     "  fi",
     "fi",
@@ -59,7 +61,11 @@ export function hookBlock(gate: Severity, chain = false): string {
   ].join("\n");
 }
 
-export function withHookBlock(existing: string | undefined, gate: Severity, chain = false): { text: string; change: "created" | "added" | "updated" | "unchanged" } {
+export function withHookBlock(
+  existing: string | undefined,
+  gate: Severity,
+  chain = false,
+): { text: string; change: "created" | "added" | "updated" | "unchanged" } {
   const block = hookBlock(gate, chain);
   if (existing === undefined || existing.trim() === "") return { text: `#!/bin/sh\n\n${block}\n`, change: "created" };
   const begin = existing.indexOf(HOOK_BEGIN);
@@ -80,7 +86,11 @@ async function read(path: string): Promise<string | undefined> {
   }
 }
 
-const exists = (path: string) => lstat(path).then(() => true, () => false);
+const exists = (path: string) =>
+  lstat(path).then(
+    () => true,
+    () => false,
+  );
 
 /** Installs the Evergreen pre-push block, leaving hook managers and foreign hooks alone. */
 export async function initHooks(options: InitHooksOptions): Promise<InitHooksResult> {
@@ -111,7 +121,9 @@ export async function initHooks(options: InitHooksOptions): Promise<InitHooksRes
   const before = await read(path);
   const update = withHookBlock(before, options.gate);
   if (update.change === "added") {
-    throw new AgentFileError(`${path} already exists and is not managed by Evergreen, so it was not changed. Add this line to it yourself:\n  ${command}`);
+    throw new AgentFileError(
+      `${path} already exists and is not managed by Evergreen, so it was not changed. Add this line to it yourself:\n  ${command}`,
+    );
   }
   const diff = update.change === "unchanged" ? "" : renderDiff(file, before ?? "", update.text);
   if (update.change === "unchanged" || options.dryRun) return { change: update.change, file, written: false, diff };

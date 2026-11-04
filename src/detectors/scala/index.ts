@@ -106,7 +106,10 @@ export class ScalaDetector implements Detector {
   readonly inputs: DetectorInputs = { fileNames: [".scala-version", "build.sbt", "build.properties"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the packaged `registry/scala.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/scala.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/scala.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -154,7 +157,8 @@ export class ScalaDetector implements Detector {
       } else if (name === "build.sbt") {
         for (const declaration of parseBuildSbt(contents)) {
           const rule = ruleForDeclared(scalaRules, declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} declares Scala ${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(rule, path, declaration.line, `${path} declares Scala ${declaration.value}. ${rule.summary}`);
         }
       } else if (name === "build.properties") {
         for (const declaration of parseBuildProperties(contents)) {

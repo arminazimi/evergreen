@@ -82,10 +82,7 @@ test("reads pinned runtimes and reports them with higher severity", async () => 
 
   assert.equal(findings.length, 2);
   assert.ok(findings.every((finding) => finding.severity === "high"));
-  assert.deepEqual(
-    findings.map((finding) => finding.location.path).sort(),
-    [".nvmrc", "package.json"],
-  );
+  assert.deepEqual(findings.map((finding) => finding.location.path).sort(), [".nvmrc", "package.json"]);
 });
 
 test("discovers resolved versions in pnpm and Yarn lockfiles", async () => {
@@ -119,13 +116,22 @@ test("does not report supported Node.js ranges or transitive-only deprecated pac
 });
 
 test("stub-type deprecations exclude older typed releases and respect resolved versions", async () => {
-  for (const [version, affected] of [["8.1.0", false], ["9.0.0", true]] as const) {
+  for (const [version, affected] of [
+    ["8.1.0", false],
+    ["9.0.0", true],
+  ] as const) {
     const root = await repository({
       "package.json": JSON.stringify({ dependencies: { "@types/glob": `^${version}` } }),
-      "package-lock.json": JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/@types/glob": { version } } }),
+      "package-lock.json": JSON.stringify({
+        lockfileVersion: 3,
+        packages: { "node_modules/@types/glob": { version } },
+      }),
     });
     const result = await new NpmDetector().scan({ root });
-    assert.equal(result.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"), affected);
+    assert.equal(
+      result.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"),
+      affected,
+    );
   }
 });
 
@@ -171,24 +177,42 @@ test("node-sass deprecated rule does not match an unpublished resolved version",
     }),
   });
   const findings = await new NpmDetector().scan({ root });
-  assert.equal(findings.some((finding) => finding.ruleId === nodeSassDeprecatedRule), false);
+  assert.equal(
+    findings.some((finding) => finding.ruleId === nodeSassDeprecatedRule),
+    false,
+  );
 });
 
 test("version-specific npm rules match declared ranges when no lockfile is available", async () => {
-  for (const [range, affected] of [["^8.1.0", false], ["^9.0.0", true], ["*", true], ["workspace:*", false]] as const) {
+  for (const [range, affected] of [
+    ["^8.1.0", false],
+    ["^9.0.0", true],
+    ["*", true],
+    ["workspace:*", false],
+  ] as const) {
     const root = await repository({ "package.json": JSON.stringify({ dependencies: { "@types/glob": range } }) });
     const findings = await new NpmDetector().scan({ root });
-    assert.equal(findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"), affected, range);
+    assert.equal(
+      findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"),
+      affected,
+      range,
+    );
   }
 });
 
 test("a supported resolved release takes precedence over a broad manifest range", async () => {
   const root = await repository({
     "package.json": JSON.stringify({ dependencies: { "@types/glob": "*" } }),
-    "package-lock.json": JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/@types/glob": { version: "8.1.0" } } }),
+    "package-lock.json": JSON.stringify({
+      lockfileVersion: 3,
+      packages: { "node_modules/@types/glob": { version: "8.1.0" } },
+    }),
   });
   const findings = await new NpmDetector().scan({ root });
-  assert.equal(findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"), false);
+  assert.equal(
+    findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"),
+    false,
+  );
 });
 
 test("reports the line of the declaration that was matched, in the section it came from", async () => {
@@ -259,7 +283,10 @@ test("a package in dependencies and peerDependencies reports the dependencies li
 });
 
 test("a scheduled Node.js line is reported only for a declaration that stays on it", async () => {
-  const reported = async (files: Record<string, string>) => (await new NpmDetector().scan({ root: await repository(files) })).filter((finding) => finding.ruleId === "nodejs.runtime.eol-22");
+  const reported = async (files: Record<string, string>) =>
+    (await new NpmDetector().scan({ root: await repository(files) })).filter(
+      (finding) => finding.ruleId === "nodejs.runtime.eol-22",
+    );
 
   for (const value of ["22", "22.x", "^22.1.0", "~22.4.0", ">=22.0.0 <23"]) {
     const findings = await reported({ "package.json": JSON.stringify({ engines: { node: value } }) });
@@ -268,7 +295,10 @@ test("a scheduled Node.js line is reported only for a declaration that stays on 
     assert.equal(findings[0]!.deadline, "2027-04-30", value);
   }
   const pinned = await reported({ "package.json": "{}", ".nvmrc": "v22.11.0\n" });
-  assert.deepEqual(pinned.map((finding) => [finding.severity, finding.location.path]), [["low", ".nvmrc"]]);
+  assert.deepEqual(
+    pinned.map((finding) => [finding.severity, finding.location.path]),
+    [["low", ".nvmrc"]],
+  );
 
   // A range that merely allows Node.js 22 is not a problem with the declaration, and neither is one that starts below it.
   for (const value of [">=22", ">=22.0.0", "^20 || ^22", ">=20", "24", "*"]) {

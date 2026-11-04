@@ -34,10 +34,15 @@ const scan = (findings: Finding[], diagnostics: string[] = []): ScanResult => ({
 test("renders a stable Markdown table with evidence links and deterministic finding order", () => {
   const result = scan([
     finding({ id: "b:1", location: { path: "z.ts", line: 2 } }),
-    finding({ id: "a:1", title: "Earlier", location: { path: "a.ts", line: 1 }, sources: [
-      { title: "Official docs", url: "https://example.com/docs" },
-      { title: "Unsafe", url: "javascript:alert(1)" },
-    ] }),
+    finding({
+      id: "a:1",
+      title: "Earlier",
+      location: { path: "a.ts", line: 1 },
+      sources: [
+        { title: "Official docs", url: "https://example.com/docs" },
+        { title: "Unsafe", url: "javascript:alert(1)" },
+      ],
+    }),
   ]);
   const markdown = renderMarkdown(result);
   assert.ok(markdown.startsWith("# Evergreen scan report"));
@@ -49,16 +54,21 @@ test("renders a stable Markdown table with evidence links and deterministic find
 });
 
 test("escapes untrusted table values and keeps each finding on one table row", () => {
-  const markdown = renderMarkdown(scan([
-    finding({
-      id: hostile,
-      title: hostile,
-      summary: hostile,
-      replacement: hostile,
-      location: { path: hostile + "\nnext.ts", line: 1 },
-      sources: [{ title: hostile, url: "https://example.com/a(b)" }],
-    }),
-  ], [hostile]));
+  const markdown = renderMarkdown(
+    scan(
+      [
+        finding({
+          id: hostile,
+          title: hostile,
+          summary: hostile,
+          replacement: hostile,
+          location: { path: hostile + "\nnext.ts", line: 1 },
+          sources: [{ title: hostile, url: "https://example.com/a(b)" }],
+        }),
+      ],
+      [hostile],
+    ),
+  );
   assert.ok(!markdown.includes("<script>"));
   assert.ok(markdown.includes("&#124;"));
   assert.ok(markdown.includes("&#92;"));
@@ -80,7 +90,10 @@ test("scan --format markdown writes the report and other commands reject the for
   const root = await mkdtemp(join(tmpdir(), "evergreen-markdown-"));
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
-    await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
+    await writeFile(
+      join(root, ".github", "workflows", "ci.yml"),
+      "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n",
+    );
     const { stdout } = await runCli(["scan", root, "--format", "markdown"]);
     assert.ok(stdout.startsWith("# Evergreen scan report"));
     assert.ok(stdout.includes("| Severity | Finding | Location | Summary | Replacement | Evidence |"));

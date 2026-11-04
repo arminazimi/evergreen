@@ -61,7 +61,11 @@ function isFunctions(document: unknown): boolean {
     entries !== undefined &&
     entries.some((entry) => {
       const name = string(entry.name);
-      return name !== undefined && FUNCTIONS_NAME.test(name) && (string(entry.runtime) !== undefined || buildConfigRuntime(entry) !== undefined);
+      return (
+        name !== undefined &&
+        FUNCTIONS_NAME.test(name) &&
+        (string(entry.runtime) !== undefined || buildConfigRuntime(entry) !== undefined)
+      );
     })
   );
 }
@@ -79,15 +83,26 @@ function isAppEngine(document: unknown): boolean {
 
 function isGke(document: unknown): boolean {
   const entries = resourceList(document);
-  return entries !== undefined && entries.some((entry) => string(entry.currentMasterVersion) !== undefined || string(entry.currentNodeVersion) !== undefined);
+  return (
+    entries !== undefined &&
+    entries.some(
+      (entry) => string(entry.currentMasterVersion) !== undefined || string(entry.currentNodeVersion) !== undefined,
+    )
+  );
 }
 
 function isCloudRun(document: unknown): boolean {
   const entries = resourceList(document);
-  return entries !== undefined && entries.some((entry) => {
-    const kind = string(entry.kind);
-    return (kind === "Service" || string(entry.apiVersion) === "serving.knative.dev/v1") && containersOf(entry) !== undefined;
-  });
+  return (
+    entries !== undefined &&
+    entries.some((entry) => {
+      const kind = string(entry.kind);
+      return (
+        (kind === "Service" || string(entry.apiVersion) === "serving.knative.dev/v1") &&
+        containersOf(entry) !== undefined
+      );
+    })
+  );
 }
 
 function functionsItems(document: unknown, file: string): InventoryItem[] {

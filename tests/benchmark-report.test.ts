@@ -207,9 +207,7 @@ const EXPECTED_FULL_REPORT = `## Guardrail
 `;
 
 test("fixture result files validate against schemas/benchmark-result.v1.schema.json", async () => {
-  const validate = new Ajv2020({ allErrors: true }).compile(
-    JSON.parse(await readFile(schemaPath, "utf8")) as object,
-  );
+  const validate = new Ajv2020({ allErrors: true }).compile(JSON.parse(await readFile(schemaPath, "utf8")) as object);
   for (const result of [guardrailClaude, guardrailCodex, planClaude, planCodex]) {
     assert.ok(validate(result), JSON.stringify(validate.errors));
   }
@@ -252,11 +250,7 @@ test("loadResults sorts by file name and renderReport sorts rows by agent and mo
         ["1-claude.json", "2-codex.json"],
       );
       const markdown = renderReport(loaded);
-      const baselineRows = markdown
-        .split("### baseline\n\n")[1]!
-        .split("\n\n")[0]!
-        .split("\n")
-        .slice(2);
+      const baselineRows = markdown.split("### baseline\n\n")[1]!.split("\n\n")[0]!.split("\n").slice(2);
       assert.equal(baselineRows[0]!.startsWith("| claude-code |"), true);
       assert.equal(baselineRows[1]!.startsWith("| codex |"), true);
     },

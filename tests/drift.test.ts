@@ -16,7 +16,15 @@ after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
 });
 
-function pin(path: string, line: number, source: string, raw: string, kind: "pin" | "floor", release?: string, unresolved?: string): RuntimePin {
+function pin(
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  kind: "pin" | "floor",
+  release?: string,
+  unresolved?: string,
+): RuntimePin {
   return {
     path,
     line,
@@ -43,13 +51,18 @@ test("two pins on different releases are a drift, and pins and releases are orde
   assert.equal(report.schemaVersion, "evergreen.drift.v1");
   const [runtime] = report.runtimes;
   assert.ok(runtime);
-  assert.deepEqual(runtime.pins.map((entry) => `${entry.path}:${entry.line}`), ["a.txt:1", "a.txt:2", "z.txt:4"]);
+  assert.deepEqual(
+    runtime.pins.map((entry) => `${entry.path}:${entry.line}`),
+    ["a.txt:1", "a.txt:2", "z.txt:4"],
+  );
   assert.deepEqual(runtime.releases, ["18", "22"]);
   assert.equal(runtime.drifted, true);
 });
 
 test("one release across pins is not a drift", async () => {
-  const report = await analyzeDrift("/repo", [fakeCollector("example", [pin("a", 1, "a", "18.17.0", "pin", "18"), pin("b", 1, "b", "18", "pin", "18")])]);
+  const report = await analyzeDrift("/repo", [
+    fakeCollector("example", [pin("a", 1, "a", "18.17.0", "pin", "18"), pin("b", 1, "b", "18", "pin", "18")]),
+  ]);
   assert.equal(report.runtimes[0]!.drifted, false);
   assert.deepEqual(report.runtimes[0]!.releases, ["18"]);
 });
@@ -65,7 +78,10 @@ test("a floor above the lowest pinned release is a conflict; a floor at or below
   const [runtime] = report.runtimes;
   assert.ok(runtime);
   assert.equal(runtime.drifted, false);
-  assert.deepEqual(runtime.floorConflicts.map((entry) => entry.raw), ["20"]);
+  assert.deepEqual(
+    runtime.floorConflicts.map((entry) => entry.raw),
+    ["20"],
+  );
 });
 
 test("unresolved values are reported but never count as releases or conflicts", async () => {
@@ -89,13 +105,18 @@ test("a runtime with no pins is left out, and runtimes are ordered by id", async
     fakeCollector("empty", []),
     fakeCollector("go", [pin("b", 1, "b", "1.22", "pin", "1.22")]),
   ]);
-  assert.deepEqual(report.runtimes.map((runtime) => runtime.runtime), ["go", "python"]);
+  assert.deepEqual(
+    report.runtimes.map((runtime) => runtime.runtime),
+    ["go", "python"],
+  );
 });
 
 test("analyzeDrift is deterministic for the same input", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-drift-"));
   temporaryRoots.push(root);
-  const collectors = [fakeCollector("example", [pin("b", 2, "b", "22", "pin", "22"), pin("a", 1, "a", "18", "pin", "18")])];
+  const collectors = [
+    fakeCollector("example", [pin("b", 2, "b", "22", "pin", "22"), pin("a", 1, "a", "18", "pin", "18")]),
+  ];
   assert.deepEqual(await analyzeDrift(root, collectors), await analyzeDrift(root, collectors));
 });
 

@@ -24,7 +24,7 @@ const RELEASE = /^\d+(?:\.\d+)*$/;
 
 function unquote(value: string): string {
   const quote = value[0];
-  return value.length >= 2 && (quote === "\"" || quote === "'") && value.endsWith(quote) ? value.slice(1, -1) : value;
+  return value.length >= 2 && (quote === '"' || quote === "'") && value.endsWith(quote) ? value.slice(1, -1) : value;
 }
 
 function readValues(lines: readonly string[], firstLine: number): Map<string, OsReleaseValue> {
@@ -82,7 +82,9 @@ export const osReleaseImporter: InventoryImporter = {
 
   detect(document) {
     if (typeof document !== "string") return false;
-    return parseOsReleaseDocument(document).some((block) => distributionOf(block) !== undefined && configuredRelease(block) !== undefined);
+    return parseOsReleaseDocument(document).some(
+      (block) => distributionOf(block) !== undefined && configuredRelease(block) !== undefined,
+    );
   },
 
   items(document, file) {

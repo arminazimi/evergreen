@@ -138,7 +138,8 @@ test("a constraint the matcher cannot read is reported as unknown, never as a bl
       subject: "acme/http-client@2.1.0",
       path: "composer.lock",
       line: 6,
-      reason: "The constraint ^8.4 || in require.php is not one this analyzer understands, so support for PHP 8.4 is unknown.",
+      reason:
+        "The constraint ^8.4 || in require.php is not one this analyzer understands, so support for PHP 8.4 is unknown.",
       evidence: { kind: "lockfile", value: "require.php: ^8.4 ||" },
     },
   ]);

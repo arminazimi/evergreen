@@ -18,7 +18,8 @@ export const FETCH_MARKER = ".evergreen-fetch";
 /** The strategy `EVERGREEN_CORPUS_FETCH` names; sparse is the default (decision 0015). */
 export function resolveFetchStrategy(env: NodeJS.ProcessEnv = process.env): FetchStrategy {
   const value = env.EVERGREEN_CORPUS_FETCH ?? "sparse";
-  if (value !== "shallow" && value !== "sparse") throw new Error(`Invalid EVERGREEN_CORPUS_FETCH "${value}": use sparse or shallow.`);
+  if (value !== "shallow" && value !== "sparse")
+    throw new Error(`Invalid EVERGREEN_CORPUS_FETCH "${value}": use sparse or shallow.`);
   return value;
 }
 
@@ -40,11 +41,16 @@ function caseInsensitive(text: string): string {
 }
 
 /** Sparse-checkout patterns (gitignore syntax) for every file any detector's declaration allows it to read. */
-export function sparsePatterns(declarations: readonly DetectorInputs[] = builtInDetectors.flatMap((detector) => (detector.inputs ? [detector.inputs] : []))): string[] {
+export function sparsePatterns(
+  declarations: readonly DetectorInputs[] = builtInDetectors.flatMap((detector) =>
+    detector.inputs ? [detector.inputs] : [],
+  ),
+): string[] {
   const patterns = new Set<string>();
   for (const inputs of declarations) {
     for (const name of inputs.fileNames ?? []) patterns.add(caseInsensitive(name));
-    for (const extension of [...(inputs.extensions ?? []), ...(inputs.sourceExtensions ?? [])]) patterns.add(`*${caseInsensitive(extension)}`);
+    for (const extension of [...(inputs.extensions ?? []), ...(inputs.sourceExtensions ?? [])])
+      patterns.add(`*${caseInsensitive(extension)}`);
     for (const directory of inputs.directories ?? []) patterns.add(`${directory.replace(/\/+$/, "")}/`);
   }
   return [...patterns].sort();
@@ -61,7 +67,10 @@ export function sparseFingerprint(patterns: readonly string[] = sparsePatterns()
  * detector's inputs refetches instead of scanning a checkout that lacks it.
  */
 export async function isCheckoutUsable(directory: string, strategy: FetchStrategy): Promise<boolean> {
-  const marker = await readFile(`${directory}/${FETCH_MARKER}`, "utf8").then((text) => text.trim(), () => undefined);
+  const marker = await readFile(`${directory}/${FETCH_MARKER}`, "utf8").then(
+    (text) => text.trim(),
+    () => undefined,
+  );
   if (marker === undefined) return true;
   return strategy === "sparse" && marker === sparseFingerprint();
 }
@@ -79,7 +88,21 @@ const LOW_SPEED = ["-c", "http.lowSpeedLimit=1000", "-c", "http.lowSpeedTime=30"
 async function fetchShallow(directory: string, entry: FetchEntry): Promise<FetchOutcome> {
   await run("git", ["init", "--quiet", directory]);
   await networked(entry, (signal) =>
-    run("git", ["-C", directory, ...LOW_SPEED, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], { env: GIT_ENV, maxBuffer: 10 * 1024 * 1024, signal }),
+    run(
+      "git",
+      [
+        "-C",
+        directory,
+        ...LOW_SPEED,
+        "fetch",
+        "--quiet",
+        "--depth",
+        "1",
+        `https://github.com/${entry.repository}.git`,
+        entry.commit,
+      ],
+      { env: GIT_ENV, maxBuffer: 10 * 1024 * 1024, signal },
+    ),
   );
   await run("git", ["-C", directory, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
   return { bytes: await directorySize(`${directory}/.git`) };
@@ -95,10 +118,30 @@ async function fetchSparse(directory: string, entry: FetchEntry): Promise<FetchO
   await run("git", ["-C", directory, "config", "core.sparseCheckoutCone", "false"]);
   await writeFile(`${directory}/.git/info/sparse-checkout`, `${sparsePatterns().join("\n")}\n`);
   await networked(entry, (signal) =>
-    run("git", ["-C", directory, ...LOW_SPEED, "fetch", "--quiet", "--depth", "1", "--filter=blob:none", `https://github.com/${entry.repository}.git`, entry.commit], { env: GIT_ENV, maxBuffer: 10 * 1024 * 1024, signal }),
+    run(
+      "git",
+      [
+        "-C",
+        directory,
+        ...LOW_SPEED,
+        "fetch",
+        "--quiet",
+        "--depth",
+        "1",
+        "--filter=blob:none",
+        `https://github.com/${entry.repository}.git`,
+        entry.commit,
+      ],
+      { env: GIT_ENV, maxBuffer: 10 * 1024 * 1024, signal },
+    ),
   );
   // The checkout downloads the declared blobs, so it is a network step too.
-  await networked(entry, (signal) => run("git", ["-C", directory, ...LOW_SPEED, "checkout", "--quiet", "--detach", "FETCH_HEAD"], { env: GIT_ENV, signal }));
+  await networked(entry, (signal) =>
+    run("git", ["-C", directory, ...LOW_SPEED, "checkout", "--quiet", "--detach", "FETCH_HEAD"], {
+      env: GIT_ENV,
+      signal,
+    }),
+  );
   await writeFile(`${directory}/${FETCH_MARKER}`, `${sparseFingerprint()}\n`);
   return { bytes: await directorySize(`${directory}/.git`) };
 }
@@ -106,10 +149,14 @@ async function fetchSparse(directory: string, entry: FetchEntry): Promise<FetchO
 /** One request for the pinned commit's archive, extracted without any git data. */
 async function fetchTarball(directory: string, entry: FetchEntry): Promise<FetchOutcome> {
   // The signal also covers reading the body, so a stalled download fails the attempt instead of hanging the run.
-  const response = await fetch(`https://codeload.github.com/${entry.repository}/tar.gz/${entry.commit}`, { signal: AbortSignal.timeout(120_000) });
+  const response = await fetch(`https://codeload.github.com/${entry.repository}/tar.gz/${entry.commit}`, {
+    signal: AbortSignal.timeout(120_000),
+  });
   if (!response.ok || !response.body) throw new Error(`${entry.repository}: HTTP ${response.status}`);
   await mkdir(directory, { recursive: true });
-  const tar = spawn("tar", ["-xzf", "-", "-C", directory, "--strip-components=1"], { stdio: ["pipe", "ignore", "pipe"] });
+  const tar = spawn("tar", ["-xzf", "-", "-C", directory, "--strip-components=1"], {
+    stdio: ["pipe", "ignore", "pipe"],
+  });
   const finished = new Promise<void>((resolve, reject) => {
     let stderr = "";
     tar.stderr.on("data", (chunk: Buffer) => (stderr += chunk.toString()));

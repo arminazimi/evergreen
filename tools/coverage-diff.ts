@@ -129,9 +129,9 @@ export function compareCoverage(options: CoverageDiffOptions): CoverageDiffResul
   const compared: CoverageDrop[] = [];
   const skipped: string[] = [];
 
-  const unique = [...new Set(options.changedFiles.map((file) => file.trim().replaceAll("\\", "/").replace(/^\.\//, "")))].sort((left, right) =>
-    left.localeCompare(right),
-  );
+  const unique = [
+    ...new Set(options.changedFiles.map((file) => file.trim().replaceAll("\\", "/").replace(/^\.\//, ""))),
+  ].sort((left, right) => left.localeCompare(right));
 
   for (const sourcePath of unique) {
     const coveragePath = sourcePathToCoveragePath(sourcePath);
@@ -161,7 +161,10 @@ export function renderCoverageDiffSummary(result: CoverageDiffResult): string {
   if (result.compared.length === 0) {
     lines.push("No changed `src/` file had base coverage to compare.", "");
     if (result.skipped.length > 0) {
-      lines.push(`Skipped (new or absent from base LCOV): ${result.skipped.map((path) => `\`${path}\``).join(", ")}`, "");
+      lines.push(
+        `Skipped (new or absent from base LCOV): ${result.skipped.map((path) => `\`${path}\``).join(", ")}`,
+        "",
+      );
     }
     return lines.join("\n");
   }
@@ -170,11 +173,16 @@ export function renderCoverageDiffSummary(result: CoverageDiffResult): string {
   for (const item of result.compared) {
     const delta = `${item.drop > 0 ? "−" : item.drop < 0 ? "+" : ""}${roundOne(Math.abs(item.drop))}`;
     const mark = item.drop > result.threshold ? " **fail**" : "";
-    lines.push(`| \`${item.sourcePath}\` | ${formatPercent(item.basePercent)} | ${formatPercent(item.headPercent)} | ${delta} pt${mark} |`);
+    lines.push(
+      `| \`${item.sourcePath}\` | ${formatPercent(item.basePercent)} | ${formatPercent(item.headPercent)} | ${delta} pt${mark} |`,
+    );
   }
   lines.push("");
   if (result.passed) {
-    lines.push(`No changed file lost more than ${result.threshold} percentage point${result.threshold === 1 ? "" : "s"} of line coverage.`, "");
+    lines.push(
+      `No changed file lost more than ${result.threshold} percentage point${result.threshold === 1 ? "" : "s"} of line coverage.`,
+      "",
+    );
   } else {
     lines.push(
       `Failed: ${result.regressions.length} file${result.regressions.length === 1 ? "" : "s"} lost more than ${result.threshold} percentage point${result.threshold === 1 ? "" : "s"} of line coverage.`,
@@ -204,7 +212,11 @@ export function renderCoverageDiffText(result: CoverageDiffResult): string {
       (item) =>
         `  ${item.sourcePath}: ${formatPercent(item.basePercent)} → ${formatPercent(item.headPercent)} (−${roundOne(item.drop)} pt; limit ${result.threshold})`,
     ),
-    ...result.compared.filter((item) => item.drop <= result.threshold).map((item) => `  ok ${item.sourcePath}: ${formatPercent(item.basePercent)} → ${formatPercent(item.headPercent)}`),
+    ...result.compared
+      .filter((item) => item.drop <= result.threshold)
+      .map(
+        (item) => `  ok ${item.sourcePath}: ${formatPercent(item.basePercent)} → ${formatPercent(item.headPercent)}`,
+      ),
   ].join("\n");
 }
 
@@ -223,7 +235,8 @@ export async function runCoverageDiff(options: {
     changedFiles: options.changedFiles,
     ...(options.threshold !== undefined ? { threshold: options.threshold } : {}),
   });
-  if (options.summaryPath !== undefined) await writeFile(options.summaryPath, renderCoverageDiffSummary(result), { flag: "a" });
+  if (options.summaryPath !== undefined)
+    await writeFile(options.summaryPath, renderCoverageDiffSummary(result), { flag: "a" });
   return result;
 }
 
@@ -246,12 +259,21 @@ function readFlagValue(argv: readonly string[], name: string): string | undefine
 }
 
 export async function main(argv: readonly string[]): Promise<number> {
-  const known = new Set(["--base", "--head", "--changed-file", "--changed-files", "--threshold", "--summary", "--root"]);
+  const known = new Set([
+    "--base",
+    "--head",
+    "--changed-file",
+    "--changed-files",
+    "--threshold",
+    "--summary",
+    "--root",
+  ]);
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index]!;
     if (!argument.startsWith("--")) throw new Error(`Unexpected argument "${argument}".`);
     if (!known.has(argument)) throw new Error(`Unknown argument "${argument}".`);
-    if (argv[index + 1] === undefined || argv[index + 1]!.startsWith("--")) throw new Error(`${argument} needs a value.`);
+    if (argv[index + 1] === undefined || argv[index + 1]!.startsWith("--"))
+      throw new Error(`${argument} needs a value.`);
     index += 1;
   }
 
@@ -276,7 +298,8 @@ export async function main(argv: readonly string[]): Promise<number> {
 
   const thresholdRaw = readFlagValue(argv, "--threshold");
   const threshold = thresholdRaw === undefined ? undefined : Number(thresholdRaw);
-  if (threshold !== undefined && !Number.isFinite(threshold)) throw new Error(`--threshold must be a number, got "${thresholdRaw}".`);
+  if (threshold !== undefined && !Number.isFinite(threshold))
+    throw new Error(`--threshold must be a number, got "${thresholdRaw}".`);
 
   const summaryPath = readFlagValue(argv, "--summary");
   const root = readFlagValue(argv, "--root");

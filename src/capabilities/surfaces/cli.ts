@@ -7,7 +7,14 @@ const cli: CapabilitySurface = {
   status: "supported",
   version: VERSION,
   entryPoints: ["evergreen"],
-  capabilityIds: ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "environment.doctor", "snippet.check"],
+  capabilityIds: [
+    "repository.scan",
+    "deprecation.list",
+    "deprecation.explain",
+    "migration.context.create",
+    "environment.doctor",
+    "snippet.check",
+  ],
 };
 
 export default cli;

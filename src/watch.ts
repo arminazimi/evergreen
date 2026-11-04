@@ -50,7 +50,9 @@ async function readState(env: NodeJS.ProcessEnv): Promise<WatchState> {
     };
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return { projects: [], seen: [] };
-    throw new Error(`${watchStateFile(env)} is not readable (${error instanceof Error ? error.message : String(error)}); fix or delete it.`);
+    throw new Error(
+      `${watchStateFile(env)} is not readable (${error instanceof Error ? error.message : String(error)}); fix or delete it.`,
+    );
   }
 }
 
@@ -71,7 +73,10 @@ export async function addWatched(path: string, options: WatchOptions = {}): Prom
   const state = await readState(env);
   const project = resolve(path);
   if (state.projects.includes(project)) return false;
-  await writeState(env, { ...state, projects: [...state.projects, project].sort((left, right) => left.localeCompare(right)) });
+  await writeState(env, {
+    ...state,
+    projects: [...state.projects, project].sort((left, right) => left.localeCompare(right)),
+  });
   return true;
 }
 
@@ -81,7 +86,11 @@ export async function removeWatched(path: string, options: WatchOptions = {}): P
   const state = await readState(env);
   const project = resolve(path);
   if (!state.projects.includes(project)) return false;
-  await writeState(env, { ...state, projects: state.projects.filter((entry) => entry !== project), seen: state.seen.filter((key) => !key.startsWith(`${project}\n`)) });
+  await writeState(env, {
+    ...state,
+    projects: state.projects.filter((entry) => entry !== project),
+    seen: state.seen.filter((key) => !key.startsWith(`${project}\n`)),
+  });
   return true;
 }
 
@@ -93,7 +102,10 @@ function keyOf(project: string, finding: Finding): string {
  * Re-scans every registered project and returns only the findings that were not in the previous digest, so a new
  * end-of-life date shows up once. With `weekly`, it does nothing until a week has passed since the last digest.
  */
-export async function runWatch(detectors: readonly Detector[], options: WatchOptions & { weekly?: boolean } = {}): Promise<WatchDigest> {
+export async function runWatch(
+  detectors: readonly Detector[],
+  options: WatchOptions & { weekly?: boolean } = {},
+): Promise<WatchDigest> {
   const env = options.env ?? process.env;
   const now = options.now ?? new Date();
   const state = await readState(env);
@@ -128,11 +140,18 @@ export function renderWatchText(digest: WatchDigest): string {
   if (!digest.ran) return "The last digest is less than a week old; nothing to report yet.";
   if (digest.projects === 0) return "No projects are watched. Add one with `evergreen watch add <path>`.";
   const lines: string[] = [];
-  if (digest.changes.length === 0) lines.push(`No changes since the last digest (${digest.projects} ${digest.projects === 1 ? "project" : "projects"}).`);
+  if (digest.changes.length === 0)
+    lines.push(
+      `No changes since the last digest (${digest.projects} ${digest.projects === 1 ? "project" : "projects"}).`,
+    );
   else {
-    lines.push(`${digest.changes.length} new ${digest.changes.length === 1 ? "finding" : "findings"} since the last digest:`);
+    lines.push(
+      `${digest.changes.length} new ${digest.changes.length === 1 ? "finding" : "findings"} since the last digest:`,
+    );
     for (const { project, finding } of digest.changes) {
-      lines.push(`- ${project}: [${finding.severity}] ${finding.title}${finding.deadline ? ` (deadline ${finding.deadline})` : ""} at ${finding.location.path}`);
+      lines.push(
+        `- ${project}: [${finding.severity}] ${finding.title}${finding.deadline ? ` (deadline ${finding.deadline})` : ""} at ${finding.location.path}`,
+      );
     }
   }
   for (const entry of digest.failed) lines.push(`Could not scan ${entry.project}: ${entry.reason}`);

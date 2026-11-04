@@ -24,7 +24,11 @@ interface RequestInit {
 }
 
 /** One GitHub REST call. Reads the token the same way tools/github-actions-shas.ts does. */
-async function githubRequest(method: string, path: string, init: RequestInit = {}): Promise<{ error?: string; data: unknown }> {
+async function githubRequest(
+  method: string,
+  path: string,
+  init: RequestInit = {},
+): Promise<{ error?: string; data: unknown }> {
   const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
   const response = await fetch(`${GITHUB_API}${path}`, {
     method,
@@ -85,16 +89,31 @@ export function parseArguments(argv: string[]): Arguments {
       return next;
     };
     switch (flag) {
-      case "--org": args.org = value(); break;
-      case "--repos":
-        args.repos = value().split(",").map((name) => name.trim());
+      case "--org":
+        args.org = value();
         break;
-      case "--apply": args.apply = true; break;
-      case "--schedule": args.schedule = value(); break;
-      case "--action-ref": args.actionRef = value(); break;
-      case "--branch": args.branch = value(); break;
-      case "--help": process.stdout.write(USAGE); process.exit(0);
-      default: throw new Error(`Unknown option ${flag}.\n${USAGE}`);
+      case "--repos":
+        args.repos = value()
+          .split(",")
+          .map((name) => name.trim());
+        break;
+      case "--apply":
+        args.apply = true;
+        break;
+      case "--schedule":
+        args.schedule = value();
+        break;
+      case "--action-ref":
+        args.actionRef = value();
+        break;
+      case "--branch":
+        args.branch = value();
+        break;
+      case "--help":
+        process.stdout.write(USAGE);
+        process.exit(0);
+      default:
+        throw new Error(`Unknown option ${flag}.\n${USAGE}`);
     }
   }
   if (!args.org && (!args.repos || args.repos.length === 0)) {
@@ -164,7 +183,12 @@ export function pullRequestBody(): string {
 export function parsePlan(repos: Repository[], present: Map<string, boolean>): PlanEntry[] {
   return rolloutTargets(repos).map((repo) =>
     present.get(repo.name)
-      ? { repository: repo.name, defaultBranch: repo.default_branch, status: "skip", reason: "a workflow already uses arminazimi/evergreen" }
+      ? {
+          repository: repo.name,
+          defaultBranch: repo.default_branch,
+          status: "skip",
+          reason: "a workflow already uses arminazimi/evergreen",
+        }
       : { repository: repo.name, defaultBranch: repo.default_branch, status: "pull-request" },
   );
 }
@@ -188,7 +212,8 @@ async function repositoryDefaultBranch(name: string): Promise<Repository> {
   const body = await githubRequest("GET", `/repos/${name}`);
   if (body.error) throw new Error(`Fetching ${name} failed: ${body.error}`);
   const repo = body.data as Repository;
-  if (!repo.default_branch) throw new Error(`${name} reports no default branch, so a pull request has nowhere to land.`);
+  if (!repo.default_branch)
+    throw new Error(`${name} reports no default branch, so a pull request has nowhere to land.`);
   return repo;
 }
 
@@ -257,9 +282,7 @@ async function openPullRequest(name: string, branch: string, base: string): Prom
 }
 
 function planLine(entry: PlanEntry): string {
-  return entry.status === "skip"
-    ? `${entry.repository}\tskip\t${entry.reason}`
-    : `${entry.repository}\tpull-request`;
+  return entry.status === "skip" ? `${entry.repository}\tskip\t${entry.reason}` : `${entry.repository}\tpull-request`;
 }
 
 async function main(): Promise<void> {
@@ -269,7 +292,8 @@ async function main(): Promise<void> {
 
   const repositories: Repository[] = [];
   for (const name of args.repos ?? []) {
-    if (!/^[^/]+\/[^/]+$/.test(name)) throw new Error(`Expected --repos entries as owner/name, got ${JSON.stringify(name)}.`);
+    if (!/^[^/]+\/[^/]+$/.test(name))
+      throw new Error(`Expected --repos entries as owner/name, got ${JSON.stringify(name)}.`);
     repositories.push(await repositoryDefaultBranch(name));
   }
   if (args.org) repositories.push(...rolloutTargets(await orgRepositories(args.org)));
@@ -281,8 +305,8 @@ async function main(): Promise<void> {
   const open = plan.filter((entry) => entry.status === "pull-request");
   process.stdout.write(
     `\n${open.length} pull request${open.length === 1 ? "" : "s"} would be opened, ${plan.length - open.length} skipped\n` +
-    `Action ref ${actionRef}, branch ${args.branch}, schedule ${args.schedule}\n\n` +
-    `Workflow file (${WORKFLOW_PATH}):\n${content}\n`,
+      `Action ref ${actionRef}, branch ${args.branch}, schedule ${args.schedule}\n\n` +
+      `Workflow file (${WORKFLOW_PATH}):\n${content}\n`,
   );
   if (!args.apply) {
     process.stdout.write("Dry run: nothing was changed. Re-run with --apply to open the pull requests.\n");

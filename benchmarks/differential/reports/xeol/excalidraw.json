@@ -9,9 +9,7 @@
   "comparisons": [
     {
       "product": "next",
-      "evergreen": [
-        "npm.package.next.14.support-end"
-      ],
+      "evergreen": ["npm.package.next.14.support-end"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
@@ -30,9 +28,7 @@
     },
     {
       "product": "types.socket.io-client",
-      "evergreen": [
-        "npm.package.types.socket.io-client.deprecated"
-      ],
+      "evergreen": ["npm.package.types.socket.io-client.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."

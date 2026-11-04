@@ -41,7 +41,12 @@ export async function runCli(argv: readonly string[], options: CliOptions = {}):
     (stream: NodeJS.WriteStream, originalWrite: typeof process.stdout.write, append: (text: string) => void) =>
     (chunk: unknown, encodingOrCallback?: unknown, callback?: unknown): boolean => {
       if (typeof chunk !== "string") {
-        return originalWrite.call(stream, chunk as Uint8Array, encodingOrCallback as BufferEncoding, callback as () => void);
+        return originalWrite.call(
+          stream,
+          chunk as Uint8Array,
+          encodingOrCallback as BufferEncoding,
+          callback as () => void,
+        );
       }
       append(chunk);
       const done = typeof encodingOrCallback === "function" ? encodingOrCallback : callback;

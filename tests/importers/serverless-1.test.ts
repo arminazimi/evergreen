@@ -77,10 +77,11 @@ test("parses supported and deprecated tables from a minimal page", async () => {
   };
   const result = await awsLambdaRuntimesImporter.import(context);
   assert.equal(result.rules.length, 3);
-  assert.deepEqual(
-    result.rules.map((rule) => rule.id).sort(),
-    ["serverless.aws-lambda.go1.x", "serverless.aws-lambda.nodejs14.x", "serverless.aws-lambda.nodejs20.x"],
-  );
+  assert.deepEqual(result.rules.map((rule) => rule.id).sort(), [
+    "serverless.aws-lambda.go1.x",
+    "serverless.aws-lambda.nodejs14.x",
+    "serverless.aws-lambda.nodejs20.x",
+  ]);
   const go = result.rules.find((rule) => rule.id === "serverless.aws-lambda.go1.x")!;
   assert.equal(go.replacement, "provided.al2023");
   assert.ok(result.notes.some((note) => note.includes("nodejs99.x") && note.includes("twelve months")));
@@ -90,13 +91,16 @@ test("runtime family and replacement helpers", () => {
   assert.equal(runtimeFamily("nodejs14.x"), "nodejs");
   assert.equal(runtimeFamily("dotnetcore3.1"), "dotnet");
   assert.equal(runtimeFamily("provided.al2"), "provided");
-  const supported = parseRuntimeTable(sectionAfterHeading(MINI_PAGE, "runtimes-supported")!.match(/<table[\s\S]*<\/table>/i)![0]!);
+  const supported = parseRuntimeTable(
+    sectionAfterHeading(MINI_PAGE, "runtimes-supported")!.match(/<table[\s\S]*<\/table>/i)![0]!,
+  );
   assert.equal(pickReplacement("nodejs14.x", supported), "nodejs24.x or nodejs22.x");
   assert.equal(pickReplacement("go1.x", supported), "provided.al2023");
 });
 
 test("a cell decodes character references once, so an escaped tag stays text", () => {
-  const table = "<table>" +
+  const table =
+    "<table>" +
     "<tr><th>Name</th><th>Identifier</th><th>OS</th><th>Deprecation date</th></tr>" +
     "<tr><td><p>X &amp;lt;b&amp;gt; Y</p></td><td><code>nodejs22.x</code></td><td>AL2023</td><td>Apr 30, 2027</td></tr>" +
     "</table>";

@@ -4,11 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { ruleVersion, splitApiVersion } from "../src/detectors/kubernetes/api-version.js";
-import {
-  MAXIMUM_DOCUMENTS,
-  MAXIMUM_INPUT_BYTES,
-  parseManifest,
-} from "../src/detectors/kubernetes/parse-manifest.js";
+import { MAXIMUM_DOCUMENTS, MAXIMUM_INPUT_BYTES, parseManifest } from "../src/detectors/kubernetes/parse-manifest.js";
 import {
   MAXIMUM_ACTIONS,
   MAXIMUM_DOCUMENTS as MAXIMUM_TEMPLATE_DOCUMENTS,
@@ -78,11 +74,10 @@ test("reads a document that has an anchor but no alias", () => {
 });
 
 test("returns supported APIs too; the registry decides what is a finding", async () => {
-  assert.deepEqual(summary(await fixture("zero", "manifests", "app.yaml")).map((entry) => entry.value), [
-    "apps/v1",
-    "networking.k8s.io/v1",
-    "batch/v1",
-  ]);
+  assert.deepEqual(
+    summary(await fixture("zero", "manifests", "app.yaml")).map((entry) => entry.value),
+    ["apps/v1", "networking.k8s.io/v1", "batch/v1"],
+  );
 });
 
 test("rejects non-literal and malformed values", () => {
@@ -210,7 +205,13 @@ test("ignores a commented or nested kubeVersion and leaves templated or aliased 
       },
     ],
   });
-  for (const contents of ["kubeVersion: 1\n", "kubeVersion: {{ .x }}\n", "kubeVersion: ''\n", "- kubeVersion: '>=1'\n", "kubeVersion: [a]\n"]) {
+  for (const contents of [
+    "kubeVersion: 1\n",
+    "kubeVersion: {{ .x }}\n",
+    "kubeVersion: ''\n",
+    "- kubeVersion: '>=1'\n",
+    "kubeVersion: [a]\n",
+  ]) {
     assert.deepEqual(parseChart(contents), { kubeVersions: [], dependencies: [], unclassified: [] }, contents);
   }
 });
@@ -262,8 +263,8 @@ test("treats include, template, tpl, lookup, and define bodies as dynamic", () =
     '{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion }}',
     '{{- define "x.legacy" }}',
     '{{- block "x" . }}',
-    '{{- with .Capabilities }}',
-    '{{- range .Capabilities.APIVersions }}',
+    "{{- with .Capabilities }}",
+    "{{- range .Capabilities.APIVersions }}",
   ]) {
     assert.deepEqual(parseTemplate(`${guard}\n${legacy}{{- end }}\n`), [], guard);
   }
@@ -274,7 +275,7 @@ test("a later branch of a chain is dynamic once any earlier condition asked the 
     "{{- if .Values.a }}",
     "apiVersion: batch/v1beta1",
     "kind: CronJob",
-    "{{- else if .Capabilities.APIVersions.Has \"batch/v1\" }}",
+    '{{- else if .Capabilities.APIVersions.Has "batch/v1" }}',
     "apiVersion: batch/v1",
     "kind: CronJob",
     "{{- else }}",
@@ -287,7 +288,7 @@ test("a later branch of a chain is dynamic once any earlier condition asked the 
   assert.deepEqual(parseTemplate(source), []);
   // Separate documents keep their own state; the block closes before the second one.
   const separate = [
-    "{{- if .Capabilities.APIVersions.Has \"x\" }}",
+    '{{- if .Capabilities.APIVersions.Has "x" }}',
     "apiVersion: batch/v1beta1",
     "kind: CronJob",
     "{{- end }}",
@@ -308,7 +309,7 @@ test("reads several documents and counts every line, including multi-line action
     "apiVersion: batch/v1beta1 # legacy",
     "kind: CronJob",
     "metadata:",
-    "  name: {{ include \"x\" . |",
+    '  name: {{ include "x" . |',
     "    quote }}",
     "---",
     'apiVersion: "policy/v1beta1"',
@@ -364,8 +365,14 @@ test("bounds template size, line length, actions, nesting, and documents", () =>
   ]);
   assert.deepEqual(parseTemplate(`apiVersion: ${"a".repeat(MAXIMUM_LINE_LENGTH)}\nkind: CronJob\n`), []);
   assert.deepEqual(parseTemplate(`${"{{ x }}".repeat(MAXIMUM_ACTIONS + 1)}\n${pair}`), []);
-  assert.deepEqual(parseTemplate(`${"{{ if .x }}".repeat(MAXIMUM_NESTING + 1)}\n${pair}${"{{ end }}".repeat(MAXIMUM_NESTING + 1)}`), []);
-  assert.equal(parseTemplate(`${"{{ if .x }}".repeat(MAXIMUM_NESTING)}\n${pair}${"{{ end }}".repeat(MAXIMUM_NESTING)}`).length, 1);
+  assert.deepEqual(
+    parseTemplate(`${"{{ if .x }}".repeat(MAXIMUM_NESTING + 1)}\n${pair}${"{{ end }}".repeat(MAXIMUM_NESTING + 1)}`),
+    [],
+  );
+  assert.equal(
+    parseTemplate(`${"{{ if .x }}".repeat(MAXIMUM_NESTING)}\n${pair}${"{{ end }}".repeat(MAXIMUM_NESTING)}`).length,
+    1,
+  );
   const documents = (count: number) => Array(count).fill(pair).join("---\n");
   assert.deepEqual(parseTemplate(documents(MAXIMUM_TEMPLATE_DOCUMENTS + 1)), []);
   assert.equal(parseTemplate(documents(MAXIMUM_TEMPLATE_DOCUMENTS)).length, MAXIMUM_TEMPLATE_DOCUMENTS);
@@ -467,7 +474,9 @@ test("rejects paths that are not local", () => {
 test("a file that is some other kind of object, or that uses an alias, yields nothing", () => {
   assert.deepEqual(parseKustomization("kind: Deployment\nresources:\n  - a.yaml\n"), []);
   assert.deepEqual(parseKustomization("x: &a b.yaml\nresources:\n  - *a\n"), []);
-  assert.deepEqual(kustomization("kind: Component\nresources:\n  - a.yaml\n"), [{ kind: "resource", value: "a.yaml", line: 3 }]);
+  assert.deepEqual(kustomization("kind: Component\nresources:\n  - a.yaml\n"), [
+    { kind: "resource", value: "a.yaml", line: 3 },
+  ]);
 });
 
 test("malformed or oversized kustomization yields nothing and never throws", async () => {

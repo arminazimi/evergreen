@@ -54,7 +54,9 @@ test("editing one corpus repository file runs only that ecosystem", () => {
 
 test("unrelated and no-corpus paths map to nothing", () => {
   assert.deepEqual(names(["docs/VALIDATION.md", "src/cli.ts", "tests/fixtures/unlisted/x"]), []);
-  assert.deepEqual(describeAffected([], 3), ["No corpus ecosystem is affected by the 3 changed files; nothing to run."]);
+  assert.deepEqual(describeAffected([], 3), [
+    "No corpus ecosystem is affected by the 3 changed files; nothing to run.",
+  ]);
 });
 
 test("the Android detector maps to the android corpus ecosystem", () => {
@@ -64,8 +66,14 @@ test("the Android detector maps to the android corpus ecosystem", () => {
 
 test("the reasons name the changed paths", () => {
   const [php] = affectedEcosystems(["src/detectors/php/index.ts", "registry/php.json"]);
-  assert.deepEqual(php?.because.map((item) => item.path), ["registry/php.json", "src/detectors/php/index.ts"]);
-  assert.match(describeAffected(affectedEcosystems(["registry/php.json"]), 1)[0]!, /^changed: php <- registry\/php\.json \(registry php\.json\)$/);
+  assert.deepEqual(
+    php?.because.map((item) => item.path),
+    ["registry/php.json", "src/detectors/php/index.ts"],
+  );
+  assert.match(
+    describeAffected(affectedEcosystems(["registry/php.json"]), 1)[0]!,
+    /^changed: php <- registry\/php\.json \(registry php\.json\)$/,
+  );
 });
 
 test("--changed takes an optional base", () => {
@@ -79,8 +87,13 @@ test("every corpus ecosystem and every built-in detector is covered by the map",
   const corpus = await loadPublicCorpus();
   const used = new Set(corpus.repositories.map((entry) => entry.ecosystem));
   const mapped = new Set([...Object.values(DETECTOR_ECOSYSTEMS), ...Object.values(REGISTRY_ECOSYSTEMS)].flat());
-  for (const ecosystem of used) assert.ok(mapped.has(ecosystem), `corpus ecosystem ${ecosystem} is not reachable from any detector or registry path`);
-  for (const ecosystem of mapped) assert.ok((CORPUS_ECOSYSTEMS as readonly string[]).includes(ecosystem), `${ecosystem} is not a corpus ecosystem`);
+  for (const ecosystem of used)
+    assert.ok(
+      mapped.has(ecosystem),
+      `corpus ecosystem ${ecosystem} is not reachable from any detector or registry path`,
+    );
+  for (const ecosystem of mapped)
+    assert.ok((CORPUS_ECOSYSTEMS as readonly string[]).includes(ecosystem), `${ecosystem} is not a corpus ecosystem`);
   assert.deepEqual([...used].sort(), [...CORPUS_ECOSYSTEMS]);
 
   // A detector with no public corpus yet registers with an empty list on purpose; every other built-in must name one.
@@ -100,10 +113,16 @@ test("every source directory, registry file, and fixture directory is listed, so
   const sources = (await readdir("src/detectors", { withFileTypes: true }))
     .map((entry) => entry.name.replace(/\.ts$/, ""))
     .filter((name) => name !== "index" && name !== "json-lines");
-  for (const name of sources) assert.ok(name in DETECTOR_ECOSYSTEMS, `src/detectors/${name} is missing from DETECTOR_ECOSYSTEMS`);
-  for (const file of await readdir("registry")) assert.ok(file in REGISTRY_ECOSYSTEMS, `registry/${file} is missing from REGISTRY_ECOSYSTEMS`);
-  const detectorFixtures = (await readdir("tests/fixtures", { withFileTypes: true })).filter((entry) => entry.isDirectory()).map((entry) => entry.name);
-  for (const name of detectorFixtures.filter((candidate) => candidate in DETECTOR_ECOSYSTEMS && (DETECTOR_ECOSYSTEMS[candidate]?.length ?? 0) > 0)) {
+  for (const name of sources)
+    assert.ok(name in DETECTOR_ECOSYSTEMS, `src/detectors/${name} is missing from DETECTOR_ECOSYSTEMS`);
+  for (const file of await readdir("registry"))
+    assert.ok(file in REGISTRY_ECOSYSTEMS, `registry/${file} is missing from REGISTRY_ECOSYSTEMS`);
+  const detectorFixtures = (await readdir("tests/fixtures", { withFileTypes: true }))
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
+  for (const name of detectorFixtures.filter(
+    (candidate) => candidate in DETECTOR_ECOSYSTEMS && (DETECTOR_ECOSYSTEMS[candidate]?.length ?? 0) > 0,
+  )) {
     assert.ok(name in FIXTURE_ECOSYSTEMS, `tests/fixtures/${name} is missing from FIXTURE_ECOSYSTEMS`);
   }
 });
@@ -141,7 +160,10 @@ test("each shared file lists every ecosystem whose detectors import it", async (
     assert.ok(entry, `${target} is imported by detectors but has no SHARED_FILE_ECOSYSTEMS entry`);
     for (const detector of detectors) {
       for (const ecosystem of DETECTOR_ECOSYSTEMS[detector] ?? []) {
-        assert.ok(entry.ecosystems.includes(ecosystem), `${target} is used by ${detector} but does not list ${ecosystem}`);
+        assert.ok(
+          entry.ecosystems.includes(ecosystem),
+          `${target} is used by ${detector} but does not list ${ecosystem}`,
+        );
       }
     }
   }

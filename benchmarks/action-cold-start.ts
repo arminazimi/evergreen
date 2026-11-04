@@ -129,7 +129,9 @@ export function actionEnvironment(workspace: string, runnerTemp: string): NodeJS
  * One un-warmed run: what a user waits for on a fresh runner. There is no warm-up and no repeat,
  * because a second run would measure a warm file-system cache rather than the Action's cold start.
  */
-export async function measureActionColdStart(options: ActionColdStartOptions = {}): Promise<ActionColdStartMeasurements> {
+export async function measureActionColdStart(
+  options: ActionColdStartOptions = {},
+): Promise<ActionColdStartMeasurements> {
   const entry = resolve(options.entry ?? DEFAULT_ACTION_ENTRY);
   const timeoutMs = options.timeoutMs ?? 120_000;
   if (!existsSync(entry)) {
@@ -170,7 +172,9 @@ export async function measureActionColdStart(options: ActionColdStartOptions = {
   }
 }
 
-export async function runActionColdStartBenchmark(options: ActionColdStartOptions = {}): Promise<ActionColdStartResult> {
+export async function runActionColdStartBenchmark(
+  options: ActionColdStartOptions = {},
+): Promise<ActionColdStartResult> {
   const budgetMs = options.budgetMs ?? ACTION_COLD_START_BUDGET_MS;
   const tolerance = options.tolerance ?? ACTION_COLD_START_TOLERANCE;
   const entry = resolve(options.entry ?? DEFAULT_ACTION_ENTRY);

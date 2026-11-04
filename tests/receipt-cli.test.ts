@@ -65,7 +65,10 @@ test("receipt reports, as JSON, the findings a change resolved", async () => {
   assert.equal(receipt.counts.resolved, before.findings.length);
   assert.equal(receipt.counts.remaining, 0);
   assert.equal(receipt.counts.introduced, 0);
-  assert.deepEqual(receipt.resolved.map((entry) => entry.id), before.findings.map((entry) => entry.id));
+  assert.deepEqual(
+    receipt.resolved.map((entry) => entry.id),
+    before.findings.map((entry) => entry.id),
+  );
 });
 
 test("receipt renders Markdown and --fail-on-introduced gates new findings", async () => {

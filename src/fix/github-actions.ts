@@ -27,7 +27,8 @@ export const githubActionsUsesFixer: Fixer = {
   async plan(result, refuse) {
     const targets = new Map<string, Targets>();
     for (const finding of result.findings) {
-      if (!finding.ruleId.startsWith("github-actions.") || !finding.location.path.startsWith(".github/workflows/")) continue;
+      if (!finding.ruleId.startsWith("github-actions.") || !finding.location.path.startsWith(".github/workflows/"))
+        continue;
       if (finding.location.line === undefined) {
         refuse?.(finding, "The finding names no line to rewrite.");
         continue;
@@ -64,10 +65,12 @@ export const githubActionsUsesFixer: Fixer = {
         continue;
       }
       const original = before.split("\n");
-      const text = original.map((line, index) => {
-        const edit = lines.get(index + 1);
-        return edit ? bumpAction(line, edit.action, edit.major) : line;
-      }).join("\n");
+      const text = original
+        .map((line, index) => {
+          const edit = lines.get(index + 1);
+          return edit ? bumpAction(line, edit.action, edit.major) : line;
+        })
+        .join("\n");
       if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
       const updated = text.split("\n");
       for (const finding of findings) {
@@ -105,7 +108,8 @@ function refusalReason(line: string | undefined, edit: ActionEdit): string | und
   if (!match) return "The line is not a `uses:` reference.";
   const target = match[2]!;
   const separator = target.lastIndexOf("@");
-  if (separator <= 0 || target.slice(0, separator).toLowerCase() !== edit.action) return "The line names a different action than the rule.";
+  if (separator <= 0 || target.slice(0, separator).toLowerCase() !== edit.action)
+    return "The line names a different action than the rule.";
   const reference = target.slice(separator + 1);
   if (COMMIT_SHA.test(reference)) return "The reference is pinned to a commit SHA, not a major-version tag.";
   const current = TAG_REF.exec(reference);

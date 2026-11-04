@@ -48,15 +48,22 @@ const ECOSYSTEMS = [
 ];
 
 const order = (left: ExpectedFinding, right: ExpectedFinding) =>
-  left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path) || left.severity.localeCompare(right.severity);
+  left.ruleId.localeCompare(right.ruleId) ||
+  left.path.localeCompare(right.path) ||
+  left.severity.localeCompare(right.severity);
 
 const observed = async (directory: string): Promise<ExpectedFinding[]> => {
   const scan = await scanRepository(directory, builtInDetectors, { noCache: true });
-  return scan.findings.map((finding) => ({ ruleId: finding.ruleId, path: finding.location.path, severity: finding.severity })).sort(order);
+  return scan.findings
+    .map((finding) => ({ ruleId: finding.ruleId, path: finding.location.path, severity: finding.severity }))
+    .sort(order);
 };
 
 test("every gallery example produces exactly its expected findings", async () => {
-  const directories = (await readdir(root, { withFileTypes: true })).filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
+  const directories = (await readdir(root, { withFileTypes: true }))
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
   assert.deepEqual(directories, ECOSYSTEMS, "one example directory per supported ecosystem");
 
   for (const ecosystem of ECOSYSTEMS) {

@@ -17,7 +17,11 @@ import {
   MAXIMUM_LINE_LENGTH as MAXIMUM_CATALOG_LINE_LENGTH,
   parseCatalog,
 } from "../src/detectors/java/parse-catalog.js";
-import { MAXIMUM_INPUT_BYTES as MAXIMUM_WRAPPER_BYTES, MAXIMUM_VALUE_LENGTH, parseWrapper } from "../src/detectors/java/parse-wrapper.js";
+import {
+  MAXIMUM_INPUT_BYTES as MAXIMUM_WRAPPER_BYTES,
+  MAXIMUM_VALUE_LENGTH,
+  parseWrapper,
+} from "../src/detectors/java/parse-wrapper.js";
 import {
   MAXIMUM_INPUT_BYTES as MAXIMUM_PIN_BYTES,
   MAXIMUM_LINE_LENGTH as MAXIMUM_PIN_LINE,
@@ -62,7 +66,18 @@ test("a pom with an unclosed tag, an entity, or a DOCTYPE yields nothing", async
     assert.doesNotThrow(() => parsePom(malformed));
     assert.deepEqual(parsePom(malformed), [], file);
   }
-  for (const junk of ["", "\0", "<", "<project", "<project>", "<project></other>", "<a/><b/>", "text", "<project>&amp;</project>", "<project><![CDATA[x"]) {
+  for (const junk of [
+    "",
+    "\0",
+    "<",
+    "<project",
+    "<project>",
+    "<project></other>",
+    "<a/><b/>",
+    "text",
+    "<project>&amp;</project>",
+    "<project><![CDATA[x",
+  ]) {
     assert.doesNotThrow(() => parsePom(junk));
     assert.deepEqual(parsePom(junk), [], JSON.stringify(junk));
   }
@@ -88,11 +103,15 @@ test("only a project root and a maven-compiler-plugin are read", () => {
 });
 
 test("reads values in CDATA, with attributes, and across lines", () => {
-  const pom = '<project xmlns="x">\n  <properties>\n    <java.version>\n      <![CDATA[18]]>\n    </java.version>\n  </properties>\n</project>';
+  const pom =
+    '<project xmlns="x">\n  <properties>\n    <java.version>\n      <![CDATA[18]]>\n    </java.version>\n  </properties>\n</project>';
   assert.deepEqual(parsePom(pom), [{ kind: "jdk", role: "compile-level", value: "18", major: 18, line: 4 }]);
-  assert.deepEqual(parsePom("﻿<?xml version=\"1.0\"?>\r\n<project>\r\n<properties>\r\n<java.version>22</java.version>\r\n</properties>\r\n</project>\r\n"), [
-    { kind: "jdk", role: "compile-level", value: "22", major: 22, line: 4 },
-  ]);
+  assert.deepEqual(
+    parsePom(
+      '﻿<?xml version="1.0"?>\r\n<project>\r\n<properties>\r\n<java.version>22</java.version>\r\n</properties>\r\n</project>\r\n',
+    ),
+    [{ kind: "jdk", role: "compile-level", value: "22", major: 22, line: 4 }],
+  );
 });
 
 test("dependencies need literal coordinates", () => {
@@ -110,7 +129,12 @@ test("dependencies need literal coordinates", () => {
 });
 
 test("bounds pom size, depth, and element count", () => {
-  assert.deepEqual(parsePom(`<project><!-- ${"x".repeat(MAXIMUM_POM_BYTES)} --><properties><java.version>22</java.version></properties></project>`), []);
+  assert.deepEqual(
+    parsePom(
+      `<project><!-- ${"x".repeat(MAXIMUM_POM_BYTES)} --><properties><java.version>22</java.version></properties></project>`,
+    ),
+    [],
+  );
   const deep = "<a>".repeat(MAXIMUM_DEPTH + 2) + "</a>".repeat(MAXIMUM_DEPTH + 2);
   assert.equal(parseXml(deep), undefined);
   assert.equal(parseXml(`<project>${"<e/>".repeat(MAXIMUM_ELEMENTS + 1)}</project>`), undefined);
@@ -126,17 +150,36 @@ test("is deterministic", async () => {
 
 test("reads the feature release of a JDK version text", () => {
   const cases: Array<[string, number | undefined]> = [
-    ["22", 22], ["17.0.2", 17], ["1.8", 8], ["1.8.0_292", 8], ["8", 8], ["18.0.2-tem", 18], ["temurin-22.0.1", 22],
-    ["openjdk-17", 17], ["zulu-21.0.1+12", 21], ["22-ea", 22], ["17.0.2+8", 17], ["graalvm-ce-17.0.9", 17],
-    ["1", undefined], ["1.", undefined], ["", undefined], ["abc", undefined], ["latest", undefined], ["-tem", undefined],
-    ["4", undefined], ["100", undefined], ["22 extra", undefined], ["1.x", undefined],
+    ["22", 22],
+    ["17.0.2", 17],
+    ["1.8", 8],
+    ["1.8.0_292", 8],
+    ["8", 8],
+    ["18.0.2-tem", 18],
+    ["temurin-22.0.1", 22],
+    ["openjdk-17", 17],
+    ["zulu-21.0.1+12", 21],
+    ["22-ea", 22],
+    ["17.0.2+8", 17],
+    ["graalvm-ce-17.0.9", 17],
+    ["1", undefined],
+    ["1.", undefined],
+    ["", undefined],
+    ["abc", undefined],
+    ["latest", undefined],
+    ["-tem", undefined],
+    ["4", undefined],
+    ["100", undefined],
+    ["22 extra", undefined],
+    ["1.x", undefined],
   ];
   for (const [text, major] of cases) assert.equal(parseJdkVersion(text)?.major, major, text);
   assert.equal(jdkRuleVersion(22), "22.0.0");
 });
 
 test("recognizes references that are never expanded", () => {
-  for (const value of ["${jdk}", "$(JDK)", "latest", "system", "LTS", "default"]) assert.equal(isDynamicVersion(value), true, value);
+  for (const value of ["${jdk}", "$(JDK)", "latest", "system", "LTS", "default"])
+    assert.equal(isDynamicVersion(value), true, value);
   for (const value of ["22", "temurin-22", "1.8", ""]) assert.equal(isDynamicVersion(value), false, value);
 });
 
@@ -177,14 +220,14 @@ test("reads legacy and compact forms", () => {
   const source = [
     "sourceCompatibility = 1.8",
     "targetCompatibility JavaVersion.VERSION_1_8",
-    "sourceCompatibility = \"11\"",
+    'sourceCompatibility = "11"',
     "java.sourceCompatibility = JavaVersion.VERSION_17",
     "compile 'a.b:c:1.0:sources@jar'",
-    "implementation(\"a.b:d:\\${v}\")",
-    "implementation \"a.b:e:$version\"",
+    'implementation("a.b:d:\\${v}")',
+    'implementation "a.b:e:$version"',
     "api('a.b:f:2.0')",
-    "kotlin(\"jvm\") version libs.versions.kotlin.get()",
-    "id(\"org.jetbrains.kotlin.android\") version \"1.9.0\"",
+    'kotlin("jvm") version libs.versions.kotlin.get()',
+    'id("org.jetbrains.kotlin.android") version "1.9.0"',
     "sourceCompatibility = JavaVersion.VERSION_HIGHER",
   ].join("\n");
   assert.deepEqual(parseGradle(source), [
@@ -203,7 +246,16 @@ test("a block comment or string that never ends yields nothing", async () => {
   const malformed = await fixture("malformed", "gradle", "build.gradle");
   assert.doesNotThrow(() => parseGradle(malformed));
   assert.deepEqual(parseGradle(malformed), []);
-  for (const junk of ["", "\0", "/* sourceCompatibility = 17", "x = 'abc", 'x = """abc', "sourceCompatibility =", "{{{{", "\r\n\r\n"]) {
+  for (const junk of [
+    "",
+    "\0",
+    "/* sourceCompatibility = 17",
+    "x = 'abc",
+    'x = """abc',
+    "sourceCompatibility =",
+    "{{{{",
+    "\r\n\r\n",
+  ]) {
     assert.doesNotThrow(() => parseGradle(junk));
     assert.deepEqual(parseGradle(junk), [], JSON.stringify(junk));
   }
@@ -215,22 +267,40 @@ test("bounds gradle size, line length, and declaration count", () => {
     { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 2 },
   ]);
   assert.deepEqual(parseGradle(`sourceCompatibility = ${"1".repeat(MAXIMUM_LINE_LENGTH)}\n`), []);
-  assert.equal(parseGradle("sourceCompatibility = 17\n".repeat(MAXIMUM_DECLARATIONS + 10)).length, MAXIMUM_DECLARATIONS);
+  assert.equal(
+    parseGradle("sourceCompatibility = 17\n".repeat(MAXIMUM_DECLARATIONS + 10)).length,
+    MAXIMUM_DECLARATIONS,
+  );
 });
 
 test("gradle parsing is deterministic and handles CRLF", async () => {
   const contents = await fixture("positive", "gradle-groovy", "build.gradle");
   assert.deepEqual(parseGradle(contents), parseGradle(contents));
-  assert.deepEqual(parseGradle("\r\nsourceCompatibility = 17\r\n"), [{ kind: "jdk", role: "compile-level", value: "17", major: 17, line: 2 }]);
+  assert.deepEqual(parseGradle("\r\nsourceCompatibility = 17\r\n"), [
+    { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 2 },
+  ]);
 });
 
 // gradle-wrapper.properties
 
 test("reads the Gradle version from distributionUrl with its line", async () => {
-  assert.deepEqual(parseWrapper(await fixture("positive", "gradle-groovy", "gradle", "wrapper", "gradle-wrapper.properties")), [
-    { kind: "gradle-wrapper", value: "8.5", url: "https://services.gradle.org/distributions/gradle-8.5-bin.zip", line: 3 },
-  ]);
-  assert.deepEqual(parseWrapper(await fixture("zero", "gradle", "gradle", "wrapper", "gradle-wrapper.properties")).map((entry) => entry.value), ["9.1.0"]);
+  assert.deepEqual(
+    parseWrapper(await fixture("positive", "gradle-groovy", "gradle", "wrapper", "gradle-wrapper.properties")),
+    [
+      {
+        kind: "gradle-wrapper",
+        value: "8.5",
+        url: "https://services.gradle.org/distributions/gradle-8.5-bin.zip",
+        line: 3,
+      },
+    ],
+  );
+  assert.deepEqual(
+    parseWrapper(await fixture("zero", "gradle", "gradle", "wrapper", "gradle-wrapper.properties")).map(
+      (entry) => entry.value,
+    ),
+    ["9.1.0"],
+  );
 });
 
 test("reads colon and space separators, continuations, snapshots, and the last value", () => {
@@ -239,7 +309,10 @@ test("reads colon and space separators, continuations, snapshots, and the last v
     ["distributionUrl https\\://x.test/gradle-8.14-rc-1-bin.zip\n", "8.14-rc-1"],
     ["distributionUrl=https\\://x.test/gradle-8.5-2023\\\n  0101-bin.zip\n", "8.5-20230101"],
     ["distributionUrl=https\\://x.test/dist/\\\n  gradle-8.5-bin.zip\n", "8.5"],
-    ["distributionUrl=https\\://x.test/gradle-6.9-bin.zip\ndistributionUrl=https\\://x.test/gradle-8.5-bin.zip\n", "8.5"],
+    [
+      "distributionUrl=https\\://x.test/gradle-6.9-bin.zip\ndistributionUrl=https\\://x.test/gradle-8.5-bin.zip\n",
+      "8.5",
+    ],
     ["# distributionUrl=https\\://x.test/gradle-8.5-bin.zip\n! distributionUrl=x\n", undefined],
     ["distributionUrl=https\\://x.test/custom-bin.zip\n", undefined],
     ["distributionUrl=https\\://x.test/gradle--bin.zip\n", undefined],
@@ -247,19 +320,31 @@ test("reads colon and space separators, continuations, snapshots, and the last v
     ["otherUrl=https\\://x.test/gradle-8.5-bin.zip\n", undefined],
     ["distributionUrl=file\\:///opt/gradle-8.5-bin.zip\r\n", "8.5"],
   ];
-  for (const [source, version] of cases) assert.deepEqual(parseWrapper(source).map((entry) => entry.value), version ? [version] : [], source);
+  for (const [source, version] of cases)
+    assert.deepEqual(
+      parseWrapper(source).map((entry) => entry.value),
+      version ? [version] : [],
+      source,
+    );
 });
 
 test("a binary or malformed wrapper file yields nothing", async () => {
   const malformed = await fixture("malformed", "gradle", "gradle", "wrapper", "gradle-wrapper.properties");
   assert.doesNotThrow(() => parseWrapper(malformed));
   assert.deepEqual(parseWrapper(malformed), []);
-  for (const junk of ["", "\0", "=", "distributionUrl", "\\", "distributionUrl=\\"]) assert.deepEqual(parseWrapper(junk), [], JSON.stringify(junk));
+  for (const junk of ["", "\0", "=", "distributionUrl", "\\", "distributionUrl=\\"])
+    assert.deepEqual(parseWrapper(junk), [], JSON.stringify(junk));
 });
 
 test("bounds wrapper size and value length", () => {
-  assert.deepEqual(parseWrapper(`# ${"x".repeat(MAXIMUM_WRAPPER_BYTES)}\ndistributionUrl=https\\://x.test/gradle-8.5-bin.zip\n`), []);
-  assert.deepEqual(parseWrapper(`distributionUrl=https\\://x.test/${"a".repeat(MAXIMUM_VALUE_LENGTH)}/gradle-8.5-bin.zip\n`), []);
+  assert.deepEqual(
+    parseWrapper(`# ${"x".repeat(MAXIMUM_WRAPPER_BYTES)}\ndistributionUrl=https\\://x.test/gradle-8.5-bin.zip\n`),
+    [],
+  );
+  assert.deepEqual(
+    parseWrapper(`distributionUrl=https\\://x.test/${"a".repeat(MAXIMUM_VALUE_LENGTH)}/gradle-8.5-bin.zip\n`),
+    [],
+  );
 });
 
 // .java-version, .sdkmanrc, .tool-versions
@@ -269,7 +354,9 @@ const pin = (value: string, major: number, line: number) => ({ kind: "jdk", role
 test("reads the pinned JDK from each file with its line", async () => {
   assert.deepEqual(parseJavaVersion(await fixture("positive", "pins", ".java-version")), [pin("16", 16, 1)]);
   assert.deepEqual(parseSdkmanrc(await fixture("positive", "pins", ".sdkmanrc")), [pin("18.0.2-tem", 18, 2)]);
-  assert.deepEqual(parseToolVersions(await fixture("positive", "pins", ".tool-versions")), [pin("temurin-22.0.1", 22, 2)]);
+  assert.deepEqual(parseToolVersions(await fixture("positive", "pins", ".tool-versions")), [
+    pin("temurin-22.0.1", 22, 2),
+  ]);
   assert.deepEqual(parseJavaVersion(await fixture("zero", "pins", ".java-version")), [pin("21", 21, 1)]);
 });
 
@@ -283,7 +370,9 @@ test("reads legacy, vendor-prefixed, and fallback forms", () => {
   assert.deepEqual(parseJavaVersion("# comment\n1.8\n17\n"), [pin("1.8", 8, 2)]);
   assert.deepEqual(parseJavaVersion("openjdk64-17.0.1\n"), [pin("openjdk64-17.0.1", 17, 1)]);
   assert.deepEqual(parseSdkmanrc("java = 21.0.1-zulu\r\n"), [pin("21.0.1-zulu", 21, 1)]);
-  assert.deepEqual(parseToolVersions("java adoptopenjdk-8.0.292+10 temurin-17.0.1 # note\n"), [pin("adoptopenjdk-8.0.292+10", 8, 1)]);
+  assert.deepEqual(parseToolVersions("java adoptopenjdk-8.0.292+10 temurin-17.0.1 # note\n"), [
+    pin("adoptopenjdk-8.0.292+10", 8, 1),
+  ]);
   assert.deepEqual(parseToolVersions("﻿nodejs 20\njava 17\n"), [pin("17", 17, 2)]);
 });
 
@@ -297,7 +386,11 @@ test("floating and unreadable values are dynamic or skipped", () => {
 });
 
 test("malformed pin files yield nothing and never throw", async () => {
-  for (const [read, file] of [[parseJavaVersion, ".java-version"], [parseSdkmanrc, ".sdkmanrc"], [parseToolVersions, ".tool-versions"]] as const) {
+  for (const [read, file] of [
+    [parseJavaVersion, ".java-version"],
+    [parseSdkmanrc, ".sdkmanrc"],
+    [parseToolVersions, ".tool-versions"],
+  ] as const) {
     const malformed = await fixture("malformed", "pins", file);
     assert.doesNotThrow(() => read(malformed));
     assert.deepEqual(read(malformed), [], file);
@@ -313,10 +406,19 @@ test("bounds pin file size and line length", () => {
 // gradle/libs.versions.toml (Gradle version catalogs)
 
 test("reads library entries with version.ref and inline versions from a catalog fixture", async () => {
-  const contents = await readFile(resolve("tests/fixtures/java/positive/gradle-catalog/gradle/libs.versions.toml"), "utf8");
+  const contents = await readFile(
+    resolve("tests/fixtures/java/positive/gradle-catalog/gradle/libs.versions.toml"),
+    "utf8",
+  );
   assert.deepEqual(parseCatalog(contents), [
     { kind: "dependency", group: "org.springframework.boot", artifact: "spring-boot", version: "2.7.18", line: 5 },
-    { kind: "dependency", group: "org.hibernate", artifact: "hibernate-entitymanager", version: "6.0.0.Alpha7", line: 6 },
+    {
+      kind: "dependency",
+      group: "org.hibernate",
+      artifact: "hibernate-entitymanager",
+      version: "6.0.0.Alpha7",
+      line: 6,
+    },
   ]);
 });
 
@@ -365,9 +467,7 @@ test("catalog: ignores comments, blank lines, and other sections", () => {
     "# this is a comment",
     'lib = { group = "g", name = "a", version.ref = "v" }',
   ].join("\n");
-  assert.deepEqual(parseCatalog(source), [
-    { kind: "dependency", group: "g", artifact: "a", version: "1.0", line: 12 },
-  ]);
+  assert.deepEqual(parseCatalog(source), [{ kind: "dependency", group: "g", artifact: "a", version: "1.0", line: 12 }]);
 });
 
 test("catalog: version ref lookup is case-insensitive on the alias", () => {
@@ -378,16 +478,13 @@ test("catalog: version ref lookup is case-insensitive on the alias", () => {
     "[libraries]",
     'dep = { group = "x", name = "y", version.ref = "myLib" }',
   ].join("\n");
-  assert.deepEqual(parseCatalog(source), [
-    { kind: "dependency", group: "x", artifact: "y", version: "3.0", line: 5 },
-  ]);
+  assert.deepEqual(parseCatalog(source), [{ kind: "dependency", group: "x", artifact: "y", version: "3.0", line: 5 }]);
 });
 
 test("catalog parsing is deterministic and handles CRLF", () => {
-  const source = '[versions]\r\nv = "1.0"\r\n\r\n[libraries]\r\nlib = { group = "g", name = "a", version.ref = "v" }\r\n';
-  assert.deepEqual(parseCatalog(source), [
-    { kind: "dependency", group: "g", artifact: "a", version: "1.0", line: 5 },
-  ]);
+  const source =
+    '[versions]\r\nv = "1.0"\r\n\r\n[libraries]\r\nlib = { group = "g", name = "a", version.ref = "v" }\r\n';
+  assert.deepEqual(parseCatalog(source), [{ kind: "dependency", group: "g", artifact: "a", version: "1.0", line: 5 }]);
   assert.deepEqual(parseCatalog(source), parseCatalog(source));
 });
 
@@ -406,6 +503,12 @@ test("bounds catalog size, line length, and declaration count", () => {
     { kind: "dependency", group: "g", artifact: "a", version: "1.0", line: 3 },
   ]);
   // Declaration cap
-  const manyLines = ["[libraries]", ...Array.from({ length: MAXIMUM_CATALOG_DECLARATIONS + 5 }, (_, i) => `lib${i} = { group = "g", name = "a${i}", version = "1.0" }`)].join("\n");
+  const manyLines = [
+    "[libraries]",
+    ...Array.from(
+      { length: MAXIMUM_CATALOG_DECLARATIONS + 5 },
+      (_, i) => `lib${i} = { group = "g", name = "a${i}", version = "1.0" }`,
+    ),
+  ].join("\n");
   assert.equal(parseCatalog(manyLines).length, MAXIMUM_CATALOG_DECLARATIONS);
 });

@@ -51,10 +51,24 @@ test("release.yml calls verify, build, publish-per-channel, and smoke stages", a
   }
   assert.deepEqual(orchestrator.jobs["publish-binaries"]!.needs, ["publish-npm", "build-binaries"]);
 
-  for (const job of ["publish-npm", "verify", "build-action", "build-binaries", "publish-tags", "publish-container", "publish-homebrew", "publish-binaries", "smoke"]) {
+  for (const job of [
+    "publish-npm",
+    "verify",
+    "build-action",
+    "build-binaries",
+    "publish-tags",
+    "publish-container",
+    "publish-homebrew",
+    "publish-binaries",
+    "smoke",
+  ]) {
     assert.match(orchestrator.jobs[job]!.if ?? "", /dry_run|workflow_dispatch|push|refs\/tags/, job);
   }
-  assert.doesNotMatch(JSON.stringify(orchestrator.on), /workflow_run/, "the chain is one workflow run, not workflow_run");
+  assert.doesNotMatch(
+    JSON.stringify(orchestrator.on),
+    /workflow_run/,
+    "the chain is one workflow run, not workflow_run",
+  );
   assert.match(orchestrator.jobs["build-action"]!.if ?? "", /inputs\.dry_run/);
   assert.match(orchestrator.jobs.smoke!.if ?? "", /inputs\.dry_run/);
   assert.match(orchestrator.jobs["publish-container"]!.if ?? "", /inputs\.dry_run/);

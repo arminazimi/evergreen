@@ -66,7 +66,9 @@ function literalVersion(node: JsonNode | undefined): { value: string; line: numb
   return { value, line: node.line };
 }
 
-function abandonedFrom(node: JsonNode | undefined): { abandoned: false | true | string; abandonedLine: number } | undefined {
+function abandonedFrom(
+  node: JsonNode | undefined,
+): { abandoned: false | true | string; abandonedLine: number } | undefined {
   if (node === undefined) return undefined;
   if (node.kind === "boolean") return { abandoned: node.value, abandonedLine: node.line };
   if (node.kind === "string") {

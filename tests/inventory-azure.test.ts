@@ -65,7 +65,10 @@ test("every Azure document type is detected and produces items whose pointers re
       const value = resolvePointer(document, item.pointer);
       // A stack reference carries the version inside it (`NODE|18-lts`, `~3`); a cluster version is the value.
       assert.ok(typeof value === "string", `${name} ${item.pointer}`);
-      assert.ok(value.includes(item.version ?? ""), `${name} ${item.pointer} reads ${String(value)} for ${String(item.version)}`);
+      assert.ok(
+        value.includes(item.version ?? ""),
+        `${name} ${item.pointer} reads ${String(value)} for ${String(item.version)}`,
+      );
     }
   }
 });
@@ -149,7 +152,12 @@ test("every Azure inventory rule cites an Azure policy page", async () => {
   for (const registry of ["serverless", "kubernetes"]) {
     rules.push(...validateRegistryV2(await loadDataFile(`registry/${registry}.json`)).rules);
   }
-  const azure = rules.filter((rule) => rule.purl.startsWith("pkg:generic/azure-app-service/") || rule.purl === "pkg:generic/azure-functions" || rule.purl === "pkg:generic/azure-aks");
+  const azure = rules.filter(
+    (rule) =>
+      rule.purl.startsWith("pkg:generic/azure-app-service/") ||
+      rule.purl === "pkg:generic/azure-functions" ||
+      rule.purl === "pkg:generic/azure-aks",
+  );
   assert.ok(azure.length >= 20, `${azure.length} Azure rules`);
   for (const rule of azure) {
     assert.ok(
@@ -185,17 +193,34 @@ test("output never contains a subscription id, resource group, hostname, IP addr
   for (const extra of [[], ["--json"]]) {
     const result = await invokeCli("inventory", ...files, ...extra);
     assert.equal(result.code, 1);
-    for (const identifier of identifiers) assert.ok(!result.stdout.includes(identifier), `${identifier} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
+    for (const identifier of identifiers)
+      assert.ok(
+        !result.stdout.includes(identifier),
+        `${identifier} leaked${extra.length > 0 ? " in JSON" : " in text"}`,
+      );
   }
 });
 
 test("--redact hides every app and cluster name in text and JSON output", async () => {
   const files = DOCUMENTS.map((name) => join(AZURE, name));
-  const resources = ["orders-portal", "invoices-api", "legacy-dotnet", "search-service", "reporting-php", "checkout-java", "timer-jobs", "orders-api", "payments-cluster", "staging-cluster", "mixed-cluster"];
+  const resources = [
+    "orders-portal",
+    "invoices-api",
+    "legacy-dotnet",
+    "search-service",
+    "reporting-php",
+    "checkout-java",
+    "timer-jobs",
+    "orders-api",
+    "payments-cluster",
+    "staging-cluster",
+    "mixed-cluster",
+  ];
   for (const extra of [[], ["--json"]]) {
     const result = await invokeCli("inventory", ...files, "--redact", ...extra);
     assert.equal(result.code, 1);
-    for (const resource of resources) assert.ok(!result.stdout.includes(resource), `${resource} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
+    for (const resource of resources)
+      assert.ok(!result.stdout.includes(resource), `${resource} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
     assert.match(result.stdout, /[0-9a-f]{12}/);
   }
 });
@@ -205,7 +230,10 @@ test("the examples report an affected Azure resource and exit 1", async () => {
     const result = await invokeCli("inventory", file, "--json");
     assert.equal(result.code, 1, file);
     const report = JSON.parse(result.stdout) as { results: Array<{ check: { status: string } }> };
-    assert.ok(report.results.some((entry) => entry.check.status === "affected"), file);
+    assert.ok(
+      report.results.some((entry) => entry.check.status === "affected"),
+      file,
+    );
   }
 });
 

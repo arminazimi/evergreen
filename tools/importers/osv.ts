@@ -84,9 +84,13 @@ export const osvImporter: Importer = {
         accept: "application/json",
         body: queryBody(candidate),
       });
-      const ids = [...new Set((response.vulns ?? []).filter((vuln) => typeof vuln.id === "string" && isUnfixedForPackage(vuln, candidate.name)).map((vuln) => vuln.id!))].sort((left, right) =>
-        left.localeCompare(right),
-      );
+      const ids = [
+        ...new Set(
+          (response.vulns ?? [])
+            .filter((vuln) => typeof vuln.id === "string" && isUnfixedForPackage(vuln, candidate.name))
+            .map((vuln) => vuln.id!),
+        ),
+      ].sort((left, right) => left.localeCompare(right));
       if (ids.length === 0) {
         withoutAdvisories.push(candidate.osvRuleId);
         continue;

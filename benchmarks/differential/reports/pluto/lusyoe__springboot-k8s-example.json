@@ -12,9 +12,7 @@
       "path": "charts/templates/ingress.yaml",
       "kind": "ingress",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.ingress.v1beta1.removed"],
       "pluto": "not-seen",
       "outcome": "evergreen-only",
       "note": "Pluto did not list this manifest (a Helm template or a form it does not parse)."
@@ -23,9 +21,7 @@
       "path": "k8s-example.yaml",
       "kind": "Ingress",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.ingress.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."

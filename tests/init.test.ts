@@ -60,7 +60,10 @@ test("a GitLab repository is advised by hand instead of written", async () => {
   const plan = await planInitSetup({ root, gate: "high" });
   assert.deepEqual(plan.detectedCi, ["GitLab CI/CD"]);
   const step = plan.steps.find((step) => step.kind === "ci")!;
-  assert.deepEqual([step.change, step.file, step.snippet], ["advice", ".gitlab-ci.yml", "include:\n  - component: $CI_SERVER_FQDN/<group>/<project>/evergreen@<version>"]);
+  assert.deepEqual(
+    [step.change, step.file, step.snippet],
+    ["advice", ".gitlab-ci.yml", "include:\n  - component: $CI_SERVER_FQDN/<group>/<project>/evergreen@<version>"],
+  );
 });
 
 test("an unchanged repository plans nothing to write", async () => {
@@ -68,7 +71,10 @@ test("an unchanged repository plans nothing to write", async () => {
   const plan = await planInitSetup({ root, gate: "high" });
   await applyInitSetup({ plan, gate: "high" });
   const second = await planInitSetup({ root, gate: "high" });
-  assert.ok(second.steps.every((step) => step.change === "unchanged"), second.steps.map((step) => step.change).join(","));
+  assert.ok(
+    second.steps.every((step) => step.change === "unchanged"),
+    second.steps.map((step) => step.change).join(","),
+  );
   assert.equal(planSummary(second), "Nothing to write.");
 });
 

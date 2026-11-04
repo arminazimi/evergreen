@@ -17,8 +17,23 @@ export const MAXIMUM_WORKSPACES = 500;
 const MAXIMUM_DIRECTORIES_VISITED = 20_000;
 
 export const SKIPPED_DIRECTORIES = new Set([
-  ".git", ".hg", ".venv", "venv", "node_modules", "vendor", "dist", "build", "target", "coverage",
-  ".mypy_cache", ".pytest_cache", ".ruff_cache", ".tox", "fixtures", "__fixtures__", "testdata",
+  ".git",
+  ".hg",
+  ".venv",
+  "venv",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  "coverage",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".tox",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
 ]);
 
 /** A workspace glob as a matcher over a repository-relative POSIX directory path. `*` and `?` stay inside one segment; `**` crosses segments. */
@@ -31,7 +46,10 @@ export function globToRegExp(pattern: string): RegExp {
       source += last ? ".*" : "(?:[^/]+/)*";
       return;
     }
-    source += segment.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^/]*").replace(/\?/g, "[^/]");
+    source += segment
+      .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+      .replace(/\*/g, "[^/]*")
+      .replace(/\?/g, "[^/]");
     if (!last) source += "/";
   });
   return new RegExp(`^${source}$`);
@@ -41,7 +59,8 @@ async function readText(path: string): Promise<string | undefined> {
   try {
     return await readFile(path, "utf8");
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT" || (error as NodeJS.ErrnoException).code === "EISDIR") return undefined;
+    if ((error as NodeJS.ErrnoException).code === "ENOENT" || (error as NodeJS.ErrnoException).code === "EISDIR")
+      return undefined;
     throw error;
   }
 }
@@ -54,7 +73,8 @@ async function isFile(path: string): Promise<boolean> {
   }
 }
 
-const strings = (value: unknown): string[] => (Array.isArray(value) ? value.filter((item): item is string => typeof item === "string" && item.length > 0) : []);
+const strings = (value: unknown): string[] =>
+  Array.isArray(value) ? value.filter((item): item is string => typeof item === "string" && item.length > 0) : [];
 
 async function npmPatterns(root: string): Promise<string[]> {
   const patterns: string[] = [];
@@ -63,7 +83,11 @@ async function npmPatterns(root: string): Promise<string[]> {
     try {
       const parsed = JSON.parse(manifest) as { workspaces?: unknown };
       const workspaces = parsed.workspaces;
-      patterns.push(...strings(Array.isArray(workspaces) ? workspaces : (workspaces as { packages?: unknown } | undefined)?.packages));
+      patterns.push(
+        ...strings(
+          Array.isArray(workspaces) ? workspaces : (workspaces as { packages?: unknown } | undefined)?.packages,
+        ),
+      );
     } catch {
       // A manifest that does not parse declares no workspaces.
     }
@@ -91,7 +115,9 @@ async function pythonPatterns(root: string): Promise<{ include: string[]; exclud
   const pyproject = await readText(join(root, "pyproject.toml"));
   if (!pyproject) return { include: [], exclude: [] };
   try {
-    const document = parseToml(pyproject) as { tool?: { uv?: { workspace?: { members?: unknown; exclude?: unknown } } } };
+    const document = parseToml(pyproject) as {
+      tool?: { uv?: { workspace?: { members?: unknown; exclude?: unknown } } };
+    };
     const workspace = document.tool?.uv?.workspace;
     return { include: strings(workspace?.members), exclude: strings(workspace?.exclude) };
   } catch {
@@ -103,7 +129,10 @@ async function pythonPatterns(root: string): Promise<{ include: string[]; exclud
 function segmentMatches(expected: string, actual: string): boolean {
   if (expected === actual) return true;
   if (!expected.includes("*") && !expected.includes("?")) return false;
-  const source = `^${expected.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^/]*").replace(/\?/g, "[^/]")}$`;
+  const source = `^${expected
+    .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+    .replace(/\*/g, "[^/]*")
+    .replace(/\?/g, "[^/]")}$`;
   return new RegExp(source).test(actual);
 }
 
@@ -135,7 +164,12 @@ function mayMatchDeeper(include: readonly string[], relative: string): boolean {
   return include.some((pattern) => patternMayMatchDeeper(pattern, relative));
 }
 
-async function findDirectories(root: string, markers: readonly string[], include: readonly string[], exclude: readonly string[]): Promise<string[]> {
+async function findDirectories(
+  root: string,
+  markers: readonly string[],
+  include: readonly string[],
+  exclude: readonly string[],
+): Promise<string[]> {
   const included = include.map(globToRegExp);
   const excluded = exclude.map(globToRegExp);
   if (included.length === 0) return [];
@@ -143,7 +177,8 @@ async function findDirectories(root: string, markers: readonly string[], include
   let visited = 0;
 
   async function walk(directory: string, relative: string, depth: number): Promise<void> {
-    if (depth > MAXIMUM_WORKSPACE_DEPTH || visited >= MAXIMUM_DIRECTORIES_VISITED || found.length >= MAXIMUM_WORKSPACES) return;
+    if (depth > MAXIMUM_WORKSPACE_DEPTH || visited >= MAXIMUM_DIRECTORIES_VISITED || found.length >= MAXIMUM_WORKSPACES)
+      return;
     let entries;
     try {
       entries = await readdir(directory, { withFileTypes: true });
@@ -153,7 +188,13 @@ async function findDirectories(root: string, markers: readonly string[], include
     // Binary name order is deterministic across locales and cheaper than localeCompare on large dirs.
     entries.sort((left, right) => (left.name < right.name ? -1 : left.name > right.name ? 1 : 0));
     for (const entry of entries) {
-      if (!entry.isDirectory() || entry.isSymbolicLink() || SKIPPED_DIRECTORIES.has(entry.name) || entry.name.startsWith(".")) continue;
+      if (
+        !entry.isDirectory() ||
+        entry.isSymbolicLink() ||
+        SKIPPED_DIRECTORIES.has(entry.name) ||
+        entry.name.startsWith(".")
+      )
+        continue;
       visited += 1;
       const path = relative ? `${relative}/${entry.name}` : entry.name;
       const absolute = join(directory, entry.name);
@@ -192,11 +233,16 @@ export async function discoverPythonWorkspaces(root: string): Promise<string[]> 
  * The usages that belong to one project directory: those under `directory` and not under a deeper project
  * directory. `directory` is "" for the root project.
  */
-export function usagesOwnedBy<Usage extends { location: { path: string } }>(usages: readonly Usage[], directory: string, projectDirectories: readonly string[]): Usage[] {
+export function usagesOwnedBy<Usage extends { location: { path: string } }>(
+  usages: readonly Usage[],
+  directory: string,
+  projectDirectories: readonly string[],
+): Usage[] {
   const owner = (path: string): string => {
     let best = "";
     for (const candidate of projectDirectories) {
-      if (candidate && (path === candidate || path.startsWith(`${candidate}/`)) && candidate.length > best.length) best = candidate;
+      if (candidate && (path === candidate || path.startsWith(`${candidate}/`)) && candidate.length > best.length)
+        best = candidate;
     }
     return best;
   };

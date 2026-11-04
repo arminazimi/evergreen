@@ -87,7 +87,8 @@ export function defaultCacheDirectory(
 
 export const cachedBundleDirectory = (cache: string, version: string): string => join(cache, "data", version);
 
-const isObject = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null && !Array.isArray(value);
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 /** The latest `provenance.reviewedAt` among the rules of the given registries. */
 function reviewedThrough(registries: Array<Record<string, unknown>>): string {
@@ -111,7 +112,11 @@ export interface VerifiedDataBundle {
  * before they are trusted enough to parse), the format, compatibility with this Evergreen, completeness, and the
  * digests of every file. Throws {@link DataBundleError} with the reason.
  */
-export function verifyDataBundle(bytes: Uint8Array, signatureJson: string, options: DataSourceOptions = {}): VerifiedDataBundle {
+export function verifyDataBundle(
+  bytes: Uint8Array,
+  signatureJson: string,
+  options: DataSourceOptions = {},
+): VerifiedDataBundle {
   let signer: VerifiedSigner;
   try {
     signer = options.verifySignature
@@ -148,7 +153,9 @@ async function readBundled(path: string): Promise<unknown> {
 }
 
 async function bundledData(warnings: string[], evergreenVersion: string): Promise<ActiveData> {
-  const registries = await Promise.all(REQUIRED_BUNDLE_PATHS.filter((path) => !path.endsWith("-shas.json")).map(readBundled));
+  const registries = await Promise.all(
+    REQUIRED_BUNDLE_PATHS.filter((path) => !path.endsWith("-shas.json")).map(readBundled),
+  );
   const cache = new Map<string, unknown>();
   return {
     info: {
@@ -168,7 +175,12 @@ async function bundledData(warnings: string[], evergreenVersion: string): Promis
 }
 
 /** Loads exactly the pinned data, or throws {@link DataPinError} saying how to get it. */
-async function pinnedData(pin: string, cache: string, evergreenVersion: string, options: DataSourceOptions): Promise<ActiveData> {
+async function pinnedData(
+  pin: string,
+  cache: string,
+  evergreenVersion: string,
+  options: DataSourceOptions,
+): Promise<ActiveData> {
   if (pin === "bundled") return bundledData([], evergreenVersion);
   if (!/^\d{4}\.\d{2}\.\d{2}(?:\.\d+)?$/.test(pin)) {
     throw new DataPinError(`"${pin}" is not a data version. Use a version such as 2026.10.01, or "bundled".`, true);
@@ -176,10 +188,15 @@ async function pinnedData(pin: string, cache: string, evergreenVersion: string, 
   const directory = cachedBundleDirectory(cache, pin);
   let files: [Buffer, string];
   try {
-    files = await Promise.all([readFile(join(directory, BUNDLE_FILE)), readFile(join(directory, SIGNATURE_FILE), "utf8")]);
+    files = await Promise.all([
+      readFile(join(directory, BUNDLE_FILE)),
+      readFile(join(directory, SIGNATURE_FILE), "utf8"),
+    ]);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      throw new DataPinError(`Lifecycle data ${pin} is pinned but is not in ${cache}. Download it with: evergreen data update --data-version ${pin}`);
+      throw new DataPinError(
+        `Lifecycle data ${pin} is pinned but is not in ${cache}. Download it with: evergreen data update --data-version ${pin}`,
+      );
     }
     throw error;
   }
@@ -187,11 +204,15 @@ async function pinnedData(pin: string, cache: string, evergreenVersion: string, 
   try {
     verified = verifyDataBundle(files[0], files[1], options);
   } catch (error) {
-    if (error instanceof DataBundleError) throw new DataPinError(`Lifecycle data ${pin} is pinned but cannot be used: ${error.message}`);
+    if (error instanceof DataBundleError)
+      throw new DataPinError(`Lifecycle data ${pin} is pinned but cannot be used: ${error.message}`);
     throw error;
   }
   const { bundle, signer } = verified;
-  if (bundle.manifest.version !== pin) throw new DataPinError(`Lifecycle data ${pin} is pinned but the stored bundle says it is version ${bundle.manifest.version}.`);
+  if (bundle.manifest.version !== pin)
+    throw new DataPinError(
+      `Lifecycle data ${pin} is pinned but the stored bundle says it is version ${bundle.manifest.version}.`,
+    );
   return {
     info: {
       source: "pinned",
@@ -231,17 +252,26 @@ export async function resolveActiveData(options: DataSourceOptions = {}): Promis
       activeVersion = undefined;
     }
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "ENOENT") warnings.push(`Ignoring downloaded lifecycle data: ${ACTIVE_FILE} is unreadable.`);
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT")
+      warnings.push(`Ignoring downloaded lifecycle data: ${ACTIVE_FILE} is unreadable.`);
   }
   if (!activeVersion) return bundledData(warnings, evergreenVersion);
 
   const directory = cachedBundleDirectory(cache, activeVersion);
   try {
-    const [bytes, signature] = await Promise.all([readFile(join(directory, BUNDLE_FILE)), readFile(join(directory, SIGNATURE_FILE), "utf8")]);
+    const [bytes, signature] = await Promise.all([
+      readFile(join(directory, BUNDLE_FILE)),
+      readFile(join(directory, SIGNATURE_FILE), "utf8"),
+    ]);
     const verified = verifyDataBundle(bytes, signature, options);
     const bundled = await bundledData([], evergreenVersion);
     if (verified.bundle.manifest.createdAt.slice(0, 10) <= bundled.info.reviewedThrough) {
-      return bundledData([`Downloaded lifecycle data ${verified.bundle.manifest.version} is not newer than the data bundled with Evergreen ${evergreenVersion}; using the bundled data.`], evergreenVersion);
+      return bundledData(
+        [
+          `Downloaded lifecycle data ${verified.bundle.manifest.version} is not newer than the data bundled with Evergreen ${evergreenVersion}; using the bundled data.`,
+        ],
+        evergreenVersion,
+      );
     }
     const { bundle, signer } = verified;
     return {
@@ -261,8 +291,15 @@ export async function resolveActiveData(options: DataSourceOptions = {}): Promis
       },
     };
   } catch (error) {
-    const reason = error instanceof DataBundleError ? error.message : (error as NodeJS.ErrnoException).code === "ENOENT" ? "its files are missing" : `it could not be read (${(error as Error).message})`;
-    warnings.push(`Ignoring downloaded lifecycle data ${activeVersion}: ${reason} Using the data bundled with Evergreen ${evergreenVersion}.`);
+    const reason =
+      error instanceof DataBundleError
+        ? error.message
+        : (error as NodeJS.ErrnoException).code === "ENOENT"
+          ? "its files are missing"
+          : `it could not be read (${(error as Error).message})`;
+    warnings.push(
+      `Ignoring downloaded lifecycle data ${activeVersion}: ${reason} Using the data bundled with Evergreen ${evergreenVersion}.`,
+    );
     return bundledData(warnings, evergreenVersion);
   }
 }

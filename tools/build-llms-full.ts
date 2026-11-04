@@ -52,8 +52,16 @@ export function buildLlmsFull(index: string, pages: ReadonlyMap<string, string>)
   ];
   for (const page of indexedPages(index)) {
     const body = pages.get(page.file);
-    if (body === undefined) throw new Error(`docs/llms.txt links to ${page.url}, but docs/${page.file} does not exist.`);
-    parts.push("---", "", `Source: ${page.url}`, "", stripLiquidRaw(stripFrontMatter(body)).replaceAll("\r\n", "\n").trim(), "");
+    if (body === undefined)
+      throw new Error(`docs/llms.txt links to ${page.url}, but docs/${page.file} does not exist.`);
+    parts.push(
+      "---",
+      "",
+      `Source: ${page.url}`,
+      "",
+      stripLiquidRaw(stripFrontMatter(body)).replaceAll("\r\n", "\n").trim(),
+      "",
+    );
   }
   return `${parts.join("\n").trimEnd()}\n`;
 }

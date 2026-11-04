@@ -87,7 +87,11 @@ export function jdkRuleVersion(major: number): string {
 }
 
 /** A declaration for a version text: literal, dynamic, or nothing when it is neither. */
-export function jdkDeclaration(role: JdkRole, text: string, line: number): JdkDeclaration | DynamicJdkDeclaration | undefined {
+export function jdkDeclaration(
+  role: JdkRole,
+  text: string,
+  line: number,
+): JdkDeclaration | DynamicJdkDeclaration | undefined {
   const value = text.trim();
   if (isDynamicVersion(value)) return { kind: "dynamic", role, value, line };
   const parsed = parseJdkVersion(value);

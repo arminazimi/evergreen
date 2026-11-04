@@ -30,7 +30,9 @@ export interface BadgeState {
  */
 export function badgeState(result: Pick<ScanResult, "findings" | "data">, expiredFailure = false): BadgeState {
   const count = result.findings.length;
-  const highest = [...severityValues].reverse().find((severity) => result.findings.some((finding) => finding.severity === severity));
+  const highest = [...severityValues]
+    .reverse()
+    .find((severity) => result.findings.some((finding) => finding.severity === severity));
   const stale = result.data?.stale === true;
   if (expiredFailure) return { message: highest ? `${count} ${highest} · expired` : "expired", color: colors.expired };
   if (highest) return { message: `${count} ${highest}${stale ? " · stale" : ""}`, color: severityColors[highest] };
@@ -73,9 +75,25 @@ interface BadgeLayout {
 
 function layoutFor(style: BadgeStyle): BadgeLayout {
   if (style === "for-the-badge") {
-    return { height: LARGE_HEIGHT, radius: 0, fontSize: 10, fontWeight: 700, iconSize: LARGE_ICON, labelTextWidth: LARGE_LABEL_TEXT_WIDTH, uppercase: true };
+    return {
+      height: LARGE_HEIGHT,
+      radius: 0,
+      fontSize: 10,
+      fontWeight: 700,
+      iconSize: LARGE_ICON,
+      labelTextWidth: LARGE_LABEL_TEXT_WIDTH,
+      uppercase: true,
+    };
   }
-  return { height: HEIGHT, radius: style === "flat" ? 3 : 0, fontSize: 11, fontWeight: 400, iconSize: ICON, labelTextWidth: LABEL_TEXT_WIDTH, uppercase: false };
+  return {
+    height: HEIGHT,
+    radius: style === "flat" ? 3 : 0,
+    fontSize: 11,
+    fontWeight: 400,
+    iconSize: ICON,
+    labelTextWidth: LABEL_TEXT_WIDTH,
+    uppercase: false,
+  };
 }
 
 function luminance(hex: string): number {
@@ -106,7 +124,9 @@ export function isBadgeSnippetFormat(value: string): value is BadgeSnippetFormat
 
 /** `owner/name` from a GitHub remote URL; undefined for another host or a malformed URL. */
 export function repositoryFromRemote(url: string): string | undefined {
-  const match = /^(?:git@|ssh:\/\/git@|https?:\/\/(?:[^@/]+@)?)github\.com[:/]([^/]+)\/(.+?)(?:\.git)?$/i.exec(url.trim());
+  const match = /^(?:git@|ssh:\/\/git@|https?:\/\/(?:[^@/]+@)?)github\.com[:/]([^/]+)\/(.+?)(?:\.git)?$/i.exec(
+    url.trim(),
+  );
   if (!match) return undefined;
   const owner = match[1]!;
   const name = match[2]!.replace(/\.git$/, "");
@@ -122,10 +142,18 @@ function repositoryParts(repository: string): [string, string] {
 }
 
 const encodeSegment = (value: string): string =>
-  encodeURIComponent(value).replace(/[!'()*]/g, (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`);
+  encodeURIComponent(value).replace(
+    /[!'()*]/g,
+    (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`,
+  );
 
 function escapeHtmlAttribute(value: string): string {
-  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 /**
@@ -142,7 +170,8 @@ export function badgeSnippet(repository: string, format: BadgeSnippetFormat, bra
   if (branchPath.length === 0) throw new Error("The badge branch must not be empty");
   const image = `https://raw.githubusercontent.com/${encodeSegment(owner)}/${encodeSegment(name)}/${branchPath}/evergreen-badge.svg`;
   const target = `https://github.com/${encodeSegment(owner)}/${encodeSegment(name)}`;
-  if (format === "html") return `<a href="${escapeHtmlAttribute(target)}"><img alt="evergreen" src="${escapeHtmlAttribute(image)}"></a>`;
+  if (format === "html")
+    return `<a href="${escapeHtmlAttribute(target)}"><img alt="evergreen" src="${escapeHtmlAttribute(image)}"></a>`;
   if (format === "rst") return `.. image:: ${image}\n   :target: ${target}\n   :alt: evergreen`;
   return `[![evergreen](${image})](${target})`;
 }
@@ -167,7 +196,11 @@ function mark(x: number, y: number, size = ICON): string {
  * A self-contained SVG badge in the Evergreen brand colors. Text widths are fixed with
  * `textLength`, so the layout does not depend on which font the viewer has.
  */
-export function renderBadgeSvg(result: Pick<ScanResult, "findings" | "data">, expiredFailure = false, style: BadgeStyle = "flat"): string {
+export function renderBadgeSvg(
+  result: Pick<ScanResult, "findings" | "data">,
+  expiredFailure = false,
+  style: BadgeStyle = "flat",
+): string {
   const { message, color } = badgeState(result, expiredFailure);
   const layout = layoutFor(style);
   const labelWidth = PAD + layout.iconSize + GAP + layout.labelTextWidth + PAD;

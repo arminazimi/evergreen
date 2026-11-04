@@ -48,7 +48,10 @@ test("collects every listed Python source with its exact location and release", 
   );
 
   assert.deepEqual(
-    [entry(pins, ".python-version", ".python-version", "3.10.13").line, entry(pins, ".python-version", ".python-version", "3.10.13").release],
+    [
+      entry(pins, ".python-version", ".python-version", "3.10.13").line,
+      entry(pins, ".python-version", ".python-version", "3.10.13").release,
+    ],
     [1, "3.10"],
   );
   assert.equal(entry(pins, ".tool-versions", ".tool-versions", "3.8.18").release, "3.8");
@@ -79,19 +82,25 @@ test("collects floors, matrix values, and an expression without counting the mat
   assert.equal(entry(pins, "setup.py", "setup.py python_requires", ">=3.7").release, "3.7");
 
   const matrix = pins.filter((pin) => pin.source === "setup-python matrix");
-  assert.deepEqual(matrix.map((pin) => [pin.raw, pin.release, pin.line]).sort(), [["3.10", "3.10", 14], ["3.11", "3.11", 14]]);
+  assert.deepEqual(matrix.map((pin) => [pin.raw, pin.release, pin.line]).sort(), [
+    ["3.10", "3.10", 14],
+    ["3.11", "3.11", 14],
+  ]);
   assert.equal(entry(pins, ".github/workflows/ci.yml", "setup-python python-version", "3.12").release, "3.12");
-  assert.equal(entry(pins, ".github/workflows/ci.yml", "setup-python python-version", "${{ inputs.python }}").release, undefined);
+  assert.equal(
+    entry(pins, ".github/workflows/ci.yml", "setup-python python-version", "${{ inputs.python }}").release,
+    undefined,
+  );
 });
 
 test("reports drift, floor conflicts, and a consistent repository", async () => {
   const drifted = await analyzeDrift(resolve(fixtures, "drifted"), [pythonCollector]);
   assert.deepEqual(drifted.runtimes[0]!.releases, ["3.8", "3.9", "3.10", "3.11", "3.12"]);
   assert.equal(drifted.runtimes[0]!.drifted, true);
-  assert.deepEqual(
-    drifted.runtimes[0]!.floorConflicts.map((pin) => [pin.source, pin.release]).sort(),
-    [["pyproject.toml poetry python", "3.9"], ["pyproject.toml requires-python", "3.12"]],
-  );
+  assert.deepEqual(drifted.runtimes[0]!.floorConflicts.map((pin) => [pin.source, pin.release]).sort(), [
+    ["pyproject.toml poetry python", "3.9"],
+    ["pyproject.toml requires-python", "3.12"],
+  ]);
 
   const consistent = await analyzeDrift(resolve(fixtures, "consistent"), [pythonCollector]);
   assert.deepEqual(consistent.runtimes[0]!.releases, ["3.12"]);

@@ -28,13 +28,27 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
 const MAXIMUM_INPUT_BYTES = 1024 * 1024;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".gradle", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".gradle",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 
 const DIRECT_IMAGE_FAMILIES = new Set(["eclipse-temurin", "openjdk", "amazoncorretto"]);
 const BUILD_IMAGE_FAMILIES = new Set(["maven", "gradle"]);
 const IMAGE_FAMILY = /(?:^|[\/:])(?:eclipse-temurin|temurin|openjdk|amazoncorretto|corretto|maven|gradle)(?:[:\/@]|$)/i;
-const BUILD_JDK_TAG = /(jdk[-_]?|(?:eclipse-temurin|temurin|amazoncorretto|corretto|openjdk|zulu|liberica|sapmachine)[-_])(\d+)(?=$|[-_])/i;
+const BUILD_JDK_TAG =
+  /(jdk[-_]?|(?:eclipse-temurin|temurin|amazoncorretto|corretto|openjdk|zulu|liberica|sapmachine)[-_])(\d+)(?=$|[-_])/i;
 const SETUP_JAVA = /^actions\/setup-java@/i;
 const MATRIX_REFERENCE = /^\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}$/;
 
@@ -84,12 +98,24 @@ function isCandidateName(path: string): boolean {
     name === ".tool-versions" ||
     name === ".gitlab-ci.yml" ||
     DOCKERFILE_NAME.test(name)
-  ) return true;
+  )
+    return true;
   if (path.endsWith(".circleci/config.yml")) return true;
-  return path.startsWith(".github/workflows/") && /\.ya?ml$/i.test(name) && !path.slice(".github/workflows/".length).includes("/");
+  return (
+    path.startsWith(".github/workflows/") &&
+    /\.ya?ml$/i.test(name) &&
+    !path.slice(".github/workflows/".length).includes("/")
+  );
 }
 
-function pin(path: string, line: number, source: string, raw: string, release: string | undefined, unresolved?: string): RuntimePin {
+function pin(
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  release: string | undefined,
+  unresolved?: string,
+): RuntimePin {
   return {
     path,
     line,
@@ -106,16 +132,25 @@ function unresolvedReason(value: string): string {
 }
 
 function declarationReason(source: string, value: string): string {
-  if (source === COMPILER_SOURCE && value.includes("${")) return "the value is a property reference, which Evergreen does not expand";
-  if (source.endsWith("toolchain") || source.endsWith("compatibility")) return "the value is a Gradle expression, which Evergreen does not evaluate";
+  if (source === COMPILER_SOURCE && value.includes("${"))
+    return "the value is a property reference, which Evergreen does not expand";
+  if (source.endsWith("toolchain") || source.endsWith("compatibility"))
+    return "the value is a Gradle expression, which Evergreen does not evaluate";
   return unresolvedReason(value);
 }
 
-function addJdkDeclaration(pins: RuntimePin[], path: string, source: string, declaration: JdkDeclaration | DynamicJdkDeclaration): void {
+function addJdkDeclaration(
+  pins: RuntimePin[],
+  path: string,
+  source: string,
+  declaration: JdkDeclaration | DynamicJdkDeclaration,
+): void {
   if (declaration.kind === "jdk") {
     pins.push(pin(path, declaration.line, source, declaration.value, String(declaration.major)));
   } else {
-    pins.push(pin(path, declaration.line, source, declaration.value, undefined, declarationReason(source, declaration.value)));
+    pins.push(
+      pin(path, declaration.line, source, declaration.value, undefined, declarationReason(source, declaration.value)),
+    );
   }
 }
 
@@ -126,7 +161,9 @@ function addJavaImage(pins: RuntimePin[], path: string, source: string, value: s
     return;
   }
   if (IMAGE_FAMILY.test(value)) {
-    pins.push(pin(path, line, source, value, undefined, "the image reference is dynamic, which Evergreen does not expand"));
+    pins.push(
+      pin(path, line, source, value, undefined, "the image reference is dynamic, which Evergreen does not expand"),
+    );
   }
 }
 
@@ -154,9 +191,11 @@ function javaImagePin(path: string, source: string, value: string, line: number)
   const family = imageFamily(value);
   if (!family) return undefined;
   if (family.kind === "direct") {
-    if (family.tag === undefined) return pin(path, line, source, value, undefined, "the image has no tag, so it selects the floating default");
+    if (family.tag === undefined)
+      return pin(path, line, source, value, undefined, "the image has no tag, so it selects the floating default");
     const major = leadingJdkMajor(family.tag);
-    if (major === undefined) return pin(path, line, source, family.tag, undefined, "the image tag does not name a JDK release");
+    if (major === undefined)
+      return pin(path, line, source, family.tag, undefined, "the image tag does not name a JDK release");
     return pin(path, line, source, family.tag, String(major));
   }
   if (family.tag === undefined) return undefined;
@@ -185,11 +224,12 @@ function setupJavaVersions(contents: string): SetupJavaVersion[] {
   const versions: SetupJavaVersion[] = [];
   const add = (node: Node, direct: boolean): void => {
     if (!isScalar(node)) return;
-    const value = typeof node.value === "string"
-      ? node.value.trim()
-      : typeof node.value === "number"
-        ? (node.source ?? String(node.value)).trim()
-        : undefined;
+    const value =
+      typeof node.value === "string"
+        ? node.value.trim()
+        : typeof node.value === "number"
+          ? (node.source ?? String(node.value)).trim()
+          : undefined;
     if (value === undefined || value === "") return;
     versions.push({ value, line: lineOf(node), direct });
   };
@@ -287,28 +327,51 @@ export const javaCollector: DriftCollector = {
           }
         }
       } else if (name === ".java-version") {
-        for (const declaration of parseJavaVersion(contents)) addJdkDeclaration(pins, path, ".java-version", declaration);
+        for (const declaration of parseJavaVersion(contents))
+          addJdkDeclaration(pins, path, ".java-version", declaration);
       } else if (name === ".sdkmanrc") {
         for (const declaration of parseSdkmanrc(contents)) addJdkDeclaration(pins, path, ".sdkmanrc java", declaration);
       } else if (name === ".tool-versions") {
-        for (const declaration of parseToolVersions(contents)) addJdkDeclaration(pins, path, ".tool-versions java", declaration);
+        for (const declaration of parseToolVersions(contents))
+          addJdkDeclaration(pins, path, ".tool-versions java", declaration);
       } else if (DOCKERFILE_NAME.test(name)) {
         for (const declaration of parseDockerfile(contents)) {
-          if (declaration.kind === "image") addJavaImage(pins, path, `${name} FROM`, declaration.value, declaration.line);
+          if (declaration.kind === "image")
+            addJavaImage(pins, path, `${name} FROM`, declaration.value, declaration.line);
           else if (declaration.kind === "runtime" && declaration.runtime === "java") {
             const major = leadingJdkMajor(declaration.value);
-            pins.push(major === undefined
-              ? pin(path, declaration.line, `${name} RUN`, declaration.value, undefined, "the value does not name a JDK release")
-              : pin(path, declaration.line, `${name} RUN`, declaration.value, String(major)));
+            pins.push(
+              major === undefined
+                ? pin(
+                    path,
+                    declaration.line,
+                    `${name} RUN`,
+                    declaration.value,
+                    undefined,
+                    "the value does not name a JDK release",
+                  )
+                : pin(path, declaration.line, `${name} RUN`, declaration.value, String(major)),
+            );
           } else if (declaration.kind === "dynamic" && IMAGE_FAMILY.test(declaration.value)) {
-            pins.push(pin(path, declaration.line, `${name} FROM`, declaration.value, undefined, "the image reference is dynamic, which Evergreen does not expand"));
+            pins.push(
+              pin(
+                path,
+                declaration.line,
+                `${name} FROM`,
+                declaration.value,
+                undefined,
+                "the image reference is dynamic, which Evergreen does not expand",
+              ),
+            );
           }
         }
       } else if (name === ".gitlab-ci.yml") {
-        for (const reference of parseGitlabCi(contents).unclassified) addJavaImage(pins, path, `${path} image`, reference.value, reference.line);
+        for (const reference of parseGitlabCi(contents).unclassified)
+          addJavaImage(pins, path, `${path} image`, reference.value, reference.line);
       } else if (name === "config.yml" && path.endsWith(".circleci/config.yml")) {
         const parsed = parseCircleci(contents);
-        for (const reference of [...parsed.declarations, ...parsed.unclassified]) addJavaImage(pins, path, `${path} image`, reference.value, reference.line);
+        for (const reference of [...parsed.declarations, ...parsed.unclassified])
+          addJavaImage(pins, path, `${path} image`, reference.value, reference.line);
       } else if (/\.ya?ml$/i.test(name)) {
         for (const version of setupJavaVersions(contents)) {
           const source = `${path} actions/setup-java java-version${version.direct ? "" : " matrix"}`;
@@ -316,7 +379,9 @@ export const javaCollector: DriftCollector = {
           if (version.value.includes("${{")) {
             pins.push(pin(path, version.line, source, version.value, undefined, EXPRESSION_REASON));
           } else if (major === undefined) {
-            pins.push(pin(path, version.line, source, version.value, undefined, "the value does not name a JDK release"));
+            pins.push(
+              pin(path, version.line, source, version.value, undefined, "the value does not name a JDK release"),
+            );
           } else {
             pins.push(pin(path, version.line, source, version.value, String(major)));
           }

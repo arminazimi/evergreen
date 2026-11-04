@@ -5,7 +5,18 @@ import { join } from "node:path";
 import { test } from "node:test";
 
 import type { RegistryV2Rule } from "../src/registry.js";
-import { buildCalendar, buildWeeklyPost, loadRules, loadRulesFromBundle, main, renderAtom, renderIcs, renderMarkdown, renderRss, renderWeeklyPost } from "../tools/eol-calendar.js";
+import {
+  buildCalendar,
+  buildWeeklyPost,
+  loadRules,
+  loadRulesFromBundle,
+  main,
+  renderAtom,
+  renderIcs,
+  renderMarkdown,
+  renderRss,
+  renderWeeklyPost,
+} from "../tools/eol-calendar.js";
 
 const rule = (id: string, deadline: string | undefined, title = `Title ${id}`): RegistryV2Rule => ({
   id,
@@ -21,14 +32,30 @@ const rule = (id: string, deadline: string | undefined, title = `Title ${id}`): 
   provenance: { observedAt: "2026-10-16", reviewedAt: "2026-10-16", reviewer: "r" },
 });
 
-const rules = [rule("a.late", "2027-04-30"), rule("a.soon", "2026-11-12"), rule("a.edge", "2027-04-16"), rule("a.past", "2026-10-01"), rule("a.old", "2025-01-01"), rule("a.none", undefined)];
+const rules = [
+  rule("a.late", "2027-04-30"),
+  rule("a.soon", "2026-11-12"),
+  rule("a.edge", "2027-04-16"),
+  rule("a.past", "2026-10-01"),
+  rule("a.old", "2025-01-01"),
+  rule("a.none", undefined),
+];
 
 test("windows the deadlines around the reference day, in date order", () => {
   const calendar = buildCalendar(rules, "2026-10-16");
-  assert.deepEqual(calendar.upcoming.map((entry) => entry.ruleId), ["a.soon", "a.edge"]);
-  assert.deepEqual(calendar.recent.map((entry) => entry.ruleId), ["a.past"]);
+  assert.deepEqual(
+    calendar.upcoming.map((entry) => entry.ruleId),
+    ["a.soon", "a.edge"],
+  );
+  assert.deepEqual(
+    calendar.recent.map((entry) => entry.ruleId),
+    ["a.past"],
+  );
   assert.equal(calendar.until, "2027-04-16");
-  assert.deepEqual(buildCalendar(rules, "2026-10-16", 7).upcoming.map((entry) => entry.ruleId), ["a.soon", "a.edge", "a.late"]);
+  assert.deepEqual(
+    buildCalendar(rules, "2026-10-16", 7).upcoming.map((entry) => entry.ruleId),
+    ["a.soon", "a.edge", "a.late"],
+  );
 });
 
 test("a deadline on the reference day is upcoming, not recent", () => {
@@ -57,7 +84,10 @@ test("builds a weekly post from the days before today, without today", () => {
   const post = buildWeeklyPost([...rules, rule("a.eight", "2026-10-09"), rule("a.week", "2026-10-12")], "2026-10-16");
   assert.equal(post.since, "2026-10-09");
   assert.equal(post.until, "2026-10-15");
-  assert.deepEqual(post.entries.map((entry) => entry.ruleId), ["a.eight", "a.week"]);
+  assert.deepEqual(
+    post.entries.map((entry) => entry.ruleId),
+    ["a.eight", "a.week"],
+  );
 });
 
 test("renders a draft with sources and a review checklist, and nothing for an empty window", () => {
@@ -154,7 +184,10 @@ test("--post-days writes a weekly draft, and only then, and rejects a non-positi
     assert.match(draft, /^<!-- Draft generated/);
     assert.match(draft, /## Before publishing/);
 
-    await assert.rejects(main(["--today", "2026-10-29", "--post-days", "0", "--out-dir", directory]), /positive whole number/);
+    await assert.rejects(
+      main(["--today", "2026-10-29", "--post-days", "0", "--out-dir", directory]),
+      /positive whole number/,
+    );
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
@@ -167,8 +200,14 @@ test("the real registry loads and the command writes all calendar and feed files
     assert.equal(await main(["--today", "2026-10-16", "--out-dir", directory]), 0);
     assert.match(await readFile(join(directory, "eol-calendar.md"), "utf8"), /^# Lifecycle calendar/);
     assert.match(await readFile(join(directory, "eol-calendar.ics"), "utf8"), /^BEGIN:VCALENDAR/);
-    assert.match(await readFile(join(directory, "eol-calendar.rss"), "utf8"), /^<\?xml version="1.0" encoding="UTF-8"\?>\n<rss/);
-    assert.match(await readFile(join(directory, "eol-calendar.atom"), "utf8"), /^<\?xml version="1.0" encoding="UTF-8"\?>\n<feed/);
+    assert.match(
+      await readFile(join(directory, "eol-calendar.rss"), "utf8"),
+      /^<\?xml version="1.0" encoding="UTF-8"\?>\n<rss/,
+    );
+    assert.match(
+      await readFile(join(directory, "eol-calendar.atom"), "utf8"),
+      /^<\?xml version="1.0" encoding="UTF-8"\?>\n<feed/,
+    );
   } finally {
     await rm(directory, { recursive: true, force: true });
   }

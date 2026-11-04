@@ -10,7 +10,12 @@ import { ecosystems } from "../src/capabilities/ecosystems/index.js";
 import { assembleCapabilityManifest } from "../src/capabilities/manifest.js";
 import { surfaces } from "../src/capabilities/surfaces/index.js";
 import type { ManifestEcosystem } from "../src/capabilities/schema.js";
-import { assembleThresholds, assembleThresholdsText, THRESHOLDS_DIRECTORY, THRESHOLDS_DOCUMENT } from "../benchmarks/thresholds/index.js";
+import {
+  assembleThresholds,
+  assembleThresholdsText,
+  THRESHOLDS_DIRECTORY,
+  THRESHOLDS_DOCUMENT,
+} from "../benchmarks/thresholds/index.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 
 const registryKinds = [
@@ -32,9 +37,18 @@ test("every capability, ecosystem, and surface lives in exactly one named file",
     assert.deepEqual(files, items.map((item) => `${item.id}.ts`).sort(), `${directory} holds one file per item`);
   }
   // The assembled manifest lists items in the same order as the registries they come from.
-  assert.deepEqual(manifest.ecosystems.map((item) => item.id), ecosystems.map((item) => item.id));
-  assert.deepEqual(manifest.capabilities.map((item) => item.id), capabilities.map((item) => item.id));
-  assert.deepEqual(manifest.surfaces.map((item) => item.id), surfaces.map((item) => item.id));
+  assert.deepEqual(
+    manifest.ecosystems.map((item) => item.id),
+    ecosystems.map((item) => item.id),
+  );
+  assert.deepEqual(
+    manifest.capabilities.map((item) => item.id),
+    capabilities.map((item) => item.id),
+  );
+  assert.deepEqual(
+    manifest.surfaces.map((item) => item.id),
+    surfaces.map((item) => item.id),
+  );
 });
 
 test("the assembled capability manifest equals the committed example", async () => {
@@ -61,15 +75,27 @@ test("adding an ecosystem changes only its own file and appends to the assembled
   assert.deepEqual(assembled.ecosystems.at(-1), added);
   assert.deepEqual(assembled.capabilities, before.capabilities, "no capability file changes");
   assert.deepEqual(assembled.surfaces, before.surfaces, "no surface file changes");
-  assert.equal(ecosystems.some((ecosystem) => ecosystem.id === "synthetic"), false, "the registry itself is untouched");
+  assert.equal(
+    ecosystems.some((ecosystem) => ecosystem.id === "synthetic"),
+    false,
+    "the registry itself is untouched",
+  );
 
   // The registry indexes only import and order items; item data lives in item files. An addition
   // therefore adds its file and one registration line, and edits nothing else.
   for (const kind of ["ecosystems", "capabilities", "surfaces"]) {
     const index = await readFile(resolve(`src/capabilities/${kind}/index.ts`), "utf8");
-    assert.doesNotMatch(index, /status:|description:|detectorIds:|entryPoints:|capabilityIds:|version:/, `${kind}/index.ts holds no item data`);
+    assert.doesNotMatch(
+      index,
+      /status:|description:|detectorIds:|entryPoints:|capabilityIds:|version:/,
+      `${kind}/index.ts holds no item data`,
+    );
   }
-  assert.doesNotMatch(await readFile(resolve("src/capabilities.ts"), "utf8"), /status:|description:|detectorIds:|entryPoints:|capabilityIds:/, "src/capabilities.ts holds no item data");
+  assert.doesNotMatch(
+    await readFile(resolve("src/capabilities.ts"), "utf8"),
+    /status:|description:|detectorIds:|entryPoints:|capabilityIds:/,
+    "src/capabilities.ts holds no item data",
+  );
 });
 
 test("the thresholds document is assembled from one file per detector, byte for byte", async () => {
@@ -97,7 +123,10 @@ test("adding a detector changes only its own file", async () => {
     }
 
     // A new detector is a new file, with no position so it lands at the end. No existing file changes.
-    await writeFile(join(directory, "synthetic.json"), `${JSON.stringify({ level: "experimental", stable: false, minPrecision: 0.9 }, null, 2)}\n`);
+    await writeFile(
+      join(directory, "synthetic.json"),
+      `${JSON.stringify({ level: "experimental", stable: false, minPrecision: 0.9 }, null, 2)}\n`,
+    );
     const assembled = assembleThresholds(directory);
 
     assert.equal(Object.keys(assembled.detectors).at(-1), "synthetic", "the new detector is appended");
@@ -109,7 +138,11 @@ test("adding a detector changes only its own file", async () => {
 
     for (const name of names) {
       assert.equal(await readFile(join(directory, name), "utf8"), originals.get(name), `${name} is untouched`);
-      assert.equal(await readFile(join(resolve(THRESHOLDS_DIRECTORY), name), "utf8"), originals.get(name), `${name} is untouched in the registry`);
+      assert.equal(
+        await readFile(join(resolve(THRESHOLDS_DIRECTORY), name), "utf8"),
+        originals.get(name),
+        `${name} is untouched in the registry`,
+      );
     }
   } finally {
     await rm(directory, { recursive: true, force: true });

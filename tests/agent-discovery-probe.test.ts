@@ -35,9 +35,15 @@ test("the prompt corpus holds ten neutral questions and never names a tool", asy
 
 test("rejects a malformed prompt corpus", () => {
   assert.throws(() => parsePromptCorpus('{"schemaVersion":"other","prompts":[]}'), /schemaVersion/);
-  assert.throws(() => parsePromptCorpus('{"schemaVersion":"evergreen.agent-discovery-prompts.v1","prompts":[]}'), /at least one prompt/);
   assert.throws(
-    () => parsePromptCorpus('{"schemaVersion":"evergreen.agent-discovery-prompts.v1","prompts":[{"id":"a","prompt":"one"},{"id":"a","prompt":"two"}]}'),
+    () => parsePromptCorpus('{"schemaVersion":"evergreen.agent-discovery-prompts.v1","prompts":[]}'),
+    /at least one prompt/,
+  );
+  assert.throws(
+    () =>
+      parsePromptCorpus(
+        '{"schemaVersion":"evergreen.agent-discovery-prompts.v1","prompts":[{"id":"a","prompt":"one"},{"id":"a","prompt":"two"}]}',
+      ),
     /duplicate id a/,
   );
 });
@@ -122,14 +128,21 @@ test("builds a deterministic snapshot with corpus hash, host order, and totals",
     answers,
     summary: summarizeAnswers(answers),
   };
-  const unavailable: HostResult = { host: "claude", status: "unavailable", reason: "claude is not installed or not logged in." };
+  const unavailable: HostResult = {
+    host: "claude",
+    status: "unavailable",
+    reason: "claude is not installed or not logged in.",
+  };
 
   const snapshot = buildSnapshot(corpus, text, "2026-10-30", [ok, unavailable]);
 
   assert.equal(snapshot.schemaVersion, SNAPSHOT_SCHEMA_VERSION);
   assert.equal(snapshot.prompts.count, 10);
   assert.equal(snapshot.prompts.sha256, promptCorpusHash(text));
-  assert.deepEqual(snapshot.hosts.map((host) => host.host), ["codex", "claude"]);
+  assert.deepEqual(
+    snapshot.hosts.map((host) => host.host),
+    ["codex", "claude"],
+  );
   assert.deepEqual(snapshot.summary, { hosts: 1, prompts: 10, mentioned: 10, correct: 10 });
   assert.equal(formatReport(snapshot).includes("| codex | ok | 10/10 | 10/10 |"), true);
   assert.match(formatReport(snapshot), /claude: claude is not installed/);

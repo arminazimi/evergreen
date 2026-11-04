@@ -35,13 +35,18 @@ const milestones: Partial<Record<RegistryV2Rule["event"], string>> = {
  * version-dependent claims cannot establish a component milestone and are omitted.
  */
 export function enrichCycloneDx(input: unknown, rules: readonly RegistryV2Rule[]): JsonObject {
-  if (!object(input) || input.bomFormat !== "CycloneDX" || typeof input.specVersion !== "string" ||
-    !["1.3", "1.4", "1.5", "1.6"].includes(input.specVersion)) {
+  if (
+    !object(input) ||
+    input.bomFormat !== "CycloneDX" ||
+    typeof input.specVersion !== "string" ||
+    !["1.3", "1.4", "1.5", "1.6"].includes(input.specVersion)
+  ) {
     throw new CycloneDxError("Expected a CycloneDX JSON BOM with specVersion 1.3, 1.4, 1.5 or 1.6.");
   }
   const bom = structuredClone(input);
-  const candidates = rules.filter((rule) => rule.deadline && milestones[rule.event] &&
-    !rule.usage?.some((usage) => usage.kind === "symbol")).sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+  const candidates = rules
+    .filter((rule) => rule.deadline && milestones[rule.event] && !rule.usage?.some((usage) => usage.kind === "symbol"))
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
   function entries(parent: JsonObject, key: string): JsonObject[] {
     const value = parent[key];
@@ -64,10 +69,14 @@ export function enrichCycloneDx(input: unknown, rules: readonly RegistryV2Rule[]
       let result;
       try {
         const version = parsePurl(value.purl).version ?? value.version;
-        result = checkAgainst(candidates, { purl: value.purl,
-          ...(typeof version === "string" && version ? { version } : {}) });
+        result = checkAgainst(candidates, {
+          purl: value.purl,
+          ...(typeof version === "string" && version ? { version } : {}),
+        });
       } catch (error) {
-        throw new CycloneDxError(`Cannot match component ${value.purl}: ${error instanceof Error ? error.message : String(error)}`);
+        throw new CycloneDxError(
+          `Cannot match component ${value.purl}: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
       if (result.status === "affected") {
         for (const finding of result.findings) {
@@ -102,10 +111,16 @@ export async function enrichCycloneDxFile(path: string, data?: ActiveData): Prom
   try {
     input = JSON.parse(await readFile(path, "utf8"));
   } catch (error) {
-    throw new CycloneDxError(`Cannot read CycloneDX BOM ${path}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new CycloneDxError(
+      `Cannot read CycloneDX BOM ${path}: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
-  const active = data ?? await getActiveData();
-  const registries = await Promise.all(BUNDLED_ECOSYSTEMS.map(async (ecosystem) =>
-    validateRegistryV2(await active.read(`registry/${ecosystem}.json`))));
-  return enrichCycloneDx(input, registries.flatMap((registry) => registry.rules));
+  const active = data ?? (await getActiveData());
+  const registries = await Promise.all(
+    BUNDLED_ECOSYSTEMS.map(async (ecosystem) => validateRegistryV2(await active.read(`registry/${ecosystem}.json`))),
+  );
+  return enrichCycloneDx(
+    input,
+    registries.flatMap((registry) => registry.rules),
+  );
 }

@@ -103,7 +103,13 @@ test("listCorpusCache and status inputs match the files on disk and ignore forei
     await mkdir(join(dir, "not-a-cache-entry"));
     await writeFile(join(dir, "notes.txt"), "keep");
     const listings = await listCorpusCache(dir);
-    assert.deepEqual(listings.map((entry) => [entry.name, entry.bytes]), [[`o__old@${commitA}`, 100], [`o__new@${commitB}`, 200]]);
+    assert.deepEqual(
+      listings.map((entry) => [entry.name, entry.bytes]),
+      [
+        [`o__old@${commitA}`, 100],
+        [`o__new@${commitB}`, 200],
+      ],
+    );
     assert.deepEqual(await listCorpusCache(join(dir, "missing")), []);
   });
 });
@@ -115,9 +121,18 @@ test("prune plans: stale only, least recently used to fit a size, or everything"
     await seed(dir, `o__c@${commitC}`, 1_000_000, 100);
     const listings = await listCorpusCache(dir);
     const current = new Set([`o__b@${commitB}`, `o__c@${commitC}`]);
-    assert.deepEqual(planPrune(listings, current, {}).map((entry) => entry.name), [`o__a@${commitA}`]);
-    assert.deepEqual(planPrune(listings, current, { maxSizeMb: 2 }).map((entry) => entry.name), [`o__a@${commitA}`]);
-    assert.deepEqual(planPrune(listings, current, { maxSizeMb: 1 }).map((entry) => entry.name), [`o__a@${commitA}`, `o__b@${commitB}`]);
+    assert.deepEqual(
+      planPrune(listings, current, {}).map((entry) => entry.name),
+      [`o__a@${commitA}`],
+    );
+    assert.deepEqual(
+      planPrune(listings, current, { maxSizeMb: 2 }).map((entry) => entry.name),
+      [`o__a@${commitA}`],
+    );
+    assert.deepEqual(
+      planPrune(listings, current, { maxSizeMb: 1 }).map((entry) => entry.name),
+      [`o__a@${commitA}`, `o__b@${commitB}`],
+    );
     assert.equal(planPrune(listings, current, { all: true }).length, 3);
     assert.throws(() => planPrune(listings, current, { all: true, maxSizeMb: 1 }), /either --all or --max-size/);
   });

@@ -21,17 +21,23 @@ async function makeNpmProject(): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), "evergreen-select-test-"));
   tempDirs.push(dir);
   await mkdir(join(dir, ".github", "workflows"), { recursive: true });
-  await writeFile(join(dir, "package.json"), `${JSON.stringify(
-    {
-      name: "evergreen-select-fixture",
-      private: true,
-      engines: { node: ">=18.0.0" },
-      dependencies: { request: "^2.88.0" },
-    },
-    null,
-    2,
-  )}\n`);
-  await writeFile(join(dir, ".github", "workflows", "ci.yml"), `name: CI\non: [push]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/upload-artifact@v3\n`);
+  await writeFile(
+    join(dir, "package.json"),
+    `${JSON.stringify(
+      {
+        name: "evergreen-select-fixture",
+        private: true,
+        engines: { node: ">=18.0.0" },
+        dependencies: { request: "^2.88.0" },
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  await writeFile(
+    join(dir, ".github", "workflows", "ci.yml"),
+    `name: CI\non: [push]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/upload-artifact@v3\n`,
+  );
   return dir;
 }
 
@@ -46,7 +52,10 @@ test("--only keeps the named ecosystem and labels the JSON and text report", asy
   assert.equal(selected.code, 0);
   const json = JSON.parse(selected.stdout) as { findings: Array<{ ruleId: string }>; selection?: { only?: string[] } };
   assert.deepEqual(json.selection, { only: [lot] });
-  assert.deepEqual(json.findings.map((finding) => finding.ruleId), expected);
+  assert.deepEqual(
+    json.findings.map((finding) => finding.ruleId),
+    expected,
+  );
 
   const text = await invokeCli("scan", smoke, "--no-cache", "--only", lot);
   assert.equal(text.code, 0);
@@ -57,13 +66,21 @@ test("--exclude drops a rule prefix and keeps the rest of the scan", async () =>
   const plain = await invokeCli("scan", smoke, "--no-cache", "--json");
   const unselected = JSON.parse(plain.stdout) as { findings: Array<{ ruleId: string }> };
   const dropped = unselected.findings.find((finding) => finding.ruleId.includes("."))!.ruleId;
-  const remaining = unselected.findings.filter((finding) => finding.ruleId !== dropped).map((finding) => finding.ruleId);
+  const remaining = unselected.findings
+    .filter((finding) => finding.ruleId !== dropped)
+    .map((finding) => finding.ruleId);
 
   const selected = await invokeCli("scan", smoke, "--no-cache", "--exclude", dropped, "--json");
   assert.equal(selected.code, 0);
-  const json = JSON.parse(selected.stdout) as { findings: Array<{ ruleId: string }>; selection?: { exclude?: string[] } };
+  const json = JSON.parse(selected.stdout) as {
+    findings: Array<{ ruleId: string }>;
+    selection?: { exclude?: string[] };
+  };
   assert.deepEqual(json.selection, { exclude: [dropped] });
-  assert.deepEqual(json.findings.map((finding) => finding.ruleId), remaining);
+  assert.deepEqual(
+    json.findings.map((finding) => finding.ruleId),
+    remaining,
+  );
 });
 
 test("selectors repeat, combine, and are exclusive rather than additive", async () => {
@@ -71,9 +88,23 @@ test("selectors repeat, combine, and are exclusive rather than additive", async 
   const unselected = JSON.parse(plain.stdout) as { findings: Array<{ ruleId: string }> };
   const dropped = unselected.findings[0]!.ruleId;
 
-  const combined = await invokeCli("scan", smoke, "--no-cache", "--only", "npm", "--only", "nodejs", "--exclude", dropped, "--json");
+  const combined = await invokeCli(
+    "scan",
+    smoke,
+    "--no-cache",
+    "--only",
+    "npm",
+    "--only",
+    "nodejs",
+    "--exclude",
+    dropped,
+    "--json",
+  );
   assert.equal(combined.code, 0);
-  const json = JSON.parse(combined.stdout) as { findings: Array<{ ruleId: string }>; selection?: { only?: string[]; exclude?: string[] } };
+  const json = JSON.parse(combined.stdout) as {
+    findings: Array<{ ruleId: string }>;
+    selection?: { only?: string[]; exclude?: string[] };
+  };
   assert.deepEqual(json.selection, { only: ["npm", "nodejs"], exclude: [dropped] });
   for (const finding of json.findings) assert.notEqual(finding.ruleId, dropped);
 });
@@ -101,19 +132,27 @@ test("selectors filter the per-project counts of a multi-project scan", async ()
   const actionsProject = await mkdtemp(join(tmpdir(), "evergreen-select-test-"));
   tempDirs.push(actionsProject);
   await mkdir(join(actionsProject, ".github", "workflows"), { recursive: true });
-  await writeFile(join(actionsProject, ".github", "workflows", "release.yml"), `name: Release\non: [push]\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/upload-artifact@v3\n`);
+  await writeFile(
+    join(actionsProject, ".github", "workflows", "release.yml"),
+    `name: Release\non: [push]\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/upload-artifact@v3\n`,
+  );
 
   const plain = JSON.parse((await invokeCli("scan", npmProject, actionsProject, "--no-cache", "--json")).stdout) as {
     projects: Array<{ findings: number; result: { findings: Array<{ detector: string }> } }>;
     total: { findings: number };
   };
   assert.ok(plain.projects.some((project) => project.result.findings.some((finding) => finding.detector === "npm")));
-  assert.ok(plain.projects.some((project) => project.result.findings.some((finding) => finding.detector === "github-actions")));
+  assert.ok(
+    plain.projects.some((project) => project.result.findings.some((finding) => finding.detector === "github-actions")),
+  );
 
   const selected = await invokeCli("scan", npmProject, actionsProject, "--no-cache", "--only", "npm", "--json");
   assert.equal(selected.code, 0);
   const multi = JSON.parse(selected.stdout) as {
-    projects: Array<{ findings: number; result: { findings: Array<{ detector: string }>; selection?: { only?: string[] } } }>;
+    projects: Array<{
+      findings: number;
+      result: { findings: Array<{ detector: string }>; selection?: { only?: string[] } };
+    }>;
     total: { findings: number };
   };
   assert.equal(multi.projects.length, 2);
@@ -121,5 +160,8 @@ test("selectors filter the per-project counts of a multi-project scan", async ()
     assert.deepEqual(project.result.selection, { only: ["npm"] });
     for (const finding of project.result.findings) assert.equal(finding.detector, "npm");
   }
-  assert.equal(multi.total.findings, multi.projects.reduce((sum, project) => sum + project.findings, 0));
+  assert.equal(
+    multi.total.findings,
+    multi.projects.reduce((sum, project) => sum + project.findings, 0),
+  );
 });

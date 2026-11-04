@@ -6,7 +6,17 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { addDays, answerComment, DEFAULT_IGNORE_DAYS, parseCommentCommand, replyMarker, renderExplainReply, renderIgnoreReply, runCommentCommands, trustedAssociations } from "../src/action-commands.js";
+import {
+  addDays,
+  answerComment,
+  DEFAULT_IGNORE_DAYS,
+  parseCommentCommand,
+  replyMarker,
+  renderExplainReply,
+  renderIgnoreReply,
+  runCommentCommands,
+  trustedAssociations,
+} from "../src/action-commands.js";
 import type { IssueCommentPayload } from "../src/action-commands.js";
 import { findingFingerprint } from "../src/baseline.js";
 import type { BaselineEntry } from "../src/baseline.js";
@@ -37,10 +47,21 @@ function finding(overrides: Partial<Finding> = {}): Finding {
   };
 }
 
-function comment(body: string, options: { association?: string; pullRequest?: boolean; id?: number } = {}): IssueCommentPayload {
+function comment(
+  body: string,
+  options: { association?: string; pullRequest?: boolean; id?: number } = {},
+): IssueCommentPayload {
   return {
-    issue: { number: 7, ...(options.pullRequest === false ? {} : { pull_request: { url: "https://api.github.com/repos/o/r/pulls/7" } }) },
-    comment: { id: options.id ?? 1001, body, author_association: options.association ?? "MEMBER", user: { login: "maintainer" } },
+    issue: {
+      number: 7,
+      ...(options.pullRequest === false ? {} : { pull_request: { url: "https://api.github.com/repos/o/r/pulls/7" } }),
+    },
+    comment: {
+      id: options.id ?? 1001,
+      body,
+      author_association: options.association ?? "MEMBER",
+      user: { login: "maintainer" },
+    },
   };
 }
 
@@ -62,7 +83,13 @@ test("parses explain and ignore commands from a comment line and ignores anythin
   });
   assert.equal(parseCommentCommand("This is not a command."), undefined);
   assert.equal(parseCommentCommand("/evergreen-extra explain abc"), undefined);
-  for (const body of ["/evergreen", "/evergreen explain", "/evergreen ignore abc:package.json", "/evergreen frobnicate abc", `/evergreen ignore abc:package.json ${"x".repeat(501)}`]) {
+  for (const body of [
+    "/evergreen",
+    "/evergreen explain",
+    "/evergreen ignore abc:package.json",
+    "/evergreen frobnicate abc",
+    `/evergreen ignore abc:package.json ${"x".repeat(501)}`,
+  ]) {
     const parsed = parseCommentCommand(body);
     assert.ok(parsed && "error" in parsed, `expected a usage error for ${body.slice(0, 40)}`);
   }
@@ -80,12 +107,18 @@ test("answers only trusted pull request comments, and scans only when a command 
     assert.equal(decision.kind, "skip");
     assert.match((decision as { reason: string }).reason, /association/);
   }
-  assert.equal((await answerComment(comment("/evergreen explain abc", { pullRequest: false }), { loadFindings })).kind, "skip");
+  assert.equal(
+    (await answerComment(comment("/evergreen explain abc", { pullRequest: false }), { loadFindings })).kind,
+    "skip",
+  );
   assert.equal((await answerComment(comment("looks good to me"), { loadFindings })).kind, "skip");
   assert.equal(scans, 0, "a skipped comment must not scan the checkout");
 
   for (const association of trustedAssociations) {
-    const decision = await answerComment(comment("/evergreen explain nodejs.runtime.eol-20:package.json", { association }), { loadFindings });
+    const decision = await answerComment(
+      comment("/evergreen explain nodejs.runtime.eol-20:package.json", { association }),
+      { loadFindings },
+    );
     assert.equal(decision.kind, "reply");
   }
   assert.equal(scans, trustedAssociations.length);
@@ -103,7 +136,10 @@ test("the explain reply carries the finding, its location, and its sources", () 
 
 test("the ignore reply is a baseline entry with an expiry date and pushes nothing", () => {
   const entry = finding();
-  const body = renderIgnoreReply(entry, 'Upgrade "tracked" in PLAT-12', { today: "2026-10-29", baselinePath: ".evergreen-baseline.json" });
+  const body = renderIgnoreReply(entry, 'Upgrade "tracked" in PLAT-12', {
+    today: "2026-10-29",
+    baselinePath: ".evergreen-baseline.json",
+  });
   assert.match(body, /Nothing was pushed/);
   const parsed = baselineEntry(body);
   assert.equal(parsed.fingerprint, findingFingerprint(entry));
@@ -117,7 +153,9 @@ test("the ignore reply is a baseline entry with an expiry date and pushes nothin
 });
 
 test("an unknown finding id gets a helpful reply instead of an error", async () => {
-  const decision = await answerComment(comment("/evergreen explain missing-id"), { loadFindings: async () => [finding()] });
+  const decision = await answerComment(comment("/evergreen explain missing-id"), {
+    loadFindings: async () => [finding()],
+  });
   assert.equal(decision.kind, "reply");
   const body = (decision as { body: string }).body;
   assert.match(body, /could not find a lifecycle finding with id `missing-id`/);
@@ -171,8 +209,13 @@ test("runCommentCommands replies once, updates on a re-run, and stays silent for
   await writeEvent(comment(`/evergreen explain ${target.id}`, { id: 1003 }));
   requests.length = 0;
   const updatingFetch = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
-    requests.push({ method: init?.method ?? "GET", url: String(input), ...(typeof init?.body === "string" ? { body: init.body } : {}) });
-    if ((init?.method ?? "GET") === "GET") return Response.json([{ id: 55, body: `${replyMarker(1003)}\nan older reply` }]);
+    requests.push({
+      method: init?.method ?? "GET",
+      url: String(input),
+      ...(typeof init?.body === "string" ? { body: init.body } : {}),
+    });
+    if ((init?.method ?? "GET") === "GET")
+      return Response.json([{ id: 55, body: `${replyMarker(1003)}\nan older reply` }]);
     return Response.json({ id: 55 });
   };
   await runCommentCommands({ ...options, fetchImpl: updatingFetch });
@@ -226,8 +269,12 @@ test("the Action answers an issue_comment event when commands is true", async ()
     child.stderr.setEncoding("utf8");
     let stdout = "";
     let stderr = "";
-    child.stdout.on("data", (chunk: string) => { stdout += chunk; });
-    child.stderr.on("data", (chunk: string) => { stderr += chunk; });
+    child.stdout.on("data", (chunk: string) => {
+      stdout += chunk;
+    });
+    child.stderr.on("data", (chunk: string) => {
+      stderr += chunk;
+    });
     const code = await new Promise<number>((done, reject) => {
       child.once("error", reject);
       child.once("close", (status) => done(status ?? 1));

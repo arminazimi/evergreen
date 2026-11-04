@@ -31,17 +31,20 @@ function validCodePoint(value: number): boolean {
  */
 export function decodeEntities(text: string): string {
   if (!text.includes("&")) return text;
-  return text.replace(ENTITY, (reference, decimal: string | undefined, hex: string | undefined, name: string | undefined) => {
-    if (decimal !== undefined) {
-      const code = Number(decimal);
-      return validCodePoint(code) ? String.fromCodePoint(code) : reference;
-    }
-    if (hex !== undefined) {
-      const code = Number.parseInt(hex, 16);
-      return validCodePoint(code) ? String.fromCodePoint(code) : reference;
-    }
-    return NAMED_ENTITIES.get(name!.toLowerCase()) ?? reference;
-  });
+  return text.replace(
+    ENTITY,
+    (reference, decimal: string | undefined, hex: string | undefined, name: string | undefined) => {
+      if (decimal !== undefined) {
+        const code = Number(decimal);
+        return validCodePoint(code) ? String.fromCodePoint(code) : reference;
+      }
+      if (hex !== undefined) {
+        const code = Number.parseInt(hex, 16);
+        return validCodePoint(code) ? String.fromCodePoint(code) : reference;
+      }
+      return NAMED_ENTITIES.get(name!.toLowerCase()) ?? reference;
+    },
+  );
 }
 
 interface Tag {

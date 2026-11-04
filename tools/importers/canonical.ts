@@ -1,8 +1,20 @@
 import type { RegistryV2Rule } from "../../src/registry.js";
 
 const FIELD_ORDER = [
-  "id", "ecosystem", "purl", "vers", "event", "title", "summary", "severity", "replacement",
-  "deadline", "sources", "provenance", "migration", "usage",
+  "id",
+  "ecosystem",
+  "purl",
+  "vers",
+  "event",
+  "title",
+  "summary",
+  "severity",
+  "replacement",
+  "deadline",
+  "sources",
+  "provenance",
+  "migration",
+  "usage",
 ];
 
 /** A rule with its fields in the order registry files use, so drafts and registry rules diff cleanly. */

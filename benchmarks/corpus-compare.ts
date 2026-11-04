@@ -25,7 +25,9 @@ export async function loadBaseline(path: string): Promise<Baseline> {
   try {
     parsed = JSON.parse(await readFile(path, "utf8")) as typeof parsed;
   } catch (error) {
-    throw new Error(`Cannot read the comparison file ${path}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(
+      `Cannot read the comparison file ${path}: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
   if (Array.isArray(parsed.repositories)) {
     return { kind: "report", path, repositories: parsed.repositories as RunRepository[] };
@@ -39,7 +41,10 @@ export async function loadBaseline(path: string): Promise<Baseline> {
 
 const signed = (value: number): string => (value > 0 ? `+${value}` : String(value));
 
-function detectorLines(current: Record<string, DetectorScore>, baseline: Record<string, { truePositives: number; falsePositives: number; falseNegatives: number }>): string[] {
+function detectorLines(
+  current: Record<string, DetectorScore>,
+  baseline: Record<string, { truePositives: number; falsePositives: number; falseNegatives: number }>,
+): string[] {
   const lines: string[] = [];
   for (const name of [...new Set([...Object.keys(current), ...Object.keys(baseline)])].sort()) {
     const now = current[name] ?? { truePositives: 0, falsePositives: 0, falseNegatives: 0 };
@@ -47,7 +52,8 @@ function detectorLines(current: Record<string, DetectorScore>, baseline: Record<
     const tp = now.truePositives - before.truePositives;
     const fp = now.falsePositives - before.falsePositives;
     const fn = now.falseNegatives - before.falseNegatives;
-    if (tp !== 0 || fp !== 0 || fn !== 0) lines.push(`DELTA     ${name}: TP ${signed(tp)}, FP ${signed(fp)}, FN ${signed(fn)}`);
+    if (tp !== 0 || fp !== 0 || fn !== 0)
+      lines.push(`DELTA     ${name}: TP ${signed(tp)}, FP ${signed(fp)}, FN ${signed(fn)}`);
   }
   return lines;
 }
@@ -60,7 +66,10 @@ function detectorLines(current: Record<string, DetectorScore>, baseline: Record<
 export function compareRuns(current: CompareInput, baseline: Baseline): string[] {
   const lines = [`COMPARE   against ${baseline.path}`];
   if (baseline.kind === "last-full-run") {
-    if (!current.full) lines.push("NOTE      this run is filtered, so the detector totals below cover fewer repositories than the recorded full run.");
+    if (!current.full)
+      lines.push(
+        "NOTE      this run is filtered, so the detector totals below cover fewer repositories than the recorded full run.",
+      );
     const recorded = baseline.record.perDetector;
     const deltas = detectorLines(current.detectors, recorded);
     lines.push(...(deltas.length > 0 ? deltas : ["no per-detector difference from the recorded full run."]));

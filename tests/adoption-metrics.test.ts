@@ -57,9 +57,23 @@ const SAVED_SKILLS_SH_MULTI_PAGE = `<!DOCTYPE html><html><body><main>
 
 test("counts distinct repositories and leaves out the project's own", () => {
   const item = (name: string) => ({ repository: { full_name: name } });
-  assert.equal(distinctRepositories([item("a/one"), item("a/one"), item("B/Two"), item("b/two"), item("arminazimi/evergreen"), item("arminazimi/other"), {}]), 2);
+  assert.equal(
+    distinctRepositories([
+      item("a/one"),
+      item("a/one"),
+      item("B/Two"),
+      item("b/two"),
+      item("arminazimi/evergreen"),
+      item("arminazimi/other"),
+      {},
+    ]),
+    2,
+  );
   assert.equal(distinctRepositories([]), 0);
-  assert.deepEqual(distinctRepositoryNames([item("b/two"), item("a/one"), item("arminazimi/evergreen")]), ["a/one", "b/two"]);
+  assert.deepEqual(distinctRepositoryNames([item("b/two"), item("a/one"), item("arminazimi/evergreen")]), [
+    "a/one",
+    "b/two",
+  ]);
 });
 
 test("calculates previous calendar month correctly across month and year boundaries", () => {
@@ -77,15 +91,34 @@ test("counts repeat repositories active in consecutive months", () => {
 });
 
 test("reads npm downloads and reports an unpublished package as unavailable", () => {
-  assert.deepEqual(parseDownloads(200, '{"downloads": 42}'), { status: "ok", value: 42, source: "https://api.npmjs.org/downloads/point/last-week/evergreen-deprecation" });
+  assert.deepEqual(parseDownloads(200, '{"downloads": 42}'), {
+    status: "ok",
+    value: 42,
+    source: "https://api.npmjs.org/downloads/point/last-week/evergreen-deprecation",
+  });
   assert.equal(parseDownloads(404, '{"error":"package evergreen-deprecation not found"}').status, "unavailable");
   assert.equal(parseDownloads(500, "").status, "unavailable");
   assert.equal(parseDownloads(200, "{}").status, "unavailable");
 });
 
 test("finds the MCP Registry entry by repository", () => {
-  const listed = JSON.stringify({ servers: [{ server: { name: "io.github.other/x", repository: { url: "https://github.com/other/x" } } }, { server: { name: "io.github.arminazimi/evergreen", repository: { url: "https://github.com/arminazimi/evergreen" } } }] });
-  assert.deepEqual(parseMcpRegistry(200, listed), { status: "ok", value: true, detail: "io.github.arminazimi/evergreen", source: "https://registry.modelcontextprotocol.io/v0/servers?search=evergreen-deprecation" });
+  const listed = JSON.stringify({
+    servers: [
+      { server: { name: "io.github.other/x", repository: { url: "https://github.com/other/x" } } },
+      {
+        server: {
+          name: "io.github.arminazimi/evergreen",
+          repository: { url: "https://github.com/arminazimi/evergreen" },
+        },
+      },
+    ],
+  });
+  assert.deepEqual(parseMcpRegistry(200, listed), {
+    status: "ok",
+    value: true,
+    detail: "io.github.arminazimi/evergreen",
+    source: "https://registry.modelcontextprotocol.io/v0/servers?search=evergreen-deprecation",
+  });
   assert.equal((parseMcpRegistry(200, '{"servers":[]}') as { value: boolean }).value, false);
   assert.equal(parseMcpRegistry(503, "").status, "unavailable");
 });
@@ -101,7 +134,11 @@ test("reads total and per-Skill installs from a saved skills.sh repository page"
 });
 
 test("reads per-Skill installs when a repository publishes more than one Skill", () => {
-  const metric = parseSkillsInstalls(200, SAVED_SKILLS_SH_MULTI_PAGE, "https://www.skills.sh/coalesce-labs/evergreen-skills");
+  const metric = parseSkillsInstalls(
+    200,
+    SAVED_SKILLS_SH_MULTI_PAGE,
+    "https://www.skills.sh/coalesce-labs/evergreen-skills",
+  );
   assert.equal(metric.status, "ok");
   assert.equal((metric as { value: number }).value, 4);
   assert.deepEqual((metric as { skills: Array<{ name: string; installs: number }> }).skills, [
@@ -261,7 +298,8 @@ test("one failing source is recorded and does not stop the others", async () => 
     if (url.includes("npmjs.org")) throw new Error("network down");
     if (url.includes("skills.sh")) return { status: 200, text: SAVED_SKILLS_SH_PAGE };
     if (url.includes("registry.modelcontextprotocol.io")) return { status: 200, text: '{"servers":[]}' };
-    if (url.includes("api.github.com/repos/")) return { status: 200, text: '{"stargazers_count": 3, "forks_count": 1}' };
+    if (url.includes("api.github.com/repos/"))
+      return { status: 200, text: '{"stargazers_count": 3, "forks_count": 1}' };
     if (url.includes("securityscorecards.dev")) return { status: 200, text: '{"score": 3.1}' };
     if (url.includes("search/issues")) {
       return {
@@ -276,17 +314,27 @@ test("one failing source is recorded and does not stop the others", async () => 
         }),
       };
     }
-    return { status: 200, text: JSON.stringify({ total_count: 2, items: [{ repository: { full_name: "x/a" } }, { repository: { full_name: "x/b" } }] }) };
+    return {
+      status: 200,
+      text: JSON.stringify({
+        total_count: 2,
+        items: [{ repository: { full_name: "x/a" } }, { repository: { full_name: "x/b" } }],
+      }),
+    };
   };
   const snapshot = await collect("2026-10-16", fetcher, "token");
   assert.equal(snapshot.schemaVersion, SCHEMA_VERSION);
-  assert.deepEqual([snapshot.metrics.npmWeeklyDownloads!.status, (snapshot.metrics.npmWeeklyDownloads as { reason: string }).reason], ["unavailable", "network down"]);
+  assert.deepEqual(
+    [snapshot.metrics.npmWeeklyDownloads!.status, (snapshot.metrics.npmWeeklyDownloads as { reason: string }).reason],
+    ["unavailable", "network down"],
+  );
   assert.equal((snapshot.metrics.githubActionRepositories as { value: number }).value, 2);
   assert.equal((snapshot.metrics.repeatActionRepositories as { value: number }).value, 0);
   assert.equal((snapshot.metrics.skillsShInstalls as { value: number }).value, 6);
-  assert.deepEqual((snapshot.metrics.skillsShInstalls as { skills: Array<{ name: string; installs: number }> }).skills, [
-    { name: "evergreen-deprecation", installs: 6 },
-  ]);
+  assert.deepEqual(
+    (snapshot.metrics.skillsShInstalls as { skills: Array<{ name: string; installs: number }> }).skills,
+    [{ name: "evergreen-deprecation", installs: 6 }],
+  );
   assert.equal(snapshot.metrics.skillsShInstalls!.source, SKILLS_SH_SOURCE);
   assert.equal((snapshot.metrics.githubStars as { value: number }).value, 3);
   assert.equal((snapshot.metrics.scorecardScore as { value: number }).value, 3.1);
@@ -308,7 +356,10 @@ test("records docs pageviews from GoatCounter when a site is configured", async 
   assert.equal(metric.value, 1234);
   assert.equal(metric.source, "https://evergreen.goatcounter.com/counter/TOTAL.json?start=2026-09-29&end=2026-10-28");
   assert.equal(metric.detail, "pageviews in the 30 days ending on the snapshot date");
-  assert.deepEqual(requested.filter((url) => url.includes("goatcounter")), [metric.source]);
+  assert.deepEqual(
+    requested.filter((url) => url.includes("goatcounter")),
+    [metric.source],
+  );
 });
 
 test("docs traffic is unavailable, never zero, when GoatCounter is not configured", async () => {
@@ -339,7 +390,18 @@ test("reads the maintainer's Search Console landing pages, largest first and cap
   assert.equal((metric as { value: number }).value, MAXIMUM_LANDING_PAGES);
   assert.deepEqual(
     (metric as { pages: LandingPage[] }).pages.map((page) => page.page),
-    ["/page-11", "/page-10", "/page-09", "/page-08", "/page-07", "/page-06", "/page-05", "/page-04", "/page-03", "/page-02"],
+    [
+      "/page-11",
+      "/page-10",
+      "/page-09",
+      "/page-08",
+      "/page-07",
+      "/page-06",
+      "/page-05",
+      "/page-04",
+      "/page-03",
+      "/page-02",
+    ],
   );
   assert.equal(metric.source, SEARCH_CONSOLE_SOURCE);
 });
@@ -356,7 +418,10 @@ test("breaks landing-page ties by impressions and then page", () => {
     }),
     SEARCH_CONSOLE_SOURCE,
   );
-  assert.deepEqual((metric as { pages: LandingPage[] }).pages.map((page) => page.page), ["/c", "/a", "/b"]);
+  assert.deepEqual(
+    (metric as { pages: LandingPage[] }).pages.map((page) => page.page),
+    ["/c", "/a", "/b"],
+  );
 });
 
 test("reports landing pages as unavailable when the file is missing or invalid", () => {
@@ -432,7 +497,12 @@ test("collect records the month's Search Console landing pages from the maintain
 
 test("without a token the code-search metrics are unavailable, never zero", async () => {
   const snapshot = await collect("2026-10-16", async () => ({ status: 404, text: "" }), undefined);
-  for (const name of ["githubActionRepositories", "repeatActionRepositories", "preCommitRepositories", "gitlabComponentRepositories"]) {
+  for (const name of [
+    "githubActionRepositories",
+    "repeatActionRepositories",
+    "preCommitRepositories",
+    "gitlabComponentRepositories",
+  ]) {
     assert.equal(snapshot.metrics[name]!.status, "unavailable", name);
   }
 });

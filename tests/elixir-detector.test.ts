@@ -98,15 +98,19 @@ test("elixir passes detector conformance on every fixture", async () => {
 
 test("a mix.exs elixir constraint is not a version pin, and an exact pin is", async () => {
   const root = await repository({
-    "mix.exs": "defmodule App.MixProject do\n  def project do\n    [\n      elixir: \"~> 1.14\"\n    ]\n  end\nend\n",
+    "mix.exs": 'defmodule App.MixProject do\n  def project do\n    [\n      elixir: "~> 1.14"\n    ]\n  end\nend\n',
   });
   assert.deepEqual(await elixirDetector.scan({ root }), []);
 
   const pinned = await repository({
-    "mix.exs": "defmodule App.MixProject do\n  def project do\n    [\n      elixir: \"1.14.5\"\n    ]\n  end\nend\n",
+    "mix.exs": 'defmodule App.MixProject do\n  def project do\n    [\n      elixir: "1.14.5"\n    ]\n  end\nend\n',
   });
   assert.deepEqual(
-    (await elixirDetector.scan({ root: pinned })).map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    (await elixirDetector.scan({ root: pinned })).map((finding) => [
+      finding.ruleId,
+      finding.location.path,
+      finding.location.line,
+    ]),
     [["elixir.runtime.eol-1.14", "mix.exs", 4]],
   );
 });
@@ -139,7 +143,7 @@ test("mix.exs package constraints match only rules that cover every version", as
     },
   ]);
   const root = await repository({
-    "mix.exs": "defmodule App.MixProject do\n  defp deps do\n    [\n      {:example, \"~> 0.1\"}\n    ]\n  end\nend\n",
+    "mix.exs": 'defmodule App.MixProject do\n  defp deps do\n    [\n      {:example, "~> 0.1"}\n    ]\n  end\nend\n',
   });
   assert.deepEqual(
     (await detector.scan({ root })).map((finding) => finding.ruleId),
@@ -159,10 +163,13 @@ test("a migration packet for an Elixir finding names the file, steps, and verifi
 
 test("the detector is registered and Elixir is experimental in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "elixir"));
-  assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "elixir"), {
-    id: "elixir",
-    status: "experimental",
-    maturity: "experimental",
-    detectorIds: ["elixir"],
-  });
+  assert.deepEqual(
+    getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "elixir"),
+    {
+      id: "elixir",
+      status: "experimental",
+      maturity: "experimental",
+      detectorIds: ["elixir"],
+    },
+  );
 });

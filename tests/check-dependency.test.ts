@@ -7,7 +7,13 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 import { checkAgainst, checkDependency, CheckDependencyError } from "../src/check-dependency.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 
-const rule = (id: string, purl: string, vers: string, severity: RegistryV2Rule["severity"], extra: Partial<RegistryV2Rule> = {}): RegistryV2Rule => ({
+const rule = (
+  id: string,
+  purl: string,
+  vers: string,
+  severity: RegistryV2Rule["severity"],
+  extra: Partial<RegistryV2Rule> = {},
+): RegistryV2Rule => ({
   id,
   ecosystem: purl.split("/")[0]!.replace("pkg:", ""),
   purl,
@@ -62,8 +68,14 @@ test("the version option overrides a version in the PURL", async () => {
 });
 
 test("invalid input is rejected with a clear error", async () => {
-  await assert.rejects(checkDependency("npm/request"), (error: unknown) => error instanceof CheckDependencyError && /pkg:/.test(error.message));
-  await assert.rejects(checkDependency("pkg:github/actions/checkout@latest"), (error: unknown) => error instanceof CheckDependencyError && /not a valid version/.test(error.message));
+  await assert.rejects(
+    checkDependency("npm/request"),
+    (error: unknown) => error instanceof CheckDependencyError && /pkg:/.test(error.message),
+  );
+  await assert.rejects(
+    checkDependency("pkg:github/actions/checkout@latest"),
+    (error: unknown) => error instanceof CheckDependencyError && /not a valid version/.test(error.message),
+  );
 });
 
 test("findings are ordered by severity, then rule id, and the top severity is reported", () => {
@@ -73,25 +85,43 @@ test("findings are ordered by severity, then rule id, and the top severity is re
     rule("npm.a", "pkg:npm/left", "vers:npm/*", "critical"),
   ];
   const check = checkAgainst(rules, { purl: "pkg:npm/left" });
-  assert.deepEqual(check.findings.map((finding) => finding.ruleId), ["npm.a", "npm.c", "npm.b"]);
+  assert.deepEqual(
+    check.findings.map((finding) => finding.ruleId),
+    ["npm.a", "npm.c", "npm.b"],
+  );
   assert.equal(check.severity, "critical");
 });
 
 test("range rules need a version: version-dependent without one, scoped to the range with one", () => {
-  const rules = [rule("npm.old", "pkg:npm/lib", "vers:npm/<3.0.0", "high"), rule("npm.new", "pkg:npm/lib", "vers:npm/>=5.0.0|<6.0.0", "medium")];
+  const rules = [
+    rule("npm.old", "pkg:npm/lib", "vers:npm/<3.0.0", "high"),
+    rule("npm.new", "pkg:npm/lib", "vers:npm/>=5.0.0|<6.0.0", "medium"),
+  ];
   const none = checkAgainst(rules, { purl: "pkg:npm/lib" });
   assert.equal(none.status, "version-dependent");
   assert.equal(none.findings.length, 2);
-  assert.deepEqual(checkAgainst(rules, { purl: "pkg:npm/lib@2.9.0" }).findings.map((finding) => finding.ruleId), ["npm.old"]);
+  assert.deepEqual(
+    checkAgainst(rules, { purl: "pkg:npm/lib@2.9.0" }).findings.map((finding) => finding.ruleId),
+    ["npm.old"],
+  );
   assert.equal(checkAgainst(rules, { purl: "pkg:npm/lib@4.0.0" }).status, "not-affected");
-  assert.deepEqual(checkAgainst(rules, { purl: "pkg:npm/lib@5.5.0" }).findings.map((finding) => finding.ruleId), ["npm.new"]);
+  assert.deepEqual(
+    checkAgainst(rules, { purl: "pkg:npm/lib@5.5.0" }).findings.map((finding) => finding.ruleId),
+    ["npm.new"],
+  );
 });
 
 test("a rule that covers every version makes an unversioned check affected", () => {
-  const rules = [rule("npm.all", "pkg:npm/gone", "vers:npm/*", "high"), rule("npm.range", "pkg:npm/gone", "vers:npm/<1.0.0", "critical")];
+  const rules = [
+    rule("npm.all", "pkg:npm/gone", "vers:npm/*", "high"),
+    rule("npm.range", "pkg:npm/gone", "vers:npm/<1.0.0", "critical"),
+  ];
   const check = checkAgainst(rules, { purl: "pkg:npm/gone" });
   assert.equal(check.status, "affected");
-  assert.deepEqual(check.findings.map((finding) => finding.ruleId), ["npm.all"]);
+  assert.deepEqual(
+    check.findings.map((finding) => finding.ruleId),
+    ["npm.all"],
+  );
 });
 
 test("results are deterministic and match the published schema", async () => {
@@ -99,7 +129,14 @@ test("results are deterministic and match the published schema", async () => {
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   ajv.addSchema(JSON.parse(await readFile(resolve("schemas/scan.v1.schema.json"), "utf8")) as object);
   const validate = ajv.compile(schema);
-  for (const input of ["pkg:npm/request@2.88.2", "pkg:github/actions/checkout", "pkg:github/actions/checkout@v5", "pkg:npm/express", "pkg:generic/nodejs@18.0.0", "pkg:pypi/nose"]) {
+  for (const input of [
+    "pkg:npm/request@2.88.2",
+    "pkg:github/actions/checkout",
+    "pkg:github/actions/checkout@v5",
+    "pkg:npm/express",
+    "pkg:generic/nodejs@18.0.0",
+    "pkg:pypi/nose",
+  ]) {
     const first = await checkDependency(input);
     assert.equal(validate(first), true, `${input}: ${JSON.stringify(validate.errors)}`);
     assert.equal(JSON.stringify(await checkDependency(input)), JSON.stringify(first));

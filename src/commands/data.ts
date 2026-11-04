@@ -18,10 +18,15 @@ function relaunchWithEnvironmentProxy(): number | undefined {
   if (!proxied || process.env.NODE_USE_ENV_PROXY) return undefined;
   if (typeof http.setGlobalProxyFromEnv === "function") return undefined;
   if (!process.allowedNodeEnvironmentFlags.has("--use-env-proxy")) {
-    process.stderr.write("A proxy is configured, but this Node.js cannot use it for downloads. Use Node.js 22.21 or newer.\n");
+    process.stderr.write(
+      "A proxy is configured, but this Node.js cannot use it for downloads. Use Node.js 22.21 or newer.\n",
+    );
     return undefined;
   }
-  const child = spawnSync(process.execPath, [...process.execArgv, ...process.argv.slice(1)], { stdio: "inherit", env: { ...process.env, NODE_USE_ENV_PROXY: "1" } });
+  const child = spawnSync(process.execPath, [...process.execArgv, ...process.argv.slice(1)], {
+    stdio: "inherit",
+    env: { ...process.env, NODE_USE_ENV_PROXY: "1" },
+  });
   return child.status ?? 1;
 }
 
@@ -29,10 +34,7 @@ export const command: CliCommand = {
   name: "data",
   flags: ["--json", "--data-version"],
   example: "evergreen data status",
-  usage: [
-    "  evergreen data status [--json]",
-    "  evergreen data update [--data-version <version>] [--json]",
-  ],
+  usage: ["  evergreen data status [--json]", "  evergreen data update [--data-version <version>] [--json]"],
   usageSlots: [42, 59],
   completion: { subcommands: ["status", "update"], extraWords: ["--json", "--data-version"] },
   run(args, ctx) {
@@ -54,7 +56,8 @@ export const command: CliCommand = {
           throw error;
         }
       }
-      if (subcommand !== "status") return ctx.fail("usage", `Unknown data command: ${subcommand ?? ""}`, `\n${ctx.help}`);
+      if (subcommand !== "status")
+        return ctx.fail("usage", `Unknown data command: ${subcommand ?? ""}`, `\n${ctx.help}`);
       const status = await getDataStatus();
       process.stdout.write(`${state.json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
       return 0;

@@ -35,9 +35,21 @@ test("pnpm 6: ready packages are silent, production blockers and dev warnings ar
   const root = resolve(fixtures, "v6");
   assert.equal(await pnpmLockAnalyzer.applies(root), true);
   assert.deepEqual(summarize(await pnpmLockAnalyzer.analyze(root, target)), [
-    { level: "blocker", subject: "blocked-prod@2.0.0", path: "pnpm-lock.yaml", line: 26, evidence: "engines.node: >=24" },
+    {
+      level: "blocker",
+      subject: "blocked-prod@2.0.0",
+      path: "pnpm-lock.yaml",
+      line: 26,
+      evidence: "engines.node: >=24",
+    },
     { level: "warning", subject: "dev-only@1.0.0", path: "pnpm-lock.yaml", line: 32, evidence: "engines.node: >=24" },
-    { level: "unknown", subject: "invalid-range@1.0.0", path: "pnpm-lock.yaml", line: 37, evidence: "engines.node: >=not-a-version" },
+    {
+      level: "unknown",
+      subject: "invalid-range@1.0.0",
+      path: "pnpm-lock.yaml",
+      line: 37,
+      evidence: "engines.node: >=not-a-version",
+    },
   ]);
 });
 
@@ -52,9 +64,21 @@ test("pnpm 9: engines come from packages, and the dev flag is resolved through i
   const root = resolve(fixtures, "v9");
   assert.equal(await pnpmLockAnalyzer.applies(root), true);
   assert.deepEqual(summarize(await pnpmLockAnalyzer.analyze(root, target)), [
-    { level: "blocker", subject: "blocked-prod@2.0.0", path: "pnpm-lock.yaml", line: 33, evidence: "engines.node: >=24" },
+    {
+      level: "blocker",
+      subject: "blocked-prod@2.0.0",
+      path: "pnpm-lock.yaml",
+      line: 33,
+      evidence: "engines.node: >=24",
+    },
     { level: "warning", subject: "dev-only@1.0.0", path: "pnpm-lock.yaml", line: 38, evidence: "engines.node: >=24" },
-    { level: "unknown", subject: "invalid-range@1.0.0", path: "pnpm-lock.yaml", line: 42, evidence: "engines.node: >=not-a-version" },
+    {
+      level: "unknown",
+      subject: "invalid-range@1.0.0",
+      path: "pnpm-lock.yaml",
+      line: 42,
+      evidence: "engines.node: >=not-a-version",
+    },
     { level: "blocker", subject: "prod-child@1.5.0", path: "pnpm-lock.yaml", line: 46, evidence: "engines.node: >=24" },
     { level: "warning", subject: "dev-child@1.5.0", path: "pnpm-lock.yaml", line: 50, evidence: "engines.node: >=24" },
   ]);
@@ -97,11 +121,10 @@ test("checkUpgrade reports a blocked verdict with the analyzer id and stable ord
   const report = await checkUpgrade(resolve(fixtures, "v6"), target);
   assert.equal(report.verdict, "blocked");
   assert.deepEqual(report.analyzers, ["pnpm-lock"]);
-  assert.deepEqual(report.issues.map((issue) => `${issue.level}:${issue.subject}`), [
-    "blocker:blocked-prod@2.0.0",
-    "warning:dev-only@1.0.0",
-    "unknown:invalid-range@1.0.0",
-  ]);
+  assert.deepEqual(
+    report.issues.map((issue) => `${issue.level}:${issue.subject}`),
+    ["blocker:blocked-prod@2.0.0", "warning:dev-only@1.0.0", "unknown:invalid-range@1.0.0"],
+  );
 });
 
 test("the CLI exits 1 for a blocker and prints the evidence at its line", async () => {
@@ -109,7 +132,11 @@ test("the CLI exits 1 for a blocker and prints the evidence at its line", async 
   const text = await run("upgrade-check", "--to", "nodejs@22", root);
   assert.equal(text.code, 1);
   assert.match(text.stdout, /^nodejs@22: blocked \(1 blockers/m);
-  assert.ok(text.stdout.includes("pnpm-lock.yaml:26  blocked-prod@2.0.0  blocked-prod@2.0.0 declares engines.node \">=24\", which excludes Node.js 22.  [lockfile: engines.node: >=24]"));
+  assert.ok(
+    text.stdout.includes(
+      'pnpm-lock.yaml:26  blocked-prod@2.0.0  blocked-prod@2.0.0 declares engines.node ">=24", which excludes Node.js 22.  [lockfile: engines.node: >=24]',
+    ),
+  );
 
   const json = await run("upgrade-check", "--to", "nodejs@22", root, "--json");
   assert.equal(json.code, 1);
@@ -124,6 +151,11 @@ test("the CLI exits 0 when every eligible package accepts the target", async () 
 });
 
 test("readPackages keeps package order and ignores a document that does not parse", () => {
-  const entries = readPackages("lockfileVersion: '6.0'\npackages:\n  /a@1.0.0:\n    engines: {node: '>=20'}\n---\nlockfileVersion: [\n");
-  assert.deepEqual(entries.map((entry) => [entry.subject, entry.range, entry.line]), [["a@1.0.0", ">=20", 4]]);
+  const entries = readPackages(
+    "lockfileVersion: '6.0'\npackages:\n  /a@1.0.0:\n    engines: {node: '>=20'}\n---\nlockfileVersion: [\n",
+  );
+  assert.deepEqual(
+    entries.map((entry) => [entry.subject, entry.range, entry.line]),
+    [["a@1.0.0", ">=20", 4]],
+  );
 });

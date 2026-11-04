@@ -21,7 +21,12 @@ function inline(cycle: unknown, now = "2026-10-15"): ImporterContext {
   };
 }
 
-const line = (status: string, end: string, pep = 100) => ({ status, first_release: "2020-01-01", end_of_life: end, pep });
+const line = (status: string, end: string, pep = 100) => ({
+  status,
+  first_release: "2020-01-01",
+  end_of_life: end,
+  pep,
+});
 
 test("drafts the catch-all rule for the newest end-of-life release line in the recorded schedule", async () => {
   const drafts = await execute(pythonReleaseCycleImporter, { replay: recording });
@@ -34,18 +39,33 @@ test("drafts the catch-all rule for the newest end-of-life release line in the r
   assert.equal(rule.title, "Python 3.10 and older are end-of-life");
   assert.equal(rule.deadline, "2026-10-01");
   assert.deepEqual(rule["x-python"], { kind: "runtime", maximumVersion: "3.10" });
-  assert.deepEqual(rule.sources.map((source) => source.url), [
-    "https://devguide.python.org/versions/",
-    "https://peps.python.org/api/release-cycle.json",
-    "https://peps.python.org/pep-0619/",
+  assert.deepEqual(
+    rule.sources.map((source) => source.url),
+    [
+      "https://devguide.python.org/versions/",
+      "https://peps.python.org/api/release-cycle.json",
+      "https://peps.python.org/pep-0619/",
+    ],
+  );
+  assert.deepEqual(drafts.notes, [
+    "Not yet end-of-life: 3.11 (ends 2027-10), 3.12 (ends 2028-10), 3.13 (ends 2029-10), 3.14 (ends 2030-10), 3.15 (ends 2031-10), 3.16 (ends 2032-10).",
   ]);
-  assert.deepEqual(drafts.notes, ["Not yet end-of-life: 3.11 (ends 2027-10), 3.12 (ends 2028-10), 3.13 (ends 2029-10), 3.14 (ends 2030-10), 3.15 (ends 2031-10), 3.16 (ends 2032-10)."]);
 });
 
 test("an exact end date ends a line on that day", async () => {
   const cycle = { "3.9": line("end-of-life", "2025-10-31"), "3.10": line("security", "2026-10-01") };
-  assert.equal((await runImporter(pythonReleaseCycleImporter, inline(cycle, "2026-09-30"))).rules.find((rule) => rule.event === "end-of-life")!.id, "python.runtime.eol-3.9-and-older");
-  assert.equal((await runImporter(pythonReleaseCycleImporter, inline(cycle, "2026-10-01"))).rules.find((rule) => rule.event === "end-of-life")!.id, "python.runtime.eol-3.10-and-older");
+  assert.equal(
+    (await runImporter(pythonReleaseCycleImporter, inline(cycle, "2026-09-30"))).rules.find(
+      (rule) => rule.event === "end-of-life",
+    )!.id,
+    "python.runtime.eol-3.9-and-older",
+  );
+  assert.equal(
+    (await runImporter(pythonReleaseCycleImporter, inline(cycle, "2026-10-01"))).rules.find(
+      (rule) => rule.event === "end-of-life",
+    )!.id,
+    "python.runtime.eol-3.10-and-older",
+  );
 });
 
 test("when the schedule had not yet ended 3.10, it reproduces the hand-written rule except for one added source", async () => {
@@ -54,10 +74,16 @@ test("when the schedule had not yet ended 3.10, it reproduces the hand-written r
   const drafts = await runImporter(pythonReleaseCycleImporter, inline(cycle, "2025-12-01"));
   const diff = diffDrafts({ ...drafts, rules: drafts.rules.filter((rule) => rule.event === "end-of-life") }, registry);
   assert.deepEqual(diff.added, []);
-  assert.deepEqual(diff.changed.map((change) => change.id), ["python.runtime.eol-3.9-and-older"]);
+  assert.deepEqual(
+    diff.changed.map((change) => change.id),
+    ["python.runtime.eol-3.9-and-older"],
+  );
   const [change] = diff.changed;
   assert.deepEqual([change!.dates, change!.fields], [[], []], "the date and every field match the hand-written rule");
-  assert.deepEqual(change!.sources?.added.map((source) => source.url), ["https://peps.python.org/api/release-cycle.json"]);
+  assert.deepEqual(
+    change!.sources?.added.map((source) => source.url),
+    ["https://peps.python.org/api/release-cycle.json"],
+  );
   assert.deepEqual([change!.sources?.removed, change!.sources?.retitled], [[], []]);
 });
 
@@ -66,7 +92,10 @@ test("the registry covers every line the schedule says has ended: the 3.9 and 3.
   const drafts = await execute(pythonReleaseCycleImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
   // Python 3.10 ended on 2026-10-01; the registry gained that rule next to the 3.9 one, so nothing is left to add.
-  assert.deepEqual(diff.added.map((rule) => rule.id), []);
+  assert.deepEqual(
+    diff.added.map((rule) => rule.id),
+    [],
+  );
   const ids = registry.rules.map((rule) => rule.id);
   assert.ok(ids.includes("python.runtime.eol-3.9-and-older") && ids.includes("python.runtime.eol-3.10-and-older"));
 });
@@ -79,28 +108,60 @@ test("the draft is exactly what the Python detector reads", async () => {
 });
 
 test("an announced month is not an end date, but it becomes the deadline once the schedule says the line has ended", async () => {
-  const cycle = { "3.9": line("end-of-life", "2025-10-31"), "3.10": line("end-of-life", "2026-10"), "3.11": line("security", "2027-10") };
+  const cycle = {
+    "3.9": line("end-of-life", "2025-10-31"),
+    "3.10": line("end-of-life", "2026-10"),
+    "3.11": line("security", "2027-10"),
+  };
   const result = await runImporter(pythonReleaseCycleImporter, inline(cycle));
   assert.equal(result.rules.find((rule) => rule.event === "end-of-life")!.id, "python.runtime.eol-3.10-and-older");
   assert.equal(result.rules.find((rule) => rule.event === "end-of-life")!.deadline, "2026-10-31");
-  assert.ok(result.notes.includes("Python 3.10 has no exact end date yet; the deadline is the last day of its end month."));
+  assert.ok(
+    result.notes.includes("Python 3.10 has no exact end date yet; the deadline is the last day of its end month."),
+  );
 
-  const early = await runImporter(pythonReleaseCycleImporter, inline({ "3.9": line("end-of-life", "2025-10-31"), "3.10": line("security", "2026-10") }));
-  assert.equal(early.rules.find((rule) => rule.event === "end-of-life")!.id, "python.runtime.eol-3.9-and-older", "a month alone never ends a line");
+  const early = await runImporter(
+    pythonReleaseCycleImporter,
+    inline({ "3.9": line("end-of-life", "2025-10-31"), "3.10": line("security", "2026-10") }),
+  );
+  assert.equal(
+    early.rules.find((rule) => rule.event === "end-of-life")!.id,
+    "python.runtime.eol-3.9-and-older",
+    "a month alone never ends a line",
+  );
 });
 
 test("reports when the status and the date disagree", async () => {
-  const late = await runImporter(pythonReleaseCycleImporter, inline({ "3.9": line("end-of-life", "2025-10-31"), "3.10": line("security", "2026-10-01") }));
-  assert.equal(late.rules.find((rule) => rule.event === "end-of-life")!.id, "python.runtime.eol-3.10-and-older", "an exact end date that has passed counts");
-  assert.ok(late.notes.includes('Python 3.10: the end date 2026-10-01 has passed but the schedule\'s status is "security".'));
+  const late = await runImporter(
+    pythonReleaseCycleImporter,
+    inline({ "3.9": line("end-of-life", "2025-10-31"), "3.10": line("security", "2026-10-01") }),
+  );
+  assert.equal(
+    late.rules.find((rule) => rule.event === "end-of-life")!.id,
+    "python.runtime.eol-3.10-and-older",
+    "an exact end date that has passed counts",
+  );
+  assert.ok(
+    late.notes.includes('Python 3.10: the end date 2026-10-01 has passed but the schedule\'s status is "security".'),
+  );
 
-  const early = await runImporter(pythonReleaseCycleImporter, inline({ "3.9": line("end-of-life", "2025-10-31"), "3.10": line("end-of-life", "2027-01-01") }));
+  const early = await runImporter(
+    pythonReleaseCycleImporter,
+    inline({ "3.9": line("end-of-life", "2025-10-31"), "3.10": line("end-of-life", "2027-01-01") }),
+  );
   assert.equal(early.rules.find((rule) => rule.event === "end-of-life")!.id, "python.runtime.eol-3.10-and-older");
-  assert.ok(early.notes.includes("Python 3.10: the schedule's status is end-of-life but its end date 2027-01-01 is in the future."));
+  assert.ok(
+    early.notes.includes(
+      "Python 3.10: the schedule's status is end-of-life but its end date 2027-01-01 is in the future.",
+    ),
+  );
 });
 
 test("does not claim 'and older' when an older line is still supported", async () => {
-  const result = await runImporter(pythonReleaseCycleImporter, inline({ "3.9": line("security", "2027-10-31"), "3.10": line("end-of-life", "2026-10-01") }));
+  const result = await runImporter(
+    pythonReleaseCycleImporter,
+    inline({ "3.9": line("security", "2027-10-31"), "3.10": line("end-of-life", "2026-10-01") }),
+  );
   assert.deepEqual(result.rules, []);
   assert.ok(result.notes.some((note) => /Not drafted: Python 3\.10 has ended but 3\.9 has not/.test(note)));
 });
@@ -110,14 +171,29 @@ test("says so when nothing has ended or the end date is unusable", async () => {
   assert.deepEqual(none.rules, []);
   assert.ok(none.notes.includes("No Python release line has reached end of life, so there is nothing to draft."));
 
-  const unusable = await runImporter(pythonReleaseCycleImporter, inline({ "3.9": { status: "end-of-life", pep: 596 } }));
+  const unusable = await runImporter(
+    pythonReleaseCycleImporter,
+    inline({ "3.9": { status: "end-of-life", pep: 596 } }),
+  );
   assert.deepEqual(unusable.rules, []);
   assert.ok(unusable.notes.includes("Not drafted: the schedule gives no usable end date for Python 3.9."));
 });
 
 test("skips names that are not release lines and sorts minors numerically", async () => {
-  const result = await runImporter(pythonReleaseCycleImporter, inline({ "3.9": line("end-of-life", "2025-10-31"), "3.10": line("end-of-life", "2026-10-01"), "3.2": line("end-of-life", "2016-02-20"), next: line("feature", "2040-10") }));
-  assert.equal(result.rules.find((rule) => rule.event === "end-of-life")!.id, "python.runtime.eol-3.10-and-older", "3.10 is newer than 3.9, not older");
+  const result = await runImporter(
+    pythonReleaseCycleImporter,
+    inline({
+      "3.9": line("end-of-life", "2025-10-31"),
+      "3.10": line("end-of-life", "2026-10-01"),
+      "3.2": line("end-of-life", "2016-02-20"),
+      next: line("feature", "2040-10"),
+    }),
+  );
+  assert.equal(
+    result.rules.find((rule) => rule.event === "end-of-life")!.id,
+    "python.runtime.eol-3.10-and-older",
+    "3.10 is newer than 3.9, not older",
+  );
   assert.ok(result.notes.includes("Skipped next: not a release line name this importer understands."));
 });
 
@@ -128,16 +204,26 @@ test("omits the PEP source when the schedule gives none", async () => {
 });
 
 test("a release line that ends within twelve months is drafted as a scheduled rule for exactly that line, with the id of its later end-of-life rule", async () => {
-  const cycle = { "3.9": line("end-of-life", "2025-10-31", 596), "3.10": line("security", "2026-10-01", 619), "3.11": line("security", "2027-10", 664) };
+  const cycle = {
+    "3.9": line("end-of-life", "2025-10-31", 596),
+    "3.10": line("security", "2026-10-01", 619),
+    "3.11": line("security", "2027-10", 664),
+  };
   const result = await runImporter(pythonReleaseCycleImporter, inline(cycle, "2026-05-01"));
-  assert.deepEqual(result.rules.map((rule) => [rule.id, rule.event, rule.severity, rule.vers, rule.deadline]), [
-    ["python.runtime.eol-3.10-and-older", "scheduled-end-of-life", "low", "vers:pypi/>=3.10|<3.11", "2026-10-01"],
-    ["python.runtime.eol-3.9-and-older", "end-of-life", "high", "vers:pypi/<3.10", "2025-10-31"],
-  ]);
+  assert.deepEqual(
+    result.rules.map((rule) => [rule.id, rule.event, rule.severity, rule.vers, rule.deadline]),
+    [
+      ["python.runtime.eol-3.10-and-older", "scheduled-end-of-life", "low", "vers:pypi/>=3.10|<3.11", "2026-10-01"],
+      ["python.runtime.eol-3.9-and-older", "end-of-life", "high", "vers:pypi/<3.10", "2025-10-31"],
+    ],
+  );
   assert.deepEqual(result.rules[0]!["x-python"], { kind: "runtime", maximumVersion: "3.10", scheduled: true });
   assert.ok(result.notes.includes("Not yet end-of-life: 3.11 (ends 2027-10)."));
 
   // A month alone is the last day of that month, and it is only drafted once that day is within a year.
   const near = await runImporter(pythonReleaseCycleImporter, inline(cycle, "2026-11-01"));
-  assert.deepEqual(near.rules.filter((rule) => rule.event === "scheduled-end-of-life").map((rule) => [rule.id, rule.deadline]), [["python.runtime.eol-3.11-and-older", "2027-10-31"]]);
+  assert.deepEqual(
+    near.rules.filter((rule) => rule.event === "scheduled-end-of-life").map((rule) => [rule.id, rule.deadline]),
+    [["python.runtime.eol-3.11-and-older", "2027-10-31"]],
+  );
 });

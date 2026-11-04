@@ -9,36 +9,28 @@
   "comparisons": [
     {
       "product": "babel-eslint",
-      "evergreen": [
-        "npm.package.babel-eslint.deprecated"
-      ],
+      "evergreen": ["npm.package.babel-eslint.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "crypto-js",
-      "evergreen": [
-        "npm.package.crypto-js.deprecated"
-      ],
+      "evergreen": ["npm.package.crypto-js.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "i18next-parser",
-      "evergreen": [
-        "npm.package.i18next-parser.deprecated"
-      ],
+      "evergreen": ["npm.package.i18next-parser.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "koa-router",
-      "evergreen": [
-        "npm.package.koa-router.deprecated"
-      ],
+      "evergreen": ["npm.package.koa-router.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
@@ -57,54 +49,42 @@
     },
     {
       "product": "socket.io-redis",
-      "evergreen": [
-        "npm.package.socket.io-redis.deprecated"
-      ],
+      "evergreen": ["npm.package.socket.io-redis.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "types.dotenv",
-      "evergreen": [
-        "npm.package.types.dotenv.deprecated"
-      ],
+      "evergreen": ["npm.package.types.dotenv.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "types.emoji-regex",
-      "evergreen": [
-        "npm.package.types.emoji-regex.deprecated"
-      ],
+      "evergreen": ["npm.package.types.emoji-regex.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "types.form-data",
-      "evergreen": [
-        "npm.package.types.form-data.deprecated"
-      ],
+      "evergreen": ["npm.package.types.form-data.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "types.koa-useragent",
-      "evergreen": [
-        "npm.package.types.koa-useragent.deprecated"
-      ],
+      "evergreen": ["npm.package.types.koa-useragent.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
     },
     {
       "product": "types.sanitize-filename",
-      "evergreen": [
-        "npm.package.types.sanitize-filename.deprecated"
-      ],
+      "evergreen": ["npm.package.types.sanitize-filename.deprecated"],
       "xeol": [],
       "outcome": "evergreen-only",
       "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."

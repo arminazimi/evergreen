@@ -42,9 +42,7 @@ function escapeMarkdown(value: string | number): string {
   return String(value)
     .replace(/\r\n?/g, "\n")
     .split("\n")
-    .map((line) =>
-      line.replace(/[&<>|\\\x60*_{}\[\]()#+\-.!]/g, (character) => escapes[character] ?? "\\" + character),
-    )
+    .map((line) => line.replace(/[&<>|\\\x60*_{}\[\]()#+\-.!]/g, (character) => escapes[character] ?? "\\" + character))
     .join("<br>");
 }
 
@@ -92,11 +90,7 @@ function findingSection(title: string, findings: ReceiptFinding[]): string[] {
   const heading = `### ${title}`;
   if (findings.length === 0) return [heading, "", "_None._"];
 
-  const table = [
-    "| Severity | Finding | Location |",
-    "| --- | --- | --- |",
-    ...findingRows(findings),
-  ];
+  const table = ["| Severity | Finding | Location |", "| --- | --- | --- |", ...findingRows(findings)];
 
   if (findings.length <= DETAILS_AFTER) {
     return [heading, "", ...table];

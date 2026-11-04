@@ -31,9 +31,7 @@ export class ConformanceError extends Error {
   readonly guarantee: string;
 
   constructor(detectorId: string, fixtureName: string, guarantee: string, detail: string) {
-    super(
-      `Detector "${detectorId}" violated the "${guarantee}" guarantee for fixture "${fixtureName}": ${detail}`,
-    );
+    super(`Detector "${detectorId}" violated the "${guarantee}" guarantee for fixture "${fixtureName}": ${detail}`);
     this.name = "ConformanceError";
     this.detectorId = detectorId;
     this.fixtureName = fixtureName;

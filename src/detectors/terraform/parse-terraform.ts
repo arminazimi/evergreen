@@ -53,9 +53,7 @@ export interface TerraformProviderVersionDeclaration {
   line: number;
 }
 
-export type TerraformDeclaration =
-  | TerraformRequiredVersionDeclaration
-  | TerraformProviderVersionDeclaration;
+export type TerraformDeclaration = TerraformRequiredVersionDeclaration | TerraformProviderVersionDeclaration;
 
 /** Parse `required_version` and `required_providers` constraints from a `*.tf` file. */
 export function parseTerraformFile(contents: string): TerraformDeclaration[] {
@@ -175,7 +173,11 @@ function stringEnd(text: string, open: number): number | undefined {
       continue;
     }
     if (character === '"') return index;
-    if ((character === "$" || character === "%") && text[index + 1] === "{" && !(index > open && text[index - 1] === character)) {
+    if (
+      (character === "$" || character === "%") &&
+      text[index + 1] === "{" &&
+      !(index > open && text[index - 1] === character)
+    ) {
       const close = closingBrace(text, index + 1);
       if (close === undefined) return undefined;
       index = close + 1;
@@ -248,8 +250,7 @@ function scanCall(text: string, open: number): CallScan | undefined {
 function isTypeConstraint(_name: "list" | "map", args: readonly string[]): boolean {
   if (args.length !== 1) return false;
   const argument = args[0]!.trim();
-  return /^(?:any|bool|number|string)$/.test(argument)
-    || /^(?:list|map|set|object|tuple)\s*\(/.test(argument);
+  return /^(?:any|bool|number|string)$/.test(argument) || /^(?:list|map|set|object|tuple)\s*\(/.test(argument);
 }
 
 /**
@@ -341,12 +342,7 @@ function readCall(
 }
 
 /** Find `${...}` and `%{...}` sequences in a quoted template and read the expressions inside them. */
-function readTemplate(
-  contents: string,
-  base: number,
-  starts: LineStarts,
-  found: TerraformLegacyDeclaration[],
-): void {
+function readTemplate(contents: string, base: number, starts: LineStarts, found: TerraformLegacyDeclaration[]): void {
   let index = 0;
   while (index < contents.length - 1 && found.length < MAXIMUM_DECLARATIONS) {
     const character = contents[index]!;

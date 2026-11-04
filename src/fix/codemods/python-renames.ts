@@ -184,20 +184,25 @@ function moduleMatchers(rename: ModuleRename): UsageMatcher[] {
  * fixer falls back to the same parser-backed usage analysis the detectors use. The analysis also finds the files that
  * import unittest, so an alias call outside a TestCase class can be refused even though it is not reported as a usage.
  */
-async function targetsFor(root: string, result: ScanResult): Promise<{ targets: Target[]; unittestPaths: Set<string> }> {
+async function targetsFor(
+  root: string,
+  result: ScanResult,
+): Promise<{ targets: Target[]; unittestPaths: Set<string> }> {
   const ruleIds = [...moduleRenames.map((rename) => rename.id), aliasRuleId];
   const reported = new Map(ruleIds.map((id) => [id, result.findings.filter((finding) => finding.ruleId === id)]));
   const contracts = [
     ...moduleRenames.map((rename) => ({ id: `module:${rename.id}`, matchers: moduleMatchers(rename) })),
     {
       id: "alias",
-      matchers: aliases.map((alias): UsageMatcher => ({
-        kind: "symbol",
-        language: "python",
-        module: "unittest",
-        symbol: alias.from,
-        shape: "method",
-      })),
+      matchers: aliases.map(
+        (alias): UsageMatcher => ({
+          kind: "symbol",
+          language: "python",
+          module: "unittest",
+          symbol: alias.from,
+          shape: "method",
+        }),
+      ),
     },
     { id: "import:unittest", matchers: [{ kind: "import", language: "python", module: "unittest" }] as UsageMatcher[] },
   ];
@@ -232,7 +237,8 @@ async function targetsFor(root: string, result: ScanResult): Promise<{ targets: 
     for (const finding of findings) {
       for (const usage of finding.usages ?? []) {
         const alias = aliasFor(usage);
-        if (alias !== undefined) targets.push({ ruleId: aliasRuleId, title: aliasRuleTitle, severity: "high", alias, usage, finding });
+        if (alias !== undefined)
+          targets.push({ ruleId: aliasRuleId, title: aliasRuleTitle, severity: "high", alias, usage, finding });
       }
     }
   } else {
@@ -259,9 +265,11 @@ function aliasFor(usage: SourceUsage): Alias | undefined {
 }
 
 function compareTargets(left: Target, right: Target): number {
-  return (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
+  return (
+    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
     (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.ruleId.localeCompare(right.ruleId);
+    left.ruleId.localeCompare(right.ruleId)
+  );
 }
 
 interface FileIndex {
@@ -349,11 +357,16 @@ function rewriteModuleRename(
   const call = index.callsByCallee.get(offset)?.[0];
   if (call !== undefined) {
     const callee = unwrap(call.childForFieldName("function"));
-    if (callee === undefined) return { reason: `The call at the reported location is not a direct \`${rename.module}.${rename.from}\` access.` };
+    if (callee === undefined)
+      return {
+        reason: `The call at the reported location is not a direct \`${rename.module}.${rename.from}\` access.`,
+      };
     if (callee.type === "attribute") {
       const method = callee.childForFieldName("attribute");
       if (method?.text !== rename.from) {
-        return { reason: `The call at the reported location is not a direct \`${rename.module}.${rename.from}\` access.` };
+        return {
+          reason: `The call at the reported location is not a direct \`${rename.module}.${rename.from}\` access.`,
+        };
       }
       return { edits: [{ start: method.startIndex, end: method.endIndex, replacement: rename.to }] };
     }
@@ -365,7 +378,9 @@ function rewriteModuleRename(
   if (attribute !== undefined) {
     const method = attribute.childForFieldName("attribute");
     if (method?.text !== rename.from) {
-      return { reason: `The usage at the reported location is not a direct \`${rename.module}.${rename.from}\` access.` };
+      return {
+        reason: `The usage at the reported location is not a direct \`${rename.module}.${rename.from}\` access.`,
+      };
     }
     return { edits: [{ start: method.startIndex, end: method.endIndex, replacement: rename.to }] };
   }
@@ -380,19 +395,24 @@ function rewriteModuleRename(
  * exists. A name the file bound another way, such as `name = module.name` or `from module import name as short`, is
  * refused: renaming the use alone would leave the local binding pointing at the removed name.
  */
-function rewriteImportedName(rename: ModuleRename, root: Node, identifier: Node): { edits: Edit[] } | { reason: string } {
+function rewriteImportedName(
+  rename: ModuleRename,
+  root: Node,
+  identifier: Node,
+): { edits: Edit[] } | { reason: string } {
   if (identifier.text !== rename.from) {
-    return { reason: `The name is used through the local binding \`${identifier.text}\`, not a direct \`${rename.module}.${rename.from}\` name.` };
+    return {
+      reason: `The name is used through the local binding \`${identifier.text}\`, not a direct \`${rename.module}.${rename.from}\` name.`,
+    };
   }
   const imports = directImportsFor(root, rename);
   if (imports.length === 0) {
-    return { reason: `\`${rename.from}\` is not bound by a direct \`from ${rename.module} import ${rename.from}\` statement, so the codemod cannot rename it exactly.` };
+    return {
+      reason: `\`${rename.from}\` is not bound by a direct \`from ${rename.module} import ${rename.from}\` statement, so the codemod cannot rename it exactly.`,
+    };
   }
   return {
-    edits: [
-      { start: identifier.startIndex, end: identifier.endIndex, replacement: rename.to },
-      ...imports,
-    ],
+    edits: [{ start: identifier.startIndex, end: identifier.endIndex, replacement: rename.to }, ...imports],
   };
 }
 
@@ -420,7 +440,13 @@ function directImportsFor(root: Node, rename: ModuleRename): Edit[] {
  * Every alias-named method call in a file that imports unittest but is not inside a TestCase subclass is refused with
  * a finding of its own, because the usage analysis only reports the shape it is asked for.
  */
-function refuseAliasesOutsideTestcase(path: string, root: Node, source: string, testcase: ReadonlySet<number>, refuse: Refuse | undefined): void {
+function refuseAliasesOutsideTestcase(
+  path: string,
+  root: Node,
+  source: string,
+  testcase: ReadonlySet<number>,
+  refuse: Refuse | undefined,
+): void {
   if (refuse === undefined) return;
   const lines = source.split(/\r?\n/);
   const bindings = unittestBindings(root);

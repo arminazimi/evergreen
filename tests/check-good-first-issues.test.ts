@@ -152,7 +152,10 @@ test("renderSummary formats complete and incomplete reports", () => {
   ]);
   const summaryBad = renderSummary(withBad);
   assert.match(summaryBad, /Incomplete briefs:\*\* 1/);
-  assert.match(summaryBad, /\| \[#2\]\(https:\/\/github\.com\/arminazimi\/evergreen\/issues\/2\) \| Bad issue \| files, steps, done-check \|/);
+  assert.match(
+    summaryBad,
+    /\| \[#2\]\(https:\/\/github\.com\/arminazimi\/evergreen\/issues\/2\) \| Bad issue \| files, steps, done-check \|/,
+  );
 });
 
 test("an issue title cannot break out of the summary table", () => {
@@ -208,9 +211,7 @@ test("fetchGoodFirstIssues handles pagination and ignores pull requests", async 
       }));
       return new Response(JSON.stringify(page1), { status: 200, headers: { "Content-Type": "application/json" } });
     }
-    const page2: Issue[] = [
-      { number: 101, title: "Issue 101", body: COMPLETE_BODY },
-    ];
+    const page2: Issue[] = [{ number: 101, title: "Issue 101", body: COMPLETE_BODY }];
     return new Response(JSON.stringify(page2), { status: 200, headers: { "Content-Type": "application/json" } });
   };
 
@@ -223,8 +224,14 @@ test("fetchGoodFirstIssues handles pagination and ignores pull requests", async 
   assert.equal(requests.length, 2);
   // Total 101 items across pages, but issue 1 was a PR, so 100 issues returned
   assert.equal(issues.length, 100);
-  assert.equal(issues.some((i) => i.number === 1), false);
-  assert.equal(issues.some((i) => i.number === 101), true);
+  assert.equal(
+    issues.some((i) => i.number === 1),
+    false,
+  );
+  assert.equal(
+    issues.some((i) => i.number === 101),
+    true,
+  );
 });
 
 test("fetchGoodFirstIssues throws readable error on API failure", async () => {
@@ -279,4 +286,3 @@ test("main writes summary and report files and returns correct exit code", async
     await rm(dir, { recursive: true, force: true });
   }
 });
-

@@ -8,7 +8,13 @@ const DETECTOR_ID = /\bid(?:\s*:\s*|\s*=\s*)["']([a-z][a-z0-9-]*)["']/g;
 async function listFiles(directory: string, suffix: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true }).catch(() => []);
   const nested = await Promise.all(
-    entries.map((entry) => (entry.isDirectory() ? listFiles(join(directory, entry.name), suffix) : entry.name.endsWith(suffix) ? [join(directory, entry.name)] : [])),
+    entries.map((entry) =>
+      entry.isDirectory()
+        ? listFiles(join(directory, entry.name), suffix)
+        : entry.name.endsWith(suffix)
+          ? [join(directory, entry.name)]
+          : [],
+    ),
   );
   return nested.flat();
 }
@@ -69,7 +75,10 @@ export async function findCollisions(root: string, names: ScaffoldNames): Promis
   if (idUse) problems.push(`"${names.id}" is already a registry name or rule namespace, used by ${idUse}`);
   if (names.ecosystem !== names.id) {
     const ecosystemUse = namespaces.get(names.ecosystem);
-    if (ecosystemUse) problems.push(`the ecosystem "${names.ecosystem}" is already used by ${ecosystemUse}; rule ids and registries must stay unique`);
+    if (ecosystemUse)
+      problems.push(
+        `the ecosystem "${names.ecosystem}" is already used by ${ecosystemUse}; rule ids and registries must stay unique`,
+      );
   }
   return problems;
 }

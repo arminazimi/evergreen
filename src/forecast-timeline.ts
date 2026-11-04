@@ -43,7 +43,11 @@ function timelineRows(forecast: Forecast, months: readonly string[]): TimelineRo
   const groups = new Map(forecast.groups.map((group) => [group.month, group.events]));
   return months.map((month) => {
     const events = groups.get(month) ?? [];
-    return { month, events: events.length, findings: events.reduce((count, event) => count + event.findings.length, 0) };
+    return {
+      month,
+      events: events.length,
+      findings: events.reduce((count, event) => count + event.findings.length, 0),
+    };
   });
 }
 
@@ -77,7 +81,10 @@ export function renderForecastTimeline(forecast: Forecast, options: ForecastTime
   const paint = (text: string, sgr: string): string => (color ? `${sgr}${text}${ANSI.reset}` : text);
   const axis = paint(color ? "│" : "|", ANSI.dim);
 
-  const lines = [`Forecast from ${forecast.today} to ${forecast.until} (${forecast.months} month${forecast.months === 1 ? "" : "s"})`, ""];
+  const lines = [
+    `Forecast from ${forecast.today} to ${forecast.until} (${forecast.months} month${forecast.months === 1 ? "" : "s"})`,
+    "",
+  ];
   for (const row of rows) {
     if (row.events === 0) {
       lines.push(`${row.month}${GAP}${axis}`);

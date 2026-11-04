@@ -44,11 +44,14 @@ const keptRenames = [
   ["_makeLong", "toNamespacedPath"],
   ["currentId", "executionAsyncId"],
   ["triggerId", "triggerAsyncId"],
-  ["Hash(\"sha256\")", "createHash(\"sha256\")"],
-  ["Hmac(\"sha256\", \"secret\")", "createHmac(\"sha256\", \"secret\")"],
+  ['Hash("sha256")', 'createHash("sha256")'],
+  ['Hmac("sha256", "secret")', 'createHmac("sha256", "secret")'],
 ] as const;
 
-for (const [extension, language] of [["js", "javascript"], ["ts", "typescript"]] as const) {
+for (const [extension, language] of [
+  ["js", "javascript"],
+  ["ts", "typescript"],
+] as const) {
   test(`rewrites every exact rename in ${extension} and the patch applies cleanly`, async () => {
     const before = await readFile(join(fixtures, `before.${extension}`), "utf8");
     const expected = await readFile(join(fixtures, `after.${extension}`), "utf8");

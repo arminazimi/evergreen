@@ -19,7 +19,9 @@ function escapeXml(value: string | number): string {
 export function renderJunit(result: ScanResult): string {
   const findings = [...result.findings].sort(findingOrder);
   const cases = findings.map((finding) => {
-    const location = finding.location.line ? finding.location.path + ":" + finding.location.line : finding.location.path;
+    const location = finding.location.line
+      ? finding.location.path + ":" + finding.location.line
+      : finding.location.path;
     const body = [
       "Severity: " + finding.severity,
       "Location: " + location,
@@ -38,7 +40,9 @@ export function renderJunit(result: ScanResult): string {
     `<testsuites name="Evergreen" tests="${findings.length}" failures="${findings.length}" errors="0">`,
     `  <testsuite name="Evergreen scan" tests="${findings.length}" failures="${findings.length}" errors="0" skipped="0">`,
     ...cases,
-    ...(result.diagnostics.length > 0 ? ["    <system-out>" + escapeXml(result.diagnostics.join("\n")) + "</system-out>"] : []),
+    ...(result.diagnostics.length > 0
+      ? ["    <system-out>" + escapeXml(result.diagnostics.join("\n")) + "</system-out>"]
+      : []),
     "  </testsuite>",
     "</testsuites>",
   ].join("\n");

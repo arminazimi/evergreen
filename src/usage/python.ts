@@ -35,7 +35,9 @@ function rebindImportedAliases(budget: BindingBudget<Node>): void {
       if (!chain || !alias.local) continue;
       const rest = chain.path.slice(1);
       for (const binding of bindings.filter((candidate) => candidate.local === chain.path[0])) {
-        changed = budget.addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) || changed;
+        changed =
+          budget.addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) ||
+          changed;
       }
     }
     if (!changed || budget.capped) break;
@@ -86,14 +88,36 @@ function argumentOptions(args: Node | null): Map<string, Node>[] {
 function namesADeclaration(node: Node): boolean {
   const parent = node.parent;
   if (!parent) return false;
-  if (["function_definition", "class_definition", "keyword_argument", "default_parameter", "typed_parameter", "typed_default_parameter"].includes(parent.type)) {
+  if (
+    [
+      "function_definition",
+      "class_definition",
+      "keyword_argument",
+      "default_parameter",
+      "typed_parameter",
+      "typed_default_parameter",
+    ].includes(parent.type)
+  ) {
     if (parent.childForFieldName("name")?.id === node.id) return true;
   }
   if (parent.type === "attribute" && parent.childForFieldName("attribute")?.id === node.id) return true;
-  if (["assignment", "augmented_assignment", "for_statement", "for_in_clause"].includes(parent.type) && parent.childForFieldName("left")?.id === node.id) return true;
+  if (
+    ["assignment", "augmented_assignment", "for_statement", "for_in_clause"].includes(parent.type) &&
+    parent.childForFieldName("left")?.id === node.id
+  )
+    return true;
   return [
-    "dotted_name", "aliased_import", "import_statement", "import_from_statement", "parameters", "lambda_parameters", "as_pattern", "list_splat_pattern",
-    "dictionary_splat_pattern", "global_statement", "nonlocal_statement",
+    "dotted_name",
+    "aliased_import",
+    "import_statement",
+    "import_from_statement",
+    "parameters",
+    "lambda_parameters",
+    "as_pattern",
+    "list_splat_pattern",
+    "dictionary_splat_pattern",
+    "global_statement",
+    "nonlocal_statement",
   ].includes(parent.type);
 }
 
@@ -156,8 +180,12 @@ export async function analyzePythonFile(
     rebindImportedAliases(budget);
 
     const symbolMatchers = (contract: SourceUsageContract): SymbolUsageMatcher[] =>
-      contract.matchers.filter((matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === "python");
-    const wantsReferences = contracts.some((contract) => symbolMatchers(contract).some((matcher) => matcher.shape === "reference"));
+      contract.matchers.filter(
+        (matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === "python",
+      );
+    const wantsReferences = contracts.some((contract) =>
+      symbolMatchers(contract).some((matcher) => matcher.shape === "reference"),
+    );
     let occurrences: SymbolOccurrence[] | undefined;
     const occurrencesOf = (): SymbolOccurrence[] => {
       if (occurrences) return occurrences;
@@ -168,7 +196,12 @@ export async function analyzePythonFile(
         const call = callee.parent;
         if (!chain || !call) continue;
         used.add(callee.id);
-        occurrences.push({ head: chain.head, path: chain.path, role: "call", options: argumentOptions(call.childForFieldName("arguments")) });
+        occurrences.push({
+          head: chain.head,
+          path: chain.path,
+          role: "call",
+          options: argumentOptions(call.childForFieldName("arguments")),
+        });
       }
       if (wantsReferences) {
         for (const node of tree.rootNode.descendantsOfType(["identifier", "attribute"])) {
@@ -225,7 +258,10 @@ export async function analyzePythonFile(
               if (binding.local !== chain.path[0]) continue;
               const symbol = symbolPath(binding, rest);
               for (const target of matcher.targets) {
-                const hit = target === "default" ? (binding.imported === "*" || binding.imported === "default") && rest.length === 0 : symbol === target;
+                const hit =
+                  target === "default"
+                    ? (binding.imported === "*" || binding.imported === "default") && rest.length === 0
+                    : symbol === target;
                 if (!hit) continue;
                 const { line, column } = locate(chain.head.startIndex);
                 push({
@@ -265,7 +301,11 @@ export async function analyzePythonFile(
       }
       results.set(
         contract.id,
-        usages.sort((left, right) => (left.location.line ?? 0) - (right.location.line ?? 0) || (left.location.column ?? 0) - (right.location.column ?? 0)),
+        usages.sort(
+          (left, right) =>
+            (left.location.line ?? 0) - (right.location.line ?? 0) ||
+            (left.location.column ?? 0) - (right.location.column ?? 0),
+        ),
       );
     }
     if (budget.capped) (results as PythonUsageMap).analysisCapped = true;
@@ -292,16 +332,16 @@ function isTestcaseClass(node: Node, bindings: readonly Binding[]): boolean {
 /** A base is TestCase, an alias of it, or `unittest.TestCase` reached through the unittest module name. */
 function isTestcaseBase(node: Node, bindings: readonly Binding[]): boolean {
   if (node.type === "identifier") {
-    return bindings.some((binding) =>
-      binding.local === node.text &&
-      moduleMatches(binding.module, "unittest") &&
-      binding.imported === "TestCase");
+    return bindings.some(
+      (binding) =>
+        binding.local === node.text && moduleMatches(binding.module, "unittest") && binding.imported === "TestCase",
+    );
   }
   if (node.type !== "attribute") return false;
   const chain = chainOf(node);
   if (!chain || chain.path.at(-1) !== "TestCase") return false;
-  return bindings.some((binding) =>
-    binding.local === chain.path[0] &&
-    moduleMatches(binding.module, "unittest") &&
-    binding.imported === "*");
+  return bindings.some(
+    (binding) =>
+      binding.local === chain.path[0] && moduleMatches(binding.module, "unittest") && binding.imported === "*",
+  );
 }

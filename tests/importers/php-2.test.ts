@@ -163,10 +163,10 @@ test("recorded drafts diff against the curated rules and never write the registr
   const diff = diffDrafts(await execute(phpPackagistAbandonedImporter, { replay: recording }), registry);
 
   assert.equal(diff.added.length, 0);
-  assert.deepEqual(diff.changed.map((entry) => entry.id), [
-    "php.package.swiftmailer.swiftmailer.abandoned",
-    "php.package.zendframework.zend-stdlib.abandoned",
-  ]);
+  assert.deepEqual(
+    diff.changed.map((entry) => entry.id),
+    ["php.package.swiftmailer.swiftmailer.abandoned", "php.package.zendframework.zend-stdlib.abandoned"],
+  );
   const swift = diff.changed[0]!;
   assert.deepEqual(swift.dates, []);
   assert.ok(swift.fields.some((change) => change.field === "summary"));
@@ -199,7 +199,10 @@ test("a string flag names the replacement, true does not, and a missing flag is 
       [abandonedRuleId(bare!), null],
     ],
   );
-  assert.equal(result.rules[0]!.summary, `Packagist marks ${abandoned} as abandoned and no longer maintained, and the author suggests using vendor/next instead.`);
+  assert.equal(
+    result.rules[0]!.summary,
+    `Packagist marks ${abandoned} as abandoned and no longer maintained, and the author suggests using vendor/next instead.`,
+  );
   assert.deepEqual(result.notes, [
     `Not abandoned on Packagist, so no rule (remove them from PHP_PACKAGE_CANDIDATES if they stay that way): ${[active, ...rest].join(", ")}.`,
   ]);
@@ -233,7 +236,9 @@ test("an invalid package name is a note, and a non-404 failure stops the run", a
   ]);
 
   const broken = context({
-    [metadataUrl(PHP_PACKAGE_CANDIDATES[0]!)]: new ImporterError(`GET ${metadataUrl(PHP_PACKAGE_CANDIDATES[0]!)} failed: HTTP 503`),
+    [metadataUrl(PHP_PACKAGE_CANDIDATES[0]!)]: new ImporterError(
+      `GET ${metadataUrl(PHP_PACKAGE_CANDIDATES[0]!)} failed: HTTP 503`,
+    ),
   });
   await assert.rejects(runImporter(phpPackagistAbandonedImporter, broken), /HTTP 503/);
   await assert.rejects(

@@ -155,7 +155,8 @@ test("evaluates symbol matchers with the parser and ignores them in the regex sc
 
 test("skips a directory that cannot be read and keeps usages from the rest of the tree", async (t) => {
   if (process.platform === "win32") return t.skip("chmod 000 is not meaningful on Windows");
-  if (typeof process.getuid === "function" && process.getuid() === 0) return t.skip("root can read chmod 000 directories");
+  if (typeof process.getuid === "function" && process.getuid() === 0)
+    return t.skip("root can read chmod 000 directories");
 
   const root = await repository({
     "src/client.ts": `import legacyRequest from "request";

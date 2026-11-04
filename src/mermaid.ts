@@ -86,10 +86,12 @@ export function renderScanMermaid(result: ScanResult, asOf: string): string {
 
 /** One bar per dated event in the forecast window, grouped by ecosystem. */
 export function renderForecastMermaid(forecast: Forecast): string {
-  const windows = forecast.groups.flatMap((group) => group.events).map((event) => ({
-    ecosystem: event.ecosystem,
-    subject: event.title,
-    deadline: event.date,
-  }));
+  const windows = forecast.groups
+    .flatMap((group) => group.events)
+    .map((event) => ({
+      ecosystem: event.ecosystem,
+      subject: event.title,
+      deadline: event.date,
+    }));
   return chart(windows, forecast.today);
 }

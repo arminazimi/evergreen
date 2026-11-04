@@ -23,7 +23,9 @@ test("the Jenkinsfile runs one Evergreen stage that reports before the gate can 
   assert.match(jenkins, /stages \{/);
   assert.equal([...jenkins.matchAll(/^\s*stage\(/gm)].length, 1);
   assert.match(jenkins, /stage\('Evergreen lifecycle scan'\)/);
-  const report = jenkins.indexOf("sh 'npx --yes evergreen-deprecation scan . --format junit > evergreen-report.xml || true'");
+  const report = jenkins.indexOf(
+    "sh 'npx --yes evergreen-deprecation scan . --format junit > evergreen-report.xml || true'",
+  );
   const gate = jenkins.indexOf("sh 'npx --yes evergreen-deprecation scan . --fail-on high'");
   assert.ok(report >= 0, "the report command is missing");
   assert.ok(gate > report, "the gate must run after the report is written");
@@ -33,7 +35,9 @@ test("the Jenkinsfile runs one Evergreen stage that reports before the gate can 
 test("the Bitbucket pipeline runs one Evergreen step that reports before it gates", () => {
   const document = parseDocument(bitbucket);
   assert.equal(document.errors.length, 0);
-  const config = document.toJS() as { pipelines: { default: Array<{ step: { name: string; image: string; script: string[]; artifacts: string[] } }> } };
+  const config = document.toJS() as {
+    pipelines: { default: Array<{ step: { name: string; image: string; script: string[]; artifacts: string[] } }> };
+  };
   assert.equal(config.pipelines.default.length, 1);
   const { step } = config.pipelines.default[0]!;
   assert.equal(step.name, "Evergreen lifecycle scan");
@@ -48,7 +52,9 @@ test("the Bitbucket pipeline runs one Evergreen step that reports before it gate
 test("every flag the CI snippets pass appears in evergreen --help", async () => {
   // `--yes` is npx's own flag and precedes the package name, so only Evergreen's flags are collected.
   const flags = new Set(
-    [jenkins, bitbucket].flatMap((text) => invocationArguments(text).flatMap((args) => [...args.matchAll(/--[\w-]+/g)].map((flag) => flag[0]!))),
+    [jenkins, bitbucket].flatMap((text) =>
+      invocationArguments(text).flatMap((args) => [...args.matchAll(/--[\w-]+/g)].map((flag) => flag[0]!)),
+    ),
   );
   assert.ok(flags.size > 0);
   assert.ok(flags.has("--fail-on"));

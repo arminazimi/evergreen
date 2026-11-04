@@ -27,7 +27,13 @@ export function parseCargoLock(contents: string): CargoLockPackage[] {
   const packages: CargoLockPackage[] = [];
   let current: { name?: string; version?: string; versionLine?: number; source?: string } | undefined;
   const finish = (): void => {
-    if (current?.name && current.version !== undefined && current.versionLine !== undefined && current.source && /^(?:registry|sparse)\+/.test(current.source)) {
+    if (
+      current?.name &&
+      current.version !== undefined &&
+      current.versionLine !== undefined &&
+      current.source &&
+      /^(?:registry|sparse)\+/.test(current.source)
+    ) {
       packages.push({ crate: current.name, value: current.version, line: current.versionLine });
     }
     current = undefined;

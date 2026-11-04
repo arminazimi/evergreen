@@ -51,7 +51,10 @@ test("a workflow pinning actions/checkout@v2 is flagged with the snippet-relativ
 });
 
 test("a clean snippet carries the no-findings message and no findings", async () => {
-  const check = await checkSnippet({ path: "package.json", content: JSON.stringify({ name: "app", version: "1.0.0" }) });
+  const check = await checkSnippet({
+    path: "package.json",
+    content: JSON.stringify({ name: "app", version: "1.0.0" }),
+  });
   assert.deepEqual(check.findings, []);
   assert.equal(check.message, NO_FINDINGS_MESSAGE);
 });
@@ -98,7 +101,11 @@ test("a check leaves the working repository untouched", async () => {
     for (const entry of await readdir(repository, { withFileTypes: true })) {
       const path = join(repository, entry.name);
       entries.push(
-        entry.isDirectory() ? `dir ${entry.name}` : `file ${entry.name} ${createHash("sha256").update(await readFile(path)).digest("hex")}`,
+        entry.isDirectory()
+          ? `dir ${entry.name}`
+          : `file ${entry.name} ${createHash("sha256")
+              .update(await readFile(path))
+              .digest("hex")}`,
       );
     }
     return entries.sort();
@@ -127,7 +134,10 @@ test("the snippet is the only file the scan sees, at the intended relative path"
     { path: ".github/workflows/ci.yml", content: "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v2\n" },
     { scan: recordingScan },
   );
-  assert.ok(seenPaths.includes(".github/workflows/ci.yml"), `the snippet was written at its relative path: ${seenPaths.join(", ")}`);
+  assert.ok(
+    seenPaths.includes(".github/workflows/ci.yml"),
+    `the snippet was written at its relative path: ${seenPaths.join(", ")}`,
+  );
   assert.equal(check.path, ".github/workflows/ci.yml");
   assert.ok(check.findings.length > 0);
 });

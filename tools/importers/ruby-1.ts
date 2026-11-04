@@ -89,8 +89,10 @@ export const rubyMaintenanceImporter: Importer = {
     const parsed: ParsedEntry[] = raw.map((value, index) => {
       if (typeof value !== "object" || value === null) return { note: `Skipped entry ${index + 1}: not an object.` };
       const entry = value as BranchEntry;
-      if (typeof entry.name !== "string" || !RELEASE_NAME.test(entry.name)) return { note: `Skipped entry ${index + 1}: no valid Ruby release name.` };
-      if (typeof entry.status !== "string" || entry.status.trim() === "") return { note: `Skipped Ruby ${entry.name}: no valid status.` };
+      if (typeof entry.name !== "string" || !RELEASE_NAME.test(entry.name))
+        return { note: `Skipped entry ${index + 1}: no valid Ruby release name.` };
+      if (typeof entry.status !== "string" || entry.status.trim() === "")
+        return { note: `Skipped Ruby ${entry.name}: no valid status.` };
       const branch: Branch = {
         name: entry.name,
         status: entry.status.trim(),
@@ -141,7 +143,8 @@ export const rubyMaintenanceImporter: Importer = {
       rules.push(draft(branch, branch.eol, next, normal));
     }
 
-    if (normal === undefined) notes.push("No release line in normal maintenance was found, so drafts have no replacement.");
+    if (normal === undefined)
+      notes.push("No release line in normal maintenance was found, so drafts have no replacement.");
     return { rules, notes };
   },
 };

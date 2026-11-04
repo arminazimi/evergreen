@@ -114,11 +114,19 @@ test("each refused shape is reported and the file is left unchanged", async () =
     { file: "arguments.py", reason: /(takes no arguments|timestamp argument|keyword arguments|splat argument)/ },
   ];
   for (const { file, reason } of cases) {
-    const { root, patches, refusals } = await plan({ "app.py": await readFile(join(fixtures, "refusals", file), "utf8") });
+    const { root, patches, refusals } = await plan({
+      "app.py": await readFile(join(fixtures, "refusals", file), "utf8"),
+    });
     assert.deepEqual(patches, [], `${file} is unchanged`);
     assert.ok(refusals.length > 0, `${file} is refused`);
-    assert.ok(refusals.some((refusal) => reason.test(refusal.reason)), `${file} refusal: ${refusals[0]!.reason}`);
-    assert.equal(await readFile(join(root, "app.py"), "utf8"), await readFile(join(fixtures, "refusals", file), "utf8"));
+    assert.ok(
+      refusals.some((refusal) => reason.test(refusal.reason)),
+      `${file} refusal: ${refusals[0]!.reason}`,
+    );
+    assert.equal(
+      await readFile(join(root, "app.py"), "utf8"),
+      await readFile(join(fixtures, "refusals", file), "utf8"),
+    );
   }
 });
 

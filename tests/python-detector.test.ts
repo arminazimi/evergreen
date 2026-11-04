@@ -39,19 +39,28 @@ test("reads each .python-version pin at its own line and skips comments and floa
   const findings = await scan(t, {
     ".python-version": "# Python 3.8 is old\n\n3.12.1\n3.9.25 # legacy\n3.10.14\nsystem\n3\n",
   });
-  assert.deepEqual(findings.map((f) => [f.location.line, f.ruleId]), [
-    [4, "python.runtime.eol-3.9-and-older"],
-    [5, "python.runtime.eol-3.10-and-older"],
-  ]);
+  assert.deepEqual(
+    findings.map((f) => [f.location.line, f.ruleId]),
+    [
+      [4, "python.runtime.eol-3.9-and-older"],
+      [5, "python.runtime.eol-3.10-and-older"],
+    ],
+  );
 });
 
 test("reads multiline tox envlists, factors, and Python brace lists at their exact lines", async (t) => {
   const findings = await scan(t, {
-    "tox.ini": "[tox]\nenvlist =\n    py{39,310}-unit, py312\n    lint-py38, docs, pypy39, py3\n[testenv]\nenvlist = py27\n",
+    "tox.ini":
+      "[tox]\nenvlist =\n    py{39,310}-unit, py312\n    lint-py38, docs, pypy39, py3\n[testenv]\nenvlist = py27\n",
   });
-  assert.deepEqual(findings.map((f) => [f.location.line, f.summary.match(/includes Python (\d+\.\d+)/)?.[1]]), [
-    [3, "3.9"], [3, "3.10"], [4, "3.8"],
-  ]);
+  assert.deepEqual(
+    findings.map((f) => [f.location.line, f.summary.match(/includes Python (\d+\.\d+)/)?.[1]]),
+    [
+      [3, "3.9"],
+      [3, "3.10"],
+      [4, "3.8"],
+    ],
+  );
   assert.equal(new Set(findings.map((f) => f.id)).size, findings.length);
 });
 
@@ -65,11 +74,14 @@ test("recognizes tox env_list and skips comments and substitutions", async (t) =
 
 for (const range of ["<3.9", "<=3.9", "< 3.9", "!= 3.9.*", "!=3.9.*", "<3.9,!=3.8.*", "*", ">=3.12", ">=3.8,>=3.12"]) {
   test(`does not guess an unsupported interpreter from ${range}`, async (t) => {
-    assert.deepEqual(await scan(t, {
-      "pyproject.toml": `[project]\nrequires-python = "${range}"\n`,
-      "setup.cfg": `[options]\npython_requires = ${range}\n`,
-      "setup.py": `from setuptools import setup\nsetup(python_requires="${range}")\n`,
-    }), []);
+    assert.deepEqual(
+      await scan(t, {
+        "pyproject.toml": `[project]\nrequires-python = "${range}"\n`,
+        "setup.cfg": `[options]\npython_requires = ${range}\n`,
+        "setup.py": `from setuptools import setup\nsetup(python_requires="${range}")\n`,
+      }),
+      [],
+    );
   });
 }
 
@@ -82,9 +94,11 @@ for (const range of ["==3.9.*", "~=3.9.0", ">=3.9, <3.12"]) {
 }
 
 test("ignores unrelated INI sections and dynamic or commented setup.py declarations", async (t) => {
-  assert.deepEqual(await scan(t, {
-    "setup.cfg": "# python_requires = >=3.8\n[metadata]\npython_requires = >=3.8\n[options]\npython_requires = >=3.12\n",
-    "setup.py": `from setuptools import setup
+  assert.deepEqual(
+    await scan(t, {
+      "setup.cfg":
+        "# python_requires = >=3.8\n[metadata]\npython_requires = >=3.8\n[options]\npython_requires = >=3.12\n",
+      "setup.py": `from setuptools import setup
 # setup(python_requires=">=3.8")
 text = 'setup(python_requires=">=3.8")'
 setup(python_requires=get_version())
@@ -92,8 +106,10 @@ setup(python_requires=">=3.8" + suffix)
 setup(python_requires=f">=3.8{suffix}")
 other(python_requires=">=3.8")
 `,
-    "tox.ini": "[testenv]\nenvlist = py38\n[other]\nenvlist = py39\n",
-  }), []);
+      "tox.ini": "[testenv]\nenvlist = py38\n[other]\nenvlist = py39\n",
+    }),
+    [],
+  );
 });
 
 test("reports every declaration when all four runtime sources coexist", async (t) => {
@@ -103,5 +119,10 @@ test("reports every declaration when all four runtime sources coexist", async (t
     "setup.cfg": "[options]\npython_requires = >=3.9\n",
     "tox.ini": "[tox]\nenvlist = py39\n",
   });
-  assert.deepEqual(findings.map((f) => f.location.path).sort(), [".python-version", "pyproject.toml", "setup.cfg", "tox.ini"]);
+  assert.deepEqual(findings.map((f) => f.location.path).sort(), [
+    ".python-version",
+    "pyproject.toml",
+    "setup.cfg",
+    "tox.ini",
+  ]);
 });

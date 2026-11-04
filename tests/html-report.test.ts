@@ -45,7 +45,8 @@ const forecastEvent = (date: string, title: string, severity: Severity, findings
 
 const forecastOf = (events: ForecastEvent[]): Forecast => {
   const groups = new Map<string, ForecastEvent[]>();
-  for (const event of events) groups.set(event.date.slice(0, 7), [...(groups.get(event.date.slice(0, 7)) ?? []), event]);
+  for (const event of events)
+    groups.set(event.date.slice(0, 7), [...(groups.get(event.date.slice(0, 7)) ?? []), event]);
   return {
     schemaVersion: "evergreen.forecast.v1",
     root: "/machine/specific/root",
@@ -75,12 +76,24 @@ test("the page lists each finding and the embedded data equals the JSON report",
 
 test("every value is escaped and cannot break out of the page or the data block", () => {
   const result = scan(
-    [finding({ id: hostile, title: hostile, summary: hostile, replacement: hostile, location: { path: hostile, line: 1 }, sources: [{ title: hostile, url: `javascript:${hostile}` }] })],
+    [
+      finding({
+        id: hostile,
+        title: hostile,
+        summary: hostile,
+        replacement: hostile,
+        location: { path: hostile, line: 1 },
+        sources: [{ title: hostile, url: `javascript:${hostile}` }],
+      }),
+    ],
     [hostile],
   );
   const html = renderHtml(result);
   assert.ok(!html.includes("<script>alert"), "no raw script from a value reaches the page");
-  assert.ok(html.includes("&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt; &amp; &#39;q&#39;"), "values are entity-escaped");
+  assert.ok(
+    html.includes("&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt; &amp; &#39;q&#39;"),
+    "values are entity-escaped",
+  );
   assert.equal(html.match(/<\/script>/g)?.length, 1, "no value can close the data block early");
   assert.equal(html.match(/<script/g)?.length, 1, "the only script element is the inert data block");
   assert.ok(!html.includes('href="javascript:'), "non-http source URLs are not links");
@@ -104,11 +117,21 @@ test("the summary row counts every severity, most severe first", () => {
   const html = renderHtml(result);
   const summary = /<section class="summary">([\s\S]*?)<\/section>/.exec(html)?.[1];
   assert.ok(summary, "the summary section is rendered");
-  for (const [severity, count] of [["critical", 1], ["high", 2], ["medium", 0], ["low", 1], ["info", 0]] as const) {
+  for (const [severity, count] of [
+    ["critical", 1],
+    ["high", 2],
+    ["medium", 0],
+    ["low", 1],
+    ["info", 0],
+  ] as const) {
     assert.ok(summary.includes(`<td class="${severity}">${count}</td>`), `${severity} counts ${count}`);
   }
   const headings = ["Critical", "High", "Medium", "Low", "Info"].map((label) => summary.indexOf(`>${label}</th>`));
-  assert.deepEqual(headings, [...headings].sort((left, right) => left - right), "severity columns run most severe first");
+  assert.deepEqual(
+    headings,
+    [...headings].sort((left, right) => left - right),
+    "severity columns run most severe first",
+  );
 });
 
 test("findings are grouped by severity and then by path without reordering the embedded JSON", () => {
@@ -120,11 +143,24 @@ test("findings are grouped by severity and then by path without reordering the e
   ]);
   const html = renderHtml(result);
   const order = ["critical-a", "high-a", "high-z", "low-b"].map((id) => html.indexOf(`id="${id}"`));
-  assert.ok(order.every((position) => position >= 0), "every finding is listed");
-  assert.deepEqual(order, [...order].sort((left, right) => left - right), "severity groups come first, then paths in order");
+  assert.ok(
+    order.every((position) => position >= 0),
+    "every finding is listed",
+  );
+  assert.deepEqual(
+    order,
+    [...order].sort((left, right) => left - right),
+    "severity groups come first, then paths in order",
+  );
   const high = html.slice(html.indexOf('<section class="severity high">'));
-  assert.ok(high.includes("<h2><span class=\"badge\">High</span>2 findings</h2>"), "each severity group is headed by its count");
-  assert.ok(high.indexOf("<h3><code>src/a.ts</code></h3>") < high.indexOf('id="high-a"'), "the path heading opens its group");
+  assert.ok(
+    high.includes('<h2><span class="badge">High</span>2 findings</h2>'),
+    "each severity group is headed by its count",
+  );
+  assert.ok(
+    high.indexOf("<h3><code>src/a.ts</code></h3>") < high.indexOf('id="high-a"'),
+    "the path heading opens its group",
+  );
   assert.ok(high.indexOf('id="high-a"') < high.indexOf("<h3><code>src/z.ts</code></h3>"), "paths are sorted");
   assert.deepEqual(embedded(html), JSON.parse(renderJson(result)), "the page still reads back to the same JSON report");
 });
@@ -145,7 +181,9 @@ test("only HTTPS evidence sources become links", () => {
   assert.ok(!html.includes('href="http://'), "http sources are not linked");
   assert.ok(!html.includes('href="javascript:'), "javascript sources are not linked");
   assert.ok(!html.includes('href="not'), "malformed sources are not linked");
-  assert.ok(html.includes("<code>http://example.com/source</code>") && html.includes("<code>javascript:alert(1)</code>"));
+  assert.ok(
+    html.includes("<code>http://example.com/source</code>") && html.includes("<code>javascript:alert(1)</code>"),
+  );
 });
 
 test("the page carries dark-mode and print styles without adding scripts", () => {
@@ -174,8 +212,14 @@ test("a forecast adds the Next 12 months section above the findings, with a text
   assert.ok(html.includes("Node.js 18 end of life") && html.includes("Python 3.8 end of life"));
   assert.ok(html.includes("affects 1 finding") && html.includes("does not affect this repository"));
   assert.ok(html.includes("<ul>") && html.includes("<code>2027-01-15</code>"));
-  assert.ok(html.includes('<li class="high"><code>2027-01-15</code> <span class="badge">High</span>'), "severity classes reuse the existing badge tokens");
-  assert.ok(html.includes("@media print{section.forecast{break-inside:avoid}}"), "the section stays whole when printed");
+  assert.ok(
+    html.includes('<li class="high"><code>2027-01-15</code> <span class="badge">High</span>'),
+    "severity classes reuse the existing badge tokens",
+  );
+  assert.ok(
+    html.includes("@media print{section.forecast{break-inside:avoid}}"),
+    "the section stays whole when printed",
+  );
 });
 
 test("an empty forecast still renders the section and says so in text", () => {
@@ -193,12 +237,16 @@ test("without a forecast the page is byte-identical and has no forecast section"
 
 test("the forecast does not change the embedded JSON report", () => {
   const result = scan([finding()]);
-  const html = renderHtml(result, { forecast: forecastOf([forecastEvent("2027-01-15", "Node.js 18 end of life", "high", 1)]) });
+  const html = renderHtml(result, {
+    forecast: forecastOf([forecastEvent("2027-01-15", "Node.js 18 end of life", "high", 1)]),
+  });
   assert.deepEqual(embedded(html), JSON.parse(renderJson(result)));
 });
 
 test("forecast text is escaped like every other value", () => {
-  const html = renderHtml(scan([finding()]), { forecast: forecastOf([forecastEvent("2027-01-15", hostile, "high", 1)]) });
+  const html = renderHtml(scan([finding()]), {
+    forecast: forecastOf([forecastEvent("2027-01-15", hostile, "high", 1)]),
+  });
   assert.ok(!html.includes("<script>alert"), "no raw script from a forecast value reaches the page");
   assert.equal(html.match(/<\/script>/g)?.length, 1, "no forecast value can close the data block early");
   assert.ok(html.includes("&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt; &amp; &#39;q&#39;"));
@@ -208,7 +256,10 @@ test("scan --format html writes the report, and other commands reject it", async
   const root = await mkdtemp(join(tmpdir(), "evergreen-html-"));
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
-    await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n");
+    await writeFile(
+      join(root, ".github", "workflows", "ci.yml"),
+      "jobs:\n  a:\n    steps:\n      - uses: actions/checkout@v3\n",
+    );
     const { stdout: html } = await runCli(["scan", root, "--format", "html"]);
     const { stdout: json } = await runCli(["scan", root, "--format", "json"]);
     const report = embedded(html) as ScanResult;

@@ -62,8 +62,8 @@ test("ignores non-hosted sources, entries without a source or version, and neste
     'packages:\n  git_tool:\n    description:\n      url: "https://example.com/git_tool.git"\n    source: git\n    version: "0.0.1"\n',
     'packages:\n  http:\n    dependency: transitive\n    version: "1.0.0"\n',
     "packages:\n  http:\n    source: hosted\n",
-    "packages:\n  http:\n    description:\n      source: hosted\n    version: \"1.0.0\"\n",
-    "packages:\n  http:\n    source: \"hosted\"\n    description:\n      version: \"1.0.0\"\n",
+    'packages:\n  http:\n    description:\n      source: hosted\n    version: "1.0.0"\n',
+    'packages:\n  http:\n    source: "hosted"\n    description:\n      version: "1.0.0"\n',
   ]) {
     assert.deepEqual(parsePubspecLock(contents), [], contents);
   }
@@ -81,7 +81,11 @@ test("ignores versions and constraints that are not plain semantic versions", ()
     "{ value: 1.0.0 }",
     "",
   ]) {
-    assert.deepEqual(parsePubspecLock(`packages:\n  http:\n    source: hosted\n    version: ${version}\n`), [], version);
+    assert.deepEqual(
+      parsePubspecLock(`packages:\n  http:\n    source: hosted\n    version: ${version}\n`),
+      [],
+      version,
+    );
   }
   for (const sdk of ['"any"', '"${DART_SDK}"', '">=3.0.0 || <2.0.0"', "any", '"^3.0.0 1.0"']) {
     assert.deepEqual(parsePubspecLock(`sdks:\n  dart: ${sdk}\n`), [], sdk);
@@ -106,7 +110,7 @@ test("an entry written inline or as a block scalar, and everything nested under 
 
 test("a plain value that continues on a more-indented line is not read, but later lines are", () => {
   assert.deepEqual(parsePubspecLock("packages:\n  http:\n    source: hosted\n    version: 1.0.0\n      .1\n"), []);
-  assert.deepEqual(parsePubspecLock("sdks:\n  dart: 2.19.0\n    <3.0.0\n  flutter: \">=3.7.0\"\n"), [
+  assert.deepEqual(parsePubspecLock('sdks:\n  dart: 2.19.0\n    <3.0.0\n  flutter: ">=3.7.0"\n'), [
     { kind: "flutter-sdk", value: ">=3.7.0", line: 4 },
   ]);
 });
@@ -120,7 +124,10 @@ test("a quoted value that spans lines or contains escapes is not read, but later
 
 test("reads only the packages and sdks sections and their direct children", () => {
   assert.deepEqual(parsePubspecLock('dependencies:\n  http:\n    source: hosted\n    version: "1.0.0"\n'), []);
-  assert.deepEqual(parsePubspecLock('other:\n  packages:\n    http:\n      source: hosted\n      version: "1.0.0"\n'), []);
+  assert.deepEqual(
+    parsePubspecLock('other:\n  packages:\n    http:\n      source: hosted\n      version: "1.0.0"\n'),
+    [],
+  );
   assert.deepEqual(parsePubspecLock('sdks:\n  dart: ">=3.0.0"\n  melos: ">=1.0.0"\n'), [
     { kind: "dart-sdk", value: ">=3.0.0", line: 2 },
   ]);
@@ -139,12 +146,16 @@ test("keeps the value without comments and skips commented-out entries", () => {
 });
 
 test("reads the version key whatever its position among the entry's keys", () => {
-  assert.deepEqual(parsePubspecLock('packages:\n  http:\n    version: "1.0.0"\n    source: hosted\n'), [hosted("http", "1.0.0", 3)]);
+  assert.deepEqual(parsePubspecLock('packages:\n  http:\n    version: "1.0.0"\n    source: hosted\n'), [
+    hosted("http", "1.0.0", 3),
+  ]);
 });
 
 test("accepts pre-release and build versions, single quotes, CRLF, and a byte order mark", () => {
   assert.deepEqual(
-    parsePubspecLock('packages:\n  http:\n    source: hosted\n    version: "2.0.0-dev.1"\n  provider:\n    source: hosted\n    version: 6.1.5+1\n'),
+    parsePubspecLock(
+      'packages:\n  http:\n    source: hosted\n    version: "2.0.0-dev.1"\n  provider:\n    source: hosted\n    version: 6.1.5+1\n',
+    ),
     [hosted("http", "2.0.0-dev.1", 4), hosted("provider", "6.1.5+1", 7)],
   );
   assert.deepEqual(parsePubspecLock("sdks:\n  dart: '>=3.0.0 <4.0.0'\n"), [

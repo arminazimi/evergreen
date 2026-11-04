@@ -61,7 +61,9 @@ function severityLabel(severity: Severity): string {
 function htmlSource(source: { title: string; url: string }): string {
   const title = escapeHtml(source.title);
   const url = `<code>${escapeHtml(source.url)}</code>`;
-  return /^https:\/\//i.test(source.url) ? `<a href="${escapeHtml(source.url)}" rel="noopener noreferrer">${title}</a> ${url}` : `${title} ${url}`;
+  return /^https:\/\//i.test(source.url)
+    ? `<a href="${escapeHtml(source.url)}" rel="noopener noreferrer">${title}</a> ${url}`
+    : `${title} ${url}`;
 }
 
 function htmlFinding(finding: Finding): string {
@@ -73,10 +75,22 @@ function htmlFinding(finding: Finding): string {
   if (finding.dependencyPath) rows.push(["Path", escapeHtml(finding.dependencyPath.join(" > "))]);
   if (finding.replacement) rows.push(["Replacement", escapeHtml(finding.replacement)]);
   if (finding.deadline) rows.push(["Deadline", escapeHtml(finding.deadline)]);
-  if (finding.impact) rows.push(["Impact", escapeHtml(`${finding.impact.level} (${finding.impact.usageCount} usages across ${finding.impact.affectedFiles} files)`)]);
-  for (const usage of finding.usages ?? []) rows.push(["Usage", `<code>${escapeHtml(htmlLocation(usage.location))}</code> ${escapeHtml(usage.kind)} ${escapeHtml(usage.symbol)}`]);
-  for (const step of finding.migration?.steps ?? []) rows.push(["Migration", `${escapeHtml(step.title)}: ${escapeHtml(step.instructions)}`]);
-  for (const item of finding.migration?.verification ?? []) rows.push(["Verify", `<code>${escapeHtml(item.command)}</code> ${escapeHtml(item.purpose)}`]);
+  if (finding.impact)
+    rows.push([
+      "Impact",
+      escapeHtml(
+        `${finding.impact.level} (${finding.impact.usageCount} usages across ${finding.impact.affectedFiles} files)`,
+      ),
+    ]);
+  for (const usage of finding.usages ?? [])
+    rows.push([
+      "Usage",
+      `<code>${escapeHtml(htmlLocation(usage.location))}</code> ${escapeHtml(usage.kind)} ${escapeHtml(usage.symbol)}`,
+    ]);
+  for (const step of finding.migration?.steps ?? [])
+    rows.push(["Migration", `${escapeHtml(step.title)}: ${escapeHtml(step.instructions)}`]);
+  for (const item of finding.migration?.verification ?? [])
+    rows.push(["Verify", `<code>${escapeHtml(item.command)}</code> ${escapeHtml(item.purpose)}`]);
   for (const source of finding.sources) rows.push(["Source", htmlSource(source)]);
   return [
     `<article class="${escapeHtml(finding.severity)}" id="${escapeHtml(finding.id)}">`,
@@ -107,9 +121,10 @@ function htmlForecast(forecast: Forecast): string {
   const events = forecast.groups.flatMap((group) => group.events);
   const summary = `${forecast.total} event${forecast.total === 1 ? "" : "s"} from ${forecast.today} to ${forecast.until}, ${forecast.affecting} affecting this repository`;
   const items = events.map((event) => {
-    const affects = event.findings.length === 0
-      ? "does not affect this repository"
-      : `affects ${event.findings.length} finding${event.findings.length === 1 ? "" : "s"}`;
+    const affects =
+      event.findings.length === 0
+        ? "does not affect this repository"
+        : `affects ${event.findings.length} finding${event.findings.length === 1 ? "" : "s"}`;
     return `<li class="${escapeHtml(event.severity)}"><code>${escapeHtml(event.date)}</code> <span class="badge">${escapeHtml(severityLabel(event.severity))}</span> ${escapeHtml(event.title)} — ${escapeHtml(affects)} <code>${escapeHtml(event.ruleId)}</code></li>`;
   });
   return [
@@ -117,7 +132,9 @@ function htmlForecast(forecast: Forecast): string {
     `<h2>Next ${forecast.months} months</h2>`,
     `<p class="meta">${escapeHtml(summary)}</p>`,
     renderForecastSvg(forecast),
-    ...(items.length === 0 ? ["<p>Nothing in this window reaches a dated end of life.</p>"] : [`<ul>${items.join("")}</ul>`]),
+    ...(items.length === 0
+      ? ["<p>Nothing in this window reaches a dated end of life.</p>"]
+      : [`<ul>${items.join("")}</ul>`]),
     "</section>",
   ].join("\n");
 }
@@ -149,7 +166,9 @@ function htmlGroups(findings: readonly Finding[]): string {
     const inSeverity = ordered.filter((finding) => finding.severity === severity);
     if (inSeverity.length === 0) continue;
     lines.push(`<section class="severity ${severity}">`);
-    lines.push(`<h2><span class="badge">${severityLabel(severity)}</span>${inSeverity.length} finding${inSeverity.length === 1 ? "" : "s"}</h2>`);
+    lines.push(
+      `<h2><span class="badge">${severityLabel(severity)}</span>${inSeverity.length} finding${inSeverity.length === 1 ? "" : "s"}</h2>`,
+    );
     for (const path of new Set(inSeverity.map((finding) => finding.location.path))) {
       lines.push(linked.has(path) ? '<section class="path">' : `<section class="path" id="${treemapFileId(path)}">`);
       linked.add(path);
@@ -178,7 +197,11 @@ export function renderHtml(result: ScanResult, options: HtmlOptions = {}): strin
   // "<" is escaped so no value can close the data block; JSON.parse reads the text back to the exact JSON report.
   const data = renderJson(result).replace(/</g, "\\u003c");
   const count = result.findings.length;
-  const meta = [`Repository: ${result.root}`, `Scanned: ${result.scannedAt}`, ...(result.data ? [describeData(result.data)] : [])];
+  const meta = [
+    `Repository: ${result.root}`,
+    `Scanned: ${result.scannedAt}`,
+    ...(result.data ? [describeData(result.data)] : []),
+  ];
   const notes = result.diagnostics.map((diagnostic) => `<p class="meta">Note: ${escapeHtml(diagnostic)}</p>`);
   return [
     "<!doctype html>",

@@ -48,8 +48,9 @@ export function enrichSpdx(input: unknown, rules: readonly RegistryV2Rule[]): Js
     throw new SpdxError('Expected an SPDX JSON document with spdxVersion "SPDX-2.3".');
   }
   const document = structuredClone(input);
-  const candidates = rules.filter((rule) => rule.deadline && milestones[rule.event] &&
-    !rule.usage?.some((usage) => usage.kind === "symbol")).sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+  const candidates = rules
+    .filter((rule) => rule.deadline && milestones[rule.event] && !rule.usage?.some((usage) => usage.kind === "symbol"))
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 
   if (document.packages === undefined) return document;
   if (!Array.isArray(document.packages) || !document.packages.every(object)) {
@@ -58,8 +59,10 @@ export function enrichSpdx(input: unknown, rules: readonly RegistryV2Rule[]): Js
 
   for (const [index, pkg] of document.packages.entries()) {
     const location = `/packages/${index}`;
-    if ((pkg.versionInfo !== undefined && typeof pkg.versionInfo !== "string") ||
-      (pkg["SPDXID"] !== undefined && typeof pkg["SPDXID"] !== "string")) {
+    if (
+      (pkg.versionInfo !== undefined && typeof pkg.versionInfo !== "string") ||
+      (pkg["SPDXID"] !== undefined && typeof pkg["SPDXID"] !== "string")
+    ) {
       throw new SpdxError(`SPDX ${location} SPDXID and versionInfo must be strings.`);
     }
 
@@ -80,10 +83,14 @@ export function enrichSpdx(input: unknown, rules: readonly RegistryV2Rule[]): Js
       let result;
       try {
         const version = parsePurl(reference.referenceLocator).version ?? pkg.versionInfo;
-        result = checkAgainst(candidates, { purl: reference.referenceLocator,
-          ...(typeof version === "string" && version ? { version } : {}) });
+        result = checkAgainst(candidates, {
+          purl: reference.referenceLocator,
+          ...(typeof version === "string" && version ? { version } : {}),
+        });
       } catch (error) {
-        throw new SpdxError(`Cannot match package ${reference.referenceLocator}: ${error instanceof Error ? error.message : String(error)}`);
+        throw new SpdxError(
+          `Cannot match package ${reference.referenceLocator}: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
 
       if (result.status !== "affected") continue;
@@ -138,8 +145,12 @@ export async function enrichSpdxFile(path: string, data?: ActiveData): Promise<J
   } catch (error) {
     throw new SpdxError(`Cannot read SPDX document ${path}: ${error instanceof Error ? error.message : String(error)}`);
   }
-  const active = data ?? await getActiveData();
-  const registries = await Promise.all(BUNDLED_ECOSYSTEMS.map(async (ecosystem) =>
-    validateRegistryV2(await active.read(`registry/${ecosystem}.json`))));
-  return enrichSpdx(input, registries.flatMap((registry) => registry.rules));
+  const active = data ?? (await getActiveData());
+  const registries = await Promise.all(
+    BUNDLED_ECOSYSTEMS.map(async (ecosystem) => validateRegistryV2(await active.read(`registry/${ecosystem}.json`))),
+  );
+  return enrichSpdx(
+    input,
+    registries.flatMap((registry) => registry.rules),
+  );
 }

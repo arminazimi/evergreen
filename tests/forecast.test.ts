@@ -34,36 +34,68 @@ const scan = (ruleId: string): ScanResult => ({
   root: "/repo",
   scannedAt: "2026-10-16T00:00:00.000Z",
   diagnostics: [],
-  findings: [{ id: `${ruleId}:package.json:3`, ruleId, detector: "demo", title: "t", summary: "s", severity: "low", confidence: "exact", location: { path: "package.json", line: 3 }, sources: [] }],
+  findings: [
+    {
+      id: `${ruleId}:package.json:3`,
+      ruleId,
+      detector: "demo",
+      title: "t",
+      summary: "s",
+      severity: "low",
+      confidence: "exact",
+      location: { path: "package.json", line: 3 },
+      sources: [],
+    },
+  ],
 });
 
-const rules = [rule("a.nov", "2026-11-12"), rule("a.nov2", "2026-11-30"), rule("a.apr", "2027-04-30"), rule("a.far", "2028-01-01"), rule("a.past", "2026-10-01"), rule("a.none", undefined)];
+const rules = [
+  rule("a.nov", "2026-11-12"),
+  rule("a.nov2", "2026-11-30"),
+  rule("a.apr", "2027-04-30"),
+  rule("a.far", "2028-01-01"),
+  rule("a.past", "2026-10-01"),
+  rule("a.none", undefined),
+];
 
 test("groups the dated events in the window by month, in date order", () => {
   const forecast = buildForecast(scan("a.apr"), rules, "2026-10-16", 12);
   assert.equal(forecast.until, "2027-10-16");
-  assert.deepEqual(forecast.groups.map((group) => [group.month, group.events.map((event) => event.ruleId)]), [
-    ["2026-11", ["a.nov", "a.nov2"]],
-    ["2027-04", ["a.apr"]],
-  ]);
+  assert.deepEqual(
+    forecast.groups.map((group) => [group.month, group.events.map((event) => event.ruleId)]),
+    [
+      ["2026-11", ["a.nov", "a.nov2"]],
+      ["2027-04", ["a.apr"]],
+    ],
+  );
   assert.equal(forecast.total, 3);
   assert.equal(forecast.affecting, 1);
-  assert.deepEqual(forecast.groups[1]?.events[0]?.findings, [{ id: "a.apr:package.json:3", path: "package.json", line: 3 }]);
+  assert.deepEqual(forecast.groups[1]?.events[0]?.findings, [
+    { id: "a.apr:package.json:3", path: "package.json", line: 3 },
+  ]);
 });
 
 test("the window narrows with the months, and the edge day is included", () => {
-  assert.deepEqual(buildForecast(scan("a.apr"), rules, "2026-10-16", 6).groups.map((group) => group.month), ["2026-11"]);
+  assert.deepEqual(
+    buildForecast(scan("a.apr"), rules, "2026-10-16", 6).groups.map((group) => group.month),
+    ["2026-11"],
+  );
   assert.equal(buildForecast(scan("a.apr"), [rule("a.edge", "2027-04-16")], "2026-10-16", 6).total, 1);
   assert.equal(addMonths("2026-10-16", 6), "2027-04-16");
 });
 
 test("events without a date, and dates outside the window, are never listed", () => {
-  const ids = buildForecast(scan("a.none"), rules, "2026-10-16", 36).groups.flatMap((group) => group.events.map((event) => event.ruleId));
+  const ids = buildForecast(scan("a.none"), rules, "2026-10-16", 36).groups.flatMap((group) =>
+    group.events.map((event) => event.ruleId),
+  );
   assert.deepEqual(ids, ["a.nov", "a.nov2", "a.apr", "a.far"]);
 });
 
 test("output depends only on the inputs", () => {
-  assert.deepEqual(buildForecast(scan("a.apr"), rules, "2026-10-16"), buildForecast(scan("a.apr"), rules, "2026-10-16"));
+  assert.deepEqual(
+    buildForecast(scan("a.apr"), rules, "2026-10-16"),
+    buildForecast(scan("a.apr"), rules, "2026-10-16"),
+  );
   assert.throws(() => buildForecast(scan("a.apr"), rules, "tomorrow"), /not a date/);
 });
 
@@ -84,7 +116,12 @@ test("evergreen forecast reports Node.js 22 reaching end of life, for a fixed da
     return result.stdout;
   };
 
-  const json = JSON.parse(await run("--json")) as { today: string; months: number; affecting: number; groups: Array<{ month: string; events: Array<{ ruleId: string; findings: unknown[] }> }> };
+  const json = JSON.parse(await run("--json")) as {
+    today: string;
+    months: number;
+    affecting: number;
+    groups: Array<{ month: string; events: Array<{ ruleId: string; findings: unknown[] }> }>;
+  };
   assert.equal(json.today, "2026-10-25");
   assert.equal(json.months, 12);
   const april = json.groups.find((group) => group.month === "2027-04");

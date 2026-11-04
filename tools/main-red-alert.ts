@@ -138,11 +138,7 @@ function failedJobLines(jobs: readonly FailingJob[], jobsError: string | undefin
   return ["No failed job was reported; the workflow may have failed before a job started."];
 }
 
-export function renderFailureBody(
-  run: AlertRun,
-  jobs: readonly FailingJob[],
-  jobsError?: string,
-): string {
+export function renderFailureBody(run: AlertRun, jobs: readonly FailingJob[], jobsError?: string): string {
   const lines = [
     ISSUE_MARKER,
     "",
@@ -164,11 +160,7 @@ export function renderFailureBody(
   return lines.join("\n");
 }
 
-export function renderStillRedComment(
-  run: AlertRun,
-  jobs: readonly FailingJob[],
-  jobsError?: string,
-): string {
+export function renderStillRedComment(run: AlertRun, jobs: readonly FailingJob[], jobsError?: string): string {
   const lines = [
     `**\`${TRACKED_BRANCH}\` is still red.** [${runLabel(run)}](${run.url}) concluded \`${run.conclusion}\` at ${code(shortSha(run.headSha))}.`,
     "",
@@ -251,9 +243,7 @@ export async function fetchFailingJobs(
 
 export function findOpenAlertIssue(issues: readonly IssueRecord[]): IssueRecord | undefined {
   return issues.find(
-    (issue) =>
-      issue.state === "open" &&
-      (issue.title === ISSUE_TITLE || (issue.body ?? "").includes(ISSUE_MARKER)),
+    (issue) => issue.state === "open" && (issue.title === ISSUE_TITLE || (issue.body ?? "").includes(ISSUE_MARKER)),
   );
 }
 
@@ -280,11 +270,7 @@ export interface ReconcileInput {
 }
 
 /** Opens, updates, or closes the one alert issue that describes the current state of `main`. */
-export async function reconcile(
-  input: ReconcileInput,
-  repo: string,
-  client: IssueClient,
-): Promise<ReconcileResult> {
+export async function reconcile(input: ReconcileInput, repo: string, client: IssueClient): Promise<ReconcileResult> {
   const kind = classifyConclusion(input.run.conclusion);
   if (!isTrackedRun(input.run)) {
     return {
@@ -293,7 +279,10 @@ export async function reconcile(
     };
   }
   if (kind === "ignore") {
-    return { action: "none", reason: `ignored: conclusion \`${input.run.conclusion}\` is neither a failure nor a recovery.` };
+    return {
+      action: "none",
+      reason: `ignored: conclusion \`${input.run.conclusion}\` is neither a failure nor a recovery.`,
+    };
   }
 
   const jobs = input.jobs ?? [];

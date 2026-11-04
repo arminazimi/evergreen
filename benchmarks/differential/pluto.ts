@@ -81,10 +81,14 @@ export function classify(finding: EvergreenFinding): { kind: string; version: st
 /** A key that treats `networking.k8s.io/v1beta1` and the rule's `networking-k8s-io/v1beta1` as the same version. */
 const versionKey = (version: string): string => version.replace(/\./g, "-").toLowerCase();
 
-export function compare(findings: readonly EvergreenFinding[], items: readonly PlutoItem[]): { comparisons: Comparison[]; notComparable: string[] } {
+export function compare(
+  findings: readonly EvergreenFinding[],
+  items: readonly PlutoItem[],
+): { comparisons: Comparison[]; notComparable: string[] } {
   const comparisons = new Map<string, Comparison>();
   const notComparable = new Set<string>();
-  const keyOf = (path: string, kind: string, version: string) => [path, kind.toLowerCase(), versionKey(version)].join("\n");
+  const keyOf = (path: string, kind: string, version: string) =>
+    [path, kind.toLowerCase(), versionKey(version)].join("\n");
 
   for (const finding of findings) {
     const about = classify(finding);
@@ -124,13 +128,17 @@ export function compare(findings: readonly EvergreenFinding[], items: readonly P
       evergreen: [],
       pluto: item.removed ? "removed" : "deprecated",
       outcome: item.removed ? "pluto-only" : "pluto-deprecated-only",
-      note: item.removed ? "Pluto reports the API version as removed; Evergreen has no rule for this kind and version." : "Pluto reports a deprecated API version that is still served; Evergreen judges only removed ones.",
+      note: item.removed
+        ? "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+        : "Pluto reports a deprecated API version that is still served; Evergreen judges only removed ones.",
     });
   }
 
   for (const item of comparisons.values()) item.evergreen.sort();
   return {
-    comparisons: [...comparisons.values()].sort((left, right) => [left.path, left.kind, left.version].join("\n").localeCompare([right.path, right.kind, right.version].join("\n"))),
+    comparisons: [...comparisons.values()].sort((left, right) =>
+      [left.path, left.kind, left.version].join("\n").localeCompare([right.path, right.kind, right.version].join("\n")),
+    ),
     notComparable: [...notComparable].sort(),
   };
 }
@@ -143,7 +151,11 @@ export interface DifferentialReport {
   notComparable: string[];
 }
 
-export function report(repository: string, findings: readonly EvergreenFinding[], items: readonly PlutoItem[]): DifferentialReport {
+export function report(
+  repository: string,
+  findings: readonly EvergreenFinding[],
+  items: readonly PlutoItem[],
+): DifferentialReport {
   const { comparisons, notComparable } = compare(findings, items);
   const summary = { agree: 0, "evergreen-only": 0, "pluto-only": 0, "pluto-deprecated-only": 0 };
   for (const item of comparisons) summary[item.outcome]++;
@@ -154,7 +166,8 @@ export async function main(argv: string[]): Promise<number> {
   const values = new Map<string, string>();
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]!;
-    if (!["--pluto", "--repository", "--out", "--name"].includes(flag) || argv[index + 1] === undefined) throw new Error("Usage: pluto --pluto <report.json> --repository <checkout> [--name <label>] [--out <file>]");
+    if (!["--pluto", "--repository", "--out", "--name"].includes(flag) || argv[index + 1] === undefined)
+      throw new Error("Usage: pluto --pluto <report.json> --repository <checkout> [--name <label>] [--out <file>]");
     values.set(flag, argv[index + 1]!);
   }
   const reportPath = values.get("--pluto");
@@ -166,7 +179,11 @@ export async function main(argv: string[]): Promise<number> {
   const scan = await scanRepository(root, builtInDetectors);
   const result = report(
     values.get("--name") ?? repository,
-    scan.findings.map((finding) => ({ ruleId: finding.ruleId, path: finding.location.path, ...(finding.location.line === undefined ? {} : { line: finding.location.line }) })),
+    scan.findings.map((finding) => ({
+      ruleId: finding.ruleId,
+      path: finding.location.path,
+      ...(finding.location.line === undefined ? {} : { line: finding.location.line }),
+    })),
     plutoItems(JSON.parse(await readFile(reportPath, "utf8")), root),
   );
   const text = `${JSON.stringify(result, null, 2)}\n`;

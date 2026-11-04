@@ -155,9 +155,17 @@ function syntheticFinding(rule: Rule, usage: SourceUsage): Finding {
  */
 async function targetsFor(result: ScanResult): Promise<Target[]> {
   const targets: Target[] = [];
-  const reported = new Map(rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]));
+  const reported = new Map(
+    rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
+  );
   const missing = rules.filter((rule) => reported.get(rule.id)!.length === 0);
-  const analyses = missing.length === 0 ? [] : await analyzeSourceUsage(result.root, missing.map((rule) => ({ id: rule.id, matchers: rule.matchers })));
+  const analyses =
+    missing.length === 0
+      ? []
+      : await analyzeSourceUsage(
+          result.root,
+          missing.map((rule) => ({ id: rule.id, matchers: rule.matchers })),
+        );
   const derived = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
 
   for (const rule of rules) {
@@ -168,15 +176,18 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
       }
       continue;
     }
-    for (const usage of derived.get(rule.id) ?? []) targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
+    for (const usage of derived.get(rule.id) ?? [])
+      targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
   }
   return targets;
 }
 
 function compareTargets(left: Target, right: Target): number {
-  return (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
+  return (
+    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
     (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.rule.id.localeCompare(right.rule.id);
+    left.rule.id.localeCompare(right.rule.id)
+  );
 }
 
 /**
@@ -188,7 +199,8 @@ function callsByCallee(root: Node): Map<number, Node[]> {
   const calls = new Map<number, Node[]>();
   for (const node of root.descendantsOfType(["call_expression", "new_expression"])) {
     if (!node) continue;
-    const callee = node.type === "new_expression" ? node.childForFieldName("constructor") : node.childForFieldName("function");
+    const callee =
+      node.type === "new_expression" ? node.childForFieldName("constructor") : node.childForFieldName("function");
     if (!callee) continue;
     const list = calls.get(callee.startIndex) ?? [];
     list.push(node);
@@ -211,14 +223,16 @@ function rewriteFor(target: Target, calls: Map<number, Node[]>, source: string):
     const isNew = call.type === "new_expression";
     const callee = isNew ? call.childForFieldName("constructor") : call.childForFieldName("function");
     if (callee?.type !== "identifier" || callee.text !== rule.name) continue;
-    if (rule.constructOnly && !isNew) return { reason: `\`${rule.name}\` is only rewritten when it is constructed with \`new\`.` };
+    if (rule.constructOnly && !isNew)
+      return { reason: `\`${rule.name}\` is only rewritten when it is constructed with \`new\`.` };
     const args = call.childForFieldName("arguments");
     if (!args) return { reason: "The call has no argument list." };
     const values = args.namedChildren.filter((value): value is Node => value !== null);
     const classification = classify(values);
     if ("reason" in classification) return classification;
     const replacement = rule.replacement[classification.kind];
-    if (replacement === undefined) return { reason: `\`${rule.name}\` does not accept ${classification.kind} literals.` };
+    if (replacement === undefined)
+      return { reason: `\`${rule.name}\` does not accept ${classification.kind} literals.` };
     return isNew
       ? { start: call.startIndex, end: callee.endIndex, replacement }
       : { start: callee.startIndex, end: callee.endIndex, replacement };
@@ -229,7 +243,8 @@ function rewriteFor(target: Target, calls: Map<number, Node[]>, source: string):
 type LiteralKind = "number" | "string" | "array";
 
 function classify(values: readonly Node[]): { kind: LiteralKind } | { reason: string } {
-  if (values.length === 0) return { reason: "The call passes no argument, so its kind is not known from the source text." };
+  if (values.length === 0)
+    return { reason: "The call passes no argument, so its kind is not known from the source text." };
   const first = unwrapParentheses(values[0]!);
   if (typeAssertions.has(first.type)) {
     return { reason: "The argument has a TypeScript type assertion, so its runtime kind is not rewritten." };
@@ -240,7 +255,10 @@ function classify(values: readonly Node[]): { kind: LiteralKind } | { reason: st
     return { kind: "number" };
   }
   if (first.type === "string" || first.type === "template_string") {
-    if (first.type === "template_string" && first.namedChildren.some((child) => child?.type === "template_substitution")) {
+    if (
+      first.type === "template_string" &&
+      first.namedChildren.some((child) => child?.type === "template_substitution")
+    ) {
       return { reason: "The template literal has substitutions, so its value is not known from the source text." };
     }
     if (values.length > 2) return { reason: "The string form takes at most a string literal encoding." };
@@ -248,7 +266,9 @@ function classify(values: readonly Node[]): { kind: LiteralKind } | { reason: st
     if (encoding !== undefined) {
       const unwrapped = unwrapParentheses(encoding);
       if (typeAssertions.has(unwrapped.type)) {
-        return { reason: "The encoding argument has a TypeScript type assertion, so its runtime kind is not rewritten." };
+        return {
+          reason: "The encoding argument has a TypeScript type assertion, so its runtime kind is not rewritten.",
+        };
       }
       if (unwrapped.type !== "string") return { reason: "The second argument is not a string literal encoding." };
     }
@@ -273,14 +293,22 @@ function unwrapParentheses(node: Node): Node {
 
 function describe(type: string): string {
   switch (type) {
-    case "identifier": return "an identifier";
-    case "call_expression": return "a call expression";
-    case "new_expression": return "a construction";
-    case "member_expression": return "a member expression";
-    case "binary_expression": return "a binary expression";
-    case "unary_expression": return "a unary expression";
-    case "spread_element": return "a spread argument";
-    default: return `a ${type.replaceAll("_", " ")}`;
+    case "identifier":
+      return "an identifier";
+    case "call_expression":
+      return "a call expression";
+    case "new_expression":
+      return "a construction";
+    case "member_expression":
+      return "a member expression";
+    case "binary_expression":
+      return "a binary expression";
+    case "unary_expression":
+      return "a unary expression";
+    case "spread_element":
+      return "a spread argument";
+    default:
+      return `a ${type.replaceAll("_", " ")}`;
   }
 }
 

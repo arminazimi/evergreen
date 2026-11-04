@@ -28,18 +28,33 @@ async function stagingDirectory(): Promise<string> {
 }
 
 test("the committed package.json is data-only metadata with no entry points or dependencies", async () => {
-  const manifest = JSON.parse(await readFile(resolve(DATA_PACKAGE_DIRECTORY, "package.json"), "utf8")) as Record<string, unknown>;
+  const manifest = JSON.parse(await readFile(resolve(DATA_PACKAGE_DIRECTORY, "package.json"), "utf8")) as Record<
+    string,
+    unknown
+  >;
   assert.equal(manifest.name, DATA_PACKAGE_NAME);
   assert.equal(manifest.license, "CC-BY-4.0");
   assert.deepEqual(manifest.files, ["registry", "schemas", "ATTRIBUTION.md"]);
-  for (const key of ["main", "module", "types", "exports", "bin", "scripts", "dependencies", "devDependencies", "peerDependencies"]) {
+  for (const key of [
+    "main",
+    "module",
+    "types",
+    "exports",
+    "bin",
+    "scripts",
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+  ]) {
     assert.equal(manifest[key], undefined, `data package must not declare ${key}`);
   }
 });
 
 test("the built manifest takes its version from the root package and its license from the dataset", async () => {
   const root = JSON.parse(await readFile(resolve("package.json"), "utf8")) as { version: string; license: string };
-  const template = JSON.parse(await readFile(resolve(DATA_PACKAGE_DIRECTORY, "package.json"), "utf8")) as DataPackageJson;
+  const template = JSON.parse(
+    await readFile(resolve(DATA_PACKAGE_DIRECTORY, "package.json"), "utf8"),
+  ) as DataPackageJson;
   const manifest = dataPackageManifest(root, template);
   assert.equal(manifest.name, DATA_PACKAGE_NAME);
   assert.equal(manifest.version, root.version);
@@ -82,7 +97,11 @@ test("the packed tarball has no executable code, no nested manifests, and ships 
 
   const documents = new Set(["LICENSE", "ATTRIBUTION.md"]);
   assert.equal(files.filter((file) => file.path === "package.json").length, 1);
-  for (const name of documents) assert.ok(files.some((file) => file.path === name), `${name} must ship`);
+  for (const name of documents)
+    assert.ok(
+      files.some((file) => file.path === name),
+      `${name} must ship`,
+    );
   assert.ok(files.every((file) => file.path.endsWith(".json") || documents.has(file.path)));
   assert.ok(files.every((file) => (file.mode & 0o111) === 0));
   assert.ok(!files.some((file) => file.path !== "package.json" && /(^|\/)package\.json$/.test(file.path)));

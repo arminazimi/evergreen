@@ -31,7 +31,7 @@ test("a comment marker inside a string is not a comment", () => {
 });
 
 test("UTF-8 BOM is accepted", () => {
-  const node = readJsonLines("\uFEFF{\n  \"a\": true\n}\n", { comments: false });
+  const node = readJsonLines('\uFEFF{\n  "a": true\n}\n', { comments: false });
   assert.equal(node?.kind, "object");
   assert.equal(member(node, "a")?.value.line, 2);
 });

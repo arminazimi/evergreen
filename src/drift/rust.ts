@@ -22,16 +22,42 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const WORKFLOW_NAME = /\.ya?ml$/i;
 const DTOLNAY = /^dtolnay\/rust-toolchain(?:@(.+))?$/i;
 const ACTIONS_RS = /^actions-rs\/toolchain@/i;
 const RUST_RELEASE = /^1\.(\d+)(?:\.\d+)?([-+][A-Za-z0-9_.+-]+)?$/;
 
-const IMAGE_SOURCES = new Set(["GitLab CI image", "CircleCI image", "Azure Pipelines container", "GitHub Actions container", "GitHub Actions service image"]);
+const IMAGE_SOURCES = new Set([
+  "GitLab CI image",
+  "CircleCI image",
+  "Azure Pipelines container",
+  "GitHub Actions container",
+  "GitHub Actions service image",
+]);
 
-type RepositoryFileKind = "toolchain" | "cargo" | "tool-versions" | "dockerfile" | "workflow" | "gitlab" | "circleci" | "azure";
+type RepositoryFileKind =
+  | "toolchain"
+  | "cargo"
+  | "tool-versions"
+  | "dockerfile"
+  | "workflow"
+  | "gitlab"
+  | "circleci"
+  | "azure";
 
 interface RepositoryFile {
   path: string;
@@ -64,7 +90,12 @@ async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
       else if (name === ".gitlab-ci.yml") files.push({ path, kind: "gitlab" });
       else if (name === "azure-pipelines.yml") files.push({ path, kind: "azure" });
       else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path, kind: "circleci" });
-      else if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github") files.push({ path, kind: "workflow" });
+      else if (
+        WORKFLOW_NAME.test(name) &&
+        basename(directory) === "workflows" &&
+        basename(dirname(directory)) === ".github"
+      )
+        files.push({ path, kind: "workflow" });
     }
   }
   await walk(root, 0);
@@ -101,7 +132,8 @@ function rustImageTag(value: string): { tag?: string } | undefined {
   const slash = withoutDigest.lastIndexOf("/");
   const colon = withoutDigest.lastIndexOf(":");
   const repository = (colon > slash ? withoutDigest.slice(0, colon) : withoutDigest).toLowerCase();
-  if (repository !== "rust" && repository !== "library/rust" && repository !== "docker.io/library/rust") return undefined;
+  if (repository !== "rust" && repository !== "library/rust" && repository !== "docker.io/library/rust")
+    return undefined;
   return colon > slash ? { tag: withoutDigest.slice(colon + 1) } : {};
 }
 
@@ -109,7 +141,14 @@ function imagePin(path: string, line: number, source: string, value: string): Ru
   const image = rustImageTag(value);
   if (!image) return undefined;
   if (image.tag === undefined) {
-    return { path, line, source, raw: value, kind: "pin", unresolved: "the image has no tag, so it follows the latest release" };
+    return {
+      path,
+      line,
+      source,
+      raw: value,
+      kind: "pin",
+      unresolved: "the image has no tag, so it follows the latest release",
+    };
   }
   const parts = releaseParts(image.tag);
   return parts === undefined
@@ -135,7 +174,8 @@ function workflowPins(path: string, contents: string): RuntimePin[] {
     const lineCounter = new LineCounter();
     const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
     if (document.errors.length > 0 || !isMap(document.contents)) return [];
-    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number => lineCounter.linePos(node.range?.[0] ?? 0).line;
+    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number =>
+      lineCounter.linePos(node.range?.[0] ?? 0).line;
 
     const jobs = document.contents.get("jobs", true);
     if (!isMap(jobs)) return [];
@@ -173,17 +213,36 @@ function workflowPins(path: string, contents: string): RuntimePin[] {
         const dtolnay = DTOLNAY.exec(uses);
         const actionsRs = ACTIONS_RS.test(uses);
         if (dtolnay?.[1] && isScalar(usesNode) && usesNode.range) {
-          pins.push(versionPin(path, lineCounter.linePos(usesNode.range[0]).line, "dtolnay/rust-toolchain ref", dtolnay[1], "pin"));
+          pins.push(
+            versionPin(
+              path,
+              lineCounter.linePos(usesNode.range[0]).line,
+              "dtolnay/rust-toolchain ref",
+              dtolnay[1],
+              "pin",
+            ),
+          );
         }
         if (!dtolnay && !actionsRs) continue;
 
         const inputs = step.get("with", true);
         if (!isMap(inputs)) continue;
-        const toolchain = inputs.get("toolchain", true) as { value?: unknown; range?: [number, number, ...unknown[]] } | null;
+        const toolchain = inputs.get("toolchain", true) as {
+          value?: unknown;
+          range?: [number, number, ...unknown[]];
+        } | null;
         if (!toolchain || !isScalar(toolchain)) continue;
         const value = textOf(toolchain);
         if (value === undefined || value === "") continue;
-        pins.push(versionPin(path, lineOf(toolchain), dtolnay ? "dtolnay/rust-toolchain toolchain" : "actions-rs/toolchain toolchain", value, "pin"));
+        pins.push(
+          versionPin(
+            path,
+            lineOf(toolchain),
+            dtolnay ? "dtolnay/rust-toolchain toolchain" : "actions-rs/toolchain toolchain",
+            value,
+            "pin",
+          ),
+        );
       }
     }
     return pins;
@@ -225,9 +284,28 @@ function toolVersionsPins(path: string, contents: string): RuntimePin[] {
     const fields = raw.replace(/#.*$/, "").trim().split(/\s+/);
     if (fields[0] !== "rust") continue;
     const value = fields[1];
-    if (value === undefined) return [{ path, line: index + 1, source: ".tool-versions", raw: "rust", kind: "pin", unresolved: "the rust entry has no version" }];
+    if (value === undefined)
+      return [
+        {
+          path,
+          line: index + 1,
+          source: ".tool-versions",
+          raw: "rust",
+          kind: "pin",
+          unresolved: "the rust entry has no version",
+        },
+      ];
     if (/^(?:ref|path):/.test(value)) {
-      return [{ path, line: index + 1, source: ".tool-versions", raw: value, kind: "pin", unresolved: `"${value}" names a source, not a release` }];
+      return [
+        {
+          path,
+          line: index + 1,
+          source: ".tool-versions",
+          raw: value,
+          kind: "pin",
+          unresolved: `"${value}" names a source, not a release`,
+        },
+      ];
     }
     return [versionPin(path, index + 1, ".tool-versions", value, "pin")];
   }
@@ -235,7 +313,9 @@ function toolVersionsPins(path: string, contents: string): RuntimePin[] {
 }
 
 function channel(source: string, path: string, contents: string): RuntimePin[] {
-  return parseRustToolchain(contents).map((declaration) => versionPin(path, declaration.line, source, declaration.value, "pin"));
+  return parseRustToolchain(contents).map((declaration) =>
+    versionPin(path, declaration.line, source, declaration.value, "pin"),
+  );
 }
 
 function alignImage(lineText: string, version: string, suffix: string): string | undefined {
@@ -251,7 +331,10 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
   const version = target.release;
   const suffix = releaseParts(pin.raw)?.suffix ?? "";
 
-  if (pin.source === "rust-toolchain.toml channel" || (pin.source === "rust-toolchain" && /^\s*channel\s*=/.test(lineText))) {
+  if (
+    pin.source === "rust-toolchain.toml channel" ||
+    (pin.source === "rust-toolchain" && /^\s*channel\s*=/.test(lineText))
+  ) {
     const match = /^(\s*channel\s*=\s*)(["'])([^"']*)\2(.*)$/.exec(lineText);
     return match ? `${match[1]}${match[2]}${version}${suffix}${match[2]}${match[4]}` : undefined;
   }
@@ -267,7 +350,9 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
     return alignImage(lineText, version, suffix);
   }
   if (pin.source === "dtolnay/rust-toolchain ref") {
-    const match = /^(\s*(?:-\s*)?uses\s*:\s*["']?dtolnay\/rust-toolchain@)([^\s"'#]+)(["']?(?:\s+#.*)?)$/.exec(lineText);
+    const match = /^(\s*(?:-\s*)?uses\s*:\s*["']?dtolnay\/rust-toolchain@)([^\s"'#]+)(["']?(?:\s+#.*)?)$/.exec(
+      lineText,
+    );
     return match ? `${match[1]}${version}${suffix}${match[3]}` : undefined;
   }
   if (pin.source === "dtolnay/rust-toolchain toolchain" || pin.source === "actions-rs/toolchain toolchain") {
@@ -293,7 +378,8 @@ async function collect(root: string): Promise<RuntimePin[]> {
       pins.push(...channel(source, path, contents));
     } else if (file.kind === "cargo") {
       for (const declaration of parseCargoToml(contents)) {
-        if (declaration.kind === "rust-version") pins.push(versionPin(path, declaration.line, "Cargo.toml rust-version", declaration.value, "floor"));
+        if (declaration.kind === "rust-version")
+          pins.push(versionPin(path, declaration.line, "Cargo.toml rust-version", declaration.value, "floor"));
       }
     } else if (file.kind === "tool-versions") {
       pins.push(...toolVersionsPins(path, contents));

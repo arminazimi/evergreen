@@ -35,8 +35,11 @@ export function exportCle(rules: readonly RegistryV2Rule[]): { documents: CleDoc
   const groups = new Map<string, RegistryV2Rule[]>();
   let skipped = 0;
   for (const rule of rules) {
-    if (!rule.deadline || rule.usage?.some((usage) => usage.kind === "symbol") ||
-      (rule.event !== "end-of-support" && rule.event !== "end-of-life" && rule.event !== "scheduled-end-of-life")) {
+    if (
+      !rule.deadline ||
+      rule.usage?.some((usage) => usage.kind === "symbol") ||
+      (rule.event !== "end-of-support" && rule.event !== "end-of-life" && rule.event !== "scheduled-end-of-life")
+    ) {
       skipped++;
       continue;
     }
@@ -46,24 +49,49 @@ export function exportCle(rules: readonly RegistryV2Rule[]): { documents: CleDoc
   }
   const documents = [...groups.keys()].sort().map((identifier): CleDocument => {
     const group = groups.get(identifier)!;
-    group.sort((a, b) => a.provenance.observedAt < b.provenance.observedAt ? -1 :
-      a.provenance.observedAt > b.provenance.observedAt ? 1 : a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
-    const events = group.map((rule, index): CleEvent => ({
-      id: index + 1,
-      type: rule.event === "end-of-support" ? "endOfSupport" : "endOfLife",
-      effective: `${rule.deadline}T00:00:00Z`,
-      published: `${rule.provenance.observedAt}T00:00:00Z`,
-      versions: [{ range: rule.vers }],
-      ...(rule.event === "end-of-support" ? { supportId: "evergreen" } : {}),
-    })).reverse();
+    group.sort((a, b) =>
+      a.provenance.observedAt < b.provenance.observedAt
+        ? -1
+        : a.provenance.observedAt > b.provenance.observedAt
+          ? 1
+          : a.id < b.id
+            ? -1
+            : a.id > b.id
+              ? 1
+              : 0,
+    );
+    const events = group
+      .map(
+        (rule, index): CleEvent => ({
+          id: index + 1,
+          type: rule.event === "end-of-support" ? "endOfSupport" : "endOfLife",
+          effective: `${rule.deadline}T00:00:00Z`,
+          published: `${rule.provenance.observedAt}T00:00:00Z`,
+          versions: [{ range: rule.vers }],
+          ...(rule.event === "end-of-support" ? { supportId: "evergreen" } : {}),
+        }),
+      )
+      .reverse();
     return {
       $schema: CLE_SCHEMA,
       identifier,
-      updatedAt: `${group.map((rule) => rule.provenance.reviewedAt).sort().at(-1)}T00:00:00Z`,
+      updatedAt: `${group
+        .map((rule) => rule.provenance.reviewedAt)
+        .sort()
+        .at(-1)}T00:00:00Z`,
       events,
-      ...(events.some((event) => event.supportId) ? {
-        definitions: { support: [{ id: "evergreen", description: "Support covered by the Evergreen end-of-support rules for this component." }] },
-      } : {}),
+      ...(events.some((event) => event.supportId)
+        ? {
+            definitions: {
+              support: [
+                {
+                  id: "evergreen",
+                  description: "Support covered by the Evergreen end-of-support rules for this component.",
+                },
+              ],
+            },
+          }
+        : {}),
     };
   });
   return { documents, skipped };
@@ -71,8 +99,9 @@ export function exportCle(rules: readonly RegistryV2Rule[]): { documents: CleDoc
 
 /** Reads every registry from the same offline, optionally pinned data source as scans. */
 export async function exportActiveCle(data?: ActiveData): Promise<ReturnType<typeof exportCle>> {
-  const active = data ?? await getActiveData();
-  const registries = await Promise.all(BUNDLED_ECOSYSTEMS.map(async (ecosystem) =>
-    validateRegistryV2(await active.read(`registry/${ecosystem}.json`))));
+  const active = data ?? (await getActiveData());
+  const registries = await Promise.all(
+    BUNDLED_ECOSYSTEMS.map(async (ecosystem) => validateRegistryV2(await active.read(`registry/${ecosystem}.json`))),
+  );
   return exportCle(registries.flatMap((registry) => registry.rules));
 }

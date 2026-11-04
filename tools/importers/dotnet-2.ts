@@ -22,18 +22,29 @@ export function registrationUrl(id: string): string {
   return `${NUGET_REGISTRATION_BASE}/${id.toLowerCase()}/index.json`;
 }
 
-type Raw = { items?: unknown; "@id"?: unknown; catalogEntry?: { version?: unknown; listed?: unknown; deprecation?: unknown } };
+type Raw = {
+  items?: unknown;
+  "@id"?: unknown;
+  catalogEntry?: { version?: unknown; listed?: unknown; deprecation?: unknown };
+};
 
 async function leaves(context: ImporterContext, id: string): Promise<Leaf[]> {
   const index = await fetchJson<{ items?: Raw[] }>(context, registrationUrl(id));
   const found: Leaf[] = [];
   for (const page of index.items ?? []) {
     // Small packages inline their pages; large ones link to them.
-    const items = Array.isArray(page.items) ? (page.items as Raw[]) : typeof page["@id"] === "string" ? ((await fetchJson<{ items?: Raw[] }>(context, page["@id"])).items ?? []) : [];
+    const items = Array.isArray(page.items)
+      ? (page.items as Raw[])
+      : typeof page["@id"] === "string"
+        ? ((await fetchJson<{ items?: Raw[] }>(context, page["@id"])).items ?? [])
+        : [];
     for (const item of items) {
       const entry = item.catalogEntry;
       if (!entry || typeof entry.version !== "string") continue;
-      const deprecation = typeof entry.deprecation === "object" && entry.deprecation !== null ? (entry.deprecation as Deprecation) : undefined;
+      const deprecation =
+        typeof entry.deprecation === "object" && entry.deprecation !== null
+          ? (entry.deprecation as Deprecation)
+          : undefined;
       found.push({ version: entry.version, listed: entry.listed !== false, deprecation });
     }
   }
@@ -52,7 +63,9 @@ export const nugetDeprecationImporter: Importer = {
   id: "dotnet-2",
   ecosystem: "dotnet",
   description: "NuGet packages whose publisher has deprecated every version as legacy, from the NuGet registration API",
-  sources: [{ title: "NuGet registration API", url: "https://learn.microsoft.com/nuget/api/registration-base-url-resource" }],
+  sources: [
+    { title: "NuGet registration API", url: "https://learn.microsoft.com/nuget/api/registration-base-url-resource" },
+  ],
 
   async import(context) {
     const rules: DraftRule[] = [];
@@ -69,13 +82,19 @@ export const nugetDeprecationImporter: Importer = {
         continue;
       }
       if (deprecated.length < all.length) {
-        notes.push(`${id}: only ${deprecated.length} of ${all.length} versions are deprecated, which describes those versions, not the package, so no rule was drafted.`);
+        notes.push(
+          `${id}: only ${deprecated.length} of ${all.length} versions are deprecated, which describes those versions, not the package, so no rule was drafted.`,
+        );
         continue;
       }
       const newest = all[all.length - 1]!.deprecation!;
-      const reasons = Array.isArray(newest.reasons) ? newest.reasons.filter((reason): reason is string => typeof reason === "string") : [];
+      const reasons = Array.isArray(newest.reasons)
+        ? newest.reasons.filter((reason): reason is string => typeof reason === "string")
+        : [];
       if (!reasons.includes("Legacy")) {
-        notes.push(`${id}: deprecated for ${reasons.join(", ") || "no stated reason"}, not as legacy, so no rule was drafted.`);
+        notes.push(
+          `${id}: deprecated for ${reasons.join(", ") || "no stated reason"}, not as legacy, so no rule was drafted.`,
+        );
         continue;
       }
       const message = typeof newest.message === "string" ? newest.message.replace(/\s+/g, " ").trim() : "";

@@ -41,7 +41,8 @@ function parseOptions(args: string[]): DriftOptions {
       positioned = true;
     }
   }
-  if (options.align !== undefined && options.runtime === undefined) throw new DriftUsageError("--align requires --runtime.");
+  if (options.align !== undefined && options.runtime === undefined)
+    throw new DriftUsageError("--align requires --runtime.");
   return options;
 }
 
@@ -58,7 +59,9 @@ function renderText(report: DriftReport): string {
       if (runtime.releases.length > 0) lines.push(`  releases: ${runtime.releases.join(", ")}`);
       if (runtime.drifted) lines.push("  DRIFT");
       for (const conflict of runtime.floorConflicts) {
-        lines.push(`  floor conflict: ${conflict.path}:${conflict.line} ${conflict.source} ${conflict.raw} needs ${conflict.release}`);
+        lines.push(
+          `  floor conflict: ${conflict.path}:${conflict.line} ${conflict.source} ${conflict.raw} needs ${conflict.release}`,
+        );
       }
       return lines.join("\n");
     })
@@ -115,7 +118,9 @@ async function renderAlign(root: string, report: DriftReport, release: string): 
     printed += 1;
   }
   for (const pin of refused) {
-    process.stderr.write(`Refused ${pin.path}:${pin.line} (${pin.source} ${pin.raw}): a floor or a value this collector will not rewrite.\n`);
+    process.stderr.write(
+      `Refused ${pin.path}:${pin.line} (${pin.source} ${pin.raw}): a floor or a value this collector will not rewrite.\n`,
+    );
   }
   if (printed === 0) process.stderr.write(`No pin could be aligned to ${release}.\n`);
   return 0;
@@ -134,7 +139,10 @@ export async function driftCommand(args: string[]): Promise<number> {
     throw error;
   }
 
-  const collectors = options.runtime === undefined ? driftCollectors : driftCollectors.filter((collector) => collector.runtime === options.runtime);
+  const collectors =
+    options.runtime === undefined
+      ? driftCollectors
+      : driftCollectors.filter((collector) => collector.runtime === options.runtime);
   if (options.runtime !== undefined && collectors.length === 0) {
     const known = driftCollectors.map((collector) => collector.runtime).join(", ") || "none";
     process.stderr.write(`Unknown runtime: ${options.runtime}. Known runtimes: ${known}.\n${USAGE}\n`);
@@ -146,6 +154,7 @@ export async function driftCommand(args: string[]): Promise<number> {
   if (options.align !== undefined) return renderAlign(root, report, options.align);
 
   process.stdout.write(`${options.json ? JSON.stringify(report, null, 2) : renderText(report)}\n`);
-  if (options.check && report.runtimes.some((runtime) => runtime.drifted || runtime.floorConflicts.length > 0)) return 1;
+  if (options.check && report.runtimes.some((runtime) => runtime.drifted || runtime.floorConflicts.length > 0))
+    return 1;
   return 0;
 }

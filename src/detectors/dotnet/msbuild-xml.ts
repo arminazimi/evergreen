@@ -29,7 +29,10 @@ export interface XmlElement {
 class Malformed extends Error {}
 
 function decode(text: string): string {
-  return text.replace(/&(lt|gt|amp|quot|apos);/g, (_all, name: string) => ({ lt: "<", gt: ">", amp: "&", quot: '"', apos: "'" })[name]!);
+  return text.replace(
+    /&(lt|gt|amp|quot|apos);/g,
+    (_all, name: string) => ({ lt: "<", gt: ">", amp: "&", quot: '"', apos: "'" })[name]!,
+  );
 }
 
 export function readXml(contents: string): XmlElement | undefined {
@@ -94,7 +97,14 @@ export function readXml(contents: string): XmlElement | undefined {
         if (!name) fail();
         count += 1;
         if (count > MAXIMUM_ELEMENTS) fail();
-        const element: XmlElement = { name: name![1]!, line, attributes: new Map(), text: "", children: [], parent: current };
+        const element: XmlElement = {
+          name: name![1]!,
+          line,
+          attributes: new Map(),
+          text: "",
+          children: [],
+          parent: current,
+        };
         advance(position + name![0].length);
         let selfClosing = false;
         for (;;) {
@@ -111,7 +121,9 @@ export function readXml(contents: string): XmlElement | undefined {
           }
           const attribute = /^([^\s=/>]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/.exec(text.slice(position, position + 4096));
           if (!attribute) fail();
-          const valueLine = line + [...text.slice(position, position + attribute![0].indexOf("=")) ].filter((char) => char === "\n").length;
+          const valueLine =
+            line +
+            [...text.slice(position, position + attribute![0].indexOf("="))].filter((char) => char === "\n").length;
           const key = attribute![1]!.toLowerCase();
           if (element.attributes.has(key)) fail();
           element.attributes.set(key, { value: decode(attribute![2] ?? attribute![3] ?? ""), line: valueLine });

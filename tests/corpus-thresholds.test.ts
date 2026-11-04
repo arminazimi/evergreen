@@ -6,7 +6,14 @@ import { parse } from "yaml";
 
 import { maturityLabels } from "../benchmarks/maturity.js";
 import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
-import { FULL_RUN_MAX_AGE_DAYS, detectorOf, findingKey, fullRunAgeDays, scoreDetectors, violations } from "../benchmarks/thresholds.js";
+import {
+  FULL_RUN_MAX_AGE_DAYS,
+  detectorOf,
+  findingKey,
+  fullRunAgeDays,
+  scoreDetectors,
+  violations,
+} from "../benchmarks/thresholds.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 
 const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json", line });
@@ -14,10 +21,53 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"]);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), [
+    "android",
+    "ci-images",
+    "container",
+    "cpp",
+    "dart",
+    "database",
+    "deno",
+    "dotnet",
+    "elixir",
+    "github-actions",
+    "go",
+    "java",
+    "kubernetes",
+    "nodejs",
+    "npm",
+    "php",
+    "python",
+    "ruby",
+    "rust",
+    "scala",
+    "serverless",
+    "shell",
+    "swift",
+    "terraform",
+  ]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
     // The Android, ci-images, container, C and C++, PHP, Ruby, Scala, shell, and Terraform detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["android", "ci-images", "container", "cpp", "dart", "database", "deno", "elixir", "php", "ruby", "scala", "shell", "terraform"].includes(name), name);
+    assert.equal(
+      threshold.stable,
+      ![
+        "android",
+        "ci-images",
+        "container",
+        "cpp",
+        "dart",
+        "database",
+        "deno",
+        "elixir",
+        "php",
+        "ruby",
+        "scala",
+        "shell",
+        "terraform",
+      ].includes(name),
+      name,
+    );
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });
@@ -28,7 +78,11 @@ test("scores each detector by the family of its rule ids", () => {
   const sass = finding("npm.package.node-sass.eol", 9);
   const node = finding("nodejs.runtime.eol-20", 5);
   const scores = scoreDetectors([
-    { findings: [request, sass, node], unexpected: [findingKey(sass)], missing: [findingKey(finding("python.runtime.eol-3.9-and-older", 1))] },
+    {
+      findings: [request, sass, node],
+      unexpected: [findingKey(sass)],
+      missing: [findingKey(finding("python.runtime.eol-3.9-and-older", 1))],
+    },
   ]);
   assert.deepEqual(scores.npm, { truePositives: 1, falsePositives: 1, falseNegatives: 0, precision: 0.5 });
   assert.deepEqual(scores.nodejs, { truePositives: 1, falsePositives: 0, falseNegatives: 0, precision: 1 });
@@ -49,7 +103,10 @@ test("a stable detector below its floor is a violation; an experimental one or a
     nodejs: { truePositives: 1, falsePositives: 9, falseNegatives: 0, precision: 0.1 },
   };
   assert.deepEqual(violations(scores, thresholds), [{ detector: "npm", precision: 0.9, minPrecision: 0.95 }]);
-  assert.deepEqual(violations({ npm: { truePositives: 19, falsePositives: 1, falseNegatives: 0, precision: 0.95 } }, thresholds), []);
+  assert.deepEqual(
+    violations({ npm: { truePositives: 19, falsePositives: 1, falseNegatives: 0, precision: 0.95 } }, thresholds),
+    [],
+  );
 });
 
 import { countEvidence, earnedLevel, evidenceMinimums, recallViolations } from "../benchmarks/thresholds.js";
@@ -82,7 +139,13 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   android: { corpus: ["android"], row: "Android" },
 };
 test("earnedLevel follows the evidence minimums", () => {
-  const none = { repositoriesWithFindings: 0, expectedFindings: 0, zeroFindingRepositories: 0, repositories: 0, blindRepositories: 0 };
+  const none = {
+    repositoriesWithFindings: 0,
+    expectedFindings: 0,
+    zeroFindingRepositories: 0,
+    repositories: 0,
+    blindRepositories: 0,
+  };
   const enough = (level: "beta" | "stable") => {
     const { blindShare: _blindShare, ...counts } = evidenceMinimums[level];
     return { ...counts, repositories: 10, blindRepositories: Math.ceil(10 * evidenceMinimums[level].blindShare) };
@@ -95,7 +158,12 @@ test("earnedLevel follows the evidence minimums", () => {
 });
 
 test("a level needs its share of blind-selected repositories; an unrecorded selection counts as not blind", () => {
-  const entry = (repository: string, selection?: "blind" | "targeted") => ({ repository, ecosystem: "dotnet", ...(selection ? { selection } : {}), expected: [] as Array<{ ruleId: string }> });
+  const entry = (repository: string, selection?: "blind" | "targeted") => ({
+    repository,
+    ecosystem: "dotnet",
+    ...(selection ? { selection } : {}),
+    expected: [] as Array<{ ruleId: string }>,
+  });
   const corpus = [entry("a", "blind"), entry("b", "targeted"), entry("c"), entry("d", "blind")];
   assert.deepEqual(countEvidence(corpus, "dotnet", ["dotnet"]), {
     repositoriesWithFindings: 0,
@@ -115,12 +183,22 @@ test("each detector's level agrees with its enforcement flag, its documented sta
   const compatibility = await readFile(resolve("docs/COMPATIBILITY.md"), "utf8");
   const rank = { experimental: 0, beta: 1, stable: 2 } as const;
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    assert.equal(threshold.stable, threshold.level !== "experimental", `${name}: stable must be true exactly for beta and stable`);
+    assert.equal(
+      threshold.stable,
+      threshold.level !== "experimental",
+      `${name}: stable must be true exactly for beta and stable`,
+    );
     const info = ECOSYSTEMS[name];
     assert.ok(info, `${name} is missing from the table in this test`);
-    assert.ok(compatibility.includes(`| ${info.row} | ${maturityLabels[threshold.level]} |`), `docs/COMPATIBILITY.md must show ${info.row} as ${maturityLabels[threshold.level]}`);
+    assert.ok(
+      compatibility.includes(`| ${info.row} | ${maturityLabels[threshold.level]} |`),
+      `docs/COMPATIBILITY.md must show ${info.row} as ${maturityLabels[threshold.level]}`,
+    );
     const earned = earnedLevel(countEvidence(corpus, name, info.corpus));
-      assert.ok(rank[earned] >= rank[threshold.level], `${name} is ${threshold.level} but its corpus evidence only supports ${earned}`);
+    assert.ok(
+      rank[earned] >= rank[threshold.level],
+      `${name} is ${threshold.level} but its corpus evidence only supports ${earned}`,
+    );
   }
 });
 
@@ -131,10 +209,14 @@ test("the thresholds file records the full corpus run its levels rest on", async
   assert.match(run.date, /^\d{4}-\d{2}-\d{2}$/);
   assert.ok(run.repositories >= 85);
   const detectors = Object.values(run.perDetector);
-  assert.equal(detectors.reduce((sum, item) => sum + item.truePositives + item.falsePositives, 0), run.findings);
+  assert.equal(
+    detectors.reduce((sum, item) => sum + item.truePositives + item.falsePositives, 0),
+    run.findings,
+  );
   // A detector added after the recorded run has no per-detector numbers yet; the record never names a detector that does not exist.
   const known = Object.keys(thresholds.detectors);
-  for (const name of Object.keys(run.perDetector)) assert.ok(known.includes(name), `${name} is in lastFullRun but not in the detectors`);
+  for (const name of Object.keys(run.perDetector))
+    assert.ok(known.includes(name), `${name} is in lastFullRun but not in the detectors`);
 });
 
 test("a beta detector needs recall of 0.80 and a stable one 0.90; experimental and unmeasured detectors are not checked", () => {
@@ -147,7 +229,12 @@ test("a beta detector needs recall of 0.80 and a stable one 0.90; experimental a
       d: { level: "stable", stable: true, minPrecision: 0.95 },
     },
   };
-  const score = (truePositives: number, falseNegatives: number) => ({ truePositives, falsePositives: 0, falseNegatives, precision: 1 });
+  const score = (truePositives: number, falseNegatives: number) => ({
+    truePositives,
+    falsePositives: 0,
+    falseNegatives,
+    precision: 1,
+  });
   const found = recallViolations({ a: score(8, 2), b: score(17, 3), c: score(1, 9) }, thresholds);
   assert.deepEqual(found, [{ detector: "b", recall: 0.85, minRecall: 0.9 }]);
   assert.deepEqual(recallViolations({ a: score(4, 1), b: score(9, 1) }, thresholds), []);
@@ -155,7 +242,11 @@ test("a beta detector needs recall of 0.80 and a stable one 0.90; experimental a
 
 test("every corpus entry records whether it was chosen blind or targeted", async () => {
   const corpus = (await loadPublicCorpus()).repositories;
-  for (const entry of corpus) assert.ok(entry.selection === "blind" || entry.selection === "targeted", `${entry.repository} must record selection: "blind" or "targeted"`);
+  for (const entry of corpus)
+    assert.ok(
+      entry.selection === "blind" || entry.selection === "targeted",
+      `${entry.repository} must record selection: "blind" or "targeted"`,
+    );
 });
 
 test("the age of a recorded full run is counted in whole days against the 30-day limit", () => {
@@ -174,7 +265,11 @@ test("the scheduled record workflow runs at least twice a month, records only a 
   const recordCron = workflow.on.schedule.find((entry) => entry.cron.includes(","))!;
   const [, , day] = recordCron.cron.split(" ");
   const days = day!.split(",").map(Number);
-  assert.ok(days.length >= 2 && Math.max(...days.slice(1).map((d, i) => d - days[i]!), 31 - Math.max(...days) + Math.min(...days)) < FULL_RUN_MAX_AGE_DAYS);
+  assert.ok(
+    days.length >= 2 &&
+      Math.max(...days.slice(1).map((d, i) => d - days[i]!), 31 - Math.max(...days) + Math.min(...days)) <
+        FULL_RUN_MAX_AGE_DAYS,
+  );
   assert.ok(workflow.on.workflow_dispatch?.inputs?.mode?.options?.includes("record"));
   assert.ok(workflow.jobs.record.if?.includes(recordCron.cron));
   const runs = workflow.jobs.record.steps.map((step) => step.run ?? "");

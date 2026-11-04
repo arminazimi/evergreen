@@ -18,8 +18,18 @@ interface Observed {
 const scan = async () => {
   const result = await scanRepository(fixture, builtInDetectors, { noCache: true });
   return result.findings
-    .map<Observed>((finding) => ({ detector: finding.detector, ruleId: finding.ruleId, path: finding.location.path, line: finding.location.line }))
-    .sort((left, right) => left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path) || (left.line ?? 0) - (right.line ?? 0));
+    .map<Observed>((finding) => ({
+      detector: finding.detector,
+      ruleId: finding.ruleId,
+      path: finding.location.path,
+      line: finding.location.line,
+    }))
+    .sort(
+      (left, right) =>
+        left.ruleId.localeCompare(right.ruleId) ||
+        left.path.localeCompare(right.path) ||
+        (left.line ?? 0) - (right.line ?? 0),
+    );
 };
 
 test("the monorepo has the files the workspace build reads", async () => {
@@ -39,7 +49,12 @@ test("the monorepo has the files the workspace build reads", async () => {
 
 test("workspace discovery reports each package's own manifest", async () => {
   assert.deepEqual(await scan(), [
-    { detector: "github-actions", ruleId: "github-actions.checkout.node20", path: ".github/workflows/ci.yml", line: 15 },
+    {
+      detector: "github-actions",
+      ruleId: "github-actions.checkout.node20",
+      path: ".github/workflows/ci.yml",
+      line: 15,
+    },
     { detector: "npm", ruleId: "nodejs.runtime.eol-20", path: "packages/action/.nvmrc", line: 1 },
     { detector: "npm", ruleId: "npm.package.node-sass.deprecated", path: "packages/mcp/package.json", line: 10 },
     { detector: "npm", ruleId: "npm.package.node-sass.eol", path: "packages/mcp/package.json", line: 10 },

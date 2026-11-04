@@ -130,8 +130,7 @@ const EVERGREEN_COMMAND = new RegExp(
 const NPX_EVERGREEN = /\bnpx\s+(?:--yes\s+)?(?:--package\s+\S+\s+)?evergreen(?:-deprecation)?\b/i;
 
 // `npx evergreen-deprecation scan`, `npx --package evergreen-deprecation evergreen-mcp`.
-const NPX_INVOCATION =
-  /\bnpx\s+(?:--yes\s+)?(?:--package\s+\S+\s+)?evergreen(?:-deprecation)?\s+([a-z][a-z-]*)/gi;
+const NPX_INVOCATION = /\bnpx\s+(?:--yes\s+)?(?:--package\s+\S+\s+)?evergreen(?:-deprecation)?\s+([a-z][a-z-]*)/gi;
 // `` `evergreen scan .` `` and other invocations that are not prefixed with `npx`.
 const BARE_INVOCATION = /(?:^|[\s`$>])(evergreen(?:-deprecation)?\s+[a-z][a-z-]*)/gim;
 const ACTION_INVOCATION = /arminazimi\/evergreen@[A-Za-z0-9._-]+/;
@@ -140,7 +139,12 @@ const SKILL_INVOCATION = /npx\s+skills\s+add\s+arminazimi\/evergreen|skills\.sh\
 
 /** True when the answer names Evergreen the project, not the adjective. */
 export function mentionsEvergreen(text: string): boolean {
-  return EVERGREEN_IDENTIFIER.test(text) || EVERGREEN_PROPER.test(text) || EVERGREEN_COMMAND.test(text) || NPX_EVERGREEN.test(text);
+  return (
+    EVERGREEN_IDENTIFIER.test(text) ||
+    EVERGREEN_PROPER.test(text) ||
+    EVERGREEN_COMMAND.test(text) ||
+    NPX_EVERGREEN.test(text)
+  );
 }
 
 /**
@@ -330,7 +334,18 @@ export async function availableHosts(): Promise<DiscoveryHost[]> {
 
 function hostArgs(host: DiscoveryHost, prompt: string, workdir: string): string[] {
   if (host === "codex") {
-    return ["exec", "--skip-git-repo-check", "--sandbox", "read-only", "--color", "never", "--json", "-C", workdir, prompt];
+    return [
+      "exec",
+      "--skip-git-repo-check",
+      "--sandbox",
+      "read-only",
+      "--color",
+      "never",
+      "--json",
+      "-C",
+      workdir,
+      prompt,
+    ];
   }
   return ["-p", "--output-format", "json", prompt];
 }
@@ -396,7 +411,9 @@ export function formatReport(snapshot: DiscoverySnapshot): string {
   ];
   for (const host of snapshot.hosts) {
     if (host.status === "ok") {
-      lines.push(`| ${host.host} | ok | ${host.summary.mentioned}/${host.summary.prompts} | ${host.summary.correct}/${host.summary.prompts} |`);
+      lines.push(
+        `| ${host.host} | ok | ${host.summary.mentioned}/${host.summary.prompts} | ${host.summary.correct}/${host.summary.prompts} |`,
+      );
     } else {
       lines.push(`| ${host.host} | unavailable | — | — |`);
     }
@@ -425,7 +442,8 @@ async function main(): Promise<void> {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("--date must be YYYY-MM-DD.");
   const promptsPath = resolve(option("--prompts") ?? "benchmarks/agent-discovery-prompts.json");
   const timeoutMs = Number(option("--timeout") ?? 180_000);
-  if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) throw new Error("--timeout must be a positive number of milliseconds.");
+  if (!Number.isFinite(timeoutMs) || timeoutMs <= 0)
+    throw new Error("--timeout must be a positive number of milliseconds.");
 
   const requested = options("--host").flatMap((value) => value.split(","));
   const selected: string[] = requested.length > 0 ? [...requested] : [...DISCOVERY_HOSTS];

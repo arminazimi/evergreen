@@ -67,7 +67,9 @@ export async function initPersonal(options: InitPersonalOptions): Promise<InitPe
 
   const current = await globalHooksPath(env);
   if (current !== undefined && resolve(home, current) !== resolve(hooksDirectory)) {
-    throw new AgentFileError(`Git already uses ${current} as the global hooks path, so it was not changed. Add \`npx --no-install evergreen-deprecation scan . --fail-on ${options.gate} --format compact\` to the pre-push hook there yourself.`);
+    throw new AgentFileError(
+      `Git already uses ${current} as the global hooks path, so it was not changed. Add \`npx --no-install evergreen-deprecation scan . --fail-on ${options.gate} --format compact\` to the pre-push hook there yourself.`,
+    );
   }
 
   const hookBefore = await read(hookFile);
@@ -82,7 +84,9 @@ export async function initPersonal(options: InitPersonalOptions): Promise<InitPe
   const diff = [
     hook.change === "unchanged" ? "" : renderDiff(hookFile, hookBefore ?? "", hook.text),
     config === configBefore ? "" : renderDiff(configFile, configBefore ?? "", config),
-  ].filter(Boolean).join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
   const unchanged = hook.change === "unchanged" && config === configBefore && pathSet;
   const change = unchanged ? "unchanged" : hookBefore === undefined ? "created" : "updated";
   const result = { change, written: false, configFile, hooksDirectory, diff } as const;

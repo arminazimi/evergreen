@@ -73,7 +73,10 @@ export type Acknowledged = Record<string, string>;
 /** A stable digest of what a draft says: every field except provenance, in registry order. */
 export function fingerprint(rule: RegistryV2Rule): string {
   const { provenance: _provenance, ...rest } = rule;
-  return createHash("sha256").update(JSON.stringify(canonicalRule(rest))).digest("hex").slice(0, 16);
+  return createHash("sha256")
+    .update(JSON.stringify(canonicalRule(rest)))
+    .digest("hex")
+    .slice(0, 16);
 }
 
 export async function loadAcknowledged(path = ACKNOWLEDGED_FILE): Promise<Acknowledged> {
@@ -99,7 +102,8 @@ function sourceChange(before: EvidenceSource[], after: EvidenceSource[]): Source
   };
   for (const [url, source] of [...urlsAfter].sort(([a], [b]) => a.localeCompare(b))) {
     const previous = urlsBefore.get(url);
-    if (previous && previous.title !== source.title) change.retitled.push({ url, before: previous.title, after: source.title });
+    if (previous && previous.title !== source.title)
+      change.retitled.push({ url, before: previous.title, after: source.title });
   }
   return change.added.length + change.removed.length + change.retitled.length === 0 ? null : change;
 }
@@ -110,12 +114,14 @@ function ruleChange(existing: RegistryV2Rule, draft: RegistryV2Rule): ChangedRul
   const change: ChangedRule = { id: draft.id, dates: [], sources: null, fields: [] };
 
   for (const field of DATE_FIELDS) {
-    if (field in after && !isDeepStrictEqual(before[field], after[field])) change.dates.push({ field, before: before[field] ?? null, after: after[field] });
+    if (field in after && !isDeepStrictEqual(before[field], after[field]))
+      change.dates.push({ field, before: before[field] ?? null, after: after[field] });
   }
   change.sources = sourceChange(existing.sources, draft.sources);
   for (const key of Object.keys(canonicalRule(after))) {
     if (NOT_COMPARED.has(key)) continue;
-    if (!isDeepStrictEqual(before[key], after[key])) change.fields.push({ field: key, before: before[key] ?? null, after: after[key] });
+    if (!isDeepStrictEqual(before[key], after[key]))
+      change.fields.push({ field: key, before: before[key] ?? null, after: after[key] });
   }
   return change.dates.length + change.fields.length === 0 && change.sources === null ? null : change;
 }
@@ -126,7 +132,16 @@ export function diffDrafts(drafts: DraftRegistry, registry: RegistryV2, acknowle
   }
   const existing = new Map(registry.rules.map((rule) => [rule.id, rule]));
   const drafted = new Set(drafts.rules.map((rule) => rule.id));
-  const diff: DraftDiff = { importer: drafts.importer, ecosystem: drafts.ecosystem, added: [], changed: [], removed: [], unchanged: [], acknowledged: [], duplicates: [] };
+  const diff: DraftDiff = {
+    importer: drafts.importer,
+    ecosystem: drafts.ecosystem,
+    added: [],
+    changed: [],
+    removed: [],
+    unchanged: [],
+    acknowledged: [],
+    duplicates: [],
+  };
   const byIdentity = new Map<string, RegistryV2Rule>();
   for (const rule of [...registry.rules].sort((a, b) => a.id.localeCompare(b.id))) {
     const key = `${rule.purl} ${rule.vers}`;
@@ -177,13 +192,16 @@ export function renderDiffText(diff: DraftDiff): string {
     if (rule.sources) {
       for (const source of rule.sources.added) lines.push(`    source added: ${source.url}`);
       for (const source of rule.sources.removed) lines.push(`    source removed: ${source.url}`);
-      for (const source of rule.sources.retitled) lines.push(`    source retitled: ${source.url}: ${source.before} → ${source.after}`);
+      for (const source of rule.sources.retitled)
+        lines.push(`    source retitled: ${source.url}: ${source.before} → ${source.after}`);
     }
     for (const change of rule.fields) lines.push(`    ${change.field}: ${show(change.before)} → ${show(change.after)}`);
   }
   for (const rule of diff.removed) lines.push(`- ${rule.id}`);
   const left = diff.acknowledged.length > 0 ? `, ${diff.acknowledged.length} acknowledged` : "";
-  lines.push(`${diff.added.length} added, ${diff.changed.length} changed, ${diff.removed.length} removed, ${diff.unchanged.length} unchanged${left}`);
+  lines.push(
+    `${diff.added.length} added, ${diff.changed.length} changed, ${diff.removed.length} removed, ${diff.unchanged.length} unchanged${left}`,
+  );
   return `${lines.join("\n")}\n`;
 }
 
@@ -193,7 +211,12 @@ export async function main(argv: string[]): Promise<number> {
   let fingerprints = false;
   for (let index = 0; index < argv.length; index++) {
     const argument = argv[index]!;
-    if (argument === "--out") out = argv[++index] ?? (() => { throw new Error("--out needs a value."); })();
+    if (argument === "--out")
+      out =
+        argv[++index] ??
+        (() => {
+          throw new Error("--out needs a value.");
+        })();
     else if (argument === "--fingerprints") fingerprints = true;
     else if (argument.startsWith("--")) throw new Error(`Unknown option ${argument}.`);
     else files.push(argument);
@@ -204,7 +227,8 @@ export async function main(argv: string[]): Promise<number> {
   const diff = diffDrafts(drafts, registry, await loadAcknowledged());
   if (fingerprints) {
     const reported = new Set([...diff.added.map((rule) => rule.id), ...diff.changed.map((rule) => rule.id)]);
-    for (const rule of drafts.rules.filter((item) => reported.has(item.id))) process.stdout.write(`"${drafts.importer}:${rule.id}": "${fingerprint(rule)}"\n`);
+    for (const rule of drafts.rules.filter((item) => reported.has(item.id)))
+      process.stdout.write(`"${drafts.importer}:${rule.id}": "${fingerprint(rule)}"\n`);
     return 0;
   }
   if (out) await writeFile(out, `${JSON.stringify(diff, null, 2)}\n`);

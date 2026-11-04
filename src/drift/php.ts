@@ -11,7 +11,12 @@ import { parseImageReference } from "../detectors/container/parse-image.js";
 import type { ImageReference } from "../detectors/container/parse-image.js";
 import { parseComposerJson } from "../detectors/php/parse-composer-json.js";
 import { parseComposerLock } from "../detectors/php/parse-composer-lock.js";
-import { MAXIMUM_INPUT_BYTES, PINNED_PHP_VERSION, parsePhpVersion, parseToolVersions } from "../detectors/php/parse-php-runtime.js";
+import {
+  MAXIMUM_INPUT_BYTES,
+  PINNED_PHP_VERSION,
+  parsePhpVersion,
+  parseToolVersions,
+} from "../detectors/php/parse-php-runtime.js";
 import { relativePosix } from "../paths.js";
 import type { DriftCollector, RuntimePin } from "./types.js";
 
@@ -27,7 +32,19 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const WORKFLOW_NAME = /\.ya?ml$/i;
 const SETUP_PHP = /^shivammathur\/setup-php@/i;
@@ -46,7 +63,15 @@ const SOURCE_SETUP_PHP_MATRIX = "setup-php matrix";
 const SOURCE_GITLAB = "GitLab CI image";
 const SOURCE_CIRCLECI = "CircleCI image";
 
-type PhpFileKind = "php-version" | "tool-versions" | "composer" | "composer-lock" | "dockerfile" | "workflow" | "gitlab" | "circleci";
+type PhpFileKind =
+  | "php-version"
+  | "tool-versions"
+  | "composer"
+  | "composer-lock"
+  | "dockerfile"
+  | "workflow"
+  | "gitlab"
+  | "circleci";
 
 interface PhpFile {
   kind: PhpFileKind;
@@ -66,7 +91,8 @@ function fileKind(name: string, directory: string): PhpFileKind | undefined {
   if (DOCKERFILE_NAME.test(name)) return "dockerfile";
   if (name === ".gitlab-ci.yml") return "gitlab";
   if (name === "config.yml" && basename(directory) === ".circleci") return "circleci";
-  if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github") return "workflow";
+  if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github")
+    return "workflow";
   return undefined;
 }
 
@@ -114,7 +140,15 @@ function resolvedVersion(value: string): Resolved {
   return release === undefined ? { unresolved: `"${value.trim()}" is not a PHP major.minor release` } : { release };
 }
 
-function makePin(path: string, line: number, source: string, raw: string, kind: "pin" | "floor", resolved: Resolved, group?: string): RuntimePin {
+function makePin(
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  kind: "pin" | "floor",
+  resolved: Resolved,
+  group?: string,
+): RuntimePin {
   return {
     path,
     line,
@@ -132,7 +166,16 @@ function collectPhpVersion(contents: string, path: string, pins: RuntimePin[]): 
   const declarations = parsePhpVersion(contents);
   if (declarations.length > 0) {
     for (const declaration of declarations) {
-      pins.push(makePin(path, declaration.line, SOURCE_PHP_VERSION, declaration.value, "pin", resolvedVersion(declaration.value)));
+      pins.push(
+        makePin(
+          path,
+          declaration.line,
+          SOURCE_PHP_VERSION,
+          declaration.value,
+          "pin",
+          resolvedVersion(declaration.value),
+        ),
+      );
     }
     return;
   }
@@ -140,13 +183,33 @@ function collectPhpVersion(contents: string, path: string, pins: RuntimePin[]): 
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
     const value = rawLine.trim();
     if (value === "" || value.startsWith("#")) continue;
-    pins.push(makePin(path, index + 1, SOURCE_PHP_VERSION, value, "pin", PINNED_PHP_VERSION.test(value) ? resolvedVersion(value) : { unresolved: `"${value}" is not a PHP version Evergreen reads` }));
+    pins.push(
+      makePin(
+        path,
+        index + 1,
+        SOURCE_PHP_VERSION,
+        value,
+        "pin",
+        PINNED_PHP_VERSION.test(value)
+          ? resolvedVersion(value)
+          : { unresolved: `"${value}" is not a PHP version Evergreen reads` },
+      ),
+    );
   }
 }
 
 function collectToolVersions(contents: string, path: string, pins: RuntimePin[]): void {
   for (const declaration of parseToolVersions(contents)) {
-    pins.push(makePin(path, declaration.line, SOURCE_TOOL_VERSIONS, declaration.value, "pin", resolvedVersion(declaration.value)));
+    pins.push(
+      makePin(
+        path,
+        declaration.line,
+        SOURCE_TOOL_VERSIONS,
+        declaration.value,
+        "pin",
+        resolvedVersion(declaration.value),
+      ),
+    );
   }
 }
 
@@ -154,10 +217,27 @@ function collectComposerJson(contents: string, path: string, pins: RuntimePin[])
   for (const declaration of parseComposerJson(contents)) {
     if (declaration.kind === "require-php") {
       const release = floorRelease(declaration.value);
-      pins.push(makePin(path, declaration.line, SOURCE_COMPOSER_REQUIRE, declaration.value, "floor",
-        release === undefined ? { unresolved: `"${declaration.value}" states no minimum PHP release` } : { release }));
+      pins.push(
+        makePin(
+          path,
+          declaration.line,
+          SOURCE_COMPOSER_REQUIRE,
+          declaration.value,
+          "floor",
+          release === undefined ? { unresolved: `"${declaration.value}" states no minimum PHP release` } : { release },
+        ),
+      );
     } else if (declaration.kind === "platform-php") {
-      pins.push(makePin(path, declaration.line, SOURCE_COMPOSER_PLATFORM, declaration.value, "pin", resolvedVersion(declaration.value)));
+      pins.push(
+        makePin(
+          path,
+          declaration.line,
+          SOURCE_COMPOSER_PLATFORM,
+          declaration.value,
+          "pin",
+          resolvedVersion(declaration.value),
+        ),
+      );
     }
   }
 }
@@ -166,8 +246,16 @@ function collectComposerLock(contents: string, path: string, pins: RuntimePin[])
   for (const declaration of parseComposerLock(contents)) {
     if (declaration.kind !== "platform-php") continue;
     const release = floorRelease(declaration.value);
-    pins.push(makePin(path, declaration.line, SOURCE_COMPOSER_LOCK, declaration.value, "floor",
-      release === undefined ? { unresolved: `"${declaration.value}" states no minimum PHP release` } : { release }));
+    pins.push(
+      makePin(
+        path,
+        declaration.line,
+        SOURCE_COMPOSER_LOCK,
+        declaration.value,
+        "floor",
+        release === undefined ? { unresolved: `"${declaration.value}" states no minimum PHP release` } : { release },
+      ),
+    );
   }
 }
 
@@ -184,7 +272,12 @@ function imagePin(path: string, line: number, source: string, value: string): Ru
   return makePin(path, line, source, image.tag, "pin", resolvedVersion(image.tag));
 }
 
-function imagePins(references: ReadonlyArray<{ value: string; line: number }>, source: string, path: string, pins: RuntimePin[]): void {
+function imagePins(
+  references: ReadonlyArray<{ value: string; line: number }>,
+  source: string,
+  path: string,
+  pins: RuntimePin[],
+): void {
   for (const reference of references) {
     const found = imagePin(path, reference.line, source, reference.value);
     if (found) pins.push(found);
@@ -198,7 +291,9 @@ function collectDockerfile(contents: string, path: string, pins: RuntimePin[]): 
       const found = imagePin(path, declaration.line, `${name} FROM`, declaration.value);
       if (found) pins.push(found);
     } else if (declaration.kind === "runtime" && declaration.runtime === "php") {
-      pins.push(makePin(path, declaration.line, `${name} RUN`, declaration.value, "pin", resolvedVersion(declaration.value)));
+      pins.push(
+        makePin(path, declaration.line, `${name} RUN`, declaration.value, "pin", resolvedVersion(declaration.value)),
+      );
     }
   }
 }
@@ -231,7 +326,8 @@ function setupPhpVersions(contents: string): SetupPhpVersion[] {
   const add = (node: Node | null | undefined, matrix: boolean): void => {
     if (!node) return;
     const value = textOf(node);
-    if (value !== undefined && value !== "") versions.push({ value, line: lineOf(node), expression: value.includes("${{"), matrix });
+    if (value !== undefined && value !== "")
+      versions.push({ value, line: lineOf(node), expression: value.includes("${{"), matrix });
   };
   for (const job of jobs.items) {
     if (!isMap(job.value)) continue;
@@ -262,7 +358,17 @@ function collectWorkflow(contents: string, path: string, pins: RuntimePin[]): vo
     const resolved = version.expression
       ? { unresolved: `"${version.value}" is an expression, which Evergreen does not evaluate` }
       : resolvedVersion(version.value);
-    pins.push(makePin(path, version.line, source, version.value, "pin", resolved, version.matrix ? SOURCE_SETUP_PHP_MATRIX : undefined));
+    pins.push(
+      makePin(
+        path,
+        version.line,
+        source,
+        version.value,
+        "pin",
+        resolved,
+        version.matrix ? SOURCE_SETUP_PHP_MATRIX : undefined,
+      ),
+    );
   }
 }
 
@@ -276,7 +382,8 @@ function alignImage(pin: RuntimePin, lineText: string, release: string): string 
   if (!match) return undefined;
   const value = match[2]!;
   const reference = parseImageReference(value);
-  if (!reference || reference.tag !== pin.raw || reference.digest !== undefined || !isPhpImage(reference)) return undefined;
+  if (!reference || reference.tag !== pin.raw || reference.digest !== undefined || !isPhpImage(reference))
+    return undefined;
   const tag = alignTag(reference.tag, release);
   if (tag === undefined) return undefined;
   return `${match[1]}${value.slice(0, value.length - reference.tag.length)}${tag}${match[3]}`;

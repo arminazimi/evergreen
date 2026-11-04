@@ -33,7 +33,8 @@ function deprecationMessage(goMod: string): string | undefined {
   if (moduleIndex < 0) return undefined;
 
   const comments: string[] = [];
-  for (let index = moduleIndex - 1; index >= 0 && /^\s*\/\//.test(lines[index]!); index--) comments.unshift(lines[index]!);
+  for (let index = moduleIndex - 1; index >= 0 && /^\s*\/\//.test(lines[index]!); index--)
+    comments.unshift(lines[index]!);
   const inline = lines[moduleIndex]!.match(/^\s*module\s+\S+\s*\/\/(.*)$/)?.[1];
   if (inline !== undefined) comments.push(`//${inline}`);
 
@@ -50,7 +51,9 @@ function shortMessage(message: string): string {
 }
 
 function replacement(message: string): string | undefined {
-  return message.match(/(?:use|using|consider using)\s+(?:the\s+)?["'`]?([a-z0-9][a-z0-9._~-]*(?:\/[a-z0-9][a-z0-9._~-]*)+)/i)?.[1];
+  return message.match(
+    /(?:use|using|consider using)\s+(?:the\s+)?["'`]?([a-z0-9][a-z0-9._~-]*(?:\/[a-z0-9][a-z0-9._~-]*)+)/i,
+  )?.[1];
 }
 
 function purl(module: string): string {
@@ -59,7 +62,10 @@ function purl(module: string): string {
 }
 
 function ruleSlug(module: string): string {
-  return module.toLowerCase().replace(/[^a-z0-9]+/g, ".").replace(/^\.+|\.+$/g, "");
+  return module
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ".")
+    .replace(/^\.+|\.+$/g, "");
 }
 
 export const goModuleDeprecationImporter: Importer = {
@@ -74,7 +80,10 @@ export const goModuleDeprecationImporter: Importer = {
   async import(context) {
     const reference = await context.fetchText(GO_MODULE_REFERENCE_URL, { accept: "text/html" });
     if (!reference.includes("Deprecated:") || !reference.includes("module-deprecation")) {
-      return { rules: [], notes: ["The Go module reference no longer describes module deprecation comments; no drafts were produced."] };
+      return {
+        rules: [],
+        notes: ["The Go module reference no longer describes module deprecation comments; no drafts were produced."],
+      };
     }
 
     const rules: DraftRule[] = [];

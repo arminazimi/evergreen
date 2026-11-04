@@ -1,7 +1,13 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { completable, fromJsonSchema, McpServer, ResourceNotFoundError, ResourceTemplate } from "@modelcontextprotocol/server";
+import {
+  completable,
+  fromJsonSchema,
+  McpServer,
+  ResourceNotFoundError,
+  ResourceTemplate,
+} from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 
 import { EvergreenAgentTools } from "./agent-tools.js";
@@ -130,9 +136,7 @@ function failure(error: unknown) {
   };
 }
 
-export function createEvergreenMcpServer(
-  tools = new EvergreenAgentTools(),
-): McpServer {
+export function createEvergreenMcpServer(tools = new EvergreenAgentTools()): McpServer {
   const server = new McpServer(
     { name: "evergreen", version: VERSION },
     {
@@ -168,7 +172,9 @@ export function createEvergreenMcpServer(
       const rule = (await bundledRules()).find((candidate) => candidate.id === id);
       if (!rule) throw new ResourceNotFoundError(uri.href, `No lifecycle rule "${id}".`);
       return {
-        contents: [{ uri: ruleUri(rule.id), mimeType: "application/json", text: JSON.stringify(toRuleDocument(rule), null, 2) }],
+        contents: [
+          { uri: ruleUri(rule.id), mimeType: "application/json", text: JSON.stringify(toRuleDocument(rule), null, 2) },
+        ],
       };
     },
   );
@@ -196,9 +202,14 @@ export function createEvergreenMcpServer(
       const one = (value: string | string[] | undefined) => String(Array.isArray(value) ? value[0] : value);
       const entry = tools.observedFinding(one(variables.repository), decodeURIComponent(one(variables.id)));
       if (!entry) {
-        throw new ResourceNotFoundError(uri.href, "No finding with this URI was observed in this MCP session. Call scan_repository, then list resources.");
+        throw new ResourceNotFoundError(
+          uri.href,
+          "No finding with this URI was observed in this MCP session. Call scan_repository, then list resources.",
+        );
       }
-      return { contents: [{ uri: uri.href, mimeType: "application/json", text: JSON.stringify(entry.finding, null, 2) }] };
+      return {
+        contents: [{ uri: uri.href, mimeType: "application/json", text: JSON.stringify(entry.finding, null, 2) }],
+      };
     },
   );
 
@@ -210,10 +221,21 @@ export function createEvergreenMcpServer(
         "Drives one finding from scan to verified migration: runs a fresh local scan, embeds the finding's migration packet, and tells the model to edit within the packet's constraints, run the project's checks, and call verify_migration in this session.",
       argsSchema: z.object({
         finding_id: completable(
-          z.string().min(1).describe("Exact finding ID returned by Evergreen, for example from scan_repository or list_deprecations."),
-          (value) => tools.observedFindings().map((entry) => entry.finding.id).filter((id) => id.startsWith(value)),
+          z
+            .string()
+            .min(1)
+            .describe("Exact finding ID returned by Evergreen, for example from scan_repository or list_deprecations."),
+          (value) =>
+            tools
+              .observedFindings()
+              .map((entry) => entry.finding.id)
+              .filter((id) => id.startsWith(value)),
         ),
-        repository_path: z.string().min(1).optional().describe("Local path to the repository. Defaults to the server working directory."),
+        repository_path: z
+          .string()
+          .min(1)
+          .optional()
+          .describe("Local path to the repository. Defaults to the server working directory."),
       }),
     },
     async ({ finding_id, repository_path }) => {
@@ -222,7 +244,12 @@ export function createEvergreenMcpServer(
       server.sendResourceListChanged();
       return {
         description: `Migrate ${packet.finding.title} at ${packet.finding.location.path}`,
-        messages: [{ role: "user" as const, content: { type: "text" as const, text: renderMigrationPrompt(packet, repository) } }],
+        messages: [
+          {
+            role: "user" as const,
+            content: { type: "text" as const, text: renderMigrationPrompt(packet, repository) },
+          },
+        ],
       };
     },
   );
@@ -235,7 +262,13 @@ export function createEvergreenMcpServer(
         "Run all built-in Evergreen detectors against a local repository and return the complete versioned scan result.",
       inputSchema: z.object({
         ...repositoryInput,
-        baseline: z.string().min(1).optional().describe("Optional path, relative to the repository, of an Evergreen baseline file. Suppressed findings are left out and the result's suppressions field says how many, and which suppressions are expiring or expired."),
+        baseline: z
+          .string()
+          .min(1)
+          .optional()
+          .describe(
+            "Optional path, relative to the repository, of an Evergreen baseline file. Suppressed findings are left out and the result's suppressions field says how many, and which suppressions are expiring or expired.",
+          ),
       }),
       outputSchema: outputSchema("scan_repository"),
       annotations: MCP_TOOL_ANNOTATIONS,
@@ -255,8 +288,7 @@ export function createEvergreenMcpServer(
     "list_deprecations",
     {
       title: "List deprecations",
-      description:
-        "Run a fresh local scan and return a compact, versioned list of lifecycle findings.",
+      description: "Run a fresh local scan and return a compact, versioned list of lifecycle findings.",
       inputSchema: z.object(repositoryInput),
       outputSchema: outputSchema("list_deprecations"),
       annotations: MCP_TOOL_ANNOTATIONS,
@@ -276,8 +308,7 @@ export function createEvergreenMcpServer(
     "explain_deprecation",
     {
       title: "Explain deprecation",
-      description:
-        "Run a fresh local scan and return one complete evidence-backed finding by ID.",
+      description: "Run a fresh local scan and return one complete evidence-backed finding by ID.",
       inputSchema: z.object(findingInput),
       outputSchema: outputSchema("explain_deprecation"),
       annotations: MCP_TOOL_ANNOTATIONS,
@@ -297,8 +328,7 @@ export function createEvergreenMcpServer(
     "create_migration_context",
     {
       title: "Create migration context",
-      description:
-        "Create a validated, rule-specific migration packet for one finding from a fresh local scan.",
+      description: "Create a validated, rule-specific migration packet for one finding from a fresh local scan.",
       inputSchema: z.object(findingInput),
       outputSchema: outputSchema("create_migration_context"),
       annotations: MCP_TOOL_ANNOTATIONS,
@@ -345,7 +375,9 @@ export function createEvergreenMcpServer(
         purl: z
           .string()
           .min(1)
-          .describe("Package URL of the dependency, with the version when it is known, for example pkg:npm/request@2.88.2."),
+          .describe(
+            "Package URL of the dependency, with the version when it is known, for example pkg:npm/request@2.88.2.",
+          ),
         version: z
           .string()
           .min(1)
@@ -387,7 +419,8 @@ export function createEvergreenMcpServer(
     async ({ path, target }) => {
       try {
         const parsed = parseUpgradeTarget(target);
-        if (!parsed) return failure(new Error(`target must be <runtime>@<version>, for example php@8.4 (got "${target}").`));
+        if (!parsed)
+          return failure(new Error(`target must be <runtime>@<version>, for example php@8.4 (got "${target}").`));
         return success(await checkUpgrade(resolve(path), parsed));
       } catch (error) {
         return failure(error);
@@ -436,7 +469,9 @@ export function createEvergreenMcpServer(
           .min(1)
           .max(MAX_FORECAST_MONTHS)
           .default(DEFAULT_FORECAST_MONTHS)
-          .describe(`How many months ahead to look, from 1 to ${MAX_FORECAST_MONTHS}. Defaults to ${DEFAULT_FORECAST_MONTHS}.`),
+          .describe(
+            `How many months ahead to look, from 1 to ${MAX_FORECAST_MONTHS}. Defaults to ${DEFAULT_FORECAST_MONTHS}.`,
+          ),
         as_of: z
           .string()
           .regex(/^\d{4}-\d{2}-\d{2}$/, "as_of must be a date (YYYY-MM-DD).")
@@ -450,7 +485,9 @@ export function createEvergreenMcpServer(
       try {
         const result = await tools.scan(repository_path);
         server.sendResourceListChanged();
-        return success(buildForecast(result, await bundledRules(), as_of ?? new Date().toISOString().slice(0, 10), months));
+        return success(
+          buildForecast(result, await bundledRules(), as_of ?? new Date().toISOString().slice(0, 10), months),
+        );
       } catch (error) {
         return failure(error);
       }

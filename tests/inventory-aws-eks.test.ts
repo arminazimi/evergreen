@@ -20,7 +20,13 @@ const AWS_EKS = join(FIXTURES, "aws-eks");
 const REJECTS = join(AWS_EKS, "rejects");
 
 /** The documents this importer reads, in the order `describe-*` then the narrower samples. */
-const DOCUMENTS = ["describe-cluster.json", "describe-nodegroup.json", "describe-all.json", "nodegroup-self-managed.json", "nodegroup-other-ami.json"];
+const DOCUMENTS = [
+  "describe-cluster.json",
+  "describe-nodegroup.json",
+  "describe-all.json",
+  "nodegroup-self-managed.json",
+  "nodegroup-other-ami.json",
+];
 
 /** Resolves an RFC 6901 JSON Pointer against a parsed document. */
 function resolvePointer(document: unknown, pointer: string): unknown {
@@ -78,14 +84,20 @@ test("every EKS document type is detected and produces items whose pointers reso
       const value = resolvePointer(document, item.pointer);
       assert.equal(typeof value, "string", `${name} ${item.pointer}`);
       // An amiType item reports the Amazon Linux release the AMI type is built on, not the type string itself.
-      if (item.purl === AMAZON_LINUX) assert.ok(String(value).includes(item.version ?? ""), `${name} ${item.pointer} reads ${String(value)} for ${String(item.version)}`);
+      if (item.purl === AMAZON_LINUX)
+        assert.ok(
+          String(value).includes(item.version ?? ""),
+          `${name} ${item.pointer} reads ${String(value)} for ${String(item.version)}`,
+        );
       else assert.equal(value, item.version, `${name} ${item.pointer}`);
     }
   }
 });
 
 test("a cluster export reports its version under /cluster/version", async () => {
-  assert.deepEqual(describe(await itemsOf("describe-cluster.json")), [["/cluster/version", "prod-payments", EKS, "1.30.7"]]);
+  assert.deepEqual(describe(await itemsOf("describe-cluster.json")), [
+    ["/cluster/version", "prod-payments", EKS, "1.30.7"],
+  ]);
 });
 
 test("a node group export reports its EKS version and its Amazon Linux release", async () => {
@@ -117,7 +129,7 @@ test("every published Amazon Linux amiType maps to its release line", async () =
     [
       ["prod-edge/workers", "2"],
       ["prod-edge/gpu-pool", "2023"],
-    ]
+    ],
   );
   // The pointer marks the AMI type the release was read from.
   assert.equal(resolvePointer(document, "/1/nodegroup/amiType"), "AL2_x86_64");
@@ -138,7 +150,10 @@ test("a Bottlerocket, Windows, or CUSTOM amiType produces no Amazon Linux item",
 
 test("a node group names itself alone when the export carries no clusterName", async () => {
   const items = await itemsOf("nodegroup-self-managed.json");
-  assert.deepEqual(items.map((item) => item.resource), ["self-managed-batch"]);
+  assert.deepEqual(
+    items.map((item) => item.resource),
+    ["self-managed-batch"],
+  );
 });
 
 test("the EKS rules give every document type a verdict against the bundled registries", async () => {
@@ -152,17 +167,39 @@ test("the EKS rules give every document type a verdict against the bundled regis
   };
   assert.equal(find("describe-cluster.json", "/cluster/version").status, "affected");
   assert.equal(find("describe-cluster.json", "/cluster/version").severity, "high");
-  assert.deepEqual(find("describe-cluster.json", "/cluster/version").findings.map((finding) => finding.ruleId), ["kubernetes.amazon-eks.1-30-and-older"]);
+  assert.deepEqual(
+    find("describe-cluster.json", "/cluster/version").findings.map((finding) => finding.ruleId),
+    ["kubernetes.amazon-eks.1-30-and-older"],
+  );
   assert.equal(find("describe-nodegroup.json", "/nodegroup/amiType").status, "not-affected");
   assert.match(find("describe-nodegroup.json", "/nodegroup/amiType").message, /none applies to this version/);
   assert.equal(find("describe-all.json", "/0/cluster/version").severity, "low");
-  assert.deepEqual(find("describe-all.json", "/0/cluster/version").findings.map((finding) => [finding.ruleId, finding.event, finding.deadline]), [["kubernetes.amazon-eks.1-34", "scheduled-end-of-life", "2026-12-02"]]);
+  assert.deepEqual(
+    find("describe-all.json", "/0/cluster/version").findings.map((finding) => [
+      finding.ruleId,
+      finding.event,
+      finding.deadline,
+    ]),
+    [["kubernetes.amazon-eks.1-34", "scheduled-end-of-life", "2026-12-02"]],
+  );
   assert.equal(find("describe-all.json", "/1/nodegroup/amiType").severity, "high");
-  assert.deepEqual(find("describe-all.json", "/1/nodegroup/amiType").findings.map((finding) => finding.ruleId), ["container.host-amazon-linux.eol-2-and-older"]);
-  assert.deepEqual(find("describe-all.json", "/1/nodegroup/version").findings.map((finding) => [finding.ruleId, finding.deadline]), [["kubernetes.amazon-eks.1-31", "2025-11-26"]]);
+  assert.deepEqual(
+    find("describe-all.json", "/1/nodegroup/amiType").findings.map((finding) => finding.ruleId),
+    ["container.host-amazon-linux.eol-2-and-older"],
+  );
+  assert.deepEqual(
+    find("describe-all.json", "/1/nodegroup/version").findings.map((finding) => [finding.ruleId, finding.deadline]),
+    [["kubernetes.amazon-eks.1-31", "2025-11-26"]],
+  );
   assert.equal(find("describe-all.json", "/2/nodegroup/amiType").status, "not-affected");
-  assert.deepEqual(find("describe-all.json", "/3/cluster/version").findings.map((finding) => finding.ruleId), ["kubernetes.amazon-eks.1-36"]);
-  assert.deepEqual(find("nodegroup-other-ami.json", "/0/nodegroup/version").findings.map((finding) => finding.ruleId), ["kubernetes.amazon-eks.1-35"]);
+  assert.deepEqual(
+    find("describe-all.json", "/3/cluster/version").findings.map((finding) => finding.ruleId),
+    ["kubernetes.amazon-eks.1-36"],
+  );
+  assert.deepEqual(
+    find("nodegroup-other-ami.json", "/0/nodegroup/version").findings.map((finding) => finding.ruleId),
+    ["kubernetes.amazon-eks.1-35"],
+  );
 });
 
 test("every EKS rule cites the AWS EKS version lifecycle page", async () => {
@@ -173,22 +210,25 @@ test("every EKS rule cites the AWS EKS version lifecycle page", async () => {
   const eks = rules.filter((rule) => rule.purl === EKS);
   assert.equal(eks.length, 7, `${eks.length} EKS rules`);
   for (const rule of eks) {
-    assert.ok(rule.sources.some((source) => source.url === CALENDAR), `${rule.id} cites ${rule.sources.map((source) => source.url).join(", ")}`);
+    assert.ok(
+      rule.sources.some((source) => source.url === CALENDAR),
+      `${rule.id} cites ${rule.sources.map((source) => source.url).join(", ")}`,
+    );
     assert.ok(rule.migration, rule.id);
-    assert.ok(rule.migration.steps.some((step) => step.targets === "declaration"), rule.id);
+    assert.ok(
+      rule.migration.steps.some((step) => step.targets === "declaration"),
+      rule.id,
+    );
   }
-  assert.deepEqual(
-    eks.map((rule) => rule.id).sort(),
-    [
-      "kubernetes.amazon-eks.1-30-and-older",
-      "kubernetes.amazon-eks.1-31",
-      "kubernetes.amazon-eks.1-32",
-      "kubernetes.amazon-eks.1-33",
-      "kubernetes.amazon-eks.1-34",
-      "kubernetes.amazon-eks.1-35",
-      "kubernetes.amazon-eks.1-36",
-    ]
-  );
+  assert.deepEqual(eks.map((rule) => rule.id).sort(), [
+    "kubernetes.amazon-eks.1-30-and-older",
+    "kubernetes.amazon-eks.1-31",
+    "kubernetes.amazon-eks.1-32",
+    "kubernetes.amazon-eks.1-33",
+    "kubernetes.amazon-eks.1-34",
+    "kubernetes.amazon-eks.1-35",
+    "kubernetes.amazon-eks.1-36",
+  ]);
 });
 
 test("detection recognizes only these documents and rejects every other shape", async () => {
@@ -198,7 +238,18 @@ test("detection recognizes only these documents and rejects every other shape", 
     assert.equal(eksImporter.detect(document, file), ours, file);
     if (!ours) assert.deepEqual(eksImporter.items(document, file), [], file);
   }
-  for (const value of [null, undefined, 0, "1.30", {}, [], { cluster: [] }, { version: "1.30" }, { clusters: ["prod-edge"] }, { cluster: { name: "edge", version: "1-30" } }]) {
+  for (const value of [
+    null,
+    undefined,
+    0,
+    "1.30",
+    {},
+    [],
+    { cluster: [] },
+    { version: "1.30" },
+    { clusters: ["prod-edge"] },
+    { cluster: { name: "edge", version: "1-30" } },
+  ]) {
     assert.equal(eksImporter.detect(value, "describe-cluster.json"), false, JSON.stringify(value));
   }
 });
@@ -206,7 +257,14 @@ test("detection recognizes only these documents and rejects every other shape", 
 test("an AMI type, a release name, or a version this importer does not read produces no item", async () => {
   for (const document of [
     { nodegroup: { nodegroupName: "workers", clusterName: "prod-edge", amiType: "AL2_x86_64" } },
-    { nodegroup: { nodegroupName: "workers", clusterName: "prod-edge", version: "1.34.2", amiType: "BOTTLEROCKET_x86_64" } },
+    {
+      nodegroup: {
+        nodegroupName: "workers",
+        clusterName: "prod-edge",
+        version: "1.34.2",
+        amiType: "BOTTLEROCKET_x86_64",
+      },
+    },
     { nodegroup: { nodegroupName: "workers", version: "1.34" } },
     { cluster: { name: "edge", version: "" } },
     { cluster: { name: "edge", version: 1.3 } },
@@ -220,8 +278,13 @@ test("an AMI type, a release name, or a version this importer does not read prod
   }
   assert.deepEqual(eksImporter.items({ cluster: { name: "edge", version: "" } }, "edge.json"), []);
   assert.deepEqual(
-    eksImporter.items({ nodegroup: { nodegroupName: "workers", version: "1.34.2", amiType: "BOTTLEROCKET_x86_64" } }, "workers.json").map((item) => item.purl),
-    [EKS]
+    eksImporter
+      .items(
+        { nodegroup: { nodegroupName: "workers", version: "1.34.2", amiType: "BOTTLEROCKET_x86_64" } },
+        "workers.json",
+      )
+      .map((item) => item.purl),
+    [EKS],
   );
 });
 
@@ -247,7 +310,11 @@ test("output never contains an account id, ARN, endpoint hostname, network id, o
   for (const extra of [[], ["--json"]]) {
     const result = await invokeCli("inventory", ...files, ...extra);
     assert.equal(result.code, 1);
-    for (const identifier of identifiers) assert.ok(!result.stdout.includes(identifier), `${identifier} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
+    for (const identifier of identifiers)
+      assert.ok(
+        !result.stdout.includes(identifier),
+        `${identifier} leaked${extra.length > 0 ? " in JSON" : " in text"}`,
+      );
   }
 });
 
@@ -268,7 +335,8 @@ test("--redact hides every cluster and node group name in text and JSON output",
   for (const extra of [[], ["--json"]]) {
     const result = await invokeCli("inventory", ...files, "--redact", ...extra);
     assert.equal(result.code, 1);
-    for (const resource of resources) assert.ok(!result.stdout.includes(resource), `${resource} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
+    for (const resource of resources)
+      assert.ok(!result.stdout.includes(resource), `${resource} leaked${extra.length > 0 ? " in JSON" : " in text"}`);
     assert.match(result.stdout, /[0-9a-f]{12}/);
   }
 });
@@ -276,7 +344,9 @@ test("--redact hides every cluster and node group name in text and JSON output",
 test("the example reports an affected EKS cluster and exits 1", async () => {
   const result = await invokeCli("inventory", "examples/inventory/aws-eks.json", "--json");
   assert.equal(result.code, 1);
-  const report = JSON.parse(result.stdout) as { results: Array<{ item: { importer: string }; check: { status: string } }> };
+  const report = JSON.parse(result.stdout) as {
+    results: Array<{ item: { importer: string }; check: { status: string } }>;
+  };
   assert.ok(report.results.every((entry) => entry.item.importer === "aws-eks"));
   assert.ok(report.results.some((entry) => entry.check.status === "affected"));
 });

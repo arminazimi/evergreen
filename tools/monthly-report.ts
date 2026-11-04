@@ -16,10 +16,7 @@ import { join, resolve, dirname } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import type { LandingPage, Snapshot } from "./adoption-metrics.js";
-import {
-  FIRST_REVIEW_TARGET_WORKING_DAYS,
-  generateMonthlyReport,
-} from "./monthly-report-format.js";
+import { FIRST_REVIEW_TARGET_WORKING_DAYS, generateMonthlyReport } from "./monthly-report-format.js";
 import { collectQualityMetrics } from "./quality-metrics.js";
 import type { QualityMetrics } from "./quality-metrics.js";
 
@@ -118,9 +115,11 @@ export interface MonthlyReportData {
 
 export type GitRunner = (args: readonly string[]) => string;
 
-export const createGitRunner = (cwd: string): GitRunner => (args) => {
-  return execFileSync("git", [...args], { cwd, encoding: "utf8" });
-};
+export const createGitRunner =
+  (cwd: string): GitRunner =>
+  (args) => {
+    return execFileSync("git", [...args], { cwd, encoding: "utf8" });
+  };
 
 const defaultGitRunner: GitRunner = (args) => {
   return execFileSync("git", [...args], { encoding: "utf8" });
@@ -318,8 +317,13 @@ export function collectContributorMetrics(
           .filter(Boolean);
         monthCommits = monthCommitList.length;
 
-        const monthAuthors = gitRunner(["log", "--use-mailmap", `--since=${since}`, `--until=${until}`, "--format=%aN"])
-          .split("\n");
+        const monthAuthors = gitRunner([
+          "log",
+          "--use-mailmap",
+          `--since=${since}`,
+          `--until=${until}`,
+          "--format=%aN",
+        ]).split("\n");
         for (const author of monthAuthors) {
           const trimmed = author.trim();
           if (trimmed) monthContributorsSet.add(trimmed);
@@ -336,9 +340,8 @@ export function collectContributorMetrics(
     }
 
     const contributors = [...allContributorsSet].sort((a, b) => a.localeCompare(b));
-    const monthContributorsList = monthContributorsSet.size > 0
-      ? [...monthContributorsSet].sort((a, b) => a.localeCompare(b))
-      : contributors;
+    const monthContributorsList =
+      monthContributorsSet.size > 0 ? [...monthContributorsSet].sort((a, b) => a.localeCompare(b)) : contributors;
 
     const externalContributors = contributors.filter((name) => !isInternalContributor(name, maintainers));
     const monthExternalContributorsList = monthContributorsList.filter(

@@ -3,7 +3,11 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH } from "../src/detectors/android/gradle-scan.js";
+import {
+  MAXIMUM_DECLARATIONS,
+  MAXIMUM_INPUT_BYTES,
+  MAXIMUM_LINE_LENGTH,
+} from "../src/detectors/android/gradle-scan.js";
 import { parseAndroidBuildGradle } from "../src/detectors/android/parse-build-gradle.js";
 import { parseAndroidLibsVersionsToml } from "../src/detectors/android/parse-libs-versions-toml.js";
 import { parseAndroidSettingsGradle } from "../src/detectors/android/parse-settings-gradle.js";
@@ -53,29 +57,51 @@ test("malformed unterminated string yields nothing without throwing", async () =
 });
 
 test("one-line android and defaultConfig blocks in Groovy and Kotlin", () => {
-  assert.deepEqual(parseAndroidBuildGradle("android { compileSdk 34 }"), [{ kind: "compileSdk", value: "34", line: 1 }]);
-  assert.deepEqual(parseAndroidBuildGradle("android { compileSdk = 34 }"), [{ kind: "compileSdk", value: "34", line: 1 }]);
-  assert.deepEqual(parseAndroidBuildGradle("android {\n  defaultConfig { minSdk 21 }\n}"), [{ kind: "minSdk", value: "21", line: 2 }]);
-  assert.deepEqual(parseAndroidBuildGradle("android {\n  defaultConfig { minSdk = 21 }\n}"), [{ kind: "minSdk", value: "21", line: 2 }]);
+  assert.deepEqual(parseAndroidBuildGradle("android { compileSdk 34 }"), [
+    { kind: "compileSdk", value: "34", line: 1 },
+  ]);
+  assert.deepEqual(parseAndroidBuildGradle("android { compileSdk = 34 }"), [
+    { kind: "compileSdk", value: "34", line: 1 },
+  ]);
+  assert.deepEqual(parseAndroidBuildGradle("android {\n  defaultConfig { minSdk 21 }\n}"), [
+    { kind: "minSdk", value: "21", line: 2 },
+  ]);
+  assert.deepEqual(parseAndroidBuildGradle("android {\n  defaultConfig { minSdk = 21 }\n}"), [
+    { kind: "minSdk", value: "21", line: 2 },
+  ]);
 });
 
 test("ignores receiver and ext properties that look like SDK keys", () => {
   assert.deepEqual(
-    parseAndroidBuildGradle("android {\n  ext.minSdk = 21\n  foo.compileSdk = 34\n  bar.targetSdk 33\n  baz.buildToolsVersion \"34.0.0\"\n}"),
+    parseAndroidBuildGradle(
+      'android {\n  ext.minSdk = 21\n  foo.compileSdk = 34\n  bar.targetSdk 33\n  baz.buildToolsVersion "34.0.0"\n}',
+    ),
     [],
   );
-  assert.deepEqual(parseAndroidBuildGradle("android {\n  ext.minSdk = 21\n  minSdk = 22\n}"), [{ kind: "minSdk", value: "22", line: 3 }]);
+  assert.deepEqual(parseAndroidBuildGradle("android {\n  ext.minSdk = 21\n  minSdk = 22\n}"), [
+    { kind: "minSdk", value: "22", line: 3 },
+  ]);
 });
 
 test("skips method-call forms and legacy *Version names", () => {
-  assert.deepEqual(parseAndroidBuildGradle("android {\n  compileSdk(34)\n  minSdk(21)\n  targetSdkVersion 33\n  compileSdkVersion = 34\n}"), []);
+  assert.deepEqual(
+    parseAndroidBuildGradle(
+      "android {\n  compileSdk(34)\n  minSdk(21)\n  targetSdkVersion 33\n  compileSdkVersion = 34\n}",
+    ),
+    [],
+  );
 });
 
 test("reads buildToolsVersion in Groovy and Kotlin equals form", () => {
-  assert.deepEqual(parseAndroidBuildGradle('buildToolsVersion "28.0.0"\nandroid {\n  buildToolsVersion "34.0.0"\n  compileSdk = 34\n}'), [
-    { kind: "buildToolsVersion", value: "34.0.0", line: 3 },
-    { kind: "compileSdk", value: "34", line: 4 },
-  ]);
+  assert.deepEqual(
+    parseAndroidBuildGradle(
+      'buildToolsVersion "28.0.0"\nandroid {\n  buildToolsVersion "34.0.0"\n  compileSdk = 34\n}',
+    ),
+    [
+      { kind: "buildToolsVersion", value: "34.0.0", line: 3 },
+      { kind: "compileSdk", value: "34", line: 4 },
+    ],
+  );
   assert.deepEqual(parseAndroidBuildGradle('android {\n  buildToolsVersion = "35.0.0"\n}'), [
     { kind: "buildToolsVersion", value: "35.0.0", line: 2 },
   ]);
@@ -122,9 +148,10 @@ test("escaped quotes inside a string do not hide a later declaration", () => {
 });
 
 test("dollar interpolation in values is skipped", () => {
-  assert.deepEqual(parseAndroidBuildGradle('android {\n  targetSdk = "$target"\n  minSdk "${min}"\n  compileSdk 34\n}'), [
-    { kind: "compileSdk", value: "34", line: 4 },
-  ]);
+  assert.deepEqual(
+    parseAndroidBuildGradle('android {\n  targetSdk = "$target"\n  minSdk "${min}"\n  compileSdk 34\n}'),
+    [{ kind: "compileSdk", value: "34", line: 4 }],
+  );
 });
 
 test("stops values before trailing line comments", () => {
@@ -174,10 +201,9 @@ test("skips comments and dynamic plugin versions in settings.gradle", async () =
 });
 
 test("reads Groovy settings plugin pins and library plugin ids", () => {
-  assert.deepEqual(
-    parseAndroidSettingsGradle("plugins {\n  id 'com.android.library' version '8.5.2' apply false\n}"),
-    [{ kind: "agp", value: "8.5.2", line: 2 }],
-  );
+  assert.deepEqual(parseAndroidSettingsGradle("plugins {\n  id 'com.android.library' version '8.5.2' apply false\n}"), [
+    { kind: "agp", value: "8.5.2", line: 2 },
+  ]);
 });
 
 test("one-line Groovy plugins block", () => {
@@ -187,22 +213,25 @@ test("one-line Groovy plugins block", () => {
 });
 
 test("CRLF settings line numbers", () => {
-  assert.deepEqual(
-    parseAndroidSettingsGradle('plugins {\r\n  id("com.android.application") version "8.5.2"\r\n}'),
-    [{ kind: "agp", value: "8.5.2", line: 2 }],
-  );
+  assert.deepEqual(parseAndroidSettingsGradle('plugins {\r\n  id("com.android.application") version "8.5.2"\r\n}'), [
+    { kind: "agp", value: "8.5.2", line: 2 },
+  ]);
 });
 
 test("block comment containing a plugin line is ignored", () => {
   assert.deepEqual(
-    parseAndroidSettingsGradle("plugins {\n  /* id 'com.android.application' version '9.9.9' */\n  id 'com.android.application' version '8.5.2'\n}"),
+    parseAndroidSettingsGradle(
+      "plugins {\n  /* id 'com.android.application' version '9.9.9' */\n  id 'com.android.application' version '8.5.2'\n}",
+    ),
     [{ kind: "agp", value: "8.5.2", line: 3 }],
   );
 });
 
 test("string lookalike plugin pins are not reported", () => {
   assert.deepEqual(
-    parseAndroidSettingsGradle('plugins {\n  println("id \'com.android.application\' version \'9.9.9\'")\n  id("com.android.application") version "8.5.2"\n}'),
+    parseAndroidSettingsGradle(
+      'plugins {\n  println("id \'com.android.application\' version \'9.9.9\'")\n  id("com.android.application") version "8.5.2"\n}',
+    ),
     [{ kind: "agp", value: "8.5.2", line: 3 }],
   );
 });
@@ -218,7 +247,12 @@ test("rejects dynamic and ranged plugin versions", () => {
 });
 
 test("skips kotlin() shorthand and chained .version forms", () => {
-  assert.deepEqual(parseAndroidSettingsGradle('plugins {\n  kotlin("android") version "1.9.24"\n  id("com.android.application").version("8.5.2")\n}'), []);
+  assert.deepEqual(
+    parseAndroidSettingsGradle(
+      'plugins {\n  kotlin("android") version "1.9.24"\n  id("com.android.application").version("8.5.2")\n}',
+    ),
+    [],
+  );
 });
 
 test("incomplete id plus huge blank run stays linear and returns nothing", () => {
@@ -235,7 +269,7 @@ test("incomplete id plus huge blank run stays linear and returns nothing", () =>
 });
 
 test("settings junk and oversize inputs yield nothing", () => {
-  for (const junk of ["", "\0", "plugins {\n  id(\"com.android.application\") version agpVersion\n}"]) {
+  for (const junk of ["", "\0", 'plugins {\n  id("com.android.application") version agpVersion\n}']) {
     assert.deepEqual(parseAndroidSettingsGradle(junk), [], JSON.stringify(junk));
   }
   assert.deepEqual(parseAndroidSettingsGradle("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
@@ -283,7 +317,7 @@ test("TOML trailing comments and CRLF keep exact lines", () => {
   assert.deepEqual(parseAndroidLibsVersionsToml('[versions]\nagp = "8.5.2" # pin\n'), [
     { kind: "agp", value: "8.5.2", line: 2 },
   ]);
-  assert.deepEqual(parseAndroidLibsVersionsToml('[versions]\r\nagp = "8.5.2"\r\nkotlin = \'1.9.24\'\r\n'), [
+  assert.deepEqual(parseAndroidLibsVersionsToml("[versions]\r\nagp = \"8.5.2\"\r\nkotlin = '1.9.24'\r\n"), [
     { kind: "agp", value: "8.5.2", line: 2 },
     { kind: "kotlin", value: "1.9.24", line: 3 },
   ]);
@@ -296,7 +330,7 @@ test("rejects dynamic catalog versions", () => {
 });
 
 test("TOML junk and oversize inputs yield nothing", () => {
-  for (const junk of ["", "\0", "[plugins]\nagp = \"8.5.2\"\n", "[versions]\nnote = \"agp 1\"\n"]) {
+  for (const junk of ["", "\0", '[plugins]\nagp = "8.5.2"\n', '[versions]\nnote = "agp 1"\n']) {
     assert.deepEqual(parseAndroidLibsVersionsToml(junk), [], JSON.stringify(junk));
   }
   assert.deepEqual(parseAndroidLibsVersionsToml("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);

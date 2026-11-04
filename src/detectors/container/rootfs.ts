@@ -203,7 +203,7 @@ export function parseOsRelease(contents: string): Omit<RootfsOsRelease, "entry" 
     if (values.has(match[1])) continue;
     let value = match[2];
     const quote = value[0];
-    if ((quote === "\"" || quote === "'") && value.endsWith(quote)) value = value.slice(1, -1);
+    if ((quote === '"' || quote === "'") && value.endsWith(quote)) value = value.slice(1, -1);
     values.set(match[1], { value, line: index + 1 });
   }
 
@@ -343,7 +343,10 @@ async function runtimeEvidence(source: RootfsSource): Promise<RootfsRuntimeEvide
     }
   }
 
-  for (const directory of ["usr/share/dotnet/shared/Microsoft.NETCore.App", "usr/lib/dotnet/shared/Microsoft.NETCore.App"]) {
+  for (const directory of [
+    "usr/share/dotnet/shared/Microsoft.NETCore.App",
+    "usr/lib/dotnet/shared/Microsoft.NETCore.App",
+  ]) {
     for (const name of (await source.list(directory)) ?? []) {
       const version = dotnetVersion(name);
       if (version) add("dotnet", version, `${directory}/${name}`, 1, version.split(".").slice(0, 2).join("."));
@@ -490,7 +493,13 @@ async function readArchive(path: string): Promise<Map<string, ArchiveEntry> | un
                 : "other";
 
         // Long-name and pax headers describe the next entry; this reader only needs the well-known short paths.
-        pending = { name: flag === "L" || flag === "x" || flag === "g" || flag === "K" ? "" : name, type, size, chunks: [], bytes: 0 };
+        pending = {
+          name: flag === "L" || flag === "x" || flag === "g" || flag === "K" ? "" : name,
+          type,
+          size,
+          chunks: [],
+          bytes: 0,
+        };
         remaining = size;
         if (remaining === 0) finish();
       }

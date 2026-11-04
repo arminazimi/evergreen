@@ -93,9 +93,7 @@ function normalize(purl: PackageUrl): PackageUrl {
     ...(namespace ? { namespace } : {}),
     name,
     ...(purl.version !== undefined ? { version: purl.version } : {}),
-    ...(purl.qualifiers && Object.keys(purl.qualifiers).length > 0
-      ? { qualifiers: purl.qualifiers }
-      : {}),
+    ...(purl.qualifiers && Object.keys(purl.qualifiers).length > 0 ? { qualifiers: purl.qualifiers } : {}),
     ...(purl.subpath ? { subpath: purl.subpath } : {}),
   };
 }

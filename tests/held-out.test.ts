@@ -61,7 +61,10 @@ test("the labeller reads Action majors and Node.js versions from the text alone"
 });
 
 test("every held-out repository is blind, pinned, and not in the main corpus; the recorded result matches the set", async () => {
-  const held = JSON.parse(await readFile(resolve("benchmarks/held-out-repositories.json"), "utf8")) as { scope: string[]; repositories: Array<{ repository: string; commit: string; selection: string; expected: unknown[] }> };
+  const held = JSON.parse(await readFile(resolve("benchmarks/held-out-repositories.json"), "utf8")) as {
+    scope: string[];
+    repositories: Array<{ repository: string; commit: string; selection: string; expected: unknown[] }>;
+  };
   const { loadPublicCorpus } = await import("../benchmarks/public-corpus.js");
   const main = await loadPublicCorpus();
   const taken = new Set(main.repositories.map((entry) => entry.repository.toLowerCase()));
@@ -69,9 +72,18 @@ test("every held-out repository is blind, pinned, and not in the main corpus; th
   for (const entry of held.repositories) {
     assert.equal(entry.selection, "blind", entry.repository);
     assert.match(entry.commit, /^[0-9a-f]{40}$/, entry.repository);
-    assert.ok(!taken.has(entry.repository.toLowerCase()), `${entry.repository} is in the main corpus, so it is not held out`);
+    assert.ok(
+      !taken.has(entry.repository.toLowerCase()),
+      `${entry.repository} is in the main corpus, so it is not held out`,
+    );
   }
-  const result = JSON.parse(await readFile(resolve("benchmarks/held-out-result.json"), "utf8")) as { scope: string[]; repositories: Array<{ repository: string; commit: string }> };
+  const result = JSON.parse(await readFile(resolve("benchmarks/held-out-result.json"), "utf8")) as {
+    scope: string[];
+    repositories: Array<{ repository: string; commit: string }>;
+  };
   assert.deepEqual(result.scope, held.scope);
-  assert.deepEqual(result.repositories.map((row) => `${row.repository}@${row.commit}`), held.repositories.map((entry) => `${entry.repository}@${entry.commit}`));
+  assert.deepEqual(
+    result.repositories.map((row) => `${row.repository}@${row.commit}`),
+    held.repositories.map((entry) => `${entry.repository}@${entry.commit}`),
+  );
 });

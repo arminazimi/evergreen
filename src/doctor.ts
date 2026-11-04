@@ -158,7 +158,7 @@ function packageCheck(manifest?: PackageManifest): DoctorCheck {
 
 async function mcpCheck(installationRoot: string, manifest?: PackageManifest): Promise<DoctorCheck> {
   const entry = manifest?.bin?.["evergreen-mcp"];
-  if (entry && await exists(resolve(installationRoot, entry))) {
+  if (entry && (await exists(resolve(installationRoot, entry)))) {
     return {
       id: "mcp.stdio-server",
       category: "mcp",
@@ -182,10 +182,10 @@ async function skillCheck(installationRoot: string): Promise<DoctorCheck> {
   try {
     const source = await readFile(path, "utf8");
     if (
-      source.startsWith("---\n")
-      && /^name:\s*evergreen-deprecation\s*$/m.test(source)
-      && /^description:\s*\S.+$/m.test(source)
-      && /\n---\n/.test(source)
+      source.startsWith("---\n") &&
+      /^name:\s*evergreen-deprecation\s*$/m.test(source) &&
+      /^description:\s*\S.+$/m.test(source) &&
+      /\n---\n/.test(source)
     ) {
       return {
         id: "skill.portable-bundle",
@@ -295,9 +295,27 @@ const major = (version: string): string => version.split(".")[0]!;
 const majorMinor = (version: string): string => version.split(".").slice(0, 2).join(".");
 
 const systemToolSpecs: readonly SystemToolSpec[] = [
-  { tool: "node", purl: "pkg:generic/nodejs", args: ["--version"], parse: (o) => numeric(o.match(/v?(\d+)\.(\d+)\.(\d+)/)), line: major },
-  { tool: "python3", purl: "pkg:generic/python", args: ["--version"], parse: (o) => numeric(o.match(/Python (\d+)\.(\d+)(?:\.(\d+))?/)), line: majorMinor },
-  { tool: "go", purl: "pkg:generic/golang", args: ["version"], parse: (o) => numeric(o.match(/go version go(\d+)\.(\d+)(?:\.(\d+))?/)), line: majorMinor },
+  {
+    tool: "node",
+    purl: "pkg:generic/nodejs",
+    args: ["--version"],
+    parse: (o) => numeric(o.match(/v?(\d+)\.(\d+)\.(\d+)/)),
+    line: major,
+  },
+  {
+    tool: "python3",
+    purl: "pkg:generic/python",
+    args: ["--version"],
+    parse: (o) => numeric(o.match(/Python (\d+)\.(\d+)(?:\.(\d+))?/)),
+    line: majorMinor,
+  },
+  {
+    tool: "go",
+    purl: "pkg:generic/golang",
+    args: ["version"],
+    parse: (o) => numeric(o.match(/go version go(\d+)\.(\d+)(?:\.(\d+))?/)),
+    line: majorMinor,
+  },
   {
     tool: "java",
     purl: "pkg:generic/java",
@@ -311,8 +329,20 @@ const systemToolSpecs: readonly SystemToolSpec[] = [
     },
     line: major,
   },
-  { tool: "dotnet", purl: "pkg:generic/dotnet", args: ["--version"], parse: (o) => numeric(o.match(/^(\d+)\.(\d+)\.(\d+)/m)), line: majorMinor },
-  { tool: "terraform", purl: "pkg:generic/terraform", args: ["--version"], parse: (o) => numeric(o.match(/Terraform v(\d+)\.(\d+)\.(\d+)/)), line: majorMinor },
+  {
+    tool: "dotnet",
+    purl: "pkg:generic/dotnet",
+    args: ["--version"],
+    parse: (o) => numeric(o.match(/^(\d+)\.(\d+)\.(\d+)/m)),
+    line: majorMinor,
+  },
+  {
+    tool: "terraform",
+    purl: "pkg:generic/terraform",
+    args: ["--version"],
+    parse: (o) => numeric(o.match(/Terraform v(\d+)\.(\d+)\.(\d+)/)),
+    line: majorMinor,
+  },
 ];
 
 const runVersionCommand: VersionRunner = (command, args) =>
@@ -325,22 +355,24 @@ const runVersionCommand: VersionRunner = (command, args) =>
 /** Asks each known tool for its version and matches it against the bundled lifecycle rules. Missing tools are skipped. */
 export async function diagnoseSystem(options: DoctorOptions = {}): Promise<SystemTool[]> {
   const run = options.versionRunner ?? runVersionCommand;
-  const found = await Promise.all(systemToolSpecs.map(async (spec) => {
-    const output = await run(spec.tool, spec.args);
-    const version = output === undefined ? undefined : spec.parse(output);
-    return version === undefined ? undefined : { spec, version };
-  }));
+  const found = await Promise.all(
+    systemToolSpecs.map(async (spec) => {
+      const output = await run(spec.tool, spec.args);
+      const version = output === undefined ? undefined : spec.parse(output);
+      return version === undefined ? undefined : { spec, version };
+    }),
+  );
   const present = found.filter((entry) => entry !== undefined);
   if (present.length === 0) return [];
 
-  const rules = (options.systemRules ?? await systemToolRules()).filter((rule) => lifecycleEvents.has(rule.event));
+  const rules = (options.systemRules ?? (await systemToolRules())).filter((rule) => lifecycleEvents.has(rule.event));
   return present.map(({ spec, version }) => {
     const finding = checkAgainst(rules, { purl: spec.purl, version }).findings[0];
     const base = { tool: spec.tool, version, line: spec.line(version) };
     if (!finding) return { ...base, status: "supported" as const };
     return {
       ...base,
-      status: finding.event === "scheduled-end-of-life" ? "scheduled-end-of-life" as const : "end-of-life" as const,
+      status: finding.event === "scheduled-end-of-life" ? ("scheduled-end-of-life" as const) : ("end-of-life" as const),
       ruleId: finding.ruleId,
       ...(finding.deadline ? { deadline: finding.deadline } : {}),
       ...(finding.replacement ? { replacement: finding.replacement } : {}),
@@ -414,9 +446,6 @@ export function renderDoctorText(result: DoctorResult): string {
     lines.push("", `[${symbols[check.status]}] ${check.category}: ${check.summary}`, check.details);
     if (check.remediation) lines.push(`Next: ${check.remediation}`);
   }
-  lines.push(
-    "",
-    "Privacy: no repository data was uploaded and no configuration was changed.",
-  );
+  lines.push("", "Privacy: no repository data was uploaded and no configuration was changed.");
   return lines.join("\n");
 }

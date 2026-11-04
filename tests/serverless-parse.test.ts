@@ -8,11 +8,7 @@ import {
   MAXIMUM_LINE_LENGTH as MAXIMUM_SERVERLESS_LINE,
   parseServerlessYml,
 } from "../src/detectors/serverless/parse-serverless-yml.js";
-import {
-  MAXIMUM_INPUT_BYTES,
-  MAXIMUM_LINE_LENGTH,
-  parseTemplate,
-} from "../src/detectors/serverless/parse-template.js";
+import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, parseTemplate } from "../src/detectors/serverless/parse-template.js";
 import {
   MAXIMUM_INPUT_BYTES as MAXIMUM_TF_BYTES,
   MAXIMUM_LINE_LENGTH as MAXIMUM_TF_LINE,
@@ -89,10 +85,7 @@ test("the result is deterministic and uses 1-based value lines", () => {
 
 test("input over 1 MiB or a Runtime over the line bound returns nothing", () => {
   assert.deepEqual(parseTemplate("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
-  assert.deepEqual(
-    parseTemplate(`Globals:\n  Function:\n    Runtime: ${"n".repeat(MAXIMUM_LINE_LENGTH + 1)}\n`),
-    [],
-  );
+  assert.deepEqual(parseTemplate(`Globals:\n  Function:\n    Runtime: ${"n".repeat(MAXIMUM_LINE_LENGTH + 1)}\n`), []);
 });
 
 test("reads provider.runtime and per-function runtime from serverless.yml", async () => {
@@ -158,10 +151,7 @@ test("serverless.yml junk, oversize, and overlong runtime values return nothing"
     assert.deepEqual(parseServerlessYml(input), []);
   }
   assert.deepEqual(parseServerlessYml("x".repeat(MAXIMUM_SERVERLESS_BYTES + 1)), []);
-  assert.deepEqual(
-    parseServerlessYml(`provider:\n  runtime: ${"n".repeat(MAXIMUM_SERVERLESS_LINE + 1)}\n`),
-    [],
-  );
+  assert.deepEqual(parseServerlessYml(`provider:\n  runtime: ${"n".repeat(MAXIMUM_SERVERLESS_LINE + 1)}\n`), []);
 });
 
 test("reads Lambda, Azure function app, and Google function runtimes from *.tf", async () => {

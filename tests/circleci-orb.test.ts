@@ -5,9 +5,14 @@ import { test } from "node:test";
 
 import { parse, parseAllDocuments } from "yaml";
 
-interface Parameter { default?: unknown }
+interface Parameter {
+  default?: unknown;
+}
 
-interface Step { run?: { command: string }; store_artifacts?: { path: string } }
+interface Step {
+  run?: { command: string };
+  store_artifacts?: { path: string };
+}
 
 type Orb = {
   version: unknown;
@@ -33,8 +38,16 @@ test("the CircleCI Orb mirrors the gate and baseline inputs of the Action, with 
   const { orb, action } = await load();
   for (const name of ["path", "baseline", "baseline-warn-days", "on-expired", "min-support-days", "fail-on-severity"]) {
     const job = orb.jobs.scan!.parameters![name]!;
-    assert.equal(String(job.default), String(action.inputs[name]!.default), `default of "${name}" differs from action.yml`);
-    assert.equal(String(orb.commands.scan!.parameters![name]!.default), String(job.default), `default of "${name}" differs between the job and the command`);
+    assert.equal(
+      String(job.default),
+      String(action.inputs[name]!.default),
+      `default of "${name}" differs from action.yml`,
+    );
+    assert.equal(
+      String(orb.commands.scan!.parameters![name]!.default),
+      String(job.default),
+      `default of "${name}" differs between the job and the command`,
+    );
   }
 });
 
@@ -60,7 +73,10 @@ test("the scan command writes the report before it applies the gate", async () =
   const steps = orb.commands.scan!.steps!;
   const scan = steps[0]!.run!;
   assert.ok(scan, "the first step runs the scan");
-  assert.ok(scan.command.includes("evergreen-deprecation@<< parameters.version >>"), "the scan pins the package version");
+  assert.ok(
+    scan.command.includes("evergreen-deprecation@<< parameters.version >>"),
+    "the scan pins the package version",
+  );
   assert.ok(scan.command.includes("--fail-on"), "the scan applies the severity gate");
   assert.ok(scan.command.includes("/tmp/evergreen-scan-status"), "the scan writes the status file");
   const store = steps[1]!.store_artifacts!;
@@ -86,7 +102,10 @@ test("the adoption guide shows one CircleCI snippet that runs the published Orb"
   };
   assert.equal(String(snippet.version), "2.1");
   assert.equal(snippet.orbs.evergreen, "arminazimi/evergreen@<version>");
-  assert.ok(snippet.workflows.evergreen.jobs[0] && "evergreen/scan" in snippet.workflows.evergreen.jobs[0]!, "the workflow runs the evergreen/scan job");
+  assert.ok(
+    snippet.workflows.evergreen.jobs[0] && "evergreen/scan" in snippet.workflows.evergreen.jobs[0]!,
+    "the workflow runs the evergreen/scan job",
+  );
 });
 
 test("the scan job defaults to the same image as the GitLab component", async () => {

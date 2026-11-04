@@ -101,18 +101,26 @@ function toIso(month: string, day: string, year: string): string | undefined {
   const dd = day.padStart(2, "0");
   const value = `${year}-${mm}-${dd}`;
   const date = new Date(`${value}T00:00:00Z`);
-  return date.getUTCFullYear() === Number(year) && date.getUTCMonth() + 1 === Number(mm) && date.getUTCDate() === Number(day)
+  return date.getUTCFullYear() === Number(year) &&
+    date.getUTCMonth() + 1 === Number(mm) &&
+    date.getUTCDate() === Number(day)
     ? value
     : undefined;
 }
 
 function parseDeadline(text: string): string | undefined {
-  const match = /Starting (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}) (\d{4}):/.exec(text);
+  const match =
+    /Starting (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}) (\d{4}):/.exec(
+      text,
+    );
   return match ? toIso(match[1]!, match[2]!, match[3]!) : undefined;
 }
 
 function parseExtension(text: string): string | undefined {
-  const match = /extension to (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/.exec(text);
+  const match =
+    /extension to (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})/.exec(
+      text,
+    );
   return match ? toIso(match[1]!, match[2]!, match[3]!) : undefined;
 }
 
@@ -220,9 +228,7 @@ function draft(requirement: Requirement, deadline: string, today: string, extens
     requirement.audience === "new-apps-and-updates"
       ? "new apps and app updates"
       : "existing apps (availability to new users on newer OS versions)";
-  const extensionSentence = extension
-    ? ` The same page says an extension to ${extension} may be requested.`
-    : "";
+  const extensionSentence = extension ? ` The same page says an extension to ${extension} may be requested.` : "";
   return {
     id: requirement.id,
     ecosystem: "android",

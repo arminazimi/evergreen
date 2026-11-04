@@ -50,7 +50,9 @@ export function validateConfig(raw: unknown, filePath = CONFIG_FILE_NAME): Everg
   const record = raw as Record<string, unknown>;
   const unknownKeys = Object.keys(record).filter((key) => !KNOWN_CONFIG_KEYS.has(key));
   if (unknownKeys.length > 0) {
-    throw new ConfigError(`Unknown key in ${filePath}: "${unknownKeys[0]}" (allowed keys: fail-on, ignore, data-version, baseline).`);
+    throw new ConfigError(
+      `Unknown key in ${filePath}: "${unknownKeys[0]}" (allowed keys: fail-on, ignore, data-version, baseline).`,
+    );
   }
 
   if (record.schemaVersion !== undefined) {
@@ -63,7 +65,9 @@ export function validateConfig(raw: unknown, filePath = CONFIG_FILE_NAME): Everg
   let failOn: (Severity | "none") | undefined;
   if (failOnRaw !== undefined) {
     if (typeof failOnRaw !== "string" || (failOnRaw !== "none" && !severityValues.includes(failOnRaw as Severity))) {
-      throw new ConfigError(`Invalid severity for fail-on in ${filePath}: "${String(failOnRaw)}" (expected none, ${severityValues.join(", ")}).`);
+      throw new ConfigError(
+        `Invalid severity for fail-on in ${filePath}: "${String(failOnRaw)}" (expected none, ${severityValues.join(", ")}).`,
+      );
     }
     failOn = failOnRaw as Severity | "none";
   }
@@ -180,7 +184,9 @@ export async function loadConfig(targetPath?: string): Promise<EvergreenConfig |
   try {
     text = await readFile(configPath, "utf8");
   } catch (error) {
-    throw new ConfigError(`Cannot read config file at ${configPath}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new ConfigError(
+      `Cannot read config file at ${configPath}: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 
   let parsed: unknown;
@@ -220,7 +226,9 @@ export function patternToRegExp(pattern: string): RegExp {
       source += last ? ".*" : "(?:.*/)?";
       return;
     }
-    source += [...segment].map((character) => (character === "*" ? "[^/]*" : character === "?" ? "[^/]" : escapeRegExp(character))).join("");
+    source += [...segment]
+      .map((character) => (character === "*" ? "[^/]*" : character === "?" ? "[^/]" : escapeRegExp(character)))
+      .join("");
     if (!last) source += "/";
   });
   const covers = directory ? "/.*" : /[*?]/.test(segments[segments.length - 1] ?? "") ? "" : "(?:/.*)?";

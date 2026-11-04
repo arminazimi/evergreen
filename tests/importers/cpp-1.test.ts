@@ -39,7 +39,9 @@ test("drafts the removed <3.5 and deprecated 3.5–3.10 bands from the recording
     ],
   );
   assert.ok(drafts.rules.every((rule) => rule.purl === "pkg:generic/cmake"));
-  assert.ok(drafts.rules.every((rule) => rule.provenance.importer === "cpp-1" && rule.provenance.observedAt === "2026-10-19"));
+  assert.ok(
+    drafts.rules.every((rule) => rule.provenance.importer === "cpp-1" && rule.provenance.observedAt === "2026-10-19"),
+  );
   assert.ok(drafts.rules.every((rule) => rule.sources.some((source) => source.url === CMAKE_MINIMUM_REQUIRED_URL)));
   assert.ok(drafts.notes.some((note) => /2\.8\.12/.test(note)));
   assert.ok(drafts.notes.some((note) => /3\.5/.test(note) && /3\.27/.test(note)));

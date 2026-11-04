@@ -98,7 +98,29 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
 export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   ...Object.fromEntries(
     Object.entries(DETECTOR_ECOSYSTEMS).filter(([name]) =>
-      ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "elixir", "go", "java", "kubernetes", "npm", "php", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"].includes(name),
+      [
+        "android",
+        "ci-images",
+        "container",
+        "cpp",
+        "dart",
+        "database",
+        "deno",
+        "dotnet",
+        "elixir",
+        "go",
+        "java",
+        "kubernetes",
+        "npm",
+        "php",
+        "ruby",
+        "rust",
+        "scala",
+        "serverless",
+        "shell",
+        "swift",
+        "terraform",
+      ].includes(name),
     ),
   ),
   "github-actions": ["node-actions"],
@@ -108,27 +130,58 @@ export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
  * Shared files and the ecosystems whose detectors use them. A test checks each list against the real imports
  * under `src/detectors/`, so a detector that starts using a shared file must be added here.
  */
-export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems: readonly string[]; reason: string }> = [
-  {
-    pattern: /^src\/source-usage\.ts$|^src\/usage\//,
-    ecosystems: ["android", "dart", "dotnet", "go", "java", "node", "php", "python", "ruby", "rust", "swift"],
-    reason: "source usage mapping",
-  },
-  { pattern: /^src\/workspaces\.ts$/, ecosystems: ["node", "python"], reason: "workspace discovery" },
-  { pattern: /^src\/purl\.ts$/, ecosystems: ["android", "cpp", "dart", "database", "java", "shell", "swift", "terraform"], reason: "package URLs" },
-  { pattern: /^src\/vers\.ts$/, ecosystems: ["container", "kubernetes", "node-actions"], reason: "version ranges" },
-  {
-    pattern: /^src\/vers\//,
-    ecosystems: ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "python", "ruby", "rust", "serverless", "shell", "swift", "terraform"],
-    reason: "version ranges",
-  },
-  { pattern: /^src\/detectors\/json-lines\.ts$/, ecosystems: ["cpp", "dart", "dotnet", "php", "swift"], reason: "JSON line locations" },
-  {
-    pattern: /^src\/(engine|domain|sdk|paths|registry|data-source|package-files|version|index)\.ts$|^src\/detectors\/index\.ts$|^src\/conformance\/|^benchmarks\/(corpus-harness|public-repositories|public-corpus)\.ts$|^benchmarks\/thresholds\.(ts|json)$/,
-    ecosystems: CORPUS_ECOSYSTEMS,
-    reason: "shared scan code or corpus scoring",
-  },
-];
+export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems: readonly string[]; reason: string }> =
+  [
+    {
+      pattern: /^src\/source-usage\.ts$|^src\/usage\//,
+      ecosystems: ["android", "dart", "dotnet", "go", "java", "node", "php", "python", "ruby", "rust", "swift"],
+      reason: "source usage mapping",
+    },
+    { pattern: /^src\/workspaces\.ts$/, ecosystems: ["node", "python"], reason: "workspace discovery" },
+    {
+      pattern: /^src\/purl\.ts$/,
+      ecosystems: ["android", "cpp", "dart", "database", "java", "shell", "swift", "terraform"],
+      reason: "package URLs",
+    },
+    { pattern: /^src\/vers\.ts$/, ecosystems: ["container", "kubernetes", "node-actions"], reason: "version ranges" },
+    {
+      pattern: /^src\/vers\//,
+      ecosystems: [
+        "android",
+        "ci-images",
+        "container",
+        "cpp",
+        "dart",
+        "database",
+        "dotnet",
+        "go",
+        "java",
+        "kubernetes",
+        "node",
+        "node-actions",
+        "php",
+        "python",
+        "ruby",
+        "rust",
+        "serverless",
+        "shell",
+        "swift",
+        "terraform",
+      ],
+      reason: "version ranges",
+    },
+    {
+      pattern: /^src\/detectors\/json-lines\.ts$/,
+      ecosystems: ["cpp", "dart", "dotnet", "php", "swift"],
+      reason: "JSON line locations",
+    },
+    {
+      pattern:
+        /^src\/(engine|domain|sdk|paths|registry|data-source|package-files|version|index)\.ts$|^src\/detectors\/index\.ts$|^src\/conformance\/|^benchmarks\/(corpus-harness|public-repositories|public-corpus)\.ts$|^benchmarks\/thresholds\.(ts|json)$/,
+      ecosystems: CORPUS_ECOSYSTEMS,
+      reason: "shared scan code or corpus scoring",
+    },
+  ];
 
 export interface AffectedEcosystem {
   ecosystem: string;
@@ -176,9 +229,13 @@ export function affectedEcosystems(paths: readonly string[]): AffectedEcosystem[
 
 /** Lines saying which ecosystems were chosen and why (at most three paths each). */
 export function describeAffected(affected: readonly AffectedEcosystem[], changedCount: number): string[] {
-  if (affected.length === 0) return [`No corpus ecosystem is affected by the ${changedCount} changed files; nothing to run.`];
+  if (affected.length === 0)
+    return [`No corpus ecosystem is affected by the ${changedCount} changed files; nothing to run.`];
   return affected.map((entry) => {
-    const shown = entry.because.slice(0, 3).map((item) => `${item.path} (${item.reason})`).join(", ");
+    const shown = entry.because
+      .slice(0, 3)
+      .map((item) => `${item.path} (${item.reason})`)
+      .join(", ");
     const more = entry.because.length > 3 ? `, and ${entry.because.length - 3} more` : "";
     return `changed: ${entry.ecosystem} <- ${shown}${more}`;
   });
@@ -194,7 +251,8 @@ export function parseChangedFlag(argv: readonly string[] = process.argv): { base
 
 /** Paths changed since `base` (committed), plus uncommitted and untracked ones, as POSIX paths from the repository root. */
 export async function changedPaths(base: string, cwd: string = process.cwd()): Promise<string[]> {
-  const git = async (args: string[]) => (await run("git", args, { cwd, maxBuffer: 10 * 1024 * 1024 })).stdout.split("\n").filter(Boolean);
+  const git = async (args: string[]) =>
+    (await run("git", args, { cwd, maxBuffer: 10 * 1024 * 1024 })).stdout.split("\n").filter(Boolean);
   const [committed, uncommitted, untracked] = await Promise.all([
     git(["diff", "--name-only", `${base}...HEAD`]),
     git(["diff", "--name-only", "HEAD"]),

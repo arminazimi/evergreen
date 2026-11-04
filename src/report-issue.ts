@@ -9,7 +9,8 @@ const MAX_LINE_LENGTH = 200;
 
 /** Credentials in a URL (`https://user:token@host`) and values assigned to secret-looking keys. */
 const URL_CREDENTIALS = /\b([a-z][a-z0-9+.-]*:\/\/)[^\s/@:]+(?::[^\s/@]*)?@/gi;
-const SECRET_ASSIGNMENT = /\b([\w.-]*(?:token|secret|password|passwd|api[_-]?key|auth)[\w.-]*)(["']?\s*[:=]\s*["']?)[^\s"',]+/gi;
+const SECRET_ASSIGNMENT =
+  /\b([\w.-]*(?:token|secret|password|passwd|api[_-]?key|auth)[\w.-]*)(["']?\s*[:=]\s*["']?)[^\s"',]+/gi;
 
 export class ReportIssueError extends Error {
   constructor(message: string) {
@@ -21,7 +22,8 @@ export class ReportIssueError extends Error {
 /** Masks credentials and the machine's absolute scan root, so an excerpt is safe to paste into a public issue. */
 export function redactLine(line: string, root: string): string {
   const masked = line
-    .split(root).join("<repo>")
+    .split(root)
+    .join("<repo>")
     .replace(URL_CREDENTIALS, "$1<redacted>@")
     .replace(SECRET_ASSIGNMENT, "$1$2<redacted>");
   return masked.length > MAX_LINE_LENGTH ? `${masked.slice(0, MAX_LINE_LENGTH)}…` : masked;

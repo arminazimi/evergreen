@@ -83,39 +83,54 @@ test("emits an index, one document per product PURL, one per PURL type, one per 
     registry("osv", [rule("osv.b", { ecosystem: "osv", purl: "pkg:npm/b" })]),
   ]);
 
-  assert.deepEqual(documents.map((file) => file.path), [
-    `${API_DIRECTORY}/index.json`,
-    `${API_DIRECTORY}/products/npm-a.json`,
-    `${API_DIRECTORY}/products/npm-b.json`,
-    `${API_DIRECTORY}/recent.json`,
-    `${API_DIRECTORY}/rules/npm.a.one.json`,
-    `${API_DIRECTORY}/rules/npm.b.new.json`,
-    `${API_DIRECTORY}/rules/npm.b.old.json`,
-    `${API_DIRECTORY}/rules/osv.b.json`,
-    `${API_DIRECTORY}/types/npm.json`,
-  ]);
+  assert.deepEqual(
+    documents.map((file) => file.path),
+    [
+      `${API_DIRECTORY}/index.json`,
+      `${API_DIRECTORY}/products/npm-a.json`,
+      `${API_DIRECTORY}/products/npm-b.json`,
+      `${API_DIRECTORY}/recent.json`,
+      `${API_DIRECTORY}/rules/npm.a.one.json`,
+      `${API_DIRECTORY}/rules/npm.b.new.json`,
+      `${API_DIRECTORY}/rules/npm.b.old.json`,
+      `${API_DIRECTORY}/rules/osv.b.json`,
+      `${API_DIRECTORY}/types/npm.json`,
+    ],
+  );
 
   const index = documentAt(documents, `${API_DIRECTORY}/index.json`).document as ApiIndex;
   assert.equal(index.schemaVersion, "evergreen.api-index.v1");
   assert.equal(index.recent, "recent.json");
   assert.equal(index.rules, 4);
   assert.equal(index.latestReview, "2026-10-09");
-  assert.deepEqual(index.products.map((entry) => entry.id), ["npm-a", "npm-b"]);
-  assert.deepEqual(index.products.map((entry) => entry.path), ["products/npm-a.json", "products/npm-b.json"]);
+  assert.deepEqual(
+    index.products.map((entry) => entry.id),
+    ["npm-a", "npm-b"],
+  );
+  assert.deepEqual(
+    index.products.map((entry) => entry.path),
+    ["products/npm-a.json", "products/npm-b.json"],
+  );
   assert.deepEqual(index.types, [{ type: "npm", products: 2, rules: 4, path: "types/npm.json" }]);
 
   const product = documentAt(documents, `${PRODUCTS_DIRECTORY}/npm-b.json`).document as ApiProduct;
   assert.equal(product.schemaVersion, "evergreen.api-product.v1");
   assert.equal(product.purl, "pkg:npm/b");
   assert.deepEqual(product.ecosystems, ["npm", "osv"], "rules from several ecosystems share one product");
-  assert.deepEqual(product.rules.map((entry) => entry.id), ["npm.b.new", "npm.b.old", "osv.b"]);
+  assert.deepEqual(
+    product.rules.map((entry) => entry.id),
+    ["npm.b.new", "npm.b.old", "osv.b"],
+  );
   assert.equal(product.latestReview, "2026-10-09");
 
   const type = documentAt(documents, `${TYPES_DIRECTORY}/npm.json`).document as ApiType;
   assert.equal(type.schemaVersion, "evergreen.api-type.v1");
   assert.equal(type.type, "npm");
   assert.equal(type.rules, 4);
-  assert.deepEqual(type.products.map((entry) => entry.id), ["npm-a", "npm-b"]);
+  assert.deepEqual(
+    type.products.map((entry) => entry.id),
+    ["npm-a", "npm-b"],
+  );
 
   const ruleDocument = documentAt(documents, `${RULES_DIRECTORY}/npm.b.new.json`).document as ApiRule;
   assert.equal(ruleDocument.schemaVersion, "evergreen.api-rule.v1");
@@ -126,7 +141,10 @@ test("emits an index, one document per product PURL, one per PURL type, one per 
 
   const recent = documentAt(documents, `${API_DIRECTORY}/recent.json`).document as ApiRecent;
   assert.equal(recent.schemaVersion, "evergreen.api-recent.v1");
-  assert.deepEqual(recent.changes.map((entry) => entry.ruleId), ["npm.b.new", "npm.a.one", "npm.b.old", "osv.b"]);
+  assert.deepEqual(
+    recent.changes.map((entry) => entry.ruleId),
+    ["npm.b.new", "npm.a.one", "npm.b.old", "osv.b"],
+  );
   assert.deepEqual(recent.changes[1]?.deadline, "2027-01-01");
 });
 
@@ -149,10 +167,7 @@ test("product ids are readable slugs derived from the decoded PURL", () => {
   assert.throws(
     () =>
       buildDocuments([
-        registry("npm", [
-          rule("npm.a.hyphen", { purl: "pkg:npm/a-b" }),
-          rule("npm.a.slash", { purl: "pkg:npm/a/b" }),
-        ]),
+        registry("npm", [rule("npm.a.hyphen", { purl: "pkg:npm/a-b" }), rule("npm.a.slash", { purl: "pkg:npm/a/b" })]),
       ]),
     /both map to id "npm-a-b"/,
   );
@@ -165,10 +180,8 @@ test("the recent file keeps the newest rules by review date, capped at the limit
       provenance: { observedAt: date, reviewedAt: date, reviewer: "tester" },
     });
   });
-  const recent = documentAt(
-    buildDocuments([registry("npm", rules)]),
-    `${API_DIRECTORY}/recent.json`,
-  ).document as ApiRecent;
+  const recent = documentAt(buildDocuments([registry("npm", rules)]), `${API_DIRECTORY}/recent.json`)
+    .document as ApiRecent;
   assert.equal(recent.changes.length, RECENT_LIMIT);
   assert.equal(recent.changes[0]?.ruleId, "npm.demo.104");
   assert.equal(recent.changes.at(-1)?.ruleId, "npm.demo.005");
@@ -223,12 +236,21 @@ test("the generated API matches the registry schemas and covers every product", 
   assert.equal(products.length, index.products.length);
   assert.equal(types.length, index.types.length);
   assert.equal(rules.length, index.rules);
-  assert.equal(index.rules, registries.reduce((total, item) => total + item.rules.length, 0));
+  assert.equal(
+    index.rules,
+    registries.reduce((total, item) => total + item.rules.length, 0),
+  );
   for (const entry of index.products) {
-    assert.ok(files.some((file) => file.path === `${API_DIRECTORY}/${entry.path}`), `missing ${entry.path}`);
+    assert.ok(
+      files.some((file) => file.path === `${API_DIRECTORY}/${entry.path}`),
+      `missing ${entry.path}`,
+    );
   }
   for (const entry of index.types) {
-    assert.ok(files.some((file) => file.path === `${API_DIRECTORY}/${entry.path}`), `missing ${entry.path}`);
+    assert.ok(
+      files.some((file) => file.path === `${API_DIRECTORY}/${entry.path}`),
+      `missing ${entry.path}`,
+    );
   }
 });
 
@@ -254,7 +276,11 @@ test("the CLI rebuilds identically, removes stale files, and --check confirms th
 
   const stale = join(root, PRODUCTS_DIRECTORY, "stale.json");
   await writeFile(stale, "{}\n");
-  assert.ok((await drift(buildFiles(await loadRegistries(join(root, "registry"))), root)).some((problem) => problem.includes("stale.json")));
+  assert.ok(
+    (await drift(buildFiles(await loadRegistries(join(root, "registry"))), root)).some((problem) =>
+      problem.includes("stale.json"),
+    ),
+  );
   await run();
   await assert.rejects(readFile(stale), /ENOENT/);
 });

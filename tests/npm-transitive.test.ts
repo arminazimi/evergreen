@@ -112,7 +112,10 @@ test("prints the path in text output and keeps direct findings free of it", asyn
 
   const root = await repository({
     "package.json": JSON.stringify({ dependencies: { request: "^2.88.0" } }),
-    "package-lock.json": JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/request": { version: "2.88.2" } } }),
+    "package-lock.json": JSON.stringify({
+      lockfileVersion: 3,
+      packages: { "node_modules/request": { version: "2.88.2" } },
+    }),
   });
   const direct = await new NpmDetector().scan({ root });
   assert.equal(direct[0]?.dependencyPath, undefined);
@@ -139,8 +142,8 @@ test("reports the path from a bun.lock, reading aliases, peer suffixes, and keys
         "web-kit": ["web-kit@1.0.0(peer@1.0.0)", "", { dependencies: { "http-layer": "^2.0.0" } }, "sha512-a"],
         "http-layer": ["alias@npm:http-layer@2.0.0", "", { dependencies: { request: "^2.88.0" } }, "sha512-b"],
         "request@2.88.2": [7, ""],
-        "unparsable": ["unparsable", ""],
-        "empty": [],
+        unparsable: ["unparsable", ""],
+        empty: [],
         "not-an-array": "request@2.88.2",
       },
     }),
@@ -156,7 +159,7 @@ test("reads a bun.lock descriptor with an npm: alias on the version", async () =
       packages: {
         "web-kit": ["web-kit@npm:1.0.0", "", { dependencies: { "http-layer": "^2.0.0" } }],
         "http-layer": ["npm:http-layer@2.0.0", "", { dependencies: { request: "^2.88.0" } }],
-        "request": ["request@2.88.2", "", {}],
+        request: ["request@2.88.2", "", {}],
       },
     }),
   });
@@ -165,9 +168,22 @@ test("reads a bun.lock descriptor with an npm: alias on the version", async () =
 });
 
 test("a bun.lock that is not a lockfile resolves nothing and does not fail the scan", async () => {
-  for (const contents of ["{ not json", "null", "42", "{}", '{"packages":1}', '{"packages":{"request":["request@2.88.2"]}}']) {
-    const root = await repository({ "package.json": JSON.stringify({ dependencies: { request: "^2.88.0" } }), "bun.lock": contents });
+  for (const contents of [
+    "{ not json",
+    "null",
+    "42",
+    "{}",
+    '{"packages":1}',
+    '{"packages":{"request":["request@2.88.2"]}}',
+  ]) {
+    const root = await repository({
+      "package.json": JSON.stringify({ dependencies: { request: "^2.88.0" } }),
+      "bun.lock": contents,
+    });
     const findings = await new NpmDetector().scan({ root });
-    assert.ok(findings.some((finding) => finding.ruleId.includes("request")), `request is still reported for ${contents}`);
+    assert.ok(
+      findings.some((finding) => finding.ruleId.includes("request")),
+      `request is still reported for ${contents}`,
+    );
   }
 });

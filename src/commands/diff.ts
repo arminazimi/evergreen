@@ -10,7 +10,9 @@ export const command: CliCommand = {
   name: "diff",
   flags: ["--json", "--data-version"],
   example: "evergreen diff main..HEAD",
-  usage: ["  evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some"],
+  usage: [
+    "  evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some",
+  ],
   usageSlots: [26],
   run(args, ctx) {
     return afterGates("diff", args, ctx, async (state) => {

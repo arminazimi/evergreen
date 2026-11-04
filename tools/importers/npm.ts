@@ -90,7 +90,10 @@ export const npmDeprecatedImporter: Importer = {
       const metadataUrl = registryUrl(name).replace(/\/latest$/, "");
       const metadata = await fetchJson<{ versions?: Record<string, LatestManifest> }>(context, metadataUrl);
       const versions = Object.entries(metadata.versions ?? {})
-        .filter(([version, manifest]) => semver.valid(version) && typeof manifest.deprecated === "string" && manifest.deprecated.trim())
+        .filter(
+          ([version, manifest]) =>
+            semver.valid(version) && typeof manifest.deprecated === "string" && manifest.deprecated.trim(),
+        )
         .map(([version]) => version)
         .sort(semver.compare);
       if (versions.length === 0) {
@@ -115,7 +118,9 @@ export const npmDeprecatedImporter: Importer = {
     }
 
     if (notDeprecated.length > 0) {
-      notes.push(`Not deprecated at their latest version, so no rule (remove them from NPM_CANDIDATES if they stay that way): ${notDeprecated.join(", ")}.`);
+      notes.push(
+        `Not deprecated at their latest version, so no rule (remove them from NPM_CANDIDATES if they stay that way): ${notDeprecated.join(", ")}.`,
+      );
     }
     return { rules, notes };
   },

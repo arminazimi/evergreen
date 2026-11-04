@@ -11,7 +11,7 @@ import { scanRepository } from "../src/engine.js";
 import { planFixes, pythonFixer, renderPatches } from "../src/fix/index.js";
 
 const execute = promisify(execFile);
-const scan = async (root: string) => ({ ...await scanRepository(root, [new PythonDetector()]), asOf: "2026-10-28" });
+const scan = async (root: string) => ({ ...(await scanRepository(root, [new PythonDetector()])), asOf: "2026-10-28" });
 
 async function repository(t: TestContext, files: Record<string, string>): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-fix-python-"));
@@ -35,7 +35,10 @@ requires-python = ">=3.8"
 `;
   const root = await repository(t, { ".python-version": "3.9.18\n", "pyproject.toml": before });
   const patches = await planFixes(await scan(root));
-  assert.deepEqual(patches.map((patch) => patch.path), [".python-version", "pyproject.toml"]);
+  assert.deepEqual(
+    patches.map((patch) => patch.path),
+    [".python-version", "pyproject.toml"],
+  );
   assert.equal(await readFile(join(root, "pyproject.toml"), "utf8"), before);
   const path = join(root, "fix.patch");
   await writeFile(path, renderPatches(patches));
@@ -54,8 +57,10 @@ for (const range of [">=3.8", " <4, >= 3.9.2 ", ">=3.8,>=3.9,<=3.12"]) {
     const path = join(root, "fix.patch");
     await writeFile(path, renderPatches(patches));
     await execute("git", ["apply", path], { cwd: root });
-    assert.equal(await readFile(join(root, "pyproject.toml"), "utf8"),
-      `[project]\r\nrequires-python = '${range.replace(/3\.(?:8|9)(?:\.2)?/g, "3.11")}' # keep\r\n`);
+    assert.equal(
+      await readFile(join(root, "pyproject.toml"), "utf8"),
+      `[project]\r\nrequires-python = '${range.replace(/3\.(?:8|9)(?:\.2)?/g, "3.11")}' # keep\r\n`,
+    );
   });
 }
 
@@ -71,7 +76,7 @@ test("does not rewrite Poetry constraints, multiline strings, or files without a
     '[tool.poetry.dependencies]\npython = ">=3.9"\n',
     '[project]\nrequires-python = """>=3.9"""\n',
     '[project]\nrequires-python = ">=3.9"',
-    '[project]\ndescription = \'\'\'\nrequires-python = ">=3.9"\n\'\'\'\nrequires-python = ">=3.9"\n',
+    "[project]\ndescription = '''\nrequires-python = \">=3.9\"\n'''\nrequires-python = \">=3.9\"\n",
   ]) {
     const root = await repository(t, { "pyproject.toml": contents });
     assert.deepEqual(await pythonFixer.plan(await scan(root)), []);
@@ -89,5 +94,8 @@ test("declines paths outside the repository", async (t) => {
   const root = await repository(t, { "pyproject.toml": '[project]\nrequires-python = ">=3.9"\n' });
   const result = await scan(root);
   const finding = result.findings[0]!;
-  assert.deepEqual(await pythonFixer.plan({ ...result, findings: [{ ...finding, location: { path: "../pyproject.toml", line: 2 } }] }), []);
+  assert.deepEqual(
+    await pythonFixer.plan({ ...result, findings: [{ ...finding, location: { path: "../pyproject.toml", line: 2 } }] }),
+    [],
+  );
 });

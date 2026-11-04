@@ -101,14 +101,18 @@ export function readTomlLines(contents: string): TomlLine[] | undefined {
     if (equals === -1) return undefined;
     const key = text.slice(0, equals).trim();
     const value = text.slice(equals + 1).trim();
-    if (key === "" || (value.match(/(?<!\\)"/g)?.length ?? 0) % 2 === 1 && !/^"""|^'''/.test(value)) return undefined;
+    if (key === "" || ((value.match(/(?<!\\)"/g)?.length ?? 0) % 2 === 1 && !/^"""|^'''/.test(value))) return undefined;
     if (/^"""/.test(value) && !/^""".*"""$/.test(value)) multiline = '"""';
     else if (/^'''/.test(value) && !/^'''.*'''$/.test(value)) multiline = "'''";
     // A value that opens a bracket it does not close continues on the next lines.
     const depth = openBrackets(value);
     if (depth < 0) return undefined;
     if (depth > 0) open = depth;
-    lines.push(depth > 0 ? { line: number, table, arrayTable: false, key } : { line: number, table, arrayTable: false, key, value });
+    lines.push(
+      depth > 0
+        ? { line: number, table, arrayTable: false, key }
+        : { line: number, table, arrayTable: false, key, value },
+    );
   }
   return lines;
 }

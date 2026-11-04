@@ -9,11 +9,7 @@ import { loadDataFile } from "../data-source.js";
 import { analyzeSourceUsage, impactFor } from "../source-usage.js";
 import { parseSource } from "../usage/tree-sitter.js";
 import { discoverPythonWorkspaces, usagesOwnedBy } from "../workspaces.js";
-import {
-  DETECTOR_API_VERSION,
-  isDeprecationRule,
-  isUsageMatcher,
-} from "../sdk.js";
+import { DETECTOR_API_VERSION, isDeprecationRule, isUsageMatcher } from "../sdk.js";
 import { loadRegistryRules, validateRegistryV2 } from "../registry.js";
 import type { Detector, DetectorContext, DetectorFinding, DetectorInputs } from "../sdk.js";
 import { parseVersLenient, versContains } from "../vers/index.js";
@@ -63,13 +59,14 @@ interface ProjectScan {
 type UnknownRecord = Record<string, unknown>;
 
 function asRecord(value: unknown): UnknownRecord | undefined {
-  return typeof value === "object" && value !== null && !Array.isArray(value)
-    ? (value as UnknownRecord)
-    : undefined;
+  return typeof value === "object" && value !== null && !Array.isArray(value) ? (value as UnknownRecord) : undefined;
 }
 
 function normalizePackageName(value: string): string {
-  return value.trim().toLowerCase().replace(/[-_.]+/g, "-");
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[-_.]+/g, "-");
 }
 
 async function readOptional(path: string): Promise<string | undefined> {
@@ -83,9 +80,7 @@ async function readOptional(path: string): Promise<string | undefined> {
 
 function lineContaining(contents: string, needle: string): number {
   const normalizedNeedle = needle.toLowerCase();
-  const index = contents
-    .split(/\r?\n/)
-    .findIndex((line) => line.toLowerCase().includes(normalizedNeedle));
+  const index = contents.split(/\r?\n/).findIndex((line) => line.toLowerCase().includes(normalizedNeedle));
   return index === -1 ? 1 : index + 1;
 }
 
@@ -156,10 +151,7 @@ function collectPyprojectDependencies(
   const addPoetryTable = (value: unknown): void => {
     for (const [name, constraint] of Object.entries(asRecord(value) ?? {})) {
       if (normalizePackageName(name) === "python") continue;
-      const rendered =
-        typeof constraint === "string"
-          ? constraint
-          : JSON.stringify(asRecord(constraint) ?? constraint);
+      const rendered = typeof constraint === "string" ? constraint : JSON.stringify(asRecord(constraint) ?? constraint);
       addDependency(target, path, contents, name, rendered);
     }
   };
@@ -174,10 +166,7 @@ async function requirementFiles(root: string): Promise<string[]> {
   try {
     const entries = await readdir(root, { withFileTypes: true });
     return entries
-      .filter(
-        (entry) =>
-          entry.isFile() && /^requirements(?:[-_.][A-Za-z0-9_.-]+)?\.txt$/i.test(entry.name),
-      )
+      .filter((entry) => entry.isFile() && /^requirements(?:[-_.][A-Za-z0-9_.-]+)?\.txt$/i.test(entry.name))
       .map((entry) => resolve(root, entry.name))
       .sort();
   } catch (error) {
@@ -269,29 +258,21 @@ async function collectLockfiles(root: string, target: ResolvedVersions): Promise
 
 function versionPair(value: string): [major: number, minor: number] | undefined {
   const match = /(?:python[-_ ]*)?(\d+)\.(\d+)/i.exec(value);
-  return match?.[1] && match[2]
-    ? [Number.parseInt(match[1], 10), Number.parseInt(match[2], 10)]
-    : undefined;
+  return match?.[1] && match[2] ? [Number.parseInt(match[1], 10), Number.parseInt(match[2], 10)] : undefined;
 }
 
-function unsupportedVersion(
-  value: string,
-  maximumVersion: string,
-): [major: number, minor: number] | undefined {
+function unsupportedVersion(value: string, maximumVersion: string): [major: number, minor: number] | undefined {
   const lowerBounds = [...value.matchAll(/(?:^|,)\s*(?:>=|>|~=|===?|\^|~)?\s*(\d+)\.(\d+)/g)]
     .map((match) =>
-      match[1] && match[2]
-        ? ([Number.parseInt(match[1], 10), Number.parseInt(match[2], 10)] as const)
-        : undefined,
+      match[1] && match[2] ? ([Number.parseInt(match[1], 10), Number.parseInt(match[2], 10)] as const) : undefined,
     )
     .filter((pair): pair is readonly [number, number] => pair !== undefined);
-  const candidate = lowerBounds.sort((left, right) =>
-    left[0] === right[0] ? right[1] - left[1] : right[0] - left[0],
-  )[0] ?? (/^python-\d+\.\d+(?:\.\d+)?$/i.test(value) ? versionPair(value) : undefined);
+  const candidate =
+    lowerBounds.sort((left, right) => (left[0] === right[0] ? right[1] - left[1] : right[0] - left[0]))[0] ??
+    (/^python-\d+\.\d+(?:\.\d+)?$/i.test(value) ? versionPair(value) : undefined);
   const maximum = versionPair(maximumVersion);
   if (!candidate || !maximum) return undefined;
-  return candidate[0] < maximum[0] ||
-    (candidate[0] === maximum[0] && candidate[1] <= maximum[1])
+  return candidate[0] < maximum[0] || (candidate[0] === maximum[0] && candidate[1] <= maximum[1])
     ? [candidate[0], candidate[1]]
     : undefined;
 }
@@ -301,17 +282,17 @@ function unsupportedVersion(
  * range with an upper bound. `>=3.11` merely allows it, so it is not a problem with the declaration.
  */
 export function staysOnScheduledLine(declaration: { kind: string; value: string }, line: [number, number]): boolean {
-  if (declaration.kind === "compatibility range" && !/(?:^|,)\s*(?:>=|>|~=|===?|\^|~)?\s*\d+\.\d+/.test(declaration.value)) return false;
+  if (
+    declaration.kind === "compatibility range" &&
+    !/(?:^|,)\s*(?:>=|>|~=|===?|\^|~)?\s*\d+\.\d+/.test(declaration.value)
+  )
+    return false;
   const pair = versionPair(declaration.value);
   if (!pair || pair[0] !== line[0] || pair[1] !== line[1]) return false;
   return declaration.kind === "pinned runtime" || /(?:<|==)/.test(declaration.value);
 }
 
-function collectPyprojectRuntime(
-  path: string,
-  contents: string,
-  document: UnknownRecord,
-): Declaration[] {
+function collectPyprojectRuntime(path: string, contents: string, document: UnknownRecord): Declaration[] {
   const declarations: Declaration[] = [];
   const projectValue = asRecord(document.project)?.["requires-python"];
   if (typeof projectValue === "string") {
@@ -368,7 +349,7 @@ async function collectVersionFiles(root: string): Promise<Declaration[]> {
   }
   const setupPath = resolve(root, "setup.py");
   const setupContents = await readOptional(setupPath);
-  if (setupContents) declarations.push(...await collectSetupRuntime(setupPath, setupContents));
+  if (setupContents) declarations.push(...(await collectSetupRuntime(setupPath, setupContents)));
   return declarations;
 }
 
@@ -390,9 +371,10 @@ function collectIniRuntime(path: string, contents: string, name: "setup.cfg" | "
     let value = text;
     if (!active || indent <= optionIndent) {
       const option = /^([\w-]+)\s*[=:]\s*(.*)$/.exec(text);
-      active = name === "setup.cfg"
-        ? section === "options" && option?.[1] === "python_requires"
-        : section === "tox" && ["envlist", "env_list"].includes(option?.[1] ?? "");
+      active =
+        name === "setup.cfg"
+          ? section === "options" && option?.[1] === "python_requires"
+          : section === "tox" && ["envlist", "env_list"].includes(option?.[1] ?? "");
       optionIndent = indent;
       value = option?.[2] ?? "";
     }
@@ -425,13 +407,24 @@ async function collectSetupRuntime(path: string, contents: string): Promise<Decl
     if (tree.rootNode.hasError) return [];
     const declarations: Declaration[] = [];
     for (const call of tree.rootNode.descendantsOfType("call")) {
-      if (!call || !["setup", "setuptools.setup", "distutils.core.setup"].includes(call.childForFieldName("function")?.text ?? "")) continue;
+      if (
+        !call ||
+        !["setup", "setuptools.setup", "distutils.core.setup"].includes(call.childForFieldName("function")?.text ?? "")
+      )
+        continue;
       for (const argument of call.childForFieldName("arguments")?.namedChildren ?? []) {
-        if (argument?.type !== "keyword_argument" || argument.childForFieldName("name")?.text !== "python_requires") continue;
+        if (argument?.type !== "keyword_argument" || argument.childForFieldName("name")?.text !== "python_requires")
+          continue;
         const literal = argument.childForFieldName("value");
         if (literal?.type !== "string") continue;
         const value = /^(?:'([^'\\\r\n]*)'|"([^"\\\r\n]*)")$/.exec(literal.text);
-        if (value) declarations.push({ path, line: argument.startPosition.row + 1, value: value[1] ?? value[2]!, kind: "compatibility range" });
+        if (value)
+          declarations.push({
+            path,
+            line: argument.startPosition.row + 1,
+            value: value[1] ?? value[2]!,
+            kind: "compatibility range",
+          });
       }
     }
     return declarations;
@@ -504,7 +497,20 @@ export class PythonDetector implements Detector {
   readonly id = "python";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: ["pyproject.toml", ".python-version", "runtime.txt", ".tool-versions", "setup.cfg", "setup.py", "tox.ini", "uv.lock", "poetry.lock", "pdm.lock", "Pipfile.lock", "requirements*.txt"],
+    fileNames: [
+      "pyproject.toml",
+      ".python-version",
+      "runtime.txt",
+      ".tool-versions",
+      "setup.cfg",
+      "setup.py",
+      "tox.ini",
+      "uv.lock",
+      "poetry.lock",
+      "pdm.lock",
+      "Pipfile.lock",
+      "requirements*.txt",
+    ],
     sourceExtensions: [".py", ".ini", ".cfg"],
   };
 
@@ -523,9 +529,11 @@ export class PythonDetector implements Detector {
 
       const dependencies = new Map<string, DirectDependency>();
       const resolved: ResolvedVersions = new Map();
-      const declarations = pyproject && pyprojectContents ? collectPyprojectRuntime(pyprojectPath, pyprojectContents, pyproject) : [];
+      const declarations =
+        pyproject && pyprojectContents ? collectPyprojectRuntime(pyprojectPath, pyprojectContents, pyproject) : [];
       declarations.push(...versionDeclarations);
-      if (pyproject && pyprojectContents) collectPyprojectDependencies(pyprojectPath, pyprojectContents, pyproject, dependencies, resolved);
+      if (pyproject && pyprojectContents)
+        collectPyprojectDependencies(pyprojectPath, pyprojectContents, pyproject, dependencies, resolved);
       for (const path of requirements) {
         collectRequirementsFile(path, await readFile(path, "utf8"), dependencies, resolved);
       }
@@ -538,7 +546,8 @@ export class PythonDetector implements Detector {
     const rootResolved: ResolvedVersions = new Map();
     await collectLockfiles(context.root, rootResolved);
     for (const project of projects) {
-      for (const [name, versions] of rootResolved) project.resolved.set(name, new Set([...(project.resolved.get(name) ?? []), ...versions]));
+      for (const [name, versions] of rootResolved)
+        project.resolved.set(name, new Set([...(project.resolved.get(name) ?? []), ...versions]));
     }
 
     const rules = await loadRules();
@@ -559,11 +568,12 @@ export class PythonDetector implements Detector {
       for (const runtimeRule of runtimeRules) {
         const line = versionPair(runtimeRule.maximumVersion);
         const version = runtimeRule.scheduled
-          ? (line && staysOnScheduledLine(declaration, line) ? line : undefined)
+          ? line && staysOnScheduledLine(declaration, line)
+            ? line
+            : undefined
           : unsupportedVersion(declaration.value, runtimeRule.maximumVersion);
         if (!version) continue;
-        const severity: Severity =
-          declaration.kind === "pinned runtime" ? runtimeRule.severity : "medium";
+        const severity: Severity = declaration.kind === "pinned runtime" ? runtimeRule.severity : "medium";
         const path = relativePosix(context.root, declaration.path);
         findings.push({
           id: `${runtimeRule.id}:${path}:${declaration.line}${declaration.identity ? `:${declaration.identity}` : ""}`,
@@ -585,8 +595,7 @@ export class PythonDetector implements Detector {
       (rule): rule is PythonPackageRule =>
         rule.kind === "package" &&
         projects.some(
-          (project) =>
-            project.dependencies.has(normalizePackageName(rule.package)) && coversDependency(rule, project),
+          (project) => project.dependencies.has(normalizePackageName(rule.package)) && coversDependency(rule, project),
         ),
     );
     const usageAnalyses = await analyzeSourceUsage(

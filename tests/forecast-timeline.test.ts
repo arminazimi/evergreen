@@ -12,7 +12,11 @@ const event = (ruleId: string, date: string, findings: number): ForecastEvent =>
   title: `Title ${ruleId}`,
   severity: "low",
   source: "https://example.com/x",
-  findings: Array.from({ length: findings }, (_, index) => ({ id: `${ruleId}:package.json:${index + 1}`, path: "package.json", line: index + 1 })),
+  findings: Array.from({ length: findings }, (_, index) => ({
+    id: `${ruleId}:package.json:${index + 1}`,
+    path: "package.json",
+    line: index + 1,
+  })),
 });
 
 const many = (ruleId: string, date: string, count: number): ForecastEvent[] =>
@@ -26,7 +30,10 @@ const populated: Forecast = {
   months: 6,
   groups: [
     { month: "2026-11", events: [event("nov", "2026-11-30", 0)] },
-    { month: "2027-01", events: [event("jan.a", "2027-01-05", 3), event("jan.b", "2027-01-19", 2), event("jan.c", "2027-01-31", 0)] },
+    {
+      month: "2027-01",
+      events: [event("jan.a", "2027-01-05", 3), event("jan.b", "2027-01-19", 2), event("jan.c", "2027-01-31", 0)],
+    },
     { month: "2027-04", events: [event("apr", "2027-04-30", 1)] },
   ],
   affecting: 2,
@@ -129,5 +136,8 @@ test("keeps plain ASCII unless color is asked for, and paints the axis, bars, an
 
 test("renders the same bytes for the same forecast and options", () => {
   assert.equal(renderForecastTimeline(busy, { width: 90 }), renderForecastTimeline(busy, { width: 90 }));
-  assert.equal(renderForecastTimeline(busy, { width: 90, color: true }), renderForecastTimeline(busy, { width: 90, color: true }));
+  assert.equal(
+    renderForecastTimeline(busy, { width: 90, color: true }),
+    renderForecastTimeline(busy, { width: 90, color: true }),
+  );
 });

@@ -34,7 +34,10 @@ test("the fixer output matches the after fixture and keeps SHA pins, floating re
   // renderDiff emits one hunk spanning the first to the last change, so rebuild the new side of it and compare with the fixture.
   const hunk = patches[0]!.diff.split("\n").slice(2);
   const start = Number(/^@@ -(\d+)/.exec(hunk[0]!)![1]) - 1;
-  const rebuilt = hunk.slice(1).filter((line) => !line.startsWith("-")).map((line) => line.slice(1));
+  const rebuilt = hunk
+    .slice(1)
+    .filter((line) => !line.startsWith("-"))
+    .map((line) => line.slice(1));
   assert.deepEqual(rebuilt, after.split("\n").slice(start, start + rebuilt.length));
   assert.ok(patches[0]!.diff.includes("\n-      - uses: actions/checkout@v4\n"));
   assert.ok(rebuilt.includes("      - uses: actions/checkout@0123456789abcdef0123456789abcdef01234567 # v4.1.1"));

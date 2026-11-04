@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine, scoreEcosystems } from "../benchmarks/corpus-report.js";
+import {
+  formatSummaryTables,
+  mismatchLines,
+  parseOutputPath,
+  progressLine,
+  scoreEcosystems,
+} from "../benchmarks/corpus-report.js";
 
 const result = (repository: string, ecosystem: string, tp: number, fp: number, fn: number) => ({
   repository,
@@ -24,7 +30,9 @@ test("ecosystems aggregate TP, FP, FN and precision", () => {
 });
 
 test("the summary has an ecosystem table and a detector table", () => {
-  const text = formatSummaryTables(results, { npm: { truePositives: 5, falsePositives: 1, falseNegatives: 0, precision: 5 / 6 } });
+  const text = formatSummaryTables(results, {
+    npm: { truePositives: 5, falsePositives: 1, falseNegatives: 0, precision: 5 / 6 },
+  });
   const lines = text.split("\n");
   assert.match(lines[0]!, /^ecosystem\s+TP\s+FP\s+FN\s+precision$/);
   assert.match(lines[1]!, /^go\s+4\s+0\s+0\s+1\.0000$/);

@@ -31,11 +31,14 @@ export const command: CliCommand = {
 };
 
 async function confirmOnTerminal(summary: string, defaultYes = false): Promise<boolean> {
-  if (!process.stdin.isTTY) throw new AgentFileError("Confirmation needs a terminal; pass --yes to confirm, or --dry-run to preview.");
+  if (!process.stdin.isTTY)
+    throw new AgentFileError("Confirmation needs a terminal; pass --yes to confirm, or --dry-run to preview.");
   const { createInterface } = await import("node:readline/promises");
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   try {
-    const answer = (await rl.question(`${summary}\nContinue? [${defaultYes ? "Y" : "y"}/N${defaultYes ? "]" : "] "}`)).trim();
+    const answer = (
+      await rl.question(`${summary}\nContinue? [${defaultYes ? "Y" : "y"}/N${defaultYes ? "]" : "] "}`)
+    ).trim();
     return defaultYes ? !/^n(o)?$/i.test(answer) : /^y(es)?$/i.test(answer);
   } finally {
     rl.close();
@@ -43,7 +46,8 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
 }
 
 async function runInit(args: string[], ctx: CommandContext): Promise<number> {
-  const usage = "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+  const usage =
+    "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
   if (args[0] === "agent") {
     const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
     const agentArgs = args.slice(1);
@@ -54,7 +58,10 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
       return ctx.fail("usage", "--file must be AGENTS.md or CLAUDE.md.", agentUsage);
     }
     const flags = new Set(["--dry-run", "--file"]);
-    const positional = agentArgs.filter((argument, index) => !flags.has(argument) && (fileIndex === -1 || index !== fileIndex + 1) && !argument.startsWith("-"));
+    const positional = agentArgs.filter(
+      (argument, index) =>
+        !flags.has(argument) && (fileIndex === -1 || index !== fileIndex + 1) && !argument.startsWith("-"),
+    );
     const unknown = agentArgs.filter((argument) => argument.startsWith("-") && !flags.has(argument));
     if (unknown.length > 0 || positional.length > 1) return ctx.fail("usage", agentUsage.trimEnd());
     const root = positional[0] ?? ".";
@@ -64,8 +71,17 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
         if (entry.change === "unchanged") {
           process.stdout.write(`${entry.file} already has the current Evergreen section; nothing to change.\n`);
         } else {
-          const verb = entry.change === "created" ? "create" : entry.change === "added" ? "add the Evergreen section to" : "update the Evergreen section in";
-          process.stdout.write(dryRun ? `Would ${verb} ${entry.file}:\n\n${entry.diff}\n` : `${entry.change === "created" ? "Created" : entry.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${entry.file}.\n`);
+          const verb =
+            entry.change === "created"
+              ? "create"
+              : entry.change === "added"
+                ? "add the Evergreen section to"
+                : "update the Evergreen section in";
+          process.stdout.write(
+            dryRun
+              ? `Would ${verb} ${entry.file}:\n\n${entry.diff}\n`
+              : `${entry.change === "created" ? "Created" : entry.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${entry.file}.\n`,
+          );
         }
       }
       return 0;
@@ -79,54 +95,114 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
   const personal = args.includes("--personal");
   const hooksForIndex = args.indexOf("--hooks-for");
   const hooksFor = hooksForIndex === -1 ? undefined : args[hooksForIndex + 1];
-  if (hooksForIndex !== -1 && hooksFor !== "claude-code" && hooksFor !== "codex") return ctx.fail("usage", "--hooks-for needs a host: claude-code or codex.", usage);
+  if (hooksForIndex !== -1 && hooksFor !== "claude-code" && hooksFor !== "codex")
+    return ctx.fail("usage", "--hooks-for needs a host: claude-code or codex.", usage);
   const guided = !agents && !hooks && !personal && !hooksFor;
-  if (personal && (agents || hooks || hooksFor)) return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", usage);
+  if (personal && (agents || hooks || hooksFor))
+    return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", usage);
   const fileIndex = args.indexOf("--file");
   const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
-  if (fileIndex !== -1 && (!agents && !guided || fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md")) {
+  if (fileIndex !== -1 && ((!agents && !guided) || (fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md"))) {
     return ctx.fail("usage", "--file must be AGENTS.md or CLAUDE.md, and needs --agents or the guided init.", usage);
   }
   const gateIndex = args.indexOf("--fail-on");
   const gate = gateIndex === -1 ? "high" : args[gateIndex + 1];
   if (gateIndex !== -1 && ((!(hooks || personal) && !guided) || !severityValues.includes(gate as Severity))) {
-    return ctx.fail("usage", `--fail-on needs the guided init, --hooks or --personal, and a severity (${severityValues.join(", ")}).`, usage);
+    return ctx.fail(
+      "usage",
+      `--fail-on needs the guided init, --hooks or --personal, and a severity (${severityValues.join(", ")}).`,
+      usage,
+    );
   }
-  const flags = new Set(["--agents", "--hooks", "--personal", "--hooks-for", "--yes", "-y", "--dry-run", "--file", "--fail-on"]);
-  const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && index !== gateIndex + 1 && (hooksForIndex === -1 || index !== hooksForIndex + 1) && !argument.startsWith("-"));
+  const flags = new Set([
+    "--agents",
+    "--hooks",
+    "--personal",
+    "--hooks-for",
+    "--yes",
+    "-y",
+    "--dry-run",
+    "--file",
+    "--fail-on",
+  ]);
+  const positional = args.filter(
+    (argument, index) =>
+      !flags.has(argument) &&
+      index !== fileIndex + 1 &&
+      index !== gateIndex + 1 &&
+      (hooksForIndex === -1 || index !== hooksForIndex + 1) &&
+      !argument.startsWith("-"),
+  );
   const unknown = args.filter((argument) => argument.startsWith("-") && !flags.has(argument));
-  if (unknown.length > 0 || positional.length > 1 || (personal && positional.length > 0)) return ctx.fail("usage", usage.trimEnd());
+  if (unknown.length > 0 || positional.length > 1 || (personal && positional.length > 0))
+    return ctx.fail("usage", usage.trimEnd());
   const dryRun = args.includes("--dry-run");
   const root = positional[0] ?? ".";
   try {
-    if (guided) return await guidedInit(ctx, { root, gate: gate as Severity, dryRun, ...(fileValue !== undefined ? { file: fileValue as AgentFileName } : {}), yes: args.includes("--yes") || args.includes("-y") });
+    if (guided)
+      return await guidedInit(ctx, {
+        root,
+        gate: gate as Severity,
+        dryRun,
+        ...(fileValue !== undefined ? { file: fileValue as AgentFileName } : {}),
+        yes: args.includes("--yes") || args.includes("-y"),
+      });
     if (personal) {
       const yes = args.includes("--yes") || args.includes("-y");
-      const result = await initPersonal({ gate: gate as Severity, dryRun, confirm: yes ? async () => true : confirmOnTerminal });
-      if (result.change === "unchanged") process.stdout.write("The global Evergreen config and pre-push hook are already current; nothing to change.\n");
+      const result = await initPersonal({
+        gate: gate as Severity,
+        dryRun,
+        confirm: yes ? async () => true : confirmOnTerminal,
+      });
+      if (result.change === "unchanged")
+        process.stdout.write("The global Evergreen config and pre-push hook are already current; nothing to change.\n");
       else if (result.change === "declined") process.stdout.write("Nothing was changed.\n");
-      else if (dryRun) process.stdout.write(`Would write the global config and pre-push hook in ${result.hooksDirectory}:\n\n${result.diff}\n`);
-      else process.stdout.write(`Wrote ${result.configFile} and the pre-push hook in ${result.hooksDirectory}; every repository now blocks a push at ${gate} or above.\nBypass it once with \`git push --no-verify\` or \`EVERGREEN_SKIP=1 git push\`.\n`);
+      else if (dryRun)
+        process.stdout.write(
+          `Would write the global config and pre-push hook in ${result.hooksDirectory}:\n\n${result.diff}\n`,
+        );
+      else
+        process.stdout.write(
+          `Wrote ${result.configFile} and the pre-push hook in ${result.hooksDirectory}; every repository now blocks a push at ${gate} or above.\nBypass it once with \`git push --no-verify\` or \`EVERGREEN_SKIP=1 git push\`.\n`,
+        );
       return 0;
     }
     if (agents) {
       const result = await initAgents({ root, dryRun, ...(fileValue ? { file: fileValue as AgentFileName } : {}) });
-      if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
+      if (result.change === "unchanged")
+        process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
       else {
-        const verb = result.change === "created" ? "create" : result.change === "added" ? "add the Evergreen section to" : "update the Evergreen section in";
-        process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : result.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${result.file}.\n`);
+        const verb =
+          result.change === "created"
+            ? "create"
+            : result.change === "added"
+              ? "add the Evergreen section to"
+              : "update the Evergreen section in";
+        process.stdout.write(
+          dryRun
+            ? `Would ${verb} ${result.file}:\n\n${result.diff}\n`
+            : `${result.change === "created" ? "Created" : result.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${result.file}.\n`,
+        );
       }
     }
     if (hooks) {
       const result = await initHooks({ root, gate: gate as Severity, dryRun });
       if (result.change === "managed") {
-        process.stdout.write(`${result.manager} manages the Git hooks here, so Evergreen did not write one. Add this to ${result.file}:\n\n${result.snippet}\n`);
-      } else if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen hook; nothing to change.\n`);
+        process.stdout.write(
+          `${result.manager} manages the Git hooks here, so Evergreen did not write one. Add this to ${result.file}:\n\n${result.snippet}\n`,
+        );
+      } else if (result.change === "unchanged")
+        process.stdout.write(`${result.file} already has the current Evergreen hook; nothing to change.\n`);
       else {
         const verb = result.change === "created" ? "create" : "update";
-        process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : "Updated"} ${result.file}; it blocks a push at ${gate} or above.\n`);
+        process.stdout.write(
+          dryRun
+            ? `Would ${verb} ${result.file}:\n\n${result.diff}\n`
+            : `${result.change === "created" ? "Created" : "Updated"} ${result.file}; it blocks a push at ${gate} or above.\n`,
+        );
       }
-      if (result.change !== "managed") process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
+      if (result.change !== "managed")
+        process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
     }
     if (hooksFor === "claude-code" || hooksFor === "codex") await applyHooksFor(hooksFor, root, dryRun);
     return 0;
@@ -149,7 +225,9 @@ async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): P
     process.stdout.write(`Would ${verb} ${result.file}:\n\n${result.diff}\n`);
     return;
   }
-  const done = codex ? "Codex now runs Evergreen after apply_patch." : "Claude Code now runs Evergreen after Write, Edit, and MultiEdit.";
+  const done = codex
+    ? "Codex now runs Evergreen after apply_patch."
+    : "Claude Code now runs Evergreen after Write, Edit, and MultiEdit.";
   process.stdout.write(`${result.change === "created" ? "Created" : "Updated"} ${result.file}; ${done}\n`);
 }
 
@@ -157,12 +235,24 @@ async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): P
  * `init` with no flags: detects the CI provider and agent hosts, and applies what it finds (the GitHub Actions
  * workflow, the pre-push hook, the Evergreen agent section) after one confirmation that defaults to yes.
  */
-async function guidedInit(ctx: CommandContext, options: { root: string; gate: Severity; dryRun?: boolean; file?: AgentFileName; yes?: boolean }): Promise<number> {
+async function guidedInit(
+  ctx: CommandContext,
+  options: { root: string; gate: Severity; dryRun?: boolean; file?: AgentFileName; yes?: boolean },
+): Promise<number> {
   if (!options.yes && !options.dryRun && !process.stdin.isTTY) {
-    return ctx.fail("usage", "Confirmation needed: pass --yes to write these changes, or --dry-run to only print them.");
+    return ctx.fail(
+      "usage",
+      "Confirmation needed: pass --yes to write these changes, or --dry-run to only print them.",
+    );
   }
-  const plan = await planInitSetup({ root: options.root, gate: options.gate, ...(options.file ? { file: options.file } : {}) });
-  process.stdout.write(`Detected: ${plan.detectedCi.length > 0 ? plan.detectedCi.join(" and ") : "no CI"}; ${plan.detectedAgents.length > 0 ? plan.detectedAgents.join(", ") : "no agent hosts"}\n`);
+  const plan = await planInitSetup({
+    root: options.root,
+    gate: options.gate,
+    ...(options.file ? { file: options.file } : {}),
+  });
+  process.stdout.write(
+    `Detected: ${plan.detectedCi.length > 0 ? plan.detectedCi.join(" and ") : "no CI"}; ${plan.detectedAgents.length > 0 ? plan.detectedAgents.join(", ") : "no agent hosts"}\n`,
+  );
   if (plan.site) process.stdout.write(siteSuggestion(plan.site));
   if (options.dryRun) {
     printGuidedSteps(plan.steps, options.dryRun === true, options.gate);
@@ -185,11 +275,15 @@ async function guidedInit(ctx: CommandContext, options: { root: string; gate: Se
 function printGuidedSteps(steps: InitStep[], dryRun: boolean, gate: Severity): void {
   for (const step of steps) {
     if (step.change === "advice") {
-      process.stdout.write(`Add this to ${step.file} to scan with the Evergreen GitLab component:\n\n${step.snippet}\n`);
+      process.stdout.write(
+        `Add this to ${step.file} to scan with the Evergreen GitLab component:\n\n${step.snippet}\n`,
+      );
       continue;
     }
     if (step.change === "managed") {
-      process.stdout.write(`${step.manager} manages the Git hooks here, so Evergreen did not write one. Add this to ${step.file}:\n\n${step.snippet}\n`);
+      process.stdout.write(
+        `${step.manager} manages the Git hooks here, so Evergreen did not write one. Add this to ${step.file}:\n\n${step.snippet}\n`,
+      );
       continue;
     }
     const future = { created: "Would create", added: "Would add the Evergreen section to", updated: "Would update" };
@@ -200,9 +294,15 @@ function printGuidedSteps(steps: InitStep[], dryRun: boolean, gate: Severity): v
       continue;
     }
     const verb = dryRun ? future[step.change as keyof typeof future] : past[step.change as keyof typeof past];
-    const tail = step.kind === "ci" ? "; it scans pull requests and pushes to main." : step.kind === "hooks" ? `; it blocks a push at ${gate} or above.` : ".";
+    const tail =
+      step.kind === "ci"
+        ? "; it scans pull requests and pushes to main."
+        : step.kind === "hooks"
+          ? `; it blocks a push at ${gate} or above.`
+          : ".";
     process.stdout.write(`${verb} ${step.file}${tail}\n`);
     if (dryRun && step.diff) process.stdout.write(`\n${step.diff}\n`);
-    if (step.kind === "hooks") process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
+    if (step.kind === "hooks")
+      process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
   }
 }

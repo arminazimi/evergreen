@@ -238,10 +238,11 @@ function runShell(
         env: { ...process.env, ...options.env },
       },
       (error, stdout, stderr) => {
-        const failure = error as (Error & { code?: number | string | null; killed?: boolean; signal?: NodeJS.Signals | null }) | null;
+        const failure = error as
+          | (Error & { code?: number | string | null; killed?: boolean; signal?: NodeJS.Signals | null })
+          | null;
         resolvePromise({
-          exitCode:
-            failure === null ? 0 : typeof failure.code === "number" ? failure.code : null,
+          exitCode: failure === null ? 0 : typeof failure.code === "number" ? failure.code : null,
           signal: failure?.signal ?? null,
           stdout: String(stdout),
           stderr: String(stderr),
@@ -401,11 +402,20 @@ async function discardWorktree(repositoryPath: string, worktreePath: string): Pr
   }
 }
 
-async function captureChanges(worktreePath: string, baseCommit: string): Promise<{ text: string; changedFiles: string[] }> {
+async function captureChanges(
+  worktreePath: string,
+  baseCommit: string,
+): Promise<{ text: string; changedFiles: string[] }> {
   await git(["add", "--all"], worktreePath);
   const text = await git(["diff", "--cached", "--no-color", "--no-ext-diff", baseCommit], worktreePath);
   const names = await git(["diff", "--cached", "--name-only", baseCommit], worktreePath);
-  return { text, changedFiles: names.split("\n").map((name) => name.trim()).filter(Boolean) };
+  return {
+    text,
+    changedFiles: names
+      .split("\n")
+      .map((name) => name.trim())
+      .filter(Boolean),
+  };
 }
 
 async function runCondition(
@@ -483,11 +493,7 @@ async function runCondition(
       expectedEndState,
       verification,
       durationMs: Math.round(performance.now() - started),
-      success:
-        error === undefined &&
-        agent.exitCode === 0 &&
-        expectedEndState.passed &&
-        verification.passed,
+      success: error === undefined && agent.exitCode === 0 && expectedEndState.passed && verification.passed,
       ...(error === undefined ? {} : { error }),
     };
   } finally {

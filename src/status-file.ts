@@ -14,7 +14,9 @@ export const STATUS_FILE_NAME = "EVERGREEN_STATUS.md";
  * `--format compact` lists.
  */
 export function renderStatusFile(result: ScanResult): string {
-  const bySeverity = [...severityValues].reverse().map((severity) => `${severity} ${result.findings.filter((finding) => finding.severity === severity).length}`);
+  const bySeverity = [...severityValues]
+    .reverse()
+    .map((severity) => `${severity} ${result.findings.filter((finding) => finding.severity === severity).length}`);
   const unclassified = result.unclassified?.count ?? 0;
   const lines = [
     "# Evergreen lifecycle status",
@@ -22,9 +24,13 @@ export function renderStatusFile(result: ScanResult): string {
     `<!-- Written by \`evergreen scan --write-status\`. Do not edit; run it again to refresh. -->`,
     "",
     `- Findings: ${result.findings.length} (${bySeverity.join(", ")})`,
-    result.suppressions ? `- Accepted by baseline: ${result.suppressions.suppressed}` : "- Accepted by baseline: none (no baseline was used)",
+    result.suppressions
+      ? `- Accepted by baseline: ${result.suppressions.suppressed}`
+      : "- Accepted by baseline: none (no baseline was used)",
     ...(unclassified > 0 ? [`- Unclassified pinned references: ${unclassified}`] : []),
-    ...(result.data ? [`- Lifecycle data: ${result.data.version}, evidence reviewed through ${result.data.reviewedThrough}`] : []),
+    ...(result.data
+      ? [`- Lifecycle data: ${result.data.version}, evidence reviewed through ${result.data.reviewedThrough}`]
+      : []),
     "",
     "## Findings",
     "",

@@ -13,11 +13,16 @@ const AWS_LAMBDA_PURL_PREFIX = "pkg:generic/aws-lambda-runtime/";
 const RUNTIME = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
 const IMPORTER_ID = "aws-lambda";
 
-const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null && !Array.isArray(value);
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 /** One page: an object whose `Functions` entries all name a function. */
 function isPage(value: unknown): value is Record<string, unknown> {
-  return isRecord(value) && Array.isArray(value.Functions) && value.Functions.every((entry) => isRecord(entry) && typeof entry.FunctionName === "string");
+  return (
+    isRecord(value) &&
+    Array.isArray(value.Functions) &&
+    value.Functions.every((entry) => isRecord(entry) && typeof entry.FunctionName === "string")
+  );
 }
 
 /** The pages of the document, with the JSON Pointer prefix each page's values sit under. */

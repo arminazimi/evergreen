@@ -11,7 +11,8 @@ import { renderActionable, unsupportedNodeVersion } from "./errors.js";
 
 const rawArgs = process.argv.slice(2);
 const args = rawArgs.filter((argument) => argument !== "--debug");
-const jsonErrors = args.includes("--json") || (args.includes("--format") && args[args.indexOf("--format") + 1] === "json");
+const jsonErrors =
+  args.includes("--json") || (args.includes("--format") && args[args.indexOf("--format") + 1] === "json");
 const nodeProblem = unsupportedNodeVersion();
 if (nodeProblem) {
   const { message, appendix } = renderActionable(nodeProblem);

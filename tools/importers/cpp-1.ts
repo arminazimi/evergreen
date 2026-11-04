@@ -73,11 +73,17 @@ interface ReleasePayload {
   html_url?: string;
 }
 
-async function releaseDate(context: ImporterContext, cmake: string): Promise<{ date: string; url: string } | undefined> {
+async function releaseDate(
+  context: ImporterContext,
+  cmake: string,
+): Promise<{ date: string; url: string } | undefined> {
   const payload = await fetchJson<ReleasePayload>(context, RELEASE_TAG(cmake), { accept: GITHUB_JSON });
   const published = payload.published_at;
   if (typeof published !== "string" || !/^\d{4}-\d{2}-\d{2}/.test(published)) return undefined;
-  return { date: published.slice(0, 10), url: typeof payload.html_url === "string" ? payload.html_url : RELEASE_TAG(cmake) };
+  return {
+    date: published.slice(0, 10),
+    url: typeof payload.html_url === "string" ? payload.html_url : RELEASE_TAG(cmake),
+  };
 }
 
 /**
@@ -122,8 +128,12 @@ export function draftSignals(signals: readonly CompatibilitySignal[]): {
     }
   }
 
-  const removals = [...byFloor.values()].filter((signal) => signal.kind === "removed").sort((left, right) => compareVersions(left.floor, right.floor));
-  const deprecations = [...byFloor.values()].filter((signal) => signal.kind === "deprecated").sort((left, right) => compareVersions(left.floor, right.floor));
+  const removals = [...byFloor.values()]
+    .filter((signal) => signal.kind === "removed")
+    .sort((left, right) => compareVersions(left.floor, right.floor));
+  const deprecations = [...byFloor.values()]
+    .filter((signal) => signal.kind === "deprecated")
+    .sort((left, right) => compareVersions(left.floor, right.floor));
   const drafts: PolicyDraft[] = [];
 
   for (const signal of removals) {
@@ -180,9 +190,8 @@ function coverageTail(draft: PolicyDraft): string {
 function ruleFor(draft: PolicyDraft, release: { date: string; url: string }): DraftRule {
   const bound = semverBound(draft.floor);
   const lowerBound = draft.lower ? semverBound(draft.lower) : undefined;
-  const vers = draft.kind === "deprecated" && lowerBound
-    ? `vers:semver/>=${lowerBound}|<${bound}`
-    : `vers:semver/<${bound}`;
+  const vers =
+    draft.kind === "deprecated" && lowerBound ? `vers:semver/>=${lowerBound}|<${bound}` : `vers:semver/<${bound}`;
   const removed = draft.kind === "removed";
   return {
     id: `cpp.cmake.policy-below-${floorSlug(draft.floor)}.${draft.kind}`,
@@ -235,11 +244,15 @@ export const cmakePolicyImporter: Importer = {
     for (const draft of drafts) {
       const release = await releaseDate(context, draft.cmake);
       if (!release) {
-        notes.push(`Skipped policy floor ${draft.floor} (${draft.kind}): no published date for CMake ${draft.cmake}.0.`);
+        notes.push(
+          `Skipped policy floor ${draft.floor} (${draft.kind}): no published date for CMake ${draft.cmake}.0.`,
+        );
         continue;
       }
       if (release.date > today) {
-        notes.push(`Skipped policy floor ${draft.floor} (${draft.kind}): CMake ${draft.cmake}.0 is dated ${release.date}, after ${today}.`);
+        notes.push(
+          `Skipped policy floor ${draft.floor} (${draft.kind}): CMake ${draft.cmake}.0 is dated ${release.date}, after ${today}.`,
+        );
         continue;
       }
       rules.push(ruleFor(draft, release));

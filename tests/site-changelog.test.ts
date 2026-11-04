@@ -9,7 +9,13 @@ test("the site changelog carries a stable anchor and heading for every release",
   for (const heading of headings) {
     const version = heading.split(/\s+/)[0]!;
     const anchor = version.toLowerCase() === "unreleased" ? "unreleased" : `v${version}`;
-    assert.ok(site.includes(`<a id="${anchor}"></a>`), `docs/CHANGELOG.md is missing the ${anchor} anchor; copy the release from CHANGELOG.md`);
-    assert.ok(site.includes(`## ${heading}`), `docs/CHANGELOG.md is missing the ${heading} heading; copy the release from CHANGELOG.md`);
+    assert.ok(
+      site.includes(`<a id="${anchor}"></a>`),
+      `docs/CHANGELOG.md is missing the ${anchor} anchor; copy the release from CHANGELOG.md`,
+    );
+    assert.ok(
+      site.includes(`## ${heading}`),
+      `docs/CHANGELOG.md is missing the ${heading} heading; copy the release from CHANGELOG.md`,
+    );
   }
 });

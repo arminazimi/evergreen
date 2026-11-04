@@ -12,9 +12,7 @@
       "path": "nginx-ing.yaml",
       "kind": "Ingress",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.ingress.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."

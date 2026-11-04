@@ -72,28 +72,64 @@ test("checkListing reports current, stale, not-listed, unreachable, and skipped"
   };
 
   assert.equal(
-    (await checkListing(listing({ id: "ok", check: "official-registry-latest", checkUrl: "https://example.com/registry-latest" }), EXPECTED, fetchText)).status,
+    (
+      await checkListing(
+        listing({ id: "ok", check: "official-registry-latest", checkUrl: "https://example.com/registry-latest" }),
+        EXPECTED,
+        fetchText,
+      )
+    ).status,
     "current",
   );
   assert.equal(
-    (await checkListing(listing({ id: "old", check: "official-registry-latest", checkUrl: "https://example.com/stale" }), EXPECTED, fetchText)).status,
+    (
+      await checkListing(
+        listing({ id: "old", check: "official-registry-latest", checkUrl: "https://example.com/stale" }),
+        EXPECTED,
+        fetchText,
+      )
+    ).status,
     "stale",
   );
   assert.equal(
-    (await checkListing(listing({ id: "gone", check: "html-semver", checkUrl: "https://example.com/missing" }), EXPECTED, fetchText)).status,
+    (
+      await checkListing(
+        listing({ id: "gone", check: "html-semver", checkUrl: "https://example.com/missing" }),
+        EXPECTED,
+        fetchText,
+      )
+    ).status,
     "not-listed",
   );
   assert.equal(
-    (await checkListing(listing({ id: "down", check: "html-semver", checkUrl: "https://example.com/boom" }), EXPECTED, fetchText)).status,
+    (
+      await checkListing(
+        listing({ id: "down", check: "html-semver", checkUrl: "https://example.com/boom" }),
+        EXPECTED,
+        fetchText,
+      )
+    ).status,
     "unreachable",
   );
   assert.equal((await checkListing(listing({ id: "skip", check: "skip" }), EXPECTED, fetchText)).status, "skipped");
   assert.equal(
-    (await checkListing(listing({ id: "gh", check: "http-ok", checkUrl: "https://example.com/missing" }), EXPECTED, fetchText)).status,
+    (
+      await checkListing(
+        listing({ id: "gh", check: "http-ok", checkUrl: "https://example.com/missing" }),
+        EXPECTED,
+        fetchText,
+      )
+    ).status,
     "not-listed",
   );
   assert.equal(
-    (await checkListing(listing({ id: "gh-ok", check: "http-ok", checkUrl: "https://example.com/present" }), EXPECTED, fetchText)).status,
+    (
+      await checkListing(
+        listing({ id: "gh-ok", check: "http-ok", checkUrl: "https://example.com/present" }),
+        EXPECTED,
+        fetchText,
+      )
+    ).status,
     "current",
   );
 });
@@ -103,7 +139,12 @@ test("checkListings collects stale rows and renderSummary names them", async () 
     expectedVersion: EXPECTED,
     listings: [
       listing({ id: "ok", check: "official-registry-latest", checkUrl: "https://example.com/ok" }),
-      listing({ id: "old", name: "Old Directory", check: "official-registry-latest", checkUrl: "https://example.com/old" }),
+      listing({
+        id: "old",
+        name: "Old Directory",
+        check: "official-registry-latest",
+        checkUrl: "https://example.com/old",
+      }),
       listing({ id: "later", check: "skip" }),
     ],
     fetchText: async (url) =>
@@ -178,26 +219,39 @@ test("parseArguments and main write a report without touching the network", asyn
   const summaryPath = join(directory, "summary.md");
   await writeFile(serverPath, JSON.stringify({ version: EXPECTED, packages: [{ version: EXPECTED }] }));
   try {
-    const code = await main(["--server", serverPath, "--out", outPath, "--summary", summaryPath, "--open-issue", "--repo", "arminazimi/evergreen"], {
-      fetchText: async (url) => {
-        if (url.includes("versions/latest")) {
-          return { status: 200, text: JSON.stringify({ server: { version: EXPECTED } }) };
-        }
-        if (url.includes("github.com/mcp/")) return { status: 404, text: "missing" };
-        if (url.includes("docker/mcp-registry")) return { status: 404, text: "missing" };
-        if (url.includes("glama.ai")) return { status: 404, text: "missing" };
-        return { status: 404, text: "missing" };
-      },
-      issueClient: {
-        listOpenIssues: async () => [],
-        createIssue: async () => {
-          throw new Error("no stale issue expected");
+    const code = await main(
+      [
+        "--server",
+        serverPath,
+        "--out",
+        outPath,
+        "--summary",
+        summaryPath,
+        "--open-issue",
+        "--repo",
+        "arminazimi/evergreen",
+      ],
+      {
+        fetchText: async (url) => {
+          if (url.includes("versions/latest")) {
+            return { status: 200, text: JSON.stringify({ server: { version: EXPECTED } }) };
+          }
+          if (url.includes("github.com/mcp/")) return { status: 404, text: "missing" };
+          if (url.includes("docker/mcp-registry")) return { status: 404, text: "missing" };
+          if (url.includes("glama.ai")) return { status: 404, text: "missing" };
+          return { status: 404, text: "missing" };
         },
-        updateIssue: async () => {
-          throw new Error("no stale issue expected");
+        issueClient: {
+          listOpenIssues: async () => [],
+          createIssue: async () => {
+            throw new Error("no stale issue expected");
+          },
+          updateIssue: async () => {
+            throw new Error("no stale issue expected");
+          },
         },
       },
-    });
+    );
     assert.equal(code, 0);
     const report = JSON.parse(await readFile(outPath, "utf8")) as { expectedVersion: string; stale: unknown[] };
     assert.equal(report.expectedVersion, EXPECTED);
@@ -219,10 +273,7 @@ test("docs/MCP_LISTINGS.md names every catalog directory", async () => {
 test("sameListingLocation compares host and path without regex host matching", () => {
   const official = "https://registry.modelcontextprotocol.io/v0/servers?search=evergreen";
   assert.equal(sameListingLocation(official, official), true);
-  assert.equal(
-    sameListingLocation("https://registry.modelcontextprotocol.io/v0/servers?search=other", official),
-    true,
-  );
+  assert.equal(sameListingLocation("https://registry.modelcontextprotocol.io/v0/servers?search=other", official), true);
   assert.equal(
     sameListingLocation("https://registry.modelcontextprotocolXio/v0/servers?search=evergreen", official),
     false,

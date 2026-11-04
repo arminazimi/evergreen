@@ -90,7 +90,14 @@ async function cleanBuild(run: CommandRunner): Promise<void> {
 }
 
 async function packTarball(_run: CommandRunner, destination: string): Promise<string> {
-  const output = await capture(process.execPath, [npmCli(), "pack", "--ignore-scripts", "--json", "--pack-destination", destination]);
+  const output = await capture(process.execPath, [
+    npmCli(),
+    "pack",
+    "--ignore-scripts",
+    "--json",
+    "--pack-destination",
+    destination,
+  ]);
   const parsed = JSON.parse(output) as Array<{ filename?: string }>;
   const filename = parsed[0]?.filename;
   if (!filename) throw new Error(`npm pack did not report a tarball file name: ${output.trim()}`);
@@ -125,7 +132,11 @@ export async function compareCleanBuilds(options: ReproducibleBuildOptions = {})
       await build();
       const tarball = join(directory, await pack(directory));
       tarballs.push(tarball);
-      hashes.push(createHash("sha256").update(await readFile(tarball)).digest("hex"));
+      hashes.push(
+        createHash("sha256")
+          .update(await readFile(tarball))
+          .digest("hex"),
+      );
     }
   } catch (error) {
     failure = error;
@@ -140,7 +151,9 @@ export async function compareCleanBuilds(options: ReproducibleBuildOptions = {})
   }
   if (!reproducible) {
     const details = hashes.map((hash, index) => `  build ${index + 1}: sha256 ${hash} (${tarballs[index]})`).join("\n");
-    throw new Error(`the builds are not reproducible: the packed tarballs differ\n${details}\nThe tarballs were kept in ${directory}; unpack both and diff them to find the file that changed.`);
+    throw new Error(
+      `the builds are not reproducible: the packed tarballs differ\n${details}\nThe tarballs were kept in ${directory}; unpack both and diff them to find the file that changed.`,
+    );
   }
   return { hashes };
 }

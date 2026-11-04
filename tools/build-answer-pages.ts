@@ -103,7 +103,11 @@ function canonicalPurl(value: string): string {
 
 const PRODUCT_NAMES = new Map(PRIORITY_PRODUCTS.map((product) => [canonicalPurl(product.purl), product.name]));
 
-const LIFECYCLE_COUNT_EVENTS = new Set<RegistryV2Rule["event"]>(["end-of-life", "end-of-support", "scheduled-end-of-life"]);
+const LIFECYCLE_COUNT_EVENTS = new Set<RegistryV2Rule["event"]>([
+  "end-of-life",
+  "end-of-support",
+  "scheduled-end-of-life",
+]);
 
 const EVENT_LABELS: Record<RegistryV2Rule["event"], string> = {
   deprecated: "Deprecated",
@@ -147,7 +151,9 @@ const yaml = (value: string) => JSON.stringify(value);
 const inline = (value: string) =>
   value
     .split(/(`[^`\n]*`)/)
-    .map((part, index) => (index % 2 === 1 ? part : part.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")))
+    .map((part, index) =>
+      index % 2 === 1 ? part : part.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+    )
     .join("");
 
 function markdownEscape(value: string, characters: RegExp): string {
@@ -259,14 +265,18 @@ export function selectProducts(registries: readonly RegistryV2[], limit = ANSWER
 
   const slugs = new Set<string>();
   for (const product of selected) {
-    if (slugs.has(product.slug)) throw new Error(`Answer-page slug "${product.slug}" is used by more than one product.`);
+    if (slugs.has(product.slug))
+      throw new Error(`Answer-page slug "${product.slug}" is used by more than one product.`);
     slugs.add(product.slug);
   }
   return selected;
 }
 
 function latestReview(rules: readonly RegistryV2Rule[]): string {
-  const latest = rules.map((rule) => rule.provenance.reviewedAt).sort().at(-1);
+  const latest = rules
+    .map((rule) => rule.provenance.reviewedAt)
+    .sort()
+    .at(-1);
   if (latest === undefined) throw new Error("A product page needs at least one rule.");
   return latest;
 }
@@ -441,7 +451,10 @@ function renderIndex(products: readonly AnswerProduct[]): string {
     "",
     `These ${products.length} pages answer “Is it end of life?” for products people search for. Each page lists every reviewed lifecycle rule for that Package URL: status, date, affected versions, and sources. The pages are generated from the lifecycle registry (\`registry/\`), not written by hand.`,
     "",
-    ...products.map((product) => `- [Is ${linkLabel(product.name)} end of life?](${product.slug}.html) — \`${product.purl}\`, ${product.rules.length} ${product.rules.length === 1 ? "rule" : "rules"}`),
+    ...products.map(
+      (product) =>
+        `- [Is ${linkLabel(product.name)} end of life?](${product.slug}.html) — \`${product.purl}\`, ${product.rules.length} ${product.rules.length === 1 ? "rule" : "rules"}`,
+    ),
     "",
     "Regenerate this index with `npm run build:answer-pages`.",
     "",
@@ -453,7 +466,10 @@ export function buildFiles(registries: readonly RegistryV2[]): GeneratedFile[] {
   const products = selectProducts(registries);
   const files: GeneratedFile[] = [
     { path: `${EOL_DIRECTORY}/index.md`, contents: renderIndex(products) },
-    ...products.map((product) => ({ path: `${EOL_DIRECTORY}/${product.slug}.md`, contents: renderAnswerPage(product) })),
+    ...products.map((product) => ({
+      path: `${EOL_DIRECTORY}/${product.slug}.md`,
+      contents: renderAnswerPage(product),
+    })),
   ];
   return files.sort((left, right) => left.path.localeCompare(right.path));
 }
@@ -489,7 +505,9 @@ export async function main(argv: readonly string[] = process.argv.slice(2)): Pro
   if (argv.includes("--check")) {
     const problems = await drift(files);
     if (problems.length === 0) return 0;
-    console.error(`The answer pages are out of date with registry/ (${problems.length} files). Run \`npm run build:answer-pages\` and commit the result:`);
+    console.error(
+      `The answer pages are out of date with registry/ (${problems.length} files). Run \`npm run build:answer-pages\` and commit the result:`,
+    );
     for (const problem of problems.slice(0, 20)) console.error(`  ${problem}`);
     if (problems.length > 20) console.error(`  … and ${problems.length - 20} more`);
     return 1;

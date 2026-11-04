@@ -77,10 +77,7 @@ function joinPosix(dir: string, name: string): string {
 
 /** Same derivation as the private helper in migration-packet: declaration plus usage files. */
 function packetAffectedFiles(finding: Finding): string[] {
-  return [
-    finding.location.path,
-    ...(finding.usages ?? []).map((usage) => usage.location.path),
-  ];
+  return [finding.location.path, ...(finding.usages ?? []).map((usage) => usage.location.path)];
 }
 
 function lockNamesForManifest(name: string): readonly string[] | undefined {
@@ -99,9 +96,7 @@ function lockfilesForManifest(manifestPath: string, present: ReadonlySet<string>
   if (!lockNames) return [];
   let dir = directory(manifestPath);
   while (true) {
-    const found = lockNames
-      .map((name) => joinPosix(dir, name))
-      .filter((candidate) => present.has(candidate));
+    const found = lockNames.map((name) => joinPosix(dir, name)).filter((candidate) => present.has(candidate));
     if (found.length > 0) return found;
     if (dir === "") return [];
     dir = directory(dir);
@@ -112,9 +107,7 @@ function manifestsForLockfile(lockPath: string, present: ReadonlySet<string>): s
   const manifestNames = MANIFESTS_BY_LOCKFILE[basename(lockPath)];
   if (!manifestNames) return [];
   const dir = directory(lockPath);
-  return manifestNames
-    .map((name) => joinPosix(dir, name))
-    .filter((candidate) => present.has(candidate));
+  return manifestNames.map((name) => joinPosix(dir, name)).filter((candidate) => present.has(candidate));
 }
 
 /**

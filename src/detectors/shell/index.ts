@@ -30,7 +30,19 @@ import { parseWorkflow } from "./parse-workflow.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const SCRIPT_EXTENSIONS = [".ps1", ".psm1", ".psd1"];
 const WORKFLOW_EXTENSIONS = [".yml", ".yaml"];
 const OPEN_END = "999999999";
@@ -52,7 +64,11 @@ async function shellFiles(root: string): Promise<string[]> {
       const name = entry.name.toLowerCase();
       if (entry.isDirectory()) {
         if (SKIPPED_DIRECTORIES.has(entry.name)) continue;
-        await walk(join(directory, entry.name), depth + 1, entry.name === "workflows" && basename(directory) === ".github");
+        await walk(
+          join(directory, entry.name),
+          depth + 1,
+          entry.name === "workflows" && basename(directory) === ".github",
+        );
       } else if (entry.isFile()) {
         const script = SCRIPT_EXTENSIONS.some((extension) => name.endsWith(extension));
         const workflow = inWorkflows && WORKFLOW_EXTENSIONS.some((extension) => name.endsWith(extension));
@@ -106,7 +122,10 @@ export class ShellDetector implements Detector {
   };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/shell.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/shell.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/shell.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -145,13 +164,20 @@ export class ShellDetector implements Detector {
       if (classify(file) === "script") {
         for (const declaration of parsePowerShell(contents)) {
           const rule = ruleForDeclared(rules, declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} requires PowerShell ${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(rule, path, declaration.line, `${path} requires PowerShell ${declaration.value}. ${rule.summary}`);
         }
       } else {
         for (const declaration of parseWorkflow(contents)) {
           if (declaration.kind !== "image" || declaration.product !== "powershell") continue;
           const rule = ruleForDeclared(rules, declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} runs mcr.microsoft.com/powershell:${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} runs mcr.microsoft.com/powershell:${declaration.value}. ${rule.summary}`,
+            );
         }
       }
     }

@@ -57,7 +57,13 @@ const ALIASES: Record<string, string> = {
   "ruby-on-rails": "rails",
 };
 
-const statusPrecedence: readonly LifecycleEvent[] = ["end-of-life", "removed", "end-of-support", "deprecated", "scheduled-end-of-life"];
+const statusPrecedence: readonly LifecycleEvent[] = [
+  "end-of-life",
+  "removed",
+  "end-of-support",
+  "deprecated",
+  "scheduled-end-of-life",
+];
 
 let loadedRules: Promise<RegistryV2Rule[]> | undefined;
 
@@ -73,7 +79,11 @@ function allRules(): Promise<RegistryV2Rule[]> {
   return loadedRules;
 }
 
-const normalize = (value: string): string => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+const normalize = (value: string): string =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 interface Product {
   id: string;
@@ -87,11 +97,16 @@ interface Product {
 function productId(purl: string): string {
   const parsed = parsePurl(purl);
   const parts = [parsed.type, ...(parsed.namespace ? parsed.namespace.split("/") : []), parsed.name];
-  return parts.join("-").replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase();
+  return parts
+    .join("-")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
 }
 
 /** A rule with only symbol matchers describes an API inside a product, not the product's own lifecycle. */
-const isProductRule = (rule: RegistryV2Rule): boolean => rule.usage === undefined || rule.usage.some((matcher) => matcher.kind !== "symbol");
+const isProductRule = (rule: RegistryV2Rule): boolean =>
+  rule.usage === undefined || rule.usage.some((matcher) => matcher.kind !== "symbol");
 
 function productsOf(rules: readonly RegistryV2Rule[]): Product[] {
   const products = new Map<string, Product>();
@@ -99,7 +114,14 @@ function productsOf(rules: readonly RegistryV2Rule[]): Product[] {
     let product = products.get(rule.purl);
     if (!product) {
       const parsed = parsePurl(rule.purl);
-      product = { id: productId(rule.purl), purl: rule.purl, name: parsed.name, ecosystems: [], aliases: new Set(), rules: [] };
+      product = {
+        id: productId(rule.purl),
+        purl: rule.purl,
+        name: parsed.name,
+        ecosystems: [],
+        aliases: new Set(),
+        rules: [],
+      };
       for (const alias of [product.id, parsed.name, ...(parsed.namespace ? parsed.namespace.split("/") : [])]) {
         const normalized = normalize(alias);
         if (normalized !== "") product.aliases.add(normalized);
@@ -131,7 +153,10 @@ function editDistance(left: string, right: string): number {
 
 function nearestProduct(query: string, products: readonly Product[]): Array<{ product: Product; distance: number }> {
   return products
-    .map((product) => ({ product, distance: Math.min(...[...product.aliases].map((alias) => editDistance(query, alias))) }))
+    .map((product) => ({
+      product,
+      distance: Math.min(...[...product.aliases].map((alias) => editDistance(query, alias))),
+    }))
     .sort((left, right) => left.distance - right.distance || left.product.id.localeCompare(right.product.id));
 }
 
@@ -139,13 +164,21 @@ function resolveProduct(name: string, products: readonly Product[]): Product {
   const query = ALIASES[normalize(name)] ?? normalize(name);
   const matches = products.filter((product) => product.aliases.has(query));
   if (matches.length === 0) {
-    const suggestions = [...new Set(nearestProduct(query, products).slice(0, 3).map(({ product }) => product.name))];
+    const suggestions = [
+      ...new Set(
+        nearestProduct(query, products)
+          .slice(0, 3)
+          .map(({ product }) => product.name),
+      ),
+    ];
     throw new LookupError(`Unknown product "${name}". Did you mean ${suggestions.map((id) => `"${id}"`).join(", ")}?`);
   }
   if (matches.length === 1) return matches[0]!;
   const named = matches.filter((product) => normalize(product.name) === query);
   const candidates = named.length > 0 ? named : matches;
-  return [...candidates].sort((left, right) => right.rules.length - left.rules.length || left.id.localeCompare(right.id))[0]!;
+  return [...candidates].sort(
+    (left, right) => right.rules.length - left.rules.length || left.id.localeCompare(right.id),
+  )[0]!;
 }
 
 function versionCandidates(version: string): string[] {
@@ -212,12 +245,16 @@ export async function lookupProduct(name: string, version?: string): Promise<Loo
 
 /** Plain text: the verdict first, then each rule with its evidence links. */
 export function renderLookupText(result: LookupResult): string {
-  const lines = [`${result.product.name}${result.version === undefined ? "" : ` ${result.version}`} — ${result.status}`];
+  const lines = [
+    `${result.product.name}${result.version === undefined ? "" : ` ${result.version}`} — ${result.status}`,
+  ];
   if (result.deadline !== undefined) lines.push(`Ended: ${result.deadline}`);
   if (result.replacement !== undefined) lines.push(`Replacement: ${result.replacement}`);
   if (result.findings.length === 0) lines.push("No lifecycle rule matches this version.");
   for (const finding of result.findings) {
-    lines.push(`- ${finding.event}${finding.deadline === undefined ? "" : ` ${finding.deadline}`}: ${finding.title} (${finding.severity})`);
+    lines.push(
+      `- ${finding.event}${finding.deadline === undefined ? "" : ` ${finding.deadline}`}: ${finding.title} (${finding.severity})`,
+    );
     for (const source of finding.sources) lines.push(`  ${source.title}: ${source.url}`);
   }
   lines.push(`Product: ${result.product.purl}`);

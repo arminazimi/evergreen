@@ -37,7 +37,12 @@ export const GENERATED_PATHS = Object.freeze([
   { path: "docs/rules/index.md", directory: false, target: "Build time", generator: "npm run build:reference" },
   { path: "docs/dashboard/data.json", directory: false, target: "Build time", generator: "npm run build:dashboard" },
   { path: "docs/api/v1", directory: true, target: "Build time", generator: "npm run build:data-api" },
-  { path: "src/commands/index.generated.ts", directory: false, target: "Build time", generator: "node tools/generate-commands-index.mjs" },
+  {
+    path: "src/commands/index.generated.ts",
+    directory: false,
+    target: "Build time",
+    generator: "node tools/generate-commands-index.mjs",
+  },
   { path: "dist/action/index.js", directory: false, target: "Release time", generator: "npm run build:action" },
   { path: "CHANGELOG.md", directory: false, target: "Release time", generator: "node dist/tools/changelog.js --write" },
 ]);
@@ -90,9 +95,13 @@ function readHead(file) {
 
 /** The files a change set adds, sorted. */
 export function addedFiles(base, root = process.cwd()) {
-  const output = execFileSync("git", ["-C", root, "diff", "--name-only", "--diff-filter=A", "--no-renames", base, "HEAD"], {
-    encoding: "utf8",
-  });
+  const output = execFileSync(
+    "git",
+    ["-C", root, "diff", "--name-only", "--diff-filter=A", "--no-renames", base, "HEAD"],
+    {
+      encoding: "utf8",
+    },
+  );
   return output
     .split("\n")
     .map((line) => line.trim())
@@ -154,7 +163,9 @@ export function main(args = process.argv.slice(2)) {
 
   const findings = inspectAdditions(files);
   if (findings.length === 0) {
-    process.stdout.write(`No generated files were added (${files.length} added file(s) checked against ${GENERATED_PATHS.length} inventoried paths).\n`);
+    process.stdout.write(
+      `No generated files were added (${files.length} added file(s) checked against ${GENERATED_PATHS.length} inventoried paths).\n`,
+    );
     return 0;
   }
 
@@ -163,7 +174,9 @@ export function main(args = process.argv.slice(2)) {
     const message = describeFinding(finding);
     process.stderr.write(annotate ? `::error file=${finding.path}::${message}\n` : `error: ${message}\n`);
   }
-  process.stderr.write(`\n${findings.length} generated file(s) added. Commit the source and regenerate locally; do not commit the output.\n`);
+  process.stderr.write(
+    `\n${findings.length} generated file(s) added. Commit the source and regenerate locally; do not commit the output.\n`,
+  );
   return 1;
 }
 

@@ -4,8 +4,14 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { MAXIMUM_INPUT_BYTES, parseDatabaseCompose } from "../src/detectors/database/parse-compose.js";
-import { MAXIMUM_INPUT_BYTES as MAXIMUM_TERRAFORM_BYTES, parseDatabaseTerraform } from "../src/detectors/database/parse-terraform.js";
-import type { DatabaseEngineVersionDeclaration, DatabaseTerraformUnclassified } from "../src/detectors/database/parse-terraform.js";
+import {
+  MAXIMUM_INPUT_BYTES as MAXIMUM_TERRAFORM_BYTES,
+  parseDatabaseTerraform,
+} from "../src/detectors/database/parse-terraform.js";
+import type {
+  DatabaseEngineVersionDeclaration,
+  DatabaseTerraformUnclassified,
+} from "../src/detectors/database/parse-terraform.js";
 
 const fixtures = resolve("tests/fixtures/database");
 
@@ -80,30 +86,51 @@ test("skips untagged, digest-only, other-registry, and lookalike images", () => 
 });
 
 test("returns nothing for aliases and oversized input", () => {
-  assert.deepEqual(
-    parseDatabaseCompose("services:\n  a: &a\n    image: postgres:12\n  b: *a\n"),
-    [],
-  );
+  assert.deepEqual(parseDatabaseCompose("services:\n  a: &a\n    image: postgres:12\n  b: *a\n"), []);
   const padding = "# ".padEnd(MAXIMUM_INPUT_BYTES + 1, "x");
   assert.deepEqual(parseDatabaseCompose(`${padding}\nservices:\n  a:\n    image: postgres:12\n`), []);
 });
 
 test("parses engine_version on managed database resources with exact lines", async () => {
-  assert.deepEqual(parseDatabaseTerraform(await fixture("positive/main.tf")), parsed([
-    { resource: "aws_db_instance", name: "orders", engine: "postgres", product: "postgres", value: "12.22", line: 4 },
-  ]));
-  assert.deepEqual(parseDatabaseTerraform(await fixture("zero/main.tf")), parsed([
-    { resource: "aws_db_instance", name: "orders", engine: "postgres", product: "postgres", value: "17.4", line: 4 },
-    { resource: "aws_db_instance", name: "catalog", engine: "mysql", product: "mysql", value: "8.4.3", line: 12 },
-  ]));
+  assert.deepEqual(
+    parseDatabaseTerraform(await fixture("positive/main.tf")),
+    parsed([
+      { resource: "aws_db_instance", name: "orders", engine: "postgres", product: "postgres", value: "12.22", line: 4 },
+    ]),
+  );
+  assert.deepEqual(
+    parseDatabaseTerraform(await fixture("zero/main.tf")),
+    parsed([
+      { resource: "aws_db_instance", name: "orders", engine: "postgres", product: "postgres", value: "17.4", line: 4 },
+      { resource: "aws_db_instance", name: "catalog", engine: "mysql", product: "mysql", value: "8.4.3", line: 12 },
+    ]),
+  );
 });
 
 test("lists variables and interpolations instead of guessing, and ignores comments, parameter groups, and tags", async () => {
-  assert.deepEqual(parseDatabaseTerraform(await fixture("negative/main.tf")), parsed([], [
-    { resource: "aws_db_instance", name: "orders", attribute: "engine", value: "var.db_engine", line: 4 },
-    { resource: "aws_db_instance", name: "orders", attribute: "engine_version", value: "var.db_engine_version", line: 5 },
-    { resource: "aws_db_instance", name: "reports", attribute: "engine_version", value: '"${local.pg_major}.22"', line: 13 },
-  ]));
+  assert.deepEqual(
+    parseDatabaseTerraform(await fixture("negative/main.tf")),
+    parsed(
+      [],
+      [
+        { resource: "aws_db_instance", name: "orders", attribute: "engine", value: "var.db_engine", line: 4 },
+        {
+          resource: "aws_db_instance",
+          name: "orders",
+          attribute: "engine_version",
+          value: "var.db_engine_version",
+          line: 5,
+        },
+        {
+          resource: "aws_db_instance",
+          name: "reports",
+          attribute: "engine_version",
+          value: '"${local.pg_major}.22"',
+          line: 13,
+        },
+      ],
+    ),
+  );
 });
 
 test("returns nothing for malformed terraform", async () => {
@@ -126,11 +153,21 @@ resource "aws_elasticache_replication_group" "c" {
   engine_version = "6.2"
 }
 `;
-  assert.deepEqual(parseDatabaseTerraform(contents), parsed([
-    { resource: "aws_db_instance", name: "a", engine: "mariadb", product: "mariadb", value: "10.5", line: 2 },
-    { resource: "aws_rds_cluster", name: "b", engine: "mysql", product: "mysql", value: "5.7.44", line: 7 },
-    { resource: "aws_elasticache_replication_group", name: "c", engine: "redis", product: "redis", value: "6.2", line: 11 },
-  ]));
+  assert.deepEqual(
+    parseDatabaseTerraform(contents),
+    parsed([
+      { resource: "aws_db_instance", name: "a", engine: "mariadb", product: "mariadb", value: "10.5", line: 2 },
+      { resource: "aws_rds_cluster", name: "b", engine: "mysql", product: "mysql", value: "5.7.44", line: 7 },
+      {
+        resource: "aws_elasticache_replication_group",
+        name: "c",
+        engine: "redis",
+        product: "redis",
+        value: "6.2",
+        line: 11,
+      },
+    ]),
+  );
 });
 
 test("skips unknown engines, mismatched engines, missing engine, and data or module blocks", () => {
@@ -151,8 +188,13 @@ test("skips unknown engines, mismatched engines, missing engine, and data or mod
 
 test("a call in a version attribute is unclassified, never evaluated", () => {
   assert.deepEqual(
-    parseDatabaseTerraform('resource "aws_db_instance" "a" {\n  engine = "postgres"\n  engine_version = format("%s", "12")\n}\n'),
-    parsed([], [{ resource: "aws_db_instance", name: "a", attribute: "engine_version", value: 'format("%s", "12")', line: 3 }]),
+    parseDatabaseTerraform(
+      'resource "aws_db_instance" "a" {\n  engine = "postgres"\n  engine_version = format("%s", "12")\n}\n',
+    ),
+    parsed(
+      [],
+      [{ resource: "aws_db_instance", name: "a", attribute: "engine_version", value: 'format("%s", "12")', line: 3 }],
+    ),
   );
 });
 
@@ -185,17 +227,83 @@ resource "google_sql_source_representation_instance" "source" {
   database_version = "MYSQL_5_6"
 }
 `;
-  assert.deepEqual(parseDatabaseTerraform(contents), parsed([
-    { resource: "azurerm_postgresql_flexible_server", name: "pg", engine: "postgres", product: "azure-database-postgresql", value: "12", line: 2 },
-    { resource: "azurerm_postgresql_server", name: "legacy_pg", engine: "postgres", product: "azure-database-postgresql", value: "11", line: 5 },
-    { resource: "azurerm_mysql_flexible_server", name: "mysql", engine: "mysql", product: "azure-database-mysql", value: "5.7", line: 8 },
-    { resource: "azurerm_mysql_server", name: "legacy_mysql", engine: "mysql", product: "azure-database-mysql", value: "8.0", line: 11 },
-    { resource: "azurerm_mariadb_server", name: "maria", engine: "mariadb", product: "azure-database-mariadb", value: "10.3", line: 14 },
-    { resource: "google_sql_database_instance", name: "pg", engine: "postgres", product: "google-cloud-sql-postgresql", value: "9.6", line: 17 },
-    { resource: "google_sql_database_instance", name: "pg12", engine: "postgres", product: "google-cloud-sql-postgresql", value: "12", line: 20 },
-    { resource: "google_sql_database_instance", name: "mysql", engine: "mysql", product: "google-cloud-sql-mysql", value: "8.0", line: 23 },
-    { resource: "google_sql_source_representation_instance", name: "source", engine: "mysql", product: "google-cloud-sql-mysql", value: "5.6", line: 26 },
-  ]));
+  assert.deepEqual(
+    parseDatabaseTerraform(contents),
+    parsed([
+      {
+        resource: "azurerm_postgresql_flexible_server",
+        name: "pg",
+        engine: "postgres",
+        product: "azure-database-postgresql",
+        value: "12",
+        line: 2,
+      },
+      {
+        resource: "azurerm_postgresql_server",
+        name: "legacy_pg",
+        engine: "postgres",
+        product: "azure-database-postgresql",
+        value: "11",
+        line: 5,
+      },
+      {
+        resource: "azurerm_mysql_flexible_server",
+        name: "mysql",
+        engine: "mysql",
+        product: "azure-database-mysql",
+        value: "5.7",
+        line: 8,
+      },
+      {
+        resource: "azurerm_mysql_server",
+        name: "legacy_mysql",
+        engine: "mysql",
+        product: "azure-database-mysql",
+        value: "8.0",
+        line: 11,
+      },
+      {
+        resource: "azurerm_mariadb_server",
+        name: "maria",
+        engine: "mariadb",
+        product: "azure-database-mariadb",
+        value: "10.3",
+        line: 14,
+      },
+      {
+        resource: "google_sql_database_instance",
+        name: "pg",
+        engine: "postgres",
+        product: "google-cloud-sql-postgresql",
+        value: "9.6",
+        line: 17,
+      },
+      {
+        resource: "google_sql_database_instance",
+        name: "pg12",
+        engine: "postgres",
+        product: "google-cloud-sql-postgresql",
+        value: "12",
+        line: 20,
+      },
+      {
+        resource: "google_sql_database_instance",
+        name: "mysql",
+        engine: "mysql",
+        product: "google-cloud-sql-mysql",
+        value: "8.0",
+        line: 23,
+      },
+      {
+        resource: "google_sql_source_representation_instance",
+        name: "source",
+        engine: "mysql",
+        product: "google-cloud-sql-mysql",
+        value: "5.6",
+        line: 26,
+      },
+    ]),
+  );
 });
 
 test("lists variables and interpolations on Azure and Google Cloud SQL resources as unclassified", () => {
@@ -212,12 +320,42 @@ resource "google_sql_database_instance" "interpolated" {
   database_version = "POSTGRES_\${var.major}"
 }
 `;
-  assert.deepEqual(parseDatabaseTerraform(contents), parsed([], [
-    { resource: "azurerm_postgresql_flexible_server", name: "pg", attribute: "version", value: "var.pg_version", line: 2 },
-    { resource: "azurerm_mysql_flexible_server", name: "mysql", attribute: "version", value: "local.mysql_version", line: 5 },
-    { resource: "google_sql_database_instance", name: "google", attribute: "database_version", value: "var.database_version", line: 8 },
-    { resource: "google_sql_database_instance", name: "interpolated", attribute: "database_version", value: '"POSTGRES_${var.major}"', line: 11 },
-  ]));
+  assert.deepEqual(
+    parseDatabaseTerraform(contents),
+    parsed(
+      [],
+      [
+        {
+          resource: "azurerm_postgresql_flexible_server",
+          name: "pg",
+          attribute: "version",
+          value: "var.pg_version",
+          line: 2,
+        },
+        {
+          resource: "azurerm_mysql_flexible_server",
+          name: "mysql",
+          attribute: "version",
+          value: "local.mysql_version",
+          line: 5,
+        },
+        {
+          resource: "google_sql_database_instance",
+          name: "google",
+          attribute: "database_version",
+          value: "var.database_version",
+          line: 8,
+        },
+        {
+          resource: "google_sql_database_instance",
+          name: "interpolated",
+          attribute: "database_version",
+          value: '"POSTGRES_${var.major}"',
+          line: 11,
+        },
+      ],
+    ),
+  );
 });
 
 test("ignores a version key inside a nested tags object and still reads the version after it", () => {
@@ -228,9 +366,19 @@ test("ignores a version key inside a nested tags object and still reads the vers
   version = "12"
 }
 `;
-  assert.deepEqual(parseDatabaseTerraform(contents), parsed([
-    { resource: "azurerm_postgresql_flexible_server", name: "pg", engine: "postgres", product: "azure-database-postgresql", value: "12", line: 5 },
-  ]));
+  assert.deepEqual(
+    parseDatabaseTerraform(contents),
+    parsed([
+      {
+        resource: "azurerm_postgresql_flexible_server",
+        name: "pg",
+        engine: "postgres",
+        product: "azure-database-postgresql",
+        value: "12",
+        line: 5,
+      },
+    ]),
+  );
 });
 
 test("ignores unrelated azurerm resources and Google SQL Server database versions", () => {
@@ -248,10 +396,14 @@ resource "google_sql_database" "db" {
 });
 
 test("supports CRLF and a byte order mark, and bounds oversized input", () => {
-  const contents = '\uFEFFresource "aws_db_instance" "a" {\r\n  engine = "postgres"\r\n  engine_version = "12.22"\r\n}\r\n';
-  assert.deepEqual(parseDatabaseTerraform(contents), parsed([
-    { resource: "aws_db_instance", name: "a", engine: "postgres", product: "postgres", value: "12.22", line: 3 },
-  ]));
+  const contents =
+    '\uFEFFresource "aws_db_instance" "a" {\r\n  engine = "postgres"\r\n  engine_version = "12.22"\r\n}\r\n';
+  assert.deepEqual(
+    parseDatabaseTerraform(contents),
+    parsed([
+      { resource: "aws_db_instance", name: "a", engine: "postgres", product: "postgres", value: "12.22", line: 3 },
+    ]),
+  );
   const padding = "# ".padEnd(MAXIMUM_TERRAFORM_BYTES + 1, "x");
   assert.deepEqual(parseDatabaseTerraform(`${padding}\n${contents}`), parsed());
 });

@@ -17,7 +17,12 @@ import {
 } from "../tools/coverage-thresholds.js";
 import { COVERAGE_EXCLUDES } from "../tools/check-pipeline.js";
 
-function record(path: string, lines: [number, number], branches: [number, number], functions: [number, number]): string {
+function record(
+  path: string,
+  lines: [number, number],
+  branches: [number, number],
+  functions: [number, number],
+): string {
   return [
     "TN:",
     `SF:${path}`,
@@ -32,7 +37,8 @@ function record(path: string, lines: [number, number], branches: [number, number
   ].join("\n");
 }
 
-const LCOV = record("dist/src/engine.js", [90, 100], [40, 50], [45, 50]) + record("dist/src/cli.js", [10, 20], [10, 10], [5, 5]);
+const LCOV =
+  record("dist/src/engine.js", [90, 100], [40, 50], [45, 50]) + record("dist/src/cli.js", [10, 20], [10, 10], [5, 5]);
 
 test("sums the LCOV counters into the totals node:test prints for all files", () => {
   const totals = parseLcovTotals(LCOV);
@@ -68,7 +74,10 @@ test("floors pass at the limit and fail only below it", () => {
     below.failures.map((failure) => failure.metric),
     ["lines", "branches"],
   );
-  assert.match(renderThresholdText(below, { lines: 83.34, branches: 90, functions: 80 }), /branches: 83\.33% \(floor 90\) FAIL/);
+  assert.match(
+    renderThresholdText(below, { lines: 83.34, branches: 90, functions: 80 }),
+    /branches: 83\.33% \(floor 90\) FAIL/,
+  );
   assert.match(renderThresholdSummary(below, { lines: 83.34, branches: 90, functions: 80 }), /below the 90% floor/);
 });
 
@@ -80,7 +89,10 @@ test("readCoverageFloors rejects a missing or an out-of-range floor", () => {
   });
   assert.throws(() => readCoverageFloors("{}"), /coverageFloors/);
   assert.throws(() => readCoverageFloors('{"coverageFloors":{"lines":93,"branches":87}}'), /coverageFloors\.functions/);
-  assert.throws(() => readCoverageFloors('{"coverageFloors":{"lines":93,"branches":87,"functions":101}}'), /between 0 and 100/);
+  assert.throws(
+    () => readCoverageFloors('{"coverageFloors":{"lines":93,"branches":87,"functions":101}}'),
+    /between 0 and 100/,
+  );
 });
 
 test("package.json keeps one set of floors for the local run and the CI gate", async () => {
@@ -125,6 +137,9 @@ test("a pull request may not lower a total below main, beyond the rounding toler
   assert.deepEqual(checkCoverageAgainstBase(parseLcovTotals(lcov(1000, 951)), base), []);
   assert.ok(BASELINE_TOLERANCE > 0 && BASELINE_TOLERANCE < 0.1);
   const drops = checkCoverageAgainstBase(parseLcovTotals(lcov(1000, 940)), base);
-  assert.deepEqual(drops.map((drop) => drop.metric), ["lines"]);
+  assert.deepEqual(
+    drops.map((drop) => drop.metric),
+    ["lines"],
+  );
   assert.equal(drops[0]?.base, 95);
 });

@@ -17,8 +17,11 @@ function registry(responses: Record<string, unknown>): ImporterContext {
   return {
     now: new Date("2026-10-15T12:00:00Z"),
     async fetchText(url) {
-      const response = responses[url] ?? (!url.endsWith("/latest") && responses[`${url}/latest`] && !(responses[`${url}/latest`] instanceof Error)
-        ? { versions: { "1.0.0": responses[`${url}/latest`] } } : undefined);
+      const response =
+        responses[url] ??
+        (!url.endsWith("/latest") && responses[`${url}/latest`] && !(responses[`${url}/latest`] instanceof Error)
+          ? { versions: { "1.0.0": responses[`${url}/latest`] } }
+          : undefined);
       if (response === undefined) throw new ImporterError(`GET ${url} failed: HTTP 404`);
       if (response instanceof Error) throw response;
       return JSON.stringify(response);
@@ -35,7 +38,10 @@ test("drafts a deprecated rule for every candidate whose latest version carries 
   assert.ok(!request.vers.includes("*"));
   assert.equal(request.event, "deprecated");
   assert.equal(request.title, "request is deprecated");
-  assert.equal(request.summary, 'npm marks request as deprecated: "request has been deprecated, see https://github.com/request/request/issues/3142"');
+  assert.equal(
+    request.summary,
+    'npm marks request as deprecated: "request has been deprecated, see https://github.com/request/request/issues/3142"',
+  );
   assert.deepEqual(request["x-npm"], { package: "request" });
   assert.deepEqual(request.sources, [
     { title: "request on npm", url: "https://www.npmjs.com/package/request" },
@@ -70,7 +76,8 @@ test("builds rule ids from package names", () => {
 });
 
 test("rejects names npm does not allow", () => {
-  for (const name of ["", "has space", "@scope", "@/name", "a/b", "UPPER space"]) assert.doesNotMatch(name, NPM_NAME, name);
+  for (const name of ["", "has space", "@scope", "@/name", "a/b", "UPPER space"])
+    assert.doesNotMatch(name, NPM_NAME, name);
 });
 
 test("a registry URL percent-encodes every path metacharacter, including backslashes", () => {
@@ -83,8 +90,18 @@ test("a registry URL percent-encodes every path metacharacter, including backsla
 
 test("a package whose latest version is not deprecated produces no rule and is listed in the notes", async () => {
   const names = Object.fromEntries(NPM_CANDIDATES.map((name) => [registryUrl(name), { name, version: "1.0.0" }]));
-  const result = await runImporter(npmDeprecatedImporter, registry({ ...names, [registryUrl("request")]: { name: "request", version: "3.0.0", deprecated: "gone" }, [registryUrl("tslint")]: { name: "tslint", deprecated: "" } }));
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["npm.package.request.deprecated"]);
+  const result = await runImporter(
+    npmDeprecatedImporter,
+    registry({
+      ...names,
+      [registryUrl("request")]: { name: "request", version: "3.0.0", deprecated: "gone" },
+      [registryUrl("tslint")]: { name: "tslint", deprecated: "" },
+    }),
+  );
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["npm.package.request.deprecated"],
+  );
   assert.equal(result.notes.length, 1);
   const note = result.notes[0]!;
   assert.match(note, /^Not deprecated at their latest version, so no rule .*: .+\.$/);
@@ -100,14 +117,20 @@ test("a package that was removed from npm is noted, but any other failure stops 
   assert.ok(result.notes.includes("Skipped sntp: not found on npm."));
   assert.equal(result.rules.length, NPM_CANDIDATES.length - 1);
 
-  const outage = { ...everything, [registryUrl("sntp")]: new ImporterError(`GET ${registryUrl("sntp")} failed: HTTP 503`) };
+  const outage = {
+    ...everything,
+    [registryUrl("sntp")]: new ImporterError(`GET ${registryUrl("sntp")} failed: HTTP 503`),
+  };
   await assert.rejects(runImporter(npmDeprecatedImporter, registry(outage)), /HTTP 503/);
 });
 
 test("quotes long notices briefly and flattens whitespace", async () => {
   const everything = Object.fromEntries(NPM_CANDIDATES.map((name) => [registryUrl(name), { name }]));
   const long = `${"Please\n  move   to the replacement. ".repeat(20)}`;
-  const result = await runImporter(npmDeprecatedImporter, registry({ ...everything, [registryUrl("request")]: { name: "request", deprecated: long } }));
+  const result = await runImporter(
+    npmDeprecatedImporter,
+    registry({ ...everything, [registryUrl("request")]: { name: "request", deprecated: long } }),
+  );
   const summary = result.rules[0]!.summary;
   assert.ok(summary.length <= 'npm marks request as deprecated: ""'.length + 280, `${summary.length}`);
   assert.ok(summary.endsWith('…"'));
@@ -126,7 +149,11 @@ test("against the registry it updates the rules that exist and flags the one it 
   // Every drafted rule the registry already has is either updated (hand-written wording differs) or unchanged
   // (reviewed rules accepted straight from a draft).
   assert.deepEqual([...diff.changed.map((change) => change.id), ...diff.unchanged].sort(), overlap);
-  for (const id of ["npm.package.babel-eslint.deprecated", "npm.package.tslint.deprecated", "npm.package.uglify-es.deprecated"]) {
+  for (const id of [
+    "npm.package.babel-eslint.deprecated",
+    "npm.package.tslint.deprecated",
+    "npm.package.uglify-es.deprecated",
+  ]) {
     assert.ok(overlap.includes(id), `${id} is reviewed against its version-specific draft`);
   }
   assert.deepEqual(diff.duplicates, [], "version-specific drafts do not duplicate a wildcard lifecycle rule");
@@ -134,18 +161,25 @@ test("against the registry it updates the rules that exist and flags the one it 
 });
 
 test("a response that is not JSON is reported with its URL", async () => {
-  await assert.rejects(runImporter(npmDeprecatedImporter, { now: new Date("2026-10-15T12:00:00Z"), fetchText: async () => "<html>" }), /not valid JSON/);
+  await assert.rejects(
+    runImporter(npmDeprecatedImporter, { now: new Date("2026-10-15T12:00:00Z"), fetchText: async () => "<html>" }),
+    /not valid JSON/,
+  );
 });
 
 test("a latest-version notice never marks older unflagged releases deprecated", async () => {
   const result = await runImporter(npmDeprecatedImporter, {
     now: new Date("2026-10-19T12:00:00Z"),
     async fetchText(url) {
-      if (url === registryUrl("@types/glob")) return JSON.stringify({ name: "@types/glob", version: "9.0.0", deprecated: "stub" });
-      if (url === registryUrl("@types/glob").replace(/\/latest$/, "")) return JSON.stringify({ versions: {
-        "8.1.0": { version: "8.1.0" },
-        "9.0.0": { version: "9.0.0", deprecated: "stub" },
-      } });
+      if (url === registryUrl("@types/glob"))
+        return JSON.stringify({ name: "@types/glob", version: "9.0.0", deprecated: "stub" });
+      if (url === registryUrl("@types/glob").replace(/\/latest$/, ""))
+        return JSON.stringify({
+          versions: {
+            "8.1.0": { version: "8.1.0" },
+            "9.0.0": { version: "9.0.0", deprecated: "stub" },
+          },
+        });
       throw new ImporterError(`GET ${url} failed: HTTP 404`);
     },
   });

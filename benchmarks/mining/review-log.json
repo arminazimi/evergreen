@@ -136,9 +136,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "collective-collective-sidebar-e23a6a5cd5ec-npm-package-node-sass-eol",
@@ -504,9 +502,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "ghostpwn-ghostpwn-6b112be3335f-github-actions-checkout-node20",
@@ -619,9 +615,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "itzhang89-emr-management-tool-7ec7ba39266d-github-actions-checkout-node20",
@@ -642,9 +636,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "jhlov-baseball-41c15414a722-npm-package-node-sass-eol",
@@ -665,9 +657,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "jhlov-pluspang-c2a3252f3e3d-npm-package-node-sass-eol",
@@ -688,9 +678,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "jmanteau-fastapi-topaz-d1eff702b0e3-python-runtime-eol-3-9-and-older",
@@ -757,9 +745,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (NOASSERTION)."
-      ]
+      "reasons": ["The repository has no usable license (NOASSERTION)."]
     },
     {
       "candidate": "lv10-amazonapi-6062b3897f65-python-runtime-eol-3-9-and-older",
@@ -826,9 +812,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "mubashir-angathil-react-personal-website-7d47ff4bb816-npm-package-node-sass-eol",
@@ -849,9 +833,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "neuronetiq-trader-marketplace-893a501113d3-github-actions-checkout-node20",
@@ -1056,9 +1038,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "pypa-packaging-b09745046152-python-runtime-eol-3-9-and-older",
@@ -1079,9 +1059,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (NOASSERTION)."
-      ]
+      "reasons": ["The repository has no usable license (NOASSERTION)."]
     },
     {
       "candidate": "shymega-nixfigs-05a6d51bd8a2-github-actions-checkout-node20",
@@ -1102,9 +1080,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "simonsobs-ocs-c18fb69118c9-python-runtime-eol-3-9-and-older",
@@ -1217,9 +1193,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "theholm-aws-photo-uploader-f016b2607ab1-github-actions-checkout-node20",
@@ -1240,9 +1214,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "thetechnetwork-fleetwright-30bb7f13ea43-github-actions-setup-node-node20",
@@ -1286,9 +1258,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "theunitedeffort-ueo-quarterly-metrics-b00e57e39b0a-github-actions-setup-node-node20",
@@ -1309,9 +1279,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (none)."
-      ]
+      "reasons": ["The repository has no usable license (none)."]
     },
     {
       "candidate": "tryghost-editorial-64c543d3ab87-npm-package-node-sass-eol",
@@ -1332,9 +1300,7 @@
         "licensed": false,
         "publicAndActive": true
       },
-      "reasons": [
-        "The repository has no usable license (NOASSERTION)."
-      ]
+      "reasons": ["The repository has no usable license (NOASSERTION)."]
     },
     {
       "candidate": "ubc-compair-6b137153a458-python-package-nose-maintenance-only",
@@ -1355,9 +1321,7 @@
         "licensed": true,
         "publicAndActive": true
       },
-      "reasons": [
-        "The diff does not move the component off the deprecated version or package at a reported location."
-      ]
+      "reasons": ["The diff does not move the component off the deprecated version or package at a reported location."]
     },
     {
       "candidate": "warengonzaga-fork-corner-e9d93d63eea6-npm-package-node-sass-eol",
@@ -1401,9 +1365,7 @@
         "licensed": true,
         "publicAndActive": true
       },
-      "reasons": [
-        "The diff does not move the component off the deprecated version or package at a reported location."
-      ]
+      "reasons": ["The diff does not move the component off the deprecated version or package at a reported location."]
     },
     {
       "candidate": "zopefoundation-authencoding-6e12c6b27b05-github-actions-checkout-node20",

@@ -2,7 +2,8 @@ import { isoDate } from "./canonical.js";
 import { ImporterError } from "./types.js";
 import type { DraftRule, Importer } from "./types.js";
 
-export const POWERSHELL_LIFECYCLE_URL = "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle";
+export const POWERSHELL_LIFECYCLE_URL =
+  "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle";
 export const MAXIMUM_PAGE_BYTES = 512 * 1024;
 
 /** A supported release whose end of support is closer than this is not offered as the replacement. */
@@ -18,7 +19,11 @@ interface Release {
 }
 
 function text(cell: string): string {
-  return cell.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+  return cell
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /** "08-May-2024" to "2024-05-08"; undefined for anything else. */
@@ -74,7 +79,9 @@ export const powershellLifecycleImporter: Importer = {
     const newest = releases
       .filter((release) => release.endOfSupport > horizon)
       .sort((left, right) => left.major - right.major || left.minor - right.minor)[0];
-    const replacement = newest ? `PowerShell ${newest.major}.${newest.minor}${newest.lts ? " (LTS)" : ""} or later` : undefined;
+    const replacement = newest
+      ? `PowerShell ${newest.major}.${newest.minor}${newest.lts ? " (LTS)" : ""} or later`
+      : undefined;
 
     const rules: DraftRule[] = [];
     const notes: string[] = [];
@@ -108,7 +115,10 @@ export const powershellLifecycleImporter: Importer = {
       );
     }
     if (sixes.length > 0 && sixes.every((release) => release.endOfSupport <= today)) {
-      const last = sixes.map((release) => release.endOfSupport).sort().at(-1)!;
+      const last = sixes
+        .map((release) => release.endOfSupport)
+        .sort()
+        .at(-1)!;
       draft(
         "6",
         "PowerShell 6.x",

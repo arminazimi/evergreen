@@ -75,7 +75,9 @@ function packageRule(overrides: Partial<RegistryV2Rule> = {}): RegistryV2Rule {
 }
 
 test("swift passes detector conformance on every fixture", async () => {
-  const appStore15Through25 = (await committedRules()).find((rule) => rule.id === "swift.xcode.app-store-15-through-25")!;
+  const appStore15Through25 = (await committedRules()).find(
+    (rule) => rule.id === "swift.xcode.app-store-15-through-25",
+  )!;
   await runDetectorConformance({
     detector: swiftDetector,
     fixtures: [
@@ -83,7 +85,12 @@ test("swift passes detector conformance on every fixture", async () => {
         name: "swift positive",
         root: resolve(fixtures, "positive"),
         expectedFindings: [
-          expected(appStore15Through25, ".xcode-version", 1, `.xcode-version pins Xcode 15.4. ${appStore15Through25.summary}`),
+          expected(
+            appStore15Through25,
+            ".xcode-version",
+            1,
+            `.xcode-version pins Xcode 15.4. ${appStore15Through25.summary}`,
+          ),
         ],
       },
     ],
@@ -107,7 +114,10 @@ test("swift passes detector conformance on every fixture", async () => {
 test("reports the Xcode release a project pins in .xcode-version", async () => {
   const rule = (await committedRules()).find((item) => item.id === "swift.xcode.app-store-below-15")!;
   const findings = await swiftDetector.scan({ root: await repository({ ".xcode-version": "14.3\n" }) });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["swift.xcode.app-store-below-15", ".xcode-version", 1]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["swift.xcode.app-store-below-15", ".xcode-version", 1]],
+  );
   assert.equal(findings[0]!.id, `${rule.id}:.xcode-version:1`);
   assert.match(findings[0]!.summary, /^\.xcode-version pins Xcode 14\.3\./);
 });
@@ -127,7 +137,14 @@ test("matches an exact Package.swift dependency and a Package.resolved pin by Sw
       "",
     ].join("\n"),
   });
-  assert.deepEqual((await detector.scan({ root: manifest })).map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["swift.package.example-library.deprecated", "Package.swift", 6]]);
+  assert.deepEqual(
+    (await detector.scan({ root: manifest })).map((finding) => [
+      finding.ruleId,
+      finding.location.path,
+      finding.location.line,
+    ]),
+    [["swift.package.example-library.deprecated", "Package.swift", 6]],
+  );
 
   const resolved = await repository({
     "Package.resolved": [
@@ -148,7 +165,14 @@ test("matches an exact Package.swift dependency and a Package.resolved pin by Sw
       "",
     ].join("\n"),
   });
-  assert.deepEqual((await detector.scan({ root: resolved })).map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["swift.package.example-library.deprecated", "Package.resolved", 9]]);
+  assert.deepEqual(
+    (await detector.scan({ root: resolved })).map((finding) => [
+      finding.ruleId,
+      finding.location.path,
+      finding.location.line,
+    ]),
+    [["swift.package.example-library.deprecated", "Package.resolved", 9]],
+  );
 });
 
 test("a from: requirement matches only a rule that covers every version", async () => {
@@ -168,7 +192,10 @@ test("a from: requirement matches only a rule that covers every version", async 
   const root = await repository(manifest);
   assert.deepEqual(await new SwiftDetector(async () => [packageRule()]).scan({ root }), []);
   const findings = await new SwiftDetector(async () => [packageRule({ vers: "vers:semver/*" })]).scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["swift.package.example-library.deprecated", "Package.swift", 6]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["swift.package.example-library.deprecated", "Package.swift", 6]],
+  );
   assert.match(findings[0]!.summary, /requires example-library from 1\.4\.0\./);
 });
 
@@ -194,7 +221,9 @@ test("a declaration whose URL has no package identity never matches", async () =
 
 test("a rule whose Package URL cannot be read never matches and does not fail the scan", async () => {
   const detector = new SwiftDetector(async () => [packageRule({ purl: "example-library" })]);
-  const root = await repository({ "Package.resolved": '{"pins":[{"identity":"example-library","state":{"version":"1.4.0"}}],"version":2}\n' });
+  const root = await repository({
+    "Package.resolved": '{"pins":[{"identity":"example-library","state":{"version":"1.4.0"}}],"version":2}\n',
+  });
   assert.deepEqual(await detector.scan({ root }), []);
 });
 
@@ -202,7 +231,10 @@ test("a rule with a malformed VERS never matches and does not hide a later rule"
   const base = (await committedRules()).find((rule) => rule.id === "swift.xcode.app-store-15-through-25")!;
   const detector = new SwiftDetector(async () => [{ ...base, id: "swift.xcode.malformed", vers: "not-a-vers" }, base]);
   const root = await repository({ ".xcode-version": "15.4\n" });
-  assert.deepEqual((await detector.scan({ root })).map((finding) => finding.ruleId), ["swift.xcode.app-store-15-through-25"]);
+  assert.deepEqual(
+    (await detector.scan({ root })).map((finding) => finding.ruleId),
+    ["swift.xcode.app-store-15-through-25"],
+  );
 });
 
 test("a repository without Swift files scans to nothing", async () => {
@@ -211,17 +243,29 @@ test("a repository without Swift files scans to nothing", async () => {
 
 test("the engine attributes a Swift finding to the detector", async () => {
   const result = await scanRepository(resolve(fixtures, "positive"), [swiftDetector]);
-  assert.deepEqual(result.findings.map((finding) => [finding.detector, finding.ruleId, finding.location.path, finding.location.line]), [["swift", "swift.xcode.app-store-15-through-25", ".xcode-version", 1]]);
+  assert.deepEqual(
+    result.findings.map((finding) => [finding.detector, finding.ruleId, finding.location.path, finding.location.line]),
+    [["swift", "swift.xcode.app-store-15-through-25", ".xcode-version", 1]],
+  );
 });
 
 test("every curated Swift rule has migration guidance with real verification commands", async () => {
   for (const rule of await committedRules()) {
     assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
-    assert.ok(rule.migration.verification.some((check) => check.command.startsWith("xcodebuild")), rule.id);
+    assert.ok(
+      rule.migration.verification.some((check) => check.command.startsWith("xcodebuild")),
+      rule.id,
+    );
     // The Xcode release rules also verify the SwiftPM package; an app target's deployment target is verified with Xcode alone.
     if (rule.purl === "pkg:generic/xcode") {
-      assert.ok(rule.migration.verification.some((check) => check.command === "swift build && swift test"), rule.id);
-      assert.ok(rule.migration.verification.some((check) => check.command === "xcodebuild -version"), rule.id);
+      assert.ok(
+        rule.migration.verification.some((check) => check.command === "swift build && swift test"),
+        rule.id,
+      );
+      assert.ok(
+        rule.migration.verification.some((check) => check.command === "xcodebuild -version"),
+        rule.id,
+      );
     }
   }
 });
@@ -240,12 +284,15 @@ test("a migration packet for a Swift finding names the file, steps, and verifica
 
 test("the detector is registered and Swift is beta in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "swift"));
-  assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "swift"), {
-    id: "swift",
-    status: "supported",
-    maturity: "beta",
-    detectorIds: ["swift"],
-  });
+  assert.deepEqual(
+    getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "swift"),
+    {
+      id: "swift",
+      status: "supported",
+      maturity: "beta",
+      detectorIds: ["swift"],
+    },
+  );
 });
 
 test("library Package.swift platforms: [.iOS(.v12)] never yields App Store deployment-target findings", async () => {
@@ -254,7 +301,9 @@ test("library Package.swift platforms: [.iOS(.v12)] never yields App Store deplo
     findings.filter(
       (finding) =>
         finding.ruleId.includes("app-store") ||
-        /app store|deployment.?target|IPHONEOS_DEPLOYMENT_TARGET/i.test(`${finding.ruleId} ${finding.summary} ${finding.title}`),
+        /app store|deployment.?target|IPHONEOS_DEPLOYMENT_TARGET/i.test(
+          `${finding.ruleId} ${finding.summary} ${finding.title}`,
+        ),
     ),
     [],
   );
@@ -293,11 +342,15 @@ test("reports an app target's iOS deployment target below 13 from project.pbxpro
     "}",
     "",
   ].join("\n");
-  const libraryProject = appProject.replace('"com.apple.product-type.application"', '"com.apple.product-type.framework"');
+  const libraryProject = appProject.replace(
+    '"com.apple.product-type.application"',
+    '"com.apple.product-type.framework"',
+  );
   const root = await repository({
     "App.xcodeproj/project.pbxproj": appProject,
     "Kit.xcodeproj/project.pbxproj": libraryProject,
-    "Packages/Kit/Package.swift": 'import PackageDescription\n\nlet package = Package(name: "Kit", platforms: [.iOS(.v12)])\n',
+    "Packages/Kit/Package.swift":
+      'import PackageDescription\n\nlet package = Package(name: "Kit", platforms: [.iOS(.v12)])\n',
     "Other/project.pbxproj": appProject,
   });
   const findings = await swiftDetector.scan({ root });
@@ -308,11 +361,15 @@ test("reports an app target's iOS deployment target below 13 from project.pbxpro
       ["swift.app-store.ios-below-13", "App.xcodeproj/project.pbxproj", 25],
     ],
   );
-  assert.match(findings[0]!.summary, /^App\.xcodeproj\/project\.pbxproj sets IPHONEOS_DEPLOYMENT_TARGET 12\.0 on an app target\./);
+  assert.match(
+    findings[0]!.summary,
+    /^App\.xcodeproj\/project\.pbxproj sets IPHONEOS_DEPLOYMENT_TARGET 12\.0 on an app target\./,
+  );
 });
 
 test("does not report an app target that already targets iOS 13 or later", async () => {
-  const project = "{\n\tobjects = {\n\t\t0000000000000000000000A1 /* App */ = {\n\t\t\tisa = PBXNativeTarget;\n\t\t\tbuildConfigurationList = 0000000000000000000000B1;\n\t\t\tproductType = \"com.apple.product-type.application\";\n\t\t};\n\t\t0000000000000000000000B1 = {\n\t\t\tisa = XCConfigurationList;\n\t\t\tbuildConfigurations = (\n\t\t\t\t0000000000000000000000C1,\n\t\t\t);\n\t\t};\n\t\t0000000000000000000000C1 = {\n\t\t\tisa = XCBuildConfiguration;\n\t\t\tbuildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 13.0;\n\t\t\t};\n\t\t};\n\t};\n}\n";
+  const project =
+    '{\n\tobjects = {\n\t\t0000000000000000000000A1 /* App */ = {\n\t\t\tisa = PBXNativeTarget;\n\t\t\tbuildConfigurationList = 0000000000000000000000B1;\n\t\t\tproductType = "com.apple.product-type.application";\n\t\t};\n\t\t0000000000000000000000B1 = {\n\t\t\tisa = XCConfigurationList;\n\t\t\tbuildConfigurations = (\n\t\t\t\t0000000000000000000000C1,\n\t\t\t);\n\t\t};\n\t\t0000000000000000000000C1 = {\n\t\t\tisa = XCBuildConfiguration;\n\t\t\tbuildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 13.0;\n\t\t\t};\n\t\t};\n\t};\n}\n';
   const findings = await swiftDetector.scan({ root: await repository({ "App.xcodeproj/project.pbxproj": project }) });
   assert.deepEqual(findings, []);
 });

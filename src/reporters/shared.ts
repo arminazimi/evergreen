@@ -33,10 +33,6 @@ export function escapeMarkdown(value: string | number): string {
   return String(value)
     .replace(/\r\n?/g, "\n")
     .split("\n")
-    .map((line) =>
-      line.replace(/[&<>|\\\x60*_{}\[\]()#+\-.!]/g, (character) =>
-        escapes[character] ?? "\\" + character,
-      ),
-    )
+    .map((line) => line.replace(/[&<>|\\\x60*_{}\[\]()#+\-.!]/g, (character) => escapes[character] ?? "\\" + character))
     .join("<br>");
 }

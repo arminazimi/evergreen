@@ -132,12 +132,14 @@ export function validateDescriptions(manifest: CapabilityManifest, descriptions:
     if (row.ecosystems.length === 0) throw new Error(`Coverage row "${row.name}" names no ecosystem.`);
     const detectors = new Set<string>();
     for (const id of row.ecosystems) {
-      if (!known.has(id)) throw new Error(`Coverage row "${row.name}" names "${id}", which is not in the capability manifest.`);
+      if (!known.has(id))
+        throw new Error(`Coverage row "${row.name}" names "${id}", which is not in the capability manifest.`);
       if (described.has(id)) throw new Error(`Ecosystem "${id}" has more than one coverage description.`);
       described.add(id);
       detectors.add(ecosystemFor(manifest, id).detectorIds.slice().sort().join(","));
     }
-    if (detectors.size > 1) throw new Error(`Coverage row "${row.name}" groups ecosystems served by different detectors.`);
+    if (detectors.size > 1)
+      throw new Error(`Coverage row "${row.name}" groups ecosystems served by different detectors.`);
   }
   for (const ecosystem of manifest.ecosystems) {
     if (!described.has(ecosystem.id)) throw new Error(`Ecosystem "${ecosystem.id}" has no coverage description.`);
@@ -221,7 +223,8 @@ export function validateReadmeDescriptions(
     }
     if (row.ecosystems.length === 0) throw new Error(`README coverage row "${row.name}" names no ecosystem.`);
     for (const id of row.ecosystems) {
-      if (!known.has(id)) throw new Error(`README coverage row "${row.name}" names "${id}", which is not in the capability manifest.`);
+      if (!known.has(id))
+        throw new Error(`README coverage row "${row.name}" names "${id}", which is not in the capability manifest.`);
       if (described.has(id)) throw new Error(`Ecosystem "${id}" has more than one README coverage row.`);
       described.add(id);
     }
@@ -258,7 +261,9 @@ export function replaceReadmeCoverageTable(document: string, table: string): str
 }
 
 export async function loadReadmeDescriptions(root = "."): Promise<ReadmeCoverageDescriptions> {
-  const value = JSON.parse(await readFile(resolve(root, README_DESCRIPTIONS_PATH), "utf8")) as ReadmeCoverageDescriptions;
+  const value = JSON.parse(
+    await readFile(resolve(root, README_DESCRIPTIONS_PATH), "utf8"),
+  ) as ReadmeCoverageDescriptions;
   if (value.schemaVersion !== "evergreen.readme-coverage.v1") {
     throw new Error(`${README_DESCRIPTIONS_PATH} must use schemaVersion "evergreen.readme-coverage.v1".`);
   }
@@ -345,10 +350,7 @@ export async function loadRegistryRulesById(root = "."): Promise<Map<string, Reg
  * Aggregate corpus expected findings by product (Package URL) and release line (rule). Each expected
  * finding must name a bundled rule.
  */
-export function aggregateStateOfEol(
-  corpus: CorpusFile,
-  rules: ReadonlyMap<string, RegistryV2Rule>,
-): StateOfEolSummary {
+export function aggregateStateOfEol(corpus: CorpusFile, rules: ReadonlyMap<string, RegistryV2Rule>): StateOfEolSummary {
   interface LineAccumulator {
     product: string;
     purl: string;
@@ -400,7 +402,10 @@ export function aggregateStateOfEol(
         left.ruleId.localeCompare(right.ruleId),
     );
 
-  const products = new Map<string, { product: string; purl: string; findings: number; lines: number; repositories: Set<string> }>();
+  const products = new Map<
+    string,
+    { product: string; purl: string; findings: number; lines: number; repositories: Set<string> }
+  >();
   for (const repository of corpus.repositories) {
     for (const expected of repository.expected ?? []) {
       const rule = rules.get(expected.ruleId)!;
@@ -431,7 +436,9 @@ export function aggregateStateOfEol(
     }))
     .sort(
       (left, right) =>
-        right.findings - left.findings || left.product.localeCompare(right.product) || left.purl.localeCompare(right.purl),
+        right.findings - left.findings ||
+        left.product.localeCompare(right.product) ||
+        left.purl.localeCompare(right.purl),
     );
 
   return {
@@ -480,7 +487,9 @@ export function replaceStateOfEolSection(document: string, section: string): str
   const start = document.indexOf(STATE_OF_EOL_START_MARKER);
   const end = document.indexOf(STATE_OF_EOL_END_MARKER);
   if (start < 0 || end < 0 || end < start) {
-    throw new Error(`${STATE_OF_EOL_PATH} must contain ${STATE_OF_EOL_START_MARKER} before ${STATE_OF_EOL_END_MARKER}.`);
+    throw new Error(
+      `${STATE_OF_EOL_PATH} must contain ${STATE_OF_EOL_START_MARKER} before ${STATE_OF_EOL_END_MARKER}.`,
+    );
   }
   return `${document.slice(0, start + STATE_OF_EOL_START_MARKER.length)}\n${section}\n${document.slice(end)}`;
 }
@@ -490,7 +499,8 @@ export async function buildStateOfEolDocument(root = "."): Promise<string> {
   const document = await readFile(resolve(root, STATE_OF_EOL_PATH), "utf8");
   const corpus = await loadPublicCorpus(root);
   const thresholds = JSON.parse(await readFile(resolve(root, THRESHOLDS_PATH), "utf8")) as Thresholds;
-  if (!thresholds.lastFullRun) throw new Error(`${THRESHOLDS_PATH} has no lastFullRun; record a full corpus run first.`);
+  if (!thresholds.lastFullRun)
+    throw new Error(`${THRESHOLDS_PATH} has no lastFullRun; record a full corpus run first.`);
   const rules = await loadRegistryRulesById(root);
   const summary = aggregateStateOfEol(corpus, rules);
   return replaceStateOfEolSection(document, renderStateOfEolSection(summary, thresholds.lastFullRun));

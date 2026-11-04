@@ -45,7 +45,11 @@ export function usageLogPath(env: NodeJS.ProcessEnv = process.env): string | und
 }
 
 /** Appends one line for a finished check when logging is on. It never throws: a log problem must not fail a check. */
-export async function recordCheck(check: DependencyCheck, env: NodeJS.ProcessEnv = process.env, now: Date = new Date()): Promise<void> {
+export async function recordCheck(
+  check: DependencyCheck,
+  env: NodeJS.ProcessEnv = process.env,
+  now: Date = new Date(),
+): Promise<void> {
   const file = usageLogPath(env);
   if (!file) return;
   const entry: UsageEntry = {
@@ -67,8 +71,12 @@ export async function recordCheck(check: DependencyCheck, env: NodeJS.ProcessEnv
 function parseEntry(line: string): UsageEntry | undefined {
   try {
     const value = JSON.parse(line) as Partial<UsageEntry>;
-    if (typeof value.at !== "string" || typeof value.purl !== "string" || !STATUSES.includes(value.status as never)) return undefined;
-    return { ...value, ruleIds: Array.isArray(value.ruleIds) ? value.ruleIds.filter((id): id is string => typeof id === "string") : [] } as UsageEntry;
+    if (typeof value.at !== "string" || typeof value.purl !== "string" || !STATUSES.includes(value.status as never))
+      return undefined;
+    return {
+      ...value,
+      ruleIds: Array.isArray(value.ruleIds) ? value.ruleIds.filter((id): id is string => typeof id === "string") : [],
+    } as UsageEntry;
   } catch {
     return undefined;
   }
@@ -108,7 +116,12 @@ export async function summarizeUsage(file: string): Promise<UsageSummary> {
     blocked.set(entry.purl, item);
   }
   summary.blocked = [...blocked]
-    .map(([purl, item]) => ({ purl, count: item.count, ...(item.severity ? { severity: item.severity } : {}), ruleIds: [...item.ruleIds].sort() }))
+    .map(([purl, item]) => ({
+      purl,
+      count: item.count,
+      ...(item.severity ? { severity: item.severity } : {}),
+      ruleIds: [...item.ruleIds].sort(),
+    }))
     .sort((a, b) => b.count - a.count || a.purl.localeCompare(b.purl));
   return summary;
 }
@@ -125,8 +138,17 @@ export function renderUsageText(summary: UsageSummary): string {
     `  not-affected:       ${summary.byStatus["not-affected"]}`,
     `  no-data:            ${summary.byStatus["no-data"]}`,
     ...(summary.blocked.length > 0
-      ? ["", "Blocked packages:", ...summary.blocked.map((item) => `  ${item.purl} x${item.count}${item.severity ? ` (${item.severity})` : ""}: ${item.ruleIds.join(", ")}`)]
+      ? [
+          "",
+          "Blocked packages:",
+          ...summary.blocked.map(
+            (item) =>
+              `  ${item.purl} x${item.count}${item.severity ? ` (${item.severity})` : ""}: ${item.ruleIds.join(", ")}`,
+          ),
+        ]
       : []),
-    ...(summary.skipped > 0 ? ["", `Skipped ${summary.skipped} unreadable line${summary.skipped === 1 ? "" : "s"}.`] : []),
+    ...(summary.skipped > 0
+      ? ["", `Skipped ${summary.skipped} unreadable line${summary.skipped === 1 ? "" : "s"}.`]
+      : []),
   ].join("\n");
 }

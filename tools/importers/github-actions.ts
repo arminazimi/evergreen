@@ -12,15 +12,24 @@ import type { DraftRule, Importer, ImporterContext } from "./types.js";
 export const RETIRED_RUNTIMES: Record<string, { date: string; source: { title: string; url: string } }> = {
   node12: {
     date: "2023-08-14",
-    source: { title: "Removal of Node12 from the Actions runner", url: "https://github.blog/changelog/2023-07-16-github-actions-removal-of-node12-from-the-actions-runner/" },
+    source: {
+      title: "Removal of Node12 from the Actions runner",
+      url: "https://github.blog/changelog/2023-07-16-github-actions-removal-of-node12-from-the-actions-runner/",
+    },
   },
   node16: {
     date: "2024-11-12",
-    source: { title: "End of life for Actions Node16", url: "https://github.blog/changelog/2024-09-25-end-of-life-for-actions-node16/" },
+    source: {
+      title: "End of life for Actions Node16",
+      url: "https://github.blog/changelog/2024-09-25-end-of-life-for-actions-node16/",
+    },
   },
   node20: {
     date: "2026-09-23",
-    source: { title: "Node 20 is no longer available in GitHub Actions", url: "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/" },
+    source: {
+      title: "Node 20 is no longer available in GitHub Actions",
+      url: "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+    },
   },
 };
 
@@ -29,7 +38,8 @@ export const ACTION_NAME = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
 /** The highest major probed. Real actions are well below this; it only bounds a runaway search. */
 const MAX_MAJOR = 30;
 
-const rawUrl = (action: string, major: number, file: string) => `https://raw.githubusercontent.com/${action}/v${major}/${file}`;
+const rawUrl = (action: string, major: number, file: string) =>
+  `https://raw.githubusercontent.com/${action}/v${major}/${file}`;
 
 interface MajorRuntime {
   major: number;
@@ -73,14 +83,19 @@ async function readMajors(context: ImporterContext, action: string): Promise<Maj
   return found;
 }
 
-const nodeVersion = (using: string | undefined) => (using && /^node\d+$/.test(using) ? Number(using.slice(4)) : undefined);
+const nodeVersion = (using: string | undefined) =>
+  using && /^node\d+$/.test(using) ? Number(using.slice(4)) : undefined;
 
 export const githubActionsRuntimeImporter: Importer = {
   id: "github-actions-runtime",
   ecosystem: "github-actions",
-  description: "GitHub Actions releases that run on a Node.js runtime GitHub has retired, from each action's own metadata",
+  description:
+    "GitHub Actions releases that run on a Node.js runtime GitHub has retired, from each action's own metadata",
   sources: [
-    { title: "Metadata syntax for GitHub Actions (runs.using)", url: "https://docs.github.com/en/actions/reference/workflows-and-actions/metadata-syntax#runs-for-javascript-actions" },
+    {
+      title: "Metadata syntax for GitHub Actions (runs.using)",
+      url: "https://docs.github.com/en/actions/reference/workflows-and-actions/metadata-syntax#runs-for-javascript-actions",
+    },
     ...Object.values(RETIRED_RUNTIMES).map((runtime) => runtime.source),
   ],
 
@@ -106,7 +121,9 @@ export const githubActionsRuntimeImporter: Importer = {
         continue;
       }
       if (!majors.some((entry) => nodeVersion(entry.using) !== undefined)) {
-        notes.push(`Skipped ${action}: not a JavaScript action (runs.using is ${[...new Set(majors.map((entry) => entry.using ?? "unset"))].join(", ")}).`);
+        notes.push(
+          `Skipped ${action}: not a JavaScript action (runs.using is ${[...new Set(majors.map((entry) => entry.using ?? "unset"))].join(", ")}).`,
+        );
         continue;
       }
 
@@ -115,7 +132,9 @@ export const githubActionsRuntimeImporter: Importer = {
       let first = majors.length;
       while (first > 0 && supported(majors[first - 1]!)) first--;
       if (first === majors.length) {
-        notes.push(`Skipped ${action}: no release runs on a supported runtime yet (the latest, v${majors[majors.length - 1]!.major}, uses ${majors[majors.length - 1]!.using}).`);
+        notes.push(
+          `Skipped ${action}: no release runs on a supported runtime yet (the latest, v${majors[majors.length - 1]!.major}, uses ${majors[majors.length - 1]!.using}).`,
+        );
         continue;
       }
       const firstSupported = majors[first]!;
@@ -141,13 +160,19 @@ export const githubActionsRuntimeImporter: Importer = {
         deadline: runtime.date,
         sources: [
           runtime.source,
-          { title: `${action} v${firstSupported.major} ${firstSupported.file}`, url: `https://github.com/${action}/blob/v${firstSupported.major}/${firstSupported.file}` },
+          {
+            title: `${action} v${firstSupported.major} ${firstSupported.file}`,
+            url: `https://github.com/${action}/blob/v${firstSupported.major}/${firstSupported.file}`,
+          },
         ],
         "x-github-actions": { action, supportedFromMajor: firstSupported.major },
       });
     }
 
-    if (upToDate.length > 0) notes.push(`No release uses a retired runtime, so no rule (remove them from ACTION_CANDIDATES if they stay that way): ${upToDate.join(", ")}.`);
+    if (upToDate.length > 0)
+      notes.push(
+        `No release uses a retired runtime, so no rule (remove them from ACTION_CANDIDATES if they stay that way): ${upToDate.join(", ")}.`,
+      );
     return { rules, notes };
   },
 };

@@ -12,7 +12,9 @@ export const command: CliCommand = {
   name: "renovate-preset",
   flags: ["--data-version"],
   example: "evergreen renovate-preset .",
-  usage: ["  evergreen renovate-preset [path]   # print Renovate packageRules for replacements and runtime pins; does not edit config"],
+  usage: [
+    "  evergreen renovate-preset [path]   # print Renovate packageRules for replacements and runtime pins; does not edit config",
+  ],
   usageSlots: [32],
   run(args, ctx) {
     return afterGates("renovate-preset", args, ctx, async (state) => {

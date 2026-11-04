@@ -20,7 +20,10 @@ async function temporary(): Promise<string> {
 }
 
 test("credentials, secret assignments, and the scan root are masked", () => {
-  assert.equal(redactLine("registry=https://me:s3cret@npm.example.com/", "/x"), "registry=https://<redacted>@npm.example.com/");
+  assert.equal(
+    redactLine("registry=https://me:s3cret@npm.example.com/", "/x"),
+    "registry=https://<redacted>@npm.example.com/",
+  );
   assert.equal(redactLine('"authToken": "abc123"', "/x"), '"authToken": "<redacted>"');
   assert.equal(redactLine("path=/home/me/project/src", "/home/me/project"), "path=<repo>/src");
   assert.ok(redactLine("a".repeat(500), "/x").length <= 201);

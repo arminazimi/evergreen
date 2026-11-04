@@ -19,7 +19,12 @@ const contract: SourceUsageContract = {
   id: "requests",
   matchers: [
     { kind: "import", language: "python", module: "requests" },
-    { kind: "call", language: "python", module: "requests", targets: ["default", "get", "post", "Session", "adapters.HTTPAdapter"] },
+    {
+      kind: "call",
+      language: "python",
+      module: "requests",
+      targets: ["default", "get", "post", "Session", "adapters.HTTPAdapter"],
+    },
   ],
 };
 
@@ -50,7 +55,9 @@ async function regexUsages(files: Record<string, string>): Promise<SourceUsage[]
 }
 
 const summary = (usages: SourceUsage[]): string[] =>
-  usages.map((usage) => `${usage.kind} ${usage.location.path}:${usage.location.line}:${usage.location.column} ${usage.symbol}`);
+  usages.map(
+    (usage) => `${usage.kind} ${usage.location.path}:${usage.location.line}:${usage.location.column} ${usage.symbol}`,
+  );
 
 const regexCases: Record<string, string> = {
   "plain.py": `import requests\nrequests.get("https://example.com")\ntext = "requests.post()"\n# requests.post("ignored")\n`,
@@ -81,10 +88,13 @@ test("reports the same locations and excerpts for plain imports and calls", asyn
   const files = { "src/client.py": `import requests\n  requests.get("https://example.com")\n` };
   const [regex, parsed] = [await regexUsages(files), await treeSitterUsages(files)];
   assert.deepEqual(parsed, regex);
-  assert.deepEqual(parsed.map((usage) => [usage.kind, usage.location.line, usage.location.column, usage.excerpt]), [
-    ["import", 1, 8, "import requests"],
-    ["call", 2, 3, 'requests.get("https://example.com")'],
-  ]);
+  assert.deepEqual(
+    parsed.map((usage) => [usage.kind, usage.location.line, usage.location.column, usage.excerpt]),
+    [
+      ["import", 1, 8, "import requests"],
+      ["call", 2, 3, 'requests.get("https://example.com")'],
+    ],
+  );
 });
 
 test("detects imports, from-imports, and wildcard imports", async () => {
@@ -93,7 +103,12 @@ test("detects imports, from-imports, and wildcard imports", async () => {
   });
   assert.deepEqual(
     summary(usages).filter((entry) => entry.startsWith("import")),
-    ["import imports.py:1:12 requests", "import imports.py:2:8 requests", "import imports.py:3:6 requests", "import imports.py:4:6 requests"],
+    [
+      "import imports.py:1:12 requests",
+      "import imports.py:2:8 requests",
+      "import imports.py:3:6 requests",
+      "import imports.py:4:6 requests",
+    ],
   );
 });
 
@@ -164,15 +179,24 @@ text = """requests.get()"""
 
 test("columns count UTF-16 code units", async () => {
   const files = { "unicode.py": `label = "héllo 😀"; import requests; requests.get(label)\n` };
-  assert.deepEqual(summary(await treeSitterUsages(files)), ["import unicode.py:1:28 requests", "call unicode.py:1:38 requests.get"]);
+  assert.deepEqual(summary(await treeSitterUsages(files)), [
+    "import unicode.py:1:28 requests",
+    "call unicode.py:1:38 requests.get",
+  ]);
 });
 
 test("tolerates syntax errors", async () => {
   const usages = await treeSitterUsages({ "broken.py": `import requests\nrequests.get(url)\ndef (( :\n` });
-  assert.deepEqual(summary(usages).filter((entry) => entry.startsWith("call")), ["call broken.py:2:1 requests.get"]);
+  assert.deepEqual(
+    summary(usages).filter((entry) => entry.startsWith("call")),
+    ["call broken.py:2:1 requests.get"],
+  );
 });
 
 test("returns undefined for files over the size bound so callers can fall back", async () => {
-  const result = await analyzePythonFile({ path: "big.py", language: "python", source: `# ${"x".repeat(maximumParseBytes)}\n` }, [contract]);
+  const result = await analyzePythonFile(
+    { path: "big.py", language: "python", source: `# ${"x".repeat(maximumParseBytes)}\n` },
+    [contract],
+  );
   assert.equal(result, undefined);
 });

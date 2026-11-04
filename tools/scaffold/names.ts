@@ -32,13 +32,19 @@ export class ScaffoldError extends Error {
 
 export function scaffoldNames(id: string, ecosystem: string = id): ScaffoldNames {
   if (!ID_PATTERN.test(id)) {
-    throw new ScaffoldError(`"${id}" is not a valid detector id. Use lowercase letters, digits, and single hyphens, starting with a letter (for example go-modules).`);
+    throw new ScaffoldError(
+      `"${id}" is not a valid detector id. Use lowercase letters, digits, and single hyphens, starting with a letter (for example go-modules).`,
+    );
   }
   if (!ID_PATTERN.test(ecosystem)) {
-    throw new ScaffoldError(`"${ecosystem}" is not a valid ecosystem slug. Use lowercase letters, digits, and single hyphens.`);
+    throw new ScaffoldError(
+      `"${ecosystem}" is not a valid ecosystem slug. Use lowercase letters, digits, and single hyphens.`,
+    );
   }
   const words = id.split("-");
-  const camel = words.map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))).join("");
+  const camel = words
+    .map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)))
+    .join("");
   const pascal = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join("");
   const title = [words[0]!.charAt(0).toUpperCase() + words[0]!.slice(1), ...words.slice(1)].join(" ");
   return { id, ecosystem, camel, pascal, title };
@@ -46,11 +52,15 @@ export function scaffoldNames(id: string, ecosystem: string = id): ScaffoldNames
 
 export function ruleScaffoldNames(id: string, ecosystem?: string): RuleScaffoldNames {
   if (!RULE_ID_PATTERN.test(id)) {
-    throw new ScaffoldError(`"${id}" is not a valid rule id. Use lowercase letters, numbers, dots, and hyphens, with at least two segments (for example npm.package.request.deprecated).`);
+    throw new ScaffoldError(
+      `"${id}" is not a valid rule id. Use lowercase letters, numbers, dots, and hyphens, with at least two segments (for example npm.package.request.deprecated).`,
+    );
   }
   const resolved = ecosystem ?? id.split(".")[0]!;
   if (!ID_PATTERN.test(resolved)) {
-    throw new ScaffoldError(`"${resolved}" is not a valid ecosystem slug. Use lowercase letters, digits, and single hyphens.`);
+    throw new ScaffoldError(
+      `"${resolved}" is not a valid ecosystem slug. Use lowercase letters, digits, and single hyphens.`,
+    );
   }
   return { id, ecosystem: resolved };
 }

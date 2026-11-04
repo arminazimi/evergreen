@@ -7,7 +7,20 @@ const ORACLE_TITLE = "Oracle Java SE Support Roadmap";
 const TEMURIN_TITLE = "Eclipse Temurin support";
 const ORACLE_HEADER = "Release GA Date Premier Support Until Extended Support Until Sustaining Support";
 
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 const MONTH = String.raw`(?:${MONTHS.join("|")}) \d{4}`;
 const SHORT = String.raw`[A-Z][a-z]{2} \d{4}`;
 
@@ -35,7 +48,10 @@ function endOfMonth(month: string): string {
 function nonLtsGroups(text: string): Group[] {
   const start = text.indexOf(ORACLE_HEADER);
   if (start < 0) return [];
-  const row = new RegExp(String.raw`(\d+)(?: - (\d+))? \(non-LTS\)\**\s+(${MONTH})(?: - (${MONTH}))?\s+(${MONTH})(?: - (${MONTH}))?\**\s+Not Available`, "g");
+  const row = new RegExp(
+    String.raw`(\d+)(?: - (\d+))? \(non-LTS\)\**\s+(${MONTH})(?: - (${MONTH}))?\s+(${MONTH})(?: - (${MONTH}))?\**\s+Not Available`,
+    "g",
+  );
   return [...text.slice(start).matchAll(row)].map((match) => ({
     first: Number(match[1]),
     last: Number(match[2] ?? match[1]),
@@ -71,12 +87,18 @@ const sentenceList = (items: string[]) =>
 
 function rule(group: Group, eosl: Map<number, string>, replacement: string | undefined): DraftRule {
   const releases = Array.from({ length: group.last - group.first + 1 }, (_, index) => group.first + index);
-  const span = group.first === group.last ? `Java ${group.first}` : group.last === group.first + 1 ? `Java ${group.first} and ${group.last}` : `Java ${group.first} to ${group.last}`;
+  const span =
+    group.first === group.last
+      ? `Java ${group.first}`
+      : group.last === group.first + 1
+        ? `Java ${group.first} and ${group.last}`
+        : `Java ${group.first} to ${group.last}`;
   const listed = releases.filter((release) => eosl.has(release));
   const when = group.startedMonth ? `between ${group.startedMonth} and ${group.endedMonth}` : `in ${group.endedMonth}`;
-  const temurin = listed.length > 0
-    ? ` The Eclipse Temurin support page lists Java ${sentenceList(listed.map(String))} as EOSL, with end of availability in ${sentenceList(listed.map((release) => eosl.get(release)!))}.`
-    : "";
+  const temurin =
+    listed.length > 0
+      ? ` The Eclipse Temurin support page lists Java ${sentenceList(listed.map(String))} as EOSL, with end of availability in ${sentenceList(listed.map((release) => eosl.get(release)!))}.`
+      : "";
   return {
     id: `java.jdk.end-of-support-${group.first === group.last ? group.first : `${group.first}-${group.last}`}`,
     ecosystem: "java",
@@ -97,7 +119,8 @@ function rule(group: Group, eosl: Map<number, string>, replacement: string | und
 export const javaJdkSupportImporter: Importer = {
   id: "java-1",
   ecosystem: "java",
-  description: "Non-LTS JDK feature releases whose support has ended, from the Oracle Java SE roadmap and the Temurin support page",
+  description:
+    "Non-LTS JDK feature releases whose support has ended, from the Oracle Java SE roadmap and the Temurin support page",
   sources: [
     { title: ORACLE_TITLE, url: ORACLE_ROADMAP_URL },
     { title: TEMURIN_TITLE, url: TEMURIN_SUPPORT_URL },
@@ -106,7 +129,8 @@ export const javaJdkSupportImporter: Importer = {
   async import(context) {
     const oracle = pageText(await context.fetchText(ORACLE_ROADMAP_URL, { accept: "text/html" }));
     const groups = nonLtsGroups(oracle);
-    if (groups.length === 0) return { rules: [], notes: ["No usable support table was found in the Oracle Java SE roadmap."] };
+    if (groups.length === 0)
+      return { rules: [], notes: ["No usable support table was found in the Oracle Java SE roadmap."] };
     const eosl = temurinEosl(pageText(await context.fetchText(TEMURIN_SUPPORT_URL, { accept: "text/html" })));
 
     // Time decides: a group has ended when its last Premier Support month is over.
@@ -119,7 +143,8 @@ export const javaJdkSupportImporter: Importer = {
     const notes = [
       `Long-term-support releases are not drafted: Java ${sentenceList(lts.map(String))} stay in Premier or Extended Support.`,
     ];
-    if (eosl.size === 0) notes.push("No EOSL rows were found on the Temurin support page; the drafts cite only the Oracle roadmap.");
+    if (eosl.size === 0)
+      notes.push("No EOSL rows were found on the Temurin support page; the drafts cite only the Oracle roadmap.");
     return { rules: ended.map((group) => rule(group, eosl, replacement)), notes };
   },
 };

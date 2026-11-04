@@ -41,11 +41,20 @@ test("orders common Java and Kotlin release versions", () => {
     "17.0.1",
     "21",
   ];
-  assert.deepEqual([...expected].reverse().sort((left, right) => maven.compare(left, right)), expected);
+  assert.deepEqual(
+    [...expected].reverse().sort((left, right) => maven.compare(left, right)),
+    expected,
+  );
 });
 
 test("treats release aliases and trailing zeros as equal", () => {
-  for (const [left, right] of [["1.0", "1"], ["1.0-ga", "1.0"], ["1.0-final", "1.0"], ["1-cr1", "1-rc1"], ["1.0.0", "1"]]) {
+  for (const [left, right] of [
+    ["1.0", "1"],
+    ["1.0-ga", "1.0"],
+    ["1.0-final", "1.0"],
+    ["1-cr1", "1-rc1"],
+    ["1.0.0", "1"],
+  ]) {
     assert.equal(maven.compare(left!, right!), 0, `${left} == ${right}`);
   }
 });

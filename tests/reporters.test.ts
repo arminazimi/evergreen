@@ -48,8 +48,14 @@ test("golden text output for an empty scan names coverage, data version, and nex
 });
 
 test("golden text output truncates long path lists and keeps JSON coverage complete", () => {
-  const filesRead = Array.from({ length: 12 }, (_, index) => `packages/pkg-${String(index).padStart(2, "0")}/package.json`);
-  const unsupportedFiles = Array.from({ length: 11 }, (_, index) => `vendor/lib-${String(index).padStart(2, "0")}/Cargo.toml`);
+  const filesRead = Array.from(
+    { length: 12 },
+    (_, index) => `packages/pkg-${String(index).padStart(2, "0")}/package.json`,
+  );
+  const unsupportedFiles = Array.from(
+    { length: 11 },
+    (_, index) => `vendor/lib-${String(index).padStart(2, "0")}/Cargo.toml`,
+  );
   const result = emptyScan({
     coverage: {
       ecosystems: ["npm", "rust"],

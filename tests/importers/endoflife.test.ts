@@ -20,11 +20,17 @@ test("drafts at least twenty products from the recording, each evidenced by the 
     assert.equal(rule.provenance.reviewer, "pending-review");
     const [vendor, ...rest] = rule.sources;
     assert.ok(vendor && !/endoflife\.date|archive\.org/.test(vendor.url), `${rule.id} first source must be the vendor`);
-    assert.ok(rest.every((source) => /^https:\/\/endoflife\.date\//.test(source.url) && /index/.test(source.title)), `${rule.id} labels endoflife.date as an index`);
+    assert.ok(
+      rest.every((source) => /^https:\/\/endoflife\.date\//.test(source.url) && /index/.test(source.title)),
+      `${rule.id} labels endoflife.date as an index`,
+    );
   }
   assert.ok(drafts.notes.some((note) => /^Skipped clear-linux: no release-policy link to the vendor/.test(note)));
   const ended = drafts.rules.filter((rule) => rule.event !== "scheduled-end-of-life");
-  assert.equal(ended.length + drafts.notes.filter((note) => note.startsWith("Skipped")).length, ENDOFLIFE_CANDIDATES.length);
+  assert.equal(
+    ended.length + drafts.notes.filter((note) => note.startsWith("Skipped")).length,
+    ENDOFLIFE_CANDIDATES.length,
+  );
 });
 
 test("agrees with the hand-reviewed PostgreSQL and Python rules", async () => {
@@ -43,7 +49,9 @@ function inline(product: object, now = "2026-10-16"): ImporterContext {
   return {
     now: new Date(`${now}T00:00:00Z`),
     async fetchText(url) {
-      return url.endsWith("/postgresql/") ? JSON.stringify({ result: product }) : JSON.stringify({ result: { releases: [] } });
+      return url.endsWith("/postgresql/")
+        ? JSON.stringify({ result: product })
+        : JSON.stringify({ result: { releases: [] } });
     },
   };
 }
@@ -54,7 +62,12 @@ const releases = [
   { name: "13", eolFrom: "2025-11-13" },
   { name: "12", eolFrom: "2024-11-21" },
 ];
-const base = { label: "PostgreSQL", identifiers: [{ type: "purl", id: "pkg:docker/library/postgres" }], links: { html: "https://endoflife.date/postgresql", releasePolicy: "https://www.postgresql.org/support/versioning/" }, releases };
+const base = {
+  label: "PostgreSQL",
+  identifiers: [{ type: "purl", id: "pkg:docker/library/postgres" }],
+  links: { html: "https://endoflife.date/postgresql", releasePolicy: "https://www.postgresql.org/support/versioning/" },
+  releases,
+};
 
 test("cuts at the oldest supported release and uses the calendar, not a fixed day", async () => {
   const now = await endoflifeDateImporter.import(inline(base));
@@ -62,32 +75,60 @@ test("cuts at the oldest supported release and uses the calendar, not a fixed da
   assert.equal(draft?.id, "container.postgres.eol-13-and-older");
   assert.equal(draft?.vers, "vers:semver/<14.0.0");
   const later = await endoflifeDateImporter.import(inline(base, "2026-11-13"));
-  assert.equal(later.rules.find((rule) => rule.id.startsWith("container.postgres."))?.id, "container.postgres.eol-14-and-older");
+  assert.equal(
+    later.rules.find((rule) => rule.id.startsWith("container.postgres."))?.id,
+    "container.postgres.eol-14-and-older",
+  );
 });
 
 test("a release line that ends within twelve months is drafted as a scheduled rule for exactly that line, with the id of its later end-of-life rule", async () => {
   const output = await endoflifeDateImporter.import(inline(base));
   const scheduled = output.rules.filter((rule) => rule.event === "scheduled-end-of-life");
-  assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]), [["container.postgres.eol-14-and-older", "vers:semver/>=14.0.0|<15.0.0", "low", "2026-11-12"]]);
+  assert.deepEqual(
+    scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]),
+    [["container.postgres.eol-14-and-older", "vers:semver/>=14.0.0|<15.0.0", "low", "2026-11-12"]],
+  );
   // The day the line ends the same id becomes the end-of-life rule.
   const promoted = await endoflifeDateImporter.import(inline(base, "2026-11-12"));
-  assert.deepEqual(promoted.rules.filter((rule) => rule.id === "container.postgres.eol-14-and-older").map((rule) => [rule.event, rule.severity]), [["end-of-life", "high"]]);
+  assert.deepEqual(
+    promoted.rules
+      .filter((rule) => rule.id === "container.postgres.eol-14-and-older")
+      .map((rule) => [rule.event, rule.severity]),
+    [["end-of-life", "high"]],
+  );
 });
 
 test("rejects a product without a vendor link, an archive snapshot, or an image", async () => {
   for (const [change, reason] of [
     [{ links: { html: "https://endoflife.date/postgresql", releasePolicy: null } }, /no release-policy link/],
     [{ links: { releasePolicy: "https://endoflife.date/postgresql" } }, /no release-policy link/],
-    [{ links: { releasePolicy: "https://web.archive.org/web/2026/https://www.postgresql.org/" } }, /no release-policy link/],
+    [
+      { links: { releasePolicy: "https://web.archive.org/web/2026/https://www.postgresql.org/" } },
+      /no release-policy link/,
+    ],
     [{ links: { releasePolicy: "http://www.postgresql.org/support/versioning/" } }, /no release-policy link/],
     [{ identifiers: [] }, /no official Docker image/],
   ] as const) {
     const output = await endoflifeDateImporter.import(inline({ ...base, ...change }));
-    assert.equal(output.rules.find((rule) => rule.id.startsWith("container.postgres.")), undefined);
-    assert.ok(output.notes.some((note) => note.startsWith("Skipped postgresql") && reason.test(note)), JSON.stringify(change));
+    assert.equal(
+      output.rules.find((rule) => rule.id.startsWith("container.postgres.")),
+      undefined,
+    );
+    assert.ok(
+      output.notes.some((note) => note.startsWith("Skipped postgresql") && reason.test(note)),
+      JSON.stringify(change),
+    );
   }
 });
 
 test("a failed request stops the run instead of looking like nothing is end-of-life", async () => {
-  await assert.rejects(endoflifeDateImporter.import({ now: new Date(), async fetchText() { throw new Error(`GET ${ENDOFLIFE_API} failed: HTTP 503`); } }), /HTTP 503/);
+  await assert.rejects(
+    endoflifeDateImporter.import({
+      now: new Date(),
+      async fetchText() {
+        throw new Error(`GET ${ENDOFLIFE_API} failed: HTTP 503`);
+      },
+    }),
+    /HTTP 503/,
+  );
 });

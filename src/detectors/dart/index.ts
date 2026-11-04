@@ -37,7 +37,20 @@ import { parsePubspecLock } from "./parse-pubspec-lock.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", ".dart_tool", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  ".dart_tool",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DART_FILES = new Set(["pubspec.yaml", "pubspec.lock", ".fvmrc"]);
 /** The legacy FVM configuration. It is read only inside an `.fvm` directory. */
 const FVM_CONFIG_FILE = "fvm_config.json";
@@ -59,7 +72,10 @@ async function dartFiles(root: string): Promise<string[]> {
       if (entry.isSymbolicLink()) continue;
       if (entry.isDirectory()) {
         if (!SKIPPED_DIRECTORIES.has(entry.name)) await walk(join(directory, entry.name), depth + 1);
-      } else if (entry.isFile() && (DART_FILES.has(entry.name) || (entry.name === FVM_CONFIG_FILE && basename(directory) === ".fvm"))) {
+      } else if (
+        entry.isFile() &&
+        (DART_FILES.has(entry.name) || (entry.name === FVM_CONFIG_FILE && basename(directory) === ".fvm"))
+      ) {
         files.push(join(directory, entry.name));
       }
     }
@@ -120,10 +136,16 @@ export class DartDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "dart";
   /** The files `scan` may read; conformance fails a scan that reads another. */
-  readonly inputs: DetectorInputs = { fileNames: ["pubspec.yaml", "pubspec.lock", ".fvmrc", "fvm_config.json"], sourceExtensions: [".dart"] };
+  readonly inputs: DetectorInputs = {
+    fileNames: ["pubspec.yaml", "pubspec.lock", ".fvmrc", "fvm_config.json"],
+    sourceExtensions: [".dart"],
+  };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/dart.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/dart.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/dart.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -174,21 +196,44 @@ export class DartDetector implements Detector {
       for (const declaration of name === "pubspec.lock" ? parsePubspecLock(contents) : parsePubspec(contents)) {
         if (declaration.kind === "dart-sdk" || declaration.kind === "flutter-sdk") {
           const sdk = declaration.kind === "dart-sdk" ? "Dart" : "Flutter";
-          const rule = ruleForDeclared(byPurl.get(declaration.kind === "dart-sdk" ? DART_PURL : FLUTTER_PURL) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} declares ${sdk} SDK ${declaration.value}. ${rule.summary}`);
+          const rule = ruleForDeclared(
+            byPurl.get(declaration.kind === "dart-sdk" ? DART_PURL : FLUTTER_PURL) ?? [],
+            declaration.value,
+          );
+          if (rule)
+            report(rule, path, declaration.line, `${path} declares ${sdk} SDK ${declaration.value}. ${rule.summary}`);
         } else if (declaration.kind === "pub-package") {
           const rule = firstMatchingRule(byPurl.get(packagePurl(declaration.name)) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
+            );
         } else {
           const rule = ruleForDeclared(byPurl.get(packagePurl(declaration.name)) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} depends on ${declaration.name} ${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} depends on ${declaration.name} ${declaration.value}. ${rule.summary}`,
+            );
         }
       }
     }
 
     const unclassified: Array<DetectorAnalysis["unclassified"][number]> = [];
     if (usageContracts.length > 0) {
-      const analyses = new Map((await analyzeSourceUsage(context.root, usageContracts.map(({ id, rule }) => ({ id, matchers: rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
+      const analyses = new Map(
+        (
+          await analyzeSourceUsage(
+            context.root,
+            usageContracts.map(({ id, rule }) => ({ id, matchers: rule.usage ?? [] })),
+          )
+        ).map((analysis) => [analysis.contractId, analysis]),
+      );
       for (const finding of findings) {
         const analysis = analyses.get(finding.id);
         if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });

@@ -10,9 +10,7 @@ const severityRank = new Map(severityValues.map((severity, index) => [severity, 
  * each task joins the first wave whose tasks it conflicts with none of. A new wave is added
  * when every existing wave already holds a conflicting task.
  */
-export function scheduleWaves(
-  items: Array<{ id: string; touches: string[]; severity: Severity }>,
-): string[][] {
+export function scheduleWaves(items: Array<{ id: string; touches: string[]; severity: Severity }>): string[][] {
   const ordered = [...items].sort(
     (left, right) =>
       (severityRank.get(right.severity) ?? 0) - (severityRank.get(left.severity) ?? 0) ||

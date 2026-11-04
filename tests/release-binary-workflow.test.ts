@@ -4,7 +4,13 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 import { parse } from "yaml";
 
-interface Step { name?: string; uses?: string; run?: string; if?: string; "working-directory"?: string }
+interface Step {
+  name?: string;
+  uses?: string;
+  run?: string;
+  if?: string;
+  "working-directory"?: string;
+}
 interface Job {
   needs?: string | string[];
   permissions?: Record<string, string>;
@@ -15,7 +21,10 @@ interface Job {
   with?: Record<string, unknown>;
   outputs?: Record<string, string>;
 }
-interface Workflow { permissions?: Record<string, string>; jobs: Record<string, Job> }
+interface Workflow {
+  permissions?: Record<string, string>;
+  jobs: Record<string, Job>;
+}
 
 const build = parse(await readFile(resolve(".github/workflows/release-build-binaries.yml"), "utf8")) as Workflow;
 const publish = parse(await readFile(resolve(".github/workflows/release-publish-binaries.yml"), "utf8")) as Workflow;
@@ -38,16 +47,31 @@ test("every binary is smoke-tested before it is uploaded", () => {
   const smoke = names.findIndex((text) => text.includes("smoke.mjs"));
   const upload = names.findIndex((text) => text.startsWith("actions/upload-artifact@"));
   assert.ok(smoke !== -1 && upload > smoke);
-  assert.ok(binary.steps!.some((step) => step.run?.includes("PATH=/usr/bin:/bin")), "the Unix smoke test runs without Node.js on the path");
+  assert.ok(
+    binary.steps!.some((step) => step.run?.includes("PATH=/usr/bin:/bin")),
+    "the Unix smoke test runs without Node.js on the path",
+  );
 });
 
 test("the release job needs the builds and holds only the permissions it uses", () => {
   assert.deepEqual(release.permissions, { contents: "write", "id-token": "write", attestations: "write" });
   assert.deepEqual(publish.permissions, { contents: "read" });
-  assert.ok(release.steps!.some((step) => step.run?.includes("sha256sum")), "checksums are written");
-  assert.ok(release.steps!.some((step) => step.uses?.startsWith("actions/attest-build-provenance@")), "provenance is attested");
-  assert.ok(release.outputs?.hashes?.includes("steps.release.outputs.hashes"), "hashes are exported for the SLSA generator");
-  assert.ok(release.outputs?.tag?.includes("steps.release.outputs.tag"), "the release tag is exported for the SLSA generator");
+  assert.ok(
+    release.steps!.some((step) => step.run?.includes("sha256sum")),
+    "checksums are written",
+  );
+  assert.ok(
+    release.steps!.some((step) => step.uses?.startsWith("actions/attest-build-provenance@")),
+    "provenance is attested",
+  );
+  assert.ok(
+    release.outputs?.hashes?.includes("steps.release.outputs.hashes"),
+    "hashes are exported for the SLSA generator",
+  );
+  assert.ok(
+    release.outputs?.tag?.includes("steps.release.outputs.tag"),
+    "the release tag is exported for the SLSA generator",
+  );
 });
 
 test("binaries and checksums are signed keylessly with cosign and verified before upload", () => {
@@ -83,7 +107,8 @@ test("binaries and checksums are signed keylessly with cosign and verified befor
     "https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/tags/v1.0.0",
     "https://github.com/someone/evergreen/.github/workflows/release-publish-binaries.yml@refs/tags/v1.0.0",
     "https://github.com/arminazimi/other/.github/workflows/release-publish-binaries.yml@refs/tags/v1.0.0",
-  ]) assert.equal(identity.test(rejected), false, rejected);
+  ])
+    assert.equal(identity.test(rejected), false, rejected);
 });
 
 test("IDENTITY_PATTERN matches the verify-blob regexp documented in RELEASING.md", async () => {

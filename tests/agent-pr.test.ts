@@ -60,7 +60,12 @@ test("the agent section lists each introduced finding with its replacement and e
   const text = renderAgentSection([finding(), withoutReplacement]).join("\n");
 
   assert.match(text, /^## Stale choices this agent introduced$/m);
-  assert.ok(text.includes("| `package.json:3` | Deprecated package | left-pad@2 | [npm deprecation](https://example.com/notice) |"), text);
+  assert.ok(
+    text.includes(
+      "| `package.json:3` | Deprecated package | left-pad@2 | [npm deprecation](https://example.com/notice) |",
+    ),
+    text,
+  );
   assert.ok(text.includes("| `src/app.ts` | Removed \\| API | — | — |"), text);
   assert.ok(text.endsWith("Replace these and push again; Evergreen will re-check.\n"), text);
 });
@@ -70,7 +75,9 @@ test("there is no section for a pull request without introduced findings", () =>
 });
 
 test("the section keeps ten findings and points at the report for the rest", () => {
-  const many = Array.from({ length: 12 }, (_, index) => finding({ id: `r${index}:package.json:1`, title: `Finding ${index}`, location: { path: "package.json", line: 1 } }));
+  const many = Array.from({ length: 12 }, (_, index) =>
+    finding({ id: `r${index}:package.json:1`, title: `Finding ${index}`, location: { path: "package.json", line: 1 } }),
+  );
   const text = renderAgentSection(many).join("\n");
 
   assert.equal(text.split("\n").filter((line) => line.startsWith("| `package.json:1`")).length, 10);

@@ -22,7 +22,9 @@ export const command: CliCommand = {
   name: "glance",
   flags: ["--as-of", "--json"],
   example: "evergreen glance . --as-of 2026-11-01",
-  usage: ["  evergreen glance [path] [--as-of <YYYY-MM-DD>] [--json]   # one-screen summary: the mark beside ecosystems, findings, deadlines, and data age"],
+  usage: [
+    "  evergreen glance [path] [--as-of <YYYY-MM-DD>] [--json]   # one-screen summary: the mark beside ecosystems, findings, deadlines, and data age",
+  ],
   usageSlots: [18],
   async run(args, ctx) {
     const usage = "Usage: evergreen glance [path] [--as-of <YYYY-MM-DD>] [--json]";
@@ -41,7 +43,8 @@ export const command: CliCommand = {
       operands.push(argument);
     }
     if (operands.length > 1) return ctx.fail("usage", usage);
-    if (asOf !== undefined && !isIsoDate(asOf)) return ctx.fail("usage", "--as-of must be a date (YYYY-MM-DD).", `\n${usage}`);
+    if (asOf !== undefined && !isIsoDate(asOf))
+      return ctx.fail("usage", "--as-of must be a date (YYYY-MM-DD).", `\n${usage}`);
     const project = resolve(operands[0] ?? ".");
     try {
       const scanned = await scanRepository(project, builtInDetectors, {});
@@ -50,7 +53,9 @@ export const command: CliCommand = {
       const repository = (remote.status === 0 ? repositoryFromRemote(remote.stdout) : undefined) ?? basename(project);
       const facts = buildGlanceFacts(result, { repository, asOf: asOf ?? new Date().toISOString().slice(0, 10) });
       const color = Boolean(process.stdout.isTTY) && !process.env.NO_COLOR;
-      process.stdout.write(`${args.includes("--json") ? JSON.stringify(facts, null, 2) : renderGlance(facts, { columns: process.stdout.columns, color })}\n`);
+      process.stdout.write(
+        `${args.includes("--json") ? JSON.stringify(facts, null, 2) : renderGlance(facts, { columns: process.stdout.columns, color })}\n`,
+      );
       return 0;
     } catch (error) {
       return ctx.fail("parse", (error as Error).message);

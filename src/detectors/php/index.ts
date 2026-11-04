@@ -28,7 +28,19 @@ import { parsePhpVersion, parseToolVersions } from "./parse-php-runtime.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const RUNTIME_PURL = "pkg:generic/php";
 const COMPOSER_PURL_PREFIX = "pkg:composer/";
 const PHP_FILES = new Set([".php-version", ".tool-versions", "composer.json", "composer.lock"]);
@@ -86,10 +98,16 @@ export class PhpDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "php";
   /** The files `scan` may read; conformance fails a scan that reads another. */
-  readonly inputs: DetectorInputs = { fileNames: [".php-version", ".tool-versions", "composer.json", "composer.lock"], sourceExtensions: [".php"] };
+  readonly inputs: DetectorInputs = {
+    fileNames: [".php-version", ".tool-versions", "composer.json", "composer.lock"],
+    sourceExtensions: [".php"],
+  };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/php.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/php.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/php.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -156,7 +174,13 @@ export class PhpDetector implements Detector {
             continue;
           }
           for (const rule of packageRules.get(declaration.name) ?? []) {
-            if (coversEveryVersion(rule)) report(rule, path, declaration.line, `${path} declares ${declaration.name} ${declaration.value}. ${rule.summary}`);
+            if (coversEveryVersion(rule))
+              report(
+                rule,
+                path,
+                declaration.line,
+                `${path} declares ${declaration.name} ${declaration.value}. ${rule.summary}`,
+              );
           }
         }
       } else if (name === "composer.lock") {
@@ -168,7 +192,13 @@ export class PhpDetector implements Detector {
             continue;
           }
           const rule = firstMatchingRule(packageRules.get(declaration.name) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
+            );
         }
       }
     }
@@ -181,7 +211,14 @@ export class PhpDetector implements Detector {
     }> = [];
 
     if (withUsage.length > 0) {
-      const analyses = new Map((await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
+      const analyses = new Map(
+        (
+          await analyzeSourceUsage(
+            context.root,
+            withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })),
+          )
+        ).map((analysis) => [analysis.contractId, analysis]),
+      );
       for (const finding of findings) {
         const analysis = analyses.get(finding.id);
         if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });

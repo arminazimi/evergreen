@@ -66,10 +66,17 @@ test("a supported major is never drafted, and neither is an unsupported one that
       ["9.6", "9.6.24", "No", "September 29, 2016", "November 11, 2021"],
     ]),
   );
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["database.postgresql.end-of-life-13"]);
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["database.postgresql.end-of-life-13"],
+  );
   assert.equal(result.rules[0]!.deadline, "2025-11-13");
   assert.equal(result.rules[0]!.replacement, "PostgreSQL 15 or later");
-  assert.ok(result.notes.some((note) => /PostgreSQL 14: marked unsupported but its final release \(2026-11-12\) is in the future/.test(note)));
+  assert.ok(
+    result.notes.some((note) =>
+      /PostgreSQL 14: marked unsupported but its final release \(2026-11-12\) is in the future/.test(note),
+    ),
+  );
 });
 
 test("the calendar moving past a final release drafts the rule", async () => {
@@ -115,13 +122,19 @@ test("a supported major that ends within twelve months is drafted as a scheduled
     ["14", "14.1", "Yes", "September 30, 2021", "November 12, 2026"],
   ];
   const scheduled = (await runImporter(postgresqlVersioningImporter, page(rows, "2026-10-24"))).rules;
-  assert.deepEqual(scheduled.map((rule) => [rule.id, rule.event, rule.severity, rule.deadline]), [["database.postgresql.end-of-life-14", "scheduled-end-of-life", "low", "2026-11-12"]]);
+  assert.deepEqual(
+    scheduled.map((rule) => [rule.id, rule.event, rule.severity, rule.deadline]),
+    [["database.postgresql.end-of-life-14", "scheduled-end-of-life", "low", "2026-11-12"]],
+  );
   assert.equal(scheduled[0]!.vers, "vers:semver/>=14.0.0|<15.0.0");
 
   // The day after the final release the same id is the end-of-life rule.
   const ended = [["14", "14.1", "No", "September 30, 2021", "November 12, 2026"]];
   const promoted = (await runImporter(postgresqlVersioningImporter, page(ended, "2026-11-12"))).rules;
-  assert.deepEqual(promoted.map((rule) => [rule.id, rule.event, rule.severity]), [["database.postgresql.end-of-life-14", "end-of-life", "high"]]);
+  assert.deepEqual(
+    promoted.map((rule) => [rule.id, rule.event, rule.severity]),
+    [["database.postgresql.end-of-life-14", "end-of-life", "high"]],
+  );
 
   // A final release more than twelve months away is only noted.
   const far = await runImporter(postgresqlVersioningImporter, page(rows, "2026-10-24"));

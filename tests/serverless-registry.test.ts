@@ -45,12 +45,20 @@ const SOURCE_DEADLINES = {
   "serverless.aws-lambda.nodejs22.x": { deadline: "2027-04-30", source: AWS_RUNTIMES, identifier: "nodejs22.x" },
   "serverless.aws-lambda.nodejs24.x": { deadline: "2028-04-30", source: AWS_RUNTIMES, identifier: "nodejs24.x" },
   "serverless.aws-lambda.nodejs4.3": { deadline: "2020-03-05", source: AWS_RUNTIMES, identifier: "nodejs4.3" },
-  "serverless.aws-lambda.nodejs4.3-edge": { deadline: "2020-03-05", source: AWS_RUNTIMES, identifier: "nodejs4.3-edge" },
+  "serverless.aws-lambda.nodejs4.3-edge": {
+    deadline: "2020-03-05",
+    source: AWS_RUNTIMES,
+    identifier: "nodejs4.3-edge",
+  },
   "serverless.aws-lambda.nodejs6.10": { deadline: "2019-08-12", source: AWS_RUNTIMES, identifier: "nodejs6.10" },
   "serverless.aws-lambda.nodejs8.10": { deadline: "2020-03-06", source: AWS_RUNTIMES, identifier: "nodejs8.10" },
   "serverless.aws-lambda.provided": { deadline: "2024-01-08", source: AWS_RUNTIMES, identifier: "provided" },
   "serverless.aws-lambda.provided.al2": { deadline: "2026-07-31", source: AWS_RUNTIMES, identifier: "provided.al2" },
-  "serverless.aws-lambda.provided.al2023": { deadline: "2029-06-30", source: AWS_RUNTIMES, identifier: "provided.al2023" },
+  "serverless.aws-lambda.provided.al2023": {
+    deadline: "2029-06-30",
+    source: AWS_RUNTIMES,
+    identifier: "provided.al2023",
+  },
   "serverless.aws-lambda.python2.7": { deadline: "2021-07-15", source: AWS_RUNTIMES, identifier: "python2.7" },
   "serverless.aws-lambda.python3.10": { deadline: "2026-10-31", source: AWS_RUNTIMES, identifier: "python3.10" },
   "serverless.aws-lambda.python3.11": { deadline: "2027-06-30", source: AWS_RUNTIMES, identifier: "python3.11" },
@@ -67,7 +75,11 @@ const SOURCE_DEADLINES = {
   "serverless.aws-lambda.ruby3.3": { deadline: "2027-03-31", source: AWS_RUNTIMES, identifier: "ruby3.3" },
   "serverless.aws-lambda.ruby3.4": { deadline: "2028-03-31", source: AWS_RUNTIMES, identifier: "ruby3.4" },
   "serverless.aws-lambda.ruby4.0": { deadline: "2029-03-31", source: AWS_RUNTIMES, identifier: "ruby4.0" },
-  "serverless.google-cloud-functions.nodejs14": { deadline: "2025-01-30", source: GOOGLE_RUNTIMES, identifier: "nodejs14" },
+  "serverless.google-cloud-functions.nodejs14": {
+    deadline: "2025-01-30",
+    source: GOOGLE_RUNTIMES,
+    identifier: "nodejs14",
+  },
 } as const;
 
 async function rules() {
@@ -80,12 +92,17 @@ test("the serverless registry holds the curated AWS, Google Cloud, and Azure rul
   const aws = all.filter((rule) => rule.id.startsWith("serverless.aws-lambda."));
   assert.deepEqual(
     aws.map((rule) => rule.id).sort(),
-    Object.keys(SOURCE_DEADLINES).filter((id) => id.startsWith("serverless.aws-lambda.")).sort(),
+    Object.keys(SOURCE_DEADLINES)
+      .filter((id) => id.startsWith("serverless.aws-lambda."))
+      .sort(),
   );
   for (const rule of aws) {
     const expected = SOURCE_DEADLINES[rule.id as keyof typeof SOURCE_DEADLINES];
     assert.ok(expected, rule.id);
-    assert.ok(rule.sources.every((source) => source.url.startsWith("https://")), rule.id);
+    assert.ok(
+      rule.sources.every((source) => source.url.startsWith("https://")),
+      rule.id,
+    );
     assert.ok(
       rule.sources.some((source) => source.url === expected.source),
       `${rule.id} cites ${expected.source}`,
@@ -99,7 +116,10 @@ test("the serverless registry holds the curated AWS, Google Cloud, and Azure rul
   assert.equal(appEngine.length, 36);
   for (const rule of [...functions, ...appEngine]) {
     const source = rule.id.startsWith("serverless.google-cloud-functions.") ? GOOGLE_RUNTIMES : GOOGLE_APPENGINE;
-    assert.ok(rule.sources.some((entry) => entry.url === source), `${rule.id} cites ${source}`);
+    assert.ok(
+      rule.sources.some((entry) => entry.url === source),
+      `${rule.id} cites ${source}`,
+    );
     assert.match(rule.summary, /runtime ID /, rule.id);
     assert.equal(rule.vers, "vers:semver/*", rule.id);
   }
@@ -110,7 +130,10 @@ test("the serverless registry holds the curated AWS, Google Cloud, and Azure rul
   assert.equal(azureFunctions.length, 2);
   for (const rule of [...appService, ...azureFunctions]) {
     const source = rule.id.startsWith("serverless.azure-functions.") ? AZURE_FUNCTIONS : AZURE_APP_SERVICE;
-    assert.ok(rule.sources.some((entry) => entry.url === source), `${rule.id} cites ${source}`);
+    assert.ok(
+      rule.sources.some((entry) => entry.url === source),
+      `${rule.id} cites ${source}`,
+    );
     assert.match(rule.purl, /^pkg:generic\/azure-/, rule.id);
   }
 });
@@ -121,6 +144,10 @@ test("each serverless rule deadline matches the date published by its source", a
     const rule = all.find((candidate) => candidate.id === id);
     assert.ok(rule, id);
     assert.equal(rule.deadline, expected.deadline, id);
-    assert.match(rule.summary, new RegExp(expected.deadline.replaceAll("-", "\\-")), `${id} summary names the deadline`);
+    assert.match(
+      rule.summary,
+      new RegExp(expected.deadline.replaceAll("-", "\\-")),
+      `${id} summary names the deadline`,
+    );
   }
 });

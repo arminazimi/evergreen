@@ -40,7 +40,9 @@ function patternToRegExp(pattern: string): RegExp {
       source += last ? ".*" : "(?:.*/)?";
       return;
     }
-    source += [...segment].map((character) => (character === "*" ? "[^/]*" : character === "?" ? "[^/]" : escapeRegExp(character))).join("");
+    source += [...segment]
+      .map((character) => (character === "*" ? "[^/]*" : character === "?" ? "[^/]" : escapeRegExp(character)))
+      .join("");
     if (!last) source += "/";
   });
   // A pattern without a slash matches at any depth. A named directory covers everything beneath it, but as on
@@ -72,7 +74,11 @@ export function ownersOf(rules: readonly CodeownersRule[], path: string): string
   return [];
 }
 
-export function groupByOwner(result: Pick<ScanResult, "root" | "findings">, rules: readonly CodeownersRule[], codeowners: string | null): OwnerGroups {
+export function groupByOwner(
+  result: Pick<ScanResult, "root" | "findings">,
+  rules: readonly CodeownersRule[],
+  codeowners: string | null,
+): OwnerGroups {
   const groups = new Map<string, Finding[]>();
   const unowned: Finding[] = [];
   for (const finding of result.findings) {
@@ -80,7 +86,9 @@ export function groupByOwner(result: Pick<ScanResult, "root" | "findings">, rule
     if (owners.length === 0) unowned.push(finding);
     for (const owner of owners) groups.set(owner, [...(groups.get(owner) ?? []), finding]);
   }
-  const owners = [...groups].map(([owner, findings]) => ({ owner, findings })).sort((left, right) => right.findings.length - left.findings.length || left.owner.localeCompare(right.owner));
+  const owners = [...groups]
+    .map(([owner, findings]) => ({ owner, findings }))
+    .sort((left, right) => right.findings.length - left.findings.length || left.owner.localeCompare(right.owner));
   return { schemaVersion: "evergreen.owners.v1", root: result.root, codeowners, owners, unowned };
 }
 
@@ -100,7 +108,12 @@ export async function groupScanByOwner(result: Pick<ScanResult, "root" | "findin
 
 export function renderOwnerGroupsText(groups: OwnerGroups): string {
   const total = new Set([...groups.owners.flatMap((group) => group.findings), ...groups.unowned]).size;
-  const lines = ["Evergreen scan by owner", `Repository: ${groups.root}`, `Findings: ${total}`, groups.codeowners ? `CODEOWNERS: ${groups.codeowners}` : "CODEOWNERS: none found; every finding is unowned"];
+  const lines = [
+    "Evergreen scan by owner",
+    `Repository: ${groups.root}`,
+    `Findings: ${total}`,
+    groups.codeowners ? `CODEOWNERS: ${groups.codeowners}` : "CODEOWNERS: none found; every finding is unowned",
+  ];
   const section = (title: string, findings: Finding[]): void => {
     lines.push("", `${title} (${findings.length})`);
     for (const finding of findings) {

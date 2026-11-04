@@ -9,26 +9,43 @@ export const command: CliCommand = {
   name: "check-snippet",
   flags: ["--path", "--json"],
   example: "evergreen check-snippet --path Dockerfile < Dockerfile.new",
-  usage: ["  evergreen check-snippet --path <path> [--json]   # check one snippet from stdin before writing it; reads no repository"],
+  usage: [
+    "  evergreen check-snippet --path <path> [--json]   # check one snippet from stdin before writing it; reads no repository",
+  ],
   usageSlots: [38],
   run(args, ctx) {
     return afterGates("check-snippet", args, ctx, async (state) => {
-      const snippetUsage = "Usage: evergreen check-snippet --path <path> [--json]   # the snippet content arrives on stdin";
+      const snippetUsage =
+        "Usage: evergreen check-snippet --path <path> [--json]   # the snippet content arrives on stdin";
       let snippetPath: string | undefined;
       for (let index = 1; index < state.args.length; index += 1) {
         const argument = state.args[index];
         if (argument === undefined) continue;
         if (argument === "--path") {
           const value = state.args[index + 1];
-          if (value === undefined || value.startsWith("-")) return ctx.fail("usage", "--path needs the intended repository-relative path of the snippet.", `\n${snippetUsage}`);
+          if (value === undefined || value.startsWith("-"))
+            return ctx.fail(
+              "usage",
+              "--path needs the intended repository-relative path of the snippet.",
+              `\n${snippetUsage}`,
+            );
           snippetPath = value;
           index += 1;
         } else if (argument !== "--json") {
           return ctx.fail("usage", snippetUsage);
         }
       }
-      if (!snippetPath) return ctx.fail("usage", "Missing --path, the intended repository-relative path of the snippet.", `\n${snippetUsage}`);
-      if (process.stdin.isTTY) return ctx.fail("usage", "check-snippet reads the snippet content from stdin. Pipe it, for example: cat Dockerfile | evergreen check-snippet --path Dockerfile.");
+      if (!snippetPath)
+        return ctx.fail(
+          "usage",
+          "Missing --path, the intended repository-relative path of the snippet.",
+          `\n${snippetUsage}`,
+        );
+      if (process.stdin.isTTY)
+        return ctx.fail(
+          "usage",
+          "check-snippet reads the snippet content from stdin. Pipe it, for example: cat Dockerfile | evergreen check-snippet --path Dockerfile.",
+        );
       try {
         const content = await new Promise<string>((resolveSnippet, rejectSnippet) => {
           const chunks: Buffer[] = [];
@@ -37,7 +54,9 @@ export const command: CliCommand = {
           process.stdin.on("error", rejectSnippet);
         });
         const check = await checkSnippet({ path: snippetPath, content });
-        const text = state.json ? JSON.stringify(check, null, 2) : [check.message, ...check.findings.map(renderFindingText)].join("\n\n");
+        const text = state.json
+          ? JSON.stringify(check, null, 2)
+          : [check.message, ...check.findings.map(renderFindingText)].join("\n\n");
         process.stdout.write(`${text}\n`);
         return 0;
       } catch (error) {

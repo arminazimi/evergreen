@@ -13,7 +13,18 @@ import type { UpgradeAnalyzer, UpgradeIssue, UpgradeReport, UpgradeTarget } from
 export type { UpgradeAnalyzer, UpgradeIssue, UpgradeReport, UpgradeTarget } from "./types.js";
 
 /** Every built-in analyzer. Each task in the upgrade epic appends its own entry. */
-export const upgradeAnalyzers: UpgradeAnalyzer[] = [composerLockAnalyzer, goModulesAnalyzer, dartSdkAnalyzer, nodeApisAnalyzer, npmLockAnalyzer, pnpmLockAnalyzer, poetryLockAnalyzer, pythonStdlibAnalyzer, targetLifecycleAnalyzer, uvPdmLockAnalyzer];
+export const upgradeAnalyzers: UpgradeAnalyzer[] = [
+  composerLockAnalyzer,
+  goModulesAnalyzer,
+  dartSdkAnalyzer,
+  nodeApisAnalyzer,
+  npmLockAnalyzer,
+  pnpmLockAnalyzer,
+  poetryLockAnalyzer,
+  pythonStdlibAnalyzer,
+  targetLifecycleAnalyzer,
+  uvPdmLockAnalyzer,
+];
 
 const levelOrder = { blocker: 0, warning: 1, unknown: 2 } as const;
 
@@ -28,7 +39,11 @@ export function parseUpgradeTarget(text: string): UpgradeTarget | undefined {
 }
 
 /** Runs every analyzer that handles the target runtime and applies to the repository. Deterministic. */
-export async function checkUpgrade(root: string, target: UpgradeTarget, analyzers: readonly UpgradeAnalyzer[] = upgradeAnalyzers): Promise<UpgradeReport> {
+export async function checkUpgrade(
+  root: string,
+  target: UpgradeTarget,
+  analyzers: readonly UpgradeAnalyzer[] = upgradeAnalyzers,
+): Promise<UpgradeReport> {
   const ran: string[] = [];
   const issues: UpgradeIssue[] = [];
   for (const analyzer of analyzers) {
@@ -36,9 +51,19 @@ export async function checkUpgrade(root: string, target: UpgradeTarget, analyzer
     ran.push(analyzer.id);
     issues.push(...(await analyzer.analyze(root, target)));
   }
-  issues.sort((a, b) =>
-    levelOrder[a.level] - levelOrder[b.level] || a.path.localeCompare(b.path) || (a.line ?? 0) - (b.line ?? 0) || a.subject.localeCompare(b.subject) || a.analyzer.localeCompare(b.analyzer));
+  issues.sort(
+    (a, b) =>
+      levelOrder[a.level] - levelOrder[b.level] ||
+      a.path.localeCompare(b.path) ||
+      (a.line ?? 0) - (b.line ?? 0) ||
+      a.subject.localeCompare(b.subject) ||
+      a.analyzer.localeCompare(b.analyzer),
+  );
   ran.sort();
-  const verdict = issues.some((issue) => issue.level === "blocker") ? "blocked" : ran.length === 0 ? "unknown" : "ready";
+  const verdict = issues.some((issue) => issue.level === "blocker")
+    ? "blocked"
+    : ran.length === 0
+      ? "unknown"
+      : "ready";
   return { schemaVersion: "evergreen.upgrade.v1", target, verdict, analyzers: ran, issues };
 }

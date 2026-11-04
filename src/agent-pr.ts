@@ -34,7 +34,12 @@ export function parseAgentAuthors(value: string | undefined): ReadonlySet<string
   const input = (value ?? "").trim();
   if (input.length === 0) return new Set(DEFAULT_AGENT_AUTHORS.map(normalizeLogin));
   if (input.toLowerCase() === "none") return new Set();
-  return new Set(input.split(",").map(normalizeLogin).filter((login) => login.length > 0));
+  return new Set(
+    input
+      .split(",")
+      .map(normalizeLogin)
+      .filter((login) => login.length > 0),
+  );
 }
 
 /** True when the pull request author is one of the agent logins. */
@@ -58,9 +63,12 @@ export function renderAgentSection(findings: readonly Finding[]): string[] {
     const source = finding.sources[0];
     const location = `${finding.location.path}${finding.location.line === undefined ? "" : `:${finding.location.line}`}`;
     const replacement = finding.replacement === undefined ? "—" : cell(finding.replacement);
-    lines.push(`| \`${cell(location)}\` | ${cell(finding.title)} | ${replacement} | ${source ? `[${cell(source.title)}](${source.url})` : "—"} |`);
+    lines.push(
+      `| \`${cell(location)}\` | ${cell(finding.title)} | ${replacement} | ${source ? `[${cell(source.title)}](${source.url})` : "—"} |`,
+    );
   }
-  if (findings.length > AGENT_SECTION_LIMIT) lines.push("", `…and ${findings.length - AGENT_SECTION_LIMIT} more; the JSON report artifact lists every finding.`);
+  if (findings.length > AGENT_SECTION_LIMIT)
+    lines.push("", `…and ${findings.length - AGENT_SECTION_LIMIT} more; the JSON report artifact lists every finding.`);
   lines.push("", "Replace these and push again; Evergreen will re-check.", "");
   return lines;
 }

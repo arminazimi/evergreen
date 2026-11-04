@@ -18,7 +18,12 @@ export function renderWebhook(result: ScanResult): string {
     scannedAt: result.scannedAt,
     summary: {
       findings: findings.length,
-      bySeverity: Object.fromEntries(severityValues.map((severity) => [severity, findings.filter((finding) => finding.severity === severity).length])),
+      bySeverity: Object.fromEntries(
+        severityValues.map((severity) => [
+          severity,
+          findings.filter((finding) => finding.severity === severity).length,
+        ]),
+      ),
     },
     findings: findings.map((finding) => ({
       id: finding.id,

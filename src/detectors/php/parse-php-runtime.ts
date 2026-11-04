@@ -51,7 +51,8 @@ export function parseToolVersions(contents: string): PhpRuntimeDeclaration[] {
     const text = rawLine.split("#", 1)[0]!.trim();
     if (text === "") continue;
     const [tool, ...versions] = text.split(/\s+/);
-    if (tool !== "php" || versions.length === 0 || versions.some((version) => !PINNED_PHP_VERSION.test(version))) continue;
+    if (tool !== "php" || versions.length === 0 || versions.some((version) => !PINNED_PHP_VERSION.test(version)))
+      continue;
     for (const value of versions) declarations.push({ value, line: index + 1 });
   }
   return declarations;

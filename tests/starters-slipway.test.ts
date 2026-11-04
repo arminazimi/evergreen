@@ -21,7 +21,12 @@ after(async () => {
 const observed = async (directory: string) => {
   const scan = await scanRepository(directory, builtInDetectors, { noCache: true });
   const findings = scan.findings.map((finding) => ({ ruleId: finding.ruleId, path: finding.location.path }));
-  return { scan, findings: findings.sort((left, right) => left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path)) };
+  return {
+    scan,
+    findings: findings.sort(
+      (left, right) => left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path),
+    ),
+  };
 };
 
 test("the starter configuration validates against the published schema and loads with the real loader", async () => {
@@ -100,6 +105,9 @@ test("a scan of a Slipway-shaped site honors the starter's ignore patterns", asy
       { ruleId: "container.node.eol-21-and-older", path: "_site/Dockerfile" },
       { ruleId: "ruby.runtime.eol-3.2", path: ".ruby-version" },
     ]);
-    assert.deepEqual(filtered.findings.map((finding) => finding.ruleId), ["ruby.runtime.eol-3.2"]);
+    assert.deepEqual(
+      filtered.findings.map((finding) => finding.ruleId),
+      ["ruby.runtime.eol-3.2"],
+    );
   }
 });

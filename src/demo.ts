@@ -46,9 +46,7 @@ export function fetchStatus(url, callback) {
  * Scans an in-memory fixture by staging its files in a temporary directory,
  * running the configured detectors, and presenting the findings under a stable "demo" root.
  */
-export async function scanDemo(
-  detectors: readonly Detector[] = builtInDetectors,
-): Promise<ScanResult> {
+export async function scanDemo(detectors: readonly Detector[] = builtInDetectors): Promise<ScanResult> {
   const directory = await mkdtemp(join(tmpdir(), "evergreen-demo-"));
   try {
     for (const [relativePath, content] of Object.entries(DEMO_FILES)) {

@@ -40,7 +40,9 @@ function loadRuntime(): Promise<{ module: TreeSitter; directory: string }> {
     const wasmBinary = await loadPayload(vendorDirectory, "tree-sitter.wasm");
     // `wasmBinary` is an Emscripten module option the published typings do not expose. Supplying it
     // means the runtime instantiates the decoded payload and never reads a `.wasm` file.
-    const options = { wasmBinary, locateFile: (file: string) => file } as unknown as Parameters<TreeSitter["Parser"]["init"]>[0];
+    const options = { wasmBinary, locateFile: (file: string) => file } as unknown as Parameters<
+      TreeSitter["Parser"]["init"]
+    >[0];
     await module.Parser.init(options);
     return { module, directory: vendorDirectory };
   })();
@@ -72,9 +74,11 @@ export function loadQuery(grammar: TreeSitterGrammar, ...names: string[]): Promi
   const key = `${grammar}:${names.join("+")}`;
   let query = queries.get(key);
   if (!query) {
-    query = Promise.all([loadRuntime(), loadLanguage(grammar), Promise.all(names.map((name) => readFile(new URL(`./queries/${name}.scm`, import.meta.url), "utf8")))]).then(
-      ([{ module }, language, sources]) => new module.Query(language, sources.join("\n")),
-    );
+    query = Promise.all([
+      loadRuntime(),
+      loadLanguage(grammar),
+      Promise.all(names.map((name) => readFile(new URL(`./queries/${name}.scm`, import.meta.url), "utf8"))),
+    ]).then(([{ module }, language, sources]) => new module.Query(language, sources.join("\n")));
     queries.set(key, query);
     query.catch(() => queries.delete(key));
   }

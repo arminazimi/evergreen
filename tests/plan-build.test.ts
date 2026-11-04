@@ -29,9 +29,7 @@ function scan(findings: Finding[], coverageFiles?: string[]): ScanResult {
     scannedAt: "2026-10-30T00:00:00.000Z",
     findings,
     diagnostics: [],
-    ...(coverageFiles
-      ? { coverage: { ecosystems: ["npm"], filesRead: coverageFiles, unsupportedFiles: [] } }
-      : {}),
+    ...(coverageFiles ? { coverage: { ecosystems: ["npm"], filesRead: coverageFiles, unsupportedFiles: [] } } : {}),
   };
 }
 
@@ -105,14 +103,8 @@ test("two npm findings that share a lockfile land in different waves", async () 
   );
 
   const byId = new Map(plan.items.map((item) => [item.id, item]));
-  assert.deepEqual(byId.get("npm.request:package.json:3")?.touches, [
-    "package-lock.json",
-    "package.json",
-  ]);
-  assert.deepEqual(byId.get("npm.moment:package.json:8")?.touches, [
-    "package-lock.json",
-    "package.json",
-  ]);
+  assert.deepEqual(byId.get("npm.request:package.json:3")?.touches, ["package-lock.json", "package.json"]);
+  assert.deepEqual(byId.get("npm.moment:package.json:8")?.touches, ["package-lock.json", "package.json"]);
   assert.equal(byId.get("npm.request:package.json:3")?.wave, 0);
   assert.equal(byId.get("npm.moment:package.json:8")?.wave, 1);
 });

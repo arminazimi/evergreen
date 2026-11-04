@@ -55,7 +55,9 @@ export function snapshotDrops(current: CorpusSnapshot, committed: CorpusSnapshot
     if (now.findings < recorded.findings) {
       drops.push(`${detector}: the corpus expects ${now.findings} findings, the snapshot records ${recorded.findings}`);
     } else if (now.repositories < recorded.repositories) {
-      drops.push(`${detector}: the corpus covers ${now.repositories} repositories, the snapshot records ${recorded.repositories}`);
+      drops.push(
+        `${detector}: the corpus covers ${now.repositories} repositories, the snapshot records ${recorded.repositories}`,
+      );
     }
   }
   return drops;
@@ -75,7 +77,9 @@ export async function main(argv: readonly string[] = process.argv.slice(2)): Pro
   const drops = snapshotDrops(current, await readJson<CorpusSnapshot>(SNAPSHOT_PATH));
   if (drops.length === 0) return 0;
   for (const drop of drops) console.error(`SNAPSHOT  ${drop}`);
-  console.error("A known finding was lost. Restore it, or record the reduction with: node dist/benchmarks/corpus-snapshot.js --write");
+  console.error(
+    "A known finding was lost. Restore it, or record the reduction with: node dist/benchmarks/corpus-snapshot.js --write",
+  );
   return 1;
 }
 

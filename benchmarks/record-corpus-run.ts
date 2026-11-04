@@ -29,11 +29,15 @@ const passthrough = process.argv.slice(2);
 const narrowing = findFilterFlag(passthrough);
 if (narrowing) fail(`Refusing to record: ${narrowing} narrows the run, and only a full run can be recorded.`);
 for (const flag of ["--observe", "--warm", "--output", "--json", "--compare"]) {
-  if (passthrough.includes(flag)) fail(`Refusing to record: ${flag} is not allowed here; the command runs the full corpus in verify mode.`);
+  if (passthrough.includes(flag))
+    fail(`Refusing to record: ${flag} is not allowed here; the command runs the full corpus in verify mode.`);
 }
 
 const dirty = (await run("git", ["status", "--porcelain", "--untracked-files=no"])).stdout.trim();
-if (dirty) fail(`Refusing to record: the working tree has uncommitted changes, so the recorded commit would not describe them.\n${dirty}`);
+if (dirty)
+  fail(
+    `Refusing to record: the working tree has uncommitted changes, so the recorded commit would not describe them.\n${dirty}`,
+  );
 const commit = (await run("git", ["rev-parse", "--short", "HEAD"])).stdout.trim();
 const date = new Date().toISOString().slice(0, 10);
 
@@ -44,9 +48,13 @@ try {
   console.error(`Running the full corpus (${corpus.repositories.length} repositories) in verify mode...`);
   let exitCode = 0;
   try {
-    await run(process.execPath, [resolve("dist/benchmarks/public-repositories.js"), "--output", reportPath, ...passthrough], {
-      maxBuffer: 64 * 1024 * 1024,
-    });
+    await run(
+      process.execPath,
+      [resolve("dist/benchmarks/public-repositories.js"), "--output", reportPath, ...passthrough],
+      {
+        maxBuffer: 64 * 1024 * 1024,
+      },
+    );
   } catch (error) {
     // The harness exits 1 for false positives, false negatives, or a precision floor; its stderr names them.
     const failure = error as { code?: number; stdout?: string; stderr?: string };
@@ -55,7 +63,8 @@ try {
     process.stdout.write(failure.stdout ?? "");
   }
   const report = JSON.parse(await readFile(reportPath, "utf8").catch(() => "{}")) as RecordableReport;
-  if (exitCode !== 0 && report.summary === undefined) fail(`Refusing to record: the corpus run failed (exit ${exitCode}) before it produced a report.`);
+  if (exitCode !== 0 && report.summary === undefined)
+    fail(`Refusing to record: the corpus run failed (exit ${exitCode}) before it produced a report.`);
   try {
     assertRecordable(report, corpus.repositories.length);
     if (exitCode !== 0) throw new Error(`Refusing to record: the corpus run exited ${exitCode}.`);
@@ -70,8 +79,12 @@ try {
   await run(process.execPath, [resolve("dist/tools/build-dashboard-data.js"), "--today", "run-date"]);
   await run(process.execPath, [resolve("dist/tools/coverage-matrix.js")]);
   await run(process.execPath, [resolve("dist/tools/build-llms-full.js")]);
-  console.log(`Recorded the full run of ${date} at ${commit}: ${record.repositories} repositories, ${record.findings} findings, precision ${record.precision}, recall ${record.recall}.`);
-  console.log("Updated benchmarks/thresholds.json, docs/VALIDATION.md, and docs/state-of-eol.md. Regenerated gitignored docs/dashboard/data.json and docs/llms-full.txt for local preview. Review the diff and commit the tracked files.");
+  console.log(
+    `Recorded the full run of ${date} at ${commit}: ${record.repositories} repositories, ${record.findings} findings, precision ${record.precision}, recall ${record.recall}.`,
+  );
+  console.log(
+    "Updated benchmarks/thresholds.json, docs/VALIDATION.md, and docs/state-of-eol.md. Regenerated gitignored docs/dashboard/data.json and docs/llms-full.txt for local preview. Review the diff and commit the tracked files.",
+  );
 } finally {
   await rm(directory, { recursive: true, force: true });
 }

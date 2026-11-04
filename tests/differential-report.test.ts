@@ -37,7 +37,10 @@ test("agreements are counted but only disagreements are listed, each with eviden
     ],
     new Map([["a/one", commit]]),
   );
-  assert.deepEqual(summary.repositories.map((item) => item.repository), ["a/one", "b/two"]);
+  assert.deepEqual(
+    summary.repositories.map((item) => item.repository),
+    ["a/one", "b/two"],
+  );
   assert.deepEqual(summary.totals, { agree: 1, "evergreen-only": 0, "renovate-only": 1, inconclusive: 1 });
   assert.equal(summary.disagreements.length, 2);
   for (const item of summary.disagreements) assert.ok(item.evidence.length > 0);
@@ -46,8 +49,15 @@ test("agreements are counted but only disagreements are listed, each with eviden
 });
 
 test("evidence names the Evergreen rule page and omits the pinned file when the commit is unknown", () => {
-  const links = evidenceFor("x/y", null, comparison({ outcome: "evergreen-only", evergreen: ["container.node.eol-21-and-older"], renovate: "none" }));
-  assert.deepEqual(links.map((link) => link.label), ["Evergreen rule container.node.eol-21-and-older"]);
+  const links = evidenceFor(
+    "x/y",
+    null,
+    comparison({ outcome: "evergreen-only", evergreen: ["container.node.eol-21-and-older"], renovate: "none" }),
+  );
+  assert.deepEqual(
+    links.map((link) => link.label),
+    ["Evergreen rule container.node.eol-21-and-older"],
+  );
 });
 
 test("the committed differential report matches the committed Renovate reports", async () => {

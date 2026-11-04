@@ -13,7 +13,8 @@ const TERRAFORM = join(FIXTURES, "terraform-state");
 const SHOW = join(TERRAFORM, "show.json");
 const RAW = join(TERRAFORM, "state-v4.json");
 
-const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null && !Array.isArray(value);
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 /** Resolves an RFC 6901 JSON Pointer against a parsed document. */
 function resolvePointer(document: unknown, pointer: string): unknown {
@@ -87,26 +88,114 @@ test("show -json reads every listed resource type with a pointer that resolves",
 
   const summaries = items.map((item) => [item.resource, item.pointer, item.purl, item.version]);
   for (const expected of [
-    ["aws_lambda_function.worker[0]", "/values/root_module/resources/0/values/runtime", "pkg:generic/aws-lambda-runtime/nodejs14.x", "nodejs14.x"],
-    ["aws_lambda_function.worker[1]", "/values/root_module/resources/1/values/runtime", "pkg:generic/aws-lambda-runtime/python3.7", "python3.7"],
-    ['aws_lambda_function.api["green"]', "/values/root_module/resources/2/values/runtime", "pkg:generic/aws-lambda-runtime/nodejs18.x", "nodejs18.x"],
-    ["aws_db_instance.orders", "/values/root_module/resources/5/values/engine_version", "pkg:generic/aws-rds/postgres", "12.22"],
-    ["aws_db_instance.orders", "/values/root_module/resources/5/values/engine_version", "pkg:generic/postgresql", "12.22"],
-    ["aws_rds_cluster.analytics", "/values/root_module/resources/6/values/engine_version", "pkg:generic/aws-aurora/postgresql", "13.9"],
-    ["aws_rds_cluster.sessions", "/values/root_module/resources/7/values/engine_version", "pkg:generic/aws-aurora/mysql", "8.0.mysql_aurora.3.10.0"],
-    ["aws_elasticache_cluster.cache", "/values/root_module/resources/8/values/engine_version", "pkg:generic/aws-elasticache/redis", "6.2.6"],
-    ["aws_elasticache_replication_group.flags", "/values/root_module/resources/9/values/engine_version", "pkg:generic/redis", "7.1"],
+    [
+      "aws_lambda_function.worker[0]",
+      "/values/root_module/resources/0/values/runtime",
+      "pkg:generic/aws-lambda-runtime/nodejs14.x",
+      "nodejs14.x",
+    ],
+    [
+      "aws_lambda_function.worker[1]",
+      "/values/root_module/resources/1/values/runtime",
+      "pkg:generic/aws-lambda-runtime/python3.7",
+      "python3.7",
+    ],
+    [
+      'aws_lambda_function.api["green"]',
+      "/values/root_module/resources/2/values/runtime",
+      "pkg:generic/aws-lambda-runtime/nodejs18.x",
+      "nodejs18.x",
+    ],
+    [
+      "aws_db_instance.orders",
+      "/values/root_module/resources/5/values/engine_version",
+      "pkg:generic/aws-rds/postgres",
+      "12.22",
+    ],
+    [
+      "aws_db_instance.orders",
+      "/values/root_module/resources/5/values/engine_version",
+      "pkg:generic/postgresql",
+      "12.22",
+    ],
+    [
+      "aws_rds_cluster.analytics",
+      "/values/root_module/resources/6/values/engine_version",
+      "pkg:generic/aws-aurora/postgresql",
+      "13.9",
+    ],
+    [
+      "aws_rds_cluster.sessions",
+      "/values/root_module/resources/7/values/engine_version",
+      "pkg:generic/aws-aurora/mysql",
+      "8.0.mysql_aurora.3.10.0",
+    ],
+    [
+      "aws_elasticache_cluster.cache",
+      "/values/root_module/resources/8/values/engine_version",
+      "pkg:generic/aws-elasticache/redis",
+      "6.2.6",
+    ],
+    [
+      "aws_elasticache_replication_group.flags",
+      "/values/root_module/resources/9/values/engine_version",
+      "pkg:generic/redis",
+      "7.1",
+    ],
     ["aws_eks_cluster.main", "/values/root_module/resources/11/values/version", "pkg:generic/amazon-eks", "1.30"],
-    ["google_container_cluster.gke", "/values/root_module/resources/12/values/master_version", "pkg:generic/google-gke", "1.29.7-gke.1000"],
-    ["google_cloudfunctions_function.legacy", "/values/root_module/resources/13/values/runtime", "pkg:generic/google-cloud-functions-runtime/nodejs14", undefined],
-    ["google_cloudfunctions2_function.reports", "/values/root_module/resources/14/values/build_config/0/runtime", "pkg:generic/google-cloud-functions-runtime/python312", undefined],
-    ["azurerm_kubernetes_cluster.aks", "/values/root_module/resources/15/values/kubernetes_version", "pkg:generic/azure-aks", "1.28.5"],
-    ["azurerm_linux_function_app.fn", "/values/root_module/resources/16/values/site_config/0/application_stack/0/node_version", "pkg:generic/azure-app-service/node", "14"],
-    ["aws_lambda_function.nested", "/values/root_module/child_modules/0/resources/0/values/runtime", "pkg:generic/aws-lambda-runtime/nodejs16.x", "nodejs16.x"],
-    ["aws_eks_cluster.nested", "/values/root_module/child_modules/0/resources/1/values/version", "pkg:generic/amazon-eks", "1.28"],
-    ["google_container_cluster.deep", "/values/root_module/child_modules/0/child_modules/0/resources/0/values/master_version", "pkg:generic/google-gke", "1.31.4-gke.100"],
+    [
+      "google_container_cluster.gke",
+      "/values/root_module/resources/12/values/master_version",
+      "pkg:generic/google-gke",
+      "1.29.7-gke.1000",
+    ],
+    [
+      "google_cloudfunctions_function.legacy",
+      "/values/root_module/resources/13/values/runtime",
+      "pkg:generic/google-cloud-functions-runtime/nodejs14",
+      undefined,
+    ],
+    [
+      "google_cloudfunctions2_function.reports",
+      "/values/root_module/resources/14/values/build_config/0/runtime",
+      "pkg:generic/google-cloud-functions-runtime/python312",
+      undefined,
+    ],
+    [
+      "azurerm_kubernetes_cluster.aks",
+      "/values/root_module/resources/15/values/kubernetes_version",
+      "pkg:generic/azure-aks",
+      "1.28.5",
+    ],
+    [
+      "azurerm_linux_function_app.fn",
+      "/values/root_module/resources/16/values/site_config/0/application_stack/0/node_version",
+      "pkg:generic/azure-app-service/node",
+      "14",
+    ],
+    [
+      "aws_lambda_function.nested",
+      "/values/root_module/child_modules/0/resources/0/values/runtime",
+      "pkg:generic/aws-lambda-runtime/nodejs16.x",
+      "nodejs16.x",
+    ],
+    [
+      "aws_eks_cluster.nested",
+      "/values/root_module/child_modules/0/resources/1/values/version",
+      "pkg:generic/amazon-eks",
+      "1.28",
+    ],
+    [
+      "google_container_cluster.deep",
+      "/values/root_module/child_modules/0/child_modules/0/resources/0/values/master_version",
+      "pkg:generic/google-gke",
+      "1.31.4-gke.100",
+    ],
   ]) {
-    assert.ok(summaries.some((entry) => JSON.stringify(entry) === JSON.stringify(expected)), JSON.stringify(expected));
+    assert.ok(
+      summaries.some((entry) => JSON.stringify(entry) === JSON.stringify(expected)),
+      JSON.stringify(expected),
+    );
   }
 
   for (const item of items) {
@@ -160,7 +249,8 @@ test("raw state v4 reads the same attributes, including nested modules and for_e
   );
   for (const item of items) {
     const value = resolvePointer(document, item.pointer);
-    if (item.purl.startsWith("pkg:generic/google-cloud-functions-runtime/")) assert.ok(item.purl.endsWith(`/${value as string}`));
+    if (item.purl.startsWith("pkg:generic/google-cloud-functions-runtime/"))
+      assert.ok(item.purl.endsWith(`/${value as string}`));
     else assert.equal(value, item.version, item.pointer);
   }
 });
@@ -169,7 +259,12 @@ test("resources are type.name with the instance key, never the module path or an
   const showItems = itemsOf(await readJson(SHOW), SHOW);
   assert.deepEqual(
     showItems.filter((item) => item.resource.startsWith("aws_lambda_function.")).map((item) => item.resource),
-    ["aws_lambda_function.worker[0]", "aws_lambda_function.worker[1]", 'aws_lambda_function.api["green"]', "aws_lambda_function.nested"],
+    [
+      "aws_lambda_function.worker[0]",
+      "aws_lambda_function.worker[1]",
+      'aws_lambda_function.api["green"]',
+      "aws_lambda_function.nested",
+    ],
   );
   const nested = showItems.find((item) => item.resource === "aws_lambda_function.nested")!;
   assert.equal(nested.pointer, "/values/root_module/child_modules/0/resources/0/values/runtime");
@@ -203,7 +298,11 @@ test("data sources, image functions, unmapped engines, and unsupported values ar
           { type: "azurerm_linux_function_app", name: "none", values: {} },
           { type: "azurerm_linux_function_app", name: "empty", values: { site_config: [] } },
           { type: "azurerm_linux_function_app", name: "no-stack", values: { site_config: [{}] } },
-          { type: "azurerm_linux_function_app", name: "bad", values: { site_config: [{ application_stack: [{ node_version: "latest", python_version: "" }] }] } },
+          {
+            type: "azurerm_linux_function_app",
+            name: "bad",
+            values: { site_config: [{ application_stack: [{ node_version: "latest", python_version: "" }] }] },
+          },
           { type: "aws_s3_bucket", name: "bucket", values: { bucket: "placeholder-assets" } },
           { type: 1, name: "bad-type", values: {} },
           { type: "aws_lambda_function", name: 2, values: {} },
@@ -223,13 +322,34 @@ test("data sources, image functions, unmapped engines, and unsupported values ar
     version: 4,
     resources: [
       { type: "aws_lambda_function", name: "no-instances", instances: null },
-      { type: "aws_lambda_function", name: "bad-instances", instances: [null, { attributes: null }, { attributes: { runtime: "python3.9" } }] },
+      {
+        type: "aws_lambda_function",
+        name: "bad-instances",
+        instances: [null, { attributes: null }, { attributes: { runtime: "python3.9" } }],
+      },
       { type: 5, name: "bad-type", instances: [] },
       { type: "aws_lambda_function", name: 5, instances: [] },
-      { mode: "data", type: "aws_lambda_function", name: "data", instances: [{ attributes: { runtime: "python2.7" } }] },
-      { type: "aws_lambda_function", name: "empty-key", instances: [{ index_key: "", attributes: { runtime: "python3.10" } }] },
-      { type: "aws_lambda_function", name: "null-key", instances: [{ index_key: null, attributes: { runtime: "python3.11" } }] },
-      { type: "aws_lambda_function", name: "deposed", instances: [{ deposed: "a1b2c3d4", attributes: { runtime: "python2.7" } }] },
+      {
+        mode: "data",
+        type: "aws_lambda_function",
+        name: "data",
+        instances: [{ attributes: { runtime: "python2.7" } }],
+      },
+      {
+        type: "aws_lambda_function",
+        name: "empty-key",
+        instances: [{ index_key: "", attributes: { runtime: "python3.10" } }],
+      },
+      {
+        type: "aws_lambda_function",
+        name: "null-key",
+        instances: [{ index_key: null, attributes: { runtime: "python3.11" } }],
+      },
+      {
+        type: "aws_lambda_function",
+        name: "deposed",
+        instances: [{ deposed: "a1b2c3d4", attributes: { runtime: "python2.7" } }],
+      },
     ],
   };
   assert.deepEqual(
@@ -284,12 +404,31 @@ test("the Linux Function App stack reads every managed version field as its own 
 test("deployed values answer with the rules that already exist", async () => {
   const report = await runInventory([SHOW]);
   assert.deepEqual(report.unrecognized, []);
-  assert.equal(resultsFor(report, "aws_lambda_function.worker[0]", "pkg:generic/aws-lambda-runtime/nodejs14.x")[0]!.check.status, "affected");
-  assert.equal(resultsFor(report, "aws_lambda_function.worker[0]", "pkg:generic/aws-lambda-runtime/nodejs14.x")[0]!.check.severity, "high");
-  assert.equal(resultsFor(report, "aws_db_instance.orders", "pkg:generic/aws-rds/postgres")[0]!.check.status, "affected");
+  assert.equal(
+    resultsFor(report, "aws_lambda_function.worker[0]", "pkg:generic/aws-lambda-runtime/nodejs14.x")[0]!.check.status,
+    "affected",
+  );
+  assert.equal(
+    resultsFor(report, "aws_lambda_function.worker[0]", "pkg:generic/aws-lambda-runtime/nodejs14.x")[0]!.check.severity,
+    "high",
+  );
+  assert.equal(
+    resultsFor(report, "aws_db_instance.orders", "pkg:generic/aws-rds/postgres")[0]!.check.status,
+    "affected",
+  );
   assert.equal(resultsFor(report, "aws_db_instance.orders", "pkg:generic/postgresql")[0]!.check.status, "affected");
-  assert.equal(resultsFor(report, "google_container_cluster.gke", "pkg:generic/google-gke")[0]!.check.status, "affected");
-  assert.equal(resultsFor(report, "google_cloudfunctions_function.legacy", "pkg:generic/google-cloud-functions-runtime/nodejs14")[0]!.check.status, "affected");
+  assert.equal(
+    resultsFor(report, "google_container_cluster.gke", "pkg:generic/google-gke")[0]!.check.status,
+    "affected",
+  );
+  assert.equal(
+    resultsFor(
+      report,
+      "google_cloudfunctions_function.legacy",
+      "pkg:generic/google-cloud-functions-runtime/nodejs14",
+    )[0]!.check.status,
+    "affected",
+  );
 });
 
 test("no ARN, account id, project number, subscription id, endpoint, or environment value reaches the output", async () => {

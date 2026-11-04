@@ -34,7 +34,11 @@ function sameModule(language: SymbolUsageMatcher["language"], bound: SymbolBindi
 }
 
 /** The symbol path an occurrence denotes for one matcher, or undefined when it does not come from the matcher's module. */
-function resolve(matcher: SymbolUsageMatcher, occurrence: SymbolOccurrence, bindings: readonly SymbolBinding[]): string | undefined {
+function resolve(
+  matcher: SymbolUsageMatcher,
+  occurrence: SymbolOccurrence,
+  bindings: readonly SymbolBinding[],
+): string | undefined {
   const [head, ...rest] = occurrence.path as [string, ...string[]];
   if (matcher.module === undefined) {
     // A global or builtin: the name must not be one the file imported or aliased.
@@ -79,13 +83,19 @@ export function symbolUsages(
     for (const occurrence of occurrences) {
       if (resolve(matcher, occurrence, bindings) !== matcher.symbol) continue;
       let reported: { node: Node; symbol: string } | undefined;
-      if (matcher.shape === "reference" && occurrence.role === "reference") reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "call" && occurrence.role === "call") reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "construct" && occurrence.role === "construct") reported = { node: occurrence.head, symbol: name };
+      if (matcher.shape === "reference" && occurrence.role === "reference")
+        reported = { node: occurrence.head, symbol: name };
+      else if (matcher.shape === "call" && occurrence.role === "call")
+        reported = { node: occurrence.head, symbol: name };
+      else if (matcher.shape === "construct" && occurrence.role === "construct")
+        reported = { node: occurrence.head, symbol: name };
       else if (matcher.shape === "option" && occurrence.role !== "reference" && matcher.option !== undefined) {
         const options = occurrence.options ?? [];
         const position = matcher.argument ?? options.length - 1;
-        const found = matcher.language === "python" ? pythonOption(options, matcher.option, matcher.argument) : options[position]?.get(matcher.option);
+        const found =
+          matcher.language === "python"
+            ? pythonOption(options, matcher.option, matcher.argument)
+            : options[position]?.get(matcher.option);
         if (found) reported = { node: found, symbol: `${name}(${matcher.option})` };
       }
       if (!reported) continue;
@@ -100,7 +110,11 @@ export function symbolUsages(
 }
 
 /** A Python option is a keyword argument anywhere in the call, or a positional argument at the declared position. */
-function pythonOption(options: readonly Map<string, Node>[], name: string, position: number | undefined): Node | undefined {
+function pythonOption(
+  options: readonly Map<string, Node>[],
+  name: string,
+  position: number | undefined,
+): Node | undefined {
   for (const entries of options) {
     const found = entries.get(name);
     if (found) return found;

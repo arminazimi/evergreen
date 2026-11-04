@@ -13,25 +13,38 @@ const recording = resolve("tests/importers/recordings/kubernetes-2.json");
 test("drafts the five newest end-of-life lines from the real recording, using the end-of-life column", async () => {
   const drafts = await execute(kubernetesReleasesImporter, { replay: recording });
   const ended = { ...drafts, rules: drafts.rules.filter((rule) => rule.event === "end-of-life") };
-  assert.deepEqual(ended.rules.map((rule) => rule.id), [
-    "kubernetes.release.end-of-life-1.29",
-    "kubernetes.release.end-of-life-1.30",
-    "kubernetes.release.end-of-life-1.31",
-    "kubernetes.release.end-of-life-1.32",
-    "kubernetes.release.end-of-life-1.33",
-  ]);
+  assert.deepEqual(
+    ended.rules.map((rule) => rule.id),
+    [
+      "kubernetes.release.end-of-life-1.29",
+      "kubernetes.release.end-of-life-1.30",
+      "kubernetes.release.end-of-life-1.31",
+      "kubernetes.release.end-of-life-1.32",
+      "kubernetes.release.end-of-life-1.33",
+    ],
+  );
   // The table is "Minor | Final patch | End of life": 1.33's final patch is 1.33.13, its end of life 2026-06-28.
-  assert.deepEqual(ended.rules.map((rule) => rule.deadline), ["2025-02-28", "2025-07-15", "2025-11-11", "2026-02-28", "2026-06-28"]);
-  assert.deepEqual(ended.rules.map((rule) => rule.vers), [
-    "vers:semver/>=1.29.0|<1.30.0",
-    "vers:semver/>=1.30.0|<1.31.0",
-    "vers:semver/>=1.31.0|<1.32.0",
-    "vers:semver/>=1.32.0|<1.33.0",
-    "vers:semver/>=1.33.0|<1.34.0",
-  ]);
+  assert.deepEqual(
+    ended.rules.map((rule) => rule.deadline),
+    ["2025-02-28", "2025-07-15", "2025-11-11", "2026-02-28", "2026-06-28"],
+  );
+  assert.deepEqual(
+    ended.rules.map((rule) => rule.vers),
+    [
+      "vers:semver/>=1.29.0|<1.30.0",
+      "vers:semver/>=1.30.0|<1.31.0",
+      "vers:semver/>=1.31.0|<1.32.0",
+      "vers:semver/>=1.32.0|<1.33.0",
+      "vers:semver/>=1.33.0|<1.34.0",
+    ],
+  );
   assert.ok(ended.rules.every((rule) => rule.purl === "pkg:generic/kubernetes"));
   assert.ok(ended.rules.every((rule) => rule.replacement === "Kubernetes 1.34 or later"));
-  assert.ok(drafts.rules.every((rule) => rule.provenance.importer === "kubernetes-2" && rule.provenance.observedAt === "2026-10-17"));
+  assert.ok(
+    drafts.rules.every(
+      (rule) => rule.provenance.importer === "kubernetes-2" && rule.provenance.observedAt === "2026-10-17",
+    ),
+  );
   assert.deepEqual(drafts.notes, [
     "Supported release lines: 1.34, 1.35, 1.36, 1.37.",
     "The drafts describe Kubernetes releases, not API versions; no detector reads them yet.",
@@ -59,10 +72,14 @@ test("the reviewed registry has adopted the drafts; the hand-written catch-all s
   assert.equal(catchAll?.provenance.importer, undefined);
 });
 
-const page = (header: string, rows: string, maintained = "<p>1.37 Latest Release: 1.37.1 (released: 2026-09-15 ) End of Life: 2027-10-28</p>") =>
-  `${maintained}<table><tr><th>${header}</th></tr>${rows}</table>`;
+const page = (
+  header: string,
+  rows: string,
+  maintained = "<p>1.37 Latest Release: 1.37.1 (released: 2026-09-15 ) End of Life: 2027-10-28</p>",
+) => `${maintained}<table><tr><th>${header}</th></tr>${rows}</table>`;
 const HEADER = "Minor Version Final Patch Release End Of Life Date Note";
-const rows = "<tr><td>1.33</td><td>1.33.13</td><td>2026-06-28</td></tr><tr><td>1.32</td><td>1.32.13</td><td>2026-02-28</td></tr>";
+const rows =
+  "<tr><td>1.33</td><td>1.33.13</td><td>2026-06-28</td></tr><tr><td>1.32</td><td>1.32.13</td><td>2026-02-28</td></tr>";
 
 function release(body: string, now = "2026-10-17T12:00:00Z") {
   return runImporter(kubernetesReleasesImporter, {
@@ -77,9 +94,15 @@ function release(body: string, now = "2026-10-17T12:00:00Z") {
 
 test("time decides which lines have ended", async () => {
   const later = await release(page(HEADER, rows), "2026-10-17T12:00:00Z");
-  assert.deepEqual(later.rules.map((rule) => rule.id), ["kubernetes.release.end-of-life-1.32", "kubernetes.release.end-of-life-1.33"]);
+  assert.deepEqual(
+    later.rules.map((rule) => rule.id),
+    ["kubernetes.release.end-of-life-1.32", "kubernetes.release.end-of-life-1.33"],
+  );
   const earlier = await release(page(HEADER, rows), "2026-03-01T12:00:00Z");
-  assert.deepEqual(earlier.rules.map((rule) => rule.id), ["kubernetes.release.end-of-life-1.32"]);
+  assert.deepEqual(
+    earlier.rules.map((rule) => rule.id),
+    ["kubernetes.release.end-of-life-1.32"],
+  );
 });
 
 test("a changed column order produces a review note, not rules", async () => {
@@ -103,9 +126,30 @@ test("without a maintained line the drafts carry no replacement", async () => {
 test("a maintained line that ends within twelve months is drafted as a scheduled rule for exactly that line, with the id of its later end-of-life rule", async () => {
   const drafts = await execute(kubernetesReleasesImporter, { replay: recording });
   const scheduled = drafts.rules.filter((rule) => rule.event === "scheduled-end-of-life");
-  assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline, rule.replacement]), [
-    ["kubernetes.release.end-of-life-1.34", "vers:semver/>=1.34.0|<1.35.0", "low", "2026-10-27", "Kubernetes 1.37 or later"],
-    ["kubernetes.release.end-of-life-1.35", "vers:semver/>=1.35.0|<1.36.0", "low", "2027-02-28", "Kubernetes 1.37 or later"],
-    ["kubernetes.release.end-of-life-1.36", "vers:semver/>=1.36.0|<1.37.0", "low", "2027-06-28", "Kubernetes 1.37 or later"],
-  ]);
+  assert.deepEqual(
+    scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline, rule.replacement]),
+    [
+      [
+        "kubernetes.release.end-of-life-1.34",
+        "vers:semver/>=1.34.0|<1.35.0",
+        "low",
+        "2026-10-27",
+        "Kubernetes 1.37 or later",
+      ],
+      [
+        "kubernetes.release.end-of-life-1.35",
+        "vers:semver/>=1.35.0|<1.36.0",
+        "low",
+        "2027-02-28",
+        "Kubernetes 1.37 or later",
+      ],
+      [
+        "kubernetes.release.end-of-life-1.36",
+        "vers:semver/>=1.36.0|<1.37.0",
+        "low",
+        "2027-06-28",
+        "Kubernetes 1.37 or later",
+      ],
+    ],
+  );
 });

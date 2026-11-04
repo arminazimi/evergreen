@@ -113,7 +113,16 @@ test("runCoverageDiff reads files and appends a summary", async () => {
   assert.equal(result.passed, false);
   assert.match(await readFile(summaryPath, "utf8"), /# prior[\s\S]*Coverage diff/);
 
-  const code = await main(["--base", basePath, "--head", headPath, "--changed-files", changedPath, "--summary", summaryPath]);
+  const code = await main([
+    "--base",
+    basePath,
+    "--head",
+    headPath,
+    "--changed-files",
+    changedPath,
+    "--summary",
+    summaryPath,
+  ]);
   assert.equal(code, 1);
 });
 
@@ -153,7 +162,9 @@ test("the CI workflow shards checks and collects coverage in one unsharded run",
   assert.equal(checkEnv.EVERGREEN_TEST_SHARD, "${{ matrix.shard }}");
   assert.equal(checkEnv.EVERGREEN_TEST_SHARD_COUNT, "2");
   assert.equal(
-    workflow.jobs["check-cross-os"].steps.some((step) => (step.env as Record<string, string> | undefined)?.[COVERAGE_ENV] !== undefined),
+    workflow.jobs["check-cross-os"].steps.some(
+      (step) => (step.env as Record<string, string> | undefined)?.[COVERAGE_ENV] !== undefined,
+    ),
     false,
   );
 

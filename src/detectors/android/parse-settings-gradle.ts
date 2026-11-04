@@ -119,7 +119,13 @@ function readPluginPin(
   const afterVersion = index + "version".length;
   // Reject `versionX` / chained `.version` was already rejected by needing `version` after `)`.
   const boundary = source.charCodeAt(afterVersion);
-  if (afterVersion < source.length && ((boundary >= 0x41 && boundary <= 0x5a) || (boundary >= 0x61 && boundary <= 0x7a) || boundary === 0x5f || (boundary >= 0x30 && boundary <= 0x39))) {
+  if (
+    afterVersion < source.length &&
+    ((boundary >= 0x41 && boundary <= 0x5a) ||
+      (boundary >= 0x61 && boundary <= 0x7a) ||
+      boundary === 0x5f ||
+      (boundary >= 0x30 && boundary <= 0x39))
+  ) {
     return undefined;
   }
 
@@ -131,7 +137,8 @@ function readPluginPin(
   }
 
   const versionLiteral = readQuoted(source, index);
-  if (!versionLiteral || versionLiteral.value.includes("$") || !isLiteralVersion(versionLiteral.value)) return undefined;
+  if (!versionLiteral || versionLiteral.value.includes("$") || !isLiteralVersion(versionLiteral.value))
+    return undefined;
   return { kind, value: versionLiteral.value };
 }
 

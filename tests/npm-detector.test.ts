@@ -121,7 +121,10 @@ test("bun.lock resolves transitive dependencies and builds dependency paths", as
 });
 
 test("bun.lock handles scoped packages and respects resolved versions", async () => {
-  for (const [version, affected] of [["8.1.0", false], ["9.0.0", true]] as const) {
+  for (const [version, affected] of [
+    ["8.1.0", false],
+    ["9.0.0", true],
+  ] as const) {
     const root = await repository({
       "package.json": JSON.stringify({
         dependencies: { "@types/glob": `^${version}` },
@@ -148,7 +151,10 @@ test("bun.lock handles scoped packages and respects resolved versions", async ()
     });
 
     const findings = await new NpmDetector().scan({ root });
-    assert.equal(findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"), affected);
+    assert.equal(
+      findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"),
+      affected,
+    );
   }
 });
 

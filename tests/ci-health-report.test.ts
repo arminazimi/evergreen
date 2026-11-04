@@ -91,7 +91,8 @@ function recordedRuns(): HealthRun[] {
 }
 
 function recordedFetcher(): Fetcher {
-  return async (url) => (url.includes("/actions/workflows/") ? { status: 200, text: RECORDED_RUNS } : { status: 404, text: "" });
+  return async (url) =>
+    url.includes("/actions/workflows/") ? { status: 200, text: RECORDED_RUNS } : { status: 404, text: "" };
 }
 
 test("isoWeekKey labels ISO weeks in UTC, including year boundaries and 53-week years", () => {
@@ -304,7 +305,18 @@ test("main writes the weekly health JSON and appends the step summary", async ()
     const summaryPath = join(dir, "summary.md");
     const outPath = join(dir, "health-2026-11-02.json");
     const code = await main(
-      ["--repo", "arminazimi/evergreen", "--date", "2026-11-02", "--weeks", "2", "--summary", summaryPath, "--out", outPath],
+      [
+        "--repo",
+        "arminazimi/evergreen",
+        "--date",
+        "2026-11-02",
+        "--weeks",
+        "2",
+        "--summary",
+        summaryPath,
+        "--out",
+        outPath,
+      ],
       { fetcher: recordedFetcher() },
     );
     assert.equal(code, 0);
@@ -316,7 +328,10 @@ test("main writes the weekly health JSON and appends the step summary", async ()
     };
     assert.equal(saved.schemaVersion, SCHEMA_VERSION);
     assert.equal(saved.fetched, 6);
-    assert.deepEqual(saved.weeks.map((week) => week.week), ["2026-W44", "2026-W45"]);
+    assert.deepEqual(
+      saved.weeks.map((week) => week.week),
+      ["2026-W44", "2026-W45"],
+    );
     const w44 = saved.weeks[0];
     assert.ok(w44);
     assert.equal(w44.failureRate, 0.3333);

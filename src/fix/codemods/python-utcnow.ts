@@ -17,7 +17,11 @@ interface Rule {
 
 const rules: readonly Rule[] = [
   { id: "python.symbol.datetime.utcnow", symbol: "utcnow", title: "datetime.utcnow is deprecated" },
-  { id: "python.symbol.datetime.utcfromtimestamp", symbol: "utcfromtimestamp", title: "datetime.utcfromtimestamp is deprecated" },
+  {
+    id: "python.symbol.datetime.utcfromtimestamp",
+    symbol: "utcfromtimestamp",
+    title: "datetime.utcfromtimestamp is deprecated",
+  },
 ];
 
 interface Target {
@@ -147,11 +151,17 @@ function syntheticFinding(rule: Rule, usage: SourceUsage): Finding {
  * fixer falls back to the same parser-backed usage analysis the detectors use, over the rules it covers.
  */
 async function targetsFor(result: ScanResult): Promise<Target[]> {
-  const reported = new Map(rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]));
+  const reported = new Map(
+    rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
+  );
   const missing = rules.filter((rule) => reported.get(rule.id)!.length === 0);
-  const analyses = missing.length === 0
-    ? []
-    : await analyzeSourceUsage(result.root, missing.map((rule) => ({ id: rule.id, matchers: matchers(rule) })));
+  const analyses =
+    missing.length === 0
+      ? []
+      : await analyzeSourceUsage(
+          result.root,
+          missing.map((rule) => ({ id: rule.id, matchers: matchers(rule) })),
+        );
   const derived = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
 
   const targets: Target[] = [];
@@ -163,15 +173,18 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
       }
       continue;
     }
-    for (const usage of derived.get(rule.id) ?? []) targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
+    for (const usage of derived.get(rule.id) ?? [])
+      targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
   }
   return targets;
 }
 
 function compareTargets(left: Target, right: Target): number {
-  return (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
+  return (
+    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
     (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.rule.id.localeCompare(right.rule.id);
+    left.rule.id.localeCompare(right.rule.id)
+  );
 }
 
 /** Calls keyed by the offset where their callee starts, which is the location a symbol usage reports. */
@@ -227,8 +240,11 @@ function inspectDatetimeImports(root: Node): Imports {
     const moduleNode = node.childForFieldName("module_name");
     if (moduleNode === null || moduleNode === undefined) continue;
     if (moduleNode.text !== "datetime") {
-      imports.timezoneConflict = imports.timezoneConflict ||
-        node.namedChildren.some((child) => child !== null && child.id !== moduleNode.id && bindsName(child, "timezone"));
+      imports.timezoneConflict =
+        imports.timezoneConflict ||
+        node.namedChildren.some(
+          (child) => child !== null && child.id !== moduleNode.id && bindsName(child, "timezone"),
+        );
       continue;
     }
     if (node.namedChildren.some((child) => child?.type === "wildcard_import")) {
@@ -255,8 +271,10 @@ function inspectDatetimeImports(root: Node): Imports {
 
 /** Whether an import-name node binds the local name `name`. */
 function bindsName(node: Node, name: string): boolean {
-  return (node.type === "dotted_name" && node.text === name) ||
-    (node.type === "aliased_import" && node.childForFieldName("alias")?.text === name);
+  return (
+    (node.type === "dotted_name" && node.text === name) ||
+    (node.type === "aliased_import" && node.childForFieldName("alias")?.text === name)
+  );
 }
 
 /**
@@ -265,7 +283,13 @@ function bindsName(node: Node, name: string): boolean {
  * by the caller, which knows which module each name came from.
  */
 function bindsTimezoneOutsideDatetimeImports(root: Node): boolean {
-  for (const node of root.descendantsOfType(["assignment", "augmented_assignment", "for_statement", "for_in_clause", "named_expression"])) {
+  for (const node of root.descendantsOfType([
+    "assignment",
+    "augmented_assignment",
+    "for_statement",
+    "for_in_clause",
+    "named_expression",
+  ])) {
     const left = node?.childForFieldName("left") ?? node?.childForFieldName("name");
     if (left?.type === "identifier" && left.text === "timezone") return true;
   }
@@ -275,11 +299,12 @@ function bindsTimezoneOutsideDatetimeImports(root: Node): boolean {
   for (const node of root.descendantsOfType(["parameters", "lambda_parameters"])) {
     for (const parameter of node?.namedChildren ?? []) {
       if (!parameter) continue;
-      const name = parameter.type === "identifier"
-        ? parameter
-        : parameter.type === "list_splat_pattern" || parameter.type === "dictionary_splat_pattern"
-          ? parameter.namedChild(0)
-          : parameter.childForFieldName("name");
+      const name =
+        parameter.type === "identifier"
+          ? parameter
+          : parameter.type === "list_splat_pattern" || parameter.type === "dictionary_splat_pattern"
+            ? parameter.namedChild(0)
+            : parameter.childForFieldName("name");
       if (name?.type === "identifier" && name.text === "timezone") return true;
     }
   }
@@ -297,12 +322,17 @@ function bindsTimezoneOutsideDatetimeImports(root: Node): boolean {
  * name both ways is left alone, because a call written `datetime.` could read either binding.
  */
 function shapeFor(imports: Imports): Shape | undefined {
-  if (imports.moduleHead !== undefined && imports.classImport !== undefined && imports.moduleHead === "datetime") return undefined;
+  if (imports.moduleHead !== undefined && imports.classImport !== undefined && imports.moduleHead === "datetime")
+    return undefined;
   if (imports.classImport !== undefined) {
     return { prefix: "datetime", timezone: "timezone.utc", fromImport: imports.classImport };
   }
   if (imports.moduleHead !== undefined) {
-    return { prefix: `${imports.moduleHead}.datetime`, timezone: `${imports.moduleHead}.timezone.utc`, fromImport: undefined };
+    return {
+      prefix: `${imports.moduleHead}.datetime`,
+      timezone: `${imports.moduleHead}.timezone.utc`,
+      fromImport: undefined,
+    };
   }
   return undefined;
 }
@@ -318,9 +348,11 @@ function shapeProblem(imports: Imports, shape: Shape | undefined): string | unde
     }
     return "No `datetime` import was found, so the calls cannot be rewritten.";
   }
-  if (imports.star) return "The file uses `from datetime import *`, so the codemod cannot tell where the names come from.";
+  if (imports.star)
+    return "The file uses `from datetime import *`, so the codemod cannot tell where the names come from.";
   if (shape.fromImport !== undefined && !imports.timezoneImported) {
-    if (imports.timezoneConflict) return "`timezone` is already bound to something other than `datetime.timezone` in this file.";
+    if (imports.timezoneConflict)
+      return "`timezone` is already bound to something other than `datetime.timezone` in this file.";
     const text = shape.fromImport.text;
     if (text.includes("(") || text.includes("\n")) {
       return "The `from datetime import datetime` statement is parenthesized or spans several lines, so `timezone` cannot be added to it.";
@@ -351,7 +383,9 @@ function rewriteFor(
     if (object === null || object === undefined) continue;
     if (object.type !== "identifier" && object.type !== "attribute") continue;
     if (object.text !== shape.prefix) {
-      return { reason: `The call at the reported location is not a direct \`${shape.prefix}.${rule.symbol}\` through the file's datetime import.` };
+      return {
+        reason: `The call at the reported location is not a direct \`${shape.prefix}.${rule.symbol}\` through the file's datetime import.`,
+      };
     }
     const args = call.childForFieldName("arguments");
     if (!args || args.type !== "argument_list") return { reason: "The call has no argument list." };
@@ -377,17 +411,21 @@ function rewriteFor(
       ],
     };
   }
-  return { reason: `The call at the reported location is not a direct \`${shape.prefix}.${rule.symbol}\` through the file's datetime import.` };
+  return {
+    reason: `The call at the reported location is not a direct \`${shape.prefix}.${rule.symbol}\` through the file's datetime import.`,
+  };
 }
 
 /** A replacement is written only when the call's arguments keep their meaning: none at all, or one plain positional. */
 function checkArguments(rule: Rule, args: Node): { reason: string } | { ok: true } {
   const callArguments = args.namedChildren.filter((argument): argument is Node => argument !== null);
   if (rule.symbol === "utcnow") {
-    if (args.text.slice(1, -1).trim() !== "") return { reason: "`datetime.utcnow` takes no arguments, so the call's arguments cannot be kept." };
+    if (args.text.slice(1, -1).trim() !== "")
+      return { reason: "`datetime.utcnow` takes no arguments, so the call's arguments cannot be kept." };
     return { ok: true };
   }
-  if (callArguments.length === 0) return { reason: "`datetime.utcfromtimestamp` needs a timestamp argument, so the call is left alone." };
+  if (callArguments.length === 0)
+    return { reason: "`datetime.utcfromtimestamp` needs a timestamp argument, so the call is left alone." };
   for (const argument of callArguments) {
     if (argument.type === "keyword_argument") {
       return { reason: "`datetime.utcfromtimestamp` takes no keyword arguments, so the call is left alone." };
@@ -401,7 +439,9 @@ function checkArguments(rule: Rule, args: Node): { reason: string } | { ok: true
 
 /** Adds `timezone` to the single-line `from datetime import ...` statement that names the class. */
 function timezoneEditFor(statement: Node): Edit {
-  const names = statement.namedChildren.filter((child): child is Node => child !== null && (child.type === "dotted_name" || child.type === "aliased_import"));
+  const names = statement.namedChildren.filter(
+    (child): child is Node => child !== null && (child.type === "dotted_name" || child.type === "aliased_import"),
+  );
   const last = names.at(-1)!;
   return { start: last.endIndex, end: last.endIndex, replacement: ", timezone" };
 }

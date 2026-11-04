@@ -9,9 +9,7 @@ import type { UpgradeAnalyzer, UpgradeIssue, UpgradeTarget } from "./types.js";
 type UnknownRecord = Record<string, unknown>;
 
 function asRecord(value: unknown): UnknownRecord | undefined {
-  return typeof value === "object" && value !== null && !Array.isArray(value)
-    ? (value as UnknownRecord)
-    : undefined;
+  return typeof value === "object" && value !== null && !Array.isArray(value) ? (value as UnknownRecord) : undefined;
 }
 
 async function readOptional(path: string): Promise<string | undefined> {

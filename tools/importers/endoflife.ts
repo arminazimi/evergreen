@@ -31,19 +31,27 @@ function vendorLink(value: unknown): string | undefined {
     const url = new URL(value);
     if (url.protocol !== "https:") return undefined;
     const host = url.hostname.toLowerCase();
-    if (host === "endoflife.date" || host.endsWith(".endoflife.date") || host === "web.archive.org" || host === "archive.org") return undefined;
+    if (
+      host === "endoflife.date" ||
+      host.endsWith(".endoflife.date") ||
+      host === "web.archive.org" ||
+      host === "archive.org"
+    )
+      return undefined;
     return url.toString();
   } catch {
     return undefined;
   }
 }
 
-const compare = (left: number[], right: number[]) => left[0]! - right[0]! || left[1]! - right[1]! || left[2]! - right[2]!;
+const compare = (left: number[], right: number[]) =>
+  left[0]! - right[0]! || left[1]! - right[1]! || left[2]! - right[2]!;
 
 export const endoflifeDateImporter: Importer = {
   id: "endoflife-date",
   ecosystem: "container",
-  description: "End-of-life release lines of official Docker images, indexed by endoflife.date and evidenced by the vendor's own page",
+  description:
+    "End-of-life release lines of official Docker images, indexed by endoflife.date and evidenced by the vendor's own page",
   sources: [{ title: "endoflife.date API v1 (index only)", url: ENDOFLIFE_API }],
 
   async import(context) {
@@ -57,14 +65,18 @@ export const endoflifeDateImporter: Importer = {
         notes.push(`Skipped ${name}: the response has no releases.`);
         continue;
       }
-      const image = product.identifiers?.map((item) => (item.type === "purl" && item.id ? DOCKER_PURL.exec(item.id) : null)).find(Boolean);
+      const image = product.identifiers
+        ?.map((item) => (item.type === "purl" && item.id ? DOCKER_PURL.exec(item.id) : null))
+        .find(Boolean);
       if (!image) {
         notes.push(`Skipped ${name}: no official Docker image is listed for it.`);
         continue;
       }
       const vendor = vendorLink(product.links?.releasePolicy);
       if (!vendor) {
-        notes.push(`Skipped ${name}: no release-policy link to the vendor's own page, and endoflife.date alone is not evidence.`);
+        notes.push(
+          `Skipped ${name}: no release-policy link to the vendor's own page, and endoflife.date alone is not evidence.`,
+        );
         continue;
       }
 
@@ -72,7 +84,12 @@ export const endoflifeDateImporter: Importer = {
         .map((release) => {
           const match = RELEASE_NAME.exec(release.name ?? "");
           return match
-            ? { name: release.name!, version: [Number(match[1]), Number(match[2] ?? 0), Number(match[3] ?? 0)], end: isIsoDate(release.eolFrom) ? release.eolFrom : undefined, eol: release.eolFrom }
+            ? {
+                name: release.name!,
+                version: [Number(match[1]), Number(match[2] ?? 0), Number(match[3] ?? 0)],
+                end: isIsoDate(release.eolFrom) ? release.eolFrom : undefined,
+                eol: release.eolFrom,
+              }
             : undefined;
         })
         .filter((release): release is NonNullable<typeof release> => release !== undefined)
@@ -94,7 +111,11 @@ export const endoflifeDateImporter: Importer = {
         notes.push(`Skipped ${name}: no release line below ${live.name} has ended.`);
         continue;
       }
-      const deadline = ended.map((release) => release.end).filter((date): date is string => date !== undefined).sort().at(-1);
+      const deadline = ended
+        .map((release) => release.end)
+        .filter((date): date is string => date !== undefined)
+        .sort()
+        .at(-1);
       if (!deadline) {
         notes.push(`Skipped ${name}: the ended release lines have no end date.`);
         continue;
@@ -102,12 +123,18 @@ export const endoflifeDateImporter: Importer = {
 
       const repository = image[1]!;
       // An announced end within a year becomes a scheduled rule for that one line (decision 0010); a later one is only noted.
-      const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
+      const horizon = isoDate(
+        new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())),
+      );
       const sources = [
         { title: `${product.label ?? name} release policy (vendor)`, url: vendor },
-        ...(product.links?.html ? [{ title: "endoflife.date (index; the vendor page above is the evidence)", url: product.links.html }] : []),
+        ...(product.links?.html
+          ? [{ title: "endoflife.date (index; the vendor page above is the evidence)", url: product.links.html }]
+          : []),
       ];
-      for (const release of releases.filter((candidate) => candidate.end !== undefined && candidate.end > today && candidate.end <= horizon)) {
+      for (const release of releases.filter(
+        (candidate) => candidate.end !== undefined && candidate.end > today && candidate.end <= horizon,
+      )) {
         const parts = release.name.split(".").map(Number);
         const triple = (numbers: number[]) => [...numbers, 0, 0, 0].slice(0, 3).join(".");
         const upper = triple([...parts.slice(0, -1), parts[parts.length - 1]! + 1]);
@@ -140,7 +167,9 @@ export const endoflifeDateImporter: Importer = {
       });
     }
 
-    notes.push(`Drafted ${rules.length} of ${ENDOFLIFE_CANDIDATES.length} candidate products; only the vendor release-policy link counts as evidence.`);
+    notes.push(
+      `Drafted ${rules.length} of ${ENDOFLIFE_CANDIDATES.length} candidate products; only the vendor release-policy link counts as evidence.`,
+    );
     return { rules, notes };
   },
 };

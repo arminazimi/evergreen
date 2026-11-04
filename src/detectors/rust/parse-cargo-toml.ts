@@ -36,13 +36,19 @@ export interface CargoEditionDeclaration {
 
 export type CargoTomlDeclaration = CargoDependencyDeclaration | CargoEditionDeclaration;
 
-const SECTION = /^(?:workspace\.(dependencies)|(dependencies|dev-dependencies|build-dependencies)|target\..+\.(dependencies|dev-dependencies|build-dependencies))$/;
+const SECTION =
+  /^(?:workspace\.(dependencies)|(dependencies|dev-dependencies|build-dependencies)|target\..+\.(dependencies|dev-dependencies|build-dependencies))$/;
 
-function sectionOf(table: string): { section: DependencySection; nameInTable?: never } | { section: DependencySection; name: string } | undefined {
+function sectionOf(
+  table: string,
+): { section: DependencySection; nameInTable?: never } | { section: DependencySection; name: string } | undefined {
   const plain = SECTION.exec(table);
   if (plain) return { section: (plain[1] ? "workspace" : (plain[2] ?? plain[3])) as DependencySection };
   // `[dependencies.name]` and `[target.'cfg(unix)'.dependencies.name]`: a dependency written as its own table.
-  const detail = /^(workspace\.dependencies|dependencies|dev-dependencies|build-dependencies|target\..+\.(?:dependencies|dev-dependencies|build-dependencies))\.([A-Za-z0-9_-]+|"[^"]+")$/.exec(table);
+  const detail =
+    /^(workspace\.dependencies|dependencies|dev-dependencies|build-dependencies|target\..+\.(?:dependencies|dev-dependencies|build-dependencies))\.([A-Za-z0-9_-]+|"[^"]+")$/.exec(
+      table,
+    );
   if (detail) {
     const parent = sectionOf(detail[1]!);
     if (parent && !("name" in parent)) return { section: parent.section, name: detail[2]!.replace(/^"|"$/g, "") };
@@ -60,8 +66,14 @@ function inlineTable(value: string): Map<string, string> | undefined {
   return pairs;
 }
 
-function dependencyFrom(name: string, fields: Map<string, string>, section: DependencySection, line: number): CargoDependencyDeclaration | undefined {
-  if (fields.has("path") || fields.has("git") || fields.has("workspace") || fields.has("workspace.workspace")) return undefined;
+function dependencyFrom(
+  name: string,
+  fields: Map<string, string>,
+  section: DependencySection,
+  line: number,
+): CargoDependencyDeclaration | undefined {
+  if (fields.has("path") || fields.has("git") || fields.has("workspace") || fields.has("workspace.workspace"))
+    return undefined;
   const version = stringValue(fields.get("version"));
   if (version === undefined || version === "" || version.includes("$")) return undefined;
   const renamed = stringValue(fields.get("package"));
@@ -75,18 +87,25 @@ export function parseCargoToml(contents: string): CargoTomlDeclaration[] {
 
   const declarations: CargoTomlDeclaration[] = [];
   // Dependencies written as their own table gather their fields from the lines that follow.
-  const detail = new Map<string, { name: string; section: DependencySection; line: number; fields: Map<string, string> }>();
+  const detail = new Map<
+    string,
+    { name: string; section: DependencySection; line: number; fields: Map<string, string> }
+  >();
 
   for (const entry of lines as TomlLine[]) {
     if (entry.header !== undefined) {
       if (entry.arrayTable) continue;
       const found = sectionOf(entry.header);
-      if (found && "name" in found) detail.set(entry.header, { name: found.name, section: found.section, line: entry.line, fields: new Map() });
+      if (found && "name" in found)
+        detail.set(entry.header, { name: found.name, section: found.section, line: entry.line, fields: new Map() });
       continue;
     }
     if (entry.key === undefined || entry.value === undefined) continue;
 
-    if ((entry.table === "package" || entry.table === "workspace.package") && (entry.key === "edition" || entry.key === "rust-version")) {
+    if (
+      (entry.table === "package" || entry.table === "workspace.package") &&
+      (entry.key === "edition" || entry.key === "rust-version")
+    ) {
       const value = stringValue(entry.value);
       if (value) declarations.push({ kind: entry.key, value, line: entry.line });
       continue;
@@ -103,7 +122,12 @@ export function parseCargoToml(contents: string): CargoTomlDeclaration[] {
     if (entry.key.includes(".")) {
       // `name.workspace = true` and `name.version = "1"` dotted forms.
       const [name, field] = [entry.key.slice(0, entry.key.indexOf(".")), entry.key.slice(entry.key.indexOf(".") + 1)];
-      const existing = detail.get(`${entry.table}\0${name}`) ?? { name, section: found.section, line: entry.line, fields: new Map<string, string>() };
+      const existing = detail.get(`${entry.table}\0${name}`) ?? {
+        name,
+        section: found.section,
+        line: entry.line,
+        fields: new Map<string, string>(),
+      };
       existing.fields.set(field, entry.value);
       detail.set(`${entry.table}\0${name}`, existing);
       continue;

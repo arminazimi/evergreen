@@ -24,14 +24,18 @@ async function repository(files: Record<string, string>): Promise<string> {
 }
 
 test("maps every extension Evergreen reads, case-insensitively", () => {
-  assert.deepEqual(
-    ["app.js", "app.JSX", "app.mjs", "app.cjs"].map(languageFor),
-    ["javascript", "javascript", "javascript", "javascript"],
-  );
-  assert.deepEqual(
-    ["app.ts", "app.tsx", "app.mts", "app.cts"].map(languageFor),
-    ["typescript", "typescript", "typescript", "typescript"],
-  );
+  assert.deepEqual(["app.js", "app.JSX", "app.mjs", "app.cjs"].map(languageFor), [
+    "javascript",
+    "javascript",
+    "javascript",
+    "javascript",
+  ]);
+  assert.deepEqual(["app.ts", "app.tsx", "app.mts", "app.cts"].map(languageFor), [
+    "typescript",
+    "typescript",
+    "typescript",
+    "typescript",
+  ]);
   assert.equal(languageFor("cli.py"), "python");
   assert.equal(languageFor("Rakefile.rb"), "ruby");
   assert.equal(languageFor("tasks.rake"), "ruby");
@@ -60,13 +64,19 @@ test("reads only the languages the caller asked for", async () => {
   const root = await repository({
     "src/app.ts": 'import request from "request";\n',
     "src/app.py": "import urllib\n",
-    "src/app.rb": "require \"active_record\"\n",
+    "src/app.rb": 'require "active_record"\n',
   });
 
   const typescript = await sourceFiles(root, { include: (language) => language === "typescript" });
-  assert.deepEqual(typescript.map((file) => file.path), ["src/app.ts"]);
+  assert.deepEqual(
+    typescript.map((file) => file.path),
+    ["src/app.ts"],
+  );
   const dynamic = await sourceFiles(root, { include: (language) => language === "python" || language === "ruby" });
-  assert.deepEqual(dynamic.map((file) => file.path), ["src/app.py", "src/app.rb"]);
+  assert.deepEqual(
+    dynamic.map((file) => file.path),
+    ["src/app.py", "src/app.rb"],
+  );
 });
 
 test("answers a language probe from the first matching file it finds", async () => {

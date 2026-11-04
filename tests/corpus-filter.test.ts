@@ -15,10 +15,10 @@ const entries: CorpusRepositoryEntry[] = [
 ];
 
 test("flags are repeatable and accept both spellings", () => {
-  assert.deepEqual(
-    parseCorpusFilter(["node", "x", "--ecosystem", "php", "--ecosystem=go", "--repo", "b/two"]),
-    { ecosystems: ["php", "go"], repositories: ["b/two"] },
-  );
+  assert.deepEqual(parseCorpusFilter(["node", "x", "--ecosystem", "php", "--ecosystem=go", "--repo", "b/two"]), {
+    ecosystems: ["php", "go"],
+    repositories: ["b/two"],
+  });
   assert.throws(() => parseCorpusFilter(["--ecosystem"]), /needs a value/);
 });
 
@@ -31,14 +31,20 @@ test("no filter selects the whole corpus as a full run", () => {
 
 test("an ecosystem filter selects only its entries, in corpus order, and is labeled", () => {
   const selection = selectCorpusEntries(entries, { ecosystems: ["php"], repositories: [] });
-  assert.deepEqual(selection.entries.map((entry) => entry.repository), ["a/one", "c/three"]);
+  assert.deepEqual(
+    selection.entries.map((entry) => entry.repository),
+    ["a/one", "c/three"],
+  );
   assert.equal(selection.full, false);
   assert.match(selection.description ?? "", /not a full run/);
 });
 
 test("ecosystems and repositories combine as a union", () => {
   const selection = selectCorpusEntries(entries, { ecosystems: ["go"], repositories: ["B/Two"] });
-  assert.deepEqual(selection.entries.map((entry) => entry.repository), ["b/two", "d/four"]);
+  assert.deepEqual(
+    selection.entries.map((entry) => entry.repository),
+    ["b/two", "d/four"],
+  );
 });
 
 test("an unknown name is an error that lists the valid ones", () => {
@@ -65,19 +71,29 @@ test("--failed-from reads only the repositories with a mismatch", async () => {
   const dir = await mkdtemp(join(tmpdir(), "evergreen-failed-"));
   try {
     const report = join(dir, "report.json");
-    await writeFile(report, JSON.stringify({
-      repositories: [
-        { repository: "a/one", unexpected: [], missing: [] },
-        { repository: "b/two", unexpected: ["npm.x:package.json:1"], missing: [] },
-        { repository: "d/four", unexpected: [], missing: ["go.y:go.mod:2"] },
-        { repository: "gone/repo", unexpected: ["z"], missing: [] },
-      ],
-    }));
-    assert.deepEqual(parseCorpusFilter(["--failed-from", report]), { ecosystems: [], repositories: [], failedFrom: report });
+    await writeFile(
+      report,
+      JSON.stringify({
+        repositories: [
+          { repository: "a/one", unexpected: [], missing: [] },
+          { repository: "b/two", unexpected: ["npm.x:package.json:1"], missing: [] },
+          { repository: "d/four", unexpected: [], missing: ["go.y:go.mod:2"] },
+          { repository: "gone/repo", unexpected: ["z"], missing: [] },
+        ],
+      }),
+    );
+    assert.deepEqual(parseCorpusFilter(["--failed-from", report]), {
+      ecosystems: [],
+      repositories: [],
+      failedFrom: report,
+    });
     const failed = await readFailedRepositories(report);
     assert.deepEqual(failed, ["b/two", "d/four", "gone/repo"]);
     const selection = selectCorpusEntries(entries, { ecosystems: [], repositories: [], failedFrom: report }, failed);
-    assert.deepEqual(selection.entries.map((entry) => entry.repository), ["b/two", "d/four"]);
+    assert.deepEqual(
+      selection.entries.map((entry) => entry.repository),
+      ["b/two", "d/four"],
+    );
     assert.equal(selection.full, false);
     assert.match(selection.description ?? "", /mismatches in .*report\.json.*not a full run/);
   } finally {

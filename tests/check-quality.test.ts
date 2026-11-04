@@ -57,7 +57,12 @@ function fileWith(path: string, text: string): FileMeasure {
 
 /** Small companions keep the median under the target, so a test isolates the one file it is about. */
 function withFillers(...files: FileMeasure[]): FileMeasure[] {
-  return [...files, fileWith("src/filler-a.ts", "export {};\n"), fileWith("src/filler-b.ts", "export {};\n"), fileWith("src/filler-c.ts", "export {};\n")];
+  return [
+    ...files,
+    fileWith("src/filler-a.ts", "export {};\n"),
+    fileWith("src/filler-b.ts", "export {};\n"),
+    fileWith("src/filler-c.ts", "export {};\n"),
+  ];
 }
 
 test("cyclomatic complexity counts decision points and ignores nested functions", () => {
@@ -129,16 +134,25 @@ test("line counts match wc -l and the median is the middle value", () => {
 });
 
 test("boundary rules flag a detector importing the network and an adapter importing a detector", () => {
-  const detector = measureFile("src/detectors/x.ts", 'import { request } from "node:https";\nexport const f = () => fetch("https://example.com");\n');
+  const detector = measureFile(
+    "src/detectors/x.ts",
+    'import { request } from "node:https";\nexport const f = () => fetch("https://example.com");\n',
+  );
   assert.equal(detector.boundary.get("no-network"), 2);
 
-  const adapter = measureFile("src/cli.ts", 'import { DetectorX } from "./detectors/x.js";\nexport { y } from "./detectors/y.js";\n');
+  const adapter = measureFile(
+    "src/cli.ts",
+    'import { DetectorX } from "./detectors/x.js";\nexport { y } from "./detectors/y.js";\n',
+  );
   assert.equal(adapter.boundary.get("adapters-no-detectors"), 2);
 
   const engine = measureFile("src/engine.ts", 'import type { D } from "./detectors/index.js";\n');
   assert.equal(engine.boundary.get("engine-no-detectors"), 1);
 
-  const clean = measureFile("src/detectors/y.ts", 'import { join } from "node:path";\nimport { x } from "../domain.js";\n');
+  const clean = measureFile(
+    "src/detectors/y.ts",
+    'import { join } from "node:path";\nimport { x } from "../domain.js";\n',
+  );
   assert.equal(clean.boundary.size, 0);
 });
 
@@ -291,7 +305,10 @@ test("a new file with non-null assertions fails, and a stale or missing non-null
       allowlist: { ...EMPTY, nonNull: [{ ...DEBT, file: "src/clean.ts", count: 1 }] },
     }),
   );
-  assert.match(stale.map((finding) => finding.message).join("\n"), /no non-null assertions remain; remove this allowlist entry/);
+  assert.match(
+    stale.map((finding) => finding.message).join("\n"),
+    /no non-null assertions remain; remove this allowlist entry/,
+  );
 
   const missing = evaluateQuality(
     input({
@@ -305,7 +322,10 @@ test("a new file with non-null assertions fails, and a stale or missing non-null
 test("non-null entries are one per file with a whole-number count; the old single total is refused", () => {
   const { allowlist, problems } = parseAllowlist({
     schemaVersion: ALLOWLIST_SCHEMA,
-    nonNull: [{ file: "src/a.ts", count: 1.5, owner: "#2223", expires: MAX_EXPIRY, reason: "x" }, { count: 1, owner: "#2223", expires: MAX_EXPIRY, reason: "x" }],
+    nonNull: [
+      { file: "src/a.ts", count: 1.5, owner: "#2223", expires: MAX_EXPIRY, reason: "x" },
+      { count: 1, owner: "#2223", expires: MAX_EXPIRY, reason: "x" },
+    ],
   });
   const messages = problems.map((problem) => problem.message).join("\n");
   assert.match(messages, /count must be a whole number/);
@@ -375,10 +395,19 @@ test("high and critical advisories cannot be allowlisted; a moderate one can", (
     { id: "GHSA-high", package: "a", severity: "high" },
     { id: "GHSA-mod", package: "b", severity: "moderate" },
   ];
-  const allowed = { ...EMPTY, audit: [{ ...DEBT, advisory: "GHSA-high", package: "a" }, { ...DEBT, advisory: "GHSA-mod", package: "b" }] };
+  const allowed = {
+    ...EMPTY,
+    audit: [
+      { ...DEBT, advisory: "GHSA-high", package: "a" },
+      { ...DEBT, advisory: "GHSA-mod", package: "b" },
+    ],
+  };
   const findings = evaluateQuality(input({ audit, allowlist: allowed })).map((finding) => finding.message);
   assert.ok(findings.some((message) => /high advisory .* never allowlisted/.test(message)));
-  assert.equal(findings.some((message) => /GHSA-mod/.test(message)), false);
+  assert.equal(
+    findings.some((message) => /GHSA-mod/.test(message)),
+    false,
+  );
 });
 
 test("npm audit JSON is reduced to one row per advisory", () => {
@@ -436,7 +465,9 @@ test("a looser TARGETS limit fails, and parseTargets reads the table from source
   assert.equal(looser[0]?.location, "TARGETS.complexity");
   assert.match(looser[0]?.message ?? "", /limit loosened from 15 to 16/);
 
-  const parsed = parseTargets(`export const TARGETS = {\n  medianLines: 300,\n  warnLines: 800,\n  ceilingLines: 1000,\n  complexity: 15,\n} as const;\n`);
+  const parsed = parseTargets(
+    `export const TARGETS = {\n  medianLines: 300,\n  warnLines: 800,\n  ceilingLines: 1000,\n  complexity: 15,\n} as const;\n`,
+  );
   assert.deepEqual(parsed, TARGETS);
   assert.equal(parseTargets("export const OTHER = 1;\n"), null);
 });

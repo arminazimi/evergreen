@@ -54,10 +54,16 @@ const rows = [
   ["util.isString(value)", 'typeof value === "string"'],
   ["util.isSymbol(value)", 'typeof value === "symbol"'],
   ["util.isObject(nested.value)", 'nested.value !== null && typeof nested.value === "object"'],
-  ["util.isPrimitive(nested.value)", 'nested.value === null || (typeof nested.value !== "object" && typeof nested.value !== "function")'],
+  [
+    "util.isPrimitive(nested.value)",
+    'nested.value === null || (typeof nested.value !== "object" && typeof nested.value !== "function")',
+  ],
 ] as const;
 
-for (const [extension, language] of [["js", "javascript"], ["ts", "typescript"]] as const) {
+for (const [extension, language] of [
+  ["js", "javascript"],
+  ["ts", "typescript"],
+] as const) {
   test(`rewrites every replacement row in ${extension} and the patch applies cleanly`, async () => {
     const before = await readFile(join(fixtures, `before.${extension}`), "utf8");
     const expected = await readFile(join(fixtures, `after.${extension}`), "utf8");
@@ -104,23 +110,31 @@ test("parenthesizes a binary replacement except in a condition, argument, return
     "",
   ].join("\n");
   const { patches } = await plan({ "index.ts": source });
-  const lines = patches[0]!.diff.split("\n").filter((line) => line.startsWith("+")).map((line) => line.slice(1));
+  const lines = patches[0]!.diff
+    .split("\n")
+    .filter((line) => line.startsWith("+"))
+    .map((line) => line.slice(1));
   assert.deepEqual(lines.slice(1), [
-    "const negated = !(value === null);",    "const asserted = (value === null) as boolean;",
+    "const negated = !(value === null);",
+    "const asserted = (value === null) as boolean;",
     "const arrow = () => (value === null);",
     "if (value === null) {",
-    "  console.log(typeof value === \"number\");",
+    '  console.log(typeof value === "number");',
     "}",
     "function check(candidate) {",
-    "  return typeof candidate === \"string\";",
+    '  return typeof candidate === "string";',
   ]);
 });
 
 test("parenthesizes an argument that binds looser than the replacement", async () => {
   const { patches } = await plan({
-    "index.js": 'const util = require("util");\nconst a = 1;\nconst b = 2;\nconst sum = util.isNull(a + b);\nconst assigned = util.isString(a = b);\n',
+    "index.js":
+      'const util = require("util");\nconst a = 1;\nconst b = 2;\nconst sum = util.isNull(a + b);\nconst assigned = util.isString(a = b);\n',
   });
-  const added = patches[0]!.diff.split("\n").filter((line) => line.startsWith("+")).map((line) => line.slice(1));
+  const added = patches[0]!.diff
+    .split("\n")
+    .filter((line) => line.startsWith("+"))
+    .map((line) => line.slice(1));
   assert.ok(added.includes("const sum = (a + b) === null;"));
   assert.ok(added.includes('const assigned = typeof (a = b) === "string";'));
 });
@@ -166,24 +180,28 @@ test("rewrites the usages a scan finding carries", async () => {
     schemaVersion: "evergreen.scan.v1",
     root,
     scannedAt: "2026-10-31T00:00:00.000Z",
-    findings: [{
-      id: "nodejs.symbol.util.isarray:index.js:2",
-      ruleId: "nodejs.symbol.util.isarray",
-      detector: "npm",
-      title: "util.isArray is deprecated",
-      summary: "",
-      severity: "low",
-      confidence: "exact",
-      location: { path: "index.js", line: 2, column: 12 },
-      sources: [],
-      usages: [{
-        kind: "symbol",
-        language: "javascript",
-        symbol: "util.isArray",
+    findings: [
+      {
+        id: "nodejs.symbol.util.isarray:index.js:2",
+        ruleId: "nodejs.symbol.util.isarray",
+        detector: "npm",
+        title: "util.isArray is deprecated",
+        summary: "",
+        severity: "low",
+        confidence: "exact",
         location: { path: "index.js", line: 2, column: 12 },
-        excerpt: "const ok = util.isArray(value);",
-      }],
-    }],
+        sources: [],
+        usages: [
+          {
+            kind: "symbol",
+            language: "javascript",
+            symbol: "util.isArray",
+            location: { path: "index.js", line: 2, column: 12 },
+            excerpt: "const ok = util.isArray(value);",
+          },
+        ],
+      },
+    ],
     diagnostics: [],
   };
 

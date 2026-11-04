@@ -28,7 +28,33 @@ import shell from "./shell.js";
  * Every ecosystem the manifest lists, in manifest order. Adding an ecosystem imports its file
  * here and nothing else: the item's status, maturity, and detectors live in the file above.
  */
-export const ecosystems = [android, bun, ciImages, container, cpp, dart, deno, dotnet, elixir, githubActions, go, java, kubernetes, nodejs, npm, php, python, ruby, rust, scala, serverless, swift, terraform, database, shell] as const;
+export const ecosystems = [
+  android,
+  bun,
+  ciImages,
+  container,
+  cpp,
+  dart,
+  deno,
+  dotnet,
+  elixir,
+  githubActions,
+  go,
+  java,
+  kubernetes,
+  nodejs,
+  npm,
+  php,
+  python,
+  ruby,
+  rust,
+  scala,
+  serverless,
+  swift,
+  terraform,
+  database,
+  shell,
+] as const;
 
 /**
  * The ecosystems the scan capabilities cover, as a sorted id list. Every listed ecosystem is

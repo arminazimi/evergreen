@@ -6,9 +6,18 @@ import { parse } from "yaml";
 
 import { DATA_SIGNER } from "../src/data-bundle.js";
 
-interface Step { name?: string; uses?: string; run?: string; if?: string; env?: Record<string, string> }
+interface Step {
+  name?: string;
+  uses?: string;
+  run?: string;
+  if?: string;
+  env?: Record<string, string>;
+}
 interface Workflow {
-  on: { push?: { tags?: string[] }; workflow_dispatch?: { inputs?: Record<string, { default?: boolean; type?: string }> } };
+  on: {
+    push?: { tags?: string[] };
+    workflow_dispatch?: { inputs?: Record<string, { default?: boolean; type?: string }> };
+  };
   permissions?: Record<string, string>;
   jobs: Record<string, { permissions?: Record<string, string>; env?: Record<string, string>; steps: Step[] }>;
 }
@@ -65,7 +74,12 @@ test("the workflow and the verifier agree on who may sign", () => {
   assert.equal(job.env?.OIDC_ISSUER, DATA_SIGNER.issuer);
   const identity = new RegExp(DATA_SIGNER.identityPattern);
   const prefix = "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml";
-  for (const accepted of [`${prefix}@refs/tags/data-v2026.10.16`, `${prefix}@refs/tags/data-v2026.10.16.2`, `${prefix}@refs/heads/main`]) assert.ok(identity.test(accepted), accepted);
+  for (const accepted of [
+    `${prefix}@refs/tags/data-v2026.10.16`,
+    `${prefix}@refs/tags/data-v2026.10.16.2`,
+    `${prefix}@refs/heads/main`,
+  ])
+    assert.ok(identity.test(accepted), accepted);
   for (const rejected of [
     "https://github.com/arminazimi/evergreen/.github/workflows/ci.yml@refs/heads/main",
     "https://github.com/someone/evergreen/.github/workflows/data-release.yml@refs/heads/main",
@@ -75,7 +89,8 @@ test("the workflow and the verifier agree on who may sign", () => {
     `${prefix}@refs/tags/data-v2026.10.16-evil`,
     `${prefix}@refs/pull/12/merge`,
     `x${prefix}@refs/heads/main`,
-  ]) assert.equal(identity.test(rejected), false, rejected);
+  ])
+    assert.equal(identity.test(rejected), false, rejected);
   assert.ok(path.endsWith("data-release.yml"));
 });
 

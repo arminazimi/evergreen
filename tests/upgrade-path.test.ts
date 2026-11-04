@@ -47,18 +47,24 @@ const rules = [
 
 test("skips ended and soon-ending lines and lands on the first supported one", () => {
   const path = planUpgradePath(findingFor("dotnet.runtime.6"), rules, today);
-  assert.deepEqual(path?.skipped.map((line) => [line.title, line.status]), [
-    [".NET 7", "ended"],
-    [".NET 8", "ending-soon"],
-    [".NET 9", "ending-soon"],
-  ]);
+  assert.deepEqual(
+    path?.skipped.map((line) => [line.title, line.status]),
+    [
+      [".NET 7", "ended"],
+      [".NET 8", "ending-soon"],
+      [".NET 9", "ending-soon"],
+    ],
+  );
   assert.equal(path?.target.title, ".NET 11");
   assert.equal(path?.target.endsOn, "2029-11-10");
 });
 
 test("falls back to the replacement when no later line is supported", () => {
   const path = planUpgradePath(findingFor("dotnet.runtime.8"), rules.slice(0, 4), today);
-  assert.deepEqual(path?.skipped.map((line) => line.title), [".NET 9"]);
+  assert.deepEqual(
+    path?.skipped.map((line) => line.title),
+    [".NET 9"],
+  );
   assert.deepEqual(path?.target, { replacement: ".NET 10 (LTS)" });
 });
 

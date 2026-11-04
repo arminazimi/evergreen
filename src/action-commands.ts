@@ -67,7 +67,8 @@ export function parseCommentCommand(body: string): CommentParse {
   const reason = argumentsText.slice(separator + 1).trim();
   if (findingId.length > MAX_FINDING_ID_LENGTH) return { error: "That finding id is too long." };
   if (reason.length === 0) return { error: USAGE };
-  if (reason.length > MAX_REASON_LENGTH) return { error: `The reason must be at most ${MAX_REASON_LENGTH} characters.` };
+  if (reason.length > MAX_REASON_LENGTH)
+    return { error: `The reason must be at most ${MAX_REASON_LENGTH} characters.` };
   return { command: { kind: "ignore", findingId, reason } };
 }
 
@@ -82,9 +83,7 @@ export interface IssueCommentPayload {
   };
 }
 
-export type CommentDecision =
-  | { kind: "skip"; reason: string }
-  | { kind: "reply"; commentId: number; body: string };
+export type CommentDecision = { kind: "skip"; reason: string } | { kind: "reply"; commentId: number; body: string };
 
 export interface AnswerCommandOptions {
   /** Finds the findings of the checkout. Called only when a trusted command asks for one. */
@@ -101,7 +100,10 @@ export interface AnswerCommandOptions {
  * Decides what to do with one `issue_comment` payload. Everything is checked before the checkout is
  * scanned, so a comment from an untrusted author or on an issue costs no work and gets no reply.
  */
-export async function answerComment(event: IssueCommentPayload, options: AnswerCommandOptions): Promise<CommentDecision> {
+export async function answerComment(
+  event: IssueCommentPayload,
+  options: AnswerCommandOptions,
+): Promise<CommentDecision> {
   if (!event.issue?.pull_request) return { kind: "skip", reason: "the comment is not on a pull request" };
 
   const association = event.comment?.author_association;
@@ -157,7 +159,8 @@ export function renderExplainReply(finding: Finding): string {
   }
   if (finding.replacement) lines.push(`**Replacement:** ${finding.replacement}`);
   if (finding.deadline) lines.push(`**Deadline:** ${finding.deadline}`);
-  if (finding.advisoryIds && finding.advisoryIds.length > 0) lines.push(`**Advisories:** ${finding.advisoryIds.map((id) => code(id)).join(", ")}`);
+  if (finding.advisoryIds && finding.advisoryIds.length > 0)
+    lines.push(`**Advisories:** ${finding.advisoryIds.map((id) => code(id)).join(", ")}`);
 
   const usages = finding.usages ?? [];
   if (usages.length > 0) {
@@ -196,7 +199,8 @@ export function renderIgnoreReply(finding: Finding, reason: string, options: Ign
     expires,
   };
   const path = options.baselinePath ?? ".evergreen-baseline.json";
-  const where = options.baselinePath === undefined ? `${code(path)} (and set the \`baseline\` input to it)` : code(path);
+  const where =
+    options.baselinePath === undefined ? `${code(path)} (and set the \`baseline\` input to it)` : code(path);
   return [
     `**${finding.severity.toUpperCase()} · ${finding.title}**`,
     "",
@@ -263,7 +267,13 @@ interface CommentTarget {
   token: string;
 }
 
-async function githubRequest(target: CommentTarget, method: string, path: string, body: unknown, fetchImpl: typeof fetch): Promise<unknown> {
+async function githubRequest(
+  target: CommentTarget,
+  method: string,
+  path: string,
+  body: unknown,
+  fetchImpl: typeof fetch,
+): Promise<unknown> {
   const response = await fetchImpl(`${target.apiUrl}${path}`, {
     method,
     headers: {
@@ -279,10 +289,21 @@ async function githubRequest(target: CommentTarget, method: string, path: string
 }
 
 /** Creates the reply, or updates the one a re-run left for the same comment. Returns "created" or "updated". */
-async function upsertReply(target: CommentTarget, marker: string, body: string, fetchImpl: typeof fetch): Promise<"created" | "updated"> {
+async function upsertReply(
+  target: CommentTarget,
+  marker: string,
+  body: string,
+  fetchImpl: typeof fetch,
+): Promise<"created" | "updated"> {
   const base = `/repos/${target.repository}/issues`;
   for (let page = 1; page <= 10; page += 1) {
-    const comments = (await githubRequest(target, "GET", `${base}/${target.pullRequest}/comments?per_page=100&page=${page}`, undefined, fetchImpl)) as Array<{ id: number; body?: string }>;
+    const comments = (await githubRequest(
+      target,
+      "GET",
+      `${base}/${target.pullRequest}/comments?per_page=100&page=${page}`,
+      undefined,
+      fetchImpl,
+    )) as Array<{ id: number; body?: string }>;
     const existing = comments.find((comment) => comment.body?.startsWith(marker));
     if (existing) {
       await githubRequest(target, "PATCH", `${base}/comments/${existing.id}`, { body }, fetchImpl);
@@ -300,7 +321,9 @@ async function upsertReply(target: CommentTarget, marker: string, body: string, 
  */
 export async function runCommentCommands(options: CommentCommandRunOptions): Promise<"replied" | "skipped"> {
   if (!options.eventPath) {
-    console.log("::notice title=Evergreen comment command skipped::commands: true needs GITHUB_EVENT_PATH, which the runner sets for issue_comment events.");
+    console.log(
+      "::notice title=Evergreen comment command skipped::commands: true needs GITHUB_EVENT_PATH, which the runner sets for issue_comment events.",
+    );
     return "skipped";
   }
 
@@ -309,7 +332,9 @@ export async function runCommentCommands(options: CommentCommandRunOptions): Pro
   const token = options.token;
   const repository = options.repository;
   if (pullRequest === undefined || !token || !repository) {
-    console.log("::notice title=Evergreen comment command skipped::commands needs a pull request number, a token, and GITHUB_REPOSITORY.");
+    console.log(
+      "::notice title=Evergreen comment command skipped::commands needs a pull request number, a token, and GITHUB_REPOSITORY.",
+    );
     return "skipped";
   }
 

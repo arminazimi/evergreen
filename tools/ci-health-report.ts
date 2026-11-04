@@ -14,13 +14,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import {
-  durationSeconds,
-  durationStats,
-  formatDuration,
-  type DurationStats,
-  type Fetcher,
-} from "./ci-duration.js";
+import { durationSeconds, durationStats, formatDuration, type DurationStats, type Fetcher } from "./ci-duration.js";
 
 // Re-exported so tests and callers can name the shapes this report consumes.
 export type { DurationStats, Fetcher } from "./ci-duration.js";
@@ -289,10 +283,7 @@ export function parseArguments(argv: readonly string[], now: Date = new Date()):
   };
 }
 
-export async function main(
-  argv: string[],
-  deps: { fetcher?: Fetcher; now?: Date } = {},
-): Promise<number> {
+export async function main(argv: string[], deps: { fetcher?: Fetcher; now?: Date } = {}): Promise<number> {
   const options = parseArguments(argv, deps.now);
   const runs = await collectCompletedRuns({
     repo: options.repo,

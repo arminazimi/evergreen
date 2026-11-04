@@ -67,7 +67,10 @@ test("an unclassified SHA pin in a scanned workflow is reported", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-self-scan-"));
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
-    await writeFile(join(root, ".github", "workflows", "ci.yml"), `jobs:\n  a:\n    steps:\n      - uses: actions/checkout@${"0".repeat(40)}\n`);
+    await writeFile(
+      join(root, ".github", "workflows", "ci.yml"),
+      `jobs:\n  a:\n    steps:\n      - uses: actions/checkout@${"0".repeat(40)}\n`,
+    );
     const analysis = await new GitHubActionsDetector().analyze({ root });
     assert.equal(analysis.unclassified?.length, 1);
   } finally {

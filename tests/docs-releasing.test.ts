@@ -18,7 +18,12 @@ test("docs/RELEASING.md links to files and workflows that exist", async () => {
   for (const link of new Set([...text.matchAll(/\]\(([A-Za-z0-9_./-]+\.md)\)/g)].map((match) => match[1]!))) {
     await access(resolve("docs", link));
   }
-  for (const path of ["CHANGELOG.md", "benchmarks/thresholds.json", "registry/sources.lock.json", ".github/workflows/release.yml"]) {
+  for (const path of [
+    "CHANGELOG.md",
+    "benchmarks/thresholds.json",
+    "registry/sources.lock.json",
+    ".github/workflows/release.yml",
+  ]) {
     assert.ok(text.includes(path), `${path} should be covered`);
     await access(resolve(path));
   }
@@ -31,7 +36,12 @@ test("the publish workflow uses trusted publishing with least privilege and guar
   const workflow = parse(text) as {
     on: { workflow_call: { inputs: Record<string, { type?: string }> } };
     permissions: unknown;
-    jobs: { publish: { permissions: Record<string, string>; steps: Array<{ uses?: string; run?: string; with?: Record<string, unknown> }> } };
+    jobs: {
+      publish: {
+        permissions: Record<string, string>;
+        steps: Array<{ uses?: string; run?: string; with?: Record<string, unknown> }>;
+      };
+    };
   };
   const release = parse(releaseText) as {
     on: { push?: { tags?: string[] } };
@@ -64,7 +74,14 @@ test("the registry job publishes server.json with a pinned, checksum-verified mc
   const { parse } = await import("yaml");
   const text = await read(".github/workflows/publish.yml");
   const workflow = parse(text) as {
-    jobs: { registry?: { needs?: string | string[]; if?: string; permissions: Record<string, string>; steps: Array<{ uses?: string; run?: string }> } };
+    jobs: {
+      registry?: {
+        needs?: string | string[];
+        if?: string;
+        permissions: Record<string, string>;
+        steps: Array<{ uses?: string; run?: string }>;
+      };
+    };
   };
   const job = workflow.jobs.registry;
   assert.ok(job, "publish.yml needs a registry job");
@@ -78,7 +95,11 @@ test("the registry job publishes server.json with a pinned, checksum-verified mc
   // The binary is pinned to an exact release and verified against the release's checksums before it runs.
   assert.match(run, /releases\/download\/v1\.8\.6\/mcp-publisher_linux_amd64\.tar\.gz/);
   assert.match(run, /sha256sum --check -/);
-  assert.match(run, /echo "[a-f0-9]{64} {2}mcp-publisher\.tar\.gz" \| sha256sum --check -/, "pinned to the exact SHA-256 of the tarball");
+  assert.match(
+    run,
+    /echo "[a-f0-9]{64} {2}mcp-publisher\.tar\.gz" \| sha256sum --check -/,
+    "pinned to the exact SHA-256 of the tarball",
+  );
   // It refuses a tag that disagrees with server.json, then publishes through the OIDC login.
   assert.match(run, /GITHUB_REF_NAME/);
   assert.match(run, /mcp-publisher login github-oidc/);
@@ -111,6 +132,7 @@ test("every place that carries the release version agrees with package.json", as
     "integrations/cline/cline_mcp_settings.json",
     "integrations/claude-code/pre-install-guard.mjs",
   ];
-  for (const path of pins) assert.match(await read(path), new RegExp(`evergreen-deprecation@${version.replace(/\./g, "\\.")}`), path);
+  for (const path of pins)
+    assert.match(await read(path), new RegExp(`evergreen-deprecation@${version.replace(/\./g, "\\.")}`), path);
   assert.match(await read("README.md"), new RegExp(`arminazimi/evergreen@v${version.replace(/\./g, "\\.")}`));
 });

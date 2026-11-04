@@ -13,7 +13,11 @@ function git(cwd: string, args: string[], date?: string): void {
     env.GIT_AUTHOR_DATE = date;
     env.GIT_COMMITTER_DATE = date;
   }
-  execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@example.com", "-c", "commit.gpgsign=false", ...args], { cwd, env, stdio: "ignore" });
+  execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@example.com", "-c", "commit.gpgsign=false", ...args], {
+    cwd,
+    env,
+    stdio: "ignore",
+  });
 }
 
 function repository(): string {
@@ -30,7 +34,11 @@ function repository(): string {
 test("reports when the declaration line was introduced and how long it has been past end of life", () => {
   const root = repository();
   try {
-    const timeline = exposureTimeline({ deadline: "2025-04-30", location: { path: "package.json", line: 3 } }, root, "2026-04-30");
+    const timeline = exposureTimeline(
+      { deadline: "2025-04-30", location: { path: "package.json", line: 3 } },
+      root,
+      "2026-04-30",
+    );
     assert.deepEqual(timeline, {
       introduced: "2024-01-10",
       endOfLife: "2025-04-30",
@@ -47,7 +55,11 @@ test("reports when the declaration line was introduced and how long it has been 
 test("exposure counts from introduction when the declaration came after end of life", () => {
   const root = repository();
   try {
-    const timeline = exposureTimeline({ deadline: "2023-01-01", location: { path: "package.json", line: 3 } }, root, "2024-01-20");
+    const timeline = exposureTimeline(
+      { deadline: "2023-01-01", location: { path: "package.json", line: 3 } },
+      root,
+      "2024-01-20",
+    );
     assert.equal(timeline.daysPastEndOfLife, 384);
     assert.equal(timeline.daysExposed, 10);
   } finally {
@@ -82,7 +94,11 @@ test("a shallow clone reports the introduction date as unknown instead of guessi
   try {
     const clone = join(clones, "shallow");
     execFileSync("git", ["clone", "-q", "--depth", "1", `file://${source}`, clone], { stdio: "ignore" });
-    const timeline = exposureTimeline({ deadline: "2025-04-30", location: { path: "package.json", line: 3 } }, clone, "2026-04-30");
+    const timeline = exposureTimeline(
+      { deadline: "2025-04-30", location: { path: "package.json", line: 3 } },
+      clone,
+      "2026-04-30",
+    );
     assert.equal(timeline.introduced, undefined);
     assert.equal(timeline.daysPastEndOfLife, 365);
     assert.deepEqual(timeline.unknown, ["introduction date unknown: shallow clone has no full history"]);
@@ -96,7 +112,11 @@ test("a directory that is not a git repository reports the introduction date as 
   const root = mkdtempSync(join(tmpdir(), "evergreen-exposure-plain-"));
   try {
     mkdirSync(join(root, "sub"));
-    const timeline = exposureTimeline({ deadline: "2025-04-30", location: { path: "package.json", line: 1 } }, root, "2026-04-30");
+    const timeline = exposureTimeline(
+      { deadline: "2025-04-30", location: { path: "package.json", line: 1 } },
+      root,
+      "2026-04-30",
+    );
     assert.deepEqual(timeline.unknown, ["introduction date unknown: not a git repository"]);
   } finally {
     rmSync(root, { recursive: true, force: true });

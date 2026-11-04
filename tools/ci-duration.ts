@@ -301,9 +301,7 @@ export function renderIssueBody(report: CiDurationReport): string {
 
 export function findOpenSlowIssue(issues: readonly IssueRecord[]): IssueRecord | undefined {
   return issues.find(
-    (issue) =>
-      issue.state === "open" &&
-      (issue.title === ISSUE_TITLE || (issue.body ?? "").includes(ISSUE_MARKER)),
+    (issue) => issue.state === "open" && (issue.title === ISSUE_TITLE || (issue.body ?? "").includes(ISSUE_MARKER)),
   );
 }
 
@@ -331,7 +329,9 @@ export function createGitHubIssueClient(token: string, fetcher: typeof fetch = f
 
   return {
     async listOpenIssues(repo) {
-      const response = await fetcher(`https://api.github.com/repos/${repo}/issues?state=open&per_page=100`, { headers });
+      const response = await fetcher(`https://api.github.com/repos/${repo}/issues?state=open&per_page=100`, {
+        headers,
+      });
       if (!response.ok) throw new Error(`Failed to list issues: HTTP ${response.status}`);
       const issues = (await response.json()) as Array<IssueRecord & { pull_request?: unknown }>;
       return issues.filter((issue) => !issue.pull_request);
@@ -351,7 +351,8 @@ export function createGitHubIssueClient(token: string, fetcher: typeof fetch = f
         headers: { ...headers, "Content-Type": "application/json" },
         body: JSON.stringify({ body }),
       });
-      if (!response.ok) throw new Error(`Failed to update issue #${number}: HTTP ${response.status} ${await response.text()}`);
+      if (!response.ok)
+        throw new Error(`Failed to update issue #${number}: HTTP ${response.status} ${await response.text()}`);
       return (await response.json()) as IssueRecord;
     },
   };

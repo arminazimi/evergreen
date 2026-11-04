@@ -110,7 +110,8 @@ function isGuidance(value: unknown): value is MigrationGuidance {
     value.steps.length === 0 ||
     !Array.isArray(value.verification) ||
     value.verification.length === 0
-  ) return false;
+  )
+    return false;
   const ids = new Set<string>();
   return (
     value.steps.every((step) => {
@@ -119,15 +120,13 @@ function isGuidance(value: unknown): value is MigrationGuidance {
         ![step.id, step.title, step.instructions].every(isNonEmptyString) ||
         !["declaration", "usages", "all"].includes(step.targets as string) ||
         ids.has(step.id as string)
-      ) return false;
+      )
+        return false;
       ids.add(step.id as string);
       return true;
     }) &&
     value.verification.every(
-      (command) =>
-        isRecord(command) &&
-        isNonEmptyString(command.command) &&
-        isNonEmptyString(command.purpose),
+      (command) => isRecord(command) && isNonEmptyString(command.command) && isNonEmptyString(command.purpose),
     )
   );
 }
@@ -148,7 +147,8 @@ function isUpgradePath(value: unknown): value is UpgradePath {
     Array.isArray(value.skipped) &&
     value.skipped.every(isUpgradeLine) &&
     isRecord(value.target) &&
-    (isNonEmptyString(value.target.replacement) || (isNonEmptyString(value.target.versions) && isNonEmptyString(value.target.title)))
+    (isNonEmptyString(value.target.replacement) ||
+      (isNonEmptyString(value.target.versions) && isNonEmptyString(value.target.title)))
   );
 }
 
@@ -246,10 +246,7 @@ function evidenceMatchesFinding(value: {
   affectedFiles: string[];
 }): boolean {
   const expectedFiles = [
-    ...new Set([
-      value.finding.location.path,
-      ...value.usages.map((usage) => usage.location.path),
-    ]),
+    ...new Set([value.finding.location.path, ...value.usages.map((usage) => usage.location.path)]),
   ].sort((left, right) => left.localeCompare(right));
   return (
     JSON.stringify(value.usages) === JSON.stringify(value.finding.usages ?? []) &&
@@ -306,27 +303,35 @@ export function validateMigrationPacket(value: unknown): MigrationPacket {
 }
 
 function affectedFiles(finding: Finding): string[] {
-  return [...new Set([finding.location.path, ...(finding.usages ?? []).map((usage) => usage.location.path)])]
-    .sort((left, right) => left.localeCompare(right));
+  return [...new Set([finding.location.path, ...(finding.usages ?? []).map((usage) => usage.location.path)])].sort(
+    (left, right) => left.localeCompare(right),
+  );
 }
 
 function constraintsFor(finding: Finding, pinned: PinnedRuntimes): string[] {
-  return [...new Set([
-    finding.replacement ? `Target replacement: ${finding.replacement}.` : undefined,
-    ...(finding.replacement && finding.requires ? runtimeConflicts(finding.replacement, finding.requires, pinned) : []),
-    finding.deadline ? `Migration deadline: ${finding.deadline}.` : undefined,
-    ...(finding.migration?.constraints ?? []),
-    finding.usages?.length
-      ? `Preserve behavior across ${finding.usages.length} identified source usage${finding.usages.length === 1 ? "" : "s"}.`
-      : "No additional source usages were identified beyond the declaration; verify dynamic and generated references manually.",
-    "Keep the migration within the evidence and affected files in this packet unless verification reveals additional scope.",
-  ].filter((value): value is string => value !== undefined))];
+  return [
+    ...new Set(
+      [
+        finding.replacement ? `Target replacement: ${finding.replacement}.` : undefined,
+        ...(finding.replacement && finding.requires
+          ? runtimeConflicts(finding.replacement, finding.requires, pinned)
+          : []),
+        finding.deadline ? `Migration deadline: ${finding.deadline}.` : undefined,
+        ...(finding.migration?.constraints ?? []),
+        finding.usages?.length
+          ? `Preserve behavior across ${finding.usages.length} identified source usage${finding.usages.length === 1 ? "" : "s"}.`
+          : "No additional source usages were identified beyond the declaration; verify dynamic and generated references manually.",
+        "Keep the migration within the evidence and affected files in this packet unless verification reveals additional scope.",
+      ].filter((value): value is string => value !== undefined),
+    ),
+  ];
 }
 
 function stepsFor(finding: Finding, paths: string[]): MigrationStep[] {
   const primary: SourceLocation = finding.location;
-  const usagePaths = [...new Set((finding.usages ?? []).map((usage) => usage.location.path))]
-    .sort((left, right) => left.localeCompare(right));
+  const usagePaths = [...new Set((finding.usages ?? []).map((usage) => usage.location.path))].sort((left, right) =>
+    left.localeCompare(right),
+  );
   const steps: MigrationStep[] = [
     {
       id: "review-evidence",
@@ -338,15 +343,19 @@ function stepsFor(finding: Finding, paths: string[]): MigrationStep[] {
   ];
   if (finding.migration) {
     steps.push(
-      ...finding.migration.steps.map((step): MigrationStep => ({
-        ...step,
-        paths:
-          step.targets === "declaration"
-            ? [primary.path]
-            : step.targets === "usages"
-              ? (usagePaths.length > 0 ? usagePaths : [primary.path])
-              : paths,
-      })),
+      ...finding.migration.steps.map(
+        (step): MigrationStep => ({
+          ...step,
+          paths:
+            step.targets === "declaration"
+              ? [primary.path]
+              : step.targets === "usages"
+                ? usagePaths.length > 0
+                  ? usagePaths
+                  : [primary.path]
+                : paths,
+        }),
+      ),
     );
   } else {
     steps.push({
@@ -384,12 +393,8 @@ function verificationFor(finding: Finding): VerificationCommand[] {
       { command: "npm run test --if-present", purpose: "Run the repository test suite when configured." },
       { command: "npm run build --if-present", purpose: "Verify the project still builds." },
     ],
-    python: [
-      { command: "python -m pytest", purpose: "Run the Python test suite." },
-    ],
-    "github-actions": [
-      { command: "git diff --check", purpose: "Validate the edited workflow diff." },
-    ],
+    python: [{ command: "python -m pytest", purpose: "Run the Python test suite." }],
+    "github-actions": [{ command: "git diff --check", purpose: "Validate the edited workflow diff." }],
   };
   const commands = [
     ...(finding.migration?.verification ?? ecosystemCommands[finding.detector] ?? []),
@@ -409,9 +414,12 @@ function lowerBound(rule: RegistryV2Rule): { scheme: string; version: string | u
 }
 
 function lineFor(rule: RegistryV2Rule, today: string): UpgradePathLine | undefined {
-  const status = !rule.deadline || rule.deadline <= today
-    ? "ended"
-    : rule.deadline <= addDays(today, UPGRADE_PATH_HORIZON_DAYS) ? "ending-soon" : undefined;
+  const status =
+    !rule.deadline || rule.deadline <= today
+      ? "ended"
+      : rule.deadline <= addDays(today, UPGRADE_PATH_HORIZON_DAYS)
+        ? "ending-soon"
+        : undefined;
   if (!status) return undefined;
   return {
     ruleId: rule.id,
@@ -428,7 +436,11 @@ function lineFor(rule: RegistryV2Rule, today: string): UpgradePathLine | undefin
  * still supported. Lines the registry says nothing about are not invented: past the last known line the target is
  * the rule's replacement. Returns undefined when the registry knows no later line to order against.
  */
-export function planUpgradePath(finding: Finding, rules: readonly RegistryV2Rule[], today: string): UpgradePath | undefined {
+export function planUpgradePath(
+  finding: Finding,
+  rules: readonly RegistryV2Rule[],
+  today: string,
+): UpgradePath | undefined {
   const rule = rules.find((candidate) => candidate.id === finding.ruleId);
   if (!rule) return undefined;
   let start: ReturnType<typeof lowerBound>;
@@ -453,7 +465,12 @@ export function planUpgradePath(finding: Finding, rules: readonly RegistryV2Rule
   }
   if (later.length === 0) return undefined;
   later.sort((left, right) => scheme.compare(left.version, right.version) || left.rule.id.localeCompare(right.rule.id));
-  const from = lineFor(rule, today) ?? { ruleId: rule.id, versions: rule.vers, title: rule.title, status: "ending-soon" as const };
+  const from = lineFor(rule, today) ?? {
+    ruleId: rule.id,
+    versions: rule.vers,
+    title: rule.title,
+    status: "ending-soon" as const,
+  };
   const skipped: UpgradePathLine[] = [];
   for (const { rule: candidate } of later) {
     const line = lineFor(candidate, today);
@@ -461,7 +478,11 @@ export function planUpgradePath(finding: Finding, rules: readonly RegistryV2Rule
       return {
         from,
         skipped,
-        target: { versions: candidate.vers, title: candidate.title, ...(candidate.deadline ? { endsOn: candidate.deadline } : {}) },
+        target: {
+          versions: candidate.vers,
+          title: candidate.title,
+          ...(candidate.deadline ? { endsOn: candidate.deadline } : {}),
+        },
       };
     }
     skipped.push(line);

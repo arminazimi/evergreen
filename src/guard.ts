@@ -125,17 +125,26 @@ export function blocksInstall(check: DependencyCheck, failOn: GuardGate = "high"
 }
 
 /** Decides whether the install may run. Pure: it performs no lookup and runs nothing. */
-export function evaluateGuard(checks: readonly GuardCheck[], options: GuardOptions = {}): { allowed: boolean; blockers: GuardCheck[] } {
+export function evaluateGuard(
+  checks: readonly GuardCheck[],
+  options: GuardOptions = {},
+): { allowed: boolean; blockers: GuardCheck[] } {
   const failOn = options.failOn ?? "high";
-  const blockers = checks.filter((entry) => entry.error !== undefined || (entry.check !== undefined && blocksInstall(entry.check, failOn)));
+  const blockers = checks.filter(
+    (entry) => entry.error !== undefined || (entry.check !== undefined && blocksInstall(entry.check, failOn)),
+  );
   return { allowed: options.override === true || blockers.length === 0, blockers };
 }
 
 /** Looks up every package before anything is installed. A failed lookup blocks rather than guesses. */
-export async function checkGuardPackages(packages: readonly GuardPackage[], options: GuardOptions = {}): Promise<GuardCheck[]> {
+export async function checkGuardPackages(
+  packages: readonly GuardPackage[],
+  options: GuardOptions = {},
+): Promise<GuardCheck[]> {
   const check =
     options.check ??
-    ((entry: GuardPackage) => checkDependency({ purl: entry.purl, ...(entry.version === undefined ? {} : { version: entry.version }) }));
+    ((entry: GuardPackage) =>
+      checkDependency({ purl: entry.purl, ...(entry.version === undefined ? {} : { version: entry.version }) }));
   const checks: GuardCheck[] = [];
   for (const entry of packages) {
     try {
@@ -250,7 +259,11 @@ function splitNpmSpec(spec: string): { name: string; version?: string } | undefi
     version = at === -1 ? undefined : spec.slice(at + 1);
   }
   if (!npmName.test(name)) return undefined;
-  if (version !== undefined && (version === "" || version.includes("/") || version.startsWith("npm:") || !npmVersion.test(version))) return undefined;
+  if (
+    version !== undefined &&
+    (version === "" || version.includes("/") || version.startsWith("npm:") || !npmVersion.test(version))
+  )
+    return undefined;
   return { name, ...(version === undefined ? {} : { version }) };
 }
 
@@ -342,13 +355,19 @@ export function parseGuardArgs(args: readonly string[]): ParsedGuard {
   }
 
   const manager = args[index];
-  if (manager === undefined) throw new GuardUsageError("Missing package manager. Use `evergreen guard npm install <package>...`.");
-  if (manager !== "npm") throw new GuardUsageError(`Unsupported package manager "${manager}". Today only npm is supported.`);
+  if (manager === undefined)
+    throw new GuardUsageError("Missing package manager. Use `evergreen guard npm install <package>...`.");
+  if (manager !== "npm")
+    throw new GuardUsageError(`Unsupported package manager "${manager}". Today only npm is supported.`);
   return { request: parseNpmInstall(args.slice(index + 1)), failOn, override };
 }
 
 /** The CLI entry point: parse, check, and run the package manager only when allowed. */
 export async function guardCommand(args: readonly string[], options: GuardOptions = {}): Promise<GuardResult> {
   const parsed = parseGuardArgs(args);
-  return runGuard(parsed.request, { ...options, failOn: parsed.failOn, override: parsed.override || options.override === true });
+  return runGuard(parsed.request, {
+    ...options,
+    failOn: parsed.failOn,
+    override: parsed.override || options.override === true,
+  });
 }

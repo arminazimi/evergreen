@@ -57,7 +57,10 @@ test("bumpFormula is a no-op when the pin already matches", () => {
 test("bumpFormula refuses bad inputs and formulas that are not a single npm pin", () => {
   assert.throws(() => script.bumpFormula(SAMPLE, { version: "latest", sha256: NEXT_SHA }), /Invalid version/);
   assert.throws(() => script.bumpFormula(SAMPLE, { version: "0.7.1", sha256: "deadbeef" }), /Invalid sha256/);
-  assert.throws(() => script.bumpFormula("class X; end", { version: "0.7.1", sha256: NEXT_SHA }), /missing the evergreen-deprecation npm url/);
+  assert.throws(
+    () => script.bumpFormula("class X; end", { version: "0.7.1", sha256: NEXT_SHA }),
+    /missing the evergreen-deprecation npm url/,
+  );
   const twoUrls = SAMPLE.replace(
     "license",
     `url "https://registry.npmjs.org/evergreen-deprecation/-/evergreen-deprecation-0.5.0.tgz"\n  license`,
@@ -116,7 +119,11 @@ test("the release workflow bumps the tap after a successful publish and skips pr
   assert.deepEqual(job.permissions, { contents: "read" });
 
   const steps = job.steps ?? [];
-  const text = steps.map((step) => [step.name, step.if, step.run, step.uses, JSON.stringify(step.with), JSON.stringify(step.env)].join("\n")).join("\n");
+  const text = steps
+    .map((step) =>
+      [step.name, step.if, step.run, step.uses, JSON.stringify(step.with), JSON.stringify(step.env)].join("\n"),
+    )
+    .join("\n");
   assert.match(text, /bump-homebrew-formula\.mjs/);
   assert.match(text, /HOMEBREW_TAP_DEPLOY_KEY/);
   assert.match(text, /arminazimi\/homebrew-tap/);
@@ -124,8 +131,13 @@ test("the release workflow bumps the tap after a successful publish and skips pr
   assert.match(text, /sha256sum|shasum -a 256/);
   assert.doesNotMatch(text, /curl .* \| *bash/, "the job must not pipe remote scripts into a shell");
 
-  const checkout = steps.find((step) => step.uses?.startsWith("actions/checkout") && String(step.with?.repository ?? "").includes("homebrew-tap"));
+  const checkout = steps.find(
+    (step) => step.uses?.startsWith("actions/checkout") && String(step.with?.repository ?? "").includes("homebrew-tap"),
+  );
   assert.ok(checkout, "the job checks out the Homebrew tap");
   assert.equal(checkout.with?.["ssh-key"], "${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}");
-  assert.ok(steps.some((step) => step.run?.includes("git push")), "the job pushes the bump");
+  assert.ok(
+    steps.some((step) => step.run?.includes("git push")),
+    "the job pushes the bump",
+  );
 });

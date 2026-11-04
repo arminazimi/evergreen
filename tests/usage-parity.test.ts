@@ -29,7 +29,8 @@ before(async () => {
   for (const directory of ["src", "tools", "benchmarks", "examples"]) {
     await cp(join(repositoryRoot, directory), join(corpus, "repository", directory), {
       recursive: true,
-      filter: (source) => !source.includes("node_modules") && (extname(source) === "" || /\.(?:ts|tsx|js|mjs|cjs|py)$/.test(source)),
+      filter: (source) =>
+        !source.includes("node_modules") && (extname(source) === "" || /\.(?:ts|tsx|js|mjs|cjs|py)$/.test(source)),
     });
   }
 });
@@ -65,7 +66,8 @@ async function registryContracts(): Promise<SourceUsageContract[]> {
     };
     for (const rule of registry.rules ?? []) {
       const matchers = (rule.usage ?? []).filter(
-        (matcher) => matcher.kind !== "config-key" && matcher.kind !== "symbol" && treeSitterLanguages.has(matcher.language),
+        (matcher) =>
+          matcher.kind !== "config-key" && matcher.kind !== "symbol" && treeSitterLanguages.has(matcher.language),
       );
       if (matchers.length > 0) contracts.push({ id: rule.id, matchers });
     }
@@ -83,7 +85,8 @@ async function isNotACallOfTheImport(subdirectory: string, entry: string): Promi
   const [path, line] = location.split(":") as [string, string];
   const name = symbol.slice(symbol.lastIndexOf(".") + 1);
   const text = (await readFile(join(corpus, subdirectory, path), "utf8")).split(/\r?\n/)[Number(line) - 1]!;
-  const memberCall = new RegExp(`\\.\\s*${name}\\s*\\(`).test(text) && !new RegExp(`(?<![\\w$.])${name}\\s*\\(`).test(text);
+  const memberCall =
+    new RegExp(`\\.\\s*${name}\\s*\\(`).test(text) && !new RegExp(`(?<![\\w$.])${name}\\s*\\(`).test(text);
   const signature = new RegExp(`^\\s*${name}\\s*\\(.*\\)\\s*:\\s*[^;]+;\\s*$`).test(text);
   return memberCall || signature;
 }
@@ -108,7 +111,12 @@ const corpusContracts: SourceUsageContract[] = [
     id: "node-modules",
     matchers: (["javascript", "typescript"] as const).flatMap((language) => [
       { kind: "import" as const, language, module: "node:fs/promises" },
-      { kind: "call" as const, language, module: "node:fs/promises", targets: ["readFile", "writeFile", "mkdir", "readdir", "rm"] },
+      {
+        kind: "call" as const,
+        language,
+        module: "node:fs/promises",
+        targets: ["readFile", "writeFile", "mkdir", "readdir", "rm"],
+      },
       { kind: "import" as const, language, module: "node:path" },
       { kind: "call" as const, language, module: "node:path", targets: ["join", "resolve", "dirname", "relative"] },
       { kind: "import" as const, language, module: "node:assert/strict" },
@@ -117,7 +125,8 @@ const corpusContracts: SourceUsageContract[] = [
   },
 ];
 
-const identify = (usage: SourceUsage): string => `${usage.kind} ${usage.location.path}:${usage.location.line} ${usage.symbol}`;
+const identify = (usage: SourceUsage): string =>
+  `${usage.kind} ${usage.location.path}:${usage.location.line} ${usage.symbol}`;
 
 interface Differences {
   /** Found by both engines. */
@@ -175,10 +184,17 @@ function repositoryDifferences(): Promise<{ corpus: Differences; registry: Diffe
   repositoryPass ??= (async () => {
     const contracts = await registryContracts();
     const corpusIds = new Set(corpusContracts.map((contract) => contract.id));
-    for (const contract of contracts) assert.ok(!corpusIds.has(contract.id), `the contract id ${contract.id} names both a corpus contract and a registry rule`);
+    for (const contract of contracts)
+      assert.ok(
+        !corpusIds.has(contract.id),
+        `the contract id ${contract.id} names both a corpus contract and a registry rule`,
+      );
     const all = [...corpusContracts, ...contracts];
     const differences = await compare(all, "repository");
-    return { corpus: keepContracts(differences, corpusIds), registry: keepContracts(differences, new Set(contracts.map((contract) => contract.id))) };
+    return {
+      corpus: keepContracts(differences, corpusIds),
+      registry: keepContracts(differences, new Set(contracts.map((contract) => contract.id))),
+    };
   })();
   return repositoryPass;
 }
@@ -204,16 +220,26 @@ test("on the registry contracts the fixtures differ only by the same improvement
   assert.ok(contracts.length > 50, "the registry carries many parser-readable contracts");
   const { shared, onlyRegex, onlyTreeSitter } = await compare(contracts, "samples");
   assert.ok(shared.length >= 10, "the registry contracts match fixture code");
-  assert.deepEqual(onlyRegex.filter((entry) => !entry.endsWith("view.tsx:4 request.get")), []);
-  for (const entry of onlyTreeSitter) assert.match(entry, / modern\.(?:mts|py):\d+ /, `${entry} is a form only the parser sees`);
+  assert.deepEqual(
+    onlyRegex.filter((entry) => !entry.endsWith("view.tsx:4 request.get")),
+    [],
+  );
+  for (const entry of onlyTreeSitter)
+    assert.match(entry, / modern\.(?:mts|py):\d+ /, `${entry} is a form only the parser sees`);
 });
 
 test("on the repository's own sources tree-sitter loses nothing, adds nothing, and drops only hits that are not calls of the import", async () => {
   const { shared, onlyRegex, onlyTreeSitter } = (await repositoryDifferences()).corpus;
   assert.ok(shared.length >= 100, `the repository sources produce many usages (${shared.length})`);
-  assert.ok(onlyRegex.length > 0, "the regex scanner mistakes some method calls and type signatures for imported functions");
+  assert.ok(
+    onlyRegex.length > 0,
+    "the regex scanner mistakes some method calls and type signatures for imported functions",
+  );
   for (const entry of onlyRegex) {
-    assert.ok(await isNotACallOfTheImport("repository", entry), `${entry} is not a method call on an unrelated receiver or a type signature`);
+    assert.ok(
+      await isNotACallOfTheImport("repository", entry),
+      `${entry} is not a method call on an unrelated receiver or a type signature`,
+    );
   }
   assert.deepEqual(onlyTreeSitter, []);
 });

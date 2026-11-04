@@ -90,7 +90,9 @@ test("ruby passes detector conformance on every fixture", async () => {
 
 test("reports a yanked resolved gem from Gemfile.lock", async () => {
   const rule = (await committedRules()).find((item) => item.id === "ruby.gem.json.yanked-2.17.1.1")!;
-  const root = await repository({ "Gemfile.lock": "GEM\n  remote: https://rubygems.org/\n  specs:\n    json (2.17.1.1)\n" });
+  const root = await repository({
+    "Gemfile.lock": "GEM\n  remote: https://rubygems.org/\n  specs:\n    json (2.17.1.1)\n",
+  });
   assert.deepEqual(await rubyDetector.scan({ root }), [
     {
       id: `${rule.id}:Gemfile.lock:4`,
@@ -117,7 +119,11 @@ test("reports curated Rails lifecycle rules and leaves Rails 8.1 clean", async (
 
   for (const [fixture, ruleId, severity, deadline] of cases) {
     const result = await scanRepository(resolve(fixtures, "rails", fixture), [rubyDetector]);
-    assert.deepEqual(result.findings.map((finding) => [finding.ruleId, finding.severity, finding.deadline]), ruleId ? [[ruleId, severity, deadline]] : [], fixture);
+    assert.deepEqual(
+      result.findings.map((finding) => [finding.ruleId, finding.severity, finding.deadline]),
+      ruleId ? [[ruleId, severity, deadline]] : [],
+      fixture,
+    );
   }
 });
 
@@ -132,7 +138,9 @@ test("a Rails migration packet follows the official incremental upgrade process"
   assert.ok(packet.steps.some((step) => step.id === "apply-rails-upgrade-guide"));
   assert.ok(packet.steps.some((step) => step.id === "update-framework-defaults"));
   assert.ok(packet.verification.some((check) => check.command === "bin/rails test"));
-  assert.ok(packet.sources.some((source) => source.url === "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"));
+  assert.ok(
+    packet.sources.some((source) => source.url === "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"),
+  );
 });
 
 test("reports a Gemfile gem covered by a whole-version rule", async () => {
@@ -152,14 +160,20 @@ test("reports a Gemfile gem covered by a whole-version rule", async () => {
   const detector = new RubyDetector(async () => [rule]);
   const root = await repository({ Gemfile: 'source "https://rubygems.org"\n\ngem "abandoned", "~> 1.0"\n' });
   const findings = await detector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["ruby.gem.abandoned.eol", "Gemfile", 3]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["ruby.gem.abandoned.eol", "Gemfile", 3]],
+  );
   assert.match(findings[0]!.summary, /Gemfile declares abandoned ~> 1\.0\./);
 });
 
 test("matches the rbenv ruby- prefix to the runtime rule", async () => {
   const root = await repository({ ".ruby-version": "ruby-3.2.2\n" });
   const findings = await rubyDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["ruby.runtime.eol-3.2", ".ruby-version", 1]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["ruby.runtime.eol-3.2", ".ruby-version", 1]],
+  );
 });
 
 test("a malformed rule does not hide a later matching rule", async () => {
@@ -167,11 +181,17 @@ test("a malformed rule does not hide a later matching rule", async () => {
   const malformed: RegistryV2Rule = { ...base, id: "ruby.runtime.malformed", vers: "vers:gem/not-a-version" };
   const detector = new RubyDetector(async () => [malformed, base]);
   const root = await repository({ ".ruby-version": "3.2.2\n" });
-  assert.deepEqual((await detector.scan({ root })).map((finding) => finding.ruleId), ["ruby.runtime.eol-3.2"]);
+  assert.deepEqual(
+    (await detector.scan({ root })).map((finding) => finding.ruleId),
+    ["ruby.runtime.eol-3.2"],
+  );
 });
 
 test("a repository without Ruby files scans to nothing", async () => {
-  assert.deepEqual(await rubyDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), { findings: [], unclassified: [] });
+  assert.deepEqual(await rubyDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), {
+    findings: [],
+    unclassified: [],
+  });
 });
 
 test("every curated Ruby rule has migration guidance", async () => {
@@ -195,10 +215,13 @@ test("a migration packet for a Ruby finding names the file, steps, and verificat
 
 test("the detector is registered and Ruby is experimental in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "ruby"));
-  assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "ruby"), {
-    id: "ruby",
-    status: "experimental",
-    maturity: "experimental",
-    detectorIds: ["ruby"],
-  });
+  assert.deepEqual(
+    getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "ruby"),
+    {
+      id: "ruby",
+      status: "experimental",
+      maturity: "experimental",
+      detectorIds: ["ruby"],
+    },
+  );
 });

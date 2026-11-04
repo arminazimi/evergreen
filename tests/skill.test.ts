@@ -34,16 +34,10 @@ test("Evergreen skill follows the portable Agent Skills contract", async () => {
   assert.equal(typeof frontmatter.description, "string");
   assert.ok(String(frontmatter.description).length <= 1024);
   assert.doesNotMatch(String(frontmatter.description), /[<>]/);
-  assert.match(
-    String(frontmatter.description),
-    /Do not use for adding a dependency/,
-  );
+  assert.match(String(frontmatter.description), /Do not use for adding a dependency/);
   assert.match(String(frontmatter.description), /routine package upgrades|routine upgrades/);
   assert.match(String(frontmatter.description), /vulnerability(?: or security)? audits/);
-  assert.deepEqual(
-    Object.keys(frontmatter).sort(),
-    ["description", "license", "metadata", "name"],
-  );
+  assert.deepEqual(Object.keys(frontmatter).sort(), ["description", "license", "metadata", "name"]);
   assert.ok(body.split("\n").length < 100, "skill instructions should stay thin");
   assert.doesNotMatch(body, /^ {0,3}\[TODO:[^\n]*\]\s*$/m);
   assert.doesNotMatch(contents, /\b(Codex|Claude|Cursor|Gemini|OpenAI|Anthropic)\b/i);
@@ -63,9 +57,7 @@ test("Evergreen skill follows the portable Agent Skills contract", async () => {
 });
 
 test("skill evaluation corpus covers host lanes and difficult trigger boundaries", async () => {
-  const evaluation = JSON.parse(
-    await readFile(resolve("skills/evergreen-deprecation/evals/cases.json"), "utf8"),
-  ) as {
+  const evaluation = JSON.parse(await readFile(resolve("skills/evergreen-deprecation/evals/cases.json"), "utf8")) as {
     schemaVersion: string;
     cases: SkillEvalCase[];
   };
@@ -83,26 +75,14 @@ test("skill evaluation corpus covers host lanes and difficult trigger boundaries
     assert.ok(hostCases.length >= 15, `${host} needs representative coverage`);
     const metrics = calculateMetrics(hostCases);
     assert.ok(metrics.recall >= 0.9, `${host} recall must be at least 90%`);
-    assert.ok(
-      metrics.falseTriggerRate < 0.05,
-      `${host} false-trigger rate must stay below 5%`,
-    );
+    assert.ok(metrics.falseTriggerRate < 0.05, `${host} false-trigger rate must stay below 5%`);
   }
 });
 
 test("skill trigger contract rejects explicit non-goals", () => {
-  assert.equal(
-    classifySkillTrigger("Upgrade every dependency to the latest version."),
-    false,
-  );
-  assert.equal(
-    classifySkillTrigger("Run a vulnerability and security audit on dependencies."),
-    false,
-  );
-  assert.equal(
-    classifySkillTrigger("Scan this repository for end-of-life runtimes."),
-    true,
-  );
+  assert.equal(classifySkillTrigger("Upgrade every dependency to the latest version."), false);
+  assert.equal(classifySkillTrigger("Run a vulnerability and security audit on dependencies."), false);
+  assert.equal(classifySkillTrigger("Scan this repository for end-of-life runtimes."), true);
 });
 
 test("skill distribution documents canonical discovery and host compatibility", async () => {
@@ -135,10 +115,7 @@ test("check-before-add skill follows the portable Agent Skills contract", async 
   assert.doesNotMatch(String(frontmatter.description), /[<>]/);
   assert.match(String(frontmatter.description), /before adding/);
   assert.match(String(frontmatter.description), /Do not use for repository lifecycle scans/);
-  assert.deepEqual(
-    Object.keys(frontmatter).sort(),
-    ["description", "license", "metadata", "name"],
-  );
+  assert.deepEqual(Object.keys(frontmatter).sort(), ["description", "license", "metadata", "name"]);
   assert.ok(body.split("\n").length < 80, "check-before-add instructions should stay thin");
   assert.doesNotMatch(contents, /\b(Codex|Claude|Cursor|Gemini|OpenAI|Anthropic)\b/i);
   assert.match(body, /\bcheck_dependency\b/);
@@ -147,7 +124,9 @@ test("check-before-add skill follows the portable Agent Skills contract", async 
 });
 
 test("the check-before-add corpus is balanced, labeled, and meets the trigger gates", async () => {
-  const { calculateMetrics, classifyDependencyAddition, loadDependencyEvalCorpus, skillEvalHosts } = await import("../benchmarks/skill-trigger-eval.js");
+  const { calculateMetrics, classifyDependencyAddition, loadDependencyEvalCorpus, skillEvalHosts } = await import(
+    "../benchmarks/skill-trigger-eval.js"
+  );
   const corpus = await loadDependencyEvalCorpus();
   assert.equal(corpus.schemaVersion, "evergreen.dependency-guard-evals.v1");
   assert.ok(corpus.cases.length >= 40);
@@ -177,7 +156,8 @@ test("the dependency classifier also holds on prompts that are not in the corpus
     "yarn add left-pad",
     "Add moment to package.json.",
     "Use the docker/login-action in the release job.",
-  ]) assert.equal(classifyDependencyAddition(prompt), true, prompt);
+  ])
+    assert.equal(classifyDependencyAddition(prompt), true, prompt);
   for (const prompt of [
     "Remove the colors package and use the built-in instead.",
     "Run npm install, then run the build.",
@@ -187,7 +167,8 @@ test("the dependency classifier also holds on prompts that are not in the corpus
     "Upgrade everything to the latest versions.",
     "Write a test for the date helper.",
     "Add retries to the upload function.",
-  ]) assert.equal(classifyDependencyAddition(prompt), false, prompt);
+  ])
+    assert.equal(classifyDependencyAddition(prompt), false, prompt);
 });
 
 test("upgrade-runtime-action skill follows the portable Agent Skills contract", async () => {
@@ -200,10 +181,7 @@ test("upgrade-runtime-action skill follows the portable Agent Skills contract", 
   assert.doesNotMatch(String(frontmatter.description), /[<>]/);
   assert.match(String(frontmatter.description), /Upgrade an already-declared runtime/);
   assert.match(String(frontmatter.description), /Do not use for adding a new dependency/);
-  assert.deepEqual(
-    Object.keys(frontmatter).sort(),
-    ["description", "license", "metadata", "name"],
-  );
+  assert.deepEqual(Object.keys(frontmatter).sort(), ["description", "license", "metadata", "name"]);
   assert.ok(body.split("\n").length < 80, "upgrade-runtime-action instructions should stay thin");
   assert.doesNotMatch(contents, /\b(Codex|Claude|Cursor|Gemini|OpenAI|Anthropic)\b/i);
   assert.match(body, /\bscan_repository\b/);

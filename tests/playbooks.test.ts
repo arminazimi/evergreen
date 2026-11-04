@@ -105,7 +105,10 @@ async function fixture(): Promise<string> {
 
 test("the playbooks mark the examples CI can run", async () => {
   const blocks = await exampleBlocks();
-  assert.ok(blocks.length >= 10, `only ${blocks.length} testable blocks found; examples that run in CI need the marker`);
+  assert.ok(
+    blocks.length >= 10,
+    `only ${blocks.length} testable blocks found; examples that run in CI need the marker`,
+  );
 });
 
 test("testable playbook examples run against a fixture repository", async () => {
@@ -114,10 +117,18 @@ test("testable playbook examples run against a fixture repository", async () => 
     for (const command of block.commands) {
       const [program, ...args] = shellWords(command);
       const where = `${relative(root, join(directory, block.file))}:${block.line}`;
-      assert.equal(program, "evergreen", `${where}: mark only Evergreen commands as testable; found ${JSON.stringify(program)}`);
+      assert.equal(
+        program,
+        "evergreen",
+        `${where}: mark only Evergreen commands as testable; found ${JSON.stringify(program)}`,
+      );
       const result = await runCli(args, { cwd: path });
       const output = `${result.stdout}${result.stderr}`.trim();
-      assert.equal(result.code, block.expected, `${where}: \`${command}\` exited ${result.code}, expected ${block.expected}\n${output}`);
+      assert.equal(
+        result.code,
+        block.expected,
+        `${where}: \`${command}\` exited ${result.code}, expected ${block.expected}\n${output}`,
+      );
     }
   }
 });

@@ -10,7 +10,9 @@ test("the registries carry at least 100 symbol-level rules, every one unique and
   const ids = new Set<string>();
   for (const name of await readdir(join(root, "registry"))) {
     if (!name.endsWith(".json") || name === "sources.lock.json") continue;
-    const registry = JSON.parse(await readFile(join(root, "registry", name), "utf8")) as { rules?: { id: string; event: string; sources: unknown[]; usage?: { kind: string }[] }[] };
+    const registry = JSON.parse(await readFile(join(root, "registry", name), "utf8")) as {
+      rules?: { id: string; event: string; sources: unknown[]; usage?: { kind: string }[] }[];
+    };
     for (const rule of registry.rules ?? []) {
       if (!rule.usage?.some((matcher) => matcher.kind === "symbol")) continue;
       total += 1;

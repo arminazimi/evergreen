@@ -34,7 +34,8 @@ const flag = (name: string): string | undefined => {
 };
 
 const strategy = (flag("--strategy") ?? "shallow") as FetchStrategy;
-if (!["shallow", "sparse", "tarball"].includes(strategy)) throw new Error(`Unknown --strategy "${strategy}": use shallow, sparse, or tarball.`);
+if (!["shallow", "sparse", "tarball"].includes(strategy))
+  throw new Error(`Unknown --strategy "${strategy}": use shallow, sparse, or tarball.`);
 const limit = flag("--limit") === undefined ? undefined : Number(flag("--limit"));
 const concurrency = resolveCorpusConcurrency();
 
@@ -63,7 +64,9 @@ try {
       commit: entry.commit,
       fetchMs: Number(item.fetchMs.toFixed(0)),
       bytes: item.bytes,
-      findings: scan.findings.map((finding) => `${finding.ruleId}:${finding.location.path}:${finding.location.line ?? ""}`).sort(),
+      findings: scan.findings
+        .map((finding) => `${finding.ruleId}:${finding.location.path}:${finding.location.line ?? ""}`)
+        .sort(),
     });
   }
   const measurement: Measurement = {
@@ -83,9 +86,13 @@ try {
     const differing = perRepository.filter((item) => byRepository.get(item.repository) !== item.findings.join("\n"));
     identical = differing.length === 0;
     for (const item of differing) console.error(`DIFFERENT ${item.repository}@${item.commit.slice(0, 10)}`);
-    console.error(`vs ${baseline.strategy}: wall x${(baseline.wallMs / measurement.wallMs).toFixed(2)} faster, fetched x${(baseline.bytesFetched / measurement.bytesFetched).toFixed(2)} smaller, on disk x${(baseline.bytesOnDisk / measurement.bytesOnDisk).toFixed(2)} smaller, findings ${identical ? "identical" : "DIFFER"}`);
+    console.error(
+      `vs ${baseline.strategy}: wall x${(baseline.wallMs / measurement.wallMs).toFixed(2)} faster, fetched x${(baseline.bytesFetched / measurement.bytesFetched).toFixed(2)} smaller, on disk x${(baseline.bytesOnDisk / measurement.bytesOnDisk).toFixed(2)} smaller, findings ${identical ? "identical" : "DIFFER"}`,
+    );
   }
-  console.log(`${strategy}: ${entries.length} repositories, wall ${(measurement.wallMs / 1000).toFixed(1)} s, fetched ${(measurement.bytesFetched / 1e6).toFixed(1)} MB, on disk ${(measurement.bytesOnDisk / 1e6).toFixed(1)} MB, findings ${perRepository.reduce((total, item) => total + item.findings.length, 0)}`);
+  console.log(
+    `${strategy}: ${entries.length} repositories, wall ${(measurement.wallMs / 1000).toFixed(1)} s, fetched ${(measurement.bytesFetched / 1e6).toFixed(1)} MB, on disk ${(measurement.bytesOnDisk / 1e6).toFixed(1)} MB, findings ${perRepository.reduce((total, item) => total + item.findings.length, 0)}`,
+  );
   const output = flag("--output");
   if (output) await writeFile(resolve(output), `${JSON.stringify(measurement, null, 2)}\n`);
   if (identical === false) process.exitCode = 1;

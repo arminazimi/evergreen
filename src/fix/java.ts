@@ -3,7 +3,12 @@ import { basename, isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../agent-instructions.js";
 import { parseJdkVersion } from "../detectors/java/jdk-version.js";
-import type { DependencyDeclaration, DynamicJdkDeclaration, JdkDeclaration, KotlinPluginDeclaration } from "../detectors/java/jdk-version.js";
+import type {
+  DependencyDeclaration,
+  DynamicJdkDeclaration,
+  JdkDeclaration,
+  KotlinPluginDeclaration,
+} from "../detectors/java/jdk-version.js";
 import { parseGradle } from "../detectors/java/parse-gradle.js";
 import { parsePom } from "../detectors/java/parse-pom.js";
 import type { Finding } from "../domain.js";
@@ -21,7 +26,8 @@ const COMPATIBILITY =
 /** `jvmToolchain(16)`, quoted or not. */
 const TOOLCHAIN = /^(.*\bjvmToolchain\(\s*)((["'])(\d+(?:\.\d+)?)\3|(\d+(?:\.\d+)?))(\s*\).*)$/;
 /** `languageVersion = JavaLanguageVersion.of(16)` and the `.set(...)` Kotlin form. */
-const LANGUAGE_VERSION = /^(.*\blanguageVersion\s*(?:=|\.set\()\s*JavaLanguageVersion\s*\.\s*of\(\s*)(\d+(?:\.\d+)?)(\s*\).*)$/;
+const LANGUAGE_VERSION =
+  /^(.*\blanguageVersion\s*(?:=|\.set\()\s*JavaLanguageVersion\s*\.\s*of\(\s*)(\d+(?:\.\d+)?)(\s*\).*)$/;
 
 /** The raised line, or undefined when the line is not one of the literal forms above. */
 function rewriteGradle(line: string, target: string): string | undefined {
@@ -116,22 +122,32 @@ export const javaFixer: Fixer = {
       const declarations: Declaration[] = parse(before);
       // Only a line the detector itself parsed as a literal JDK declaration is safe to rewrite; a computed value,
       // an unsupported form, or a line the file has drifted away from is left as it is.
-      const declared = new Set(declarations.filter((declaration) => declaration.kind === "jdk").map((declaration) => declaration.line));
+      const declared = new Set(
+        declarations.filter((declaration) => declaration.kind === "jdk").map((declaration) => declaration.line),
+      );
       const rewritten = new Set<number>();
       const original = before.split("\n");
-      const text = original.map((line, index) => {
-        const target = lines.get(index + 1);
-        if (target === undefined || !declared.has(index + 1)) return line;
-        const raised = rewriteLine(name, line, target);
-        if (raised === undefined) return line;
-        rewritten.add(index + 1);
-        return raised;
-      }).join("\n");
+      const text = original
+        .map((line, index) => {
+          const target = lines.get(index + 1);
+          if (target === undefined || !declared.has(index + 1)) return line;
+          const raised = rewriteLine(name, line, target);
+          if (raised === undefined) return line;
+          rewritten.add(index + 1);
+          return raised;
+        })
+        .join("\n");
       if (text !== before) {
         const expected = declarations.map((declaration) => {
           if (declaration.kind !== "jdk" || !rewritten.has(declaration.line)) return declaration;
           const target = lines.get(declaration.line)!;
-          return { kind: "jdk" as const, role: declaration.role, value: target, major: Number(target), line: declaration.line };
+          return {
+            kind: "jdk" as const,
+            role: declaration.role,
+            value: target,
+            major: Number(target),
+            line: declaration.line,
+          };
         });
         if (JSON.stringify(expected) !== JSON.stringify(parse(text))) {
           decline("The edit would change other declarations in the file.");

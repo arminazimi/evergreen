@@ -27,12 +27,18 @@ test("kubernetes registry has 50 valid removal rules with the migration guide an
   for (const rule of all) {
     assert.match(rule.purl, /^pkg:generic\/kubernetes\/[a-z0-9.-]+\/[A-Za-z0-9]+$/);
     assert.equal(rule.event, "removed");
-    assert.ok(rule.sources.some((source) => source.url === GUIDE), `${rule.id} does not cite the migration guide`);
+    assert.ok(
+      rule.sources.some((source) => source.url === GUIDE),
+      `${rule.id} does not cite the migration guide`,
+    );
     assert.ok(
       rule.sources.some((source) => /^https:\/\/kubernetes\.io\/blog\/\d{4}\/\d{2}\/\d{2}\//.test(source.url)),
       `${rule.id} does not cite a release announcement`,
     );
-    assert.ok(rule.sources.every((source) => source.url.startsWith("https://kubernetes.io/")), `${rule.id} cites a non-official source`);
+    assert.ok(
+      rule.sources.every((source) => source.url.startsWith("https://kubernetes.io/")),
+      `${rule.id} cites a non-official source`,
+    );
   }
 });
 
@@ -79,7 +85,10 @@ test("Helm repository rules cite the Helm deprecation notice and cover every cha
     assert.equal(rule.event, "end-of-life");
     assert.equal(rule.deadline, "2020-11-13");
     assert.equal(rule.vers, "vers:semver/*");
-    assert.ok(rule.sources.some((source) => source.url === "https://helm.sh/blog/charts-repo-deprecation/"), rule.id);
+    assert.ok(
+      rule.sources.some((source) => source.url === "https://helm.sh/blog/charts-repo-deprecation/"),
+      rule.id,
+    );
     assert.match(rule.purl, /^pkg:generic\/helm-repository\/(stable|incubator)$/);
   }
 });

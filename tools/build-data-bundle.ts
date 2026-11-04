@@ -19,10 +19,12 @@ function option(argv: string[], name: string): string | undefined {
 
 export async function main(argv: string[]): Promise<void> {
   const createdAt = option(argv, "--created-at");
-  if (!createdAt) throw new Error("--created-at is required, for example 2026-10-16T09:30:00Z (the release commit's date).");
+  if (!createdAt)
+    throw new Error("--created-at is required, for example 2026-10-16T09:30:00Z (the release commit's date).");
   const revision = option(argv, "--revision");
   const root = resolve(option(argv, "--root") ?? ".");
-  const packageVersion = (JSON.parse(await readFile(resolve(root, "package.json"), "utf8")) as { version: string }).version;
+  const packageVersion = (JSON.parse(await readFile(resolve(root, "package.json"), "utf8")) as { version: string })
+    .version;
 
   const bundle = await buildDataBundle({
     root,
@@ -38,7 +40,9 @@ export async function main(argv: string[]): Promise<void> {
   } else {
     process.stdout.write(text);
   }
-  process.stderr.write(`data bundle ${bundle.manifest.version}: ${bundle.manifest.contentDigest}, file sha256:${sha256Hex(text)}${out ? `, wrote ${resolve(out)}` : ""}\n`);
+  process.stderr.write(
+    `data bundle ${bundle.manifest.version}: ${bundle.manifest.contentDigest}, file sha256:${sha256Hex(text)}${out ? `, wrote ${resolve(out)}` : ""}\n`,
+  );
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

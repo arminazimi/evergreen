@@ -38,13 +38,19 @@ async function vueRules(): Promise<RegistryV2Rule[]> {
 
 test("the Vue 2 end-of-life rule is sourced, dated, and covers Vue 2 only", async () => {
   const rules = await vueRules();
-  assert.deepEqual(rules.map((rule) => rule.id), [RULE_ID]);
+  assert.deepEqual(
+    rules.map((rule) => rule.id),
+    [RULE_ID],
+  );
   const [rule] = rules;
   assert.equal(rule?.event, "end-of-life");
   assert.equal(rule?.vers, "vers:npm/>=2.0.0|<3.0.0");
   assert.equal(rule?.deadline, "2023-12-31");
   assert.equal(rule?.severity, "high");
-  assert.ok(rule?.sources.some((source) => source.url === "https://v2.vuejs.org/lts/"), "the deadline comes from the Vue LTS page");
+  assert.ok(
+    rule?.sources.some((source) => source.url === "https://v2.vuejs.org/lts/"),
+    "the deadline comes from the Vue LTS page",
+  );
   for (const source of rule?.sources ?? []) assert.match(source.url, /^https:\/\//, source.url);
 });
 
@@ -95,7 +101,10 @@ test("a declared Vue 2 range is reported when no lockfile is available", async (
 test("a resolved Vue 3 release is not reported even when the manifest range allows Vue 2", async () => {
   const root = await repository({
     "package.json": JSON.stringify({ dependencies: { vue: "*" } }),
-    "package-lock.json": JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/vue": { version: "3.5.13" } } }),
+    "package-lock.json": JSON.stringify({
+      lockfileVersion: 3,
+      packages: { "node_modules/vue": { version: "3.5.13" } },
+    }),
   });
   assert.deepEqual(await new NpmDetector().scan({ root }), []);
 });

@@ -10,9 +10,7 @@ export const evidenceCheck: ConformanceCheck = {
         (source) => source.title.trim().length > 0 && source.url.startsWith("https://"),
       );
       if (!hasSource) {
-        throw new Error(
-          `finding "${finding.id}" does not link an authoritative HTTPS source from its rule`,
-        );
+        throw new Error(`finding "${finding.id}" does not link an authoritative HTTPS source from its rule`);
       }
     }
   },

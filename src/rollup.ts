@@ -71,9 +71,16 @@ function emptyCounts(): SeverityCounts {
   return Object.fromEntries(severityValues.map((severity) => [severity, 0])) as SeverityCounts;
 }
 
-function sortedGroups(groups: Map<string, { findings: number; repositories: Set<string>; severities: SeverityCounts }>): RollupGroup[] {
+function sortedGroups(
+  groups: Map<string, { findings: number; repositories: Set<string>; severities: SeverityCounts }>,
+): RollupGroup[] {
   return [...groups]
-    .map(([name, group]) => ({ name, findings: group.findings, repositories: [...group.repositories].sort(), severities: group.severities }))
+    .map(([name, group]) => ({
+      name,
+      findings: group.findings,
+      repositories: [...group.repositories].sort(),
+      severities: group.severities,
+    }))
     .sort((left, right) => right.findings - left.findings || left.name.localeCompare(right.name));
 }
 
@@ -181,13 +188,19 @@ async function readJson(path: string): Promise<unknown> {
 export async function rollupFiles(reportPaths: readonly string[], ownersFile?: string): Promise<RollupResult> {
   if (reportPaths.length === 0) throw new RollupError("Give at least one scan report (evergreen scan --json).");
   const owners = ownersFile === undefined ? {} : await readJson(ownersFile);
-  if (typeof owners !== "object" || owners === null || Array.isArray(owners) || Object.values(owners).some((owner) => typeof owner !== "string" || owner === "")) {
+  if (
+    typeof owners !== "object" ||
+    owners === null ||
+    Array.isArray(owners) ||
+    Object.values(owners).some((owner) => typeof owner !== "string" || owner === "")
+  ) {
     throw new RollupError(`${ownersFile} must be a JSON object mapping repository names to owner names.`);
   }
   const inputs: RollupInput[] = [];
   for (const path of reportPaths) {
     const report = (await readJson(path)) as Partial<ScanResult> | null;
-    if (report?.schemaVersion !== "evergreen.scan.v1" || !Array.isArray(report.findings)) throw new RollupError(`${path} is not an evergreen.scan.v1 report.`);
+    if (report?.schemaVersion !== "evergreen.scan.v1" || !Array.isArray(report.findings))
+      throw new RollupError(`${path} is not an evergreen.scan.v1 report.`);
     const repository = repositoryNameFromPath(path);
     const owner = (owners as Record<string, string>)[repository];
     inputs.push({ repository, ...(owner === undefined ? {} : { owner }), report: { findings: report.findings } });
@@ -201,14 +214,20 @@ export function renderRollupText(result: RollupResult): string {
     if (groups.length === 0) return;
     lines.push("", `${title}:`);
     for (const group of groups) {
-      const counts = [...severityValues].reverse().filter((severity) => group.severities[severity] > 0).map((severity) => `${group.severities[severity]} ${severity}`);
+      const counts = [...severityValues]
+        .reverse()
+        .filter((severity) => group.severities[severity] > 0)
+        .map((severity) => `${group.severities[severity]} ${severity}`);
       lines.push(`  ${group.name}: ${group.findings} (${counts.join(", ")}) in ${group.repositories.join(", ")}`);
     }
   };
   if (result.byRepository.length > 0) {
     lines.push("", "By repository:");
     for (const repo of result.byRepository) {
-      const counts = [...severityValues].reverse().filter((severity) => repo.severities[severity] > 0).map((severity) => `${repo.severities[severity]} ${severity}`);
+      const counts = [...severityValues]
+        .reverse()
+        .filter((severity) => repo.severities[severity] > 0)
+        .map((severity) => `${repo.severities[severity]} ${severity}`);
       const deadline = repo.nearestDeadline ? `; nearest deadline ${repo.nearestDeadline}` : "";
       lines.push(`  ${repo.name}: ${repo.findings} (${counts.join(", ") || "0 findings"}${deadline})`);
     }
@@ -259,7 +278,9 @@ export function renderRollupHtml(result: RollupResult): string {
 
   const repoRows = result.byRepository.map((repo) => {
     const owner = repo.owner ? escapeHtml(repo.owner) : `<span class="meta">${UNOWNED}</span>`;
-    const deadline = repo.nearestDeadline ? `<time datetime="${escapeHtml(repo.nearestDeadline)}">${escapeHtml(repo.nearestDeadline)}</time>` : `<span class="meta">&mdash;</span>`;
+    const deadline = repo.nearestDeadline
+      ? `<time datetime="${escapeHtml(repo.nearestDeadline)}">${escapeHtml(repo.nearestDeadline)}</time>`
+      : `<span class="meta">&mdash;</span>`;
     return [
       "<tr>",
       `  <td><code>${escapeHtml(repo.name)}</code></td>`,
@@ -371,11 +392,7 @@ export function renderRollupHtml(result: RollupResult): string {
     );
   }
 
-  sections.push(
-    `<script type="application/json" id="evergreen-rollup">${data}</script>`,
-    "</body>",
-    "</html>",
-  );
+  sections.push(`<script type="application/json" id="evergreen-rollup">${data}</script>`, "</body>", "</html>");
 
   return sections.join("\n");
 }

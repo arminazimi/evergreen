@@ -11,7 +11,20 @@ export const FIRST_DRAFTED_MAJOR = 10;
 /** A supported major whose final release is closer than this is not offered as the replacement. */
 const REPLACEMENT_HORIZON_DAYS = 365;
 
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 interface Release {
   major: number;
@@ -20,7 +33,11 @@ interface Release {
 }
 
 function text(cell: string): string {
-  return cell.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+  return cell
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /** "November 14, 2030" to "2030-11-14"; undefined for anything else. */
@@ -72,7 +89,9 @@ export const postgresqlVersioningImporter: Importer = {
 
     const today = isoDate(context.now);
     const horizon = addDays(today, REPLACEMENT_HORIZON_DAYS);
-    const scheduledHorizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
+    const scheduledHorizon = isoDate(
+      new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())),
+    );
     const oldestLongLived = releases
       .filter((release) => release.supported && release.finalRelease > horizon)
       .sort((left, right) => left.major - right.major)[0];
@@ -80,7 +99,9 @@ export const postgresqlVersioningImporter: Importer = {
 
     const rules: DraftRule[] = [];
     const notes: string[] = [];
-    for (const release of releases.filter((candidate) => candidate.major >= FIRST_DRAFTED_MAJOR).sort((a, b) => a.major - b.major)) {
+    for (const release of releases
+      .filter((candidate) => candidate.major >= FIRST_DRAFTED_MAJOR)
+      .sort((a, b) => a.major - b.major)) {
       if (release.supported) {
         // An announced final release within a year becomes a scheduled rule (decision 0010); a later one is only noted.
         if (release.finalRelease > today && release.finalRelease <= scheduledHorizon) {
@@ -103,7 +124,9 @@ export const postgresqlVersioningImporter: Importer = {
         continue;
       }
       if (release.finalRelease > today) {
-        notes.push(`Skipped PostgreSQL ${release.major}: marked unsupported but its final release (${release.finalRelease}) is in the future.`);
+        notes.push(
+          `Skipped PostgreSQL ${release.major}: marked unsupported but its final release (${release.finalRelease}) is in the future.`,
+        );
         continue;
       }
       rules.push({

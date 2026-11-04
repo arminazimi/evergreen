@@ -59,9 +59,7 @@ export type BoundedReadResult =
   | { contents: undefined; skipped: SkippedInput };
 
 /** Either the parsed JSON value, or the limit crossing that stopped the parse. */
-export type BoundedParseResult =
-  | { value: unknown; skipped: undefined }
-  | { value: undefined; skipped: SkippedInput };
+export type BoundedParseResult = { value: unknown; skipped: undefined } | { value: undefined; skipped: SkippedInput };
 
 /**
  * Reads one repository file, stopping at MAXIMUM_READ_BYTES: the file is statted first, so an oversized

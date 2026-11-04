@@ -39,7 +39,10 @@ const keyOf = (url: string, accept?: string, requestBody?: string) => {
 };
 
 /** Wraps a context and remembers every response, including failures, so a run can be saved. */
-export function recordingContext(inner: ImporterContext): { context: ImporterContext; recording(importer: string): Recording } {
+export function recordingContext(inner: ImporterContext): {
+  context: ImporterContext;
+  recording(importer: string): Recording;
+} {
   const responses = new Map<string, RecordedResponse>();
   return {
     context: {
@@ -72,7 +75,9 @@ export function recordingContext(inner: ImporterContext): { context: ImporterCon
 
 /** A context that answers only from a recording and reports recorded responses nothing asked for. */
 export function replayContext(recording: Recording, now?: Date): ImporterContext & { unused(): RecordedResponse[] } {
-  const byKey = new Map(recording.responses.map((response) => [keyOf(response.url, response.accept, response.requestBody), response]));
+  const byKey = new Map(
+    recording.responses.map((response) => [keyOf(response.url, response.accept, response.requestBody), response]),
+  );
   const used = new Set<string>();
   return {
     now: now ?? new Date(`${recording.recordedAt}T12:00:00Z`),
@@ -92,7 +97,8 @@ export function replayContext(recording: Recording, now?: Date): ImporterContext
       if (response.error !== undefined) throw new ImporterError(response.error);
       return response.body ?? "";
     },
-    unused: () => recording.responses.filter((response) => !used.has(keyOf(response.url, response.accept, response.requestBody))),
+    unused: () =>
+      recording.responses.filter((response) => !used.has(keyOf(response.url, response.accept, response.requestBody))),
   };
 }
 
@@ -108,9 +114,12 @@ export function validateRecording(value: unknown): Recording {
   if (!Array.isArray(recording.responses)) return fail("responses must be a list");
   const seen = new Set<string>();
   for (const [index, response] of recording.responses.entries()) {
-    if (typeof response?.url !== "string" || !/^https?:\/\//.test(response.url)) fail(`responses[${index}].url must be a URL`);
-    if (response.requestBody !== undefined && typeof response.requestBody !== "string") fail(`responses[${index}].requestBody must be a string`);
-    if ((response.body === undefined) === (response.error === undefined)) fail(`responses[${index}] needs exactly one of body or error`);
+    if (typeof response?.url !== "string" || !/^https?:\/\//.test(response.url))
+      fail(`responses[${index}].url must be a URL`);
+    if (response.requestBody !== undefined && typeof response.requestBody !== "string")
+      fail(`responses[${index}].requestBody must be a string`);
+    if ((response.body === undefined) === (response.error === undefined))
+      fail(`responses[${index}] needs exactly one of body or error`);
     const key = keyOf(response.url, response.accept, response.requestBody);
     if (seen.has(key)) fail(`responses[${index}] repeats ${response.url}`);
     seen.add(key);

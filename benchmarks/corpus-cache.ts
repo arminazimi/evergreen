@@ -92,7 +92,9 @@ export interface CorpusCacheListing {
 /** Refuses an empty or root-like cache path, so a typo cannot point the cache commands at an important directory. */
 export function assertSafeCacheDir(dir: string): string {
   const refuse = () =>
-    new Error(`Refusing to use "${dir}" as the corpus cache: choose a dedicated directory such as ~/.cache/evergreen-corpus.`);
+    new Error(
+      `Refusing to use "${dir}" as the corpus cache: choose a dedicated directory such as ~/.cache/evergreen-corpus.`,
+    );
   if (dir.trim() === "") throw refuse();
   const resolved = resolve(dir);
   const { root } = parse(resolved);
@@ -158,7 +160,8 @@ export async function missingCorpusEntries<T extends CorpusCacheEntry>(
 ): Promise<T[]> {
   const missing: T[] = [];
   for (const entry of entries) {
-    if (!(await isCorpusEntryCached(cacheDir, entry)) || !(await usable(corpusCachePath(cacheDir, entry)))) missing.push(entry);
+    if (!(await isCorpusEntryCached(cacheDir, entry)) || !(await usable(corpusCachePath(cacheDir, entry))))
+      missing.push(entry);
   }
   return missing;
 }

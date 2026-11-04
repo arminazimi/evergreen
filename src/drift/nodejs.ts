@@ -26,7 +26,19 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
 const MAXIMUM_INPUT_BYTES = 1024 * 1024;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const WORKFLOW_NAME = /\.ya?ml$/i;
 
@@ -65,7 +77,17 @@ const NODE_IMAGES = new Set(["library/node", "cimg/node", "circleci/node"]);
 const DEVCONTAINER_NODE_IMAGES = new Set(["devcontainers/javascript-node", "devcontainers/typescript-node"]);
 const NODE_FEATURE = /"(?:ghcr\.io\/devcontainers\/features\/node(?::[^"]*)?|node)"\s*:\s*\{/g;
 
-type NodeFileKind = "nvmrc" | "node-version" | "tool-versions" | "manifest" | "dockerfile" | "devcontainer" | "workflow" | "gitlab" | "circleci" | "azure";
+type NodeFileKind =
+  | "nvmrc"
+  | "node-version"
+  | "tool-versions"
+  | "manifest"
+  | "dockerfile"
+  | "devcontainer"
+  | "workflow"
+  | "gitlab"
+  | "circleci"
+  | "azure";
 
 interface NodeFile {
   kind: NodeFileKind;
@@ -87,7 +109,8 @@ function fileKind(name: string, directory: string): NodeFileKind | undefined {
   if (name === ".gitlab-ci.yml") return "gitlab";
   if (name === "azure-pipelines.yml") return "azure";
   if (name === "config.yml" && basename(directory) === ".circleci") return "circleci";
-  if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github") return "workflow";
+  if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github")
+    return "workflow";
   return undefined;
 }
 
@@ -122,7 +145,8 @@ function resolveVersion(value: string): Resolved {
   const codename = /^lts\/(.*)$/i.exec(trimmed);
   if (codename) {
     const name = codename[1]!.trim().toLowerCase();
-    if (name === "*" || name === "") return { unresolved: `"${trimmed}" selects the current LTS line, which Evergreen does not resolve offline` };
+    if (name === "*" || name === "")
+      return { unresolved: `"${trimmed}" selects the current LTS line, which Evergreen does not resolve offline` };
     const major = LTS_CODENAMES.get(name);
     return major === undefined
       ? { unresolved: `"${trimmed}" names no Node.js LTS codename Evergreen knows` }
@@ -174,7 +198,15 @@ function resolveFloor(range: string): Resolved {
   return { unresolved: `"${range.trim()}" states no minimum Node.js release` };
 }
 
-function makePin(path: string, line: number, source: string, raw: string, kind: "pin" | "floor", resolved: Resolved, group?: string): RuntimePin {
+function makePin(
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  kind: "pin" | "floor",
+  resolved: Resolved,
+  group?: string,
+): RuntimePin {
   return {
     path,
     line,
@@ -183,7 +215,9 @@ function makePin(path: string, line: number, source: string, raw: string, kind: 
     kind,
     ...(group === undefined ? {} : { group }),
     ...(resolved.release === undefined ? {} : { release: resolved.release }),
-    ...(resolved.release === undefined ? { unresolved: resolved.unresolved ?? `"${raw}" is not a Node.js version Evergreen reads` } : {}),
+    ...(resolved.release === undefined
+      ? { unresolved: resolved.unresolved ?? `"${raw}" is not a Node.js version Evergreen reads` }
+      : {}),
   };
 }
 
@@ -203,10 +237,18 @@ function collectToolVersions(contents: string, path: string, pins: RuntimePin[])
     if (fields[0] !== "nodejs") continue;
     const values = fields.slice(1).filter((value) => value !== "");
     if (values.length === 0) {
-      pins.push({ path, line: index + 1, source: SOURCE_TOOL_VERSIONS, raw: "nodejs", kind: "pin", unresolved: "the nodejs entry has no version" });
+      pins.push({
+        path,
+        line: index + 1,
+        source: SOURCE_TOOL_VERSIONS,
+        raw: "nodejs",
+        kind: "pin",
+        unresolved: "the nodejs entry has no version",
+      });
       continue;
     }
-    for (const value of values) pins.push(makePin(path, index + 1, SOURCE_TOOL_VERSIONS, value, "pin", resolveVersion(value)));
+    for (const value of values)
+      pins.push(makePin(path, index + 1, SOURCE_TOOL_VERSIONS, value, "pin", resolveVersion(value)));
   }
 }
 
@@ -245,7 +287,8 @@ function collectManifest(contents: string, path: string, pins: RuntimePin[]): vo
   const volta = manifestField(contents, "volta", "node");
   if (volta) pins.push(makePin(path, volta.line, SOURCE_VOLTA, volta.value, "pin", resolveVersion(volta.value)));
   const engines = manifestField(contents, "engines", "node");
-  if (engines) pins.push(makePin(path, engines.line, SOURCE_ENGINES, engines.value, "floor", resolveFloor(engines.value)));
+  if (engines)
+    pins.push(makePin(path, engines.line, SOURCE_ENGINES, engines.value, "floor", resolveFloor(engines.value)));
 }
 
 function isNodeImage(reference: ImageReference): boolean {
@@ -260,13 +303,27 @@ function imagePin(path: string, line: number, source: string, value: string): Ru
   const reference = parseImageReference(value);
   if (!reference || (!isNodeImage(reference) && !isDevcontainerNodeImage(reference))) return undefined;
   if (reference.tag === undefined) {
-    return { path, line, source, raw: value, kind: "pin", unresolved: "the image has no tag, so it selects the floating default" };
+    return {
+      path,
+      line,
+      source,
+      raw: value,
+      kind: "pin",
+      unresolved: "the image has no tag, so it selects the floating default",
+    };
   }
-  const resolved = isDevcontainerNodeImage(reference) ? releaseFromDevcontainerTag(reference.tag) : resolveTag(reference.tag);
+  const resolved = isDevcontainerNodeImage(reference)
+    ? releaseFromDevcontainerTag(reference.tag)
+    : resolveTag(reference.tag);
   return makePin(path, line, source, reference.tag, "pin", resolved);
 }
 
-function imagePins(references: ReadonlyArray<{ value: string; line: number }>, source: string, path: string, pins: RuntimePin[]): void {
+function imagePins(
+  references: ReadonlyArray<{ value: string; line: number }>,
+  source: string,
+  path: string,
+  pins: RuntimePin[],
+): void {
   for (const reference of references) {
     const found = imagePin(path, reference.line, source, reference.value);
     if (found) pins.push(found);
@@ -279,8 +336,18 @@ function collectDockerfile(contents: string, path: string, pins: RuntimePin[]): 
     if (declaration.kind === "image") {
       const found = imagePin(path, declaration.line, source, declaration.value);
       if (found) pins.push(found);
-    } else if (declaration.kind === "dynamic" && /^(?:[a-z0-9.-]+\/)?(?:library\/)?(?:node|cimg\/node|circleci\/node)(?::|@|$)/i.test(declaration.value)) {
-      pins.push({ path, line: declaration.line, source, raw: declaration.value, kind: "pin", unresolved: "the image reference is dynamic, which Evergreen does not expand" });
+    } else if (
+      declaration.kind === "dynamic" &&
+      /^(?:[a-z0-9.-]+\/)?(?:library\/)?(?:node|cimg\/node|circleci\/node)(?::|@|$)/i.test(declaration.value)
+    ) {
+      pins.push({
+        path,
+        line: declaration.line,
+        source,
+        raw: declaration.value,
+        kind: "pin",
+        unresolved: "the image reference is dynamic, which Evergreen does not expand",
+      });
     }
   }
 }
@@ -318,10 +385,19 @@ function collectDevcontainer(contents: string, path: string, pins: RuntimePin[])
   }
   for (const feature of nodeFeatureVersions(contents)) {
     if (feature.value.toLowerCase() === "none") {
-      pins.push({ path, line: feature.line, source: SOURCE_DEVCONTAINER_FEATURE, raw: feature.value, kind: "pin", unresolved: "the feature installs no Node.js version" });
+      pins.push({
+        path,
+        line: feature.line,
+        source: SOURCE_DEVCONTAINER_FEATURE,
+        raw: feature.value,
+        kind: "pin",
+        unresolved: "the feature installs no Node.js version",
+      });
       continue;
     }
-    pins.push(makePin(path, feature.line, SOURCE_DEVCONTAINER_FEATURE, feature.value, "pin", resolveVersion(feature.value)));
+    pins.push(
+      makePin(path, feature.line, SOURCE_DEVCONTAINER_FEATURE, feature.value, "pin", resolveVersion(feature.value)),
+    );
   }
 }
 
@@ -361,7 +437,17 @@ function collectWorkflow(contents: string, path: string, pins: RuntimePin[]): vo
     const resolved = version.expression
       ? { unresolved: `"${version.value}" is an expression, which Evergreen does not evaluate` }
       : resolveVersion(version.value);
-    pins.push(makePin(path, version.line, fromMatrix ? SOURCE_SETUP_NODE_MATRIX : SOURCE_SETUP_NODE, version.value, "pin", resolved, fromMatrix ? SOURCE_SETUP_NODE_MATRIX : undefined));
+    pins.push(
+      makePin(
+        path,
+        version.line,
+        fromMatrix ? SOURCE_SETUP_NODE_MATRIX : SOURCE_SETUP_NODE,
+        version.value,
+        "pin",
+        resolved,
+        fromMatrix ? SOURCE_SETUP_NODE_MATRIX : undefined,
+      ),
+    );
   }
 }
 
@@ -405,7 +491,8 @@ function alignImage(pin: RuntimePin, lineText: string, release: string): string 
   if (!match) return undefined;
   const value = match[2]!;
   const reference = parseImageReference(value);
-  if (!reference || reference.tag !== pin.raw || reference.digest !== undefined || !isNodeImage(reference)) return undefined;
+  if (!reference || reference.tag !== pin.raw || reference.digest !== undefined || !isNodeImage(reference))
+    return undefined;
   const resolved = resolveTag(reference.tag);
   if (resolved.release === undefined) return undefined;
   return `${match[1]}${value.slice(0, value.length - reference.tag.length)}${release}${resolved.variant ?? ""}${match[3]}`;
@@ -413,7 +500,8 @@ function alignImage(pin: RuntimePin, lineText: string, release: string): string 
 
 function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (pin.kind === "floor" || !/^\d+$/.test(release)) return undefined;
-  if (pin.source === SOURCE_NVMRC || pin.source === SOURCE_NODE_VERSION) return alignVersionFile(pin, lineText, release);
+  if (pin.source === SOURCE_NVMRC || pin.source === SOURCE_NODE_VERSION)
+    return alignVersionFile(pin, lineText, release);
 
   if (pin.source === SOURCE_TOOL_VERSIONS) {
     const match = /^(\s*nodejs\s+)(\S+)(\s*(?:#.*)?)$/.exec(lineText);

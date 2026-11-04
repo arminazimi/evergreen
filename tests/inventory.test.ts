@@ -17,7 +17,12 @@ function fakeImporter(): InventoryImporter {
     id: "fake",
     registries: [],
     detect(document) {
-      return typeof document === "object" && document !== null && !Array.isArray(document) && (document as { format?: unknown }).format === "fake";
+      return (
+        typeof document === "object" &&
+        document !== null &&
+        !Array.isArray(document) &&
+        (document as { format?: unknown }).format === "fake"
+      );
     },
     items(document, file) {
       const entries = (document as { entries?: unknown }).entries;
@@ -27,7 +32,14 @@ function fakeImporter(): InventoryImporter {
         if (typeof entry !== "object" || entry === null) return;
         const { name, version } = entry as { name?: unknown; version?: unknown };
         if (typeof name !== "string" || typeof version !== "string") return;
-        items.push({ importer: "fake", file, pointer: `/entries/${index}/version`, resource: name, purl: `pkg:npm/${name}`, version });
+        items.push({
+          importer: "fake",
+          file,
+          pointer: `/entries/${index}/version`,
+          resource: name,
+          purl: `pkg:npm/${name}`,
+          version,
+        });
       });
       return items;
     },
@@ -80,7 +92,13 @@ test("runInventory with --format reads only the named importer", async (t) => {
 
 test("runInventory sorts results by file and pointer", async (t) => {
   const { directory, paths } = await temporaryFiles({
-    "b.json": { format: "fake", entries: [{ name: "second", version: "1.0.0" }, { name: "first", version: "1.0.0" }] },
+    "b.json": {
+      format: "fake",
+      entries: [
+        { name: "second", version: "1.0.0" },
+        { name: "first", version: "1.0.0" },
+      ],
+    },
     "a.json": { format: "fake", entries: [{ name: "third", version: "1.0.0" }] },
   });
   t.after(() => rm(directory, { recursive: true, force: true }));
@@ -95,7 +113,7 @@ test("runInventory sorts results by file and pointer", async (t) => {
 
 test("parseExport keeps a non-JSON export as text and parses JSON", () => {
   assert.deepEqual(parseExport('{"a":1}'), { a: 1 });
-  assert.equal(parseExport("name=\"Ubuntu\"\nVERSION_ID=\"22.04\"\n"), "name=\"Ubuntu\"\nVERSION_ID=\"22.04\"\n");
+  assert.equal(parseExport('name="Ubuntu"\nVERSION_ID="22.04"\n'), 'name="Ubuntu"\nVERSION_ID="22.04"\n');
 });
 
 test("--redact replaces a resource with the first 12 hex characters of its SHA-256", () => {
@@ -106,10 +124,22 @@ test("--redact replaces a resource with the first 12 hex characters of its SHA-2
 });
 
 test("redactReport changes only resource names", () => {
-  const item: InventoryItem = { importer: "fake", file: "fake.json", pointer: "/entries/0/version", resource: "shop/Deployment/web", purl: "pkg:npm/request", version: "2.88.2" };
+  const item: InventoryItem = {
+    importer: "fake",
+    file: "fake.json",
+    pointer: "/entries/0/version",
+    resource: "shop/Deployment/web",
+    purl: "pkg:npm/request",
+    version: "2.88.2",
+  };
   const report: InventoryReport = {
     schemaVersion: "evergreen.inventory.v1",
-    results: [{ item, check: checkAgainst([], { purl: item.purl, ...(item.version === undefined ? {} : { version: item.version }) }) }],
+    results: [
+      {
+        item,
+        check: checkAgainst([], { purl: item.purl, ...(item.version === undefined ? {} : { version: item.version }) }),
+      },
+    ],
     unrecognized: [],
   };
   const redacted = redactReport(report);
@@ -120,10 +150,22 @@ test("redactReport changes only resource names", () => {
 });
 
 test("the text output names the no-data section and does not call no-data safe", () => {
-  const item: InventoryItem = { importer: "fake", file: "fake.json", pointer: "/entries/0/version", resource: "request", purl: "pkg:npm/request", version: "2.88.2" };
+  const item: InventoryItem = {
+    importer: "fake",
+    file: "fake.json",
+    pointer: "/entries/0/version",
+    resource: "request",
+    purl: "pkg:npm/request",
+    version: "2.88.2",
+  };
   const report: InventoryReport = {
     schemaVersion: "evergreen.inventory.v1",
-    results: [{ item, check: checkAgainst([], { purl: item.purl, ...(item.version === undefined ? {} : { version: item.version }) }) }],
+    results: [
+      {
+        item,
+        check: checkAgainst([], { purl: item.purl, ...(item.version === undefined ? {} : { version: item.version }) }),
+      },
+    ],
     unrecognized: ["other.json"],
   };
   const text = renderInventoryText(report, { color: false });
@@ -137,11 +179,25 @@ test("a report matches schemas/inventory.v1.schema.json and rejects undeclared p
   const ajv = new Ajv2020({ allErrors: true, strict: false });
   ajv.addSchema(JSON.parse(await readFile(resolve("schemas/scan.v1.schema.json"), "utf8")) as object);
   ajv.addSchema(JSON.parse(await readFile(resolve("schemas/check.v1.schema.json"), "utf8")) as object);
-  const validate = ajv.compile(JSON.parse(await readFile(resolve("schemas/inventory.v1.schema.json"), "utf8")) as object);
+  const validate = ajv.compile(
+    JSON.parse(await readFile(resolve("schemas/inventory.v1.schema.json"), "utf8")) as object,
+  );
   const check = checkAgainst([], { purl: "pkg:npm/left-pad", version: "1.3.0" });
   const report: InventoryReport = {
     schemaVersion: "evergreen.inventory.v1",
-    results: [{ item: { importer: "fake", file: "fake.json", pointer: "/entries/0/version", resource: "left-pad", purl: "pkg:npm/left-pad", version: "1.3.0" }, check }],
+    results: [
+      {
+        item: {
+          importer: "fake",
+          file: "fake.json",
+          pointer: "/entries/0/version",
+          resource: "left-pad",
+          purl: "pkg:npm/left-pad",
+          version: "1.3.0",
+        },
+        check,
+      },
+    ],
     unrecognized: ["other.json"],
   };
 

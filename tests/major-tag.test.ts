@@ -11,7 +11,10 @@ const scriptPath = resolve(".github/scripts/major-tag.mjs");
 const script = (await import(pathToFileURL(scriptPath).href)) as {
   parseStableTag(tag: string): { major: number; minor: number; patch: number } | null;
   compareStableTags(left: string, right: string): number;
-  selectRelease(tags: string, version: string): { move: boolean; reason?: string; releaseTag?: string; majorTag?: string };
+  selectRelease(
+    tags: string,
+    version: string,
+  ): { move: boolean; reason?: string; releaseTag?: string; majorTag?: string };
   checkDirection(major: string, release: string, current: string): { newest: string };
 };
 
@@ -41,7 +44,11 @@ test("no tag, a pre-release tag, or a 0.x tag leaves every major tag alone", () 
 
 test("a stable tag that matches package.json selects its major tag", () => {
   assert.deepEqual(script.selectRelease("v1.4.2\n", "1.4.2"), { move: true, releaseTag: "v1.4.2", majorTag: "v1" });
-  assert.deepEqual(script.selectRelease("v1.0.0\nv1.0.0-rc.1\nnightly", "1.0.0"), { move: true, releaseTag: "v1.0.0", majorTag: "v1" });
+  assert.deepEqual(script.selectRelease("v1.0.0\nv1.0.0-rc.1\nnightly", "1.0.0"), {
+    move: true,
+    releaseTag: "v1.0.0",
+    majorTag: "v1",
+  });
   assert.deepEqual(script.selectRelease("v10.0.0", "10.0.0"), { move: true, releaseTag: "v10.0.0", majorTag: "v10" });
 });
 
@@ -53,8 +60,15 @@ test("two stable tags on one commit, or a tag that differs from package.json, is
 test("a major tag moves forward, is created when it does not exist, and never moves backward", () => {
   assert.deepEqual(script.checkDirection("v1", "v1.4.2", "v1.4.1\nv1.4.1-rc.1"), { newest: "v1.4.1" });
   assert.deepEqual(script.checkDirection("v1", "v1.0.0", ""), { newest: "" }, "first creation of the major tag");
-  assert.deepEqual(script.checkDirection("v1", "v1.4.2", "v1.4.2"), { newest: "v1.4.2" }, "a rerun of the same release is allowed");
-  assert.throws(() => script.checkDirection("v1", "v1.4.1", "v1.4.2"), /Refusing to move v1 backward from v1\.4\.2 to v1\.4\.1/);
+  assert.deepEqual(
+    script.checkDirection("v1", "v1.4.2", "v1.4.2"),
+    { newest: "v1.4.2" },
+    "a rerun of the same release is allowed",
+  );
+  assert.throws(
+    () => script.checkDirection("v1", "v1.4.1", "v1.4.2"),
+    /Refusing to move v1 backward from v1\.4\.2 to v1\.4\.1/,
+  );
   assert.throws(() => script.checkDirection("v1", "v1.9.0", "v1.10.0"), /backward/, "v1.10.0 is newer than v1.9.0");
   assert.throws(() => script.checkDirection("v2", "v1.4.2", ""), /not the major tag/);
 });
@@ -81,10 +95,20 @@ test("the command line prints GITHUB_OUTPUT lines, exits 0 when nothing moves, a
   assert.equal(run("bogus").status, 1);
 });
 
-interface Step { name?: string; if?: string; run?: string; uses?: string; with?: Record<string, unknown>; env?: Record<string, string> }
+interface Step {
+  name?: string;
+  if?: string;
+  run?: string;
+  uses?: string;
+  with?: Record<string, unknown>;
+  env?: Record<string, string>;
+}
 interface Workflow {
   on: { workflow_dispatch: { inputs: Record<string, unknown> }; push?: { tags?: string[] } };
-  jobs: Record<string, { if?: string; uses?: string; permissions?: Record<string, string>; env?: Record<string, string>; steps?: Step[] }>;
+  jobs: Record<
+    string,
+    { if?: string; uses?: string; permissions?: Record<string, string>; env?: Record<string, string>; steps?: Step[] }
+  >;
 }
 
 test("the workflow uses the script, keeps write access to the major-tag job, and never pushes on a manual run", async () => {
@@ -93,7 +117,11 @@ test("the workflow uses the script, keeps write access to the major-tag job, and
   const verify = parse(await readFile(resolve(".github/workflows/release-verify.yml"), "utf8")) as Workflow;
   assert.ok("release_tag" in orchestrator.on.workflow_dispatch.inputs, "a manual dry run takes a release tag");
   assert.match(orchestrator.jobs["publish-tags"]!.if ?? "", /refs\/tags\/v/);
-  assert.match(orchestrator.jobs["publish-tags"]!.if ?? "", /inputs\.release_tag != ''/, "a manual run without a release tag does nothing unless dry_run");
+  assert.match(
+    orchestrator.jobs["publish-tags"]!.if ?? "",
+    /inputs\.release_tag != ''/,
+    "a manual run without a release tag does nothing unless dry_run",
+  );
   const job = tags.jobs["major-tag"]!;
   const steps = job.steps ?? [];
   assert.deepEqual(job.permissions, { contents: "write" });
@@ -109,7 +137,11 @@ test("the workflow uses the script, keeps write access to the major-tag job, and
   assert.doesNotMatch(text, /sort -V/, "version ordering is done by the tested script, not by shell");
   const checkout = steps.find((step) => step.uses?.startsWith("actions/checkout"));
   assert.ok(checkout, "the job checks out the repository");
-  assert.equal(checkout.with?.["ref"], undefined, "the decision script comes from the default branch, not from the release commit");
+  assert.equal(
+    checkout.with?.["ref"],
+    undefined,
+    "the decision script comes from the default branch, not from the release commit",
+  );
   assert.match(text, /git rev-list -n 1/, "a dry-run tag is resolved to its commit without checking it out");
   assert.match(text, /git show "\$release_sha:package\.json"/, "the version is read from the release commit");
 });

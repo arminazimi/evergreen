@@ -1,14 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import type {
-  ConfigUsageMatcher,
-  MigrationImpact,
-  SourceLanguage,
-  SourceUsage,
-  SourceUsageAnalysis,
-  SourceUsageContract,
-} from "./domain.js";
+import type { ConfigUsageMatcher, MigrationImpact, SourceLanguage, SourceUsage, SourceUsageAnalysis, SourceUsageContract } from "./domain.js";
 import { sourceFiles, type SourceFile } from "./source-files.js";
 import { noteCappedUsage } from "./usage/binding-budget.js";
 import { analyzeJavaScriptFile } from "./usage/javascript.js";
@@ -92,9 +85,7 @@ function javascriptImports(line: string, lineNumber: number): ImportReference[] 
     if (!match[1] || !match[2] || match.index === undefined) continue;
     const bindings = match[1].split(",").flatMap((entry): Binding[] => {
       const binding = /^\s*([A-Za-z_$][\w$]*)(?:\s*:\s*([A-Za-z_$][\w$]*))?\s*$/.exec(entry);
-      return binding?.[1]
-        ? [{ module: match[2]!, imported: binding[1], local: binding[2] ?? binding[1] }]
-        : [];
+      return binding?.[1] ? [{ module: match[2]!, imported: binding[1], local: binding[2] ?? binding[1] }] : [];
     });
     references.push({
       module: match[2],
@@ -134,9 +125,7 @@ function pythonImports(line: string, lineNumber: number): ImportReference[] {
   if (from?.[1] && from[2]) {
     const bindings = from[2].split(",").flatMap((entry): Binding[] => {
       const binding = /^\s*([A-Za-z_]\w*)(?:\s+as\s+([A-Za-z_]\w*))?\s*$/.exec(entry);
-      return binding?.[1]
-        ? [{ module: from[1]!, imported: binding[1], local: binding[2] ?? binding[1] }]
-        : [];
+      return binding?.[1] ? [{ module: from[1]!, imported: binding[1], local: binding[2] ?? binding[1] }] : [];
     });
     references.push({
       module: from[1],
@@ -372,7 +361,10 @@ function goPackageName(path: string): string {
   const parts = path.split("/");
   let name = parts[parts.length - 1]!;
   if (/^v\d+$/.test(name) && parts.length > 1) name = parts[parts.length - 2]!;
-  return name.replace(/^go-/, "").replace(/[.-]go$/, "").replace(/[^A-Za-z0-9_]/g, "_");
+  return name
+    .replace(/^go-/, "")
+    .replace(/[.-]go$/, "")
+    .replace(/[^A-Za-z0-9_]/g, "_");
 }
 
 /**
@@ -877,7 +869,11 @@ function phpWordAt(line: string, cursor: number, word: string): boolean {
 }
 
 /** One-level `use Prefix\{A, B as C}`. Nested groups are left unread. */
-function readPhpGroup(line: string, prefix: string, brace: number): { imports: Array<{ module: string; column: number }>; aliases: Array<{ local: string; target: string }> } | undefined {
+function readPhpGroup(
+  line: string,
+  prefix: string,
+  brace: number,
+): { imports: Array<{ module: string; column: number }>; aliases: Array<{ local: string; target: string }> } | undefined {
   const imports: Array<{ module: string; column: number }> = [];
   const aliases: Array<{ local: string; target: string }> = [];
   let cursor = brace + 1;
@@ -1061,7 +1057,10 @@ function phpCallForms(target: string, aliases: readonly PhpAlias[]): PhpCallForm
 function phpCallPattern(forms: readonly PhpCallForm[]): RegExp {
   const ordered = [...forms].sort((left, right) => right.receiver.length - left.receiver.length);
   const parts = ordered.map((form) => {
-    const receiver = form.receiver.split("\\").map((segment) => escapePattern(segment)).join("\\\\");
+    const receiver = form.receiver
+      .split("\\")
+      .map((segment) => escapePattern(segment))
+      .join("\\\\");
     if (form.kind === "new") return `new\\s+\\\\?${receiver}(?![\\w\\\\:])`;
     return `\\\\?${receiver}\\s*::\\s*${escapePattern(form.method!)}\\s*\\(`;
   });
@@ -1423,12 +1422,7 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
 
 function configKeyMatch(line: string, matcher: ConfigUsageMatcher): number | undefined {
   const key = escapePattern(matcher.key);
-  const pattern =
-    matcher.language === "json"
-      ? new RegExp(`["']${key}["']\\s*:`)
-      : matcher.language === "yaml"
-        ? new RegExp(`^\\s*${key}\\s*:`)
-        : new RegExp(`^\\s*${key}\\s*=`);
+  const pattern = matcher.language === "json" ? new RegExp(`["']${key}["']\\s*:`) : matcher.language === "yaml" ? new RegExp(`^\\s*${key}\\s*:`) : new RegExp(`^\\s*${key}\\s*=`);
   const match = pattern.exec(line);
   if (!match || (matcher.valueIncludes && !line.includes(matcher.valueIncludes))) return undefined;
   const keyIndex = line.indexOf(matcher.key, match.index);
@@ -1461,17 +1455,14 @@ async function parsedUsages(
 }
 
 /** `parser: false` forces the regex scanner; `skips` receives one line per memory-capped file. */
-export interface SourceUsageOptions { parser?: boolean; skips?: string[] }
+export interface SourceUsageOptions {
+  parser?: boolean;
+  skips?: string[];
+}
 
-export async function analyzeSourceUsage(
-  root: string,
-  contracts: readonly SourceUsageContract[],
-  options: SourceUsageOptions = {},
-): Promise<SourceUsageAnalysis[]> {
+export async function analyzeSourceUsage(root: string, contracts: readonly SourceUsageContract[], options: SourceUsageOptions = {}): Promise<SourceUsageAnalysis[]> {
   const resolvedRoot = resolve(root);
-  const relevantLanguages = new Set(
-    contracts.flatMap((contract) => contract.matchers.map((matcher) => matcher.language)),
-  );
+  const relevantLanguages = new Set(contracts.flatMap((contract) => contract.matchers.map((matcher) => matcher.language)));
   const results = new Map<string, SourceUsage[]>(contracts.map((contract) => [contract.id, []]));
   const seen = new Map<string, Set<string>>(contracts.map((contract) => [contract.id, new Set()]));
   const push = (contractId: string, usage: SourceUsage): void => {
@@ -1498,20 +1489,33 @@ export async function analyzeSourceUsage(
     const maskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, file.language, maskState));
     const phpFile = file.language === "php" ? phpUses(lines, maskedLines) : undefined;
-    const imports = file.language === "php"
-      ? [...phpImportsFromRequires(lines, maskedLines), ...phpFile!.imports.map((hit) => ({ module: hit.module, line: hit.line, column: hit.column, bindings: [] }))]
-      : file.language === "ruby" ? rubyImports(lines, maskedLines) : file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "csharp" ? csharpImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : file.language === "swift" ? swiftImports(lines, maskedLines) : file.language === "dart" ? dartImports(lines, maskedLines) : lines.flatMap((line, index) => {
-      const maskedLine = maskedLines[index]!;
-      if (file.language === "python") {
-        return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];
-      }
-      if (file.language === "javascript" || file.language === "typescript") {
-        return /\b(?:import|require)\b/.test(maskedLine)
-          ? javascriptImports(line, index + 1)
-          : [];
-      }
-      return [];
-    });
+    const imports =
+      file.language === "php"
+        ? [...phpImportsFromRequires(lines, maskedLines), ...phpFile!.imports.map((hit) => ({ module: hit.module, line: hit.line, column: hit.column, bindings: [] }))]
+        : file.language === "ruby"
+          ? rubyImports(lines, maskedLines)
+          : file.language === "go"
+            ? goImports(lines, maskedLines)
+            : file.language === "rust"
+              ? rustImports(lines, maskedLines)
+              : file.language === "csharp"
+                ? csharpImports(lines, maskedLines)
+                : file.language === "java" || file.language === "kotlin"
+                  ? jvmImports(lines, maskedLines)
+                  : file.language === "swift"
+                    ? swiftImports(lines, maskedLines)
+                    : file.language === "dart"
+                      ? dartImports(lines, maskedLines)
+                      : lines.flatMap((line, index) => {
+                          const maskedLine = maskedLines[index]!;
+                          if (file.language === "python") {
+                            return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];
+                          }
+                          if (file.language === "javascript" || file.language === "typescript") {
+                            return /\b(?:import|require)\b/.test(maskedLine) ? javascriptImports(line, index + 1) : [];
+                          }
+                          return [];
+                        });
     const bindings = imports.flatMap((reference) => reference.bindings);
     // Alias resolution is per file, not per matcher or target.
     const rubyFileAliases = file.language === "ruby" ? rubyAliases(maskedLines) : [];
@@ -1525,9 +1529,7 @@ export async function analyzeSourceUsage(
       for (const matcher of matchers) {
         if (parsed && matcher.kind !== "config-key") continue;
         if (matcher.kind === "import") {
-          for (const reference of imports.filter((candidate) =>
-            moduleMatches(candidate.module, matcher.module, file.language),
-          )) {
+          for (const reference of imports.filter((candidate) => moduleMatches(candidate.module, matcher.module, file.language))) {
             push(contract.id, {
               kind: "import",
               language: file.language,
@@ -1547,9 +1549,7 @@ export async function analyzeSourceUsage(
                 if (qualified === alias.target) forms.push(alias.local);
                 else if (qualified.startsWith(`${alias.target}.`)) forms.push(`${alias.local}${qualified.slice(alias.target.length)}`);
               }
-              const alternatives = [...new Set(forms)]
-                .sort((left, right) => right.length - left.length)
-                .map((form) => form.split(".").map(escapePattern).join("\\s*\\.\\s*"));
+              const alternatives = [...new Set(forms)].sort((left, right) => right.length - left.length).map((form) => form.split(".").map(escapePattern).join("\\s*\\.\\s*"));
               const pattern = new RegExp(`(?<![\\w$.])(?:${alternatives.join("|")})\\s*\\(`, "g");
               for (const [index, line] of maskedLines.entries()) {
                 for (const match of line.matchAll(pattern)) {
@@ -1645,9 +1645,7 @@ export async function analyzeSourceUsage(
               const formKey = forms.map((parts) => parts.join("\0")).join("\n");
               let pattern = rubyReceiverPatterns.get(formKey);
               if (!pattern) {
-                const alternation = forms
-                  .map((parts) => parts.map((part) => escapePattern(part)).join("\\s*(?:\\.|::)\\s*"))
-                  .join("|");
+                const alternation = forms.map((parts) => parts.map((part) => escapePattern(part)).join("\\s*(?:\\.|::)\\s*")).join("|");
                 pattern = new RegExp(`(?<![\\w$:])(?:::)?(?:${alternation})\\s*\\(`, "g");
                 rubyReceiverPatterns.set(formKey, pattern);
               }
@@ -1667,9 +1665,7 @@ export async function analyzeSourceUsage(
               }
             }
           }
-          const matchingBindings = file.language === "swift" ? [] : bindings.filter((binding) =>
-            moduleMatches(binding.module, matcher.module, file.language),
-          );
+          const matchingBindings = file.language === "swift" ? [] : bindings.filter((binding) => moduleMatches(binding.module, matcher.module, file.language));
           for (const binding of matchingBindings) {
             for (const target of matcher.targets) {
               const rust = file.language === "rust";
@@ -1727,9 +1723,7 @@ export async function analyzeSourceUsage(
       const pathOrder = left.location.path.localeCompare(right.location.path);
       if (pathOrder !== 0) return pathOrder;
       const lineOrder = (left.location.line ?? 0) - (right.location.line ?? 0);
-      return lineOrder !== 0
-        ? lineOrder
-        : (left.location.column ?? 0) - (right.location.column ?? 0);
+      return lineOrder !== 0 ? lineOrder : (left.location.column ?? 0) - (right.location.column ?? 0);
     });
     return { contractId: contract.id, usages, impact: impactFor(usages) };
   });
@@ -1820,7 +1814,9 @@ export async function findPhpDynamicReferences(root: string): Promise<PhpDynamic
     const key = `${hit.path}:${hit.line}:${hit.column}:${hit.reference}:${hit.reason}`;
     if (!unique.has(key)) unique.set(key, hit);
   }
-  return [...unique.values()].sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference));
+  return [...unique.values()].sort(
+    (left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference),
+  );
 }
 
 export interface DartDynamicReference {

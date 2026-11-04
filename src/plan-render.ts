@@ -15,8 +15,7 @@ function renderItem(item: PlanItem): string[] {
 export function renderPlanText(plan: Plan, wave?: number): string {
   if (plan.summary.items === 0) return EMPTY_PLAN_MESSAGE;
 
-  const waves =
-    wave === undefined ? plan.waves : plan.waves.filter((entry) => entry.index === wave);
+  const waves = wave === undefined ? plan.waves : plan.waves.filter((entry) => entry.index === wave);
   const byId = new Map(plan.items.map((item) => [item.id, item]));
   const lines: string[] = [
     `Plan: ${plan.summary.items} task${plan.summary.items === 1 ? "" : "s"} in ${plan.summary.waves} wave${plan.summary.waves === 1 ? "" : "s"}`,
@@ -24,9 +23,7 @@ export function renderPlanText(plan: Plan, wave?: number): string {
   ];
 
   for (const entry of waves) {
-    const items = entry.itemIds
-      .map((id) => byId.get(id))
-      .filter((item): item is PlanItem => item !== undefined);
+    const items = entry.itemIds.map((id) => byId.get(id)).filter((item): item is PlanItem => item !== undefined);
     lines.push(`Wave ${entry.index} (${items.length} task${items.length === 1 ? "" : "s"})`);
     for (const item of items) lines.push(...renderItem(item));
     lines.push("");

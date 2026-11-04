@@ -91,7 +91,9 @@ function parseChart(output: string): Chart {
       sections.push(section[1]!);
       continue;
     }
-    const bar = /^ {4}(.+?) : ?((?:(?:crit|milestone), )*?)(\w+), (\d{4}-\d{2}-\d{2}), (\d{4}-\d{2}-\d{2}|0d)$/.exec(line);
+    const bar = /^ {4}(.+?) : ?((?:(?:crit|milestone), )*?)(\w+), (\d{4}-\d{2}-\d{2}), (\d{4}-\d{2}-\d{2}|0d)$/.exec(
+      line,
+    );
     assert.ok(bar, `not a Gantt statement: ${line}`);
     assert.ok(sections.length > 0, "a task belongs to a section");
     const [, label, tags, id, start, end] = bar;
@@ -104,7 +106,13 @@ function parseChart(output: string): Chart {
       assert.ok(!tags!.includes("milestone"), `${label} is an open-ended milestone`);
       assert.ok(end! >= start!, `${label} ends before it starts`);
     }
-    bars.push({ label: label!, tags: tags!.split(", ").filter((tag) => tag.length > 0), id: id!, start: start!, end: end! });
+    bars.push({
+      label: label!,
+      tags: tags!.split(", ").filter((tag) => tag.length > 0),
+      id: id!,
+      start: start!,
+      end: end!,
+    });
   }
   return { sections, bars, omitted: lines.slice(close + 1).join("\n") || undefined };
 }
@@ -177,7 +185,10 @@ test("a forecast renders the same chart from its dated events", () => {
 });
 
 test("names Mermaid treats as syntax are escaped, and whitespace stays on one line", () => {
-  const output = renderScanMermaid(scan([finding("npm.weird", "Name: #55; semi; colon\nnext line", "2027-01-01")]), asOf);
+  const output = renderScanMermaid(
+    scan([finding("npm.weird", "Name: #55; semi; colon\nnext line", "2027-01-01")]),
+    asOf,
+  );
   assert.match(output, /    Name#58; #35;55#59; semi#59; colon next line :bar0, /);
   const chart = parseChart(output);
   assert.equal(chart.bars[0]!.label, "Name#58; #35;55#59; semi#59; colon next line");
@@ -185,7 +196,11 @@ test("names Mermaid treats as syntax are escaped, and whitespace stays on one li
 
 test("the chart is capped at the documented number of bars and counts the rest", () => {
   const findings = Array.from({ length: MERMAID_MAX_BARS + 5 }, (_, index) =>
-    finding(`npm.package.pkg-${String(index).padStart(2, "0")}.deprecated`, `package ${index}`, `2027-01-${String((index % 28) + 1).padStart(2, "0")}`),
+    finding(
+      `npm.package.pkg-${String(index).padStart(2, "0")}.deprecated`,
+      `package ${index}`,
+      `2027-01-${String((index % 28) + 1).padStart(2, "0")}`,
+    ),
   );
   const chart = parseChart(renderScanMermaid(scan(findings), asOf));
   assert.equal(chart.bars.filter((bar) => bar.id !== "marker").length, MERMAID_MAX_BARS);
@@ -201,7 +216,10 @@ test("--as-of controls the today marker and every bar start, so output is reprod
   const root = await mkdtemp(join(tmpdir(), "evergreen-mermaid-"));
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
-    await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+    await writeFile(
+      join(root, ".github", "workflows", "ci.yml"),
+      "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+    );
     const run = (...args: string[]) => runCli(args);
     const first = await run("scan", root, "--format", "mermaid", "--as-of", asOf);
     const second = await run("scan", root, "--format", "mermaid", "--as-of", asOf);
@@ -223,7 +241,10 @@ test("mermaid is accepted by scan and forecast and refused elsewhere", async () 
   const root = await mkdtemp(join(tmpdir(), "evergreen-mermaid-"));
   try {
     await mkdir(join(root, ".github", "workflows"), { recursive: true });
-    await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+    await writeFile(
+      join(root, ".github", "workflows", "ci.yml"),
+      "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n",
+    );
     const run = (...args: string[]) => runCli(args);
     assert.match((await run("scan", root, "--format", "mermaid", "--as-of", asOf)).stdout, /^```mermaid\ngantt\n/);
     const check = await run("check", "pkg:npm/request", "--format", "mermaid");

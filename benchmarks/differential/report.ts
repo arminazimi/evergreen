@@ -39,23 +39,42 @@ export interface DifferentialSummary {
   disagreements: Disagreement[];
 }
 
-const emptyCounts = (): Record<Outcome, number> => ({ agree: 0, "evergreen-only": 0, "renovate-only": 0, inconclusive: 0 });
+const emptyCounts = (): Record<Outcome, number> => ({
+  agree: 0,
+  "evergreen-only": 0,
+  "renovate-only": 0,
+  inconclusive: 0,
+});
 
 /** Links for one comparison: the file at the pinned commit, the Evergreen rule page, and Renovate's side. */
 export function evidenceFor(repository: string, commit: string | null, item: Comparison): Disagreement["evidence"] {
   const links: Disagreement["evidence"] = [];
-  if (commit) links.push({ label: `${item.path} at ${commit.slice(0, 7)}`, url: `https://github.com/${repository}/blob/${commit}/${item.path}` });
-  for (const ruleId of item.evergreen) links.push({ label: `Evergreen rule ${ruleId}`, url: `https://github.com/arminazimi/evergreen/blob/main/docs/rules/${ruleId}.md` });
+  if (commit)
+    links.push({
+      label: `${item.path} at ${commit.slice(0, 7)}`,
+      url: `https://github.com/${repository}/blob/${commit}/${item.path}`,
+    });
+  for (const ruleId of item.evergreen)
+    links.push({
+      label: `Evergreen rule ${ruleId}`,
+      url: `https://github.com/arminazimi/evergreen/blob/main/docs/rules/${ruleId}.md`,
+    });
   if (item.renovate === "deprecated" && item.family === "deprecated-package") {
     links.push({ label: `npm deprecation notice for ${item.name}`, url: `https://www.npmjs.com/package/${item.name}` });
   } else if (item.renovate === "skipped") {
-    links.push({ label: "Why Renovate skips GitHub lookups without a token", url: "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions" });
+    links.push({
+      label: "Why Renovate skips GitHub lookups without a token",
+      url: "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions",
+    });
   }
   return links;
 }
 
 /** Combines the per-repository reports. Repositories and disagreements are sorted, so the output is deterministic. */
-export function summarize(reports: readonly DifferentialReport[], commits: ReadonlyMap<string, string>): DifferentialSummary {
+export function summarize(
+  reports: readonly DifferentialReport[],
+  commits: ReadonlyMap<string, string>,
+): DifferentialSummary {
   const totals = emptyCounts();
   const disagreements: Disagreement[] = [];
   const repositories = [...reports]
@@ -94,7 +113,10 @@ export function renderMarkdown(summary: DifferentialSummary): string {
     "",
     "| Repository | Agree | Evergreen-only | Renovate-only | Inconclusive |",
     "| --- | --- | --- | --- | --- |",
-    ...summary.repositories.map((item) => `| ${item.repository} | ${item.summary.agree} | ${item.summary["evergreen-only"]} | ${item.summary["renovate-only"]} | ${item.summary.inconclusive} |`),
+    ...summary.repositories.map(
+      (item) =>
+        `| ${item.repository} | ${item.summary.agree} | ${item.summary["evergreen-only"]} | ${item.summary["renovate-only"]} | ${item.summary.inconclusive} |`,
+    ),
     `| **Total** | ${summary.totals.agree} | ${summary.totals["evergreen-only"]} | ${summary.totals["renovate-only"]} | ${summary.totals.inconclusive} |`,
   ];
   const titles: Record<Exclude<Outcome, "agree">, string> = {
@@ -120,7 +142,9 @@ export function renderMarkdown(summary: DifferentialSummary): string {
 export async function build(root = "."): Promise<{ markdown: string; json: string }> {
   const directory = resolve(root, REPORTS_DIRECTORY);
   const names = (await readdir(directory)).filter((name) => name.endsWith(".json")).sort();
-  const reports = await Promise.all(names.map(async (name) => JSON.parse(await readFile(resolve(directory, name), "utf8")) as DifferentialReport));
+  const reports = await Promise.all(
+    names.map(async (name) => JSON.parse(await readFile(resolve(directory, name), "utf8")) as DifferentialReport),
+  );
   const corpus = await loadPublicCorpus(root);
   const summary = summarize(reports, new Map(corpus.repositories.map((entry) => [entry.repository, entry.commit])));
   return { markdown: renderMarkdown(summary), json: `${JSON.stringify(summary, null, 2)}\n` };
@@ -128,7 +152,10 @@ export async function build(root = "."): Promise<{ markdown: string; json: strin
 
 export async function main(argv: readonly string[] = process.argv.slice(2)): Promise<number> {
   const { markdown, json } = await build();
-  const files = [{ path: MARKDOWN_PATH, text: markdown }, { path: JSON_PATH, text: json }];
+  const files = [
+    { path: MARKDOWN_PATH, text: markdown },
+    { path: JSON_PATH, text: json },
+  ];
   if (argv.includes("--check")) {
     let stale = false;
     for (const file of files) {

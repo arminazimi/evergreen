@@ -66,7 +66,11 @@ test("renovatePackageName reads scoped and unscoped PURLs", () => {
 test("buildRenovatePreset emits replacement and runtime rules and skips prose", () => {
   const rules = [
     rule({ id: "npm.package.node-sass.eol", purl: "pkg:npm/node-sass", replacement: "sass" }),
-    rule({ id: "npm.package.request.deprecated", purl: "pkg:npm/request", replacement: "Native fetch or a maintained HTTP client" }),
+    rule({
+      id: "npm.package.request.deprecated",
+      purl: "pkg:npm/request",
+      replacement: "Native fetch or a maintained HTTP client",
+    }),
     rule({
       id: "nodejs.runtime.eol-18",
       ecosystem: "nodejs",
@@ -93,10 +97,7 @@ test("buildRenovatePreset emits replacement and runtime rules and skips prose", 
   );
   assert.equal(preset.$schema, RENOVATE_SCHEMA);
   assert.deepEqual(
-    preset.packageRules.map((item) => [
-      item.matchPackageNames[0],
-      item.replacementName ?? item.allowedVersions,
-    ]),
+    preset.packageRules.map((item) => [item.matchPackageNames[0], item.replacementName ?? item.allowedVersions]),
     [
       ["python", ">=3.10.0"],
       ["node", ">=22"],

@@ -21,23 +21,108 @@ test("the registry v2 schema rejects incomplete or ambiguous rules", async (t) =
   const { example, validate } = await exampleAndValidator();
   type Example = typeof example;
   for (const [name, mutate] of [
-    ["wrong schema version", (value: Example) => { value.schemaVersion = "evergreen.npm-registry.v1"; }],
-    ["missing purl", (value: Example) => { delete value.rules[0].purl; }],
-    ["versioned purl", (value: Example) => { value.rules[0].purl = "pkg:npm/request@2.88.2"; }],
-    ["purl without type", (value: Example) => { value.rules[0].purl = "request"; }],
-    ["missing vers", (value: Example) => { delete value.rules[0].vers; }],
-    ["vers without scheme", (value: Example) => { value.rules[0].vers = "<5.0.0"; }],
-    ["unknown event", (value: Example) => { value.rules[0].event = "sunset"; }],
-    ["no sources", (value: Example) => { value.rules[0].sources = []; }],
-    ["non-https source", (value: Example) => { value.rules[0].sources[0].url = "http://example.com"; }],
-    ["missing provenance", (value: Example) => { delete value.rules[0].provenance; }],
-    ["missing reviewer", (value: Example) => { delete value.rules[0].provenance.reviewer; }],
-    ["timestamp instead of date", (value: Example) => { value.rules[0].provenance.reviewedAt = "2026-10-13T00:00:00Z"; }],
-    ["unknown top-level field", (value: Example) => { value.rules[0].package = "request"; }],
-    ["malformed extension name", (value: Example) => { value.rules[1]["x-GitHub"] = {}; }],
-    ["non-object extension", (value: Example) => { value.rules[1]["x-github-actions"] = 5; }],
-    ["unknown usage kind", (value: Example) => { value.rules[0].usage[0].kind = "regex"; }],
-    ["zero freshness window", (value: Example) => { value.freshness.maxReviewAgeDays = 0; }],
+    [
+      "wrong schema version",
+      (value: Example) => {
+        value.schemaVersion = "evergreen.npm-registry.v1";
+      },
+    ],
+    [
+      "missing purl",
+      (value: Example) => {
+        delete value.rules[0].purl;
+      },
+    ],
+    [
+      "versioned purl",
+      (value: Example) => {
+        value.rules[0].purl = "pkg:npm/request@2.88.2";
+      },
+    ],
+    [
+      "purl without type",
+      (value: Example) => {
+        value.rules[0].purl = "request";
+      },
+    ],
+    [
+      "missing vers",
+      (value: Example) => {
+        delete value.rules[0].vers;
+      },
+    ],
+    [
+      "vers without scheme",
+      (value: Example) => {
+        value.rules[0].vers = "<5.0.0";
+      },
+    ],
+    [
+      "unknown event",
+      (value: Example) => {
+        value.rules[0].event = "sunset";
+      },
+    ],
+    [
+      "no sources",
+      (value: Example) => {
+        value.rules[0].sources = [];
+      },
+    ],
+    [
+      "non-https source",
+      (value: Example) => {
+        value.rules[0].sources[0].url = "http://example.com";
+      },
+    ],
+    [
+      "missing provenance",
+      (value: Example) => {
+        delete value.rules[0].provenance;
+      },
+    ],
+    [
+      "missing reviewer",
+      (value: Example) => {
+        delete value.rules[0].provenance.reviewer;
+      },
+    ],
+    [
+      "timestamp instead of date",
+      (value: Example) => {
+        value.rules[0].provenance.reviewedAt = "2026-10-13T00:00:00Z";
+      },
+    ],
+    [
+      "unknown top-level field",
+      (value: Example) => {
+        value.rules[0].package = "request";
+      },
+    ],
+    [
+      "malformed extension name",
+      (value: Example) => {
+        value.rules[1]["x-GitHub"] = {};
+      },
+    ],
+    [
+      "non-object extension",
+      (value: Example) => {
+        value.rules[1]["x-github-actions"] = 5;
+      },
+    ],
+    [
+      "unknown usage kind",
+      (value: Example) => {
+        value.rules[0].usage[0].kind = "regex";
+      },
+    ],
+    [
+      "zero freshness window",
+      (value: Example) => {
+        value.freshness.maxReviewAgeDays = 0;
+      },
+    ],
   ] as const) {
     await t.test(name, () => {
       const invalid = structuredClone(example);
@@ -79,7 +164,11 @@ test("schema and validator agree on symbol matchers", async () => {
     ["argument on a call", { ...symbolMatcher, argument: 0 }, false],
     ["negative argument", { ...symbolMatcher, shape: "option", option: "x", argument: -1 }, false],
     ["construct in Python", { ...symbolMatcher, language: "python", shape: "construct" }, false],
-    ["method in Python", { kind: "symbol", language: "python", module: "unittest", symbol: "assertEquals", shape: "method" }, true],
+    [
+      "method in Python",
+      { kind: "symbol", language: "python", module: "unittest", symbol: "assertEquals", shape: "method" },
+      true,
+    ],
     ["method outside Python", { ...symbolMatcher, shape: "method" }, false],
     ["unknown shape", { ...symbolMatcher, shape: "import" }, false],
     ["unsupported language", { ...symbolMatcher, language: "go" }, false],

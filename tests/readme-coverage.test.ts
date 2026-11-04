@@ -18,7 +18,11 @@ import {
 } from "../tools/coverage-matrix.js";
 const read = (path: string) => readFile(resolve(path), "utf8");
 const readme = await read(README_PATH);
-const manifest = JSON.parse(await read("package.json")) as { description: string; keywords: string[]; bin: Record<string, string> };
+const manifest = JSON.parse(await read("package.json")) as {
+  description: string;
+  keywords: string[];
+  bin: Record<string, string>;
+};
 
 const temporaryRoots: string[] = [];
 after(async () => {
@@ -35,7 +39,12 @@ test("every ecosystem the capability manifest lists has exactly one README row",
   const descriptions = await loadReadmeDescriptions();
   validateReadmeDescriptions(getCapabilityManifest(), descriptions);
   const described = descriptions.rows.flatMap((row) => row.ecosystems);
-  assert.deepEqual([...described].sort(), getCapabilityManifest().ecosystems.map((ecosystem) => ecosystem.id).sort());
+  assert.deepEqual(
+    [...described].sort(),
+    getCapabilityManifest()
+      .ecosystems.map((ecosystem) => ecosystem.id)
+      .sort(),
+  );
 });
 
 test("every file the README says Evergreen reads appears in that detector's source", async () => {
@@ -60,8 +69,15 @@ test("every file the README says Evergreen reads appears in that detector's sour
     assert.ok(files.length >= (ecosystem === "github-actions" ? 1 : ecosystem === "go" ? 2 : 3), ecosystem);
     for (const file of files) {
       // Patterns such as requirements*.txt and .github/workflows/*.yml are checked by their stable part.
-      const stable = file.replace(/^\.github\/workflows\/\*\.yml$/, ".github").replace(/\*\.txt$/, "").replace(/\*\.yml$/, "").replace(/\(\.toml\)$/, "");
-      assert.ok(source.includes(stable.split("/")[0]!), `${ecosystem}: the README says it reads ${file}, but ${stable} is not in its detector`);
+      const stable = file
+        .replace(/^\.github\/workflows\/\*\.yml$/, ".github")
+        .replace(/\*\.txt$/, "")
+        .replace(/\*\.yml$/, "")
+        .replace(/\(\.toml\)$/, "");
+      assert.ok(
+        source.includes(stable.split("/")[0]!),
+        `${ecosystem}: the README says it reads ${file}, but ${stable} is not in its detector`,
+      );
     }
   }
 });
@@ -93,19 +109,44 @@ test("each ecosystem in the README rows has a registry with rules", async () => 
 });
 
 test("the README links resolve and its commands exist", async () => {
-  for (const link of new Set([...readme.matchAll(/\]\((?!https?:|#)([^)#\s]+)(?:#[^)]*)?\)/g)].map((match) => match[1]!))) await access(resolve(link));
-  assert.ok(manifest.bin["evergreen-deprecation"], "every `npx evergreen-deprecation …` command in the README needs a bin of that name");
+  for (const link of new Set(
+    [...readme.matchAll(/\]\((?!https?:|#)([^)#\s]+)(?:#[^)]*)?\)/g)].map((match) => match[1]!),
+  ))
+    await access(resolve(link));
+  assert.ok(
+    manifest.bin["evergreen-deprecation"],
+    "every `npx evergreen-deprecation …` command in the README needs a bin of that name",
+  );
   const mentioned = [...readme.matchAll(/npx evergreen-deprecation ([a-z-]+)/g)].map((match) => match[1]!);
   const registered = new Set(registeredCommands.map((command) => command.name));
-  for (const command of new Set(mentioned)) assert.ok(registered.has(command), `the README uses \`${command}\`, which the CLI does not implement`);
+  for (const command of new Set(mentioned))
+    assert.ok(registered.has(command), `the README uses \`${command}\`, which the CLI does not implement`);
   assert.ok(readme.includes("https://arminazimi.github.io/evergreen/llms.txt"));
 });
 
 test("the npm description and keywords are specific, unique, and within bounds", () => {
-  assert.ok(manifest.description.length >= 80 && manifest.description.length <= 200, `description length ${manifest.description.length}`);
-  for (const term of ["end-of-life", "deprecated", "runtimes", "packages", "GitHub Actions", "MCP"]) assert.ok(manifest.description.includes(term), `the description should mention ${term}`);
+  assert.ok(
+    manifest.description.length >= 80 && manifest.description.length <= 200,
+    `description length ${manifest.description.length}`,
+  );
+  for (const term of ["end-of-life", "deprecated", "runtimes", "packages", "GitHub Actions", "MCP"])
+    assert.ok(manifest.description.includes(term), `the description should mention ${term}`);
   assert.equal(new Set(manifest.keywords).size, manifest.keywords.length, "no duplicate keywords");
-  assert.ok(manifest.keywords.every((keyword) => /^[a-z0-9-]+$/.test(keyword)), "lowercase single-token keywords");
-  for (const keyword of ["deprecation", "end-of-life", "eol", "lifecycle", "github-actions", "npm", "python", "mcp", "sarif"]) assert.ok(manifest.keywords.includes(keyword), keyword);
+  assert.ok(
+    manifest.keywords.every((keyword) => /^[a-z0-9-]+$/.test(keyword)),
+    "lowercase single-token keywords",
+  );
+  for (const keyword of [
+    "deprecation",
+    "end-of-life",
+    "eol",
+    "lifecycle",
+    "github-actions",
+    "npm",
+    "python",
+    "mcp",
+    "sarif",
+  ])
+    assert.ok(manifest.keywords.includes(keyword), keyword);
   assert.ok(manifest.keywords.length >= 15 && manifest.keywords.length <= 25);
 });

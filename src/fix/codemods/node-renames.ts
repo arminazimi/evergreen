@@ -210,7 +210,9 @@ function syntheticFinding(rename: Rename, usage: SourceUsage): Finding {
  * analysis cannot report it as a usage.
  */
 async function targetsFor(result: ScanResult): Promise<{ targets: Target[]; importPaths: Set<string> }> {
-  const reported = new Map(renames.map((rename) => [rename.id, result.findings.filter((finding) => finding.ruleId === rename.id)]));
+  const reported = new Map(
+    renames.map((rename) => [rename.id, result.findings.filter((finding) => finding.ruleId === rename.id)]),
+  );
   const contracts = [
     ...renames.map((rename) => ({ id: `symbol:${rename.id}`, matchers: rename.matchers })),
     ...modules.map((module) => ({
@@ -240,14 +242,18 @@ async function targetsFor(result: ScanResult): Promise<{ targets: Target[]; impo
     }
   }
 
-  const importPaths = new Set(modules.flatMap((module) => (byContract.get(`import:${module}`) ?? []).map((usage) => usage.location.path)));
+  const importPaths = new Set(
+    modules.flatMap((module) => (byContract.get(`import:${module}`) ?? []).map((usage) => usage.location.path)),
+  );
   return { targets, importPaths };
 }
 
 function compareTargets(left: Target, right: Target): number {
-  return (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
+  return (
+    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
     (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.rename.id.localeCompare(right.rename.id);
+    left.rename.id.localeCompare(right.rename.id)
+  );
 }
 
 /** Calls and constructions keyed by the offset where their callee starts, which is the location a symbol usage reports. */
@@ -255,7 +261,8 @@ function callsByCallee(root: Node): Map<number, Node[]> {
   const calls = new Map<number, Node[]>();
   for (const node of root.descendantsOfType(["call_expression", "new_expression"])) {
     if (!node) continue;
-    const callee = node.type === "new_expression" ? node.childForFieldName("constructor") : node.childForFieldName("function");
+    const callee =
+      node.type === "new_expression" ? node.childForFieldName("constructor") : node.childForFieldName("function");
     if (!callee) continue;
     const list = calls.get(callee.startIndex) ?? [];
     list.push(node);
@@ -295,9 +302,13 @@ function rewriteFor(target: Target, calls: Map<number, Node[]>, source: string):
         reason: `The call goes through the local binding \`${callee.text}\`, not a member access; renaming only the call would leave the import or alias unchanged.`,
       };
     }
-    return { reason: `The call at the reported location is not a direct member access to \`${rename.module}.${rename.from}\`.` };
+    return {
+      reason: `The call at the reported location is not a direct member access to \`${rename.module}.${rename.from}\`.`,
+    };
   }
-  return { reason: `The call at the reported location is not a direct member access to \`${rename.module}.${rename.from}\`.` };
+  return {
+    reason: `The call at the reported location is not a direct member access to \`${rename.module}.${rename.from}\`.`,
+  };
 }
 
 /**
@@ -338,7 +349,10 @@ function refuseComputedAccess(path: string, root: Node, source: string, refuse: 
       location: { path, line, column },
       excerpt: (lines[line - 1] ?? "").trim(),
     };
-    refuse?.(syntheticFinding(rename, usage), "The member is accessed with a computed key, so renaming only the member name is not exact.");
+    refuse?.(
+      syntheticFinding(rename, usage),
+      "The member is accessed with a computed key, so renaming only the member name is not exact.",
+    );
   }
 }
 
@@ -347,7 +361,8 @@ function moduleBindings(root: Node): Map<string, string> {
   const bindings = new Map<string, string>();
   for (const statement of root.descendantsOfType("import_statement")) {
     if (!statement) continue;
-    const source = statement.childForFieldName("source") ?? statement.namedChildren.find((child) => child?.type === "string");
+    const source =
+      statement.childForFieldName("source") ?? statement.namedChildren.find((child) => child?.type === "string");
     const clause = statement.namedChildren.find((child) => child?.type === "import_clause");
     if (!source || !clause) continue;
     const module = normalizeModule(unquote(source.text));
@@ -382,7 +397,9 @@ function requiredModule(node: Node | null | undefined): string | undefined {
 /** The module an expression reads from: a bound name, an inline `require`, or one wrapped in type syntax. */
 function moduleOf(node: Node, bindings: Map<string, string>): string | undefined {
   if (node.type === "identifier") return bindings.get(node.text);
-  if (["parenthesized_expression", "non_null_expression", "as_expression", "satisfies_expression"].includes(node.type)) {
+  if (
+    ["parenthesized_expression", "non_null_expression", "as_expression", "satisfies_expression"].includes(node.type)
+  ) {
     const inner = node.namedChildren[0];
     return inner ? moduleOf(inner, bindings) : undefined;
   }

@@ -61,7 +61,9 @@ export interface FirstRunBenchmarkResult {
 }
 
 /** Sets up a clean temporary project directory with the smoke fixture. */
-export async function createCleanSmokeProject(targetDir?: string): Promise<{ directory: string; cleanup: () => Promise<void> }> {
+export async function createCleanSmokeProject(
+  targetDir?: string,
+): Promise<{ directory: string; cleanup: () => Promise<void> }> {
   let createdTemp = false;
   let dir = targetDir;
   if (!dir) {

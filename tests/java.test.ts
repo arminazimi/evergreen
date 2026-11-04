@@ -32,7 +32,13 @@ async function repository(files: Record<string, string>): Promise<string> {
   return root;
 }
 
-async function expected(ruleId: string, path: string, line: number, subject: string, severity?: DetectorFinding["severity"]): Promise<DetectorFinding> {
+async function expected(
+  ruleId: string,
+  path: string,
+  line: number,
+  subject: string,
+  severity?: DetectorFinding["severity"],
+): Promise<DetectorFinding> {
   const registry = validateRegistryV2(JSON.parse(await readFile("registry/java.json", "utf8")));
   const rule = registry.rules.find((item) => item.id === ruleId)!;
   return {
@@ -63,8 +69,18 @@ test("java passes detector conformance on every fixture", async () => {
         name: "java positive",
         root: resolve(fixtures, "positive"),
         expectedFindings: await Promise.all([
-          expected("java.maven.spring-boot.legacy-2x.end-of-support", "gradle-catalog/gradle/libs.versions.toml", 5, "org.springframework.boot:spring-boot:2.7.18"),
-          expected("java.maven.org.hibernate.hibernate-entitymanager.relocated", "gradle-catalog/gradle/libs.versions.toml", 6, "org.hibernate:hibernate-entitymanager:6.0.0.Alpha7"),
+          expected(
+            "java.maven.spring-boot.legacy-2x.end-of-support",
+            "gradle-catalog/gradle/libs.versions.toml",
+            5,
+            "org.springframework.boot:spring-boot:2.7.18",
+          ),
+          expected(
+            "java.maven.org.hibernate.hibernate-entitymanager.relocated",
+            "gradle-catalog/gradle/libs.versions.toml",
+            6,
+            "org.hibernate:hibernate-entitymanager:6.0.0.Alpha7",
+          ),
           expected(R18_20, "gradle-groovy/build.gradle", 8, `JDK 20, ${TOOLCHAIN},`),
           expected(R18_20, "gradle-groovy/build.gradle", 10, `JDK 19, ${COMPILE},`, "medium"),
           expected(R18_20, "gradle-groovy/build.gradle", 11, `JDK 18, ${COMPILE},`, "medium"),
@@ -77,9 +93,24 @@ test("java passes detector conformance on every fixture", async () => {
           expected(R12_16, "pins/.java-version", 1, `JDK 16, ${PIN},`),
           expected(R18_20, "pins/.sdkmanrc", 2, `JDK 18.0.2-tem, ${PIN},`),
           expected(R22_24, "pins/.tool-versions", 2, `JDK temurin-22.0.1, ${PIN},`),
-          expected("java.maven.spring-boot.legacy-2x.end-of-support", "spring-boot/pom.xml", 11, "org.springframework.boot:spring-boot:2.7.18"),
-          expected("java.maven.spring-boot.legacy-3x.end-of-support", "spring-boot/pom.xml", 16, "org.springframework.boot:spring-boot:3.4.13"),
-          expected("java.maven.spring-boot.legacy-3x.end-of-support", "spring-boot/pom.xml", 21, "org.springframework.boot:spring-boot:3.5.16"),
+          expected(
+            "java.maven.spring-boot.legacy-2x.end-of-support",
+            "spring-boot/pom.xml",
+            11,
+            "org.springframework.boot:spring-boot:2.7.18",
+          ),
+          expected(
+            "java.maven.spring-boot.legacy-3x.end-of-support",
+            "spring-boot/pom.xml",
+            16,
+            "org.springframework.boot:spring-boot:3.4.13",
+          ),
+          expected(
+            "java.maven.spring-boot.legacy-3x.end-of-support",
+            "spring-boot/pom.xml",
+            21,
+            "org.springframework.boot:spring-boot:3.5.16",
+          ),
         ]),
       },
     ],
@@ -137,13 +168,17 @@ test("a dependency that has moved is reported from pom.xml and Gradle, at its ow
       "<dependency><groupId>mysql</groupId><artifactId>mysql-connector-java</artifactId><version>8.0.28</version></dependency>",
       "</dependencies></project>",
     ].join("\n"),
-    "app/build.gradle.kts": 'dependencies {\n    runtimeOnly("org.slf4j:slf4j-log4j12:2.0.17")\n    runtimeOnly("org.slf4j:slf4j-log4j12:1.7.36")\n}\n',
+    "app/build.gradle.kts":
+      'dependencies {\n    runtimeOnly("org.slf4j:slf4j-log4j12:2.0.17")\n    runtimeOnly("org.slf4j:slf4j-log4j12:1.7.36")\n}\n',
   });
   const findings = await javaDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line, finding.severity]), [
-    ["java.maven.org.slf4j.slf4j-log4j12.relocated", "app/build.gradle.kts", 2, "medium"],
-    ["java.maven.mysql.mysql-connector-java.relocated", "pom.xml", 2, "medium"],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line, finding.severity]),
+    [
+      ["java.maven.org.slf4j.slf4j-log4j12.relocated", "app/build.gradle.kts", 2, "medium"],
+      ["java.maven.mysql.mysql-connector-java.relocated", "pom.xml", 2, "medium"],
+    ],
+  );
   assert.equal(findings[1]!.replacement, "com.mysql:mysql-connector-j");
 });
 
@@ -156,7 +191,10 @@ test("skips dependency, build, and fixture directories and symbolic links, and f
     "tests/fixtures/old/.java-version": "22\n",
   });
   await symlink(join(root, "services"), join(root, "linked")).catch(() => undefined);
-  assert.deepEqual((await javaDetector.scan({ root })).map((finding) => finding.location.path), ["services/api/.java-version"]);
+  assert.deepEqual(
+    (await javaDetector.scan({ root })).map((finding) => finding.location.path),
+    ["services/api/.java-version"],
+  );
 });
 
 test("a file that is too large or too deep is skipped without failing", async () => {
@@ -165,7 +203,10 @@ test("a file that is too large or too deep is skipped without failing", async ()
     "a/b/c/d/e/f/g/h/i/.java-version": "22\n",
     ".java-version": "22\n",
   });
-  assert.deepEqual((await javaDetector.scan({ root })).map((finding) => finding.location.path), [".java-version"]);
+  assert.deepEqual(
+    (await javaDetector.scan({ root })).map((finding) => finding.location.path),
+    [".java-version"],
+  );
 });
 
 test("a repository with no JVM files scans to nothing without reading the registry", async () => {
@@ -178,9 +219,13 @@ test("every curated java rule has migration guidance with real verification comm
   for (const rule of registry.rules) {
     assert.ok(rule.migration, rule.id);
     assert.ok(rule.migration.constraints.length >= 1, rule.id);
-    assert.ok(rule.migration.steps.some((step) => step.targets === "declaration"), rule.id);
+    assert.ok(
+      rule.migration.steps.some((step) => step.targets === "declaration"),
+      rule.id,
+    );
     assert.ok(rule.migration.verification.length >= 1, rule.id);
-    for (const check of rule.migration.verification) assert.match(check.command, /^(?:\.\/mvnw|\.\/gradlew|java|mvn|gradle) /, rule.id);
+    for (const check of rule.migration.verification)
+      assert.match(check.command, /^(?:\.\/mvnw|\.\/gradlew|java|mvn|gradle) /, rule.id);
   }
 });
 
@@ -206,13 +251,14 @@ test("Spring Boot findings produce a migration packet with upgrade guidance", as
 
 test("a deprecated library declared only in the version catalog produces a finding attributed to the catalog line", async () => {
   const root = await repository({
-    "gradle/libs.versions.toml": [
-      "[versions]",
-      'mysqlVersion = "8.0.33"',
-      "",
-      "[libraries]",
-      'mysql-connector = { group = "mysql", name = "mysql-connector-java", version.ref = "mysqlVersion" }',
-    ].join("\n") + "\n",
+    "gradle/libs.versions.toml":
+      [
+        "[versions]",
+        'mysqlVersion = "8.0.33"',
+        "",
+        "[libraries]",
+        'mysql-connector = { group = "mysql", name = "mysql-connector-java", version.ref = "mysqlVersion" }',
+      ].join("\n") + "\n",
   });
   const findings = await javaDetector.scan({ root });
   assert.equal(findings.length, 1);

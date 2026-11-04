@@ -63,9 +63,8 @@ export function renderCandidateIssue(input: CandidateIssueRenderInput): Rendered
   const { rule, importer, ecosystem } = input;
   const title = `rule (${ecosystem}): ${rule.id}`;
 
-  const sourcesList = rule.sources.length > 0
-    ? rule.sources.map((s) => `- [${s.title}](${s.url})`).join("\n")
-    : "- None specified";
+  const sourcesList =
+    rule.sources.length > 0 ? rule.sources.map((s) => `- [${s.title}](${s.url})`).join("\n") : "- None specified";
 
   const optionalDetails: string[] = [];
   if (rule.deadline) {
@@ -165,7 +164,9 @@ export function isCandidateIssue(issue: IssueRecord): boolean {
     return true;
   }
   const labels = (issue.labels ?? []).map((l) => (typeof l === "string" ? l : l.name));
-  return labels.includes(GOOD_FIRST_ISSUE_LABEL) && (issue.title.startsWith("rule:") || issue.title.startsWith("rule ("));
+  return (
+    labels.includes(GOOD_FIRST_ISSUE_LABEL) && (issue.title.startsWith("rule:") || issue.title.startsWith("rule ("))
+  );
 }
 
 export function extractRuleIdFromIssue(issue: IssueRecord): string | null {
@@ -242,7 +243,10 @@ export function selectCandidatesToOpen(options: CandidateSelectionOptions): Cand
 
 export interface CandidateIssueRunner {
   listExistingIssues(repo?: string | undefined): Promise<IssueRecord[]>;
-  createIssue(issue: RenderedCandidateIssue, repo?: string | undefined): Promise<{ number?: number | undefined; url?: string | undefined }>;
+  createIssue(
+    issue: RenderedCandidateIssue,
+    repo?: string | undefined,
+  ): Promise<{ number?: number | undefined; url?: string | undefined }>;
 }
 
 export const defaultGitHubRunner: CandidateIssueRunner = {
@@ -255,17 +259,11 @@ export const defaultGitHubRunner: CandidateIssueRunner = {
     return JSON.parse(stdout) as IssueRecord[];
   },
 
-  async createIssue(issue: RenderedCandidateIssue, repo?: string | undefined): Promise<{ number?: number | undefined; url?: string | undefined }> {
-    const args = [
-      "issue",
-      "create",
-      "--title",
-      issue.title,
-      "--body",
-      issue.body,
-      "--label",
-      issue.labels.join(","),
-    ];
+  async createIssue(
+    issue: RenderedCandidateIssue,
+    repo?: string | undefined,
+  ): Promise<{ number?: number | undefined; url?: string | undefined }> {
+    const args = ["issue", "create", "--title", issue.title, "--body", issue.body, "--label", issue.labels.join(",")];
     if (repo) {
       args.push("--repo", repo);
     }
@@ -294,9 +292,11 @@ export interface ProcessCandidateIssuesResult {
   selection: CandidateSelectionResult;
 }
 
-export async function processCandidateIssues(options: ProcessCandidateIssuesOptions): Promise<ProcessCandidateIssuesResult> {
+export async function processCandidateIssues(
+  options: ProcessCandidateIssuesOptions,
+): Promise<ProcessCandidateIssuesResult> {
   const runner = options.runner ?? defaultGitHubRunner;
-  const acknowledged = options.acknowledged ?? await loadAcknowledged();
+  const acknowledged = options.acknowledged ?? (await loadAcknowledged());
   const registry = options.registry ?? {
     schemaVersion: "evergreen.registry.v2",
     ecosystem: options.drafts.ecosystem,
@@ -375,9 +375,17 @@ export async function main(argv: string[], runner?: CandidateIssueRunner): Promi
     } else if (argument === "--dry-run") {
       dryRun = true;
     } else if (argument === "--out") {
-      outDir = argv[++index] ?? (() => { throw new Error("--out requires a directory path."); })();
+      outDir =
+        argv[++index] ??
+        (() => {
+          throw new Error("--out requires a directory path.");
+        })();
     } else if (argument === "--repo") {
-      repo = argv[++index] ?? (() => { throw new Error("--repo requires an owner/repo value."); })();
+      repo =
+        argv[++index] ??
+        (() => {
+          throw new Error("--repo requires an owner/repo value.");
+        })();
     } else if (argument.startsWith("--")) {
       throw new Error(`Unknown option ${argument}.`);
     } else {
@@ -386,7 +394,9 @@ export async function main(argv: string[], runner?: CandidateIssueRunner): Promi
   }
 
   if (files.length < 1 || files.length > 2) {
-    throw new Error("Usage: candidate-issues <drafts.json> [registry.json] [--max-open N] [--limit N] [--dry-run] [--out DIR] [--repo OWNER/REPO]");
+    throw new Error(
+      "Usage: candidate-issues <drafts.json> [registry.json] [--max-open N] [--limit N] [--dry-run] [--out DIR] [--repo OWNER/REPO]",
+    );
   }
 
   const draftsFile = files[0]!;
@@ -420,10 +430,10 @@ export async function main(argv: string[], runner?: CandidateIssueRunner): Promi
 
   process.stdout.write(
     `${prefix}Evaluated ${selection.toOpen.length + selection.skippedTracked.length + selection.skippedDuplicates.length} candidate rule(s) from ${drafts.importer}.\n` +
-    `  Already tracked: ${selection.skippedTracked.length}\n` +
-    `  Duplicate components: ${selection.skippedDuplicates.length}\n` +
-    `  Currently open candidate issues: ${selection.openCount} (cap: ${selection.maxOpen})\n` +
-    `  Issues ${dryRun ? "to open" : "opened"}: ${opened.length}\n`,
+      `  Already tracked: ${selection.skippedTracked.length}\n` +
+      `  Duplicate components: ${selection.skippedDuplicates.length}\n` +
+      `  Currently open candidate issues: ${selection.openCount} (cap: ${selection.maxOpen})\n` +
+      `  Issues ${dryRun ? "to open" : "opened"}: ${opened.length}\n`,
   );
 
   for (const item of opened) {
@@ -431,7 +441,9 @@ export async function main(argv: string[], runner?: CandidateIssueRunner): Promi
   }
 
   if (selection.capped) {
-    process.stdout.write(`  Note: open candidate issues cap (${selection.maxOpen}) reached; remaining candidates deferred.\n`);
+    process.stdout.write(
+      `  Note: open candidate issues cap (${selection.maxOpen}) reached; remaining candidates deferred.\n`,
+    );
   }
 
   return 0;

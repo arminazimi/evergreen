@@ -33,14 +33,20 @@ export const command: CliCommand = {
       if (svg && json) return ctx.fail("usage", "Use either --svg or --json, not both.");
       if (timeline && json) return ctx.fail("usage", "Use either --timeline or --json, not both.");
       if (svg && timeline) return ctx.fail("usage", "Use either --svg or --timeline, not both.");
-      if (timeline && format === "mermaid") return ctx.fail("usage", "Use either --timeline or --format mermaid, not both.");
+      if (timeline && format === "mermaid")
+        return ctx.fail("usage", "Use either --timeline or --format mermaid, not both.");
       const monthsValue = state.optionValue("--months");
       const months = monthsValue === undefined ? DEFAULT_FORECAST_MONTHS : Number(monthsValue);
       if (!Number.isInteger(months) || months < 1 || months > MAX_FORECAST_MONTHS) {
         return ctx.fail("usage", `--months must be a whole number from 1 to ${MAX_FORECAST_MONTHS}.`);
       }
       const asOfValue = state.optionValue("--as-of") ?? state.optionValue("--today");
-      const forecast = buildForecast(await scanRepository(pathArgument, builtInDetectors, { noCache }), await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10), months);
+      const forecast = buildForecast(
+        await scanRepository(pathArgument, builtInDetectors, { noCache }),
+        await bundledRules(),
+        asOfValue ?? new Date().toISOString().slice(0, 10),
+        months,
+      );
       if (svg) {
         process.stdout.write(`${renderForecastSvg(forecast, { animate })}\n`);
         return 0;

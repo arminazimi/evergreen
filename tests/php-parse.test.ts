@@ -60,7 +60,15 @@ test("a malformed composer.json returns nothing and never throws", async () => {
   const contents = await fixture("malformed/composer.json");
   assert.doesNotThrow(() => parseComposerJson(contents));
   assert.deepEqual(parseComposerJson(contents), []);
-  for (const junk of ['{"require":{"php":">=7.4",}}\n', '{"require":{"php":">=7.4"', "{", "}", "\u0000\u0001", "}}}\n", "\r\n\r\n"]) {
+  for (const junk of [
+    '{"require":{"php":">=7.4",}}\n',
+    '{"require":{"php":">=7.4"',
+    "{",
+    "}",
+    "\u0000\u0001",
+    "}}}\n",
+    "\r\n\r\n",
+  ]) {
     assert.doesNotThrow(() => parseComposerJson(junk));
     assert.deepEqual(parseComposerJson(junk), [], junk);
   }
@@ -274,7 +282,9 @@ test("bounds untrusted PHP runtime input without losing later lines", () => {
   assert.deepEqual(parsePhpVersion("x".repeat(RUNTIME_MAXIMUM_INPUT_BYTES + 1)), []);
   assert.deepEqual(parseToolVersions("x".repeat(RUNTIME_MAXIMUM_INPUT_BYTES + 1)), []);
   assert.deepEqual(parsePhpVersion(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\n8.3.12\n`), [{ value: "8.3.12", line: 2 }]);
-  assert.deepEqual(parseToolVersions(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\nphp 8.3.12\n`), [{ value: "8.3.12", line: 2 }]);
+  assert.deepEqual(parseToolVersions(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\nphp 8.3.12\n`), [
+    { value: "8.3.12", line: 2 },
+  ]);
 });
 
 test("PHP runtime parsers handle CRLF, blank lines, comments, and 1-based lines", () => {

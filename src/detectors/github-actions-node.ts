@@ -38,7 +38,8 @@ export function setupNodeVersions(contents: string): SetupNodeVersion[] {
   const add = (node: Node | null | undefined): void => {
     if (!node) return;
     const value = textOf(node);
-    if (value !== undefined && value !== "") versions.push({ value, line: lineOf(node), expression: value.includes("${{") });
+    if (value !== undefined && value !== "")
+      versions.push({ value, line: lineOf(node), expression: value.includes("${{") });
   };
   for (const job of jobs.items) {
     if (!isMap(job.value)) continue;
@@ -73,10 +74,12 @@ const LITERAL = /^v?(\d+)(?:\.(\d+|x|\*))?(?:\.(\d+|x|\*))?$/i;
 
 export function classifyNodeVersion(value: string): NodeVersionClass {
   const match = LITERAL.exec(value);
-  if (!match) return { kind: "unclassified", reason: `"${value}" is not a plain version, so Evergreen does not read it` };
+  if (!match)
+    return { kind: "unclassified", reason: `"${value}" is not a plain version, so Evergreen does not read it` };
   const [, major, minor, patch] = match;
   const open = (part: string | undefined): boolean => part === undefined || /^[x*]$/i.test(part);
   if (open(minor)) return { kind: "versions", lowest: `${major}.0.0`, highest: `${major}.${UNBOUNDED}.${UNBOUNDED}` };
-  if (open(patch)) return { kind: "versions", lowest: `${major}.${minor}.0`, highest: `${major}.${minor}.${UNBOUNDED}` };
+  if (open(patch))
+    return { kind: "versions", lowest: `${major}.${minor}.0`, highest: `${major}.${minor}.${UNBOUNDED}` };
   return { kind: "versions", lowest: `${major}.${minor}.${patch}`, highest: `${major}.${minor}.${patch}` };
 }

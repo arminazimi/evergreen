@@ -69,7 +69,10 @@ const list = (item: string) => String.raw`${item}(?:, (?:and )?${item}|,? and ${
 const RELEASE = String.raw`no longer served as of v(1\.\d+)`;
 
 // "The a/v1beta1 and b/v1beta2 API versions of A and B are no longer served as of v1.16."
-const VERSIONS_OF_KINDS = new RegExp(String.raw`The (${list(API_VERSION)}) API versions? of (${list(KIND)}) (?:is|are) ${RELEASE}`, "g");
+const VERSIONS_OF_KINDS = new RegExp(
+  String.raw`The (${list(API_VERSION)}) API versions? of (${list(KIND)}) (?:is|are) ${RELEASE}`,
+  "g",
+);
 // "PodSecurityPolicy in the policy/v1beta1 API version is no longer served as of v1.25"
 const KIND_IN_VERSION = new RegExp(String.raw`(${KIND}) in the (${API_VERSION}) API version is ${RELEASE}`, "g");
 
@@ -81,7 +84,9 @@ function pageText(html: string): string {
 
 /** What the guide says to move to, read from the text that follows a statement. */
 function replacementAfter(text: string): Removal["replacement"] {
-  const use = new RegExp(String.raw`^.{0,400}?Migrate manifests and API clients? to use the (${API_VERSION}|v\d+) API version(?:, available since (v1\.\d+))?`).exec(text);
+  const use = new RegExp(
+    String.raw`^.{0,400}?Migrate manifests and API clients? to use the (${API_VERSION}|v\d+) API version(?:, available since (v1\.\d+))?`,
+  ).exec(text);
   if (use) return { apiVersion: use[1]!, ...(use[2] ? { since: use[2] } : {}) };
   const to = /^.{0,400}?Migrate to ([^.]+)\./.exec(text);
   return to?.[1] ? { text: to[1].trim() } : undefined;
@@ -97,12 +102,19 @@ function removals(text: string): { found: Removal[]; sentences: number } {
     const versions = match[1]!.match(new RegExp(API_VERSION, "g")) ?? [];
     const kinds = (match[2]!.match(new RegExp(KIND, "g")) ?? []).filter((kind) => kind !== "And");
     for (const apiVersion of versions) {
-      for (const kind of kinds) found.push({ apiVersion, kind, release: match[3]!, at: match.index!, length: match[0].length });
+      for (const kind of kinds)
+        found.push({ apiVersion, kind, release: match[3]!, at: match.index!, length: match[0].length });
     }
   }
   for (const match of text.matchAll(KIND_IN_VERSION)) {
     sentences++;
-    found.push({ apiVersion: match[2]!, kind: match[1]!, release: match[3]!, at: match.index!, length: match[0].length });
+    found.push({
+      apiVersion: match[2]!,
+      kind: match[1]!,
+      release: match[3]!,
+      at: match.index!,
+      length: match[0].length,
+    });
   }
 
   // The text after a statement, up to the next one, holds its replacement.
@@ -144,7 +156,9 @@ function rule(removal: Removal): DraftRule | undefined {
     ...(announcement ? { deadline: announcement.date } : {}),
     sources: [
       { title: GUIDE_TITLE, url: KUBERNETES_DEPRECATION_GUIDE_URL },
-      ...(announcement ? [{ title: `${announcement.title} (release announcement, ${announcement.date})`, url: announcement.url }] : []),
+      ...(announcement
+        ? [{ title: `${announcement.title} (release announcement, ${announcement.date})`, url: announcement.url }]
+        : []),
     ],
   };
 }
@@ -152,7 +166,8 @@ function rule(removal: Removal): DraftRule | undefined {
 export const kubernetesDeprecationGuideImporter: Importer = {
   id: "kubernetes-1",
   ecosystem: "kubernetes",
-  description: "API versions the Kubernetes Deprecated API Migration Guide says are no longer served, one removed rule per group, kind, and version",
+  description:
+    "API versions the Kubernetes Deprecated API Migration Guide says are no longer served, one removed rule per group, kind, and version",
   sources: [{ title: GUIDE_TITLE, url: KUBERNETES_DEPRECATION_GUIDE_URL }],
 
   async import(context) {
@@ -167,13 +182,18 @@ export const kubernetesDeprecationGuideImporter: Importer = {
 
     const notes: string[] = [];
     if (unknown.length > 0) {
-      notes.push(`No verified release date for ${unknown.map((release) => `v${release}`).join(", ")}; those rules have no deadline until a row is added to RELEASE_ANNOUNCEMENTS.`);
+      notes.push(
+        `No verified release date for ${unknown.map((release) => `v${release}`).join(", ")}; those rules have no deadline until a row is added to RELEASE_ANNOUNCEMENTS.`,
+      );
     }
     if (rules.length < found.length) {
-      notes.push(`${found.length - rules.length} API versions were skipped because their version is not in the vN, vNalphaM, or vNbetaM form.`);
+      notes.push(
+        `${found.length - rules.length} API versions were skipped because their version is not in the vN, vNalphaM, or vNbetaM form.`,
+      );
     }
     const stated = (text.match(/no longer served as of v1\.\d+/g) ?? []).length;
-    if (stated > sentences) notes.push(`${stated - sentences} removal statements do not match a known sentence form and were not drafted.`);
+    if (stated > sentences)
+      notes.push(`${stated - sentences} removal statements do not match a known sentence form and were not drafted.`);
     return { rules, notes };
   },
 };

@@ -170,8 +170,11 @@ test("a contract change with a decision record passes", async () => {
 test("the index alone does not count as a record", async () => {
   const { root, base } = await repository();
   try {
-    await writeFile(join(root, "src", "mcp.ts"), "export const TOOLS = [{ name: \"scan\" }];\n");
-    await writeFile(join(root, "docs", "decisions", "index.md"), "# Decision records\n\n- [0022](0022-detector-api-version.md)\n");
+    await writeFile(join(root, "src", "mcp.ts"), 'export const TOOLS = [{ name: "scan" }];\n');
+    await writeFile(
+      join(root, "docs", "decisions", "index.md"),
+      "# Decision records\n\n- [0022](0022-detector-api-version.md)\n",
+    );
     await commit(root, "register a record in the index only");
     const run = runTool(root, "--base", base);
     assert.equal(run.status, 1, run.stderr);

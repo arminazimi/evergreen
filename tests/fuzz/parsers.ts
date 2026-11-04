@@ -69,7 +69,11 @@ import {
 } from "../../src/detectors/container/rootfs.js";
 import { parseCatalog } from "../../src/detectors/java/parse-catalog.js";
 import { parseGradle } from "../../src/detectors/java/parse-gradle.js";
-import { parseJavaVersion, parseSdkmanrc, parseToolVersions as parseToolVersionsJava } from "../../src/detectors/java/parse-pins.js";
+import {
+  parseJavaVersion,
+  parseSdkmanrc,
+  parseToolVersions as parseToolVersionsJava,
+} from "../../src/detectors/java/parse-pins.js";
 import { parsePom } from "../../src/detectors/java/parse-pom.js";
 import { parseWrapper } from "../../src/detectors/java/parse-wrapper.js";
 import { parseJdkVersion } from "../../src/detectors/java/jdk-version.js";
@@ -79,7 +83,10 @@ import { parseManifest } from "../../src/detectors/kubernetes/parse-manifest.js"
 import { parseChart, parseTemplate as parseTemplateHelm } from "../../src/detectors/kubernetes/parse-helm.js";
 import { parseComposerJson } from "../../src/detectors/php/parse-composer-json.js";
 import { parseComposerLock } from "../../src/detectors/php/parse-composer-lock.js";
-import { parsePhpVersion, parseToolVersions as parseToolVersionsPhp } from "../../src/detectors/php/parse-php-runtime.js";
+import {
+  parsePhpVersion,
+  parseToolVersions as parseToolVersionsPhp,
+} from "../../src/detectors/php/parse-php-runtime.js";
 import { parsePowerShell } from "../../src/detectors/shell/parse-powershell.js";
 import { parseWorkflow } from "../../src/detectors/shell/parse-workflow.js";
 import { parseCargoLock } from "../../src/detectors/rust/parse-cargo-lock.js";
@@ -88,7 +95,10 @@ import { parseRustToolchain } from "../../src/detectors/rust/parse-rust-toolchai
 import { parseGemfile } from "../../src/detectors/ruby/parse-gemfile.js";
 import { parseGemfileLock } from "../../src/detectors/ruby/parse-gemfile-lock.js";
 import { parseGemspec } from "../../src/detectors/ruby/parse-gemspec.js";
-import { parseRubyVersion, parseToolVersions as parseToolVersionsRuby } from "../../src/detectors/ruby/parse-ruby-runtime.js";
+import {
+  parseRubyVersion,
+  parseToolVersions as parseToolVersionsRuby,
+} from "../../src/detectors/ruby/parse-ruby-runtime.js";
 import { parseBuildProperties } from "../../src/detectors/scala/parse-build-properties.js";
 import { parseBuildSbt } from "../../src/detectors/scala/parse-build-sbt.js";
 import { parseScalaVersion } from "../../src/detectors/scala/parse-scala-version.js";
@@ -99,7 +109,10 @@ import { parseManagedKubernetes } from "../../src/detectors/terraform/kubernetes
 import { parseTerraformFile, parseTerraformLegacy } from "../../src/detectors/terraform/parse-terraform.js";
 import { parseTerraformLock } from "../../src/detectors/terraform/parse-lock.js";
 import { parseTerraformPlanJson } from "../../src/detectors/terraform/plan.js";
-import { parseToolVersionsTerraform, parseTerraformVersionFile } from "../../src/detectors/terraform/parse-version-files.js";
+import {
+  parseToolVersionsTerraform,
+  parseTerraformVersionFile,
+} from "../../src/detectors/terraform/parse-version-files.js";
 import { parsePackageResolved } from "../../src/detectors/swift/parse-package-resolved.js";
 import { parsePackageSwift } from "../../src/detectors/swift/parse-package-swift.js";
 import { parseSwiftVersion, parseXcodeVersion } from "../../src/detectors/swift/parse-swift-toolchain.js";
@@ -263,16 +276,22 @@ export const parsers: readonly ParserEntry[] = [
 ];
 
 export const documentParsers: readonly DocumentParserEntry[] = [
-  ...inventoryImporters.map((importer): DocumentParserEntry => ({
-    name: `inventory:${importer.id}`,
-    parse: (document) => {
-      const detected = importer.detect(document, "export.txt");
-      return { detected, items: detected ? importer.items(document, "export.txt") : [] };
-    },
-  })),
+  ...inventoryImporters.map(
+    (importer): DocumentParserEntry => ({
+      name: `inventory:${importer.id}`,
+      parse: (document) => {
+        const detected = importer.detect(document, "export.txt");
+        return { detected, items: detected ? importer.items(document, "export.txt") : [] };
+      },
+    }),
+  ),
   { name: "enrichCycloneDx", parse: (document) => enrichCycloneDx(document, []), allowedErrors: [CycloneDxError] },
   { name: "enrichSpdx", parse: (document) => enrichSpdx(document, []), allowedErrors: [SpdxExportError] },
-  { name: "validateConfig", parse: (document) => validateConfig(document, ".evergreen.json"), allowedErrors: [ConfigError] },
+  {
+    name: "validateConfig",
+    parse: (document) => validateConfig(document, ".evergreen.json"),
+    allowedErrors: [ConfigError],
+  },
   // These load bundled data for components with PURLs, so they get a smaller budget than pure transforms.
   { name: "scanCycloneDx", parse: scanCycloneDx, allowedErrors: [CycloneDxError], runs: 25 },
   { name: "scanSpdx", parse: scanSpdx, allowedErrors: [SpdxScanError], runs: 25 },

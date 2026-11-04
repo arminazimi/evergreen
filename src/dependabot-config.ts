@@ -72,7 +72,11 @@ function compareEntry(left: DependabotUpdateEntry, right: DependabotUpdateEntry)
  */
 const GRADLE_FILE_NAMES = new Set(["build.gradle", "build.gradle.kts", "libs.versions.toml"]);
 
-function combineEntry(packageEcosystem: string, directory: string, entries: Map<string, { packageEcosystem: string; directory: string; patterns: Set<string> }>): Set<string> {
+function combineEntry(
+  packageEcosystem: string,
+  directory: string,
+  entries: Map<string, { packageEcosystem: string; directory: string; patterns: Set<string> }>,
+): Set<string> {
   const key = `${packageEcosystem}\0${directory}`;
   if (!entries.has(key)) {
     entries.set(key, { packageEcosystem, directory, patterns: new Set<string>() });

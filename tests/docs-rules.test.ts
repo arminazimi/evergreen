@@ -29,12 +29,25 @@ test("the validation error shown in docs/RULES.md matches what validation report
   broken.rules[0]!.purl = "pkg:npm/Request";
   const issues = registryV2Issues(broken);
   assert.ok(issues.includes('rule "npm.package.request.deprecated": provenance.reviewedAt is required'));
-  assert.ok(issues.includes('rule "npm.package.request.deprecated": purl must be canonical and version-less (expected "pkg:npm/request")'));
+  assert.ok(
+    issues.includes(
+      'rule "npm.package.request.deprecated": purl must be canonical and version-less (expected "pkg:npm/request")',
+    ),
+  );
 });
 
 test("every document that CONTRIBUTING.md and docs/RULES.md link to exists", async () => {
   for (const [file, links] of [
-    ["docs/RULES.md", ["../schemas/registry.v2.schema.json", "decisions/0004-registry-v2.md", "../examples/registry.v2.example.json", "../.github/workflows/sources.yml", "DETECTORS.md"]],
+    [
+      "docs/RULES.md",
+      [
+        "../schemas/registry.v2.schema.json",
+        "decisions/0004-registry-v2.md",
+        "../examples/registry.v2.example.json",
+        "../.github/workflows/sources.yml",
+        "DETECTORS.md",
+      ],
+    ],
     ["CONTRIBUTING.md", ["docs/RULES.md", "registry/npm.json", "tests/npm.test.ts"]],
     ["docs/DETECTORS.md", ["RULES.md"]],
     ["docs/index.md", ["RULES.md"]],

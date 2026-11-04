@@ -27,7 +27,7 @@ export function canBrowse(input: { isTTY?: boolean }, output: { isTTY?: boolean 
 /** Pure key handling, so the behavior is testable without a terminal. */
 export function reduce(state: BrowserState, key: Key, count: number): BrowserState {
   const { open: _open, ...base } = state;
-  const name = key.ctrl && key.name === "c" ? "q" : key.name ?? key.sequence;
+  const name = key.ctrl && key.name === "c" ? "q" : (key.name ?? key.sequence);
   if (name === "q") return { ...base, quit: true };
   if (state.view === "detail") {
     if (name === "o") return { ...base, open: true };
@@ -42,13 +42,19 @@ export function reduce(state: BrowserState, key: Key, count: number): BrowserSta
   return base;
 }
 
-const location = (finding: Finding): string => `${finding.location.path}${finding.location.line ? `:${finding.location.line}` : ""}`;
+const location = (finding: Finding): string =>
+  `${finding.location.path}${finding.location.line ? `:${finding.location.line}` : ""}`;
 
 export function renderList(result: ScanResult, selected: number): string {
   if (result.findings.length === 0) return "Evergreen: no findings.\n";
-  const lines = [`Evergreen — ${result.findings.length} finding${result.findings.length === 1 ? "" : "s"} in ${result.root}`, ""];
+  const lines = [
+    `Evergreen — ${result.findings.length} finding${result.findings.length === 1 ? "" : "s"} in ${result.root}`,
+    "",
+  ];
   result.findings.forEach((finding, index) => {
-    lines.push(`${index === selected ? ">" : " "} ${finding.severity.toUpperCase().padEnd(8)} ${finding.title}  ${location(finding)}`);
+    lines.push(
+      `${index === selected ? ">" : " "} ${finding.severity.toUpperCase().padEnd(8)} ${finding.title}  ${location(finding)}`,
+    );
   });
   lines.push("", "↑/↓ or j/k move · enter details · o open in editor · q quit");
   return `${lines.join("\n")}\n`;
@@ -62,7 +68,11 @@ export function renderDetail(finding: Finding): string {
  * Builds the editor invocation for a finding. The editor comes from $VISUAL or $EDITOR (the user's own setting) and is
  * run without a shell. Returns undefined when the finding's path would leave the scanned repository.
  */
-export function editorCommand(root: string, finding: Finding, env: NodeJS.ProcessEnv = process.env): { command: string; args: string[] } | undefined {
+export function editorCommand(
+  root: string,
+  finding: Finding,
+  env: NodeJS.ProcessEnv = process.env,
+): { command: string; args: string[] } | undefined {
   const file = resolve(root, finding.location.path);
   const inside = relative(resolve(root), file);
   if (inside === ".." || inside.startsWith("..") || isAbsolute(inside)) return undefined;
@@ -71,7 +81,8 @@ export function editorCommand(root: string, finding: Finding, env: NodeJS.Proces
   const line = finding.location.line;
   const name = command.replace(/^.*[\\/]/, "").replace(/\.(cmd|exe)$/i, "");
   if (!line) return { command, args: [...extra, file] };
-  if (name === "code" || name === "codium" || name === "cursor") return { command, args: [...extra, "--goto", `${file}:${line}`] };
+  if (name === "code" || name === "codium" || name === "cursor")
+    return { command, args: [...extra, "--goto", `${file}:${line}`] };
   if (name === "subl" || name === "zed" || name === "mate") return { command, args: [...extra, `${file}:${line}`] };
   return { command, args: [...extra, `+${line}`, file] };
 }

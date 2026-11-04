@@ -11,7 +11,9 @@ export const command: CliCommand = {
   name: "status-card",
   flags: ["--name"],
   example: "evergreen status-card . --name acme/widgets",
-  usage: ["  evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age"],
+  usage: [
+    "  evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age",
+  ],
   usageSlots: [17],
   async run(args, ctx) {
     const usageText = "Usage: evergreen status-card [path] [--name <label>]";

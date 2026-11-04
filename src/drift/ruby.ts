@@ -12,7 +12,12 @@ import type { ImageReference } from "../detectors/container/parse-image.js";
 import { parseGemfile } from "../detectors/ruby/parse-gemfile.js";
 import { parseGemfileLock } from "../detectors/ruby/parse-gemfile-lock.js";
 import { parseGemspec } from "../detectors/ruby/parse-gemspec.js";
-import { MAXIMUM_INPUT_BYTES, PINNED_RUBY_VERSION, parseRubyVersion, parseToolVersions } from "../detectors/ruby/parse-ruby-runtime.js";
+import {
+  MAXIMUM_INPUT_BYTES,
+  PINNED_RUBY_VERSION,
+  parseRubyVersion,
+  parseToolVersions,
+} from "../detectors/ruby/parse-ruby-runtime.js";
 import { relativePosix } from "../paths.js";
 import type { DriftCollector, RuntimePin } from "./types.js";
 
@@ -27,7 +32,19 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const GEMFILE_RUBY = /^\s*ruby\s+(["'])([^"'#]*)\1\s*(?:#.*)?$/;
 const FLOOR_CLAUSE = /^\s*(?:>=|>|=|~>)?\s*v?(\d+)\.(\d+)(?:\.\d+)*(?:p\d+)?\s*$/;
@@ -46,7 +63,16 @@ const SOURCE_SETUP_RUBY = "GitHub Actions ruby/setup-ruby ruby-version";
 const SOURCE_GITLAB = "GitLab CI image";
 const SOURCE_CIRCLECI = "CircleCI image";
 
-type RubyFileKind = "ruby-version" | "tool-versions" | "gemfile" | "gemfile-lock" | "gemspec" | "dockerfile" | "gitlab" | "circleci" | "workflow";
+type RubyFileKind =
+  | "ruby-version"
+  | "tool-versions"
+  | "gemfile"
+  | "gemfile-lock"
+  | "gemspec"
+  | "dockerfile"
+  | "gitlab"
+  | "circleci"
+  | "workflow";
 
 interface RubyFile {
   kind: RubyFileKind;
@@ -62,7 +88,8 @@ function fileKind(name: string, directory: string): RubyFileKind | undefined {
   if (DOCKERFILE_NAME.test(name)) return "dockerfile";
   if (name === ".gitlab-ci.yml") return "gitlab";
   if (name === "config.yml" && basename(directory) === ".circleci") return "circleci";
-  if (/\.ya?ml$/.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github") return "workflow";
+  if (/\.ya?ml$/.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github")
+    return "workflow";
   return undefined;
 }
 
@@ -104,7 +131,15 @@ function floorRelease(value: string): string | undefined {
   return undefined;
 }
 
-function makePin(path: string, line: number, source: string, raw: string, kind: "pin" | "floor", release: string | undefined, unresolved?: string): RuntimePin {
+function makePin(
+  path: string,
+  line: number,
+  source: string,
+  raw: string,
+  kind: "pin" | "floor",
+  release: string | undefined,
+  unresolved?: string,
+): RuntimePin {
   return {
     path,
     line,
@@ -119,14 +154,27 @@ function makePin(path: string, line: number, source: string, raw: string, kind: 
 function collectRubyVersion(contents: string, path: string, pins: RuntimePin[]): void {
   const declarations = parseRubyVersion(contents);
   if (declarations.length > 0) {
-    for (const declaration of declarations) pins.push(makePin(path, declaration.line, SOURCE_RUBY_VERSION, declaration.value, "pin", releaseOf(declaration.value)));
+    for (const declaration of declarations)
+      pins.push(
+        makePin(path, declaration.line, SOURCE_RUBY_VERSION, declaration.value, "pin", releaseOf(declaration.value)),
+      );
     return;
   }
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return;
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
     const value = rawLine.trim();
     if (value === "" || value.startsWith("#")) continue;
-    pins.push(makePin(path, index + 1, SOURCE_RUBY_VERSION, value, "pin", PINNED_RUBY_VERSION.test(value) ? releaseOf(value) : undefined, `"${value}" is not a single Ruby version Evergreen reads`));
+    pins.push(
+      makePin(
+        path,
+        index + 1,
+        SOURCE_RUBY_VERSION,
+        value,
+        "pin",
+        PINNED_RUBY_VERSION.test(value) ? releaseOf(value) : undefined,
+        `"${value}" is not a single Ruby version Evergreen reads`,
+      ),
+    );
   }
 }
 
@@ -145,11 +193,22 @@ function collectToolVersions(contents: string, path: string, pins: RuntimePin[])
     if (tool !== "ruby" || versions.length === 0) continue;
     const parsed = byLine.get(index + 1);
     if (parsed) {
-      for (const value of parsed) pins.push(makePin(path, index + 1, SOURCE_TOOL_VERSIONS, value, "pin", releaseOf(value)));
+      for (const value of parsed)
+        pins.push(makePin(path, index + 1, SOURCE_TOOL_VERSIONS, value, "pin", releaseOf(value)));
       continue;
     }
     for (const value of versions) {
-      pins.push(makePin(path, index + 1, SOURCE_TOOL_VERSIONS, value, "pin", PINNED_RUBY_VERSION.test(value) ? releaseOf(value) : undefined, `"${value}" is not a Ruby version Evergreen reads`));
+      pins.push(
+        makePin(
+          path,
+          index + 1,
+          SOURCE_TOOL_VERSIONS,
+          value,
+          "pin",
+          PINNED_RUBY_VERSION.test(value) ? releaseOf(value) : undefined,
+          `"${value}" is not a Ruby version Evergreen reads`,
+        ),
+      );
     }
   }
 }
@@ -164,7 +223,17 @@ function collectGemfile(contents: string, path: string, pins: RuntimePin[]): voi
     const match = GEMFILE_RUBY.exec(rawLine);
     const value = match?.[2];
     if (!value || PINNED_RUBY_VERSION.test(value) || value.includes("#{") || value.includes("${")) continue;
-    pins.push(makePin(path, index + 1, SOURCE_GEMFILE, value, "floor", floorRelease(value), `"${value}" does not state a minimum Ruby release`));
+    pins.push(
+      makePin(
+        path,
+        index + 1,
+        SOURCE_GEMFILE,
+        value,
+        "floor",
+        floorRelease(value),
+        `"${value}" does not state a minimum Ruby release`,
+      ),
+    );
   }
 }
 
@@ -173,7 +242,9 @@ function collectGemfileLock(contents: string, path: string, pins: RuntimePin[]):
   if (declarations.length > 0) {
     for (const declaration of declarations) {
       if (declaration.kind !== "ruby") continue;
-      pins.push(makePin(path, declaration.line, SOURCE_GEMFILE_LOCK, declaration.value, "pin", releaseOf(declaration.value)));
+      pins.push(
+        makePin(path, declaration.line, SOURCE_GEMFILE_LOCK, declaration.value, "pin", releaseOf(declaration.value)),
+      );
     }
     return;
   }
@@ -186,13 +257,34 @@ function collectGemfileLock(contents: string, path: string, pins: RuntimePin[]):
     }
     if (section !== "RUBY VERSION") continue;
     const match = /^\s*ruby\s+(\S+)\s*$/.exec(rawLine);
-    if (match?.[1]) pins.push(makePin(path, index + 1, SOURCE_GEMFILE_LOCK, match[1], "pin", releaseOf(match[1]), `"${match[1]}" is not a Ruby version Evergreen reads`));
+    if (match?.[1])
+      pins.push(
+        makePin(
+          path,
+          index + 1,
+          SOURCE_GEMFILE_LOCK,
+          match[1],
+          "pin",
+          releaseOf(match[1]),
+          `"${match[1]}" is not a Ruby version Evergreen reads`,
+        ),
+      );
   }
 }
 
 function collectGemspec(contents: string, path: string, pins: RuntimePin[]): void {
   for (const declaration of parseGemspec(contents)) {
-    pins.push(makePin(path, declaration.line, SOURCE_GEMSPEC, declaration.value, "floor", floorRelease(declaration.value), `"${declaration.value}" does not state a minimum Ruby release`));
+    pins.push(
+      makePin(
+        path,
+        declaration.line,
+        SOURCE_GEMSPEC,
+        declaration.value,
+        "floor",
+        floorRelease(declaration.value),
+        `"${declaration.value}" does not state a minimum Ruby release`,
+      ),
+    );
   }
 }
 
@@ -200,15 +292,32 @@ function isRubyImage(image: ImageReference): boolean {
   return image.registry === "docker.io" && (image.repository === "library/ruby" || image.repository === "cimg/ruby");
 }
 
-function imagePins(references: ReadonlyArray<{ value: string; line: number }>, source: string, path: string, pins: RuntimePin[]): void {
+function imagePins(
+  references: ReadonlyArray<{ value: string; line: number }>,
+  source: string,
+  path: string,
+  pins: RuntimePin[],
+): void {
   for (const reference of references) {
     const image = parseImageReference(reference.value);
     if (!image || !isRubyImage(image)) continue;
     if (image.tag === undefined) {
-      pins.push(makePin(path, reference.line, source, reference.value, "pin", undefined, "the image reference has no tag"));
+      pins.push(
+        makePin(path, reference.line, source, reference.value, "pin", undefined, "the image reference has no tag"),
+      );
       continue;
     }
-    pins.push(makePin(path, reference.line, source, image.tag, "pin", releaseOf(image.tag), `"${image.tag}" does not name a Ruby major.minor release`));
+    pins.push(
+      makePin(
+        path,
+        reference.line,
+        source,
+        image.tag,
+        "pin",
+        releaseOf(image.tag),
+        `"${image.tag}" does not name a Ruby major.minor release`,
+      ),
+    );
   }
 }
 
@@ -218,12 +327,34 @@ function collectDockerfile(contents: string, path: string, pins: RuntimePin[]): 
       const image = parseImageReference(declaration.value);
       if (!image || !isRubyImage(image)) continue;
       if (image.tag === undefined) {
-        pins.push(makePin(path, declaration.line, SOURCE_DOCKERFILE_FROM, declaration.value, "pin", undefined, "the image reference has no tag"));
+        pins.push(
+          makePin(
+            path,
+            declaration.line,
+            SOURCE_DOCKERFILE_FROM,
+            declaration.value,
+            "pin",
+            undefined,
+            "the image reference has no tag",
+          ),
+        );
       } else {
-        pins.push(makePin(path, declaration.line, SOURCE_DOCKERFILE_FROM, image.tag, "pin", releaseOf(image.tag), `"${image.tag}" does not name a Ruby major.minor release`));
+        pins.push(
+          makePin(
+            path,
+            declaration.line,
+            SOURCE_DOCKERFILE_FROM,
+            image.tag,
+            "pin",
+            releaseOf(image.tag),
+            `"${image.tag}" does not name a Ruby major.minor release`,
+          ),
+        );
       }
     } else if (declaration.kind === "runtime" && declaration.runtime === "ruby") {
-      pins.push(makePin(path, declaration.line, SOURCE_DOCKERFILE_RUN, declaration.value, "pin", releaseOf(declaration.value)));
+      pins.push(
+        makePin(path, declaration.line, SOURCE_DOCKERFILE_RUN, declaration.value, "pin", releaseOf(declaration.value)),
+      );
     }
   }
 }
@@ -255,7 +386,8 @@ function setupRubyVersions(contents: string): SetupRubyVersion[] {
   const add = (node: Node | null | undefined): void => {
     if (!node) return;
     const value = textOf(node);
-    if (value !== undefined && value !== "") versions.push({ value, line: lineOf(node), expression: value.includes("${{") });
+    if (value !== undefined && value !== "")
+      versions.push({ value, line: lineOf(node), expression: value.includes("${{") });
   };
   for (const job of jobs.items) {
     if (!isMap(job.value)) continue;
@@ -283,7 +415,17 @@ function setupRubyVersions(contents: string): SetupRubyVersion[] {
 function collectWorkflow(contents: string, path: string, pins: RuntimePin[]): void {
   for (const entry of setupRubyVersions(contents)) {
     if (entry.expression) {
-      pins.push(makePin(path, entry.line, SOURCE_SETUP_RUBY, entry.value, "pin", undefined, `"${entry.value}" is an expression, which Evergreen does not evaluate`));
+      pins.push(
+        makePin(
+          path,
+          entry.line,
+          SOURCE_SETUP_RUBY,
+          entry.value,
+          "pin",
+          undefined,
+          `"${entry.value}" is an expression, which Evergreen does not evaluate`,
+        ),
+      );
       continue;
     }
     pins.push(makePin(path, entry.line, SOURCE_SETUP_RUBY, entry.value, "pin", releaseOf(entry.value)));

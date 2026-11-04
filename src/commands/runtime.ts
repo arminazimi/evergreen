@@ -3,7 +3,17 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import { applyAsOf } from "../as-of.js";
-import { DEFAULT_WARN_DAYS, createBaseline, debtTrendLine, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, readBaselines, writeBaseline } from "../baseline.js";
+import {
+  DEFAULT_WARN_DAYS,
+  createBaseline,
+  debtTrendLine,
+  evaluateBaseline,
+  expiredPolicies,
+  expiredSuppressionsFail,
+  readBaseline,
+  readBaselines,
+  writeBaseline,
+} from "../baseline.js";
 import type { ExpiredPolicy } from "../baseline.js";
 import { bundledRules } from "../check-dependency.js";
 import { groupScanByOwner, renderOwnerGroupsText } from "../codeowners.js";
@@ -23,7 +33,23 @@ import { createMigrationPacket } from "../migration-packet.js";
 import { readPinnedRuntimes } from "../runtime-pin.js";
 import { isIsoDate } from "../registry.js";
 import { createIssueReport, ReportIssueError } from "../report-issue.js";
-import { renderCodeQuality, renderCompact, renderFindingText, renderHtml, renderJson, renderJunit, renderMarkdown, renderMigrationPacketText, renderRdjson, renderSarif, renderScanMermaid, renderSlack, renderTeams, renderText, renderWebhook } from "../reporters.js";
+import {
+  renderCodeQuality,
+  renderCompact,
+  renderFindingText,
+  renderHtml,
+  renderJson,
+  renderJunit,
+  renderMarkdown,
+  renderMigrationPacketText,
+  renderRdjson,
+  renderSarif,
+  renderScanMermaid,
+  renderSlack,
+  renderTeams,
+  renderText,
+  renderWebhook,
+} from "../reporters.js";
 import { STATUS_FILE_NAME, writeStatusFile } from "../status-file.js";
 import { browseFindings, canBrowse } from "../tui.js";
 import { EXIT_CODES, type CommandContext, type FailureClass } from "./types.js";
@@ -80,7 +106,10 @@ export function createCommandContext(rawArgs: readonly string[], help: string): 
     fail(kind, message, appendix = "") {
       process.stderr.write(`${message}\n${appendix}`);
       if (jsonErrors && kind !== "policy") {
-        const document = { schemaVersion: "evergreen.error.v1", error: { code: kind, exitCode: EXIT_CODES[kind], message } };
+        const document = {
+          schemaVersion: "evergreen.error.v1",
+          error: { code: kind, exitCode: EXIT_CODES[kind], message },
+        };
         process.stdout.write(`${JSON.stringify(document, null, 2)}\n`);
       }
       return EXIT_CODES[kind];
@@ -116,7 +145,11 @@ export interface Gated extends Prepared {
 }
 
 /** Option parsing, config loading, and the data pin. Returns an exit code when that setup fails. */
-export async function prepare(command: string, commandArgs: readonly string[], ctx: CommandContext): Promise<Prepared | number> {
+export async function prepare(
+  command: string,
+  commandArgs: readonly string[],
+  ctx: CommandContext,
+): Promise<Prepared | number> {
   const args = [command, ...commandArgs];
   const optionValue = (name: string): string | undefined => {
     const index = args.indexOf(name);
@@ -162,10 +195,12 @@ export async function prepare(command: string, commandArgs: readonly string[], c
   const dataVersionIndex = args.indexOf("--data-version");
   const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
   if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {
-    return ctx.fail("usage", "--data-version needs a version, for example 2026.10.01, or \"bundled\".");
+    return ctx.fail("usage", '--data-version needs a version, for example 2026.10.01, or "bundled".');
   }
   const isUpdate = command === "data" && args[1] === "update";
-  const dataPin = isUpdate ? undefined : (dataVersionFlag ?? config?.dataVersion ?? (process.env.EVERGREEN_DATA_VERSION || undefined));
+  const dataPin = isUpdate
+    ? undefined
+    : (dataVersionFlag ?? config?.dataVersion ?? (process.env.EVERGREEN_DATA_VERSION || undefined));
   if (command !== "capabilities" && !isUpdate) {
     configureActiveData(dataPin === undefined ? {} : { pinnedVersion: dataPin });
     try {
@@ -177,14 +212,46 @@ export async function prepare(command: string, commandArgs: readonly string[], c
   }
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
-  return { command, args, positional, findingId, pathArgument, demo, config, dataVersionFlag, dataVersionIndex, format, formatIndex, optionValue, optionValues };
+  return {
+    command,
+    args,
+    positional,
+    findingId,
+    pathArgument,
+    demo,
+    config,
+    dataVersionFlag,
+    dataVersionIndex,
+    format,
+    formatIndex,
+    optionValue,
+    optionValues,
+  };
 }
 
 /** Format and scan-only flag checks that used to run before any of the later commands. */
 export async function sharedGates(state: Prepared, ctx: CommandContext): Promise<Gated | number> {
   const { command, args, format, formatIndex } = state;
-  if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "markdown" && format !== "junit" && format !== "sarif" && format !== "rdjson" && format !== "codequality" && format !== "compact" && format !== "html" && format !== "slack" && format !== "teams" && format !== "webhook" && format !== "mermaid") {
-    return ctx.fail("usage", `Unknown format: ${format ?? ""} (expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid).`);
+  if (
+    formatIndex !== -1 &&
+    format !== "text" &&
+    format !== "json" &&
+    format !== "markdown" &&
+    format !== "junit" &&
+    format !== "sarif" &&
+    format !== "rdjson" &&
+    format !== "codequality" &&
+    format !== "compact" &&
+    format !== "html" &&
+    format !== "slack" &&
+    format !== "teams" &&
+    format !== "webhook" &&
+    format !== "mermaid"
+  ) {
+    return ctx.fail(
+      "usage",
+      `Unknown format: ${format ?? ""} (expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid).`,
+    );
   }
   if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
     return ctx.fail("usage", "check supports --json and --format text|json only.");
@@ -195,7 +262,20 @@ export async function sharedGates(state: Prepared, ctx: CommandContext): Promise
   if (command === "receipt" && format !== undefined && format !== "markdown" && format !== "json") {
     return ctx.fail("usage", "receipt supports --format markdown|json only.");
   }
-  if ((format === "markdown" || format === "junit" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || (format === "html" && command !== "rollup") || format === "slack" || format === "teams" || format === "webhook") && command !== "scan" && command !== "receipt") {
+  if (
+    (format === "markdown" ||
+      format === "junit" ||
+      format === "sarif" ||
+      format === "rdjson" ||
+      format === "codequality" ||
+      format === "compact" ||
+      (format === "html" && command !== "rollup") ||
+      format === "slack" ||
+      format === "teams" ||
+      format === "webhook") &&
+    command !== "scan" &&
+    command !== "receipt"
+  ) {
     return ctx.fail("usage", `--format ${format} is only available for the scan command.`);
   }
   if (format === "mermaid" && command !== "scan" && command !== "forecast") {
@@ -219,13 +299,22 @@ export async function sharedGates(state: Prepared, ctx: CommandContext): Promise
   }
   const selection: ScanSelection | undefined =
     onlySelectors.length > 0 || excludeSelectors.length > 0
-      ? { ...(onlySelectors.length > 0 ? { only: onlySelectors } : {}), ...(excludeSelectors.length > 0 ? { exclude: excludeSelectors } : {}) }
+      ? {
+          ...(onlySelectors.length > 0 ? { only: onlySelectors } : {}),
+          ...(excludeSelectors.length > 0 ? { exclude: excludeSelectors } : {}),
+        }
       : undefined;
   if (selection) {
     const known = await selectorValues();
-    const invalid = [...new Set([...onlySelectors, ...excludeSelectors])].filter((value) => !known.has(value) || value === "" || value.startsWith("-"));
+    const invalid = [...new Set([...onlySelectors, ...excludeSelectors])].filter(
+      (value) => !known.has(value) || value === "" || value.startsWith("-"),
+    );
     if (invalid.length > 0) {
-      return ctx.fail("usage", `Unknown selector: ${invalid.join(", ")}. Use an ecosystem or a rule-id prefix (for example npm.package.request).`, `\n${await selectorValuesSummary()}\n`);
+      return ctx.fail(
+        "usage",
+        `Unknown selector: ${invalid.join(", ")}. Use an ecosystem or a rule-id prefix (for example npm.package.request).`,
+        `\n${await selectorValuesSummary()}\n`,
+      );
     }
   }
   return { ...state, json, noCache, selection };
@@ -256,7 +345,10 @@ export async function repositoryPhase(state: Gated, ctx: CommandContext): Promis
       try {
         found = await findRepositories(allDirectory);
       } catch (error) {
-        return ctx.fail("usage", `Cannot read ${allDirectory}: ${error instanceof Error ? error.message : String(error)}`);
+        return ctx.fail(
+          "usage",
+          `Cannot read ${allDirectory}: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
     }
     const paths = [...positional, ...found];
@@ -267,7 +359,10 @@ export async function repositoryPhase(state: Gated, ctx: CommandContext): Promis
         const result = applyScanSelection(project.result, selection);
         return { ...project, findings: result.findings.length, result };
       });
-      multi.total = { projects: multi.projects.length, findings: multi.projects.reduce((sum, project) => sum + project.findings, 0) };
+      multi.total = {
+        projects: multi.projects.length,
+        findings: multi.projects.reduce((sum, project) => sum + project.findings, 0),
+      };
     }
     process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
     return 0;
@@ -283,7 +378,10 @@ export async function repositoryPhase(state: Gated, ctx: CommandContext): Promis
 export function preScanPhase(state: Gated, ctx: CommandContext): number | undefined {
   const scanGate = state.optionValue("--fail-on") ?? state.config?.failOn ?? "none";
   if (state.command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {
-    return ctx.fail("usage", `Unknown severity for --fail-on: ${scanGate} (expected none, ${severityValues.join(", ")}).`);
+    return ctx.fail(
+      "usage",
+      `Unknown severity for --fail-on: ${scanGate} (expected none, ${severityValues.join(", ")}).`,
+    );
   }
   const asOfValue = state.optionValue("--as-of") ?? state.optionValue("--today");
   if (asOfValue !== undefined && !isIsoDate(asOfValue)) {
@@ -292,7 +390,12 @@ export function preScanPhase(state: Gated, ctx: CommandContext): number | undefi
   return undefined;
 }
 
-export async function afterGates(command: string, args: readonly string[], ctx: CommandContext, handler: (state: Gated) => Promise<number>): Promise<number> {
+export async function afterGates(
+  command: string,
+  args: readonly string[],
+  ctx: CommandContext,
+  handler: (state: Gated) => Promise<number>,
+): Promise<number> {
   const prepared = await prepare(command, args, ctx);
   if (typeof prepared === "number") return prepared;
   const gated = await sharedGates(prepared, ctx);
@@ -300,7 +403,12 @@ export async function afterGates(command: string, args: readonly string[], ctx: 
   return handler(gated);
 }
 
-export async function withPrepared(command: string, args: readonly string[], ctx: CommandContext, handler: (state: Prepared) => Promise<number>): Promise<number> {
+export async function withPrepared(
+  command: string,
+  args: readonly string[],
+  ctx: CommandContext,
+  handler: (state: Prepared) => Promise<number>,
+): Promise<number> {
   const prepared = await prepare(command, args, ctx);
   if (typeof prepared === "number") return prepared;
   return handler(prepared);
@@ -332,22 +440,31 @@ async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number>
   const ignorePatterns = args.includes("--ignore") ? cliIgnore : (config?.ignore ?? []);
   const asOfValue = state.optionValue("--as-of") ?? state.optionValue("--today");
 
-  let result = demo ? await scanDemo(builtInDetectors) : await scanRepository(pathArgument, builtInDetectors, { noCache });
+  let result = demo
+    ? await scanDemo(builtInDetectors)
+    : await scanRepository(pathArgument, builtInDetectors, { noCache });
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
-  if (minSupportDays !== undefined) result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
+  if (minSupportDays !== undefined)
+    result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
   if (ignorePatterns.length > 0) result = applyIgnore(result, ignorePatterns);
   if (selection) result = applyScanSelection(result, selection);
   if (command === "baseline") {
     const output = resolve(state.optionValue("--output") ?? ".evergreen-baseline.json");
     // A missing or unreadable earlier file just means there is no history to carry forward.
     const previous = await readBaseline(output).catch(() => undefined);
-    const baseline = createBaseline(result, {}, previous ?? {
-      schemaVersion: "evergreen.baseline.v1",
-      createdAt: "",
-      findings: [],
-    });
+    const baseline = createBaseline(
+      result,
+      {},
+      previous ?? {
+        schemaVersion: "evergreen.baseline.v1",
+        createdAt: "",
+        findings: [],
+      },
+    );
     await writeBaseline(output, baseline);
-    process.stdout.write(`Wrote ${baseline.findings.length} findings to ${output}\n${debtTrendLine(baseline.history ?? [])}\n`);
+    process.stdout.write(
+      `Wrote ${baseline.findings.length} findings to ${output}\n${debtTrendLine(baseline.history ?? [])}\n`,
+    );
     return 0;
   }
   let baselineExpiredFailure = false;
@@ -358,8 +475,17 @@ async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number>
     const warnValue = state.optionValue("--baseline-warn-days");
     const warnWithinDays = warnValue === undefined ? DEFAULT_WARN_DAYS : Number(warnValue);
     const onExpired = (state.optionValue("--on-expired") ?? "resurface") as ExpiredPolicy;
-    if (!isIsoDate(today) || !Number.isInteger(warnWithinDays) || warnWithinDays < 0 || warnWithinDays > 365 || !expiredPolicies.includes(onExpired)) {
-      return ctx.fail("usage", `--today must be a date (YYYY-MM-DD), --baseline-warn-days a whole number from 0 to 365, and --on-expired one of ${expiredPolicies.join(", ")}.`);
+    if (
+      !isIsoDate(today) ||
+      !Number.isInteger(warnWithinDays) ||
+      warnWithinDays < 0 ||
+      warnWithinDays > 365 ||
+      !expiredPolicies.includes(onExpired)
+    ) {
+      return ctx.fail(
+        "usage",
+        `--today must be a date (YYYY-MM-DD), --baseline-warn-days a whole number from 0 to 365, and --on-expired one of ${expiredPolicies.join(", ")}.`,
+      );
     }
     let baseline: Awaited<ReturnType<typeof readBaselines>>;
     try {
@@ -375,7 +501,12 @@ async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number>
   if (command === "context") {
     try {
       // findingId is required for context; runScanPipeline rejects a missing id before this runs.
-      const packet = createMigrationPacket(result, requireFindingId(findingId), await bundledRules(), await readPinnedRuntimes(result.root));
+      const packet = createMigrationPacket(
+        result,
+        requireFindingId(findingId),
+        await bundledRules(),
+        await readPinnedRuntimes(result.root),
+      );
       process.stdout.write(`${json ? JSON.stringify(packet, null, 2) : renderMigrationPacketText(packet)}\n`);
     } catch (error) {
       return ctx.fail("data", error instanceof Error ? error.message : String(error));
@@ -389,7 +520,9 @@ async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number>
       if (output) {
         const destination = resolve(output);
         await writeFile(destination, report);
-        process.stdout.write(`Wrote the report to ${destination}. Review it before you open an issue; Evergreen never opens one.\n`);
+        process.stdout.write(
+          `Wrote the report to ${destination}. Review it before you open an issue; Evergreen never opens one.\n`,
+        );
       } else {
         process.stdout.write(`${report}\n`);
       }
@@ -404,15 +537,42 @@ async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number>
   } else if (args.includes("--interactive") && !json && format === "text" && canBrowse(process.stdin, process.stdout)) {
     await browseFindings(result, { input: process.stdin, output: process.stdout });
   } else if (command === "scan" && args.includes("--by-owner")) {
-    if (format !== undefined && format !== "text" && format !== "json") return ctx.fail("usage", "--by-owner supports --json and --format text|json only.");
+    if (format !== undefined && format !== "text" && format !== "json")
+      return ctx.fail("usage", "--by-owner supports --json and --format text|json only.");
     const groups = await groupScanByOwner(result);
     process.stdout.write(`${json ? JSON.stringify(groups, null, 2) : renderOwnerGroupsText(groups)}\n`);
   } else {
     // Only the shareable HTML report carries a forecast; building it would otherwise slow every other format down.
-    const forecast = format === "html" && command === "scan"
-      ? buildForecast(result, await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10))
-      : undefined;
-    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "codequality" ? renderCodeQuality(result) : format === "compact" ? renderCompact(result) : format === "html" ? renderHtml(result, { forecast }) : format === "markdown" ? renderMarkdown(result) : format === "junit" ? renderJunit(result) : format === "slack" ? renderSlack(result) : format === "teams" ? renderTeams(result) : format === "webhook" ? renderWebhook(result) : format === "mermaid" ? renderScanMermaid(result, asOfValue ?? new Date().toISOString().slice(0, 10)) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
+    const forecast =
+      format === "html" && command === "scan"
+        ? buildForecast(result, await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10))
+        : undefined;
+    const output =
+      format === "sarif"
+        ? renderSarif(result)
+        : format === "rdjson"
+          ? renderRdjson(result)
+          : format === "codequality"
+            ? renderCodeQuality(result)
+            : format === "compact"
+              ? renderCompact(result)
+              : format === "html"
+                ? renderHtml(result, { forecast })
+                : format === "markdown"
+                  ? renderMarkdown(result)
+                  : format === "junit"
+                    ? renderJunit(result)
+                    : format === "slack"
+                      ? renderSlack(result)
+                      : format === "teams"
+                        ? renderTeams(result)
+                        : format === "webhook"
+                          ? renderWebhook(result)
+                          : format === "mermaid"
+                            ? renderScanMermaid(result, asOfValue ?? new Date().toISOString().slice(0, 10))
+                            : json
+                              ? renderJson(result)
+                              : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
     process.stdout.write(`${output}\n`);
     if (args.includes("--write-status")) {
       const statusRoot = resolve(pathArgument);
@@ -425,8 +585,14 @@ async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number>
   }
   const scanGate = state.optionValue("--fail-on") ?? config?.failOn ?? "none";
   if (command === "scan" && scanGate !== "none") {
-    const blocking = result.findings.filter((finding) => severityValues.indexOf(finding.severity) >= severityValues.indexOf(scanGate as Severity));
-    if (blocking.length > 0) return ctx.fail("policy", `${blocking.length} finding${blocking.length === 1 ? "" : "s"} at ${scanGate} or above (--fail-on ${scanGate}).`);
+    const blocking = result.findings.filter(
+      (finding) => severityValues.indexOf(finding.severity) >= severityValues.indexOf(scanGate as Severity),
+    );
+    if (blocking.length > 0)
+      return ctx.fail(
+        "policy",
+        `${blocking.length} finding${blocking.length === 1 ? "" : "s"} at ${scanGate} or above (--fail-on ${scanGate}).`,
+      );
   }
   return 0;
 }
@@ -459,6 +625,11 @@ async function selectorValues(): Promise<Set<string>> {
 /** Lists the ecosystems and rule-id families a selector may name, for the unknown-selector error. */
 async function selectorValuesSummary(): Promise<string> {
   const ecosystems = builtInDetectors.map((detector) => detector.id).sort();
-  const prefixes = [...new Set((await bundledRules()).map((rule) => rule.id.split(".").slice(0, 2).join(".")))].sort((left, right) => left.localeCompare(right));
-  return `Valid ecosystems: ${ecosystems.join(", ")}. Valid rule prefixes: ${[...ecosystems, ...prefixes].filter((value, index, all) => all.indexOf(value) === index).sort((left, right) => left.localeCompare(right)).join(", ")}.`;
+  const prefixes = [...new Set((await bundledRules()).map((rule) => rule.id.split(".").slice(0, 2).join(".")))].sort(
+    (left, right) => left.localeCompare(right),
+  );
+  return `Valid ecosystems: ${ecosystems.join(", ")}. Valid rule prefixes: ${[...ecosystems, ...prefixes]
+    .filter((value, index, all) => all.indexOf(value) === index)
+    .sort((left, right) => left.localeCompare(right))
+    .join(", ")}.`;
 }

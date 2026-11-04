@@ -53,25 +53,40 @@ const KNOWN_OPTIONS = new Set(["--repo", "--token", "--state", "--summary", "--o
 
 export function hasFiles(body: string | null | undefined): boolean {
   if (!body) return false;
-  const match = /(?:^|\n)(?:\*\*Files(?:\*\*:|:\*\*|\*\*)|#+\s*Files:?|Files:)[^\S\r\n]*\r?\n([\s\S]*?)(?=(?:\r?\n\s*(?:#+|\*\*[A-Z]|---)|$))/i.exec(body);
+  const match =
+    /(?:^|\n)(?:\*\*Files(?:\*\*:|:\*\*|\*\*)|#+\s*Files:?|Files:)[^\S\r\n]*\r?\n([\s\S]*?)(?=(?:\r?\n\s*(?:#+|\*\*[A-Z]|---)|$))/i.exec(
+      body,
+    );
   if (!match) return false;
   const content = match[1]?.trim() ?? "";
-  const lines = content.split("\n").map((l) => l.trim()).filter(Boolean);
+  const lines = content
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
   return lines.some((line) => /^[-*•]\s+\S+/.test(line) || /`[^`]+`/.test(line));
 }
 
 export function hasSteps(body: string | null | undefined): boolean {
   if (!body) return false;
-  const match = /(?:^|\n)(?:\*\*Steps(?:\*\*:|:\*\*|\*\*)|#+\s*Steps:?|Steps:)[^\S\r\n]*\r?\n([\s\S]*?)(?=(?:\r?\n\s*(?:#+|\*\*[A-Z]|---)|$))/i.exec(body);
+  const match =
+    /(?:^|\n)(?:\*\*Steps(?:\*\*:|:\*\*|\*\*)|#+\s*Steps:?|Steps:)[^\S\r\n]*\r?\n([\s\S]*?)(?=(?:\r?\n\s*(?:#+|\*\*[A-Z]|---)|$))/i.exec(
+      body,
+    );
   if (!match) return false;
   const content = match[1]?.trim() ?? "";
-  const lines = content.split("\n").map((l) => l.trim()).filter(Boolean);
+  const lines = content
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
   return lines.some((line) => /^(?:\d+\.|\*|-|•)\s+\S+/.test(line));
 }
 
 export function hasDoneCheck(body: string | null | undefined): boolean {
   if (!body) return false;
-  const match = /(?:^|\n)(?:#+\s*(?:Done(?:\s+when)?|Exit\s+criteria)|\*\*(?:Done(?:\s+when)?|Exit\s+criteria)\*\*|Done(?:\s+when)?:)[^\S\r\n]*\r?\n([\s\S]*?)(?=(?:\r?\n\s*(?:#+|\*\*[A-Z]|---)|$))/i.exec(body);
+  const match =
+    /(?:^|\n)(?:#+\s*(?:Done(?:\s+when)?|Exit\s+criteria)|\*\*(?:Done(?:\s+when)?|Exit\s+criteria)\*\*|Done(?:\s+when)?:)[^\S\r\n]*\r?\n([\s\S]*?)(?=(?:\r?\n\s*(?:#+|\*\*[A-Z]|---)|$))/i.exec(
+      body,
+    );
   if (!match) return false;
   const content = match[1]?.trim() ?? "";
   return /(?:^|\n)\s*(?:[-*•]\s*)?\[[ xX]\]\s+\S+/.test(content);
@@ -93,7 +108,11 @@ export function evaluateIssueBrief(issue: Issue, defaultRepo = "arminazimi/everg
   };
 }
 
-export function evaluateIssues(issues: readonly Issue[], now = new Date(), defaultRepo = "arminazimi/evergreen"): CheckReport {
+export function evaluateIssues(
+  issues: readonly Issue[],
+  now = new Date(),
+  defaultRepo = "arminazimi/evergreen",
+): CheckReport {
   const incomplete: IncompleteIssue[] = [];
   for (const issue of issues) {
     const defect = evaluateIssueBrief(issue, defaultRepo);
@@ -188,7 +207,10 @@ export async function fetchGoodFirstIssues(options: FetchIssuesOptions = {}): Pr
   return results;
 }
 
-export async function main(argv: string[], fetcher?: ((url: string, init?: RequestInit) => Promise<Response>) | undefined): Promise<number> {
+export async function main(
+  argv: string[],
+  fetcher?: ((url: string, init?: RequestInit) => Promise<Response>) | undefined,
+): Promise<number> {
   const options = parseArguments(argv);
   const issues = await fetchGoodFirstIssues({
     repo: options.repo,

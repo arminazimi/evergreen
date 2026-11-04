@@ -177,10 +177,10 @@ function rejection(
   headers: Record<string, string> = {},
 ): Response {
   const { status, code } = REJECTIONS[reason];
-  return new Response(
-    JSON.stringify({ jsonrpc: "2.0", id, error: { code, message, data: { reason, ...data } } }),
-    { status, headers: { "content-type": "application/json", ...headers } },
-  );
+  return new Response(JSON.stringify({ jsonrpc: "2.0", id, error: { code, message, data: { reason, ...data } } }), {
+    status,
+    headers: { "content-type": "application/json", ...headers },
+  });
 }
 
 class LookupTimeoutError extends Error {}

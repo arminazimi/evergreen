@@ -43,17 +43,30 @@ export const MAX_BASELINE_HISTORY = 100;
 
 function validHistory(history: unknown): BaselineHistoryEntry[] {
   if (!Array.isArray(history)) return [];
-  return history.filter((entry): entry is BaselineHistoryEntry => typeof entry?.at === "string" && !Number.isNaN(Date.parse(entry.at)) && Number.isInteger(entry.count) && entry.count >= 0);
+  return history.filter(
+    (entry): entry is BaselineHistoryEntry =>
+      typeof entry?.at === "string" &&
+      !Number.isNaN(Date.parse(entry.at)) &&
+      Number.isInteger(entry.count) &&
+      entry.count >= 0,
+  );
 }
 
 /** Adds one entry to a history, keeping it sorted by time and at most `MAX_BASELINE_HISTORY` long (newest kept). */
-export function appendHistory(history: readonly BaselineHistoryEntry[] | undefined, entry: BaselineHistoryEntry): BaselineHistoryEntry[] {
-  return [...validHistory(history), entry].sort((left, right) => Date.parse(left.at) - Date.parse(right.at)).slice(-MAX_BASELINE_HISTORY);
+export function appendHistory(
+  history: readonly BaselineHistoryEntry[] | undefined,
+  entry: BaselineHistoryEntry,
+): BaselineHistoryEntry[] {
+  return [...validHistory(history), entry]
+    .sort((left, right) => Date.parse(left.at) - Date.parse(right.at))
+    .slice(-MAX_BASELINE_HISTORY);
 }
 
 /** A baseline written before histories existed counts as the first entry. */
 function seedHistory(baseline: Baseline): BaselineHistoryEntry[] {
-  return Number.isNaN(Date.parse(baseline.createdAt)) ? [] : [{ at: baseline.createdAt, count: baseline.findings.length }];
+  return Number.isNaN(Date.parse(baseline.createdAt))
+    ? []
+    : [{ at: baseline.createdAt, count: baseline.findings.length }];
 }
 
 /** The line printed after a baseline is written: the change in findings since the last history entry. */
@@ -121,7 +134,14 @@ export function createBaseline(result: ScanResult, suppression: Suppression = {}
       ...extra,
     })),
     // Only a baseline that already has a history, or that replaces an earlier one, starts or extends a history.
-    ...(previous ? { history: appendHistory(previous.history ?? seedHistory(previous), { at: createdAt, count: result.findings.length }) } : {}),
+    ...(previous
+      ? {
+          history: appendHistory(previous.history ?? seedHistory(previous), {
+            at: createdAt,
+            count: result.findings.length,
+          }),
+        }
+      : {}),
   };
 }
 
@@ -137,7 +157,8 @@ export async function readBaseline(path: string): Promise<Baseline> {
   // Entries without the optional suppression fields (every baseline written before them) load as before.
   for (const [index, entry] of baseline.findings.entries()) {
     const issues = suppressionIssues(entry);
-    if (issues.length > 0) throw new Error(`Invalid Evergreen baseline ${path}: findings[${index}]: ${issues.join("; ")}.`);
+    if (issues.length > 0)
+      throw new Error(`Invalid Evergreen baseline ${path}: findings[${index}]: ${issues.join("; ")}.`);
   }
   return baseline;
 }
@@ -201,22 +222,37 @@ export function daysBetween(from: string, to: string): number {
 }
 
 /** The suppressions that matched a finding in this scan and expire within the window, soonest first. */
-export function expiringSuppressions(matched: readonly BaselineEntry[], today: string, warnWithinDays: number): Array<BaselineEntry & { daysLeft: number }> {
+export function expiringSuppressions(
+  matched: readonly BaselineEntry[],
+  today: string,
+  warnWithinDays: number,
+): Array<BaselineEntry & { daysLeft: number }> {
   return matched
     .filter((entry): entry is BaselineEntry & { expires: string } => isIsoDate(entry.expires))
     .map((entry) => ({ ...entry, daysLeft: daysBetween(today, entry.expires) }))
     .filter((entry) => entry.daysLeft >= 0 && entry.daysLeft <= warnWithinDays)
-    .sort((left, right) => left.daysLeft - right.daysLeft || left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path));
+    .sort(
+      (left, right) =>
+        left.daysLeft - right.daysLeft ||
+        left.ruleId.localeCompare(right.ruleId) ||
+        left.path.localeCompare(right.path),
+    );
 }
 
 function expiryLine(entry: BaselineEntry & { daysLeft: number }): string {
   const when = entry.daysLeft === 0 ? "today" : `in ${entry.daysLeft} day${entry.daysLeft === 1 ? "" : "s"}`;
-  const who = [entry.owner ? `owner: ${entry.owner}` : undefined, entry.reason ? `reason: ${entry.reason}` : undefined].filter((part) => part !== undefined);
+  const who = [
+    entry.owner ? `owner: ${entry.owner}` : undefined,
+    entry.reason ? `reason: ${entry.reason}` : undefined,
+  ].filter((part) => part !== undefined);
   return `Baseline suppression expires ${when} (${entry.expires}): ${entry.ruleId} at ${entry.path}${who.length > 0 ? ` (${who.join("; ")})` : ""}.`;
 }
 
 function expiredLine(entry: ExpiredSuppression): string {
-  const who = [entry.owner ? `owner: ${entry.owner}` : undefined, entry.reason ? `reason: ${entry.reason}` : undefined].filter((part) => part !== undefined);
+  const who = [
+    entry.owner ? `owner: ${entry.owner}` : undefined,
+    entry.reason ? `reason: ${entry.reason}` : undefined,
+  ].filter((part) => part !== undefined);
   return `Baseline suppression expired ${entry.daysAgo === 0 ? "today" : `${entry.daysAgo} day${entry.daysAgo === 1 ? "" : "s"} ago`} (${entry.expires}) and no longer hides its finding: ${entry.ruleId} at ${entry.path}${who.length > 0 ? ` (${who.join("; ")})` : ""}.`;
 }
 
@@ -229,9 +265,14 @@ function isExpired(entry: BaselineEntry, today: string | undefined): entry is Ba
  * Applies a baseline and also returns the suppressions that had expired, so a caller that enforces the `fail`
  * policy knows. `applyBaseline` is the same without that list. The expired list is not part of the scan result.
  */
-export function evaluateBaseline(result: ScanResult, baseline: Baseline, options: ApplyBaselineOptions = {}): { result: ScanResult; expired: ExpiredSuppression[] } {
+export function evaluateBaseline(
+  result: ScanResult,
+  baseline: Baseline,
+  options: ApplyBaselineOptions = {},
+): { result: ScanResult; expired: ExpiredSuppression[] } {
   const byFingerprint = new Map<string, BaselineEntry[]>();
-  for (const entry of baseline.findings) byFingerprint.set(entry.fingerprint, [...(byFingerprint.get(entry.fingerprint) ?? []), entry]);
+  for (const entry of baseline.findings)
+    byFingerprint.set(entry.fingerprint, [...(byFingerprint.get(entry.fingerprint) ?? []), entry]);
   const matched: BaselineEntry[] = [];
   const expired: ExpiredSuppression[] = [];
   const findings = result.findings.filter((finding) => {
@@ -242,7 +283,14 @@ export function evaluateBaseline(result: ScanResult, baseline: Baseline, options
     if (live.length === 0) {
       for (const entry of entries) {
         if (isExpired(entry, options.today)) {
-          expired.push({ ruleId: entry.ruleId, path: entry.path, expires: entry.expires, daysAgo: daysBetween(entry.expires, options.today!), ...(entry.owner ? { owner: entry.owner } : {}), ...(entry.reason ? { reason: entry.reason } : {}) });
+          expired.push({
+            ruleId: entry.ruleId,
+            path: entry.path,
+            expires: entry.expires,
+            daysAgo: daysBetween(entry.expires, options.today!),
+            ...(entry.owner ? { owner: entry.owner } : {}),
+            ...(entry.reason ? { reason: entry.reason } : {}),
+          });
         }
       }
       return true;
@@ -251,17 +299,44 @@ export function evaluateBaseline(result: ScanResult, baseline: Baseline, options
     return false;
   });
   const hidden = result.findings.length - findings.length;
-  const expiredSorted = [...new Map(expired.map((entry) => [`${entry.ruleId}:${entry.path}:${entry.expires}`, entry])).values()]
-    .sort((left, right) => right.daysAgo - left.daysAgo || left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path));
-  const expiringEntries = options.today === undefined
-    ? []
-    : expiringSuppressions([...new Map(matched.map((entry) => [`${entry.fingerprint}:${entry.expires}`, entry])).values()], options.today, options.warnWithinDays ?? DEFAULT_WARN_DAYS);
-  const ref = (entry: BaselineEntry & { expires: string }, extra: object): SuppressionRef => ({ ruleId: entry.ruleId, path: entry.path, expires: entry.expires, ...(entry.owner ? { owner: entry.owner } : {}), ...(entry.reason ? { reason: entry.reason } : {}), ...extra });
+  const expiredSorted = [
+    ...new Map(expired.map((entry) => [`${entry.ruleId}:${entry.path}:${entry.expires}`, entry])).values(),
+  ].sort(
+    (left, right) =>
+      right.daysAgo - left.daysAgo || left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path),
+  );
+  const expiringEntries =
+    options.today === undefined
+      ? []
+      : expiringSuppressions(
+          [...new Map(matched.map((entry) => [`${entry.fingerprint}:${entry.expires}`, entry])).values()],
+          options.today,
+          options.warnWithinDays ?? DEFAULT_WARN_DAYS,
+        );
+  const ref = (entry: BaselineEntry & { expires: string }, extra: object): SuppressionRef => ({
+    ruleId: entry.ruleId,
+    path: entry.path,
+    expires: entry.expires,
+    ...(entry.owner ? { owner: entry.owner } : {}),
+    ...(entry.reason ? { reason: entry.reason } : {}),
+    ...extra,
+  });
   const suppressions: SuppressionState = {
     suppressed: hidden,
-    ...(options.today === undefined ? {} : { today: options.today, warnWithinDays: options.warnWithinDays ?? DEFAULT_WARN_DAYS }),
-    expiring: expiringEntries.map((entry) => ref(entry as BaselineEntry & { expires: string }, { daysLeft: entry.daysLeft })),
-    expired: expiredSorted.map((entry) => ({ ruleId: entry.ruleId, path: entry.path, expires: entry.expires, ...(entry.owner ? { owner: entry.owner } : {}), ...(entry.reason ? { reason: entry.reason } : {}), daysAgo: entry.daysAgo })),
+    ...(options.today === undefined
+      ? {}
+      : { today: options.today, warnWithinDays: options.warnWithinDays ?? DEFAULT_WARN_DAYS }),
+    expiring: expiringEntries.map((entry) =>
+      ref(entry as BaselineEntry & { expires: string }, { daysLeft: entry.daysLeft }),
+    ),
+    expired: expiredSorted.map((entry) => ({
+      ruleId: entry.ruleId,
+      path: entry.path,
+      expires: entry.expires,
+      ...(entry.owner ? { owner: entry.owner } : {}),
+      ...(entry.reason ? { reason: entry.reason } : {}),
+      daysAgo: entry.daysAgo,
+    })),
   };
   return {
     result: {
@@ -284,6 +359,9 @@ export function applyBaseline(result: ScanResult, baseline: Baseline, options: A
 }
 
 /** True when the policy is `fail` and at least one suppression had expired. */
-export function expiredSuppressionsFail(policy: ExpiredPolicy | undefined, expired: readonly ExpiredSuppression[]): boolean {
+export function expiredSuppressionsFail(
+  policy: ExpiredPolicy | undefined,
+  expired: readonly ExpiredSuppression[],
+): boolean {
   return policy === "fail" && expired.length > 0;
 }

@@ -232,10 +232,7 @@ function readQuoted(source: string, index: number): { value: string; end: number
 }
 
 /** After a `resource` keyword, read `"type" "name" {` from the original source. */
-function resourceHeader(
-  source: string,
-  afterKeyword: number,
-): { type: string; openBrace: number } | undefined {
+function resourceHeader(source: string, afterKeyword: number): { type: string; openBrace: number } | undefined {
   let index = skipSpaces(source, afterKeyword);
   const type = readQuoted(source, index);
   if (!type || type.value.length === 0) return undefined;
@@ -339,7 +336,8 @@ export function parseTf(contents: string): RuntimeDeclaration[] {
           }
         }
       }
-      const platform = header.type === "aws_lambda_function" ? "aws" : header.type.startsWith("google_") ? "gcp" : undefined;
+      const platform =
+        header.type === "aws_lambda_function" ? "aws" : header.type.startsWith("google_") ? "gcp" : undefined;
       if (platform) for (const declaration of declarations.slice(firstOfResource)) declaration.platform = platform;
       if (declarations.length >= MAXIMUM_DECLARATIONS) break;
     }

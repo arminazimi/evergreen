@@ -32,8 +32,7 @@ export async function readPinnedRuntimes(root: string): Promise<PinnedRuntimes> 
     (await readOptional(resolve(root, ".node-version")))?.trim() ||
     toolVersion(toolVersions, "nodejs") ||
     toolVersion(toolVersions, "node");
-  const python =
-    (await readOptional(resolve(root, ".python-version")))?.trim() || toolVersion(toolVersions, "python");
+  const python = (await readOptional(resolve(root, ".python-version")))?.trim() || toolVersion(toolVersions, "python");
   return {
     ...(node && semver.coerce(node) ? { node } : {}),
     ...(python && semver.coerce(python) ? { python } : {}),
@@ -50,7 +49,11 @@ export function isBelowRequirement(pinned: string, minimum: string): boolean {
 const RUNTIME_NAMES = { node: "Node.js", python: "Python" } as const;
 
 /** One warning per runtime whose pinned version is below what the replacement needs. */
-export function runtimeConflicts(replacement: string, requires: ReplacementRequirements, pinned: PinnedRuntimes): string[] {
+export function runtimeConflicts(
+  replacement: string,
+  requires: ReplacementRequirements,
+  pinned: PinnedRuntimes,
+): string[] {
   const warnings: string[] = [];
   for (const runtime of ["node", "python"] as const) {
     const minimum = requires[runtime];

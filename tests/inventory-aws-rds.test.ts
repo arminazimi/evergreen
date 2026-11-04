@@ -37,7 +37,16 @@ function resultsFor(report: InventoryReport, resource: string) {
 
 test("detect accepts the three AWS CLI documents and rejects anything else", async () => {
   for (const file of files) assert.equal(awsRdsImporter.detect(await readJson(file), file), true, file);
-  for (const document of [{}, [], "text", null, { DBInstances: "nope" }, { DBInstances: [1] }, { Functions: [] }, { Clusters: [] }]) {
+  for (const document of [
+    {},
+    [],
+    "text",
+    null,
+    { DBInstances: "nope" },
+    { DBInstances: [1] },
+    { Functions: [] },
+    { Clusters: [] },
+  ]) {
     assert.equal(awsRdsImporter.detect(document, "other.json"), false, JSON.stringify(document));
   }
 });
@@ -63,12 +72,10 @@ test("detect rejects every other importer's fixture under tests/fixtures/invento
 test("items read Engine, EngineVersion, and the resource name, and skip unknown engines", async () => {
   const document = await readJson(instances);
   const items = awsRdsImporter.items(document, instances);
-  assert.deepEqual([...new Set(items.map((item) => item.resource))], [
-    "prod-orders-pg12",
-    "prod-orders-pg14",
-    "prod-billing-mysql80",
-    "legacy-reports-mysql57",
-  ]);
+  assert.deepEqual(
+    [...new Set(items.map((item) => item.resource))],
+    ["prod-orders-pg12", "prod-orders-pg14", "prod-billing-mysql80", "legacy-reports-mysql57"],
+  );
   assert.ok(items.every((item) => item.importer === "aws-rds"));
   assert.ok(items.every((item) => item.pointer.endsWith("/EngineVersion")));
   assert.equal(resolvePointer(document, items[0]!.pointer), "12.22");
@@ -78,12 +85,21 @@ test("items read Engine, EngineVersion, and the resource name, and skip unknown 
 test("each recognized object reports the provider and upstream views", async () => {
   const report = await runInventory(files);
   const pg12 = resultsFor(report, "prod-orders-pg12");
-  assert.deepEqual(pg12.map((result) => result.item.purl).sort(), ["pkg:generic/aws-rds/postgres", "pkg:generic/postgresql"]);
-  assert.deepEqual(pg12.map((result) => result.check.status), ["affected", "affected"]);
+  assert.deepEqual(pg12.map((result) => result.item.purl).sort(), [
+    "pkg:generic/aws-rds/postgres",
+    "pkg:generic/postgresql",
+  ]);
+  assert.deepEqual(
+    pg12.map((result) => result.check.status),
+    ["affected", "affected"],
+  );
   assert.ok(pg12.some((result) => /for a fee/.test(result.check.findings[0]!.summary)));
 
   const aurora = resultsFor(report, "prod-analytics-aurora-pg13");
-  assert.deepEqual(aurora.map((result) => result.item.purl).sort(), ["pkg:generic/aws-aurora/postgresql", "pkg:generic/postgresql"]);
+  assert.deepEqual(aurora.map((result) => result.item.purl).sort(), [
+    "pkg:generic/aws-aurora/postgresql",
+    "pkg:generic/postgresql",
+  ]);
   assert.ok(aurora.every((result) => result.check.status === "affected"));
 
   const mysql = resultsFor(report, "prod-billing-mysql80");
@@ -115,10 +131,20 @@ test("Aurora MySQL reports only its Aurora item, and an uncovered version is not
 
 test("ElastiCache maps Redis and skips Memcached", async () => {
   const report = await runInventory([caches]);
-  assert.ok(resultsFor(report, "sessions-redis6").some((result) => result.item.purl === "pkg:generic/aws-elasticache/redis" && result.check.status === "affected"));
+  assert.ok(
+    resultsFor(report, "sessions-redis6").some(
+      (result) => result.item.purl === "pkg:generic/aws-elasticache/redis" && result.check.status === "affected",
+    ),
+  );
   const redis7 = resultsFor(report, "feature-flags-redis7");
-  assert.ok(redis7.some((result) => result.item.purl === "pkg:generic/aws-elasticache/redis" && result.check.status === "not-affected"));
-  assert.ok(redis7.some((result) => result.item.purl === "pkg:generic/redis" && result.check.status === "not-affected"));
+  assert.ok(
+    redis7.some(
+      (result) => result.item.purl === "pkg:generic/aws-elasticache/redis" && result.check.status === "not-affected",
+    ),
+  );
+  assert.ok(
+    redis7.some((result) => result.item.purl === "pkg:generic/redis" && result.check.status === "not-affected"),
+  );
   assert.deepEqual(resultsFor(report, "page-cache-memcached"), []);
 });
 
@@ -127,7 +153,11 @@ test("every pointer resolves to the item's version in its fixture", async () => 
   assert.ok(report.results.length > 0);
   for (const result of report.results) {
     const document = await readJson(result.item.file);
-    assert.equal(resolvePointer(document, result.item.pointer), result.item.version, `${result.item.file} ${result.item.pointer}`);
+    assert.equal(
+      resolvePointer(document, result.item.pointer),
+      result.item.version,
+      `${result.item.file} ${result.item.pointer}`,
+    );
   }
 });
 
@@ -152,7 +182,12 @@ test("--redact removes the fixture's resource names from the report", async () =
   const report = await runInventory(files);
   const redacted = redactReport(report);
   const json = JSON.stringify(redacted);
-  for (const resource of ["prod-orders-pg12", "prod-billing-mysql80", "sessions-redis6", "prod-analytics-aurora-pg13"]) {
+  for (const resource of [
+    "prod-orders-pg12",
+    "prod-billing-mysql80",
+    "sessions-redis6",
+    "prod-analytics-aurora-pg13",
+  ]) {
     assert.ok(!json.includes(resource), `the redacted report contains ${resource}`);
   }
   for (const result of redacted.results) assert.match(result.item.resource, /^[0-9a-f]{12}$/);

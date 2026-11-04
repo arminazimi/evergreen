@@ -5,7 +5,9 @@ export const command: CliCommand = {
   name: "inventory",
   flags: ["--format", "--json", "--fail-on", "--redact"],
   example: "evergreen inventory lambda.json",
-  usage: ["  evergreen inventory <file>... [--format auto|<importer-id>] [--json] [--fail-on <severity|none>] [--redact]   # lifecycle of what a cloud or cluster export names; reads files only"],
+  usage: [
+    "  evergreen inventory <file>... [--format auto|<importer-id>] [--json] [--fail-on <severity|none>] [--redact]   # lifecycle of what a cloud or cluster export names; reads files only",
+  ],
   usageSlots: [20],
   async run(args, ctx) {
     try {

@@ -56,11 +56,14 @@ test("recorded drafts match the curated registry line and leave nothing to add",
 });
 
 test("carries a valid pub.dev replacement into the draft", async () => {
-  const result = await runImporter(dartDiscontinuedImporter, pub({
-    name: "analysis_server_client",
-    isDiscontinued: true,
-    replacedBy: "language_server_client",
-  }));
+  const result = await runImporter(
+    dartDiscontinuedImporter,
+    pub({
+      name: "analysis_server_client",
+      isDiscontinued: true,
+      replacedBy: "language_server_client",
+    }),
+  );
   assert.equal(result.rules[0]!.replacement, "language_server_client");
   assert.match(result.rules[0]!.summary, /recommends language_server_client instead/);
 });
@@ -78,7 +81,10 @@ test("an omitted or false discontinued flag produces no rule", async () => {
 
 test("invalid replacement metadata cannot become migration guidance", async () => {
   for (const replacedBy of ["Bad Name", "analysis_server_client", 42]) {
-    const result = await runImporter(dartDiscontinuedImporter, pub({ name: "analysis_server_client", isDiscontinued: true, replacedBy }));
+    const result = await runImporter(
+      dartDiscontinuedImporter,
+      pub({ name: "analysis_server_client", isDiscontinued: true, replacedBy }),
+    );
     assert.equal(result.rules[0]!.replacement, undefined);
     assert.match(result.notes[0]!, /^Ignored invalid replacement/);
   }
@@ -88,7 +94,10 @@ test("a missing candidate is a note, while other source failures stop the run", 
   const missing = await runImporter(dartDiscontinuedImporter, pub("missing"));
   assert.deepEqual(missing.rules, []);
   assert.deepEqual(missing.notes, ["Skipped analysis_server_client: not found on pub.dev."]);
-  await assert.rejects(runImporter(dartDiscontinuedImporter, pub(new ImporterError("GET x failed: HTTP 503"))), /HTTP 503/);
+  await assert.rejects(
+    runImporter(dartDiscontinuedImporter, pub(new ImporterError("GET x failed: HTTP 503"))),
+    /HTTP 503/,
+  );
 });
 
 test("fails closed when the endpoint answers for another package", async () => {

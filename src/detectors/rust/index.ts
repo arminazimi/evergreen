@@ -27,7 +27,19 @@ import { parseRustToolchain } from "./parse-rust-toolchain.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const TOOLCHAIN_PURL = "pkg:generic/rust";
 const NAMES = new Set(["Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "rust-toolchain"]);
 
@@ -67,10 +79,16 @@ export class RustDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "rust";
   /** The files `scan` may read; conformance fails a scan that reads another. */
-  readonly inputs: DetectorInputs = { fileNames: ["Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "rust-toolchain"], sourceExtensions: [".rs"] };
+  readonly inputs: DetectorInputs = {
+    fileNames: ["Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "rust-toolchain"],
+    sourceExtensions: [".rs"],
+  };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/rust.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/rust.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/rust.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -122,12 +140,20 @@ export class RustDetector implements Detector {
       const name = basename(file);
 
       if (name === "Cargo.toml") {
-        const dependencies = parseCargoToml(contents).filter((declaration): declaration is CargoDependencyDeclaration => declaration.kind === "dependency");
+        const dependencies = parseCargoToml(contents).filter(
+          (declaration): declaration is CargoDependencyDeclaration => declaration.kind === "dependency",
+        );
         manifests.push({ directory: dirname(path), dependencies });
         // An abandoned crate is abandoned at every version, so the declaration itself is the finding.
         for (const dependency of dependencies) {
           for (const rule of crateRules.get(dependency.crate) ?? []) {
-            if (coversEveryVersion(rule)) abandoned.push({ rule, path, line: dependency.line, summary: `${path} declares ${dependency.crate} ${dependency.value}${dependency.name !== dependency.crate ? ` (as ${dependency.name})` : ""} in ${dependency.section}. ${rule.summary}` });
+            if (coversEveryVersion(rule))
+              abandoned.push({
+                rule,
+                path,
+                line: dependency.line,
+                summary: `${path} declares ${dependency.crate} ${dependency.value}${dependency.name !== dependency.crate ? ` (as ${dependency.name})` : ""} in ${dependency.section}. ${rule.summary}`,
+              });
           }
         }
       } else if (name === "Cargo.lock") {
@@ -137,7 +163,12 @@ export class RustDetector implements Detector {
           if (declaration.value === "stable") continue;
           const version = releaseVersion(declaration.value);
           if (!version) {
-            unclassified.push({ component: "rust", reference: declaration.value, reason: "the channel is not an exact release, so Evergreen does not judge it", location: { path, line: declaration.line } });
+            unclassified.push({
+              component: "rust",
+              reference: declaration.value,
+              reason: "the channel is not an exact release, so Evergreen does not judge it",
+              location: { path, line: declaration.line },
+            });
             continue;
           }
           const rule = toolchainRules.find((item) => versContains(item.vers, version));
@@ -150,14 +181,24 @@ export class RustDetector implements Detector {
     for (const lock of locks) {
       const declared = new Set(
         manifests
-          .filter((manifest) => lock.directory === "." || manifest.directory === lock.directory || manifest.directory.startsWith(`${lock.directory}/`))
+          .filter(
+            (manifest) =>
+              lock.directory === "." ||
+              manifest.directory === lock.directory ||
+              manifest.directory.startsWith(`${lock.directory}/`),
+          )
           .flatMap((manifest) => manifest.dependencies.map((dependency) => dependency.crate)),
       );
       for (const pkg of lock.packages) {
         if (!declared.has(pkg.crate)) continue;
         for (const rule of crateRules.get(pkg.crate) ?? []) {
           if (!coversEveryVersion(rule) && rule.event === "removed" && versContains(rule.vers, pkg.value)) {
-            report(rule, lock.path, pkg.line, `${lock.path} resolves ${pkg.crate} ${pkg.value}, which is yanked. ${rule.summary}`);
+            report(
+              rule,
+              lock.path,
+              pkg.line,
+              `${lock.path} resolves ${pkg.crate} ${pkg.value}, which is yanked. ${rule.summary}`,
+            );
           }
         }
       }
@@ -165,14 +206,29 @@ export class RustDetector implements Detector {
 
     // Where the repository's Rust source uses each abandoned crate, so a migration packet can list the files.
     const withUsage = abandoned.filter((item) => (item.rule.usage ?? []).length > 0);
-    const analyses = new Map((await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: `${item.rule.id}:${item.path}:${item.line}`, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
+    const analyses = new Map(
+      (
+        await analyzeSourceUsage(
+          context.root,
+          withUsage.map((item) => ({
+            id: `${item.rule.id}:${item.path}:${item.line}`,
+            matchers: item.rule.usage ?? [],
+          })),
+        )
+      ).map((analysis) => [analysis.contractId, analysis]),
+    );
     for (const item of abandoned) {
       report(item.rule, item.path, item.line, item.summary);
       const analysis = analyses.get(`${item.rule.id}:${item.path}:${item.line}`);
       if (analysis) Object.assign(findings[findings.length - 1]!, { usages: analysis.usages, impact: analysis.impact });
     }
 
-    findings.sort((left, right) => left.location.path.localeCompare(right.location.path) || (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id));
+    findings.sort(
+      (left, right) =>
+        left.location.path.localeCompare(right.location.path) ||
+        (left.location.line ?? 0) - (right.location.line ?? 0) ||
+        left.id.localeCompare(right.id),
+    );
     return { findings, unclassified };
   }
 }

@@ -50,20 +50,23 @@ export function unreadablePath(path: string, problem: "missing" | "not-directory
 export function invalidConfig(detail: string): ActionableMessage {
   return {
     cause: detail,
-    nextStep: "Fix the file so it is valid JSON with schemaVersion \"evergreen.baseline.v1\", or omit --baseline.",
+    nextStep: 'Fix the file so it is valid JSON with schemaVersion "evergreen.baseline.v1", or omit --baseline.',
   };
 }
 
 /** True when a data-update failure looks like the network was unreachable. */
 export function isOfflineDataUpdateFailure(detail: string): boolean {
-  return /Could not download|fetch failed|ENOTFOUND|ECONNREFUSED|EAI_AGAIN|ECONNRESET|ETIMEDOUT|network|UND_ERR|AbortError|other side closed|socket hang up/i.test(detail);
+  return /Could not download|fetch failed|ENOTFOUND|ECONNREFUSED|EAI_AGAIN|ECONNRESET|ETIMEDOUT|network|UND_ERR|AbortError|other side closed|socket hang up/i.test(
+    detail,
+  );
 }
 
 /** A `data update` that could not reach the release list or bundle. */
 export function offlineDataUpdate(detail: string): ActionableMessage {
   return {
     cause: detail,
-    nextStep: "Connect to the network and retry `evergreen data update`, or keep using the bundled data without updating.",
+    nextStep:
+      "Connect to the network and retry `evergreen data update`, or keep using the bundled data without updating.",
   };
 }
 

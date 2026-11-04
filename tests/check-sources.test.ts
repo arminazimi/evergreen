@@ -44,10 +44,16 @@ function registry(rules: RegistryV2Rule[], maxReviewAgeDays?: number): { name: s
   };
 }
 
-const page = (url: string, title: string | null = "Page", status = 200): SourceObservation => ({ status, finalUrl: url, title });
+const page = (url: string, title: string | null = "Page", status = 200): SourceObservation => ({
+  status,
+  finalUrl: url,
+  title,
+});
 const lockOf = (entries: Record<string, { finalUrl: string; title: string | null }>): SourceLock => ({
   schemaVersion: "evergreen.source-lock.v1",
-  sources: Object.fromEntries(Object.entries(entries).map(([url, entry]) => [url, { ...entry, checkedAt: "2026-10-01" }])),
+  sources: Object.fromEntries(
+    Object.entries(entries).map(([url, entry]) => [url, { ...entry, checkedAt: "2026-10-01" }]),
+  ),
 });
 
 test("reports nothing to review when every source is unchanged and every rule is fresh", async () => {
@@ -58,9 +64,24 @@ test("reports nothing to review when every source is unchanged and every rule is
     now: NOW,
     observe: async (u) => page(u),
   });
-  assert.deepEqual({ ok: report.ok, stale: report.stale, changed: report.changed, unreachable: report.unreachable, blocked: report.blocked, unrecorded: report.unrecorded }, {
-    ok: 1, stale: [], changed: [], unreachable: [], blocked: [], unrecorded: [],
-  });
+  assert.deepEqual(
+    {
+      ok: report.ok,
+      stale: report.stale,
+      changed: report.changed,
+      unreachable: report.unreachable,
+      blocked: report.blocked,
+      unrecorded: report.unrecorded,
+    },
+    {
+      ok: 1,
+      stale: [],
+      changed: [],
+      unreachable: [],
+      blocked: [],
+      unrecorded: [],
+    },
+  );
   assert.equal(report.sources, 1);
   assert.equal(report.rules, 1);
   assert.deepEqual(failingCategories(report, ["stale", "changed", "unreachable"]), []);
@@ -69,12 +90,23 @@ test("reports nothing to review when every source is unchanged and every rule is
 test("reports stale rules separately from source problems", async () => {
   const url = "https://example.com/a";
   const { report } = await checkSources({
-    registries: [registry([rule("npm.package.old.deprecated", [url], "2025-01-01"), rule("npm.package.new.deprecated", [url], "2026-10-10")], 90)],
+    registries: [
+      registry(
+        [
+          rule("npm.package.old.deprecated", [url], "2025-01-01"),
+          rule("npm.package.new.deprecated", [url], "2026-10-10"),
+        ],
+        90,
+      ),
+    ],
     lock: lockOf({ [url]: { finalUrl: url, title: "Page" } }),
     now: NOW,
     observe: async (u) => page(u),
   });
-  assert.deepEqual(report.stale.map((entry) => [entry.registry, entry.ruleId, entry.maxReviewAgeDays]), [["npm", "npm.package.old.deprecated", 90]]);
+  assert.deepEqual(
+    report.stale.map((entry) => [entry.registry, entry.ruleId, entry.maxReviewAgeDays]),
+    [["npm", "npm.package.old.deprecated", 90]],
+  );
   assert.equal(report.changed.length + report.unreachable.length, 0);
   assert.deepEqual(failingCategories(report, ["stale", "changed", "unreachable"]), ["stale"]);
 });
@@ -92,15 +124,20 @@ test("reports moved and retitled sources as changed, with the reason", async () 
     }),
     now: NOW,
     observe: async (url) =>
-      url === moved ? page("https://example.com/new-home", "Same")
-        : url === retitled ? page(url, "After")
+      url === moved
+        ? page("https://example.com/new-home", "Same")
+        : url === retitled
+          ? page(url, "After")
           : page("https://example.com/other", "After"),
   });
-  assert.deepEqual(report.changed.map((entry) => [entry.url, entry.reasons]), [
-    [both, ["final-url", "title"]],
-    [moved, ["final-url"]],
-    [retitled, ["title"]],
-  ]);
+  assert.deepEqual(
+    report.changed.map((entry) => [entry.url, entry.reasons]),
+    [
+      [both, ["final-url", "title"]],
+      [moved, ["final-url"]],
+      [retitled, ["title"]],
+    ],
+  );
   assert.equal(report.changed[0]!.recorded.title, "Before");
   assert.equal(report.changed[0]!.current.finalUrl, "https://example.com/other");
   assert.equal(report.ok, 0);
@@ -119,7 +156,14 @@ test("ignores differences that are not real changes", async () => {
 });
 
 test("separates unreachable, blocked, and unrecorded sources", async () => {
-  const urls = ["https://example.com/gone", "https://example.com/error", "https://example.com/down", "https://example.com/challenge", "https://example.com/forbidden", "https://example.com/fresh"];
+  const urls = [
+    "https://example.com/gone",
+    "https://example.com/error",
+    "https://example.com/down",
+    "https://example.com/challenge",
+    "https://example.com/forbidden",
+    "https://example.com/fresh",
+  ];
   const { report } = await checkSources({
     registries: [registry([rule("npm.package.a.deprecated", urls)])],
     lock: lockOf({}),
@@ -133,11 +177,23 @@ test("separates unreachable, blocked, and unrecorded sources", async () => {
       return page(url);
     },
   });
-  assert.deepEqual(report.unreachable.map((entry) => [entry.url.split("/").pop(), entry.reason]), [
-    ["down", "fetch failed"], ["error", "HTTP 500"], ["forbidden", "HTTP 403"], ["gone", "HTTP 404"],
-  ]);
-  assert.deepEqual(report.blocked.map((entry) => entry.url.split("/").pop()), ["challenge"]);
-  assert.deepEqual(report.unrecorded.map((entry) => entry.url.split("/").pop()), ["fresh"]);
+  assert.deepEqual(
+    report.unreachable.map((entry) => [entry.url.split("/").pop(), entry.reason]),
+    [
+      ["down", "fetch failed"],
+      ["error", "HTTP 500"],
+      ["forbidden", "HTTP 403"],
+      ["gone", "HTTP 404"],
+    ],
+  );
+  assert.deepEqual(
+    report.blocked.map((entry) => entry.url.split("/").pop()),
+    ["challenge"],
+  );
+  assert.deepEqual(
+    report.unrecorded.map((entry) => entry.url.split("/").pop()),
+    ["fresh"],
+  );
   assert.deepEqual(failingCategories(report, ["stale", "changed", "unreachable"]), ["unreachable"]);
 });
 
@@ -153,13 +209,24 @@ test("fetches each shared URL once and lists every rule that cites it", async ()
   const shared = "https://example.com/shared";
   const calls: string[] = [];
   const { report } = await checkSources({
-    registries: [registry([rule("npm.package.b.deprecated", [shared]), rule("npm.package.a.deprecated", [shared, "https://example.com/own"])])],
+    registries: [
+      registry([
+        rule("npm.package.b.deprecated", [shared]),
+        rule("npm.package.a.deprecated", [shared, "https://example.com/own"]),
+      ]),
+    ],
     lock: lockOf({}),
     now: NOW,
-    observe: async (url) => { calls.push(url); return page(url); },
+    observe: async (url) => {
+      calls.push(url);
+      return page(url);
+    },
   });
   assert.deepEqual([...calls].sort(), ["https://example.com/own", shared]);
-  assert.deepEqual(report.unrecorded.find((entry) => entry.url === shared)?.ruleIds, ["npm.package.a.deprecated", "npm.package.b.deprecated"]);
+  assert.deepEqual(report.unrecorded.find((entry) => entry.url === shared)?.ruleIds, [
+    "npm.package.a.deprecated",
+    "npm.package.b.deprecated",
+  ]);
   assert.equal(report.sources, 2);
 });
 
@@ -174,7 +241,8 @@ test("produces the same report regardless of fetch completion order and honors t
       now: NOW,
       concurrency: 3,
       observe: async (url) => {
-        running++; peak = Math.max(peak, running);
+        running++;
+        peak = Math.max(peak, running);
         await new Promise((resolve) => setTimeout(resolve, delay(urls.indexOf(url))));
         running--;
         return page(url);
@@ -190,11 +258,19 @@ test("accepting an observation records reachable pages and keeps earlier entries
   const ok = "https://example.com/ok";
   const down = "https://example.com/down";
   const removed = "https://example.com/removed";
-  const lock = lockOf({ [ok]: { finalUrl: ok, title: "Old" }, [down]: { finalUrl: down, title: "Kept" }, [removed]: { finalUrl: removed, title: "No longer cited" } });
-  const next = updatedLock(lock, new Map<string, SourceObservation>([
-    [ok, page("https://example.com/ok-new", "New")],
-    [down, { status: 500, finalUrl: down, title: "Oops" }],
-  ]), NOW);
+  const lock = lockOf({
+    [ok]: { finalUrl: ok, title: "Old" },
+    [down]: { finalUrl: down, title: "Kept" },
+    [removed]: { finalUrl: removed, title: "No longer cited" },
+  });
+  const next = updatedLock(
+    lock,
+    new Map<string, SourceObservation>([
+      [ok, page("https://example.com/ok-new", "New")],
+      [down, { status: 500, finalUrl: down, title: "Oops" }],
+    ]),
+    NOW,
+  );
   assert.deepEqual(next.sources, {
     [down]: lock.sources[down],
     [ok]: { finalUrl: "https://example.com/ok-new", title: "New", checkedAt: "2026-10-15" },
@@ -226,21 +302,42 @@ test("fetchObservation follows redirects, reads the title, retries once, and rep
   let flaky = 0;
   const server = createServer((request, response) => {
     const url = request.url ?? "/";
-    if (url === "/page") return void response.writeHead(200, { "content-type": "text/html" }).end("<html><head><title>\n  Hello &amp;\n  World </title></head><body>x</body></html>");
+    if (url === "/page")
+      return void response
+        .writeHead(200, { "content-type": "text/html" })
+        .end("<html><head><title>\n  Hello &amp;\n  World </title></head><body>x</body></html>");
     if (url === "/redirect") return void response.writeHead(302, { location: "/page" }).end();
     if (url === "/missing") return void response.writeHead(404).end("<title>Gone</title>");
-    if (url === "/flaky") return void response.writeHead(++flaky === 1 ? 500 : 200, { "content-type": "text/html" }).end("<title>Recovered</title>");
+    if (url === "/flaky")
+      return void response
+        .writeHead(++flaky === 1 ? 500 : 200, { "content-type": "text/html" })
+        .end("<title>Recovered</title>");
     if (url === "/slow") return; // never answers
     if (url === "/plain") return void response.writeHead(200, { "content-type": "application/json" }).end('{"a":1}');
     response.writeHead(400).end();
   });
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
-  t.after(() => { server.closeAllConnections(); server.close(); });
+  t.after(() => {
+    server.closeAllConnections();
+    server.close();
+  });
   const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
 
-  assert.deepEqual(await fetchObservation(`${base}/page`), { status: 200, finalUrl: `${base}/page`, title: "Hello &amp; World" });
-  assert.deepEqual(await fetchObservation(`${base}/redirect`), { status: 200, finalUrl: `${base}/page`, title: "Hello &amp; World" });
-  assert.deepEqual(await fetchObservation(`${base}/missing`), { status: 404, finalUrl: `${base}/missing`, title: "Gone" });
+  assert.deepEqual(await fetchObservation(`${base}/page`), {
+    status: 200,
+    finalUrl: `${base}/page`,
+    title: "Hello &amp; World",
+  });
+  assert.deepEqual(await fetchObservation(`${base}/redirect`), {
+    status: 200,
+    finalUrl: `${base}/page`,
+    title: "Hello &amp; World",
+  });
+  assert.deepEqual(await fetchObservation(`${base}/missing`), {
+    status: 404,
+    finalUrl: `${base}/missing`,
+    title: "Gone",
+  });
   assert.equal((await fetchObservation(`${base}/flaky`)).title, "Recovered");
   assert.equal((await fetchObservation(`${base}/plain`)).title, null);
 

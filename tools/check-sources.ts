@@ -51,7 +51,13 @@ export interface SourceReport {
   /** Scheduled end-of-life rules whose announced date has passed: a reviewer turns each into its end-of-support or end-of-life rule (decision 0010). */
   duePromotion: { registry: string; ruleId: string; deadline: string }[];
   unreachable: { url: string; reason: string; ruleIds: string[] }[];
-  changed: { url: string; reasons: ChangeReason[]; recorded: LockEntry; current: { finalUrl: string; title: string | null }; ruleIds: string[] }[];
+  changed: {
+    url: string;
+    reasons: ChangeReason[];
+    recorded: LockEntry;
+    current: { finalUrl: string; title: string | null };
+    ruleIds: string[];
+  }[];
   blocked: { url: string; status: number; ruleIds: string[] }[];
   unrecorded: { url: string; ruleIds: string[] }[];
 }
@@ -66,7 +72,8 @@ export interface CheckInput {
   concurrency?: number;
 }
 
-const BOT_CHALLENGE = /just a moment|attention required|access denied|verify you are human|are you a robot|security check/i;
+const BOT_CHALLENGE =
+  /just a moment|attention required|access denied|verify you are human|are you a robot|security check/i;
 
 const normalizeText = (value: string | null) => (value ?? "").replace(/\s+/g, " ").trim();
 
@@ -100,7 +107,9 @@ async function inBatches<T, R>(items: readonly T[], size: number, work: (item: T
 }
 
 /** Runs every check. `observe` is injected so tests never touch the network. */
-export async function checkSources(input: CheckInput): Promise<{ report: SourceReport; observations: Map<string, SourceObservation> }> {
+export async function checkSources(
+  input: CheckInput,
+): Promise<{ report: SourceReport; observations: Map<string, SourceObservation> }> {
   const rulesByUrl = new Map<string, Set<string>>();
   let ruleCount = 0;
   const stale: SourceReport["stale"] = [];
@@ -110,7 +119,8 @@ export async function checkSources(input: CheckInput): Promise<{ report: SourceR
     stale.push(...staleRules(registry, input.now).map((entry) => ({ registry: name, ...entry })));
     for (const rule of registry.rules) {
       ruleCount++;
-      if (rule.event === "scheduled-end-of-life" && rule.deadline !== undefined && rule.deadline < today) duePromotion.push({ registry: name, ruleId: rule.id, deadline: rule.deadline });
+      if (rule.event === "scheduled-end-of-life" && rule.deadline !== undefined && rule.deadline < today)
+        duePromotion.push({ registry: name, ruleId: rule.id, deadline: rule.deadline });
       for (const source of rule.sources) {
         if (!rulesByUrl.has(source.url)) rulesByUrl.set(source.url, new Set());
         rulesByUrl.get(source.url)!.add(rule.id);
@@ -158,7 +168,13 @@ export async function checkSources(input: CheckInput): Promise<{ report: SourceR
     if (normalizeUrl(recorded.finalUrl) !== normalizeUrl(observation.finalUrl)) reasons.push("final-url");
     if (normalizeText(recorded.title) !== normalizeText(observation.title)) reasons.push("title");
     if (reasons.length > 0) {
-      report.changed.push({ url, reasons, recorded, current: { finalUrl: observation.finalUrl, title: observation.title }, ruleIds: ids(url) });
+      report.changed.push({
+        url,
+        reasons,
+        recorded,
+        current: { finalUrl: observation.finalUrl, title: observation.title },
+        ruleIds: ids(url),
+      });
     } else {
       report.ok++;
     }
@@ -171,7 +187,11 @@ export function updatedLock(lock: SourceLock, observations: Map<string, SourceOb
   const sources: Record<string, LockEntry> = {};
   for (const [url, observation] of [...observations].sort(([a], [b]) => a.localeCompare(b))) {
     if (observation.status !== null && observation.status >= 200 && observation.status < 300 && observation.finalUrl) {
-      sources[url] = { finalUrl: observation.finalUrl, title: observation.title, checkedAt: now.toISOString().slice(0, 10) };
+      sources[url] = {
+        finalUrl: observation.finalUrl,
+        title: observation.title,
+        checkedAt: now.toISOString().slice(0, 10),
+      };
     } else if (lock.sources[url]) {
       sources[url] = lock.sources[url]!;
     }
@@ -203,13 +223,46 @@ export function renderSummary(report: SourceReport): string {
   const section = (title: string, items: string[]) => {
     if (items.length > 0) lines.push(`### ${title}`, "", ...items, "");
   };
-  section("Stale rules", report.stale.map((entry) => `- \`${entry.ruleId}\` (${entry.registry}): reviewed ${entry.reviewedAt}, ${entry.ageDays} days ago; window is ${entry.maxReviewAgeDays}`));
-  section("Due for promotion", report.duePromotion.map((entry) => `- \`${entry.ruleId}\` (${entry.registry}): announced for ${entry.deadline}; change it to the end-of-support or end-of-life rule, keeping its id`));
-  section("Changed sources", report.changed.map((entry) => `- ${entry.url} (${entry.reasons.join(", ")}) → ${entry.current.finalUrl}; rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`));
-  section("Unreachable sources", report.unreachable.map((entry) => `- ${entry.url}: ${entry.reason}; rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`));
-  section("Blocked by a bot challenge", report.blocked.map((entry) => `- ${entry.url} (HTTP ${entry.status}); rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`));
-  section("Not recorded yet", report.unrecorded.map((entry) => `- ${entry.url}`));
-  lines.push("Rules are never edited by this check. A maintainer reviews each item, updates the rule and its provenance, and refreshes `registry/sources.lock.json` with `node dist/tools/check-sources.js --update-lock`.");
+  section(
+    "Stale rules",
+    report.stale.map(
+      (entry) =>
+        `- \`${entry.ruleId}\` (${entry.registry}): reviewed ${entry.reviewedAt}, ${entry.ageDays} days ago; window is ${entry.maxReviewAgeDays}`,
+    ),
+  );
+  section(
+    "Due for promotion",
+    report.duePromotion.map(
+      (entry) =>
+        `- \`${entry.ruleId}\` (${entry.registry}): announced for ${entry.deadline}; change it to the end-of-support or end-of-life rule, keeping its id`,
+    ),
+  );
+  section(
+    "Changed sources",
+    report.changed.map(
+      (entry) =>
+        `- ${entry.url} (${entry.reasons.join(", ")}) → ${entry.current.finalUrl}; rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`,
+    ),
+  );
+  section(
+    "Unreachable sources",
+    report.unreachable.map(
+      (entry) => `- ${entry.url}: ${entry.reason}; rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`,
+    ),
+  );
+  section(
+    "Blocked by a bot challenge",
+    report.blocked.map(
+      (entry) => `- ${entry.url} (HTTP ${entry.status}); rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`,
+    ),
+  );
+  section(
+    "Not recorded yet",
+    report.unrecorded.map((entry) => `- ${entry.url}`),
+  );
+  lines.push(
+    "Rules are never edited by this check. A maintainer reviews each item, updates the rule and its provenance, and refreshes `registry/sources.lock.json` with `node dist/tools/check-sources.js --update-lock`.",
+  );
   return `${lines.join("\n")}\n`;
 }
 
@@ -222,7 +275,10 @@ export async function fetchObservation(url: string, timeoutMs = 15_000): Promise
     try {
       const response = await fetch(url, {
         redirect: "follow",
-        headers: { "user-agent": "evergreen-source-check (+https://github.com/arminazimi/evergreen)", accept: "text/html,application/xhtml+xml,*/*;q=0.8" },
+        headers: {
+          "user-agent": "evergreen-source-check (+https://github.com/arminazimi/evergreen)",
+          accept: "text/html,application/xhtml+xml,*/*;q=0.8",
+        },
         signal: AbortSignal.timeout(timeoutMs),
       });
       let head = "";
@@ -249,9 +305,12 @@ export async function fetchObservation(url: string, timeoutMs = 15_000): Promise
 
 async function loadRegistries(directory: string): Promise<{ name: string; registry: RegistryV2 }[]> {
   const registries: { name: string; registry: RegistryV2 }[] = [];
-  for (const file of (await readdir(directory)).filter((name) => name.endsWith(".json") && !name.startsWith("sources.")).sort()) {
+  for (const file of (await readdir(directory))
+    .filter((name) => name.endsWith(".json") && !name.startsWith("sources."))
+    .sort()) {
     const value = JSON.parse(await readFile(join(directory, file), "utf8")) as { schemaVersion?: string };
-    if (value.schemaVersion === REGISTRY_V2_SCHEMA_VERSION) registries.push({ name: file.replace(/\.json$/, ""), registry: validateRegistryV2(value) });
+    if (value.schemaVersion === REGISTRY_V2_SCHEMA_VERSION)
+      registries.push({ name: file.replace(/\.json$/, ""), registry: validateRegistryV2(value) });
   }
   return registries;
 }
@@ -259,7 +318,8 @@ async function loadRegistries(directory: string): Promise<{ name: string; regist
 async function loadLock(path: string): Promise<SourceLock> {
   try {
     const lock = JSON.parse(await readFile(path, "utf8")) as SourceLock;
-    if (lock.schemaVersion !== SOURCE_LOCK_SCHEMA) throw new Error(`Unsupported source lock: ${String(lock.schemaVersion)}`);
+    if (lock.schemaVersion !== SOURCE_LOCK_SCHEMA)
+      throw new Error(`Unsupported source lock: ${String(lock.schemaVersion)}`);
     return lock;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return { schemaVersion: SOURCE_LOCK_SCHEMA, sources: {} };
@@ -274,12 +334,21 @@ export async function main(argv: string[]): Promise<number> {
     const argument = argv[index]!;
     if (!argument.startsWith("--")) throw new Error(`Unexpected argument "${argument}".`);
     if (argument === "--update-lock") flags.add(argument);
-    else options.set(argument, argv[++index] ?? (() => { throw new Error(`${argument} needs a value.`); })());
+    else
+      options.set(
+        argument,
+        argv[++index] ??
+          (() => {
+            throw new Error(`${argument} needs a value.`);
+          })(),
+      );
   }
   const directory = resolve(options.get("--registry-dir") ?? "registry");
   const lockPath = resolve(options.get("--lock") ?? join(directory, "sources.lock.json"));
   const failOn = (options.get("--fail-on") ?? "").split(",").filter(Boolean) as FailCategory[];
-  for (const category of failOn) if (!["stale", "changed", "unreachable"].includes(category)) throw new Error(`Unknown --fail-on category "${category}".`);
+  for (const category of failOn)
+    if (!["stale", "changed", "unreachable"].includes(category))
+      throw new Error(`Unknown --fail-on category "${category}".`);
   const now = options.has("--now") ? new Date(options.get("--now")!) : new Date();
 
   const lock = await loadLock(lockPath);

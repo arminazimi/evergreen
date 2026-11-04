@@ -24,7 +24,12 @@ function rule(id: string, extra: Record<string, unknown> = {}, importer?: string
     severity: "high",
     deadline: "2025-04-30",
     sources: [{ title: "Node.js releases", url: "https://nodejs.org/en/about/releases" }],
-    provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-02", reviewer: "maintainer", ...(importer ? { importer } : {}) },
+    provenance: {
+      observedAt: "2026-10-01",
+      reviewedAt: "2026-10-02",
+      reviewer: "maintainer",
+      ...(importer ? { importer } : {}),
+    },
     ...extra,
   } as RegistryV2Rule;
 }
@@ -33,11 +38,18 @@ const draftOf = (rules: RegistryV2Rule[], importer = "node-schedule"): DraftRegi
   importer,
   ecosystem: "nodejs",
   observedAt: "2026-10-15",
-  rules: rules.map((r) => ({ ...r, provenance: { observedAt: "2026-10-15", reviewedAt: "2026-10-15", reviewer: "pending-review", importer } })),
+  rules: rules.map((r) => ({
+    ...r,
+    provenance: { observedAt: "2026-10-15", reviewedAt: "2026-10-15", reviewer: "pending-review", importer },
+  })),
   notes: [],
 });
 
-const registryOf = (rules: RegistryV2Rule[]): RegistryV2 => ({ schemaVersion: "evergreen.registry.v2", ecosystem: "nodejs", rules });
+const registryOf = (rules: RegistryV2Rule[]): RegistryV2 => ({
+  schemaVersion: "evergreen.registry.v2",
+  ecosystem: "nodejs",
+  rules,
+});
 
 test("classifies additions, changed dates, changed sources, other changes, and removals", () => {
   const registry = registryOf([
@@ -52,45 +64,80 @@ test("classifies additions, changed dates, changed sources, other changes, and r
   const drafts = draftOf([
     rule("nodejs.same"),
     rule("nodejs.date", { deadline: "2025-05-15" }),
-    rule("nodejs.sources", { sources: [{ title: "Node.js release schedule", url: "https://nodejs.org/en/about/releases" }, { title: "Schedule JSON", url: "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json" }] }),
+    rule("nodejs.sources", {
+      sources: [
+        { title: "Node.js release schedule", url: "https://nodejs.org/en/about/releases" },
+        { title: "Schedule JSON", url: "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json" },
+      ],
+    }),
     rule("nodejs.text", { summary: "Reworded.", severity: "critical", "x-nodejs": { major: 16 } }),
     rule("nodejs.new"),
   ]);
 
   const diff = diffDrafts(drafts, registry);
-  assert.deepEqual(diff.added.map((r) => r.id), ["nodejs.new"]);
+  assert.deepEqual(
+    diff.added.map((r) => r.id),
+    ["nodejs.new"],
+  );
   assert.deepEqual(diff.unchanged, ["nodejs.same"]);
-  assert.deepEqual(diff.removed.map((r) => r.id), ["nodejs.gone"]);
-  assert.deepEqual(diff.changed.map((c) => c.id), ["nodejs.date", "nodejs.sources", "nodejs.text"]);
+  assert.deepEqual(
+    diff.removed.map((r) => r.id),
+    ["nodejs.gone"],
+  );
+  assert.deepEqual(
+    diff.changed.map((c) => c.id),
+    ["nodejs.date", "nodejs.sources", "nodejs.text"],
+  );
 
   const date = diff.changed[0]!;
   assert.deepEqual(date.dates, [{ field: "deadline", before: "2025-04-30", after: "2025-05-15" }]);
   assert.deepEqual([date.sources, date.fields], [null, []]);
 
   const sources = diff.changed[1]!;
-  assert.deepEqual(sources.sources?.added.map((s) => s.url), ["https://raw.githubusercontent.com/nodejs/Release/main/schedule.json"]);
-  assert.deepEqual(sources.sources?.retitled, [{ url: "https://nodejs.org/en/about/releases", before: "Node.js releases", after: "Node.js release schedule" }]);
+  assert.deepEqual(
+    sources.sources?.added.map((s) => s.url),
+    ["https://raw.githubusercontent.com/nodejs/Release/main/schedule.json"],
+  );
+  assert.deepEqual(sources.sources?.retitled, [
+    { url: "https://nodejs.org/en/about/releases", before: "Node.js releases", after: "Node.js release schedule" },
+  ]);
   assert.deepEqual(sources.sources?.removed, []);
 
   const text = diff.changed[2]!;
-  assert.deepEqual(text.fields.map((f) => f.field), ["summary", "severity", "x-nodejs"]);
+  assert.deepEqual(
+    text.fields.map((f) => f.field),
+    ["summary", "severity", "x-nodejs"],
+  );
   assert.deepEqual(text.fields[1], { field: "severity", before: "high", after: "critical" });
   assert.deepEqual(text.fields[2], { field: "x-nodejs", before: null, after: { major: 16 } });
   assert.ok(hasChanges(diff));
 });
 
 test("flags an added draft that duplicates an existing rule under another id", () => {
-  const registry = registryOf([rule("nodejs.old-name", { vers: "vers:semver/>=18.0.0|<19.0.0" }), rule("nodejs.other", { vers: "vers:semver/>=20.0.0|<21.0.0" })]);
+  const registry = registryOf([
+    rule("nodejs.old-name", { vers: "vers:semver/>=18.0.0|<19.0.0" }),
+    rule("nodejs.other", { vers: "vers:semver/>=20.0.0|<21.0.0" }),
+  ]);
   const drafts = draftOf([
     rule("nodejs.new-name", { vers: "vers:semver/>=18.0.0|<19.0.0" }),
     rule("nodejs.fresh", { vers: "vers:semver/>=22.0.0|<23.0.0" }),
     rule("nodejs.same-purl-other-range", { vers: "vers:semver/>=20.0.0|<22.0.0" }),
   ]);
   const diff = diffDrafts(drafts, registry);
-  assert.deepEqual(diff.added.map((added) => added.id), ["nodejs.fresh", "nodejs.new-name", "nodejs.same-purl-other-range"]);
+  assert.deepEqual(
+    diff.added.map((added) => added.id),
+    ["nodejs.fresh", "nodejs.new-name", "nodejs.same-purl-other-range"],
+  );
   assert.deepEqual(diff.duplicates, [{ draft: "nodejs.new-name", existing: "nodejs.old-name" }]);
-  assert.match(renderDiffText(diff), /\+ nodejs\.new-name .*\n    same component and versions as existing rule nodejs\.old-name\n/);
-  assert.deepEqual(diffDrafts(draftOf([rule("nodejs.old-name", { vers: "vers:semver/>=18.0.0|<19.0.0" })]), registry).duplicates, [], "the same id is an update, not a duplicate");
+  assert.match(
+    renderDiffText(diff),
+    /\+ nodejs\.new-name .*\n    same component and versions as existing rule nodejs\.old-name\n/,
+  );
+  assert.deepEqual(
+    diffDrafts(draftOf([rule("nodejs.old-name", { vers: "vers:semver/>=18.0.0|<19.0.0" })]), registry).duplicates,
+    [],
+    "the same id is an update, not a duplicate",
+  );
 });
 
 test("provenance never counts as a change", () => {
@@ -101,7 +148,11 @@ test("provenance never counts as a change", () => {
 
 test("fields the importer does not set are left alone", () => {
   const withGuidance = rule("nodejs.a", {
-    migration: { constraints: ["c"], steps: [{ id: "s", title: "t", instructions: "i", targets: "all" }], verification: [{ command: "node --version", purpose: "p" }] },
+    migration: {
+      constraints: ["c"],
+      steps: [{ id: "s", title: "t", instructions: "i", targets: "all" }],
+      verification: [{ command: "node --version", purpose: "p" }],
+    },
     usage: [{ kind: "config-key", language: "json", key: "engines" }],
     replacement: "Node.js 22",
   });
@@ -112,9 +163,19 @@ test("fields the importer does not set are left alone", () => {
 });
 
 test("a dropped source and a dropped deadline are reported", () => {
-  const registry = registryOf([rule("nodejs.a", { sources: [{ title: "A", url: "https://example.com/a" }, { title: "B", url: "https://example.com/b" }] })]);
+  const registry = registryOf([
+    rule("nodejs.a", {
+      sources: [
+        { title: "A", url: "https://example.com/a" },
+        { title: "B", url: "https://example.com/b" },
+      ],
+    }),
+  ]);
   const drafts = draftOf([rule("nodejs.a", { sources: [{ title: "A", url: "https://example.com/a" }] })]);
-  assert.deepEqual(diffDrafts(drafts, registry).changed[0]!.sources?.removed.map((s) => s.url), ["https://example.com/b"]);
+  assert.deepEqual(
+    diffDrafts(drafts, registry).changed[0]!.sources?.removed.map((s) => s.url),
+    ["https://example.com/b"],
+  );
 });
 
 test("output does not depend on input order", () => {
@@ -123,25 +184,42 @@ test("output does not depend on input order", () => {
   const forward = diffDrafts(draftOf(rules), registry);
   const backward = diffDrafts(draftOf([...rules].reverse()), registryOf([...registry.rules].reverse()));
   assert.equal(JSON.stringify(forward), JSON.stringify(backward));
-  assert.deepEqual(forward.changed.map((c) => c.id), ["nodejs.a", "nodejs.b", "nodejs.c"]);
+  assert.deepEqual(
+    forward.changed.map((c) => c.id),
+    ["nodejs.a", "nodejs.b", "nodejs.c"],
+  );
 });
 
 test("drafts for another ecosystem are refused", () => {
-  assert.throws(() => diffDrafts({ ...draftOf([]), ecosystem: "python" }, registryOf([])), /Drafts are for "python" but the registry is "nodejs"/);
+  assert.throws(
+    () => diffDrafts({ ...draftOf([]), ecosystem: "python" }, registryOf([])),
+    /Drafts are for "python" but the registry is "nodejs"/,
+  );
 });
 
 test("renders a summary a reviewer can read", () => {
   const registry = registryOf([rule("nodejs.date", {}, "node-schedule"), rule("nodejs.gone", {}, "node-schedule")]);
-  const text = renderDiffText(diffDrafts(draftOf([rule("nodejs.date", { deadline: "2025-05-15" }), rule("nodejs.new", { vers: "vers:semver/>=24.0.0|<25.0.0" })]), registry));
-  assert.equal(text, [
-    "node-schedule → registry/nodejs.json",
-    "+ nodejs.new  (end-of-life, pkg:generic/nodejs vers:semver/>=24.0.0|<25.0.0)",
-    "~ nodejs.date",
-    "    deadline: 2025-04-30 → 2025-05-15",
-    "- nodejs.gone",
-    "1 added, 1 changed, 1 removed, 0 unchanged",
-    "",
-  ].join("\n"));
+  const text = renderDiffText(
+    diffDrafts(
+      draftOf([
+        rule("nodejs.date", { deadline: "2025-05-15" }),
+        rule("nodejs.new", { vers: "vers:semver/>=24.0.0|<25.0.0" }),
+      ]),
+      registry,
+    ),
+  );
+  assert.equal(
+    text,
+    [
+      "node-schedule → registry/nodejs.json",
+      "+ nodejs.new  (end-of-life, pkg:generic/nodejs vers:semver/>=24.0.0|<25.0.0)",
+      "~ nodejs.date",
+      "    deadline: 2025-04-30 → 2025-05-15",
+      "- nodejs.gone",
+      "1 added, 1 changed, 1 removed, 0 unchanged",
+      "",
+    ].join("\n"),
+  );
 });
 
 test("the command line prints the diff and signals changes through its exit code", async () => {
@@ -158,16 +236,22 @@ test("the command line prints the diff and signals changes through its exit code
     assert.match(same.stdout, /0 added, 0 changed, 0 removed, 1 unchanged/);
 
     await writeFile(draftsFile, JSON.stringify(draftOf([rule("nodejs.a", { deadline: "2025-06-01" })])));
-    await assert.rejects(run(process.execPath, [script, draftsFile, registryFile, "--out", outFile]), (error: { code: number; stdout: string }) => {
-      assert.equal(error.code, 10);
-      assert.match(error.stdout, /deadline: 2025-04-30 → 2025-06-01/);
-      return true;
-    });
+    await assert.rejects(
+      run(process.execPath, [script, draftsFile, registryFile, "--out", outFile]),
+      (error: { code: number; stdout: string }) => {
+        assert.equal(error.code, 10);
+        assert.match(error.stdout, /deadline: 2025-04-30 → 2025-06-01/);
+        return true;
+      },
+    );
     assert.equal(JSON.parse(await readFile(outFile, "utf8")).changed[0].id, "nodejs.a");
 
     await assert.rejects(run(process.execPath, [script, draftsFile]), /Usage: diff/);
     await writeFile(registryFile, JSON.stringify({ schemaVersion: "evergreen.nodejs-registry.v1", rules: [] }));
-    await assert.rejects(run(process.execPath, [script, draftsFile, registryFile]), /schemaVersion must be "evergreen\.registry\.v2"/);
+    await assert.rejects(
+      run(process.execPath, [script, draftsFile, registryFile]),
+      /schemaVersion must be "evergreen\.registry\.v2"/,
+    );
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
@@ -188,10 +272,19 @@ test("an acknowledged draft is left out of added and changed, and comes back whe
   assert.equal(hasChanges(quiet), false);
   assert.match(renderDiffText(quiet), /2 acknowledged/);
 
-  const moved = draftOf([rule("node.a", { summary: "importer text, updated" }), rule("node.b", { vers: "vers:semver/<19.0.0" })]);
+  const moved = draftOf([
+    rule("node.a", { summary: "importer text, updated" }),
+    rule("node.b", { vers: "vers:semver/<19.0.0" }),
+  ]);
   const again = diffDrafts(moved, registry, acknowledged);
-  assert.deepEqual(again.added.map((item) => item.id), ["node.b"]);
-  assert.deepEqual(again.changed.map((item) => item.id), ["node.a"]);
+  assert.deepEqual(
+    again.added.map((item) => item.id),
+    ["node.b"],
+  );
+  assert.deepEqual(
+    again.changed.map((item) => item.id),
+    ["node.a"],
+  );
   assert.deepEqual(again.acknowledged, []);
 });
 
@@ -207,11 +300,21 @@ test("an acknowledgement belongs to one importer, and provenance does not change
 
 test("the committed acknowledgements all name a registered importer and a fingerprint", async () => {
   const { importers } = await import("../../tools/importers/index.js");
-  const file = JSON.parse(await readFile(resolve("tools/importers/acknowledged.json"), "utf8")) as { acknowledged: Record<string, string>; reasons: Record<string, string> };
-  assert.deepEqual(Object.keys(file.reasons).sort(), Object.keys(file.acknowledged).sort(), "every acknowledgement states why");
+  const file = JSON.parse(await readFile(resolve("tools/importers/acknowledged.json"), "utf8")) as {
+    acknowledged: Record<string, string>;
+    reasons: Record<string, string>;
+  };
+  assert.deepEqual(
+    Object.keys(file.reasons).sort(),
+    Object.keys(file.acknowledged).sort(),
+    "every acknowledgement states why",
+  );
   for (const [key, value] of Object.entries(file.acknowledged)) {
     const [importer] = key.split(":");
-    assert.ok(importers.some((candidate) => candidate.id === importer), key);
+    assert.ok(
+      importers.some((candidate) => candidate.id === importer),
+      key,
+    );
     assert.match(value, /^[0-9a-f]{16}$/, key);
   }
 });

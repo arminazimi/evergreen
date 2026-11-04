@@ -15,19 +15,36 @@ function finding(id: string, command?: string): Finding {
     confidence: "exact",
     location: { path: `${id}.yml`, line: 1 },
     sources: [],
-    ...(command ? { migration: { constraints: [], steps: [], verification: [{ command, purpose: `run ${command}` }] } } : {}),
+    ...(command
+      ? { migration: { constraints: [], steps: [], verification: [{ command, purpose: `run ${command}` }] } }
+      : {}),
   };
 }
 
 const scan = (...findings: Finding[]): ScanResult => ({ findings }) as unknown as ScanResult;
 
 test("verifyFix sorts findings into resolved, remaining, and new", () => {
-  const result = verifyFix(scan(finding("a", "npm test"), finding("b")), scan(finding("b"), finding("c", "npm run build")));
+  const result = verifyFix(
+    scan(finding("a", "npm test"), finding("b")),
+    scan(finding("b"), finding("c", "npm run build")),
+  );
 
-  assert.deepEqual(result.resolved.map((item) => item.id), ["a"]);
-  assert.deepEqual(result.remaining.map((item) => item.id), ["b"]);
-  assert.deepEqual(result.introduced.map((item) => item.id), ["c"]);
-  assert.deepEqual(result.commands.map((item) => item.command), ["npm test", "npm run build"]);
+  assert.deepEqual(
+    result.resolved.map((item) => item.id),
+    ["a"],
+  );
+  assert.deepEqual(
+    result.remaining.map((item) => item.id),
+    ["b"],
+  );
+  assert.deepEqual(
+    result.introduced.map((item) => item.id),
+    ["c"],
+  );
+  assert.deepEqual(
+    result.commands.map((item) => item.command),
+    ["npm test", "npm run build"],
+  );
 });
 
 test("verifyFix lists a shared verification command once", () => {

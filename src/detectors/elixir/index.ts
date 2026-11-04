@@ -103,7 +103,10 @@ export class ElixirDetector implements Detector {
   readonly inputs: DetectorInputs = { fileNames: [".tool-versions", "mix.exs", "mix.lock"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the packaged `registry/elixir.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/elixir.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/elixir.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -158,24 +161,38 @@ export class ElixirDetector implements Detector {
             if (rule) report(rule, path, declaration.line, `${path} pins Elixir ${declaration.value}. ${rule.summary}`);
           } else {
             const rule = firstMatchingRule(erlangRules, declaration.value);
-            if (rule) report(rule, path, declaration.line, `${path} pins Erlang/OTP ${declaration.value}. ${rule.summary}`);
+            if (rule)
+              report(rule, path, declaration.line, `${path} pins Erlang/OTP ${declaration.value}. ${rule.summary}`);
           }
         }
       } else if (name === "mix.exs") {
         for (const declaration of parseMixExs(contents)) {
           if (declaration.kind === "elixir") {
             const rule = ruleForDeclared(elixirRules, declaration.value);
-            if (rule) report(rule, path, declaration.line, `${path} declares Elixir ${declaration.value}. ${rule.summary}`);
+            if (rule)
+              report(rule, path, declaration.line, `${path} declares Elixir ${declaration.value}. ${rule.summary}`);
             continue;
           }
           for (const rule of packageRules.get(declaration.name) ?? []) {
-            if (coversEveryVersion(rule)) report(rule, path, declaration.line, `${path} depends on ${declaration.name} ${declaration.value}. ${rule.summary}`);
+            if (coversEveryVersion(rule))
+              report(
+                rule,
+                path,
+                declaration.line,
+                `${path} depends on ${declaration.name} ${declaration.value}. ${rule.summary}`,
+              );
           }
         }
       } else if (name === "mix.lock") {
         for (const declaration of parseMixLock(contents)) {
           const rule = firstMatchingRule(packageRules.get(declaration.name) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
+            );
         }
       }
     }

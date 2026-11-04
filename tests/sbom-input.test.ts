@@ -9,21 +9,39 @@ import { SpdxError, scanCycloneDx, scanCycloneDxFile, scanSpdx, scanSpdxFile } f
 
 const bom = (components: unknown = []) => ({ bomFormat: "CycloneDX", specVersion: "1.6", version: 1, components });
 const fixture = resolve("tests/fixtures/cyclonedx/input.json");
-const purlRef = (locator: string) => ({ referenceCategory: "PACKAGE-MANAGER", referenceType: "purl", referenceLocator: locator });
-const pkg = (spdxId: string, externalRefs: unknown, versionInfo?: string) => ({
-  name: spdxId, SPDXID: spdxId, externalRefs, ...(versionInfo !== undefined ? { versionInfo } : {}),
+const purlRef = (locator: string) => ({
+  referenceCategory: "PACKAGE-MANAGER",
+  referenceType: "purl",
+  referenceLocator: locator,
 });
-const document = (packages: unknown = []) =>
-  ({ spdxVersion: "SPDX-2.3", dataLicense: "CC0-1.0", SPDXID: "SPDXRef-DOCUMENT", packages });
+const pkg = (spdxId: string, externalRefs: unknown, versionInfo?: string) => ({
+  name: spdxId,
+  SPDXID: spdxId,
+  externalRefs,
+  ...(versionInfo !== undefined ? { versionInfo } : {}),
+});
+const document = (packages: unknown = []) => ({
+  spdxVersion: "SPDX-2.3",
+  dataLicense: "CC0-1.0",
+  SPDXID: "SPDXRef-DOCUMENT",
+  packages,
+});
 const spdxFixture = resolve("tests/fixtures/spdx/input.json");
 
 test("fixture SBOM produces lifecycle findings with evidence and exact component locations", async () => {
   const before = await readFile(fixture, "utf8");
   const results = await scanCycloneDxFile(fixture);
-  assert.deepEqual(results.map(({ location }) => location), [
-    "/components/0", "/components/1/components/0", "/components/1/components/1",
-    "/components/2", "/components/3", "/metadata/component",
-  ]);
+  assert.deepEqual(
+    results.map(({ location }) => location),
+    [
+      "/components/0",
+      "/components/1/components/0",
+      "/components/1/components/1",
+      "/components/2",
+      "/components/3",
+      "/metadata/component",
+    ],
+  );
   const request = results[0]!;
   assert.equal(request.bomRef, "request-2.88.2");
   assert.equal(request.version, "2.88.2");
@@ -61,19 +79,30 @@ test("empty BOMs and components without PURLs produce no checks; input is preser
 
 test("reject malformed BOMs and component fields with a contextual error", async () => {
   for (const input of [
-    null, [], {}, { ...bom(), bomFormat: "SPDX" }, { ...bom(), specVersion: "2.0" },
-    { ...bom(), specVersion: 1.6 }, bom({}), bom([null]), bom([[]]),
-    bom([{ components: {} }]), bom([{ purl: 1 }]),
+    null,
+    [],
+    {},
+    { ...bom(), bomFormat: "SPDX" },
+    { ...bom(), specVersion: "2.0" },
+    { ...bom(), specVersion: 1.6 },
+    bom({}),
+    bom([null]),
+    bom([[]]),
+    bom([{ components: {} }]),
+    bom([{ purl: 1 }]),
     bom([{ purl: "pkg:npm/request", version: 1 }]),
     bom([{ purl: "pkg:npm/request", "bom-ref": 1 }]),
-    { ...bom(), metadata: null }, { ...bom(), metadata: [] },
+    { ...bom(), metadata: null },
+    { ...bom(), metadata: [] },
     { ...bom(), metadata: { component: null } },
   ]) {
     await assert.rejects(scanCycloneDx(input), CycloneDxError);
   }
   for (const purl of ["not-a-purl", "pkg:npm/%ZZ", "pkg:github/actions/checkout@latest"]) {
-    await assert.rejects(scanCycloneDx(bom([{ purl }])),
-      (error: unknown) => error instanceof CycloneDxError && /\/components\/0/.test(error.message));
+    await assert.rejects(
+      scanCycloneDx(bom([{ purl }])),
+      (error: unknown) => error instanceof CycloneDxError && /\/components\/0/.test(error.message),
+    );
   }
 });
 
@@ -102,10 +131,17 @@ test("deep component nesting is traversed without recursive stack growth", async
 test("SPDX fixture produces lifecycle findings with evidence and exact reference locations", async () => {
   const before = await readFile(spdxFixture, "utf8");
   const results = await scanSpdxFile(spdxFixture);
-  assert.deepEqual(results.map(({ location }) => location), [
-    "/packages/0/externalRefs/0", "/packages/1/externalRefs/0", "/packages/2/externalRefs/0",
-    "/packages/3/externalRefs/0", "/packages/4/externalRefs/0", "/packages/5/externalRefs/1",
-  ]);
+  assert.deepEqual(
+    results.map(({ location }) => location),
+    [
+      "/packages/0/externalRefs/0",
+      "/packages/1/externalRefs/0",
+      "/packages/2/externalRefs/0",
+      "/packages/3/externalRefs/0",
+      "/packages/4/externalRefs/0",
+      "/packages/5/externalRefs/1",
+    ],
+  );
   const request = results[0]!;
   assert.equal(request.spdxId, "SPDXRef-request");
   assert.equal(request.version, "2.88.2");
@@ -137,8 +173,15 @@ test("empty SPDX documents and references without PURLs produce no checks; input
     { ...document(), packages: [] },
     { ...document(), relationships: [] },
     document([{ ...pkg("SPDXRef-local", undefined), externalRefs: undefined }]),
-    document([pkg("SPDXRef-cpe", [{ referenceCategory: "SECURITY", referenceType: "cpe23Type",
-      referenceLocator: "cpe:2.3:a:example:example:1.0.0:*:*:*:*:*:*:*" }])]),
+    document([
+      pkg("SPDXRef-cpe", [
+        {
+          referenceCategory: "SECURITY",
+          referenceType: "cpe23Type",
+          referenceLocator: "cpe:2.3:a:example:example:1.0.0:*:*:*:*:*:*:*",
+        },
+      ]),
+    ]),
   ];
   for (const input of inputs) {
     const original = structuredClone(input);
@@ -149,18 +192,28 @@ test("empty SPDX documents and references without PURLs produce no checks; input
 
 test("reject malformed SPDX documents and reference fields with a contextual error", async () => {
   for (const input of [
-    null, [], {}, { ...document(), spdxVersion: "SPDX-2.2" }, { ...document(), spdxVersion: 2.3 },
-    { spdxVersion: "SPDX-2.3", packages: {} }, document([null]), document([[]]),
-    document([pkg("SPDXRef-example", {})]), document([pkg("SPDXRef-example", [null])]),
-    document([pkg("SPDXRef-example", [{}])]), document([pkg("SPDXRef-example", [{ ...purlRef("pkg:npm/request"), referenceLocator: 1 }])]),
+    null,
+    [],
+    {},
+    { ...document(), spdxVersion: "SPDX-2.2" },
+    { ...document(), spdxVersion: 2.3 },
+    { spdxVersion: "SPDX-2.3", packages: {} },
+    document([null]),
+    document([[]]),
+    document([pkg("SPDXRef-example", {})]),
+    document([pkg("SPDXRef-example", [null])]),
+    document([pkg("SPDXRef-example", [{}])]),
+    document([pkg("SPDXRef-example", [{ ...purlRef("pkg:npm/request"), referenceLocator: 1 }])]),
     document([{ ...pkg("SPDXRef-example", [purlRef("pkg:npm/request")]), versionInfo: 1 }]),
     document([{ ...pkg("SPDXRef-example", [purlRef("pkg:npm/request")]), SPDXID: 1 }]),
   ]) {
     await assert.rejects(scanSpdx(input), SpdxError);
   }
   for (const locator of ["not-a-purl", "pkg:npm/%ZZ", "pkg:github/actions/checkout@latest"]) {
-    await assert.rejects(scanSpdx(document([pkg("SPDXRef-example", [purlRef(locator)])])),
-      (error: unknown) => error instanceof SpdxError && /\/packages\/0\/externalRefs\/0/.test(error.message));
+    await assert.rejects(
+      scanSpdx(document([pkg("SPDXRef-example", [purlRef(locator)])])),
+      (error: unknown) => error instanceof SpdxError && /\/packages\/0\/externalRefs\/0/.test(error.message),
+    );
   }
 });
 
@@ -179,14 +232,26 @@ test("SPDX file reader reports missing files and malformed JSON", async () => {
 });
 
 test("packages are checked once per PURL reference and non-PURL references are skipped", async () => {
-  const results = await scanSpdx(document([
-    pkg("SPDXRef-multi", [
-      { referenceCategory: "SECURITY", referenceType: "cpe23Type", referenceLocator: "cpe:2.3:a:example:example:1:*" },
-      purlRef("pkg:npm/request"),
-      { ...purlRef("pkg:npm/request"), referenceType: "PURL" },
-    ], "2.88.2"),
-  ]));
-  assert.deepEqual(results.map(({ location }) => location),
-    ["/packages/0/externalRefs/1", "/packages/0/externalRefs/2"]);
+  const results = await scanSpdx(
+    document([
+      pkg(
+        "SPDXRef-multi",
+        [
+          {
+            referenceCategory: "SECURITY",
+            referenceType: "cpe23Type",
+            referenceLocator: "cpe:2.3:a:example:example:1:*",
+          },
+          purlRef("pkg:npm/request"),
+          { ...purlRef("pkg:npm/request"), referenceType: "PURL" },
+        ],
+        "2.88.2",
+      ),
+    ]),
+  );
+  assert.deepEqual(
+    results.map(({ location }) => location),
+    ["/packages/0/externalRefs/1", "/packages/0/externalRefs/2"],
+  );
   for (const result of results) assert.equal(result.status, "affected");
 });

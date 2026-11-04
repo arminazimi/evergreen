@@ -99,7 +99,9 @@ export function parseDownloads(status: number, text: string): Metric {
 export function parseMcpRegistry(status: number, text: string): Metric {
   const source = `https://registry.modelcontextprotocol.io/v0/servers?search=${PACKAGE}`;
   if (status !== 200) return { status: "unavailable", reason: `The MCP Registry returned HTTP ${status}.`, source };
-  const servers = (JSON.parse(text) as { servers?: Array<{ server?: { name?: string; repository?: { url?: string } } }> }).servers ?? [];
+  const servers =
+    (JSON.parse(text) as { servers?: Array<{ server?: { name?: string; repository?: { url?: string } } }> }).servers ??
+    [];
   const entry = servers.find((candidate) => candidate.server?.repository?.url?.toLowerCase().includes(REPOSITORY));
   return entry
     ? { status: "ok", value: true, detail: entry.server?.name ?? "", source }
@@ -118,8 +120,7 @@ export function parseSkillsInstalls(status: number, text: string, source: string
   if (status !== 200) return { status: "unavailable", reason: `skills.sh returned HTTP ${status}.`, source };
 
   const skills: SkillInstall[] = [];
-  const rowPattern =
-    /<h3[^>]*\btruncate\b[^>]*>([^<]+)<\/h3>[\s\S]*?<span[^>]*\bfont-mono\b[^>]*>(\d+)<\/span>/gi;
+  const rowPattern = /<h3[^>]*\btruncate\b[^>]*>([^<]+)<\/h3>[\s\S]*?<span[^>]*\bfont-mono\b[^>]*>(\d+)<\/span>/gi;
   for (const match of text.matchAll(rowPattern)) {
     const name = match[1]?.trim();
     const installs = Number(match[2]);
@@ -252,7 +253,11 @@ export function goatCounterSource(site: string, date: string): string {
  */
 export function parseGoatCounter(status: number, text: string, source: string): Metric {
   if (status === 403) {
-    return { status: "unavailable", reason: "The GoatCounter site has not enabled its public visitor counter.", source };
+    return {
+      status: "unavailable",
+      reason: "The GoatCounter site has not enabled its public visitor counter.",
+      source,
+    };
   }
   if (status !== 200) return { status: "unavailable", reason: `GoatCounter returned HTTP ${status}.`, source };
   try {
@@ -285,7 +290,11 @@ export function searchConsoleInputPath(date: string, dir: string = resolve("metr
  */
 export function parseLandingPages(status: number, text: string, source: string = SEARCH_CONSOLE_SOURCE): Metric {
   if (status === 404) {
-    return { status: "unavailable", reason: "The maintainer has not entered this month's Search Console landing pages.", source };
+    return {
+      status: "unavailable",
+      reason: "The maintainer has not entered this month's Search Console landing pages.",
+      source,
+    };
   }
   if (status !== 200) return { status: "unavailable", reason: `Search Console input returned HTTP ${status}.`, source };
 
@@ -328,12 +337,18 @@ export function parseLandingPages(status: number, text: string, source: string =
 
 export function parseScorecard(status: number, text: string): Metric {
   const source = `https://api.securityscorecards.dev/projects/github.com/${REPOSITORY}`;
-  if (status === 404) return { status: "unavailable", reason: "The repository is not indexed by OpenSSF Scorecard yet.", source };
+  if (status === 404)
+    return { status: "unavailable", reason: "The repository is not indexed by OpenSSF Scorecard yet.", source };
   if (status !== 200) return { status: "unavailable", reason: `Scorecard returned HTTP ${status}.`, source };
   try {
     const data = JSON.parse(text) as { score?: unknown };
     return typeof data.score === "number"
-      ? { status: "ok", value: data.score, detail: `https://securityscorecards.dev/viewer/?uri=github.com/${REPOSITORY}`, source }
+      ? {
+          status: "ok",
+          value: data.score,
+          detail: `https://securityscorecards.dev/viewer/?uri=github.com/${REPOSITORY}`,
+          source,
+        }
       : { status: "unavailable", reason: "The response had no score.", source };
   } catch (error) {
     return { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source };
@@ -407,7 +422,11 @@ export function parseContributorMetrics(
   }
 }
 
-async function fetchContributorMetrics(fetcher: Fetcher, token: string | undefined, date: string): Promise<ContributorMetrics> {
+async function fetchContributorMetrics(
+  fetcher: Fetcher,
+  token: string | undefined,
+  date: string,
+): Promise<ContributorMetrics> {
   const query = `repo:${REPOSITORY} is:pr is:merged -author:${OWNER}`;
   const source = `https://github.com/${REPOSITORY}/pulls?q=${encodeURIComponent(`is:pr is:merged -author:${OWNER}`)}`;
   const headers: Record<string, string> = {
@@ -418,7 +437,10 @@ async function fetchContributorMetrics(fetcher: Fetcher, token: string | undefin
   const items: Array<{ user?: { login?: string; type?: string }; closed_at?: string | null }> = [];
   let total = 0;
   for (let page = 1; page <= MAXIMUM_SEARCH_PAGES; page++) {
-    const response = await fetcher(`https://api.github.com/search/issues?q=${encodeURIComponent(query)}&per_page=100&page=${page}`, headers);
+    const response = await fetcher(
+      `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&per_page=100&page=${page}`,
+      headers,
+    );
     if (response.status !== 200) {
       if (page === 1) {
         return parseContributorMetrics(response.status, response.text, date, source);
@@ -431,8 +453,16 @@ async function fetchContributorMetrics(fetcher: Fetcher, token: string | undefin
     } catch (error) {
       if (page === 1) {
         return {
-          externalContributors: { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source },
-          firstTimeContributors: { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source },
+          externalContributors: {
+            status: "unavailable",
+            reason: error instanceof Error ? error.message : String(error),
+            source,
+          },
+          firstTimeContributors: {
+            status: "unavailable",
+            reason: error instanceof Error ? error.message : String(error),
+            source,
+          },
         };
       }
       break;
@@ -447,16 +477,29 @@ async function fetchContributorMetrics(fetcher: Fetcher, token: string | undefin
 async function searchRepositories(query: string, fetcher: Fetcher, token: string | undefined): Promise<Metric> {
   const source = `https://github.com/search?type=code&q=${encodeURIComponent(query)}`;
   if (!token) return { status: "unavailable", reason: "GitHub code search needs GITHUB_TOKEN or GH_TOKEN.", source };
-  const headers = { Accept: "application/vnd.github+json", Authorization: `Bearer ${token}`, "X-GitHub-Api-Version": "2022-11-28" };
+  const headers = {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
   const items: Array<{ repository?: { full_name?: string } }> = [];
   let total = 0;
   for (let page = 1; page <= MAXIMUM_SEARCH_PAGES; page++) {
-    const response = await fetcher(`https://api.github.com/search/code?q=${encodeURIComponent(query)}&per_page=100&page=${page}`, headers);
+    const response = await fetcher(
+      `https://api.github.com/search/code?q=${encodeURIComponent(query)}&per_page=100&page=${page}`,
+      headers,
+    );
     if (response.status !== 200) {
       const repoNames = distinctRepositoryNames(items);
       return page === 1
         ? { status: "unavailable", reason: `GitHub code search returned HTTP ${response.status}.`, source }
-        : { status: "ok", value: repoNames.length, repositories: repoNames, detail: `lower bound: stopped at page ${page} with HTTP ${response.status}`, source };
+        : {
+            status: "ok",
+            value: repoNames.length,
+            repositories: repoNames,
+            detail: `lower bound: stopped at page ${page} with HTTP ${response.status}`,
+            source,
+          };
     }
     const body = JSON.parse(response.text) as { total_count?: number; items?: typeof items };
     total = body.total_count ?? total;
@@ -534,12 +577,19 @@ export async function readActionRepositoriesForMonth(
   return names;
 }
 
-async function repositoryStat(field: "stargazers_count" | "forks_count", fetcher: Fetcher, token: string | undefined): Promise<Metric> {
+async function repositoryStat(
+  field: "stargazers_count" | "forks_count",
+  fetcher: Fetcher,
+  token: string | undefined,
+): Promise<Metric> {
   const source = `https://api.github.com/repos/${REPOSITORY}`;
   const response = await fetcher(source, token ? { Authorization: `Bearer ${token}` } : {});
-  if (response.status !== 200) return { status: "unavailable", reason: `GitHub returned HTTP ${response.status}.`, source };
+  if (response.status !== 200)
+    return { status: "unavailable", reason: `GitHub returned HTTP ${response.status}.`, source };
   const value = (JSON.parse(response.text) as Record<string, unknown>)[field];
-  return typeof value === "number" ? { status: "ok", value, source } : { status: "unavailable", reason: `The repository has no ${field}.`, source };
+  return typeof value === "number"
+    ? { status: "ok", value, source }
+    : { status: "unavailable", reason: `The repository has no ${field}.`, source };
 }
 
 /** Collects the snapshot. A source that fails is recorded as unavailable and never stops the others. */
@@ -560,11 +610,23 @@ export async function collect(
   const get = async (url: string) => fetcher(url);
   const searchConsoleDir = resolve(dirname(snapshotDir), "search-console");
 
-  const actionMetric = await guarded(() => searchRepositories(`"${REPOSITORY}@" path:.github/workflows`, fetcher, token), "GitHub code search");
+  const actionMetric = await guarded(
+    () => searchRepositories(`"${REPOSITORY}@" path:.github/workflows`, fetcher, token),
+    "GitHub code search",
+  );
   const repeatMetric: Metric = await guarded(async () => {
-    if (!token) return { status: "unavailable", reason: "GitHub code search needs GITHUB_TOKEN or GH_TOKEN.", source: `https://github.com/search?type=code&q=${encodeURIComponent(`"${REPOSITORY}@" path:.github/workflows`)}` };
+    if (!token)
+      return {
+        status: "unavailable",
+        reason: "GitHub code search needs GITHUB_TOKEN or GH_TOKEN.",
+        source: `https://github.com/search?type=code&q=${encodeURIComponent(`"${REPOSITORY}@" path:.github/workflows`)}`,
+      };
     if (actionMetric.status !== "ok") {
-      return { status: "unavailable", reason: (actionMetric as { reason: string }).reason, source: actionMetric.source };
+      return {
+        status: "unavailable",
+        reason: (actionMetric as { reason: string }).reason,
+        source: actionMetric.source,
+      };
     }
     const currentRepos = (actionMetric as { repositories?: string[] }).repositories ?? [];
     const prev = previousMonth(date);
@@ -593,10 +655,22 @@ export async function collect(
   const metrics: Record<string, Metric> = {
     githubActionRepositories: actionMetric,
     repeatActionRepositories: repeatMetric,
-    preCommitRepositories: await guarded(() => searchRepositories(`"https://github.com/${REPOSITORY}" filename:.pre-commit-config.yaml`, fetcher, token), "GitHub code search"),
-    gitlabComponentRepositories: await guarded(() => searchRepositories(`"${REPOSITORY}" filename:.gitlab-ci.yml`, fetcher, token), "GitHub code search"),
-    npmWeeklyDownloads: await guarded(async () => { const r = await get(`https://api.npmjs.org/downloads/point/last-week/${PACKAGE}`); return parseDownloads(r.status, r.text); }, "npm"),
-    mcpRegistryListed: await guarded(async () => { const r = await get(`https://registry.modelcontextprotocol.io/v0/servers?search=${PACKAGE}`); return parseMcpRegistry(r.status, r.text); }, "MCP Registry"),
+    preCommitRepositories: await guarded(
+      () => searchRepositories(`"https://github.com/${REPOSITORY}" filename:.pre-commit-config.yaml`, fetcher, token),
+      "GitHub code search",
+    ),
+    gitlabComponentRepositories: await guarded(
+      () => searchRepositories(`"${REPOSITORY}" filename:.gitlab-ci.yml`, fetcher, token),
+      "GitHub code search",
+    ),
+    npmWeeklyDownloads: await guarded(async () => {
+      const r = await get(`https://api.npmjs.org/downloads/point/last-week/${PACKAGE}`);
+      return parseDownloads(r.status, r.text);
+    }, "npm"),
+    mcpRegistryListed: await guarded(async () => {
+      const r = await get(`https://registry.modelcontextprotocol.io/v0/servers?search=${PACKAGE}`);
+      return parseMcpRegistry(r.status, r.text);
+    }, "MCP Registry"),
     skillsShInstalls: await guarded(async () => {
       const r = await get(SKILLS_SH_SOURCE);
       return parseSkillsInstalls(r.status, r.text, SKILLS_SH_SOURCE);
@@ -619,7 +693,9 @@ export async function collect(
       const source = goatCounterSource(goatcounterSite, date);
       const response = await get(source);
       const metric = parseGoatCounter(response.status, response.text, source);
-      return metric.status === "ok" ? { ...metric, detail: "pageviews in the 30 days ending on the snapshot date" } : metric;
+      return metric.status === "ok"
+        ? { ...metric, detail: "pageviews in the 30 days ending on the snapshot date" }
+        : metric;
     }, "GoatCounter"),
     searchConsoleLandingPages: await guarded(async () => {
       let status = 200;
@@ -634,7 +710,10 @@ export async function collect(
     }, "Search Console"),
     githubStars: await guarded(() => repositoryStat("stargazers_count", fetcher, token), "GitHub"),
     githubForks: await guarded(() => repositoryStat("forks_count", fetcher, token), "GitHub"),
-    scorecardScore: await guarded(async () => { const r = await get(`https://api.securityscorecards.dev/projects/github.com/${REPOSITORY}`); return parseScorecard(r.status, r.text); }, "OpenSSF Scorecard"),
+    scorecardScore: await guarded(async () => {
+      const r = await get(`https://api.securityscorecards.dev/projects/github.com/${REPOSITORY}`);
+      return parseScorecard(r.status, r.text);
+    }, "OpenSSF Scorecard"),
     externalContributors: contributors.externalContributors,
     firstTimeContributors: contributors.firstTimeContributors,
   };

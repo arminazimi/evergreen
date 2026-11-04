@@ -5,16 +5,30 @@ export const TERRAFORM_REGISTRY = "https://registry.terraform.io/";
 
 /** Major-version upgrade guides to read, sorted by provider. Keep this small and evidence-driven. */
 export const PROVIDER_GUIDES = [
-  { provider: "aws", title: "Terraform AWS Provider Version 6 Upgrade Guide", path: "terraform-provider-aws/main/website/docs/guides/version-6-upgrade.html.markdown" },
-  { provider: "azurerm", title: "Terraform AzureRM Provider Version 4.0 Upgrade Guide", path: "terraform-provider-azurerm/main/website/docs/guides/4.0-upgrade-guide.html.markdown" },
-  { provider: "google", title: "Terraform Google Provider Version 6.0.0 Upgrade Guide", path: "terraform-provider-google/main/website/docs/guides/version_6_upgrade.html.markdown" },
+  {
+    provider: "aws",
+    title: "Terraform AWS Provider Version 6 Upgrade Guide",
+    path: "terraform-provider-aws/main/website/docs/guides/version-6-upgrade.html.markdown",
+  },
+  {
+    provider: "azurerm",
+    title: "Terraform AzureRM Provider Version 4.0 Upgrade Guide",
+    path: "terraform-provider-azurerm/main/website/docs/guides/4.0-upgrade-guide.html.markdown",
+  },
+  {
+    provider: "google",
+    title: "Terraform Google Provider Version 6.0.0 Upgrade Guide",
+    path: "terraform-provider-google/main/website/docs/guides/version_6_upgrade.html.markdown",
+  },
 ] as const;
 
 export const guideUrl = (path: string) => `https://raw.githubusercontent.com/hashicorp/${path}`;
 export const MAXIMUM_GUIDE_BYTES = 512 * 1024;
 
-const LIFECYCLE_WORD = /\b(discontinu\w*|end(?:s|ing)?(?:[- ]of)?[- ](?:support|life)|retire\w*|sunset\w*|shut(?:s|ting)? down)\b/i;
-const FULL_DATE = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}\b/;
+const LIFECYCLE_WORD =
+  /\b(discontinu\w*|end(?:s|ing)?(?:[- ]of)?[- ](?:support|life)|retire\w*|sunset\w*|shut(?:s|ting)? down)\b/i;
+const FULL_DATE =
+  /\b(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}\b/;
 
 /** Lines of a guide that state a dated lifecycle event, trimmed for a note. Pure and bounded. */
 export function datedStatements(text: string): string[] {
@@ -63,7 +77,9 @@ export const terraformProviderGuidesImporter: Importer = {
         notes.push(`${guide.provider}: ${guide.title} has no dated lifecycle statement.`);
         continue;
       }
-      notes.push(`${guide.provider}: ${guide.title} states ${statements.length} dated lifecycle event(s) for services or resources, none for a provider version.`);
+      notes.push(
+        `${guide.provider}: ${guide.title} states ${statements.length} dated lifecycle event(s) for services or resources, none for a provider version.`,
+      );
       for (const statement of statements) notes.push(`  ${guide.provider}: ${statement}`);
     }
     return { rules: [], notes };

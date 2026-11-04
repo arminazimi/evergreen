@@ -319,7 +319,11 @@ function stringLiteral(raw: string | undefined): string | undefined {
 }
 
 /** Parse one `.package(...)` argument list, or undefined when incomplete or unsupported. */
-function packageFromCall(code: string, open: number, line: number): { declaration?: SwiftPackageDependencyDeclaration; end: number } | undefined {
+function packageFromCall(
+  code: string,
+  open: number,
+  line: number,
+): { declaration?: SwiftPackageDependencyDeclaration; end: number } | undefined {
   let depth = 0;
   let end = -1;
   for (let index = open; index < code.length; index += 1) {

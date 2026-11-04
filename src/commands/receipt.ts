@@ -15,24 +15,37 @@ export const command: CliCommand = {
   name: "receipt",
   flags: ["--before", "--format", "--fail-on-introduced", "--json"],
   example: "evergreen receipt . --before before.json",
-  usage: ["  evergreen receipt [path] --before <scan.json> [--format markdown|json] [--fail-on-introduced]   # what a change resolved, left, or introduced; never runs a command"],
+  usage: [
+    "  evergreen receipt [path] --before <scan.json> [--format markdown|json] [--fail-on-introduced]   # what a change resolved, left, or introduced; never runs a command",
+  ],
   usageSlots: [29],
   run(args, ctx) {
     return afterGates("receipt", args, ctx, async (state) => {
       const early = await repositoryPhase(state, ctx);
       if (early !== undefined) return early;
-      const receiptUsage = "Usage: evergreen receipt [path] --before <scan.json> [--format markdown|json] [--fail-on-introduced]";
+      const receiptUsage =
+        "Usage: evergreen receipt [path] --before <scan.json> [--format markdown|json] [--fail-on-introduced]";
       const beforeIndex = state.args.indexOf("--before");
       const beforePath = beforeIndex === -1 ? undefined : state.args[beforeIndex + 1];
       if (beforePath === undefined || beforePath.startsWith("-")) return ctx.fail("usage", receiptUsage);
       if (state.positional.length > 1) return ctx.fail("usage", receiptUsage);
       const before = await readReceiptBaseline(resolve(beforePath));
       if (typeof before === "string") return ctx.fail("usage", `Cannot use --before: ${before}`, `\n${receiptUsage}`);
-      const receipt = buildReceipt(before, await scanRepository(resolve(state.pathArgument), builtInDetectors, { noCache: state.noCache }));
-      const reproduce = ["evergreen", "receipt", shellWord(state.pathArgument), "--before", shellWord(beforePath)].join(" ");
-      process.stdout.write(state.json ? `${JSON.stringify(receipt, null, 2)}\n` : renderReceiptMarkdown(receipt, { reproduce }));
+      const receipt = buildReceipt(
+        before,
+        await scanRepository(resolve(state.pathArgument), builtInDetectors, { noCache: state.noCache }),
+      );
+      const reproduce = ["evergreen", "receipt", shellWord(state.pathArgument), "--before", shellWord(beforePath)].join(
+        " ",
+      );
+      process.stdout.write(
+        state.json ? `${JSON.stringify(receipt, null, 2)}\n` : renderReceiptMarkdown(receipt, { reproduce }),
+      );
       if (state.args.includes("--fail-on-introduced") && receipt.counts.introduced > 0) {
-        return ctx.fail("policy", `${receipt.counts.introduced} finding${receipt.counts.introduced === 1 ? "" : "s"} introduced (--fail-on-introduced).`);
+        return ctx.fail(
+          "policy",
+          `${receipt.counts.introduced} finding${receipt.counts.introduced === 1 ? "" : "s"} introduced (--fail-on-introduced).`,
+        );
       }
       return 0;
     });
@@ -55,10 +68,13 @@ function scanFindingProblem(value: unknown): string | undefined {
   for (const field of ["id", "ruleId", "detector", "title", "summary"]) {
     if (typeof value[field] !== "string") return `"${field}" is missing or not a string.`;
   }
-  if (!severityValues.includes(value.severity as Severity)) return `"severity" is not one of ${severityValues.join(", ")}.`;
-  if (!isJsonObject(value.location) || typeof value.location.path !== "string") return `"location.path" is missing or not a string.`;
+  if (!severityValues.includes(value.severity as Severity))
+    return `"severity" is not one of ${severityValues.join(", ")}.`;
+  if (!isJsonObject(value.location) || typeof value.location.path !== "string")
+    return `"location.path" is missing or not a string.`;
   const line = value.location.line;
-  if (line !== undefined && (!Number.isInteger(line) || (line as number) < 1)) return `"location.line" is not a positive integer.`;
+  if (line !== undefined && (!Number.isInteger(line) || (line as number) < 1))
+    return `"location.line" is not a positive integer.`;
   if (!Array.isArray(value.sources)) return `"sources" is missing or not an array.`;
   if (value.migration !== undefined) {
     if (!isJsonObject(value.migration)) return `"migration" is not an object.`;
@@ -79,11 +95,14 @@ function scanFindingProblem(value: unknown): string | undefined {
 /** Why the saved scan's `data` does not match the scan output contract, or undefined when it does. */
 function scanDataProblem(value: unknown): string | undefined {
   if (!isJsonObject(value)) return `"data" is not an object.`;
-  if (value.source !== "bundled" && value.source !== "cache" && value.source !== "pinned") return `"data.source" is not bundled, cache, or pinned.`;
+  if (value.source !== "bundled" && value.source !== "cache" && value.source !== "pinned")
+    return `"data.source" is not bundled, cache, or pinned.`;
   if (typeof value.version !== "string") return `"data.version" is missing or not a string.`;
-  if (value.createdAt !== null && typeof value.createdAt !== "string") return `"data.createdAt" is neither a string nor null.`;
+  if (value.createdAt !== null && typeof value.createdAt !== "string")
+    return `"data.createdAt" is neither a string nor null.`;
   if (typeof value.reviewedThrough !== "string") return `"data.reviewedThrough" is missing or not a string.`;
-  if (!Number.isInteger(value.ageDays) || (value.ageDays as number) < 0) return `"data.ageDays" is not a non-negative integer.`;
+  if (!Number.isInteger(value.ageDays) || (value.ageDays as number) < 0)
+    return `"data.ageDays" is not a non-negative integer.`;
   if (typeof value.stale !== "boolean") return `"data.stale" is missing or not a boolean.`;
   return undefined;
 }
@@ -126,5 +145,7 @@ async function readReceiptBaseline(path: string): Promise<ScanResult | string> {
   if (parsed === undefined) return `${path} is not valid JSON.`;
   if (parsed.skipped) return `${path}: ${parsed.skipped.detail}.`;
   const problem = scanReportProblem(parsed.value);
-  return problem === undefined ? (parsed.value as ScanResult) : `${path} is not an evergreen.scan.v1 report: ${problem}`;
+  return problem === undefined
+    ? (parsed.value as ScanResult)
+    : `${path} is not an evergreen.scan.v1 report: ${problem}`;
 }

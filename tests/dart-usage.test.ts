@@ -46,7 +46,9 @@ const packageRule: RegistryV2Rule = {
   provenance: { observedAt: "2026-10-21", reviewedAt: "2026-10-21", reviewer: "test" },
   migration: {
     constraints: ["Keep pubspec.yaml and the imports on the same package."],
-    steps: [{ id: "replace-api", title: "Replace the API", instructions: "Switch to example_widgets_plus.", targets: "all" }],
+    steps: [
+      { id: "replace-api", title: "Replace the API", instructions: "Switch to example_widgets_plus.", targets: "all" },
+    ],
     verification: [{ command: "dart analyze && flutter test", purpose: "Analyze and test the Flutter app." }],
   },
   usage,
@@ -85,7 +87,10 @@ test("reports package imports, prefixed calls, and calls of shown names", async 
 test("a bare import and an unrelated prefix do not attribute unqualified calls", async () => {
   const root = await repository({
     "lib/a.dart": ["import 'package:example_widgets/example_widgets.dart';", "void main() { fetch(url); }"].join("\n"),
-    "lib/b.dart": ["import 'package:example_widgets/example_widgets.dart' hide Client;", "void main() { Client(); }"].join("\n"),
+    "lib/b.dart": [
+      "import 'package:example_widgets/example_widgets.dart' hide Client;",
+      "void main() { Client(); }",
+    ].join("\n"),
   });
   const [analysis] = await analyzeSourceUsage(root, [{ id: "example", matchers: usage }]);
   assert.deepEqual(
@@ -106,15 +111,35 @@ test("reads deferred prefixes and imports that continue on the next line", async
     ].join("\n"),
   });
   const [analysis] = await analyzeSourceUsage(root, [{ id: "example", matchers: usage }]);
-  assert.deepEqual(analysis!.usages.map((item) => [item.kind, item.location.line]), [["import", 1], ["call", 3]]);
+  assert.deepEqual(
+    analysis!.usages.map((item) => [item.kind, item.location.line]),
+    [
+      ["import", 1],
+      ["call", 3],
+    ],
+  );
 });
 
 test("a dart: library is matched by its full name", async () => {
-  const root = await repository({ "lib/main.dart": "import 'dart:html' as html;\nvoid main() { html.window.alert('x'); }\n" });
+  const root = await repository({
+    "lib/main.dart": "import 'dart:html' as html;\nvoid main() { html.window.alert('x'); }\n",
+  });
   const [analysis] = await analyzeSourceUsage(root, [
-    { id: "html", matchers: [{ kind: "import", language: "dart", module: "dart:html" }, { kind: "call", language: "dart", module: "dart:html", targets: ["window.alert"] }] },
+    {
+      id: "html",
+      matchers: [
+        { kind: "import", language: "dart", module: "dart:html" },
+        { kind: "call", language: "dart", module: "dart:html", targets: ["window.alert"] },
+      ],
+    },
   ]);
-  assert.deepEqual(analysis!.usages.map((item) => [item.kind, item.symbol]), [["import", "dart:html"], ["call", "dart:html.window.alert"]]);
+  assert.deepEqual(
+    analysis!.usages.map((item) => [item.kind, item.symbol]),
+    [
+      ["import", "dart:html"],
+      ["call", "dart:html.window.alert"],
+    ],
+  );
 });
 
 test("reports Function.apply and dart:mirrors reflection as unclassified and ignores comments", async () => {
@@ -146,7 +171,10 @@ test("Dart matchers are valid usage matchers", () => {
 test("a discontinued Dart package includes source usage in scan output and migration context", async () => {
   const root = await repository({
     "pubspec.yaml": "name: app\ndependencies:\n  example_widgets: ^2.1.0\n",
-    "lib/main.dart": ["import 'package:example_widgets/example_widgets.dart' as ew;", "void main() { ew.fetch(url); }"].join("\n"),
+    "lib/main.dart": [
+      "import 'package:example_widgets/example_widgets.dart' as ew;",
+      "void main() { ew.fetch(url); }",
+    ].join("\n"),
     "lib/dynamic.dart": "void main() { Function.apply(callback, args); }\n",
   });
   const result = await scanRepository(root, [new DartDetector(async () => [packageRule])]);
@@ -160,7 +188,10 @@ test("a discontinued Dart package includes source usage in scan output and migra
     ],
   );
   assert.deepEqual(finding.impact, { usageCount: 2, affectedFiles: 1, level: "low" });
-  assert.deepEqual(result.unclassified?.references.map((item) => [item.location.path, item.location.line]), [["lib/dynamic.dart", 1]]);
+  assert.deepEqual(
+    result.unclassified?.references.map((item) => [item.location.path, item.location.line]),
+    [["lib/dynamic.dart", 1]],
+  );
 
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.deepEqual(packet.affectedFiles, ["lib/main.dart", "pubspec.yaml"]);

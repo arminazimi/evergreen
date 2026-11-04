@@ -89,26 +89,22 @@ async function listFiles(directory: string): Promise<string[]> {
 /** Every Skill under `skills/` as [directory name, SKILL.md contents], sorted by name. */
 async function readSkills(root: string): Promise<Array<readonly [string, string]>> {
   const entries = await readdir(resolve(root, "skills"), { withFileTypes: true });
-  const names = entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
+  const names = entries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
   return Promise.all(
-    names.map(
-      async (name) => [name, await readFile(resolve(root, "skills", name, "SKILL.md"), "utf8")] as const,
-    ),
+    names.map(async (name) => [name, await readFile(resolve(root, "skills", name, "SKILL.md"), "utf8")] as const),
   );
 }
 
-export async function expectedPluginFiles(
-  root = process.cwd(),
-): Promise<Map<string, string>> {
-  const packageMetadata = JSON.parse(
-    await readFile(resolve(root, "package.json"), "utf8"),
-  ) as PackageMetadata;
+export async function expectedPluginFiles(root = process.cwd()): Promise<Map<string, string>> {
+  const packageMetadata = JSON.parse(await readFile(resolve(root, "package.json"), "utf8")) as PackageMetadata;
   const skills = await readSkills(root);
   const identity = {
     name: "evergreen",
     version: packageMetadata.version,
-    description:
-      "Find, explain, migrate, and verify evidence-backed software lifecycle risks.",
+    description: "Find, explain, migrate, and verify evidence-backed software lifecycle risks.",
     author: {
       name: "Evergreen",
       url: "https://github.com/arminazimi/evergreen",
@@ -122,12 +118,7 @@ export async function expectedPluginFiles(
     mcpServers: {
       evergreen: {
         command: "npx",
-        args: [
-          "--yes",
-          "--package",
-          `evergreen-deprecation@${packageMetadata.version}`,
-          "evergreen-mcp",
-        ],
+        args: ["--yes", "--package", `evergreen-deprecation@${packageMetadata.version}`, "evergreen-mcp"],
       },
     },
   });
@@ -137,12 +128,7 @@ export async function expectedPluginFiles(
       evergreen: {
         type: "stdio",
         command: "npx",
-        args: [
-          "--yes",
-          "--package",
-          `evergreen-deprecation@${packageMetadata.version}`,
-          "evergreen-mcp",
-        ],
+        args: ["--yes", "--package", `evergreen-deprecation@${packageMetadata.version}`, "evergreen-mcp"],
       },
     },
   });
@@ -307,10 +293,13 @@ export async function expectedPluginFiles(
   </g>
 </svg>\n`;
   const demoFiles = await Promise.all(
-    ["package.json", ".github/workflows/ci.yml", "src/client.js"].map(async (path) => [
-      `plugins/codex/review-fixtures/demo/${path}`,
-      await readFile(resolve(root, "examples/demo", path), "utf8"),
-    ] as const),
+    ["package.json", ".github/workflows/ci.yml", "src/client.js"].map(
+      async (path) =>
+        [
+          `plugins/codex/review-fixtures/demo/${path}`,
+          await readFile(resolve(root, "examples/demo", path), "utf8"),
+        ] as const,
+    ),
   );
   const codexReview = json({
     test_cases: {
@@ -318,13 +307,11 @@ export async function expectedPluginFiles(
       negative: codexNegativeCases,
     },
     commerce: false,
-    commerce_description:
-      "Evergreen does not sell products, process payments, or require a hosted account.",
+    commerce_description: "Evergreen does not sell products, process payments, or require a hosted account.",
     release_notes:
       "Initial public release with local lifecycle scanning, evidence-backed explanations, migration context, and verification.",
     demo_recording_url: null,
-    demo_recording_status:
-      "Record and add a reviewer-accessible URL after local MCP submission access is approved.",
+    demo_recording_status: "Record and add a reviewer-accessible URL after local MCP submission access is approved.",
   });
 
   return new Map([
@@ -365,9 +352,7 @@ export async function buildPluginPackages(root = process.cwd()): Promise<void> {
 
 export async function pluginPackageDrift(root = process.cwd()): Promise<string[]> {
   const expected = await expectedPluginFiles(root);
-  const actualFiles = (
-    await Promise.all(generatedRoots.map((path) => listFiles(resolve(root, path))))
-  )
+  const actualFiles = (await Promise.all(generatedRoots.map((path) => listFiles(resolve(root, path)))))
     .flat()
     .map((path) => relativePosix(root, path))
     .sort();

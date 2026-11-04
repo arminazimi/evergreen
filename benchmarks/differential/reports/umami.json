@@ -12,9 +12,7 @@
       "family": "base-image",
       "path": "docker-compose.yml",
       "name": "postgres",
-      "evergreen": [
-        "container.postgres.eol-13-and-older"
-      ],
+      "evergreen": ["container.postgres.eol-13-and-older"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -23,9 +21,7 @@
       "family": "base-image",
       "path": "Dockerfile",
       "name": "node",
-      "evergreen": [
-        "container.node.eol-21-and-older"
-      ],
+      "evergreen": ["container.node.eol-21-and-older"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -34,9 +30,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "next.13",
-      "evergreen": [
-        "npm.package.next.13.support-end"
-      ],
+      "evergreen": ["npm.package.next.13.support-end"],
       "renovate": "not-seen",
       "outcome": "evergreen-only",
       "note": "Renovate did not list this npm package at all."
@@ -45,9 +39,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "react-beautiful-dnd",
-      "evergreen": [
-        "npm.package.react-beautiful-dnd.deprecated"
-      ],
+      "evergreen": ["npm.package.react-beautiful-dnd.deprecated"],
       "renovate": "deprecated",
       "outcome": "agree",
       "note": "Both report the package as deprecated."
@@ -56,9 +48,7 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "rollup-plugin-terser",
-      "evergreen": [
-        "npm.package.rollup-plugin-terser.deprecated"
-      ],
+      "evergreen": ["npm.package.rollup-plugin-terser.deprecated"],
       "renovate": "deprecated",
       "outcome": "agree",
       "note": "Both report the package as deprecated."
@@ -67,9 +57,7 @@
       "family": "github-action",
       "path": ".github/workflows/cd-manual.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -78,9 +66,7 @@
       "family": "github-action",
       "path": ".github/workflows/cd.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -89,9 +75,7 @@
       "family": "github-action",
       "path": ".github/workflows/ci.yml",
       "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
+      "evergreen": ["github-actions.checkout.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
@@ -100,15 +84,11 @@
       "family": "github-action",
       "path": ".github/workflows/ci.yml",
       "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
+      "evergreen": ["github-actions.setup-node.node20"],
       "renovate": "major-update",
       "outcome": "agree",
       "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     }
   ],
-  "notComparable": [
-    "database.postgresql"
-  ]
+  "notComparable": ["database.postgresql"]
 }

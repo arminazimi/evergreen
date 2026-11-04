@@ -17,7 +17,15 @@ const report = (overrides: Partial<RecordableReport> = {}): RecordableReport => 
   fullRun: true,
   thresholdViolations: [],
   detectors: { npm: { truePositives: 5, falsePositives: 0, falseNegatives: 0 } },
-  summary: { repositoryCount: 3, findingCount: 5, truePositives: 5, falsePositives: 0, falseNegatives: 0, precision: 1, recall: 1 },
+  summary: {
+    repositoryCount: 3,
+    findingCount: 5,
+    truePositives: 5,
+    falsePositives: 0,
+    falseNegatives: 0,
+    precision: 1,
+    recall: 1,
+  },
   ...overrides,
 });
 
@@ -26,12 +34,21 @@ test("a complete, clean, verify-mode run is recordable", () => {
 });
 
 test("filtered, partial, observe-mode, and failing runs are refused", () => {
-  assert.throws(() => assertRecordable(report({ fullRun: false, filter: "FILTERED RUN (ecosystem php)" }), 3), /filtered/);
+  assert.throws(
+    () => assertRecordable(report({ fullRun: false, filter: "FILTERED RUN (ecosystem php)" }), 3),
+    /filtered/,
+  );
   assert.throws(() => assertRecordable(report({ fullRun: undefined as never }), 3), /filtered/);
   assert.throws(() => assertRecordable(report(), 4), /3 repositories but the corpus has 4/);
   assert.throws(() => assertRecordable(report({ mode: "observe" }), 3), /"observe" mode/);
-  assert.throws(() => assertRecordable(report({ summary: { ...report().summary!, falsePositives: 2 } }), 3), /2 false positives and 0 false negatives/);
-  assert.throws(() => assertRecordable(report({ summary: { ...report().summary!, falseNegatives: 1 } }), 3), /1 false negatives/);
+  assert.throws(
+    () => assertRecordable(report({ summary: { ...report().summary!, falsePositives: 2 } }), 3),
+    /2 false positives and 0 false negatives/,
+  );
+  assert.throws(
+    () => assertRecordable(report({ summary: { ...report().summary!, falseNegatives: 1 } }), 3),
+    /1 false negatives/,
+  );
   assert.throws(() => assertRecordable(report({ thresholdViolations: [{}] }), 3), /precision floor/);
   assert.throws(() => assertRecordable({ schemaVersion: "other" }, 3), /not a corpus report/);
 });
@@ -59,7 +76,11 @@ test("the record covers every detector, with zeros for one that reported nothing
 
 test("writing a record changes only lastFullRun and keeps the file's formatting", async () => {
   const text = await readFile(resolve("benchmarks/thresholds.json"), "utf8");
-  assert.equal(withLastFullRun(text, (JSON.parse(text) as Thresholds).lastFullRun!), text, "an unchanged record round-trips byte for byte");
+  assert.equal(
+    withLastFullRun(text, (JSON.parse(text) as Thresholds).lastFullRun!),
+    text,
+    "an unchanged record round-trips byte for byte",
+  );
   const thresholds = JSON.parse(text) as Thresholds;
   const record = buildFullRunRecord(report() as never, thresholds, { date: "2026-12-01", commit: "abc1234" });
   const updated = JSON.parse(withLastFullRun(text, record)) as Thresholds;

@@ -20,12 +20,7 @@
  * Array-of-tables headers (`[[…]]`) end the `[versions]` section like any other table.
  */
 
-import {
-  MAXIMUM_DECLARATIONS,
-  MAXIMUM_INPUT_BYTES,
-  MAXIMUM_LINE_LENGTH,
-  isLiteralVersion,
-} from "./gradle-scan.js";
+import { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, isLiteralVersion } from "./gradle-scan.js";
 
 export { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 

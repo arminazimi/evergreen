@@ -25,7 +25,20 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata", ".terraform"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+  ".terraform",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const WORKFLOW_NAME = /\.ya?ml$/i;
 const SETUP_TERRAFORM = /^hashicorp\/setup-terraform@/i;
@@ -35,7 +48,15 @@ const DOCKER_TAG = /^(\d+)\.(\d+)(?:\.\d+)?([-+].*)?$/;
 const CONSTRAINT_PART = /^(>=|>|<=|<|!=|=|~>)?\s*(\d+\.\d+(?:\.\d+)?(?:-[0-9A-Za-z.-]+)?)$/;
 const ALIGN_RELEASE = /^(\d+)\.(\d+)(?:\.(\d+))?$/;
 
-type RepositoryFileKind = "terraform-version" | "tool-versions" | "tf" | "dockerfile" | "workflow" | "gitlab" | "circleci" | "azure";
+type RepositoryFileKind =
+  | "terraform-version"
+  | "tool-versions"
+  | "tf"
+  | "dockerfile"
+  | "workflow"
+  | "gitlab"
+  | "circleci"
+  | "azure";
 
 interface RepositoryFile {
   path: string;
@@ -68,7 +89,12 @@ async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
       else if (name === ".gitlab-ci.yml") files.push({ path, kind: "gitlab" });
       else if (name === "azure-pipelines.yml") files.push({ path, kind: "azure" });
       else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path, kind: "circleci" });
-      else if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github") files.push({ path, kind: "workflow" });
+      else if (
+        WORKFLOW_NAME.test(name) &&
+        basename(directory) === "workflows" &&
+        basename(dirname(directory)) === ".github"
+      )
+        files.push({ path, kind: "workflow" });
     }
   }
   await walk(root, 0);
@@ -93,7 +119,14 @@ function newerRelease(a: string, b: string): string {
   return Number(aMinor) >= Number(bMinor) ? a : b;
 }
 
-function versionPin(path: string, scope: string, line: number, source: string, raw: string, kind: "pin" | "floor"): RuntimePin {
+function versionPin(
+  path: string,
+  scope: string,
+  line: number,
+  source: string,
+  raw: string,
+  kind: "pin" | "floor",
+): RuntimePin {
   const release = releaseFromVersion(raw);
   return release === undefined
     ? { path, line, source, raw, kind, scope, unresolved: `"${raw}" is not a Terraform release line` }
@@ -119,11 +152,25 @@ function imagePin(path: string, line: number, source: string, value: string): Ru
   const image = terraformImageTag(value);
   if (!image) return undefined;
   if (image.tag === undefined) {
-    return { path, line, source, raw: value, kind: "pin", unresolved: "the image has no tag, so it follows the latest release" };
+    return {
+      path,
+      line,
+      source,
+      raw: value,
+      kind: "pin",
+      unresolved: "the image has no tag, so it follows the latest release",
+    };
   }
   const parts = releaseFromDockerTag(image.tag);
   return parts.release === undefined
-    ? { path, line, source, raw: image.tag, kind: "pin", unresolved: `"${image.tag}" does not name a Terraform release line` }
+    ? {
+        path,
+        line,
+        source,
+        raw: image.tag,
+        kind: "pin",
+        unresolved: `"${image.tag}" does not name a Terraform release line`,
+      }
     : { path, line, source, raw: image.tag, kind: "pin", release: parts.release };
 }
 
@@ -150,15 +197,32 @@ function requiredVersionPin(path: string, scope: string, line: number, value: st
   const source = "terraform required_version";
   const parts = constraintParts(value);
   if (parts === undefined) {
-    return { path, line, source, raw: value, kind: "floor", scope, unresolved: `"${value}" is not a Terraform version constraint` };
+    return {
+      path,
+      line,
+      source,
+      raw: value,
+      kind: "floor",
+      scope,
+      unresolved: `"${value}" is not a Terraform version constraint`,
+    };
   }
   const single = parts.length === 1 ? parts[0]! : undefined;
-  const exact = single !== undefined && (single.operator === "" || single.operator === "=") && RELEASE.test(single.version);
+  const exact =
+    single !== undefined && (single.operator === "" || single.operator === "=") && RELEASE.test(single.version);
   const pessimistic = single !== undefined && single.operator === "~>" && /^\d+\.\d+\.\d+$/.test(single.version);
   if (exact || pessimistic) {
     const release = releaseFromVersion(single!.version);
     return release === undefined
-      ? { path, line, source, raw: value, kind: "pin", scope, unresolved: `"${single!.version}" is not a Terraform release line` }
+      ? {
+          path,
+          line,
+          source,
+          raw: value,
+          kind: "pin",
+          scope,
+          unresolved: `"${single!.version}" is not a Terraform release line`,
+        }
       : { path, line, source, raw: value, kind: "pin", scope, release };
   }
   let floor: string | undefined;
@@ -185,7 +249,8 @@ function workflowPins(path: string, contents: string): RuntimePin[] {
     const lineCounter = new LineCounter();
     const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
     if (document.errors.length > 0 || !isMap(document.contents)) return [];
-    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number => lineCounter.linePos(node.range?.[0] ?? 0).line;
+    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number =>
+      lineCounter.linePos(node.range?.[0] ?? 0).line;
 
     const jobs = document.contents.get("jobs", true);
     if (!isMap(jobs)) return [];
@@ -193,7 +258,12 @@ function workflowPins(path: string, contents: string): RuntimePin[] {
     const addImage = (node: unknown): void => {
       const value = textOf(node);
       if (value === undefined) return;
-      const found = imagePin(path, lineOf(node as { range?: [number, number, ...unknown[]] | null }), "GitHub Actions container", value);
+      const found = imagePin(
+        path,
+        lineOf(node as { range?: [number, number, ...unknown[]] | null }),
+        "GitHub Actions container",
+        value,
+      );
       if (found) pins.push(found);
     };
     for (const job of jobs.items) {
@@ -225,9 +295,18 @@ function workflowPins(path: string, contents: string): RuntimePin[] {
           if (value === undefined || value === "") continue;
           const line = lineOf(version as { range?: [number, number, ...unknown[]] | null });
           const release = releaseFromVersion(value);
-          pins.push(release === undefined
-            ? { path, line, source: "hashicorp/setup-terraform terraform_version", raw: value, kind: "pin", unresolved: `"${value}" is not a Terraform release line` }
-            : { path, line, source: "hashicorp/setup-terraform terraform_version", raw: value, kind: "pin", release });
+          pins.push(
+            release === undefined
+              ? {
+                  path,
+                  line,
+                  source: "hashicorp/setup-terraform terraform_version",
+                  raw: value,
+                  kind: "pin",
+                  unresolved: `"${value}" is not a Terraform release line`,
+                }
+              : { path, line, source: "hashicorp/setup-terraform terraform_version", raw: value, kind: "pin", release },
+          );
         }
       }
     }
@@ -278,40 +357,52 @@ function firstEntry(contents: string): { text: string; line: number } | undefine
 function terraformVersionFilePins(path: string, scope: string, contents: string): RuntimePin[] {
   const declarations = parseTerraformVersionFile(contents);
   if (declarations.length > 0) {
-    return declarations.map((declaration) => versionPin(path, scope, declaration.line, ".terraform-version", declaration.value, "pin"));
+    return declarations.map((declaration) =>
+      versionPin(path, scope, declaration.line, ".terraform-version", declaration.value, "pin"),
+    );
   }
   const entry = firstEntry(contents);
   if (entry === undefined) return [];
-  const entries = (contents.charCodeAt(0) === 0xfeff ? contents.slice(1) : contents).split(/\r?\n/).filter((raw) => raw.replace(/#.*$/, "").trim() !== "").length;
-  return [{
-    path,
-    line: entry.line,
-    source: ".terraform-version",
-    raw: entry.text,
-    kind: "pin",
-    scope,
-    unresolved: entries > 1 ? "the file states more than one version" : `"${entry.text}" is not a concrete Terraform version`,
-  }];
+  const entries = (contents.charCodeAt(0) === 0xfeff ? contents.slice(1) : contents)
+    .split(/\r?\n/)
+    .filter((raw) => raw.replace(/#.*$/, "").trim() !== "").length;
+  return [
+    {
+      path,
+      line: entry.line,
+      source: ".terraform-version",
+      raw: entry.text,
+      kind: "pin",
+      scope,
+      unresolved:
+        entries > 1 ? "the file states more than one version" : `"${entry.text}" is not a concrete Terraform version`,
+    },
+  ];
 }
 
 function toolVersionsPins(path: string, scope: string, contents: string): RuntimePin[] {
   const declarations = parseToolVersionsTerraform(contents);
   if (declarations.length > 0) {
-    return declarations.map((declaration) => versionPin(path, scope, declaration.line, ".tool-versions", declaration.value, "pin"));
+    return declarations.map((declaration) =>
+      versionPin(path, scope, declaration.line, ".tool-versions", declaration.value, "pin"),
+    );
   }
   for (const [index, raw] of contents.split(/\r?\n/).entries()) {
     const fields = raw.replace(/#.*$/, "").trim().split(/\s+/);
     if (fields[0] !== "terraform") continue;
     const value = fields[1];
-    return [{
-      path,
-      line: index + 1,
-      source: ".tool-versions",
-      raw: value ?? "terraform",
-      kind: "pin",
-      scope,
-      unresolved: value === undefined ? "the terraform entry has no version" : `"${value}" is not a concrete Terraform version`,
-    }];
+    return [
+      {
+        path,
+        line: index + 1,
+        source: ".tool-versions",
+        raw: value ?? "terraform",
+        kind: "pin",
+        scope,
+        unresolved:
+          value === undefined ? "the terraform entry has no version" : `"${value}" is not a concrete Terraform version`,
+      },
+    ];
   }
   return [];
 }
@@ -338,7 +429,14 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
     const found = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
     if (!found) return undefined;
     const reference = parseImageReference(found[2]!);
-    if (!reference || reference.digest !== undefined || reference.registry !== "docker.io" || reference.repository !== TERRAFORM_IMAGE || reference.tag === undefined) return undefined;
+    if (
+      !reference ||
+      reference.digest !== undefined ||
+      reference.registry !== "docker.io" ||
+      reference.repository !== TERRAFORM_IMAGE ||
+      reference.tag === undefined
+    )
+      return undefined;
     const parts = releaseFromDockerTag(reference.tag);
     if (parts.release === undefined) return undefined;
     return `${found[1]}${TERRAFORM_IMAGE}:${full}${parts.variant}${found[3]}`;

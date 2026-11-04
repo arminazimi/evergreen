@@ -83,4 +83,3 @@ test("go.work parsing is bounded, deterministic, and handles CRLF", () => {
   ]);
   assert.deepEqual(parseGoWork(contents), declarations);
 });
-

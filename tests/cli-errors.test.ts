@@ -95,7 +95,7 @@ test("invalid baseline config gets a cause and a next step", async () => {
 });
 
 test("offline data update gets a cause and a next step", async () => {
-  assert.equal(isOfflineDataUpdateFailure('Could not download the release list: fetch failed'), true);
+  assert.equal(isOfflineDataUpdateFailure("Could not download the release list: fetch failed"), true);
   assert.equal(isOfflineDataUpdateFailure("Refusing data bundle 2026.01.01: bad signature"), false);
 
   const offline = await run(["data", "update"], { EVERGREEN_DATA_URL: "http://127.0.0.1:1/releases" });

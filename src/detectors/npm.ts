@@ -4,21 +4,13 @@ import { resolve } from "node:path";
 import semver from "semver";
 import { parseAllDocuments } from "yaml";
 
-import type {
-  DeprecationRule,
-  Severity,
-  UsageMatcher,
-} from "../domain.js";
+import type { DeprecationRule, Severity, UsageMatcher } from "../domain.js";
 import { relativePosix } from "../paths.js";
 import { parseVers, versContains } from "../vers/index.js";
 import { loadDataFile } from "../data-source.js";
 import { analyzeSourceUsage, impactFor } from "../source-usage.js";
 import { discoverNpmWorkspaces, usagesOwnedBy } from "../workspaces.js";
-import {
-  DETECTOR_API_VERSION,
-  isDeprecationRule,
-  isUsageMatcher,
-} from "../sdk.js";
+import { DETECTOR_API_VERSION, isDeprecationRule, isUsageMatcher } from "../sdk.js";
 import { loadRegistryRules, withoutSymbolRules } from "../registry.js";
 import type {
   Detector,
@@ -86,11 +78,7 @@ interface LockData {
  * section wins. peerDependencies is deliberately absent: a peer range states which versions a library is
  * compatible with, not the version installed, so a package declared only as a peer is never reported.
  */
-const dependencySections = [
-  "dependencies",
-  "devDependencies",
-  "optionalDependencies",
-] as const;
+const dependencySections = ["dependencies", "devDependencies", "optionalDependencies"] as const;
 
 async function readOptional(path: string): Promise<string | undefined> {
   try {
@@ -103,10 +91,7 @@ async function readOptional(path: string): Promise<string | undefined> {
   }
 }
 
-async function loadRegistry<Rule>(
-  path: string,
-  definition: RegistryDefinition<Rule>,
-): Promise<readonly Rule[]> {
+async function loadRegistry<Rule>(path: string, definition: RegistryDefinition<Rule>): Promise<readonly Rule[]> {
   const data = withoutSymbolRules(await loadDataFile(path));
   const loaded = loadRegistryRules(data, definition).rules;
   if (path !== "registry/npm.json" || typeof data !== "object" || data === null || !("rules" in data)) return loaded;
@@ -159,7 +144,15 @@ function addEdges(graph: DependencyGraph, from: string, ...sections: Array<Recor
 
 function parsePackageLock(contents: string, { versions: target, graph }: LockData): void {
   let lock: {
-    packages?: Record<string, { name?: string; version?: string; dependencies?: Record<string, unknown>; optionalDependencies?: Record<string, unknown> }>;
+    packages?: Record<
+      string,
+      {
+        name?: string;
+        version?: string;
+        dependencies?: Record<string, unknown>;
+        optionalDependencies?: Record<string, unknown>;
+      }
+    >;
     dependencies?: Record<string, unknown>;
   };
   try {
@@ -180,7 +173,11 @@ function parsePackageLock(contents: string, { versions: target, graph }: LockDat
   const visit = (dependencies: Record<string, unknown> | undefined): void => {
     for (const [name, rawMetadata] of Object.entries(dependencies ?? {})) {
       if (!rawMetadata || typeof rawMetadata !== "object") continue;
-      const metadata = rawMetadata as { version?: string; requires?: Record<string, unknown>; dependencies?: Record<string, unknown> };
+      const metadata = rawMetadata as {
+        version?: string;
+        requires?: Record<string, unknown>;
+        dependencies?: Record<string, unknown>;
+      };
       addResolved(target, name, metadata.version);
       addEdges(graph, name, metadata.requires);
       visit(metadata.dependencies);
@@ -218,7 +215,10 @@ function parsePnpmLock(contents: string, { versions: target, graph }: LockData):
         const parsed = packageFromPnpmKey(key);
         if (!parsed) continue;
         addResolved(target, parsed.name, parsed.version);
-        const edges = entry && typeof entry === "object" ? (entry as { dependencies?: Record<string, unknown>; optionalDependencies?: Record<string, unknown> }) : {};
+        const edges =
+          entry && typeof entry === "object"
+            ? (entry as { dependencies?: Record<string, unknown>; optionalDependencies?: Record<string, unknown> })
+            : {};
         addEdges(graph, parsed.name, edges.dependencies, edges.optionalDependencies);
       }
     }
@@ -351,7 +351,10 @@ function stripJsonc(contents: string): string {
 function parseBunLock(contents: string, { versions: target, graph }: LockData): void {
   let lock: { packages?: Record<string, unknown>; workspaces?: Record<string, unknown> };
   try {
-    lock = JSON.parse(stripJsonc(contents)) as { packages?: Record<string, unknown>; workspaces?: Record<string, unknown> };
+    lock = JSON.parse(stripJsonc(contents)) as {
+      packages?: Record<string, unknown>;
+      workspaces?: Record<string, unknown>;
+    };
   } catch {
     return;
   }
@@ -366,7 +369,11 @@ function parseBunLock(contents: string, { versions: target, graph }: LockData): 
     if (!parsed) continue;
     addResolved(target, parsed.name, parsed.version);
 
-    const meta = entry.slice(1).find((item): item is Record<string, unknown> => typeof item === "object" && item !== null && !Array.isArray(item));
+    const meta = entry
+      .slice(1)
+      .find(
+        (item): item is Record<string, unknown> => typeof item === "object" && item !== null && !Array.isArray(item),
+      );
     if (meta) {
       const deps = meta.dependencies as Record<string, unknown> | undefined;
       const optDeps = meta.optionalDependencies as Record<string, unknown> | undefined;
@@ -398,7 +405,11 @@ async function collectLockData(root: string): Promise<LockData> {
  * undefined when the lockfile graph does not reach it. Neighbours are visited in name order so the same lockfile
  * always yields the same path.
  */
-function shortestDependencyPath(graph: DependencyGraph, direct: Iterable<string>, target: string): string[] | undefined {
+function shortestDependencyPath(
+  graph: DependencyGraph,
+  direct: Iterable<string>,
+  target: string,
+): string[] | undefined {
   const parent = new Map<string, string | undefined>();
   let frontier = [...direct].sort();
   for (const name of frontier) parent.set(name, undefined);
@@ -461,7 +472,12 @@ const LEGACY_MAXIMUM_MAJOR = 20;
  * reported only for a declaration whose lowest allowed version is that line and that allows nothing newer
  * (`^22`, `22.x`, a pinned `22`), never for a range such as `>=22` that merely allows it, and never extends the end-of-life candidates (`hasRule` and `newestRuleMajor` ignore it).
  */
-function runtimeMajors(value: string, newestRuleMajor: number, hasRule: (major: number) => boolean, scheduledMajors: number[] = []): number[] {
+function runtimeMajors(
+  value: string,
+  newestRuleMajor: number,
+  hasRule: (major: number) => boolean,
+  scheduledMajors: number[] = [],
+): number[] {
   const range = semver.validRange(value);
   if (!range) {
     const direct = /^(?:v)?(\d+)(?:\.\d+){0,2}$/.exec(value.trim());
@@ -469,16 +485,24 @@ function runtimeMajors(value: string, newestRuleMajor: number, hasRule: (major: 
   }
   const floor = semver.minVersion(range)?.major ?? 0;
   // Past Node.js 20 only a floor that is itself end-of-life (a line with a rule) makes the declaration a problem.
-  const maximum = floor > LEGACY_MAXIMUM_MAJOR ? (hasRule(floor) ? newestRuleMajor : LEGACY_MAXIMUM_MAJOR) : LEGACY_MAXIMUM_MAJOR;
+  const maximum =
+    floor > LEGACY_MAXIMUM_MAJOR ? (hasRule(floor) ? newestRuleMajor : LEGACY_MAXIMUM_MAJOR) : LEGACY_MAXIMUM_MAJOR;
   const candidates = Array.from({ length: maximum + 1 }, (_, index) => index);
   const ended = candidates.filter((major) => semver.intersects(range, `${major}.x`));
-  return [...ended, ...scheduledMajors.filter((major) => major === floor && !ended.includes(major) && semver.intersects(range, `${major}.x`) && !semver.intersects(range, `>=${major + 1}.0.0`))];
+  return [
+    ...ended,
+    ...scheduledMajors.filter(
+      (major) =>
+        major === floor &&
+        !ended.includes(major) &&
+        semver.intersects(range, `${major}.x`) &&
+        !semver.intersects(range, `>=${major + 1}.0.0`),
+    ),
+  ];
 }
 
 function ruleForMajor(rules: NodeRule[], major: number): NodeRule | undefined {
-  return rules.find(
-    (rule) => rule.major === major || (rule.maximumMajor !== undefined && major <= rule.maximumMajor),
-  );
+  return rules.find((rule) => rule.major === major || (rule.maximumMajor !== undefined && major <= rule.maximumMajor));
 }
 
 function declarationFinding(
@@ -513,8 +537,10 @@ function manifestRuntimeDeclarations(
   if (manifest.engines?.node) {
     declarations.push({
       path,
-      line: propertyLine(contents.slice(contents.indexOf('"engines"')), "node") +
-        contents.slice(0, contents.indexOf('"engines"')).split(/\r?\n/).length - 1,
+      line:
+        propertyLine(contents.slice(contents.indexOf('"engines"')), "node") +
+        contents.slice(0, contents.indexOf('"engines"')).split(/\r?\n/).length -
+        1,
       value: manifest.engines.node,
       kind: "compatibility range",
     });
@@ -522,8 +548,10 @@ function manifestRuntimeDeclarations(
   if (manifest.volta?.node) {
     declarations.push({
       path,
-      line: propertyLine(contents.slice(contents.indexOf('"volta"')), "node") +
-        contents.slice(0, contents.indexOf('"volta"')).split(/\r?\n/).length - 1,
+      line:
+        propertyLine(contents.slice(contents.indexOf('"volta"')), "node") +
+        contents.slice(0, contents.indexOf('"volta"')).split(/\r?\n/).length -
+        1,
       value: manifest.volta.node,
       kind: "pinned runtime",
     });
@@ -536,7 +564,19 @@ export class NpmDetector implements Detector {
   readonly id = "npm";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: ["package.json", "package-lock.json", "npm-shrinkwrap.json", "pnpm-lock.yaml", "yarn.lock", "bun.lock", "bun.lockb", ".nvmrc", ".node-version", "pnpm-workspace.yaml", "lerna.json"],
+    fileNames: [
+      "package.json",
+      "package-lock.json",
+      "npm-shrinkwrap.json",
+      "pnpm-lock.yaml",
+      "yarn.lock",
+      "bun.lock",
+      "bun.lockb",
+      ".nvmrc",
+      ".node-version",
+      "pnpm-workspace.yaml",
+      "lerna.json",
+    ],
     sourceExtensions: [".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts", ".json", ".yaml", ".yml"],
   };
 
@@ -555,39 +595,41 @@ export class NpmDetector implements Detector {
       unclassified.push({
         component: "bun.lockb",
         reference: "bun.lockb",
-        reason: "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
+        reason:
+          "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
         location: { path: "bun.lockb", line: 1 },
       });
     }
 
     const [packageRules, nodeRules, rootLock] = await Promise.all([
-      loadRegistry(
-        "registry/npm.json",
-        {
-          schemaVersion: "evergreen.npm-registry.v1",
-          isRule: (value): value is PackageRule =>
-            isDeprecationRule(value) &&
-            typeof (value as Partial<PackageRule>).package === "string" &&
-            ((value as Partial<PackageRule>).usage === undefined ||
-              ((value as Partial<PackageRule>).usage?.every(isUsageMatcher) ?? false)),
-        },
-      ),
-      loadRegistry(
-        "registry/nodejs.json",
-        {
-          schemaVersion: "evergreen.nodejs-registry.v1",
-          isRule: (value): value is NodeRule =>
-            isDeprecationRule(value) &&
-            (typeof (value as Partial<NodeRule>).major === "number" ||
-              typeof (value as Partial<NodeRule>).maximumMajor === "number"),
-        },
-      ),
+      loadRegistry("registry/npm.json", {
+        schemaVersion: "evergreen.npm-registry.v1",
+        isRule: (value): value is PackageRule =>
+          isDeprecationRule(value) &&
+          typeof (value as Partial<PackageRule>).package === "string" &&
+          ((value as Partial<PackageRule>).usage === undefined ||
+            ((value as Partial<PackageRule>).usage?.every(isUsageMatcher) ?? false)),
+      }),
+      loadRegistry("registry/nodejs.json", {
+        schemaVersion: "evergreen.nodejs-registry.v1",
+        isRule: (value): value is NodeRule =>
+          isDeprecationRule(value) &&
+          (typeof (value as Partial<NodeRule>).major === "number" ||
+            typeof (value as Partial<NodeRule>).maximumMajor === "number"),
+      }),
       collectLockData(context.root),
     ]);
 
     // The root project is "", each workspace is its relative directory. A workspace without its own lockfile
     // resolves against the root's, which is where npm, pnpm, and Yarn put the one shared lockfile.
-    const projects: Array<{ directory: string; manifestPath: string; contents: string; manifest: PackageManifest; resolved: ResolvedVersions; graph: DependencyGraph }> = [];
+    const projects: Array<{
+      directory: string;
+      manifestPath: string;
+      contents: string;
+      manifest: PackageManifest;
+      resolved: ResolvedVersions;
+      graph: DependencyGraph;
+    }> = [];
     const load = async (directory: string): Promise<void> => {
       const manifestPath = resolve(context.root, directory, "package.json");
       const contents = directory === "" ? rootManifest : await readOptional(manifestPath);
@@ -595,27 +637,33 @@ export class NpmDetector implements Detector {
       let manifest: PackageManifest;
       try {
         const parsed: unknown = JSON.parse(contents);
-        if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) throw new SyntaxError("package.json must contain a JSON object");
+        if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed))
+          throw new SyntaxError("package.json must contain a JSON object");
         manifest = parsed as PackageManifest;
       } catch (error) {
         // A malformed root manifest has always been an error; a malformed workspace manifest is skipped so one bad package does not hide the rest.
         if (directory === "") throw error;
         return;
       }
-      const own = directory === "" ? { versions: new Map<string, Set<string>>(), graph: new Map<string, Set<string>>() } : await collectLockData(resolve(context.root, directory));
+      const own =
+        directory === ""
+          ? { versions: new Map<string, Set<string>>(), graph: new Map<string, Set<string>>() }
+          : await collectLockData(resolve(context.root, directory));
       if (directory !== "") {
         const workspaceLockb = await readOptional(resolve(context.root, directory, "bun.lockb"));
         if (workspaceLockb !== undefined) {
           unclassified.push({
             component: "bun.lockb",
             reference: "bun.lockb",
-            reason: "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
+            reason:
+              "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
             location: { path: relativePosix(context.root, resolve(context.root, directory, "bun.lockb")), line: 1 },
           });
         }
       }
       const resolved: ResolvedVersions = new Map(rootLock.versions);
-      for (const [name, versions] of own.versions) resolved.set(name, new Set([...(resolved.get(name) ?? []), ...versions]));
+      for (const [name, versions] of own.versions)
+        resolved.set(name, new Set([...(resolved.get(name) ?? []), ...versions]));
       const graph: DependencyGraph = new Map(rootLock.graph);
       for (const [name, edges] of own.graph) graph.set(name, new Set([...(graph.get(name) ?? []), ...edges]));
       projects.push({ directory, manifestPath, contents, manifest, resolved, graph });
@@ -625,20 +673,38 @@ export class NpmDetector implements Detector {
 
     const findings: DetectorFinding[] = [];
     const endedRules = nodeRules.filter((rule) => !rule.scheduled);
-    const scheduledMajors = nodeRules.flatMap((rule) => (rule.scheduled && rule.major !== undefined ? [rule.major] : []));
+    const scheduledMajors = nodeRules.flatMap((rule) =>
+      rule.scheduled && rule.major !== undefined ? [rule.major] : [],
+    );
     const newestRuleMajor = Math.max(0, ...endedRules.map((rule) => rule.major ?? 0));
     const seenRuntimeRules = new Set<string>();
-    const matched: Array<{ rule: PackageRule; project: (typeof projects)[number]; range: string; section: string; via?: string[] }> = [];
+    const matched: Array<{
+      rule: PackageRule;
+      project: (typeof projects)[number];
+      range: string;
+      section: string;
+      via?: string[];
+    }> = [];
 
     for (const project of projects) {
-      const declarations = manifestRuntimeDeclarations(context.root, project.manifestPath, project.contents, project.manifest);
+      const declarations = manifestRuntimeDeclarations(
+        context.root,
+        project.manifestPath,
+        project.contents,
+        project.manifest,
+      );
       for (const filename of [".nvmrc", ".node-version"] as const) {
         const path = resolve(context.root, project.directory, filename);
         const value = (await readOptional(path))?.trim();
         if (value) declarations.push({ path, line: 1, value, kind: "pinned runtime" });
       }
       for (const declaration of declarations) {
-        for (const major of runtimeMajors(declaration.value, newestRuleMajor, (major) => ruleForMajor(endedRules, major) !== undefined, scheduledMajors)) {
+        for (const major of runtimeMajors(
+          declaration.value,
+          newestRuleMajor,
+          (major) => ruleForMajor(endedRules, major) !== undefined,
+          scheduledMajors,
+        )) {
           const rule = ruleForMajor([...nodeRules], major);
           const key = rule ? `${rule.id}:${declaration.path}:${declaration.line}` : "";
           if (rule && !seenRuntimeRules.has(key)) {
@@ -661,7 +727,8 @@ export class NpmDetector implements Detector {
           const via = shortestDependencyPath(project.graph, declared.keys(), rule.package);
           const versions = [...(project.resolved.get(rule.package) ?? [])];
           if (!via || versions.length === 0) continue;
-          if (rule.vers && !parseVers(rule.vers).all && !versions.some((version) => versContains(rule.vers!, version))) continue;
+          if (rule.vers && !parseVers(rule.vers).all && !versions.some((version) => versContains(rule.vers!, version)))
+            continue;
           const root = declared.get(via[0]!)!;
           matched.push({ rule, project, range: root.range, section: root.section, via });
           continue;
@@ -669,10 +736,13 @@ export class NpmDetector implements Detector {
         if (rule.vers && !parseVers(rule.vers).all) {
           const declaredRange = semver.validRange(dependency.range);
           if (!declaredRange) continue;
-          const resolved = [...(project.resolved.get(rule.package) ?? [])].filter((version) => semver.satisfies(version, declaredRange));
-          const affected = resolved.length > 0
-            ? resolved.some((version) => versContains(rule.vers!, version))
-            : declaredVersionsAffected(rule.vers, declaredRange);
+          const resolved = [...(project.resolved.get(rule.package) ?? [])].filter((version) =>
+            semver.satisfies(version, declaredRange),
+          );
+          const affected =
+            resolved.length > 0
+              ? resolved.some((version) => versContains(rule.vers!, version))
+              : declaredVersionsAffected(rule.vers, declaredRange);
           if (!affected) continue;
         }
         matched.push({ rule, project, range: dependency.range, section: dependency.section });

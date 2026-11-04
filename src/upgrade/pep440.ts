@@ -147,7 +147,13 @@ function parseClause(text: string): readonly Comparator[] | undefined {
   const negate = op === "!=";
   if (raw.endsWith(".*")) {
     const prefixVersion = parseVersion(raw.slice(0, -2));
-    if (!prefixVersion || prefixVersion.pre || prefixVersion.post !== undefined || prefixVersion.dev !== undefined || prefixVersion.local !== undefined) {
+    if (
+      !prefixVersion ||
+      prefixVersion.pre ||
+      prefixVersion.post !== undefined ||
+      prefixVersion.dev !== undefined ||
+      prefixVersion.local !== undefined
+    ) {
       return undefined;
     }
     return [{ kind: "prefix", prefix: prefixVersion.release, negate }];
@@ -164,24 +170,32 @@ function matchesComparator(comparator: Comparator, version: ParsedVersion): bool
     return comparator.negate ? !matches : matches;
   }
   if (comparator.kind === "exact") {
-    const same = compareVersions(version, comparator.version) === 0 &&
+    const same =
+      compareVersions(version, comparator.version) === 0 &&
       (comparator.version.local === undefined || comparator.version.local === version.local);
     return comparator.negate ? !same : same;
   }
   const comparison = compareVersions(version, comparator.version);
   switch (comparator.op) {
-    case "<": return comparison < 0;
-    case "<=": return comparison <= 0;
-    case ">": return comparison > 0;
-    case ">=": return comparison >= 0;
+    case "<":
+      return comparison < 0;
+    case "<=":
+      return comparison <= 0;
+    case ">":
+      return comparison > 0;
+    case ">=":
+      return comparison >= 0;
   }
 }
 
 function matchesAll(text: string, version: ParsedVersion): boolean | undefined {
   // Poetry writes AND sets with commas, and also accepts whitespace between comparators.
-  const parts = text
-    .split(",")
-    .flatMap((part) => part.trim().replace(/\s+(?=[<>=!~^])/g, ",").split(","));
+  const parts = text.split(",").flatMap((part) =>
+    part
+      .trim()
+      .replace(/\s+(?=[<>=!~^])/g, ",")
+      .split(","),
+  );
   if (parts.length === 0) return undefined;
   for (const part of parts) {
     if (!part.trim()) return undefined;

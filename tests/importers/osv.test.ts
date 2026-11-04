@@ -35,10 +35,7 @@ test("every candidate has a unique rule id and a stable query body", () => {
     OSV_CANDIDATES.map((candidate) => candidate.ruleId),
     [...OSV_CANDIDATES].map((candidate) => candidate.ruleId).sort(),
   );
-  assert.equal(
-    queryBody(OSV_CANDIDATES[0]!),
-    JSON.stringify({ package: { name: "request", ecosystem: "npm" } }),
-  );
+  assert.equal(queryBody(OSV_CANDIDATES[0]!), JSON.stringify({ package: { name: "request", ecosystem: "npm" } }));
 });
 
 test("an advisory with a fixed event is not unfixed; last_affected alone is", () => {
@@ -56,7 +53,9 @@ test("an advisory with a fixed event is not unfixed; last_affected alone is", ()
     isUnfixedForPackage(
       {
         id: "GHSA-open",
-        affected: [{ package: { name: "request" }, ranges: [{ events: [{ introduced: "0" }, { last_affected: "2.88.2" }] }] }],
+        affected: [
+          { package: { name: "request" }, ranges: [{ events: [{ introduced: "0" }, { last_affected: "2.88.2" }] }] },
+        ],
       },
       "request",
     ),

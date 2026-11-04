@@ -9,7 +9,10 @@ import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
 
 const corpus = {
   repositories: [
-    { repository: "a/one", expected: [{ ruleId: "npm.package.request.deprecated" }, { ruleId: "nodejs.runtime.eol-18" }] },
+    {
+      repository: "a/one",
+      expected: [{ ruleId: "npm.package.request.deprecated" }, { ruleId: "nodejs.runtime.eol-18" }],
+    },
     { repository: "b/two", expected: [{ ruleId: "npm.package.left-pad.deprecated" }] },
   ],
 };
@@ -23,11 +26,21 @@ test("expected findings are counted per detector by the first segment of the rul
 
 test("losing an expected finding is a drop, and growth is not", () => {
   const committed = snapshotFrom(corpus);
-  const lost = { repositories: [{ repository: "a/one", expected: [{ ruleId: "npm.package.request.deprecated" }] }, corpus.repositories[1]!] };
+  const lost = {
+    repositories: [
+      { repository: "a/one", expected: [{ ruleId: "npm.package.request.deprecated" }] },
+      corpus.repositories[1]!,
+    ],
+  };
   assert.deepEqual(snapshotDrops(snapshotFrom(lost), committed), [
     "nodejs: the corpus expects 0 findings, the snapshot records 1",
   ]);
-  const grown = { repositories: [...corpus.repositories, { repository: "c/three", expected: [{ ruleId: "npm.package.x.deprecated" }] }] };
+  const grown = {
+    repositories: [
+      ...corpus.repositories,
+      { repository: "c/three", expected: [{ ruleId: "npm.package.x.deprecated" }] },
+    ],
+  };
   assert.deepEqual(snapshotDrops(snapshotFrom(grown), committed), []);
 });
 

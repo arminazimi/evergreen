@@ -21,9 +21,15 @@ function entry(repository: string, expected: CorpusRepositoryEntry["expected"] =
 test("resolveCorpusConcurrency prefers --concurrency, then the env var, then the default", () => {
   assert.equal(resolveCorpusConcurrency(["node", "script"], {}), DEFAULT_CORPUS_CONCURRENCY);
   assert.equal(resolveCorpusConcurrency(["node", "script"], { EVERGREEN_CORPUS_CONCURRENCY: "4" }), 4);
-  assert.equal(resolveCorpusConcurrency(["node", "script", "--concurrency", "8"], { EVERGREEN_CORPUS_CONCURRENCY: "4" }), 8);
+  assert.equal(
+    resolveCorpusConcurrency(["node", "script", "--concurrency", "8"], { EVERGREEN_CORPUS_CONCURRENCY: "4" }),
+    8,
+  );
   assert.throws(() => resolveCorpusConcurrency(["node", "script", "--concurrency", "0"], {}), /positive integer/);
-  assert.throws(() => resolveCorpusConcurrency(["node", "script"], { EVERGREEN_CORPUS_CONCURRENCY: "nope" }), /positive integer/);
+  assert.throws(
+    () => resolveCorpusConcurrency(["node", "script"], { EVERGREEN_CORPUS_CONCURRENCY: "nope" }),
+    /positive integer/,
+  );
 });
 
 test("inBatches keeps input order and never exceeds the concurrency bound", async () => {
@@ -87,9 +93,7 @@ test("runCorpusRepositories fetches concurrently but reports in corpus order", a
 
 test("runCorpusRepositories scores true positives against expected findings", async () => {
   const results = await runCorpusRepositories({
-    entries: [
-      entry("owner/repo", [{ ruleId: "npm.package.request.deprecated", path: "package.json", line: 12 }]),
-    ],
+    entries: [entry("owner/repo", [{ ruleId: "npm.package.request.deprecated", path: "package.json", line: 12 }])],
     concurrency: 1,
     checkout: async () => ({ path: "/tmp/repo", checkoutMs: 1 }),
     scan: async () => [{ ruleId: "npm.package.request.deprecated", location: { path: "package.json", line: 12 } }],

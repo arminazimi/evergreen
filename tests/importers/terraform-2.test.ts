@@ -18,7 +18,10 @@ function guides(text: string): ImporterContext {
   return {
     now: new Date("2026-10-21T12:00:00Z"),
     async fetchText(url) {
-      assert.ok(PROVIDER_GUIDES.some((guide) => guideUrl(guide.path) === url), url);
+      assert.ok(
+        PROVIDER_GUIDES.some((guide) => guideUrl(guide.path) === url),
+        url,
+      );
       return text;
     },
   };
@@ -27,7 +30,10 @@ function guides(text: string): ImporterContext {
 test("reads the three real guides offline and drafts no provider-version rule", async () => {
   const drafts = await execute(terraformProviderGuidesImporter, { replay: recording });
   assert.deepEqual(drafts.rules, []);
-  assert.match(drafts.notes[0]!, /^aws: .* states \d+ dated lifecycle event\(s\) for services or resources, none for a provider version\.$/);
+  assert.match(
+    drafts.notes[0]!,
+    /^aws: .* states \d+ dated lifecycle event\(s\) for services or resources, none for a provider version\.$/,
+  );
   assert.ok(drafts.notes.some((note) => /Elastic Transcoder will be discontinued on November 13, 2025\.$/.test(note)));
   assert.ok(drafts.notes.some((note) => /^azurerm: .* has no dated lifecycle statement\.$/.test(note)));
   assert.ok(drafts.notes.some((note) => /^google: .* has no dated lifecycle statement\.$/.test(note)));

@@ -62,7 +62,14 @@ test("normalizes and orders Go release numbers", () => {
 
 test("parses each module header with its go annotation and line", () => {
   const modules = parseVendorModules(
-    ["# example.com/a v1.0.0", "## explicit; go 1.21", "example.com/a", "# example.com/b v2.0.0", "## go 1.22", "example.com/b"].join("\n"),
+    [
+      "# example.com/a v1.0.0",
+      "## explicit; go 1.21",
+      "example.com/a",
+      "# example.com/b v2.0.0",
+      "## go 1.22",
+      "example.com/b",
+    ].join("\n"),
   );
   assert.deepEqual(modules, [
     { module: "example.com/a", version: "v1.0.0", go: { value: "1.21", line: 2, text: "## explicit; go 1.21" } },

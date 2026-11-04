@@ -50,7 +50,12 @@ export function parseCompose(contents: string): ComposeDeclaration[] {
 
     // Aliases would make a line point at text that is not the value; read none.
     let aliased = false;
-    visit(document, { Alias: () => { aliased = true; return visit.BREAK; } });
+    visit(document, {
+      Alias: () => {
+        aliased = true;
+        return visit.BREAK;
+      },
+    });
     if (aliased) return [];
 
     const services = document.contents.get("services", true);

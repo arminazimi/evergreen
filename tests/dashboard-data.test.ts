@@ -27,7 +27,10 @@ const build = (today = runDate) => buildDashboardData({ thresholds, corpus, toda
 
 test("every detector in thresholds.json has a row, with the configured level next to the earned level", () => {
   const data = build();
-  assert.deepEqual(data.detectors.map((detector) => detector.id), Object.keys(thresholds.detectors).sort());
+  assert.deepEqual(
+    data.detectors.map((detector) => detector.id),
+    Object.keys(thresholds.detectors).sort(),
+  );
   for (const detector of data.detectors) {
     const configured = thresholds.detectors[detector.id]!;
     assert.equal(detector.level, configured.level);
@@ -36,7 +39,10 @@ test("every detector in thresholds.json has a row, with the configured level nex
     assert.deepEqual(detector.evidence, evidence);
     assert.equal(detector.earnedLevel, earnedLevel(evidence));
   }
-  assert.ok(data.detectors.some((detector) => detector.level !== detector.earnedLevel), "the real data has a gap between configured and earned");
+  assert.ok(
+    data.detectors.some((detector) => detector.level !== detector.earnedLevel),
+    "the real data has a gap between configured and earned",
+  );
 });
 
 test("counts, precision, and recall are the lastFullRun numbers on the real file", () => {
@@ -56,8 +62,14 @@ test("counts, precision, and recall are the lastFullRun numbers on the real file
     const counts = last.perDetector[detector.id];
     assert.deepEqual(detector.run, counts ? detectorCounts(counts) : null);
   }
-  assert.deepEqual(data.detectors.find((detector) => detector.id === "ruby")!.run, detectorCounts(last.perDetector.ruby!));
-  const total = data.detectors.reduce((sum, detector) => sum + (detector.run?.truePositives ?? 0) + (detector.run?.falsePositives ?? 0), 0);
+  assert.deepEqual(
+    data.detectors.find((detector) => detector.id === "ruby")!.run,
+    detectorCounts(last.perDetector.ruby!),
+  );
+  const total = data.detectors.reduce(
+    (sum, detector) => sum + (detector.run?.truePositives ?? 0) + (detector.run?.falsePositives ?? 0),
+    0,
+  );
   assert.equal(total, last.findings);
   assert.equal(data.corpus.repositories, corpus.length);
   assert.ok(data.corpus.repositories >= last.repositories);
@@ -65,25 +77,77 @@ test("counts, precision, and recall are the lastFullRun numbers on the real file
 
 test("the evidence counts agree with the reviewed corpus", () => {
   const evidence = Object.fromEntries(build().detectors.map((detector) => [detector.id, detector.evidence]));
-  const counts = ({ repositoriesWithFindings, expectedFindings, zeroFindingRepositories }: { repositoriesWithFindings: number; expectedFindings: number; zeroFindingRepositories: number }) => ({ repositoriesWithFindings, expectedFindings, zeroFindingRepositories });
+  const counts = ({
+    repositoriesWithFindings,
+    expectedFindings,
+    zeroFindingRepositories,
+  }: {
+    repositoriesWithFindings: number;
+    expectedFindings: number;
+    zeroFindingRepositories: number;
+  }) => ({ repositoriesWithFindings, expectedFindings, zeroFindingRepositories });
   // ADR 0013's table is the 90-repository snapshot; the two .NET repositories with workflow findings added 2 and 6 to GitHub Actions in its 2026-10-19 update. The PHP corpus added 2 repositories-with-findings and 14 findings, and the Android corpus added 1 repository-with-findings and 8 findings. The C/C++ corpus added 2 repositories-with-findings and 7 findings. The Next.js lifecycle rules added 2 repositories-with-findings (trpc/trpc and TanStack/query) and 12 npm findings. The TanStack/query Angular declarations added 12 npm findings for the v20 Angular rule to a repository already counted. The Swift blind corpus added 3 repositories and 11 findings. The Next.js 13 and 14 support-end findings in excalidraw/excalidraw and umami-software/umami added 2 npm findings to repositories already counted. The CI runner images corpus pinned five public repositories: four with findings (8 ci-images findings in total) and one zero-finding repository. The Dart corpus pinned five public repositories: four with findings (8 dart findings in total) and one zero-finding repository; three of the four also have GitHub Actions findings (12 in total) and one has a Swift finding. The Terraform corpus pinned five public repositories: four with findings (6 terraform findings in total) and one zero-finding repository; one of the four also has GitHub Actions findings (4 in total). The Database runtimes corpus pinned five public repositories: four with findings and one zero-finding repository; the database detector also reports on the postgres images in umami-software/umami and trpc/trpc (2 findings, counted with the four for 8 database findings in total), three of the four new repositories also have GitHub Actions findings (11 in total), and CodeForPoznan/infrastructure adds 1 terraform finding to the Terraform counts. The `dotnet-version` inputs of actions/setup-dotnet added 5 .NET findings to repositories already counted (3 in xunit/xunit.analyzers, 1 each in Chrome-Developer-Mode-Extension-Warning-Patcher and SharpSocks). The two .NET base images in nettitude/SharpSocks added 2 .NET findings to a repository already counted. The scheduled Node.js 22 rule added 42 nodejs findings: 7 repositories with no other npm finding gained one, so the npm zero-finding count fell by 2 (two of them already had an npm-rule finding counted elsewhere). The EKS 1.24 pin in infracost/example-terraform added 1 terraform finding and 1 repository-with-findings, and the MYSQL_5_7 pin in BaptisteLecat/gcp_architect_certification added 1 database finding and 1 repository-with-findings. The Terraform interpolation-only rule added 8 findings in GoogleCloudPlatform/notebooks-blueprint-security, which had no terraform finding before, so the terraform repositories-with-findings rose by 1 and the zero-finding count fell by 1. The remaining 28 interpolation-only findings (two more repositories with findings, one fewer zero-finding repository) and the 8 node-sass findings (npm) were recorded once the corpus job ran on pull requests, along with the redis 7.0 and postgres 10 images in HomeBusProjects/HomeBus and weareasterisk/gavel2 (database).
   // The Go and Rust stable corpus added 97 repositories. Their workflows add 227 GitHub Actions findings in 36 repositories already counted, vault adds 22 Terraform findings (one repository), rustodon adds a database finding (one repository), and mesalink adds a C/C++ finding (one repository).
-  assert.deepEqual(counts(evidence["github-actions"]!), { repositoriesWithFindings: 208, expectedFindings: 1213, zeroFindingRepositories: 4 });
-  assert.deepEqual(counts(evidence["npm"]!), { repositoriesWithFindings: 45, expectedFindings: 108, zeroFindingRepositories: 18 });
-  assert.deepEqual(counts(evidence["dotnet"]!), { repositoriesWithFindings: 20, expectedFindings: 304, zeroFindingRepositories: 9 });
-  assert.deepEqual(counts(evidence["php"]!), { repositoriesWithFindings: 4, expectedFindings: 5, zeroFindingRepositories: 7 });
-  assert.deepEqual(counts(evidence["cpp"]!), { repositoriesWithFindings: 14, expectedFindings: 19, zeroFindingRepositories: 1 });
-  assert.deepEqual(counts(evidence["ci-images"]!), { repositoriesWithFindings: 7, expectedFindings: 13, zeroFindingRepositories: 1 });
-  assert.deepEqual(counts(evidence["dart"]!), { repositoriesWithFindings: 4, expectedFindings: 8, zeroFindingRepositories: 3 });
-  assert.deepEqual(counts(evidence["terraform"]!), { repositoriesWithFindings: 10, expectedFindings: 66, zeroFindingRepositories: 1 });
-  assert.deepEqual(counts(evidence["database"]!), { repositoriesWithFindings: 15, expectedFindings: 20, zeroFindingRepositories: 1 });
-  assert.deepEqual(counts(evidence["shell"]!), { repositoriesWithFindings: 5, expectedFindings: 12, zeroFindingRepositories: 2 });
+  assert.deepEqual(counts(evidence["github-actions"]!), {
+    repositoriesWithFindings: 208,
+    expectedFindings: 1213,
+    zeroFindingRepositories: 4,
+  });
+  assert.deepEqual(counts(evidence["npm"]!), {
+    repositoriesWithFindings: 45,
+    expectedFindings: 108,
+    zeroFindingRepositories: 18,
+  });
+  assert.deepEqual(counts(evidence["dotnet"]!), {
+    repositoriesWithFindings: 20,
+    expectedFindings: 304,
+    zeroFindingRepositories: 9,
+  });
+  assert.deepEqual(counts(evidence["php"]!), {
+    repositoriesWithFindings: 4,
+    expectedFindings: 5,
+    zeroFindingRepositories: 7,
+  });
+  assert.deepEqual(counts(evidence["cpp"]!), {
+    repositoriesWithFindings: 14,
+    expectedFindings: 19,
+    zeroFindingRepositories: 1,
+  });
+  assert.deepEqual(counts(evidence["ci-images"]!), {
+    repositoriesWithFindings: 7,
+    expectedFindings: 13,
+    zeroFindingRepositories: 1,
+  });
+  assert.deepEqual(counts(evidence["dart"]!), {
+    repositoriesWithFindings: 4,
+    expectedFindings: 8,
+    zeroFindingRepositories: 3,
+  });
+  assert.deepEqual(counts(evidence["terraform"]!), {
+    repositoriesWithFindings: 10,
+    expectedFindings: 66,
+    zeroFindingRepositories: 1,
+  });
+  assert.deepEqual(counts(evidence["database"]!), {
+    repositoriesWithFindings: 15,
+    expectedFindings: 20,
+    zeroFindingRepositories: 1,
+  });
+  assert.deepEqual(counts(evidence["shell"]!), {
+    repositoriesWithFindings: 5,
+    expectedFindings: 12,
+    zeroFindingRepositories: 2,
+  });
 });
 
 test("a detector with no run data has null run numbers, not zeros", () => {
   const { perDetector, ...rest } = thresholds.lastFullRun!;
   const { rust: _removed, ...others } = perDetector;
-  const data = buildDashboardData({ thresholds: { ...thresholds, lastFullRun: { ...rest, perDetector: others } }, corpus, today: runDate });
+  const data = buildDashboardData({
+    thresholds: { ...thresholds, lastFullRun: { ...rest, perDetector: others } },
+    corpus,
+    today: runDate,
+  });
   assert.equal(data.detectors.find((detector) => detector.id === "rust")!.run, null);
   assert.notEqual(data.detectors.find((detector) => detector.id === "go")!.run, null);
 });
@@ -147,7 +211,21 @@ test("the same inputs give the same bytes, whatever the clock", async () => {
 
 test("the definitions cover every metric, name a committed source, and the limitations are stated plainly", async () => {
   const data = build();
-  const keys = ["level", "earnedLevel", "precisionFloor", "precision", "recall", "truePositives", "falsePositives", "falseNegatives", "repositoriesWithFindings", "expectedFindings", "zeroFindingRepositories", "runAge", "scanTime"];
+  const keys = [
+    "level",
+    "earnedLevel",
+    "precisionFloor",
+    "precision",
+    "recall",
+    "truePositives",
+    "falsePositives",
+    "falseNegatives",
+    "repositoriesWithFindings",
+    "expectedFindings",
+    "zeroFindingRepositories",
+    "runAge",
+    "scanTime",
+  ];
   assert.deepEqual(Object.keys(data.definitions), keys);
   for (const [key, definition] of Object.entries(data.definitions)) {
     assert.ok(definition.label && definition.meaning && definition.computation, key);
@@ -163,9 +241,16 @@ test("the definitions cover every metric, name a committed source, and the limit
 });
 
 test("the tool requires --today and refuses a malformed one", async () => {
-  await assert.rejects(execute(process.execPath, [script, "--check"]), (error: { stderr: string }) => /--today is required/.test(error.stderr));
-  await assert.rejects(execute(process.execPath, [script, "--today"]), (error: { stderr: string }) => /--today is required/.test(error.stderr));
-  await assert.rejects(execute(process.execPath, [script, "--today", "tomorrow", "--check"]), (error: { stderr: string }) => /YYYY-MM-DD/.test(error.stderr));
+  await assert.rejects(execute(process.execPath, [script, "--check"]), (error: { stderr: string }) =>
+    /--today is required/.test(error.stderr),
+  );
+  await assert.rejects(execute(process.execPath, [script, "--today"]), (error: { stderr: string }) =>
+    /--today is required/.test(error.stderr),
+  );
+  await assert.rejects(
+    execute(process.execPath, [script, "--today", "tomorrow", "--check"]),
+    (error: { stderr: string }) => /YYYY-MM-DD/.test(error.stderr),
+  );
 });
 
 test("docs/dashboard/data.json is buildable with the last run's date as the reference day (CI fails when it is not)", async () => {

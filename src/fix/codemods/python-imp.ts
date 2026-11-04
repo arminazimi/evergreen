@@ -97,19 +97,22 @@ const rules: readonly Rule[] = [
     id: "python.symbol.imp.load-module",
     symbol: "load_module",
     title: "Imp.load_module has been removed",
-    refusal: "No exact replacement exists for `imp.load_module`; `importlib.import_module` loads an installed module, not a finder tuple.",
+    refusal:
+      "No exact replacement exists for `imp.load_module`; `importlib.import_module` loads an installed module, not a finder tuple.",
   },
   {
     id: "python.symbol.imp.load-source",
     symbol: "load_source",
     title: "Imp.load_source has been removed",
-    refusal: "No exact replacement exists for `imp.load_source`; `importlib.machinery.SourceFileLoader` needs a spec and a module.",
+    refusal:
+      "No exact replacement exists for `imp.load_source`; `importlib.machinery.SourceFileLoader` needs a spec and a module.",
   },
   {
     id: "python.symbol.imp.get-suffixes",
     symbol: "get_suffixes",
     title: "Imp.get_suffixes has been removed",
-    refusal: "No exact replacement exists for `imp.get_suffixes`; it returns tuples that the `importlib.machinery` suffix lists do not reproduce.",
+    refusal:
+      "No exact replacement exists for `imp.get_suffixes`; it returns tuples that the `importlib.machinery` suffix lists do not reproduce.",
   },
 ];
 
@@ -199,7 +202,12 @@ export const pythonImpFixer: Fixer = {
 
         const existing = importedModules(tree.rootNode);
         const additions = [...new Set(needed)].filter((module) => !isImported(module, existing));
-        const importEdit = importEditFor(imports.statement!, additions, hasRemainingImpReference(tree.rootNode, rewritten), before);
+        const importEdit = importEditFor(
+          imports.statement!,
+          additions,
+          hasRemainingImpReference(tree.rootNode, rewritten),
+          before,
+        );
         if (importEdit !== undefined) edits.push(importEdit);
 
         const text = applyEdits(before, edits);
@@ -235,11 +243,17 @@ function syntheticFinding(rule: Rule, usage: SourceUsage): Finding {
  * fixer falls back to the same parser-backed usage analysis the detectors use, over the rules it covers.
  */
 async function targetsFor(result: ScanResult): Promise<Target[]> {
-  const reported = new Map(rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]));
+  const reported = new Map(
+    rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
+  );
   const missing = rules.filter((rule) => reported.get(rule.id)!.length === 0);
-  const analyses = missing.length === 0
-    ? []
-    : await analyzeSourceUsage(result.root, missing.map((rule) => ({ id: rule.id, matchers: matchers(rule) })));
+  const analyses =
+    missing.length === 0
+      ? []
+      : await analyzeSourceUsage(
+          result.root,
+          missing.map((rule) => ({ id: rule.id, matchers: matchers(rule) })),
+        );
   const derived = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
 
   const targets: Target[] = [];
@@ -251,15 +265,18 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
       }
       continue;
     }
-    for (const usage of derived.get(rule.id) ?? []) targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
+    for (const usage of derived.get(rule.id) ?? [])
+      targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
   }
   return targets;
 }
 
 function compareTargets(left: Target, right: Target): number {
-  return (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
+  return (
+    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
     (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.rule.id.localeCompare(right.rule.id);
+    left.rule.id.localeCompare(right.rule.id)
+  );
 }
 
 /** Calls keyed by the offset where their callee starts, which is the location a symbol usage reports. */
@@ -299,7 +316,10 @@ function rewriteFor(
     if (attribute?.type !== "identifier" || attribute.text !== rule.symbol) continue;
     const args = call.childForFieldName("arguments");
     if (!args) return { reason: "The call has no argument list." };
-    const check = checkArguments(rule, args.namedChildren.filter((argument): argument is Node => argument !== null));
+    const check = checkArguments(
+      rule,
+      args.namedChildren.filter((argument): argument is Node => argument !== null),
+    );
     if ("reason" in check) return check;
     return {
       edit: rule.wholeCall
@@ -314,14 +334,18 @@ function rewriteFor(
 /** A replacement is written only when every argument keeps its meaning, including its keyword name. */
 function checkArguments(rule: Rule, args: readonly Node[]): { reason: string } | { ok: true } {
   if (rule.wholeCall) {
-    return args.length === 0 ? { ok: true } : { reason: `\`imp.${rule.symbol}\` takes no arguments, so it is not replaced by a constant.` };
+    return args.length === 0
+      ? { ok: true }
+      : { reason: `\`imp.${rule.symbol}\` takes no arguments, so it is not replaced by a constant.` };
   }
   let positional = 0;
   for (const argument of args) {
     if (argument.type === "keyword_argument") {
       const name = argument.childForFieldName("name")?.text;
       if (name === undefined || !(rule.keywords ?? []).includes(name)) {
-        return { reason: `The replacement \`${rule.replacement}\` does not accept the keyword argument \`${name ?? "unknown"}\`.` };
+        return {
+          reason: `The replacement \`${rule.replacement}\` does not accept the keyword argument \`${name ?? "unknown"}\`.`,
+        };
       }
       continue;
     }
@@ -343,23 +367,36 @@ interface Imports {
 
 /** The single top-level `import imp` line the codemod edits, or why the file cannot be edited safely. */
 function inspectImports(root: Node, source: string): Imports {
-  const fromImport = root.descendantsOfType("import_from_statement").find((node) => node !== null && /^from\s+imp\s+import\b/.test(node.text));
+  const fromImport = root
+    .descendantsOfType("import_from_statement")
+    .find((node) => node !== null && /^from\s+imp\s+import\b/.test(node.text));
   if (fromImport) {
-    return { statement: undefined, problem: "The module is imported with `from imp import ...`; the codemod rewrites only `import imp`." };
+    return {
+      statement: undefined,
+      problem: "The module is imported with `from imp import ...`; the codemod rewrites only `import imp`.",
+    };
   }
   let statement: Node | undefined;
   for (const node of root.descendantsOfType("import_statement")) {
     if (!node) continue;
     const names = node.namedChildren.filter((child): child is Node => child !== null);
-    const alias = names.find((child) => child.type === "aliased_import" && child.childForFieldName("name")?.text === "imp");
+    const alias = names.find(
+      (child) => child.type === "aliased_import" && child.childForFieldName("name")?.text === "imp",
+    );
     if (alias) {
-      return { statement: undefined, problem: "The module is imported as `import imp as ...`; the codemod rewrites only `import imp`." };
+      return {
+        statement: undefined,
+        problem: "The module is imported as `import imp as ...`; the codemod rewrites only `import imp`.",
+      };
     }
     const mentionsImp = names.some((child) => child.type === "dotted_name" && child.text === "imp");
     if (!mentionsImp) continue;
     const imports = names.filter((child) => child.type === "dotted_name" || child.type === "aliased_import");
     if (imports.length !== 1) {
-      return { statement: undefined, problem: "The `import imp` statement imports other modules, so its line is not replaced." };
+      return {
+        statement: undefined,
+        problem: "The `import imp` statement imports other modules, so its line is not replaced.",
+      };
     }
     if (statement !== undefined) {
       return { statement: undefined, problem: "The file imports `imp` more than once." };
@@ -371,7 +408,10 @@ function inspectImports(root: Node, source: string): Imports {
   const lineStart = source.lastIndexOf("\n", statement.startIndex - 1) + 1;
   const newline = source.indexOf("\n", statement.endIndex);
   const lineEnd = newline === -1 ? source.length : newline;
-  if (!/^\s*$/.test(source.slice(lineStart, statement.startIndex)) || !/^\s*(?:#.*)?$/.test(source.slice(statement.endIndex, lineEnd))) {
+  if (
+    !/^\s*$/.test(source.slice(lineStart, statement.startIndex)) ||
+    !/^\s*(?:#.*)?$/.test(source.slice(statement.endIndex, lineEnd))
+  ) {
     return { statement: undefined, problem: "The `import imp` statement shares its line with other code." };
   }
   return { statement, problem: undefined };
@@ -394,7 +434,8 @@ function importedModules(root: Node): Set<string> {
 
 /** `import importlib.util` also binds `importlib`, so one import satisfies both replacements. */
 function isImported(module: string, existing: ReadonlySet<string>): boolean {
-  if (module === "importlib") return [...existing].some((name) => name === "importlib" || name.startsWith("importlib."));
+  if (module === "importlib")
+    return [...existing].some((name) => name === "importlib" || name.startsWith("importlib."));
   return existing.has(module);
 }
 
@@ -420,7 +461,12 @@ function insideImport(node: Node): boolean {
 }
 
 /** Adds the missing imports after `import imp`, or replaces that line when no `imp` reference remains. */
-function importEditFor(statement: Node, additions: readonly string[], remaining: boolean, source: string): Edit | undefined {
+function importEditFor(
+  statement: Node,
+  additions: readonly string[],
+  remaining: boolean,
+  source: string,
+): Edit | undefined {
   if (additions.length === 0 && remaining) return undefined;
   const newline = source.includes("\r\n") ? "\r\n" : "\n";
   const lineStart = source.lastIndexOf("\n", statement.startIndex - 1) + 1;

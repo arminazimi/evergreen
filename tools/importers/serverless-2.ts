@@ -124,7 +124,11 @@ function compareIdentifiers(left: string, right: string): number {
 }
 
 /** Up to two non-preview runtimes in the same family that are not yet decommissioned. */
-export function pickReplacement(identifier: string, all: readonly GCloudRuntimeRow[], today: string): string | undefined {
+export function pickReplacement(
+  identifier: string,
+  all: readonly GCloudRuntimeRow[],
+  today: string,
+): string | undefined {
   const family = runtimeFamily(identifier);
   const peers = all
     .filter((row) => runtimeFamily(row.identifier) === family)
@@ -166,7 +170,8 @@ function draftRule(row: GCloudRuntimeRow, deadline: string, today: string, repla
 export const gcloudFunctionsRuntimesImporter: Importer = {
   id: "serverless-2",
   ecosystem: "serverless",
-  description: "Google Cloud Functions runtimes that the runtime support schedule lists as decommissioned or due for decommission",
+  description:
+    "Google Cloud Functions runtimes that the runtime support schedule lists as decommissioned or due for decommission",
   sources: [SOURCE],
 
   async import(context) {
@@ -177,7 +182,9 @@ export const gcloudFunctionsRuntimesImporter: Importer = {
     }
 
     const today = isoDate(context.now);
-    const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
+    const horizon = isoDate(
+      new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())),
+    );
     const notes: string[] = [];
     const rules: DraftRule[] = [];
 
@@ -191,7 +198,9 @@ export const gcloudFunctionsRuntimesImporter: Importer = {
         continue;
       }
       if (row.decommission > horizon) {
-        notes.push(`${row.identifier} is decommissioned on ${row.decommission}, which is more than twelve months after ${today}, so no rule was drafted.`);
+        notes.push(
+          `${row.identifier} is decommissioned on ${row.decommission}, which is more than twelve months after ${today}, so no rule was drafted.`,
+        );
         continue;
       }
       rules.push(draftRule(row, row.decommission, today, pickReplacement(row.identifier, rows, today)));

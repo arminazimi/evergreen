@@ -31,12 +31,17 @@ const matchers: UsageMatcher[] = [
 async function usages(files: Record<string, string>) {
   const root = await repository(files);
   const [analysis] = await analyzeSourceUsage(root, [{ id: "c", matchers }]);
-  return analysis!.usages.map((usage) => `${usage.kind} ${usage.location.path}:${usage.location.line}:${usage.location.column} ${usage.symbol}`);
+  return analysis!.usages.map(
+    (usage) => `${usage.kind} ${usage.location.path}:${usage.location.line}:${usage.location.column} ${usage.symbol}`,
+  );
 }
 
 test("a namespace import, a simple name through it, and a fully qualified name are usages", async () => {
   assert.deepEqual(
-    await usages({ "A.cs": "using Acme.Storage;\n\nclass A { void M() { var a = Account.Parse(\"x\"); var b = new Account(); var c = Acme.Storage.Account.Parse(\"y\"); } }\n" }),
+    await usages({
+      "A.cs":
+        'using Acme.Storage;\n\nclass A { void M() { var a = Account.Parse("x"); var b = new Account(); var c = Acme.Storage.Account.Parse("y"); } }\n',
+    }),
     [
       "import A.cs:1:1 Acme.Storage",
       "call A.cs:3:30 Acme.Storage.Account.Parse",
@@ -48,7 +53,10 @@ test("a namespace import, a simple name through it, and a fully qualified name a
 
 test("an alias, global using, and using static are imports; only the alias binds a name", async () => {
   assert.deepEqual(
-    await usages({ "A.cs": "global using Acme.Storage.Blob;\nusing static Acme.Storage.Account;\nusing S = Acme.Storage;\nclass A { void M() { S.Account.Parse(\"x\"); BlobClient(); Parse(); } }\n" }),
+    await usages({
+      "A.cs":
+        'global using Acme.Storage.Blob;\nusing static Acme.Storage.Account;\nusing S = Acme.Storage;\nclass A { void M() { S.Account.Parse("x"); BlobClient(); Parse(); } }\n',
+    }),
     [
       "import A.cs:1:1 Acme.Storage",
       "import A.cs:2:1 Acme.Storage",
@@ -60,8 +68,12 @@ test("an alias, global using, and using static are imports; only the alias binds
 });
 
 test("a simple name needs the using of its own namespace, not of a parent or child", async () => {
-  assert.deepEqual(await usages({ "A.cs": "using Acme.Storage;\nclass A { void M() { BlobClient(); } }\n" }), ["import A.cs:1:1 Acme.Storage"]);
-  assert.deepEqual(await usages({ "A.cs": "using Acme.Storage.Blob;\nclass A { void M() { Account(); } }\n" }), ["import A.cs:1:1 Acme.Storage"]);
+  assert.deepEqual(await usages({ "A.cs": "using Acme.Storage;\nclass A { void M() { BlobClient(); } }\n" }), [
+    "import A.cs:1:1 Acme.Storage",
+  ]);
+  assert.deepEqual(await usages({ "A.cs": "using Acme.Storage.Blob;\nclass A { void M() { Account(); } }\n" }), [
+    "import A.cs:1:1 Acme.Storage",
+  ]);
 });
 
 test("comments, strings, instance members, other namespaces, and using statements are not usages", async () => {
@@ -73,7 +85,7 @@ test("comments, strings, instance members, other namespaces, and using statement
         "using var t = new System.IO.MemoryStream();",
         "// using Acme.Storage;",
         "/* Account.Parse(x) */",
-        "class A { void M(Helper h) { h.Account.Parse(\"x\"); Other.Account(); var s = \"Acme.Storage.Account.Parse(x)\"; } }",
+        'class A { void M(Helper h) { h.Account.Parse("x"); Other.Account(); var s = "Acme.Storage.Account.Parse(x)"; } }',
       ].join("\n"),
     }),
     [],
@@ -89,7 +101,9 @@ test("only .cs files are read, and a file with no C# usage is empty", async () =
 
 test("a verbatim string ending in a backslash does not hide the code after it", async () => {
   assert.deepEqual(
-    await usages({ "A.cs": "using Acme.Storage;\nclass A { void M() { var p = @\"C:\\dir\\\"; var a = Account.Parse(p); } }\n" }),
+    await usages({
+      "A.cs": 'using Acme.Storage;\nclass A { void M() { var p = @"C:\\dir\\"; var a = Account.Parse(p); } }\n',
+    }),
     ["import A.cs:1:1 Acme.Storage", "call A.cs:2:50 Acme.Storage.Account.Parse"],
   );
 });
@@ -100,8 +114,8 @@ test("a verbatim string spans lines and treats a doubled quote as a literal quot
       "A.cs": [
         "using Acme.Storage;",
         "class A { void M() {",
-        "  var s = $@\"say \"\"Account.Parse(x)\"\" and",
-        "Account.Parse(y) still text\";",
+        '  var s = $@"say ""Account.Parse(x)"" and',
+        'Account.Parse(y) still text";',
         "  var a = Account.Parse(s);",
         "} }",
       ].join("\n"),
@@ -111,14 +125,17 @@ test("a verbatim string spans lines and treats a doubled quote as a literal quot
 });
 
 test("an unterminated verbatim string masks the rest of the file instead of failing", async () => {
-  assert.deepEqual(await usages({ "A.cs": "using Acme.Storage;\nclass A { string s = @\"open\n Account.Parse(x);\n" }), ["import A.cs:1:1 Acme.Storage"]);
+  assert.deepEqual(await usages({ "A.cs": 'using Acme.Storage;\nclass A { string s = @"open\n Account.Parse(x);\n' }), [
+    "import A.cs:1:1 Acme.Storage",
+  ]);
 });
 
 test("a method called on an instance, and F# sources, are deliberate limits", async () => {
   assert.deepEqual(
     await usages({
-      "A.cs": "using Acme.Storage;\nclass A { void M(CloudStorageAccount account) { var c = account.CreateCloudBlobClient(); } }\n",
-      "B.fs": "open Acme.Storage\nlet a = Account.Parse \"x\"\n",
+      "A.cs":
+        "using Acme.Storage;\nclass A { void M(CloudStorageAccount account) { var c = account.CreateCloudBlobClient(); } }\n",
+      "B.fs": 'open Acme.Storage\nlet a = Account.Parse "x"\n',
     }),
     ["import A.cs:1:1 Acme.Storage"],
   );

@@ -182,7 +182,10 @@ export function stringAttributes(
     const open = index + match[0].length - 1;
     const close = hcl.masked.indexOf('"', open + 1);
     if (close < 0 || close >= end) return undefined;
-    const rest = hcl.masked.slice(close + 1, hcl.masked.indexOf("\n", close) < 0 ? undefined : hcl.masked.indexOf("\n", close));
+    const rest = hcl.masked.slice(
+      close + 1,
+      hcl.masked.indexOf("\n", close) < 0 ? undefined : hcl.masked.indexOf("\n", close),
+    );
     if (rest.trim() !== "" && !rest.trim().startsWith("}")) return undefined;
     const value = hcl.source.slice(open + 1, close);
     if (value === "" || /[\\$%]\{|\\/.test(value) || value !== value.trim()) return undefined;

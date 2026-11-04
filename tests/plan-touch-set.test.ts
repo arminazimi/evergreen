@@ -6,7 +6,9 @@ import { touchSet } from "../src/plan-touch-set.js";
 
 const SOURCE = { title: "Official notice", url: "https://example.com/notice" };
 
-function finding(overrides: Partial<Finding> & Pick<Finding, "id" | "ruleId" | "detector" | "title" | "location">): Finding {
+function finding(
+  overrides: Partial<Finding> & Pick<Finding, "id" | "ruleId" | "detector" | "title" | "location">,
+): Finding {
   return {
     summary: overrides.summary ?? `${overrides.title}.`,
     severity: overrides.severity ?? "high",
@@ -35,10 +37,9 @@ test("a runtime pin touches only its pin file", () => {
     location: { path: ".nvmrc", line: 1 },
   });
 
-  assert.deepEqual(
-    touchSet(pin, { files: [".nvmrc", "package.json", "package-lock.json", "src/index.ts"] }),
-    [".nvmrc"],
-  );
+  assert.deepEqual(touchSet(pin, { files: [".nvmrc", "package.json", "package-lock.json", "src/index.ts"] }), [
+    ".nvmrc",
+  ]);
 });
 
 test("an npm dependency includes the manifest and its lockfile", () => {
@@ -50,10 +51,10 @@ test("an npm dependency includes the manifest and its lockfile", () => {
     location: { path: "package.json", line: 12 },
   });
 
-  assert.deepEqual(
-    touchSet(dependency, { files: ["package.json", "package-lock.json", "src/index.ts"] }),
-    ["package-lock.json", "package.json"],
-  );
+  assert.deepEqual(touchSet(dependency, { files: ["package.json", "package-lock.json", "src/index.ts"] }), [
+    "package-lock.json",
+    "package.json",
+  ]);
 });
 
 test("an npm workspace package shares the root lockfile", () => {
@@ -67,12 +68,7 @@ test("an npm workspace package shares the root lockfile", () => {
 
   assert.deepEqual(
     touchSet(dependency, {
-      files: [
-        "package.json",
-        "package-lock.json",
-        "packages/api/package.json",
-        "packages/web/package.json",
-      ],
+      files: ["package.json", "package-lock.json", "packages/api/package.json", "packages/web/package.json"],
     }),
     ["package-lock.json", "packages/api/package.json"],
   );
@@ -112,12 +108,7 @@ test("a finding with source usages includes every affected file", () => {
 
   assert.deepEqual(
     touchSet(withUsages, {
-      files: [
-        "package.json",
-        "src/client.ts",
-        "src/legacy/http.ts",
-        "tests/client.test.ts",
-      ],
+      files: ["package.json", "src/client.ts", "src/legacy/http.ts", "tests/client.test.ts"],
     }),
     ["package.json", "src/client.ts", "src/legacy/http.ts", "tests/client.test.ts"],
   );
@@ -161,8 +152,8 @@ test("a lockfile finding also touches its sibling manifest", () => {
     location: { path: "package-lock.json", line: 40 },
   });
 
-  assert.deepEqual(
-    touchSet(locked, { files: ["package.json", "package-lock.json"] }),
-    ["package-lock.json", "package.json"],
-  );
+  assert.deepEqual(touchSet(locked, { files: ["package.json", "package-lock.json"] }), [
+    "package-lock.json",
+    "package.json",
+  ]);
 });

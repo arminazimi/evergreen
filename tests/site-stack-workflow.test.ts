@@ -50,19 +50,21 @@ test("job two is gated on SEAWORTHY_ENABLED and verifies the built site", () => 
   const job = workflow.jobs.seaworthy!;
   assert.equal(job.if, "${{ vars.SEAWORTHY_ENABLED == 'true' }}");
   const runs = job.steps.map((step) => step.run).filter(Boolean);
-  assert.ok(runs.some((run) => /bundle exec jekyll build/.test(run!)), "the site is built");
-  assert.ok(runs.some((run) => /npx seaworthy verify \.\/_site/.test(run!)), "Seaworthy verifies ./_site");
+  assert.ok(
+    runs.some((run) => /bundle exec jekyll build/.test(run!)),
+    "the site is built",
+  );
+  assert.ok(
+    runs.some((run) => /npx seaworthy verify \.\/_site/.test(run!)),
+    "Seaworthy verifies ./_site",
+  );
 });
 
 test("no step uses an unpinned action reference", () => {
   const uses = Object.values(workflow.jobs).flatMap((job) => job.steps.map((step) => step.uses).filter(Boolean));
   assert.ok(uses.length > 0);
   for (const reference of uses) {
-    assert.match(
-      reference!,
-      /^[\w./-]+@[0-9a-f]{40}$/,
-      `unpinned or non-SHA action reference: ${reference}`,
-    );
+    assert.match(reference!, /^[\w./-]+@[0-9a-f]{40}$/, `unpinned or non-SHA action reference: ${reference}`);
   }
   assert.match(text, /# v7\b/);
   assert.match(text, /# v0\.7\.1\b/);

@@ -128,7 +128,10 @@ export function changedPaths(base: string, root = process.cwd()): string[] {
     stdio: ["ignore", "pipe", "pipe"],
     windowsHide: true,
   });
-  return output.split("\0").filter((path) => path !== "").map((path) => path.replaceAll("\\", "/"));
+  return output
+    .split("\0")
+    .filter((path) => path !== "")
+    .map((path) => path.replaceAll("\\", "/"));
 }
 
 /** The base version of a changed file. A file added in the diff has none, so every head rule counts as new. */
@@ -178,7 +181,8 @@ export async function runChangedRules(options: ChangedRulesOptions): Promise<Cha
   const lint = await lintRuleFiles(files.map((path) => join(root, path)));
   const passed = lint.issues.length === 0 && tests.every((result) => result.passed);
   const result: ChangedRulesResult = { base: options.base, files, rules, lint, tests, passed };
-  if (options.summaryPath !== undefined) await writeFile(options.summaryPath, renderChangedRulesSummary(result), { flag: "a" });
+  if (options.summaryPath !== undefined)
+    await writeFile(options.summaryPath, renderChangedRulesSummary(result), { flag: "a" });
   return result;
 }
 
@@ -191,7 +195,10 @@ export function renderChangedRulesSummary(result: ChangedRulesResult): string {
   }
 
   if (result.rules.length === 0) {
-    lines.push(`Linted ${result.files.length} registry file${result.files.length === 1 ? "" : "s"}; no rule was added or changed.`, "");
+    lines.push(
+      `Linted ${result.files.length} registry file${result.files.length === 1 ? "" : "s"}; no rule was added or changed.`,
+      "",
+    );
   } else {
     lines.push("| Rule | Lint | Fixtures |", "| --- | --- | --- |");
     for (const ruleId of result.rules) {
@@ -201,7 +208,13 @@ export function renderChangedRulesSummary(result: ChangedRulesResult): string {
       lines.push(`| \`${ruleId}\` | ${lintFailed ? "**fail**" : "pass"} | ${fixtures} |`);
     }
     const failed = result.tests.filter((outcome) => !outcome.passed).length;
-    lines.push("", result.passed ? `All ${result.rules.length} changed rule${result.rules.length === 1 ? "" : "s"} passed.` : `Failed ${failed} of ${result.rules.length} changed rule${result.rules.length === 1 ? "" : "s"}.`, "");
+    lines.push(
+      "",
+      result.passed
+        ? `All ${result.rules.length} changed rule${result.rules.length === 1 ? "" : "s"} passed.`
+        : `Failed ${failed} of ${result.rules.length} changed rule${result.rules.length === 1 ? "" : "s"}.`,
+      "",
+    );
   }
 
   if (result.lint.issues.length > 0) {
@@ -209,7 +222,14 @@ export function renderChangedRulesSummary(result: ChangedRulesResult): string {
   }
   const failing = result.tests.filter((outcome) => !outcome.passed);
   if (failing.length > 0) {
-    lines.push("#### Fixture problems", "", "```text", failing.map((outcome) => renderRuleTestText(outcome)).join("\n"), "```", "");
+    lines.push(
+      "#### Fixture problems",
+      "",
+      "```text",
+      failing.map((outcome) => renderRuleTestText(outcome)).join("\n"),
+      "```",
+      "",
+    );
   }
   return lines.join("\n");
 }

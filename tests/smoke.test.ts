@@ -34,7 +34,13 @@ test("the publish workflow runs the smoke script on a fresh job after publishing
   const { readFile } = await import("node:fs/promises");
   const { parse } = await import("yaml");
   const workflow = parse(await readFile(".github/workflows/publish.yml", "utf8")) as {
-    jobs: { smoke: { needs: string; permissions: Record<string, string>; steps: Array<{ run?: string; "working-directory"?: string }> } };
+    jobs: {
+      smoke: {
+        needs: string;
+        permissions: Record<string, string>;
+        steps: Array<{ run?: string; "working-directory"?: string }>;
+      };
+    };
   };
   const smokeJob = workflow.jobs.smoke;
   assert.equal(smokeJob.needs, "publish");
@@ -42,7 +48,11 @@ test("the publish workflow runs the smoke script on a fresh job after publishing
   const step = smokeJob.steps.find((item) => item.run?.includes("smoke.mjs"));
   assert.ok(step, "a step runs smoke.mjs");
   assert.match(step.run!, /npx --yes "evergreen-deprecation@\$version"/);
-  assert.match(step["working-directory"] ?? "", /runner\.temp/, "not inside the checkout, where npx would run this repository");
+  assert.match(
+    step["working-directory"] ?? "",
+    /runner\.temp/,
+    "not inside the checkout, where npx would run this repository",
+  );
 });
 
 test("the smoke job waits long enough for the registry to serve a new version", async () => {

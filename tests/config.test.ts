@@ -139,10 +139,7 @@ test("applyIgnore: filters out matching findings and coverage paths", () => {
     schemaVersion: "evergreen.scan.v1",
     root: "/repo",
     scannedAt: "2026-10-28T00:00:00Z",
-    findings: [
-      dummyFinding("legacy/bad.js", "finding-1"),
-      dummyFinding("src/good.js", "finding-2"),
-    ],
+    findings: [dummyFinding("legacy/bad.js", "finding-1"), dummyFinding("src/good.js", "finding-2")],
     diagnostics: [],
     coverage: {
       ecosystems: ["npm"],
@@ -316,4 +313,3 @@ test("CLI: a config file changes a scan's result and a flag overrides it (data-v
   const overrideScan = await runCli(["scan", dir, "--data-version", "bundled"]);
   assert.equal(overrideScan.code, 0, "CLI --data-version bundled should override config file and succeed");
 });
-

@@ -25,12 +25,7 @@
 
 import type { GuardrailTask } from "./validate.js";
 
-export const GUARDRAIL_OUTCOMES = [
-  "refused",
-  "named-replacement",
-  "other-replacement",
-  "added-deprecated",
-] as const;
+export const GUARDRAIL_OUTCOMES = ["refused", "named-replacement", "other-replacement", "added-deprecated"] as const;
 
 export type GuardrailOutcome = (typeof GUARDRAIL_OUTCOMES)[number];
 
@@ -145,9 +140,7 @@ function replacementNames(replacement: string): Set<string> {
 /** Classifies one attempt against its task's deprecated purl and recorded replacement. */
 export function scoreAttempt(input: GuardrailScoreInput): GuardrailOutcome {
   const target = parsePurl(input.task.purl);
-  const added = input.addedPurls
-    .filter((purl) => purl.trim().length > 0)
-    .map((purl) => parsePurl(purl));
+  const added = input.addedPurls.filter((purl) => purl.trim().length > 0).map((purl) => parsePurl(purl));
 
   if (target !== undefined && added.some((purl) => purl?.identity === target.identity)) {
     return "added-deprecated";
@@ -170,10 +163,7 @@ function ratio(numerator: number, denominator: number): number {
 }
 
 /** Counts and rates for one arm, over every attempt scored in that arm. */
-export function summarizeArm(
-  arm: GuardrailArm,
-  attempts: readonly GuardrailScoreInput[],
-): GuardrailArmScore {
+export function summarizeArm(arm: GuardrailArm, attempts: readonly GuardrailScoreInput[]): GuardrailArmScore {
   const counts = emptyCounts();
   for (const attempt of attempts) counts[scoreAttempt(attempt)] += 1;
   const rates = emptyCounts();

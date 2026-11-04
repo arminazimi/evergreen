@@ -5,11 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import {
-  createCommandAgent,
-  loadMigrationTasks,
-  runMigrationTask,
-} from "../benchmarks/agent-migrations/run.js";
+import { createCommandAgent, loadMigrationTasks, runMigrationTask } from "../benchmarks/agent-migrations/run.js";
 import type { AgentAdapter, MigrationTask } from "../benchmarks/agent-migrations/run.js";
 
 const CHECK_SCRIPT = `import { readFileSync } from "node:fs";

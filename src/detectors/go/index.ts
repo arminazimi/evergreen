@@ -24,7 +24,19 @@ import { parseGoWork } from "./parse-go-work.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const RUNTIME_PURL = "pkg:generic/golang";
 
 async function goFiles(root: string): Promise<string[]> {
@@ -63,7 +75,10 @@ export class GoDetector implements Detector {
   readonly inputs: DetectorInputs = { fileNames: ["go.mod", "go.work"], sourceExtensions: [".go"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/go.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/go.json")).rules) {}
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () =>
+      validateRegistryV2(await loadDataFile("registry/go.json")).rules,
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -80,7 +95,13 @@ export class GoDetector implements Detector {
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
 
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string, severity = rule.severity): void => {
+    const report = (
+      rule: RegistryV2Rule,
+      path: string,
+      line: number,
+      summary: string,
+      severity = rule.severity,
+    ): void => {
       findings.push({
         id: `${rule.id}:${path}:${line}`,
         ruleId: rule.id,
@@ -107,12 +128,23 @@ export class GoDetector implements Detector {
       for (const declaration of declarations) {
         if (declaration.kind === "require") {
           const rule = matchModule(moduleRules, declaration.module, declaration.value);
-          if (rule) matchedModules.push({ rule, path, line: declaration.line, summary: `${path} requires ${declaration.module} ${declaration.value}. ${rule.summary}` });
+          if (rule)
+            matchedModules.push({
+              rule,
+              path,
+              line: declaration.line,
+              summary: `${path} requires ${declaration.module} ${declaration.value}. ${rule.summary}`,
+            });
           continue;
         }
         const version = normalizeVersion(declaration.value);
         if (!version) {
-          unclassified.push({ component: "golang", reference: declaration.value, reason: "the version is not a Go release number", location: { path, line: declaration.line } });
+          unclassified.push({
+            component: "golang",
+            reference: declaration.value,
+            reason: "the version is not a Go release number",
+            location: { path, line: declaration.line },
+          });
           continue;
         }
         const rule = runtimeRules.find((item) => versContains(item.vers, version));
@@ -131,7 +163,15 @@ export class GoDetector implements Detector {
     // Where the repository's Go source uses each affected module, so a migration packet can list the files.
     const withUsage = matchedModules.filter((item) => (item.rule.usage ?? []).length > 0);
     const analyses = new Map(
-      (await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: `${item.rule.id}:${item.path}:${item.line}`, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]),
+      (
+        await analyzeSourceUsage(
+          context.root,
+          withUsage.map((item) => ({
+            id: `${item.rule.id}:${item.path}:${item.line}`,
+            matchers: item.rule.usage ?? [],
+          })),
+        )
+      ).map((analysis) => [analysis.contractId, analysis]),
     );
     for (const item of matchedModules) {
       report(item.rule, item.path, item.line, item.summary);
@@ -143,7 +183,11 @@ export class GoDetector implements Detector {
 }
 
 /** The rule for a direct module at a version, if one covers it. `v1.2.3+incompatible` is compared as 1.2.3. */
-export function matchModule(rules: readonly RegistryV2Rule[], module: string, version: string): RegistryV2Rule | undefined {
+export function matchModule(
+  rules: readonly RegistryV2Rule[],
+  module: string,
+  version: string,
+): RegistryV2Rule | undefined {
   const plain = version.replace(/^v/, "").replace(/\+incompatible$/, "");
   try {
     return rules.find((item) => item.purl === `pkg:golang/${module}` && versContains(item.vers, plain));

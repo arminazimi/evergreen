@@ -12,9 +12,7 @@
       "path": "addons/coredns/coredns.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -23,9 +21,7 @@
       "path": "addons/heapster/grafana.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -34,9 +30,7 @@
       "path": "addons/heapster/heapster.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -45,9 +39,7 @@
       "path": "addons/heapster/influxdb.yaml",
       "kind": "Deployment",
       "version": "apps/v1beta1",
-      "evergreen": [
-        "kubernetes.apps.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.apps.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -56,9 +48,7 @@
       "path": "addons/Ingress-traefic/traefik-deployment.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -67,9 +57,7 @@
       "path": "addons/Ingress-traefic/traefik-ds.yaml",
       "kind": "DaemonSet",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.daemonset.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.daemonset.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -78,9 +66,7 @@
       "path": "addons/Ingress-traefic/traefik-rbac.yaml",
       "kind": "ClusterRole",
       "version": "rbac.authorization.k8s.io/v1beta1",
-      "evergreen": [
-        "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -89,9 +75,7 @@
       "path": "addons/Ingress-traefic/traefik-rbac.yaml",
       "kind": "ClusterRoleBinding",
       "version": "rbac.authorization.k8s.io/v1beta1",
-      "evergreen": [
-        "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -100,9 +84,7 @@
       "path": "addons/Ingress-traefic/ui.yaml",
       "kind": "Ingress",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.ingress.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -111,9 +93,7 @@
       "path": "addons/ingress/daemonset.yml",
       "kind": "DaemonSet",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.daemonset.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.daemonset.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -122,9 +102,7 @@
       "path": "addons/ingress/ingress-rbac.yml",
       "kind": "ClusterRoleBinding",
       "version": "rbac.authorization.k8s.io/v1beta1",
-      "evergreen": [
-        "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -133,9 +111,7 @@
       "path": "addons/ingress/traefik-ui.yml",
       "kind": "Ingress",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.ingress.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -144,9 +120,7 @@
       "path": "addons/Kube-dns/kube-dns.yaml",
       "kind": "Deployment",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.deployment.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.deployment.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -155,9 +129,7 @@
       "path": "example/cronjob.yaml",
       "kind": "CronJob",
       "version": "batch/v1beta1",
-      "evergreen": [
-        "kubernetes.batch.cronjob.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.batch.cronjob.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."
@@ -166,9 +138,7 @@
       "path": "example/nginx-ingress.yaml",
       "kind": "Ingress",
       "version": "extensions/v1beta1",
-      "evergreen": [
-        "kubernetes.extensions.ingress.v1beta1.removed"
-      ],
+      "evergreen": ["kubernetes.extensions.ingress.v1beta1.removed"],
       "pluto": "removed",
       "outcome": "agree",
       "note": "Both report the API version as removed."

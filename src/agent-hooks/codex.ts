@@ -16,14 +16,20 @@ const PATCH_ADD_HEADER = "*** Add File: ";
 const PATCH_UPDATE_HEADER = "*** Update File: ";
 
 function record(value: unknown): Record<string, unknown> | undefined {
-  return typeof value === "object" && value !== null && !Array.isArray(value) ? (value as Record<string, unknown>) : undefined;
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : undefined;
 }
 
 /** The repository-relative paths a Codex patch adds or updates, in document order, without duplicates. */
 export function patchFileNames(command: string): string[] {
   const files: string[] = [];
   for (const line of command.split("\n")) {
-    const rest = line.startsWith(PATCH_ADD_HEADER) ? line.slice(PATCH_ADD_HEADER.length) : line.startsWith(PATCH_UPDATE_HEADER) ? line.slice(PATCH_UPDATE_HEADER.length) : "";
+    const rest = line.startsWith(PATCH_ADD_HEADER)
+      ? line.slice(PATCH_ADD_HEADER.length)
+      : line.startsWith(PATCH_UPDATE_HEADER)
+        ? line.slice(PATCH_UPDATE_HEADER.length)
+        : "";
     const name = rest.trim();
     if (name === "" || files.includes(name)) continue;
     files.push(name);

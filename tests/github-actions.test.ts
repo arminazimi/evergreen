@@ -84,13 +84,34 @@ test("classifies a SHA-pinned checkout from its trailing version comment", async
   assert.equal(findings[0]?.ruleId, "github-actions.checkout.node20");
   assert.equal(findings[0]?.location.line, 4);
   assert.equal(findings[0]?.location.path, ".github/workflows/ci.yml");
-  assert.match(findings[0]?.summary ?? "", /^actions\/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 \(v3.6.0 from the trailing comment\): /);
+  assert.match(
+    findings[0]?.summary ?? "",
+    /^actions\/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 \(v3.6.0 from the trailing comment\): /,
+  );
 });
 
 test("accepts every supported comment form", async () => {
   // Deprecated majors (v4) must produce a finding; supported majors (v5) must not.
-  const deprecated = ["# v4", "# v4.1", "# v4.1.1", "#v4.1.1", "# 4.1.1", "# v4.1.1 (pinned for security)", "# tag=v4.1.1", "# version: v4.1.1"];
-  const supported = ["# v5", "# v5.1", "# v5.1.1", "#v5.1.1", "# 5.1.1", "# v5.1.1 (pinned for security)", "# tag=v5.1.1", "# version: v5.1.1"];
+  const deprecated = [
+    "# v4",
+    "# v4.1",
+    "# v4.1.1",
+    "#v4.1.1",
+    "# 4.1.1",
+    "# v4.1.1 (pinned for security)",
+    "# tag=v4.1.1",
+    "# version: v4.1.1",
+  ];
+  const supported = [
+    "# v5",
+    "# v5.1",
+    "# v5.1.1",
+    "#v5.1.1",
+    "# 5.1.1",
+    "# v5.1.1 (pinned for security)",
+    "# tag=v5.1.1",
+    "# version: v5.1.1",
+  ];
 
   for (const [, comment] of deprecated.entries()) {
     const root = await repositoryWithWorkflow(`jobs:
@@ -138,7 +159,10 @@ test("a known SHA pin without a comment is classified from the bundled map", asy
   const findings = await new GitHubActionsDetector().scan({ root });
 
   assert.equal(findings.length, 1);
-  assert.deepEqual(findings.map((finding) => finding.location.line), [4]);
+  assert.deepEqual(
+    findings.map((finding) => finding.location.line),
+    [4],
+  );
   assert.ok(findings.every((finding) => finding.ruleId === "github-actions.checkout.node20"));
   assert.ok(findings.every((finding) => finding.summary.includes("v4.2.2 from the bundled SHA map")));
 });
@@ -153,21 +177,18 @@ test("an unknown SHA pin with no usable comment is left unclassified", async () 
   const analysis = await new GitHubActionsDetector().analyze({ root });
 
   assert.deepEqual(analysis.findings, []);
-  assert.deepEqual(analysis.unclassified, [{
-    component: "actions/checkout",
-    reference: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    reason: "unknown-sha",
-    location: { path: ".github/workflows/ci.yml", line: 4 },
-  }]);
+  assert.deepEqual(analysis.unclassified, [
+    {
+      component: "actions/checkout",
+      reference: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      reason: "unknown-sha",
+      location: { path: ".github/workflows/ci.yml", line: 4 },
+    },
+  ]);
 });
 
 test("rejects malformed and conflicting comment versions", async () => {
-  const cases = [
-    "# v4..1",
-    "# v4.1.1.1",
-    "# v3 -> v4",
-    "# v3.6.0 # v4",
-  ];
+  const cases = ["# v4..1", "# v4.1.1.1", "# v3 -> v4", "# v3.6.0 # v4"];
 
   for (const comment of cases) {
     const root = await repositoryWithWorkflow(`jobs:
@@ -287,28 +308,49 @@ test("a literal dotnet-version for actions/setup-dotnet is judged with the dotne
   const root = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: '6.0.x'"));
   const analysis = await new GitHubActionsDetector().analyze({ root });
   const found = analysis.findings.filter((finding) => finding.ruleId.startsWith("dotnet.runtime."));
-  assert.deepEqual(found.map((finding) => [finding.ruleId, finding.location.line]), [["dotnet.runtime.end-of-support-6.0", 9]]);
+  assert.deepEqual(
+    found.map((finding) => [finding.ruleId, finding.location.line]),
+    [["dotnet.runtime.end-of-support-6.0", 9]],
+  );
   assert.match(found[0]!.summary, /installs \.NET 6\.0\.x/);
   assert.ok(found[0]!.sources.some((source) => source.url.includes("microsoft.com")));
   assert.deepEqual(analysis.unclassified, []);
 });
 
 test("a multi-line dotnet-version is judged per entry at the entry's own line", async () => {
-  const root = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: |\n            5.0.x\n            6.0.100\n            10.0.x"));
+  const root = await repositoryWithWorkflow(
+    setupDotnetWorkflow("          dotnet-version: |\n            5.0.x\n            6.0.100\n            10.0.x"),
+  );
   const analysis = await new GitHubActionsDetector().analyze({ root });
   assert.deepEqual(
-    analysis.findings.filter((finding) => finding.ruleId.startsWith("dotnet.runtime.")).map((finding) => [finding.ruleId, finding.location.line]),
-    [["dotnet.runtime.end-of-support-5.0", 10], ["dotnet.runtime.end-of-support-6.0", 11]],
+    analysis.findings
+      .filter((finding) => finding.ruleId.startsWith("dotnet.runtime."))
+      .map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["dotnet.runtime.end-of-support-5.0", 10],
+      ["dotnet.runtime.end-of-support-6.0", 11],
+    ],
   );
 });
 
 test("an expression, a floating major, or a pre-release dotnet-version is unclassified, never guessed", async () => {
-  const root = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: |\n            ${{ matrix.dotnet }}\n            6.x\n            7.0.100-preview.1"));
+  const root = await repositoryWithWorkflow(
+    setupDotnetWorkflow(
+      "          dotnet-version: |\n            ${{ matrix.dotnet }}\n            6.x\n            7.0.100-preview.1",
+    ),
+  );
   const analysis = await new GitHubActionsDetector().analyze({ root });
-  assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("dotnet.runtime.")), []);
+  assert.deepEqual(
+    analysis.findings.filter((finding) => finding.ruleId.startsWith("dotnet.runtime.")),
+    [],
+  );
   assert.deepEqual(
     analysis.unclassified.map((item) => [item.location.line, item.reference]),
-    [[10, "dotnet-version: ${{ matrix.dotnet }}"], [11, "dotnet-version: 6.x"], [12, "dotnet-version: 7.0.100-preview.1"]],
+    [
+      [10, "dotnet-version: ${{ matrix.dotnet }}"],
+      [11, "dotnet-version: 6.x"],
+      [12, "dotnet-version: 7.0.100-preview.1"],
+    ],
   );
 });
 
@@ -324,7 +366,9 @@ test("dotnet-version is read only for actions/setup-dotnet, and malformed workfl
           dotnet-version: 5.0.x
 `);
   assert.deepEqual((await new GitHubActionsDetector().analyze({ root: other })).findings, []);
-  const malformed = await repositoryWithWorkflow("jobs: [\n  - uses: actions/setup-dotnet@v5\n    with: {dotnet-version: 5.0.x\n");
+  const malformed = await repositoryWithWorkflow(
+    "jobs: [\n  - uses: actions/setup-dotnet@v5\n    with: {dotnet-version: 5.0.x\n",
+  );
   assert.deepEqual(await new GitHubActionsDetector().scan({ root: malformed }), []);
   const supported = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: 10.0.x"));
   assert.deepEqual((await new GitHubActionsDetector().analyze({ root: supported })).findings, []);
@@ -343,13 +387,28 @@ ${version}
 `;
 
 test("a literal node-version for actions/setup-node is judged with the nodejs runtime rules", async () => {
-  for (const [written, rule] of [["16", "nodejs.runtime.legacy"], ["'18.x'", "nodejs.runtime.eol-18"], ["20.11.1", "nodejs.runtime.eol-20"]] as const) {
+  for (const [written, rule] of [
+    ["16", "nodejs.runtime.legacy"],
+    ["'18.x'", "nodejs.runtime.eol-18"],
+    ["20.11.1", "nodejs.runtime.eol-20"],
+  ] as const) {
     const root = await repositoryWithWorkflow(setupNodeWorkflow("", `          node-version: ${written}`));
     const analysis = await new GitHubActionsDetector().analyze({ root });
-    assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")).map((finding) => [finding.ruleId, finding.location.line]), [[rule, 10]], written);
+    assert.deepEqual(
+      analysis.findings
+        .filter((finding) => finding.ruleId.startsWith("nodejs.runtime."))
+        .map((finding) => [finding.ruleId, finding.location.line]),
+      [[rule, 10]],
+      written,
+    );
   }
-  const supported = await new GitHubActionsDetector().analyze({ root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: 24")) });
-  assert.deepEqual(supported.findings.filter((finding) => finding.ruleId.startsWith("nodejs.")), []);
+  const supported = await new GitHubActionsDetector().analyze({
+    root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: 24")),
+  });
+  assert.deepEqual(
+    supported.findings.filter((finding) => finding.ruleId.startsWith("nodejs.")),
+    [],
+  );
 });
 
 test("a node-version that names a matrix key is judged per entry at the entry's own line", async () => {
@@ -357,8 +416,13 @@ test("a node-version that names a matrix key is judged per entry at the entry's 
   const root = await repositoryWithWorkflow(setupNodeWorkflow(matrix, "          node-version: ${{ matrix.node }}"));
   const analysis = await new GitHubActionsDetector().analyze({ root });
   assert.deepEqual(
-    analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")).map((finding) => [finding.ruleId, finding.location.line]),
-    [["nodejs.runtime.legacy", 9], ["nodejs.runtime.eol-20", 11]],
+    analysis.findings
+      .filter((finding) => finding.ruleId.startsWith("nodejs.runtime."))
+      .map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["nodejs.runtime.legacy", 9],
+      ["nodejs.runtime.eol-20", 11],
+    ],
   );
 });
 
@@ -377,31 +441,54 @@ test("the matrix-node fixture reports each end-of-life matrix entry at its own l
       ["nodejs.runtime.legacy", ".github/workflows/matrix-node.yml", 20],
     ],
   );
-  assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("github-actions.")), []);
+  assert.deepEqual(
+    analysis.findings.filter((finding) => finding.ruleId.startsWith("github-actions.")),
+    [],
+  );
 });
 
 test("the matrix-node negative fixture reports no matrix findings for its lookalikes", async () => {
   const analysis = await new GitHubActionsDetector().analyze({ root: resolve(matrixNodeFixtures, "negative") });
-  assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")), []);
+  assert.deepEqual(
+    analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")),
+    [],
+  );
   assert.deepEqual(analysis.findings, []);
   assert.ok(analysis.unclassified.some((item) => item.reference === "node-version: latest"));
   assert.ok(analysis.unclassified.some((item) => item.reference === "node-version: ${{ matrix.node }}"));
 });
 
 test("a scheduled Node.js line is a low-severity note on a pinned node-version, and not a range", async () => {
-  const pinned = await new GitHubActionsDetector().analyze({ root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: '22.x'")) });
+  const pinned = await new GitHubActionsDetector().analyze({
+    root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: '22.x'")),
+  });
   const found = pinned.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime."));
-  assert.deepEqual(found.map((finding) => [finding.ruleId, finding.severity, finding.deadline]), [["nodejs.runtime.eol-22", "low", "2027-04-30"]]);
+  assert.deepEqual(
+    found.map((finding) => [finding.ruleId, finding.severity, finding.deadline]),
+    [["nodejs.runtime.eol-22", "low", "2027-04-30"]],
+  );
 
-  const range = await new GitHubActionsDetector().analyze({ root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: '>=22'")) });
-  assert.deepEqual(range.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")), []);
+  const range = await new GitHubActionsDetector().analyze({
+    root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: '>=22'")),
+  });
+  assert.deepEqual(
+    range.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")),
+    [],
+  );
 });
 
 test("an expression, a range, or an alias node-version is unclassified, never guessed", async () => {
   for (const written of ["${{ inputs.node }}", "lts/*", ">=18", "latest"]) {
     const root = await repositoryWithWorkflow(setupNodeWorkflow("", `          node-version: '${written}'`));
     const analysis = await new GitHubActionsDetector().analyze({ root });
-    assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.")), [], written);
-    assert.ok(analysis.unclassified.some((item) => item.component === "actions/setup-node"), written);
+    assert.deepEqual(
+      analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.")),
+      [],
+      written,
+    );
+    assert.ok(
+      analysis.unclassified.some((item) => item.component === "actions/setup-node"),
+      written,
+    );
   }
 });

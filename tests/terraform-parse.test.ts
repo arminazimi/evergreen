@@ -3,7 +3,11 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { MAXIMUM_INPUT_BYTES, parseTerraformFile, parseTerraformLegacy } from "../src/detectors/terraform/parse-terraform.js";
+import {
+  MAXIMUM_INPUT_BYTES,
+  parseTerraformFile,
+  parseTerraformLegacy,
+} from "../src/detectors/terraform/parse-terraform.js";
 import { parseManagedKubernetes } from "../src/detectors/terraform/kubernetes.js";
 
 const fixtures = resolve("tests/fixtures/terraform");
@@ -67,10 +71,7 @@ test("skips dynamic and unsupported value forms", () => {
   }
   assert.deepEqual(parseTerraformFile('terraform "x" {\n  required_version = "1.0"\n}\n'), []);
   assert.deepEqual(parseTerraformFile('locals {\n  terraform {\n    required_version = "1.0"\n  }\n}\n'), []);
-  assert.deepEqual(
-    parseTerraformFile('terraform {\n  backend "s3" {\n    required_version = "1.0"\n  }\n}\n'),
-    [],
-  );
+  assert.deepEqual(parseTerraformFile('terraform {\n  backend "s3" {\n    required_version = "1.0"\n  }\n}\n'), []);
 });
 
 test("does not read nested or non-provider version attributes", () => {
@@ -113,9 +114,33 @@ resource "azurerm_kubernetes_cluster" "main" {
 }
 `;
   assert.deepEqual(parseManagedKubernetes(contents), [
-    { product: "amazon-eks", block: "module", name: "eks", attribute: "cluster_version", value: "1.33", literal: true, line: 3 },
-    { product: "google-kubernetes-engine", block: "google_container_cluster", name: "primary", attribute: "min_master_version", value: "1.30", literal: true, line: 8 },
-    { product: "azure-kubernetes-service", block: "azurerm_kubernetes_cluster", name: "main", attribute: "kubernetes_version", value: "1.31.4", literal: true, line: 12 },
+    {
+      product: "amazon-eks",
+      block: "module",
+      name: "eks",
+      attribute: "cluster_version",
+      value: "1.33",
+      literal: true,
+      line: 3,
+    },
+    {
+      product: "google-kubernetes-engine",
+      block: "google_container_cluster",
+      name: "primary",
+      attribute: "min_master_version",
+      value: "1.30",
+      literal: true,
+      line: 8,
+    },
+    {
+      product: "azure-kubernetes-service",
+      block: "azurerm_kubernetes_cluster",
+      name: "main",
+      attribute: "kubernetes_version",
+      value: "1.31.4",
+      literal: true,
+      line: 12,
+    },
   ]);
 });
 
@@ -157,13 +182,69 @@ module "aks-wrong-attribute" {
 }
 `;
   assert.deepEqual(parseManagedKubernetes(contents), [
-    { product: "amazon-eks", block: "module", name: "eks-cluster-version", attribute: "cluster_version", value: "1.31", literal: true, line: 3 },
-    { product: "amazon-eks", block: "module", name: "eks-kubernetes-version", attribute: "kubernetes_version", value: "1.31", literal: true, line: 8 },
-    { product: "azure-kubernetes-service", block: "module", name: "aks", attribute: "kubernetes_version", value: "1.30", literal: true, line: 13 },
-    { product: "google-kubernetes-engine", block: "module", name: "gke", attribute: "kubernetes_version", value: "1.29", literal: true, line: 18 },
-    { product: "google-kubernetes-engine", block: "module", name: "gke", attribute: "min_master_version", value: "1.29", literal: true, line: 19 },
-    { product: "google-kubernetes-engine", block: "module", name: "gke-private", attribute: "kubernetes_version", value: "1.28", literal: true, line: 24 },
-    { product: "amazon-eks", block: "module", name: "eks-host", attribute: "cluster_version", value: "1.27", literal: true, line: 29 },
+    {
+      product: "amazon-eks",
+      block: "module",
+      name: "eks-cluster-version",
+      attribute: "cluster_version",
+      value: "1.31",
+      literal: true,
+      line: 3,
+    },
+    {
+      product: "amazon-eks",
+      block: "module",
+      name: "eks-kubernetes-version",
+      attribute: "kubernetes_version",
+      value: "1.31",
+      literal: true,
+      line: 8,
+    },
+    {
+      product: "azure-kubernetes-service",
+      block: "module",
+      name: "aks",
+      attribute: "kubernetes_version",
+      value: "1.30",
+      literal: true,
+      line: 13,
+    },
+    {
+      product: "google-kubernetes-engine",
+      block: "module",
+      name: "gke",
+      attribute: "kubernetes_version",
+      value: "1.29",
+      literal: true,
+      line: 18,
+    },
+    {
+      product: "google-kubernetes-engine",
+      block: "module",
+      name: "gke",
+      attribute: "min_master_version",
+      value: "1.29",
+      literal: true,
+      line: 19,
+    },
+    {
+      product: "google-kubernetes-engine",
+      block: "module",
+      name: "gke-private",
+      attribute: "kubernetes_version",
+      value: "1.28",
+      literal: true,
+      line: 24,
+    },
+    {
+      product: "amazon-eks",
+      block: "module",
+      name: "eks-host",
+      attribute: "cluster_version",
+      value: "1.27",
+      literal: true,
+      line: 29,
+    },
   ]);
 });
 
@@ -191,11 +272,21 @@ module "variable-source" {
     { block: "module", name: "local", attribute: "kubernetes_version", value: "1.31", literal: true, line: 3 },
     { block: "module", name: "git", attribute: "min_master_version", value: "1.30", literal: true, line: 8 },
     { block: "module", name: "no-source", attribute: "cluster_version", value: "1.29", literal: true, line: 12 },
-    { block: "module", name: "variable-source", attribute: "kubernetes_version", value: "var.kubernetes_version", literal: false, line: 17 },
+    {
+      block: "module",
+      name: "variable-source",
+      attribute: "kubernetes_version",
+      value: "var.kubernetes_version",
+      literal: false,
+      line: 17,
+    },
   ]);
-  assert.deepEqual(parseManagedKubernetes('module "prototype" {\n  source             = "constructor"\n  kubernetes_version = "1.20"\n}\n'), [
-    { block: "module", name: "prototype", attribute: "kubernetes_version", value: "1.20", literal: true, line: 3 },
-  ]);
+  assert.deepEqual(
+    parseManagedKubernetes(
+      'module "prototype" {\n  source             = "constructor"\n  kubernetes_version = "1.20"\n}\n',
+    ),
+    [{ block: "module", name: "prototype", attribute: "kubernetes_version", value: "1.20", literal: true, line: 3 }],
+  );
 });
 
 test("returns references, interpolations, and other expressions as non-literal", () => {
@@ -215,10 +306,42 @@ resource "azurerm_kubernetes_cluster" "other" {
 }
 `),
     [
-      { product: "amazon-eks", block: "module", name: "eks", attribute: "cluster_version", value: "var.eks_version", literal: false, line: 3 },
-      { product: "azure-kubernetes-service", block: "azurerm_kubernetes_cluster", name: "main", attribute: "kubernetes_version", value: "module.aks.version", literal: false, line: 6 },
-      { product: "google-kubernetes-engine", block: "google_container_cluster", name: "primary", attribute: "min_master_version", value: "local.gke_version", literal: false, line: 9 },
-      { product: "azure-kubernetes-service", block: "azurerm_kubernetes_cluster", name: "other", attribute: "kubernetes_version", value: '"\${var.interpolated}"', literal: false, line: 12 },
+      {
+        product: "amazon-eks",
+        block: "module",
+        name: "eks",
+        attribute: "cluster_version",
+        value: "var.eks_version",
+        literal: false,
+        line: 3,
+      },
+      {
+        product: "azure-kubernetes-service",
+        block: "azurerm_kubernetes_cluster",
+        name: "main",
+        attribute: "kubernetes_version",
+        value: "module.aks.version",
+        literal: false,
+        line: 6,
+      },
+      {
+        product: "google-kubernetes-engine",
+        block: "google_container_cluster",
+        name: "primary",
+        attribute: "min_master_version",
+        value: "local.gke_version",
+        literal: false,
+        line: 9,
+      },
+      {
+        product: "azure-kubernetes-service",
+        block: "azurerm_kubernetes_cluster",
+        name: "other",
+        attribute: "kubernetes_version",
+        value: '"\${var.interpolated}"',
+        literal: false,
+        line: 12,
+      },
     ],
   );
 });
@@ -260,16 +383,41 @@ terraform {
 }
 `;
   assert.deepEqual(parseManagedKubernetes(contents), []);
-  assert.deepEqual(parseManagedKubernetes('resource "azurerm_kubernetes_cluster" "main" {\n  kubernetes_version = "1.31" + var.suffix\n}\n'), []);
+  assert.deepEqual(
+    parseManagedKubernetes(
+      'resource "azurerm_kubernetes_cluster" "main" {\n  kubernetes_version = "1.31" + var.suffix\n}\n',
+    ),
+    [],
+  );
 });
 
 test("accepts one-line blocks, CRLF, a byte order mark, and trailing comments", () => {
-  assert.deepEqual(parseManagedKubernetes('resource "azurerm_kubernetes_cluster" "main" { kubernetes_version = "1.31" }\n'), [
-    { product: "azure-kubernetes-service", block: "azurerm_kubernetes_cluster", name: "main", attribute: "kubernetes_version", value: "1.31", literal: true, line: 1 },
-  ]);
-  const contents = '\ufeffmodule "eks" {\r\n  source          = "terraform-aws-modules/eks/aws"\r\n  cluster_version = "1.31" # pinned\r\n}\r\n';
+  assert.deepEqual(
+    parseManagedKubernetes('resource "azurerm_kubernetes_cluster" "main" { kubernetes_version = "1.31" }\n'),
+    [
+      {
+        product: "azure-kubernetes-service",
+        block: "azurerm_kubernetes_cluster",
+        name: "main",
+        attribute: "kubernetes_version",
+        value: "1.31",
+        literal: true,
+        line: 1,
+      },
+    ],
+  );
+  const contents =
+    '\ufeffmodule "eks" {\r\n  source          = "terraform-aws-modules/eks/aws"\r\n  cluster_version = "1.31" # pinned\r\n}\r\n';
   assert.deepEqual(parseManagedKubernetes(contents), [
-    { product: "amazon-eks", block: "module", name: "eks", attribute: "cluster_version", value: "1.31", literal: true, line: 3 },
+    {
+      product: "amazon-eks",
+      block: "module",
+      name: "eks",
+      attribute: "cluster_version",
+      value: "1.31",
+      literal: true,
+      line: 3,
+    },
   ]);
 });
 
@@ -297,9 +445,18 @@ output "x" {
 }
 `;
   assert.deepEqual(
-    parseTerraformLegacy(contents).map((declaration) => declaration.kind === "interpolation_only"
-      ? [declaration.kind, declaration.context, declaration.expression, declaration.line, declaration.column]
-      : [declaration.kind, declaration.name, declaration.arguments, declaration.oneLine, declaration.line, declaration.column]),
+    parseTerraformLegacy(contents).map((declaration) =>
+      declaration.kind === "interpolation_only"
+        ? [declaration.kind, declaration.context, declaration.expression, declaration.line, declaration.column]
+        : [
+            declaration.kind,
+            declaration.name,
+            declaration.arguments,
+            declaration.oneLine,
+            declaration.line,
+            declaration.column,
+          ],
+    ),
     [
       ["interpolation_only", "value", "var.name", 2, 7],
       ["interpolation_only", "value", 'lookup(var.tags, "Name")', 3, 7],
@@ -325,9 +482,18 @@ test("parses list() and map() arguments and marks a call that spans lines", () =
 }
 `;
   assert.deepEqual(
-    parseTerraformLegacy(contents).map((declaration) => declaration.kind === "interpolation_only"
-      ? [declaration.kind, declaration.expression, declaration.line, declaration.column]
-      : [declaration.kind, declaration.name, declaration.arguments, declaration.oneLine, declaration.line, declaration.column]),
+    parseTerraformLegacy(contents).map((declaration) =>
+      declaration.kind === "interpolation_only"
+        ? [declaration.kind, declaration.expression, declaration.line, declaration.column]
+        : [
+            declaration.kind,
+            declaration.name,
+            declaration.arguments,
+            declaration.oneLine,
+            declaration.line,
+            declaration.column,
+          ],
+    ),
     [
       ["legacy_function", "list", ['"a"', '"b"'], true, 2, 7],
       ["legacy_function", "map", ['"k"', '"v"', '"k2"', "2"], true, 3, 7],
@@ -382,9 +548,18 @@ test("skips escapes and comments while reading call arguments", () => {
 }
 `;
   assert.deepEqual(
-    parseTerraformLegacy(contents).map((declaration) => declaration.kind === "interpolation_only"
-      ? [declaration.kind, declaration.expression, declaration.line, declaration.column]
-      : [declaration.kind, declaration.name, declaration.arguments, declaration.oneLine, declaration.line, declaration.column]),
+    parseTerraformLegacy(contents).map((declaration) =>
+      declaration.kind === "interpolation_only"
+        ? [declaration.kind, declaration.expression, declaration.line, declaration.column]
+        : [
+            declaration.kind,
+            declaration.name,
+            declaration.arguments,
+            declaration.oneLine,
+            declaration.line,
+            declaration.column,
+          ],
+    ),
     [
       ["legacy_function", "list", ['"a\\"b"', '"c"'], true, 2, 7],
       ["legacy_function", "list", ["1", "/* note */ 2"], true, 3, 7],
@@ -394,7 +569,7 @@ test("skips escapes and comments while reading call arguments", () => {
 });
 
 test("ignores unterminated calls, strings, and comments instead of guessing", () => {
-  assert.deepEqual(parseTerraformLegacy('locals {\n  a = list(1, 2\n}\n'), []);
+  assert.deepEqual(parseTerraformLegacy("locals {\n  a = list(1, 2\n}\n"), []);
   assert.deepEqual(parseTerraformLegacy('locals {\n  a = map("k", "v" /* note\n}\n'), []);
   assert.deepEqual(parseTerraformLegacy("locals {\n  a = list(1, # note"), []);
   assert.deepEqual(parseTerraformLegacy("locals {\n  a = list(1, // note"), []);

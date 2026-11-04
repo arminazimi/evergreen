@@ -9,4 +9,14 @@ import repositoryRemoteScan from "./repository.remote-scan.js";
 import migrationExecute from "./migration.execute.js";
 
 /** Every capability the manifest lists, in manifest order. Adding one imports its file here. */
-export const capabilities = [repositoryScan, deprecationList, deprecationExplain, migrationContextCreate, migrationVerify, environmentDoctor, snippetCheck, repositoryRemoteScan, migrationExecute] as const;
+export const capabilities = [
+  repositoryScan,
+  deprecationList,
+  deprecationExplain,
+  migrationContextCreate,
+  migrationVerify,
+  environmentDoctor,
+  snippetCheck,
+  repositoryRemoteScan,
+  migrationExecute,
+] as const;

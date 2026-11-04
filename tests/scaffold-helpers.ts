@@ -49,7 +49,11 @@ export async function compileCheckout(roots: string[]): Promise<string> {
 /** Compiles the checkout with the repository's TypeScript and returns the compiler's output. */
 export async function compile(root: string): Promise<{ ok: boolean; output: string }> {
   try {
-    const { stdout, stderr } = await execute(process.execPath, [resolve("node_modules/typescript/bin/tsc"), "-p", "tsconfig.json"], { cwd: root, maxBuffer: 10 * 1024 * 1024 });
+    const { stdout, stderr } = await execute(
+      process.execPath,
+      [resolve("node_modules/typescript/bin/tsc"), "-p", "tsconfig.json"],
+      { cwd: root, maxBuffer: 10 * 1024 * 1024 },
+    );
     return { ok: true, output: stdout + stderr };
   } catch (error) {
     const failure = error as { stdout?: string; stderr?: string };
@@ -63,7 +67,11 @@ export async function runTest(root: string, file: string): Promise<{ ok: boolean
   const environment = { ...process.env };
   delete environment.NODE_TEST_CONTEXT;
   try {
-    const { stdout, stderr } = await execute(process.execPath, ["--test", file], { cwd: root, env: environment, maxBuffer: 10 * 1024 * 1024 });
+    const { stdout, stderr } = await execute(process.execPath, ["--test", file], {
+      cwd: root,
+      env: environment,
+      maxBuffer: 10 * 1024 * 1024,
+    });
     return { ok: true, output: stdout + stderr };
   } catch (error) {
     const failure = error as { stdout?: string; stderr?: string };

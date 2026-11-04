@@ -102,7 +102,12 @@ test("database passes detector conformance on every fixture", async () => {
         name: "database positive terraform",
         root: await repository({ "main.tf": await readFile(resolve(fixtures, "positive/main.tf"), "utf8") }),
         expectedFindings: [
-          expected(postgres, "main.tf", 4, `main.tf sets aws_db_instance.orders engine postgres 12.22. ${postgres.summary}`),
+          expected(
+            postgres,
+            "main.tf",
+            4,
+            `main.tf sets aws_db_instance.orders engine postgres 12.22. ${postgres.summary}`,
+          ),
         ],
       },
       {
@@ -112,8 +117,18 @@ test("database passes detector conformance on every fixture", async () => {
           "google.tf": 'resource "google_sql_database_instance" "db" {\n  database_version = "MYSQL_5_7"\n}\n',
         }),
         expectedFindings: [
-          expected(azurePostgres, "azure.tf", 2, `azure.tf sets azurerm_postgresql_flexible_server.db engine postgres 12. ${azurePostgres.summary}`),
-          expected(googleMysql, "google.tf", 2, `google.tf sets google_sql_database_instance.db engine mysql 5.7. ${googleMysql.summary}`),
+          expected(
+            azurePostgres,
+            "azure.tf",
+            2,
+            `azure.tf sets azurerm_postgresql_flexible_server.db engine postgres 12. ${azurePostgres.summary}`,
+          ),
+          expected(
+            googleMysql,
+            "google.tf",
+            2,
+            `google.tf sets google_sql_database_instance.db engine mysql 5.7. ${googleMysql.summary}`,
+          ),
         ],
       },
     ],
@@ -122,15 +137,36 @@ test("database passes detector conformance on every fixture", async () => {
   await runDetectorConformance({
     detector: databaseDetector,
     fixtures: [
-      { name: "database negative", root: await repository({ "compose.yaml": await readFile(resolve(fixtures, "negative/compose.yaml"), "utf8"), "main.tf": await readFile(resolve(fixtures, "negative/main.tf"), "utf8") }), expectedFindings: [] },
-      { name: "database zero", root: await repository({ "compose.yaml": await readFile(resolve(fixtures, "zero/compose.yaml"), "utf8"), "main.tf": await readFile(resolve(fixtures, "zero/main.tf"), "utf8") }), expectedFindings: [] },
+      {
+        name: "database negative",
+        root: await repository({
+          "compose.yaml": await readFile(resolve(fixtures, "negative/compose.yaml"), "utf8"),
+          "main.tf": await readFile(resolve(fixtures, "negative/main.tf"), "utf8"),
+        }),
+        expectedFindings: [],
+      },
+      {
+        name: "database zero",
+        root: await repository({
+          "compose.yaml": await readFile(resolve(fixtures, "zero/compose.yaml"), "utf8"),
+          "main.tf": await readFile(resolve(fixtures, "zero/main.tf"), "utf8"),
+        }),
+        expectedFindings: [],
+      },
     ],
     checks: [determinismCheck, zeroFindingsCheck],
   });
   await runDetectorConformance({
     detector: databaseDetector,
     fixtures: [
-      { name: "database malformed", root: await repository({ "compose.yaml": await readFile(resolve(fixtures, "malformed/compose.yaml"), "utf8"), "main.tf": await readFile(resolve(fixtures, "malformed/main.tf"), "utf8") }), expectedFindings: [] },
+      {
+        name: "database malformed",
+        root: await repository({
+          "compose.yaml": await readFile(resolve(fixtures, "malformed/compose.yaml"), "utf8"),
+          "main.tf": await readFile(resolve(fixtures, "malformed/main.tf"), "utf8"),
+        }),
+        expectedFindings: [],
+      },
     ],
     checks: [malformedInputCheck],
   });
@@ -150,12 +186,15 @@ test("reports tags and engine versions in compose.yaml, docker-compose.yml, over
       "infra/main.tf": 'resource "aws_db_instance" "a" {\n  engine = "mysql"\n  engine_version = "5.7"\n}\n',
     }),
   });
-  assert.deepEqual(findings.map((finding) => [finding.location.path, finding.location.line, finding.ruleId]), [
-    ["app/docker-compose.override.yml", 3, "database.mysql.example"],
-    ["compose.yaml", 3, "database.postgresql.example"],
-    ["docker-compose.yml", 3, "database.postgresql.example"],
-    ["infra/main.tf", 3, "database.mysql.example"],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.path, finding.location.line, finding.ruleId]),
+    [
+      ["app/docker-compose.override.yml", 3, "database.mysql.example"],
+      ["compose.yaml", 3, "database.postgresql.example"],
+      ["docker-compose.yml", 3, "database.postgresql.example"],
+      ["infra/main.tf", 3, "database.mysql.example"],
+    ],
+  );
   assert.match(findings[1]!.summary, /^compose\.yaml runs postgres:12\. /);
   assert.match(findings[3]!.summary, /^infra\/main\.tf sets aws_db_instance\.a engine mysql 5\.7\. /);
 });
@@ -179,25 +218,41 @@ test("a tag that could mean other release lines, or carries no version, is not m
 
 test("a product only matches rules for its own Package URL", async () => {
   const detector = new DatabaseDetector(async () => [rule()]);
-  const root = await repository({ "compose.yaml": "services:\n  a:\n    image: mysql:12\n  b:\n    image: mariadb:12\n" });
+  const root = await repository({
+    "compose.yaml": "services:\n  a:\n    image: mysql:12\n  b:\n    image: mariadb:12\n",
+  });
   assert.deepEqual(await detector.scan({ root }), []);
 });
 
 test("a malformed VERS rule never matches and does not hide a later rule", async () => {
   const detector = new DatabaseDetector(async () => [rule({ id: "database.bad", vers: "not-vers" }), rule()]);
-  const findings = await detector.scan({ root: await repository({ "compose.yaml": "services:\n  a:\n    image: postgres:12\n" }) });
-  assert.deepEqual(findings.map((finding) => finding.ruleId), ["database.postgresql.example"]);
+  const findings = await detector.scan({
+    root: await repository({ "compose.yaml": "services:\n  a:\n    image: postgres:12\n" }),
+  });
+  assert.deepEqual(
+    findings.map((finding) => finding.ruleId),
+    ["database.postgresql.example"],
+  );
 });
 
 test("a rule with an unreadable Package URL is skipped", async () => {
   const detector = new DatabaseDetector(async () => [rule({ purl: "not a purl" }), rule()]);
-  const findings = await detector.scan({ root: await repository({ "compose.yaml": "services:\n  a:\n    image: postgres:12\n" }) });
+  const findings = await detector.scan({
+    root: await repository({ "compose.yaml": "services:\n  a:\n    image: postgres:12\n" }),
+  });
   assert.equal(findings.length, 1);
 });
 
 test("scanRepository attributes findings to the database detector", async () => {
-  const result = await scanRepository(await repository({ "compose.yaml": "services:\n  db:\n    image: postgres:12\n" }), builtInDetectors);
-  assert.ok(result.findings.some((finding) => finding.detector === "database" && finding.ruleId === "database.postgresql.end-of-life-12"));
+  const result = await scanRepository(
+    await repository({ "compose.yaml": "services:\n  db:\n    image: postgres:12\n" }),
+    builtInDetectors,
+  );
+  assert.ok(
+    result.findings.some(
+      (finding) => finding.detector === "database" && finding.ruleId === "database.postgresql.end-of-life-12",
+    ),
+  );
 });
 
 test("Azure and Google Cloud resources use their vendor rules, while AWS uses the upstream engine rules", async () => {
@@ -218,11 +273,14 @@ test("Azure and Google Cloud resources use their vendor rules, while AWS uses th
       ].join("\n"),
     }),
   });
-  assert.deepEqual(findings.map((finding) => [finding.location.line, finding.ruleId]), [
-    [2, "database.azure-postgresql.standard-support-ended-11-to-13"],
-    [5, "database.google-cloud-sql-postgresql.extended-support-9.6-to-12"],
-    [9, "database.postgresql.end-of-life-12"],
-  ]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.line, finding.ruleId]),
+    [
+      [2, "database.azure-postgresql.standard-support-ended-11-to-13"],
+      [5, "database.google-cloud-sql-postgresql.extended-support-9.6-to-12"],
+      [9, "database.postgresql.end-of-life-12"],
+    ],
+  );
 });
 
 test("variables in Azure and Google Cloud version attributes are unclassified, not findings", async () => {
@@ -241,10 +299,28 @@ test("variables in Azure and Google Cloud version attributes are unclassified, n
   });
   assert.deepEqual(analysis.findings, []);
   assert.deepEqual(
-    analysis.unclassified.map((item) => [item.component, item.reference, item.location.path, item.location.line, item.reason]),
+    analysis.unclassified.map((item) => [
+      item.component,
+      item.reference,
+      item.location.path,
+      item.location.line,
+      item.reason,
+    ]),
     [
-      ["azurerm_postgresql_flexible_server", "var.pg_version", "main.tf", 2, "the version on pg is not a literal string, so Evergreen does not evaluate it"],
-      ["google_sql_database_instance", "local.database_version", "main.tf", 5, "the database_version on db is not a literal string, so Evergreen does not evaluate it"],
+      [
+        "azurerm_postgresql_flexible_server",
+        "var.pg_version",
+        "main.tf",
+        2,
+        "the version on pg is not a literal string, so Evergreen does not evaluate it",
+      ],
+      [
+        "google_sql_database_instance",
+        "local.database_version",
+        "main.tf",
+        5,
+        "the database_version on db is not a literal string, so Evergreen does not evaluate it",
+      ],
     ],
   );
 });
@@ -255,7 +331,8 @@ test("ignores vendored directories, fixture directories, and a repository withou
     await databaseDetector.scan({
       root: await repository({
         "node_modules/x/compose.yaml": "services:\n  a:\n    image: postgres:12\n",
-        ".terraform/modules/x/main.tf": 'resource "aws_db_instance" "a" {\n  engine = "postgres"\n  engine_version = "12.22"\n}\n',
+        ".terraform/modules/x/main.tf":
+          'resource "aws_db_instance" "a" {\n  engine = "postgres"\n  engine_version = "12.22"\n}\n',
         "tests/fixtures/compose.yaml": "services:\n  a:\n    image: postgres:12\n",
       }),
     }),
@@ -266,13 +343,22 @@ test("ignores vendored directories, fixture directories, and a repository withou
 test("every curated database rule has migration guidance with real verification commands", async () => {
   for (const item of await committedRules()) {
     assert.ok(item.migration && item.migration.constraints.length >= 1 && item.migration.steps.length >= 1, item.id);
-    assert.ok(item.migration.verification.some((check) => check.command === "docker compose config"), item.id);
-    assert.ok(item.migration.verification.some((check) => check.command === "terraform plan"), item.id);
+    assert.ok(
+      item.migration.verification.some((check) => check.command === "docker compose config"),
+      item.id,
+    );
+    assert.ok(
+      item.migration.verification.some((check) => check.command === "terraform plan"),
+      item.id,
+    );
   }
 });
 
 test("a migration packet for a Compose finding names the file, steps, and verification", async () => {
-  const result = await scanRepository(await repository({ "compose.yaml": "services:\n  db:\n    image: postgres:12\n" }), [databaseDetector]);
+  const result = await scanRepository(
+    await repository({ "compose.yaml": "services:\n  db:\n    image: postgres:12\n" }),
+    [databaseDetector],
+  );
   const finding = result.findings.find((item) => item.id === "database.postgresql.end-of-life-12:compose.yaml:3");
   assert.ok(finding);
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
@@ -287,20 +373,34 @@ test("a migration packet for a Compose finding names the file, steps, and verifi
 test("a Redis 7.0 tag is reported, while 7.4 and a tag with no minor version are not", async () => {
   const rule = (await committedRules()).find((item) => item.id === "database.redis.end-of-life-7.0")!;
   const root = await repository({
-    "compose.yaml": "services:\n  a:\n    image: redis:7.0\n  b:\n    image: redis:7.0.15-alpine\n  c:\n    image: redis:7.4\n  d:\n    image: redis:7\n",
+    "compose.yaml":
+      "services:\n  a:\n    image: redis:7.0\n  b:\n    image: redis:7.0.15-alpine\n  c:\n    image: redis:7.4\n  d:\n    image: redis:7\n",
   });
   const findings = (await databaseDetector.scan({ root })).filter((finding) => finding.ruleId === rule.id);
-  assert.deepEqual(findings.map((finding) => [finding.location.line, finding.severity, finding.deadline]), [[3, "high", "2024-07-29"], [5, "high", "2024-07-29"]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.line, finding.severity, finding.deadline]),
+    [
+      [3, "high", "2024-07-29"],
+      [5, "high", "2024-07-29"],
+    ],
+  );
 });
 
 test("a scheduled PostgreSQL line is reported at low severity, for the tag that names it and not for a newer one", async () => {
   const rule = (await committedRules()).find((item) => item.id === "database.postgresql.end-of-life-14")!;
   assert.equal(rule.event, "scheduled-end-of-life");
   const root = await repository({
-    "compose.yaml": "services:\n  a:\n    image: postgres:14\n  b:\n    image: postgres:14.5-alpine\n  c:\n    image: postgres:15\n  d:\n    image: postgres:latest\n",
+    "compose.yaml":
+      "services:\n  a:\n    image: postgres:14\n  b:\n    image: postgres:14.5-alpine\n  c:\n    image: postgres:15\n  d:\n    image: postgres:latest\n",
   });
   const findings = (await databaseDetector.scan({ root })).filter((finding) => finding.ruleId === rule.id);
-  assert.deepEqual(findings.map((finding) => [finding.location.line, finding.severity, finding.deadline]), [[3, "low", "2026-11-12"], [5, "low", "2026-11-12"]]);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.line, finding.severity, finding.deadline]),
+    [
+      [3, "low", "2026-11-12"],
+      [5, "low", "2026-11-12"],
+    ],
+  );
 });
 
 test("the PostgreSQL 10 rule flags that line in Compose and Terraform and not a later one", async () => {
@@ -308,9 +408,17 @@ test("the PostgreSQL 10 rule flags that line in Compose and Terraform and not a 
   const fixtures = resolve("tests/fixtures/database.postgresql.end-of-life-10");
   const match = await databaseDetector.scan({ root: resolve(fixtures, "match") });
   assert.deepEqual(
-    match.filter((finding) => finding.ruleId === ruleId).map((finding) => [finding.location.path, finding.location.line]),
-    [["compose.yaml", 3], ["main.tf", 3]],
+    match
+      .filter((finding) => finding.ruleId === ruleId)
+      .map((finding) => [finding.location.path, finding.location.line]),
+    [
+      ["compose.yaml", 3],
+      ["main.tf", 3],
+    ],
   );
   const clean = await databaseDetector.scan({ root: resolve(fixtures, "clean") });
-  assert.deepEqual(clean.filter((finding) => finding.ruleId === ruleId), []);
+  assert.deepEqual(
+    clean.filter((finding) => finding.ruleId === ruleId),
+    [],
+  );
 });

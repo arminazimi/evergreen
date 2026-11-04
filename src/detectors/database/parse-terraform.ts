@@ -1,4 +1,11 @@
-import { directBlocks, lineAt, MAXIMUM_DECLARATIONS, MAXIMUM_LINE_LENGTH, prepareHcl, stringAttributes } from "../terraform/hcl.js";
+import {
+  directBlocks,
+  lineAt,
+  MAXIMUM_DECLARATIONS,
+  MAXIMUM_LINE_LENGTH,
+  prepareHcl,
+  stringAttributes,
+} from "../terraform/hcl.js";
 import type { HclSource } from "../terraform/hcl.js";
 
 /**
@@ -65,7 +72,9 @@ const RESOURCES: Readonly<Record<string, ResourceSpec>> = {
 function resourceSpec(resource: string): ResourceSpec | undefined {
   const known = RESOURCES[resource];
   if (known) return known;
-  return resource.startsWith("google_sql_") ? { platform: "google-cloud-sql", versionAttribute: "database_version" } : undefined;
+  return resource.startsWith("google_sql_")
+    ? { platform: "google-cloud-sql", versionAttribute: "database_version" }
+    : undefined;
 }
 
 /** A Google Cloud SQL `database_version` value, for example `POSTGRES_9_6` or `MYSQL_8_0`. */
@@ -162,7 +171,11 @@ function rawAttributes(hcl: HclSource, start: number, end: number): RawAttribute
         let position = open;
         while (position < end && /\s/.test(hcl.masked[position]!)) position++;
         const close = expressionEnd(hcl.masked, position, end);
-        attributes.push({ name: match[1]!, value: hcl.source.slice(position, close).trim(), line: lineAt(hcl.source, position) });
+        attributes.push({
+          name: match[1]!,
+          value: hcl.source.slice(position, close).trim(),
+          line: lineAt(hcl.source, position),
+        });
         index = close;
         continue;
       }
@@ -176,7 +189,14 @@ function rawAttributes(hcl: HclSource, start: number, end: number): RawAttribute
 function plainLiteral(value: string): string | undefined {
   if (!value.startsWith('"') || !value.endsWith('"') || value.length < 2) return undefined;
   const inner = value.slice(1, -1);
-  if (inner === "" || /[\\$%]\{|\\/.test(inner) || inner !== inner.trim() || inner.includes('"') || inner.includes("\n")) return undefined;
+  if (
+    inner === "" ||
+    /[\\$%]\{|\\/.test(inner) ||
+    inner !== inner.trim() ||
+    inner.includes('"') ||
+    inner.includes("\n")
+  )
+    return undefined;
   return inner;
 }
 
@@ -204,7 +224,12 @@ function googleEngineAndVersion(value: string): { engine: DatabaseTerraformEngin
   return { engine: match[1] === "POSTGRES" ? "postgres" : "mysql", value: match[2]!.replace(/_/g, ".") };
 }
 
-function unclassified(resource: string, name: string, attribute: string, raw: RawAttribute): DatabaseTerraformUnclassified {
+function unclassified(
+  resource: string,
+  name: string,
+  attribute: string,
+  raw: RawAttribute,
+): DatabaseTerraformUnclassified {
   return { resource, name, attribute, value: raw.value, line: raw.line };
 }
 
@@ -234,13 +259,22 @@ export function parseDatabaseTerraform(contents: string): DatabaseTerraformParse
       if (engine !== undefined && !(spec.engines as readonly string[]).includes(engine.value)) continue;
       const declaredEngine = raw("engine");
       const declaredVersion = raw(spec.versionAttribute);
-      if (!engine && declaredEngine && isUnclassifiable(declaredEngine)) unreadable.push(unclassified(resource, name, "engine", declaredEngine));
-      if (!version && declaredVersion && isUnclassifiable(declaredVersion)) unreadable.push(unclassified(resource, name, spec.versionAttribute, declaredVersion));
+      if (!engine && declaredEngine && isUnclassifiable(declaredEngine))
+        unreadable.push(unclassified(resource, name, "engine", declaredEngine));
+      if (!version && declaredVersion && isUnclassifiable(declaredVersion))
+        unreadable.push(unclassified(resource, name, spec.versionAttribute, declaredVersion));
       if (!engine || !version) continue;
 
       const product = productFor(spec.platform, engine.value as DatabaseTerraformEngine);
       if (!product) continue;
-      declarations.push({ resource, name, engine: engine.value as DatabaseTerraformEngine, product, value: version.value, line: version.line });
+      declarations.push({
+        resource,
+        name,
+        engine: engine.value as DatabaseTerraformEngine,
+        product,
+        value: version.value,
+        line: version.line,
+      });
     } else if (spec.platform === "azure") {
       const version = literal("version");
       if (!version) {
@@ -255,7 +289,8 @@ export function parseDatabaseTerraform(contents: string): DatabaseTerraformParse
       const version = literal("database_version");
       if (!version) {
         const declared = raw("database_version");
-        if (declared && isUnclassifiable(declared)) unreadable.push(unclassified(resource, name, "database_version", declared));
+        if (declared && isUnclassifiable(declared))
+          unreadable.push(unclassified(resource, name, "database_version", declared));
         continue;
       }
       const parsed = googleEngineAndVersion(version.value);
@@ -266,7 +301,10 @@ export function parseDatabaseTerraform(contents: string): DatabaseTerraformParse
     }
 
     if (declarations.length >= MAXIMUM_DECLARATIONS || unreadable.length >= MAXIMUM_DECLARATIONS) {
-      return { declarations: declarations.slice(0, MAXIMUM_DECLARATIONS), unclassified: unreadable.slice(0, MAXIMUM_DECLARATIONS) };
+      return {
+        declarations: declarations.slice(0, MAXIMUM_DECLARATIONS),
+        unclassified: unreadable.slice(0, MAXIMUM_DECLARATIONS),
+      };
     }
   }
   return { declarations, unclassified: unreadable };

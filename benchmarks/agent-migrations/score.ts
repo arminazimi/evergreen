@@ -21,14 +21,7 @@ import type { ConditionResult, MigrationCondition, MigrationTask } from "./run.j
 const COMPANION_LOCKFILES: Readonly<Record<string, readonly string[]>> = {
   "Cargo.toml": ["Cargo.lock"],
   "go.mod": ["go.sum"],
-  "package.json": [
-    "package-lock.json",
-    "yarn.lock",
-    "pnpm-lock.yaml",
-    "bun.lock",
-    "bun.lockb",
-    "npm-shrinkwrap.json",
-  ],
+  "package.json": ["package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lock", "bun.lockb", "npm-shrinkwrap.json"],
   "composer.json": ["composer.lock"],
   Gemfile: ["Gemfile.lock"],
 };
@@ -157,9 +150,7 @@ export function scoreMigrationRun(
   task: Pick<MigrationTask, "id" | "finding" | "expectedEndState">,
   result: {
     taskId: string;
-    conditions: ReadonlyArray<
-      Pick<ConditionResult, "condition" | "expectedEndState" | "verification" | "diff">
-    >;
+    conditions: ReadonlyArray<Pick<ConditionResult, "condition" | "expectedEndState" | "verification" | "diff">>;
   },
   options?: { relatedPaths?: readonly string[] },
 ): MigrationRunScore {

@@ -51,7 +51,9 @@ test("an image without a deprecated badge is not drafted", async () => {
 
 test("the recorded README has exactly the deprecated rows the importer reads", async () => {
   const recorded = (await import("node:fs/promises")).readFile;
-  const body = (JSON.parse(await recorded(recording, "utf8")) as { responses: { url: string; body?: string }[] }).responses.find((response) => response.url === RUNNER_IMAGES_README_URL)!.body!;
+  const body = (
+    JSON.parse(await recorded(recording, "utf8")) as { responses: { url: string; body?: string }[] }
+  ).responses.find((response) => response.url === RUNNER_IMAGES_README_URL)!.body!;
   const deprecated = parseImageTable(body).filter((row) => row.issue !== undefined);
   assert.equal(deprecated.length, 2);
   assert.deepEqual(deprecated.flatMap((row) => row.labels).sort(), ["macos-14", "macos-14-large", "macos-14-xlarge"]);

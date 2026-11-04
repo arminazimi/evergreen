@@ -17,12 +17,16 @@ export const command: CliCommand = {
   async run(args, ctx) {
     const [subcommand, ...rest] = args;
     if (subcommand === "lint") {
-      if (rest.some((argument) => argument.startsWith("-"))) return ctx.fail("usage", "Usage: evergreen rules lint [file...]");
+      if (rest.some((argument) => argument.startsWith("-")))
+        return ctx.fail("usage", "Usage: evergreen rules lint [file...]");
       let files: string[];
       try {
         files = rest.length > 0 ? rest : await defaultRuleFiles();
       } catch (error) {
-        return ctx.fail("usage", `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the repository root, or pass rule files.`);
+        return ctx.fail(
+          "usage",
+          `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the repository root, or pass rule files.`,
+        );
       }
       const result = await lintRuleFiles(files);
       process.stdout.write(`${renderRuleLintText(result)}\n`);
@@ -30,7 +34,8 @@ export const command: CliCommand = {
     }
     if (subcommand === "test") {
       const ruleId = rest[0];
-      if (rest.length !== 1 || ruleId === undefined || ruleId.startsWith("-")) return ctx.fail("usage", "Usage: evergreen rules test <rule-id>");
+      if (rest.length !== 1 || ruleId === undefined || ruleId.startsWith("-"))
+        return ctx.fail("usage", "Usage: evergreen rules test <rule-id>");
       try {
         const result = await testRule(ruleId);
         process.stdout.write(`${renderRuleTestText(result)}\n`);

@@ -40,7 +40,10 @@ async function repository(files: Record<string, string>): Promise<string> {
 async function reactNativeRule(): Promise<RegistryV2Rule> {
   const registry = validateRegistryV2(JSON.parse(await readFile("registry/npm.json", "utf8")));
   const rules = registry.rules.filter((rule) => rule.purl === "pkg:npm/react-native");
-  assert.deepEqual(rules.map((rule) => rule.id), [RULE_ID]);
+  assert.deepEqual(
+    rules.map((rule) => rule.id),
+    [RULE_ID],
+  );
   return rules[0]!;
 }
 
@@ -73,7 +76,9 @@ test("React Native passes detector conformance on every fixture", async () => {
   const rule = await reactNativeRule();
   await runDetectorConformance({
     detector: npmDetector,
-    fixtures: [{ name: "React Native positive", root: resolve(fixtures, "positive"), expectedFindings: [expectedFinding(rule)] }],
+    fixtures: [
+      { name: "React Native positive", root: resolve(fixtures, "positive"), expectedFindings: [expectedFinding(rule)] },
+    ],
     checks: [determinismCheck, evidenceCheck],
   });
   await runDetectorConformance({
@@ -132,21 +137,26 @@ test("reports unsupported ranges and ignores supported, floating, and lookalike 
   ];
   for (const [files, expected] of cases) {
     const findings = await npmDetector.scan({ root: await repository(files) });
-    assert.deepEqual(findings.map((finding) => finding.ruleId), expected);
+    assert.deepEqual(
+      findings.map((finding) => finding.ruleId),
+      expected,
+    );
   }
 });
 
 test("the lockfile version decides whether a broad range is unsupported", async () => {
   const resolvedTo = async (version: string) =>
-    (await npmDetector.scan({
-      root: await repository({
-        "package.json": JSON.stringify({ dependencies: { "react-native": ">=0.84.0 <0.88.0" } }),
-        "package-lock.json": JSON.stringify({
-          lockfileVersion: 3,
-          packages: { "node_modules/react-native": { version } },
+    (
+      await npmDetector.scan({
+        root: await repository({
+          "package.json": JSON.stringify({ dependencies: { "react-native": ">=0.84.0 <0.88.0" } }),
+          "package-lock.json": JSON.stringify({
+            lockfileVersion: 3,
+            packages: { "node_modules/react-native": { version } },
+          }),
         }),
-      }),
-    })).map((finding) => finding.ruleId);
+      })
+    ).map((finding) => finding.ruleId);
 
   assert.deepEqual(await resolvedTo("0.84.0"), [RULE_ID]);
   assert.deepEqual(await resolvedTo("0.87.1"), []);

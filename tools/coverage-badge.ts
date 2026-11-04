@@ -27,7 +27,16 @@ export function lineCoverage(report: string): number {
 
 export function badge(percent: number): Badge {
   // Brand palette (brand/tokens.css) and the severity colors in src/badge.ts, so the row looks like one set.
-  const color = percent >= 90 ? "2F7D5B" : percent >= 80 ? "4C7C6D" : percent >= 70 ? "B89B3C" : percent >= 60 ? "C9822F" : "B84A3E";
+  const color =
+    percent >= 90
+      ? "2F7D5B"
+      : percent >= 80
+        ? "4C7C6D"
+        : percent >= 70
+          ? "B89B3C"
+          : percent >= 60
+            ? "C9822F"
+            : "B84A3E";
   return { schemaVersion: 1, label: "coverage", message: `${Math.round(percent * 10) / 10}%`, color };
 }
 
@@ -50,7 +59,10 @@ function lcovPathFromArgv(argv: readonly string[]): string | undefined {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
     const lcovPath = lcovPathFromArgv(process.argv.slice(2));
-    const result = lcovPath === undefined ? badge(lineCoverage(readFileSync(0, "utf8"))) : badgeFromLcov(readFileSync(lcovPath, "utf8"));
+    const result =
+      lcovPath === undefined
+        ? badge(lineCoverage(readFileSync(0, "utf8")))
+        : badgeFromLcov(readFileSync(lcovPath, "utf8"));
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   } catch (error) {
     process.stderr.write(`${(error as Error).message}\n`);

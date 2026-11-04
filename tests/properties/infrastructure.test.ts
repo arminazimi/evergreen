@@ -70,7 +70,8 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseKustomization",
-    file: ({ name, version }) => `patches:\n  - target:\n      group: ${name}\n      version: ${version}\n      kind: zzCronJob\n`,
+    file: ({ name, version }) =>
+      `patches:\n  - target:\n      group: ${name}\n      version: ${version}\n      kind: zzCronJob\n`,
     names: "batch|apps",
     versions: "v1beta1|v1",
     markers: ({ name, version }) => [`${name}/${version}`, "zzCronJob"],
@@ -82,7 +83,7 @@ const CASES: readonly RoundTripCase[] = [
     file: ({ name, version }) =>
       `terraform {\n  required_providers {\n    ${name} = {\n      source = "hashicorp/${name}"\n      version = "${version}"\n    }\n  }\n}\n`,
     names: "aws|azurerm",
-    versions: '9.8.7|~> 5.0',
+    versions: "9.8.7|~> 5.0",
     markers: ({ name, version }) => [name, version],
   },
   {
@@ -101,14 +102,16 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseTerraformPlanJson",
-    file: ({ name, version }) => `{"configuration":{"provider_config":{"${name}":{"version_constraint":"${version}"}}}}\n`,
+    file: ({ name, version }) =>
+      `{"configuration":{"provider_config":{"${name}":{"version_constraint":"${version}"}}}}\n`,
     names: "aws|google",
     versions: "9.8.7|5.0",
     markers: ({ name, version }) => [name, version],
   },
   {
     name: "parseManagedKubernetes",
-    file: ({ name, version }) => `module "${name}" {\n  source = "terraform-aws-modules/eks/aws"\n  cluster_version = "${version}"\n}\n`,
+    file: ({ name, version }) =>
+      `module "${name}" {\n  source = "terraform-aws-modules/eks/aws"\n  cluster_version = "${version}"\n}\n`,
     names: "zzmark",
     versions: "9.8.7|1.29",
     markers: ({ name, version }) => [name, version, "amazon-eks"],
@@ -140,7 +143,8 @@ const CASES: readonly RoundTripCase[] = [
   // Project documents.
   {
     name: "parseMsbuild",
-    file: ({ name, version }) => `<Project><ItemGroup><PackageReference Include="${name}" Version="${version}"/></ItemGroup></Project>\n`,
+    file: ({ name, version }) =>
+      `<Project><ItemGroup><PackageReference Include="${name}" Version="${version}"/></ItemGroup></Project>\n`,
     names: "zzmark|Newtonsoft.Json",
     versions: "9.8.7|13.0.1",
     markers: ({ name, version }) => [name, version],
@@ -170,7 +174,8 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseDatabaseTerraform",
-    file: ({ name, version }) => `resource "aws_db_instance" "${name}" {\n  engine = "postgres"\n  engine_version = "${version}"\n}\n`,
+    file: ({ name, version }) =>
+      `resource "aws_db_instance" "${name}" {\n  engine = "postgres"\n  engine_version = "${version}"\n}\n`,
     names: "zzmark",
     versions: "9.8.7|14.2",
     markers: ({ name, version }) => [name, version, "postgres"],

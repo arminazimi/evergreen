@@ -29,7 +29,11 @@ test("the site stack guide and sample exist and name Evergreen and Seaworthy", a
     assert.match(text, /Seaworthy/i, label);
   }
 
-  assert.match(sample, /evergreen check|evergreen-deprecation check/, "the sample tells agents to check before adding deps");
+  assert.match(
+    sample,
+    /evergreen check|evergreen-deprecation check/,
+    "the sample tells agents to check before adding deps",
+  );
   assert.match(sample, /seaworthy verify/i, "the sample documents site verification after build");
   assert.match(sample, /not on npm|first npm release|Pending Seaworthy/i, "Seaworthy maturity is honest");
 });

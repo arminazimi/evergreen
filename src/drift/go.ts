@@ -21,7 +21,19 @@ import type { DriftCollector, RuntimePin } from "./types.js";
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 2000;
-const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const WORKFLOW_NAME = /\.ya?ml$/i;
 const SETUP_GO = /^actions\/setup-go@/i;
@@ -29,7 +41,16 @@ const MATRIX_REFERENCE = /^\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}$/;
 const GO_VERSION = /^\d+\.\d+(?:\.\d+)?(?:rc\d+)?$/;
 const DOCKER_TAG = /^(\d+)\.(\d+)(?:\.\d+)?(?:rc\d+)?([-+].*)?$/;
 
-type RepositoryFileKind = "go-mod" | "go-work" | "go-version" | "tool-versions" | "dockerfile" | "workflow" | "gitlab" | "circleci" | "azure";
+type RepositoryFileKind =
+  | "go-mod"
+  | "go-work"
+  | "go-version"
+  | "tool-versions"
+  | "dockerfile"
+  | "workflow"
+  | "gitlab"
+  | "circleci"
+  | "azure";
 
 interface RepositoryFile {
   path: string;
@@ -63,7 +84,12 @@ async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
       else if (name === ".gitlab-ci.yml") files.push({ path, kind: "gitlab" });
       else if (name === "azure-pipelines.yml") files.push({ path, kind: "azure" });
       else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path, kind: "circleci" });
-      else if (WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github") files.push({ path, kind: "workflow" });
+      else if (
+        WORKFLOW_NAME.test(name) &&
+        basename(directory) === "workflows" &&
+        basename(dirname(directory)) === ".github"
+      )
+        files.push({ path, kind: "workflow" });
     }
   }
   await walk(root, 0);
@@ -98,7 +124,8 @@ function golangImageTag(value: string): { tag?: string } | undefined {
   const slash = withoutDigest.lastIndexOf("/");
   const colon = withoutDigest.lastIndexOf(":");
   const repository = (colon > slash ? withoutDigest.slice(0, colon) : withoutDigest).toLowerCase();
-  if (repository !== "golang" && repository !== "library/golang" && repository !== "docker.io/library/golang") return undefined;
+  if (repository !== "golang" && repository !== "library/golang" && repository !== "docker.io/library/golang")
+    return undefined;
   return colon > slash ? { tag: withoutDigest.slice(colon + 1) } : {};
 }
 
@@ -106,7 +133,14 @@ function imagePin(path: string, line: number, source: string, value: string): Ru
   const image = golangImageTag(value);
   if (!image) return undefined;
   if (image.tag === undefined) {
-    return { path, line, source, raw: value, kind: "pin", unresolved: "the image has no tag, so it follows the latest release" };
+    return {
+      path,
+      line,
+      source,
+      raw: value,
+      kind: "pin",
+      unresolved: "the image has no tag, so it follows the latest release",
+    };
   }
   const parts = releaseFromDockerTag(image.tag);
   return parts.release === undefined
@@ -127,14 +161,18 @@ function workflowPins(path: string, contents: string): RuntimePin[] {
     const lineCounter = new LineCounter();
     const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
     if (document.errors.length > 0 || !isMap(document.contents)) return [];
-    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number => lineCounter.linePos(node.range?.[0] ?? 0).line;
+    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number =>
+      lineCounter.linePos(node.range?.[0] ?? 0).line;
 
     const jobs = document.contents.get("jobs", true);
     if (!isMap(jobs)) return [];
     const pins: RuntimePin[] = [];
     const addVersion = (node: unknown, source: string): void => {
       const value = textOf(node);
-      if (value !== undefined && value !== "") pins.push(versionPin(path, lineOf(node as { range?: [number, number, ...unknown[]] | null }), source, value, "pin"));
+      if (value !== undefined && value !== "")
+        pins.push(
+          versionPin(path, lineOf(node as { range?: [number, number, ...unknown[]] | null }), source, value, "pin"),
+        );
     };
     for (const job of jobs.items) {
       if (!isMap(job.value)) continue;
@@ -155,7 +193,16 @@ function workflowPins(path: string, contents: string): RuntimePin[] {
           const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
           const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
           if (isSeq(list)) for (const item of list.items) addVersion(item, "actions/setup-go matrix");
-          else if (value !== undefined) pins.push(versionPin(path, lineOf(version as { range?: [number, number, ...unknown[]] | null }), "actions/setup-go go-version", value, "pin"));
+          else if (value !== undefined)
+            pins.push(
+              versionPin(
+                path,
+                lineOf(version as { range?: [number, number, ...unknown[]] | null }),
+                "actions/setup-go go-version",
+                value,
+                "pin",
+              ),
+            );
         }
 
         const versionFile = inputs.get("go-version-file", true);
@@ -223,9 +270,28 @@ function toolVersionsPins(path: string, contents: string): RuntimePin[] {
     const fields = raw.replace(/#.*$/, "").trim().split(/\s+/);
     if (fields[0] !== "golang") continue;
     const value = fields[1];
-    if (value === undefined) return [{ path, line: index + 1, source: ".tool-versions", raw: "golang", kind: "pin", unresolved: "the golang entry has no version" }];
+    if (value === undefined)
+      return [
+        {
+          path,
+          line: index + 1,
+          source: ".tool-versions",
+          raw: "golang",
+          kind: "pin",
+          unresolved: "the golang entry has no version",
+        },
+      ];
     if (/^(?:ref|path):/.test(value)) {
-      return [{ path, line: index + 1, source: ".tool-versions", raw: value, kind: "pin", unresolved: `"${value}" names a source, not a release` }];
+      return [
+        {
+          path,
+          line: index + 1,
+          source: ".tool-versions",
+          raw: value,
+          kind: "pin",
+          unresolved: `"${value}" names a source, not a release`,
+        },
+      ];
     }
     return [versionPin(path, index + 1, ".tool-versions", value, "pin")];
   }
@@ -253,7 +319,14 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
     const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
     if (!match) return undefined;
     const reference = parseImageReference(match[2]!);
-    if (!reference || reference.digest !== undefined || reference.registry !== "docker.io" || reference.repository !== "library/golang" || reference.tag === undefined) return undefined;
+    if (
+      !reference ||
+      reference.digest !== undefined ||
+      reference.registry !== "docker.io" ||
+      reference.repository !== "library/golang" ||
+      reference.tag === undefined
+    )
+      return undefined;
     const parts = releaseFromDockerTag(reference.tag);
     if (parts.release === undefined) return undefined;
     return `${match[1]}golang:${version}${parts.variant}${match[3]}`;
@@ -281,7 +354,8 @@ async function collect(root: string): Promise<RuntimePin[]> {
       const declarations = file.kind === "go-mod" ? parseGoMod(contents) : parseGoWork(contents);
       for (const declaration of declarations) {
         if (declaration.kind === "require") continue;
-        if (declaration.kind === "toolchain") pins.push(versionPin(path, declaration.line, `${source} toolchain`, declaration.value, "pin"));
+        if (declaration.kind === "toolchain")
+          pins.push(versionPin(path, declaration.line, `${source} toolchain`, declaration.value, "pin"));
         else pins.push(versionPin(path, declaration.line, `${source} go`, declaration.value, "floor"));
       }
     } else if (file.kind === "go-version") {

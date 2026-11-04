@@ -77,20 +77,40 @@ test("reports single and grouped imports, aliases, and calls with exact lines", 
 
 test("a major-version suffix binds the previous path element, and comments and strings are ignored", async () => {
   const root = await repository({
-    "a.go": ['package a', '', 'import "example.com/old/v2"', '// old.Do() in a comment', 'var s = "old.Do()"', 'func f() { old.Do() }'].join("\n"),
+    "a.go": [
+      "package a",
+      "",
+      'import "example.com/old/v2"',
+      "// old.Do() in a comment",
+      'var s = "old.Do()"',
+      "func f() { old.Do() }",
+    ].join("\n"),
   });
   const [analysis] = await analyzeSourceUsage(root, contract);
-  assert.deepEqual(analysis!.usages.map((usage) => [usage.kind, usage.location.line]), [["import", 3], ["call", 6]]);
+  assert.deepEqual(
+    analysis!.usages.map((usage) => [usage.kind, usage.location.line]),
+    [
+      ["import", 3],
+      ["call", 6],
+    ],
+  );
 });
 
 test("dot imports and blank imports count as imports but bind no name, so calls are not guessed", async () => {
-  const root = await repository({ "a.go": ['package a', '', 'import (', '\t. "example.com/old"', ')', 'func f() { Do() }'].join("\n") });
+  const root = await repository({
+    "a.go": ["package a", "", "import (", '\t. "example.com/old"', ")", "func f() { Do() }"].join("\n"),
+  });
   const [analysis] = await analyzeSourceUsage(root, contract);
-  assert.deepEqual(analysis!.usages.map((usage) => usage.kind), ["import"]);
+  assert.deepEqual(
+    analysis!.usages.map((usage) => usage.kind),
+    ["import"],
+  );
 });
 
 test("a commented-out import and an unrelated package are not usages", async () => {
-  const root = await repository({ "a.go": ['package a', '', 'import (', '\t// "example.com/old"', '\t"example.com/older"', ')'].join("\n") });
+  const root = await repository({
+    "a.go": ["package a", "", "import (", '\t// "example.com/old"', '\t"example.com/older"', ")"].join("\n"),
+  });
   const [analysis] = await analyzeSourceUsage(root, contract);
   assert.deepEqual(analysis!.usages, []);
 });
@@ -127,14 +147,20 @@ const moduleRule: RegistryV2Rule = {
 test("a deprecated direct module is reported with where the source uses it, and in the migration packet", async () => {
   const root = await repository({
     "go.mod": "module example.com/app\n\ngo 1.27\n\nrequire example.com/old v1.4.0\n",
-    "main.go": ['package main', '', 'import "example.com/old"', '', 'func main() { old.Do() }'].join("\n"),
+    "main.go": ["package main", "", 'import "example.com/old"', "", "func main() { old.Do() }"].join("\n"),
   });
   const detector = new GoDetector(async () => [moduleRule]);
   const result = await scanRepository(root, [detector]);
   assert.equal(result.findings.length, 1);
   const finding = result.findings[0]!;
   assert.equal(finding.id, "go.module.example-old.deprecated:go.mod:5");
-  assert.deepEqual(finding.usages?.map((usage) => [usage.location.path, usage.location.line, usage.kind]), [["main.go", 3, "import"], ["main.go", 5, "call"]]);
+  assert.deepEqual(
+    finding.usages?.map((usage) => [usage.location.path, usage.location.line, usage.kind]),
+    [
+      ["main.go", 3, "import"],
+      ["main.go", 5, "call"],
+    ],
+  );
   assert.deepEqual(finding.impact, { usageCount: 2, affectedFiles: 1, level: "low" });
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.deepEqual([...packet.affectedFiles].sort(), ["go.mod", "main.go"]);

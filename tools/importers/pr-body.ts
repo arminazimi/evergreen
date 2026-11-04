@@ -36,8 +36,10 @@ function describe(change: ChangedRule): string {
     for (const source of change.sources.retitled) parts.push(`source retitled: ${new URL(source.url).host}`);
   }
   for (const field of change.fields) {
-    if (IDENTITY_FIELDS.includes(field.field)) parts.push(`${field.field}: ${code(show(field.before))} → ${code(show(field.after))}`);
-    else if (["severity", "event"].includes(field.field)) parts.push(`${field.field}: ${show(field.before)} → ${show(field.after)}`);
+    if (IDENTITY_FIELDS.includes(field.field))
+      parts.push(`${field.field}: ${code(show(field.before))} → ${code(show(field.after))}`);
+    else if (["severity", "event"].includes(field.field))
+      parts.push(`${field.field}: ${show(field.before)} → ${show(field.after)}`);
     else parts.push(`${field.field} changed`);
   }
   return parts.map(cell).join("<br>");
@@ -58,8 +60,11 @@ function rows(diff: DraftDiff, drafts: DraftRegistry): Row[] {
     const duplicate = diff.duplicates.find((entry) => entry.draft === rule.id);
     table.push({
       rule: code(rule.id),
-      change: cell(`added: ${rule.event}, ${code(rule.purl)} ${code(rule.vers)}`) +
-        (duplicate ? `<br>**same component and versions as existing rule** ${code(duplicate.existing)}: keep one id` : ""),
+      change:
+        cell(`added: ${rule.event}, ${code(rule.purl)} ${code(rule.vers)}`) +
+        (duplicate
+          ? `<br>**same component and versions as existing rule** ${code(duplicate.existing)}: keep one id`
+          : ""),
       date: rule.deadline ?? EM_DASH,
       sources: links(rule),
       observed: rule.provenance.observedAt,
@@ -67,10 +72,22 @@ function rows(diff: DraftDiff, drafts: DraftRegistry): Row[] {
   }
   for (const change of diff.changed) {
     const draft = draftById.get(change.id)!;
-    table.push({ rule: code(change.id), change: describe(change), date: draft.deadline ?? EM_DASH, sources: links(draft), observed: draft.provenance.observedAt });
+    table.push({
+      rule: code(change.id),
+      change: describe(change),
+      date: draft.deadline ?? EM_DASH,
+      sources: links(draft),
+      observed: draft.provenance.observedAt,
+    });
   }
   for (const rule of diff.removed) {
-    table.push({ rule: code(rule.id), change: "no longer drafted by this importer", date: rule.deadline ?? EM_DASH, sources: links(rule), observed: rule.provenance.observedAt });
+    table.push({
+      rule: code(rule.id),
+      change: "no longer drafted by this importer",
+      date: rule.deadline ?? EM_DASH,
+      sources: links(rule),
+      observed: rule.provenance.observedAt,
+    });
   }
   return table;
 }
@@ -123,7 +140,16 @@ export function renderPullRequestBody(diff: DraftDiff, drafts: DraftRegistry): s
     used += line.length + 1;
   }
   const omitted = table.length - lines.length;
-  return [...head, ...header, ...lines, ...(omitted > 0 ? ["", `… and ${omitted} more row${omitted === 1 ? "" : "s"}; run the commands below for the full diff.`] : []), "", ...tail].join("\n");
+  return [
+    ...head,
+    ...header,
+    ...lines,
+    ...(omitted > 0
+      ? ["", `… and ${omitted} more row${omitted === 1 ? "" : "s"}; run the commands below for the full diff.`]
+      : []),
+    "",
+    ...tail,
+  ].join("\n");
 }
 
 export async function main(argv: string[]): Promise<number> {
@@ -131,7 +157,12 @@ export async function main(argv: string[]): Promise<number> {
   let out: string | undefined;
   for (let index = 0; index < argv.length; index++) {
     const argument = argv[index]!;
-    if (argument === "--out") out = argv[++index] ?? (() => { throw new Error("--out needs a value."); })();
+    if (argument === "--out")
+      out =
+        argv[++index] ??
+        (() => {
+          throw new Error("--out needs a value.");
+        })();
     else if (argument.startsWith("--")) throw new Error(`Unknown option ${argument}.`);
     else files.push(argument);
   }

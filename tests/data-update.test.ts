@@ -20,11 +20,22 @@ const execute = promisify(execFile);
 
 const roots: string[] = [];
 const servers: http.Server[] = [];
-const signer = { identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01", issuer: "https://token.actions.githubusercontent.com" };
+const signer = {
+  identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01",
+  issuer: "https://token.actions.githubusercontent.com",
+};
 const accepting = { verifySignature: () => signer };
 
 after(async () => {
-  await Promise.all(servers.map((server) => new Promise((done) => { server.close(done); server.closeAllConnections(); })));
+  await Promise.all(
+    servers.map(
+      (server) =>
+        new Promise((done) => {
+          server.close(done);
+          server.closeAllConnections();
+        }),
+    ),
+  );
   await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
 });
 afterEach(() => configureActiveData());
@@ -35,11 +46,17 @@ const scratch = async (name: string) => {
   return directory;
 };
 
-async function bundleAt(createdAt: string, revision = 1, mutate: (npm: { rules: Array<Record<string, unknown>> }) => void = () => undefined): Promise<DataBundle> {
+async function bundleAt(
+  createdAt: string,
+  revision = 1,
+  mutate: (npm: { rules: Array<Record<string, unknown>> }) => void = () => undefined,
+): Promise<DataBundle> {
   const root = await scratch("registry");
   await cp(resolve("registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
-  const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as { rules: Array<Record<string, unknown>> };
+  const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
+    rules: Array<Record<string, unknown>>;
+  };
   mutate(npm);
   await writeFile(join(root, "registry/npm.json"), JSON.stringify(npm));
   return buildDataBundle({ root, createdAt, revision, minimumEvergreenVersion: "0.1.0" });
@@ -50,7 +67,13 @@ const stamped = (stamp: string) => (npm: { rules: Array<Record<string, unknown>>
   npm.rules[0]!.summary = `${String(npm.rules[0]!.summary)} [${stamp}]`;
 };
 
-const extraRule = (npm: { rules: Array<Record<string, unknown>> }) => npm.rules.push({ ...structuredClone(npm.rules[0]!), id: "npm.package.extra.test-only", purl: "pkg:npm/extra", "x-npm": { package: "extra" } });
+const extraRule = (npm: { rules: Array<Record<string, unknown>> }) =>
+  npm.rules.push({
+    ...structuredClone(npm.rules[0]!),
+    id: "npm.package.extra.test-only",
+    purl: "pkg:npm/extra",
+    "x-npm": { package: "extra" },
+  });
 
 interface Published {
   version: string;
@@ -88,8 +111,18 @@ async function fixtureServer(): Promise<Fixture> {
         tag_name: release.tag ?? `data-v${release.version}`,
         draft: release.draft ?? false,
         assets: [
-          { name: `evergreen-data-${release.version}.json`, browser_download_url: `${origin}/download/${release.version}/bundle` },
-          ...(release.withoutSignature ? [] : [{ name: `evergreen-data-${release.version}.json.sigstore.json`, browser_download_url: `${origin}/download/${release.version}/signature` }]),
+          {
+            name: `evergreen-data-${release.version}.json`,
+            browser_download_url: `${origin}/download/${release.version}/bundle`,
+          },
+          ...(release.withoutSignature
+            ? []
+            : [
+                {
+                  name: `evergreen-data-${release.version}.json.sigstore.json`,
+                  browser_download_url: `${origin}/download/${release.version}/signature`,
+                },
+              ]),
         ],
       }));
       response.writeHead(200, { "content-type": "application/json" }).end(JSON.stringify(list));
@@ -101,7 +134,11 @@ async function fixtureServer(): Promise<Fixture> {
       response.writeHead(404).end();
       return;
     }
-    response.writeHead(200).end(match[2] === "bundle" ? (release.bytes ?? serializeDataBundle(release.bundle)) : (release.signature ?? "{}"));
+    response
+      .writeHead(200)
+      .end(
+        match[2] === "bundle" ? (release.bytes ?? serializeDataBundle(release.bundle)) : (release.signature ?? "{}"),
+      );
   });
   await new Promise<void>((done) => server.listen(0, "127.0.0.1", done));
   servers.push(server);
@@ -118,7 +155,11 @@ async function fixtureServer(): Promise<Fixture> {
   };
 }
 
-const publishNewest = async (fixture: Fixture, createdAt = "2999-01-01T00:00:00Z", mutate?: Parameters<typeof bundleAt>[2]) => {
+const publishNewest = async (
+  fixture: Fixture,
+  createdAt = "2999-01-01T00:00:00Z",
+  mutate?: Parameters<typeof bundleAt>[2],
+) => {
   const bundle = await bundleAt(createdAt, 1, mutate);
   fixture.publish({ version: bundle.manifest.version, bundle });
   return bundle;
@@ -135,13 +176,22 @@ test("an update downloads, verifies, stores, and activates the newest bundle", a
   assert.equal(result.contentDigest, bundle.manifest.contentDigest);
   assert.deepEqual(result.signer, signer);
   assert.deepEqual(result.rules.npm!.after - result.rules.npm!.before!, 1);
-  assert.match(renderDataUpdateText(result), new RegExp(`Updated lifecycle data: ${VERSION.replace(/\./g, '\\.')} \\(bundled\\) → 2999\.01\.01 \\(cache\\)\\.\nRules: npm: \\d+ → \\d+ rules\\.`));
+  assert.match(
+    renderDataUpdateText(result),
+    new RegExp(
+      `Updated lifecycle data: ${VERSION.replace(/\./g, "\\.")} \\(bundled\\) → 2999\.01\.01 \\(cache\\)\\.\nRules: npm: \\d+ → \\d+ rules\\.`,
+    ),
+  );
 
   assert.deepEqual((await readdir(join(cache, "data"))).sort(), ["2999.01.01", "active.json"]);
   assert.equal(JSON.parse(await readFile(join(cache, "data", "active.json"), "utf8")).version, "2999.01.01");
   const active = await resolveActiveData({ cacheDirectory: cache, ...accepting });
   assert.equal(active.info.source, "cache");
-  assert.ok(((await active.read("registry/npm.json")) as { rules: Array<{ id: string }> }).rules.some((rule) => rule.id === "npm.package.extra.test-only"));
+  assert.ok(
+    ((await active.read("registry/npm.json")) as { rules: Array<{ id: string }> }).rules.some(
+      (rule) => rule.id === "npm.package.extra.test-only",
+    ),
+  );
 });
 
 test("a new version with identical data is not an update, because the content address is the same", async () => {
@@ -176,7 +226,10 @@ test("the newest data release wins, and drafts, other tags, and incomplete relea
   assert.equal(compareBundleVersions("2026.10.16", "2026.10.16"), 0);
   const assets = (version: string) => [
     { name: `evergreen-data-${version}.json`, browser_download_url: `https://example.com/${version}.json` },
-    { name: `evergreen-data-${version}.json.sigstore.json`, browser_download_url: `https://example.com/${version}.sig` },
+    {
+      name: `evergreen-data-${version}.json.sigstore.json`,
+      browser_download_url: `https://example.com/${version}.sig`,
+    },
   ];
   const latest = latestDataRelease([
     { tag_name: "v0.2.0", assets: assets("0.2.0") },
@@ -204,12 +257,31 @@ test("a download that does not verify is refused and the previous data stays act
   const tampered = structuredClone(second);
   (tampered.files["registry/npm.json"]!.rules as Array<{ summary: string }>)[0]!.summary = "Safe to use.";
   fixture.publish({ version: second.manifest.version, bundle: second, bytes: serializeDataBundle(tampered) });
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting }), /Refusing data bundle 2999\.01\.01: registry\/npm\.json does not match its digest\./);
-  const failing = { verifySignature: () => { throw new (class extends Error { constructor() { super("The signature did not verify: bad"); this.name = "DataSignatureError"; } })(); } };
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...failing }), /did not verify|bad/);
+  await assert.rejects(
+    updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting }),
+    /Refusing data bundle 2999\.01\.01: registry\/npm\.json does not match its digest\./,
+  );
+  const failing = {
+    verifySignature: () => {
+      throw new (class extends Error {
+        constructor() {
+          super("The signature did not verify: bad");
+          this.name = "DataSignatureError";
+        }
+      })();
+    },
+  };
+  await assert.rejects(
+    updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...failing }),
+    /did not verify|bad/,
+  );
 
   assert.equal(await readFile(join(cache, "data", "active.json"), "utf8"), before, "the pointer did not move");
-  assert.deepEqual((await readdir(join(cache, "data"))).sort(), ["2998.01.01", "active.json"], "nothing from the refused bundle was stored");
+  assert.deepEqual(
+    (await readdir(join(cache, "data"))).sort(),
+    ["2998.01.01", "active.json"],
+    "nothing from the refused bundle was stored",
+  );
 });
 
 test("with the real signature check, an unsigned or foreign signature is refused and nothing is stored", async () => {
@@ -219,12 +291,17 @@ test("with the real signature check, an unsigned or foreign signature is refused
   const cache = await scratch("cache");
   for (const signature of ["{}", "garbage", foreign]) {
     fixture.publish({ version: bundle.manifest.version, bundle, signature });
-    await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: fixture.url }), /Refusing data bundle 2999\.01\.01: The signature/);
+    await assert.rejects(
+      updateData({ cacheDirectory: cache, releasesUrl: fixture.url }),
+      /Refusing data bundle 2999\.01\.01: The signature/,
+    );
   }
   await assert.rejects(readdir(join(cache, "data")), /ENOENT/);
 
   fixture.publish({ version: bundle.manifest.version, bundle, signature: foreign });
-  const result = await runCli(["data", "update"], { env: { EVERGREEN_DATA_DIR: cache, EVERGREEN_DATA_URL: fixture.url } });
+  const result = await runCli(["data", "update"], {
+    env: { EVERGREEN_DATA_DIR: cache, EVERGREEN_DATA_URL: fixture.url },
+  });
   assert.equal(result.code, 3);
   assert.match(result.stderr, /Refusing data bundle 2999\.01\.01: The signature/);
 });
@@ -238,8 +315,16 @@ test("an older bundle is refused as a rollback unless the user allows it", async
 
   const older = await bundleAt("2999-01-01T00:00:00Z", 1, stamped("january"));
   fixture.publish({ version: older.manifest.version, bundle: older });
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting }), /older than the active data 2999\.06\.01/);
-  const allowed = await updateData({ cacheDirectory: cache, releasesUrl: fixture.url, allowDowngrade: true, ...accepting });
+  await assert.rejects(
+    updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting }),
+    /older than the active data 2999\.06\.01/,
+  );
+  const allowed = await updateData({
+    cacheDirectory: cache,
+    releasesUrl: fixture.url,
+    allowDowngrade: true,
+    ...accepting,
+  });
   assert.equal(allowed.to.version, "2999.01.01");
 });
 
@@ -262,13 +347,19 @@ test("only the three newest bundles are kept", async () => {
     fixture.publish({ version: bundle.manifest.version, bundle });
     await updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting });
   }
-  assert.deepEqual((await readdir(join(cache, "data"))).sort(), ["2999.01.02", "2999.01.03", "2999.01.04", "active.json"]);
+  assert.deepEqual((await readdir(join(cache, "data"))).sort(), [
+    "2999.01.02",
+    "2999.01.03",
+    "2999.01.04",
+    "active.json",
+  ]);
 });
 
 test("network problems and bad responses give clear errors and change nothing", async () => {
   const fixture = await fixtureServer();
   const cache = await scratch("cache");
-  const run = (extra: Record<string, unknown> = {}) => updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting, ...extra } as never);
+  const run = (extra: Record<string, unknown> = {}) =>
+    updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting, ...extra } as never);
 
   fixture.publish();
   await assert.rejects(run(), /No signed data release was found/);
@@ -283,31 +374,84 @@ test("network problems and bad responses give clear errors and change nothing", 
   fixture.respond("/releases", 404);
   await assert.rejects(run({ releasesUrl: "http://127.0.0.1:1/releases" }), /Could not download the release list/);
   fixture.publish({ version: bundle.manifest.version, bundle, withoutSignature: true });
-  fixture.respond("/releases", 200, JSON.stringify([{ tag_name: "data-v2999.01.01", assets: [{ name: "evergreen-data-2999.01.01.json", browser_download_url: `${fixture.url.replace("/releases", "")}/download/2999.01.01/bundle` }] }]));
+  fixture.respond(
+    "/releases",
+    200,
+    JSON.stringify([
+      {
+        tag_name: "data-v2999.01.01",
+        assets: [
+          {
+            name: "evergreen-data-2999.01.01.json",
+            browser_download_url: `${fixture.url.replace("/releases", "")}/download/2999.01.01/bundle`,
+          },
+        ],
+      },
+    ]),
+  );
   await assert.rejects(run(), /No signed data release was found/);
   await assert.rejects(readdir(join(cache, "data")), /ENOENT/);
 });
 
 test("downloads are bounded and must use https (plain http only for localhost)", async () => {
   const cache = await scratch("cache");
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: "http://example.com/releases", ...accepting }), /must use https/);
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: "ftp://example.com/releases", ...accepting }), /must use https/);
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: "not a url", ...accepting }), /not a valid URL/);
+  await assert.rejects(
+    updateData({ cacheDirectory: cache, releasesUrl: "http://example.com/releases", ...accepting }),
+    /must use https/,
+  );
+  await assert.rejects(
+    updateData({ cacheDirectory: cache, releasesUrl: "ftp://example.com/releases", ...accepting }),
+    /must use https/,
+  );
+  await assert.rejects(
+    updateData({ cacheDirectory: cache, releasesUrl: "not a url", ...accepting }),
+    /not a valid URL/,
+  );
 
-  const oversized = async () => new Response("x".repeat(100), { headers: { "content-length": String(50 * 1024 * 1024) } });
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: "https://example.com/releases", fetch: oversized as never, ...accepting }), /larger than the/);
+  const oversized = async () =>
+    new Response("x".repeat(100), { headers: { "content-length": String(50 * 1024 * 1024) } });
+  await assert.rejects(
+    updateData({
+      cacheDirectory: cache,
+      releasesUrl: "https://example.com/releases",
+      fetch: oversized as never,
+      ...accepting,
+    }),
+    /larger than the/,
+  );
   const hostile = async (input: string | URL | Request) =>
     String(input).endsWith("/releases")
-      ? new Response(JSON.stringify([{ tag_name: "data-v2999.01.01", assets: [{ name: "evergreen-data-2999.01.01.json", browser_download_url: "http://evil.example/b" }, { name: "evergreen-data-2999.01.01.json.sigstore.json", browser_download_url: "https://example.com/s" }] }]))
+      ? new Response(
+          JSON.stringify([
+            {
+              tag_name: "data-v2999.01.01",
+              assets: [
+                { name: "evergreen-data-2999.01.01.json", browser_download_url: "http://evil.example/b" },
+                { name: "evergreen-data-2999.01.01.json.sigstore.json", browser_download_url: "https://example.com/s" },
+              ],
+            },
+          ]),
+        )
       : new Response("{}");
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: "https://example.com/releases", fetch: hostile as never, ...accepting }), /must use https/);
+  await assert.rejects(
+    updateData({
+      cacheDirectory: cache,
+      releasesUrl: "https://example.com/releases",
+      fetch: hostile as never,
+      ...accepting,
+    }),
+    /must use https/,
+  );
 });
 
 test("a bundle whose signed version differs from its release is refused", async () => {
   const fixture = await fixtureServer();
   const bundle = await bundleAt("2999-01-01T00:00:00Z");
   fixture.publish({ version: "2999.01.02", bundle });
-  await assert.rejects(updateData({ cacheDirectory: await scratch("cache"), releasesUrl: fixture.url, ...accepting }), /signed bundle says it is version 2999\.01\.01/);
+  await assert.rejects(
+    updateData({ cacheDirectory: await scratch("cache"), releasesUrl: fixture.url, ...accepting }),
+    /signed bundle says it is version 2999\.01\.01/,
+  );
 });
 
 for (const [name, withoutHelper] of [
@@ -321,10 +465,13 @@ for (const [name, withoutHelper] of [
     const proxy = http.createServer((request, response) => {
       proxied.push(`request ${request.url ?? ""}`);
       const target = new URL(request.url ?? "");
-      const forward = http.request({ host: target.hostname, port: target.port, path: target.pathname + target.search, method: request.method }, (upstream) => {
-        response.writeHead(upstream.statusCode ?? 502, upstream.headers);
-        upstream.pipe(response);
-      });
+      const forward = http.request(
+        { host: target.hostname, port: target.port, path: target.pathname + target.search, method: request.method },
+        (upstream) => {
+          response.writeHead(upstream.statusCode ?? 502, upstream.headers);
+          upstream.pipe(response);
+        },
+      );
       request.pipe(forward);
     });
     proxy.on("connect", (request, clientSocket, head) => {
@@ -348,7 +495,9 @@ for (const [name, withoutHelper] of [
     await writeFile(preload, "delete require('node:http').setGlobalProxyFromEnv;\n");
     // Drop every inherited proxy variable (both cases, since Node prefers lowercase): a developer's no_proxy
     // would otherwise bypass the test proxy on 127.0.0.1.
-    const inherited = Object.fromEntries(Object.entries(process.env).filter(([name]) => !/^(https?|all|no)_proxy$/i.test(name)));
+    const inherited = Object.fromEntries(
+      Object.entries(process.env).filter(([name]) => !/^(https?|all|no)_proxy$/i.test(name)),
+    );
     const env = {
       ...inherited,
       EVERGREEN_DATA_DIR: cache,
@@ -358,13 +507,25 @@ for (const [name, withoutHelper] of [
       ...(withoutHelper ? { NODE_OPTIONS: `--require ${preload}` } : {}),
     };
     delete (env as Record<string, unknown>).NODE_USE_ENV_PROXY;
-    const failure = await execute(process.execPath, [resolve("dist/src/cli.js"), "data", "update"], { env }).catch((error: { stderr: string; code: number }) => error);
+    const failure = await execute(process.execPath, [resolve("dist/src/cli.js"), "data", "update"], { env }).catch(
+      (error: { stderr: string; code: number }) => error,
+    );
     assert.equal((failure as { code: number }).code, 3);
-    assert.match((failure as { stderr: string }).stderr, /Refusing data bundle 2999\.01\.01: The signature/, "the bundle was fetched, then refused for lack of a signature");
+    assert.match(
+      (failure as { stderr: string }).stderr,
+      /Refusing data bundle 2999\.01\.01: The signature/,
+      "the bundle was fetched, then refused for lack of a signature",
+    );
     assert.ok(proxied.length > 0, "the traffic went through the proxy");
     const fixturePort = new URL(fixture.url).port;
-    assert.ok(proxied.every((entry) => entry.includes(`:${fixturePort}`)), `the proxy only carried traffic for the release server: ${proxied.join(", ")}`);
-    assert.ok(proxied.some((entry) => entry.startsWith("connect ") || entry.includes("/releases")), "the release list was fetched through the proxy");
+    assert.ok(
+      proxied.every((entry) => entry.includes(`:${fixturePort}`)),
+      `the proxy only carried traffic for the release server: ${proxied.join(", ")}`,
+    );
+    assert.ok(
+      proxied.some((entry) => entry.startsWith("connect ") || entry.includes("/releases")),
+      "the release list was fetched through the proxy",
+    );
   });
 }
 
@@ -373,20 +534,44 @@ test("downloading a specific version stores it for pinning without changing the 
   const cache = await scratch("cache");
   const newest = await bundleAt("2999-06-01T00:00:00Z", 1, stamped("june"));
   const older = await bundleAt("2999-01-01T00:00:00Z", 1, stamped("january"));
-  fixture.publish({ version: newest.manifest.version, bundle: newest }, { version: older.manifest.version, bundle: older });
+  fixture.publish(
+    { version: newest.manifest.version, bundle: newest },
+    { version: older.manifest.version, bundle: older },
+  );
 
   await updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting });
   assert.equal(JSON.parse(await readFile(join(cache, "data", "active.json"), "utf8")).version, "2999.06.01");
 
-  const pinned = await updateData({ cacheDirectory: cache, releasesUrl: fixture.url, version: "2999.01.01", ...accepting });
+  const pinned = await updateData({
+    cacheDirectory: cache,
+    releasesUrl: fixture.url,
+    version: "2999.01.01",
+    ...accepting,
+  });
   assert.equal(pinned.status, "downloaded");
   assert.equal(pinned.to.version, "2999.01.01");
-  assert.match(renderDataUpdateText(pinned), /Downloaded lifecycle data 2999\.01\.01\. It is not active until you pin it: evergreen scan --data-version 2999\.01\.01/);
-  assert.equal(JSON.parse(await readFile(join(cache, "data", "active.json"), "utf8")).version, "2999.06.01", "the pointer did not move");
+  assert.match(
+    renderDataUpdateText(pinned),
+    /Downloaded lifecycle data 2999\.01\.01\. It is not active until you pin it: evergreen scan --data-version 2999\.01\.01/,
+  );
+  assert.equal(
+    JSON.parse(await readFile(join(cache, "data", "active.json"), "utf8")).version,
+    "2999.06.01",
+    "the pointer did not move",
+  );
   assert.deepEqual((await readdir(join(cache, "data"))).sort(), ["2999.01.01", "2999.06.01", "active.json"]);
 
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: fixture.url, version: "2999.03.03", ...accepting }), /No signed data release 2999\.03\.03 was found/);
-  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: fixture.url, version: "latest", ...accepting }), /not a data version/);
+  await assert.rejects(
+    updateData({ cacheDirectory: cache, releasesUrl: fixture.url, version: "2999.03.03", ...accepting }),
+    /No signed data release 2999\.03\.03 was found/,
+  );
+  await assert.rejects(
+    updateData({ cacheDirectory: cache, releasesUrl: fixture.url, version: "latest", ...accepting }),
+    /not a data version/,
+  );
   fixture.publish({ version: older.manifest.version, bundle: older, signature: "{}" });
-  await assert.rejects(updateData({ cacheDirectory: await scratch("cache"), releasesUrl: fixture.url, version: "2999.01.01" }), /Refusing data bundle 2999\.01\.01: The signature/);
+  await assert.rejects(
+    updateData({ cacheDirectory: await scratch("cache"), releasesUrl: fixture.url, version: "2999.01.01" }),
+    /Refusing data bundle 2999\.01\.01: The signature/,
+  );
 });

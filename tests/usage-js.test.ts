@@ -22,7 +22,12 @@ const contract: SourceUsageContract = {
   id: "request",
   matchers: (["javascript", "typescript"] as const).flatMap((language) => [
     { kind: "import" as const, language, module: "request" },
-    { kind: "call" as const, language, module: "request", targets: ["default", "get", "post", "Client", "defaults.get"] },
+    {
+      kind: "call" as const,
+      language,
+      module: "request",
+      targets: ["default", "get", "post", "Client", "defaults.get"],
+    },
   ]),
 };
 
@@ -57,7 +62,9 @@ async function regexUsages(files: Record<string, string>): Promise<SourceUsage[]
 }
 
 const summary = (usages: SourceUsage[]): string[] =>
-  usages.map((usage) => `${usage.kind} ${usage.location.path}:${usage.location.line}:${usage.location.column} ${usage.symbol}`);
+  usages.map(
+    (usage) => `${usage.kind} ${usage.location.path}:${usage.location.line}:${usage.location.column} ${usage.symbol}`,
+  );
 
 const regexCases: Record<string, string> = {
   "default-import.ts": `import legacyRequest from "request";\nlegacyRequest.get("https://example.com");\nconst text = "legacyRequest.post()";\n// legacyRequest.post("ignored");\n`,
@@ -90,13 +97,18 @@ test("reports calls at the same locations as the regex scanner", async () => {
 });
 
 test("reports the same locations and excerpts for plain imports and calls", async () => {
-  const files = { "src/client.ts": `import legacyRequest from "request";\n  legacyRequest.get("https://example.com");\n` };
+  const files = {
+    "src/client.ts": `import legacyRequest from "request";\n  legacyRequest.get("https://example.com");\n`,
+  };
   const [regex, parsed] = [await regexUsages(files), await treeSitterUsages(files)];
   assert.deepEqual(parsed, regex);
-  assert.deepEqual(parsed.map((usage) => [usage.kind, usage.location.line, usage.location.column, usage.excerpt]), [
-    ["import", 1, 28, 'import legacyRequest from "request";'],
-    ["call", 2, 3, 'legacyRequest.get("https://example.com");'],
-  ]);
+  assert.deepEqual(
+    parsed.map((usage) => [usage.kind, usage.location.line, usage.location.column, usage.excerpt]),
+    [
+      ["import", 1, 28, 'import legacyRequest from "request";'],
+      ["call", 2, 3, 'legacyRequest.get("https://example.com");'],
+    ],
+  );
 });
 
 test("follows aliases of imported symbols", async () => {
@@ -199,7 +211,10 @@ const text = \`request.get()\`;
 
 test("columns count UTF-16 code units", async () => {
   const files = { "unicode.ts": `const label = "héllo 😀"; import request from "request"; request.get(label);\n` };
-  assert.deepEqual(summary(await treeSitterUsages(files)), ["import unicode.ts:1:48 request", "call unicode.ts:1:58 request.get"]);
+  assert.deepEqual(summary(await treeSitterUsages(files)), [
+    "import unicode.ts:1:48 request",
+    "call unicode.ts:1:58 request.get",
+  ]);
 });
 
 test("parses JSX and TSX and tolerates syntax errors", async () => {
@@ -234,7 +249,8 @@ test("scans use the parser by default, find what the regex scanner cannot", asyn
   const [parsed] = await analyzeSourceUsage(root, [contract]);
   const [regex] = await analyzeSourceUsage(root, [contract], { parser: false });
   const [python] = await analyzeSourceUsage(root, [pythonContract]);
-  const calls = (usages: SourceUsage[] | undefined): string[] => summary(usages ?? []).filter((entry) => entry.startsWith("call"));
+  const calls = (usages: SourceUsage[] | undefined): string[] =>
+    summary(usages ?? []).filter((entry) => entry.startsWith("call"));
   assert.deepEqual(calls(parsed?.usages), ["call multiline.ts:2:1 request.get"]);
   assert.deepEqual(calls(regex?.usages), []);
   assert.deepEqual(calls(python?.usages), ["call script.py:2:1 requests.get"]);
@@ -280,7 +296,7 @@ test("many unrelated const lines do not cap usage analysis or drop a real call",
   assert.equal(result.analysisCapped, undefined);
   assert.deepEqual(summary(result.get("request")!), [
     "import ordinary.js:1:22 request",
-    'call ordinary.js:402:1 request.get',
+    "call ordinary.js:402:1 request.get",
   ]);
 
   const root = await mkdtemp(join(tmpdir(), "evergreen-usage-ordinary-"));
@@ -298,12 +314,19 @@ test("many unrelated const lines do not cap usage analysis or drop a real call",
 test("scan finishes under a fixed heap on a repository that would otherwise OOM", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-usage-heap-"));
   temporaryRoots.push(root);
-  await writeFile(join(root, "package.json"), JSON.stringify({ name: "heap-bomb", dependencies: { request: "2.88.2" } }));
+  await writeFile(
+    join(root, "package.json"),
+    JSON.stringify({ name: "heap-bomb", dependencies: { request: "2.88.2" } }),
+  );
   await writeFile(join(root, "explode.js"), explodingAliasSource());
-  const run = spawnSync(process.execPath, ["--max-old-space-size=128", cliPath, "scan", root, "--format", "json", "--no-cache"], {
-    encoding: "utf8",
-    maxBuffer: 16 * 1024 * 1024,
-  });
+  const run = spawnSync(
+    process.execPath,
+    ["--max-old-space-size=128", cliPath, "scan", root, "--format", "json", "--no-cache"],
+    {
+      encoding: "utf8",
+      maxBuffer: 16 * 1024 * 1024,
+    },
+  );
   assert.notEqual(run.status, 134, `scan aborted with OOM:\n${run.stderr}`);
   assert.ok(run.status === 0 || run.status === 1, `unexpected exit ${run.status}:\n${run.stderr}`);
   const report = JSON.parse(run.stdout) as {

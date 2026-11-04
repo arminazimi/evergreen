@@ -21,15 +21,60 @@ test("the public validation corpus matches its versioned JSON Schema", async () 
 test("the corpus schema rejects malformed commits and findings", async (t) => {
   const { corpus, validate } = await corpusAndValidator();
   for (const [name, mutate] of [
-    ["short commit", (value: typeof corpus) => { value.repositories[0].commit = "abcdef"; }],
-    ["non-hex commit", (value: typeof corpus) => { value.repositories[0].commit = "g".repeat(40); }],
-    ["missing rule ID", (value: typeof corpus) => { delete value.repositories[0].expected[0].ruleId; }],
-    ["empty rule ID", (value: typeof corpus) => { value.repositories[0].expected[0].ruleId = ""; }],
-    ["zero line", (value: typeof corpus) => { value.repositories[0].expected[0].line = 0; }],
-    ["fractional line", (value: typeof corpus) => { value.repositories[0].expected[0].line = 1.5; }],
-    ["unknown ecosystem", (value: typeof corpus) => { value.repositories[0].ecosystem = "unknown"; }],
-    ["invalid repository", (value: typeof corpus) => { value.repositories[0].repository = "express"; }],
-    ["too few repositories", (value: typeof corpus) => { value.repositories.length = 19; }],
+    [
+      "short commit",
+      (value: typeof corpus) => {
+        value.repositories[0].commit = "abcdef";
+      },
+    ],
+    [
+      "non-hex commit",
+      (value: typeof corpus) => {
+        value.repositories[0].commit = "g".repeat(40);
+      },
+    ],
+    [
+      "missing rule ID",
+      (value: typeof corpus) => {
+        delete value.repositories[0].expected[0].ruleId;
+      },
+    ],
+    [
+      "empty rule ID",
+      (value: typeof corpus) => {
+        value.repositories[0].expected[0].ruleId = "";
+      },
+    ],
+    [
+      "zero line",
+      (value: typeof corpus) => {
+        value.repositories[0].expected[0].line = 0;
+      },
+    ],
+    [
+      "fractional line",
+      (value: typeof corpus) => {
+        value.repositories[0].expected[0].line = 1.5;
+      },
+    ],
+    [
+      "unknown ecosystem",
+      (value: typeof corpus) => {
+        value.repositories[0].ecosystem = "unknown";
+      },
+    ],
+    [
+      "invalid repository",
+      (value: typeof corpus) => {
+        value.repositories[0].repository = "express";
+      },
+    ],
+    [
+      "too few repositories",
+      (value: typeof corpus) => {
+        value.repositories.length = 19;
+      },
+    ],
   ] as const) {
     await t.test(name, () => {
       const invalid = structuredClone(corpus);
@@ -78,7 +123,11 @@ test("every mined corpus entry cites a reviewed migration or a recorded maintain
       repository: string;
       commit: string;
       ecosystem: string;
-      expected: Array<{ ruleId: string; path: string; groundTruthSource: { kind: string; url?: string; note?: string } }>;
+      expected: Array<{
+        ruleId: string;
+        path: string;
+        groundTruthSource: { kind: string; url?: string; note?: string };
+      }>;
     }>;
   };
   const log = JSON.parse(await readFile(resolve("benchmarks/mining/review-log.json"), "utf8")) as {
@@ -93,8 +142,15 @@ test("every mined corpus entry cites a reviewed migration or a recorded maintain
     const reviewed = accepted.filter((candidate) => candidate.repository === entry.repository);
     if (reviewed.length === 0) {
       for (const finding of entry.expected) {
-        assert.equal(finding.groundTruthSource.kind, "maintainer-review", `${entry.repository} is not in the review log, so its findings need a maintainer review`);
-        assert.ok(finding.groundTruthSource.note?.includes(finding.path), `${entry.repository} ${finding.ruleId} must record the reviewed line`);
+        assert.equal(
+          finding.groundTruthSource.kind,
+          "maintainer-review",
+          `${entry.repository} is not in the review log, so its findings need a maintainer review`,
+        );
+        assert.ok(
+          finding.groundTruthSource.note?.includes(finding.path),
+          `${entry.repository} ${finding.ruleId} must record the reviewed line`,
+        );
       }
       continue;
     }
@@ -112,11 +168,17 @@ test("every mined corpus entry cites a reviewed migration or a recorded maintain
         );
       } else {
         assert.equal(source.kind, "maintainer-review", `${entry.repository} ${finding.ruleId}`);
-        assert.ok(source.note?.includes(finding.path), `${entry.repository} ${finding.ruleId} must record the reviewed line`);
+        assert.ok(
+          source.note?.includes(finding.path),
+          `${entry.repository} ${finding.ruleId} must record the reviewed line`,
+        );
       }
     }
     if (entry.expected.length === 0) {
-      assert.ok(reviewed.some((candidate) => candidate.migrationCommit === entry.commit), `${entry.repository} zero-finding entry must pin a reviewed migration commit`);
+      assert.ok(
+        reviewed.some((candidate) => candidate.migrationCommit === entry.commit),
+        `${entry.repository} zero-finding entry must pin a reviewed migration commit`,
+      );
     }
   }
   assert.ok(withReview >= 26);
@@ -127,11 +189,51 @@ test("the corpus covers every shipped ecosystem with positive and zero-finding r
     repositories: Array<{ ecosystem: string; expected: Array<{ ruleId: string }> }>;
   };
   assert.ok(corpus.repositories.length >= 50);
-  const ruleFamilies = new Set(corpus.repositories.flatMap((entry) => entry.expected.map((finding) => finding.ruleId.split(".")[0])));
-  for (const family of ["container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"]) assert.ok(ruleFamilies.has(family), `no expected finding for ${family}`);
-  for (const ecosystem of ["node", "python", "node-actions", "container", "go", "java", "kubernetes", "php", "ruby", "rust", "dotnet", "cpp", "serverless", "swift"]) {
+  const ruleFamilies = new Set(
+    corpus.repositories.flatMap((entry) => entry.expected.map((finding) => finding.ruleId.split(".")[0])),
+  );
+  for (const family of [
+    "container",
+    "cpp",
+    "dotnet",
+    "github-actions",
+    "go",
+    "java",
+    "kubernetes",
+    "nodejs",
+    "npm",
+    "php",
+    "python",
+    "ruby",
+    "rust",
+    "serverless",
+    "swift",
+  ])
+    assert.ok(ruleFamilies.has(family), `no expected finding for ${family}`);
+  for (const ecosystem of [
+    "node",
+    "python",
+    "node-actions",
+    "container",
+    "go",
+    "java",
+    "kubernetes",
+    "php",
+    "ruby",
+    "rust",
+    "dotnet",
+    "cpp",
+    "serverless",
+    "swift",
+  ]) {
     const entries = corpus.repositories.filter((entry) => entry.ecosystem === ecosystem);
-    assert.ok(entries.some((entry) => entry.expected.length > 0), `${ecosystem} has no positive repository`);
-    assert.ok(entries.some((entry) => entry.expected.length === 0), `${ecosystem} has no zero-finding repository`);
+    assert.ok(
+      entries.some((entry) => entry.expected.length > 0),
+      `${ecosystem} has no positive repository`,
+    );
+    assert.ok(
+      entries.some((entry) => entry.expected.length === 0),
+      `${ecosystem} has no zero-finding repository`,
+    );
   }
 });

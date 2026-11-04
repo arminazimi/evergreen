@@ -53,7 +53,8 @@ export const command: CliCommand = {
     if (operands.length > 1) return ctx.fail("usage", usageText);
     const path = operands[0] ?? ".";
     if (shields) {
-      if (snippet !== undefined || repository !== undefined || branch !== "evergreen-badge") return ctx.fail("usage", usageText);
+      if (snippet !== undefined || repository !== undefined || branch !== "evergreen-badge")
+        return ctx.fail("usage", usageText);
       const project = resolve(path);
       try {
         process.stdout.write(`${renderBadgeEndpoint(await scanRepository(project, builtInDetectors, {}))}\n`);

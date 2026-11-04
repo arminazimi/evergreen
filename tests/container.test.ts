@@ -61,7 +61,12 @@ test("container passes detector conformance on every fixture", async () => {
           expected(postgres, "api.Dockerfile", 1, "postgres:11.5-bullseye"),
           expected(postgres, "compose.yaml", 3, "postgres:11"),
           expected("container.redis.eol-6.0-and-older", "compose.yaml", 5, "redis:5-alpine"),
-          expected("container.redis.eol-6.0-and-older", "Containerfile", 1, "redis:5@sha256:0000000000000000000000000000000000000000000000000000000000000000"),
+          expected(
+            "container.redis.eol-6.0-and-older",
+            "Containerfile",
+            1,
+            "redis:5@sha256:0000000000000000000000000000000000000000000000000000000000000000",
+          ),
           expected(node, "docker-compose.yml", 3, "docker.io/library/node:16-alpine"),
           expected(node, "Dockerfile", 2, "node:16"),
           expected(node, "Dockerfile", 5, "node:16-alpine"),
@@ -98,16 +103,22 @@ test("container passes detector conformance on every fixture", async () => {
 });
 
 test("Ubuntu and Debian codenames are resolved to release lines", async () => {
-  const root = await repository({ Dockerfile: "FROM ubuntu:bionic\nFROM debian:buster-slim\nFROM alpine:3.12\nFROM debian:10\nFROM ubuntu:18.04\nFROM ubuntu:focal\n" });
+  const root = await repository({
+    Dockerfile:
+      "FROM ubuntu:bionic\nFROM debian:buster-slim\nFROM alpine:3.12\nFROM debian:10\nFROM ubuntu:18.04\nFROM ubuntu:focal\n",
+  });
   const analysis = await containerDetector.analyze({ root });
-  assert.deepEqual(analysis.findings.map((finding) => [finding.ruleId, finding.location.line]), [
-    ["container.ubuntu.eol-20.04-and-older", 1],
-    ["container.debian.eol-11-and-older", 2],
-    ["container.alpine.eol-3.20-and-older", 3],
-    ["container.debian.eol-11-and-older", 4],
-    ["container.ubuntu.eol-20.04-and-older", 5],
-    ["container.ubuntu.eol-20.04-and-older", 6],
-  ]);
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["container.ubuntu.eol-20.04-and-older", 1],
+      ["container.debian.eol-11-and-older", 2],
+      ["container.alpine.eol-3.20-and-older", 3],
+      ["container.debian.eol-11-and-older", 4],
+      ["container.ubuntu.eol-20.04-and-older", 5],
+      ["container.ubuntu.eol-20.04-and-older", 6],
+    ],
+  );
   assert.deepEqual(analysis.unclassified, []);
 });
 
@@ -140,7 +151,8 @@ test("dynamic, untagged, and floating references are reported as unclassified, n
 
 test("a floating tag that spans supported and unsupported versions is unclassified", async () => {
   const root = await repository({
-    Dockerfile: "FROM mysql:8\nFROM mysql:8.0\nFROM mysql:8.4\nFROM python:3\nFROM node:20-custom-build\nFROM node:20-alpine3.19\n",
+    Dockerfile:
+      "FROM mysql:8\nFROM mysql:8.0\nFROM mysql:8.4\nFROM python:3\nFROM node:20-custom-build\nFROM node:20-alpine3.19\n",
   });
   const analysis = await containerDetector.analyze({ root });
   assert.deepEqual(
@@ -195,7 +207,9 @@ test("key=value ENV assignments are not reported as legacy syntax", async () => 
 });
 
 test("only Docker Hub official images are matched, other registries are not", async () => {
-  const root = await repository({ Dockerfile: "FROM ghcr.io/acme/node:16\nFROM myorg/node:16\nFROM registry.example.com/node:16\n" });
+  const root = await repository({
+    Dockerfile: "FROM ghcr.io/acme/node:16\nFROM myorg/node:16\nFROM registry.example.com/node:16\n",
+  });
   assert.deepEqual(await containerDetector.analyze({ root }), { findings: [], unclassified: [] });
 });
 
@@ -206,7 +220,10 @@ test("skips dependency directories and symbolic links, and finds nested files", 
   });
   await symlink(join(root, "services"), join(root, "linked")).catch(() => undefined);
   const findings = await containerDetector.scan({ root });
-  assert.deepEqual(findings.map((finding) => finding.location.path), ["services/api/Dockerfile"]);
+  assert.deepEqual(
+    findings.map((finding) => finding.location.path),
+    ["services/api/Dockerfile"],
+  );
 });
 
 test("a repository with no container files scans to nothing without reading the registry", async () => {
@@ -215,8 +232,14 @@ test("a repository with no container files scans to nothing without reading the 
 });
 
 test("test fixture directories are not scanned", async () => {
-  const root = await repository({ "tests/fixtures/old/Dockerfile": "FROM node:16\n", "docker/Dockerfile": "FROM node:16\n" });
-  assert.deepEqual((await containerDetector.scan({ root })).map((finding) => finding.location.path), ["docker/Dockerfile"]);
+  const root = await repository({
+    "tests/fixtures/old/Dockerfile": "FROM node:16\n",
+    "docker/Dockerfile": "FROM node:16\n",
+  });
+  assert.deepEqual(
+    (await containerDetector.scan({ root })).map((finding) => finding.location.path),
+    ["docker/Dockerfile"],
+  );
 });
 
 import { scanRepository } from "../src/engine.js";
@@ -235,14 +258,17 @@ test("every curated container image rule has migration guidance with real verifi
 
 test("every host operating system rule has migration guidance with distribution commands", async () => {
   const registry = validateRegistryV2(JSON.parse(await readFile("registry/container.json", "utf8")));
-  const hosts = registry.rules.filter((item) => item.purl.startsWith("pkg:generic/") && item.purl !== "pkg:generic/dockerfile");
+  const hosts = registry.rules.filter(
+    (item) => item.purl.startsWith("pkg:generic/") && item.purl !== "pkg:generic/dockerfile",
+  );
   assert.equal(hosts.length, 7);
   for (const rule of hosts) {
     assert.ok(rule.migration, rule.id);
     assert.ok(rule.migration.constraints.length >= 1, rule.id);
     assert.ok(rule.migration.steps.length >= 1, rule.id);
     assert.ok(rule.migration.verification.length >= 1, rule.id);
-    for (const check of rule.migration.verification) assert.match(check.command, /^(?:cat |lsb_release |apt-get |dnf |apk |zypper )/, rule.id);
+    for (const check of rule.migration.verification)
+      assert.match(check.command, /^(?:cat |lsb_release |apt-get |dnf |apk |zypper )/, rule.id);
   }
 });
 
@@ -280,7 +306,9 @@ test("Microsoft .NET images are judged with the dotnet release-line rules", asyn
       ["dotnet.runtime.end-of-support-6.0", 6],
     ],
   );
-  assert.ok(analysis.findings.every((finding) => finding.sources.some((source) => source.url.includes("microsoft.com"))));
+  assert.ok(
+    analysis.findings.every((finding) => finding.sources.some((source) => source.url.includes("microsoft.com"))),
+  );
   assert.deepEqual(analysis.unclassified, []);
 });
 
@@ -336,12 +364,7 @@ test("reads images in Compose override files and skips services built from local
       "    image: node:18",
       "",
     ].join("\n"),
-    "docker-compose.override.yml": [
-      "services:",
-      "  secondary-db:",
-      "    image: postgres:10",
-      "",
-    ].join("\n"),
+    "docker-compose.override.yml": ["services:", "  secondary-db:", "    image: postgres:10", ""].join("\n"),
   });
   const analysis = await containerDetector.analyze({ root });
   assert.deepEqual(
@@ -379,7 +402,7 @@ test("devcontainer.json with JSONC comments is parsed correctly", async () => {
     "// top-level comment",
     "{",
     '  "name": "My Project", // trailing comment',
-    '  /* block comment */',
+    "  /* block comment */",
     '  "image": "node:16"',
     "}",
     "",
@@ -393,13 +416,7 @@ test("devcontainer.json with JSONC comments is parsed correctly", async () => {
 });
 
 test("devcontainer.json with trailing commas is parsed correctly", async () => {
-  const contents = [
-    "{",
-    '  "name": "My Project",',
-    '  "image": "node:16",',
-    "}",
-    "",
-  ].join("\n");
+  const contents = ["{", '  "name": "My Project",', '  "image": "node:16",', "}", ""].join("\n");
   const root = await repository({ ".devcontainer/devcontainer.json": contents });
   const analysis = await containerDetector.analyze({ root });
   assert.deepEqual(

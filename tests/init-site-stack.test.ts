@@ -44,7 +44,10 @@ test("a Slipway site is pointed at the Slipway starter and nothing is copied", a
   assert.match(run.stdout, /Detected a Slipway site\. Evergreen ships a starter for it; copy it with:\n\n {2}cp -R /);
   assert.ok(run.stdout.includes(command(root)), run.stdout);
   assert.match(run.stdout, /Nothing was copied\.\n/);
-  await assert.rejects(readFile(join(root, ".evergreen.json"), "utf8"), "init copies the starter only when the user runs the command");
+  await assert.rejects(
+    readFile(join(root, ".evergreen.json"), "utf8"),
+    "init copies the starter only when the user runs the command",
+  );
   assert.match(await readFile(join(root, "AGENTS.md"), "utf8"), /evergreen:begin/);
 });
 
@@ -72,7 +75,10 @@ test("both _config.yml and Gemfile are required, and neither file is read as any
 });
 
 test("a repository that is not a Jekyll site sees no site suggestion", async () => {
-  const root = await repository({ "package.json": '{"name":"app","version":"1.0.0"}\n', ".github/workflows/ci.yml": "name: Build\n" });
+  const root = await repository({
+    "package.json": '{"name":"app","version":"1.0.0"}\n',
+    ".github/workflows/ci.yml": "name: Build\n",
+  });
   const plan = await planInitSetup({ root, gate: "high" });
   assert.equal(plan.site, undefined);
 

@@ -46,11 +46,16 @@ export function withAgentSection(existing: string | undefined): SectionUpdate {
     return { text: `${existing}${separator}${section}${newline}`, change: "added" };
   }
   if (begins !== 1 || ends !== 1) {
-    throw new AgentFileError(`The file has ${begins} "${SECTION_BEGIN}" and ${ends} "${SECTION_END}" markers; there must be exactly one of each. Fix them by hand and run the command again. Nothing was changed.`);
+    throw new AgentFileError(
+      `The file has ${begins} "${SECTION_BEGIN}" and ${ends} "${SECTION_END}" markers; there must be exactly one of each. Fix them by hand and run the command again. Nothing was changed.`,
+    );
   }
   const start = existing.indexOf(SECTION_BEGIN);
   const end = existing.indexOf(SECTION_END);
-  if (end < start) throw new AgentFileError(`The "${SECTION_END}" marker comes before "${SECTION_BEGIN}". Fix them by hand and run the command again. Nothing was changed.`);
+  if (end < start)
+    throw new AgentFileError(
+      `The "${SECTION_END}" marker comes before "${SECTION_BEGIN}". Fix them by hand and run the command again. Nothing was changed.`,
+    );
   const text = `${existing.slice(0, start)}${section}${existing.slice(end + SECTION_END.length)}`;
   return { text, change: text === existing ? "unchanged" : "updated" };
 }
@@ -62,7 +67,12 @@ export function renderDiff(file: string, before: string, after: string): string 
   let prefix = 0;
   while (prefix < old.length && prefix < next.length && old[prefix] === next[prefix]) prefix++;
   let suffix = 0;
-  while (suffix < old.length - prefix && suffix < next.length - prefix && old[old.length - 1 - suffix] === next[next.length - 1 - suffix]) suffix++;
+  while (
+    suffix < old.length - prefix &&
+    suffix < next.length - prefix &&
+    old[old.length - 1 - suffix] === next[next.length - 1 - suffix]
+  )
+    suffix++;
   const contextStart = Math.max(0, prefix - 2);
   const contextEnd = Math.min(suffix, 2);
   const removed = old.slice(prefix, old.length - suffix);

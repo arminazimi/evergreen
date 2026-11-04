@@ -28,7 +28,11 @@ test("identical input renders byte-identical output", () => {
 });
 
 test("the card reports findings, the earliest deadline, and data age", () => {
-  const output = card([finding("low", "2028-05-01"), finding("high", "2026-12-01")], data({ ageDays: 1 }), "acme/widgets");
+  const output = card(
+    [finding("low", "2028-05-01"), finding("high", "2026-12-01")],
+    data({ ageDays: 1 }),
+    "acme/widgets",
+  );
   assert.match(output, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
   assert.match(output, /<title id="status-title">evergreen status for acme\/widgets<\/title>/);
   assert.match(output, /2 high/);
@@ -67,11 +71,14 @@ test("the CLI renders a card for the scanned path", async () => {
 });
 
 test("social size is 1200x630 with brand fonts and no external references", () => {
-  const output = renderStatusCard(
-    { findings: [finding("high", "2026-12-01")], data: data({ ageDays: 1 }) } as Input,
-    { repository: "acme/widgets", size: "social" },
+  const output = renderStatusCard({ findings: [finding("high", "2026-12-01")], data: data({ ageDays: 1 }) } as Input, {
+    repository: "acme/widgets",
+    size: "social",
+  });
+  assert.match(
+    output,
+    /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="1200" height="630" viewBox="0 0 1200 630"/,
   );
-  assert.match(output, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="1200" height="630" viewBox="0 0 1200 630"/);
   assert.match(output, /font-family="Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"/);
   assert.match(output, /<title id="status-title">evergreen status for acme\/widgets<\/title>/);
   assert.match(output, />1 high</);
@@ -97,7 +104,12 @@ test("social metrics stay inside the inner panel with a long stale data line", (
   for (const match of output.matchAll(/<text x="(\d+)"[^>]*font-size="(\d+)"[^>]*>([^<]*)<\/text>/g)) {
     const x = Number(match[1]);
     const fontSize = Number(match[2]);
-    const text = match[3]!.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
+    const text = match[3]!
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&apos;/g, "'")
+      .replace(/&amp;/g, "&");
     const estimatedRight = x + text.length * fontSize * 0.6;
     assert.ok(estimatedRight <= panelRight, `"${text}" ends at ~${estimatedRight}, past ${panelRight}`);
   }

@@ -16,9 +16,7 @@ after(async () => {
 async function repository(files: Record<string, string>): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-python-"));
   temporaryRoots.push(root);
-  await Promise.all(
-    Object.entries(files).map(([path, contents]) => writeFile(join(root, path), contents)),
-  );
+  await Promise.all(Object.entries(files).map(([path, contents]) => writeFile(join(root, path), contents)));
   return root;
 }
 
@@ -59,18 +57,9 @@ version = "1.4.7"
   assert.ok(findings.some((finding) => finding.summary.includes("resolved: 1.3.7")));
   assert.ok(findings.some((finding) => finding.summary.includes("resolved: 2.6.1")));
   assert.ok(findings.some((finding) => finding.summary.includes("resolved: 1.4.7")));
-  assert.equal(
-    findings.find((finding) => finding.ruleId.includes("package.nose"))?.impact?.usageCount,
-    2,
-  );
-  assert.equal(
-    findings.find((finding) => finding.ruleId.includes("pycrypto"))?.impact?.usageCount,
-    1,
-  );
-  assert.equal(
-    findings.find((finding) => finding.ruleId.includes("django-nose"))?.impact?.usageCount,
-    1,
-  );
+  assert.equal(findings.find((finding) => finding.ruleId.includes("package.nose"))?.impact?.usageCount, 2);
+  assert.equal(findings.find((finding) => finding.ruleId.includes("pycrypto"))?.impact?.usageCount, 1);
+  assert.equal(findings.find((finding) => finding.ruleId.includes("django-nose"))?.impact?.usageCount, 1);
 });
 
 test("reads requirements files, pinned runtimes, and Pipfile.lock", async () => {
@@ -153,13 +142,10 @@ test("each declaration is reported by the narrowest 'and older' runtime rule tha
     "runtime.txt": "python-3.12.1\n",
   });
   const findings = await new PythonDetector().scan({ root });
-  assert.deepEqual(
-    findings.map((finding) => [finding.ruleId, finding.location.path]).sort(),
-    [
-      ["python.runtime.eol-3.10-and-older", ".python-version"],
-      ["python.runtime.eol-3.9-and-older", "pyproject.toml"],
-    ],
-  );
+  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path]).sort(), [
+    ["python.runtime.eol-3.10-and-older", ".python-version"],
+    ["python.runtime.eol-3.9-and-older", "pyproject.toml"],
+  ]);
   assert.equal(findings.find((finding) => finding.location.path === ".python-version")?.deadline, "2026-10-01");
 });
 
@@ -236,13 +222,22 @@ test("bundled Django rules cover each end-of-life series once and no supported s
   const releases = ["1.3.7", "1.4.22", "1.11.29", "2.2.28", "3.2.25", "4.2.30", "5.0.14", "5.1.15"];
   for (const release of releases) {
     const matching = djangoRules.filter((rule) => versContains(rule.vers, release));
-    assert.deepEqual(matching.map((rule) => rule.id), [`python.package.django-${release.split(".").slice(0, 2).join(".")}.eol`]);
+    assert.deepEqual(
+      matching.map((rule) => rule.id),
+      [`python.package.django-${release.split(".").slice(0, 2).join(".")}.eol`],
+    );
   }
   for (const supported of ["5.2.18", "6.0.9", "6.1.2"]) {
-    assert.deepEqual(djangoRules.filter((rule) => versContains(rule.vers, supported)), []);
+    assert.deepEqual(
+      djangoRules.filter((rule) => versContains(rule.vers, supported)),
+      [],
+    );
   }
   // Pre-releases of the next series are not part of the series before it.
-  assert.deepEqual(djangoRules.filter((rule) => versContains(rule.vers, "5.0rc1")), []);
+  assert.deepEqual(
+    djangoRules.filter((rule) => versContains(rule.vers, "5.0rc1")),
+    [],
+  );
 });
 
 test("a Django range in optional and dependency-group declarations without a lockfile produces no finding (b-fast shape)", async () => {
@@ -302,7 +297,9 @@ resolution-markers = ["python_full_version >= '3.10'"]
 `,
   });
 
-  const findings = (await new PythonDetector().scan({ root })).filter((finding) => finding.ruleId.startsWith("python.package.django"));
+  const findings = (await new PythonDetector().scan({ root })).filter((finding) =>
+    finding.ruleId.startsWith("python.package.django"),
+  );
 
   assert.deepEqual(
     findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),

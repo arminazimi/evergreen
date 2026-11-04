@@ -56,8 +56,7 @@ export interface ObservedFinding {
   finding: Finding;
 }
 
-export const repositoryKey = (root: string): string =>
-  createHash("sha256").update(root).digest("hex").slice(0, 8);
+export const repositoryKey = (root: string): string => createHash("sha256").update(root).digest("hex").slice(0, 8);
 
 export class FindingNotObservedError extends Error {
   constructor(findingId: string) {
@@ -81,7 +80,9 @@ export class EvergreenAgentTools {
     let result = await scanRepository(repositoryPath, builtInDetectors);
     if (baselinePath) {
       // A baseline path is relative to the repository, as in the Action. The reference day is today in UTC.
-      result = applyBaseline(result, await readBaseline(resolve(repositoryPath, baselinePath)), { today: new Date().toISOString().slice(0, 10) });
+      result = applyBaseline(result, await readBaseline(resolve(repositoryPath, baselinePath)), {
+        today: new Date().toISOString().slice(0, 10),
+      });
     }
     this.remember(result);
     return result;
@@ -103,8 +104,7 @@ export class EvergreenAgentTools {
         location: finding.location,
         usageCount: finding.impact?.usageCount ?? finding.usages?.length ?? 0,
         affectedFiles:
-          finding.impact?.affectedFiles ??
-          new Set((finding.usages ?? []).map((usage) => usage.location.path)).size,
+          finding.impact?.affectedFiles ?? new Set((finding.usages ?? []).map((usage) => usage.location.path)).size,
       })),
     };
   }
@@ -129,8 +129,7 @@ export class EvergreenAgentTools {
     const before = this.lastScan.get(root);
     const result = await scanRepository(root, builtInDetectors);
     const remainingFindings = result.findings.filter(
-      (finding) =>
-        finding.ruleId === observed.ruleId && finding.location.path === observed.location.path,
+      (finding) => finding.ruleId === observed.ruleId && finding.location.path === observed.location.path,
     );
     this.remember(result);
     const verified = remainingFindings.length === 0;
@@ -142,8 +141,7 @@ export class EvergreenAgentTools {
         purpose: "Confirm the lifecycle finding no longer appears.",
       },
     ].filter(
-      (command, index, commands) =>
-        commands.findIndex((candidate) => candidate.command === command.command) === index,
+      (command, index, commands) => commands.findIndex((candidate) => candidate.command === command.command) === index,
     );
 
     return {
@@ -166,9 +164,16 @@ export class EvergreenAgentTools {
   observedFindings(): ObservedFinding[] {
     return [...this.observed.entries()]
       .flatMap(([root, findings]) =>
-        [...findings.values()].map((finding) => ({ repositoryKey: repositoryKey(root), repositoryRoot: root, finding })),
+        [...findings.values()].map((finding) => ({
+          repositoryKey: repositoryKey(root),
+          repositoryRoot: root,
+          finding,
+        })),
       )
-      .sort((left, right) => left.repositoryRoot.localeCompare(right.repositoryRoot) || left.finding.id.localeCompare(right.finding.id));
+      .sort(
+        (left, right) =>
+          left.repositoryRoot.localeCompare(right.repositoryRoot) || left.finding.id.localeCompare(right.finding.id),
+      );
   }
 
   observedFinding(key: string, findingId: string): ObservedFinding | undefined {

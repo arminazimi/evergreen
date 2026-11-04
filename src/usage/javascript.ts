@@ -94,13 +94,32 @@ function objectOptions(argument: Node): Map<string, Node> {
 function namesADeclaration(node: Node): boolean {
   const parent = node.parent;
   if (!parent) return false;
-  if (["variable_declarator", "function_declaration", "class_declaration", "method_definition", "assignment_pattern", "pair_pattern"].includes(parent.type)) {
+  if (
+    [
+      "variable_declarator",
+      "function_declaration",
+      "class_declaration",
+      "method_definition",
+      "assignment_pattern",
+      "pair_pattern",
+    ].includes(parent.type)
+  ) {
     const named = parent.childForFieldName("name") ?? parent.childForFieldName("left");
     if (named?.id === node.id) return true;
   }
   return [
-    "formal_parameters", "required_parameter", "optional_parameter", "rest_pattern", "import_specifier", "import_clause", "namespace_import",
-    "export_specifier", "object_pattern", "array_pattern", "labeled_statement", "type_annotation",
+    "formal_parameters",
+    "required_parameter",
+    "optional_parameter",
+    "rest_pattern",
+    "import_specifier",
+    "import_clause",
+    "namespace_import",
+    "export_specifier",
+    "object_pattern",
+    "array_pattern",
+    "labeled_statement",
+    "type_annotation",
   ].includes(parent.type);
 }
 
@@ -125,11 +144,17 @@ function rebindImportedAliases(budget: BindingBudget<Node>): void {
       const rest = chain.path.slice(1);
       for (const binding of bindings.filter((candidate) => candidate.local === chain.path[0])) {
         if (alias.local !== undefined) {
-          changed = budget.addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) || changed;
+          changed =
+            budget.addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) ||
+            changed;
         } else if (alias.pattern) {
           for (const entry of patternEntries(alias.pattern)) {
             changed =
-              budget.addBinding({ module: binding.module, local: entry.local, imported: symbolPath(binding, [...rest, entry.key]) }) || changed;
+              budget.addBinding({
+                module: binding.module,
+                local: entry.local,
+                imported: symbolPath(binding, [...rest, entry.key]),
+              }) || changed;
           }
         }
       }
@@ -154,7 +179,9 @@ export async function analyzeJavaScriptFile(
   const tree = await parseSource(grammar, file.source);
   if (!tree) return undefined;
   try {
-    const query = await (grammar === "javascript" ? loadQuery(grammar, "javascript") : loadQuery(grammar, "javascript", "typescript"));
+    const query = await (grammar === "javascript"
+      ? loadQuery(grammar, "javascript")
+      : loadQuery(grammar, "javascript", "typescript"));
     const starts = lineStarts(file.source);
     const lines = file.source.split(/\r?\n/);
 
@@ -200,7 +227,11 @@ export async function analyzeJavaScriptFile(
       }
       const aliasValue = captured.get("alias.value");
       if (aliasValue) {
-        budget.addAlias({ local: captured.get("alias.local")?.text, pattern: captured.get("alias.pattern"), value: aliasValue });
+        budget.addAlias({
+          local: captured.get("alias.local")?.text,
+          pattern: captured.get("alias.pattern"),
+          value: aliasValue,
+        });
         continue;
       }
       const callee = captured.get("callee");
@@ -210,9 +241,13 @@ export async function analyzeJavaScriptFile(
     rebindImportedAliases(budget);
 
     const symbolMatchers = (contract: SourceUsageContract): SymbolUsageMatcher[] =>
-      contract.matchers.filter((matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === file.language);
+      contract.matchers.filter(
+        (matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === file.language,
+      );
     let occurrences: SymbolOccurrence[] | undefined;
-    const wantsReferences = contracts.some((contract) => symbolMatchers(contract).some((matcher) => matcher.shape === "reference"));
+    const wantsReferences = contracts.some((contract) =>
+      symbolMatchers(contract).some((matcher) => matcher.shape === "reference"),
+    );
     const occurrencesOf = (): SymbolOccurrence[] => {
       if (occurrences) return occurrences;
       occurrences = [];
@@ -278,7 +313,8 @@ export async function analyzeJavaScriptFile(
               if (binding.local !== chain.path[0]) continue;
               const symbol = symbolPath(binding, rest);
               for (const target of matcher.targets) {
-                const hit = target === "default" ? rootNames.has(binding.imported) && rest.length === 0 : symbol === target;
+                const hit =
+                  target === "default" ? rootNames.has(binding.imported) && rest.length === 0 : symbol === target;
                 if (!hit) continue;
                 const { line, column } = locate(chain.head);
                 push({
@@ -303,7 +339,11 @@ export async function analyzeJavaScriptFile(
       }
       results.set(
         contract.id,
-        usages.sort((left, right) => (left.location.line ?? 0) - (right.location.line ?? 0) || (left.location.column ?? 0) - (right.location.column ?? 0)),
+        usages.sort(
+          (left, right) =>
+            (left.location.line ?? 0) - (right.location.line ?? 0) ||
+            (left.location.column ?? 0) - (right.location.column ?? 0),
+        ),
       );
     }
     if (budget.capped) (results as JavaScriptUsageMap).analysisCapped = true;

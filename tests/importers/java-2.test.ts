@@ -15,13 +15,24 @@ const recording = resolve("tests/importers/recordings/java-2.json");
 
 test("drafts relocation rules from the real recording", async () => {
   const drafts = await execute(mavenRelocationImporter, { replay: recording });
-  assert.deepEqual(drafts.rules.map((rule) => [rule.id, rule.vers, rule.replacement]), [
-    ["java.maven.mysql.mysql-connector-java.relocated", "vers:maven/>=8.0.31", "com.mysql:mysql-connector-j"],
-    ["java.maven.org.hibernate.hibernate-entitymanager.relocated", "vers:maven/>=6.0.0.Alpha3", "org.hibernate.orm:hibernate-entitymanager"],
-    ["java.maven.org.slf4j.slf4j-log4j12.relocated", "vers:maven/>=2.0.13", "org.slf4j:slf4j-reload4j"],
+  assert.deepEqual(
+    drafts.rules.map((rule) => [rule.id, rule.vers, rule.replacement]),
+    [
+      ["java.maven.mysql.mysql-connector-java.relocated", "vers:maven/>=8.0.31", "com.mysql:mysql-connector-j"],
+      [
+        "java.maven.org.hibernate.hibernate-entitymanager.relocated",
+        "vers:maven/>=6.0.0.Alpha3",
+        "org.hibernate.orm:hibernate-entitymanager",
+      ],
+      ["java.maven.org.slf4j.slf4j-log4j12.relocated", "vers:maven/>=2.0.13", "org.slf4j:slf4j-reload4j"],
+    ],
+  );
+  assert.ok(
+    drafts.rules.every((rule) => rule.provenance.importer === "java-2" && rule.provenance.observedAt === "2026-10-17"),
+  );
+  assert.deepEqual(drafts.notes, [
+    "xml-apis:xml-apis was skipped: its relocation keeps the same coordinates and only changes the version.",
   ]);
-  assert.ok(drafts.rules.every((rule) => rule.provenance.importer === "java-2" && rule.provenance.observedAt === "2026-10-17"));
-  assert.deepEqual(drafts.notes, ["xml-apis:xml-apis was skipped: its relocation keeps the same coordinates and only changes the version."]);
   assert.match(drafts.rules[0]!.summary, /Its message says: "MySQL Connector\/J artifacts moved/);
 });
 
@@ -67,7 +78,11 @@ test("walks down from the newest version and stops where the relocation ends", a
   const result = await runImporter(mavenRelocationImporter, context(files));
   assert.equal(result.rules.length, MAVEN_CANDIDATES.length);
   assert.ok(result.rules.every((rule) => rule.vers === "vers:maven/>=2.0" && rule.replacement === "new.group:new-art"));
-  assert.ok(result.rules.every((rule) => rule.sources[0]!.url.endsWith("/3.0/" + rule.sources[0]!.url.split("/").at(-3) + "-3.0.pom")));
+  assert.ok(
+    result.rules.every((rule) =>
+      rule.sources[0]!.url.endsWith("/3.0/" + rule.sources[0]!.url.split("/").at(-3) + "-3.0.pom"),
+    ),
+  );
 });
 
 test("a candidate with no relocation or no metadata is a note, not a rule", async () => {
@@ -79,7 +94,10 @@ test("a candidate with no relocation or no metadata is a note, not a rule", asyn
   const result = await runImporter(mavenRelocationImporter, context(files));
   assert.deepEqual(result.rules, []);
   assert.equal(result.notes[0], `${first} 1.0 does not declare a relocation.`);
-  assert.deepEqual(result.notes.slice(1), rest.map((candidate) => `${candidate} was not found on Maven Central.`));
+  assert.deepEqual(
+    result.notes.slice(1),
+    rest.map((candidate) => `${candidate} was not found on Maven Central.`),
+  );
 });
 
 test("a failure other than a missing file stops the run", async () => {

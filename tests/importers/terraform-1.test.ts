@@ -69,10 +69,13 @@ test("a line ends when the release two lines later ships", async () => {
       { published_at: "2025-06-01T00:00:00Z" },
     ]),
   );
-  assert.deepEqual(result.rules.map((rule) => [rule.id, rule.deadline, rule.replacement]), [
-    ["terraform.cli.end-of-support-1.0", "2025-01-01", "Terraform 1.2 or later"],
-    ["terraform.cli.end-of-support-1.1", "2025-06-01", "Terraform 1.2 or later"],
-  ]);
+  assert.deepEqual(
+    result.rules.map((rule) => [rule.id, rule.deadline, rule.replacement]),
+    [
+      ["terraform.cli.end-of-support-1.0", "2025-01-01", "Terraform 1.2 or later"],
+      ["terraform.cli.end-of-support-1.1", "2025-06-01", "Terraform 1.2 or later"],
+    ],
+  );
   assert.equal(result.rules[0]!.vers, "vers:semver/>=1.0.0|<1.1.0");
 });
 
@@ -94,8 +97,14 @@ test("an end of support in the future is a note, not a rule", async () => {
 
 test("a prerelease or a mismatched tag ends the probe", async () => {
   const early = { published_at: "2024-01-01T00:00:00Z" };
-  assert.deepEqual((await runImporter(terraformCliImporter, github([early, early, { ...early, prerelease: true }]))).rules, []);
-  assert.deepEqual((await runImporter(terraformCliImporter, github([early, early, { ...early, tag_name: "v9.9.9" }]))).rules, []);
+  assert.deepEqual(
+    (await runImporter(terraformCliImporter, github([early, early, { ...early, prerelease: true }]))).rules,
+    [],
+  );
+  assert.deepEqual(
+    (await runImporter(terraformCliImporter, github([early, early, { ...early, tag_name: "v9.9.9" }]))).rules,
+    [],
+  );
   const none = await runImporter(terraformCliImporter, github([]));
   assert.deepEqual(none.notes, ["No Terraform 1.x release found."]);
 });

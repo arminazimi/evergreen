@@ -92,9 +92,21 @@ test("an allowed install reaches npm with the arguments unchanged and in order",
 
 test("value-taking npm flags keep their value in place and are not judged as packages", async () => {
   const cases = [
-    { args: ["npm", "install", "-w", "web", "lodash"], expected: ["install", "-w", "web", "lodash"], checked: ["lodash"] },
-    { args: ["npm", "install", "--prefix", "dir", "pkg"], expected: ["install", "--prefix", "dir", "pkg"], checked: ["pkg"] },
-    { args: ["npm", "install", "--tag", "beta", "pkg"], expected: ["install", "--tag", "beta", "pkg"], checked: ["pkg"] },
+    {
+      args: ["npm", "install", "-w", "web", "lodash"],
+      expected: ["install", "-w", "web", "lodash"],
+      checked: ["lodash"],
+    },
+    {
+      args: ["npm", "install", "--prefix", "dir", "pkg"],
+      expected: ["install", "--prefix", "dir", "pkg"],
+      checked: ["pkg"],
+    },
+    {
+      args: ["npm", "install", "--tag", "beta", "pkg"],
+      expected: ["install", "--tag", "beta", "pkg"],
+      checked: ["pkg"],
+    },
   ];
 
   for (const { args, expected, checked } of cases) {
@@ -159,7 +171,10 @@ test("--fail-on decides which severities block and --force before npm overrides 
   const medium = [{ package: entry, check: affected(entry.purl, "medium") }];
   assert.equal(evaluateGuard(medium, { failOn: "high" }).allowed, true);
   assert.equal(evaluateGuard(medium, { failOn: "medium" }).allowed, false);
-  assert.equal(evaluateGuard([{ package: entry, check: affected(entry.purl, "critical") }], { failOn: "none" }).allowed, true);
+  assert.equal(
+    evaluateGuard([{ package: entry, check: affected(entry.purl, "critical") }], { failOn: "none" }).allowed,
+    true,
+  );
 
   let ran = 0;
   const permissive = await guardCommand(["--fail-on", "critical", "npm", "install", "request@2.88.2"], {
@@ -237,7 +252,10 @@ test("npm specs become purls with checkable versions, and non-registry arguments
   assert.deepEqual(request.arguments, [
     { value: "install" },
     { value: "--save-dev" },
-    { value: "@scope/pkg@^1.2.3", package: { purl: "pkg:npm/%40scope/pkg", version: "1.2.3", spec: "@scope/pkg@^1.2.3" } },
+    {
+      value: "@scope/pkg@^1.2.3",
+      package: { purl: "pkg:npm/%40scope/pkg", version: "1.2.3", spec: "@scope/pkg@^1.2.3" },
+    },
     { value: "request@2.88.2", package: { purl: "pkg:npm/request", version: "2.88.2", spec: "request@2.88.2" } },
     { value: "express", package: { purl: "pkg:npm/express", spec: "express" } },
     { value: "./local" },
@@ -250,7 +268,14 @@ test("npm specs become purls with checkable versions, and non-registry arguments
 });
 
 test("versions with shell metacharacters are forwarded unchecked", () => {
-  for (const spec of ["pkg@1.0.0;touch pwned", "pkg@1.0.0 && whoami", "pkg@$(whoami)", "pkg@`id`", "pkg@'1.0.0'", 'pkg@"1.0.0"']) {
+  for (const spec of [
+    "pkg@1.0.0;touch pwned",
+    "pkg@1.0.0 && whoami",
+    "pkg@$(whoami)",
+    "pkg@`id`",
+    "pkg@'1.0.0'",
+    'pkg@"1.0.0"',
+  ]) {
     assert.equal(parseNpmPackage(spec), undefined, spec);
   }
   assert.deepEqual(parseNpmPackage("pkg@>=1.0.0 <2.0.0"), {

@@ -68,9 +68,19 @@ async function findRule(root: string, ruleId: string): Promise<FoundRule> {
   try {
     entries = await readdir(directory, { withFileTypes: true });
   } catch {
-    throw new RuleTestError("rules test runs in a checkout of the Evergreen repository: registry/ was not found. Run it from the repository root.");
+    throw new RuleTestError(
+      "rules test runs in a checkout of the Evergreen repository: registry/ was not found. Run it from the repository root.",
+    );
   }
-  for (const entry of entries.filter((candidate) => candidate.isFile() && candidate.name.endsWith(".json") && !NOT_A_REGISTRY.has(candidate.name) && !candidate.name.endsWith("-shas.json")).sort((left, right) => left.name.localeCompare(right.name))) {
+  for (const entry of entries
+    .filter(
+      (candidate) =>
+        candidate.isFile() &&
+        candidate.name.endsWith(".json") &&
+        !NOT_A_REGISTRY.has(candidate.name) &&
+        !candidate.name.endsWith("-shas.json"),
+    )
+    .sort((left, right) => left.name.localeCompare(right.name))) {
     const file = join(directory, entry.name);
     let value: unknown;
     try {
@@ -87,19 +97,33 @@ async function findRule(root: string, ruleId: string): Promise<FoundRule> {
       }
     }
   }
-  throw new RuleTestError(`No rule has the id "${ruleId}". Check registry/*.json, or create one with evergreen new-rule.`);
+  throw new RuleTestError(
+    `No rule has the id "${ruleId}". Check registry/*.json, or create one with evergreen new-rule.`,
+  );
 }
 
 /** The usages the rule's own matchers find in the fixture; rules without matchers observe nothing this way. */
-async function usageObservations(directory: string, ruleId: string, rule: Record<string, unknown>): Promise<FixtureObservation[]> {
+async function usageObservations(
+  directory: string,
+  ruleId: string,
+  rule: Record<string, unknown>,
+): Promise<FixtureObservation[]> {
   const matchers = Array.isArray(rule.usage) ? (rule.usage as UsageMatcher[]) : [];
   if (matchers.length === 0) return [];
   const [analysis] = await analyzeSourceUsage(directory, [{ id: ruleId, matchers }]);
-  return (analysis?.usages ?? []).map((usage: SourceUsage) => ({ path: usage.location.path, line: usage.location.line ?? 1, label: `${usage.kind} ${usage.symbol}` }));
+  return (analysis?.usages ?? []).map((usage: SourceUsage) => ({
+    path: usage.location.path,
+    line: usage.location.line ?? 1,
+    label: `${usage.kind} ${usage.symbol}`,
+  }));
 }
 
 function findingObservations(findings: readonly Finding[]): FixtureObservation[] {
-  return findings.map((finding) => ({ path: finding.location.path, line: finding.location.line ?? 1, label: finding.title }));
+  return findings.map((finding) => ({
+    path: finding.location.path,
+    line: finding.location.line ?? 1,
+    label: finding.title,
+  }));
 }
 
 /** The JSON exports under a fixture, to the depth fixtures use; the inventory importers read only these. */
@@ -128,7 +152,11 @@ async function inventoryObservations(directory: string, ruleId: string): Promise
   const report = await runInventory(files);
   return report.results
     .filter((result) => result.check.findings.some((finding) => finding.ruleId === ruleId))
-    .map((result) => ({ path: relative(directory, result.item.file).replaceAll("\\", "/"), line: 1, label: `${result.item.resource} ${result.item.pointer}` }));
+    .map((result) => ({
+      path: relative(directory, result.item.file).replaceAll("\\", "/"),
+      line: 1,
+      label: `${result.item.resource} ${result.item.pointer}`,
+    }));
 }
 
 async function isDirectory(path: string): Promise<boolean> {
@@ -195,7 +223,9 @@ export async function testRule(ruleId: string, options: RuleTestOptions = {}): P
         passed: !observed,
         findings,
         usages,
-        ...(observed ? { problem: `expected no findings for "${ruleId}"; got ${findings.length + usages.length}.` } : {}),
+        ...(observed
+          ? { problem: `expected no findings for "${ruleId}"; got ${findings.length + usages.length}.` }
+          : {}),
       });
     }
   }
@@ -216,7 +246,9 @@ export function renderRuleTestText(result: RuleTestResult): string {
       lines.push(`  ${fixture.kind}: ${fixture.problem}`);
       if (observed.length > 0) for (const entry of observed) lines.push(`    ${entry}`);
     } else {
-      lines.push(`  ${fixture.kind}: ${observed.length === 0 ? "none" : `${observed.length} observation${observed.length === 1 ? "" : "s"}`}`);
+      lines.push(
+        `  ${fixture.kind}: ${observed.length === 0 ? "none" : `${observed.length} observation${observed.length === 1 ? "" : "s"}`}`,
+      );
       for (const entry of observed) lines.push(`    ${entry}`);
     }
   }

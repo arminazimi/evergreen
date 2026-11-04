@@ -26,7 +26,12 @@ test("llms.txt follows the llms.txt format: a title, a summary, and sections of 
   assert.match(lines[2]!, /^> .{80,}/, "a one-paragraph summary as a block quote");
   assert.ok(index.endsWith("\n") && !index.includes("\r"));
   const sections = lines.filter((line) => line.startsWith("## "));
-  assert.deepEqual(sections, ["## Use Evergreen", "## Evidence, data, and trust", "## Extend Evergreen", "## Optional"]);
+  assert.deepEqual(sections, [
+    "## Use Evergreen",
+    "## Evidence, data, and trust",
+    "## Extend Evergreen",
+    "## Optional",
+  ]);
   const items = lines.filter((line) => line.startsWith("- "));
   assert.ok(items.length >= 12);
   for (const item of items) assert.match(item, /^- \[[^\]]+\]\(https:\/\/[^)\s]+\): .{10,}\.$/, item);
@@ -54,12 +59,17 @@ test("the full file has every linked page, in order, without Jekyll front matter
   const full = await renderLlmsFull();
   assert.match(full, /^# Evergreen: full documentation\n\n> /);
   const sources = [...full.matchAll(/^Source: (\S+)$/gm)].map((match) => match[1]);
-  assert.deepEqual(sources, indexedPages(index).map((page) => page.url));
+  assert.deepEqual(
+    sources,
+    indexedPages(index).map((page) => page.url),
+  );
   assert.doesNotMatch(full, /^title: /m);
   assert.doesNotMatch(full, /\r/);
   assert.ok(full.endsWith("\n") && !full.endsWith("\n\n"));
   for (const page of indexedPages(index)) {
-    const heading = stripLiquidRaw(stripFrontMatter(await read(`docs/${page.file}`))).trim().split("\n")[0]!;
+    const heading = stripLiquidRaw(stripFrontMatter(await read(`docs/${page.file}`)))
+      .trim()
+      .split("\n")[0]!;
     assert.ok(full.includes(`\n${heading}\n`), `${page.file}'s first line is in the full file`);
   }
   assert.ok(full.length > 50_000);
@@ -68,11 +78,17 @@ test("the full file has every linked page, in order, without Jekyll front matter
 test("front matter is removed and everything else is kept", () => {
   assert.equal(stripFrontMatter("---\ntitle: X\n---\n\n# Page\n\ntext\n"), "# Page\n\ntext\n");
   assert.equal(stripFrontMatter("# No front matter\n"), "# No front matter\n");
-  assert.equal(stripFrontMatter("text with --- inside\n---\nnot front matter\n"), "text with --- inside\n---\nnot front matter\n");
+  assert.equal(
+    stripFrontMatter("text with --- inside\n---\nnot front matter\n"),
+    "text with --- inside\n---\nnot front matter\n",
+  );
 });
 
 test("a link to a missing page stops the build with a clear message, and a changed page changes the full text", async () => {
-  assert.throws(() => buildLlmsFull("- [Gone](https://arminazimi.github.io/evergreen/GONE.html): x.\n", new Map()), /docs\/GONE\.md does not exist/);
+  assert.throws(
+    () => buildLlmsFull("- [Gone](https://arminazimi.github.io/evergreen/GONE.html): x.\n", new Map()),
+    /docs\/GONE\.md does not exist/,
+  );
 
   const root = await mkdtemp(join(tmpdir(), "evergreen-llms-"));
   try {

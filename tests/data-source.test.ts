@@ -23,7 +23,10 @@ import { scanRepository } from "../src/engine.js";
 import { checkDependency } from "../src/check-dependency.js";
 
 const roots: string[] = [];
-const signer = { identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01", issuer: "https://token.actions.githubusercontent.com" };
+const signer = {
+  identity: "https://github.com/arminazimi/evergreen/.github/workflows/data-release.yml@refs/tags/data-v2999.01.01",
+  issuer: "https://token.actions.githubusercontent.com",
+};
 const accepting = { verifySignature: () => signer };
 const NEWER = "2999-01-01T00:00:00Z";
 
@@ -39,11 +42,15 @@ const scratch = async (name: string) => {
 };
 
 /** A copy of the registries in which `mutate` has changed the npm registry. */
-async function registryRoot(mutate: (npm: { rules: Array<Record<string, unknown>> }) => void = () => undefined): Promise<string> {
+async function registryRoot(
+  mutate: (npm: { rules: Array<Record<string, unknown>> }) => void = () => undefined,
+): Promise<string> {
   const root = await scratch("registry");
   await cp(resolve("registry"), join(root, "registry"), { recursive: true });
   await writeFile(join(root, "package.json"), await readFile(resolve("package.json"), "utf8"));
-  const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as { rules: Array<Record<string, unknown>> };
+  const npm = JSON.parse(await readFile(join(root, "registry/npm.json"), "utf8")) as {
+    rules: Array<Record<string, unknown>>;
+  };
   mutate(npm);
   await writeFile(join(root, "registry/npm.json"), JSON.stringify(npm));
   return root;
@@ -102,16 +109,29 @@ test("a verified, newer download is used, and its rules reach the scanners", asy
   assert.equal(data.info.contentDigest, cache.bundle.manifest.contentDigest);
   assert.deepEqual(data.info.signer, signer);
   assert.deepEqual(data.info.warnings, []);
-  assert.ok(((await data.read("registry/npm.json")) as { rules: Array<{ id: string }> }).rules.some((rule) => rule.id === "npm.package.express.test-only"));
+  assert.ok(
+    ((await data.read("registry/npm.json")) as { rules: Array<{ id: string }> }).rules.some(
+      (rule) => rule.id === "npm.package.express.test-only",
+    ),
+  );
 
   const project = await scratch("project");
-  await writeFile(join(project, "package.json"), JSON.stringify({ name: "demo", dependencies: { express: "^4.18.0" } }));
+  await writeFile(
+    join(project, "package.json"),
+    JSON.stringify({ name: "demo", dependencies: { express: "^4.18.0" } }),
+  );
   const before = await scanRepository(project, builtInDetectors);
-  assert.deepEqual(before.findings.filter((finding) => finding.ruleId.includes("express")), []);
+  assert.deepEqual(
+    before.findings.filter((finding) => finding.ruleId.includes("express")),
+    [],
+  );
 
   configureActiveData({ cacheDirectory: cache.directory, ...accepting });
   const after = await scanRepository(project, builtInDetectors);
-  assert.deepEqual(after.findings.filter((finding) => finding.ruleId.includes("express")).map((finding) => finding.ruleId), ["npm.package.express.test-only"]);
+  assert.deepEqual(
+    after.findings.filter((finding) => finding.ruleId.includes("express")).map((finding) => finding.ruleId),
+    ["npm.package.express.test-only"],
+  );
   assert.equal((await checkDependency("pkg:npm/express@4.18.0")).status, "affected");
 });
 
@@ -122,36 +142,93 @@ test("a tampered download fails closed: bundled data is used and the scan says s
   const cache = await cacheWith(bundle, { bytes: serializeDataBundle(tampered) });
   const data = await resolveWith(cache);
   assert.equal(data.info.source, "bundled");
-  assert.match(data.info.warnings[0]!, /Ignoring downloaded lifecycle data 2999\.01\.01: registry\/npm\.json does not match its digest\. Using the data bundled with Evergreen/);
-  assert.ok(!((await data.read("registry/npm.json")) as { rules: Array<{ id: string }> }).rules.some((rule) => rule.id === "npm.package.express.test-only"));
+  assert.match(
+    data.info.warnings[0]!,
+    /Ignoring downloaded lifecycle data 2999\.01\.01: registry\/npm\.json does not match its digest\. Using the data bundled with Evergreen/,
+  );
+  assert.ok(
+    !((await data.read("registry/npm.json")) as { rules: Array<{ id: string }> }).rules.some(
+      (rule) => rule.id === "npm.package.express.test-only",
+    ),
+  );
 
   const project = await scratch("project");
-  await writeFile(join(project, "package.json"), JSON.stringify({ name: "demo", dependencies: { express: "^4.18.0" } }));
+  await writeFile(
+    join(project, "package.json"),
+    JSON.stringify({ name: "demo", dependencies: { express: "^4.18.0" } }),
+  );
   configureActiveData({ cacheDirectory: cache.directory, ...accepting });
   const result = await scanRepository(project, builtInDetectors);
-  assert.deepEqual(result.findings.filter((finding) => finding.ruleId.includes("express")), []);
+  assert.deepEqual(
+    result.findings.filter((finding) => finding.ruleId.includes("express")),
+    [],
+  );
   assert.match(result.diagnostics.join("\n"), /Ignoring downloaded lifecycle data 2999\.01\.01/);
 });
 
 test("with the real signature check, a download without Evergreen's signature is never loaded", async () => {
   const cache = await cacheWith(await newerBundle(expressRule));
   const signatureFile = join(cachedBundleDirectory(cache.directory, "2999.01.01"), SIGNATURE_FILE);
-  for (const content of ["{}", await readFile(resolve("tests/fixtures/sigstore/cosign_checksums.txt.sigstore.json"), "utf8"), "garbage"]) {
+  for (const content of [
+    "{}",
+    await readFile(resolve("tests/fixtures/sigstore/cosign_checksums.txt.sigstore.json"), "utf8"),
+    "garbage",
+  ]) {
     await writeFile(signatureFile, content);
     const data = await resolveActiveData({ cacheDirectory: cache.directory });
     assert.equal(data.info.source, "bundled", content.slice(0, 12));
-    assert.match(data.info.warnings[0]!, /Ignoring downloaded lifecycle data 2999\.01\.01: (The signature|The signature file)/);
+    assert.match(
+      data.info.warnings[0]!,
+      /Ignoring downloaded lifecycle data 2999\.01\.01: (The signature|The signature file)/,
+    );
   }
 });
 
 test("everything after the signature is checked too", async () => {
   const cases: Array<[string, (bundle: DataBundle) => void, RegExp]> = [
-    ["a newer format", (bundle) => { (bundle.manifest as unknown as Record<string, unknown>).schemaVersion = "evergreen.data-bundle.v2"; }, /Unsupported bundle format/],
-    ["a bundle that needs a newer Evergreen", (bundle) => { bundle.manifest.minimumEvergreenVersion = "99.0.0"; }, /needs Evergreen 99\.0\.0 or newer/],
-    ["an incomplete bundle", (bundle) => { delete bundle.files["registry/python.json"]; bundle.manifest.files = bundle.manifest.files.filter((file) => file.path !== "registry/python.json"); }, /incomplete: registry\/python\.json missing/],
-    ["an unsafe path", (bundle) => { bundle.manifest.files[0]!.path = "../evil.json"; }, /unsafe or missing path/],
-    ["a wrong content digest", (bundle) => { bundle.manifest.contentDigest = `sha256:${"0".repeat(64)}`; }, /content digest/],
-    ["an unlisted file", (bundle) => { bundle.files["registry/extra.json"] = {}; }, /present but not listed/],
+    [
+      "a newer format",
+      (bundle) => {
+        (bundle.manifest as unknown as Record<string, unknown>).schemaVersion = "evergreen.data-bundle.v2";
+      },
+      /Unsupported bundle format/,
+    ],
+    [
+      "a bundle that needs a newer Evergreen",
+      (bundle) => {
+        bundle.manifest.minimumEvergreenVersion = "99.0.0";
+      },
+      /needs Evergreen 99\.0\.0 or newer/,
+    ],
+    [
+      "an incomplete bundle",
+      (bundle) => {
+        delete bundle.files["registry/python.json"];
+        bundle.manifest.files = bundle.manifest.files.filter((file) => file.path !== "registry/python.json");
+      },
+      /incomplete: registry\/python\.json missing/,
+    ],
+    [
+      "an unsafe path",
+      (bundle) => {
+        bundle.manifest.files[0]!.path = "../evil.json";
+      },
+      /unsafe or missing path/,
+    ],
+    [
+      "a wrong content digest",
+      (bundle) => {
+        bundle.manifest.contentDigest = `sha256:${"0".repeat(64)}`;
+      },
+      /content digest/,
+    ],
+    [
+      "an unlisted file",
+      (bundle) => {
+        bundle.files["registry/extra.json"] = {};
+      },
+      /present but not listed/,
+    ],
   ];
   for (const [name, mutate, expected] of cases) {
     const bundle = structuredClone(await newerBundle());
@@ -164,7 +241,11 @@ test("everything after the signature is checked too", async () => {
 
 test("downloaded data that is not newer than the bundled data is not used", async () => {
   const bundled = await resolveWith(await scratch("none"));
-  const sameDay = await buildDataBundle({ root: resolve("."), createdAt: `${bundled.info.reviewedThrough}T12:00:00Z`, minimumEvergreenVersion: "0.1.0" });
+  const sameDay = await buildDataBundle({
+    root: resolve("."),
+    createdAt: `${bundled.info.reviewedThrough}T12:00:00Z`,
+    minimumEvergreenVersion: "0.1.0",
+  });
   const data = await resolveWith(await cacheWith(sameDay));
   assert.equal(data.info.source, "bundled");
   assert.match(data.info.warnings[0]!, /is not newer than the data bundled with Evergreen/);
@@ -178,7 +259,12 @@ test("missing or damaged cache bookkeeping is reported and bundled data is used"
 
   const noPointer = await scratch("pointer");
   await mkdir(join(noPointer, "data"), { recursive: true });
-  for (const content of ["not json", JSON.stringify({ version: "../../etc" }), JSON.stringify({}), JSON.stringify([])]) {
+  for (const content of [
+    "not json",
+    JSON.stringify({ version: "../../etc" }),
+    JSON.stringify({}),
+    JSON.stringify([]),
+  ]) {
     await writeFile(join(noPointer, "data", ACTIVE_FILE), content);
     const data = await resolveWith(noPointer);
     assert.equal(data.info.source, "bundled", content);
@@ -188,7 +274,11 @@ test("missing or damaged cache bookkeeping is reported and bundled data is used"
 
 test("a bundle verifies only with a good signature, and the bytes that were signed are the bytes that are parsed", async () => {
   const bytes = Buffer.from(serializeDataBundle(await newerBundle()));
-  const failing = { verifySignature: () => { throw new DataSignatureError("The signature did not verify: nope"); } };
+  const failing = {
+    verifySignature: () => {
+      throw new DataSignatureError("The signature did not verify: nope");
+    },
+  };
   assert.throws(() => verifyDataBundle(bytes, "{}", failing), /did not verify: nope/);
   assert.equal(verifyDataBundle(bytes, "{}", accepting).bundle.manifest.version, "2999.01.01");
   let seen: Uint8Array | undefined;
@@ -196,7 +286,11 @@ test("a bundle verifies only with a good signature, and the bytes that were sign
   assert.equal(Buffer.compare(Buffer.from(seen!), bytes), 0);
   assert.throws(() => verifyDataBundle(Buffer.from("not json"), "{}", accepting), /not valid JSON/);
   assert.throws(() => verifyDataBundle(Buffer.from("[]"), "{}", accepting), /manifest and files/);
-  assert.equal(`${canonicalJson(JSON.parse(bytes.toString("utf8")))}\n`, bytes.toString("utf8"), "the signed form is canonical JSON and a newline");
+  assert.equal(
+    `${canonicalJson(JSON.parse(bytes.toString("utf8")))}\n`,
+    bytes.toString("utf8"),
+    "the signed form is canonical JSON and a newline",
+  );
 });
 
 test("the cache directory follows the platform's conventions", () => {
@@ -204,5 +298,8 @@ test("the cache directory follows the platform's conventions", () => {
   assert.equal(defaultCacheDirectory({}, "darwin", "/Users/me"), join("/Users/me", "Library", "Caches", "evergreen"));
   assert.equal(defaultCacheDirectory({}, "linux", "/home/me"), join("/home/me", ".cache", "evergreen"));
   assert.equal(defaultCacheDirectory({ XDG_CACHE_HOME: "/xdg" }, "linux", "/home/me"), join("/xdg", "evergreen"));
-  assert.equal(defaultCacheDirectory({ LOCALAPPDATA: "C:\\Users\\me\\AppData\\Local" }, "win32", "C:\\Users\\me"), join("C:\\Users\\me\\AppData\\Local", "evergreen", "Cache"));
+  assert.equal(
+    defaultCacheDirectory({ LOCALAPPDATA: "C:\\Users\\me\\AppData\\Local" }, "win32", "C:\\Users\\me"),
+    join("C:\\Users\\me\\AppData\\Local", "evergreen", "Cache"),
+  );
 });

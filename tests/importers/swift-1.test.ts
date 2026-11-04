@@ -69,14 +69,11 @@ test("drafts Xcode App Store upload bands from the recording", async () => {
       ["swift.xcode.app-store-below-14-1", "vers:semver/<14.1.0", "2023-04-25"],
     ],
   );
-  assert.deepEqual(
-    drafts.rules.map((rule) => rule.id).sort(),
-    [
-      "swift.xcode.app-store-14-1-through-14",
-      "swift.xcode.app-store-15-through-25",
-      "swift.xcode.app-store-below-14-1",
-    ],
-  );
+  assert.deepEqual(drafts.rules.map((rule) => rule.id).sort(), [
+    "swift.xcode.app-store-14-1-through-14",
+    "swift.xcode.app-store-15-through-25",
+    "swift.xcode.app-store-below-14-1",
+  ]);
 
   const through25 = drafts.rules.find((rule) => rule.id === "swift.xcode.app-store-15-through-25")!;
   assert.equal(through25.purl, "pkg:generic/xcode");
@@ -124,13 +121,16 @@ test("diff against the curated registry reports additions and leaves below-15 fo
   const registry = JSON.parse(await readFile(resolve("registry/swift.json"), "utf8")) as RegistryV2;
   const drafts = await execute(swiftAppStoreImporter, { replay: recording, now: "2026-10-19" });
   const diff = diffDrafts(drafts, registry);
-  assert.deepEqual(
-    diff.added.map((rule) => rule.id).sort(),
-    ["swift.xcode.app-store-14-1-through-14", "swift.xcode.app-store-below-14-1"],
-  );
+  assert.deepEqual(diff.added.map((rule) => rule.id).sort(), [
+    "swift.xcode.app-store-14-1-through-14",
+    "swift.xcode.app-store-below-14-1",
+  ]);
   // Hand-written rules lack provenance.importer, so diff.removed stays empty. The curated
   // below-15 rule is still in the registry and absent from drafts — that is the overlap to resolve.
-  assert.deepEqual(diff.removed.map((rule) => rule.id), []);
+  assert.deepEqual(
+    diff.removed.map((rule) => rule.id),
+    [],
+  );
   // The iOS deployment-target rule is curated by hand: the listing's "must target iOS" articles are skipped by design.
   assert.deepEqual(
     registry.rules.map((rule) => rule.id).filter((id) => !drafts.rules.some((draft) => draft.id === id)),
@@ -208,9 +208,7 @@ test("two articles with the same Xcode version keep the first and note the dupli
     floors.map((floor) => [floor.version, floor.deadline, floor.title]),
     [["15", "2024-04-29", "First Xcode 15"]],
   );
-  assert.deepEqual(notes, [
-    'Skipped duplicate Xcode 15 floor from "Second Xcode 15" (keeping "First Xcode 15").',
-  ]);
+  assert.deepEqual(notes, ['Skipped duplicate Xcode 15 floor from "Second Xcode 15" (keeping "First Xcode 15").']);
 });
 
 test("a Since line with an invalid month produces a note and no rule", async () => {
@@ -300,10 +298,7 @@ test("a block missing article-text between two valid blocks is skipped with an e
     }),
   ].join("\n");
   const parsed = parseArticles(body);
-  assert.deepEqual(
-    parsed.notes,
-    ['Skipped article "Incomplete Title" (id=incomplete): missing article-text.'],
-  );
+  assert.deepEqual(parsed.notes, ['Skipped article "Incomplete Title" (id=incomplete): missing article-text.']);
   const { floors } = xcodeFloors(parsed.articles);
   assert.deepEqual(
     floors.map((floor) => [floor.version, floor.deadline]),

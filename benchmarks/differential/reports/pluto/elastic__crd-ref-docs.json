@@ -8,9 +8,5 @@
     "pluto-deprecated-only": 0
   },
   "comparisons": [],
-  "notComparable": [
-    "github-actions.cache",
-    "github-actions.checkout",
-    "go.runtime"
-  ]
+  "notComparable": ["github-actions.cache", "github-actions.checkout", "go.runtime"]
 }

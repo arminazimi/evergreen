@@ -7,7 +7,14 @@ import { purlIdentity } from "../../purl.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs, DetectorUnclassifiedReference } from "../../sdk.js";
+import type {
+  Detector,
+  DetectorAnalysis,
+  DetectorContext,
+  DetectorFinding,
+  DetectorInputs,
+  DetectorUnclassifiedReference,
+} from "../../sdk.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseManagedKubernetes } from "./kubernetes.js";
 import type { ManagedKubernetesProduct } from "./kubernetes.js";
@@ -54,7 +61,20 @@ import { parseTerraformVersionFile, parseToolVersionsTerraform } from "./parse-v
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
 const MAXIMUM_PLAN_FILES = 50;
-const SKIPPED_DIRECTORIES = new Set([".git", ".terraform", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
+const SKIPPED_DIRECTORIES = new Set([
+  ".git",
+  ".terraform",
+  "node_modules",
+  "vendor",
+  "dist",
+  "build",
+  "target",
+  ".venv",
+  "venv",
+  "fixtures",
+  "__fixtures__",
+  "testdata",
+]);
 const VERSION_FILES = new Set([".terraform-version", ".tool-versions", ".terraform.lock.hcl"]);
 const TERRAFORM_PURL = "pkg:generic/terraform";
 const INTERPOLATION_RULE_ID = "terraform.syntax.interpolation-only";
@@ -133,7 +153,10 @@ function providerPurl(namespace: string, name: string): string {
 }
 
 /** `namespace` and `name` of a `required_providers` source, or undefined for a non-default registry host. */
-function providerSource(source: string | undefined, localName: string): { namespace: string; name: string } | undefined {
+function providerSource(
+  source: string | undefined,
+  localName: string,
+): { namespace: string; name: string } | undefined {
   const parts = (source ?? `hashicorp/${localName}`).split("/");
   if (parts.length === 3) {
     if (parts[0]!.toLowerCase() !== REGISTRY_HOST) return undefined;
@@ -245,12 +268,7 @@ export class TerraformDetector implements Detector {
     );
     const findings: DetectorFinding[] = [];
     const unclassified: DetectorUnclassifiedReference[] = [];
-    const report = (
-      rule: RegistryV2Rule,
-      path: string,
-      locationKey: number | string,
-      summary: string,
-    ): void => {
+    const report = (rule: RegistryV2Rule, path: string, locationKey: number | string, summary: string): void => {
       const line = typeof locationKey === "number" ? locationKey : undefined;
       findings.push({
         id: `${rule.id}:${path}:${locationKey}`,
@@ -265,7 +283,12 @@ export class TerraformDetector implements Detector {
         sources: rule.sources,
       });
     };
-    const reportLegacy = (rule: RegistryV2Rule, path: string, declaration: TerraformLegacyDeclaration, summary: string): void => {
+    const reportLegacy = (
+      rule: RegistryV2Rule,
+      path: string,
+      declaration: TerraformLegacyDeclaration,
+      summary: string,
+    ): void => {
       findings.push({
         id: `${rule.id}:${path}:${declaration.line}:${declaration.column}`,
         ruleId: rule.id,
@@ -291,27 +314,49 @@ export class TerraformDetector implements Detector {
       const name = basename(file);
 
       if (name === ".terraform-version" || name === ".tool-versions") {
-        for (const declaration of name === ".terraform-version" ? parseTerraformVersionFile(contents) : parseToolVersionsTerraform(contents)) {
+        for (const declaration of name === ".terraform-version"
+          ? parseTerraformVersionFile(contents)
+          : parseToolVersionsTerraform(contents)) {
           const rule = firstMatchingRule(cliRules, declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} pins Terraform ${declaration.value}. ${rule.summary}`);
+          if (rule)
+            report(rule, path, declaration.line, `${path} pins Terraform ${declaration.value}. ${rule.summary}`);
         }
       } else if (name === ".terraform.lock.hcl") {
         for (const provider of parseTerraformLock(contents)) {
           const [host, namespace, providerName] = provider.address.split("/");
           if (host?.toLowerCase() !== REGISTRY_HOST || !namespace || !providerName) continue;
-          const rule = firstMatchingRule(byPurl.get(providerPurl(namespace.toLowerCase(), providerName.toLowerCase())) ?? [], provider.value);
-          if (rule) report(rule, path, provider.line, `${path} locks provider ${namespace}/${providerName} ${provider.value}. ${rule.summary}`);
+          const rule = firstMatchingRule(
+            byPurl.get(providerPurl(namespace.toLowerCase(), providerName.toLowerCase())) ?? [],
+            provider.value,
+          );
+          if (rule)
+            report(
+              rule,
+              path,
+              provider.line,
+              `${path} locks provider ${namespace}/${providerName} ${provider.value}. ${rule.summary}`,
+            );
         }
       } else {
         for (const declaration of parseTerraformFile(contents)) {
           if (declaration.kind === "required_version") {
             const rule = ruleForDeclared(cliRules, declaration.value);
-            if (rule) report(rule, path, declaration.line, `${path} requires Terraform ${declaration.value}. ${rule.summary}`);
+            if (rule)
+              report(rule, path, declaration.line, `${path} requires Terraform ${declaration.value}. ${rule.summary}`);
           } else {
             const source = providerSource(declaration.source, declaration.provider);
             if (!source) continue;
-            const rule = ruleForDeclared(byPurl.get(providerPurl(source.namespace, source.name)) ?? [], declaration.value);
-            if (rule) report(rule, path, declaration.line, `${path} requires provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`);
+            const rule = ruleForDeclared(
+              byPurl.get(providerPurl(source.namespace, source.name)) ?? [],
+              declaration.value,
+            );
+            if (rule)
+              report(
+                rule,
+                path,
+                declaration.line,
+                `${path} requires provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`,
+              );
           }
         }
 
@@ -362,8 +407,16 @@ export class TerraformDetector implements Detector {
           }
           const rule = ruleForPartialVersion(rules, declaration.value);
           if (rule) {
-            const target = declaration.block === "module" ? `module.${declaration.name}` : `${declaration.block}.${declaration.name}`;
-            report(rule, path, declaration.line, `${path} sets ${target} ${declaration.attribute} ${declaration.value}. ${rule.summary}`);
+            const target =
+              declaration.block === "module"
+                ? `module.${declaration.name}`
+                : `${declaration.block}.${declaration.name}`;
+            report(
+              rule,
+              path,
+              declaration.line,
+              `${path} sets ${target} ${declaration.attribute} ${declaration.value}. ${rule.summary}`,
+            );
           } else if (!PARTIAL_VERSION.test(declaration.value.trim())) {
             unclassified.push({
               component: declaration.product,
@@ -389,14 +442,27 @@ export class TerraformDetector implements Detector {
         if (declaration.kind === "cli_version") {
           const rule = ruleForDeclared(cliRules, declaration.value);
           if (rule) {
-            report(rule, path, declaration.pointer, `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`);
+            report(
+              rule,
+              path,
+              declaration.pointer,
+              `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`,
+            );
           }
         } else if (declaration.kind === "provider_version") {
           const source = providerSource(declaration.source, declaration.provider);
           if (!source) continue;
-          const rule = ruleForDeclared(byPurl.get(providerPurl(source.namespace, source.name)) ?? [], declaration.value);
+          const rule = ruleForDeclared(
+            byPurl.get(providerPurl(source.namespace, source.name)) ?? [],
+            declaration.value,
+          );
           if (rule) {
-            report(rule, path, declaration.pointer, `${path} (${declaration.pointer}) constrains provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`);
+            report(
+              rule,
+              path,
+              declaration.pointer,
+              `${path} (${declaration.pointer}) constrains provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`,
+            );
           }
         } else if (declaration.kind === "engine_version") {
           const purl = ENGINE_PURLS[declaration.engine.toLowerCase()];
@@ -404,7 +470,12 @@ export class TerraformDetector implements Detector {
           const rules = byPurl.get(purlIdentity(purl)) ?? [];
           const rule = ruleForPartialVersion(rules, declaration.value);
           if (rule) {
-            report(rule, path, declaration.address, `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`);
+            report(
+              rule,
+              path,
+              declaration.address,
+              `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`,
+            );
           }
         }
       }

@@ -291,13 +291,7 @@ export class AndroidDetector implements Detector {
   readonly id = "android";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: [
-      "build.gradle",
-      "build.gradle.kts",
-      "settings.gradle",
-      "settings.gradle.kts",
-      "libs.versions.toml",
-    ],
+    fileNames: ["build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts", "libs.versions.toml"],
     sourceExtensions: [".java", ".kt"],
   };
 

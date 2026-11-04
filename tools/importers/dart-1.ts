@@ -57,16 +57,19 @@ export const dartDiscontinuedImporter: Importer = {
       }
 
       if (detail.name !== name) {
-        throw new ImporterError(`GET ${url} returned package name ${JSON.stringify(detail.name)}, expected ${JSON.stringify(name)}.`);
+        throw new ImporterError(
+          `GET ${url} returned package name ${JSON.stringify(detail.name)}, expected ${JSON.stringify(name)}.`,
+        );
       }
       if (detail.isDiscontinued !== true) {
         active.push(name);
         continue;
       }
 
-      const replacement = typeof detail.replacedBy === "string" && PUB_PACKAGE_NAME.test(detail.replacedBy) && detail.replacedBy !== name
-        ? detail.replacedBy
-        : undefined;
+      const replacement =
+        typeof detail.replacedBy === "string" && PUB_PACKAGE_NAME.test(detail.replacedBy) && detail.replacedBy !== name
+          ? detail.replacedBy
+          : undefined;
       if (detail.replacedBy !== undefined && replacement === undefined) {
         notes.push(`Ignored invalid replacement for ${name}: ${JSON.stringify(detail.replacedBy)}.`);
       }

@@ -25,7 +25,13 @@ function featureRelease(version: string): string {
 
 const CASES: readonly RoundTripCase[] = [
   // Runtime pins.
-  { name: "parseJavaVersion", file: ({ version }) => `${version}\n`, names: "java", versions: "9.8.7|17", reports: "version" },
+  {
+    name: "parseJavaVersion",
+    file: ({ version }) => `${version}\n`,
+    names: "java",
+    versions: "9.8.7|17",
+    reports: "version",
+  },
   {
     name: "parseSdkmanrc",
     file: ({ version }) => `java=${version}\n`,
@@ -47,10 +53,34 @@ const CASES: readonly RoundTripCase[] = [
     versions: "9.8.7|17",
     markers: ({ version }) => [featureRelease(version)],
   },
-  { name: "parseRubyVersion", file: ({ version }) => `${version}\n`, names: "ruby", versions: "9.8.7", reports: "version" },
-  { name: "parseToolVersions (ruby)", file: ({ version }) => `ruby ${version}\n`, names: "ruby", versions: "9.8.7", reports: "version" },
-  { name: "parsePhpVersion", file: ({ version }) => `${version}\n`, names: "php", versions: "9.8.7", reports: "version" },
-  { name: "parseToolVersions (php)", file: ({ version }) => `php ${version}\n`, names: "php", versions: "9.8.7", reports: "version" },
+  {
+    name: "parseRubyVersion",
+    file: ({ version }) => `${version}\n`,
+    names: "ruby",
+    versions: "9.8.7",
+    reports: "version",
+  },
+  {
+    name: "parseToolVersions (ruby)",
+    file: ({ version }) => `ruby ${version}\n`,
+    names: "ruby",
+    versions: "9.8.7",
+    reports: "version",
+  },
+  {
+    name: "parsePhpVersion",
+    file: ({ version }) => `${version}\n`,
+    names: "php",
+    versions: "9.8.7",
+    reports: "version",
+  },
+  {
+    name: "parseToolVersions (php)",
+    file: ({ version }) => `php ${version}\n`,
+    names: "php",
+    versions: "9.8.7",
+    reports: "version",
+  },
   {
     name: "parseToolVersions (elixir)",
     file: ({ version }) => `elixir ${version}\nerlang 26.1.2\n`,
@@ -58,10 +88,34 @@ const CASES: readonly RoundTripCase[] = [
     versions: "9.8.7",
     markers: () => ["9.8.7", "26.1.2"],
   },
-  { name: "parseSwiftVersion", file: ({ version }) => `${version}\n`, names: "swift", versions: "9.8.7", reports: "version" },
-  { name: "parseXcodeVersion", file: ({ version }) => `${version}\n`, names: "xcode", versions: "9.8.7", reports: "version" },
-  { name: "parseRustToolchain", file: ({ version }) => `${version}\n`, names: "rust", versions: "9.8.7", reports: "version" },
-  { name: "parseScalaVersion", file: ({ version }) => `${version}\n`, names: "scala", versions: "9.8.7", reports: "version" },
+  {
+    name: "parseSwiftVersion",
+    file: ({ version }) => `${version}\n`,
+    names: "swift",
+    versions: "9.8.7",
+    reports: "version",
+  },
+  {
+    name: "parseXcodeVersion",
+    file: ({ version }) => `${version}\n`,
+    names: "xcode",
+    versions: "9.8.7",
+    reports: "version",
+  },
+  {
+    name: "parseRustToolchain",
+    file: ({ version }) => `${version}\n`,
+    names: "rust",
+    versions: "9.8.7",
+    reports: "version",
+  },
+  {
+    name: "parseScalaVersion",
+    file: ({ version }) => `${version}\n`,
+    names: "scala",
+    versions: "9.8.7",
+    reports: "version",
+  },
   {
     name: "parseTerraformVersionFile",
     file: ({ version }) => `${version}\n`,
@@ -76,7 +130,13 @@ const CASES: readonly RoundTripCase[] = [
     versions: "9.8.7",
     reports: "version",
   },
-  { name: "parseFvmrc", file: ({ version }) => `{"flutter":"${version}"}\n`, names: "flutter", versions: "9.8.7", reports: "version" },
+  {
+    name: "parseFvmrc",
+    file: ({ version }) => `{"flutter":"${version}"}\n`,
+    names: "flutter",
+    versions: "9.8.7",
+    reports: "version",
+  },
   {
     name: "parseFvmConfigJson",
     file: ({ version }) => `{"flutterSdkVersion":"${version}"}\n`,
@@ -84,7 +144,13 @@ const CASES: readonly RoundTripCase[] = [
     versions: "9.8.7",
     reports: "version",
   },
-  { name: "parseBunVersion", file: ({ version }) => `${version}\n`, names: "bun", versions: "9.8.7", reports: "version" },
+  {
+    name: "parseBunVersion",
+    file: ({ version }) => `${version}\n`,
+    names: "bun",
+    versions: "9.8.7",
+    reports: "version",
+  },
   {
     name: "parseBunfig",
     file: ({ version }) => `[install]\nversion = "${version}"\n`,
@@ -162,7 +228,13 @@ const CASES: readonly RoundTripCase[] = [
     versions: "9.8.7",
     reports: "version",
   },
-  { name: "parseGoVersion", file: ({ version }) => `go${version}\n`, names: "go", versions: "9.8.7|1.21", reports: "version" },
+  {
+    name: "parseGoVersion",
+    file: ({ version }) => `go${version}\n`,
+    names: "go",
+    versions: "9.8.7|1.21",
+    reports: "version",
+  },
   {
     name: "parseJavaRelease",
     file: ({ version }) => `JAVA_VERSION="${version}"\n`,
@@ -229,10 +301,14 @@ const CASES: readonly RoundTripCase[] = [
   },
   {
     name: "parseWrapper",
-    file: ({ name, version }) => `distributionUrl=https\\://services.gradle.org/distributions/gradle-${version}-${name}.zip\n`,
+    file: ({ name, version }) =>
+      `distributionUrl=https\\://services.gradle.org/distributions/gradle-${version}-${name}.zip\n`,
     names: "bin|all",
     versions: "9.8.7",
-    markers: ({ name, version }) => [version, `https://services.gradle.org/distributions/gradle-${version}-${name}.zip`],
+    markers: ({ name, version }) => [
+      version,
+      `https://services.gradle.org/distributions/gradle-${version}-${name}.zip`,
+    ],
   },
 ];
 

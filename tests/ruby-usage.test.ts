@@ -95,7 +95,7 @@ test("reports qualified calls, :: calls, and constant or variable aliases, inclu
 
 test("does not treat comments, strings, heredocs, block comments, other gems, local requires, or paren-less calls as usages", async () => {
   const source = [
-    "# require \"json\"",
+    '# require "json"',
     'message = "require \\"json\\""',
     "text = <<EOS",
     'require "json"',
@@ -103,17 +103,21 @@ test("does not treat comments, strings, heredocs, block comments, other gems, lo
     "=begin",
     "require 'json'",
     "=end",
-    "require_relative \"json\"",
-    "require \"json-schema\"",
-    "require \"json_pure\"",
+    'require_relative "json"',
+    'require "json-schema"',
+    'require "json_pure"',
     "def run(text)",
     "  JSON.parse text",
     "  Oj.parse(text)",
     "  JSON.load(text)",
     "end",
-    "require \"oj\"",
+    'require "oj"',
   ].join("\n");
-  const found = await usages({ "lib/app.rb": source, "notes.txt": 'require "json"\n', "lib/app.py": 'require "json"\n' }, "json", ["JSON.parse", "JSON.load"]);
+  const found = await usages(
+    { "lib/app.rb": source, "notes.txt": 'require "json"\n', "lib/app.py": 'require "json"\n' },
+    "json",
+    ["JSON.parse", "JSON.load"],
+  );
   assert.deepEqual(found, [["call", "lib/app.rb", 15, at("  JSON.load(text)", "JSON"), "json.JSON.load"]]);
 });
 
@@ -157,7 +161,14 @@ test("ruby matchers are valid, and a yanked gem finding lists source files in th
   assert.deepEqual(finding.impact, { usageCount: 3, affectedFiles: 2, level: "low" });
   assert.match(renderText(result), /Impact: low \(3 usages across 2 files\)/);
   assert.match(renderText(result), /Unclassified: 1 pinned reference/);
-  assert.deepEqual(result.unclassified?.references.map((reference) => [reference.location.path, reference.location.line, reference.reference]), [["lib/dynamic.rb", 2, "require name"]]);
+  assert.deepEqual(
+    result.unclassified?.references.map((reference) => [
+      reference.location.path,
+      reference.location.line,
+      reference.reference,
+    ]),
+    [["lib/dynamic.rb", 2, "require name"]],
+  );
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.deepEqual([...packet.affectedFiles].sort(), ["Gemfile.lock", "lib/alias.rb", "lib/app.rb"]);
 });
@@ -176,7 +187,7 @@ test("dynamic require, load, gem, and autoload are unclassified; literals and re
       "  require_relative path",
       "  Kernel.require name",
       '  require "json"',
-      '  # require name',
+      "  # require name",
       '  example = "require name"',
       "end",
     ].join("\n"),
@@ -205,7 +216,9 @@ test("large alias files and cyclic chains finish quickly without throwing", asyn
   assert.ok(aliasMs < 1000, `alias scan took ${aliasMs}ms`);
   assert.ok(aliasUsages[0]!.usages.some((usage) => usage.kind === "call" && usage.location.line === 30_001));
 
-  const chain = Array.from({ length: 20_000 }, (_, index) => (index === 0 ? "A0 = JSON" : `A${index} = A${index - 1}`)).join("\n");
+  const chain = Array.from({ length: 20_000 }, (_, index) =>
+    index === 0 ? "A0 = JSON" : `A${index} = A${index - 1}`,
+  ).join("\n");
   const cycle = "A = B\nB = A\n";
   const chainRoot = await repository({ "lib/chain.rb": chain, "lib/cycle.rb": cycle });
   const startedChain = performance.now();
@@ -215,9 +228,9 @@ test("large alias files and cyclic chains finish quickly without throwing", asyn
 });
 
 test("very long require lines are skipped; a normal line still matches", async () => {
-  const longJson = ("require 'json'; ".repeat(40_000));
+  const longJson = "require 'json'; ".repeat(40_000);
   assert.ok(longJson.length > 600_000);
-  const longDynamic = ("require x; ".repeat(20_000));
+  const longDynamic = "require x; ".repeat(20_000);
   const root = await repository({
     "lib/long.rb": longJson,
     "lib/long-dynamic.rb": longDynamic,
@@ -262,7 +275,10 @@ test("false require/load/gem lookalikes are not unclassified; real dynamic forms
 
 test("oversized require lines and data after __END__ are not silent", async () => {
   const long = " ".repeat(4100) + 'require "json"';
-  const [longAnalysis] = await analyzeSourceUsage(await repository({ "lib/app.rb": long }), contract("json", ["JSON.parse"]));
+  const [longAnalysis] = await analyzeSourceUsage(
+    await repository({ "lib/app.rb": long }),
+    contract("json", ["JSON.parse"]),
+  );
   const longSkips = await findRubyDynamicReferences(await repository({ "lib/app.rb": long }));
   assert.deepEqual(longAnalysis!.usages, []);
   assert.equal(longSkips.length, 1);
@@ -272,13 +288,19 @@ test("oversized require lines and data after __END__ are not silent", async () =
 
   const afterEnd = await usages({ "lib/app.rb": 'puts 1\n__END__\nrequire "json"' }, "json", ["JSON.parse"]);
   assert.deepEqual(afterEnd, []);
-  assert.deepEqual(await findRubyDynamicReferences(await repository({ "lib/app.rb": 'puts 1\n__END__\nrequire "json"' })), []);
+  assert.deepEqual(
+    await findRubyDynamicReferences(await repository({ "lib/app.rb": 'puts 1\n__END__\nrequire "json"' })),
+    [],
+  );
 });
 
 test("multi-line string literals are not scanned as code", async () => {
   const found = await usages({ "lib/app.rb": "s = 'a\nrequire \"json\"\nb'" }, "json", ["JSON.parse"]);
   assert.deepEqual(found, []);
-  assert.deepEqual(await findRubyDynamicReferences(await repository({ "lib/app.rb": "s = 'a\nrequire \"json\"\nb'" })), []);
+  assert.deepEqual(
+    await findRubyDynamicReferences(await repository({ "lib/app.rb": "s = 'a\nrequire \"json\"\nb'" })),
+    [],
+  );
 });
 
 test("character literals and regexp literals do not hide requires on the same line", async () => {

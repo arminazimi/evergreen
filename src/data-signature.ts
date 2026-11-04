@@ -30,7 +30,9 @@ let bundledRoot: TrustedRoot | undefined;
 
 /** The Sigstore public-good trusted root shipped with the package (`data/sigstore-trusted-root.json`). */
 function bundledTrustedRoot(): TrustedRoot {
-  bundledRoot ??= TrustedRoot.fromJSON(JSON.parse(readFileSync(findPackageFileSync("data/sigstore-trusted-root.json", import.meta.url), "utf8")));
+  bundledRoot ??= TrustedRoot.fromJSON(
+    JSON.parse(readFileSync(findPackageFileSync("data/sigstore-trusted-root.json", import.meta.url), "utf8")),
+  );
   return bundledRoot;
 }
 

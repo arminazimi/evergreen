@@ -19,7 +19,8 @@ const VERSION_VALUE = /^v?\d+(?:\.\d+){0,2}(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*
 
 type UnknownRecord = Record<string, unknown>;
 
-const isRecord = (value: unknown): value is UnknownRecord => typeof value === "object" && value !== null && !Array.isArray(value);
+const isRecord = (value: unknown): value is UnknownRecord =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
 
 interface Entry {
   value: UnknownRecord;
@@ -38,7 +39,10 @@ function documentEntries(document: unknown): Entry[] | undefined {
     return document.map((value, index) => ({ value, base: `/${index}` }));
   }
   if (typeof document === "string") {
-    const lines = document.split(/\r?\n/).map((line) => line.trim()).filter((line) => line.length > 0);
+    const lines = document
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
     if (lines.length === 0) return undefined;
     const parsed: unknown[] = [];
     for (const line of lines) {
@@ -55,18 +59,30 @@ function documentEntries(document: unknown): Entry[] | undefined {
 }
 
 function isInspectEntry(value: UnknownRecord): boolean {
-  return typeof value.Id === "string" && isRecord(value.Config) && typeof value.Config.Image === "string" && isRecord(value.State);
+  return (
+    typeof value.Id === "string" &&
+    isRecord(value.Config) &&
+    typeof value.Config.Image === "string" &&
+    isRecord(value.State)
+  );
 }
 
 function isComposeEntry(value: UnknownRecord): boolean {
-  return typeof value.Service === "string" && value.Service.length > 0 && typeof value.Image === "string" && value.Image.length > 0;
+  return (
+    typeof value.Service === "string" &&
+    value.Service.length > 0 &&
+    typeof value.Image === "string" &&
+    value.Image.length > 0
+  );
 }
 
 function detect(document: unknown): boolean {
   try {
     const entries = documentEntries(document);
     if (!entries) return false;
-    return entries.every((entry) => isInspectEntry(entry.value)) || entries.every((entry) => isComposeEntry(entry.value));
+    return (
+      entries.every((entry) => isInspectEntry(entry.value)) || entries.every((entry) => isComposeEntry(entry.value))
+    );
   } catch {
     return false;
   }
@@ -154,8 +170,10 @@ function composeItems(entry: Entry, file: string): InventoryItem[] {
 function items(document: unknown, file: string): InventoryItem[] {
   const entries = documentEntries(document);
   if (!entries) return [];
-  if (entries.every((entry) => isComposeEntry(entry.value))) return entries.flatMap((entry) => composeItems(entry, file));
-  if (entries.every((entry) => isInspectEntry(entry.value))) return entries.flatMap((entry) => inspectItems(entry, file));
+  if (entries.every((entry) => isComposeEntry(entry.value)))
+    return entries.flatMap((entry) => composeItems(entry, file));
+  if (entries.every((entry) => isInspectEntry(entry.value)))
+    return entries.flatMap((entry) => inspectItems(entry, file));
   return [];
 }
 

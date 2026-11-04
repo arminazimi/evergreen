@@ -84,10 +84,17 @@ function versionExport(document: unknown): Record<string, unknown> | undefined {
 
 /** The list's `Node` entries, or undefined when the document is not a node export. */
 function nodeList(document: unknown): Record<string, unknown>[] | undefined {
-  if (!isRecord(document) || document.kind !== "List" || !Array.isArray(document.items) || document.items.length === 0) return undefined;
+  if (!isRecord(document) || document.kind !== "List" || !Array.isArray(document.items) || document.items.length === 0)
+    return undefined;
   const nodes: Record<string, unknown>[] = [];
   for (const entry of document.items) {
-    if (!isRecord(entry) || entry.kind !== "Node" || !isRecord(entry.metadata) || !isRecord(entry.status) || !isRecord(entry.status.nodeInfo)) {
+    if (
+      !isRecord(entry) ||
+      entry.kind !== "Node" ||
+      !isRecord(entry.metadata) ||
+      !isRecord(entry.status) ||
+      !isRecord(entry.status.nodeInfo)
+    ) {
       return undefined;
     }
     nodes.push(entry);

@@ -19,8 +19,23 @@ const NOW = new Date("2026-10-15T09:30:00Z");
 
 const feed = {
   products: [
-    { name: "zeta", status: "eol", title: "zeta is end-of-life", summary: "No longer maintained.", url: "https://example.com/zeta", date: "2024-01-31", replacement: "zeta-ng" },
-    { name: "acme-widget", status: "deprecated", versionsBefore: "2.0.0", title: "acme-widget before 2.0 is deprecated", summary: "Use 2.x.", url: "https://example.com/acme" },
+    {
+      name: "zeta",
+      status: "eol",
+      title: "zeta is end-of-life",
+      summary: "No longer maintained.",
+      url: "https://example.com/zeta",
+      date: "2024-01-31",
+      replacement: "zeta-ng",
+    },
+    {
+      name: "acme-widget",
+      status: "deprecated",
+      versionsBefore: "2.0.0",
+      title: "acme-widget before 2.0 is deprecated",
+      summary: "Use 2.x.",
+      url: "https://example.com/acme",
+    },
     { name: "mystery", status: "sunsetting", title: "?", summary: "?", url: "https://example.com/mystery" },
   ],
 };
@@ -71,17 +86,39 @@ test("the runner stamps provenance that marks every draft as unreviewed", async 
 });
 
 test("drafts are sorted by id and use the registry's field order", async () => {
-  const result = await runImporter(importerReturning([
-    draft("npm.package.b.deprecated", { "x-npm": { package: "b" }, replacement: "c" }),
-    draft("npm.package.a.deprecated"),
-  ]), context({}));
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["npm.package.a.deprecated", "npm.package.b.deprecated"]);
-  assert.deepEqual(Object.keys(result.rules[1]!), ["id", "ecosystem", "purl", "vers", "event", "title", "summary", "severity", "replacement", "sources", "provenance", "x-npm"]);
+  const result = await runImporter(
+    importerReturning([
+      draft("npm.package.b.deprecated", { "x-npm": { package: "b" }, replacement: "c" }),
+      draft("npm.package.a.deprecated"),
+    ]),
+    context({}),
+  );
+  assert.deepEqual(
+    result.rules.map((rule) => rule.id),
+    ["npm.package.a.deprecated", "npm.package.b.deprecated"],
+  );
+  assert.deepEqual(Object.keys(result.rules[1]!), [
+    "id",
+    "ecosystem",
+    "purl",
+    "vers",
+    "event",
+    "title",
+    "summary",
+    "severity",
+    "replacement",
+    "sources",
+    "provenance",
+    "x-npm",
+  ]);
 });
 
 test("a run is deterministic", async () => {
   const importer = importerReturning([draft("npm.package.b.deprecated"), draft("npm.package.a.deprecated")]);
-  assert.equal(JSON.stringify(await runImporter(importer, context({}))), JSON.stringify(await runImporter(importer, context({}))));
+  assert.equal(
+    JSON.stringify(await runImporter(importer, context({}))),
+    JSON.stringify(await runImporter(importer, context({}))),
+  );
 });
 
 test("the runner rejects importers that set provenance, return invalid rules, or break the contract", async (t) => {
@@ -94,28 +131,63 @@ test("the runner rejects importers that set provenance, return invalid rules, or
       });
     });
 
-  await reject("sets provenance", importerReturning([{ ...draft("npm.package.a.deprecated"), provenance: { observedAt: "2020-01-01", reviewedAt: "2020-01-01", reviewer: "me" } } as unknown as DraftRule]), /must not set provenance/);
-  await reject("invalid rule", importerReturning([draft("npm.package.a.deprecated", { purl: "pkg:npm/a@1.0.0" })]), /Importer "test-importer" produced invalid draft rules[\s\S]*purl must be canonical and version-less/);
-  await reject("duplicate ids", importerReturning([draft("npm.package.a.deprecated"), draft("npm.package.a.deprecated")]), /id is duplicated/);
-  await reject("wrong ecosystem", importerReturning([draft("npm.package.a.deprecated", { ecosystem: "pypi" })]), /does not match the registry ecosystem "npm"/);
+  await reject(
+    "sets provenance",
+    importerReturning([
+      {
+        ...draft("npm.package.a.deprecated"),
+        provenance: { observedAt: "2020-01-01", reviewedAt: "2020-01-01", reviewer: "me" },
+      } as unknown as DraftRule,
+    ]),
+    /must not set provenance/,
+  );
+  await reject(
+    "invalid rule",
+    importerReturning([draft("npm.package.a.deprecated", { purl: "pkg:npm/a@1.0.0" })]),
+    /Importer "test-importer" produced invalid draft rules[\s\S]*purl must be canonical and version-less/,
+  );
+  await reject(
+    "duplicate ids",
+    importerReturning([draft("npm.package.a.deprecated"), draft("npm.package.a.deprecated")]),
+    /id is duplicated/,
+  );
+  await reject(
+    "wrong ecosystem",
+    importerReturning([draft("npm.package.a.deprecated", { ecosystem: "pypi" })]),
+    /does not match the registry ecosystem "npm"/,
+  );
   await reject("blank note", importerReturning([], [" "]), /rules and notes/);
   await reject("bad importer id", importerReturning([], [], { id: "Bad_Id" }), /id must use lowercase/);
-  await reject("bad ecosystem", importerReturning([], [], { ecosystem: "Not A Slug" }), /ecosystem must be a lowercase slug/);
+  await reject(
+    "bad ecosystem",
+    importerReturning([], [], { ecosystem: "Not A Slug" }),
+    /ecosystem must be a lowercase slug/,
+  );
 });
 
 test("an importer's own failure surfaces unchanged", async () => {
-  const failing = importerReturning([], [], { import: async () => { throw new Error("source is down"); } });
+  const failing = importerReturning([], [], {
+    import: async () => {
+      throw new Error("source is down");
+    },
+  });
   await assert.rejects(runImporter(failing, context({})), /source is down/);
 });
 
 test("the example importer turns a feed into drafts and notes what it skips", async () => {
   const result = await runImporter(exampleImporter, context({ [EXAMPLE_FEED_URL]: JSON.stringify(feed) }));
-  assert.deepEqual(result.rules.map((rule) => [rule.id, rule.vers, rule.event, rule.deadline ?? null]), [
-    ["npm.package.acme-widget.deprecated", "vers:npm/<2.0.0", "deprecated", null],
-    ["npm.package.zeta.eol", "vers:npm/*", "end-of-life", "2024-01-31"],
-  ]);
+  assert.deepEqual(
+    result.rules.map((rule) => [rule.id, rule.vers, rule.event, rule.deadline ?? null]),
+    [
+      ["npm.package.acme-widget.deprecated", "vers:npm/<2.0.0", "deprecated", null],
+      ["npm.package.zeta.eol", "vers:npm/*", "end-of-life", "2024-01-31"],
+    ],
+  );
   assert.deepEqual(result.notes, ['Skipped mystery: unknown status "sunsetting".']);
-  assert.deepEqual(registryV2Issues({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: result.rules }), []);
+  assert.deepEqual(
+    registryV2Issues({ schemaVersion: "evergreen.registry.v2", ecosystem: "npm", rules: result.rules }),
+    [],
+  );
   assert.equal(result.rules[0]!["x-npm"]?.package, "acme-widget");
 });
 
@@ -133,13 +205,19 @@ test("the live context reads successful responses, retries server errors, and na
     response.writeHead(400).end();
   });
   await new Promise<void>((resolveListen) => server.listen(0, "127.0.0.1", resolveListen));
-  t.after(() => { server.closeAllConnections(); server.close(); });
+  t.after(() => {
+    server.closeAllConnections();
+    server.close();
+  });
   const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
   const live = liveContext(NOW, 200);
 
   assert.equal(await live.fetchText(`${base}/ok`), "hello");
   assert.equal(await live.fetchText(`${base}/flaky`), "recovered");
-  await assert.rejects(live.fetchText(`${base}/missing`), new RegExp(`GET ${base.replace(/[.]/g, "\\.")}/missing failed: HTTP 404`));
+  await assert.rejects(
+    live.fetchText(`${base}/missing`),
+    new RegExp(`GET ${base.replace(/[.]/g, "\\.")}/missing failed: HTTP 404`),
+  );
   await assert.rejects(live.fetchText(`${base}/slow`), /failed/);
   assert.equal(live.now, NOW);
 });
@@ -150,22 +228,30 @@ test("the command line lists importers and explains mistakes", async () => {
   assert.ok(stdout.length > 0);
   await assert.rejects(run(process.execPath, [script]), /Usage: run <importer-id>/);
   await assert.rejects(run(process.execPath, [script, "nonexistent"]), /Unknown importer "nonexistent"/);
-  await assert.rejects(run(process.execPath, [script, "--now", "yesterday", "x"]), /--now must be a date|Unknown importer/);
+  await assert.rejects(
+    run(process.execPath, [script, "--now", "yesterday", "x"]),
+    /--now must be a date|Unknown importer/,
+  );
 });
 
 test("no bundled rule is waiting for review", async () => {
-  for (const name of (await readdir(resolve("registry"))).filter((file) => file.endsWith(".json") && !file.startsWith("sources."))) {
+  for (const name of (await readdir(resolve("registry"))).filter(
+    (file) => file.endsWith(".json") && !file.startsWith("sources."),
+  )) {
     const registry = JSON.parse(await readFile(resolve("registry", name), "utf8")) as {
       schemaVersion?: string;
       rules?: { id: string; provenance: { reviewer: string } }[];
     };
     if (registry.schemaVersion !== "evergreen.registry.v2") continue;
-    for (const rule of registry.rules ?? []) assert.notEqual(rule.provenance.reviewer, PENDING_REVIEWER, `${name}: ${rule.id}`);
+    for (const rule of registry.rules ?? [])
+      assert.notEqual(rule.provenance.reviewer, PENDING_REVIEWER, `${name}: ${rule.id}`);
   }
 });
 
 test("npm test runs tests in subdirectories without skipping the rest", async () => {
-  const { scripts } = JSON.parse(await readFile(resolve("package.json"), "utf8")) as { scripts: Record<string, string> };
+  const { scripts } = JSON.parse(await readFile(resolve("package.json"), "utf8")) as {
+    scripts: Record<string, string>;
+  };
   // An unquoted ** in the npm script is expanded by the shell, which would silently run only subdirectory tests.
   assert.doesNotMatch(scripts.test ?? "", /\*\*/);
   assert.equal(testProcessArgs(1).at(-1), "dist/tests/**/*.test.js");

@@ -1,11 +1,5 @@
 import { severityValues, sourceLanguageValues, symbolShapeValues } from "./domain.js";
-import type {
-  DeprecationRule,
-  Finding,
-  MigrationGuidance,
-  UnclassifiedReference,
-  UsageMatcher,
-} from "./domain.js";
+import type { DeprecationRule, Finding, MigrationGuidance, UnclassifiedReference, UsageMatcher } from "./domain.js";
 
 export const DETECTOR_API_VERSION = "evergreen.detector.v1" as const;
 
@@ -148,10 +142,7 @@ export function isMigrationGuidance(value: unknown): value is MigrationGuidance 
   return (
     validSteps &&
     value.verification.every(
-      (command) =>
-        isRecord(command) &&
-        isNonEmptyString(command.command) &&
-        isNonEmptyString(command.purpose),
+      (command) => isRecord(command) && isNonEmptyString(command.command) && isNonEmptyString(command.purpose),
     )
   );
 }
@@ -163,13 +154,27 @@ export function isUsageMatcher(value: unknown): value is UsageMatcher {
   if (!isRecord(value) || !sourceLanguageValues.includes(value.language as never)) return false;
   if (value.kind === "import") {
     return (
-      ["javascript", "typescript", "python", "go", "java", "kotlin", "rust", "csharp", "ruby", "php", "swift", "dart"].includes(value.language as string) &&
-      isNonEmptyString(value.module)
+      [
+        "javascript",
+        "typescript",
+        "python",
+        "go",
+        "java",
+        "kotlin",
+        "rust",
+        "csharp",
+        "ruby",
+        "php",
+        "swift",
+        "dart",
+      ].includes(value.language as string) && isNonEmptyString(value.module)
     );
   }
   if (value.kind === "call") {
     return (
-      ["javascript", "typescript", "python", "go", "rust", "csharp", "ruby", "php", "swift", "dart"].includes(value.language as string) &&
+      ["javascript", "typescript", "python", "go", "rust", "csharp", "ruby", "php", "swift", "dart"].includes(
+        value.language as string,
+      ) &&
       isNonEmptyString(value.module) &&
       Array.isArray(value.targets) &&
       value.targets.length > 0 &&
@@ -193,18 +198,12 @@ export function isUsageMatcher(value: unknown): value is UsageMatcher {
     );
   }
   if (value.kind === "config-key") {
-    return (
-      isNonEmptyString(value.key) &&
-      (value.valueIncludes === undefined || isNonEmptyString(value.valueIncludes))
-    );
+    return isNonEmptyString(value.key) && (value.valueIncludes === undefined || isNonEmptyString(value.valueIncludes));
   }
   return false;
 }
 
-export function validateRegistry<Rule>(
-  value: unknown,
-  definition: RegistryDefinition<Rule>,
-): Registry<Rule> {
+export function validateRegistry<Rule>(value: unknown, definition: RegistryDefinition<Rule>): Registry<Rule> {
   if (!isRecord(value)) {
     throw new RegistryValidationError("Registry must be a JSON object.");
   }
@@ -236,9 +235,7 @@ export function assertDetectorCompatible(value: unknown): asserts value is Detec
     );
   }
   if (!isNonEmptyString(value.id) || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value.id)) {
-    throw new DetectorCompatibilityError(
-      "Detector id must contain lowercase letters, numbers, and single hyphens.",
-    );
+    throw new DetectorCompatibilityError("Detector id must contain lowercase letters, numbers, and single hyphens.");
   }
   if (typeof value.scan !== "function") {
     throw new DetectorCompatibilityError("Detector scan must be a function.");

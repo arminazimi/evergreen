@@ -222,7 +222,9 @@ function leavesOf(files: readonly FileNode[]): LeafInput[] {
       hidden: folded.length,
     });
   }
-  return leaves.sort((left, right) => right.weight - left.weight || compareText(left.path ?? left.label, right.path ?? right.label));
+  return leaves.sort(
+    (left, right) => right.weight - left.weight || compareText(left.path ?? left.label, right.path ?? right.label),
+  );
 }
 
 /** A stable element id for a file's section in the HTML report, so each rectangle can link to it. */
@@ -254,9 +256,17 @@ export function layoutTreemap(findings: readonly TreemapFinding[], options: Tree
     byDirectory.set(directory, [...(byDirectory.get(directory) ?? []), node]);
   }
   const directories = [...byDirectory]
-    .map(([path, files]) => ({ path, weight: total(files.map((file) => file.weight)), findings: total(files.map((file) => file.findings)), files }))
+    .map(([path, files]) => ({
+      path,
+      weight: total(files.map((file) => file.weight)),
+      findings: total(files.map((file) => file.findings)),
+      files,
+    }))
     .sort((left, right) => right.weight - left.weight || compareText(left.path, right.path));
-  const boxes = squarify(directories.map((directory) => directory.weight), { x: 0, y: 0, width, height });
+  const boxes = squarify(
+    directories.map((directory) => directory.weight),
+    { x: 0, y: 0, width, height },
+  );
   return {
     width,
     height,
@@ -290,13 +300,19 @@ function placeLeaves(leaves: readonly LeafInput[], directory: TreemapBox): Treem
     width: Math.max(0, directory.width - DIRECTORY_PAD * 2),
     height: Math.max(0, directory.height - top - DIRECTORY_PAD),
   };
-  const boxes = squarify(leaves.map((leaf) => leaf.weight), box);
+  const boxes = squarify(
+    leaves.map((leaf) => leaf.weight),
+    box,
+  );
   return leaves.map((leaf, index) => ({ ...leaf, ...(boxes[index] ?? box) }));
 }
 
 /** Escapes a value for SVG text or a quoted attribute. */
 function escape(value: string): string {
-  return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!);
+  return value.replace(
+    /[&<>"']/g,
+    (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!,
+  );
 }
 
 const coordinate = (value: number): string => String(Math.round(value * 100) / 100);
@@ -318,7 +334,10 @@ function renderLeaf(leaf: TreemapLeaf, directory: string): string {
   if (leaf.width < 1 || leaf.height < 1) return "";
   const title = cellTitle(leaf, directory);
   const label = leaf.width >= 44 && leaf.height >= 14 ? fitLabel(leaf.label, leaf.width) : undefined;
-  const text = label === undefined ? "" : `<text x="${coordinate(leaf.x + 4)}" y="${coordinate(leaf.y + 12)}">${escape(label)}</text>`;
+  const text =
+    label === undefined
+      ? ""
+      : `<text x="${coordinate(leaf.x + 4)}" y="${coordinate(leaf.y + 12)}">${escape(label)}</text>`;
   const shape = `<rect class="tm-fill" x="${coordinate(leaf.x)}" y="${coordinate(leaf.y)}" width="${coordinate(leaf.width)}" height="${coordinate(leaf.height)}"/>`;
   if (leaf.path === undefined) {
     return `<g class="tm-cell ${leaf.severity} tm-collapsed" tabindex="0" role="img" aria-label="${escape(title)}"><title>${escape(title)}</title>${shape}${text}</g>`;
@@ -328,7 +347,10 @@ function renderLeaf(leaf: TreemapLeaf, directory: string): string {
 
 function paletteVariables(scheme: "light" | "dark"): string {
   return severityValues
-    .map((severity) => `--tm-${severity}:${TREEMAP_PALETTE[scheme][severity].fill};--tm-${severity}-text:${TREEMAP_PALETTE[scheme][severity].text}`)
+    .map(
+      (severity) =>
+        `--tm-${severity}:${TREEMAP_PALETTE[scheme][severity].fill};--tm-${severity}-text:${TREEMAP_PALETTE[scheme][severity].text}`,
+    )
     .join(";");
 }
 
@@ -342,8 +364,9 @@ const TREEMAP_STYLE = [
   ".evergreen-treemap .tm-dir-label{fill:var(--tm-label);font-size:9px;font-weight:600}",
   ".evergreen-treemap .tm-cell:focus{outline:none}",
   ".evergreen-treemap .tm-cell:focus .tm-fill{stroke:var(--tm-label);stroke-width:2}",
-  ...severityValues.map((severity) =>
-    `.evergreen-treemap .tm-cell.${severity} .tm-fill{fill:var(--tm-${severity})}.evergreen-treemap .tm-cell.${severity} text{fill:var(--tm-${severity}-text)}`,
+  ...severityValues.map(
+    (severity) =>
+      `.evergreen-treemap .tm-cell.${severity} .tm-fill{fill:var(--tm-${severity})}.evergreen-treemap .tm-cell.${severity} text{fill:var(--tm-${severity}-text)}`,
   ),
 ].join("\n");
 
@@ -354,7 +377,11 @@ function renderDirectory(directory: TreemapDirectory): string {
   return [
     `<g class="tm-dir">`,
     `<rect class="tm-dir-frame" x="${coordinate(directory.x)}" y="${coordinate(directory.y)}" width="${coordinate(directory.width)}" height="${coordinate(directory.height)}"/>`,
-    ...(label === undefined ? [] : [`<text class="tm-dir-label" x="${coordinate(directory.x + 4)}" y="${coordinate(directory.y + 10)}">${escape(label)}</text>`]),
+    ...(label === undefined
+      ? []
+      : [
+          `<text class="tm-dir-label" x="${coordinate(directory.x + 4)}" y="${coordinate(directory.y + 10)}">${escape(label)}</text>`,
+        ]),
     ...directory.leaves.map((leaf) => renderLeaf(leaf, directory.path)),
     "</g>",
   ].join("");

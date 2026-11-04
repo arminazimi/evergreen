@@ -40,9 +40,12 @@ const build = (root: string, extra: Partial<Parameters<typeof buildDataBundle>[0
   buildDataBundle({ root, createdAt, minimumEvergreenVersion: "0.2.0", ...extra });
 
 test("canonical JSON sorts keys at every level, drops whitespace, and refuses non-integers", () => {
-  assert.equal(canonicalJson({ b: 1, a: { d: [3, { y: null, x: true }], c: "é" } }), '{"a":{"c":"é","d":[3,{"x":true,"y":null}]},"b":1}');
+  assert.equal(
+    canonicalJson({ b: 1, a: { d: [3, { y: null, x: true }], c: "é" } }),
+    '{"a":{"c":"é","d":[3,{"x":true,"y":null}]},"b":1}',
+  );
   assert.equal(canonicalJson({ a: 1, b: undefined }), '{"a":1}');
-  assert.equal(canonicalJson({ k: "line\nbreak \"quoted\"" }), '{"k":"line\\nbreak \\"quoted\\""}');
+  assert.equal(canonicalJson({ k: 'line\nbreak "quoted"' }), '{"k":"line\\nbreak \\"quoted\\""}');
   assert.throws(() => canonicalJson({ n: 1.5 }), /integers only/);
   assert.throws(() => canonicalJson({ n: Number.NaN }), DataBundleError);
   assert.throws(() => canonicalJson(() => 1), /Cannot write a function/);
@@ -58,39 +61,49 @@ test("two builds of the same input are byte for byte identical", async () => {
 test("the same build from the command line is identical too", async () => {
   const directory = await mkdtemp(join(tmpdir(), "evergreen-bundle-cli-"));
   roots.push(directory);
-  const run = (out: string) => execute(process.execPath, [resolve("dist/tools/build-data-bundle.js"), "--created-at", createdAt, "--out", out]);
+  const run = (out: string) =>
+    execute(process.execPath, [resolve("dist/tools/build-data-bundle.js"), "--created-at", createdAt, "--out", out]);
   await run(join(directory, "a.json"));
   await run(join(directory, "nested", "b.json"));
-  assert.equal(await readFile(join(directory, "a.json"), "utf8"), await readFile(join(directory, "nested", "b.json"), "utf8"));
-  await assert.rejects(execute(process.execPath, [resolve("dist/tools/build-data-bundle.js")]), (error: { stderr: string }) => /--created-at is required/.test(error.stderr));
+  assert.equal(
+    await readFile(join(directory, "a.json"), "utf8"),
+    await readFile(join(directory, "nested", "b.json"), "utf8"),
+  );
+  await assert.rejects(
+    execute(process.execPath, [resolve("dist/tools/build-data-bundle.js")]),
+    (error: { stderr: string }) => /--created-at is required/.test(error.stderr),
+  );
 });
 
 test("the bundle lists every registry and the SHA map, and matches the published schema", async () => {
   const bundle = await build(resolve("."));
-  assert.deepEqual(bundle.manifest.files.map((file) => file.path), [
-    "registry/android.json",
-    "registry/ci-images.json",
-    "registry/container.json",
-    "registry/cpp.json",
-    "registry/dart.json",
-    "registry/database.json",
-    "registry/dotnet.json",
-    "registry/github-actions-shas.json",
-    "registry/github-actions.json",
-    "registry/go.json",
-    "registry/java.json",
-    "registry/kubernetes.json",
-    "registry/nodejs.json",
-    "registry/npm.json",
-    "registry/osv.json",
-    "registry/python.json",
-    "registry/ruby.json",
-    "registry/rust.json",
-    "registry/serverless.json",
-    "registry/shell.json",
-    "registry/swift.json",
-    "registry/terraform.json",
-  ]);
+  assert.deepEqual(
+    bundle.manifest.files.map((file) => file.path),
+    [
+      "registry/android.json",
+      "registry/ci-images.json",
+      "registry/container.json",
+      "registry/cpp.json",
+      "registry/dart.json",
+      "registry/database.json",
+      "registry/dotnet.json",
+      "registry/github-actions-shas.json",
+      "registry/github-actions.json",
+      "registry/go.json",
+      "registry/java.json",
+      "registry/kubernetes.json",
+      "registry/nodejs.json",
+      "registry/npm.json",
+      "registry/osv.json",
+      "registry/python.json",
+      "registry/ruby.json",
+      "registry/rust.json",
+      "registry/serverless.json",
+      "registry/shell.json",
+      "registry/swift.json",
+      "registry/terraform.json",
+    ],
+  );
   assert.equal(bundle.manifest.version, "2026.10.16");
   assert.equal(bundle.manifest.minimumEvergreenVersion, "0.2.0");
   for (const file of bundle.manifest.files.filter((item) => item.kind === "registry")) {
@@ -126,13 +139,18 @@ test("the content address follows the data, not the version or the time", async 
   assert.equal(later.manifest.contentDigest, base.manifest.contentDigest);
 
   const changed = await registryCopy();
-  const npm = JSON.parse(await readFile(join(changed, "registry/npm.json"), "utf8")) as { rules: Array<{ summary: string }> };
+  const npm = JSON.parse(await readFile(join(changed, "registry/npm.json"), "utf8")) as {
+    rules: Array<{ summary: string }>;
+  };
   npm.rules[0]!.summary += " (edited)";
   await writeFile(join(changed, "registry/npm.json"), JSON.stringify(npm));
   const edited = await build(changed);
   assert.notEqual(edited.manifest.contentDigest, base.manifest.contentDigest);
   const differing = edited.manifest.files.filter((file, index) => file.sha256 !== base.manifest.files[index]!.sha256);
-  assert.deepEqual(differing.map((file) => file.path), ["registry/npm.json"]);
+  assert.deepEqual(
+    differing.map((file) => file.path),
+    ["registry/npm.json"],
+  );
 });
 
 test("the version comes from the supplied time, never from a clock", () => {
@@ -145,7 +163,9 @@ test("the version comes from the supplied time, never from a clock", () => {
 
 test("a registry that does not validate cannot be bundled", async () => {
   const root = await registryCopy();
-  const python = JSON.parse(await readFile(join(root, "registry/python.json"), "utf8")) as { rules: Array<Record<string, unknown>> };
+  const python = JSON.parse(await readFile(join(root, "registry/python.json"), "utf8")) as {
+    rules: Array<Record<string, unknown>>;
+  };
   delete python.rules[0]!.provenance;
   await writeFile(join(root, "registry/python.json"), JSON.stringify(python));
   await assert.rejects(build(root), /provenance/);
@@ -183,10 +203,14 @@ test("integrity checking finds tampering, omissions, and extras", async () => {
   const wrongCount = copy();
   const actualRules = (pristine.files["registry/npm.json"]!.rules as unknown[]).length;
   wrongCount.manifest.files.find((file) => file.path === "registry/npm.json")!.rules = actualRules + 1;
-  assert.deepEqual(dataBundleIntegrityProblems(wrongCount), [`registry/npm.json has ${actualRules} rules, not ${actualRules + 1}.`]);
+  assert.deepEqual(dataBundleIntegrityProblems(wrongCount), [
+    `registry/npm.json has ${actualRules} rules, not ${actualRules + 1}.`,
+  ]);
 
   const droppedFromManifest = copy();
-  droppedFromManifest.manifest.files = droppedFromManifest.manifest.files.filter((file) => file.path !== "registry/nodejs.json");
+  droppedFromManifest.manifest.files = droppedFromManifest.manifest.files.filter(
+    (file) => file.path !== "registry/nodejs.json",
+  );
   const problems = dataBundleIntegrityProblems(droppedFromManifest);
   assert.ok(problems.includes("registry/nodejs.json is present but not listed."));
   assert.ok(problems.includes("The content digest does not match the listed files."));
@@ -197,6 +221,9 @@ test("the content address is the digest of the sorted path and digest lines", ()
     { path: "registry/b.json", sha256: "b".repeat(64) },
     { path: "registry/a.json", sha256: "a".repeat(64) },
   ];
-  assert.equal(computeContentDigest(files), `sha256:${sha256Hex(`registry/a.json ${"a".repeat(64)}\nregistry/b.json ${"b".repeat(64)}\n`)}`);
+  assert.equal(
+    computeContentDigest(files),
+    `sha256:${sha256Hex(`registry/a.json ${"a".repeat(64)}\nregistry/b.json ${"b".repeat(64)}\n`)}`,
+  );
   assert.equal(computeContentDigest([...files].reverse()), computeContentDigest(files));
 });
