@@ -29,7 +29,7 @@ const { scripts } = JSON.parse(await readFile("package.json", "utf8")) as { scri
 
 test("npm test builds first, and npm run check builds only once", () => {
   assert.equal(scripts.test, "npm run build --silent && node tools/run-tests.mjs");
-  assert.equal(scripts.check, "npm run build && node dist/tools/check-pipeline.js");
+  assert.equal(scripts.check, "npm run format:check && npm run build && node dist/tools/check-pipeline.js");
   assert.equal(scripts.check.match(/npm run build/g)?.length, 1);
   assert.match(scripts["check:plugins"]!, /^npm run build --silent && /);
   assert.match(scripts["eval:plugins"]!, /^npm run build --silent && /);
@@ -70,10 +70,15 @@ test("check runs the action build, tests, plugin drift, and plugin eval together
   });
 
   await until(() => events.filter((event) => event.endsWith(":start")).length === 7);
-  assert.deepEqual(
-    events.filter((event) => event.endsWith(":start")).sort(),
-    ["build:action:start", "check:commands:start", "check:plugins:start", "check:quality:start", "eval:agent-loop:start", "eval:plugins:start", "test:start"],
-  );
+  assert.deepEqual(events.filter((event) => event.endsWith(":start")).sort(), [
+    "build:action:start",
+    "check:commands:start",
+    "check:plugins:start",
+    "check:quality:start",
+    "eval:agent-loop:start",
+    "eval:plugins:start",
+    "test:start",
+  ]);
   assert.equal(events.includes(`publish:${stagingDir}`), false);
   assert.equal(events.includes("check:action-bundle:start"), false);
 
@@ -120,7 +125,15 @@ test("an ordinary pull request builds the action bundle but neither publishes no
       steps.push(stepName(args));
     },
   });
-  assert.deepEqual(steps.sort(), ["build:action", "check:commands", "check:plugins", "check:quality", "eval:agent-loop", "eval:plugins", "test"]);
+  assert.deepEqual(steps.sort(), [
+    "build:action",
+    "check:commands",
+    "check:plugins",
+    "check:quality",
+    "eval:agent-loop",
+    "eval:plugins",
+    "test",
+  ]);
   assert.equal(published, false);
 });
 
@@ -201,12 +214,15 @@ test("coverage mode keeps the runner, concurrency, and glob of the plain test ru
     COVERAGE_EXCLUDES.map((path) => `--test-coverage-exclude=${path}`),
   );
   // The table still reaches the log, and the report the threshold, diff, and badge steps read is written beside it.
-  assert.deepEqual(args.filter((arg) => arg.startsWith("--test-reporter")), [
-    "--test-reporter=spec",
-    "--test-reporter=lcov",
-    "--test-reporter-destination=stdout",
-    `--test-reporter-destination=${COVERAGE_LCOV_PATH}`,
-  ]);
+  assert.deepEqual(
+    args.filter((arg) => arg.startsWith("--test-reporter")),
+    [
+      "--test-reporter=spec",
+      "--test-reporter=lcov",
+      "--test-reporter-destination=stdout",
+      `--test-reporter-destination=${COVERAGE_LCOV_PATH}`,
+    ],
+  );
 });
 
 test("coverage is requested only when the environment flag is 1", () => {
@@ -272,14 +288,25 @@ test("an eval skips when its inputs are unchanged and runs again when they chang
         lines.push(line);
       },
       run: async () => {},
-      evals: [{ id: "eval:plugins", inputs: [input], run: async () => { runs += 1; } }],
+      evals: [
+        {
+          id: "eval:plugins",
+          inputs: [input],
+          run: async () => {
+            runs += 1;
+          },
+        },
+      ],
     };
     await runCheck(options);
     assert.equal(runs, 1);
 
     await runCheck(options);
     assert.equal(runs, 1);
-    assert.match(lines.join("\n"), /eval:plugins skipped — none of its 1 input files changed since the last passing run \([0-9a-f]{12}\)/);
+    assert.match(
+      lines.join("\n"),
+      /eval:plugins skipped — none of its 1 input files changed since the last passing run \([0-9a-f]{12}\)/,
+    );
     // The skip only survives the next check because the digest of the passing run was stored.
     assert.equal((await readFile(options.evalDigestFile, "utf8")).includes('"eval:plugins"'), true);
 
@@ -399,7 +426,13 @@ test("a self-skipped step reports its reason and lets its dependents run", async
     { id: "after-it", after: ["eval:plugins"], run: async () => {} },
   ]);
   assert.equal(failures.size, 0);
-  assert.deepEqual(timings.map((step) => [step.id, step.status]), [["eval:plugins", "skipped"], ["after-it", "ok"]]);
+  assert.deepEqual(
+    timings.map((step) => [step.id, step.status]),
+    [
+      ["eval:plugins", "skipped"],
+      ["after-it", "ok"],
+    ],
+  );
   assert.equal(timings[0]?.reason, "inputs unchanged");
 });
 
@@ -462,10 +495,7 @@ test("runDependentSteps records wall-clock timings without changing skip semanti
   ]);
   assert.equal(failures.size, 1);
   assert.equal(failures.get("fail")?.message, "boom");
-  assert.deepEqual(
-    timings.map((step) => step.id).sort(),
-    ["fail", "ok", "skipped"],
-  );
+  assert.deepEqual(timings.map((step) => step.id).sort(), ["fail", "ok", "skipped"]);
   const ok = timings.find((step) => step.id === "ok")!;
   const failed = timings.find((step) => step.id === "fail")!;
   const skipped = timings.find((step) => step.id === "skipped")!;

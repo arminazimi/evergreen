@@ -85,7 +85,9 @@
     "test:fuzz": "npm run build --silent && node --test dist/tests/fuzz/parsers.test.js",
     "test:mutation": "stryker run",
     "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\"",
-    "check": "npm run build && node dist/tools/check-pipeline.js",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "check": "npm run format:check && npm run build && node dist/tools/check-pipeline.js",
     "check:reproducible": "npm run build --silent && node dist/tools/reproducible-build.js",
     "check:action-bundle": "git diff --exit-code -- dist/action/index.js",
     "check:quality": "npm run build --silent && node dist/tools/check-quality.js",
@@ -143,6 +145,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.6.4",
     "@stryker-mutator/core": "^10.1.1",
     "@types/node": "^24.0.0",
     "@types/semver": "^7.8.0",
