@@ -70,6 +70,16 @@ test("commands and values may span lines, and the value line is reported", () =>
   ]);
 });
 
+test("reads escapes inside quoted arguments and rejects an unterminated one", () => {
+  assert.deepEqual(parseCmakeLists('set(message "say \\"hi\\"")\ncmake_minimum_required(VERSION 3.16)\n'), [
+    { kind: "cmake-minimum-required", value: "3.16", line: 2 },
+  ]);
+  assert.deepEqual(parseCmakeLists('set(message "line\\\nnext")\ncmake_minimum_required(VERSION 3.16)\n'), [
+    { kind: "cmake-minimum-required", value: "3.16", line: 3 },
+  ]);
+  assert.deepEqual(parseCmakeLists('set(message "trailing \\'), []);
+});
+
 test("ignores comments, trailing comments, and bracket comments", () => {
   assert.deepEqual(parseCmakeLists("# cmake_minimum_required(VERSION 2.8)\n# set(CMAKE_CXX_STANDARD 98)\n"), []);
   assert.deepEqual(parseCmakeLists("set(CMAKE_CXX_STANDARD 17) # pinned\n"), [
