@@ -1,15 +1,17 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import type { ConfigUsageMatcher, MigrationImpact, SourceLanguage, SourceUsage, SourceUsageAnalysis, SourceUsageContract } from "./domain.js";
-import { sourceFiles, type SourceFile } from "./source-files.js";
+import type { SourceLanguage, SourceUsage, SourceUsageAnalysis, SourceUsageContract } from "./domain.js";
+import { sourceFiles } from "./source-files.js";
 import { noteCappedUsage } from "./usage/binding-budget.js";
+import { checkoutSourceIgnored } from "./usage/checkout.js";
+import { configKeyMatch } from "./usage/config-keys.js";
+import { impactFor } from "./usage/impact.js";
 import { type Binding, csharpImports, goImports, type ImportReference, javascriptBindings, jvmImports, pythonImports, swiftAliases, swiftImports } from "./usage/imports.js";
-import { analyzeJavaScriptFile } from "./usage/javascript.js";
 import { csharpVerbatimEnd, type MaskState, rubyPercentClose, rubyPercentOpen, rubyRegexEnd, rubyRegexMayStart } from "./usage/masking.js";
+import { parsedUsages } from "./usage/parsers.js";
 import { escapePattern } from "./usage/patterns.js";
-import { PHP_DYNAMIC_ARGUMENT_REASON, PHP_MAX_LINE, PHP_MAX_REFERENCE, phpCallForms, phpCallPattern, phpUses, phpVariableCalls } from "./usage/php.js";
-import { analyzePythonFile } from "./usage/python.js";
+import { PHP_MAX_LINE, PHP_MAX_REFERENCE, phpCallForms, phpCallPattern, type PhpRequire, type PhpScanSkip, phpUses, readPhpLiteral } from "./usage/php.js";
 import { rubyAliases, rubyReceivers } from "./usage/ruby.js";
 
 function javascriptImports(line: string, lineNumber: number): ImportReference[] {
@@ -241,13 +243,6 @@ function rustImports(lines: readonly string[], maskedLines: readonly string[]): 
   return references;
 }
 
-const checkoutIgnoredSegments = new Set(["vendor", "fixtures", "__fixtures__", "testdata"]);
-
-/** Dependency checkouts and fixture trees are not the project's own source. */
-function checkoutSourceIgnored(path: string): boolean {
-  return path.split("/").some((segment) => checkoutIgnoredSegments.has(segment));
-}
-
 interface RubyLiteral {
   value: string;
   end: number;
@@ -380,7 +375,7 @@ const RUBY_INVOCATION_HINT = /(?:^|[^\w.:])(?:(?:::)?Kernel\s*\.\s*)?(?:require_
  * `require_relative` are not `load` or `require`. Lines over 4,096 characters and matches past
  * {@link RUBY_MAX_INVOCATIONS} are not scanned; each is reported in `skips` instead of being dropped.
  */
-function rubyInvocations(lines: readonly string[], maskedLines: readonly string[]): RubyInvocationScan {
+export function rubyInvocations(lines: readonly string[], maskedLines: readonly string[]): RubyInvocationScan {
   const keyword = /(?<![\w.:])(?:(?:::)?Kernel\s*\.\s*)?(require_relative|require|load|gem|autoload)\b/g;
   const invocations: RubyInvocation[] = [];
   const skips: RubyScanSkip[] = [];
@@ -465,54 +460,8 @@ function rubyImports(lines: readonly string[], maskedLines: readonly string[]): 
   return references;
 }
 
-interface PhpLiteral {
-  value: string;
-  end: number;
-  column: number;
-  interpolated: boolean;
-}
-
-/** A single-line quoted PHP string starting at `start`. Interpolation in double quotes is flagged, not decoded. */
-function readPhpLiteral(line: string, start: number): PhpLiteral | undefined {
-  const quote = line[start];
-  if (quote !== "'" && quote !== '"') return undefined;
-  let value = "";
-  let escaped = false;
-  let interpolated = false;
-  for (let index = start + 1; index < line.length; index += 1) {
-    const character = line[index]!;
-    if (escaped) {
-      value += character;
-      escaped = false;
-      continue;
-    }
-    if (character === "\\") {
-      escaped = true;
-      continue;
-    }
-    if (character === quote) return { value, end: index + 1, column: start + 2, interpolated };
-    if (quote === '"' && character === "$") interpolated = true;
-    value += character;
-  }
-  return undefined;
-}
-
-interface PhpRequire {
-  line: number;
-  keywordColumn: number;
-  reference: string;
-  argument: { kind: "literal"; value: string; column: number } | { kind: "dynamic" };
-}
-
-interface PhpScanSkip {
-  line: number;
-  column: number;
-  reference: string;
-  reason: string;
-}
-
 /** `require`, `require_once`, `include`, and `include_once`. A quoted path is literal; anything else is dynamic. */
-function phpRequires(lines: readonly string[], maskedLines: readonly string[]): { requires: PhpRequire[]; skips: PhpScanSkip[] } {
+export function phpRequires(lines: readonly string[], maskedLines: readonly string[]): { requires: PhpRequire[]; skips: PhpScanSkip[] } {
   const keyword = /(?<![\w$>-])(require_once|include_once|require|include)\b/g;
   const requires: PhpRequire[] = [];
   const skips: PhpScanSkip[] = [];
@@ -566,7 +515,7 @@ function phpImportsFromRequires(lines: readonly string[], maskedLines: readonly 
   return references;
 }
 
-function maskCodeLine(line: string, language: SourceLanguage, state: MaskState): string {
+export function maskCodeLine(line: string, language: SourceLanguage, state: MaskState): string {
   if (language === "ruby" && state.afterEnd) return " ".repeat(line.length);
   if (language === "ruby" && line === "__END__") {
     state.afterEnd = true;
@@ -763,40 +712,6 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
   }
   if ((language === "ruby" || language === "php") && quote) state.openString = { kind: "quote", quote, escaped };
   return output.join("");
-}
-
-function configKeyMatch(line: string, matcher: ConfigUsageMatcher): number | undefined {
-  const key = escapePattern(matcher.key);
-  const pattern = matcher.language === "json" ? new RegExp(`["']${key}["']\\s*:`) : matcher.language === "yaml" ? new RegExp(`^\\s*${key}\\s*:`) : new RegExp(`^\\s*${key}\\s*=`);
-  const match = pattern.exec(line);
-  if (!match || (matcher.valueIncludes && !line.includes(matcher.valueIncludes))) return undefined;
-  const keyIndex = line.indexOf(matcher.key, match.index);
-  return keyIndex === -1 ? match.index + 1 : keyIndex + 1;
-}
-
-export function impactFor(usages: readonly SourceUsage[]): MigrationImpact {
-  const usageCount = usages.length;
-  return {
-    usageCount,
-    affectedFiles: new Set(usages.map((usage) => usage.location.path)).size,
-    level: usageCount === 0 ? "none" : usageCount <= 3 ? "low" : usageCount <= 10 ? "medium" : "high",
-  };
-}
-
-async function parsedUsages(
-  file: SourceFile,
-  contents: string,
-  contracts: readonly SourceUsageContract[],
-): Promise<(Map<string, SourceUsage[]> & { analysisCapped?: boolean }) | undefined> {
-  try {
-    if (file.language === "python") return await analyzePythonFile({ path: file.path, language: "python", source: contents }, contracts);
-    if (file.language === "javascript" || file.language === "typescript") {
-      return await analyzeJavaScriptFile({ path: file.path, language: file.language, source: contents }, contracts);
-    }
-  } catch {
-    // The parser could not run; the regex scanner covers the file.
-  }
-  return undefined;
 }
 
 /** `parser: false` forces the regex scanner; `skips` receives one line per memory-capped file. */
@@ -1074,166 +989,6 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
   });
 }
 
-export interface RubyDynamicReference {
-  path: string;
-  line: number;
-  column: number;
-  reference: string;
-  reason: string;
-}
-
-const RUBY_DYNAMIC_REASON = "the argument is not a string literal, so Evergreen does not attribute it to a gem";
-
-/**
- * `require`, `load`, `gem`, and `autoload` whose argument is not a string literal, plus invocations
- * that were not scanned because a line or repository bound was hit.
- * `require_relative` is never unclassified: it names a local file, not a gem.
- */
-export async function findRubyDynamicReferences(root: string): Promise<RubyDynamicReference[]> {
-  const found: RubyDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "ruby" })) {
-    if (checkoutSourceIgnored(file.path)) continue;
-    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
-    const maskedLines: string[] = [];
-    const maskState: MaskState = { blockComment: false };
-    for (const line of lines) maskedLines.push(maskCodeLine(line, "ruby", maskState));
-    const { invocations, skips } = rubyInvocations(lines, maskedLines);
-    for (const skip of skips) {
-      found.push({ path: file.path, line: skip.line, column: skip.column, reference: skip.reference, reason: skip.reason });
-    }
-    for (const invocation of invocations) {
-      if (invocation.kind === "require_relative" || invocation.argument.kind !== "dynamic") continue;
-      found.push({
-        path: file.path,
-        line: invocation.line,
-        column: invocation.keywordColumn,
-        reference: invocation.reference,
-        reason: RUBY_DYNAMIC_REASON,
-      });
-    }
-  }
-  return found.sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference));
-}
-
-export interface PhpDynamicReference {
-  path: string;
-  line: number;
-  column: number;
-  reference: string;
-  reason: string;
-}
-
-/**
- * `require`, `require_once`, `include`, and `include_once` whose argument is not a string literal, plus
- * `new $class` and `$class::method()`. A quoted path and a static `use` are never unclassified. PHP has no
- * `require_relative`. Reported only for files this scanner reads; the detector calls it when a finding has usage matchers.
- */
-export async function findPhpDynamicReferences(root: string): Promise<PhpDynamicReference[]> {
-  const found: PhpDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "php" })) {
-    if (checkoutSourceIgnored(file.path)) continue;
-    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
-    const maskedLines: string[] = [];
-    const maskState: MaskState = { blockComment: false };
-    for (const line of lines) maskedLines.push(maskCodeLine(line, "php", maskState));
-    const { requires, skips } = phpRequires(lines, maskedLines);
-    for (const skip of skips) {
-      found.push({ path: file.path, line: skip.line, column: skip.column, reference: skip.reference, reason: skip.reason });
-    }
-    for (const invocation of requires) {
-      if (invocation.argument.kind !== "dynamic") continue;
-      found.push({
-        path: file.path,
-        line: invocation.line,
-        column: invocation.keywordColumn,
-        reference: invocation.reference,
-        reason: PHP_DYNAMIC_ARGUMENT_REASON,
-      });
-    }
-    for (const call of phpVariableCalls(lines, maskedLines)) {
-      found.push({ path: file.path, line: call.line, column: call.column, reference: call.reference, reason: call.reason });
-    }
-  }
-  const unique = new Map<string, PhpDynamicReference>();
-  for (const hit of found) {
-    const key = `${hit.path}:${hit.line}:${hit.column}:${hit.reference}:${hit.reason}`;
-    if (!unique.has(key)) unique.set(key, hit);
-  }
-  return [...unique.values()].sort(
-    (left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference),
-  );
-}
-
-export interface DartDynamicReference {
-  path: string;
-  line: number;
-  column: number;
-  reference: string;
-  reason: string;
-}
-
-const DART_DYNAMIC_REASON = "the runtime lookup cannot be attributed statically to a Dart package or API";
-const DART_DYNAMIC_LOOKUP = /\bFunction\s*\.\s*apply\s*\(/g;
-const DART_MIRROR_LOOKUP = /\b(?:reflect|reflectClass|reflectType|currentMirrorSystem)\s*\(/g;
-
-/** Runtime lookup forms in Dart source that cannot be assigned to a package safely: `Function.apply`, and `dart:mirrors` reflection. */
-export async function findDartDynamicReferences(root: string): Promise<DartDynamicReference[]> {
-  const found: DartDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "dart" })) {
-    if (checkoutSourceIgnored(file.path)) continue;
-    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
-    const maskedLines: string[] = [];
-    const maskState: MaskState = { blockComment: false };
-    for (const line of lines) maskedLines.push(maskCodeLine(line, "dart", maskState));
-    const mirrors = lines.some((line, index) => /^\s*import\b/.test(maskedLines[index]!) && /^\s*import\s*['"]dart:mirrors['"]/.test(line));
-    for (const [index, masked] of maskedLines.entries()) {
-      for (const pattern of mirrors ? [DART_DYNAMIC_LOOKUP, DART_MIRROR_LOOKUP] : [DART_DYNAMIC_LOOKUP]) {
-        pattern.lastIndex = 0;
-        for (const match of masked.matchAll(pattern)) {
-          if (match.index === undefined) continue;
-          found.push({ path: file.path, line: index + 1, column: match.index + 1, reference: lines[index]!.trim(), reason: DART_DYNAMIC_REASON });
-        }
-      }
-    }
-  }
-  return found.sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column);
-}
-
-export interface SwiftDynamicReference {
-  path: string;
-  line: number;
-  column: number;
-  reference: string;
-  reason: string;
-}
-
-const SWIFT_DYNAMIC_REASON = "the runtime lookup cannot be attributed statically to a Swift package or API";
-const SWIFT_DYNAMIC_LOOKUP = /\b(?:NSClassFromString|NSProtocolFromString|NSSelectorFromString|Selector|objc_getClass|sel_registerName|dlsym)\s*\(/g;
-
-/** Runtime Objective-C lookup forms in Swift source that cannot be assigned to a package safely. */
-export async function findSwiftDynamicReferences(root: string): Promise<SwiftDynamicReference[]> {
-  const found: SwiftDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "swift" })) {
-    if (checkoutSourceIgnored(file.path)) continue;
-    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
-    const maskedLines: string[] = [];
-    const maskState: MaskState = { blockComment: false };
-    for (const line of lines) maskedLines.push(maskCodeLine(line, "swift", maskState));
-    for (const [index, masked] of maskedLines.entries()) {
-      SWIFT_DYNAMIC_LOOKUP.lastIndex = 0;
-      for (const match of masked.matchAll(SWIFT_DYNAMIC_LOOKUP)) {
-        if (match.index === undefined) continue;
-        found.push({
-          path: file.path,
-          line: index + 1,
-          column: match.index + 1,
-          reference: lines[index]!.trim(),
-          reason: SWIFT_DYNAMIC_REASON,
-        });
-      }
-    }
-  }
-  return found.sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column);
-}
-
+export { impactFor };
+export * from "./usage/dynamic-references.js";
 export type { SourceUsageAnalysis, SourceUsageContract } from "./domain.js";

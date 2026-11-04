@@ -4,7 +4,7 @@
   "fileSize": [
     {
       "file": "src/source-usage.ts",
-      "lines": 1239,
+      "lines": 994,
       "owner": "#2224",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 1,000-line ceiling; split it in the file-size follow-up."
@@ -3426,7 +3426,7 @@
     },
     {
       "file": "src/source-usage.ts",
-      "count": 37,
+      "count": 33,
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Non-null assertions in this file; remove them in the non-null follow-up."

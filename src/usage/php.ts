@@ -10,6 +10,52 @@ export const PHP_DYNAMIC_ARGUMENT_REASON =
 const PHP_DYNAMIC_NAME_REASON =
   "the class or function name is a variable, so Evergreen does not attribute it to a package";
 
+export interface PhpLiteral {
+  value: string;
+  end: number;
+  column: number;
+  interpolated: boolean;
+}
+
+/** A single-line quoted PHP string starting at `start`. Interpolation in double quotes is flagged, not decoded. */
+export function readPhpLiteral(line: string, start: number): PhpLiteral | undefined {
+  const quote = line[start];
+  if (quote !== "'" && quote !== '"') return undefined;
+  let value = "";
+  let escaped = false;
+  let interpolated = false;
+  for (let index = start + 1; index < line.length; index += 1) {
+    const character = line[index] ?? "";
+    if (escaped) {
+      value += character;
+      escaped = false;
+      continue;
+    }
+    if (character === "\\") {
+      escaped = true;
+      continue;
+    }
+    if (character === quote) return { value, end: index + 1, column: start + 2, interpolated };
+    if (quote === '"' && character === "$") interpolated = true;
+    value += character;
+  }
+  return undefined;
+}
+
+export interface PhpRequire {
+  line: number;
+  keywordColumn: number;
+  reference: string;
+  argument: { kind: "literal"; value: string; column: number } | { kind: "dynamic" };
+}
+
+export interface PhpScanSkip {
+  line: number;
+  column: number;
+  reference: string;
+  reason: string;
+}
+
 interface PhpAlias {
   local: string;
   target: string;
