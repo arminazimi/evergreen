@@ -67,6 +67,12 @@ const CASES: readonly DocumentRoundTripCase[] = [
     versions: "9.8.7|14.2",
   },
   {
+    name: "inventory:aws-eks",
+    document: ({ name, version }) => ({ cluster: { name, version, platformVersion: "eks.21" } }),
+    names: "zzmark",
+    versions: "9.8.7|1.21.0",
+  },
+  {
     name: "inventory:aws-lambda",
     document: ({ name, version }) => ({ Functions: [{ FunctionName: name, Runtime: version }] }),
     names: "zzmark",
