@@ -3,6 +3,7 @@ import { basename, isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../../agent-instructions.js";
 import type { Finding } from "../../domain.js";
+import { required } from "../../required.js";
 import type { FilePatch, Fixer } from "../index.js";
 
 const DOCKERFILE = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
@@ -32,21 +33,21 @@ function lineEnding(line: string): string {
 function parseMaintainer(line: string): { indent: string; value: string } | { reason: string } {
   const match = /^(\s*)MAINTAINER\s+([\s\S]*)$/i.exec(line);
   if (!match) return { reason: "The line is not a MAINTAINER instruction." };
-  const value = match[2]!.trim();
+  const value = required(match[2], "MAINTAINER author text").trim();
   return value.length === 0
     ? { reason: "The MAINTAINER instruction has no author text to rewrite." }
-    : { indent: match[1]!, value };
+    : { indent: required(match[1], "MAINTAINER indent"), value };
 }
 
 function parseLegacyEnv(line: string): { indent: string; key: string; value: string } | { reason: string } {
   const match = /^(\s*)ENV\s+(\S+)(?:\s+([\s\S]*))?$/i.exec(line);
   if (!match) return { reason: "The line is not an ENV instruction." };
-  const key = match[2]!;
+  const key = required(match[2], "ENV key");
   if (key.includes("=")) return { reason: "The ENV instruction already uses the key=value form." };
   const value = (match[3] ?? "").trim().replace(/\s+/g, " ");
   return value.length === 0
     ? { reason: "The ENV instruction has no value to rewrite." }
-    : { indent: match[1]!, key, value };
+    : { indent: required(match[1], "ENV indent"), key, value };
 }
 
 /** Rewrites one deprecated instruction, or says why quoting it would change its value. */

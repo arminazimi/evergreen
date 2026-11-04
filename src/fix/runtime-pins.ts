@@ -7,6 +7,7 @@ import { renderDiff } from "../agent-instructions.js";
 import { loadDataFile } from "../data-source.js";
 import type { Finding } from "../domain.js";
 import { validateRegistryV2 } from "../registry.js";
+import { required } from "../required.js";
 import type { FilePatch, Fixer } from "./index.js";
 
 /** An exact runtime pin: `20`, `v20`, `20.11`, or `20.11.0`. Ranges such as `>=20`, `^20`, `20.x`, or `18 || 20` never match. */
@@ -51,7 +52,7 @@ function versionFileValue(line: string): string | undefined {
 
 function enginesValue(line: string): string | undefined {
   const match = ENGINES_NODE.exec(line);
-  return match && EXACT_PIN.test(match[2]!) ? match[2] : undefined;
+  return match && EXACT_PIN.test(required(match[2], "engines.node value")) ? match[2] : undefined;
 }
 
 /** Replaces the version in `value` with `target`, keeping a leading `v`; returns undefined when `value` is not an exact pin. */
@@ -68,7 +69,7 @@ function rewriteVersionFile(line: string, target: string): string {
 
 function rewriteEngines(line: string, target: string): string {
   const match = ENGINES_NODE.exec(line);
-  const next = match && pinned(match[2]!, target);
+  const next = match && pinned(required(match[2], "engines.node value"), target);
   return match && next !== undefined ? `${match[1]}${next}${match[3]}${line.slice(match[0].length)}` : line;
 }
 
@@ -136,11 +137,11 @@ export const runtimePinsFixer: Fixer = {
       const rewritten = new Set<number>();
       for (let index = 0; index < text.length; index += 1) {
         const pin = lines.get(index + 1);
-        const value = pin?.value(text[index]!);
+        const value = pin?.value(required(text[index], "the pinned line"));
         if (!pin || value === undefined) continue;
         const next = await target(pin, value);
         if (next === undefined) continue;
-        const line = pin.rewrite(text[index]!, next);
+        const line = pin.rewrite(required(text[index], "the pinned line"), next);
         if (line === text[index]) continue;
         text[index] = line;
         rewritten.add(index + 1);
@@ -149,9 +150,9 @@ export const runtimePinsFixer: Fixer = {
       // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
       if (after !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), after.slice(0, -1)) });
       for (const finding of findings) {
-        const index = finding.location.line! - 1;
+        const index = required(finding.location.line, "the finding line") - 1;
         if (rewritten.has(index + 1)) continue;
-        const pin = lines.get(index + 1)!;
+        const pin = required(lines.get(index + 1), "the pin for the finding line");
         const line = original[index] ?? "";
         const value = pin.value(line);
         const reason = refusalReason(line, pin, value === undefined ? undefined : await target(pin, value));
@@ -184,11 +185,13 @@ async function coveredNodeMajors(): Promise<Set<number>> {
     if (!rule.id.startsWith("nodejs.runtime.")) continue;
     const range = NODE_MAJOR_RANGE.exec(rule.vers);
     if (range) {
-      covered.add(Number.parseInt(range[1]!, 10));
+      covered.add(Number.parseInt(required(range[1], "node major range floor"), 10));
       continue;
     }
     const below = NODE_BELOW_MAJOR.exec(rule.vers);
-    if (below) for (let major = 0; major < Number.parseInt(below[1]!, 10); major += 1) covered.add(major);
+    if (below)
+      for (let major = 0; major < Number.parseInt(required(below[1], "node below major"), 10); major += 1)
+        covered.add(major);
   }
   return covered;
 }

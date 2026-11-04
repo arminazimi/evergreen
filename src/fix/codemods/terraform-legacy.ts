@@ -9,6 +9,7 @@ import {
   type TerraformLegacyFunctionDeclaration,
 } from "../../detectors/terraform/parse-terraform.js";
 import type { Finding } from "../../domain.js";
+import { required } from "../../required.js";
 import type { FilePatch, Fixer } from "../index.js";
 
 const INTERPOLATION_RULE_ID = "terraform.syntax.interpolation-only";
@@ -46,11 +47,11 @@ function functionEdit(declaration: TerraformLegacyFunctionDeclaration): { replac
   }
   const pairs: string[] = [];
   for (let index = 0; index < declaration.arguments.length; index += 2) {
-    const key = declaration.arguments[index]!;
+    const key = required(declaration.arguments[index], "the map key");
     if (!OBJECT_KEY.test(key) && !QUOTED_KEY.test(key)) {
       return { reason: "The map() key is not a quoted string or an identifier." };
     }
-    pairs.push(`${key} = ${declaration.arguments[index + 1]!}`);
+    pairs.push(`${key} = ${required(declaration.arguments[index + 1], "the map value")}`);
   }
   return { replacement: `tomap({${pairs.join(", ")}})` };
 }
@@ -121,7 +122,7 @@ function lineEdits(
 ): Edit[] {
   const edits: Edit[] = [];
   for (const declaration of declarations) {
-    if (declaration.line !== targets[0]!.finding.location.line) continue;
+    if (declaration.line !== required(targets[0], "the line target").finding.location.line) continue;
     const target = targets.find((candidate) =>
       candidate.kind === "interpolation"
         ? declaration.kind === "interpolation_only"
@@ -217,7 +218,7 @@ export const terraformLegacyFixer: Fixer = {
         const declarations = parseTerraformLegacy(text);
         const lines = text.split("\n");
         let changed = false;
-        for (const lineNumber of new Set(targets.map((target) => target.finding.location.line!))) {
+        for (const lineNumber of new Set(targets.map((target) => required(target.finding.location.line, "the line")))) {
           const lineTargets = targets.filter((target) => target.finding.location.line === lineNumber);
           if (lineTargets.length === 0) continue;
           const edits = lineEdits(lines[lineNumber - 1] ?? "", declarations, lineTargets);
@@ -232,7 +233,7 @@ export const terraformLegacyFixer: Fixer = {
       const after = text.split("\n");
       const final = parseTerraformLegacy(text);
       for (const target of targets) {
-        const index = target.finding.location.line! - 1;
+        const index = required(target.finding.location.line, "the line") - 1;
         const declaration = declarationFor(final, target);
         if (declaration) {
           refuse?.(target.finding, reasonOf(declaration));

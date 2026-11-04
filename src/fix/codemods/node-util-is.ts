@@ -3,6 +3,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../../agent-instructions.js";
 import type { Finding, ScanResult, Severity, SourceUsage, UsageMatcher } from "../../domain.js";
+import { required } from "../../required.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
 import { grammarFor, parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
@@ -252,7 +253,7 @@ export const nodeUtilIsFixer: Fixer = {
         decline("The source file does not end with a newline.");
         continue;
       }
-      const grammar = grammarFor(fileTargets[0]!.usage.language, path);
+      const grammar = grammarFor(required(fileTargets[0], "the file target").usage.language, path);
       if (grammar === undefined) {
         decline("No parser covers this source language.");
         continue;
@@ -320,7 +321,7 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
   const reported = new Map(
     rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
   );
-  const missing = rules.filter((rule) => reported.get(rule.id)!.length === 0);
+  const missing = rules.filter((rule) => required(reported.get(rule.id), "reported findings").length === 0);
   const analyses =
     missing.length === 0
       ? []
@@ -331,7 +332,7 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
   const derived = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
 
   for (const rule of rules) {
-    const findings = reported.get(rule.id)!;
+    const findings = required(reported.get(rule.id), "reported findings");
     if (findings.length > 0) {
       for (const finding of findings) {
         for (const usage of finding.usages ?? []) targets.push({ rule, usage, finding });
@@ -413,7 +414,7 @@ function rewriteFor(
     if (values.length === 0) return { reason: `The call passes no argument; \`util.${rule.name}\` takes exactly one.` };
     if (values.length > 1)
       return { reason: `The call passes ${values.length} arguments; \`util.${rule.name}\` takes exactly one.` };
-    const argument = values[0]!;
+    const argument = required(values[0], "the single argument");
     if (argument.type === "spread_element")
       return { reason: "The call spreads its argument, so the single value is not visible in the source text." };
     if (rule.form === "refuse")

@@ -3,6 +3,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../../agent-instructions.js";
 import type { Finding, ScanResult, SourceUsage, UsageMatcher } from "../../domain.js";
+import { required } from "../../required.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
 import { parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
@@ -203,7 +204,7 @@ export const pythonImpFixer: Fixer = {
         const existing = importedModules(tree.rootNode);
         const additions = [...new Set(needed)].filter((module) => !isImported(module, existing));
         const importEdit = importEditFor(
-          imports.statement!,
+          required(imports.statement, "the `import imp` statement"),
           additions,
           hasRemainingImpReference(tree.rootNode, rewritten),
           before,
@@ -246,7 +247,7 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
   const reported = new Map(
     rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
   );
-  const missing = rules.filter((rule) => reported.get(rule.id)!.length === 0);
+  const missing = rules.filter((rule) => required(reported.get(rule.id), "reported findings").length === 0);
   const analyses =
     missing.length === 0
       ? []
@@ -258,7 +259,7 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
 
   const targets: Target[] = [];
   for (const rule of rules) {
-    const findings = reported.get(rule.id)!;
+    const findings = required(reported.get(rule.id), "reported findings");
     if (findings.length > 0) {
       for (const finding of findings) {
         for (const usage of finding.usages ?? []) targets.push({ rule, usage, finding });
@@ -323,8 +324,8 @@ function rewriteFor(
     if ("reason" in check) return check;
     return {
       edit: rule.wholeCall
-        ? { start: call.startIndex, end: call.endIndex, replacement: rule.replacement! }
-        : { start: callee.startIndex, end: callee.endIndex, replacement: rule.replacement! },
+        ? { start: call.startIndex, end: call.endIndex, replacement: required(rule.replacement, "replacement") }
+        : { start: callee.startIndex, end: callee.endIndex, replacement: required(rule.replacement, "replacement") },
       calleeStart: callee.startIndex,
     };
   }
@@ -427,7 +428,8 @@ function importedModules(root: Node): Set<string> {
   }
   for (const node of root.descendantsOfType("import_from_statement")) {
     const match = node === null ? null : /^from\s+([\w.]+)\s+import\s+([\s\S]+)$/.exec(node.text);
-    if (match?.[1] === "importlib" && /(?:^|,)\s*util\s*(?:,|$)/.test(match[2]!)) modules.add("importlib.util");
+    if (match?.[1] === "importlib" && /(?:^|,)\s*util\s*(?:,|$)/.test(required(match[2], "the import names")))
+      modules.add("importlib.util");
   }
   return modules;
 }

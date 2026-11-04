@@ -3,6 +3,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../../agent-instructions.js";
 import type { Finding, ScanResult, Severity, SourceUsage, UsageMatcher } from "../../domain.js";
+import { required } from "../../required.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
 import { grammarFor, parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
@@ -230,7 +231,7 @@ async function targetsFor(result: ScanResult): Promise<{ targets: Target[]; impo
 
   const targets: Target[] = [];
   for (const rename of renames) {
-    const findings = reported.get(rename.id)!;
+    const findings = required(reported.get(rename.id), "reported findings");
     if (findings.length > 0) {
       for (const finding of findings) {
         for (const usage of finding.usages ?? []) targets.push({ rename, usage, finding });

@@ -3,6 +3,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../../agent-instructions.js";
 import type { Finding, ScanResult, SourceUsage, UsageMatcher } from "../../domain.js";
+import { required } from "../../required.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
 import { parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
@@ -105,7 +106,7 @@ export const pythonUtcnowFixer: Fixer = {
             refuse?.(target.finding, problem);
             continue;
           }
-          const rewrite = rewriteFor(target, calls, shape!, before);
+          const rewrite = rewriteFor(target, calls, required(shape, "the datetime import shape"), before);
           if ("reason" in rewrite) {
             refuse?.(target.finding, rewrite.reason);
             continue;
@@ -115,8 +116,8 @@ export const pythonUtcnowFixer: Fixer = {
         }
         if (!rewrote) continue;
 
-        if (shape!.fromImport !== undefined && !imports.timezoneImported) {
-          edits.push(timezoneEditFor(shape!.fromImport));
+        if (shape?.fromImport !== undefined && !imports.timezoneImported) {
+          edits.push(timezoneEditFor(shape.fromImport));
         }
         const text = applyEdits(before, edits);
         if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
@@ -154,7 +155,7 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
   const reported = new Map(
     rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
   );
-  const missing = rules.filter((rule) => reported.get(rule.id)!.length === 0);
+  const missing = rules.filter((rule) => required(reported.get(rule.id), "reported findings").length === 0);
   const analyses =
     missing.length === 0
       ? []
@@ -166,7 +167,7 @@ async function targetsFor(result: ScanResult): Promise<Target[]> {
 
   const targets: Target[] = [];
   for (const rule of rules) {
-    const findings = reported.get(rule.id)!;
+    const findings = required(reported.get(rule.id), "reported findings");
     if (findings.length > 0) {
       for (const finding of findings) {
         for (const usage of finding.usages ?? []) targets.push({ rule, usage, finding });
@@ -361,6 +362,11 @@ function shapeProblem(imports: Imports, shape: Shape | undefined): string | unde
   return undefined;
 }
 
+/** The named children of a node, with the holes a partial parse leaves between them removed. */
+function namedChildNodes(node: Node): Node[] {
+  return node.namedChildren.filter((child): child is Node => child !== null);
+}
+
 function rewriteFor(
   target: Target,
   calls: Map<number, Node[]>,
@@ -402,11 +408,11 @@ function rewriteFor(
         ],
       };
     }
-    const last = args.namedChildren.filter((argument): argument is Node => argument !== null).at(-1);
+    const last = required(namedChildNodes(args).at(-1), "the timestamp argument");
     return {
       edits: [
         { start: callee.startIndex, end: callee.endIndex, replacement: `${shape.prefix}.fromtimestamp` },
-        { start: last!.endIndex, end: last!.endIndex, replacement: `, ${shape.timezone}` },
+        { start: last.endIndex, end: last.endIndex, replacement: `, ${shape.timezone}` },
         { start: call.endIndex, end: call.endIndex, replacement: ".replace(tzinfo=None)" },
       ],
     };
@@ -418,7 +424,7 @@ function rewriteFor(
 
 /** A replacement is written only when the call's arguments keep their meaning: none at all, or one plain positional. */
 function checkArguments(rule: Rule, args: Node): { reason: string } | { ok: true } {
-  const callArguments = args.namedChildren.filter((argument): argument is Node => argument !== null);
+  const callArguments = namedChildNodes(args);
   if (rule.symbol === "utcnow") {
     if (args.text.slice(1, -1).trim() !== "")
       return { reason: "`datetime.utcnow` takes no arguments, so the call's arguments cannot be kept." };
@@ -442,7 +448,7 @@ function timezoneEditFor(statement: Node): Edit {
   const names = statement.namedChildren.filter(
     (child): child is Node => child !== null && (child.type === "dotted_name" || child.type === "aliased_import"),
   );
-  const last = names.at(-1)!;
+  const last = required(names.at(-1), "the imported name");
   return { start: last.endIndex, end: last.endIndex, replacement: ", timezone" };
 }
 

@@ -3,6 +3,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../../agent-instructions.js";
 import type { Finding, ScanResult, Severity, SourceUsage, UsageMatcher } from "../../domain.js";
+import { required } from "../../required.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
 import { parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
@@ -211,7 +212,7 @@ async function targetsFor(
 
   const targets: Target[] = [];
   for (const rename of moduleRenames) {
-    const findings = reported.get(rename.id)!;
+    const findings = required(reported.get(rename.id), "reported findings");
     if (findings.length > 0) {
       for (const finding of findings) {
         for (const usage of finding.usages ?? []) {
@@ -232,7 +233,7 @@ async function targetsFor(
     }
   }
 
-  const findings = reported.get(aliasRuleId)!;
+  const findings = required(reported.get(aliasRuleId), "reported findings");
   if (findings.length > 0) {
     for (const finding of findings) {
       for (const usage of finding.usages ?? []) {
@@ -329,7 +330,7 @@ function rewriteFor(
   const offset = offsetOf(source, usage.location.line, usage.location.column);
   if (offset === -1) return { reason: "The reported line and column are not in the source file." };
   if (target.alias !== undefined) return rewriteAlias(target.alias, index, offset);
-  return rewriteModuleRename(target.rename!, index, root, offset);
+  return rewriteModuleRename(required(target.rename, "the module rename"), index, root, offset);
 }
 
 function rewriteAlias(alias: Alias, index: FileIndex, offset: number): { edits: Edit[] } | { reason: string } {
@@ -427,9 +428,10 @@ function directImportsFor(root: Node, rename: ModuleRename): Edit[] {
       if (!child || child.id === module.id) continue;
       if (child.type === "dotted_name" && child.text === rename.from) {
         edits.push({ start: child.startIndex, end: child.endIndex, replacement: rename.to });
-      } else if (child.type === "aliased_import" && child.childForFieldName("name")?.text === rename.from) {
-        const name = child.childForFieldName("name")!;
-        edits.push({ start: name.startIndex, end: name.endIndex, replacement: rename.to });
+      } else if (child.type === "aliased_import") {
+        const aliased = child.childForFieldName("name");
+        if (aliased?.text === rename.from)
+          edits.push({ start: aliased.startIndex, end: aliased.endIndex, replacement: rename.to });
       }
     }
   }
@@ -490,7 +492,7 @@ function unittestBindings(root: Node): UnittestBindings {
     for (const child of statement.namedChildren) {
       if (!child) continue;
       if (child.type === "dotted_name" && moduleMatches(child.text, "unittest")) {
-        bindings.modules.add(child.text.split(".")[0]!);
+        bindings.modules.add(child.text.split(".", 1).join());
       }
       if (child.type === "aliased_import") {
         const name = child.childForFieldName("name");
@@ -552,7 +554,8 @@ function isTestcaseBase(node: Node, bindings: UnittestBindings): boolean {
   }
   if (node.type !== "attribute") return false;
   const chain = chainOf(node);
-  return chain !== undefined && chain.path.at(-1) === "TestCase" && bindings.modules.has(chain.path[0]!);
+  if (chain === undefined || chain.path.at(-1) !== "TestCase") return false;
+  return bindings.modules.has(required(chain.path[0], "the chain head"));
 }
 
 function insideTestcase(node: Node, testcase: ReadonlySet<number>): boolean {
