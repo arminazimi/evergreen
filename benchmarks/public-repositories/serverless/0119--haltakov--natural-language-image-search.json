@@ -10,7 +10,7 @@
       "line": 9,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 9 of unsplash-proxy/serverless.yml reads `runtime: python3.8` under `provider:`. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html: the AWS Lambda runtimes table lists python3.8 as deprecated on 2024-10-14. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 9 of unsplash-proxy/serverless.yml reads `runtime: python3.8` under `provider:`. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html: the AWS Lambda runtimes table lists python3.8 as deprecated on 2024-10-14. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     }
   ]

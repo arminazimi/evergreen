@@ -11,7 +11,7 @@
       "groundTruthSource": {
         "kind": "maintainer-review",
         "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
-        "note": "Reviewed at this commit: line 11 of azure-pipelines.yml sets pool.vmImage to ubuntu-20.04. The Azure DevOps blog's deprecation plan sets full removal of that image for 2025-04-30 (https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://learn.microsoft.com/azure/devops/pipelines/agents/hosted: the hosted-images page states the Ubuntu 20.04 image is retired. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 11 of azure-pipelines.yml sets pool.vmImage to ubuntu-20.04. Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://learn.microsoft.com/azure/devops/pipelines/agents/hosted: the hosted-images page states the Ubuntu 20.04 image is retired. Outcome: confirmed."
       }
     },
     {

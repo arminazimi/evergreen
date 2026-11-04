@@ -10,7 +10,7 @@
       "line": 17,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 17 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://devguide.python.org/versions/: Python 3.10 reaches end-of-life on 2026-10-01, so the >=3.10 floor includes an EOL release. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 17 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01. Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://devguide.python.org/versions/: Python 3.10 reaches end-of-life on 2026-10-01, so the >=3.10 floor includes an EOL release. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {
@@ -19,7 +19,7 @@
       "line": 2,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Read tox.ini:2 at this commit: the envlist tests on py310 environments; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://devguide.python.org/versions/: Python 3.10 reaches end-of-life on 2026-10-01, so the >=3.10 floor includes an EOL release. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+        "note": "Read tox.ini:2 at this commit: the envlist tests on py310 environments; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://devguide.python.org/versions/: Python 3.10 reaches end-of-life on 2026-10-01, so the >=3.10 floor includes an EOL release. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     }
   ]

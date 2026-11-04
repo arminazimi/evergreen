@@ -10,7 +10,7 @@
       "line": 18,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>19</java.version>`, a compile level of JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded. Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://adoptium.net/support/: Adoptium lists JDK 18, 19 and 20 as end-of-support; 17 and 21 remain supported. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>19</java.version>`, a compile level of JDK 19, a non-LTS release. Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://adoptium.net/support/: Adoptium lists JDK 18, 19 and 20 as end-of-support; 17 and 21 remain supported. Outcome: confirmed."
       }
     }
   ]

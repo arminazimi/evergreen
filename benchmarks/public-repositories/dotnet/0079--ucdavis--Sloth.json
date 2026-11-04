@@ -10,7 +10,7 @@
       "line": 4,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 4 of Sloth.Api/Sloth.Api.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 4 of Sloth.Api/Sloth.Api.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {
@@ -28,7 +28,7 @@
       "line": 5,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 5 of Sloth.Jobs.CyberSource.BankReconcile/Sloth.Jobs.CyberSource.BankReconcile.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 5 of Sloth.Jobs.CyberSource.BankReconcile/Sloth.Jobs.CyberSource.BankReconcile.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {
@@ -37,7 +37,7 @@
       "line": 5,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 5 of Sloth.Jobs.Kfs.ScrubberUpload/Sloth.Jobs.Kfs.ScrubberUpload.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 5 of Sloth.Jobs.Kfs.ScrubberUpload/Sloth.Jobs.Kfs.ScrubberUpload.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {
@@ -46,7 +46,7 @@
       "line": 4,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 4 of Sloth.Test/Sloth.Test.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 4 of Sloth.Test/Sloth.Test.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     },
     {
@@ -55,7 +55,7 @@
       "line": 4,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Reviewed at this commit: line 4 of Sloth.Web/Sloth.Web.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by arminazimi on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
+        "note": "Reviewed at this commit: line 4 of Sloth.Web/Sloth.Web.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages'). Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-03 against the primary vendor page https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json: .NET Core 3.1 carries eol_date 2022-12-13. The pinned file was re-fetched at the recorded commit and the cited line matches. Outcome: confirmed."
       }
     }
   ]
