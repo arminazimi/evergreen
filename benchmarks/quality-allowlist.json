@@ -2073,27 +2073,6 @@
   "asUnknownAs": [],
   "nonNull": [
     {
-      "file": "src/action-tracking-issue.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/badge.ts",
-      "count": 9,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/baseline.ts",
-      "count": 5,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
       "file": "src/check-dependency.ts",
       "count": 4,
       "owner": "#2223",
