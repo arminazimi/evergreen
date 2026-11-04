@@ -295,9 +295,10 @@ test("reports contributor metrics as unavailable on HTTP error or invalid respon
 
 test("one failing source is recorded and does not stop the others", async () => {
   const fetcher: Fetcher = async (url) => {
-    if (url.includes("npmjs.org")) throw new Error("network down");
+    const { hostname } = new URL(url);
+    if (hostname === "api.npmjs.org") throw new Error("network down");
     if (url.includes("skills.sh")) return { status: 200, text: SAVED_SKILLS_SH_PAGE };
-    if (url.includes("registry.modelcontextprotocol.io")) return { status: 200, text: '{"servers":[]}' };
+    if (hostname === "registry.modelcontextprotocol.io") return { status: 200, text: '{"servers":[]}' };
     if (url.includes("api.github.com/repos/"))
       return { status: 200, text: '{"stargazers_count": 3, "forks_count": 1}' };
     if (url.includes("securityscorecards.dev")) return { status: 200, text: '{"score": 3.1}' };

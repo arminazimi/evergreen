@@ -179,7 +179,7 @@ test("an update downloads, verifies, stores, and activates the newest bundle", a
   assert.match(
     renderDataUpdateText(result),
     new RegExp(
-      `Updated lifecycle data: ${VERSION.replace(/\./g, "\\.")} \\(bundled\\) → 2999\.01\.01 \\(cache\\)\\.\nRules: npm: \\d+ → \\d+ rules\\.`,
+      `Updated lifecycle data: ${VERSION.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} \\(bundled\\) → 2999\\.01\\.01 \\(cache\\)\\.\nRules: npm: \\d+ → \\d+ rules\\.`,
     ),
   );
 

@@ -170,11 +170,17 @@ function find(node: ElementNode, predicate: (element: ElementNode) => boolean): 
   return walk(node).find(predicate);
 }
 
-const normalize = (value: string): string =>
-  value
-    .replace(/<[^>]+>/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+const withoutTags = (value: string): string => {
+  let previous: string;
+  let current = value;
+  do {
+    previous = current;
+    current = current.replace(/<[^>]+>/g, "");
+  } while (current !== previous);
+  return current;
+};
+
+const normalize = (value: string): string => withoutTags(value).replace(/\s+/g, " ").trim();
 
 test("a missing number reads not measured, never 0, 1, or NaN", () => {
   for (const value of [null, undefined, Number.NaN, Infinity, "1", {}, []]) {
@@ -578,7 +584,7 @@ test("run status reads the recorded age and the reference day", () => {
 });
 
 test("the page loads nothing from elsewhere and is not in the sitemap", async () => {
-  for (const tag of html.match(/<(script|link|img|iframe)[^>]*>/g) ?? []) {
+  for (const tag of html.match(/<(script|link|img|iframe)[^>]*>/gi) ?? []) {
     assert.doesNotMatch(tag, /https?:|\/\//, tag);
   }
   assert.doesNotMatch(css, /@import|url\(|https?:/);

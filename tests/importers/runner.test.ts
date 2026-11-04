@@ -216,7 +216,7 @@ test("the live context reads successful responses, retries server errors, and na
   assert.equal(await live.fetchText(`${base}/flaky`), "recovered");
   await assert.rejects(
     live.fetchText(`${base}/missing`),
-    new RegExp(`GET ${base.replace(/[.]/g, "\\.")}/missing failed: HTTP 404`),
+    new RegExp(`GET ${base.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/missing failed: HTTP 404`),
   );
   await assert.rejects(live.fetchText(`${base}/slow`), /failed/);
   assert.equal(live.now, NOW);

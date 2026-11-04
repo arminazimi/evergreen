@@ -107,7 +107,7 @@ test("the serverless registry holds the curated AWS, Google Cloud, and Azure rul
       rule.sources.some((source) => source.url === expected.source),
       `${rule.id} cites ${expected.source}`,
     );
-    assert.match(rule.summary, new RegExp(expected.identifier.replace(/\./g, "\\.")));
+    assert.match(rule.summary, new RegExp(expected.identifier.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
 
   const functions = all.filter((rule) => rule.id.startsWith("serverless.google-cloud-functions."));

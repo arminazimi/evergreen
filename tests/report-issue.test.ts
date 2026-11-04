@@ -43,7 +43,10 @@ test("report-issue writes only the rule, evidence, and a few lines, and the exce
 
   const reported = await runCli(["report-issue", finding.id, root]);
   assert.equal(reported.code, 0);
-  assert.match(reported.stdout, new RegExp(`Possible false positive: \`${finding.ruleId.replace(/\./g, "\\.")}\``));
+  assert.match(
+    reported.stdout,
+    new RegExp(`Possible false positive: \`${finding.ruleId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\``),
+  );
   assert.match(reported.stdout, /\[[^\]]+\]\(https?:\/\//);
   assert.doesNotMatch(reported.stdout, /private-api/);
   assert.ok(!reported.stdout.includes(root));

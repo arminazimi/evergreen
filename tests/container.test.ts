@@ -312,7 +312,9 @@ test("Microsoft .NET images are judged with the dotnet release-line rules", asyn
     ],
   );
   assert.ok(
-    analysis.findings.every((finding) => finding.sources.some((source) => source.url.includes("microsoft.com"))),
+    analysis.findings.every((finding) =>
+      finding.sources.some((source) => new URL(source.url).hostname === "dotnet.microsoft.com"),
+    ),
   );
   assert.deepEqual(analysis.unclassified, []);
 });

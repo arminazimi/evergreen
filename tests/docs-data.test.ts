@@ -67,10 +67,7 @@ test("the release checklist describes the data release the workflow performs", a
   assert.match(workflow, /tags: \["data-v\*"\]/);
   assert.match(workflow, /dry_run/);
   for (const asset of ["evergreen-data-", ".sigstore.json", "SHA256SUMS"])
-    assert.ok(
-      workflow.includes(asset) && releasing.includes(asset.replace("evergreen-data-", "evergreen-data-")),
-      asset,
-    );
+    assert.ok(workflow.includes(asset) && releasing.includes(asset), asset);
 });
 
 test("every file and page that docs/DATA.md links to exists", async () => {

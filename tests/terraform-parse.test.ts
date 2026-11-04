@@ -11,6 +11,7 @@ import {
 import { parseManagedKubernetes } from "../src/detectors/terraform/kubernetes.js";
 
 const fixtures = resolve("tests/fixtures/terraform");
+const dollar = "$";
 
 async function fixture(path: string): Promise<string> {
   return readFile(resolve(fixtures, path), "utf8");
@@ -302,7 +303,7 @@ resource "google_container_cluster" "primary" {
   min_master_version = local.gke_version
 }
 resource "azurerm_kubernetes_cluster" "other" {
-  kubernetes_version = "\${var.interpolated}"
+  kubernetes_version = "${dollar}{var.interpolated}"
 }
 `),
     [

@@ -14,6 +14,7 @@ import type {
 } from "../src/detectors/database/parse-terraform.js";
 
 const fixtures = resolve("tests/fixtures/database");
+const dollar = "$";
 
 async function fixture(path: string): Promise<string> {
   return readFile(resolve(fixtures, path), "utf8");
@@ -317,7 +318,7 @@ resource "google_sql_database_instance" "google" {
   database_version = var.database_version
 }
 resource "google_sql_database_instance" "interpolated" {
-  database_version = "POSTGRES_\${var.major}"
+  database_version = "POSTGRES_${dollar}{var.major}"
 }
 `;
   assert.deepEqual(

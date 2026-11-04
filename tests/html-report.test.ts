@@ -70,7 +70,8 @@ test("the page lists each finding and the embedded data equals the JSON report",
   const html = renderHtml(result);
   assert.ok(html.startsWith("<!doctype html>"));
   assert.ok(html.includes("<strong>2 findings</strong>"));
-  assert.ok(html.includes("src/a.ts:3") && html.includes("Use fetch") && html.includes("https://example.com/source"));
+  assert.ok(html.includes("src/a.ts:3") && html.includes("Use fetch"));
+  assert.match(html, /https:\/\/example\.com\/source/);
   assert.deepEqual(embedded(html), JSON.parse(renderJson(result)));
 });
 

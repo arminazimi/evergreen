@@ -313,7 +313,7 @@ test("a literal dotnet-version for actions/setup-dotnet is judged with the dotne
     [["dotnet.runtime.end-of-support-6.0", 9]],
   );
   assert.match(found[0]!.summary, /installs \.NET 6\.0\.x/);
-  assert.ok(found[0]!.sources.some((source) => source.url.includes("microsoft.com")));
+  assert.ok(found[0]!.sources.some((source) => new URL(source.url).hostname === "dotnet.microsoft.com"));
   assert.deepEqual(analysis.unclassified, []);
 });
 

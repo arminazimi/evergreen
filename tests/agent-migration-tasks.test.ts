@@ -119,7 +119,7 @@ test("the agent migration tasks are uniquely identified and well formed", () => 
     assert.match(task.migrationEvidence.summary.trim(), /\S/);
     assert.match(
       task.migrationEvidence.commit,
-      new RegExp(`^${task.repository.replace(/[.]/g, "\\.")}/commit/[a-f0-9]{40}$`),
+      new RegExp(`^${task.repository.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/commit/[a-f0-9]{40}$`),
       `${task.id} cites a migration commit outside its repository`,
     );
   }

@@ -249,7 +249,7 @@ test("hooks.json matches Bash PreToolUse and docs cover install, opt-out, and li
 
   const script = await readFile(resolve("integrations/claude-code/pre-install-guard.mjs"), "utf8");
   const { version } = JSON.parse(await readFile(resolve("package.json"), "utf8")) as { version: string };
-  assert.match(script, new RegExp(`evergreen-deprecation@${version.replace(/\./g, "\\.")}`));
+  assert.match(script, new RegExp(`evergreen-deprecation@${version.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
 
   const docs = await readFile(resolve("docs/HOOKS.md"), "utf8");
   assert.match(docs, /Claude Code/);

@@ -706,6 +706,7 @@ test("reports executeCommand failures and falls back when showDocument is unsupp
     );
 
     const url = "https://example.com/evidence";
+    const evidence = new RegExp(url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
     send(input, {
       id: 5,
       method: "workspace/executeCommand",
@@ -713,7 +714,7 @@ test("reports executeCommand failures and falls back when showDocument is unsupp
     });
     await messages.waitFor((message) => message.id === 5);
     const message = await messages.waitFor(
-      (candidate) => candidate.method === "window/showMessage" && String(params(candidate).message).includes(url),
+      (candidate) => candidate.method === "window/showMessage" && evidence.test(String(params(candidate).message)),
     );
     assert.match(String(params(message).message), /Evergreen evidence/);
 
