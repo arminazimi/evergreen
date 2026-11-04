@@ -125,7 +125,7 @@ function readCommands(contents: string): Token[][] | undefined {
   let index = 0;
 
   while (index < text.length) {
-    const character = text[index]!;
+    const character = text.charAt(index);
     if (character === "\n") {
       line += 1;
       index += 1;
@@ -179,7 +179,7 @@ function readCommands(contents: string): Token[][] | undefined {
       let closed = false;
       index += 1;
       while (index < text.length) {
-        const next = text[index]!;
+        const next = text.charAt(index);
         if (next === "\\") {
           const escaped = text[index + 1];
           if (escaped === undefined) break;
@@ -205,7 +205,7 @@ function readCommands(contents: string): Token[][] | undefined {
     }
     const start = index;
     const tokenLine = line;
-    while (index < text.length && !/[\s()"#]/.test(text[index]!)) index += 1;
+    while (index < text.length && !/[\s()"#]/.test(text.charAt(index))) index += 1;
     if (index === start) {
       // An unexpected character (for example a bracket argument) is not a token we can interpret.
       index += 1;

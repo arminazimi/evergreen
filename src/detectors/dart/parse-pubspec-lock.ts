@@ -76,8 +76,8 @@ function constraint(text: string): string | undefined {
 
 /** The first non-blank, non-comment line after `index` and its indentation, or undefined at the end. */
 function nextContentIndent(lines: string[], index: number): number | undefined {
-  for (let next = index + 1; next < lines.length; next += 1) {
-    const raw = lines[next]!;
+  for (const [next, raw] of lines.entries()) {
+    if (next <= index) continue;
     const body = raw.trimStart();
     if (body === "" || body.startsWith("#")) continue;
     return raw.length - body.length;
@@ -93,28 +93,28 @@ interface Scalar {
 }
 
 /**
- * Read a quoted scalar that starts at `column` of `lines[index]`, continuing onto later lines when it does not close on
+ * Read a quoted scalar that starts at `column` of `first`, continuing onto later lines when it does not close on
  * its own line. Returns undefined for malformed YAML: no closing quote after it, or text after the closing quote other
  * than a comment.
  */
-function readQuoted(lines: string[], index: number, column: number): Scalar | undefined {
-  const quote = lines[index]![column]!;
+function readQuoted(lines: string[], first: string, index: number, column: number): Scalar | undefined {
+  const quote = first.charAt(column);
   let text = "";
   let supported = true;
-  let line = index;
+  let last = index;
   let position = column + 1;
+  let current = first;
   for (;;) {
-    const current = lines[line]!;
     let closed = false;
     while (position < current.length) {
-      const character = current[position]!;
+      const character = current.charAt(position);
       if (quote === '"' && character === "\\") {
         supported = false;
         position += 2;
         continue;
       }
       if (character === quote) {
-        if (quote === "'" && current[position + 1] === "'") {
+        if (quote === "'" && current.charAt(position + 1) === "'") {
           text += "'";
           position += 2;
           continue;
@@ -126,26 +126,33 @@ function readQuoted(lines: string[], index: number, column: number): Scalar | un
       position += 1;
     }
     if (closed) break;
-    line += 1;
-    if (line >= lines.length) return undefined;
+    last += 1;
+    const following = lines[last];
+    if (following === undefined) return undefined;
+    current = following;
     position = 0;
     supported = false;
   }
-  if (!TRAILER.test(lines[line]!.slice(position + 1))) return undefined;
-  return { text: supported ? text : undefined, last: line };
+  if (!TRAILER.test(current.slice(position + 1))) return undefined;
+  return { text: supported ? text : undefined, last };
 }
 
 /**
- * Read the value that starts at `start` on `lines[index]`, the line of a key indented by `keyIndent`. Plain values
+ * Read the value that starts at `start` on `line`, the line at `index`, of a key indented by `keyIndent`. Plain values
  * are cut at a trailing comment. Returns undefined for malformed YAML.
  */
-function readScalar(lines: string[], index: number, start: number, keyIndent: number): Scalar | undefined {
-  const line = lines[index]!;
+function readScalar(
+  lines: string[],
+  line: string,
+  index: number,
+  start: number,
+  keyIndent: number,
+): Scalar | undefined {
   let column = start;
-  while (line[column] === " ") column += 1;
-  if (column >= line.length || line[column] === "#") return { text: undefined, last: index };
-  const first = line[column]!;
-  if (first === '"' || first === "'") return readQuoted(lines, index, column);
+  while (line.charAt(column) === " ") column += 1;
+  if (column >= line.length || line.charAt(column) === "#") return { text: undefined, last: index };
+  const first = line.charAt(column);
+  if (first === '"' || first === "'") return readQuoted(lines, line, index, column);
 
   const rest = line.slice(column);
   const comment = /\s#/.exec(rest);
@@ -190,11 +197,10 @@ export function parsePubspecLock(contents: string): PubspecLockDeclaration[] {
     entry = undefined;
   };
 
-  for (let index = 0; index < lines.length; index += 1) {
-    const raw = lines[index]!;
+  for (let index = 0, raw = lines[0]; raw !== undefined; raw = lines[++index]) {
     if (raw.length > MAXIMUM_LINE_LENGTH) return [];
-    const indent = /^ */.exec(raw)![0].length;
-    const body = raw.slice(indent);
+    const body = raw.replace(/^ */, "");
+    const indent = raw.length - body.length;
     if (body.trim() === "" || body.startsWith("#")) continue;
     if (body.startsWith("\t")) return [];
 
@@ -206,10 +212,11 @@ export function parsePubspecLock(contents: string): PubspecLockDeclaration[] {
       const key = KEY.exec(body);
       if (!key) continue;
 
-      const name = key[1]!;
+      // `KEY` is the name plus the colon that ends it, and the colon is its last character.
+      const name = key[0].slice(0, -1);
       if (topLevel.has(name)) return [];
       topLevel.add(name);
-      const scalar = readScalar(lines, index, key[0].length, 0);
+      const scalar = readScalar(lines, raw, index, key[0].length, 0);
       if (!scalar) return [];
       const inline = body.slice(key[0].length).trim();
       if ((inline === "" || inline.startsWith("#")) && (name === "packages" || name === "sdks")) section = name;
@@ -227,10 +234,10 @@ export function parsePubspecLock(contents: string): PubspecLockDeclaration[] {
         if (indent < entry.fieldIndent) return [];
         const field = KEY.exec(body);
         if (indent === entry.fieldIndent && field) {
-          const name = field[1]!;
+          const name = field[0].slice(0, -1);
           if (entry.fields.has(name)) return [];
           const keyLine = index + 1;
-          const scalar = readScalar(lines, index, indent + field[0].length, indent);
+          const scalar = readScalar(lines, raw, index, indent + field[0].length, indent);
           if (!scalar) return [];
           entry.fields.set(name, { text: scalar.text, line: keyLine });
           index = scalar.last;
@@ -243,11 +250,11 @@ export function parsePubspecLock(contents: string): PubspecLockDeclaration[] {
     const key = KEY.exec(body);
     if (!key) continue;
 
-    const name = key[1]!;
+    const name = key[0].slice(0, -1);
     if (childKeys.has(name)) return [];
     childKeys.add(name);
     const keyLine = index + 1;
-    const scalar = readScalar(lines, index, indent + key[0].length, indent);
+    const scalar = readScalar(lines, raw, index, indent + key[0].length, indent);
     if (!scalar) return [];
     index = scalar.last;
 

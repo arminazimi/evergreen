@@ -45,15 +45,11 @@ export type DatabaseTerraformProduct =
 
 type Platform = "aws" | "azure" | "google-cloud-sql";
 
-interface ResourceSpec {
-  platform: Platform;
-  /** The attribute that holds the engine version. */
-  versionAttribute: "engine_version" | "version" | "database_version";
-  /** The engine for a resource whose type fixes it. */
-  engine?: DatabaseTerraformEngine;
-  /** The engines an AWS resource accepts in its literal `engine` attribute. */
-  engines?: readonly DatabaseTerraformEngine[];
-}
+/** The declaration one resource type can make; the platform decides which attributes it has. */
+type ResourceSpec =
+  | { platform: "aws"; versionAttribute: "engine_version"; engines: readonly DatabaseTerraformEngine[] }
+  | { platform: "azure"; versionAttribute: "version"; engine: DatabaseTerraformEngine }
+  | { platform: "google-cloud-sql"; versionAttribute: "database_version" };
 
 /** Resource type to the attribute and engine that make it a managed database declaration. */
 const RESOURCES: Readonly<Record<string, ResourceSpec>> = {
@@ -119,7 +115,7 @@ interface RawAttribute {
 /** True when only whitespace, or the `{` that opens the span, precedes `index` on its line. */
 function atLineStart(masked: string, index: number, start: number): boolean {
   for (let position = index - 1; position >= start; position--) {
-    const character = masked[position]!;
+    const character = masked.charAt(position);
     if (character === "\n" || character === "{") return true;
     if (character !== " " && character !== "\t") return false;
   }
@@ -131,7 +127,7 @@ function expressionEnd(masked: string, start: number, end: number): number {
   let depth = 0;
   let index = start;
   while (index < end) {
-    const character = masked[index]!;
+    const character = masked.charAt(index);
     if (character === "{" || character === "[" || character === "(") depth++;
     else if (character === "}" || character === "]" || character === ")") {
       if (depth === 0) return index;
@@ -153,7 +149,7 @@ function rawAttributes(hcl: HclSource, start: number, end: number): RawAttribute
   let depth = 0;
   let index = start;
   while (index < end) {
-    const character = hcl.masked[index]!;
+    const character = hcl.masked.charAt(index);
     if (character === "{" || character === "[" || character === "(") {
       depth++;
       index++;
@@ -165,14 +161,17 @@ function rawAttributes(hcl: HclSource, start: number, end: number): RawAttribute
       continue;
     }
     if (depth === 0 && /[A-Za-z_]/.test(character) && atLineStart(hcl.masked, index, start)) {
-      const match = /^([A-Za-z_][A-Za-z0-9_-]*)[^\S\n]*=/.exec(hcl.masked.slice(index, index + MAXIMUM_LINE_LENGTH));
-      if (match) {
-        const open = index + match[0].length;
+      const attribute = /^([A-Za-z_][A-Za-z0-9_-]*)[^\S\n]*=/.exec(
+        hcl.masked.slice(index, index + MAXIMUM_LINE_LENGTH),
+      );
+      if (attribute) {
+        const open = index + attribute[0].length;
         let position = open;
-        while (position < end && /\s/.test(hcl.masked[position]!)) position++;
+        while (position < end && /\s/.test(hcl.masked.charAt(position))) position++;
         const close = expressionEnd(hcl.masked, position, end);
         attributes.push({
-          name: match[1]!,
+          // The match is the name, then any spacing, then the `=`; the name never ends in either.
+          name: attribute[0].replace(/[^\S\n]*=$/, ""),
           value: hcl.source.slice(position, close).trim(),
           line: lineAt(hcl.source, position),
         });
@@ -220,8 +219,9 @@ function productFor(platform: Platform, engine: DatabaseTerraformEngine): Databa
 
 function googleEngineAndVersion(value: string): { engine: DatabaseTerraformEngine; value: string } | undefined {
   const match = GOOGLE_DATABASE_VERSION.exec(value);
-  if (!match) return undefined;
-  return { engine: match[1] === "POSTGRES" ? "postgres" : "mysql", value: match[2]!.replace(/_/g, ".") };
+  const version = match?.[2];
+  if (match === null || version === undefined) return undefined;
+  return { engine: match[1] === "POSTGRES" ? "postgres" : "mysql", value: version.replace(/_/g, ".") };
 }
 
 function unclassified(
@@ -282,9 +282,9 @@ export function parseDatabaseTerraform(contents: string): DatabaseTerraformParse
         if (declared && isUnclassifiable(declared)) unreadable.push(unclassified(resource, name, "version", declared));
         continue;
       }
-      const product = productFor(spec.platform, spec.engine!);
+      const product = productFor(spec.platform, spec.engine);
       if (!product) continue;
-      declarations.push({ resource, name, engine: spec.engine!, product, value: version.value, line: version.line });
+      declarations.push({ resource, name, engine: spec.engine, product, value: version.value, line: version.line });
     } else {
       const version = literal("database_version");
       if (!version) {

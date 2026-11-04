@@ -21,6 +21,7 @@
  */
 
 import { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, isLiteralVersion } from "./gradle-scan.js";
+import { required } from "../../required.js";
 
 export { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 
@@ -113,8 +114,7 @@ export function parseAndroidLibsVersionsToml(contents: string): AndroidVersionCa
   let section = "";
   const lines = contents.split("\n");
 
-  for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-    const raw = lines[lineIndex]!;
+  for (const [lineIndex, raw] of lines.entries()) {
     if (raw.length > MAXIMUM_LINE_LENGTH) continue;
     const stripped = stripComment(raw.replace(/\r$/, ""));
     if (stripped === undefined) return [];
@@ -123,7 +123,7 @@ export function parseAndroidLibsVersionsToml(contents: string): AndroidVersionCa
 
     const header = SECTION.exec(line);
     if (header) {
-      section = header[1]!.trim();
+      section = required(header[1], "section name").trim();
       continue;
     }
     if (section !== "versions") continue;
@@ -131,7 +131,7 @@ export function parseAndroidLibsVersionsToml(contents: string): AndroidVersionCa
     const match = ASSIGNMENT.exec(line);
     if (!match) continue;
     const key = match[1] as AndroidVersionCatalogKind;
-    const value = match[2] ?? match[3]!;
+    const value = required(match[2] ?? match[3], "version value");
     if (!value || value.includes("$") || !isLiteralVersion(value)) continue;
     if (found.length >= MAXIMUM_DECLARATIONS) break;
     found.push({ kind: key, value, line: lineIndex + 1 });

@@ -191,9 +191,6 @@
     }
   },
   "src/detectors/android/parse-build-gradle.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 2
-    },
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     },
@@ -210,9 +207,6 @@
     }
   },
   "src/detectors/android/parse-settings-gradle.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    },
     "@typescript-eslint/unbound-method": {
       "count": 2
     }
@@ -250,7 +244,7 @@
   },
   "src/detectors/database/parse-terraform.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 3
+      "count": 2
     }
   },
   "src/detectors/deno/parse.ts": {

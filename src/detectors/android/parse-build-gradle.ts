@@ -30,6 +30,7 @@ import {
   lineIndex,
   maskGradleSource,
 } from "./gradle-scan.js";
+import { required } from "../../required.js";
 
 export { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 
@@ -46,7 +47,7 @@ function androidBlocks(masked: string): Array<[number, number]> {
   const blocks: Array<[number, number]> = [];
   const opener = /\bandroid\b\s*\{/g;
   for (const match of masked.matchAll(opener)) {
-    const openBrace = match.index! + match[0].length - 1;
+    const openBrace = required(match.index, "block offset") + match[0].length - 1;
     let depth = 1;
     let index = openBrace + 1;
     for (; index < masked.length && depth > 0; index++) {
@@ -94,7 +95,7 @@ function readLiteral(source: string, offset: number, kind: AndroidSdkKind): stri
 
   if (kind === "buildToolsVersion") {
     if (startCode !== 0x22 && startCode !== 0x27) return undefined;
-    const quote = source[index]!;
+    const quote = source.charAt(index);
     let position = index + 1;
     let value = "";
     while (position < source.length) {
@@ -102,7 +103,7 @@ function readLiteral(source: string, offset: number, kind: AndroidSdkKind): stri
       if (code === 0x0a) return undefined;
       if (code === 0x5c) {
         if (position + 1 >= source.length) return undefined;
-        value += source[position + 1]!;
+        value += source.charAt(position + 1);
         position += 2;
         continue;
       }
@@ -110,7 +111,7 @@ function readLiteral(source: string, offset: number, kind: AndroidSdkKind): stri
         position++;
         break;
       }
-      value += source[position]!;
+      value += source.charAt(position);
       position++;
     }
     if (position > source.length || source[position - 1] !== quote) return undefined;
@@ -119,7 +120,7 @@ function readLiteral(source: string, offset: number, kind: AndroidSdkKind): stri
   }
 
   if (startCode === 0x22 || startCode === 0x27) {
-    const quote = source[index]!;
+    const quote = source.charAt(index);
     let position = index + 1;
     let value = "";
     while (position < source.length) {
@@ -127,7 +128,7 @@ function readLiteral(source: string, offset: number, kind: AndroidSdkKind): stri
       if (code === 0x0a) return undefined;
       if (code === 0x5c) {
         if (position + 1 >= source.length) return undefined;
-        value += source[position + 1]!;
+        value += source.charAt(position + 1);
         position += 2;
         continue;
       }
@@ -135,7 +136,7 @@ function readLiteral(source: string, offset: number, kind: AndroidSdkKind): stri
         position++;
         break;
       }
-      value += source[position]!;
+      value += source.charAt(position);
       position++;
     }
     if (value.includes("$") || !/^\d+$/.test(value)) return undefined;
@@ -178,7 +179,7 @@ export function parseAndroidBuildGradle(contents: string): AndroidSdkDeclaration
     const block = masked.slice(blockStart, blockEnd);
     KEYWORD.lastIndex = 0;
     for (const match of block.matchAll(KEYWORD)) {
-      const absolute = blockStart + match.index!;
+      const absolute = blockStart + required(match.index, "keyword offset");
       if (lineLengthAt(absolute) > MAXIMUM_LINE_LENGTH) continue;
       const kind = match[1] as AndroidSdkKind;
       const value = readLiteral(contents, absolute + match[0].length, kind);

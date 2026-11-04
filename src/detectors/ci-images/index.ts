@@ -12,6 +12,7 @@ import { versContains } from "../../vers/index.js";
 import { parseAzurePipelines } from "./parse-azure-pipelines.js";
 import { parseCircleci } from "./parse-circleci.js";
 import { parseGitlabCi } from "./parse-gitlab-ci.js";
+import { required } from "../../required.js";
 
 /**
  * CI runner image lifecycle detector (decision 0014).
@@ -77,7 +78,11 @@ async function ciImageFiles(root: string): Promise<CiImageFile[]> {
 function azureNormalize(label: string): { purl: string; version: string } | undefined {
   const match = /^(ubuntu|macos|windows)-([\d.]+)$/i.exec(label);
   if (!match) return undefined;
-  return { purl: `pkg:generic/azure-pipelines/${match[1]!.toLowerCase()}-image`, version: match[2]! };
+  const [, family, version] = match;
+  return {
+    purl: `pkg:generic/azure-pipelines/${required(family, "image family").toLowerCase()}-image`,
+    version: required(version, "image version"),
+  };
 }
 
 export class CiImagesDetector implements Detector {

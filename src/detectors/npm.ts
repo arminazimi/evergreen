@@ -12,6 +12,7 @@ import { analyzeSourceUsage, impactFor } from "../source-usage.js";
 import { discoverNpmWorkspaces, usagesOwnedBy } from "../workspaces.js";
 import { DETECTOR_API_VERSION, isDeprecationRule, isUsageMatcher } from "../sdk.js";
 import { loadRegistryRules, withoutSymbolRules } from "../registry.js";
+import { required } from "../required.js";
 import type {
   Detector,
   DetectorContext,
@@ -105,7 +106,7 @@ function declaredVersionsAffected(vers: string, declared: string): boolean {
   const alternatives = parsed.constraints.filter((item) => item.comparator === "=").map((item) => item.version);
   const bounds = parsed.constraints.filter((item) => item.comparator !== "=" && item.comparator !== "!=");
   for (let index = 0; index < bounds.length; index++) {
-    const bound = bounds[index]!;
+    const bound = required(bounds[index], "constraint bound");
     if (bound.comparator.startsWith("<")) {
       alternatives.push(`${bound.comparator}${bound.version}`);
     } else {
@@ -276,13 +277,13 @@ function stripJsonc(contents: string): string {
   let inString = false;
 
   while (i < len) {
-    const char = contents[i]!;
+    const char = contents.charAt(i);
 
     if (inString) {
       result += char;
       if (char === "\\") {
         i++;
-        if (i < len) result += contents[i]!;
+        if (i < len) result += contents.charAt(i);
       } else if (char === '"') {
         inString = false;
       }
@@ -312,7 +313,7 @@ function stripJsonc(contents: string): string {
       let nextPos = i + 1;
       let isTrailing = false;
       while (nextPos < len) {
-        const nextChar = contents[nextPos]!;
+        const nextChar = contents.charAt(nextPos);
         if (nextChar === " " || nextChar === "\t" || nextChar === "\n" || nextChar === "\r") {
           nextPos++;
         } else if (nextChar === "/" && contents[nextPos + 1] === "/") {
@@ -452,7 +453,7 @@ function declarationLine(contents: string, section: string, name: string): numbe
     if (text === "{" || text === "[") depth++;
     else if (text === "}" || text === "]") depth--;
     else if (match[2] !== undefined) {
-      const key = JSON.parse(match[1]!) as string;
+      const key = JSON.parse(required(match[1], "package.json key")) as string;
       if (depth === 1) topKey = key;
       else if (depth === 2 && topKey === section && key === name) found = match.index;
     }
@@ -720,20 +721,19 @@ export class NpmDetector implements Detector {
           declared.set(name, { range, section });
         }
       }
-      for (const rule of packageRules) {
+      for (const { vers, ...rule } of packageRules) {
         const dependency = declared.get(rule.package);
         if (!dependency) {
           // Not declared here: report it when a lockfile shows a declared dependency pulling it in, with that path.
           const via = shortestDependencyPath(project.graph, declared.keys(), rule.package);
           const versions = [...(project.resolved.get(rule.package) ?? [])];
           if (!via || versions.length === 0) continue;
-          if (rule.vers && !parseVers(rule.vers).all && !versions.some((version) => versContains(rule.vers!, version)))
-            continue;
-          const root = declared.get(via[0]!)!;
+          if (vers && !parseVers(vers).all && !versions.some((version) => versContains(vers, version))) continue;
+          const root = required(declared.get(required(via[0], "dependency path")), "direct dependency");
           matched.push({ rule, project, range: root.range, section: root.section, via });
           continue;
         }
-        if (rule.vers && !parseVers(rule.vers).all) {
+        if (vers && !parseVers(vers).all) {
           const declaredRange = semver.validRange(dependency.range);
           if (!declaredRange) continue;
           const resolved = [...(project.resolved.get(rule.package) ?? [])].filter((version) =>
@@ -741,8 +741,8 @@ export class NpmDetector implements Detector {
           );
           const affected =
             resolved.length > 0
-              ? resolved.some((version) => versContains(rule.vers!, version))
-              : declaredVersionsAffected(rule.vers, declaredRange);
+              ? resolved.some((version) => versContains(vers, version))
+              : declaredVersionsAffected(vers, declaredRange);
           if (!affected) continue;
         }
         matched.push({ rule, project, range: dependency.range, section: dependency.section });
@@ -757,16 +757,16 @@ export class NpmDetector implements Detector {
       { skips: usageSkips },
     );
     unclassified.push(...unclassifiedFromUsageSkips(usageSkips));
-    const usageByRule = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis]));
+    const usagesByRule = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis.usages]));
     const projectDirectories = projects.map((project) => project.directory);
 
     for (const { rule, project, range, section, via } of matched) {
       const resolved = [...(project.resolved.get(rule.package) ?? [])].sort(semver.compare);
       const resolvedText = resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile";
-      const line = declarationLine(project.contents, section, via ? via[0]! : rule.package);
+      const line = declarationLine(project.contents, section, via?.[0] ?? rule.package);
       const path = relativePosix(context.root, project.manifestPath);
       // Each project reports the usages inside its own directory; the root keeps the ones outside every workspace.
-      const usages = usagesOwnedBy(usageByRule.get(rule.id)!.usages, project.directory, projectDirectories);
+      const usages = usagesOwnedBy(required(usagesByRule.get(rule.id), "usage"), project.directory, projectDirectories);
       findings.push({
         id: `${rule.id}:${path}:${line}`,
         ruleId: rule.id,

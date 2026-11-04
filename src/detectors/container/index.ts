@@ -16,6 +16,7 @@ import { parseDockerfile } from "./parse-dockerfile.js";
 import type { Runtime } from "./parse-dockerfile.js";
 import { parseImageReference } from "./parse-image.js";
 import { findRootfsSnapshots } from "./rootfs.js";
+import { required } from "../../required.js";
 import type { RootfsOsRelease, RootfsSnapshot } from "./rootfs.js";
 
 /**
@@ -364,7 +365,7 @@ type TagClass = { kind: "versions"; lowest: string; highest: string } | { kind: 
 
 /** Replaces a Debian or Ubuntu codename at the start of a Docker Hub tag with its release number, so `debian:buster` reads as `debian:10`. */
 function resolveCodename(repository: string, tag: string): string {
-  const name = tag.split("-")[0]!;
+  const name = required(tag.split("-")[0], "tag part");
   const codenames =
     repository === "library/debian" ? DEBIAN_CODENAMES : repository === "library/ubuntu" ? UBUNTU_CODENAMES : undefined;
   const release = codenames?.get(name);
@@ -514,7 +515,7 @@ export class ContainerDetector implements Detector {
       }
       if (candidate.dynamic) {
         // Only name a reference when its repository part is a literal tracked image, as in node:${VERSION}.
-        const repository = candidate.value.split(":")[0]!;
+        const repository = required(candidate.value.split(":")[0], "image repository");
         const named = parseImageReference(repository);
         const tracked = named !== undefined && rulesFor(named, rules, dotnetRules) !== undefined;
         if (tracked && !repository.includes("$")) {
