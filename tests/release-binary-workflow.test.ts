@@ -88,7 +88,7 @@ test("binaries and checksums are signed keylessly with cosign and verified befor
   assert.doesNotMatch(releaseCommands, /--key\b|COSIGN_PRIVATE_KEY|COSIGN_PASSWORD/, "no long-lived keys");
   assert.match(release.steps![verifyIndex]!.run!, /--certificate-oidc-issuer "\$\{OIDC_ISSUER\}"/);
   assert.match(release.steps![verifyIndex]!.run!, /--certificate-identity-regexp "\$\{IDENTITY_PATTERN\}"/);
-  assert.match(releaseCommands, /gh release upload .*binaries\/\*\.sigstore\.json/s);
+  assert.match(releaseCommands, /gh release upload .*binaries\/SHA256SUMS\.sigstore\.json/s);
 
   assert.equal(
     release.env?.IDENTITY_PATTERN,
@@ -110,6 +110,38 @@ test("binaries and checksums are signed keylessly with cosign and verified befor
   ])
     assert.equal(identity.test(rejected), false, rejected);
 });
+
+test("every release asset is uploaded exactly once", () => {
+  const line = releaseCommands.split("\n").find((command) => command.includes("gh release upload"));
+  assert.ok(line, "the release job uploads assets");
+  const paths = line
+    .match(/gh release upload "\$TAG" (.+) --clobber/)![1]!
+    .trim()
+    .split(/\s+/);
+  const assets = [
+    "binaries/evergreen-1.2.3-darwin-arm64",
+    "binaries/evergreen-1.2.3-darwin-arm64.sigstore.json",
+    "binaries/evergreen-1.2.3-linux-x64",
+    "binaries/evergreen-1.2.3-linux-x64.sigstore.json",
+    "binaries/evergreen-1.2.3-win32-x64.exe",
+    "binaries/evergreen-1.2.3-win32-x64.exe.sigstore.json",
+    "binaries/SHA256SUMS",
+    "binaries/SHA256SUMS.sigstore.json",
+  ];
+  const uploaded = paths.flatMap((glob) => expandGlob(glob, assets));
+  assert.deepEqual([...uploaded].sort(), [...assets].sort(), "every produced asset reaches the release");
+  assert.equal(
+    new Set(uploaded).size,
+    uploaded.length,
+    "no asset is passed twice: gh uploads in parallel, so the duplicate fails with HTTP 422",
+  );
+});
+
+function expandGlob(pattern: string, files: string[]): string[] {
+  const source = pattern.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*");
+  const regex = new RegExp(`^${source}$`);
+  return files.filter((file) => regex.test(file));
+}
 
 test("IDENTITY_PATTERN matches the verify-blob regexp documented in RELEASING.md", async () => {
   const docs = await readFile(resolve("docs/RELEASING.md"), "utf8");

@@ -104,7 +104,9 @@ jobs:
             case "$TAG" in *-*) prerelease="--prerelease" ;; esac
             gh release create "$TAG" --verify-tag --title "$TAG" --notes "Standalone binaries for $TAG. Release notes follow." $prerelease
           fi
-          gh release upload "$TAG" binaries/evergreen-* binaries/SHA256SUMS binaries/*.sigstore.json --clobber
+          # evergreen-* already matches each binary's .sigstore.json; listing them again in a second
+          # glob makes gh upload both copies in parallel and the second one fails with HTTP 422.
+          gh release upload "$TAG" binaries/evergreen-* binaries/SHA256SUMS binaries/SHA256SUMS.sigstore.json --clobber
       - name: Record dry-run stage
         if: inputs.dry_run
         run: echo "Publish stage (binaries) dry run wrote checksums; nothing was attached to a release." >> "$GITHUB_STEP_SUMMARY"
