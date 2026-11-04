@@ -78,7 +78,7 @@
     {
       "file": "src/commands/init.ts",
       "function": "runInit",
-      "complexity": 77,
+      "complexity": 75,
       "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."

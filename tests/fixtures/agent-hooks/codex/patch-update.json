@@ -1,0 +1,15 @@
+{
+  "session_id": "0b9c2e41-5a73-4f88-b1c6-d8e3a05f7419",
+  "cwd": "/Users/dev/app",
+  "hook_event_name": "PostToolUse",
+  "model": "gpt-5.1-codex",
+  "tool_name": "apply_patch",
+  "tool_input": {
+    "command": "*** Begin Patch\n*** Update File: Dockerfile\n@@\n-FROM node:22\n+FROM node:16\n WORKDIR /app\n*** End Patch\n"
+  },
+  "tool_response": {
+    "status": "completed",
+    "stdout": "Success. Updated the following files.\nM Dockerfile\n",
+    "stderr": ""
+  }
+}

@@ -1,0 +1,1 @@
+- Add the Codex CLI edit hook: `evergreen hook codex` feeds lifecycle findings back to the model after `apply_patch`, and `init --hooks-for codex` merges the hook into `.codex/hooks.json`. (#1882)

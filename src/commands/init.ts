@@ -3,7 +3,7 @@ import process from "node:process";
 import { AgentFileError } from "../agent-instructions.js";
 import type { Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import { initAgents, initClaudeHooks } from "../init-agents.js";
+import { initAgents, initClaudeHooks, initCodexHooks } from "../init-agents.js";
 import type { AgentFileName } from "../init-agents.js";
 import { initHooks } from "../init-hooks.js";
 import { initPersonal } from "../init-personal.js";
@@ -22,7 +22,7 @@ export const command: CliCommand = {
     "  evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]",
     "  evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents",
     "  evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository",
-    "  evergreen init --hooks-for claude-code [path] [--dry-run]   # post-edit hook in .claude/settings.json",
+    "  evergreen init --hooks-for claude-code|codex [path] [--dry-run]   # post-edit hook in .claude/settings.json or .codex/hooks.json",
   ],
   usageSlots: [49, 50, 51, 52, 53],
   run(args, ctx) {
@@ -43,7 +43,7 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
 }
 
 async function runInit(args: string[], ctx: CommandContext): Promise<number> {
-  const usage = "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+  const usage = "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
   if (args[0] === "agent") {
     const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
     const agentArgs = args.slice(1);
@@ -79,7 +79,7 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
   const personal = args.includes("--personal");
   const hooksForIndex = args.indexOf("--hooks-for");
   const hooksFor = hooksForIndex === -1 ? undefined : args[hooksForIndex + 1];
-  if (hooksForIndex !== -1 && hooksFor !== "claude-code") return ctx.fail("usage", "--hooks-for needs a host: claude-code.", usage);
+  if (hooksForIndex !== -1 && hooksFor !== "claude-code" && hooksFor !== "codex") return ctx.fail("usage", "--hooks-for needs a host: claude-code or codex.", usage);
   const guided = !agents && !hooks && !personal && !hooksFor;
   if (personal && (agents || hooks || hooksFor)) return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", usage);
   const fileIndex = args.indexOf("--file");
@@ -128,19 +128,29 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
       }
       if (result.change !== "managed") process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
     }
-    if (hooksFor === "claude-code") {
-      const result = await initClaudeHooks({ root, dryRun });
-      if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen post-edit hook; nothing to change.\n`);
-      else {
-        const verb = result.change === "created" ? "create" : "update";
-        process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : "Updated"} ${result.file}; Claude Code now runs Evergreen after Write, Edit, and MultiEdit.\n`);
-      }
-    }
+    if (hooksFor === "claude-code" || hooksFor === "codex") await applyHooksFor(hooksFor, root, dryRun);
     return 0;
   } catch (error) {
     if (error instanceof AgentFileError) return ctx.fail("parse", error.message);
     throw error;
   }
+}
+
+/** Runs the host's post-edit hook setup and prints its result; one shape for every `--hooks-for` host. */
+async function applyHooksFor(hooksFor: string, root: string, dryRun: boolean): Promise<void> {
+  const codex = hooksFor === "codex";
+  const result = codex ? await initCodexHooks({ root, dryRun }) : await initClaudeHooks({ root, dryRun });
+  if (result.change === "unchanged") {
+    process.stdout.write(`${result.file} already has the current Evergreen post-edit hook; nothing to change.\n`);
+    return;
+  }
+  const verb = result.change === "created" ? "create" : "update";
+  if (dryRun) {
+    process.stdout.write(`Would ${verb} ${result.file}:\n\n${result.diff}\n`);
+    return;
+  }
+  const done = codex ? "Codex now runs Evergreen after apply_patch." : "Claude Code now runs Evergreen after Write, Edit, and MultiEdit.";
+  process.stdout.write(`${result.change === "created" ? "Created" : "Updated"} ${result.file}; ${done}\n`);
 }
 
 /**

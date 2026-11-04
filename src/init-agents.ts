@@ -156,6 +156,77 @@ export async function initClaudeHooks(options: InitClaudeHooksOptions): Promise<
   return { file: CLAUDE_CODE_SETTINGS_FILE, change, written: true, diff };
 }
 
+export const CODEX_HOOKS_FILE = ".codex/hooks.json";
+export const CODEX_HOOK_MATCHER = "apply_patch";
+/** The same launcher as Claude Code's: the project's own package first, the global `evergreen` bin as fallback. */
+export const CODEX_HOOK_COMMAND = "npx --no-install evergreen-deprecation hook codex";
+
+export type InitCodexHooksOptions = InitClaudeHooksOptions;
+export type InitCodexHooksResult = InitClaudeHooksResult;
+
+/** Recognizes the hook this command wrote, however its launcher is spelled (`npx … evergreen`, a global bin, a path). */
+const EVERGREEN_CODEX_HOOK_COMMAND = /\bevergreen(?:-deprecation)?\b.*\bhook\s+codex\b/;
+
+function hasEvergreenCodexPostToolUse(entries: readonly unknown[]): boolean {
+  return entries.some((entry) => {
+    if (!isRecord(entry) || !Array.isArray(entry.hooks)) return false;
+    return entry.hooks.some((hook) => isRecord(hook) && typeof hook.command === "string" && EVERGREEN_CODEX_HOOK_COMMAND.test(hook.command));
+  });
+}
+
+/** Merges the post-edit entry into a parsed hooks document, keeping every existing key and hook in place. */
+export function withCodexPostToolUse(hooks: unknown): { hooks: Record<string, unknown>; change: "added" | "unchanged" } {
+  if (!isRecord(hooks)) throw new AgentFileError(`${CODEX_HOOKS_FILE} does not hold a JSON object, so it was not changed.`);
+  const hooksValue = hooks.hooks;
+  if (hooksValue !== undefined && !isRecord(hooksValue)) {
+    throw new AgentFileError(`${CODEX_HOOKS_FILE} has a "hooks" value that is not an object, so it was not changed.`);
+  }
+  const events = (hooksValue ?? {}) as Record<string, unknown>;
+  const postValue = events.PostToolUse;
+  if (postValue !== undefined && !Array.isArray(postValue)) {
+    throw new AgentFileError(`${CODEX_HOOKS_FILE} has a "hooks.PostToolUse" value that is not an array, so it was not changed.`);
+  }
+  const postToolUse = (postValue ?? []) as unknown[];
+  if (hasEvergreenCodexPostToolUse(postToolUse)) return { hooks: structuredClone(hooks), change: "unchanged" };
+  const entry = {
+    matcher: CODEX_HOOK_MATCHER,
+    hooks: [{ type: "command", command: CODEX_HOOK_COMMAND, timeout: 60 }],
+  };
+  return {
+    hooks: { ...structuredClone(hooks), hooks: { ...events, PostToolUse: [...structuredClone(postToolUse), entry] } },
+    change: "added",
+  };
+}
+
+/**
+ * Writes or merges the Codex post-edit hook into `.codex/hooks.json`, the project-level location Codex documents
+ * (<https://learn.chatgpt.com/docs/hooks>), preserving the user's hooks. The home directory is never touched.
+ */
+export async function initCodexHooks(options: InitCodexHooksOptions): Promise<InitCodexHooksResult> {
+  const root = resolve(options.root);
+  const info = await lstat(root).catch(() => undefined);
+  if (!info?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+  const path = join(root, CODEX_HOOKS_FILE);
+  await assertInside(root, path);
+  const before = await read(path);
+  let parsed: unknown = {};
+  if (before !== undefined) {
+    try {
+      parsed = JSON.parse(before);
+    } catch {
+      throw new AgentFileError(`${CODEX_HOOKS_FILE} is not valid JSON, so it was not changed.`);
+    }
+  }
+  const update = withCodexPostToolUse(parsed);
+  const text = `${JSON.stringify(update.hooks, null, 2)}\n`;
+  const change = before === undefined ? "created" : update.change === "unchanged" ? "unchanged" : "updated";
+  const diff = change === "unchanged" ? "" : renderDiff(CODEX_HOOKS_FILE, before ?? "", text);
+  if (change === "unchanged" || options.dryRun) return { file: CODEX_HOOKS_FILE, change, written: false, diff };
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, text);
+  return { file: CODEX_HOOKS_FILE, change, written: true, diff };
+}
+
 export async function initAgents(options: InitAgentsOptions): Promise<InitAgentsResult> {
   const root = resolve(options.root);
   const info = await lstat(root).catch(() => undefined);

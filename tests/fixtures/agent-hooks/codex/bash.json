@@ -1,0 +1,15 @@
+{
+  "session_id": "a2e57c90-18b4-4d6f-9c31-e07f2b8a54d6",
+  "cwd": "/Users/dev/app",
+  "hook_event_name": "PostToolUse",
+  "model": "gpt-5.1-codex",
+  "tool_name": "bash",
+  "tool_input": {
+    "command": "npm test"
+  },
+  "tool_response": {
+    "status": "completed",
+    "stdout": "",
+    "stderr": ""
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "session_id": "6d1f8a29-3c47-4e50-9b82-70a4c1e6d93b",
+  "cwd": "/Users/dev/app",
+  "hook_event_name": "PostToolUse",
+  "model": "gpt-5.1-codex",
+  "tool_name": "apply_patch",
+  "tool_input": {
+    "command": "*** Begin Patch\n*** Add File: scripts/healthcheck.js\n+setInterval(() => process.exit(0), 60_000);\n*** Update File: Dockerfile\n@@\n-FROM node:22\n+FROM node:16\n*** Delete File: obsolete/setup.sh\n*** End Patch\n"
+  },
+  "tool_response": {
+    "status": "completed",
+    "stdout": "Success. Updated the following files.\nA scripts/healthcheck.js\nM Dockerfile\nD obsolete/setup.sh\n",
+    "stderr": ""
+  }
+}
