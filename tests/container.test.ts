@@ -431,3 +431,13 @@ test("devcontainer.json with trailing commas is parsed correctly", async () => {
     [["container.node.eol-21-and-older", 3]],
   );
 });
+
+test("devcontainer.json with escaped quotes in a string is parsed correctly", async () => {
+  const contents = ["{", '  "name": "My \\"Project\\"",', '  "image": "node:16",', "}", ""].join("\n");
+  const root = await repository({ ".devcontainer/devcontainer.json": contents });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [["container.node.eol-21-and-older", 3]],
+  );
+});
