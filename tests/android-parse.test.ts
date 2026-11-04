@@ -308,6 +308,11 @@ test("literal single-quoted strings in [libraries] do not drop [versions] agp", 
   assert.deepEqual(parseAndroidLibsVersionsToml(source), [{ kind: "agp", value: "8.5.2", line: 2 }]);
 });
 
+test("escaped quotes in a catalog string do not drop the versions section", () => {
+  const source = '[versions]\nagp = "8.5.2"\n[libraries]\nnote = "say \\"hi\\""\n';
+  assert.deepEqual(parseAndroidLibsVersionsToml(source), [{ kind: "agp", value: "8.5.2", line: 2 }]);
+});
+
 test("array-of-tables headers leave the versions section", () => {
   const source = ["[versions]", 'agp = "8.5.2"', "[[bundles]]", 'kotlin = "1.9.24"', ""].join("\n");
   assert.deepEqual(parseAndroidLibsVersionsToml(source), [{ kind: "agp", value: "8.5.2", line: 2 }]);
