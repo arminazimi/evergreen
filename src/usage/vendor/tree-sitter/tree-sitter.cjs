@@ -3070,7 +3070,7 @@ var Module2 = (() => {
               cSig = cSig.split(",");
               for (var i in cSig) {
                 var jsArg = cSig[i].split(" ").pop();
-                jsArgs.push(jsArg.replace("*", ""));
+                jsArgs.push(jsArg.replace(/\*/g, ""));
               }
             }
             var func = `(${jsArgs}) => ${body};`;

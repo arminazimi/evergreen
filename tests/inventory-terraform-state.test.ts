@@ -212,6 +212,54 @@ test("show -json reads every listed resource type with a pointer that resolves",
   }
 });
 
+test("a release version with a long suffix run is rejected in linear time", () => {
+  const attack = `1.30${"-".repeat(38)}!`;
+  const document = {
+    format_version: "1.0",
+    values: {
+      root_module: {
+        resources: [
+          {
+            address: "aws_eks_cluster.main",
+            type: "aws_eks_cluster",
+            name: "main",
+            values: { version: attack },
+          },
+        ],
+      },
+    },
+  };
+
+  const started = performance.now();
+  const items = itemsOf(document);
+  const elapsed = performance.now() - started;
+
+  assert.deepEqual(items, []);
+  assert.ok(elapsed < 1000, `a 43-character version took ${elapsed.toFixed(1)}ms`);
+});
+
+test("release versions with one or more suffixes are still read", () => {
+  const versions = (version: string) =>
+    itemsOf({
+      format_version: "1.0",
+      values: {
+        root_module: {
+          resources: [
+            {
+              address: "aws_eks_cluster.main",
+              type: "aws_eks_cluster",
+              name: "main",
+              values: { version },
+            },
+          ],
+        },
+      },
+    }).map((item) => [item.purl, item.version]);
+
+  assert.deepEqual(versions("1.30.0-beta.1"), [["pkg:generic/amazon-eks", "1.30.0-beta.1"]]);
+  assert.deepEqual(versions("1.30.0-beta+build.2"), [["pkg:generic/amazon-eks", "1.30.0-beta+build.2"]]);
+});
+
 test("raw state v4 reads the same attributes, including nested modules and for_each keys", async () => {
   const document = await readJson(RAW);
   const items = terraformStateImporter.items(document, RAW);

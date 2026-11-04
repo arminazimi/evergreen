@@ -22,7 +22,10 @@ const AZURE_AKS = "pkg:generic/azure-aks";
 
 const RUNTIME_ID = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
 const GCP_RUNTIME_ID = /^[a-z0-9][a-z0-9._-]*$/;
-const RELEASE_VERSION = /^\d+(?:\.\d+){0,2}(?:[-+][0-9A-Za-z.-]+)*$/;
+// A `+` starts each later suffix and is not in the body class, so the repetition is
+// unambiguous; a suffix group that also accepts `-` backtracks exponentially on a run of
+// `-` characters (`js/redos`).
+const RELEASE_VERSION = /^\d+(?:\.\d+){0,2}(?:[-+][0-9A-Za-z.-]+(?:\+[0-9A-Za-z.-]+)*)?$/;
 const STACK_VERSION = /^\d+(?:\.\d+){0,2}$/;
 
 interface EngineTarget {

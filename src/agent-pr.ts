@@ -20,7 +20,7 @@ export interface AgentIntroducedFindings {
 
 const AGENT_SECTION_LIMIT = 10;
 
-const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g, "\\|").trim();
+const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\\/g, "\\\\").replace(/\|/g, "\\|").trim();
 
 function normalizeLogin(login: string): string {
   return login.trim().replace(/^@/, "").toLowerCase();

@@ -70,6 +70,13 @@ test("the agent section lists each introduced finding with its replacement and e
   assert.ok(text.endsWith("Replace these and push again; Evergreen will re-check.\n"), text);
 });
 
+test("table cells escape a backslash before the pipe it precedes", () => {
+  const text = renderAgentSection([finding({ title: "Back\\slash | pipe", replacement: "a\\b | c" })]).join("\n");
+
+  assert.ok(text.includes("Back\\\\slash \\| pipe"), text);
+  assert.ok(text.includes("a\\\\b \\| c"), text);
+});
+
 test("there is no section for a pull request without introduced findings", () => {
   assert.deepEqual(renderAgentSection([]), []);
 });

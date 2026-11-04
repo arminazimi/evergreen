@@ -136,6 +136,29 @@ test("a Dockerfile stage out of line is a pin and drifts", async () => {
   assert.equal(runtime.pins.filter((pin) => pin.path === "Dockerfile" && pin.release === "22").length, 1);
 });
 
+test("an LTS image tag resolves in linear time and keeps separator runs", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-nodejs-lts-tag-"));
+  temporaryRoots.push(root);
+  const long = `lts-hydrogen${"-".repeat(110)}`;
+  await writeFile(join(root, "Dockerfile"), `FROM node:lts-hydrogen--slim AS one\nFROM node:${long} AS two\n`);
+
+  const started = performance.now();
+  const result = await run("drift", root, "--runtime", "nodejs", "--json");
+  const elapsed = performance.now() - started;
+
+  assert.equal(result.code, 0, result.stderr);
+  const runtime = (JSON.parse(result.stdout) as Report).runtimes[0]!;
+  const stages = runtime.pins.filter((pin) => pin.source === "Dockerfile FROM");
+  assert.deepEqual(
+    stages.map((pin) => [pin.raw, pin.release]),
+    [
+      ["lts-hydrogen--slim", "18"],
+      [long, "18"],
+    ],
+  );
+  assert.ok(elapsed < 1000, `a 121-character tag took ${elapsed.toFixed(1)}ms`);
+});
+
 test("lts/hydrogen resolves through the release schedule and lts/* does not", async () => {
   const drifted = await report("drifted");
   const hydrogen = find(drifted, ".nvmrc", ".nvmrc");

@@ -566,6 +566,18 @@ test("the job summary opens with a twelve-month timeline and days left for each 
   assert.ok(text.indexOf("### Timeline") < text.indexOf("| Severity | Findings |"), "the timeline opens the summary");
 });
 
+test("table cells escape a backslash before the pipe it precedes", () => {
+  const text = renderSummary(
+    [datedFinding("a.high:p:1", "high", "Back\\slash | pipe", "package.json", inDays(0))],
+    false,
+    "high",
+    undefined,
+    false,
+  );
+
+  assert.ok(text.includes("Back\\\\slash \\| pipe"), text);
+});
+
 test("the timeline keeps ten dated events and points at the report for the rest", () => {
   const many = Array.from({ length: 13 }, (_, index) =>
     datedFinding(`r${index + 1}:p:1`, "low", `Event ${index + 1}`, "package.json", inDays(index + 1)),

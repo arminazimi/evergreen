@@ -1,0 +1,1 @@
+- Escape backslashes in table cells and make two runtime-version checks linear, closing five CodeQL alerts. (#2059)

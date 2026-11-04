@@ -621,7 +621,7 @@ const SUMMARY_FINDINGS = 10;
 const SUMMARY_TIMELINE_EVENTS = 10;
 const DAY_MS = 86_400_000;
 
-const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g, "\\|").trim();
+const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\\/g, "\\\\").replace(/\|/g, "\\|").trim();
 
 const plural = (count: number, noun: string): string => `${count} ${noun}${count === 1 ? "" : "s"}`;
 

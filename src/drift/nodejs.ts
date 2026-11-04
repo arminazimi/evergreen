@@ -163,7 +163,10 @@ function resolveVersion(value: string): Resolved {
 
 /** The major release and tag suffix a Docker image tag names, such as `18.19.0-alpine` or `lts-hydrogen-slim`. */
 function resolveTag(tag: string): Resolved & { variant?: string } {
-  const codename = /^lts[-/]([a-z]+)((?:[-.][0-9A-Za-z_.-]+)*)$/i.exec(tag);
+  // One optional suffix, not a repetition of one: the body class already contains the separator
+  // characters, so a repeated group would accept the same language while backtracking
+  // exponentially on a run of `-` or `.` (`js/redos`).
+  const codename = /^lts[-/]([a-z]+)((?:[-.][0-9A-Za-z_.-]+)?)$/i.exec(tag);
   if (codename) {
     const major = LTS_CODENAMES.get(codename[1]!.toLowerCase());
     const variant = codename[2] ?? "";

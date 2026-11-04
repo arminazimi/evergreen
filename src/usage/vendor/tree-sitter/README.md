@@ -37,3 +37,10 @@ node dist/tools/verify-tree-sitter-wasm.js
 `tools/sync-tree-sitter-wasm.ts` pins the version. It verifies the installed bytes against the committed manifest when the version is unchanged, writes the base64 payloads and manifest, and removes the binary form a previous sync may have left behind. Bumping the pin means changing `PINNED_VERSION` in the script, running it, and reviewing the new hashes it records in `manifest.json` in the same pull request.
 
 `tools/verify-tree-sitter-wasm.ts` decodes every committed payload, checks its size and SHA-256 against `manifest.json`, and reports stray `.wasm` files. It is offline and runs in the test suite; run it directly with `node dist/tools/verify-tree-sitter-wasm.js`.
+
+## Local patch to the runtime
+
+`tree-sitter.cjs` is copied from upstream except for one line: `addEmJs` strips every `*` from
+an EM_JS parameter type instead of only the first, so a `char **` argument produces a valid
+helper. `tools/sync-tree-sitter-wasm.ts` applies that patch while syncing and fails if the
+upstream line it replaces moves, so a refresh cannot silently drop it.

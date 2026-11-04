@@ -81,6 +81,13 @@ test("the committed payloads match the manifest and no wasm binary is committed"
   }
 });
 
+test("the vendored runtime strips every pointer star from an EM_JS parameter", async () => {
+  const runtime = await readFile(resolve("src/usage/vendor/tree-sitter/tree-sitter.cjs"), "utf8");
+
+  assert.ok(runtime.includes('jsArg.replace(/\\*/g, "")'), "the addEmJs patch is present");
+  assert.equal(runtime.includes('jsArg.replace("*", "")'), false, "the upstream single-star replace is gone");
+});
+
 test("the checker reports a tampered payload and a stray wasm binary", async () => {
   const directory = join(await scratch("tree-sitter-vendor"), "vendor");
   await cp(resolve("src/usage/vendor/tree-sitter"), directory, { recursive: true });

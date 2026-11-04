@@ -39,10 +39,20 @@ const WASM_FILES = [
   "tree-sitter-tsx.wasm",
   "tree-sitter-python.wasm",
 ] as const;
-/** Files copied unchanged; they are already text. */
+/** Text files copied from upstream; the runtime then gets the patch below. */
 const TEXT_FILES = [
   { from: "tree-sitter.js", to: "tree-sitter.cjs" },
   { from: "web-tree-sitter.d.ts", to: "tree-sitter.d.ts" },
+] as const;
+
+/**
+ * Upstream `addEmJs` strips only the first `*` from a C parameter type, so a `char **`
+ * argument keeps a pointer star and the generated helper is invalid. Removing every star is
+ * what the signature means. The patch is applied at sync time so a refresh cannot reintroduce
+ * it; the rest of the runtime stays byte-for-byte upstream (`js/incomplete-sanitization`).
+ */
+const RUNTIME_PATCHES = [
+  { from: 'jsArgs.push(jsArg.replace("*", ""));', to: 'jsArgs.push(jsArg.replace(/\\*/g, ""));' },
 ] as const;
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -103,6 +113,14 @@ for (const file of files) {
 }
 for (const file of TEXT_FILES) cpSync(join(wasmDirectory, file.from), join(destination, file.to));
 cpSync(join(dirname(entry), "..", "LICENSE"), join(destination, "LICENSE"));
+
+const runtimePath = join(destination, "tree-sitter.cjs");
+let runtime = readFileSync(runtimePath, "utf8");
+for (const patch of RUNTIME_PATCHES) {
+  if (!runtime.includes(patch.from)) fail(`Upstream runtime no longer contains ${patch.from}; review the patch.`);
+  runtime = runtime.replace(patch.from, patch.to);
+}
+writeFileSync(runtimePath, runtime);
 
 const manifest: TreeSitterWasmManifest = {
   schemaVersion: MANIFEST_SCHEMA,
