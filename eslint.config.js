@@ -22,6 +22,12 @@ export default tseslint.config(
       // widening the type. Everywhere else, narrow through a type guard.
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unsafe-type-assertion": "error",
+      // A promise must be awaited, returned, or explicitly discarded with `void`; an empty catch
+      // must not swallow its error. Both rules already arrive through `recommendedTypeChecked` and
+      // `js/recommended`; they are pinned here so a preset change cannot silently turn them off.
+      // A deliberate swallow needs a scoped disable naming the reason.
+      "@typescript-eslint/no-floating-promises": "error",
+      "no-empty": ["error", { allowEmptyCatch: false }],
     },
   },
   {
