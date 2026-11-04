@@ -97,16 +97,18 @@ function layoutFor(style: BadgeStyle): BadgeLayout {
 }
 
 function luminance(hex: string): number {
-  const channels = [1, 3, 5]
-    .map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255)
-    .map((value) => (value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4));
-  return 0.2126 * channels[0]! + 0.7152 * channels[1]! + 0.0722 * channels[2]!;
+  const linearChannel = (start: number): number => {
+    const value = Number.parseInt(hex.slice(start, start + 2), 16) / 255;
+    return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * linearChannel(1) + 0.7152 * linearChannel(3) + 0.0722 * linearChannel(5);
 }
 
 /** WCAG 2.1 contrast ratio between two `#RRGGBB` colors, from 1 (identical) to 21. */
 export function contrastRatio(left: string, right: string): number {
-  const [lighter, darker] = [luminance(left), luminance(right)].sort((a, b) => b - a);
-  return (lighter! + 0.05) / (darker! + 0.05);
+  const first = luminance(left);
+  const second = luminance(right);
+  return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
 }
 
 /** White or the badge's near-black, whichever reads better on the message color; both clear WCAG AA. */
@@ -127,18 +129,24 @@ export function repositoryFromRemote(url: string): string | undefined {
   const match = /^(?:git@|ssh:\/\/git@|https?:\/\/(?:[^@/]+@)?)github\.com[:/]([^/]+)\/(.+?)(?:\.git)?$/i.exec(
     url.trim(),
   );
-  if (!match) return undefined;
-  const owner = match[1]!;
-  const name = match[2]!.replace(/\.git$/, "");
+  const owner = match?.[1];
+  const captured = match?.[2];
+  if (owner === undefined || captured === undefined) return undefined;
+  const name = captured.replace(/\.git$/, "");
   return name.length > 0 ? `${owner}/${name}` : undefined;
+}
+
+/** Both segments of `owner/name`; the length check narrows the split array to a pair. */
+function isRepositoryPair(parts: string[]): parts is [string, string] {
+  return parts.length === 2;
 }
 
 function repositoryParts(repository: string): [string, string] {
   const parts = repository.split("/");
-  if (parts.length !== 2 || parts.some((part) => part.length === 0 || part === "." || part === "..")) {
+  if (!isRepositoryPair(parts) || parts.some((part) => part.length === 0 || part === "." || part === "..")) {
     throw new Error(`Invalid repository "${repository}"; expected owner/name`);
   }
-  return [parts[0]!, parts[1]!];
+  return parts;
 }
 
 const encodeSegment = (value: string): string =>

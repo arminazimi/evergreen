@@ -132,8 +132,8 @@ export function verifyDataBundle(
   } catch {
     throw new DataBundleError("The bundle is not valid JSON.");
   }
-  const shape = dataBundleShapeProblems(parsed);
-  if (shape.length > 0) throw new DataBundleError(shape[0]!);
+  const [shapeProblem] = dataBundleShapeProblems(parsed);
+  if (shapeProblem !== undefined) throw new DataBundleError(shapeProblem);
   const bundle = parsed as DataBundle;
 
   const minimum = bundle.manifest.minimumEvergreenVersion;
@@ -143,8 +143,8 @@ export function verifyDataBundle(
   const listed = new Set(bundle.manifest.files.map((file) => file.path));
   const missing = REQUIRED_BUNDLE_PATHS.filter((path) => !listed.has(path));
   if (missing.length > 0) throw new DataBundleError(`The bundle is incomplete: ${missing.join(", ")} missing.`);
-  const problems = dataBundleIntegrityProblems(bundle);
-  if (problems.length > 0) throw new DataBundleError(problems[0]!);
+  const [integrityProblem] = dataBundleIntegrityProblems(bundle);
+  if (integrityProblem !== undefined) throw new DataBundleError(integrityProblem);
   return { bundle, signer };
 }
 

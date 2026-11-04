@@ -52,6 +52,9 @@ export interface Forecast {
 const order = (left: ForecastEvent, right: ForecastEvent) =>
   left.date.localeCompare(right.date) || left.ruleId.localeCompare(right.ruleId);
 
+/** A registry rule with the dated end of life the forecast places on the calendar. */
+type DatedRule = RegistryV2Rule & { deadline: string };
+
 /**
  * Lists what reaches a dated end of life between `today` and `months` later. Only events that carry a date are
  * listed; nothing is estimated. Reads no clock: the caller passes the day, so output is deterministic.
@@ -78,9 +81,9 @@ export function buildForecast(
     }));
 
   const events: ForecastEvent[] = rules
-    .filter((rule) => inWindow(rule.deadline))
+    .filter((rule): rule is DatedRule => inWindow(rule.deadline))
     .map((rule) => ({
-      date: rule.deadline!,
+      date: rule.deadline,
       ruleId: rule.id,
       ecosystem: rule.ecosystem,
       title: rule.title,
@@ -90,8 +93,8 @@ export function buildForecast(
     }));
   const known = new Set(rules.map((rule) => rule.id));
   for (const [ruleId, findings] of findingsByRule) {
-    const first = findings[0]!;
-    if (known.has(ruleId) || !inWindow(first.deadline)) continue;
+    const first = findings.at(0);
+    if (known.has(ruleId) || first === undefined || !inWindow(first.deadline)) continue;
     events.push({
       date: first.deadline,
       ruleId,

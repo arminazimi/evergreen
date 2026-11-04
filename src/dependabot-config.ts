@@ -78,10 +78,12 @@ function combineEntry(
   entries: Map<string, { packageEcosystem: string; directory: string; patterns: Set<string> }>,
 ): Set<string> {
   const key = `${packageEcosystem}\0${directory}`;
-  if (!entries.has(key)) {
-    entries.set(key, { packageEcosystem, directory, patterns: new Set<string>() });
+  let entry = entries.get(key);
+  if (entry === undefined) {
+    entry = { packageEcosystem, directory, patterns: new Set<string>() };
+    entries.set(key, entry);
   }
-  return entries.get(key)!.patterns;
+  return entry.patterns;
 }
 
 /**

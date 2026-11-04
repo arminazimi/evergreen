@@ -69,11 +69,18 @@ function seedHistory(baseline: Baseline): BaselineHistoryEntry[] {
     : [{ at: baseline.createdAt, count: baseline.findings.length }];
 }
 
+/** Narrows a two-element slice so its entries need no assertion; the only slice `debtTrendLine` compares. */
+function isHistoryPair(
+  history: readonly BaselineHistoryEntry[],
+): history is readonly [BaselineHistoryEntry, BaselineHistoryEntry] {
+  return history.length === 2;
+}
+
 /** The line printed after a baseline is written: the change in findings since the last history entry. */
 export function debtTrendLine(history: readonly BaselineHistoryEntry[]): string {
-  if (history.length < 2) return "No earlier baseline to compare with.";
-  const previous = history[history.length - 2]!;
-  const current = history[history.length - 1]!;
+  const lastTwo = history.slice(-2);
+  if (!isHistoryPair(lastTwo)) return "No earlier baseline to compare with.";
+  const [previous, current] = lastTwo;
   const delta = current.count - previous.count;
   if (delta === 0) return `Debt is unchanged at ${current.count} since ${previous.at}.`;
   return `Debt ${delta < 0 ? "fell" : "rose"} by ${Math.abs(delta)} (${previous.count} to ${current.count}) since ${previous.at}: ${delta < 0 ? "better" : "worse"}.`;
@@ -168,9 +175,10 @@ export async function readBaseline(path: string): Promise<Baseline> {
  * tracks debt for a single written file, not a union of shared and per-repository acceptances.
  */
 export function mergeBaselines(baselines: readonly Baseline[]): Baseline {
-  if (baselines.length === 0) throw new Error("At least one baseline is required.");
-  if (baselines.length === 1) return baselines[0]!;
-  const createdAt = [...baselines].map((baseline) => baseline.createdAt).sort()[0]!;
+  const [first] = baselines;
+  const [createdAt] = [...baselines].map((baseline) => baseline.createdAt).sort();
+  if (first === undefined || createdAt === undefined) throw new Error("At least one baseline is required.");
+  if (baselines.length === 1) return first;
   return {
     schemaVersion: "evergreen.baseline.v1",
     createdAt,
@@ -261,6 +269,11 @@ function isExpired(entry: BaselineEntry, today: string | undefined): entry is Ba
   return today !== undefined && isIsoDate(entry.expires) && entry.expires < today;
 }
 
+/** Whether the caller gave a reference day at all; narrows `options` so its `today` reads as a date. */
+function hasToday(options: ApplyBaselineOptions): options is ApplyBaselineOptions & { today: string } {
+  return options.today !== undefined;
+}
+
 /**
  * Applies a baseline and also returns the suppressions that had expired, so a caller that enforces the `fail`
  * policy knows. `applyBaseline` is the same without that list. The expired list is not part of the scan result.
@@ -282,12 +295,12 @@ export function evaluateBaseline(
     const live = entries.filter((entry) => !isExpired(entry, options.today));
     if (live.length === 0) {
       for (const entry of entries) {
-        if (isExpired(entry, options.today)) {
+        if (hasToday(options) && isExpired(entry, options.today)) {
           expired.push({
             ruleId: entry.ruleId,
             path: entry.path,
             expires: entry.expires,
-            daysAgo: daysBetween(entry.expires, options.today!),
+            daysAgo: daysBetween(entry.expires, options.today),
             ...(entry.owner ? { owner: entry.owner } : {}),
             ...(entry.reason ? { reason: entry.reason } : {}),
           });

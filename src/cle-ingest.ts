@@ -118,7 +118,8 @@ export function parseCleDocument(input: unknown): CleDocumentRecord | undefined 
   }
   return {
     $schema: CLE_SCHEMA,
-    identifier: identifiers.length === 1 ? identifiers[0]! : identifiers,
+    // One identifier reads as that string; joining a single-element array gives the element itself.
+    identifier: identifiers.length === 1 ? identifiers.join() : identifiers,
     updatedAt: input.updatedAt,
     events,
   };

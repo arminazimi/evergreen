@@ -120,6 +120,13 @@ export function readTrackingSnapshot(body: string): TrackingSnapshot | undefined
   }
 }
 
+/** A tracking finding that carries an end-of-life date. */
+type DatedTrackingFinding = TrackingFinding & { deadline: string };
+
+function isDatedFinding(finding: TrackingFinding): finding is DatedTrackingFinding {
+  return finding.deadline !== undefined;
+}
+
 function encodeSnapshot(findings: readonly TrackingFinding[], today: string): string {
   const snapshot: TrackingSnapshot = { schemaVersion: SNAPSHOT_SCHEMA, updated: today, findings: [...findings] };
   return Buffer.from(JSON.stringify(snapshot), "utf8").toString("base64");
@@ -203,7 +210,7 @@ function renderFindings(
 
   const sorted = [...findings].sort(compareFindings);
   const visible = sorted.slice(0, shown);
-  const dated = visible.filter((finding) => finding.deadline !== undefined);
+  const dated = visible.filter(isDatedFinding);
   const undated = visible.filter((finding) => finding.deadline === undefined);
   const passed = findings.filter(
     (finding) => finding.deadline !== undefined && finding.deadline < options.today,
@@ -219,7 +226,7 @@ function renderFindings(
   if (dated.length > 0) {
     lines.push("| End of life | Severity | Finding | Location | Replacement |", "|---|---|---|---|---|");
     for (const finding of dated) {
-      const deadline = `${finding.deadline}${finding.deadline! < options.today ? " (past)" : ""}`;
+      const deadline = `${finding.deadline}${finding.deadline < options.today ? " (past)" : ""}`;
       lines.push(
         `| ${deadline} | ${finding.severity} | ${cell(finding.title)} | ${locationLabel(finding, options, true)} | ${finding.replacement ? cell(finding.replacement) : "—"} |`,
       );

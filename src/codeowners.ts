@@ -67,8 +67,7 @@ export function parseCodeowners(text: string): CodeownersRule[] {
 /** The owners of a path: the last rule that matches wins. Empty when no rule matches or the winning rule has no owners. */
 export function ownersOf(rules: readonly CodeownersRule[], path: string): string[] {
   const normalized = path.replace(/\\/g, "/").replace(/^\.?\//, "");
-  for (let index = rules.length - 1; index >= 0; index -= 1) {
-    const rule = rules[index]!;
+  for (const rule of [...rules].reverse()) {
     if (rule.matches.test(normalized)) return rule.owners;
   }
   return [];

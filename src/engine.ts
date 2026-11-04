@@ -374,7 +374,7 @@ export async function scanRepository(
       }
 
       const relevantFiles = detector.inputs
-        ? repoFiles.filter((path) => declaresInput(detector.inputs!, path))
+        ? repoFiles.filter((path) => declaresInput(detector.inputs ?? {}, path))
         : repoFiles;
       const sortedFiles = [...relevantFiles].sort((left, right) => left.localeCompare(right));
       if (detector.inputs && sortedFiles.length === 0) {
@@ -386,19 +386,20 @@ export async function scanRepository(
 
       // Check detector manifest first: when all files are unchanged, skip re-evaluating
       const manifest = await scanCache.getDetectorManifest(resolvedRoot, detector.id, detectorVersion, dataVersion);
-      const manifestMatches = Boolean(
-        manifest &&
+      const manifestMatches =
+        manifest !== undefined &&
+        Boolean(
           manifest.files.length === descriptors.length &&
-          manifest.files.every((file, index) => {
-            const current = descriptors[index];
-            return current && file.path === current.path && file.hash === current.hash;
-          }),
-      );
+            manifest.files.every((file, index) => {
+              const current = descriptors[index];
+              return current && file.path === current.path && file.hash === current.hash;
+            }),
+        );
 
       if (manifestMatches) {
         return {
-          findings: manifest!.findings,
-          unclassified: manifest!.unclassified,
+          findings: manifest.findings,
+          unclassified: manifest.unclassified,
         };
       }
 

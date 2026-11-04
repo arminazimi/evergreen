@@ -291,7 +291,7 @@ function numeric(match: RegExpMatchArray | null): string | undefined {
   return parts.join(".");
 }
 
-const major = (version: string): string => version.split(".")[0]!;
+const major = (version: string): string => version.split(".").slice(0, 1).join(".");
 const majorMinor = (version: string): string => version.split(".").slice(0, 2).join(".");
 
 const systemToolSpecs: readonly SystemToolSpec[] = [
