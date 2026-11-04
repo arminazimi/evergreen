@@ -80,8 +80,10 @@ wiring rules into `npm run check` are later issues in the epic.
 
 ## Consequences
 
-- #2045 adds Biome as the formatter, formats the tree in one commit, and fails
-  `npm run check` on drift.
+- #2045 adds Biome 2.6.4 as a devDependency, wires `format:check` into
+  `npm run check`, and formats the tree in one commit; unformatted code fails
+  the check. Re-wrapping `src/sdk.ts` and `src/mcp.ts` in that commit changes
+  whitespace only, so neither public contract changes.
 - #2046 adds ESLint with typescript-eslint, enables type-aware rules, and
   records a shrinking baseline.
 - #2047 and #2048 tighten typed rules on top of that ESLint config.
