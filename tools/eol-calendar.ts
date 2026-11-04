@@ -275,7 +275,7 @@ export async function loadRulesFromBundle(bundlePath: string): Promise<RegistryV
         typeof file === "object" &&
         (file as { schemaVersion?: string }).schemaVersion === "evergreen.registry.v2"
       ) {
-        rules.push(...validateRegistryV2(file as any).rules);
+        rules.push(...validateRegistryV2(file).rules);
       }
     }
     return rules;

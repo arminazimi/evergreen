@@ -1,7 +1,40 @@
 {
+  "src/action-commands.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
   "src/action-fix-pr.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    },
     "preserve-caught-error": {
       "count": 1
+    }
+  },
+  "src/action-tracking-issue.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    }
+  },
+  "src/action.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 5
+    }
+  },
+  "src/agent-hooks/claude-code.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/agent-hooks/codex.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/agent-hooks/command.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
     }
   },
   "src/baseline.ts": {
@@ -10,11 +43,22 @@
     },
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 4
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
     }
   },
   "src/cle-ingest.ts": {
     "@typescript-eslint/no-redundant-type-constituents": {
       "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "src/commands/badge.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
     }
   },
   "src/commands/capabilities.ts": {
@@ -22,17 +66,63 @@
       "count": 1
     }
   },
+  "src/commands/check.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/commands/glance.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
   "src/commands/init.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 2
     },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 7
+    },
     "@typescript-eslint/require-await": {
+      "count": 1
+    }
+  },
+  "src/commands/lookup.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/commands/new-detector.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/commands/new-rule.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/commands/plan.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
   "src/commands/receipt.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 5
+    }
+  },
+  "src/commands/rules.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/commands/runtime.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
     }
   },
   "src/commands/sbom.ts": {
@@ -40,9 +130,17 @@
       "count": 1
     }
   },
+  "src/commands/status-card.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
   "src/config.ts": {
     "@typescript-eslint/no-base-to-string": {
       "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 5
     }
   },
   "src/conformance/checks/locations.ts": {
@@ -50,12 +148,33 @@
       "count": 1
     }
   },
+  "src/conformance/trace-reads.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 8
+    }
+  },
   "src/countdown.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    },
     "prefer-const": {
       "count": 2
     }
   },
+  "src/data-bundle.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    }
+  },
+  "src/data-signature.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
   "src/data-source.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    },
     "@typescript-eslint/require-await": {
       "count": 2
     }
@@ -63,6 +182,9 @@
   "src/data-update.ts": {
     "@typescript-eslint/no-unsafe-argument": {
       "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 5
     },
     "@typescript-eslint/no-unused-vars": {
       "count": 1
@@ -72,10 +194,18 @@
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 2
     },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    },
     "@typescript-eslint/unbound-method": {
       "count": 2
     },
     "no-useless-assignment": {
+      "count": 1
+    }
+  },
+  "src/detectors/android/parse-libs-versions-toml.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
@@ -85,6 +215,11 @@
     },
     "@typescript-eslint/unbound-method": {
       "count": 2
+    }
+  },
+  "src/detectors/container/parse-devcontainer.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "src/detectors/container/rootfs.ts": {
@@ -98,9 +233,24 @@
       "count": 2
     }
   },
+  "src/detectors/cpp/parse-cmakelists.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
   "src/detectors/cpp/parse-conan.ts": {
     "no-control-regex": {
       "count": 1
+    }
+  },
+  "src/detectors/database/parse-compose.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/detectors/database/parse-terraform.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
     }
   },
   "src/detectors/deno/parse.ts": {
@@ -108,18 +258,47 @@
       "count": 2
     }
   },
+  "src/detectors/github-actions-node.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/detectors/github-actions.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/detectors/java/index.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
   "src/detectors/java/parse-gradle.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 9
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "src/detectors/npm.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 9
+    }
+  },
+  "src/detectors/python.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
     }
   },
   "src/detectors/rust/parse-cargo-toml.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
@@ -146,13 +325,34 @@
       "count": 1
     }
   },
+  "src/diff.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
   "src/doctor.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    },
     "@typescript-eslint/require-await": {
       "count": 1
     }
   },
+  "src/drift/elixir.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
   "src/drift/go.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/drift/index.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 2
     }
   },
@@ -160,29 +360,61 @@
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 2
     },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    },
     "no-useless-escape": {
       "count": 3
+    }
+  },
+  "src/drift/php.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
     }
   },
   "src/drift/python.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 5
     },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    },
     "no-useless-assignment": {
+      "count": 1
+    }
+  },
+  "src/drift/ruby.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/drift/rust.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
   "src/drift/terraform.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 3
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "src/engine.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    },
     "@typescript-eslint/no-unused-vars": {
       "count": 1
     },
     "no-useless-assignment": {
       "count": 2
+    }
+  },
+  "src/export/portal.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "src/fix/codemods/index.ts": {
@@ -191,6 +423,9 @@
     }
   },
   "src/fix/git.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    },
     "preserve-caught-error": {
       "count": 1
     }
@@ -211,6 +446,9 @@
     }
   },
   "src/github-action.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    },
     "@typescript-eslint/restrict-template-expressions": {
       "count": 1
     },
@@ -221,21 +459,58 @@
   "src/glance.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/guard.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
     }
   },
   "src/init-agents.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    }
+  },
+  "src/init-hooks.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/init-personal.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "src/inventory/aws-lambda.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/inventory/command.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/inventory/gcp.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
   "src/lsp.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
     }
   },
   "src/mcp-http.ts": {
@@ -244,10 +519,38 @@
     }
   },
   "src/mcp.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 7
+    },
     "@typescript-eslint/no-unused-vars": {
       "count": 1
     },
     "@typescript-eslint/require-await": {
+      "count": 2
+    }
+  },
+  "src/migration-packet.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    }
+  },
+  "src/osv-advisories.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/package-files.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "src/plan-build.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/pr-comment.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 2
     }
   },
@@ -259,6 +562,9 @@
   "src/registry.ts": {
     "@typescript-eslint/no-base-to-string": {
       "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 7
     }
   },
   "src/report-issue.ts": {
@@ -276,12 +582,43 @@
       "count": 1
     }
   },
-  "src/sdk.ts": {
-    "@typescript-eslint/no-base-to-string": {
+  "src/rollup.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "src/rule-lint.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 2
     }
   },
+  "src/rule-test.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "src/scan-cache.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "src/sdk.ts": {
+    "@typescript-eslint/no-base-to-string": {
+      "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 8
+    }
+  },
+  "src/source-files.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
   "src/source-usage.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    },
     "no-useless-assignment": {
       "count": 1
     },
@@ -294,35 +631,118 @@
       "count": 1
     }
   },
+  "src/upgrade/composer-lock.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/upgrade/poetry-lock.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
   "src/upgrade/uv-pdm-lock.ts": {
     "@typescript-eslint/no-unsafe-argument": {
       "count": 1
     },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    }
+  },
+  "src/usage-log.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "src/usage/symbols.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/usage/tree-sitter.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
     }
   },
   "src/watch.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    },
     "preserve-caught-error": {
       "count": 1
     }
   },
+  "src/workspaces.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    }
+  },
   "tools/adoption-metrics.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 13
+    },
     "no-useless-assignment": {
       "count": 1
     }
   },
   "tools/benchmark-report.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    },
     "preserve-caught-error": {
       "count": 1
     }
   },
+  "tools/build-dashboard-data.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    }
+  },
+  "tools/build-data-api.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    }
+  },
+  "tools/build-data-bundle.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
   "tools/build-data-package.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 4
+    },
     "@typescript-eslint/restrict-plus-operands": {
       "count": 2
     }
   },
+  "tools/build-llms-full.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "tools/build-reference-pages.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "tools/changed-rules.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/changelog.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
   "tools/check-decisions.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    },
     "@typescript-eslint/require-await": {
       "count": 1
     },
@@ -333,22 +753,70 @@
   "tools/check-good-first-issues.ts": {
     "@typescript-eslint/no-duplicate-type-constituents": {
       "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/check-mcp-listings.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
     }
   },
   "tools/check-quality.ts": {
     "@typescript-eslint/no-base-to-string": {
       "count": 1
     },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 19
+    },
     "preserve-caught-error": {
       "count": 1
     }
   },
+  "tools/check-sources.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    }
+  },
+  "tools/ci-duration.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 7
+    }
+  },
+  "tools/ci-health-report.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "tools/codex-plugin-release.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/coverage-badge.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/coverage-diff.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/coverage-matrix.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 5
+    }
+  },
+  "tools/coverage-thresholds.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
   "tools/eol-calendar.ts": {
-    "@typescript-eslint/no-explicit-any": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
     },
     "@typescript-eslint/restrict-template-expressions": {
       "count": 1
@@ -357,20 +825,69 @@
       "count": 1
     }
   },
+  "tools/github-actions-shas.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
   "tools/importers/candidate-issues.ts": {
     "@typescript-eslint/no-duplicate-type-constituents": {
       "count": 4
     },
     "@typescript-eslint/no-redundant-type-constituents": {
       "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "tools/importers/canonical.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/cpp-1.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/dart-1.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "tools/importers/diff.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    },
     "@typescript-eslint/no-unused-vars": {
       "count": 1
     }
   },
+  "tools/importers/dotnet-1.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/dotnet-2.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/github-actions.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "tools/importers/java-1.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
   "tools/importers/java-2.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    },
     "@typescript-eslint/unbound-method": {
       "count": 1
     }
@@ -378,10 +895,36 @@
   "tools/importers/kubernetes-1.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 2
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/npm.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/php-1.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "tools/importers/php-2.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/pr-body.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    }
+  },
+  "tools/importers/pypi.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
@@ -391,12 +934,23 @@
     }
   },
   "tools/importers/recording.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    },
     "@typescript-eslint/require-await": {
       "count": 1
     }
   },
   "tools/importers/run.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "tools/importers/rust-2.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
@@ -405,27 +959,59 @@
       "count": 1
     }
   },
+  "tools/importers/terraform-1.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/types.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/main-red-alert.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 7
+    }
+  },
   "tools/monthly-report-format.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 1
     }
   },
   "tools/monthly-report.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    },
     "no-useless-assignment": {
       "count": 2
     }
   },
   "tools/org-rollout.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 7
+    },
     "no-fallthrough": {
       "count": 1
     }
   },
+  "tools/plugin-packages.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
   "tools/quality-metrics.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    },
     "no-useless-assignment": {
       "count": 2
     }
   },
   "tools/registry-v1-to-v2.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    },
     "@typescript-eslint/restrict-template-expressions": {
       "count": 1
     }
@@ -434,16 +1020,25 @@
     "@typescript-eslint/no-base-to-string": {
       "count": 1
     },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    },
     "@typescript-eslint/restrict-plus-operands": {
       "count": 1
     }
   },
   "tools/run-tests-sharding.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
+    },
     "preserve-caught-error": {
       "count": 1
     }
   },
   "tools/run-tests-timing.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    },
     "preserve-caught-error": {
       "count": 1
     }
@@ -451,9 +1046,15 @@
   "tools/scaffold/collisions.ts": {
     "@typescript-eslint/await-thenable": {
       "count": 1
+    },
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "tools/scaffold/index.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    },
     "@typescript-eslint/no-unused-vars": {
       "count": 1
     }
@@ -461,6 +1062,21 @@
   "tools/site-urls.ts": {
     "@typescript-eslint/no-unsafe-return": {
       "count": 1
+    }
+  },
+  "tools/sync-tree-sitter-wasm.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/validate-codex-plugin.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 6
+    }
+  },
+  "tools/verify-tree-sitter-wasm.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
     }
   }
 }

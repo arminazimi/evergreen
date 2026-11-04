@@ -15,6 +15,16 @@ export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
   {
+    rules: {
+      // `any` and unchecked type assertions are forbidden. Where an external boundary needs a cast
+      // (parsing repository JSON, reading a response body), mark that single site with a scoped
+      // `eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- <reason>` instead of
+      // widening the type. Everywhere else, narrow through a type guard.
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-unsafe-type-assertion": "error",
+    },
+  },
+  {
     languageOptions: {
       parserOptions: {
         projectService: true,
