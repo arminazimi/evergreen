@@ -742,7 +742,7 @@
     {
       "file": "src/fix/dockerfile.ts",
       "function": "plan",
-      "lines": 70,
+      "lines": 68,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -750,7 +750,7 @@
     {
       "file": "src/fix/github-actions.ts",
       "function": "plan",
-      "lines": 58,
+      "lines": 56,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -758,7 +758,7 @@
     {
       "file": "src/fix/go-mod.ts",
       "function": "plan",
-      "lines": 93,
+      "lines": 81,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -766,7 +766,7 @@
     {
       "file": "src/fix/java.ts",
       "function": "plan",
-      "lines": 91,
+      "lines": 86,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -774,7 +774,7 @@
     {
       "file": "src/fix/kubernetes.ts",
       "function": "plan",
-      "lines": 60,
+      "lines": 58,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -782,7 +782,7 @@
     {
       "file": "src/fix/python.ts",
       "function": "plan",
-      "lines": 92,
+      "lines": 83,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -2192,15 +2192,7 @@
     {
       "file": "src/fix/dockerfile.ts",
       "function": "plan",
-      "complexity": 19,
-      "owner": "#2268",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/github-actions.ts",
-      "function": "plan",
-      "complexity": 16,
+      "complexity": 18,
       "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
@@ -2208,7 +2200,7 @@
     {
       "file": "src/fix/go-mod.ts",
       "function": "plan",
-      "complexity": 25,
+      "complexity": 18,
       "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
@@ -2216,15 +2208,7 @@
     {
       "file": "src/fix/java.ts",
       "function": "plan",
-      "complexity": 23,
-      "owner": "#2268",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/kubernetes.ts",
-      "function": "plan",
-      "complexity": 16,
+      "complexity": 20,
       "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
@@ -3183,48 +3167,6 @@
     {
       "file": "src/fix/codemods/terraform-legacy.ts",
       "count": 5,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/fix/dockerfile.ts",
-      "count": 8,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/fix/github-actions.ts",
-      "count": 5,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/fix/go-mod.ts",
-      "count": 6,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/fix/java.ts",
-      "count": 6,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/fix/kubernetes.ts",
-      "count": 4,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/fix/python.ts",
-      "count": 15,
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."

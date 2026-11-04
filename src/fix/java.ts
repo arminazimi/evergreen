@@ -41,13 +41,15 @@ function rewriteGradle(line: string, target: string): string | undefined {
   }
   const compatibility = COMPATIBILITY.exec(line);
   if (!compatibility) return undefined;
-  if (compatibility[3] !== undefined) {
-    const constant = parseJdkVersion(compatibility[3]!.replace(/_/g, "."));
+  const constantVersion = compatibility[3];
+  if (constantVersion !== undefined) {
+    const constant = parseJdkVersion(constantVersion.replace(/_/g, "."));
     if (!constant || constant.major >= Number(target)) return undefined;
     return `${compatibility[1]}JavaVersion.VERSION_${target}${compatibility[7]}${compatibility[8]}`;
   }
   const literal = compatibility[5] ?? compatibility[6];
-  const current = parseJdkVersion(literal!);
+  if (literal === undefined) return undefined;
+  const current = parseJdkVersion(literal);
   if (!current || current.major >= Number(target)) return undefined;
   const raised = compatibility[5] !== undefined ? `${compatibility[4]}${target}${compatibility[4]}` : target;
   return `${compatibility[1]}${raised}${compatibility[7]}${compatibility[8]}`;
@@ -57,7 +59,9 @@ function rewriteLine(name: string, line: string, target: string): string | undef
   if (name !== "pom.xml") return rewriteGradle(line, target);
   const match = POM_RELEASE.exec(line);
   if (!match) return undefined;
-  const current = parseJdkVersion(match[4]!);
+  const release = match[4];
+  if (release === undefined) return undefined;
+  const current = parseJdkVersion(release);
   if (!current || current.major >= Number(target)) return undefined;
   return `${match[1]}${match[3]}${target}${match[5]}${match[6]}`;
 }
@@ -140,7 +144,8 @@ export const javaFixer: Fixer = {
       if (text !== before) {
         const expected = declarations.map((declaration) => {
           if (declaration.kind !== "jdk" || !rewritten.has(declaration.line)) return declaration;
-          const target = lines.get(declaration.line)!;
+          const target = lines.get(declaration.line);
+          if (target === undefined) return declaration;
           return {
             kind: "jdk" as const,
             role: declaration.role,
@@ -156,19 +161,31 @@ export const javaFixer: Fixer = {
         patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
       }
       for (const finding of findings) {
-        const index = finding.location.line! - 1;
-        if (rewritten.has(index + 1)) continue;
-        if (!declared.has(index + 1)) {
-          refuse?.(finding, "The declaration is computed or not a literal Java level.");
-          continue;
-        }
-        const reason = refusalReason(name, original[index] ?? "", lines.get(index + 1)!);
+        const reason = refusalFor(finding, name, original, rewritten, declared, lines);
         if (reason !== undefined) refuse?.(finding, reason);
       }
     }
     return patches;
   },
 };
+
+/** The refusal for a finding the edit left alone, or undefined when there is nothing to report. */
+function refusalFor(
+  finding: Finding,
+  name: string,
+  original: readonly string[],
+  rewritten: ReadonlySet<number>,
+  declared: ReadonlySet<number>,
+  lines: ReadonlyMap<number, string>,
+): string | undefined {
+  const line = finding.location.line;
+  if (line === undefined) return undefined;
+  if (rewritten.has(line)) return undefined;
+  if (!declared.has(line)) return "The declaration is computed or not a literal Java level.";
+  const target = lines.get(line);
+  if (target === undefined) return undefined;
+  return refusalReason(name, original[line - 1] ?? "", target);
+}
 
 /** Why the declaration was left as it is, or undefined when it already names the target or a later release. */
 function refusalReason(name: string, line: string, target: string): string | undefined {

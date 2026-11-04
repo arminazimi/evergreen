@@ -39,9 +39,9 @@ function reportedImage(finding: Finding): ImageReference | undefined {
 
 /** The distro parts of a tag suffix, ignoring versions: `20-alpine3.19` and `22-alpine3.20` share `["alpine"]`. */
 function distroFamily(tag: string): string[] | undefined {
-  const match = RELEASE_TAG.exec(tag);
-  if (!match) return undefined;
-  return match[2]!
+  const suffix = RELEASE_TAG.exec(tag)?.[2];
+  if (suffix === undefined) return undefined;
+  return suffix
     .toLowerCase()
     .split("-")
     .filter(Boolean)
@@ -70,11 +70,10 @@ function rewriteTarget(finding: Finding, current: ImageReference): { tag: string
       ? [parsed.tag]
       : [];
   });
-  const tags = [...new Set(named)];
-  if (tags.length === 0) return { reason: "The rule's replacement does not name a tag for this image." };
-  if (tags.length > 1) return { reason: "The rule's replacement names more than one tag; the target is ambiguous." };
+  const [target, ...others] = [...new Set(named)];
+  if (target === undefined) return { reason: "The rule's replacement does not name a tag for this image." };
+  if (others.length > 0) return { reason: "The rule's replacement names more than one tag; the target is ambiguous." };
 
-  const target = tags[0]!;
   if (current.tag === undefined) return { reason: "The image has no tag to rewrite." };
   const currentParts = RELEASE_TAG.exec(current.tag);
   const targetParts = RELEASE_TAG.exec(target);
@@ -84,7 +83,11 @@ function rewriteTarget(finding: Finding, current: ImageReference): { tag: string
   if (currentFamily?.join("-") !== targetFamily?.join("-")) {
     return { reason: `The rule's replacement tag "${target}" is not in the same distro family as "${current.tag}".` };
   }
-  if (compareVersions(targetParts[1]!, currentParts[1]!) <= 0) {
+  const currentVersion = currentParts[1];
+  const targetVersion = targetParts[1];
+  if (currentVersion === undefined || targetVersion === undefined)
+    return { reason: "The image tag does not name a release line." };
+  if (compareVersions(targetVersion, currentVersion) <= 0) {
     return { reason: `The rule's replacement tag "${target}" is not newer than the current tag "${current.tag}".` };
   }
   return { tag: target };
@@ -93,8 +96,8 @@ function rewriteTarget(finding: Finding, current: ImageReference): { tag: string
 /** The tag on `line` is replaced only while the line still names the image the finding reported. */
 function rewriteFrom(line: string, edit: ImageEdit): string {
   const match = FROM_LINE.exec(line);
-  if (!match) return line;
-  const token = match[2]!;
+  const token = match?.[2];
+  if (!match || token === undefined) return line;
   const image = parseImageReference(token);
   if (!image || !sameImage(image, edit.current) || image.tag === undefined) return line;
   return `${match[1]}${token.slice(0, token.lastIndexOf(":") + 1)}${edit.target}${match[3]}`;
@@ -109,12 +112,28 @@ function sameImage(left: ImageReference, right: ImageReference): boolean {
   );
 }
 
+/** The refusal for a finding whose line the edit left unchanged, or undefined when there is nothing to report. */
+function refusalFor(
+  finding: Finding,
+  original: readonly string[],
+  updated: readonly string[],
+  lines: ReadonlyMap<number, ImageEdit>,
+): string | undefined {
+  const line = finding.location.line;
+  if (line === undefined) return undefined;
+  const edit = lines.get(line);
+  if (edit === undefined) return undefined;
+  const index = line - 1;
+  return updated[index] === original[index] ? lineRefusal(original[index], edit) : undefined;
+}
+
 /** Why the line was left as it is, or undefined when it still carries the image the finding names. */
 function lineRefusal(line: string | undefined, edit: ImageEdit): string | undefined {
   if (line === undefined) return "The finding names no line to rewrite.";
   const match = FROM_LINE.exec(line);
-  if (!match) return "The line is not a `FROM` instruction.";
-  const image = parseImageReference(match[2]!);
+  const token = match?.[2];
+  if (!match || token === undefined) return "The line is not a `FROM` instruction.";
+  const image = parseImageReference(token);
   if (!image) return "The line's image reference could not be parsed.";
   if (!sameImage(image, edit.current)) return "The line no longer holds the image the finding names.";
   return undefined;
@@ -204,9 +223,7 @@ export const dockerfileBaseImageFixer: Fixer = {
       if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
       const updated = text.split("\n");
       for (const finding of findings) {
-        const index = finding.location.line! - 1;
-        if (updated[index] !== original[index]) continue;
-        const reason = lineRefusal(original[index], lines.get(index + 1)!);
+        const reason = refusalFor(finding, original, updated, lines);
         if (reason !== undefined) refuse?.(finding, reason);
       }
     }

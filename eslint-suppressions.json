@@ -430,16 +430,6 @@
       "count": 1
     }
   },
-  "src/fix/java.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    }
-  },
-  "src/fix/python.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 4
-    }
-  },
   "src/forecast.ts": {
     "@typescript-eslint/restrict-template-expressions": {
       "count": 1

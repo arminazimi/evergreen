@@ -12,6 +12,7 @@ import type { FilePatch, Fixer } from "./index.js";
 
 const REQUIRES_PYTHON = /^(\s*requires-python\s*=\s*)(["'])([^"']*)\2(\s*(?:#.*)?\r?)$/;
 const BOUND = /^\s*(>=|<=|<)\s*(\d+(?:\.\d+){0,2})\s*$/;
+const TABLE = /^\s*\[([^\]]+)\]\s*(?:#.*)?\r?$/;
 
 /** `.python-version` is already handled by runtimePinsFixer; this adds explicit requires-python lower bounds. */
 export const pythonFixer: Fixer = {
@@ -41,6 +42,7 @@ export const pythonFixer: Fixer = {
         refuse?.(finding, "The registry names no supported Python line for the scan date.");
       return [];
     }
+    const supported = target;
 
     const patches: FilePatch[] = [];
     for (const [path, findings] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {
@@ -63,19 +65,9 @@ export const pythonFixer: Fixer = {
         continue;
       }
       const document = parseToml(before);
-      let project = false;
       const original = before.split("\n");
-      const text = original
-        .map((line) => {
-          const header = /^\s*\[([^\]]+)\]\s*(?:#.*)?\r?$/.exec(line);
-          if (header) project = header[1]!.trim() === "project";
-          if (!project) return line;
-          const match = REQUIRES_PYTHON.exec(line);
-          if (!match) return line;
-          const value = raiseLowerBound(match[3]!, target!);
-          return `${match[1]}${match[2]}${value}${match[2]}${match[4]}`;
-        })
-        .join("\n");
+      const state = { project: false };
+      const text = original.map((line) => raiseLine(line, state, supported)).join("\n");
       const updated = text === before ? document : parseToml(text);
       const projectBefore = document.project;
       const projectAfter = updated.project;
@@ -102,7 +94,7 @@ export const pythonFixer: Fixer = {
       for (const finding of findings) {
         const index = (finding.location.line ?? 0) - 1;
         if (index >= 0 && after[index] !== original[index]) continue;
-        const reason = refusalReason(index >= 0 ? original[index] : undefined, target);
+        const reason = refusalReason(index >= 0 ? original[index] : undefined, supported);
         if (reason !== undefined) refuse?.(finding, reason);
       }
     }
@@ -110,42 +102,78 @@ export const pythonFixer: Fixer = {
   },
 };
 
+/** The line with its `requires-python` lower bound raised; `state.project` tracks the enclosing table. */
+function raiseLine(line: string, state: { project: boolean }, target: string): string {
+  const table = TABLE.exec(line)?.[1];
+  if (table !== undefined) state.project = table.trim() === "project";
+  if (!state.project) return line;
+  const match = REQUIRES_PYTHON.exec(line);
+  if (!match) return line;
+  const bound = match[3];
+  if (bound === undefined) return line;
+  return `${match[1]}${match[2]}${raiseLowerBound(bound, target)}${match[2]}${match[4]}`;
+}
+
+/** One literal `>=1.2` bound of a `requires-python` constraint. */
+interface PythonBound {
+  operator: string;
+  version: string;
+}
+
+/** The clause's operator and version, or undefined when it is not a literal bound. */
+function parseBound(clause: string): PythonBound | undefined {
+  const match = BOUND.exec(clause);
+  const operator = match?.[1];
+  const version = match?.[2];
+  return operator === undefined || version === undefined ? undefined : { operator, version };
+}
+
+/** Every comma-separated clause as a literal bound, or undefined when one is not. */
+function parseBounds(value: string): PythonBound[] | undefined {
+  const bounds: PythonBound[] = [];
+  for (const clause of value.split(",")) {
+    const bound = parseBound(clause);
+    if (bound === undefined) return undefined;
+    bounds.push(bound);
+  }
+  return bounds;
+}
+
+/** Whether the bound rules out the release; only a lower bound can admit it, and only when it does not exclude it. */
+function excludesRelease(bound: PythonBound, release: string): boolean {
+  if (bound.operator === ">=") return false;
+  return !semver.satisfies(release, `${bound.operator}${semver.coerce(bound.version)?.version}`);
+}
+
 /** Why the line was left as it is, or undefined when the constraint already allows the supported target. */
 function refusalReason(line: string | undefined, target: string): string | undefined {
   if (line === undefined) return "The finding names no line to rewrite.";
   const match = REQUIRES_PYTHON.exec(line);
-  if (!match) return "The line is not a literal `requires-python` assignment.";
-  const value = match[3]!;
-  const bounds = value.split(",").map((clause) => BOUND.exec(clause));
-  if (bounds.some((bound) => !bound)) return "The `requires-python` constraint is not a set of literal bounds.";
-  const version = `${target}.0`;
-  if (
-    bounds.some(
-      (bound) => bound![1] !== ">=" && !semver.satisfies(version, `${bound![1]}${semver.coerce(bound![2]!)?.version}`),
-    )
-  ) {
+  const value = match?.[3];
+  if (value === undefined) return "The line is not a literal `requires-python` assignment.";
+  const bounds = parseBounds(value);
+  if (bounds === undefined) return "The `requires-python` constraint is not a set of literal bounds.";
+  const release = `${target}.0`;
+  if (bounds.some((bound) => excludesRelease(bound, release)))
     return "The `requires-python` constraint excludes the supported Python version.";
-  }
   return undefined;
 }
 
 /** Keep upper bounds byte-for-byte and decline constraints that would exclude the supported target. */
 function raiseLowerBound(value: string, target: string): string {
   const clauses = value.split(",");
-  const bounds = clauses.map((clause) => BOUND.exec(clause));
-  if (bounds.some((bound) => !bound)) return value;
-  const version = `${target}.0`;
-  if (
-    bounds.some(
-      (bound) => bound![1] !== ">=" && !semver.satisfies(version, `${bound![1]}${semver.coerce(bound![2]!)?.version}`),
-    )
-  )
-    return value;
+  const bounds = parseBounds(value);
+  if (bounds === undefined) return value;
+  const release = `${target}.0`;
+  if (bounds.some((bound) => excludesRelease(bound, release))) return value;
   return clauses
     .map((clause, index) => {
-      const bound = bounds[index]!;
-      const current = semver.coerce(bound[2]!);
-      return bound[1] === ">=" && current && semver.lt(current, version) ? clause.replace(bound[2]!, target) : clause;
+      const bound = bounds[index];
+      if (bound === undefined) return clause;
+      const current = semver.coerce(bound.version);
+      return bound.operator === ">=" && current && semver.lt(current, release)
+        ? clause.replace(bound.version, target)
+        : clause;
     })
     .join(",");
 }

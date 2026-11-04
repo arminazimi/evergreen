@@ -47,7 +47,8 @@ const DECLARATION = /^.* declares (\S+) (\S+)\. /;
 function rewriteTarget(finding: Finding): ApiEdit | undefined {
   const match = DECLARATION.exec(finding.summary);
   if (!match) return undefined;
-  const from = match[1]!;
+  const from = match[1];
+  if (from === undefined) return undefined;
   const parts = splitApiVersion(from);
   const to = parts && API_VERSIONS[`${parts.group}/${match[2]}`]?.[from];
   return to ? { from, to } : undefined;
@@ -118,9 +119,7 @@ export const kubernetesApiVersionFixer: Fixer = {
       if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
       const updated = text.split("\n");
       for (const finding of findings) {
-        const index = finding.location.line! - 1;
-        if (updated[index] !== original[index]) continue;
-        const reason = lineRefusal(original[index] ?? "", lines.get(index + 1)!);
+        const reason = refusalFor(finding, original, updated, lines);
         if (reason !== undefined) refuse?.(finding, reason);
       }
     }
@@ -128,11 +127,27 @@ export const kubernetesApiVersionFixer: Fixer = {
   },
 };
 
+/** The refusal for a finding whose line the edit left unchanged, or undefined when there is nothing to report. */
+function refusalFor(
+  finding: Finding,
+  original: readonly string[],
+  updated: readonly string[],
+  lines: ReadonlyMap<number, ApiEdit>,
+): string | undefined {
+  const line = finding.location.line;
+  if (line === undefined) return undefined;
+  const edit = lines.get(line);
+  if (edit === undefined) return undefined;
+  const index = line - 1;
+  return updated[index] === original[index] ? lineRefusal(original[index] ?? "", edit) : undefined;
+}
+
 /** Why the finding names no safe rewrite, decided from the finding itself. */
 function refusedReason(finding: Finding): string {
   const match = DECLARATION.exec(finding.summary);
-  if (!match) return "The finding does not name the declaration's API version.";
-  const parts = splitApiVersion(match[1]!);
+  const from = match?.[1];
+  if (from === undefined) return "The finding does not name the declaration's API version.";
+  const parts = splitApiVersion(from);
   if (!parts) return "The finding's API version could not be parsed.";
   return "The replacement needs a spec change, not only an `apiVersion` rewrite.";
 }

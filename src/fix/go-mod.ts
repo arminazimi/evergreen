@@ -5,7 +5,7 @@ import semver from "semver";
 
 import { parseGoMod } from "../detectors/go/parse-go-mod.js";
 import type { Finding } from "../domain.js";
-import type { FilePatch, Fixer } from "./index.js";
+import type { FilePatch, Fixer, Refuse } from "./index.js";
 
 const VERSION = /^\d+\.\d+(?:\.\d+)?$/;
 const DIRECTIVE = /^(\s*(go|toolchain)\s+)((?:go)?\d+\.\d+(?:\.\d+)?)(\s*(?:\/\/.*)?\r?)$/;
@@ -70,7 +70,32 @@ async function dependencyProblem(
 
 interface Targets {
   target: string;
+  normalized: string;
   findings: Finding[];
+}
+
+/** Record the target a finding names, refusing one that names no literal Go version. */
+function collectTargets(targets: Map<string, Targets>, findings: readonly Finding[], refuse?: Refuse): void {
+  for (const finding of findings) {
+    if (!finding.ruleId.startsWith("go.runtime.") || basename(finding.location.path) !== "go.mod") continue;
+    const target = GO_REPLACEMENT.exec(finding.replacement ?? "")?.[1];
+    const next = target === undefined ? undefined : version(target);
+    if (!target || next === undefined) {
+      refuse?.(finding, "The rule's replacement does not name a literal Go version.");
+      continue;
+    }
+    const entry = targets.get(finding.location.path);
+    if (!entry) {
+      targets.set(finding.location.path, { target, normalized: next, findings: [finding] });
+      continue;
+    }
+    const current = version(entry.target);
+    if (current !== undefined && semver.gt(next, current)) {
+      entry.target = target;
+      entry.normalized = next;
+    }
+    entry.findings.push(finding);
+  }
 }
 
 /** Raise only go.mod directive values to an explicit supported replacement, never resolving modules or running Go. */
@@ -78,22 +103,9 @@ export const goModFixer: Fixer = {
   id: "go-mod",
   async plan(result, refuse) {
     const targets = new Map<string, Targets>();
-    for (const finding of result.findings) {
-      if (!finding.ruleId.startsWith("go.runtime.") || basename(finding.location.path) !== "go.mod") continue;
-      const target = GO_REPLACEMENT.exec(finding.replacement ?? "")?.[1];
-      if (!target || !version(target)) {
-        refuse?.(finding, "The rule's replacement does not name a literal Go version.");
-        continue;
-      }
-      const entry = targets.get(finding.location.path);
-      if (!entry) targets.set(finding.location.path, { target, findings: [finding] });
-      else {
-        if (semver.gt(version(target)!, version(entry.target)!)) entry.target = target;
-        entry.findings.push(finding);
-      }
-    }
+    collectTargets(targets, result.findings, refuse);
     const patches: FilePatch[] = [];
-    for (const [path, { target, findings }] of targets) {
+    for (const [path, { normalized, findings }] of targets) {
       const decline = (reason: string) => {
         for (const finding of findings) refuse?.(finding, reason);
       };
@@ -110,12 +122,12 @@ export const goModFixer: Fixer = {
       const declarations = parseGoMod(before);
       const go = declarations.filter((item) => item.kind === "go");
       const toolchain = declarations.filter((item) => item.kind === "toolchain");
-      const normalized = version(target)!;
-      if (go.length !== 1) {
+      const [directive] = go;
+      if (go.length !== 1 || directive === undefined) {
         decline("The module has no single literal `go` directive.");
         continue;
       }
-      const floor = version(go[0]!.value);
+      const floor = version(directive.value);
       if (!floor) {
         decline("The `go` directive value is not a literal Go version.");
         continue;
@@ -135,8 +147,9 @@ export const goModFixer: Fixer = {
         }
         const lines = new Set(declarations.filter((item) => item.kind !== "require").map((item) => item.line));
         text.forEach((line, index) => {
-          const match = lines.has(index + 1) && DIRECTIVE.exec(line);
-          const current = match && version(match[3]!.replace(/^go/, ""));
+          const match = lines.has(index + 1) ? DIRECTIVE.exec(line) : null;
+          const declared = match?.[3];
+          const current = declared === undefined ? undefined : version(declared.replace(/^go/, ""));
           if (!match || !current || !semver.lt(current, normalized)) return;
           const after = `${match[1]}${match[2] === "toolchain" ? "go" : ""}${normalized}${match[4]}`;
           edits.set(index, after);
@@ -176,6 +189,8 @@ function refusalReason(line: string | undefined): string | undefined {
   if (line === undefined) return "The finding names no line to rewrite.";
   const match = DIRECTIVE.exec(line);
   if (!match) return "The line is not a `go` or `toolchain` directive.";
-  if (!version(match[3]!.replace(/^go/, ""))) return "The directive value is not a literal Go version.";
+  const declared = match[3];
+  if (declared === undefined || !version(declared.replace(/^go/, "")))
+    return "The directive value is not a literal Go version.";
   return undefined;
 }

@@ -74,9 +74,7 @@ export const githubActionsUsesFixer: Fixer = {
       if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
       const updated = text.split("\n");
       for (const finding of findings) {
-        const index = finding.location.line! - 1;
-        if (updated[index] !== original[index]) continue;
-        const reason = refusalReason(original[index], lines.get(index + 1)!);
+        const reason = refusalFor(finding, original, updated, lines);
         if (reason !== undefined) refuse?.(finding, reason);
       }
     }
@@ -87,13 +85,17 @@ export const githubActionsUsesFixer: Fixer = {
 function actionEdit(finding: Finding): ActionEdit | undefined {
   if (finding.location.line === undefined || !finding.location.path.startsWith(".github/workflows/")) return undefined;
   const match = ACTION_REPLACEMENT.exec(finding.replacement ?? "");
-  return match ? { action: match[1]!.toLowerCase(), major: Number(match[2]) } : undefined;
+  const action = match?.[1];
+  const major = match?.[2];
+  return action === undefined || major === undefined
+    ? undefined
+    : { action: action.toLowerCase(), major: Number(major) };
 }
 
 function bumpAction(line: string, action: string, major: number): string {
   const match = USES_LINE.exec(line);
-  if (!match) return line;
-  const target = match[2]!;
+  const target = match?.[2];
+  if (!match || target === undefined) return line;
   const separator = target.lastIndexOf("@");
   if (separator <= 0 || target.slice(0, separator).toLowerCase() !== action) return line;
   const current = TAG_REF.exec(target.slice(separator + 1));
@@ -101,12 +103,27 @@ function bumpAction(line: string, action: string, major: number): string {
   return `${match[1]}${target.slice(0, separator)}@v${major}${match[3]}`;
 }
 
+/** The refusal for a finding whose line the edit left unchanged, or undefined when there is nothing to report. */
+function refusalFor(
+  finding: Finding,
+  original: readonly string[],
+  updated: readonly string[],
+  lines: ReadonlyMap<number, ActionEdit>,
+): string | undefined {
+  const line = finding.location.line;
+  if (line === undefined) return undefined;
+  const edit = lines.get(line);
+  if (edit === undefined) return undefined;
+  const index = line - 1;
+  return updated[index] === original[index] ? refusalReason(original[index], edit) : undefined;
+}
+
 /** Why the line still holds the reference the finding named, or undefined when there was nothing left to raise. */
 function refusalReason(line: string | undefined, edit: ActionEdit): string | undefined {
   if (line === undefined) return "The finding names no line to rewrite.";
   const match = USES_LINE.exec(line);
-  if (!match) return "The line is not a `uses:` reference.";
-  const target = match[2]!;
+  const target = match?.[2];
+  if (!match || target === undefined) return "The line is not a `uses:` reference.";
   const separator = target.lastIndexOf("@");
   if (separator <= 0 || target.slice(0, separator).toLowerCase() !== edit.action)
     return "The line names a different action than the rule.";
