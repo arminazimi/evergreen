@@ -98,7 +98,7 @@ The pull request gate GitHub enforces is one status check, `ci-ok`. It runs afte
 
 ### Optional pre-push hook
 
-The repository ships an opt-in hook that runs Evergreen on this repository before you push. When the push changes a manifest, lockfile, workflow, or Dockerfile, it builds locally, scans, and blocks the push on any finding the baseline does not cover (the same gate as the `self-scan` CI job). Pushes that touch none of those files are not slowed down.
+The repository ships an opt-in hook with two offline checks. When a push changes a file that the rules read (`src/`, `tools/`, `tests/`, `benchmarks/`, or a rule configuration file), it runs `npm run check:rules`: the formatter, the dead-code scan, type-aware lint, and the quality bar — the same rules as `npm run check`, without the test suite. When the push changes a manifest, lockfile, workflow, or Dockerfile, it builds locally, scans, and blocks the push on any finding the baseline does not cover (the same gate as the `self-scan` CI job). A push that touches neither is not slowed down. The hook uses the dependencies `npm ci` already installs; enabling it needs only `git`.
 
 ```bash
 git config core.hooksPath .githooks

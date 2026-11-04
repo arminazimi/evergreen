@@ -58,7 +58,7 @@ end date. The rules below record that.
    preset, Kubernetes `import-boss`, OpenSSF Best Practices, Stryker's thresholds, Google's documentation
    guidance and Diátaxis, and the OpenSSF Scorecard checks.
 7. **Agents hear the rules before and while they work.** AGENTS.md has a Quality bar section, the pull request
-   and task templates name it, and the opt-in pre-push hook runs `npm run check:quality` when a push touches
+   and task templates name it, and the opt-in pre-push hook runs `npm run check:rules` when a push touches
    sources, tooling, or the allowlist.
 8. **This record and the document change together.** Raising a target, adding an allowlist entry, or moving a
    target to enforced changes both files. The status stays `proposed` until the maintainer accepts the targets;

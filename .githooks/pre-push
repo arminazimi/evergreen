@@ -1,8 +1,12 @@
 #!/bin/sh
 # Opt-in pre-push hook. Two checks, both offline:
+#  - when a push changes a file a rule reads, it runs `npm run check:rules`: the formatter, the dead-code
+#    scan, type-aware lint, and the quality bar. These are the same rules as `npm run check`, without the
+#    test suite;
 #  - when a push changes a manifest, lockfile, workflow, or Dockerfile, it scans this repository with the
-#    local Evergreen build and blocks the push on any finding that .evergreen-baseline.json does not cover;
-#  - when a push changes sources, tooling, or the quality allowlist, it runs `npm run check:quality`.
+#    local Evergreen build and blocks the push on any finding that .evergreen-baseline.json does not cover.
+#
+# It needs only git and the dependencies `npm ci` already installs. No extra runtime dependency.
 #
 # Enable:   git config core.hooksPath .githooks
 # Bypass:   git push --no-verify
@@ -27,12 +31,13 @@ while read -r _local_ref local_sha _remote_ref remote_sha; do
 $(git diff --name-only "$base" "$local_sha" 2>/dev/null || true)"
 done
 
-# Quality bar: a push that touches sources, tooling, or the quality allowlist runs the same gate as CI.
-quality_pattern='^((src|tools|tests|benchmarks)/.*\.ts|benchmarks/quality-allowlist\.json|tsconfig\.json|docs/QUALITY\.md)$'
-if printf '%s\n' "$changed" | grep -Eq "$quality_pattern"; then
+# Rules: a push that touches sources, tooling, fixtures, or a rule configuration runs the same rule checks
+# as `npm run check`, without the test suite.
+rules_pattern='^((src|tools|tests|benchmarks)/|package\.json$|package-lock\.json$|tsconfig\.json$|biome\.json$|eslint\.config\.js$|eslint-suppressions\.json$|knip\.jsonc$|stryker\.config\.json$|lighthouserc\.json$|docs/QUALITY\.md$)'
+if printf '%s\n' "$changed" | grep -Eq "$rules_pattern"; then
   cd "$root"
-  echo "pre-push: checking the quality bar (docs/QUALITY.md)..." >&2
-  npm run check:quality --silent || { echo "pre-push: check:quality failed. Fix the findings; see docs/QUALITY.md. Bypass with git push --no-verify." >&2; exit 1; }
+  echo "pre-push: checking the rules (formatter, dead code, lint, quality)..." >&2
+  npm run check:rules --silent || { echo "pre-push: check:rules failed. Fix the findings; see docs/QUALITY.md. Bypass with git push --no-verify." >&2; exit 1; }
 fi
 
 if ! printf '%s\n' "$changed" | grep -Eq "$pattern"; then

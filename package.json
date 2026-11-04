@@ -91,6 +91,7 @@
     "lint": "eslint \"src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0",
     "lint:baseline": "eslint \"src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0 --suppress-all",
     "check": "npm run format:check && npm run check:dead-code && npm run build && node dist/tools/check-pipeline.js",
+    "check:rules": "npm run format:check --silent && npm run check:dead-code --silent && npm run lint --silent && npm run check:quality --silent",
     "check:reproducible": "npm run build --silent && node dist/tools/reproducible-build.js",
     "check:action-bundle": "git diff --exit-code -- dist/action/index.js",
     "check:quality": "npm run build --silent && node dist/tools/check-quality.js",
