@@ -102,6 +102,17 @@ test("rows with the wrong shape, an unknown supported flag, or an unreadable dat
   assert.equal(toIsoDate("9 November 2023"), undefined);
 });
 
+test("a cell whose tag has a > inside a quoted attribute is still read", () => {
+  const html = row([
+    '<span title="a > b">13</span>',
+    "13.1",
+    '<span title="c > d">No</span>',
+    "September 24, 2020",
+    "November 13, 2025",
+  ]);
+  assert.deepEqual(parseVersioningTable(html), [{ major: 13, supported: false, finalRelease: "2025-11-13" }]);
+});
+
 test("a page with no version rows or an oversized page stops the run", async () => {
   await assert.rejects(runImporter(postgresqlVersioningImporter, page([])), /No version rows found/);
   await assert.rejects(

@@ -99,6 +99,16 @@ test("rows with the wrong shape, an unreadable date, or a Windows PowerShell nam
   assert.equal(toIsoDate("December 3, 2022"), undefined);
 });
 
+test("a cell whose tag has a > inside a quoted attribute is still read", () => {
+  const html = row([
+    '<span title="a > b">PowerShell 7.3</span>',
+    "09-Nov-2022",
+    '<span title="c > d">08-May-2024</span>',
+    ".NET 7.0",
+  ]);
+  assert.deepEqual(parseSupportTables(html), [{ major: 7, minor: 3, lts: false, endOfSupport: "2024-05-08" }]);
+});
+
 test("a page with no release rows or an oversized page stops the run", async () => {
   await assert.rejects(runImporter(powershellLifecycleImporter, page([])), /No release rows found/);
   await assert.rejects(

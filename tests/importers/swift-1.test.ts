@@ -267,6 +267,19 @@ test("an empty page yields a note and no rules", async () => {
   assert.deepEqual(result.notes, ["No usable upcoming-requirements articles were found in the page."]);
 });
 
+test("a protocol-relative href resolves against the page instead of becoming a path", () => {
+  const body = [
+    '<article id="article-proto">',
+    '<a class="article-title" href="//cdn.example.com/news?id=proto"><h2>Xcode 15</h2></a>',
+    '<p class="lighter  article-date">Since April 29, 2024</p>',
+    '<span class="article-text">Apps uploaded to App Store Connect must be built with Xcode 15 or later.</span>',
+    "</article>",
+  ].join("");
+  const parsed = parseArticles(body);
+  assert.equal(parsed.articles.length, 1);
+  assert.equal(parsed.articles[0]!.href, "https://cdn.example.com/news?id=proto");
+});
+
 test("the recording contains the Xcode floors the importer reads", async () => {
   const recorded = JSON.parse(await readFile(recording, "utf8")) as {
     responses: { url: string; body?: string }[];

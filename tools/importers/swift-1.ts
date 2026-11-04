@@ -72,8 +72,6 @@ function parseSince(value: string): string | undefined {
 }
 
 function absoluteUrl(href: string): string {
-  if (href.startsWith("https://")) return href;
-  if (href.startsWith("/")) return `https://developer.apple.com${href}`;
   return new URL(href, APP_STORE_REQUIREMENTS_URL).href;
 }
 

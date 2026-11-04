@@ -269,6 +269,18 @@ test("typographic and entity forms of the requirement text still draft the same 
   }
 });
 
+test("a script block closed with whitespace before > does not hide the requirements", async () => {
+  const body = `<script type="text/javascript">evil()</script >${page({})}`;
+  const result = await runImporter(androidTargetSdkImporter, inline(body));
+  assert.equal(result.rules.length, 6);
+});
+
+test("a tag whose quoted attribute contains > does not truncate a requirement sentence", async () => {
+  const newApps = NEW_APPS.replace("Android 16", '<span title="a > b">Android 16</span>');
+  const result = await runImporter(androidTargetSdkImporter, inline(page({ newApps })));
+  assert.equal(result.rules.length, 6);
+});
+
 test("a missing or reworded requirement block produces a review note, not guessed rules", async () => {
   for (const body of ["<html></html>", "<p>Starting August 31 2026:</p><p>Something else entirely.</p>"]) {
     const result = await runImporter(androidTargetSdkImporter, inline(body));

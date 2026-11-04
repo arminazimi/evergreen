@@ -1,4 +1,5 @@
 import { isoDate } from "./canonical.js";
+import { stripHtml } from "./html.js";
 import { ImporterError } from "./types.js";
 import type { DraftRule, Importer } from "./types.js";
 
@@ -19,8 +20,7 @@ interface Release {
 }
 
 function text(cell: string): string {
-  return cell
-    .replace(/<[^>]*>/g, " ")
+  return stripHtml(cell)
     .replace(/&nbsp;/g, " ")
     .replace(/\s+/g, " ")
     .trim();
