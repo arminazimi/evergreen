@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { bullet, entries, fragments, parseSubject, releaseSection } from "../tools/changelog.js";
+import { bullet, entries, fragments, parseSubject, quoteMentions, releaseSection } from "../tools/changelog.js";
 
 test("parses conventional subjects with scope, breaking marker, and pull request", () => {
   assert.deepEqual(parseSubject("feat(github-actions): classify SHA pins (#560)"), {
@@ -23,6 +23,26 @@ test("parses conventional subjects with scope, breaking marker, and pull request
 test("formats a bullet as an imperative sentence in the changelog's style", () => {
   assert.equal(bullet(parseSubject("feat: add a doctor command. (#7)")!), "- Add a doctor command. (#7)");
   assert.equal(bullet(parseSubject("feat!: rename the output field")!), "- **Breaking:** Rename the output field.");
+});
+
+test("quotes a bare mention in a generated bullet", () => {
+  assert.equal(
+    bullet(parseSubject("feat: publish the plugins under @evergreen-dev (#1973)")!),
+    "- Publish the plugins under `@evergreen-dev`. (#1973)",
+  );
+});
+
+test("quotes mentions only outside code spans and leaves addresses and versions alone", () => {
+  assert.equal(quoteMentions("publishable under @evergreen-dev."), "publishable under `@evergreen-dev`.");
+  assert.equal(quoteMentions("already `@evergreen-dev` quoted"), "already `@evergreen-dev` quoted");
+  assert.equal(quoteMentions("mail a@b.com"), "mail a@b.com");
+  assert.equal(quoteMentions("evergreen@v0.7.2 and runtime@version"), "evergreen@v0.7.2 and runtime@version");
+  assert.equal(
+    quoteMentions("install @evergreen-dev/backstage-plugin now"),
+    "install `@evergreen-dev/backstage-plugin` now",
+  );
+  assert.equal(quoteMentions("@one and @two"), "`@one` and `@two`");
+  assert.equal(quoteMentions("see (@three)"), "see (`@three`)");
 });
 
 test("keeps feat, fix, and breaking commits, orders them, and reports non-conventional subjects", () => {
@@ -72,6 +92,15 @@ test("reads one bullet per fragment in file-name order, ignoring the README", ()
   assert.deepEqual(fragments({ "README.md": "# Fragments\n" }), { names: [], bullets: [] });
   assert.throws(() => fragments({ "two.md": "- One.\n- Two.\n" }), /changes\/two\.md must be one changelog bullet/);
   assert.throws(() => fragments({ "prose.md": "Not a bullet.\n" }), /changes\/prose\.md/);
+});
+
+test("quotes a fragment mention in the section that --write produces", () => {
+  const pending = fragments({ "publish-plugins.md": "- Publish the plugins under @evergreen-dev. (#1973)\n" });
+  assert.deepEqual(pending.bullets, ["- Publish the plugins under `@evergreen-dev`. (#1973)"]);
+  assert.equal(
+    releaseSection("# Changelog\n\n## Unreleased\n", "0.8.0", "2026-11-15", [], pending.bullets),
+    "# Changelog\n\n## Unreleased\n\n## 0.8.0 - 2026-11-15\n\n- Publish the plugins under `@evergreen-dev`. (#1973)\n\n",
+  );
 });
 
 test("puts fragments after the hand-written Unreleased text and before the generated bullets", () => {

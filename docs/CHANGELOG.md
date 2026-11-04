@@ -91,7 +91,7 @@ Every release is listed below, newest first. Each heading has a stable anchor, s
 - Profile test file and check step timings. (#2185)
 - Split public corpus into one file per repository. (#2184)
 - Register each CLI command from its own file. (#2183)
-- Make the plugin packages publishable under @evergreen-dev. (#1973)
+- Make the plugin packages publishable under `@evergreen-dev`. (#1973)
 - Add the evergreen glance terminal summary card. (#1966)
 - Check a snippet before writing it. (#1965)
 - Judge uv and PDM lockfile python bounds (#1863). (#1964)

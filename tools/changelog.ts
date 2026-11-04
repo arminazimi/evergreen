@@ -42,12 +42,26 @@ export function parseSubject(subject: string): ParsedCommit | undefined {
 
 const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
+/** Matches a mention GitHub would resolve: `@` at the start or after whitespace or an opening bracket. */
+const MENTION = /(^|[\s([{])@([A-Za-z0-9][A-Za-z0-9-]*(?:\/[A-Za-z0-9][A-Za-z0-9-]*)?)/g;
+const CODE_SPAN = /(`+[^`]*?`+)/g;
+
+/** Quotes every bare @mention in backticks, leaving code spans, e-mail addresses, and pkg@version untouched. */
+export function quoteMentions(text: string): string {
+  return text
+    .split(CODE_SPAN)
+    .map((part, index) =>
+      index % 2 === 1 ? part : part.replace(MENTION, (_match, before: string, name: string) => `${before}\`@${name}\``),
+    )
+    .join("");
+}
+
 /** One changelog bullet in the repository's format: an imperative sentence that ends with a period. */
 export function bullet(commit: ParsedCommit): string {
   const sentence = capitalize(commit.description).replace(/[.\s]+$/, "");
   const prefix = commit.breaking ? "**Breaking:** " : "";
   const pull = commit.pullRequest ? ` (#${commit.pullRequest})` : "";
-  return `- ${prefix}${sentence}.${pull}`;
+  return quoteMentions(`- ${prefix}${sentence}.${pull}`);
 }
 
 /** Bullets for the visible commits: breaking changes first, then features, then fixes, each in commit order. */
@@ -83,7 +97,7 @@ export function fragments(files: Record<string, string>): { names: string[]; bul
     const text = files[name]!.trim();
     if (!/^- \S[^\n]*$/.test(text))
       throw new Error(`${FRAGMENT_DIR}/${name} must be one changelog bullet on one line, starting with "- ".`);
-    return text;
+    return quoteMentions(text);
   });
   return { names, bullets };
 }
