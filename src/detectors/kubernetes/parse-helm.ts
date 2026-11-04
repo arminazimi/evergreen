@@ -1,5 +1,6 @@
 import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
 
+import { required } from "../../required.js";
 import { isKind, splitApiVersion } from "./api-version.js";
 import type { ApiDeclaration } from "./parse-manifest.js";
 
@@ -179,7 +180,7 @@ function maskActions(contents: string): { masked: string; actions: Action[] } | 
     } else {
       let quote = "";
       for (let position = cursor; position < contents.length; position++) {
-        const character = contents[position]!;
+        const character = contents.charAt(position);
         if (quote) {
           if (character === "\\" && quote === '"') position++;
           else if (character === quote) quote = "";
@@ -231,8 +232,8 @@ function guardByLine(actions: Action[], lineCount: number): boolean[] | undefine
   let cursor = 0;
   for (let line = 0; line <= lineCount; line++) {
     guarded[line] = stack.some((frame) => frame.guarded);
-    while (cursor < actions.length && actions[cursor]!.line === line) {
-      const { text } = actions[cursor++]!;
+    while (cursor < actions.length && required(actions[cursor], "the pending action").line === line) {
+      const { text } = required(actions[cursor++], "the pending action");
       const word = /^(else\s+(?:if|with)|else|if|with|range|define|block|end)\b\s*(.*)$/s.exec(text);
       if (!word) continue;
       const [, keyword = "", condition = ""] = word;
@@ -286,13 +287,13 @@ export function parseTemplate(contents: string): ApiDeclaration[] {
 
     const flush = (): void => {
       if (apiVersions.length === 1 && kinds.length === 1) {
-        const apiVersion = apiVersions[0]!;
-        const kind = kinds[0]!;
+        const apiVersion = required(apiVersions[0], "the only apiVersion key");
+        const kind = required(kinds[0], "the only kind key");
         const parts = apiVersion.value === undefined ? undefined : splitApiVersion(apiVersion.value);
         if (parts && kind.value !== undefined && isKind(kind.value)) {
           declarations.push({
             kind: "api",
-            value: apiVersion.value!,
+            value: required(apiVersion.value, "the apiVersion value"),
             group: parts.group,
             version: parts.version,
             resource: kind.value,
@@ -305,8 +306,7 @@ export function parseTemplate(contents: string): ApiDeclaration[] {
       kinds = [];
     };
 
-    for (let index = 0; index < lines.length; index++) {
-      const text = lines[index]!;
+    for (const [index, text] of lines.entries()) {
       if (text.length > MAXIMUM_LINE_LENGTH) continue;
       if (/^---(?:\s+#.*|\s*)$/.test(text)) {
         flush();
@@ -316,7 +316,7 @@ export function parseTemplate(contents: string): ApiDeclaration[] {
       const key = /^(apiVersion|kind):(.*)$/.exec(text);
       if (!key) continue;
       // A key inside a cluster-dependent block is recorded as dynamic so the pair is dropped.
-      const value = guarded[index] ? undefined : literalValue(key[2]!);
+      const value = guarded[index] ? undefined : literalValue(required(key[2], "the value text"));
       (key[1] === "apiVersion" ? apiVersions : kinds).push({ value, line: index + 1 });
     }
     flush();

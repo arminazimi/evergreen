@@ -1,3 +1,4 @@
+import { required } from "../../required.js";
 import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, PINNED_RUBY_VERSION } from "./parse-ruby-runtime.js";
 
 /**
@@ -61,8 +62,10 @@ export function parseGemfileLock(contents: string): GemfileLockDeclaration[] {
     if (section === "GEM" && specs) {
       const gem = RESOLVED_GEM.exec(rawLine.trimEnd());
       if (gem) {
-        if (gem[2] === "") malformed = true;
-        else declarations.push({ kind: "gem", name: gem[1]!, value: gem[2]!, line });
+        const name = required(gem[1], "gem name");
+        const value = required(gem[2], "gem version");
+        if (value === "") malformed = true;
+        else declarations.push({ kind: "gem", name, value, line });
         continue;
       }
       if (/^ {4}\S+ \(/.test(rawLine)) malformed = true;
@@ -71,7 +74,9 @@ export function parseGemfileLock(contents: string): GemfileLockDeclaration[] {
 
     if (section === "RUBY VERSION") {
       const ruby = /^\s*ruby\s+(\S+)\s*$/.exec(rawLine);
-      if (ruby && PINNED_RUBY_VERSION.test(ruby[1]!)) declarations.push({ kind: "ruby", value: ruby[1]!, line });
+      if (!ruby) continue;
+      const pinned = required(ruby[1], "ruby version");
+      if (PINNED_RUBY_VERSION.test(pinned)) declarations.push({ kind: "ruby", value: pinned, line });
     }
   }
 

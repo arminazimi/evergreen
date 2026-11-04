@@ -4,6 +4,8 @@
  * Values that span lines, and anything it cannot read, yield nothing.
  */
 
+import { required } from "../../required.js";
+
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 
@@ -26,7 +28,7 @@ export interface TomlLine {
 export function stripComment(text: string): string {
   let quote: string | undefined;
   for (let index = 0; index < text.length; index += 1) {
-    const character = text[index]!;
+    const character = text.charAt(index);
     if (quote) {
       if (character === "\\" && quote === '"') index += 1;
       else if (character === quote) quote = undefined;
@@ -44,7 +46,7 @@ function openBrackets(text: string): number {
   let depth = 0;
   let quote: string | undefined;
   for (let index = 0; index < text.length; index += 1) {
-    const character = text[index]!;
+    const character = text.charAt(index);
     if (quote) {
       if (character === "\\" && quote === '"') index += 1;
       else if (character === quote) quote = undefined;
@@ -93,7 +95,7 @@ export function readTomlLines(contents: string): TomlLine[] | undefined {
       const array = text.startsWith("[[");
       const match = array ? /^\[\[(.+)\]\]$/.exec(text) : /^\[(.+)\]$/.exec(text);
       if (!match) return undefined;
-      table = match[1]!.trim();
+      table = required(match[1], "table header").trim();
       lines.push({ line: number, table, arrayTable: array, header: table });
       continue;
     }

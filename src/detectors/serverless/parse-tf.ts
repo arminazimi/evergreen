@@ -19,6 +19,8 @@
  * The parser never evaluates HCL or executes Terraform.
  */
 
+import { required } from "../../required.js";
+
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 export const MAXIMUM_DECLARATIONS = 5000;
@@ -81,14 +83,14 @@ function maskHcl(source: string): string | undefined {
 
     const heredoc = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/.exec(source.slice(index));
     if (heredoc) {
-      const marker = heredoc[1]!;
+      const marker = required(heredoc[1], "heredoc marker");
       const start = index;
       index += heredoc[0].length;
       const closer = new RegExp(`\\n[\\t ]*${marker}\\b`);
       const rest = source.slice(index);
       const match = closer.exec(rest);
       if (!match) return undefined;
-      const end = index + match.index! + match[0].length;
+      const end = index + required(match.index, "heredoc closer") + match[0].length;
       chunks.push(blankNonNewlines(source.slice(start, end)));
       index = end;
       continue;
@@ -115,7 +117,7 @@ function maskHcl(source: string): string | undefined {
 
     const plainStart = index;
     while (index < source.length) {
-      const character = source[index]!;
+      const character = source.charAt(index);
       if (character === "#" || character === '"') break;
       if (character === "/" && (source[index + 1] === "/" || source[index + 1] === "*")) break;
       if (character === "<" && source.startsWith("<<", index)) break;
@@ -172,7 +174,7 @@ function directBlocks(masked: string, start: number, end: number, name: string):
   let depth = 0;
   let index = start;
   while (index < end) {
-    const character = masked[index]!;
+    const character = masked.charAt(index);
     if (character === "{") {
       depth++;
       index++;
@@ -183,9 +185,9 @@ function directBlocks(masked: string, start: number, end: number, name: string):
       index++;
       continue;
     }
-    if (depth === 0 && !isWordChar(masked[index - 1]) && opener.test(masked.slice(index))) {
-      const match = opener.exec(masked.slice(index))!;
-      const openBrace = index + match[0].length - 1;
+    const opened = depth === 0 && !isWordChar(masked[index - 1]) ? opener.exec(masked.slice(index)) : null;
+    if (opened) {
+      const openBrace = index + opened[0].length - 1;
       if (openBrace >= end) break;
       const body = blockBody(masked, openBrace);
       if (!body || body[1] > end) {
@@ -216,11 +218,11 @@ function readQuoted(source: string, index: number): { value: string; end: number
   let position = index + 1;
   let value = "";
   while (position < source.length) {
-    const character = source[position]!;
+    const character = source.charAt(position);
     if (character === "\n") return undefined;
     if (character === "\\") {
       if (position + 1 >= source.length) return undefined;
-      value += source[position + 1]!;
+      value += source.charAt(position + 1);
       position += 2;
       continue;
     }
@@ -270,7 +272,7 @@ function collectDirectAttributes(
   let depth = 0;
   let index = start;
   while (index < end) {
-    const character = masked[index]!;
+    const character = masked.charAt(index);
     if (character === "{") {
       depth++;
       index++;

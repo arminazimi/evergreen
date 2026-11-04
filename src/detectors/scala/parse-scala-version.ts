@@ -28,7 +28,7 @@ export function parseScalaVersion(contents: string): ScalaRuntimeDeclaration[] {
   const declarations: ScalaRuntimeDeclaration[] = [];
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
     if (rawLine.length > MAXIMUM_LINE_LENGTH) continue;
-    const text = rawLine.split("#", 1)[0]!.trim();
+    const text = rawLine.replace(/#.*$/, "").trim();
     if (text === "") continue;
     if (!PINNED_SCALA_VERSION.test(text)) return [];
     declarations.push({ value: text, line: index + 1 });

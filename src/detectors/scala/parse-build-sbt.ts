@@ -6,6 +6,7 @@
  * multi-line forms return nothing. The parser never evaluates contents or runs sbt.
  */
 
+import { required } from "../../required.js";
 import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH } from "./parse-scala-version.js";
 
 export interface BuildSbtDeclaration {
@@ -36,7 +37,7 @@ export function parseBuildSbt(contents: string): BuildSbtDeclaration[] {
     const withoutComment = rawLine.replace(/\/\/.*$/, "").replace(/\/\*.*?\*\//g, "");
     const match = SCALA_VERSION_SETTING.exec(withoutComment);
     if (!match) continue;
-    const value = match[1]!.trim();
+    const value = required(match[1], "sbt version").trim();
     if (value === "") continue;
     declarations.push({ kind: "scala", value, line: index + 1 });
   }

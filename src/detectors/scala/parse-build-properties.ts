@@ -5,6 +5,7 @@
  * The parser never evaluates contents or runs sbt.
  */
 
+import { required } from "../../required.js";
 import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH } from "./parse-scala-version.js";
 
 export interface BuildPropertiesDeclaration {
@@ -30,11 +31,11 @@ export function parseBuildProperties(contents: string): BuildPropertiesDeclarati
   const declarations: BuildPropertiesDeclaration[] = [];
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
     if (rawLine.length > MAXIMUM_LINE_LENGTH) continue;
-    const text = rawLine.split("#", 1)[0]!.trim();
+    const text = rawLine.replace(/#.*$/, "").trim();
     if (text === "") continue;
     const match = SBT_VERSION.exec(text);
     if (!match) continue;
-    const value = match[1]!;
+    const value = required(match[1], "sbt version");
     if (!PINNED_SBT_VERSION.test(value)) continue;
     declarations.push({ kind: "sbt", value, line: index + 1 });
   }

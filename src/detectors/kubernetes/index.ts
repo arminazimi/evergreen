@@ -279,9 +279,9 @@ export class KubernetesDetector implements Detector {
       const purl = helmRepositoryPurl(dependency.repository);
       if (!purl) continue;
       const candidates = rules.get(purl) ?? [];
-      const rule = dependency.version
-        ? (candidates.find((item) => versContains(item.vers, dependency.version!)) ??
-          candidates.find(coversEveryVersion))
+      const pinned = dependency.version;
+      const rule = pinned
+        ? (candidates.find((item) => versContains(item.vers, pinned)) ?? candidates.find(coversEveryVersion))
         : candidates.find(coversEveryVersion);
       if (!rule) continue;
       const named = dependency.version ? `${dependency.name} ${dependency.version}` : dependency.name;

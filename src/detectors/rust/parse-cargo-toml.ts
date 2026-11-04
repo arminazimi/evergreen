@@ -1,3 +1,4 @@
+import { required } from "../../required.js";
 import { readTomlLines, stringValue } from "./toml-lines.js";
 import type { TomlLine } from "./toml-lines.js";
 
@@ -50,8 +51,9 @@ function sectionOf(
       table,
     );
   if (detail) {
-    const parent = sectionOf(detail[1]!);
-    if (parent && !("name" in parent)) return { section: parent.section, name: detail[2]!.replace(/^"|"$/g, "") };
+    const parent = sectionOf(required(detail[1], "parent table"));
+    if (parent && !("name" in parent))
+      return { section: parent.section, name: required(detail[2], "dependency name").replace(/^"|"$/g, "") };
   }
   return undefined;
 }
@@ -62,7 +64,8 @@ function inlineTable(value: string): Map<string, string> | undefined {
   const pairs = new Map<string, string>();
   const body = value.slice(1, -1);
   const entry = /([A-Za-z0-9_.-]+)\s*=\s*("(?:[^"\\]|\\.)*"|'[^']*'|\[[^\]]*\]|true|false|[0-9]+)/g;
-  for (const match of body.matchAll(entry)) pairs.set(match[1]!, match[2]!);
+  for (const match of body.matchAll(entry))
+    pairs.set(required(match[1], "inline table key"), required(match[2], "inline table value"));
   return pairs;
 }
 

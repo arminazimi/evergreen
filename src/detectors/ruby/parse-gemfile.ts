@@ -41,7 +41,7 @@ function tokenize(line: string): Token[] | undefined {
   const tokens: Token[] = [];
   let index = 0;
   while (index < line.length) {
-    const char = line[index]!;
+    const char = line.charAt(index);
     if (char === "#") break;
     if (char === "," || /\s/.test(char)) {
       index += 1;
@@ -53,7 +53,7 @@ function tokenize(line: string): Token[] | undefined {
       let closed = false;
       index += 1;
       while (index < line.length) {
-        const next = line[index]!;
+        const next = line.charAt(index);
         if (next === "\\") {
           const escaped = line[index + 1];
           if (escaped === undefined) return undefined;
@@ -74,7 +74,7 @@ function tokenize(line: string): Token[] | undefined {
       continue;
     }
     const start = index;
-    while (index < line.length && !/[\s,]/.test(line[index]!)) index += 1;
+    while (index < line.length && !/[\s,]/.test(line.charAt(index))) index += 1;
     tokens.push({ value: line.slice(start, index), quoted: false });
   }
   return tokens;

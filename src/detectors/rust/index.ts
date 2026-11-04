@@ -75,6 +75,30 @@ function releaseVersion(channel: string): string | undefined {
 /** True for a rule that names every version of a crate; false for one that lists specific versions. */
 const coversEveryVersion = (rule: RegistryV2Rule): boolean => parseVersLenient(rule.vers).all;
 
+/** Builds and appends the finding for `rule` at `path:line`, and returns it so the caller can decorate it. */
+function pushFinding(
+  findings: DetectorFinding[],
+  rule: RegistryV2Rule,
+  path: string,
+  line: number,
+  summary: string,
+): DetectorFinding {
+  const finding: DetectorFinding = {
+    id: `${rule.id}:${path}:${line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location: { path, line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+  findings.push(finding);
+  return finding;
+}
+
 export class RustDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "rust";
@@ -109,20 +133,8 @@ export class RustDetector implements Detector {
 
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
-      findings.push({
-        id: `${rule.id}:${path}:${line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
-    };
+    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): DetectorFinding =>
+      pushFinding(findings, rule, path, line, summary);
 
     // Findings about an abandoned crate wait for their source usages, which are read once for all of them.
     const abandoned: Array<{ rule: RegistryV2Rule; path: string; line: number; summary: string }> = [];
@@ -218,9 +230,9 @@ export class RustDetector implements Detector {
       ).map((analysis) => [analysis.contractId, analysis]),
     );
     for (const item of abandoned) {
-      report(item.rule, item.path, item.line, item.summary);
+      const finding = report(item.rule, item.path, item.line, item.summary);
       const analysis = analyses.get(`${item.rule.id}:${item.path}:${item.line}`);
-      if (analysis) Object.assign(findings[findings.length - 1]!, { usages: analysis.usages, impact: analysis.impact });
+      if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
     }
 
     findings.sort(

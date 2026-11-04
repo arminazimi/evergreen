@@ -1,3 +1,4 @@
+import { required } from "../../required.js";
 import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH } from "./parse-ruby-runtime.js";
 
 /**
@@ -29,7 +30,7 @@ function literalAt(text: string): { value: string; rest: string } | "malformed" 
   let value = "";
   let index = 1;
   while (index < text.length) {
-    const char = text[index]!;
+    const char = text.charAt(index);
     if (char === "\\") {
       const escaped = text[index + 1];
       if (escaped === undefined) return "malformed";
@@ -71,7 +72,7 @@ export function parseGemspec(contents: string): GemspecRubyVersionDeclaration[] 
     if (rawLine.length > MAXIMUM_LINE_LENGTH) continue;
     const assignment = ASSIGNMENT.exec(rawLine);
     if (!assignment) continue;
-    const declaration = assignmentValue(assignment[1]!.trim());
+    const declaration = assignmentValue(required(assignment[1], "assigned value").trim());
     if (declaration === "malformed") {
       malformed = true;
       continue;

@@ -1,3 +1,4 @@
+import { required } from "../../required.js";
 import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, readTomlLines, stripComment, stringValue } from "./toml-lines.js";
 
 /**
@@ -28,8 +29,9 @@ export function parseRustToolchain(contents: string): ToolchainDeclaration[] {
     .map((raw, index) => ({ text: stripComment(raw).trim(), line: index + 1, long: raw.length > MAXIMUM_LINE_LENGTH }));
   if (meaningful.some((entry) => entry.long)) return [];
   const content = meaningful.filter((entry) => entry.text !== "");
-  if (content.length === 1 && /^[A-Za-z0-9._-]+$/.test(content[0]!.text)) {
-    return [{ value: content[0]!.text, line: content[0]!.line }];
+  if (content.length === 1) {
+    const only = required(content[0], "the single toolchain line");
+    if (/^[A-Za-z0-9._-]+$/.test(only.text)) return [{ value: only.text, line: only.line }];
   }
 
   const lines = readTomlLines(contents);

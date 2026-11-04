@@ -7,6 +7,8 @@
  * well formed (a tag that is not closed or does not match) is also `undefined`.
  */
 
+import { required } from "../../required.js";
+
 export const MAXIMUM_DEPTH = 64;
 export const MAXIMUM_ELEMENTS = 50_000;
 
@@ -37,7 +39,7 @@ export function parseXml(contents: string): XmlElement | undefined {
 
   while (index < text.length) {
     const open = text.indexOf("<", index);
-    const current = stack[stack.length - 1]!;
+    const current = required(stack.at(-1), "the open element");
     const chunk = text.slice(index, open < 0 ? text.length : open);
     if (chunk.includes("&")) return undefined;
     if (chunk.includes("\0")) return undefined;
@@ -74,7 +76,7 @@ export function parseXml(contents: string): XmlElement | undefined {
       const end = text.indexOf(">", index);
       if (end < 0) return undefined;
       const name = text.slice(index + 2, end).trim();
-      const closing = stack.pop()!;
+      const closing = required(stack.pop(), "the element to close");
       if (stack.length === 0 || closing.name !== name) return undefined;
       closing.text = closing.text.trim();
       closing.line = textStart.get(closing) ?? closing.line;
@@ -100,7 +102,7 @@ export function parseXml(contents: string): XmlElement | undefined {
 function tagEnd(text: string, from: number): number {
   let quote = "";
   for (let position = from; position < text.length; position++) {
-    const character = text[position]!;
+    const character = text.charAt(position);
     if (quote) {
       if (character === quote) quote = "";
     } else if (character === '"' || character === "'") {
