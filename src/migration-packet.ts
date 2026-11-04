@@ -40,10 +40,12 @@ export interface UpgradePath {
   target: { versions?: string; title?: string; endsOn?: string; replacement?: string };
 }
 
+/** A migration step with the repository paths it applies to. */
 export interface MigrationStep extends MigrationGuidanceStep {
   paths: string[];
 }
 
+/** The evidence, steps, and verification commands an agent needs to migrate one finding. */
 export interface MigrationPacket {
   schemaVersion: "evergreen.context.v1";
   generatedAt: string;
@@ -58,6 +60,7 @@ export interface MigrationPacket {
   upgradePath?: UpgradePath;
 }
 
+/** Thrown when a packet does not match the published context schema. */
 export class MigrationPacketValidationError extends Error {
   constructor(message: string) {
     super(message);
@@ -279,6 +282,7 @@ function assertMigrationPacket(value: unknown): asserts value is MigrationPacket
   void value;
 }
 
+/** Checks a decoded value against the context schema and returns it unchanged. */
 export function validateMigrationPacket(value: unknown): MigrationPacket {
   if (!isRecord(value) || value.schemaVersion !== "evergreen.context.v1") {
     throw new MigrationPacketValidationError("Unsupported migration packet schema.");
@@ -490,6 +494,7 @@ export function planUpgradePath(
   return { from, skipped, target: { replacement: rule.replacement ?? "the newest supported release" } };
 }
 
+/** Builds the migration packet for one finding in a scan result. */
 export function createMigrationPacket(
   result: ScanResult,
   findingId: string,

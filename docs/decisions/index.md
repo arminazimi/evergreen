@@ -50,6 +50,7 @@ otherwise. Records are numbered in the order they were written; this page groups
 | --- | --- | --- |
 | [0023](0023-measurable-quality-criteria.md) | Define reference quality as measurable, enforced criteria | **Proposed.** Define eight quality criteria, each enforced by a failing check; zero new debt; existing debt allowlisted with an owner and an expiry of 2027-01-26. |
 | [0025](0025-linter-and-formatter.md) | Choose the linter and formatter | Lint with ESLint and typescript-eslint (type-aware); format with Biome; do not use Biome for typed lint or Prettier for format. |
+| [0026](0026-public-api-doc-comments.md) | Document the public API and enforce it with lint | Put a behavior-focused doc comment on every public declaration and enforce it with a local ESLint rule; no contract semantics change. |
 
 ## Operations
 

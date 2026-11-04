@@ -804,7 +804,7 @@ export interface SourceUsageOptions {
   parser?: boolean;
   skips?: string[];
 }
-
+/** Finds every use of the given contracts in a repository and summarizes the impact. */
 export async function analyzeSourceUsage(root: string, contracts: readonly SourceUsageContract[], options: SourceUsageOptions = {}): Promise<SourceUsageAnalysis[]> {
   const resolvedRoot = resolve(root);
   const relevantLanguages = new Set(contracts.flatMap((contract) => contract.matchers.map((matcher) => matcher.language)));

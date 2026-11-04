@@ -8,11 +8,13 @@ import { validateRegistryV2 } from "./registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
 import { parseVersLenient, versContains } from "./vers.js";
 
+/** Identifies the schema a dependency check result conforms to. */
 export const CHECK_SCHEMA_VERSION = "evergreen.check.v1" as const;
 
 /** The bundled registries a dependency is looked up in. */
 const BUNDLED_REGISTRIES = ["github-actions", "nodejs", "npm", "python"] as const;
 
+/** How a package or version relates to the lifecycle rules Evergreen holds for it. */
 export type CheckStatus =
   /** A rule says this package (and version, when given) has a lifecycle problem. */
   | "affected"
@@ -23,6 +25,7 @@ export type CheckStatus =
   /** Evergreen has no rule for this package. That is not a statement that it is safe. */
   | "no-data";
 
+/** One lifecycle rule that applies to the checked package, flattened for the check result. */
 export interface DependencyFinding {
   ruleId: string;
   ecosystem: string;
@@ -38,6 +41,7 @@ export interface DependencyFinding {
   migration?: MigrationGuidance;
 }
 
+/** The answer returned for one package and optional version, with the rules that produced it. */
 export interface DependencyCheck {
   schemaVersion: typeof CHECK_SCHEMA_VERSION;
   /** Version-less canonical PURL, the identity rules are written against. */
@@ -53,6 +57,7 @@ export interface DependencyCheck {
   data?: DataInfo;
 }
 
+/** Thrown when the input cannot be checked, such as an invalid PURL or version. */
 export class CheckDependencyError extends Error {
   constructor(message: string) {
     super(message);
@@ -60,6 +65,7 @@ export class CheckDependencyError extends Error {
   }
 }
 
+/** A package to look up, named by PURL and optionally pinned to one version. */
 export interface CheckDependencyInput {
   /** A PURL such as `pkg:npm/request` or `pkg:npm/request@2.88.2`. */
   purl: string;

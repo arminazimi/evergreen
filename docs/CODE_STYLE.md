@@ -48,6 +48,15 @@ by **review**; the lint patterns widen when a rule can land without a baseline.
 | A type-only import uses `import type` when every binding is a type, and an inline `type` specifier when a statement mixes values and types. | **review** |
 | The package surface is exactly the entry points in `package.json` (`src/index.ts`, `src/sdk.ts`, `src/conformance/index.ts`, `src/mcp.ts`). Do not add an entry point without a decision record. | **review**; `exports` changes need a decision |
 
+## Documentation
+
+| Convention | Enforcement |
+| --- | --- |
+| Every symbol exported from the package entry points has a doc comment on its declaration. It states what the symbol does or represents; it does not repeat the name. The comment stays on the declaration even when the entry point re-exports the symbol. | `local/public-api-docs` |
+
+The rule reads the entry points from `package.json` `exports`, follows direct exports and re-exports, and checks the
+declarations they reach. It does not require a doc comment on internal exports.
+
 ## Module boundaries
 
 The layer, trust, and network rules are in [Architecture](ARCHITECTURE.md#trust-boundaries) and

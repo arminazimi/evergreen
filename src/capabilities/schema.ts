@@ -21,6 +21,7 @@ const surfaceSchema = z.object({
   capabilityIds: z.array(z.string().min(1)).min(1),
 });
 
+/** Validates the manifest that lists Evergreen's ecosystems, capabilities, and surfaces. */
 export const capabilityManifestSchema = z.object({
   schemaVersion: z.literal("evergreen.capabilities.v1"),
   manifestVersion: z.string().regex(/^1\.[0-9]+\.[0-9]+$/),
@@ -54,7 +55,10 @@ export const capabilityManifestSchema = z.object({
   surfaces: z.array(surfaceSchema),
 });
 
+/** The parsed manifest that describes what this Evergreen release supports. */
 export type CapabilityManifest = z.infer<typeof capabilityManifestSchema>;
+/** One feature area the release implements, with its support status and ecosystems. */
 export type Capability = CapabilityManifest["capabilities"][number];
+/** One way users reach the capabilities: CLI, MCP, skill, plugin, or CI. */
 export type CapabilitySurface = CapabilityManifest["surfaces"][number];
 export type ManifestEcosystem = CapabilityManifest["ecosystems"][number];

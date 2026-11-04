@@ -1,30 +1,36 @@
 import { DETECTOR_API_VERSION } from "../sdk.js";
 import type { Detector, DetectorFinding } from "../sdk.js";
 
+/** The detector API version conformance checks run against. */
 export const CONFORMANCE_API_VERSION = DETECTOR_API_VERSION;
 
+/** A repository to scan and the findings a detector must return for it. */
 export interface ConformanceFixture {
   readonly name: string;
   readonly root: string;
   readonly expectedFindings: readonly DetectorFinding[];
 }
 
+/** The detector and fixture a conformance check runs against. */
 export interface ConformanceCheckContext {
   readonly detector: Detector;
   readonly fixture: ConformanceFixture;
 }
 
+/** One named guarantee a detector must satisfy on every fixture. */
 export interface ConformanceCheck {
   readonly guarantee: string;
   run(context: ConformanceCheckContext): Promise<void>;
 }
 
+/** The detector, fixtures, and extra guarantees to run conformance with. */
 export interface DetectorConformanceOptions {
   readonly detector: Detector;
   readonly fixtures: readonly ConformanceFixture[];
   readonly checks?: readonly ConformanceCheck[];
 }
 
+/** Thrown when a detector breaks a guarantee on a fixture. */
 export class ConformanceError extends Error {
   readonly detectorId: string;
   readonly fixtureName: string;
@@ -52,6 +58,7 @@ const expectedFindingsCheck: ConformanceCheck = {
   },
 };
 
+/** Runs the expected-findings check and any extra checks for every fixture. */
 export async function runDetectorConformance({
   detector,
   fixtures,

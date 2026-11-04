@@ -21,6 +21,7 @@ import { checkUpgrade, parseUpgradeTarget } from "./upgrade/index.js";
 import { findPackageFileSync } from "./package-files.js";
 import { VERSION } from "./version.js";
 
+/** The tools the MCP server exposes. */
 export const MCP_TOOL_NAMES = [
   "scan_repository",
   "list_deprecations",
@@ -106,6 +107,7 @@ function outputSchema(tool: keyof typeof MCP_OUTPUT_SCHEMA_FILES) {
   return fromJsonSchema(toolOutputSchema(tool) as Parameters<typeof fromJsonSchema>[0]);
 }
 
+/** MCP hints shared by every tool: read-only, idempotent, closed-world, and non-destructive. */
 export const MCP_TOOL_ANNOTATIONS = {
   readOnlyHint: true,
   destructiveHint: false,
@@ -113,6 +115,7 @@ export const MCP_TOOL_ANNOTATIONS = {
   openWorldHint: false,
 } as const;
 
+/** The base URI for finding resources the server exposes. */
 export const FINDING_URI_PREFIX = "evergreen://findings/";
 const findingUri = (key: string, id: string) => `${FINDING_URI_PREFIX}${key}/${encodeURIComponent(id)}`;
 
@@ -136,6 +139,7 @@ function failure(error: unknown) {
   };
 }
 
+/** Builds the MCP server with its tools, prompts, and lifecycle-rule resources registered. */
 export function createEvergreenMcpServer(tools = new EvergreenAgentTools()): McpServer {
   const server = new McpServer(
     { name: "evergreen", version: VERSION },

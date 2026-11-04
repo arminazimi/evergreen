@@ -20,9 +20,12 @@ import type { DataInfo, SuppressionState } from "./domain.js";
 import { diffWithBuiltIns, scanWithBuiltIns } from "./scan-builtins.js";
 import { MAXIMUM_WORKSPACE_DEPTH, SKIPPED_DIRECTORIES, globToRegExp } from "./workspaces.js";
 
+/** The severity threshold that fails an Action run; `none` never fails on a finding. */
 export type SeverityGate = Severity | "none";
+/** The level a workflow annotation is shown at. */
 export type AnnotationLevel = "notice" | "warning" | "error";
 
+/** A finding rendered as one GitHub Actions workflow annotation. */
 export interface GitHubAnnotation {
   level: AnnotationLevel;
   title: string;
@@ -222,6 +225,7 @@ export function renderSuggestionReview(count: number): string {
   return `${FIX_SUGGESTION_MARKER}\nEvergreen can fix ${count} lifecycle finding${count === 1 ? "" : "s"} on lines this pull request changed. Apply a suggestion, or run \`npx evergreen-deprecation fix\` to make every change locally.`;
 }
 
+/** Inputs for one Action run: what to scan, which report files to write, and which gate to apply. */
 export interface GitHubActionOptions {
   root: string;
   reportPath: string;
@@ -262,6 +266,7 @@ export interface GitHubActionOptions {
   pullRequestAuthor?: string;
 }
 
+/** What an Action run produced, including the report, annotations, and whether the job should fail. */
 export interface GitHubActionOutcome {
   result: ScanResult;
   reportPath: string;
@@ -465,6 +470,7 @@ function parseAnnotations(value: AnnotationScope | undefined, mode: "scan" | "di
   return value;
 }
 
+/** Scans, writes the requested reports, evaluates the gates, and reports whether the job should fail. */
 export async function runGitHubAction(options: GitHubActionOptions): Promise<GitHubActionOutcome> {
   const root = resolve(options.root);
   const gate = parseGate(options.failOnSeverity);

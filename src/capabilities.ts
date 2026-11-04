@@ -16,6 +16,7 @@ export type { Capability, CapabilityManifest, CapabilitySurface } from "./capabi
  */
 const manifest = assembleCapabilityManifest({ ecosystems, capabilities, surfaces });
 
+/** Returns the validated manifest for this release. */
 export function getCapabilityManifest(): CapabilityManifest {
   return capabilityManifestSchema.parse(manifest);
 }

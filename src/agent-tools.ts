@@ -13,6 +13,7 @@ import { renderReceiptMarkdown } from "./receipt-markdown.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import type { MigrationPacket } from "./migration-packet.js";
 
+/** A finding reduced to what a list of deprecations shows. */
 export interface DeprecationSummary {
   id: string;
   ruleId: string;
@@ -23,6 +24,7 @@ export interface DeprecationSummary {
   affectedFiles: number;
 }
 
+/** The deprecations a scan found, trimmed for display to an agent. */
 export interface DeprecationList {
   schemaVersion: "evergreen.deprecations.v1";
   repositoryRoot: string;
@@ -32,6 +34,7 @@ export interface DeprecationList {
   data?: DataInfo;
 }
 
+/** The result of checking a migration against a later scan. */
 export interface MigrationVerification {
   schemaVersion: "evergreen.verification.v1";
   repositoryRoot: string;
@@ -58,6 +61,7 @@ export interface ObservedFinding {
 
 export const repositoryKey = (root: string): string => createHash("sha256").update(root).digest("hex").slice(0, 8);
 
+/** Thrown when a finding is used before this session scanned the repository that contains it. */
 export class FindingNotObservedError extends Error {
   constructor(findingId: string) {
     super(

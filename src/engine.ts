@@ -304,6 +304,7 @@ export function applyScanSelection(result: ScanResult, selection: ScanSelection)
   };
 }
 
+/** Runs the detectors over a repository and returns the sorted, deduplicated findings. */
 export async function scanRepository(
   root: string,
   detectors: readonly Detector[] = [],
