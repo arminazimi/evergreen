@@ -2241,27 +2241,6 @@
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
     },
     {
-      "file": "src/sbom/cyclonedx.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/sbom/spdx.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
       "file": "src/usage/javascript.ts",
       "count": 6,
       "owner": "#2223",

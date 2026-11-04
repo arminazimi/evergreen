@@ -7,6 +7,7 @@ import type { ActiveData } from "../data-source.js";
 import { parsePurl } from "../purl.js";
 import { validateRegistryV2 } from "../registry.js";
 import type { RegistryV2Rule } from "../registry.js";
+import { required } from "../required.js";
 import "../vers/index.js";
 
 type JsonObject = Record<string, unknown>;
@@ -95,11 +96,11 @@ export function enrichSpdx(input: unknown, rules: readonly RegistryV2Rule[]): Js
 
       if (result.status !== "affected") continue;
       for (const finding of result.findings) {
-        const milestone = milestones[finding.event]!;
-        const comment = milestoneComment(milestone, finding.deadline!);
+        const milestone = required(milestones[finding.event], "the milestone");
+        const comment = milestoneComment(milestone, required(finding.deadline, "the deadline"));
         if (!annotations.some((annotation) => annotation.comment === comment)) {
           annotations.push({
-            annotationDate: `${finding.deadline!}T00:00:00Z`,
+            annotationDate: `${required(finding.deadline, "the deadline")}T00:00:00Z`,
             annotationType: "OTHER",
             annotator: ANNOTATOR,
             comment,

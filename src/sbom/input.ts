@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { checkDependency } from "../check-dependency.js";
 import type { DependencyCheck } from "../check-dependency.js";
 import { parsePurl } from "../purl.js";
+import { required } from "../required.js";
 import { CycloneDxError } from "./cyclonedx.js";
 
 type JsonObject = Record<string, unknown>;
@@ -61,7 +62,7 @@ export async function scanCycloneDx(input: unknown): Promise<SbomComponentCheck[
 
   const results: SbomComponentCheck[] = [];
   while (pending.length > 0) {
-    const { value, location } = pending.pop()!;
+    const { value, location } = required(pending.pop(), "the queued component");
     if (!object(value)) throw new CycloneDxError(`CycloneDX ${location} must be an object.`);
     children(value, location);
     if (value.purl === undefined) continue;
