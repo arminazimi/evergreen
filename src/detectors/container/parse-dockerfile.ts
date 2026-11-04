@@ -1,4 +1,5 @@
 import { isInterpolated, parseImageReference } from "./parse-image.js";
+import { required } from "../../required.js";
 
 /**
  * Pure, bounded parser for the `FROM`, literal runtime install, and legacy syntax instructions Evergreen reads from
@@ -113,7 +114,7 @@ function literalVersion(token: string): string | undefined {
 
 function lineAt(logical: LogicalLine, offset: number): number {
   for (let index = logical.spans.length - 1; index >= 0; index -= 1) {
-    const span = logical.spans[index]!;
+    const span = required(logical.spans[index], "logical line span");
     if (span.start <= offset) return span.line;
   }
   return logical.line;
@@ -126,7 +127,7 @@ function runtimePins(logical: LogicalLine): DockerfileRuntimeDeclaration[] {
   const declarations: DockerfileRuntimeDeclaration[] = [];
   const shellOffset = logical.text.indexOf(run[1]);
   for (const match of run[1].matchAll(RUN_INSTALL)) {
-    const manager = match[1] ?? match[3];
+    const manager = required(match[1] ?? match[3], "install manager");
     const candidate = match[4];
     const rawVersion = match[2] ?? match[5];
     const value = rawVersion === undefined ? undefined : literalVersion(rawVersion);
@@ -141,7 +142,7 @@ function runtimePins(logical: LogicalLine): DockerfileRuntimeDeclaration[] {
               ? ASDF_RUNTIMES[candidate]
               : undefined;
     if (!runtime || !value) continue;
-    const commandOffset = match[0].indexOf(manager!);
+    const commandOffset = match[0].indexOf(manager);
     declarations.push({
       kind: "runtime",
       runtime,
@@ -161,12 +162,12 @@ function legacyInstructions(
   const match = LEGACY_INSTRUCTION.exec(logical.text);
   if (!match) return [];
   const [, instruction, rest] = match;
-  if (instruction!.toUpperCase() === "MAINTAINER") {
-    const value = rest!.trim();
+  if (required(instruction, "instruction").toUpperCase() === "MAINTAINER") {
+    const value = required(rest, "instruction text").trim();
     return value.length === 0 ? [] : [{ kind: "maintainer", value, line: logical.line }];
   }
   // Docker treats the form as legacy only when the first word is not a key=value assignment.
-  const words = rest!.trim().split(/\s+/);
+  const words = required(rest, "instruction text").trim().split(/\s+/);
   const key = words.shift();
   const value = words.join(" ");
   if (key === undefined || key.includes("=") || value.length === 0) return [];
@@ -184,7 +185,8 @@ export function parseDockerfile(contents: string): DockerfileDeclaration[] {
     declarations.push(...runtimePins(logical), ...legacyInstructions(logical));
     const match = text.match(/^FROM\s+(.*)$/i);
     if (!match) continue;
-    const words = match[1]!.split(/\s+/).filter((word) => word.length > 0);
+    const imageText = required(match[1], "FROM image");
+    const words = imageText.split(/\s+/).filter((word) => word.length > 0);
     while (words[0]?.startsWith("--")) words.shift();
     const image = words[0];
     if (!image) continue;

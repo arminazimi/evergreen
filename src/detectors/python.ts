@@ -11,6 +11,7 @@ import { parseSource } from "../usage/tree-sitter.js";
 import { discoverPythonWorkspaces, usagesOwnedBy } from "../workspaces.js";
 import { DETECTOR_API_VERSION, isDeprecationRule, isUsageMatcher } from "../sdk.js";
 import { loadRegistryRules, validateRegistryV2 } from "../registry.js";
+import { required } from "../required.js";
 import type { Detector, DetectorContext, DetectorFinding, DetectorInputs } from "../sdk.js";
 import { parseVersLenient, versContains } from "../vers/index.js";
 
@@ -363,7 +364,7 @@ function collectIniRuntime(path: string, contents: string, name: "setup.cfg" | "
     if (!text) continue;
     const header = /^\[([^\]]+)\]$/.exec(text);
     if (header) {
-      section = header[1]!.toLowerCase();
+      section = required(header[1], "ini section header").toLowerCase();
       active = false;
       continue;
     }
@@ -422,7 +423,7 @@ async function collectSetupRuntime(path: string, contents: string): Promise<Decl
           declarations.push({
             path,
             line: argument.startPosition.row + 1,
-            value: value[1] ?? value[2]!,
+            value: required(value[1] ?? value[2], "python_requires literal"),
             kind: "compatibility range",
           });
       }
@@ -602,7 +603,7 @@ export class PythonDetector implements Detector {
       context.root,
       matchedPackageRules.map((rule) => ({ id: rule.id, matchers: rule.usage ?? [] })),
     );
-    const usageByRule = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis]));
+    const usages = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis.usages]));
     const projectDirectories = projects.map((project) => project.directory);
 
     for (const project of projects) {
@@ -611,7 +612,7 @@ export class PythonDetector implements Detector {
         if (!dependency || !coversDependency(rule, project)) continue;
         const resolved = [...(project.resolved.get(dependency.name) ?? [])].sort();
         // Each project reports the usages inside its own directory; the root keeps the ones outside every member.
-        const usages = usagesOwnedBy(usageByRule.get(rule.id)!.usages, project.directory, projectDirectories);
+        const owned = usagesOwnedBy(required(usages.get(rule.id), "usage"), project.directory, projectDirectories);
         findings.push({
           id: `${rule.id}:${relativePosix(context.root, dependency.path)}:${dependency.line}`,
           ruleId: rule.id,
@@ -627,8 +628,8 @@ export class PythonDetector implements Detector {
           ...(rule.deadline ? { deadline: rule.deadline } : {}),
           ...(rule.migration ? { migration: rule.migration } : {}),
           sources: rule.sources,
-          usages,
-          impact: impactFor(usages),
+          usages: owned,
+          impact: impactFor(owned),
         });
       }
     }

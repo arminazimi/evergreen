@@ -29,6 +29,7 @@ import {
   lineIndex,
   maskGradleSource,
 } from "./gradle-scan.js";
+import { required } from "../../required.js";
 
 export { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 
@@ -75,12 +76,12 @@ function readQuoted(source: string, offset: number): { value: string; end: numbe
     if (code === 0x0a) return undefined;
     if (code === 0x5c) {
       if (position + 1 >= source.length) return undefined;
-      value += source[position + 1]!;
+      value += source.charAt(position + 1);
       position += 2;
       continue;
     }
     if (code === quote) return { value, end: position + 1 };
-    value += source[position]!;
+    value += source.charAt(position);
     position++;
   }
   return undefined;
@@ -157,7 +158,7 @@ export function parseAndroidSettingsGradle(contents: string): AndroidSettingsPlu
   const found: AndroidSettingsPluginDeclaration[] = [];
   for (const match of masked.matchAll(ID_KEYWORD)) {
     if (found.length >= MAXIMUM_DECLARATIONS) break;
-    const absolute = match.index!;
+    const absolute = required(match.index, "plugin offset");
     if (lineLengthAt(absolute) > MAXIMUM_LINE_LENGTH) continue;
     const pin = readPluginPin(contents, absolute + match[0].length);
     if (!pin) continue;

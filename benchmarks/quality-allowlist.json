@@ -406,7 +406,7 @@
     {
       "file": "src/detectors/npm.ts",
       "function": "NpmDetector.analyze",
-      "lines": 206,
+      "lines": 205,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -2630,76 +2630,6 @@
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
     },
     {
-      "file": "src/detectors/android/gradle-scan.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/android/parse-build-gradle.ts",
-      "count": 8,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/android/parse-libs-versions-toml.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/android/parse-settings-gradle.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/ci-images/index.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/container/index.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/container/parse-devcontainer.ts",
-      "count": 4,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/container/parse-dockerfile.ts",
-      "count": 6,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/container/parse-image.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/cpp/parse-cmakelists.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
       "file": "src/detectors/cpp/parse-conan.ts",
       "count": 7,
       "owner": "#2223",
@@ -2840,22 +2770,8 @@
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
     },
     {
-      "file": "src/detectors/npm.ts",
-      "count": 11,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
       "file": "src/detectors/php/parse-php-runtime.ts",
       "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/python.ts",
-      "count": 3,
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."

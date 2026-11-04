@@ -1,4 +1,5 @@
 import { parseImageReference } from "./parse-image.js";
+import { required } from "../../required.js";
 
 /**
  * Pure, bounded parser for the `image` field in `devcontainer.json` files.
@@ -27,14 +28,14 @@ function stripJsoncComments(text: string): string {
   let inString = false;
 
   while (i < text.length) {
-    const ch = text[i]!;
+    const ch = text.charAt(i);
 
     if (inString) {
       result += ch;
       if (ch === "\\" && i + 1 < text.length) {
         // Escaped character — consume it verbatim so `\"` doesn't end the string.
         i++;
-        result += text[i]!;
+        result += text.charAt(i);
       } else if (ch === '"') {
         inString = false;
       }
@@ -89,7 +90,7 @@ function stripTrailingCommas(text: string): string {
   let inString = false;
 
   for (let i = 0; i < chars.length; i++) {
-    const ch = chars[i]!;
+    const ch = required(chars[i], "character");
 
     if (inString) {
       if (ch === "\\" && i + 1 < chars.length) {
@@ -107,7 +108,7 @@ function stripTrailingCommas(text: string): string {
 
     if (ch === ",") {
       let nextIndex = i + 1;
-      while (nextIndex < chars.length && /\s/.test(chars[nextIndex]!)) {
+      while (nextIndex < chars.length && /\s/.test(required(chars[nextIndex], "character"))) {
         nextIndex++;
       }
       if (nextIndex < chars.length && (chars[nextIndex] === "}" || chars[nextIndex] === "]")) {

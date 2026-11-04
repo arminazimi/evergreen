@@ -3,6 +3,8 @@
  * Nothing here resolves, pulls, or evaluates anything.
  */
 
+import { required } from "../../required.js";
+
 export interface ImageReference {
   /** Registry host, normalized: Docker Hub is `docker.io`. */
   registry: string;
@@ -46,7 +48,7 @@ export function parseImageReference(value: string): ImageReference | undefined {
 
   const parts = rest.split("/");
   let registry = "docker.io";
-  const first = parts[0]!;
+  const first = required(parts[0], "repository part");
   if (parts.length > 1 && (first.includes(".") || first.includes(":") || first === "localhost")) {
     registry = first.toLowerCase();
     parts.shift();

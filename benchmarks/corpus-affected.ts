@@ -171,6 +171,11 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
       reason: "version ranges",
     },
     {
+      pattern: /^src\/required\.ts$/,
+      ecosystems: ["android", "ci-images", "container", "cpp", "node", "python"],
+      reason: "checked lookups in parsers",
+    },
+    {
       pattern: /^src\/detectors\/json-lines\.ts$/,
       ecosystems: ["cpp", "dart", "dotnet", "php", "swift"],
       reason: "JSON line locations",

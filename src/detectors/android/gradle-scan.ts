@@ -5,6 +5,8 @@
  * keyword searches cannot see lookalikes inside strings or comments.
  */
 
+import { required } from "../../required.js";
+
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 export const MAXIMUM_DECLARATIONS = 5000;
@@ -113,7 +115,8 @@ export function lineIndex(text: string): LineIndex {
     let high = lineStarts.length - 1;
     while (low < high) {
       const mid = (low + high + 1) >> 1;
-      if (lineStarts[mid]! <= offset) low = mid;
+      const pivot = required(lineStarts[mid], "line start");
+      if (pivot <= offset) low = mid;
       else high = mid - 1;
     }
     return low + 1;
@@ -121,8 +124,9 @@ export function lineIndex(text: string): LineIndex {
 
   const lineLengthAt = (offset: number): number => {
     const line = lineAt(offset) - 1;
-    const start = lineStarts[line]!;
-    const end = line + 1 < lineStarts.length ? lineStarts[line + 1]! - 1 : text.length;
+    const start = required(lineStarts[line], "line start");
+    const next = lineStarts[line + 1];
+    const end = next === undefined ? text.length : next - 1;
     return end - start;
   };
 
