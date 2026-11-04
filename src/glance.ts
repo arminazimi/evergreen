@@ -1,6 +1,6 @@
 import { getCapabilityManifest } from "./capabilities.js";
 import { severityValues } from "./domain.js";
-import type { ScanResult, Severity } from "./domain.js";
+import type { Finding, ScanResult, Severity } from "./domain.js";
 
 /**
  * The Evergreen mark as terminal blocks: the three lifecycle rings with their staggered version
@@ -114,20 +114,20 @@ export function buildGlanceFacts(result: GlanceInput, options: GlanceOptions): G
   for (const finding of result.findings) bySeverity[finding.severity] += 1;
 
   const dated = result.findings
-    .filter((finding) => finding.deadline !== undefined)
+    .filter((finding): finding is Finding & { deadline: string } => finding.deadline !== undefined)
     .sort(
       (left, right) =>
-        left.deadline!.localeCompare(right.deadline!) ||
+        left.deadline.localeCompare(right.deadline) ||
         left.ruleId.localeCompare(right.ruleId) ||
         left.id.localeCompare(right.id),
     );
   const asDeadline = (finding: (typeof dated)[number]): GlanceDeadline => ({
-    date: finding.deadline!,
+    date: finding.deadline,
     title: finding.title,
     ruleId: finding.ruleId,
   });
-  const next = dated.find((finding) => finding.deadline! >= options.asOf);
-  const oldestEnded = dated.find((finding) => finding.deadline! < options.asOf);
+  const next = dated.find((finding) => finding.deadline >= options.asOf);
+  const oldestEnded = dated.find((finding) => finding.deadline < options.asOf);
 
   return {
     schemaVersion: "evergreen.glance.v1",

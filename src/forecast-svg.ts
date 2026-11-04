@@ -1,4 +1,5 @@
 import type { Forecast, ForecastEvent } from "./forecast.js";
+import { required } from "./required.js";
 import type { Severity } from "./domain.js";
 
 export interface ForecastSvgOptions {
@@ -18,11 +19,11 @@ const PAD = 24;
 const LEFT = 64;
 const RIGHT = 24;
 
+/** The XML predefined entities; the pattern in `escape` can only select one of these keys. */
+const entities: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" };
+
 const escape = (value: string): string =>
-  value.replace(
-    /[&<>"']/g,
-    (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!,
-  );
+  value.replace(/[&<>"']/g, (character) => required(entities[character], "SVG entity"));
 
 const pad = (value: number): string => String(value).padStart(2, "0");
 
@@ -68,7 +69,7 @@ function describe(event: ForecastEvent): string {
  * pulses twice. Both use CSS keyframes only; `prefers-reduced-motion` shows the final frame immediately.
  */
 export function renderForecastSvg(forecast: Forecast, options: ForecastSvgOptions = {}): string {
-  const width = Number.isFinite(options.width) ? Math.max(320, Math.round(options.width!)) : 720;
+  const width = Number.isFinite(options.width) ? Math.max(320, Math.round(required(options.width, "svg width"))) : 720;
   const animate = options.animate === true;
   const inner = width - LEFT - RIGHT;
   const start = dayNumber(forecast.today);

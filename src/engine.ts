@@ -388,13 +388,11 @@ export async function scanRepository(
       const manifest = await scanCache.getDetectorManifest(resolvedRoot, detector.id, detectorVersion, dataVersion);
       const manifestMatches =
         manifest !== undefined &&
-        Boolean(
-          manifest.files.length === descriptors.length &&
-            manifest.files.every((file, index) => {
-              const current = descriptors[index];
-              return current && file.path === current.path && file.hash === current.hash;
-            }),
-        );
+        manifest.files.length === descriptors.length &&
+        manifest.files.every((file, index) => {
+          const current = descriptors[index];
+          return current !== undefined && file.path === current.path && file.hash === current.hash;
+        });
 
       if (manifestMatches) {
         return {

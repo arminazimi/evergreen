@@ -4,6 +4,7 @@ import semver from "semver";
 import { checkDependency } from "./check-dependency.js";
 import type { DependencyCheck } from "./check-dependency.js";
 import { severityValues } from "./domain.js";
+import { required } from "./required.js";
 import type { Severity } from "./domain.js";
 
 /** The severity at or above which a package is refused; `none` never refuses. */
@@ -180,7 +181,7 @@ function packageLabel(entry: GuardCheck): string {
 
 function renderCheck(entry: GuardCheck): string[] {
   if (entry.error !== undefined) return [`${packageLabel(entry)}: could not check (${entry.error}).`];
-  const check = entry.check!;
+  const check = required(entry.check, "guard check result");
   if (check.findings.length === 0) return [`${packageLabel(entry)}: ${check.message}`];
   return check.findings.flatMap((finding) => [
     `${packageLabel(entry)} — ${finding.title} (${finding.severity}, ${finding.event})`,
@@ -295,7 +296,7 @@ export function parseNpmInstall(args: readonly string[]): GuardRequest {
   const argumentsList: GuardArgument[] = [{ value: "install" }];
   let afterTerminator = false;
   for (let index = 0; index < rest.length; index += 1) {
-    const argument = rest[index]!;
+    const argument = required(rest[index], "npm argument");
     if (afterTerminator) {
       argumentsList.push({ value: argument });
       continue;
@@ -333,7 +334,7 @@ export function parseGuardArgs(args: readonly string[]): ParsedGuard {
   let override = false;
   let index = 0;
   for (; index < args.length; index += 1) {
-    const argument = args[index]!;
+    const argument = required(args[index], "guard argument");
     if (argument === "--fail-on") {
       const value = args[index + 1];
       if (value === undefined || (value !== "none" && !severityValues.includes(value as Severity))) {

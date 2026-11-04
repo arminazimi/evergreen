@@ -8,13 +8,13 @@ import { evaluateBaseline, expiredSuppressionsFail, readBaseline } from "./basel
 import type { ExpiredPolicy } from "./baseline.js";
 import { badgeState, renderBadgeSvg } from "./badge.js";
 import { applyMinSupport } from "./min-support.js";
-import type { Finding, ScanResult, Severity, SourceLocation, SuppressionRef } from "./domain.js";
-import { severityValues } from "./domain.js";
+import { severityValues, type Finding, type ScanResult, type Severity, type SourceLocation, type SuppressionRef } from "./domain.js";
 import { DiffError } from "./diff.js";
 import { planFixReport } from "./fix/index.js";
 import type { DiffResult } from "./diff.js";
 import { buildForecast } from "./forecast.js";
 import { relativePosix } from "./paths.js";
+import { required } from "./required.js";
 import { describeData, renderJson, renderSarif } from "./reporters.js";
 import type { DataInfo, SuppressionState } from "./domain.js";
 import { diffWithBuiltIns, scanWithBuiltIns } from "./scan-builtins.js";
@@ -149,7 +149,7 @@ export function suggestionsFromPatch(path: string, patch: string): FixSuggestion
 
   const flush = (): void => {
     if (removed.length > 0 && added.length > 0) {
-      suggestions.push({ path, startLine: removed[0]!, line: removed[removed.length - 1]!, replacement: added });
+      suggestions.push({ path, startLine: required(removed[0], "a removed line"), line: required(removed.at(-1), "a removed line"), replacement: added });
     }
     removed = [];
     added = [];
@@ -431,7 +431,7 @@ function relocateSuppressionRef(ref: SuppressionRef, prefix: string): Suppressio
 
 function mergeSuppressions(states: readonly SuppressionState[]): SuppressionState | undefined {
   if (states.length === 0) return undefined;
-  const first = states[0]!;
+  const first = required(states[0], "first suppression state");
   return {
     suppressed: states.reduce((sum, state) => sum + state.suppressed, 0),
     ...(first.today !== undefined ? { today: first.today } : {}),
@@ -545,8 +545,8 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
     await writeFile(sarifPath, `${renderSarif(result)}\n`, "utf8");
   }
 
-  const gateRank = gate === "none" ? Number.POSITIVE_INFINITY : severityRank.get(gate)!;
-  const gateFailed = result.findings.some((finding) => severityRank.get(finding.severity)! >= gateRank);
+  const gateRank = gate === "none" ? Number.POSITIVE_INFINITY : required(severityRank.get(gate), "gate severity rank");
+  const gateFailed = result.findings.some((finding) => required(severityRank.get(finding.severity), "finding severity rank") >= gateRank);
   let badgePath: string | undefined;
   let badgeSvgPath: string | undefined;
   if (options.badgePath) {
@@ -603,8 +603,8 @@ export function renderFailure(outcome: GitHubActionFailure): string | undefined 
 
   const reasons: string[] = [];
   if (outcome.gateFailed) {
-    const gateRank = severityRank.get(outcome.gate as Severity)!;
-    const count = outcome.result.findings.filter((finding) => severityRank.get(finding.severity)! >= gateRank).length;
+    const gateRank = required(severityRank.get(outcome.gate as Severity), "gate severity rank");
+    const count = outcome.result.findings.filter((finding) => required(severityRank.get(finding.severity), "finding severity rank") >= gateRank).length;
     reasons.push(`${count} finding${count === 1 ? "" : "s"} met or exceeded the ${outcome.gate} severity gate`);
   }
   if (outcome.expiredFailure) {

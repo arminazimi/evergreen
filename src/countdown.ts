@@ -1,4 +1,5 @@
 import type { Forecast, ForecastEvent } from "./forecast.js";
+import { required } from "./required.js";
 
 /** How far ahead the forecast behind a countdown looks, in months. */
 export const COUNTDOWN_WINDOW_MONTHS = 24;
@@ -97,7 +98,7 @@ export function buildCountdownRows(forecast: Forecast, options: CountdownRowsOpt
   for (const event of events) {
     if (seen.has(event.title)) continue;
     seen.add(event.title);
-    const finding = event.findings[0]!;
+    const finding = required(event.findings[0], "affecting finding");
     rows.push({
       subject: event.title,
       deadline: event.date,
