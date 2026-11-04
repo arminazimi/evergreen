@@ -161,7 +161,9 @@ function rawAttributes(hcl: HclSource, start: number, end: number): RawAttribute
       continue;
     }
     if (depth === 0 && /[A-Za-z_]/.test(character) && atLineStart(hcl.masked, index, start)) {
-      const attribute = /^([A-Za-z_][A-Za-z0-9_-]*)[^\S\n]*=/.exec(hcl.masked.slice(index, index + MAXIMUM_LINE_LENGTH));
+      const attribute = /^([A-Za-z_][A-Za-z0-9_-]*)[^\S\n]*=/.exec(
+        hcl.masked.slice(index, index + MAXIMUM_LINE_LENGTH),
+      );
       if (attribute) {
         const open = index + attribute[0].length;
         let position = open;
