@@ -93,20 +93,23 @@ function readHead(file) {
   }
 }
 
-/** The files a change set adds, sorted. */
+/**
+ * The files a change set adds, or moves while editing. A pure rename is not an addition: its content already
+ * exists in the base commit, so a header that says the file was generated (a lockfile, for example) does not
+ * mean this pull request introduced a build output. A rename whose content changed is inspected at its new path.
+ */
 export function addedFiles(base, root = process.cwd()) {
-  const output = execFileSync(
-    "git",
-    ["-C", root, "diff", "--name-only", "--diff-filter=A", "--no-renames", base, "HEAD"],
-    {
-      encoding: "utf8",
-    },
-  );
-  return output
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0)
-    .sort((left, right) => left.localeCompare(right));
+  const output = execFileSync("git", ["-C", root, "diff", "--name-status", "-M", base, "HEAD"], {
+    encoding: "utf8",
+  });
+  const files = [];
+  for (const line of output.split("\n")) {
+    const fields = line.split("\t");
+    const status = fields[0] ?? "";
+    if (status === "A") files.push(fields[1]?.trim() ?? "");
+    else if (status.startsWith("R") && status !== "R100") files.push(fields[2]?.trim() ?? "");
+  }
+  return files.filter((line) => line.length > 0).sort((left, right) => left.localeCompare(right));
 }
 
 /** Everything wrong with the added files: an inventoried path, or a generated-file marker. */
