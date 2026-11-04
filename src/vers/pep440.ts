@@ -1,3 +1,4 @@
+import { required } from "../required.js";
 import { registerVersionScheme, VersError } from "../vers.js";
 import type { VersionScheme } from "../vers.js";
 
@@ -42,14 +43,14 @@ function key(value: string): Key {
   const groups = match?.groups;
   if (!groups) throw new VersError(`Invalid PEP 440 version "${value}".`);
 
-  const release = groups.release!.split(".").map(Number);
+  const release = required(groups.release, "the release").split(".").map(Number);
   while (release.length > 1 && release[release.length - 1] === 0) release.pop();
 
   const hasPre = groups.preL !== undefined;
   const hasPost = groups.post !== undefined;
   const hasDev = groups.devL !== undefined;
   const pre: Key["pre"] = hasPre
-    ? [PRE_ORDER[normalizePre(groups.preL!)]!, Number(groups.preN ?? 0)]
+    ? [required(PRE_ORDER[normalizePre(required(groups.preL, "pre letter"))], "the pre"), Number(groups.preN ?? 0)]
     : !hasPost && hasDev
       ? NEGATIVE
       : POSITIVE;

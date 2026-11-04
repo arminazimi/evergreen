@@ -1,3 +1,4 @@
+import { required } from "../required.js";
 import { registerVersionScheme, VersError } from "../vers.js";
 import type { VersionScheme } from "../vers.js";
 
@@ -101,7 +102,7 @@ class ListItem {
   }
   normalize(): void {
     for (let index = this.items.length - 1; index >= 0; index--) {
-      const item = this.items[index]!;
+      const item = required(this.items[index], "the item");
       if (!item.isNull()) continue;
       const next = this.items[index + 1];
       if (index === this.items.length - 1 || next?.kind === "string") {
@@ -164,7 +165,7 @@ function parse(input: string): ListItem {
   };
 
   for (let index = 0; index < version.length; index++) {
-    const character = version[index]!;
+    const character = version.charAt(index);
     if (character === ".") {
       list.items.push(
         index === start ? new IntItem(0n) : parseItem(isCombination, isDigit, version.slice(start, index)),
@@ -176,7 +177,7 @@ function parse(input: string): ListItem {
         list.items.push(new IntItem(0n));
       } else {
         // X-1 is treated as X1.
-        if (!isDigit && index !== version.length - 1 && /\d/.test(version[index + 1]!)) {
+        if (!isDigit && index !== version.length - 1 && /\d/.test(version.charAt(index + 1))) {
           isCombination = true;
           continue;
         }
@@ -208,7 +209,7 @@ function parse(input: string): ListItem {
     if (!isDigit && list.items.length > 0) push(version[start - 1] === ".");
     list.items.push(parseItem(isCombination, isDigit, version.slice(start)));
   }
-  while (stack.length > 0) stack.pop()!.normalize();
+  while (stack.length > 0) required(stack.pop(), "the stacked list").normalize();
   return root;
 }
 
