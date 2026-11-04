@@ -128,9 +128,9 @@ jobs:
           # The guard diffs the change set against the base commit.
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
+          install: false
       - name: Refuse newly committed generated files
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
@@ -162,11 +162,10 @@ jobs:
           # Pull requests need origin/main so the quality-gate comparison can read the allowlist and TARGETS.
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
           node-version: ${{ matrix.node }}
           cache: ${{ runner.os != 'Windows' && 'npm' || '' }}
-      - run: npm ci
       - name: npm run check
         # The committed action bundle is verified only for a release; ordinary pull requests would conflict on it.
         env:
@@ -270,11 +269,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - run: npm run build --silent
       - name: Run the suite once with coverage
         env:
@@ -391,11 +388,10 @@ jobs:
           persist-credentials: false
       # Tests apply patches in temporary repositories; the runner's global autocrlf would rewrite them as CRLF.
       - run: git config --global core.autocrlf false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
           node-version: ${{ matrix.node }}
           cache: ${{ runner.os != 'Windows' && 'npm' || '' }}
-      - run: npm ci
       - name: npm run check
         env:
           EVERGREEN_VERIFY_ACTION_BUNDLE: "${{ (startsWith(github.event.pull_request.title, 'chore: release') || startsWith(github.event.head_commit.message, 'chore: release')) && '1' || '' }}"
@@ -414,11 +410,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - run: npm run build --silent
       - name: Check the reference pages against the registry
         run: node dist/tools/build-reference-pages.js --check
@@ -448,7 +442,7 @@ jobs:
     name: site-budget
     needs: changes
     if: github.event_name == 'merge_group' && needs.changes.outputs.site == 'true'
-    uses: ./.github/workflows/site-budget.yml
+    uses: $/.github/workflows/site-budget.yml
     permissions:
       contents: read
 
@@ -456,7 +450,7 @@ jobs:
     name: docs-doctor
     needs: changes
     if: github.event_name == 'merge_group' && needs.changes.outputs.site == 'true'
-    uses: ./.github/workflows/docs-doctor.yml
+    uses: $/.github/workflows/docs-doctor.yml
     permissions:
       contents: read
 
@@ -472,11 +466,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: dist
@@ -504,11 +496,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: dist

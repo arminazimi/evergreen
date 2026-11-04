@@ -36,9 +36,8 @@ jobs:
           RELEASE_SHA: ${{ inputs.release_sha }}
         shell: bash
         run: git checkout --detach "$RELEASE_SHA"
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
       - name: Select release
         id: release
@@ -46,7 +45,6 @@ jobs:
           version="$(node -p "require('./package.json').version")"
           git tag --points-at HEAD | grep -Fx "v$version"
           echo "version=$version" >> "$GITHUB_OUTPUT"
-      - run: npm ci
       - run: npm run build --silent
       - name: Scan with the build that passed CI
         run: node dist/src/cli.js scan . --json > "$RUNNER_TEMP/built.json"
@@ -80,9 +78,9 @@ jobs:
           RELEASE_SHA: ${{ inputs.release_sha }}
         shell: bash
         run: git checkout --detach "$RELEASE_SHA"
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
+          install: false
       - name: Select release
         id: release
         shell: bash

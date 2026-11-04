@@ -48,6 +48,11 @@ jobs:
           echo "${ZIZMOR_SHA256}  $RUNNER_TEMP/zizmor.tar.gz" | sha256sum --check -
           tar -xzf "$RUNNER_TEMP/zizmor.tar.gz" -C "$RUNNER_TEMP" zizmor
       - name: Lint the workflows with actionlint
-        run: '"${RUNNER_TEMP}/actionlint"'
+        # actionlint 1.7.12 predates GitHub's $/ self-repository syntax (rhysd/actionlint#711), which
+        # zizmor requires. These patterns ignore only that diagnostic; every other check still runs.
+        run: >-
+          "${RUNNER_TEMP}/actionlint"
+          -ignore 'specifying action "\$/.+" in invalid format because ref is missing'
+          -ignore 'reusable workflow call "\$/.+" at "uses" is not following the format'
       - name: Audit the workflows and the Action with zizmor
         run: '"${RUNNER_TEMP}/zizmor" --persona=regular .github action.yml'

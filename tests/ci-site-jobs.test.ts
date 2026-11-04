@@ -52,7 +52,7 @@ test("ci.yml runs the site jobs only in the queue when the change touches site f
   for (const name of ["site-budget", "docs-doctor"]) {
     const job = ci.jobs?.[name];
     assert.ok(job, `${name} is missing from ci.yml`);
-    assert.equal(job.uses, `./.github/workflows/${name}.yml`);
+    assert.equal(job.uses, `$/.github/workflows/${name}.yml`);
     assert.match(job.if ?? "", /github\.event_name == 'merge_group'/);
     assert.match(job.if ?? "", /needs\.changes\.outputs\.site == 'true'/);
   }

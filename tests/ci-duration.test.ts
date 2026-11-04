@@ -446,6 +446,8 @@ test("ci-health runs weekly, writes the summary and metrics, and opens at most o
   assert.ok(quarantineRun);
 
   for (const step of [...job.steps, ...quarantine.steps].filter((item) => item.uses)) {
+    // `./` and `$/` resolve inside this repository, so neither carries a pinned ref.
+    if (step.uses!.startsWith("$/") || step.uses!.startsWith("./")) continue;
     assert.match(step.uses!, /@[0-9a-f]{40}$/, step.uses);
   }
 });

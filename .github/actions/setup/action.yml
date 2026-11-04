@@ -1,0 +1,44 @@
+name: Set up Node
+
+# One definition of the Node setup every job in this repository shares: the pinned setup action, the
+# dependency cache, and the locked install. Checkout stays in the calling job, because it differs
+# where it matters (fetch-depth, persist-credentials) and this action only needs the workspace for
+# the install step. Call it with `uses: $/.github/actions/setup`.
+description: Install Node, restore the npm cache, and install the locked dependencies.
+
+inputs:
+  node-version:
+    description: Node version to install.
+    required: false
+    default: "24"
+  cache:
+    description: Package manager to cache. Empty keeps setup-node's automatic caching in charge.
+    required: false
+    default: ""
+  package-manager-cache:
+    description: Set to false to disable setup-node's automatic caching.
+    required: false
+    default: "true"
+  registry-url:
+    description: Registry to configure for authentication.
+    required: false
+    default: ""
+  install:
+    description: Run npm ci. Set to false when the job installs conditionally or in another directory.
+    required: false
+    default: "true"
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: ${{ inputs.cache }}
+        package-manager-cache: ${{ inputs.package-manager-cache }}
+        registry-url: ${{ inputs.registry-url }}
+    - name: Install dependencies
+      if: inputs.install == 'true'
+      shell: bash
+      run: npm ci

@@ -459,6 +459,8 @@ test("ci-health reacts to completed CI runs on main with a single serialized rec
   assert.doesNotMatch(alert.run!, /--dry-run/);
 
   for (const step of job.steps!.filter((item) => item.uses)) {
+    // `./` and `$/` resolve inside this repository, so neither carries a pinned ref.
+    if (step.uses!.startsWith("$/") || step.uses!.startsWith("./")) continue;
     assert.match(step.uses!, /@[0-9a-f]{40}$/, step.uses);
   }
 

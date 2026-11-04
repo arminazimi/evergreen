@@ -56,7 +56,7 @@ test("the publish workflow uses trusted publishing with least privilege and guar
   assert.deepEqual(workflow.jobs.publish.permissions, { contents: "read", "id-token": "write" });
   // No stored npm credential, npm new enough for trusted publishing, and a provenance attestation.
   assert.doesNotMatch(text, /NPM_TOKEN|NODE_AUTH_TOKEN|secrets\./);
-  const node = workflow.jobs.publish.steps.find((step) => step.uses?.startsWith("actions/setup-node"));
+  const node = workflow.jobs.publish.steps.find((step) => step.uses === "$/.github/actions/setup");
   assert.ok(Number(node?.with?.["node-version"]) >= 24, "Node 24 ships npm 11.5.1 or newer");
   const run = workflow.jobs.publish.steps.map((step) => step.run ?? "").join("\n");
   assert.match(run, /npm publish --provenance --access public --tag next/);

@@ -61,11 +61,9 @@ jobs:
           # The affected ecosystems come from the diff against the base branch, which needs its history.
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - run: npm run build --silent
       # Restore only: the weekly full job saves the cache, and a pull request must not write a
       # gigabyte-scale entry that could push it out. The prefix finds the newest cache the default
@@ -136,11 +134,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - run: npm run build --silent
       # Pinned commits never change, so earlier checkouts stay valid. The restore-keys prefix lets a new
       # corpus entry add to an old cache instead of starting over. Restore and save are separate steps so
@@ -189,11 +185,9 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         # zizmor: ignore[artipacked] -- it pushes the recorded-run branch with the checkout token
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - name: Restore the corpus checkout cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:

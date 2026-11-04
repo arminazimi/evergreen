@@ -25,11 +25,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - run: npm run build --silent
       - name: Build docs/llms-full.txt for the site
         # Not committed: generate here so Jekyll copies it into _site at the public URL.
@@ -92,9 +90,9 @@ jobs:
           ref: 8ed721eb222562251b3b901bab0ad7b8ff67c5ef
           path: .seaworthy-cli
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
+          install: false
       - name: Build Seaworthy from source
         working-directory: .seaworthy-cli
         run: npm ci && npm run build --silent
@@ -128,9 +126,9 @@ jobs:
         run: |
           mkdir -p _serve/evergreen
           cp -a docs/_site/. _serve/evergreen/
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
+          install: false
       - name: Run Lighthouse on the home page and a rule page
         run: npx --yes @lhci/cli@0.15.1 autorun --config=.github/lighthouse/lighthouserc.json
 

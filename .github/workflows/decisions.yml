@@ -33,11 +33,9 @@ jobs:
           # The diff runs from the merge base with the base branch, which needs its history.
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - run: npm run build --silent
       - name: Require a decision record for public contract changes
         shell: bash

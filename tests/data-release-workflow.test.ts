@@ -43,6 +43,8 @@ test("permissions are read-only except in the release job, which needs only cont
 
 test("third-party actions are pinned to exact versions", () => {
   for (const step of job.steps.filter((item) => item.uses)) {
+    // `./` and `$/` resolve inside this repository, so neither carries a pinned ref.
+    if (step.uses!.startsWith("$/") || step.uses!.startsWith("./")) continue;
     assert.match(step.uses!, /^[\w./-]+@[0-9a-f]{40}$/, step.uses);
   }
   assert.ok(job.steps.some((step) => step.uses?.startsWith("sigstore/cosign-installer@")));

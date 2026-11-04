@@ -43,9 +43,9 @@ jobs:
         working-directory: docs
         # The same Jekyll build as the docs job in ci.yml; staticDistDir points at its output.
         run: bundle exec jekyll build --baseurl ""
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
+          install: false
       - name: Measure the pages against the budgets
         run: npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.json
       - name: Report page weight and speed

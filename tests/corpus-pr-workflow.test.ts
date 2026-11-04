@@ -71,8 +71,11 @@ test("affected checks out history, restores but never saves the cache, and print
 });
 
 test("actions are pinned to exact major versions", () => {
-  for (const step of job.steps.filter((item) => item.uses))
+  for (const step of job.steps.filter((item) => item.uses)) {
+    // `./` and `$/` resolve inside this repository, so neither carries a pinned ref.
+    if (step.uses!.startsWith("$/") || step.uses!.startsWith("./")) continue;
     assert.match(step.uses!, /^[\w./-]+@[0-9a-f]{40}$/, step.uses);
+  }
 });
 
 test("affected compares the corpus expectations with the committed snapshot before any network step", () => {

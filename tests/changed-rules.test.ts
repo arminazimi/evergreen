@@ -321,6 +321,8 @@ test("the base commit reaches the rules shell only through an environment variab
 test("the rules workflow checks out history and pins every action to a full SHA", () => {
   assert.equal(workflowJob.steps[0]!.with?.["fetch-depth"], 0);
   for (const step of workflowJob.steps.filter((item) => item.uses)) {
+    // `./` and `$/` resolve inside this repository, so neither carries a pinned ref.
+    if (step.uses!.startsWith("$/") || step.uses!.startsWith("./")) continue;
     assert.match(step.uses!, /^[\w./-]+@[0-9a-f]{40}$/, step.uses);
   }
 });

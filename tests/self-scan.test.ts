@@ -17,7 +17,8 @@ function floatingReferences(contents: string): string[] {
   const floating: string[] = [];
   for (const line of contents.split("\n")) {
     const match = /^\s*(?:-\s+)?uses:\s*["']?(\S+?)["']?(\s+#.*)?$/.exec(line);
-    if (!match || match[1]!.startsWith("./")) continue;
+    // `./` and `$/` both resolve inside this repository, so neither needs a pinned ref.
+    if (!match || match[1]!.startsWith("./") || match[1]!.startsWith("$/")) continue;
     const reference = `${match[1]}${match[2] ?? ""}`;
     if (PINNED.test(reference) || SLSA_GENERATOR.test(match[1]!)) continue;
     floating.push(line.trim());
@@ -49,6 +50,7 @@ test("a floating reference is caught, and a pinned or local one is not", () => {
   assert.deepEqual(floatingReferences(`      - uses: actions/checkout@${sha}\n`), [`- uses: actions/checkout@${sha}`]);
   assert.deepEqual(floatingReferences(`      - uses: actions/checkout@${sha} # v7\n`), []);
   assert.deepEqual(floatingReferences(`        uses: ./\n`), []);
+  assert.deepEqual(floatingReferences(`        uses: $/.github/actions/setup\n`), []);
   assert.deepEqual(
     floatingReferences(
       `    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0\n`,

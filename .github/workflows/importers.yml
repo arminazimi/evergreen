@@ -63,11 +63,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           cache: npm
-      - run: npm ci
       - run: npm run build --silent
       - name: Draft rules from the source
         env:
@@ -233,13 +231,10 @@ jobs:
         continue-on-error: true
         with:
           name: drafts-${{ matrix.importer }}
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         if: steps.fetch.outcome == 'success'
         with:
-          node-version: 24
           cache: npm
-      - if: steps.fetch.outcome == 'success'
-        run: npm ci
       - if: steps.fetch.outcome == 'success'
         run: npm run build --silent
       - name: Open good first issues for unreviewed candidates

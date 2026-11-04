@@ -78,7 +78,7 @@ test("the release workflow runs the reproducible check and fails the release on 
     jobs: Record<string, { if?: string; uses?: string; with?: Record<string, unknown> }>;
   };
   const verify = parse(await readFile(".github/workflows/release-verify.yml", "utf8")) as {
-    jobs: Record<string, { if?: string; steps?: Array<{ run?: string }> }>;
+    jobs: Record<string, { if?: string; steps?: Array<{ run?: string; uses?: string }> }>;
   };
   assert.match(orchestrator.jobs.verify!.if ?? "", /workflow_dispatch/);
   assert.match(orchestrator.jobs.verify!.if ?? "", /refs\/tags\/v/);
@@ -90,7 +90,12 @@ test("the release workflow runs the reproducible check and fails the release on 
   const job = verify.jobs.reproducible;
   assert.ok(job, "release-verify.yml has no reproducible job");
   assert.match(job.if ?? "", /inputs\.run_reproducible/);
-  const runs = job.steps?.map((step) => step.run ?? "").join("\n");
-  assert.match(runs ?? "", /npm ci/);
-  assert.match(runs ?? "", /npm run check:reproducible --silent/);
+  const steps = job.steps ?? [];
+  // The shared setup action installs the locked dependencies (its npm ci) before the check runs.
+  assert.ok(
+    steps.some((step) => step.uses === "$/.github/actions/setup"),
+    "the reproducible job does not use the shared setup",
+  );
+  const runs = steps.map((step) => step.run ?? "").join("\n");
+  assert.match(runs, /npm run check:reproducible --silent/);
 });

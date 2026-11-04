@@ -388,6 +388,8 @@ test("ci-health runs the weekly health report inside the existing weekly measure
   assert.equal(steps[uploadIndex]?.with?.path, "metrics/ci");
 
   for (const step of steps.filter((item) => item.uses)) {
+    // `./` and `$/` resolve inside this repository, so neither carries a pinned ref.
+    if (step.uses!.startsWith("$/") || step.uses!.startsWith("./")) continue;
     assert.match(step.uses ?? "", /@[0-9a-f]{40}$/, step.uses ?? "");
   }
 });

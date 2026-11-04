@@ -169,6 +169,8 @@ test("the SLSA generator attaches .intoto.jsonl provenance to the release", () =
 
 test("actions are pinned to exact commits", () => {
   for (const step of [...binary.steps!, ...release.steps!].filter((item) => item.uses)) {
+    // `./` and `$/` resolve inside this repository, so neither carries a pinned ref.
+    if (step.uses!.startsWith("$/") || step.uses!.startsWith("./")) continue;
     assert.match(step.uses!, /^[\w./-]+@[0-9a-f]{40}$/, step.uses);
   }
 });

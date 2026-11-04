@@ -32,13 +32,12 @@ jobs:
           # Full history: the tag guard compares the tagged commit with its parent on main.
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
           # Trusted publishing needs npm 11.5.1 or newer, which Node 24 ships.
           node-version: 24
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
-      - run: npm ci
       - name: The tag must match package.json
         if: ${{ !inputs.dry_run }}
         run: |
@@ -105,10 +104,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: $/.github/actions/setup
         with:
-          node-version: 24
           package-manager-cache: false
+          install: false
       - name: Wait for the registry to serve the new version
         run: |
           version="${GITHUB_REF_NAME#v}"
