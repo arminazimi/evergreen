@@ -32,11 +32,12 @@ const binary = build.jobs.binary!;
 const release = publish.jobs["binary-release"]!;
 const provenance = publish.jobs.provenance!;
 const releaseCommands = release.steps!.map((step) => step.run ?? "").join("\n");
+const releaseTargets = ["linux-x64", "linux-arm64", "darwin-x64", "darwin-arm64", "win32-x64"];
 
 test("a binary is built for every supported platform", async () => {
   // The matrix is selected with fromJSON(dry_run ? … : …); assert the full release list in source.
   const source = await readFile(resolve(".github/workflows/release-build-binaries.yml"), "utf8");
-  for (const target of ["linux-x64", "linux-arm64", "darwin-x64", "darwin-arm64", "win32-x64"]) {
+  for (const target of releaseTargets) {
     assert.match(source, new RegExp(`"target":"${target}"`));
   }
   assert.match(source, /fromJSON\(inputs\.dry_run/);
@@ -118,16 +119,30 @@ test("every release asset is uploaded exactly once", () => {
     .match(/gh release upload "\$TAG" (.+) --clobber/)![1]!
     .trim()
     .split(/\s+/);
-  const assets = [
-    "binaries/evergreen-1.2.3-darwin-arm64",
-    "binaries/evergreen-1.2.3-darwin-arm64.sigstore.json",
-    "binaries/evergreen-1.2.3-linux-x64",
-    "binaries/evergreen-1.2.3-linux-x64.sigstore.json",
-    "binaries/evergreen-1.2.3-win32-x64.exe",
-    "binaries/evergreen-1.2.3-win32-x64.exe.sigstore.json",
-    "binaries/SHA256SUMS",
-    "binaries/SHA256SUMS.sigstore.json",
-  ];
+
+  const sign = release.steps!.find((step) => step.run?.includes("cosign sign-blob"));
+  assert.ok(sign?.run, "the release job signs the binaries and checksums");
+  const signedGlobs = sign.run
+    .match(/for file in (.+?); do/)![1]!
+    .trim()
+    .split(/\s+/);
+  assert.deepEqual(signedGlobs, ["evergreen-*", "SHA256SUMS"], "nothing the release produces is left unsigned");
+
+  const binaryNames = releaseTargets.map(
+    (target) => `evergreen-1.2.3-${target}${target === "win32-x64" ? ".exe" : ""}`,
+  );
+  const signedNames = signedGlobs.flatMap((glob) => expandGlob(glob, [...binaryNames, "SHA256SUMS"]));
+  assert.deepEqual(
+    [...signedNames].sort(),
+    [...binaryNames, "SHA256SUMS"].sort(),
+    "every binary and the checksum file is signed",
+  );
+
+  const assets = [...signedNames, ...signedNames.map((name) => `${name}.sigstore.json`)].map(
+    (name) => `binaries/${name}`,
+  );
+  assert.equal(assets.length, 12, "five binaries, their five bundles, SHA256SUMS, and its bundle");
+
   const uploaded = paths.flatMap((glob) => expandGlob(glob, assets));
   assert.deepEqual([...uploaded].sort(), [...assets].sort(), "every produced asset reaches the release");
   assert.equal(
