@@ -21,7 +21,8 @@ function parseOptions(args: string[]): DriftOptions {
   const options: DriftOptions = { path: ".", json: false, check: false };
   let positioned = false;
   for (let index = 0; index < args.length; index += 1) {
-    const argument = args[index]!;
+    const argument = args[index];
+    if (argument === undefined) continue;
     if (argument === "--json") {
       options.json = true;
     } else if (argument === "--check") {

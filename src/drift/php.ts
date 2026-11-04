@@ -380,13 +380,13 @@ function alignTag(tag: string, release: string): string | undefined {
 function alignImage(pin: RuntimePin, lineText: string, release: string): string | undefined {
   const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
   if (!match) return undefined;
-  const value = match[2]!;
+  const [, prefix = "", value = "", suffix = ""] = match;
   const reference = parseImageReference(value);
   if (!reference || reference.tag !== pin.raw || reference.digest !== undefined || !isPhpImage(reference))
     return undefined;
   const tag = alignTag(reference.tag, release);
   if (tag === undefined) return undefined;
-  return `${match[1]}${value.slice(0, value.length - reference.tag.length)}${tag}${match[3]}`;
+  return `${prefix}${value.slice(0, value.length - reference.tag.length)}${tag}${suffix}`;
 }
 
 function alignCiImage(pin: RuntimePin, lineText: string, release: string): string | undefined {

@@ -187,7 +187,8 @@ function collectToolVersions(contents: string, path: string, pins: RuntimePin[])
     else byLine.set(declaration.line, [declaration.value]);
   }
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
-    const text = rawLine.split("#", 1)[0]!.trim();
+    const [beforeComment = ""] = rawLine.split("#", 1);
+    const text = beforeComment.trim();
     if (text === "") continue;
     const [tool, ...versions] = text.split(/\s+/);
     if (tool !== "ruby" || versions.length === 0) continue;

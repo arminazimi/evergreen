@@ -120,7 +120,7 @@ function golangImageTag(value: string): { tag?: string } | undefined {
     if (reference.registry !== "docker.io" || reference.repository !== "library/golang") return undefined;
     return reference.tag === undefined ? {} : { tag: reference.tag };
   }
-  const withoutDigest = value.split("@")[0]!;
+  const [withoutDigest = ""] = value.split("@");
   const slash = withoutDigest.lastIndexOf("/");
   const colon = withoutDigest.lastIndexOf(":");
   const repository = (colon > slash ? withoutDigest.slice(0, colon) : withoutDigest).toLowerCase();
@@ -318,7 +318,8 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
   if (pin.source.endsWith(" FROM")) {
     const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
     if (!match) return undefined;
-    const reference = parseImageReference(match[2]!);
+    const [, prefix = "", imageText = "", rest = ""] = match;
+    const reference = parseImageReference(imageText);
     if (
       !reference ||
       reference.digest !== undefined ||
@@ -329,7 +330,7 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
       return undefined;
     const parts = releaseFromDockerTag(reference.tag);
     if (parts.release === undefined) return undefined;
-    return `${match[1]}golang:${version}${parts.variant}${match[3]}`;
+    return `${prefix}golang:${version}${parts.variant}${rest}`;
   }
   if (pin.source === "actions/setup-go go-version") {
     const match = /^(\s*(?:-\s+)?go-version:\s*)(["']?)([^"'\s#]+)(["']?)(.*)$/.exec(lineText);

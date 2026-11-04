@@ -151,8 +151,9 @@ function tomlLine(lines: readonly string[], section: string, key: string): numbe
   const pattern = new RegExp(`^\\s*${key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*=`);
   for (const [index, line] of lines.entries()) {
     const header = /^\s*\[([^\]]+)\]\s*(?:#.*)?$/.exec(line);
-    if (header) {
-      current = header[1]!.trim();
+    const headerName = header?.[1];
+    if (headerName !== undefined) {
+      current = headerName.trim();
       continue;
     }
     if (current === section && pattern.test(line)) return index + 1;
@@ -164,20 +165,25 @@ function tomlLine(lines: readonly string[], section: string, key: string): numbe
 function iniValue(lines: readonly string[], section: string, key: string): { line: number; value: string } | undefined {
   let current = "";
   for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index]!;
+    const line = lines[index];
+    if (line === undefined) continue;
     const header = /^\s*\[([^\]]+)\]\s*$/.exec(line);
-    if (header) {
-      current = header[1]!.trim().toLowerCase();
+    const headerName = header?.[1];
+    if (headerName !== undefined) {
+      current = headerName.trim().toLowerCase();
       continue;
     }
     if (current !== section) continue;
     const match = /^(\s*)([A-Za-z0-9_-]+)\s*[=:]\s*(.*)$/.exec(line);
-    if (!match || match[2]!.toLowerCase() !== key) continue;
-    const indent = match[1]!.length;
+    if (!match) continue;
+    const [, whitespace = "", optionName = "", optionValue = ""] = match;
+    if (optionName.toLowerCase() !== key) continue;
+    const indent = whitespace.length;
     const start = index + 1;
-    const parts = [match[3]!.trim()];
+    const parts = [optionValue.trim()];
     for (let next = index + 1; next < lines.length; next += 1) {
-      const continuation = lines[next]!;
+      const continuation = lines[next];
+      if (continuation === undefined) break;
       if (continuation.trim() === "") continue;
       const continuationIndent = continuation.length - continuation.trimStart().length;
       if (continuationIndent <= indent || /^\s*\[/.test(continuation)) break;
@@ -187,6 +193,17 @@ function iniValue(lines: readonly string[], section: string, key: string): { lin
     return { line: start, value: parts.filter((part) => part !== "").join(",") };
   }
   return undefined;
+}
+
+function collectToolVersionsEntries(pins: RuntimePin[], path: string, lines: readonly string[]): void {
+  for (const [index, line] of lines.entries()) {
+    const match = /^\s*python\s+(.+?)\s*$/.exec(line);
+    const versions = match?.[1];
+    if (versions === undefined) continue;
+    for (const value of versions.replace(/#.*$/, "").trim().split(/\s+/).filter(Boolean)) {
+      addPin(pins, path, index + 1, ".tool-versions", value, "pin", resolvePython(value));
+    }
+  }
 }
 
 function collectRootFiles(pins: RuntimePin[], path: string, contents: string): void {
@@ -203,21 +220,16 @@ function collectRootFiles(pins: RuntimePin[], path: string, contents: string): v
   }
 
   if (name === ".tool-versions") {
-    for (const [index, line] of lines.entries()) {
-      const match = /^\s*python\s+(.+?)\s*$/.exec(line);
-      if (!match) continue;
-      for (const value of match[1]!.replace(/#.*$/, "").trim().split(/\s+/).filter(Boolean)) {
-        addPin(pins, path, index + 1, ".tool-versions", value, "pin", resolvePython(value));
-      }
-    }
+    collectToolVersionsEntries(pins, path, lines);
     return;
   }
 
   if (name === "runtime.txt") {
     for (const [index, line] of lines.entries()) {
       const match = /^\s*python[-_]\s*(\S+)\s*$/.exec(line.replace(/#.*$/, ""));
-      if (!match) continue;
-      addPin(pins, path, index + 1, "runtime.txt", line.trim(), "pin", resolvePython(match[1]!));
+      const version = match?.[1];
+      if (version === undefined) continue;
+      addPin(pins, path, index + 1, "runtime.txt", line.trim(), "pin", resolvePython(version));
     }
     return;
   }
@@ -270,8 +282,9 @@ function collectRootFiles(pins: RuntimePin[], path: string, contents: string): v
     for (const [index, line] of lines.entries()) {
       if (line.trimStart().startsWith("#")) continue;
       const match = /\bpython_requires\s*=\s*(["'])([^"'\\\r\n]*)\1/.exec(line);
-      if (!match) continue;
-      addPin(pins, path, index + 1, "setup.py python_requires", match[2]!, "floor", resolveFloor(match[2]!));
+      const requirement = match?.[2];
+      if (requirement === undefined) continue;
+      addPin(pins, path, index + 1, "setup.py python_requires", requirement, "floor", resolveFloor(requirement));
     }
   }
 }
@@ -408,17 +421,18 @@ function collectConda(pins: RuntimePin[], path: string, contents: string): void 
     if (!isScalar(item) || typeof item.value !== "string" || !item.range) continue;
     const raw = item.value.trim();
     const match = /^python\s*(>=|<=|>|<|==|=|~=|!=)?\s*(\S+)$/i.exec(raw);
-    if (!match) continue;
+    const version = match?.[2];
+    if (version === undefined) continue;
     const line = lineCounter.linePos(item.range[0]).line;
-    const operator = match[1];
+    const operator = match?.[1];
     if (operator === ">=" || operator === ">" || operator === "~=") {
-      addPin(pins, path, line, "conda environment.yml", raw, "floor", resolveFloor(`${operator}${match[2]!}`));
+      addPin(pins, path, line, "conda environment.yml", raw, "floor", resolveFloor(`${operator}${version}`));
     } else if (operator === "<" || operator === "<=" || operator === "!=") {
       addPin(pins, path, line, "conda environment.yml", raw, "pin", {
         unresolved: "the constraint names no lower bound.",
       });
     } else {
-      addPin(pins, path, line, "conda environment.yml", raw, "pin", resolvePython(match[2]!));
+      addPin(pins, path, line, "conda environment.yml", raw, "pin", resolvePython(version));
     }
   }
 }
@@ -477,8 +491,9 @@ function collectAlignable(pin: RuntimePin, lineText: string, release: string): s
   if (pin.source === ".tool-versions") {
     const match = /^(\s*python\s+)(\S+)(\s*(?:#.*)?\s*)$/i.exec(lineText);
     if (!match) return undefined;
-    if (match[3]!.replace(/#.*$/, "").trim() !== "") return undefined;
-    return `${match[1]}${release}${match[3]}`;
+    const [, prefix = "", , rest = ""] = match;
+    if (rest.replace(/#.*$/, "").trim() !== "") return undefined;
+    return `${prefix}${release}${rest}`;
   }
   if (pin.source === "runtime.txt") {
     const match = /^(\s*python[-_])(\S+)(\s*)$/i.exec(lineText);
@@ -493,14 +508,14 @@ function collectAlignable(pin: RuntimePin, lineText: string, release: string): s
   if (pin.source === "Dockerfile FROM") {
     const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)([\s\S]*)$/i.exec(lineText);
     if (!match) return undefined;
-    const image = parseImageReference(match[2]!);
+    const [, prefix = "", original = "", rest = ""] = match;
+    const image = parseImageReference(original);
     if (!image || !isPythonImage(image) || image.tag === undefined) return undefined;
     const tag = image.tag.replace(/^\d+(?:\.\d+){0,2}/, release);
     if (tag === image.tag) return undefined;
-    const original = match[2]!;
     const colon = original.lastIndexOf(":");
     const withoutTag = colon > original.lastIndexOf("/") ? original.slice(0, colon) : original;
-    return `${match[1]}${withoutTag}:${tag}${match[3]}`;
+    return `${prefix}${withoutTag}:${tag}${rest}`;
   }
   if (pin.source === "setup-python python-version") {
     const match = /^(\s*python-version\s*:\s*)(["']?)([^"'#\s]+)\2(\s*(?:#.*)?)$/.exec(lineText);

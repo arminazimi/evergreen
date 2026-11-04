@@ -128,7 +128,7 @@ function rustImageTag(value: string): { tag?: string } | undefined {
     if (reference.registry !== "docker.io" || reference.repository !== "library/rust") return undefined;
     return reference.tag === undefined ? {} : { tag: reference.tag };
   }
-  const withoutDigest = value.split("@")[0]!;
+  const [withoutDigest = ""] = value.split("@");
   const slash = withoutDigest.lastIndexOf("/");
   const colon = withoutDigest.lastIndexOf(":");
   const repository = (colon > slash ? withoutDigest.slice(0, colon) : withoutDigest).toLowerCase();
@@ -320,8 +320,11 @@ function channel(source: string, path: string, contents: string): RuntimePin[] {
 
 function alignImage(lineText: string, version: string, suffix: string): string | undefined {
   const match = /(\brust:)([^\s"']+)/.exec(lineText);
-  if (!match || match[2]!.includes("@")) return undefined;
-  return `${lineText.slice(0, match.index)}${match[1]}${version}${suffix}${lineText.slice(match.index + match[0].length)}`;
+  if (!match) return undefined;
+  const [, prefix = "", image = ""] = match;
+  if (image.includes("@")) return undefined;
+  const index = match.index;
+  return `${lineText.slice(0, index)}${prefix}${version}${suffix}${lineText.slice(index + match[0].length)}`;
 }
 
 function align(pin: RuntimePin, lineText: string, release: string): string | undefined {

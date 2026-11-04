@@ -144,7 +144,8 @@ function resolveVersion(value: string): Resolved {
   if (trimmed === "") return { unresolved: "the value is empty" };
   const codename = /^lts\/(.*)$/i.exec(trimmed);
   if (codename) {
-    const name = codename[1]!.trim().toLowerCase();
+    const [, rawName = ""] = codename;
+    const name = rawName.trim().toLowerCase();
     if (name === "*" || name === "")
       return { unresolved: `"${trimmed}" selects the current LTS line, which Evergreen does not resolve offline` };
     const major = LTS_CODENAMES.get(name);
@@ -168,8 +169,9 @@ function resolveTag(tag: string): Resolved & { variant?: string } {
   // exponentially on a run of `-` or `.` (`js/redos`).
   const codename = /^lts[-/]([a-z]+)((?:[-.][0-9A-Za-z_.-]+)?)$/i.exec(tag);
   if (codename) {
-    const major = LTS_CODENAMES.get(codename[1]!.toLowerCase());
-    const variant = codename[2] ?? "";
+    const [, codeName = "", suffix = ""] = codename;
+    const major = LTS_CODENAMES.get(codeName.toLowerCase());
+    const variant = suffix;
     return major === undefined
       ? { unresolved: `"${tag}" names no Node.js LTS codename Evergreen knows` }
       : { release: major, variant };
@@ -186,7 +188,8 @@ function resolveTag(tag: string): Resolved & { variant?: string } {
 /** The Node.js major in a Dev Container image tag, such as `1-20-bookworm` or `18-bookworm`. */
 function releaseFromDevcontainerTag(tag: string): Resolved {
   const parts = tag.split("-");
-  const node = parts.length >= 3 && /^\d+$/.test(parts[0]!) ? parts[1] : parts[0];
+  const [first = ""] = parts;
+  const node = parts.length >= 3 && /^\d+$/.test(first) ? parts[1] : first;
   return node !== undefined && /^\d+$/.test(node)
     ? { release: String(Number(node)) }
     : { unresolved: `"${tag}" does not name a Node.js release` };
@@ -492,13 +495,13 @@ function alignVersionFile(pin: RuntimePin, lineText: string, release: string): s
 function alignImage(pin: RuntimePin, lineText: string, release: string): string | undefined {
   const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
   if (!match) return undefined;
-  const value = match[2]!;
+  const [, prefix = "", value = "", suffix = ""] = match;
   const reference = parseImageReference(value);
   if (!reference || reference.tag !== pin.raw || reference.digest !== undefined || !isNodeImage(reference))
     return undefined;
   const resolved = resolveTag(reference.tag);
   if (resolved.release === undefined) return undefined;
-  return `${match[1]}${value.slice(0, value.length - reference.tag.length)}${release}${resolved.variant ?? ""}${match[3]}`;
+  return `${prefix}${value.slice(0, value.length - reference.tag.length)}${release}${resolved.variant ?? ""}${suffix}`;
 }
 
 function align(pin: RuntimePin, lineText: string, release: string): string | undefined {

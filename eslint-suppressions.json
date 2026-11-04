@@ -357,9 +357,6 @@
     }
   },
   "src/drift/java.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 2
-    },
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 2
     },
@@ -395,7 +392,7 @@
   },
   "src/drift/terraform.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 3
+      "count": 1
     },
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1

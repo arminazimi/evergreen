@@ -170,8 +170,9 @@ function addJavaImage(pins: RuntimePin[], path: string, source: string, value: s
 /** The JDK feature release a leading version text names; `1.8` resolves to `8`. */
 function leadingJdkMajor(value: string): number | undefined {
   const match = /^(\d+(?:\.\d+)*)(?:\.(?:x|\*))?/i.exec(value.trim());
-  if (match) {
-    const parsed = parseJdkVersion(match[1]!);
+  const version = match?.[1];
+  if (version !== undefined) {
+    const parsed = parseJdkVersion(version);
     if (parsed) return parsed.major;
   }
   return parseJdkVersion(value.trim())?.major;
@@ -201,7 +202,8 @@ function javaImagePin(path: string, source: string, value: string, line: number)
   if (family.tag === undefined) return undefined;
   const match = BUILD_JDK_TAG.exec(family.tag);
   if (!match) return undefined;
-  const major = parseJdkVersion(match[2]!);
+  const [, , version = ""] = match;
+  const major = parseJdkVersion(version);
   if (!major) return undefined;
   return pin(path, line, source, family.tag, String(major.major));
 }
@@ -268,14 +270,17 @@ function isLiteralJdkValue(value: string): boolean {
 function buildJdkReplacement(text: string, release: string): string | undefined {
   const match = BUILD_JDK_TAG.exec(text);
   if (!match) return undefined;
-  const start = match.index + match[1]!.length;
-  return text.slice(0, start) + release + text.slice(start + match[2]!.length);
+  const [, prefix = "", version = ""] = match;
+  const start = match.index + prefix.length;
+  return text.slice(0, start) + release + text.slice(start + version.length);
 }
 
 /** Rewrites the tag of the Java image token in `lineText` when it is a plain major the collector can align. */
 function alignImageLine(lineText: string, raw: string, release: string): string | undefined {
   for (const match of lineText.matchAll(/[^\s"'#]+/g)) {
-    const token = match[0]!;
+    const token = match[0];
+    const matchIndex = match.index;
+    if (token === undefined || matchIndex === undefined) continue;
     const leading = /^[\[({,]*/.exec(token)?.[0].length ?? 0;
     const trailing = /[\])},;]*$/.exec(token)?.[0].length ?? 0;
     const core = token.slice(leading, token.length - trailing);
@@ -291,7 +296,7 @@ function alignImageLine(lineText: string, raw: string, release: string): string 
       replacement = buildJdkReplacement(core, release);
     }
     if (replacement === undefined) return undefined;
-    const start = match.index! + leading;
+    const start = matchIndex + leading;
     return lineText.slice(0, start) + replacement + lineText.slice(start + core.length);
   }
   return undefined;
@@ -412,8 +417,10 @@ export const javaCollector: DriftCollector = {
     }
     if (source === COMPILER_SOURCE) {
       const match = /^(.*<([A-Za-z0-9._-]+)>)([^<]*)(<\/\2>.*)$/.exec(lineText);
-      if (!match || !isLiteralJdkValue(match[3]!.trim())) return undefined;
-      return `${match[1]}${release}${match[4]}`;
+      if (!match) return undefined;
+      const [, prefix = "", , value = "", suffix = ""] = match;
+      if (!isLiteralJdkValue(value.trim())) return undefined;
+      return `${prefix}${release}${suffix}`;
     }
     if (source.endsWith("toolchain") || source.endsWith("compatibility")) return undefined;
     if (source.endsWith(" RUN")) return undefined;

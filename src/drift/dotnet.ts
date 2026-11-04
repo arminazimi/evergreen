@@ -126,14 +126,16 @@ function resolveVersion(value: string): Resolved {
   if (trimmed.includes("$")) return { unresolved: "the value is an expression." };
   const match = /^v?(\d+)(?:\.(\d+))?(?:\.(?:\d+|x|\*|\dxx))?/i.exec(trimmed);
   if (!match) return { unresolved: `"${trimmed}" is not a .NET version Evergreen reads.` };
-  return releasePair(match[1]!, match[2]);
+  const [, major = ""] = match;
+  return releasePair(major, match[2]);
 }
 
 function resolveTag(tag: string | undefined): Resolved {
   if (tag === undefined) return { unresolved: "the image names no tag, so it follows the latest release." };
   const match = /^v?(\d+)(?:\.(\d+))?/.exec(tag);
   if (!match) return { unresolved: `the tag "${tag}" names no .NET release line.` };
-  return releasePair(match[1]!, match[2]);
+  const [, major = ""] = match;
+  return releasePair(major, match[2]);
 }
 
 /** The target framework moniker as the release line it names, or why it is not compared. */
@@ -350,31 +352,34 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
     if (pin.raw.includes("$")) return undefined;
     const match = /^(\s*<TargetFramework\b[^>]*>)([^<]*)(<\/TargetFramework\s*>.*)$/i.exec(lineText);
     if (!match) return undefined;
-    const current = match[2]!.trim();
+    const [, open = "", currentRaw = "", close = ""] = match;
+    const current = currentRaw.trim();
     const next = alignMoniker(current, release);
     if (next === undefined || next === current) return undefined;
-    return `${match[1]}${match[2]!.replace(current, next)}${match[3]}`;
+    return `${open}${currentRaw.replace(current, next)}${close}`;
   }
 
   if (pin.source.endsWith(" FROM")) {
     if (!RELEASE.test(release)) return undefined;
     const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)([\s\S]*)$/i.exec(lineText);
     if (!match) return undefined;
-    const image = parseImageReference(match[2]!);
+    const [, prefix = "", original = "", rest = ""] = match;
+    const image = parseImageReference(original);
     if (!image || !isDotnetImage(image) || image.tag === undefined || image.digest !== undefined) return undefined;
     const tag = image.tag.replace(/^\d+\.\d+(?:\.\d+)?/, release);
     if (tag === image.tag) return undefined;
-    const original = match[2]!;
     const colon = original.lastIndexOf(":");
     const withoutTag = colon > original.lastIndexOf("/") ? original.slice(0, colon) : original;
-    return `${match[1]}${withoutTag}:${tag}${match[3]}`;
+    return `${prefix}${withoutTag}:${tag}${rest}`;
   }
 
   if (pin.source === "actions/setup-dotnet dotnet-version") {
     if (!RELEASE.test(release)) return undefined;
     const match = /^(\s*(?:-\s+)?dotnet-version\s*:\s*)(["']?)([^"'\s#]+)(["']?)(\s*(?:#.*)?)$/.exec(lineText);
-    if (!match || match[3]!.includes("$")) return undefined;
-    return `${match[1]}${match[2]}${release}${match[4]}${match[5]}`;
+    if (!match) return undefined;
+    const [, prefix = "", quote = "", version = "", closingQuote = "", rest = ""] = match;
+    if (version.includes("$")) return undefined;
+    return `${prefix}${quote}${release}${closingQuote}${rest}`;
   }
 
   return undefined;

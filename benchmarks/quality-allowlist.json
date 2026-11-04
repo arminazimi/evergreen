@@ -582,7 +582,7 @@
     {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
-      "lines": 86,
+      "lines": 82,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -1936,7 +1936,7 @@
     {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
-      "complexity": 36,
+      "complexity": 33,
       "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
@@ -2024,7 +2024,7 @@
     {
       "file": "src/drift/terraform.ts",
       "function": "requiredVersionPin",
-      "complexity": 19,
+      "complexity": 18,
       "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
@@ -3043,76 +3043,6 @@
     {
       "file": "src/doctor.ts",
       "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/command.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/dotnet.ts",
-      "count": 7,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/go.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/java.ts",
-      "count": 7,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/nodejs.ts",
-      "count": 4,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/php.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/python.ts",
-      "count": 16,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/ruby.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/rust.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/drift/terraform.ts",
-      "count": 6,
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."

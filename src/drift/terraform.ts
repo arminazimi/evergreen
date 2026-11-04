@@ -140,7 +140,7 @@ function terraformImageTag(value: string): { tag?: string } | undefined {
     if (reference.registry !== "docker.io" || reference.repository !== TERRAFORM_IMAGE) return undefined;
     return reference.tag === undefined ? {} : { tag: reference.tag };
   }
-  const withoutDigest = value.split("@")[0]!;
+  const [withoutDigest = ""] = value.split("@");
   const slash = withoutDigest.lastIndexOf("/");
   const colon = withoutDigest.lastIndexOf(":");
   const repository = (colon > slash ? withoutDigest.slice(0, colon) : withoutDigest).toLowerCase();
@@ -184,7 +184,8 @@ function constraintParts(value: string): ConstraintPart[] | undefined {
   for (const part of value.split(",")) {
     const match = CONSTRAINT_PART.exec(part.trim());
     if (!match) return undefined;
-    parts.push({ operator: match[1] ?? "", version: match[2]! });
+    const [, operator = "", version = ""] = match;
+    parts.push({ operator, version });
   }
   return parts.length > 0 ? parts : undefined;
 }
@@ -207,23 +208,24 @@ function requiredVersionPin(path: string, scope: string, line: number, value: st
       unresolved: `"${value}" is not a Terraform version constraint`,
     };
   }
-  const single = parts.length === 1 ? parts[0]! : undefined;
-  const exact =
-    single !== undefined && (single.operator === "" || single.operator === "=") && RELEASE.test(single.version);
-  const pessimistic = single !== undefined && single.operator === "~>" && /^\d+\.\d+\.\d+$/.test(single.version);
-  if (exact || pessimistic) {
-    const release = releaseFromVersion(single!.version);
-    return release === undefined
-      ? {
-          path,
-          line,
-          source,
-          raw: value,
-          kind: "pin",
-          scope,
-          unresolved: `"${single!.version}" is not a Terraform release line`,
-        }
-      : { path, line, source, raw: value, kind: "pin", scope, release };
+  const single = parts.length === 1 ? parts[0] : undefined;
+  if (single !== undefined) {
+    const exact = (single.operator === "" || single.operator === "=") && RELEASE.test(single.version);
+    const pessimistic = single.operator === "~>" && /^\d+\.\d+\.\d+$/.test(single.version);
+    if (exact || pessimistic) {
+      const release = releaseFromVersion(single.version);
+      return release === undefined
+        ? {
+            path,
+            line,
+            source,
+            raw: value,
+            kind: "pin",
+            scope,
+            unresolved: `"${single.version}" is not a Terraform release line`,
+          }
+        : { path, line, source, raw: value, kind: "pin", scope, release };
+    }
   }
   let floor: string | undefined;
   for (const part of parts) {
@@ -428,7 +430,8 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
   if (pin.source.endsWith(" FROM")) {
     const found = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
     if (!found) return undefined;
-    const reference = parseImageReference(found[2]!);
+    const [, prefix = "", imageText = "", rest = ""] = found;
+    const reference = parseImageReference(imageText);
     if (
       !reference ||
       reference.digest !== undefined ||
@@ -439,7 +442,7 @@ function align(pin: RuntimePin, lineText: string, release: string): string | und
       return undefined;
     const parts = releaseFromDockerTag(reference.tag);
     if (parts.release === undefined) return undefined;
-    return `${found[1]}${TERRAFORM_IMAGE}:${full}${parts.variant}${found[3]}`;
+    return `${prefix}${TERRAFORM_IMAGE}:${full}${parts.variant}${rest}`;
   }
   if (pin.source === "terraform required_version") {
     const exact = /^(=\s*)?(\d+\.\d+(?:\.\d+)?)$/.exec(pin.raw.trim());
