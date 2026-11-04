@@ -280,6 +280,25 @@ jobs:
           echo "Changed src files:"
           cat "$RUNNER_TEMP/changed-src.txt"
 
+          # A file whose only change is the formatter's output is not a behavior change: re-wrapped
+          # lines move V8's line counters without changing what the tests exercise, so a per-file
+          # coverage comparison would report noise. Format the base revision and compare it with HEAD.
+          : > "$RUNNER_TEMP/changed-code.txt"
+          while IFS= read -r file; do
+            if git show "$BASE_SHA:$file" | ./node_modules/.bin/biome format --stdin-file-path "$file" 2>/dev/null | cmp -s - "$file"; then
+              echo "Formatting-only, not compared: $file"
+            else
+              echo "$file" >> "$RUNNER_TEMP/changed-code.txt"
+            fi
+          done < "$RUNNER_TEMP/changed-src.txt"
+          if [ ! -s "$RUNNER_TEMP/changed-code.txt" ]; then
+            echo "Every changed src/ file is formatting-only; skipping the coverage comparisons."
+            echo "The floors step above still enforces the absolute coverage floors."
+            exit 0
+          fi
+          echo "Changed src files that are not formatting-only:"
+          cat "$RUNNER_TEMP/changed-code.txt"
+
           RUN_ID="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs?branch=main&event=push&status=completed&per_page=30" \
             --jq '[.workflow_runs[] | select(.conclusion == "success")][0].id // empty')"
           if [ -z "$RUN_ID" ]; then
@@ -303,7 +322,7 @@ jobs:
           node dist/tools/coverage-diff.js \
             --base "$RUNNER_TEMP/base-coverage/lcov.info" \
             --head lcov.info \
-            --changed-files "$RUNNER_TEMP/changed-src.txt" \
+            --changed-files "$RUNNER_TEMP/changed-code.txt" \
             --root "$GITHUB_WORKSPACE" \
             --summary "$GITHUB_STEP_SUMMARY"
           # No total may fall below main's report, beyond rounding.

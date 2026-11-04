@@ -137,6 +137,11 @@ branches, 93% functions**. A pull request also may not:
 - lower a changed source file's line coverage by more than **1 percentage point** (`coverage-diff`, existing);
 - lower any overall total below **main's report**, beyond run-to-run noise (**0.05** points, `coverage-thresholds --baseline`). A real drop in one file is caught by the per-file check (1 point).
 
+A file whose only change is the formatter's output is skipped: formatting the base revision with the current
+`biome.json` reproduces the file, and re-wrapped lines move V8's line counters without changing what the tests
+exercise. When every changed `src/` file is formatting-only, both comparisons are skipped and the absolute floors
+still apply.
+
 **Enforced by.** `ci.yml`, on the Linux Node 24 job that runs the suite once with coverage
 (`EVERGREEN_CHECK_COVERAGE=1`):
 

@@ -202,6 +202,10 @@ test("the CI workflow shards checks and collects coverage in one unsharded run",
   assert.match(String(diff.run), /coverage-thresholds\.js --lcov lcov\.info --baseline /);
   assert.doesNotMatch(String(diff.run), /test:coverage/);
   assert.match(String(diff.run), /src\//);
+  // A formatting-only change is not compared: re-wrapped lines move line counters without changing behavior.
+  assert.match(String(diff.run), /biome format --stdin-file-path/);
+  assert.match(String(diff.run), /changed-code\.txt/);
+  assert.match(String(diff.run), /Every changed src\/ file is formatting-only/);
 
   const badge = coverageNamed(/coverage badge data/i);
   assert.ok(badge);
