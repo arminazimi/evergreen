@@ -2400,7 +2400,7 @@
     {
       "file": "src/source-usage.ts",
       "function": "maskCodeLine",
-      "complexity": 131,
+      "complexity": 130,
       "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
@@ -3361,13 +3361,6 @@
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "count": 20,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Non-null assertions in this file; remove them in the non-null follow-up."
     },
     {
       "file": "src/status-card.ts",
