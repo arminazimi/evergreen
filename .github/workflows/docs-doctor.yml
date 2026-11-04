@@ -3,18 +3,26 @@ name: docs doctor
 # Runs Slipway's doctor on the documentation site and annotates the pull request
 # with each finding. Report-only (`level: none`) until the site is clean; then set
 # `level` to the level the site reaches so a regression fails review.
+#
+# Pull requests run it only when one of the paths below changed. The merge queue cannot filter by
+# path, so ci.yml calls this workflow from its `merge_group` run when the queued change touches
+# those same paths (see the `changes` job there); a skipped call still lets `ci-ok` pass.
+
 on:
   pull_request:
     paths:
       - "docs/**"
       - ".github/workflows/docs-doctor.yml"
+  workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
   group: docs-doctor-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  # A merge-queue run is the landing proof and is never cancelled by a newer push.
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   doctor:

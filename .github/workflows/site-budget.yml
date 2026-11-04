@@ -1,8 +1,12 @@
 name: Site budget
 
-# Fails a pull request that makes the documentation site heavier or slower than its budgets.
+# Fails a change that makes the documentation site heavier or slower than its budgets.
 # lighthouserc.json measures the home page, a rule page, and VALIDATION.html for HTML size,
 # total transfer, and Largest Contentful Paint; the numbers go to the job summary either way.
+#
+# Pull requests run it only when one of the paths below changed. The merge queue cannot filter by
+# path, so ci.yml calls this workflow from its `merge_group` run when the queued change touches
+# those same paths (see the `changes` job there); a skipped call still lets `ci-ok` pass.
 
 on:
   pull_request:
@@ -10,6 +14,7 @@ on:
       - "docs/**"
       - "lighthouserc.json"
       - ".github/workflows/site-budget.yml"
+  workflow_call:
   workflow_dispatch:
 
 permissions:
@@ -17,7 +22,8 @@ permissions:
 
 concurrency:
   group: site-budget-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  # A merge-queue run is the landing proof and is never cancelled by a newer push.
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   budget:

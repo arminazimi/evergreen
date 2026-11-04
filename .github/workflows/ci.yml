@@ -15,43 +15,56 @@ concurrency:
   cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
-  # Classifies the change set so pull requests run only what they need. push and
-  # merge_group always run everything; a docs-only pull request skips the test job.
+  # Classifies the change set so pull requests and the merge queue run only what they need.
+  # A docs-only pull request skips the test job; a code-only one runs no site job. push and
+  # merge_group always run the test matrix.
   changes:
     name: changes
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
       docs_only: ${{ steps.classify.outputs.docs_only }}
+      site: ${{ steps.classify.outputs.site }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          # Pull requests need history so the docs-only classifier can diff against the base.
+          # Pull requests and merge groups need history so the classifier can diff against the base.
           fetch-depth: 0
           persist-credentials: false
-      - name: Classify whether this pull request is documentation-only
+      - name: Classify the change set
         id: classify
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
         run: |
           set -euo pipefail
 
-          if [ "$EVENT_NAME" != "pull_request" ]; then
+          if [ "$EVENT_NAME" != "pull_request" ] && [ "$EVENT_NAME" != "merge_group" ]; then
             echo "docs_only=false" >> "$GITHUB_OUTPUT"
+            echo "site=false" >> "$GITHUB_OUTPUT"
             echo "Event is $EVENT_NAME; the full check matrix runs."
             exit 0
           fi
 
           if [ -z "${BASE_SHA:-}" ]; then
             echo "docs_only=false" >> "$GITHUB_OUTPUT"
-            echo "No pull request base SHA; treating as a code change."
+            echo "site=false" >> "$GITHUB_OUTPUT"
+            echo "No base SHA; treating as a code change."
             exit 0
           fi
 
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
           mapfile -t CHANGED < <(git diff --name-only --diff-filter=ACMRD "$BASE_SHA" HEAD)
+
+          # The same paths site-budget.yml and docs-doctor.yml filter on for pull requests. The
+          # merge queue ignores `paths`, so ci.yml calls those workflows when one of these changed.
+          is_site() {
+            case "$1" in
+              docs/*|lighthouserc.json|.github/workflows/site-budget.yml|.github/workflows/docs-doctor.yml) return 0 ;;
+              *) return 1 ;;
+            esac
+          }
 
           is_generated() {
             case "$1" in
@@ -71,8 +84,16 @@ jobs:
             [[ "$path" == *.md ]]
           }
 
+          site=false
+          for path in "${CHANGED[@]}"; do
+            if is_site "$path"; then
+              site=true
+              break
+            fi
+          done
+
           docs_only=false
-          if [ "${#CHANGED[@]}" -gt 0 ]; then
+          if [ "$EVENT_NAME" = "pull_request" ] && [ "${#CHANGED[@]}" -gt 0 ]; then
             docs_only=true
             for path in "${CHANGED[@]}"; do
               if ! is_docs "$path"; then
@@ -83,10 +104,12 @@ jobs:
           fi
 
           echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          echo "site=$site" >> "$GITHUB_OUTPUT"
           {
             echo "Changed files (${#CHANGED[@]}):"
             printf '%s\n' "${CHANGED[@]}"
             echo "docs_only=$docs_only"
+            echo "site=$site"
           } >> "$GITHUB_STEP_SUMMARY"
 
   # Refuses a pull request that commits a build output back into the tree. The list and the marker
@@ -410,6 +433,25 @@ jobs:
         working-directory: docs
         run: bundle exec jekyll build --baseurl ""
 
+  # The merge queue ignores `paths`, so `changes.site` decides whether the site jobs run. On a pull
+  # request each workflow runs on its own `paths` filter instead; on main, pages.yml verifies the
+  # built site. Both jobs are skipped when nothing site-related changed, and ci-ok still passes.
+  site-budget:
+    name: site-budget
+    needs: changes
+    if: github.event_name == 'merge_group' && needs.changes.outputs.site == 'true'
+    uses: ./.github/workflows/site-budget.yml
+    permissions:
+      contents: read
+
+  docs-doctor:
+    name: docs-doctor
+    needs: changes
+    if: github.event_name == 'merge_group' && needs.changes.outputs.site == 'true'
+    uses: ./.github/workflows/docs-doctor.yml
+    permissions:
+      contents: read
+
   self-scan:
     if: github.event_name != 'pull_request'
     needs: check
@@ -504,8 +546,9 @@ jobs:
   ci-ok:
     name: ci-ok
     if: always()
+    # Site budget and docs doctor are called above when a queued change touches site files.
     # Seaworthy and Lighthouse run in pages.yml against the Pages build artifact.
-    needs: [changes, generated-files, check, coverage, docs, check-cross-os, self-scan, perf-budget, coverage-badge]
+    needs: [changes, generated-files, check, coverage, docs, check-cross-os, site-budget, docs-doctor, self-scan, perf-budget, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

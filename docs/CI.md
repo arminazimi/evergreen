@@ -60,11 +60,13 @@ updates this page in the same change as the workflow edit.
 `sitemap.xml`, `rules/index.md`, `dashboard/data.json`, and `api/v1` for the Jekyll site, and build
 the site instead.
 
-**When site files change** (`docs/` site sources, theme config, Lighthouse config, and the paths
-later tasks pin).
+**When site files change** (`docs/` site sources, theme config, and Lighthouse config).
 
-- Site budget, docs doctor, and related site checks.
-- Do **not** run Lighthouse or Seaworthy on unrelated code-only pull requests (target; see #2032).
+- Site budget, docs doctor, and related site checks, through the `paths` filters on those
+  workflows (`docs/**`, `lighthouserc.json`, and the workflow file itself).
+- Do **not** run Lighthouse or Seaworthy on unrelated code-only pull requests: `site-budget.yml`
+  and `docs-doctor.yml` do not start, and `site-budget`/`docs-doctor` in `ci.yml` only run on
+  `merge_group`.
 
 **Never required on the pull request itself.**
 
@@ -88,7 +90,8 @@ later tasks pin).
 - Package smoke (npm tarball, Docker image, local Action) when the lane still lists it on
   `merge_group`.
 - Site jobs (Lighthouse, Seaworthy, site budget, docs doctor) **when the queued change touches site
-  files**; otherwise those jobs skip and `ci-ok` still passes.
+  files**; otherwise those jobs skip and `ci-ok` still passes. `ci.yml` calls `site-budget.yml` and
+  `docs-doctor.yml` from `merge_group` because the queue ignores `paths`; `changes.site` decides.
 - `ci-ok` aggregates the above.
 
 **Rules.**
@@ -505,7 +508,8 @@ with budgets: LCP 2500 ms, total page weight 163840 bytes, document size 40960 b
 images.
 
 **Fix.** Slim the page (split content, drop weight). Editing `lighthouserc.json` to move a budget is
-a maintainer decision like any other gate loosening.
+a maintainer decision like any other gate loosening. In the merge queue the `site-budget` job is
+part of `ci-ok`, so the queue will not land a site change that exceeds a budget.
 
 ### `main` is red
 
@@ -570,8 +574,8 @@ just because a later task will fold it.
 | `ci.yml` | Pull request / merge queue / main | `pull_request`, `push` to `main`, `merge_group` | Main gate: classify docs vs code, `npm run check` matrix, quality, self-scan path, and the required `ci-ok` aggregator |
 | `decisions.yml` | Pull request | `pull_request` on contract paths | Fail when a public-contract change lacks a decision record |
 | `rules.yml` | Pull request / main | `pull_request` / `push` on registry paths | Lint and fixture-test only the rules the diff touches |
-| `docs-doctor.yml` | Pull request | `pull_request` on docs site paths | Slipway doctor on the documentation site (report-only until the site is clean) |
-| `site-budget.yml` | Pull request | `pull_request` on site paths; `workflow_dispatch` | Fail when the docs site exceeds size or LCP budgets |
+| `docs-doctor.yml` | Pull request / merge queue | `pull_request` on docs site paths; `workflow_call` from `ci.yml`; `workflow_dispatch` | Slipway doctor on the documentation site (report-only until the site is clean) |
+| `site-budget.yml` | Pull request / merge queue | `pull_request` on site paths; `workflow_call` from `ci.yml`; `workflow_dispatch` | Fail when the docs site exceeds size or LCP budgets |
 | `fuzz.yml` | Pull request / nightly | `pull_request` on parser paths; nightly schedule; `workflow_dispatch` | Deeper parser fuzz than the tight budget inside `npm run check` |
 | `workflow-lint.yml` | Main | `push` to `main` on workflow paths; `workflow_dispatch` | actionlint + zizmor on workflow YAML and `action.yml` |
 | `pages.yml` | Main | `push` to `main`; `workflow_dispatch` | Build the docs site, Seaworthy + Lighthouse, deploy to GitHub Pages |
