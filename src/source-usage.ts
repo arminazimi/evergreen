@@ -17,6 +17,23 @@ import { PHP_MAX_LINE, phpCallForms, phpCallPattern, phpImportsFromRequires, php
 import { rubyAliases, rubyReceivers } from "./usage/ruby.js";
 import { rustImports } from "./usage/rust.js";
 
+/** The string at `index`, or the empty string when the array is shorter. */
+function textAt(values: readonly string[], index: number): string {
+  return values[index] ?? "";
+}
+
+/** The map value at `key`; every key here comes from the contract list, so a miss is a bug. */
+function requiredAt<K, V>(map: ReadonlyMap<K, V>, key: K): V {
+  const value = map.get(key);
+  if (value === undefined) throw new Error(`missing source-usage entry for ${String(key)}`);
+  return value;
+}
+
+/** The first `::`-separated segment of a Rust path. */
+function rustHead(target: string): string {
+  return target.split("::")[0] ?? "";
+}
+
 function javascriptImports(line: string, lineNumber: number): ImportReference[] {
   const references: ImportReference[] = [];
   const fromPattern = /\bimport\s+(.+?)\s+from\s+["']([^"']+)["']/g;
@@ -58,7 +75,7 @@ function javascriptImports(line: string, lineNumber: number): ImportReference[] 
     if (!match[1] || !match[2] || match.index === undefined) continue;
     const bindings = match[1].split(",").flatMap((entry): Binding[] => {
       const binding = /^\s*([A-Za-z_$][\w$]*)(?:\s*:\s*([A-Za-z_$][\w$]*))?\s*$/.exec(entry);
-      return binding?.[1] ? [{ module: match[2]!, imported: binding[1], local: binding[2] ?? binding[1] }] : [];
+      return binding?.[1] ? [{ module: match[2] ?? "", imported: binding[1], local: binding[2] ?? binding[1] }] : [];
     });
     references.push({
       module: match[2],
@@ -95,7 +112,7 @@ function readRubyLiteral(line: string, start: number): RubyLiteral | undefined {
     let value = "";
     let escaped = false;
     for (let index = start + 1; index < line.length; index += 1) {
-      const character = line[index]!;
+      const character = line.charAt(index);
       if (escaped) {
         value += character;
         escaped = false;
@@ -130,7 +147,7 @@ function readRubyLiteral(line: string, start: number): RubyLiteral | undefined {
   let depth = 1;
   let value = "";
   for (let index = cursor + 1; index < line.length; index += 1) {
-    const character = line[index]!;
+    const character = line.charAt(index);
     if (character === "\\" && index + 1 < line.length) {
       value += line[index + 1];
       index += 1;
@@ -219,7 +236,7 @@ export function rubyInvocations(lines: readonly string[], maskedLines: readonly 
   const skips: RubyScanSkip[] = [];
   let invocationCapReached = false;
   for (const [index, masked] of maskedLines.entries()) {
-    const line = lines[index]!;
+    const line = textAt(lines, index);
     if (line.length > RUBY_MAX_LINE || masked.length > RUBY_MAX_LINE) {
       if (RUBY_INVOCATION_HINT.test(line)) {
         skips.push({
@@ -358,7 +375,7 @@ export function maskCodeLine(line: string, language: SourceLanguage, state: Mask
   }
 
   for (; index < output.length; index += 1) {
-    const character = output[index]!;
+    const character = textAt(output, index);
     const next = output[index + 1];
     if (state.blockComment) {
       output[index] = " ";
@@ -428,7 +445,7 @@ export function maskCodeLine(line: string, language: SourceLanguage, state: Mask
     if (language === "ruby" && character === "%") {
       const opened = rubyPercentOpen(line, index);
       if (opened) {
-        const bodyStart = line[index + 1] && /[qQwWrsxiI]/.test(line[index + 1]!) ? index + 3 : index + 2;
+        const bodyStart = /[qQwWrsxiI]/.test(line.charAt(index + 1)) ? index + 3 : index + 2;
         const closed = rubyPercentClose(line, bodyStart, opened);
         const end = closed === undefined ? line.length - 1 : closed;
         for (let cursor = index; cursor <= end; cursor += 1) output[cursor] = " ";
@@ -449,7 +466,7 @@ export function maskCodeLine(line: string, language: SourceLanguage, state: Mask
         return output.join("");
       }
     }
-    if (language === "ruby" && character === "<" && next === "<" && (index === 0 || !/[\w)\]]/.test(line[index - 1]!))) {
+    if (language === "ruby" && character === "<" && next === "<" && (index === 0 || !/[\w)\]]/.test(line.charAt(index - 1)))) {
       const heredoc = /^<<[-~]?(?:'([^'\n]+)'|"([^"\n]+)"|([A-Za-z_]\w*))/.exec(line.slice(index));
       const terminator = heredoc?.[1] ?? heredoc?.[2] ?? heredoc?.[3];
       if (heredoc && terminator) {
@@ -510,10 +527,10 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
   const seen = new Map<string, Set<string>>(contracts.map((contract) => [contract.id, new Set()]));
   const push = (contractId: string, usage: SourceUsage): void => {
     const key = `${usage.kind}:${usage.location.path}:${usage.location.line}:${usage.location.column}:${usage.symbol}`;
-    const contractSeen = seen.get(contractId)!;
+    const contractSeen = requiredAt(seen, contractId);
     if (contractSeen.has(key)) return;
     contractSeen.add(key);
-    results.get(contractId)!.push(usage);
+    requiredAt(results, contractId).push(usage);
   };
 
   for (const file of await sourceFiles(resolvedRoot, { include: (language) => relevantLanguages.has(language) })) {
@@ -533,8 +550,8 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
     for (const line of lines) maskedLines.push(maskCodeLine(line, file.language, maskState));
     const phpFile = file.language === "php" ? phpUses(lines, maskedLines) : undefined;
     const imports =
-      file.language === "php"
-        ? [...phpImportsFromRequires(lines, maskedLines), ...phpFile!.imports.map((hit) => ({ module: hit.module, line: hit.line, column: hit.column, bindings: [] }))]
+      phpFile !== undefined
+        ? [...phpImportsFromRequires(lines, maskedLines), ...phpFile.imports.map((hit) => ({ module: hit.module, line: hit.line, column: hit.column, bindings: [] }))]
         : file.language === "ruby"
           ? rubyImports(lines, maskedLines)
           : file.language === "go"
@@ -550,7 +567,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
                     : file.language === "dart"
                       ? dartImports(lines, maskedLines)
                       : lines.flatMap((line, index) => {
-                          const maskedLine = maskedLines[index]!;
+                          const maskedLine = textAt(maskedLines, index);
                           if (file.language === "python") {
                             return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];
                           }
@@ -578,7 +595,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
               language: file.language,
               symbol: matcher.module,
               location: { path: file.path, line: reference.line, column: reference.column },
-              excerpt: lines[reference.line - 1]!.trim(),
+              excerpt: textAt(lines, reference.line - 1).trim(),
             });
           }
         } else if (matcher.kind === "call") {
@@ -602,7 +619,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
                     language: file.language,
                     symbol: `${matcher.module}.${target}`,
                     location: { path: file.path, line: index + 1, column: match.index + 1 },
-                    excerpt: lines[index]!.trim(),
+                    excerpt: textAt(lines, index).trim(),
                   });
                 }
               }
@@ -621,7 +638,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
                     language: file.language,
                     symbol: `${matcher.module}.${target}`,
                     location: { path: file.path, line: index + 1, column: match.index + 1 },
-                    excerpt: lines[index]!.trim(),
+                    excerpt: textAt(lines, index).trim(),
                   });
                 }
               }
@@ -644,7 +661,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
                       language: file.language,
                       symbol: `${matcher.module}.${target}`,
                       location: { path: file.path, line: index + 1, column: match.index + 1 },
-                      excerpt: lines[index]!.trim(),
+                      excerpt: textAt(lines, index).trim(),
                     });
                   }
                 }
@@ -673,7 +690,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
                     language: file.language,
                     symbol: `${matcher.module}.${target}`,
                     location: { path: file.path, line: index + 1, column },
-                    excerpt: lines[index]!.trim(),
+                    excerpt: textAt(lines, index).trim(),
                   });
                 }
               }
@@ -702,7 +719,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
                     language: file.language,
                     symbol: `${matcher.module}.${target}`,
                     location: { path: file.path, line: index + 1, column: match.index + 1 },
-                    excerpt: lines[index]!.trim(),
+                    excerpt: textAt(lines, index).trim(),
                   });
                 }
               }
@@ -714,7 +731,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
               const rust = file.language === "rust";
               const separator = rust ? "\\s*::\\s*" : "\\s*\\.\\s*";
               const escapedTarget = rust ? target.split("::").map(escapePattern).join("\\s*::\\s*") : escapePattern(target);
-              const head = rust ? target.split("::")[0]! : target;
+              const head = rust ? rustHead(target) : target;
               const callable =
                 target === "default"
                   ? binding.imported === "default" || binding.imported === "*"
@@ -738,7 +755,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
                     language: file.language,
                     symbol: target === "default" ? matcher.module : `${matcher.module}.${target}`,
                     location: { path: file.path, line: index + 1, column: match.index + 1 },
-                    excerpt: lines[index]!.trim(),
+                    excerpt: textAt(lines, index).trim(),
                   });
                 }
               }
@@ -762,7 +779,7 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
   }
 
   return contracts.map((contract) => {
-    const usages = results.get(contract.id)!.sort((left, right) => {
+    const usages = requiredAt(results, contract.id).sort((left, right) => {
       const pathOrder = left.location.path.localeCompare(right.location.path);
       if (pathOrder !== 0) return pathOrder;
       const lineOrder = (left.location.line ?? 0) - (right.location.line ?? 0);
