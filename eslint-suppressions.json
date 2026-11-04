@@ -1,0 +1,466 @@
+{
+  "src/action-fix-pr.ts": {
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "src/baseline.ts": {
+    "@typescript-eslint/no-unsafe-argument": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-member-access": {
+      "count": 4
+    }
+  },
+  "src/cle-ingest.ts": {
+    "@typescript-eslint/no-redundant-type-constituents": {
+      "count": 1
+    }
+  },
+  "src/commands/capabilities.ts": {
+    "@typescript-eslint/require-await": {
+      "count": 1
+    }
+  },
+  "src/commands/init.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 2
+    },
+    "@typescript-eslint/require-await": {
+      "count": 1
+    }
+  },
+  "src/commands/receipt.ts": {
+    "@typescript-eslint/no-unsafe-assignment": {
+      "count": 1
+    }
+  },
+  "src/commands/sbom.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/config.ts": {
+    "@typescript-eslint/no-base-to-string": {
+      "count": 2
+    }
+  },
+  "src/conformance/checks/locations.ts": {
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "src/countdown.ts": {
+    "prefer-const": {
+      "count": 2
+    }
+  },
+  "src/data-source.ts": {
+    "@typescript-eslint/require-await": {
+      "count": 2
+    }
+  },
+  "src/data-update.ts": {
+    "@typescript-eslint/no-unsafe-argument": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/detectors/android/parse-build-gradle.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 2
+    },
+    "@typescript-eslint/unbound-method": {
+      "count": 2
+    },
+    "no-useless-assignment": {
+      "count": 1
+    }
+  },
+  "src/detectors/android/parse-settings-gradle.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    },
+    "@typescript-eslint/unbound-method": {
+      "count": 2
+    }
+  },
+  "src/detectors/container/rootfs.ts": {
+    "@typescript-eslint/no-unsafe-assignment": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-member-access": {
+      "count": 1
+    },
+    "@typescript-eslint/require-await": {
+      "count": 2
+    }
+  },
+  "src/detectors/cpp/parse-conan.ts": {
+    "no-control-regex": {
+      "count": 1
+    }
+  },
+  "src/detectors/deno/parse.ts": {
+    "no-useless-escape": {
+      "count": 2
+    }
+  },
+  "src/detectors/java/parse-gradle.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 9
+    }
+  },
+  "src/detectors/npm.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/detectors/rust/parse-cargo-toml.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/detectors/serverless/parse-tf.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/detectors/swift/parse-package-swift.ts": {
+    "no-useless-escape": {
+      "count": 1
+    }
+  },
+  "src/detectors/terraform/parse-terraform.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/detectors/terraform/plan.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 5
+    },
+    "@typescript-eslint/no-unsafe-assignment": {
+      "count": 1
+    }
+  },
+  "src/doctor.ts": {
+    "@typescript-eslint/require-await": {
+      "count": 1
+    }
+  },
+  "src/drift/go.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/drift/java.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 2
+    },
+    "no-useless-escape": {
+      "count": 3
+    }
+  },
+  "src/drift/python.ts": {
+    "@typescript-eslint/no-unsafe-assignment": {
+      "count": 5
+    },
+    "no-useless-assignment": {
+      "count": 1
+    }
+  },
+  "src/drift/terraform.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 3
+    }
+  },
+  "src/engine.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    },
+    "no-useless-assignment": {
+      "count": 2
+    }
+  },
+  "src/fix/codemods/index.ts": {
+    "@typescript-eslint/no-unsafe-argument": {
+      "count": 1
+    }
+  },
+  "src/fix/git.ts": {
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "src/fix/java.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/fix/python.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 4
+    }
+  },
+  "src/forecast.ts": {
+    "@typescript-eslint/restrict-template-expressions": {
+      "count": 1
+    }
+  },
+  "src/github-action.ts": {
+    "@typescript-eslint/restrict-template-expressions": {
+      "count": 1
+    },
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "src/glance.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/init-agents.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 2
+    }
+  },
+  "src/inventory/aws-lambda.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/lsp.ts": {
+    "@typescript-eslint/no-unsafe-assignment": {
+      "count": 1
+    }
+  },
+  "src/mcp-http.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/mcp.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    },
+    "@typescript-eslint/require-await": {
+      "count": 2
+    }
+  },
+  "src/receipt-markdown.ts": {
+    "no-useless-escape": {
+      "count": 1
+    }
+  },
+  "src/registry.ts": {
+    "@typescript-eslint/no-base-to-string": {
+      "count": 2
+    }
+  },
+  "src/report-issue.ts": {
+    "no-useless-assignment": {
+      "count": 2
+    }
+  },
+  "src/reporters/junit.ts": {
+    "no-control-regex": {
+      "count": 1
+    }
+  },
+  "src/reporters/shared.ts": {
+    "no-useless-escape": {
+      "count": 1
+    }
+  },
+  "src/sdk.ts": {
+    "@typescript-eslint/no-base-to-string": {
+      "count": 2
+    }
+  },
+  "src/source-usage.ts": {
+    "no-useless-assignment": {
+      "count": 1
+    },
+    "no-useless-escape": {
+      "count": 1
+    }
+  },
+  "src/tui.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "src/upgrade/uv-pdm-lock.ts": {
+    "@typescript-eslint/no-unsafe-argument": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unsafe-assignment": {
+      "count": 2
+    }
+  },
+  "src/watch.ts": {
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "tools/adoption-metrics.ts": {
+    "no-useless-assignment": {
+      "count": 1
+    }
+  },
+  "tools/benchmark-report.ts": {
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "tools/build-data-package.ts": {
+    "@typescript-eslint/restrict-plus-operands": {
+      "count": 2
+    }
+  },
+  "tools/check-decisions.ts": {
+    "@typescript-eslint/require-await": {
+      "count": 1
+    },
+    "preserve-caught-error": {
+      "count": 2
+    }
+  },
+  "tools/check-good-first-issues.ts": {
+    "@typescript-eslint/no-duplicate-type-constituents": {
+      "count": 1
+    }
+  },
+  "tools/check-quality.ts": {
+    "@typescript-eslint/no-base-to-string": {
+      "count": 1
+    },
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "tools/eol-calendar.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    },
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    },
+    "@typescript-eslint/restrict-template-expressions": {
+      "count": 1
+    },
+    "no-control-regex": {
+      "count": 1
+    }
+  },
+  "tools/importers/candidate-issues.ts": {
+    "@typescript-eslint/no-duplicate-type-constituents": {
+      "count": 4
+    },
+    "@typescript-eslint/no-redundant-type-constituents": {
+      "count": 2
+    }
+  },
+  "tools/importers/diff.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "tools/importers/java-2.ts": {
+    "@typescript-eslint/unbound-method": {
+      "count": 1
+    }
+  },
+  "tools/importers/kubernetes-1.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 2
+    }
+  },
+  "tools/importers/php-2.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/python.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/recording.ts": {
+    "@typescript-eslint/require-await": {
+      "count": 1
+    }
+  },
+  "tools/importers/run.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/importers/serverless-2.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/monthly-report-format.ts": {
+    "@typescript-eslint/no-unnecessary-type-assertion": {
+      "count": 1
+    }
+  },
+  "tools/monthly-report.ts": {
+    "no-useless-assignment": {
+      "count": 2
+    }
+  },
+  "tools/org-rollout.ts": {
+    "no-fallthrough": {
+      "count": 1
+    }
+  },
+  "tools/quality-metrics.ts": {
+    "no-useless-assignment": {
+      "count": 2
+    }
+  },
+  "tools/registry-v1-to-v2.ts": {
+    "@typescript-eslint/restrict-template-expressions": {
+      "count": 1
+    }
+  },
+  "tools/reproducible-build.ts": {
+    "@typescript-eslint/no-base-to-string": {
+      "count": 1
+    },
+    "@typescript-eslint/restrict-plus-operands": {
+      "count": 1
+    }
+  },
+  "tools/run-tests-sharding.ts": {
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "tools/run-tests-timing.ts": {
+    "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "tools/scaffold/collisions.ts": {
+    "@typescript-eslint/await-thenable": {
+      "count": 1
+    }
+  },
+  "tools/scaffold/index.ts": {
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    }
+  },
+  "tools/site-urls.ts": {
+    "@typescript-eslint/no-unsafe-return": {
+      "count": 1
+    }
+  }
+}

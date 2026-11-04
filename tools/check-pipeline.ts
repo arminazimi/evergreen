@@ -85,6 +85,8 @@ export interface RunCheckOptions {
   skipEvals?: boolean;
   /** Where the skip is reported. Defaults to stdout. */
   log?: (line: string) => void;
+  /** The ESLint CLI entry point. Defaults to the copy installed in node_modules. */
+  eslintCli?: string;
 }
 
 /** Set to `1` to collect coverage while running the suite; CI sets it on Linux Node 24 shards. */
@@ -205,6 +207,14 @@ export async function runEvalWhenInputsChanged(
   }
   await evalStep.run();
   recorded[evalStep.id] = current.digest;
+}
+
+/** The TypeScript the lint step reads; every file is also in the tsconfig program. */
+export const LINT_PATTERNS: readonly string[] = ["src/**/*.ts", "tools/**/*.ts"];
+
+/** One lint run. A warning fails like an error, so nothing new can land without a suppression. */
+export function lintArgs(eslintCli: string): string[] {
+  return [eslintCli, ...LINT_PATTERNS, "--max-warnings=0"];
 }
 
 /** The compiled tests both test commands run. */
@@ -388,6 +398,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
   const run = options.run ?? runCommand;
   const publish = options.publish ?? publishActionBundle;
   const nccCli = options.nccCli ?? require.resolve("@vercel/ncc/dist/ncc/cli.js");
+  const eslintCli = options.eslintCli ?? join(dirname(require.resolve("eslint/package.json")), "bin", "eslint.js");
   const stagingDir = options.stagingDir ?? (await mkdtemp(join(tmpdir(), "evergreen-action-")));
   const removeStaging = options.stagingDir === undefined;
   const verifyActionBundle = options.verifyActionBundle ?? process.env.EVERGREEN_VERIFY_ACTION_BUNDLE === "1";
@@ -437,6 +448,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
           }
         },
       },
+      { id: "lint", run: () => run(process.execPath, lintArgs(eslintCli)) },
       { id: "check:quality", run: () => run(process.execPath, ["dist/tools/check-quality.js"]) },
       { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },
       ...evals.map((evalStep) => ({
