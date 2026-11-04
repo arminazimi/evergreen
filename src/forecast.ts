@@ -1,6 +1,7 @@
 import type { Finding, ScanResult, Severity } from "./domain.js";
 import { isIsoDate } from "./registry.js";
 import type { RegistryV2Rule } from "./registry.js";
+import { required } from "./required.js";
 
 export function addDays(date: string, days: number): string {
   const result = new Date(`${date}T00:00:00Z`);
@@ -93,8 +94,8 @@ export function buildForecast(
     }));
   const known = new Set(rules.map((rule) => rule.id));
   for (const [ruleId, findings] of findingsByRule) {
-    const first = findings.at(0);
-    if (known.has(ruleId) || first === undefined || !inWindow(first.deadline)) continue;
+    const first = required(findings[0], "finding for the rule");
+    if (known.has(ruleId) || !inWindow(first.deadline)) continue;
     events.push({
       date: first.deadline,
       ruleId,

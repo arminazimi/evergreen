@@ -1,5 +1,6 @@
 import type { ScanResult, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
+import { required } from "./required.js";
 
 /** Brand palette (brand/tokens.css) plus muted severity colors that sit next to it. */
 const colors = {
@@ -129,10 +130,9 @@ export function repositoryFromRemote(url: string): string | undefined {
   const match = /^(?:git@|ssh:\/\/git@|https?:\/\/(?:[^@/]+@)?)github\.com[:/]([^/]+)\/(.+?)(?:\.git)?$/i.exec(
     url.trim(),
   );
-  const owner = match?.[1];
-  const captured = match?.[2];
-  if (owner === undefined || captured === undefined) return undefined;
-  const name = captured.replace(/\.git$/, "");
+  if (!match) return undefined;
+  const owner = required(match[1], "repository owner");
+  const name = required(match[2], "repository name").replace(/\.git$/, "");
   return name.length > 0 ? `${owner}/${name}` : undefined;
 }
 

@@ -3,6 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 
 import type { Finding, ScanResult, SuppressionRef, SuppressionState } from "./domain.js";
 import { isIsoDate } from "./registry.js";
+import { required } from "./required.js";
 
 /**
  * Why a finding is accepted, and until when. All four fields are optional, so a baseline written before they
@@ -175,10 +176,9 @@ export async function readBaseline(path: string): Promise<Baseline> {
  * tracks debt for a single written file, not a union of shared and per-repository acceptances.
  */
 export function mergeBaselines(baselines: readonly Baseline[]): Baseline {
-  const [first] = baselines;
-  const [createdAt] = [...baselines].map((baseline) => baseline.createdAt).sort();
-  if (first === undefined || createdAt === undefined) throw new Error("At least one baseline is required.");
-  if (baselines.length === 1) return first;
+  if (baselines.length === 0) throw new Error("At least one baseline is required.");
+  if (baselines.length === 1) return required(baselines[0], "the only baseline");
+  const createdAt = required([...baselines].map((baseline) => baseline.createdAt).sort()[0], "earliest baseline date");
   return {
     schemaVersion: "evergreen.baseline.v1",
     createdAt,
@@ -269,11 +269,6 @@ function isExpired(entry: BaselineEntry, today: string | undefined): entry is Ba
   return today !== undefined && isIsoDate(entry.expires) && entry.expires < today;
 }
 
-/** Whether the caller gave a reference day at all; narrows `options` so its `today` reads as a date. */
-function hasToday(options: ApplyBaselineOptions): options is ApplyBaselineOptions & { today: string } {
-  return options.today !== undefined;
-}
-
 /**
  * Applies a baseline and also returns the suppressions that had expired, so a caller that enforces the `fail`
  * policy knows. `applyBaseline` is the same without that list. The expired list is not part of the scan result.
@@ -295,12 +290,12 @@ export function evaluateBaseline(
     const live = entries.filter((entry) => !isExpired(entry, options.today));
     if (live.length === 0) {
       for (const entry of entries) {
-        if (hasToday(options) && isExpired(entry, options.today)) {
+        if (isExpired(entry, options.today)) {
           expired.push({
             ruleId: entry.ruleId,
             path: entry.path,
             expires: entry.expires,
-            daysAgo: daysBetween(entry.expires, options.today),
+            daysAgo: daysBetween(entry.expires, required(options.today, "reference day")),
             ...(entry.owner ? { owner: entry.owner } : {}),
             ...(entry.reason ? { reason: entry.reason } : {}),
           });
