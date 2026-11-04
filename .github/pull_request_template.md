@@ -4,7 +4,7 @@ Closes #
 <!-- One or two sentences per change. Keep the PR to one issue. -->
 
 ## Quality bar
-Read [docs/QUALITY.md](../docs/QUALITY.md) before you change code, data, or docs. CI enforces its eight criteria: add no new debt, and allowlist existing debt only with an expiry.
+Read [docs/QUALITY.md](../docs/QUALITY.md) before you change code, data, or docs. CI enforces its nine criteria: add no new debt, and allowlist existing debt only with an expiry.
 
 ## Checks CI cannot make
 - [ ] Tests added or updated for changed behavior

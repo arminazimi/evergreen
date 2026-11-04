@@ -214,6 +214,7 @@ export async function buildQualitySnapshot(options: {
   const allowlist = (await readJsonFile<Allowlist>(allowlistPath)) ?? {
     schemaVersion: "evergreen.quality-allowlist.v2",
     fileSize: [],
+    functionLength: [],
     complexity: [],
     asUnknownAs: [],
     nonNull: [],
@@ -244,7 +245,7 @@ export async function buildQualitySnapshot(options: {
       coverage: coverage.source,
       mutation: mutation.source,
       scorecard: scorecard.source,
-      docs: "docs/QUALITY.md §7",
+      docs: "docs/QUALITY.md §8",
     },
   };
 }

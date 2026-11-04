@@ -19,8 +19,8 @@ The maintainer widened the scope of issue #2041 on purpose: reference quality is
 on, at the start of an agent's work, while it works, and in CI. Technical debt stops growing now and has an
 end date. The rules below record that.
 
-1. **Eight criteria define reference quality**: file size, complexity, type safety, boundaries, coverage,
-   mutation score, docs, and security. [QUALITY.md](../QUALITY.md) holds each target, the check that enforces
+1. **Nine criteria define reference quality**: file size, function size, complexity, type safety, boundaries,
+   coverage, mutation score, docs, and security. [QUALITY.md](../QUALITY.md) holds each target, the check that enforces
    it, the current number, and the allowlist entries that hold existing debt.
 2. **Every criterion is enforced by a failing check.** The check runs in `npm run check` (the gate CI runs) or
    in a named CI job that a pull request cannot merge past. "Measured but not enforced" is not allowed. Where a
@@ -36,6 +36,8 @@ end date. The rules below record that.
    a change pass.
 5. **Targets are set from existing tools and published practice, not invented numbers.**
    - File size: median 300 lines or fewer; a file over 800 needs an entry; none over 1,000 without one.
+   - Function size: 50 lines per function, measured from its first line through its closing brace with the
+     TypeScript compiler API; a longer function needs an entry.
    - Complexity: 15 per function, measured per function with the TypeScript compiler API; 20 is the reviewer's
      ceiling.
    - Type safety: zero explicit `any` and zero `@ts-ignore` / `@ts-expect-error`; `as unknown as` and non-null
@@ -52,7 +54,7 @@ end date. The rules below record that.
      advisories only when listed by id in the allowlist; high and critical advisories never pass; a scheduled
      workflow fails below an OpenSSF Scorecard of 6.0 at v0.8.0 and 7.0 at v1.0.
 6. **Each target is compared with a published peer practice**, with the source linked in QUALITY.md: Google's
-   change-size guidance, ESLint's `max-lines` and `complexity` defaults, the `sindresorhus/tsconfig` strictest
+   change-size guidance, ESLint's `max-lines`, `max-lines-per-function`, and `complexity` defaults, the `sindresorhus/tsconfig` strictest
    preset, Kubernetes `import-boss`, OpenSSF Best Practices, Stryker's thresholds, Google's documentation
    guidance and Diátaxis, and the OpenSSF Scorecard checks.
 7. **Agents hear the rules before and while they work.** AGENTS.md has a Quality bar section, the pull request

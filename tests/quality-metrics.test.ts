@@ -20,6 +20,7 @@ function emptyAllowlist(): Allowlist {
   return {
     schemaVersion: "evergreen.quality-allowlist.v2",
     fileSize: [],
+    functionLength: [],
     complexity: [],
     asUnknownAs: [],
     nonNull: [],
@@ -124,7 +125,7 @@ test("rowsFromSnapshots list every QUALITY.md target and never invent a previous
       coverage: "lcov.info",
       mutation: null,
       scorecard: "metrics/adoption/2026-10-28.json",
-      docs: "docs/QUALITY.md §7",
+      docs: "docs/QUALITY.md §8",
     },
   };
 
@@ -189,7 +190,7 @@ test("collectQualityMetrics compares the newest snapshots of this month and the 
         coverage: null,
         mutation: null,
         scorecard: null,
-        docs: "docs/QUALITY.md §7",
+        docs: "docs/QUALITY.md §8",
       },
     };
     const curr = {

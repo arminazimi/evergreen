@@ -7,7 +7,7 @@ description: The measurable targets Evergreen holds its own code, data, and docu
 
 Evergreen is meant to be a reference implementation: evidence-backed findings, deterministic output, and a
 local-first trust model. "Reference quality" only means something if a failing check can enforce it. This page
-defines it as eight criteria. Each has a target, the check that enforces it, the current number, and the
+defines it as nine criteria. Each has a target, the check that enforces it, the current number, and the
 allowlist entries that hold existing debt.
 
 This page describes **this repository**. It says nothing about the quality of repositories Evergreen scans,
@@ -45,14 +45,15 @@ Before is `origin/main` measured by the same checker; after is this pull request
 | # | Criterion | Target | Enforced by | Before (main) | After | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | File size | Median ≤300 lines; no file over 800 without an entry; none over 1,000 without an entry | `npm run check:quality` | median 90; 2 files over 800; 1 over 1,000 | same; both files allowlisted | Enforced |
-| 2 | Complexity | Cyclomatic complexity ≤15 per function; no function over 15 without an entry | `npm run check:quality` | 191 functions over 15; 106 over 20; max 131 | 191 over 15 (all allowlisted); 105 over 20; max 131 | Enforced with debt |
-| 3 | Type safety | Zero explicit `any` and zero `@ts-ignore` / `@ts-expect-error`; `as unknown as` and non-null assertions may not grow; `noImplicitOverride`, `noUnusedLocals`, `noUnusedParameters` on | `npm run check:quality`, `npm run build` | 0 `any`, 0 `@ts-ignore`, 9 `as unknown as`, 589 non-null | same counts, all allowlisted; three flags on | Enforced |
-| 4 | Boundaries | Import and trust rules in [AGENTS.md](../AGENTS.md#architecture-boundaries) hold; see the list below | `npm run check:quality` | 1 violation (adapter imports a detector) | allowlisted (1) | Partly enforced |
-| 5 | Coverage | Lines ≥93, branches ≥87, functions ≥93; no total falls below main | CI floors on pull requests and pushes; baseline check against main | 94.75 / 87.04 / 94.60 (2026-11-01) | 94.69 / 87.10 / 94.65 (2026-11-02) | Enforced on pull requests |
-| 6 | Mutation score | Break at 60, high at 80, on the mutated core | nightly `mutation.yml` (not in `npm run check`) | not measured since `break` is `null` | unchanged | Not gated yet; condition below |
-| 7 | Docs | Generated indexes, pages, LLM index, data API, and site build agree; links and accessibility clean | `npm run check`, the `check:*` steps in `ci.yml` | generated checks pass; site links report-only | generated checks now all gate CI; links report-only | Partly enforced |
-| 8 | Security | No high or critical advisory; no moderate or low advisory without an allowlist entry; runtime audit clean; Scorecard ≥6.0 | `npm audit` steps in `ci.yml`; `scorecard-floor.yml` (weekly) | runtime 0; root lockfile 5 medium, 2 low; Scorecard 4.8 | same advisories, allowlisted by id; floor alert added | Enforced; Scorecard alert fails until ≥6.0 |
-| 9 | Remaining debt | Every allowlist entry is at its measured value and expires by 2027-01-26 | remaining debt: run `npm run check:quality -- --report` | 191 functions over 15; 589 non-null in 140 files | same totals, per directory in the report | Report only |
+| 2 | Function size | No function over 50 lines without an entry | `npm run check:quality` | not measured | 141 functions over 50 (all allowlisted); max 381 | Enforced with debt |
+| 3 | Complexity | Cyclomatic complexity ≤15 per function; no function over 15 without an entry | `npm run check:quality` | 191 functions over 15; 106 over 20; max 131 | 191 over 15 (all allowlisted); 105 over 20; max 131 | Enforced with debt |
+| 4 | Type safety | Zero explicit `any` and zero `@ts-ignore` / `@ts-expect-error`; `as unknown as` and non-null assertions may not grow; `noImplicitOverride`, `noUnusedLocals`, `noUnusedParameters` on | `npm run check:quality`, `npm run build` | 0 `any`, 0 `@ts-ignore`, 9 `as unknown as`, 589 non-null | same counts, all allowlisted; three flags on | Enforced |
+| 5 | Boundaries | Import and trust rules in [AGENTS.md](../AGENTS.md#architecture-boundaries) hold; see the list below | `npm run check:quality` | 1 violation (adapter imports a detector) | allowlisted (1) | Partly enforced |
+| 6 | Coverage | Lines ≥93, branches ≥87, functions ≥93; no total falls below main | CI floors on pull requests and pushes; baseline check against main | 94.75 / 87.04 / 94.60 (2026-11-01) | 94.69 / 87.10 / 94.65 (2026-11-02) | Enforced on pull requests |
+| 7 | Mutation score | Break at 60, high at 80, on the mutated core | nightly `mutation.yml` (not in `npm run check`) | not measured since `break` is `null` | unchanged | Not gated yet; condition below |
+| 8 | Docs | Generated indexes, pages, LLM index, data API, and site build agree; links and accessibility clean | `npm run check`, the `check:*` steps in `ci.yml` | generated checks pass; site links report-only | generated checks now all gate CI; links report-only | Partly enforced |
+| 9 | Security | No high or critical advisory; no moderate or low advisory without an allowlist entry; runtime audit clean; Scorecard ≥6.0 | `npm audit` steps in `ci.yml`; `scorecard-floor.yml` (weekly) | runtime 0; root lockfile 5 medium, 2 low; Scorecard 4.8 | same advisories, allowlisted by id; floor alert added | Enforced; Scorecard alert fails until ≥6.0 |
+| 10 | Remaining debt | Every allowlist entry is at its measured value and expires by 2027-01-26 | remaining debt: run `npm run check:quality -- --report` | 191 functions over 15; 589 non-null in 140 files | same totals, per directory in the report | Report only |
 
 ## 1. File size
 
@@ -69,7 +70,21 @@ current size: `src/source-usage.ts` (1,983 lines, over the 1,000 ceiling) and `s
 too large; that guidance is about the size of a change, not one file. ESLint's `max-lines` rule defaults to 300.
 The median target uses that default; 800 is the warning line and 1,000 the ceiling.
 
-## 2. Complexity
+## 2. Function size
+
+**Target.** A function is **50 lines or fewer**, counted from the line it starts on through its closing brace,
+inclusive. A function over 50 lines fails unless it has an allowlist entry at its current length.
+
+**Enforced by.** `npm run check:quality`, with the TypeScript compiler API, in the same pass that measures file size
+and complexity.
+
+**Current.** 3,970 functions. **141** are over 50 lines and all are allowlisted at their length; **33** are over 100;
+the largest is 381 lines, `createEvergreenMcpServer` in `src/mcp.ts`.
+
+**Why this number.** ESLint's `max-lines-per-function` rule defaults to 50. A function that needs more than that
+usually does several jobs; splitting it keeps each one testable on its own.
+
+## 3. Complexity
 
 **Target.** Cyclomatic complexity per function is **15 or less**. Complexity counts one plus each `if`, loop,
 `case`, `catch`, `?:`, `&&`, `||`, and `??`. Nested functions are measured on their own. A function over 15 fails
@@ -85,7 +100,7 @@ went from 21 to 20 because an unused `&&` in a removed declaration no longer cou
 **Why these numbers.** ESLint's `complexity` rule defaults to 20. The target is stricter, at 15, with 20 kept as the
 number a reviewer may point to in the follow-up.
 
-## 3. Type safety
+## 4. Type safety
 
 **Target.**
 
@@ -107,7 +122,7 @@ imports, locals, and parameters), with no behavior change.
 `exactOptionalPropertyTypes`, `noImplicitOverride`, and the unused checks. Evergreen had the first two already.
 `skipLibCheck` stays on: it skips type checking inside dependencies, not Evergreen's own code.
 
-## 4. Boundaries
+## 5. Boundaries
 
 **Target.** These rules hold. A violation fails `npm run check:quality` unless it has an allowlist entry at its
 count.
@@ -129,7 +144,7 @@ The rules come from [Architecture](ARCHITECTURE.md#trust-boundaries) and [AGENTS
 adapter rule are review rules. Transitive network reach needs a module-graph walk, which is a dependency-cruiser
 or architecture-test follow-up; no such dependency is added here.
 
-## 5. Coverage
+## 6. Coverage
 
 **Target.** `npm run test:coverage` meets the floors in `package.json` (`coverageFloors`): **93% lines, 87%
 branches, 93% functions**. A pull request also may not:
@@ -156,7 +171,7 @@ No second test run is added.
 `EVERGREEN_CHECK_COVERAGE=1 npm run check`). The branch floor has about 0.10 points of headroom, so a branch-heavy
 change without tests fails the floor.
 
-## 6. Mutation score
+## 7. Mutation score
 
 **Target.** On the mutated core (`src/engine.ts`, `src/baseline.ts`, `src/diff.ts`, `src/vers/**/*.ts`), the score
 stays at **60% or more** (`break`), with **80%** the high-water mark.
@@ -173,7 +188,7 @@ not gated.
 **Why these numbers.** They are Stryker's own defaults for `high` and `low`. Google's testing blog defines the
 mutation score as the ratio of mutants the tests detect.
 
-## 7. Docs
+## 8. Docs
 
 **Target.**
 
@@ -208,7 +223,7 @@ selected pages only. This is a follow-up issue, not a gate.
 separates tutorials, how-to guides, reference, and explanation. OpenSSF Best Practices requires basic and
 reference documentation of the external interface.
 
-## 8. Security
+## 9. Security
 
 **Target.**
 
@@ -254,6 +269,7 @@ down. Its sections match the checks:
 | Section | Keyed by | Ceiling |
 | --- | --- | --- |
 | `fileSize` | file | lines |
+| `functionLength` | file and function name | lines |
 | `complexity` | file and function name | complexity |
 | `asUnknownAs` | file | count |
 | `nonNull` | file | count |
@@ -262,7 +278,9 @@ down. Its sections match the checks:
 
 Every entry has `owner` (an issue number as `#<n>`), `expires` (on or before **2027-01-26**), and `reason`. The
 checker refuses an entry that lacks one of them. The allowlist schema is `evergreen.quality-allowlist.v2`; `nonNull`
-became a list of per-file entries in v2 and was one total in v1.
+became a list of per-file entries in v2 and was one total in v1. `functionLength` is an optional section of v2: a file
+written before the check measured function length still parses, and the section is compared from the change that
+introduces it onward.
 
 ## Remaining debt
 
@@ -270,9 +288,9 @@ became a list of per-file entries in v2 and was one total in v1.
 and always exiting 0. It reads only the repository and the allowlist, with no network access, and its output is the
 same on every run:
 
-- one line per section: file size (files over 800 lines), complexity (functions over 15), `as unknown as` (files),
-  non-null (assertions), boundaries (violations), and audit (advisories);
-- complexity and non-null split by directory, largest first, with ties sorted by name.
+- one line per section: file size (files over 800 lines), function size (functions over 50 lines), complexity
+  (functions over 15), `as unknown as` (files), non-null (assertions), boundaries (violations), and audit (advisories);
+- function size, complexity, and non-null split by directory, largest first, with ties sorted by name.
 
 The numbers are the allowlist's own ceilings. The check keeps each ceiling equal to the measured value, so the report
 matches the code while the check passes.
@@ -298,15 +316,16 @@ description for the maintainer to approve.
 
 1. Split `src/source-usage.ts` below 1,000 lines, then below 800; remove both entries.
 2. Split `src/reporters.ts` below 800 lines; remove the entry.
-3. Reduce the 191 functions over 15, starting with the 105 over 20.
-4. Remove the 9 `as unknown as` casts, then the 589 non-null assertions, by area.
-5. Move the detector import out of `src/github-action.ts`.
-6. Add a dependency-cruiser configuration or an architecture test for the transitive network rule and rules 4 and 5.
-7. Triage the root lockfile's medium and low advisories, and the high advisories in `examples/` and `extensions/vscode/`.
-8. Add a docs test that every CLI command and flag is documented.
-9. Clean the Seaworthy and docs-doctor findings, then make them gate (see the condition in [Docs](#7-docs)).
-10. Set `thresholds.break` when the first complete mutation score exists (see [Mutation](#6-mutation-score)).
-11. Raise the Scorecard score to 6.0 (see [Security](#8-security)).
+3. Split the 141 functions over 50 lines, starting with the 33 over 100; remove their entries.
+4. Reduce the 191 functions over 15, starting with the 105 over 20.
+5. Remove the 9 `as unknown as` casts, then the 589 non-null assertions, by area.
+6. Move the detector import out of `src/github-action.ts`.
+7. Add a dependency-cruiser configuration or an architecture test for the transitive network rule and rules 4 and 5.
+8. Triage the root lockfile's medium and low advisories, and the high advisories in `examples/` and `extensions/vscode/`.
+9. Add a docs test that every CLI command and flag is documented.
+10. Clean the Seaworthy and docs-doctor findings, then make them gate (see the condition in [Docs](#8-docs)).
+11. Set `thresholds.break` when the first complete mutation score exists (see [Mutation](#7-mutation-score)).
+12. Raise the Scorecard score to 6.0 (see [Security](#9-security)).
 
 ## Peer comparison
 
@@ -315,6 +334,7 @@ Each target is compared with a published practice or tool default. The links are
 | Criterion | Peer practice | Evergreen target | Source |
 | --- | --- | --- | --- |
 | File size | 100 lines is a reasonable change; 1,000 lines is usually too large. ESLint's `max-lines` default is 300 per file. | Median 300, ceiling 1,000, warning at 800 | [Google eng-practices: small CLs](https://google.github.io/eng-practices/review/developer/small-cls.html), [ESLint `max-lines`](https://eslint.org/docs/latest/rules/max-lines) |
+| Function size | ESLint's `max-lines-per-function` rule defaults to 50. | 50 per function | [ESLint `max-lines-per-function`](https://eslint.org/docs/latest/rules/max-lines-per-function) |
 | Complexity | ESLint's `complexity` rule defaults to 20 per function. | 15 per function, 20 as the reviewer's ceiling | [ESLint `complexity`](https://eslint.org/docs/latest/rules/complexity) |
 | Type safety | The strictest `sindresorhus/tsconfig` preset sets `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, and the unused checks. | All of those, plus zero `any` and zero `@ts-ignore` | [`sindresorhus/tsconfig`](https://github.com/sindresorhus/tsconfig) |
 | Boundaries | Kubernetes enforces package import rules with `import-boss` and `.import-restrictions` files. | Rules above, checked by the compiler API | [`k8s.io/gengo/examples/import-boss`](https://pkg.go.dev/k8s.io/gengo/examples/import-boss) |

@@ -10,6 +10,1136 @@
       "reason": "Measured 2026-11-03. Over the 1,000-line ceiling; split it in the file-size follow-up."
     }
   ],
+  "functionLength": [
+    {
+      "file": "src/action-fix-pr.ts",
+      "function": "publishFixPullRequest",
+      "lines": 66,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/action-tracking-issue.ts",
+      "function": "renderFindings",
+      "lines": 65,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/action.ts",
+      "function": "main",
+      "lines": 176,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/baseline.ts",
+      "function": "evaluateBaseline",
+      "lines": 88,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/cle-ingest.ts",
+      "function": "clePackages",
+      "lines": 54,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/commands/badge.ts",
+      "function": "run",
+      "lines": 53,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/commands/check-snippet.ts",
+      "function": "run",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/commands/init.ts",
+      "function": "runInit",
+      "lines": 166,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/commands/runtime.ts",
+      "function": "prepare",
+      "lines": 83,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/commands/runtime.ts",
+      "function": "repositoryPhase",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/commands/runtime.ts",
+      "function": "runScanFamily",
+      "lines": 167,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/commands/runtime.ts",
+      "function": "sharedGates",
+      "lines": 89,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/commands/setup.ts",
+      "function": "run",
+      "lines": 82,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/config.ts",
+      "function": "validateConfig",
+      "lines": 80,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/data-source.ts",
+      "function": "pinnedData",
+      "lines": 55,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/data-source.ts",
+      "function": "resolveActiveData",
+      "lines": 67,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/data-update.ts",
+      "function": "updateData",
+      "lines": 144,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/android/gradle-scan.ts",
+      "function": "maskGradleSource",
+      "lines": 65,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/android/parse-build-gradle.ts",
+      "function": "readLiteral",
+      "lines": 79,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/android/parse-settings-gradle.ts",
+      "function": "readPluginPin",
+      "lines": 51,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/ci-images/index.ts",
+      "function": "CiImagesDetector.analyze",
+      "lines": 87,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/container/index.ts",
+      "function": "ContainerDetector.analyze",
+      "lines": 134,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/container/parse-devcontainer.ts",
+      "function": "stripJsoncComments",
+      "lines": 58,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/container/rootfs.ts",
+      "function": "readArchive",
+      "lines": 102,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/container/rootfs.ts",
+      "function": "runtimeEvidence",
+      "lines": 76,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/cpp/parse-cmakelists.ts",
+      "function": "readCommands",
+      "lines": 107,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/cpp/parse-conan.ts",
+      "function": "scanPythonLine",
+      "lines": 71,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/dart/index.ts",
+      "function": "DartDetector.analyze",
+      "lines": 103,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/dart/parse-pubspec-lock.ts",
+      "function": "parsePubspecLock",
+      "lines": 96,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/dart/parse-pubspec.ts",
+      "function": "parsePubspec",
+      "lines": 69,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/database/index.ts",
+      "function": "DatabaseDetector.analyze",
+      "lines": 78,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/database/parse-terraform.ts",
+      "function": "parseDatabaseTerraform",
+      "lines": 75,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/deno/index.ts",
+      "function": "DenoDetector.analyze",
+      "lines": 58,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/dotnet/index.ts",
+      "function": "DotnetDetector.analyze",
+      "lines": 165,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/dotnet/msbuild-xml.ts",
+      "function": "readXml",
+      "lines": 112,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/elixir/index.ts",
+      "function": "ElixirDetector.analyze",
+      "lines": 91,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/github-actions.ts",
+      "function": "GitHubActionsDetector.analyze",
+      "lines": 77,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/github-actions.ts",
+      "function": "judgeSetupDotnet",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/github-actions.ts",
+      "function": "judgeSetupNode",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/go/index.ts",
+      "function": "GoDetector.analyze",
+      "lines": 96,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/java/index.ts",
+      "function": "JavaDetector.analyze",
+      "lines": 86,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/java/parse-catalog.ts",
+      "function": "parseCatalog",
+      "lines": 67,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/java/parse-gradle.ts",
+      "function": "parseGradle",
+      "lines": 56,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/java/xml.ts",
+      "function": "parseXml",
+      "lines": 74,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/json-lines.ts",
+      "function": "readJsonLines",
+      "lines": 140,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/json-lines.ts",
+      "function": "readJsonLines > readValue",
+      "lines": 64,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/kubernetes/index.ts",
+      "function": "declarations",
+      "lines": 51,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/kubernetes/parse-helm.ts",
+      "function": "maskActions",
+      "lines": 54,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/kubernetes/parse-helm.ts",
+      "function": "parseChart",
+      "lines": 63,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/kubernetes/parse-helm.ts",
+      "function": "parseTemplate",
+      "lines": 60,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/npm.ts",
+      "function": "NpmDetector.analyze",
+      "lines": 206,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/npm.ts",
+      "function": "stripJsonc",
+      "lines": 78,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/php/index.ts",
+      "function": "PhpDetector.analyze",
+      "lines": 126,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/python.ts",
+      "function": "PythonDetector.scan",
+      "lines": 121,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/ruby/index.ts",
+      "function": "RubyDetector.analyze",
+      "lines": 140,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/rust/index.ts",
+      "function": "RustDetector.analyze",
+      "lines": 137,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/rust/parse-cargo-toml.ts",
+      "function": "parseCargoToml",
+      "lines": 64,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/scala/index.ts",
+      "function": "ScalaDetector.analyze",
+      "lines": 59,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/serverless/parse-tf.ts",
+      "function": "maskHcl",
+      "lines": 72,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/shell/index.ts",
+      "function": "ShellDetector.analyze",
+      "lines": 57,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/shell/parse-powershell.ts",
+      "function": "parsePowerShell",
+      "lines": 150,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/shell/parse-workflow.ts",
+      "function": "parseWorkflow",
+      "lines": 72,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/swift/index.ts",
+      "function": "SwiftDetector.analyze",
+      "lines": 124,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/swift/parse-package-swift.ts",
+      "function": "blankStringsAndLineComments",
+      "lines": 99,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/swift/parse-package-swift.ts",
+      "function": "stripBlockComments",
+      "lines": 119,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/swift/parse-xcode-project.ts",
+      "function": "projectObjects",
+      "lines": 51,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/terraform/index.ts",
+      "function": "TerraformDetector.analyze",
+      "lines": 235,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/terraform/kubernetes.ts",
+      "function": "parseManagedKubernetes",
+      "lines": 68,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/detectors/terraform/plan.ts",
+      "function": "parseTerraformPlanJson",
+      "lines": 133,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/drift/go.ts",
+      "function": "collect",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/drift/go.ts",
+      "function": "workflowPins",
+      "lines": 70,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/drift/java.ts",
+      "function": "collect",
+      "lines": 90,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/drift/python.ts",
+      "function": "collectRootFiles",
+      "lines": 86,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/drift/rust.ts",
+      "function": "workflowPins",
+      "lines": 81,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/drift/terraform.ts",
+      "function": "workflowPins",
+      "lines": 71,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/engine.ts",
+      "function": "scanRepository",
+      "lines": 335,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/engine.ts",
+      "function": "scanRepository > <anonymous>",
+      "lines": 227,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/export/cle.ts",
+      "function": "exportCle",
+      "lines": 65,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/dockerfile-legacy.ts",
+      "function": "plan",
+      "lines": 62,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/index.ts",
+      "function": "plan",
+      "lines": 72,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/node-buffer.ts",
+      "function": "plan",
+      "lines": 59,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/node-renames.ts",
+      "function": "plan",
+      "lines": 62,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/node-util-is.ts",
+      "function": "plan",
+      "lines": 71,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/node-util-is.ts",
+      "function": "rewriteFor",
+      "lines": 65,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/node-util-is.ts",
+      "function": "utilBindings",
+      "lines": 55,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-imp.ts",
+      "function": "plan",
+      "lines": 82,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-renames.ts",
+      "function": "plan",
+      "lines": 62,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-renames.ts",
+      "function": "targetsFor",
+      "lines": 75,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-utcnow.ts",
+      "function": "inspectDatetimeImports",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-utcnow.ts",
+      "function": "plan",
+      "lines": 71,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/python-utcnow.ts",
+      "function": "rewriteFor",
+      "lines": 54,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/codemods/terraform-legacy.ts",
+      "function": "plan",
+      "lines": 89,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/dockerfile.ts",
+      "function": "plan",
+      "lines": 70,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/github-actions.ts",
+      "function": "plan",
+      "lines": 58,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/go-mod.ts",
+      "function": "plan",
+      "lines": 93,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/java.ts",
+      "function": "plan",
+      "lines": 91,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/kubernetes.ts",
+      "function": "plan",
+      "lines": 60,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/python.ts",
+      "function": "plan",
+      "lines": 92,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/fix/runtime-pins.ts",
+      "function": "plan",
+      "lines": 68,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/forecast-svg.ts",
+      "function": "renderForecastSvg",
+      "lines": 84,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/forecast.ts",
+      "function": "buildForecast",
+      "lines": 66,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/github-action.ts",
+      "function": "renderSummary",
+      "lines": 82,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/github-action.ts",
+      "function": "runGitHubAction",
+      "lines": 116,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/glance.ts",
+      "function": "buildGlanceFacts",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/glance.ts",
+      "function": "renderGlance",
+      "lines": 70,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/inventory/k8s-cluster.ts",
+      "function": "nodeItems",
+      "lines": 61,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/inventory/k8s-cluster.ts",
+      "function": "nodeItems > <anonymous>",
+      "lines": 55,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/mcp-http.ts",
+      "function": "createLookupGuard",
+      "lines": 55,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/mcp.ts",
+      "function": "createEvergreenMcpServer",
+      "lines": 381,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/migration-packet.ts",
+      "function": "planUpgradePath",
+      "lines": 53,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/migration-packet.ts",
+      "function": "stepsFor",
+      "lines": 59,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/purl.ts",
+      "function": "parsePurl",
+      "lines": 59,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/registry.ts",
+      "function": "ruleIssues",
+      "lines": 114,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/renovate-preset.ts",
+      "function": "buildRenovatePreset",
+      "lines": 69,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/report-issue.ts",
+      "function": "createIssueReport",
+      "lines": 55,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/reporters/sarif.ts",
+      "function": "renderSarif",
+      "lines": 65,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/rollup.ts",
+      "function": "renderRollupHtml",
+      "lines": 123,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/rollup.ts",
+      "function": "rollup",
+      "lines": 86,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/rule-lint.ts",
+      "function": "lintFile",
+      "lines": 74,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/rule-test.ts",
+      "function": "testRule",
+      "lines": 62,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/sbom/cyclonedx.ts",
+      "function": "enrichCycloneDx",
+      "lines": 70,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/sbom/input.ts",
+      "function": "scanCycloneDx",
+      "lines": 62,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/sbom/input.ts",
+      "function": "scanSpdx",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/sbom/spdx.ts",
+      "function": "enrichSpdx",
+      "lines": 84,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/sdk.ts",
+      "function": "isUsageMatcher",
+      "lines": 52,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/source-usage.ts",
+      "function": "analyzeSourceUsage",
+      "lines": 268,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/source-usage.ts",
+      "function": "javascriptImports",
+      "lines": 63,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/source-usage.ts",
+      "function": "maskCodeLine",
+      "lines": 198,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/source-usage.ts",
+      "function": "readRubyLiteral",
+      "lines": 63,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/source-usage.ts",
+      "function": "rubyInvocations",
+      "lines": 72,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/source-usage.ts",
+      "function": "rustUseLeaves",
+      "lines": 51,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/upgrade/composer-lock.ts",
+      "function": "analyze",
+      "lines": 82,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/upgrade/go-modules.ts",
+      "function": "GoModulesAnalyzer.analyze",
+      "lines": 91,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/upgrade/pep440.ts",
+      "function": "parseClause",
+      "lines": 51,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/upgrade/poetry-lock.ts",
+      "function": "PoetryLockAnalyzer.analyze",
+      "lines": 119,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/upgrade/uv-pdm-lock.ts",
+      "function": "analyzePdmLock",
+      "lines": 105,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/upgrade/uv-pdm-lock.ts",
+      "function": "analyzeUvLock",
+      "lines": 99,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/upgrade/uv-pdm-lock.ts",
+      "function": "evaluateEntry",
+      "lines": 65,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/usage/javascript.ts",
+      "function": "analyzeJavaScriptFile",
+      "lines": 182,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/usage/python.ts",
+      "function": "analyzePythonFile",
+      "lines": 181,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    },
+    {
+      "file": "src/vers/maven.ts",
+      "function": "parse",
+      "lines": 65,
+      "owner": "#2049",
+      "expires": "2027-01-26",
+      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+    }
+  ],
   "complexity": [
     {
       "file": "src/action-commands.ts",
