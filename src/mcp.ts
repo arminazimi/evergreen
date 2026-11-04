@@ -16,6 +16,7 @@ import { checkSnippet } from "./check-snippet.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS } from "./forecast.js";
 import { MIGRATE_FINDING_PROMPT, renderMigrationPrompt } from "./migration-prompt.js";
 import { buildPlan } from "./plan-build.js";
+import { required } from "./required.js";
 import { ruleUri, RULE_URI_PREFIX, toRuleDocument } from "./rule-resources.js";
 import { checkUpgrade, parseUpgradeTarget } from "./upgrade/index.js";
 import { findPackageFileSync } from "./package-files.js";
@@ -88,10 +89,11 @@ export function inlineSchemaReferences(node: unknown, file: string): unknown {
   const reference = object.$ref;
   if (typeof reference === "string" && !reference.startsWith("#")) {
     const [target, pointer = ""] = reference.split("#");
-    const resolved = resolvePointer(readSchema(target!), pointer);
+    const schemaFile = required(target, "the referenced schema file");
+    const resolved = resolvePointer(readSchema(schemaFile), pointer);
     if (resolved === undefined) throw new Error(`${file}: cannot resolve ${reference}`);
     const { $ref: _reference, ...siblings } = object;
-    const inlined = inlineSchemaReferences(resolved, target!) as JsonObject;
+    const inlined = inlineSchemaReferences(resolved, schemaFile) as JsonObject;
     return { ...inlined, ...(inlineSchemaReferences(siblings, file) as JsonObject) };
   }
   return Object.fromEntries(Object.entries(object).map(([key, value]) => [key, inlineSchemaReferences(value, file)]));

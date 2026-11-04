@@ -2,6 +2,7 @@ import type { EvidenceSource, Severity } from "./domain.js";
 import { BUNDLED_ECOSYSTEMS } from "./data-bundle.js";
 import { loadDataFile } from "./data-source.js";
 import { parsePurl } from "./purl.js";
+import { required } from "./required.js";
 import { validateRegistryV2 } from "./registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
 import { versContains } from "./vers.js";
@@ -141,14 +142,14 @@ function editDistance(left: string, right: string): number {
     const current = [row];
     for (let column = 1; column <= right.length; column += 1) {
       current[column] = Math.min(
-        previous[column]! + 1,
-        current[column - 1]! + 1,
-        previous[column - 1]! + (left[row - 1] === right[column - 1] ? 0 : 1),
+        required(previous[column], "the row above") + 1,
+        required(current[column - 1], "the cell to the left") + 1,
+        required(previous[column - 1], "the diagonal cell") + (left[row - 1] === right[column - 1] ? 0 : 1),
       );
     }
     previous = current;
   }
-  return previous[right.length]!;
+  return required(previous[right.length], "the final distance");
 }
 
 function nearestProduct(query: string, products: readonly Product[]): Array<{ product: Product; distance: number }> {
@@ -173,12 +174,13 @@ function resolveProduct(name: string, products: readonly Product[]): Product {
     ];
     throw new LookupError(`Unknown product "${name}". Did you mean ${suggestions.map((id) => `"${id}"`).join(", ")}?`);
   }
-  if (matches.length === 1) return matches[0]!;
+  if (matches.length === 1) return required(matches[0], "the single match");
   const named = matches.filter((product) => normalize(product.name) === query);
   const candidates = named.length > 0 ? named : matches;
-  return [...candidates].sort(
+  const ranked = [...candidates].sort(
     (left, right) => right.rules.length - left.rules.length || left.id.localeCompare(right.id),
-  )[0]!;
+  );
+  return required(ranked[0], "the widest matching product");
 }
 
 function versionCandidates(version: string): string[] {
@@ -230,7 +232,9 @@ export async function lookupProduct(name: string, version?: string): Promise<Loo
   const primary = statusPrecedence
     .map((event) => findings.find((finding) => finding.event === event))
     .find((finding) => finding !== undefined);
-  const dated = findings.filter((finding) => finding.deadline !== undefined).map((finding) => finding.deadline!);
+  const dated = findings
+    .filter((finding) => finding.deadline !== undefined)
+    .map((finding) => required(finding.deadline, "the finding deadline"));
   return {
     schemaVersion: LOOKUP_SCHEMA_VERSION,
     query: { name, ...(version === undefined ? {} : { version }) },

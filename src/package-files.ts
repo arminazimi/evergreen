@@ -101,7 +101,7 @@ function jsonNestingDepth(contents: string): number {
   let inString = false;
 
   for (let index = 0; index < contents.length; index += 1) {
-    const char = contents[index]!;
+    const char = contents.charAt(index);
     if (inString) {
       if (char === "\\") {
         index += 1;

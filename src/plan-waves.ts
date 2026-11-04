@@ -1,5 +1,6 @@
 import { severityValues } from "./domain.js";
 import type { Severity } from "./domain.js";
+import { required } from "./required.js";
 
 const severityRank = new Map(severityValues.map((severity, index) => [severity, index]));
 
@@ -28,8 +29,8 @@ export function scheduleWaves(items: Array<{ id: string; touches: string[]; seve
       waves.push([]);
       touched.push(new Set());
     }
-    waves[wave]!.push(item.id);
-    for (const path of paths) touched[wave]!.add(path);
+    required(waves[wave], "the wave").push(item.id);
+    for (const path of paths) required(touched[wave], "the touched set").add(path);
   }
 
   return waves;

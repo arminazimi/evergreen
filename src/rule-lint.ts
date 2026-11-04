@@ -9,6 +9,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { join, relative, resolve } from "node:path";
 
 import { registryV2Issues } from "./registry.js";
+import { required } from "./required.js";
 
 export interface RuleLintIssue {
   /** The path as the caller gave it, or repository-relative for files found by {@link defaultRuleFiles}. */
@@ -64,7 +65,7 @@ function lineAt(starts: readonly number[], index: number): number {
   let high = starts.length - 1;
   while (low < high) {
     const middle = Math.ceil((low + high) / 2);
-    if (starts[middle]! <= index) low = middle;
+    if (required(starts[middle], "the line start") <= index) low = middle;
     else high = middle - 1;
   }
   return low + 1;
@@ -93,7 +94,9 @@ function ruleSpans(text: string, rules: readonly unknown[]): RuleSpan[] {
     spans.push({ start, end: text.length });
     cursor = start + 1;
   }
-  for (let index = 0; index < spans.length - 1; index += 1) spans[index]!.end = spans[index + 1]!.start;
+  for (let index = 0; index < spans.length - 1; index += 1) {
+    required(spans[index], "the span").end = required(spans[index + 1], "the next span").start;
+  }
   return spans;
 }
 
@@ -160,7 +163,7 @@ function structuralProblemOffset(text: string): number {
   let escaped = false;
   let stringStart = 0;
   for (let index = 0; index < text.length; index += 1) {
-    const char = text[index]!;
+    const char = text.charAt(index);
     if (inString) {
       if (escaped) escaped = false;
       else if (char === "\\") escaped = true;
@@ -247,10 +250,10 @@ async function lintFile(file: string): Promise<FileResult> {
       const span = spans[index] ?? { start: 0, end: text.length };
       issues.push({
         file: shown,
-        line: lineFor(text, starts, span, fieldOf(rule[2]!)),
-        ruleId: rule[1]!,
+        line: lineFor(text, starts, span, fieldOf(required(rule[2], "the field"))),
+        ruleId: required(rule[1], "the rule id"),
         message,
-        hint: hintFor(rule[2]!),
+        hint: hintFor(required(rule[2], "the field")),
       });
       continue;
     }
@@ -267,7 +270,7 @@ async function lintFile(file: string): Promise<FileResult> {
   const ids: FileResult["ids"] = [];
   rules.forEach((candidate, index) => {
     if (!isRecord(candidate) || typeof candidate.id !== "string") return;
-    ids.push({ id: candidate.id, line: lineAt(starts, spans[index]!.start) });
+    ids.push({ id: candidate.id, line: lineAt(starts, required(spans[index], "the span").start) });
   });
   return { rules: rules.length, issues, ids };
 }
@@ -282,7 +285,7 @@ export async function lintRuleFiles(files: readonly string[]): Promise<RuleLintR
 
   const firstUse = new Map<string, { file: string; line: number }>();
   results.forEach((result, index) => {
-    const file = files[index]!;
+    const file = required(files[index], "the linted file");
     for (const { id, line } of result.ids) {
       const first = firstUse.get(id);
       if (first === undefined) {

@@ -1,6 +1,7 @@
 import type { Finding } from "./domain.js";
 import { parsePurl, PurlError } from "./purl.js";
 import type { RegistryV2Rule } from "./registry.js";
+import { required } from "./required.js";
 
 /** Renovate's published JSON Schema URL. Presets that include it validate with renovate-config-validator. */
 export const RENOVATE_SCHEMA = "https://docs.renovatebot.com/renovate-schema.json";
@@ -79,9 +80,9 @@ function pythonFloorFromMaximum(maximumVersion: unknown): string | undefined {
   if (typeof maximumVersion !== "string" || !/^\d+(?:\.\d+)*$/.test(maximumVersion)) return undefined;
   const parts = maximumVersion.split(".").map(Number);
   if (parts.some((part) => !Number.isInteger(part))) return undefined;
-  if (parts.length === 1) return `>=${parts[0]! + 1}`;
+  if (parts.length === 1) return `>=${required(parts[0], "the major version") + 1}`;
   const next = [...parts];
-  next[next.length - 1] = next[next.length - 1]! + 1;
+  next[next.length - 1] = required(next[next.length - 1], "the patch part") + 1;
   while (next.length < 3) next.push(0);
   return `>=${next.join(".")}`;
 }
@@ -127,7 +128,7 @@ export function buildRenovatePreset(findings: readonly Finding[], rules: readonl
       if (!allowedVersions) continue;
       const key = "node-version\0node";
       const existing = runtimes.get(key);
-      if (!existing || compareVersionFloors(allowedVersions, existing.allowedVersions!) > 0) {
+      if (!existing || compareVersionFloors(allowedVersions, required(existing.allowedVersions, "stored floor")) > 0) {
         runtimes.set(key, {
           description: `Evergreen: keep Node.js on a supported release (${finding.ruleId})`,
           matchDatasources: ["node-version"],
@@ -144,7 +145,7 @@ export function buildRenovatePreset(findings: readonly Finding[], rules: readonl
       if (!allowedVersions) continue;
       const key = "docker\0python";
       const existing = runtimes.get(key);
-      if (!existing || compareVersionFloors(allowedVersions, existing.allowedVersions!) > 0) {
+      if (!existing || compareVersionFloors(allowedVersions, required(existing.allowedVersions, "stored floor")) > 0) {
         runtimes.set(key, {
           description: `Evergreen: keep Python on a supported release (${finding.ruleId})`,
           matchDatasources: ["docker"],

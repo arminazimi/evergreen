@@ -1,6 +1,7 @@
 import type { ScanResult } from "./domain.js";
 import { addDays } from "./forecast.js";
 import type { Forecast } from "./forecast.js";
+import { required } from "./required.js";
 
 /** The most support-window bars a chart draws. The rest are counted in the line below it. */
 export const MERMAID_MAX_BARS = 40;
@@ -14,7 +15,7 @@ export function escapeMermaid(value: string): string {
   return value
     .replace(/\s+/g, " ")
     .trim()
-    .replace(/[#:;]/g, (character) => escapes[character]!);
+    .replace(/[#:;]/g, (character) => required(escapes[character], "the mermaid escape"));
 }
 
 interface SupportWindow {

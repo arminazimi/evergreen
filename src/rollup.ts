@@ -3,6 +3,7 @@ import { basename, dirname, extname } from "node:path";
 
 import { severityValues } from "./domain.js";
 import type { ScanResult, Severity } from "./domain.js";
+import { required } from "./required.js";
 
 export class RollupError extends Error {}
 
@@ -240,7 +241,7 @@ export function renderRollupText(result: RollupResult): string {
 const HTML_ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 
 export function escapeHtml(value: string | number): string {
-  return String(value).replace(/[&<>"']/g, (char) => HTML_ESCAPES[char]!);
+  return String(value).replace(/[&<>"']/g, (char) => required(HTML_ESCAPES[char], "the html escape"));
 }
 
 const ROLLUP_HTML_STYLE = `body{font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0 auto;max-width:64rem;padding:2rem 1.5rem;color:#1b1f24;background:#fff}
