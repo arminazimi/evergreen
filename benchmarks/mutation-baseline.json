@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "evergreen.mutation-baseline.v1",
+  "note": "Per-file mutation scores measured from the nightly mutation workflow on main. A score may rise or a file may be added; a score may never fall and a live file's entry may never be removed. Run the mutation baseline tool with --update after a complete run to record an improvement. See docs/QUALITY.md section 7.",
+  "measured": "2026-11-04",
+  "overall": 59.68,
+  "files": [
+    { "file": "src/baseline.ts", "score": 72.78 },
+    { "file": "src/diff.ts", "score": 57.94 },
+    { "file": "src/engine.ts", "score": 23.93 },
+    { "file": "src/vers/gem.ts", "score": 72.41 },
+    { "file": "src/vers/maven.ts", "score": 83.1 },
+    { "file": "src/vers/nuget.ts", "score": 84.56 },
+    { "file": "src/vers/pep440.ts", "score": 78.28 },
+    { "file": "src/vers/semver.ts", "score": 68.57 }
+  ]
+}

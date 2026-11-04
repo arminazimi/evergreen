@@ -183,6 +183,14 @@ jobs:
           set -euo pipefail
           git fetch --no-tags origin main
           node dist/tools/check-quality.js --against origin/main
+      - name: Guard the mutation baseline against main
+        # A pull request may raise a mutation score or add a file, never lower one or remove a live file's entry.
+        if: (github.event_name == 'pull_request' || github.event_name == 'merge_group') && runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          node dist/tools/mutation-baseline.js --against origin/main
       - name: Audit dependencies (runtime, then the full lockfile)
         # The runtime tree must have no advisory at any level. The full lockfile may carry only the medium and
         # low advisories listed by id in benchmarks/quality-allowlist.json; high and critical always fail.

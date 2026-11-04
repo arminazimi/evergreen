@@ -50,7 +50,7 @@ Before is `origin/main` measured by the same checker; after is this pull request
 | 4 | Type safety | Zero explicit `any` and zero `@ts-ignore` / `@ts-expect-error`; `as unknown as` and non-null assertions may not grow; `noImplicitOverride`, `noUnusedLocals`, `noUnusedParameters` on | `npm run check:quality`, `npm run build` | 0 `any`, 0 `@ts-ignore`, 9 `as unknown as`, 589 non-null | same counts, all allowlisted; three flags on | Enforced |
 | 5 | Boundaries | Import and trust rules in [AGENTS.md](../AGENTS.md#architecture-boundaries) hold; see the list below | `npm run check:quality` | 1 violation (adapter imports a detector) | allowlisted (1) | Partly enforced |
 | 6 | Coverage | Lines ≥93, branches ≥87, functions ≥93; no total falls below main | CI floors on pull requests and pushes; baseline check against main | 94.75 / 87.04 / 94.60 (2026-11-01) | 94.69 / 87.10 / 94.65 (2026-11-02) | Enforced on pull requests |
-| 7 | Mutation score | Break at 60, high at 80, on the mutated core | nightly `mutation.yml` (not in `npm run check`) | not measured since `break` is `null` | unchanged | Not gated yet; condition below |
+| 7 | Mutation score | Each file's score may not fall; overall break at 60, high at 80, on the mutated core | nightly `mutation.yml` baseline check (not in `npm run check`); `ci.yml` guards the baseline on pull requests | not measured | 59.68% overall (2026-11-04); per-file baselines recorded | Ratchet enforced nightly; overall break pending #2282 |
 | 8 | Docs | Generated indexes, pages, LLM index, data API, and site build agree; links and accessibility clean | `npm run check`, the `check:*` steps in `ci.yml` | generated checks pass; site links report-only | generated checks now all gate CI; links report-only | Partly enforced |
 | 9 | Security | No high or critical advisory; no moderate or low advisory without an allowlist entry; runtime audit clean; Scorecard ≥6.0 | `npm audit` steps in `ci.yml`; `scorecard-floor.yml` (weekly) | runtime 0; root lockfile 5 medium, 2 low; Scorecard 4.8 | same advisories, allowlisted by id; floor alert added | Enforced; Scorecard alert fails until ≥6.0 |
 | 10 | Remaining debt | Every allowlist entry is at its measured value and expires by 2027-01-26 | remaining debt: run `npm run check:quality -- --report` | 191 functions over 15; 589 non-null in 140 files | same totals, per directory in the report | Report only |
@@ -173,17 +173,27 @@ change without tests fails the floor.
 
 ## 7. Mutation score
 
-**Target.** On the mutated core (`src/engine.ts`, `src/baseline.ts`, `src/diff.ts`, `src/vers/**/*.ts`), the score
-stays at **60% or more** (`break`), with **80%** the high-water mark.
+**Target.** On the mutated core (`src/engine.ts`, `src/baseline.ts`, `src/diff.ts`, `src/vers/**/*.ts`), each
+file's score may not fall below the value in
+[`benchmarks/mutation-baseline.json`](../benchmarks/mutation-baseline.json), and the overall score stays at **60% or
+more** (`break`), with **80%** the high-water mark.
 
-**Enforced by.** Nothing yet. `npm run test:mutation` (Stryker) runs nightly in `mutation.yml` and publishes the
-score; a full run is not part of `npm run check`. `thresholds.break` stays `null` in this change because no
-complete measured score exists in the repository.
+**Enforced by.** The `report` job in `mutation.yml` merges the shard reports and runs `tools/mutation-baseline.js`
+(`npm run check:mutation`). A file whose score fell below its baseline fails the job with the file and the
+difference. A new file without a baseline entry must meet the 60% target, and a baseline entry whose file produces
+no mutants is stale and fails until it is removed. Pull requests cannot lower the ratchet: `ci.yml` runs the tool
+with `--against origin/main` and fails when a score falls or a live file's entry is removed. A maintainer records an
+improvement with `node dist/tools/mutation-baseline.js --update` from a complete report; it refuses to lower a
+score. The overall `thresholds.break` stays `null`; setting it is #2282. A full mutation run is not part of
+`npm run check`.
 
-**Condition to enforce it.** The first complete nightly run that writes a score to
-`artifacts/mutation-report.json` sets `thresholds.break` to 60 in its own pull request, records the score and date
-in this section, and lands within the v0.8.0 phase (before 2027-01-26). Until then, this criterion is reviewed,
-not gated.
+**Current.** Measured 2026-11-04 from the nightly report: overall **59.68%**. Per file: engine 23.93%, diff 57.94%,
+semver 68.57%, gem 72.41%, baseline 72.78%, pep440 78.28%, maven 83.10%, nuget 84.56%. The two files below the 60%
+target are existing debt owned by #2103 (engine) and the test-quality epic (#1992).
+
+**Condition to set the break threshold.** The overall score is 59.68% (2026-11-04). #2282 sets `thresholds.break`
+to 60, or to the measured score with a follow-up, and records the score and date here. That change makes the
+nightly job fail below the overall threshold; the per-file ratchet above already fails a fall.
 
 **Why these numbers.** They are Stryker's own defaults for `high` and `low`. Google's testing blog defines the
 mutation score as the ratio of mutants the tests detect.

@@ -183,6 +183,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
       - name: Download the shard reports
         continue-on-error: true
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
@@ -199,7 +208,11 @@ jobs:
           const shards = [];
           if (fs.existsSync(root)) {
             for (const name of fs.readdirSync(root).sort()) {
-              const artifacts = path.join(root, name, "artifacts");
+              // Each artifact extracts to its own directory. upload-artifact flattens the path, so
+              // the files sit at the artifact root; accept both shapes.
+              const directories = [path.join(root, name, "artifacts"), path.join(root, name)];
+              const artifacts = directories.find((directory) => fs.existsSync(path.join(directory, "mutation-shard.json")));
+              if (artifacts === undefined) continue;
               const metaPath = path.join(artifacts, "mutation-shard.json");
               const reportPath = path.join(artifacts, "mutation-report.json");
               if (!fs.existsSync(metaPath) || !fs.existsSync(reportPath)) continue;
@@ -303,6 +316,10 @@ jobs:
             `${lines.join("\n")}\n`,
           );
           EOF
+      - name: Enforce the mutation score baseline
+        # The baseline may only rise. A file below its recorded score fails with the file and the difference.
+        if: always() && hashFiles('artifacts/mutation-report.json') != ''
+        run: node dist/tools/mutation-baseline.js --report artifacts/mutation-report.json --summary "$GITHUB_STEP_SUMMARY"
       - name: Upload the combined mutation report
         if: always() && hashFiles('artifacts/mutation-report.json') != ''
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
