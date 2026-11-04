@@ -34,8 +34,8 @@ function reasonOf(
 }
 
 test("the fixer output matches the after fixture and refuses ambiguous, distro-changing and digest-pinned images", async () => {
-  const before = await readFile(join(fixtures, "before.Dockerfile"), "utf8");
-  const after = await readFile(join(fixtures, "after.Dockerfile"), "utf8");
+  const before = await readFile(join(fixtures, "before.image.fixture"), "utf8");
+  const after = await readFile(join(fixtures, "after.image.fixture"), "utf8");
   const compose = "services:\n  web:\n    image: node:20\n";
   const root = await repository({ Dockerfile: before, "deploy/compose.yaml": compose });
   const refusals: Array<{ path: string; line: number | undefined; reason: string }> = [];
@@ -76,7 +76,7 @@ test("the fixer output matches the after fixture and refuses ambiguous, distro-c
 });
 
 test("the planned patch is idempotent: scanning the fixed file plans nothing", async () => {
-  const root = await repository({ Dockerfile: await readFile(join(fixtures, "after.Dockerfile"), "utf8") });
+  const root = await repository({ Dockerfile: await readFile(join(fixtures, "after.image.fixture"), "utf8") });
   assert.deepEqual(await dockerfileBaseImageFixer.plan(await scanRepository(root, detectors)), []);
 });
 

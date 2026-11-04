@@ -5,6 +5,12 @@ These fixtures define the parser boundary for container base-image declarations
 return exact one-based line numbers, ignore dynamic or unsupported forms, and
 never throw for malformed input.
 
+Files a dependency scanner reads by name are committed with a `.fixture` suffix and
+the `image` segment standing in for `Dockerfile`, because scanners match that word
+anywhere in a name (see [decision 0027](../../../docs/decisions/0027-fixtures-invisible-to-scanners.md)).
+`copyFixtureTree` in `tests/fixture-copies.ts` restores the real names in a temporary
+directory, so tests see the paths listed below.
+
 | Fixture | Expected case |
 | --- | --- |
 | `positive/Dockerfile` | Literal `FROM` lines: a tagged image with a stage name, one with `--platform`, and a fully qualified Docker Hub reference. |

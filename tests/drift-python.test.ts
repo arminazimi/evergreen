@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join, resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
@@ -11,8 +11,18 @@ import { analyzeDrift } from "../src/drift/index.js";
 import { pythonCollector } from "../src/drift/python.js";
 import type { RuntimePin } from "../src/drift/index.js";
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/drift/python");
+let fixtures: string;
+const temporaryRoots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/drift/python"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 const run = (...args: string[]) => runCli(args);
 

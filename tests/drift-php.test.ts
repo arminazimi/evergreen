@@ -3,21 +3,28 @@ import { spawnSync } from "node:child_process";
 import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { analyzeDrift } from "../src/drift/index.js";
 import { phpDriftCollector } from "../src/drift/php.js";
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
 async function run(...args: string[]) {
   return runCli(args);
 }
-const fixture = (name: string) => resolve("tests/fixtures/drift/php", name);
+let fixtures: string;
+const roots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/drift/php"), roots);
+});
+
+const fixture = (name: string) => resolve(fixtures, name);
 const collect = async (name: string) => (await analyzeDrift(fixture(name), [phpDriftCollector])).runtimes[0]!;
 
-const roots: string[] = [];
 after(async () => {
   await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
 });

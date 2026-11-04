@@ -208,7 +208,7 @@ test("the init command writes the hook and honors --dry-run", async () => {
 
 test("end to end: writing FROM node:16 gets the rule and replacement back on stderr with exit 2", async () => {
   const root = await repository();
-  const template = await fixture("repo/Dockerfile.template");
+  const template = await fixture("repo/image.template.fixture");
   await writeFile(join(root, "Dockerfile"), template.replace("{{NODE_LINE}}", "16"));
   await writeFile(join(root, "README.md"), "# App\n");
   const cache = await repository();

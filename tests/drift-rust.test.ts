@@ -4,16 +4,21 @@ import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promis
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { promisify } from "node:util";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
 const execute = promisify(execFile);
 
-const fixtures = resolve("tests/fixtures/drift/rust");
+let fixtures: string;
 const temporaryRoots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/drift/rust"), temporaryRoots);
+});
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));

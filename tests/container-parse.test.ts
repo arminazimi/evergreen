@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import {
   MAXIMUM_INPUT_BYTES,
@@ -9,9 +9,21 @@ import {
   parseDockerfile,
 } from "../src/detectors/container/parse-dockerfile.js";
 import { parseImageReference } from "../src/detectors/container/parse-image.js";
+import { copyFixtureTree } from "./fixture-copies.js";
+
+let fixtures: string;
+const temporaryRoots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/container"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 async function fixture(caseName: string, file: string): Promise<string> {
-  return readFile(resolve("tests/fixtures/container", caseName, file), "utf8");
+  return readFile(resolve(fixtures, caseName, file), "utf8");
 }
 
 test("parses FROM lines with stage names, platforms, and qualified references", async () => {

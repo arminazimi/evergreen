@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { evidenceCheck } from "../src/conformance/checks/evidence.js";
@@ -12,9 +12,14 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { containerDetector } from "../src/detectors/container/index.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/container");
+let fixtures: string;
 const temporaryRoots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/container"), temporaryRoots);
+});
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));

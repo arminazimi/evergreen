@@ -5,10 +5,12 @@
 // The fixtures live in `tests/fixtures/<rule-id>/match` and `tests/fixtures/<rule-id>/clean`. The match fixture
 // must observe the rule; the clean fixture must not. Both directories are scanned as untrusted input and offline.
 
-import { readdir, readFile, stat } from "node:fs/promises";
+import { cp, mkdtemp, readdir, readFile, rm, stat } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
 
 import { builtInDetectors } from "./detectors/index.js";
+import { restoreFixtureNames } from "./fixture-names.js";
 import type { Finding, SourceUsage, UsageMatcher } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { runInventory } from "./inventory/index.js";
@@ -159,6 +161,28 @@ async function inventoryObservations(directory: string, ruleId: string): Promise
     }));
 }
 
+/** Restores the fixture's real file names in a temporary copy, then observes the rule there. */
+async function observeFixture(
+  fixture: string,
+  ruleId: string,
+  rule: Record<string, unknown>,
+): Promise<{ findings: FixtureObservation[]; usages: FixtureObservation[] }> {
+  const materialized = await mkdtemp(join(tmpdir(), "evergreen-rule-test-"));
+  try {
+    await cp(fixture, materialized, { recursive: true });
+    await restoreFixtureNames(materialized);
+    const scan = await scanRepository(materialized, builtInDetectors, { noCache: true });
+    const findings = [
+      ...findingObservations(scan.findings.filter((finding) => finding.ruleId === ruleId)),
+      ...(await inventoryObservations(materialized, ruleId)),
+    ];
+    const usages = findings.length > 0 ? [] : await usageObservations(materialized, ruleId, rule);
+    return { findings, usages };
+  } finally {
+    await rm(materialized, { recursive: true, force: true });
+  }
+}
+
 async function isDirectory(path: string): Promise<boolean> {
   try {
     return (await stat(path)).isDirectory();
@@ -200,12 +224,7 @@ export async function testRule(ruleId: string, options: RuleTestOptions = {}): P
       });
       continue;
     }
-    const scan = await scanRepository(fixture, builtInDetectors, { noCache: true });
-    const findings = [
-      ...findingObservations(scan.findings.filter((finding) => finding.ruleId === ruleId)),
-      ...(await inventoryObservations(fixture, ruleId)),
-    ];
-    const usages = findings.length > 0 ? [] : await usageObservations(fixture, ruleId, found.rule);
+    const { findings, usages } = await observeFixture(fixture, ruleId, found.rule);
     const observed = findings.length > 0 || usages.length > 0;
     if (kind === "match") {
       fixtures.push({

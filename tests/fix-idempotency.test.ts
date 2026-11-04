@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { cp, mkdtemp, readdir, rm, stat, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { readdir, rm, stat, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { after, test } from "node:test";
@@ -9,6 +8,7 @@ import { after, test } from "node:test";
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 import { fixers, renderPatches, type Fixer } from "../src/fix/index.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
 const execute = promisify(execFile);
 const fixtures = resolve("tests/fixtures/fix-idempotency");
@@ -20,9 +20,7 @@ after(async () => {
 
 /** Copies a fixer's fixture repository into a scratch git repository. */
 async function repository(fixer: Fixer): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-fix-idempotency-"));
-  temporaryRoots.push(root);
-  await cp(join(fixtures, fixer.id), root, { recursive: true });
+  const root = await copyFixtureTree(join(fixtures, fixer.id), temporaryRoots);
   await execute("git", ["init", "-q"], { cwd: root });
   await execute("git", ["config", "core.autocrlf", "false"], { cwd: root });
   return root;

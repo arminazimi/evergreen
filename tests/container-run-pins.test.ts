@@ -1,12 +1,22 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { containerDetector } from "../src/detectors/container/index.js";
 import { parseDockerfile } from "../src/detectors/container/parse-dockerfile.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/container-run-pins");
+let fixtures: string;
+const temporaryRoots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/container-run-pins"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 async function scan(caseName: string) {
   return containerDetector.scan({ root: resolve(fixtures, caseName) });

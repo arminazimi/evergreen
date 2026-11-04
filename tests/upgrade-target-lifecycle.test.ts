@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
@@ -23,9 +23,14 @@ import {
 } from "../src/upgrade/target-lifecycle.js";
 import type { RuntimePin } from "../src/upgrade/target-lifecycle.js";
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/upgrade/target-lifecycle");
+let fixtures: string;
 const temporaryRoots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/upgrade/target-lifecycle"), temporaryRoots);
+});
 
 /** A fixed day inside the 2026-11-10 dotnet horizon and after every already-past deadline used below. */
 const day = "2026-11-04";
