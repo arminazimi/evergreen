@@ -644,7 +644,7 @@
       "count": 2
     },
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 4
+      "count": 3
     }
   },
   "src/usage-log.ts": {

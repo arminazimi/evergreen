@@ -4,7 +4,17 @@ import { resolve } from "node:path";
 import { after, before, test } from "node:test";
 
 import { checkUpgrade } from "../src/upgrade/index.js";
+import type { ParsedVersion } from "../src/upgrade/pep440.js";
+import { evaluateEntry, evaluateMarker } from "../src/upgrade/uv-pdm-lock.js";
 import { copyFixtureTree } from "./fixture-copies.js";
+
+const parsed = (release: number[]): ParsedVersion => ({ epoch: 0, release });
+const targetPython313 = { full: parsed([3, 13, 0]), minor: parsed([3, 13]) };
+const blockLines = (fields: Record<string, number> = {}, wheelUrls: number[] = []) => ({
+  fields: new Map(Object.entries(fields)),
+  wheelUrls,
+});
+const wheel = (tag: string, abi: string) => ({ url: `https://files.example/pkg-1.0-${tag}-${abi}-linux.whl` });
 
 const temporaryRoots: string[] = [];
 let fixtures: string;
@@ -158,4 +168,95 @@ test("an invalid lockfile is unknown, never a match", async () => {
       evidence: { kind: "lockfile", value: "uv.lock: invalid TOML" },
     },
   ]);
+});
+
+test("evaluateMarker classifies Python clauses", () => {
+  assert.equal(evaluateMarker("python_full_version < '3.9'", targetPython313), "excludes");
+  assert.equal(evaluateMarker("python_version >= '3.8'", targetPython313), "allows");
+  assert.equal(evaluateMarker("python_version >= '3.8' and sys_platform == 'linux'", targetPython313), "allows");
+  assert.equal(evaluateMarker("sys_platform == 'linux'", targetPython313), "allows");
+  assert.equal(evaluateMarker("python_version ~= '3.9'", targetPython313), "unknown");
+  assert.equal(evaluateMarker("python_version >= '3.8' or sys_platform == 'linux'", targetPython313), "unknown");
+  assert.equal(evaluateMarker("python_version >= '3.8'", undefined), "unknown");
+});
+
+test("evaluateEntry reads resolution-markers before wheels", () => {
+  assert.deepEqual(
+    evaluateEntry(
+      { "resolution-markers": ["python_version >= '3.8'"], wheels: [wheel("cp39", "cp39m")] },
+      blockLines({ "resolution-markers": 5, wheels: 6 }),
+      targetPython313,
+    ),
+    { verdict: "allows", value: "resolution-markers", line: 5 },
+  );
+  assert.deepEqual(
+    evaluateEntry(
+      {
+        "resolution-markers": ["python_version < '3.9'", "python_version >= '3.14'"],
+        wheels: [wheel("cp39", "abi3")],
+      },
+      blockLines({ "resolution-markers": 7, wheels: 8 }),
+      targetPython313,
+    ),
+    { verdict: "excludes", value: "resolution-markers: python_version < '3.9'", line: 7 },
+  );
+});
+
+test("evaluateEntry reports markers it cannot read as unknown", () => {
+  assert.deepEqual(
+    evaluateEntry(
+      { "resolution-markers": "python_version < '3.9'" },
+      blockLines({ "resolution-markers": 3 }),
+      targetPython313,
+    ),
+    { verdict: "unknown", value: "resolution-markers", line: 3 },
+  );
+  assert.deepEqual(
+    evaluateEntry(
+      { "resolution-markers": ["python_version ~= '3.9'"] },
+      blockLines({ "resolution-markers": 4 }),
+      targetPython313,
+    ),
+    { verdict: "unknown", value: "resolution-markers: python_version ~= '3.9'", line: 4 },
+  );
+});
+
+test("evaluateEntry falls back to wheels only when there is no sdist", () => {
+  assert.deepEqual(
+    evaluateEntry(
+      { sdist: {}, wheels: [wheel("cp39", "cp39m")] },
+      blockLines({ wheels: 2, __block: 1 }),
+      targetPython313,
+    ),
+    { verdict: "none", value: "resolution-markers", line: 1 },
+  );
+  assert.deepEqual(
+    evaluateEntry({ wheels: [wheel("cp39", "abi3")] }, blockLines({ wheels: 2, __block: 1 }), targetPython313),
+    { verdict: "allows", value: "wheels", line: 2 },
+  );
+});
+
+test("evaluateEntry reports wheel bounds and the first excluding wheel's line", () => {
+  assert.deepEqual(
+    evaluateEntry({ wheels: [wheel("cp39", "cp39m")] }, blockLines({ wheels: 2, __block: 1 }, [7]), targetPython313),
+    { verdict: "excludes", value: "wheels: cp39-cp39m", line: 7 },
+  );
+  assert.deepEqual(evaluateEntry({ wheels: [{}] }, blockLines({ wheels: 3, __block: 1 }), targetPython313), {
+    verdict: "unknown",
+    value: "wheels",
+    line: 3,
+  });
+  assert.deepEqual(
+    evaluateEntry({ wheels: [wheel("cp3x", "cp3x")] }, blockLines({ wheels: 4, __block: 1 }), targetPython313),
+    { verdict: "unknown", value: "wheels: cp3x", line: 4 },
+  );
+  assert.deepEqual(
+    evaluateEntry({ wheels: [wheel("py3", "none")] }, blockLines({ wheels: 5, __block: 1 }), targetPython313),
+    { verdict: "allows", value: "wheels", line: 5 },
+  );
+  assert.deepEqual(evaluateEntry({}, blockLines({ __block: 9 }), targetPython313), {
+    verdict: "none",
+    value: "resolution-markers",
+    line: 9,
+  });
 });

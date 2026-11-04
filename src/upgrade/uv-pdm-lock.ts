@@ -108,39 +108,59 @@ interface BoundEvidence {
   line: number;
 }
 
+interface MarkerClause {
+  readonly variable: string;
+  readonly operator: string;
+  readonly version: string;
+}
+
+/** Comparison operator to the predicate it applies to `compareVersions`. */
+const COMPARATORS: Readonly<Record<string, (comparison: number) => boolean>> = {
+  "===": (comparison) => comparison === 0,
+  "==": (comparison) => comparison === 0,
+  "!=": (comparison) => comparison !== 0,
+  ">=": (comparison) => comparison >= 0,
+  "<=": (comparison) => comparison <= 0,
+  ">": (comparison) => comparison > 0,
+  "<": (comparison) => comparison < 0,
+};
+
+function holdsComparator(operator: string, comparison: number): boolean {
+  const compare = COMPARATORS[operator];
+  return compare === undefined ? false : compare(comparison);
+}
+
+/** A well-formed Python clause, `"unknown"` for one this matcher cannot read, and undefined for another variable. */
+function parseMarkerClause(text: string): MarkerClause | "unknown" | undefined {
+  const clause = /^(python_full_version|python_version)\s*(===|==|!=|>=|<=|>|<)\s*(["'])([^"']+)\3$/.exec(text);
+  if (clause) return { variable: clause[1] ?? "", operator: clause[2] ?? "", version: clause[4] ?? "" };
+  return /^python(_full)?_version\b/.test(text) ? "unknown" : undefined;
+}
+
+/** Whether one clause holds for the target, or undefined when either side cannot be read. */
+function clauseHolds(clause: MarkerClause, target: PythonTarget | undefined): boolean | undefined {
+  const bound = parseVersion(clause.version);
+  if (!target || !bound) return undefined;
+  const left = clause.variable === "python_full_version" ? target.full : target.minor;
+  return holdsComparator(clause.operator, compareVersions(left, bound));
+}
+
 /**
  * One `resolution-markers` string is an AND of clauses (uv writes each fork as its own string, an OR).
  * Clauses about other variables (`sys_platform`, `platform_system`) do not bound Python, and a string
  * without any Python clause leaves the resolution open for every release, so it allows.
  */
-function evaluateMarker(marker: string, target: PythonTarget | undefined): BoundVerdict {
+export function evaluateMarker(marker: string, target: PythonTarget | undefined): BoundVerdict {
   if (/\bor\b|[()]/.test(marker)) return "unknown";
   let sawBound = false;
   let allTrue = true;
   for (const raw of marker.split(/\s+and\s+/)) {
-    const text = raw.trim();
-    const clause = /^(python_full_version|python_version)\s*(===|==|!=|>=|<=|>|<)\s*(["'])([^"']+)\3$/.exec(text);
-    if (!clause) {
-      if (/^python(_full)?_version\b/.test(text)) return "unknown";
-      continue;
-    }
+    const clause = parseMarkerClause(raw.trim());
+    if (clause === "unknown") return "unknown";
+    if (clause === undefined) continue;
     sawBound = true;
-    const bound = parseVersion(clause[4] ?? "");
-    if (!target || !bound) return "unknown";
-    const left = clause[1] === "python_full_version" ? target.full : target.minor;
-    const comparison = compareVersions(left, bound);
-    const holds =
-      clause[2] === "===" || clause[2] === "=="
-        ? comparison === 0
-        : clause[2] === "!="
-          ? comparison !== 0
-          : clause[2] === ">="
-            ? comparison >= 0
-            : clause[2] === "<="
-              ? comparison <= 0
-              : clause[2] === ">"
-                ? comparison > 0
-                : comparison < 0;
+    const holds = clauseHolds(clause, target);
+    if (holds === undefined) return "unknown";
     if (!holds) allTrue = false;
   }
   return !sawBound || allTrue ? "allows" : "excludes";
@@ -181,74 +201,103 @@ function compareMinors(left: MinorRelease, right: MinorRelease): number {
   return left[0] - right[0] || left[1] - right[1];
 }
 
+interface KnownWheel {
+  tag: string;
+  abi: string;
+  bound: "any" | MinorRelease;
+}
+
+/** The verdict from `resolution-markers`, or undefined when the entry has none to judge. */
+function evaluateMarkers(
+  markers: unknown,
+  lines: BlockLines,
+  target: PythonTarget | undefined,
+): BoundEvidence | undefined {
+  if (markers === undefined) return undefined;
+  const markerLine = lines.fields.get("resolution-markers") ?? lines.fields.get("__block") ?? 1;
+  if (!Array.isArray(markers) || markers.some((marker) => typeof marker !== "string")) {
+    return { verdict: "unknown", value: "resolution-markers", line: markerLine };
+  }
+  const verdicts = markers.map((marker) => evaluateMarker(marker, target));
+  if (verdicts.includes("allows")) return { verdict: "allows", value: "resolution-markers", line: markerLine };
+  const unknownMarker = markers[verdicts.indexOf("unknown")];
+  if (typeof unknownMarker === "string") {
+    return { verdict: "unknown", value: `resolution-markers: ${unknownMarker}`, line: markerLine };
+  }
+  const excludingMarker = markers[verdicts.indexOf("excludes")];
+  if (typeof excludingMarker === "string") {
+    return { verdict: "excludes", value: `resolution-markers: ${excludingMarker}`, line: markerLine };
+  }
+  return undefined;
+}
+
+/** Whether one wheel's tag accepts the target: `abi3` accepts that minor and later, others only the exact minor. */
+function wheelAllows(bound: KnownWheel, target: PythonTarget | undefined): boolean {
+  if (bound.bound === "any") return true;
+  if (!target) return false;
+  const targetMinor = target.minor.release as MinorRelease;
+  return bound.abi === "abi3"
+    ? compareMinors(targetMinor, bound.bound) >= 0
+    : compareMinors(targetMinor, bound.bound) === 0;
+}
+
+/** Reads every wheel's tag, or the first problem that makes the wheels unreadable. */
+function readKnownWheels(wheels: unknown[], wheelsLine: number): { known: KnownWheel[] } | { problem: BoundEvidence } {
+  const known: KnownWheel[] = [];
+  for (const wheel of wheels) {
+    const entry = asRecord(wheel);
+    if (!entry || typeof entry.url !== "string") {
+      return { problem: { verdict: "unknown", value: "wheels", line: wheelsLine } };
+    }
+    const bound = wheelPythonTag(entry.url);
+    if (!bound || bound.bound === undefined) {
+      const tag = bound?.tag ?? entry.url.split("/").pop() ?? entry.url;
+      return { problem: { verdict: "unknown", value: `wheels: ${tag}`, line: wheelsLine } };
+    }
+    known.push({ tag: bound.tag, abi: bound.abi, bound: bound.bound });
+  }
+  return { known };
+}
+
+/** Evidence for wheels that all exclude the target, pointing at the first wheel that stated a bound. */
+function excludeWheels(known: KnownWheel[], lines: BlockLines, wheelsLine: number): BoundEvidence {
+  const tags = [...new Set(known.map((bound) => `${bound.tag}-${bound.abi}`))].sort().join(", ");
+  const first = known.findIndex((bound) => bound.bound !== "any");
+  const line = (first >= 0 ? lines.wheelUrls[first] : undefined) ?? wheelsLine;
+  return { verdict: "excludes", value: `wheels: ${tags}`, line };
+}
+
+/** The verdict from wheels, or undefined when the entry has an sdist or no wheels to judge. */
+function evaluateWheels(
+  record: UnknownRecord,
+  lines: BlockLines,
+  target: PythonTarget | undefined,
+): BoundEvidence | undefined {
+  if (record.sdist !== undefined || !Array.isArray(record.wheels)) return undefined;
+  const wheelsLine = lines.fields.get("wheels") ?? lines.fields.get("__block") ?? 1;
+  const read = readKnownWheels(record.wheels, wheelsLine);
+  if ("problem" in read) return read.problem;
+  if (read.known.length === 0) return undefined;
+  if (read.known.some((bound) => wheelAllows(bound, target))) {
+    return { verdict: "allows", value: "wheels", line: lines.fields.get("wheels") ?? 1 };
+  }
+  return excludeWheels(read.known, lines, wheelsLine);
+}
+
 /**
  * An entry is judged from its `resolution-markers`, and from its wheels only when no sdist exists
  * (an sdist builds everywhere, so wheels alone never bound the package). `none` means this file
  * states no Python bound for the entry, and nothing may be reported for it.
  */
-function evaluateEntry(record: UnknownRecord, lines: BlockLines, target: PythonTarget | undefined): BoundEvidence {
-  const markers = record["resolution-markers"];
-  if (markers !== undefined) {
-    const markerLine = lines.fields.get("resolution-markers") ?? lines.fields.get("__block") ?? 1;
-    if (!Array.isArray(markers) || markers.some((marker) => typeof marker !== "string")) {
-      return { verdict: "unknown", value: "resolution-markers", line: markerLine };
-    }
-    const verdicts = markers.map((marker) => evaluateMarker(marker, target));
-    if (verdicts.includes("allows")) return { verdict: "allows", value: "resolution-markers", line: markerLine };
-    const unknownMarker = markers[verdicts.indexOf("unknown")];
-    if (typeof unknownMarker === "string")
-      return { verdict: "unknown", value: `resolution-markers: ${unknownMarker}`, line: markerLine };
-    const excludingMarker = markers[verdicts.indexOf("excludes")];
-    if (typeof excludingMarker === "string") {
-      return { verdict: "excludes", value: `resolution-markers: ${excludingMarker}`, line: markerLine };
-    }
-  }
-
-  if (record.sdist === undefined && Array.isArray(record.wheels)) {
-    const known: Array<{ tag: string; abi: string; bound: "any" | MinorRelease }> = [];
-    for (const wheel of record.wheels) {
-      const entry = asRecord(wheel);
-      if (!entry || typeof entry.url !== "string") {
-        return {
-          verdict: "unknown",
-          value: "wheels",
-          line: lines.fields.get("wheels") ?? lines.fields.get("__block") ?? 1,
-        };
-      }
-      const bound = wheelPythonTag(entry.url);
-      if (!bound || bound.bound === undefined) {
-        const tag = bound?.tag ?? entry.url.split("/").pop() ?? entry.url;
-        return {
-          verdict: "unknown",
-          value: `wheels: ${tag}`,
-          line: lines.fields.get("wheels") ?? lines.fields.get("__block") ?? 1,
-        };
-      }
-      known.push({ tag: bound.tag, abi: bound.abi, bound: bound.bound });
-    }
-    if (known.length > 0) {
-      const allows = known.some((bound) => {
-        if (bound.bound === "any") return true;
-        if (!target) return false;
-        return bound.abi === "abi3"
-          ? compareMinors(target.minor.release as MinorRelease, bound.bound) >= 0
-          : compareMinors(target.minor.release as MinorRelease, bound.bound) === 0;
-      });
-      if (allows) return { verdict: "allows", value: "wheels", line: lines.fields.get("wheels") ?? 1 };
-      const tags = [...new Set(known.map((bound) => `${bound.tag}-${bound.abi}`))].sort().join(", ");
-      const first = known.findIndex((bound) => bound.bound !== "any");
-      return {
-        verdict: "excludes",
-        value: `wheels: ${tags}`,
-        line:
-          (first >= 0 ? lines.wheelUrls[first] : undefined) ??
-          lines.fields.get("wheels") ??
-          lines.fields.get("__block") ??
-          1,
-      };
-    }
-  }
-
+export function evaluateEntry(
+  record: UnknownRecord,
+  lines: BlockLines,
+  target: PythonTarget | undefined,
+): BoundEvidence {
+  const byMarkers = evaluateMarkers(record["resolution-markers"], lines, target);
+  if (byMarkers) return byMarkers;
+  const byWheels = evaluateWheels(record, lines, target);
+  if (byWheels) return byWheels;
   return { verdict: "none", value: "resolution-markers", line: lines.fields.get("__block") ?? 1 };
 }
 

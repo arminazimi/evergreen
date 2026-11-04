@@ -1092,14 +1092,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/upgrade/uv-pdm-lock.ts",
-      "function": "evaluateEntry",
-      "lines": 65,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/usage/javascript.ts",
       "function": "analyzeJavaScriptFile",
       "lines": 182,
@@ -2498,22 +2490,6 @@
       "function": "analyzeUvLock",
       "complexity": 23,
       "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/uv-pdm-lock.ts",
-      "function": "evaluateEntry",
-      "complexity": 30,
-      "owner": "#2279",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/uv-pdm-lock.ts",
-      "function": "evaluateMarker",
-      "complexity": 18,
-      "owner": "#2279",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
