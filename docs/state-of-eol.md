@@ -9,14 +9,14 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 557 pinned repositories (3122 expected findings). The last full corpus run was commit `114f19b` on 2026-11-01 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 557 pinned repositories (3125 expected findings). The last full corpus run was commit `114f19b` on 2026-11-01 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
 | Repositories | 557 |
-| Expected findings | 3122 |
+| Expected findings | 3125 |
 | Products with findings | 140 |
-| Release lines with findings | 194 |
+| Release lines with findings | 195 |
 
 ### By product
 
@@ -43,12 +43,12 @@ Measured on the public corpus of 557 pinned repositories (3122 expected findings
 | atty | 24 | 1 | 23 |
 | ruby | 24 | 5 | 14 |
 | docker/login-action | 23 | 1 | 14 |
+| library/python | 22 | 2 | 18 |
 | aws-lambda-runtime/python3.14 | 21 | 1 | 1 |
 | docker/build-push-action | 20 | 1 | 11 |
 | babel-eslint | 19 | 1 | 18 |
 | cmake | 19 | 1 | 14 |
 | docker/setup-buildx-action | 19 | 1 | 13 |
-| library/python | 19 | 1 | 16 |
 | library/golang | 18 | 1 | 13 |
 | actions/setup-java | 17 | 1 | 8 |
 | next | 17 | 4 | 6 |
@@ -270,6 +270,7 @@ Measured on the public corpus of 557 pinned repositories (3122 expected findings
 | xcode | Xcode 15 through 25 are not accepted for App Store uploads | [`swift.xcode.app-store-15-through-25`](rules/swift.xcode.app-store-15-through-25.html) | end-of-support | 4 | 4 |
 | kubernetes/extensions/ReplicaSet | ReplicaSet extensions/v1beta1 is no longer served | [`kubernetes.extensions.replicaset.v1beta1.removed`](rules/kubernetes.extensions.replicaset.v1beta1.removed.html) | removed | 3 | 2 |
 | kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | ClusterRoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served | [`kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed`](rules/kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html) | removed | 3 | 2 |
+| library/python | Python image release line 3.11 reaches end-of-life on 2027-10-31 | [`container.python.eol-3.11-and-older`](rules/container.python.eol-3.11-and-older.html) | scheduled-end-of-life | 3 | 2 |
 | rollup-plugin-babel | rollup-plugin-babel is deprecated | [`npm.package.rollup-plugin-babel.deprecated`](rules/npm.package.rollup-plugin-babel.deprecated.html) | deprecated | 3 | 3 |
 | terraform | Terraform CLI 1.12 is no longer a supported release line | [`terraform.cli.end-of-support-1.12`](rules/terraform.cli.end-of-support-1.12.html) | end-of-support | 3 | 2 |
 | vue | Vue 2 is end-of-life | [`npm.package.vue.eol-2`](rules/npm.package.vue.eol-2.html) | end-of-life | 3 | 3 |

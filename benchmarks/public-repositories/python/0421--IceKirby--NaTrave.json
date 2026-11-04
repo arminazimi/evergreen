@@ -12,6 +12,15 @@
         "kind": "maintainer-review",
         "note": "Read runtime.txt:1 at this commit: `python-3.8.8`; the declaration matches the rule's affected range."
       }
+    },
+    {
+      "ruleId": "container.python.eol-3.11-and-older",
+      "path": "Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Python 3.11 image in Dockerfile is a container image on the 3.11 release line. Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-04 against the primary vendor page https://devguide.python.org/versions/: Python 3.11 is listed with a scheduled end-of-life of 2027-10 (italic, subject to change). Outcome: confirmed."
+      }
     }
   ]
 }

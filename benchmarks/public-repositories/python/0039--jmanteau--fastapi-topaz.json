@@ -93,6 +93,24 @@
         "kind": "maintainer-review",
         "note": "Reviewed at this commit: line 57 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major."
       }
+    },
+    {
+      "ruleId": "container.python.eol-3.11-and-older",
+      "path": "integration-tests/mock-location-api/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Python 3.11 image in integration-tests/mock-location-api/Dockerfile is a container image on the 3.11 release line. Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-04 against the primary vendor page https://devguide.python.org/versions/: Python 3.11 is listed with a scheduled end-of-life of 2027-10 (italic, subject to change). Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.11-and-older",
+      "path": "integration-tests/webapp/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Python 3.11 image in integration-tests/webapp/Dockerfile is a container image on the 3.11 release line. Vendor-checked by AI agent (Claude Code) under maintainer direction on 2026-11-04 against the primary vendor page https://devguide.python.org/versions/: Python 3.11 is listed with a scheduled end-of-life of 2027-10 (italic, subject to change). Outcome: confirmed."
+      }
     }
   ]
 }
