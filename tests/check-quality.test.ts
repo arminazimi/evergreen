@@ -413,6 +413,53 @@ test("non-null entries are one per file with a whole-number count; the old singl
   assert.match(single.problems[0]?.message ?? "", /must be an array of objects/);
 });
 
+test("as unknown as casts are a ceiling per file: a matching entry passes and a raised one fails", () => {
+  const casts = "const a = b as unknown as X;\nconst c = d as unknown as Y;\n";
+  const matches = evaluateQuality(
+    input({
+      files: withFillers(fileWith("src/a.ts", casts)),
+      allowlist: { ...EMPTY, asUnknownAs: [{ ...DEBT, file: "src/a.ts", count: 2 }] },
+    }),
+  );
+  assert.deepEqual(matches, []);
+
+  const raised = evaluateQuality(
+    input({
+      files: withFillers(fileWith("src/a.ts", casts)),
+      allowlist: { ...EMPTY, asUnknownAs: [{ ...DEBT, file: "src/a.ts", count: 1 }] },
+    }),
+  );
+  assert.match(raised.map((finding) => finding.message).join("\n"), /`as unknown as` grew from 1 to 2/);
+});
+
+test("as unknown as entries parse per file, and a stale or missing entry fails", () => {
+  const { allowlist, problems } = parseAllowlist({
+    schemaVersion: ALLOWLIST_SCHEMA,
+    asUnknownAs: [{ file: "src/a.ts", count: 2, owner: "#2230", expires: MAX_EXPIRY, reason: "x" }],
+  });
+  assert.deepEqual(problems, []);
+  assert.equal(allowlist.asUnknownAs[0]?.count, 2);
+
+  const stale = evaluateQuality(
+    input({
+      files: withFillers(fileWith("src/clean.ts", "export const a = 1;\n")),
+      allowlist: { ...EMPTY, asUnknownAs: [{ ...DEBT, file: "src/clean.ts", count: 1 }] },
+    }),
+  );
+  assert.match(
+    stale.map((finding) => finding.message).join("\n"),
+    /no `as unknown as` remain; remove this allowlist entry/,
+  );
+
+  const missing = evaluateQuality(
+    input({
+      files: withFillers(),
+      allowlist: { ...EMPTY, asUnknownAs: [{ ...DEBT, file: "src/gone.ts", count: 1 }] },
+    }),
+  );
+  assert.match(missing.map((finding) => finding.message).join("\n"), /the file no longer exists/);
+});
+
 test("the report totals each section and splits complexity and non-null by directory, largest first", () => {
   const text = renderReport({
     ...EMPTY,
