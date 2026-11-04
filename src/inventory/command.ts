@@ -100,8 +100,12 @@ function parseArguments(args: string[]): InventoryOptions {
   let json = false;
   let redact = false;
   let failOn: string | undefined;
-  for (let index = 0; index < args.length; index += 1) {
-    const argument = args[index]!;
+  let consumed = 0;
+  for (const [index, argument] of args.entries()) {
+    if (consumed > 0) {
+      consumed -= 1;
+      continue;
+    }
     if (argument === "--json") {
       json = true;
     } else if (argument === "--redact") {
@@ -111,7 +115,7 @@ function parseArguments(args: string[]): InventoryOptions {
       if (value === undefined || value.startsWith("-")) throw new InventoryUsageError(INVENTORY_USAGE);
       if (argument === "--format") format = value;
       else failOn = value;
-      index += 1;
+      consumed = 1;
     } else if (argument.startsWith("-")) {
       throw new InventoryUsageError(INVENTORY_USAGE);
     } else {

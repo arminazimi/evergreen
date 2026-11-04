@@ -171,7 +171,8 @@ function gkeItems(document: unknown, file: string): InventoryItem[] {
  * An image with a registry host or a namespace, a digest-only reference, or a tag that is not a version is not one.
  */
 function publicBaseImage(reference: string): { name: string; version: string } | undefined {
-  let path = reference.split("@")[0]!;
+  const digest = reference.indexOf("@");
+  let path = digest === -1 ? reference : reference.slice(0, digest);
   if (path.includes("/")) {
     if (!path.startsWith("library/") || path.indexOf("/", "library/".length) !== -1) return undefined;
     path = path.slice("library/".length);
