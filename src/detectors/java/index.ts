@@ -1,5 +1,6 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import { basename, join } from "node:path";
+import { required } from "../../required.js";
 
 import { loadDataFile } from "../../data-source.js";
 import type { UnclassifiedReference } from "../../domain.js";
@@ -136,7 +137,7 @@ export class JavaDetector implements Detector {
       }
       const path = relativePosix(context.root, file);
       const name = basename(file);
-      for (const declaration of PARSERS.get(name)!(contents)) located.push({ path, declaration });
+      for (const declaration of required(PARSERS.get(name), "parser")(contents)) located.push({ path, declaration });
     }
     if (located.length === 0) return { findings: [], unclassified: [] };
 

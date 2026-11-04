@@ -28,10 +28,24 @@ export interface XmlElement {
 
 class Malformed extends Error {}
 
+/** The five XML predefined entities; the pattern in `decode` can only capture one of these names. */
+const predefinedEntities = { lt: "<", gt: ">", amp: "&", quot: '"', apos: "'" };
+
+/** The text of a capture group the patterns above always fill. */
+function groupText(match: RegExpExecArray, index: number): string {
+  return match[index] ?? "";
+}
+
+/** The length of the leading-whitespace run at `start` inside the same 4096-character window the scan uses. */
+function leadingWhitespace(text: string, start: number): number {
+  const view = text.slice(start, start + 4096);
+  return view.length - view.trimStart().length;
+}
+
 function decode(text: string): string {
   return text.replace(
     /&(lt|gt|amp|quot|apos);/g,
-    (_all, name: string) => ({ lt: "<", gt: ">", amp: "&", quot: '"', apos: "'" })[name]!,
+    (_all, name: keyof typeof predefinedEntities) => predefinedEntities[name],
   );
 }
 
@@ -44,7 +58,8 @@ export function readXml(contents: string): XmlElement | undefined {
   let root: XmlElement | undefined;
   let current: XmlElement | undefined;
 
-  const fail = (): never => {
+  // Annotating the const (not just the return) as `() => never` lets tsc narrow guarded values after `if (...) fail();`.
+  const fail: () => never = () => {
     throw new Malformed();
   };
   const advance = (to: number): void => {
@@ -81,7 +96,7 @@ export function readXml(contents: string): XmlElement | undefined {
         const end = text.indexOf("]]>", position);
         if (end === -1) fail();
         if (!current) fail();
-        current!.text = `${current!.text}${text.slice(position + 9, end)}`.trim();
+        current.text = `${current.text}${text.slice(position + 9, end)}`.trim();
         advance(end + 3);
       } else if (text.startsWith("<?", position)) {
         advance(closing("?>"));
@@ -90,26 +105,25 @@ export function readXml(contents: string): XmlElement | undefined {
       } else if (text.startsWith("</", position)) {
         const match = /^<\/([^\s>/]+)\s*>/.exec(text.slice(position, position + 512));
         if (!match || !current || current.name !== match[1]) fail();
-        current = current!.parent;
-        advance(position + match![0].length);
+        current = current.parent;
+        advance(position + match[0].length);
       } else {
         const name = /^<([A-Za-z_][^\s=/>]*)/.exec(text.slice(position, position + 512));
         if (!name) fail();
         count += 1;
         if (count > MAXIMUM_ELEMENTS) fail();
         const element: XmlElement = {
-          name: name![1]!,
+          name: groupText(name, 1),
           line,
           attributes: new Map(),
           text: "",
           children: [],
           parent: current,
         };
-        advance(position + name![0].length);
+        advance(position + name[0].length);
         let selfClosing = false;
         for (;;) {
-          const gap = /^\s*/.exec(text.slice(position, position + 4096))![0];
-          advance(position + gap.length);
+          advance(position + leadingWhitespace(text, position));
           if (text.startsWith("/>", position)) {
             selfClosing = true;
             advance(position + 2);
@@ -123,11 +137,11 @@ export function readXml(contents: string): XmlElement | undefined {
           if (!attribute) fail();
           const valueLine =
             line +
-            [...text.slice(position, position + attribute![0].indexOf("="))].filter((char) => char === "\n").length;
-          const key = attribute![1]!.toLowerCase();
+            [...text.slice(position, position + attribute[0].indexOf("="))].filter((char) => char === "\n").length;
+          const key = groupText(attribute, 1).toLowerCase();
           if (element.attributes.has(key)) fail();
-          element.attributes.set(key, { value: decode(attribute![2] ?? attribute![3] ?? ""), line: valueLine });
-          advance(position + attribute![0].length);
+          element.attributes.set(key, { value: decode(attribute[2] ?? attribute[3] ?? ""), line: valueLine });
+          advance(position + attribute[0].length);
         }
         if (current) current.children.push(element);
         else if (root) fail();

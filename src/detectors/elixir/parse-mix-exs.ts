@@ -1,4 +1,5 @@
 import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH } from "./parse-elixir-runtime.js";
+import { required } from "../../required.js";
 
 /**
  * Pure, bounded parser for the declarations Evergreen reads from `mix.exs`: the project `elixir:`
@@ -48,15 +49,15 @@ export function parseMixExs(contents: string): MixExsDeclaration[] {
 
     const elixir = ELIXIR_CONSTRAINT.exec(withoutComment);
     if (elixir) {
-      const value = elixir[1]!.trim();
+      const value = required(elixir[1], "elixir constraint").trim();
       if (value !== "") declarations.push({ kind: "elixir", value, line });
       continue;
     }
 
     const dep = HEX_DEP.exec(withoutComment);
     if (dep) {
-      const value = dep[2]!.trim();
-      if (value !== "") declarations.push({ kind: "package", name: dep[1]!, value, line });
+      const value = required(dep[2], "dep constraint").trim();
+      if (value !== "") declarations.push({ kind: "package", name: required(dep[1], "package name"), value, line });
     }
   }
   return declarations;

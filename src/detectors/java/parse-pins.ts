@@ -1,4 +1,5 @@
 import { jdkDeclaration } from "./jdk-version.js";
+import { required } from "../../required.js";
 import type { DynamicJdkDeclaration, JdkDeclaration } from "./jdk-version.js";
 
 /**
@@ -36,7 +37,7 @@ export function parseSdkmanrc(contents: string): PinDeclaration[] {
   for (const { text, line } of logicalLines(contents)) {
     const match = /^java\s*=\s*(\S+)$/.exec(text);
     if (!match) continue;
-    const declaration = jdkDeclaration("pin", match[1]!, line);
+    const declaration = jdkDeclaration("pin", required(match[1], "pinned version"), line);
     return declaration ? [declaration] : [];
   }
   return [];

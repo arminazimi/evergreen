@@ -1,4 +1,5 @@
 import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH } from "./parse-elixir-runtime.js";
+import { required } from "../../required.js";
 
 /**
  * Pure, bounded parser for Hex packages resolved in `mix.lock`.
@@ -36,9 +37,9 @@ export function parseMixLock(contents: string): MixLockPackageDeclaration[] {
     if (rawLine.length > MAXIMUM_LINE_LENGTH) continue;
     const match = HEX_ENTRY.exec(rawLine);
     if (!match) continue;
-    const name = match[1]!;
-    const atom = match[2]!;
-    const value = match[3]!.trim();
+    const name = required(match[1], "lock package name");
+    const atom = required(match[2], "lock atom name");
+    const value = required(match[3], "lock version").trim();
     if (name !== atom || value === "") continue;
     declarations.push({ kind: "locked-package", name, value, line: index + 1 });
   }

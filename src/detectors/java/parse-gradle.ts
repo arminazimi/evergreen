@@ -1,4 +1,5 @@
 import { jdkDeclaration } from "./jdk-version.js";
+import { required } from "../../required.js";
 import type {
   DependencyDeclaration,
   DynamicJdkDeclaration,
@@ -66,7 +67,7 @@ function scan(source: string): Scanned | undefined {
       code += source.slice(index, end + 3);
       index = end + 3;
     } else if (source[index] === '"' || source[index] === "'") {
-      const quote = source[index]!;
+      const quote = source.charAt(index);
       let position = index + 1;
       while (position < source.length && source[position] !== quote && source[position] !== "\n") {
         position += source[position] === "\\" ? 2 : 1;
@@ -118,12 +119,24 @@ function trimUnbalanced(value: string): string {
   return text;
 }
 
+/** Every match of `pattern` outside a string literal, with its offset checked instead of asserted with `!`. */
+function* locatedMatches(
+  code: string,
+  pattern: RegExp,
+  insideString: (offset: number) => boolean,
+): Generator<readonly [number, RegExpMatchArray]> {
+  for (const match of code.matchAll(pattern)) {
+    const offset = required(match.index, "match offset");
+    if (!insideString(offset)) yield [offset, match] as const;
+  }
+}
+
 /** A literal JDK version text from a compatibility value, or undefined when the value is an expression. */
 function compatibilityLiteral(value: string): string | undefined {
   const constant = /^JavaVersion\s*\.\s*VERSION_([0-9_]+)$/.exec(value);
-  if (constant) return constant[1]!.replace(/_/g, ".");
+  if (constant) return required(constant[1], "version constant").replace(/_/g, ".");
   const quoted = /^(["'])([0-9.]+)\1$/.exec(value);
-  if (quoted) return quoted[2]!;
+  if (quoted) return required(quoted[2], "quoted version");
   return /^[0-9]+(?:\.[0-9]+)?$/.test(value) ? value : undefined;
 }
 
@@ -146,7 +159,7 @@ export function parseGradle(contents: string): GradleDeclaration[] {
       let high = lineStarts.length - 1;
       while (low < high) {
         const mid = (low + high + 1) >> 1;
-        if (lineStarts[mid]! <= offset) low = mid;
+        if (required(lineStarts[mid], "line start") <= offset) low = mid;
         else high = mid - 1;
       }
       return low + 1;
@@ -158,26 +171,22 @@ export function parseGradle(contents: string): GradleDeclaration[] {
       if (declaration && found.length < MAXIMUM_DECLARATIONS) found.push(declaration);
     };
 
-    for (const match of code.matchAll(TOOLCHAIN)) {
-      if (insideString(match.index!)) continue;
-      const argument = balancedArgument(code, match.index! + match[0].length);
+    for (const [offset, match] of locatedMatches(code, TOOLCHAIN, insideString)) {
+      const argument = balancedArgument(code, offset + match[0].length);
       if (argument === undefined) continue;
       const literal = /^["']?[0-9]+["']?$/.test(argument) ? unquote(argument) : undefined;
-      add(declare("toolchain", argument, literal, lineAt(match.index!)));
+      add(declare("toolchain", argument, literal, lineAt(offset)));
     }
-    for (const match of code.matchAll(COMPATIBILITY)) {
-      if (insideString(match.index!)) continue;
-      const raw = trimUnbalanced(match[1]!);
-      if (raw) add(declare("compile-level", raw, compatibilityLiteral(raw), lineAt(match.index!)));
+    for (const [offset, match] of locatedMatches(code, COMPATIBILITY, insideString)) {
+      const raw = trimUnbalanced(required(match[1], "compatibility value"));
+      if (raw) add(declare("compile-level", raw, compatibilityLiteral(raw), lineAt(offset)));
     }
-    for (const match of code.matchAll(KOTLIN_PLUGIN)) {
-      if (insideString(match.index!)) continue;
-      add({ kind: "kotlin-plugin", value: match[1]!.trim(), line: lineAt(match.index!) });
+    for (const [offset, match] of locatedMatches(code, KOTLIN_PLUGIN, insideString)) {
+      add({ kind: "kotlin-plugin", value: required(match[1], "kotlin version").trim(), line: lineAt(offset) });
     }
-    for (const match of code.matchAll(CONFIGURATION)) {
-      if (insideString(match.index!)) continue;
-      const [group, artifact, version] = match[1]!.split(":") as [string, string, string];
-      add({ kind: "dependency", group, artifact, version, line: lineAt(match.index!) });
+    for (const [offset, match] of locatedMatches(code, CONFIGURATION, insideString)) {
+      const [group, artifact, version] = required(match[1], "notation").split(":") as [string, string, string];
+      add({ kind: "dependency", group, artifact, version, line: lineAt(offset) });
     }
     return found.sort((left, right) => left.line - right.line);
   } catch {

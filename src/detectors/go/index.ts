@@ -101,8 +101,8 @@ export class GoDetector implements Detector {
       line: number,
       summary: string,
       severity = rule.severity,
-    ): void => {
-      findings.push({
+    ): DetectorFinding => {
+      const finding: DetectorFinding = {
         id: `${rule.id}:${path}:${line}`,
         ruleId: rule.id,
         title: rule.title,
@@ -113,7 +113,9 @@ export class GoDetector implements Detector {
         ...(rule.deadline ? { deadline: rule.deadline } : {}),
         ...(rule.migration ? { migration: rule.migration } : {}),
         sources: rule.sources,
-      });
+      };
+      findings.push(finding);
+      return finding;
     };
 
     for (const file of files) {
@@ -161,22 +163,20 @@ export class GoDetector implements Detector {
     }
 
     // Where the repository's Go source uses each affected module, so a migration packet can list the files.
-    const withUsage = matchedModules.filter((item) => (item.rule.usage ?? []).length > 0);
     const analyses = new Map(
       (
         await analyzeSourceUsage(
           context.root,
-          withUsage.map((item) => ({
-            id: `${item.rule.id}:${item.path}:${item.line}`,
-            matchers: item.rule.usage ?? [],
-          })),
+          matchedModules
+            .filter((item) => (item.rule.usage ?? []).length > 0)
+            .map((item) => ({ id: `${item.rule.id}:${item.path}:${item.line}`, matchers: item.rule.usage ?? [] })),
         )
       ).map((analysis) => [analysis.contractId, analysis]),
     );
     for (const item of matchedModules) {
-      report(item.rule, item.path, item.line, item.summary);
+      const finding = report(item.rule, item.path, item.line, item.summary);
       const analysis = analyses.get(`${item.rule.id}:${item.path}:${item.line}`);
-      if (analysis) Object.assign(findings[findings.length - 1]!, { usages: analysis.usages, impact: analysis.impact });
+      if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
     }
     return { findings, unclassified };
   }

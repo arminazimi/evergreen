@@ -1,4 +1,5 @@
 import { readXml, walk } from "./msbuild-xml.js";
+import { required } from "../../required.js";
 import type { XmlElement } from "./msbuild-xml.js";
 
 /**
@@ -77,7 +78,11 @@ export function parseMsbuild(contents: string): MsbuildDeclarations {
         kind: named(element, "packagereference") ? "reference" : "version",
         name,
         ...(version ? { version } : {}),
-        line: version ? (attribute?.value.trim() ? attribute.line : child!.line) : element.line,
+        line: version
+          ? attribute?.value.trim()
+            ? attribute.line
+            : required(child, "version child").line
+          : element.line,
       });
     }
   }

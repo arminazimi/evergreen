@@ -1,4 +1,5 @@
 import type { DependencyDeclaration } from "./jdk-version.js";
+import { required } from "../../required.js";
 
 /**
  * Pure, bounded parser for `gradle/libs.versions.toml` (Gradle version catalogs).
@@ -57,13 +58,13 @@ export function parseCatalog(contents: string): DependencyDeclaration[] {
       const line = rawLine.length > MAXIMUM_LINE_LENGTH ? "" : rawLine;
       const sectionMatch = /^\s*\[([^\]]+)\]\s*$/.exec(line);
       if (sectionMatch) {
-        section = sectionMatch[1]!.trim().toLowerCase();
+        section = required(sectionMatch[1], "section name").trim().toLowerCase();
         continue;
       }
       if (section === "versions") {
         const versionMatch = /^\s*([A-Za-z0-9_-]+)\s*=\s*"([^"]+)"\s*$/.exec(line);
         if (versionMatch) {
-          versions.set(versionMatch[1]!.toLowerCase(), versionMatch[2]!);
+          versions.set(required(versionMatch[1], "version alias").toLowerCase(), required(versionMatch[2], "version"));
         }
       }
     }
@@ -77,7 +78,7 @@ export function parseCatalog(contents: string): DependencyDeclaration[] {
 
       const sectionMatch = /^\s*\[([^\]]+)\]\s*$/.exec(line);
       if (sectionMatch) {
-        section = sectionMatch[1]!.trim().toLowerCase();
+        section = required(sectionMatch[1], "section name").trim().toLowerCase();
         continue;
       }
 

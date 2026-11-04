@@ -1,4 +1,5 @@
 import type { GradleWrapperDeclaration } from "./jdk-version.js";
+import { required } from "../../required.js";
 
 /**
  * Pure, bounded parser for `gradle/wrapper/gradle-wrapper.properties`.
@@ -23,14 +24,15 @@ export function parseWrapper(contents: string): GradleWrapperDeclaration[] {
     let found: { value: string; line: number } | undefined;
     for (let index = 0; index < lines.length; index++) {
       const start = index + 1;
-      let text = lines[index]!.trimStart();
+      let text = required(lines[index], "wrapper line").trimStart();
       if (text === "" || text.startsWith("#") || text.startsWith("!")) continue;
       // A line ending in an odd number of backslashes continues on the next line.
       while (/(?:^|[^\\])(?:\\\\)*\\$/.test(text) && index + 1 < lines.length) {
-        text = text.slice(0, -1) + lines[++index]!.trimStart();
+        text = text.slice(0, -1) + required(lines[++index], "continuation line").trimStart();
       }
       const separator = /^((?:[^=:\s\\]|\\.)+)\s*[=:\s]\s*(.*)$/.exec(text);
-      if (separator?.[1] === "distributionUrl") found = { value: separator[2]!.trimEnd(), line: start };
+      if (separator?.[1] === "distributionUrl")
+        found = { value: required(separator[2], "distribution value").trimEnd(), line: start };
     }
     if (!found || found.value.length === 0 || found.value.length > MAXIMUM_VALUE_LENGTH) return [];
     const url = found.value.replace(/\\(.)/g, "$1");

@@ -29,7 +29,7 @@ export function parseGoWork(contents: string): GoWorkDeclaration[] {
   let malformed = false;
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
     if (rawLine.length > MAXIMUM_LINE_LENGTH) continue;
-    const code = rawLine.split("//", 1)[0]!.trim();
+    const code = rawLine.replace(/\/\/.*$/, "").trim();
     const line = index + 1;
 
     if (block) {
