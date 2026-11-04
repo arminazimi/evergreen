@@ -3450,39 +3450,11 @@
   "boundaries": [],
   "audit": [
     {
-      "advisory": "GHSA-333x-w4r6-6crp",
-      "package": "fast-uri",
-      "owner": "#2231",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
-    },
-    {
       "advisory": "GHSA-g3hv-75wg-m249",
       "package": "minimatch",
       "owner": "#2231",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Development-only dependency of minimatch; not shipped. Update it or drop it in the security follow-up."
-    },
-    {
-      "advisory": "GHSA-w74x-v6f9-j3xg",
-      "package": "fast-uri",
-      "owner": "#2231",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
-    },
-    {
-      "advisory": "GHSA-wjr9-j795-jxcr",
-      "package": "fast-uri",
-      "owner": "#2231",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
-    },
-    {
-      "advisory": "GHSA-xhq7-xmqj-769h",
-      "package": "fast-uri",
-      "owner": "#2231",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Development-only dependency of fast-uri; not shipped. Update it or drop it in the security follow-up."
     }
   ]
 }
