@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 
 import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
+import { required } from "./required.js";
 
 /** The severity-weighted area each finding adds to its file: a critical finding takes sixteen times the area of an info finding. */
 export const TREEMAP_SEVERITY_WEIGHT: Record<Severity, number> = {
@@ -179,7 +180,7 @@ function basename(path: string): string {
 /** The most severe finding in a group; `severityValues` runs least to most severe. */
 function highestSeverity(counts: Record<Severity, number>): Severity {
   for (let index = severityValues.length - 1; index >= 0; index -= 1) {
-    const severity = severityValues[index]!;
+    const severity = required(severityValues[index], "the severity");
     if (counts[severity] > 0) return severity;
   }
   return "info";
@@ -232,14 +233,19 @@ export function treemapFileId(path: string): string {
   return `file-${createHash("sha256").update(path).digest("hex").slice(0, 12)}`;
 }
 
+/** The requested box side, clamped to its minimum, or the default when the option is missing or not a number. */
+function dimension(value: number | undefined, minimum: number, fallback: number): number {
+  return Number.isFinite(value) ? Math.max(minimum, Math.round(required(value, "the finite size"))) : fallback;
+}
+
 /**
  * Lays findings out as a two-level treemap: one rectangle per directory, sized by the severity-weighted findings it
  * holds, then one rectangle per file inside it. Ordering is stable (weight descending, then path), so the same scan
  * always produces the same layout. Root-level files live in the `.` directory.
  */
 export function layoutTreemap(findings: readonly TreemapFinding[], options: TreemapOptions = {}): TreemapLayout {
-  const width = Number.isFinite(options.width) ? Math.max(320, Math.round(options.width!)) : TREEMAP_DEFAULT_WIDTH;
-  const height = Number.isFinite(options.height) ? Math.max(160, Math.round(options.height!)) : TREEMAP_DEFAULT_HEIGHT;
+  const width = dimension(options.width, 320, TREEMAP_DEFAULT_WIDTH);
+  const height = dimension(options.height, 160, TREEMAP_DEFAULT_HEIGHT);
   const byPath = new Map<string, FileNode>();
   for (const finding of findings) {
     const path = finding.location.path;
@@ -307,12 +313,17 @@ function placeLeaves(leaves: readonly LeafInput[], directory: TreemapBox): Treem
   return leaves.map((leaf, index) => ({ ...leaf, ...(boxes[index] ?? box) }));
 }
 
+const XML_ESCAPES: Record<string, string> = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&apos;",
+};
+
 /** Escapes a value for SVG text or a quoted attribute. */
 function escape(value: string): string {
-  return value.replace(
-    /[&<>"']/g,
-    (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!,
-  );
+  return value.replace(/[&<>"']/g, (character) => required(XML_ESCAPES[character], "the xml escape"));
 }
 
 const coordinate = (value: number): string => String(Math.round(value * 100) / 100);

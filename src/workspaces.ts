@@ -4,6 +4,8 @@ import { join, resolve } from "node:path";
 import { parse as parseToml } from "smol-toml";
 import { parse as parseYaml } from "yaml";
 
+import { required } from "./required.js";
+
 /**
  * Finds the packages of a monorepo from the workspace declarations the package managers themselves read:
  * `workspaces` in package.json (npm, yarn), `pnpm-workspace.yaml`, `lerna.json`, and `[tool.uv.workspace]`
@@ -147,7 +149,7 @@ function patternMayMatchDeeper(pattern: string, relative: string): boolean {
   if (doubleStar === -1 && relativeSegments.length >= patternSegments.length) return false;
 
   for (let index = 0; index < relativeSegments.length; index++) {
-    const actual = relativeSegments[index]!;
+    const actual = required(relativeSegments[index], "the path segment");
     if (doubleStar !== -1 && index >= doubleStar) return true;
     const expected = patternSegments[index];
     if (expected === undefined) return false;

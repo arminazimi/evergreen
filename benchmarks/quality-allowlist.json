@@ -3057,27 +3057,6 @@
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
     },
     {
-      "file": "src/status-card.ts",
-      "count": 1,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/treemap.ts",
-      "count": 4,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/tui.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
       "file": "src/usage/javascript.ts",
       "count": 6,
       "owner": "#2223",
@@ -3099,13 +3078,6 @@
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
     },
     {
-      "file": "src/vers.ts",
-      "count": 10,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
       "file": "src/vers/maven.ts",
       "count": 4,
       "owner": "#2223",
@@ -3122,13 +3094,6 @@
     {
       "file": "src/vers/pep440.ts",
       "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/workspaces.ts",
-      "count": 1,
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."

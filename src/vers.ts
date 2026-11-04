@@ -3,6 +3,8 @@
  * https://github.com/package-url/vers-spec
  */
 
+import { required } from "./required.js";
+
 export type VersComparator = "=" | "!=" | "<" | "<=" | ">" | ">=";
 
 export interface VersConstraint {
@@ -99,16 +101,16 @@ function parseConstraint(raw: string, canonical: boolean): VersConstraint {
 function validateSequence(constraints: readonly VersConstraint[], value: string): void {
   const withoutNotEqual = constraints.filter((constraint) => constraint.comparator !== "!=");
   for (let index = 0; index < withoutNotEqual.length - 1; index++) {
-    const current = withoutNotEqual[index]!.comparator;
-    const next = withoutNotEqual[index + 1]!.comparator;
+    const current = required(withoutNotEqual[index], "the constraint").comparator;
+    const next = required(withoutNotEqual[index + 1], "the following constraint").comparator;
     if (current === "=" && isUpper(next)) {
       throw new VersError(`Invalid VERS: an equality constraint cannot be followed by an upper bound: ${value}`);
     }
   }
   const bounds = withoutNotEqual.filter((constraint) => constraint.comparator !== "=");
   for (let index = 0; index < bounds.length - 1; index++) {
-    const current = bounds[index]!.comparator;
-    const next = bounds[index + 1]!.comparator;
+    const current = required(bounds[index], "the bound").comparator;
+    const next = required(bounds[index + 1], "the following bound").comparator;
     if ((isLower(current) && isLower(next)) || (isUpper(current) && isUpper(next))) {
       throw new VersError(`Invalid VERS: bounds must alternate between lower and upper: ${value}`);
     }
@@ -137,8 +139,10 @@ function parse(value: string, canonical: boolean): VersRange {
 
   const sorted = [...constraints].sort((left, right) => versionSchemeFor.compare(left.version, right.version));
   for (let index = 1; index < sorted.length; index++) {
-    if (versionSchemeFor.compare(sorted[index - 1]!.version, sorted[index]!.version) === 0) {
-      throw new VersError(`Invalid VERS: version "${sorted[index]!.version}" appears more than once: ${value}`);
+    const previous = required(sorted[index - 1], "the previous constraint");
+    const current = required(sorted[index], "the constraint");
+    if (versionSchemeFor.compare(previous.version, current.version) === 0) {
+      throw new VersError(`Invalid VERS: version "${current.version}" appears more than once: ${value}`);
     }
   }
   if (canonical && sorted.some((constraint, index) => constraint !== constraints[index])) {
@@ -200,12 +204,12 @@ export function versContains(range: string | VersRange, version: string): boolea
     (constraint) => constraint.comparator !== "=" && constraint.comparator !== "!=",
   );
   if (bounds.length === 1) {
-    const only = bounds[0]!;
+    const only = required(bounds[0], "the single bound");
     return isUpper(only.comparator) ? compareTo(only) < 0 : compareTo(only) > 0;
   }
   for (let index = 0; index < bounds.length - 1; index++) {
-    const current = bounds[index]!;
-    const next = bounds[index + 1]!;
+    const current = required(bounds[index], "the bound");
+    const next = required(bounds[index + 1], "the following bound");
     if (index === 0 && isUpper(current.comparator) && compareTo(current) < 0) return true;
     if (index === bounds.length - 2 && isLower(next.comparator) && compareTo(next) > 0) return true;
     if (isLower(current.comparator) && isUpper(next.comparator) && compareTo(current) > 0 && compareTo(next) < 0) {

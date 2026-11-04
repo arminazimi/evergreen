@@ -4,6 +4,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 
 import type { Finding, ScanResult } from "./domain.js";
 import { renderFindingText } from "./reporters.js";
+import { required } from "./required.js";
 
 export interface BrowserState {
   view: "list" | "detail";
@@ -101,7 +102,7 @@ export async function browseFindings(
     return;
   }
   const draw = (state: BrowserState): void => {
-    const finding = result.findings[state.selected]!;
+    const finding = required(result.findings[state.selected], "the selected finding");
     output.write(CLEAR + (state.view === "list" ? renderList(result, state.selected) : renderDetail(finding)));
   };
   emitKeypressEvents(input);
@@ -118,7 +119,8 @@ export async function browseFindings(
         return;
       }
       if (state.open) {
-        const command = editorCommand(result.root, result.findings[state.selected]!, env);
+        const selected = required(result.findings[state.selected], "the selected finding");
+        const command = editorCommand(result.root, selected, env);
         if (command) {
           input.setRawMode(false);
           spawnSync(command.command, command.args, { stdio: "inherit" });

@@ -1,5 +1,6 @@
 import { badgeState } from "./badge.js";
 import type { ScanResult } from "./domain.js";
+import { required } from "./required.js";
 
 export type StatusCardSize = "card" | "social";
 
@@ -18,11 +19,16 @@ const FONT_SANS = "Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, Sego
 /** Compact card keeps the badge-compatible stack so README embeds look the same as shields.io. */
 const FONT_CARD = "Verdana,Geneva,DejaVu Sans,sans-serif";
 
+const XML_ESCAPES: Record<string, string> = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&apos;",
+};
+
 const escape = (value: string): string =>
-  value.replace(
-    /[&<>"']/g,
-    (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!,
-  );
+  value.replace(/[&<>"']/g, (character) => required(XML_ESCAPES[character], "the xml escape"));
 
 const isDate = (value: string | undefined): value is string => value !== undefined && /^\d{4}-\d{2}-\d{2}$/.test(value);
 
