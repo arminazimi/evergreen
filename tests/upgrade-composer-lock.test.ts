@@ -1,13 +1,25 @@
 import assert from "node:assert/strict";
+import { rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { composerLockAnalyzer, matchesComposerConstraint } from "../src/upgrade/composer-lock.js";
 import { checkUpgrade } from "../src/upgrade/index.js";
 import type { UpgradeIssue, UpgradeTarget } from "../src/upgrade/types.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
+const temporaryRoots: string[] = [];
+let fixtures: string;
 const target: UpgradeTarget = { runtime: "php", version: "8.4" };
-const fixture = (name: string) => resolve("tests/fixtures/upgrade/composer-lock", name);
+const fixture = (name: string) => resolve(fixtures, name);
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/upgrade/composer-lock"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 // Cases from the Composer version constraints documentation: https://getcomposer.org/doc/articles/versions.md
 const cases: Array<[string, string, boolean | undefined]> = [

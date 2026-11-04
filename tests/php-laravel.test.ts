@@ -1,13 +1,23 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { PhpDetector } from "../src/detectors/php/index.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/php/laravel");
+const temporaryRoots: string[] = [];
+let fixtures: string;
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/php/laravel"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 async function committedRules(): Promise<RegistryV2Rule[]> {
   return (JSON.parse(await readFile("registry/php.json", "utf8")) as { rules: RegistryV2Rule[] }).rules;

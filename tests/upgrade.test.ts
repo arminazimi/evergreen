@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { InMemoryTransport } from "@modelcontextprotocol/server";
 
@@ -10,10 +10,21 @@ import { createEvergreenMcpServer } from "../src/mcp.js";
 import { checkUpgrade, parseUpgradeTarget } from "../src/upgrade/index.js";
 import type { UpgradeAnalyzer, UpgradeIssue, UpgradeReport, UpgradeTarget } from "../src/upgrade/types.js";
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixture = (name: string) => resolve("tests/fixtures/upgrade/composer-lock", name);
+const temporaryRoots: string[] = [];
+let fixtures: string;
+const fixture = (name: string) => resolve(fixtures, name);
 const run = (...args: string[]) => runCli(["upgrade-check", ...args]);
 const target: UpgradeTarget = { runtime: "php", version: "8.4" };
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/upgrade/composer-lock"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 function fake(id: string, runtimes: readonly string[], applies: boolean, issues: UpgradeIssue[] = []): UpgradeAnalyzer {
   return { id, runtimes, applies: async () => applies, analyze: async () => issues };

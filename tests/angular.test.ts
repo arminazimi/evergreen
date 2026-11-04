@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { NpmDetector } from "../src/detectors/npm.js";
 import { versContains } from "../src/vers.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
 const ANGULAR_PURL = "pkg:npm/%40angular/core";
 const RULE_V22 = "npm.package.angular.core.v22.scheduled-end-of-life";
@@ -12,7 +13,16 @@ const RULE_V21 = "npm.package.angular.core.v21.scheduled-end-of-life";
 const RULE_V20 = "npm.package.angular.core.v20.scheduled-end-of-life";
 const RULE_V19 = "npm.package.angular.core.v19.end-of-support";
 const RULE_PRE_V19 = "npm.package.angular.core.v18-and-older.end-of-support";
-const fixtures = resolve("tests/fixtures/angular");
+const temporaryRoots: string[] = [];
+let fixtures: string;
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/angular"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 type Rule = {
   id: string;

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { PhpDetector } from "../src/detectors/php/index.js";
 import { scanRepository } from "../src/engine.js";
@@ -11,8 +11,14 @@ import { validateRegistryV2 } from "../src/registry.js";
 import { renderText } from "../src/reporters.js";
 import { isUsageMatcher } from "../src/sdk.js";
 import { analyzeSourceUsage, findPhpDynamicReferences } from "../src/source-usage.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
 const temporaryRoots: string[] = [];
+let usageDynamicFixture: string;
+
+before(async () => {
+  usageDynamicFixture = await copyFixtureTree(resolve("tests/fixtures/php/usage-dynamic"), temporaryRoots);
+});
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
@@ -251,7 +257,7 @@ test("dynamic require, include, new $class, and $class::method are unclassified,
 });
 
 test("the usage-dynamic fixture leaves dynamic require, include, and dynamic calls unclassified and attributes only the literal forms", async () => {
-  const result = await scanRepository(resolve("tests/fixtures/php/usage-dynamic"), [new PhpDetector()]);
+  const result = await scanRepository(usageDynamicFixture, [new PhpDetector()]);
   const findings = result.findings.filter((item) => item.ruleId === "php.package.swiftmailer.swiftmailer.abandoned");
   assert.deepEqual(
     findings.map((finding) => [finding.location.path, finding.location.line]),

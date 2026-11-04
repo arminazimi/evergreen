@@ -215,21 +215,21 @@ test("nested block comments blank the whole nest", () => {
 });
 
 test("Package.resolved: reads pin versions with the line of state.version", async () => {
-  assert.deepEqual(parsePackageResolved(await fixture("positive/Package.resolved")), [
+  assert.deepEqual(parsePackageResolved(await fixture("positive/Package.resolved.fixture")), [
     { identity: "swift-argument-parser", value: "1.2.3", line: 9 },
     { identity: "swift-log", value: "1.5.3", line: 18 },
   ]);
-  assert.deepEqual(parsePackageResolved(await fixture("zero/Package.resolved")), [
+  assert.deepEqual(parsePackageResolved(await fixture("zero/Package.resolved.fixture")), [
     { identity: "swift-argument-parser", value: "1.3.0", line: 9 },
   ]);
 });
 
 test("Package.resolved: ignores branch-only, revision-only, and fileSystem pins", async () => {
-  assert.deepEqual(parsePackageResolved(await fixture("negative/Package.resolved")), []);
+  assert.deepEqual(parsePackageResolved(await fixture("negative/Package.resolved.fixture")), []);
 });
 
 test("Package.resolved: malformed and truncated JSON returns nothing", async () => {
-  const malformed = await fixture("malformed/Package.resolved");
+  const malformed = await fixture("malformed/Package.resolved.fixture");
   assert.doesNotThrow(() => parsePackageResolved(malformed));
   assert.deepEqual(parsePackageResolved(malformed), []);
   for (const junk of ["", "{", '{"pins":', "\u0000", '{"version":2}']) {

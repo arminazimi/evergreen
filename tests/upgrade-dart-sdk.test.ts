@@ -2,13 +2,24 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { checkUpgrade } from "../src/upgrade/index.js";
 import { matchesDartConstraint, parseTargetVersion } from "../src/upgrade/dart-sdk.js";
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixture = (name: string) => resolve("tests/fixtures/upgrade/dart-sdk", name);
+const temporaryRoots: string[] = [];
+let fixtures: string;
+const fixture = (name: string) => resolve(fixtures, name);
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/upgrade/dart-sdk"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 test("matches caret constraints with pub's rule for 0.x releases", () => {
   assert.equal(matchesDartConstraint("3.5.0", "^3.5.0"), true);

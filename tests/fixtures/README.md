@@ -2,6 +2,8 @@
 
 Each subdirectory is a small untrusted repository (or a set of them) that detectors and tests scan without executing. Prefer the layout in [Detector authoring](../../docs/DETECTORS.md#start-a-new-detector-in-this-repository): a README table, then `positive/`, `negative/`, `zero/`, and `malformed/` cases as needed.
 
+Files a dependency scanner reads by name, such as a lockfile or a manifest that pins versions, are committed with a `.fixture` suffix (`package-lock.json.fixture`, `Package.resolved.fixture`). `copyFixtureTree` in [`tests/fixture-copies.ts`](../fixture-copies.ts) restores the real names in a temporary directory, so tests still scan real names while the committed tree holds nothing scanner-shaped. `Dockerfile` names follow the separate rule in [container/README.md](container/README.md). See [decision 0027](../../docs/decisions/0027-fixtures-invisible-to-scanners.md).
+
 ## Edge-case fixture issues
 
 False-positive boundaries that maintainers have already triaged become small `good first issue` tasks so newcomers can lock them into on-disk fixtures. Open ones from this batch (#1320):

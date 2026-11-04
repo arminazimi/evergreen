@@ -84,9 +84,9 @@ test("parses mix.exs elixir: and Hex deps with exact lines", async () => {
 });
 
 test("parses Hex packages from mix.lock and ignores non-Hex sources", async () => {
-  assert.deepEqual(parseMixLock(await fixture("positive/mix.lock")), [
+  assert.deepEqual(parseMixLock(await fixture("positive/mix.lock.fixture")), [
     { kind: "locked-package", name: "fennec", value: "0.3.0", line: 2 },
     { kind: "locked-package", name: "jason", value: "1.4.4", line: 3 },
   ]);
-  assert.deepEqual(parseMixLock(await fixture("malformed/mix.lock")), []);
+  assert.deepEqual(parseMixLock(await fixture("malformed/mix.lock.fixture")), []);
 });

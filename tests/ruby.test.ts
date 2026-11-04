@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { getCapabilityManifest } from "../src/capabilities.js";
 import { boundsCheck } from "../src/conformance/checks/bounds.js";
@@ -18,9 +18,14 @@ import { createMigrationPacket, validateMigrationPacket } from "../src/migration
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/ruby");
 const temporaryRoots: string[] = [];
+let fixtures: string;
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/ruby"), temporaryRoots);
+});
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));

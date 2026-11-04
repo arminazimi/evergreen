@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { boundsCheck } from "../src/conformance/checks/bounds.js";
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
@@ -16,9 +16,14 @@ import { createMigrationPacket, validateMigrationPacket } from "../src/migration
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/dotnet");
 const temporaryRoots: string[] = [];
+let fixtures: string;
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/dotnet"), temporaryRoots);
+});
 const detector = new DotnetDetector();
 
 after(async () => {

@@ -301,10 +301,10 @@ test("npm lockfile crashers from the fuzz corpus never fail the scan", async () 
   const fixtures = resolve("tests/fixtures/fuzz/npm");
   const root = await repository({
     "package.json": JSON.stringify({ dependencies: { request: "^2.88.0" } }),
-    "package-lock.json": await readFile(join(fixtures, "package-lock.json"), "utf8"),
-    "npm-shrinkwrap.json": await readFile(join(fixtures, "npm-shrinkwrap.json"), "utf8"),
-    "pnpm-lock.yaml": await readFile(join(fixtures, "pnpm-lock.yaml"), "utf8"),
-    "bun.lock": await readFile(join(fixtures, "bun.lock"), "utf8"),
+    "package-lock.json": await readFile(join(fixtures, "package-lock.json.fixture"), "utf8"),
+    "npm-shrinkwrap.json": await readFile(join(fixtures, "npm-shrinkwrap.json.fixture"), "utf8"),
+    "pnpm-lock.yaml": await readFile(join(fixtures, "pnpm-lock.yaml.fixture"), "utf8"),
+    "bun.lock": await readFile(join(fixtures, "bun.lock.fixture"), "utf8"),
   });
 
   const findings = await new NpmDetector().scan({ root });
@@ -326,8 +326,8 @@ test("python project crashers from the fuzz corpus never fail the scan", async (
 
   const root = await repository({
     "pyproject.toml": '[project]\nname = "fuzz-target"\nrequires-python = ">=3.8"\n',
-    "uv.lock": await readFile(join(fixtures, "uv.lock"), "utf8"),
-    "Pipfile.lock": await readFile(join(fixtures, "Pipfile.lock"), "utf8"),
+    "uv.lock": await readFile(join(fixtures, "uv.lock.fixture"), "utf8"),
+    "Pipfile.lock": await readFile(join(fixtures, "Pipfile.lock.fixture"), "utf8"),
   });
   const findings = await new PythonDetector().scan({ root });
   assert.ok(

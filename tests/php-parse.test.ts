@@ -148,7 +148,7 @@ test("rejects // and block comments in composer.json", () => {
 });
 
 test("parses resolved packages, abandoned flags, and platform.php from composer.lock with exact lines", async () => {
-  assert.deepEqual(parseComposerLock(await fixture("positive/composer.lock")), [
+  assert.deepEqual(parseComposerLock(await fixture("positive/composer.lock.fixture")), [
     {
       kind: "locked-package",
       name: "monolog/monolog",
@@ -174,7 +174,7 @@ test("parses resolved packages, abandoned flags, and platform.php from composer.
 });
 
 test("a valid composer.lock with no lifecycle findings still parses its declarations", async () => {
-  assert.deepEqual(parseComposerLock(await fixture("zero/composer.lock")), [
+  assert.deepEqual(parseComposerLock(await fixture("zero/composer.lock.fixture")), [
     {
       kind: "locked-package",
       name: "monolog/monolog",
@@ -189,7 +189,7 @@ test("a valid composer.lock with no lifecycle findings still parses its declarat
 });
 
 test("ignores empty lock sections, lookalike platform keys, and dynamic values", async () => {
-  assert.deepEqual(parseComposerLock(await fixture("negative/composer.lock")), []);
+  assert.deepEqual(parseComposerLock(await fixture("negative/composer.lock.fixture")), []);
   for (const contents of [
     '{"packages":[{"name":"a/b","version":""}]}\n',
     '{"packages":[{"name":"a/b","version":"*"}]}\n',
@@ -210,7 +210,7 @@ test("ignores empty lock sections, lookalike platform keys, and dynamic values",
 });
 
 test("a malformed composer.lock returns nothing and never throws", async () => {
-  const contents = await fixture("malformed/composer.lock");
+  const contents = await fixture("malformed/composer.lock.fixture");
   assert.doesNotThrow(() => parseComposerLock(contents));
   assert.deepEqual(parseComposerLock(contents), []);
   for (const junk of [

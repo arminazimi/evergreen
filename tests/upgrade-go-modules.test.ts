@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
@@ -17,9 +17,14 @@ import {
 } from "../src/upgrade/go-modules.js";
 import type { UpgradeIssue } from "../src/upgrade/types.js";
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/upgrade/go-modules");
+let fixtures: string;
 const temporaryRoots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/upgrade/go-modules"), temporaryRoots);
+});
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));

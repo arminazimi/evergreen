@@ -38,7 +38,7 @@ async function fixture(caseName: string, ...file: string[]): Promise<string> {
 // pom.xml
 
 test("reads compiler properties, compiler plugin settings, and direct dependencies with lines", async () => {
-  assert.deepEqual(parsePom(await fixture("positive", "maven", "pom.xml")), [
+  assert.deepEqual(parsePom(await fixture("positive", "maven", "pom.xml.fixture")), [
     { kind: "jdk", role: "compile-level", value: "22", major: 22, line: 9 },
     { kind: "jdk", role: "compile-level", value: "18", major: 18, line: 10 },
     { kind: "jdk", role: "compile-level", value: "1.8", major: 8, line: 11 },
@@ -50,18 +50,18 @@ test("reads compiler properties, compiler plugin settings, and direct dependenci
 });
 
 test("returns property references as dynamic and skips lookalikes", async () => {
-  assert.deepEqual(parsePom(await fixture("negative", "maven", "pom.xml")), [
+  assert.deepEqual(parsePom(await fixture("negative", "maven", "pom.xml.fixture")), [
     { kind: "dynamic", role: "compile-level", value: "${jdk.version}", line: 12 },
     { kind: "dynamic", role: "compile-level", value: "${java.version}", line: 13 },
     { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 15 },
   ]);
-  assert.deepEqual(parsePom(await fixture("zero", "maven", "pom.xml")), [
+  assert.deepEqual(parsePom(await fixture("zero", "maven", "pom.xml.fixture")), [
     { kind: "jdk", role: "compile-level", value: "21", major: 21, line: 8 },
   ]);
 });
 
 test("a pom with an unclosed tag, an entity, or a DOCTYPE yields nothing", async () => {
-  for (const file of ["pom.xml", "entity-pom.xml"]) {
+  for (const file of ["pom.xml.fixture", "entity-pom.xml"]) {
     const malformed = await fixture("malformed", "maven", file);
     assert.doesNotThrow(() => parsePom(malformed));
     assert.deepEqual(parsePom(malformed), [], file);
@@ -142,7 +142,7 @@ test("bounds pom size, depth, and element count", () => {
 });
 
 test("is deterministic", async () => {
-  const contents = await fixture("positive", "maven", "pom.xml");
+  const contents = await fixture("positive", "maven", "pom.xml.fixture");
   assert.deepEqual(parsePom(contents), parsePom(contents));
 });
 

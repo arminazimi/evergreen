@@ -107,11 +107,15 @@ import { parseCargoLock } from "../src/detectors/rust/parse-cargo-lock.js";
 import { parseRustToolchain } from "../src/detectors/rust/parse-rust-toolchain.js";
 
 test("Cargo.lock: reads registry packages with the line of their version, and skips the project and path or git sources", async () => {
-  assert.deepEqual(parseCargoLock(await fixture("positive/Cargo.lock")), [
+  assert.deepEqual(parseCargoLock(await fixture("positive/Cargo.lock.fixture")), [
     { crate: "failure", value: "0.1.8", line: 7 },
     { crate: "serde", value: "1.0.197", line: 21 },
   ]);
-  assert.deepEqual(parseCargoLock(await fixture("negative/Cargo.lock")), [], "no source, so nothing from the registry");
+  assert.deepEqual(
+    parseCargoLock(await fixture("negative/Cargo.lock.fixture")),
+    [],
+    "no source, so nothing from the registry",
+  );
   const mixed = [
     "[[package]]",
     'name = "a"',
@@ -127,7 +131,7 @@ test("Cargo.lock: reads registry packages with the line of their version, and sk
 });
 
 test("Cargo.lock: malformed, truncated, and oversized input returns nothing", async () => {
-  const malformed = await fixture("malformed/Cargo.lock");
+  const malformed = await fixture("malformed/Cargo.lock.fixture");
   assert.doesNotThrow(() => parseCargoLock(malformed));
   assert.deepEqual(parseCargoLock(malformed), []);
   for (const junk of ["", "[[package]", '[[package]]\nname = "x"\nversion = ', "\u0000", "version = 3\n"])

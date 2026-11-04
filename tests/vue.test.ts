@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
@@ -12,10 +12,15 @@ import { scanRepository } from "../src/engine.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/vue");
+let fixtures: string;
 const RULE_ID = "npm.package.vue.eol-2";
 const temporaryRoots: string[] = [];
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/vue"), temporaryRoots);
+});
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));

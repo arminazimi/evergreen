@@ -1,14 +1,25 @@
 import assert from "node:assert/strict";
+import { rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { checkUpgrade } from "../src/upgrade/index.js";
 import { pnpmLockAnalyzer, readPackages } from "../src/upgrade/pnpm-lock.js";
 import type { UpgradeIssue } from "../src/upgrade/types.js";
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/upgrade/pnpm-lock");
+const temporaryRoots: string[] = [];
+let fixtures: string;
 const target = { runtime: "nodejs", version: "22" } as const;
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/upgrade/pnpm-lock"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 interface Summary {
   level: UpgradeIssue["level"];

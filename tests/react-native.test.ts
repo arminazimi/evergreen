@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { evidenceCheck } from "../src/conformance/checks/evidence.js";
@@ -16,12 +16,17 @@ import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
 import { versContains } from "../src/vers.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixtures = resolve("tests/fixtures/react-native");
+const temporaryRoots: string[] = [];
+let fixtures: string;
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/react-native"), temporaryRoots);
+});
 const RULE_ID = "npm.package.react-native.0.77-to-0.84.end-of-support";
 const SUPPORT_POLICY = "https://github.com/reactwg/react-native-releases/blob/main/docs/support.md";
 const RELEASE_SCHEDULE = "https://reactnative.dev/releases/overview";
-const temporaryRoots: string[] = [];
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));

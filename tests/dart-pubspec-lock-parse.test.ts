@@ -18,7 +18,7 @@ async function fixture(path: string): Promise<string> {
 const hosted = (name: string, value: string, line: number) => ({ kind: "pub-package", name, value, line });
 
 test("parses resolved hosted packages and SDK constraints of a positive pubspec.lock with exact lines", async () => {
-  assert.deepEqual(parsePubspecLock(await fixture("positive/pubspec.lock")), [
+  assert.deepEqual(parsePubspecLock(await fixture("positive/pubspec.lock.fixture")), [
     hosted("collection", "1.17.1", 11),
     hosted("flutter_lints", "2.0.1", 19),
     hosted("http", "0.13.6", 27),
@@ -32,7 +32,7 @@ test("parses resolved hosted packages and SDK constraints of a positive pubspec.
 });
 
 test("parses the current resolved packages and SDK constraints of a zero pubspec.lock", async () => {
-  assert.deepEqual(parsePubspecLock(await fixture("zero/pubspec.lock")), [
+  assert.deepEqual(parsePubspecLock(await fixture("zero/pubspec.lock.fixture")), [
     hosted("collection", "1.19.1", 11),
     hosted("flutter_lints", "6.0.0", 19),
     hosted("http", "1.6.0", 27),
@@ -46,11 +46,11 @@ test("parses the current resolved packages and SDK constraints of a zero pubspec
 });
 
 test("a negative pubspec.lock produces no declarations", async () => {
-  assert.deepEqual(parsePubspecLock(await fixture("negative/pubspec.lock")), []);
+  assert.deepEqual(parsePubspecLock(await fixture("negative/pubspec.lock.fixture")), []);
 });
 
 test("a malformed pubspec.lock returns nothing, not partial declarations, and never throws", async () => {
-  const contents = await fixture("malformed/pubspec.lock");
+  const contents = await fixture("malformed/pubspec.lock.fixture");
   assert.doesNotThrow(() => parsePubspecLock(contents));
   assert.deepEqual(parsePubspecLock(contents), []);
 });
@@ -207,6 +207,6 @@ test("bounds untrusted input: an over-long line or an over-large file returns no
 });
 
 test("parsing is deterministic", async () => {
-  const contents = await fixture("positive/pubspec.lock");
+  const contents = await fixture("positive/pubspec.lock.fixture");
   assert.deepEqual(parsePubspecLock(contents), parsePubspecLock(contents));
 });

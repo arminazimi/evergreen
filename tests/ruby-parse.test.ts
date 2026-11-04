@@ -147,7 +147,7 @@ test("Gemfile ignores dynamic values and unsupported ruby directive forms", () =
 });
 
 test("parses resolved gems and RUBY VERSION from a Gemfile.lock with exact lines", async () => {
-  assert.deepEqual(parseGemfileLock(await fixture("positive/Gemfile.lock")), [
+  assert.deepEqual(parseGemfileLock(await fixture("positive/Gemfile.lock.fixture")), [
     { kind: "gem", name: "rack", value: "2.2.8", line: 4 },
     { kind: "gem", name: "rake", value: "13.0.6", line: 5 },
     { kind: "ruby", value: "3.2.2p53", line: 15 },
@@ -155,18 +155,18 @@ test("parses resolved gems and RUBY VERSION from a Gemfile.lock with exact lines
 });
 
 test("a valid Gemfile.lock with no lifecycle findings still parses its declarations", async () => {
-  assert.deepEqual(parseGemfileLock(await fixture("zero/Gemfile.lock")), [
+  assert.deepEqual(parseGemfileLock(await fixture("zero/Gemfile.lock.fixture")), [
     { kind: "gem", name: "rake", value: "13.2.1", line: 4 },
     { kind: "ruby", value: "3.3.0p0", line: 13 },
   ]);
 });
 
 test("ignores DEPENDENCIES requirements, an empty specs section, a dynamic RUBY VERSION, and BUNDLED WITH", async () => {
-  assert.deepEqual(parseGemfileLock(await fixture("negative/Gemfile.lock")), []);
+  assert.deepEqual(parseGemfileLock(await fixture("negative/Gemfile.lock.fixture")), []);
 });
 
 test("a malformed Gemfile.lock returns nothing and never throws", async () => {
-  const contents = await fixture("malformed/Gemfile.lock");
+  const contents = await fixture("malformed/Gemfile.lock.fixture");
   assert.doesNotThrow(() => parseGemfileLock(contents));
   assert.deepEqual(parseGemfileLock(contents), []);
   for (const junk of [

@@ -1,12 +1,22 @@
 import assert from "node:assert/strict";
-import { access } from "node:fs/promises";
+import { access, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixture = resolve("tests/fixtures/toolchain/slipway-site");
+const temporaryRoots: string[] = [];
+let fixture: string;
+
+before(async () => {
+  fixture = await copyFixtureTree(resolve("tests/fixtures/toolchain/slipway-site"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 const observed = async () => {
   const scan = await scanRepository(fixture, builtInDetectors, { noCache: true });

@@ -1,11 +1,23 @@
 import assert from "node:assert/strict";
+import { rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { checkUpgrade } from "../src/upgrade/index.js";
 import { matchesSpecifier, parseVersion } from "../src/upgrade/pep440.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixture = (name: string) => resolve("tests/fixtures/upgrade/poetry-lock", name);
+const temporaryRoots: string[] = [];
+let fixtures: string;
+const fixture = (name: string) => resolve(fixtures, name);
+
+before(async () => {
+  fixtures = await copyFixtureTree(resolve("tests/fixtures/upgrade/poetry-lock"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 const target = { runtime: "python", version: "3.13" } as const;
 
 /** PEP 440 and Poetry specifier cases, including the examples from PEP 440's own specification. */

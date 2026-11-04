@@ -1,14 +1,24 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { after, before, test } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import type { Plan } from "../src/plan.js";
 import { runCli } from "./cli-runner.js";
+import { copyFixtureTree } from "./fixture-copies.js";
 
-const fixture = resolve("tests/fixtures/plan/monorepo");
+const temporaryRoots: string[] = [];
+let fixture: string;
 const SHARED_LOCKFILE = "package-lock.json";
+
+before(async () => {
+  fixture = await copyFixtureTree(resolve("tests/fixtures/plan/monorepo"), temporaryRoots);
+});
+
+after(async () => {
+  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 async function schemaValidator() {
   const schema = JSON.parse(await readFile(resolve("schemas/plan.v1.schema.json"), "utf8")) as object;

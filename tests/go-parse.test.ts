@@ -7,7 +7,7 @@ import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, parseGoMod } from "../src/det
 import { parseGoWork } from "../src/detectors/go/parse-go-work.js";
 
 async function goModFixture(caseName: string): Promise<string> {
-  return readFile(resolve("tests/fixtures/go", caseName, "go.mod"), "utf8");
+  return readFile(resolve("tests/fixtures/go", caseName, "go.mod.fixture"), "utf8");
 }
 
 async function goWorkFixture(caseName: string): Promise<string> {
