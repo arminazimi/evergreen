@@ -47,8 +47,8 @@ export function exportCle(rules: readonly RegistryV2Rule[]): { documents: CleDoc
     group.push(rule);
     groups.set(rule.purl, group);
   }
-  const documents = [...groups.keys()].sort().map((identifier): CleDocument => {
-    const group = groups.get(identifier)!;
+  const grouped = [...groups.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+  const documents = grouped.map(([identifier, group]): CleDocument => {
     group.sort((a, b) =>
       a.provenance.observedAt < b.provenance.observedAt
         ? -1
