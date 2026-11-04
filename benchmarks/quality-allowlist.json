@@ -1,15 +1,7 @@
 {
   "schemaVersion": "evergreen.quality-allowlist.v2",
   "note": "Existing debt only. Each entry is a ceiling: it may shrink (tighten it) or be removed, never raised or added. Entries expire on the date shown; see docs/QUALITY.md.",
-  "fileSize": [
-    {
-      "file": "src/source-usage.ts",
-      "lines": 994,
-      "owner": "#2224",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 1,000-line ceiling; split it in the file-size follow-up."
-    }
-  ],
+  "fileSize": [],
   "functionLength": [
     {
       "file": "src/action-fix-pr.ts",
@@ -1047,14 +1039,6 @@
       "file": "src/source-usage.ts",
       "function": "rubyInvocations",
       "lines": 72,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "rustUseLeaves",
-      "lines": 51,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -2423,22 +2407,6 @@
     },
     {
       "file": "src/source-usage.ts",
-      "function": "moduleMatches",
-      "complexity": 19,
-      "owner": "#2275",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "phpRequires",
-      "complexity": 20,
-      "owner": "#2275",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
       "function": "readRubyLiteral",
       "complexity": 35,
       "owner": "#2276",
@@ -2456,14 +2424,6 @@
     {
       "file": "src/source-usage.ts",
       "function": "rubyKeywordIsCall",
-      "complexity": 22,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "rustImports",
       "complexity": 22,
       "owner": "#2276",
       "expires": "2027-01-26",
@@ -3426,7 +3386,7 @@
     },
     {
       "file": "src/source-usage.ts",
-      "count": 33,
+      "count": 20,
       "owner": "#2223",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Non-null assertions in this file; remove them in the non-null follow-up."

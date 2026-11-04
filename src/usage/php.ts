@@ -1,3 +1,4 @@
+import type { ImportReference } from "./imports.js";
 import { escapePattern } from "./patterns.js";
 
 export const PHP_MAX_LINE = 4096;
@@ -342,4 +343,67 @@ export function phpVariableCalls(lines: readonly string[], maskedLines: readonly
     }
   }
   return found;
+}
+
+/** One `require` / `include` match on `line`; `keywordLength` is the matched keyword's length. */
+function phpRequireAt(line: string, matchIndex: number, keywordLength: number): Omit<PhpRequire, "line"> {
+  const reference = line.slice(matchIndex, matchIndex + PHP_MAX_REFERENCE).trim();
+  let cursor = matchIndex + keywordLength;
+  while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+  if (line[cursor] === "(") {
+    cursor += 1;
+    while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+  }
+  const literal = readPhpLiteral(line, cursor);
+  let after = literal?.end ?? cursor;
+  while (line[after] === " " || line[after] === "\t") after += 1;
+  const transformed = literal !== undefined && (literal.interpolated || line[after] === ".");
+  return {
+    keywordColumn: matchIndex + 1,
+    reference,
+    argument:
+      literal && !transformed ? { kind: "literal", value: literal.value, column: literal.column } : { kind: "dynamic" },
+  };
+}
+
+/** `require`, `require_once`, `include`, and `include_once`. A quoted path is literal; anything else is dynamic. */
+export function phpRequires(
+  lines: readonly string[],
+  maskedLines: readonly string[],
+): { requires: PhpRequire[]; skips: PhpScanSkip[] } {
+  const keyword = /(?<![\w$>-])(require_once|include_once|require|include)\b/g;
+  const requires: PhpRequire[] = [];
+  const skips: PhpScanSkip[] = [];
+  for (const [index, masked] of maskedLines.entries()) {
+    const line = lines[index] ?? "";
+    if (line.length > PHP_MAX_LINE || masked.length > PHP_MAX_LINE) {
+      if (/require|include/.test(masked)) {
+        skips.push({
+          line: index + 1,
+          column: 1,
+          reference: line.slice(0, PHP_MAX_REFERENCE).trim(),
+          reason: `line longer than ${PHP_MAX_LINE} characters`,
+        });
+      }
+      continue;
+    }
+    keyword.lastIndex = 0;
+    for (const match of masked.matchAll(keyword)) {
+      if (match.index === undefined || !match[1]) continue;
+      requires.push({ line: index + 1, ...phpRequireAt(line, match.index, match[1].length) });
+    }
+  }
+  return { requires, skips };
+}
+
+/** Quoted `require` / `include` (and `_once`) paths. The matched module is the path, with a trailing `.php` removed. */
+export function phpImportsFromRequires(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
+  const references: ImportReference[] = [];
+  for (const invocation of phpRequires(lines, maskedLines).requires) {
+    if (invocation.argument.kind !== "literal") continue;
+    const module = invocation.argument.value.replace(/\.php$/, "");
+    if (module.length === 0) continue;
+    references.push({ module, line: invocation.line, column: invocation.argument.column, bindings: [] });
+  }
+  return references;
 }
