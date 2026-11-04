@@ -1,3 +1,4 @@
+import { required } from "../../required.js";
 import {
   directBlocks,
   MAXIMUM_DECLARATIONS,
@@ -143,10 +144,10 @@ function positionAt(starts: LineStarts, offset: number): { line: number; column:
   let high = starts.starts.length - 1;
   while (low < high) {
     const middle = Math.ceil((low + high) / 2);
-    if (starts.starts[middle]! <= offset) low = middle;
+    if (required(starts.starts[middle], "line start") <= offset) low = middle;
     else high = middle - 1;
   }
-  return { line: low + 1, column: offset - starts.starts[low]! + 1 };
+  return { line: low + 1, column: offset - required(starts.starts[low], "line start") + 1 };
 }
 
 function isIdentifierStart(character: string): boolean {
@@ -159,14 +160,14 @@ function isIdentifierPart(character: string): boolean {
 
 /** Whether the identifier at `index` begins an expression rather than a member or namespace name. */
 function isCallStart(masked: string, index: number): boolean {
-  return index === 0 || !/[A-Za-z0-9_.:-]/.test(masked[index - 1]!);
+  return index === 0 || !/[A-Za-z0-9_.:-]/.test(masked.charAt(index - 1));
 }
 
 /** Offset of the `"` that closes the string opened at `open`, including a template's nested quotes. */
 function stringEnd(text: string, open: number): number | undefined {
   let index = open + 1;
   while (index < text.length) {
-    const character = text[index]!;
+    const character = text.charAt(index);
     if (character === "\n") return undefined;
     if (character === "\\") {
       index += 2;
@@ -192,7 +193,7 @@ function stringEnd(text: string, open: number): number | undefined {
 function closingBrace(text: string, open: number): number | undefined {
   let depth = 0;
   for (let index = open; index < text.length; index++) {
-    const character = text[index]!;
+    const character = text.charAt(index);
     if (character === '"') {
       let end = index + 1;
       while (end < text.length && text[end] !== '"') {
@@ -222,7 +223,7 @@ function scanCall(text: string, open: number): CallScan | undefined {
   let depth = 0;
   const commas: number[] = [];
   for (let index = open; index < text.length; index++) {
-    const character = text[index]!;
+    const character = text.charAt(index);
     if (character === '"') {
       const end = stringEnd(text, index);
       if (end === undefined) return undefined;
@@ -249,7 +250,7 @@ function scanCall(text: string, open: number): CallScan | undefined {
 /** True for `list(string)`, `map(object({ ... }))`, and the other type constructors Terraform still reads. */
 function isTypeConstraint(_name: "list" | "map", args: readonly string[]): boolean {
   if (args.length !== 1) return false;
-  const argument = args[0]!.trim();
+  const argument = required(args[0], "type constraint argument").trim();
   return /^(?:any|bool|number|string)$/.test(argument) || /^(?:list|map|set|object|tuple)\s*\(/.test(argument);
 }
 
@@ -273,7 +274,7 @@ function stringContext(text: string, open: number, close: number): "value" | "ke
   if (text[after] === "=" && text[after + 1] !== "=") return "key";
   let before = open - 1;
   while (before >= 0 && (text[before] === " " || text[before] === "\t")) before--;
-  if (before >= 0 && (isIdentifierPart(text[before]!) || text[before] === '"')) {
+  if (before >= 0 && (isIdentifierPart(text.charAt(before)) || text[before] === '"')) {
     let next = close + 1;
     while (next < text.length && (text[next] === " " || text[next] === "\t")) next++;
     if (text[next] === "{" || text[next] === '"') return "label";
@@ -345,7 +346,7 @@ function readCall(
 function readTemplate(contents: string, base: number, starts: LineStarts, found: TerraformLegacyDeclaration[]): void {
   let index = 0;
   while (index < contents.length - 1 && found.length < MAXIMUM_DECLARATIONS) {
-    const character = contents[index]!;
+    const character = contents.charAt(index);
     if ((character === "$" || character === "%") && contents[index + 1] === "{") {
       if (index > 0 && contents[index - 1] === character) {
         index += 2;
@@ -370,7 +371,7 @@ function readExpression(
 ): void {
   let index = 0;
   while (index < expression.length && found.length < MAXIMUM_DECLARATIONS) {
-    const character = expression[index]!;
+    const character = expression.charAt(index);
     if (character === '"') {
       const close = stringEnd(expression, index);
       if (close === undefined) return;
@@ -378,7 +379,7 @@ function readExpression(
       index = close + 1;
     } else if (isIdentifierStart(character)) {
       let nameEnd = index + 1;
-      while (nameEnd < expression.length && isIdentifierPart(expression[nameEnd]!)) nameEnd++;
+      while (nameEnd < expression.length && isIdentifierPart(expression.charAt(nameEnd))) nameEnd++;
       const name = expression.slice(index, nameEnd);
       if ((name === "list" || name === "map") && expression[nameEnd] === "(" && isCallStart(expression, index)) {
         readCall(expression, nameEnd, index, name as "list" | "map", base, starts, found);
@@ -390,11 +391,14 @@ function readExpression(
   }
 }
 
+/** A heredoc opener, read with `matchAll` so the marker needs no assertion. */
+const HEREDOC = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/g;
+
 /** Read one `*.tf` source in order, skipping comments, heredocs, and quoted string contents. */
 function readCode(text: string, base: number, starts: LineStarts, found: TerraformLegacyDeclaration[]): void {
   let index = 0;
   while (index < text.length && found.length < MAXIMUM_DECLARATIONS) {
-    const character = text[index]!;
+    const character = text.charAt(index);
     if (character === '"') {
       const close = stringEnd(text, index);
       if (close === undefined) return;
@@ -410,13 +414,14 @@ function readCode(text: string, base: number, starts: LineStarts, found: Terrafo
       if (end < 0) return;
       index = end + 2;
     } else if (text.startsWith("<<", index) && /^<<-?[A-Za-z_]/.test(text.slice(index, index + 4))) {
-      const marker = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/.exec(text.slice(index))![1]!;
+      const opener = required(text.slice(index).matchAll(HEREDOC).next().value, "heredoc opener");
+      const marker = required(opener[1], "heredoc marker");
       const closer = new RegExp(`\\n[\\t ]*${marker}[\\t ]*(?:\\r?\\n|$)`).exec(text.slice(index));
       if (!closer) return;
       index += closer.index + closer[0].length;
     } else if (isIdentifierStart(character)) {
       let nameEnd = index + 1;
-      while (nameEnd < text.length && isIdentifierPart(text[nameEnd]!)) nameEnd++;
+      while (nameEnd < text.length && isIdentifierPart(text.charAt(nameEnd))) nameEnd++;
       const name = text.slice(index, nameEnd);
       if ((name === "list" || name === "map") && text[nameEnd] === "(" && isCallStart(text, index)) {
         readCall(text, nameEnd, index, name as "list" | "map", base, starts, found);

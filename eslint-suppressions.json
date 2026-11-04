@@ -309,9 +309,6 @@
     }
   },
   "src/detectors/terraform/plan.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 5
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
     }
