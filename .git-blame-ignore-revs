@@ -1,4 +1,6 @@
 # Commits that change only formatting. Git and GitHub skip them when blaming.
 # Biome was chosen in docs/decisions/0025-linter-and-formatter.md and the tree
 # was formatted in one commit for #2045.
-c18c36c2f9586e107a12209baa12af2afb2a8db7
+# Each entry must be the SHA as it exists on main. After a squash merge, use the
+# squash commit SHA, not the branch commit SHA.
+92c781f82d3ea1cc317bbd61db623ceff9fbcf16
