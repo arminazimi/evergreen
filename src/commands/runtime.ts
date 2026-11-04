@@ -144,6 +144,87 @@ export interface Gated extends Prepared {
   readonly selection: ScanSelection | undefined;
 }
 
+/** The operands left after every option and the value it takes. */
+function positionalWords(args: readonly string[]): string[] {
+  const positional: string[] = [];
+  for (let index = 1; index < args.length; index += 1) {
+    const argument = args[index];
+    if (!argument) continue;
+    if (valueOptions.has(argument)) {
+      index += 1;
+    } else if (!argument.startsWith("-")) {
+      positional.push(argument);
+    }
+  }
+  return positional;
+}
+
+/** The repository configuration, or the usage failure for a configuration file that cannot be read. */
+async function preparedConfig(
+  command: string,
+  demo: boolean,
+  pathArgument: string,
+  ctx: CommandContext,
+): Promise<EvergreenConfig | number | undefined> {
+  if (demo || command === "capabilities" || command === "data") return undefined;
+  try {
+    return await loadConfig(pathArgument);
+  } catch (error) {
+    if (error instanceof ConfigError) return ctx.fail("usage", error.message);
+    throw error;
+  }
+}
+
+/** The index of `--data-version` in `args` and the value it takes. */
+function dataVersionOption(args: readonly string[]): { index: number; value: string | undefined } {
+  const index = args.indexOf("--data-version");
+  return { index, value: index === -1 ? undefined : args[index + 1] };
+}
+
+/** The data version the run uses: the flag, the configuration, the environment, or none. */
+function activeDataPin(
+  isUpdate: boolean,
+  flag: string | undefined,
+  config: EvergreenConfig | undefined,
+): string | undefined {
+  if (isUpdate) return undefined;
+  return flag ?? config?.dataVersion ?? (process.env.EVERGREEN_DATA_VERSION || undefined);
+}
+
+/** Loading the pinned rule data, or the failure for a pin that is malformed or names nothing. */
+async function pinnedData(
+  command: string,
+  isUpdate: boolean,
+  dataPin: string | undefined,
+  ctx: CommandContext,
+): Promise<number | undefined> {
+  if (command === "capabilities" || isUpdate) return undefined;
+  configureActiveData(dataPin === undefined ? {} : { pinnedVersion: dataPin });
+  try {
+    await getActiveData();
+  } catch (error) {
+    if (error instanceof DataPinError) return ctx.fail(error.malformed ? "usage" : "data", error.message);
+    throw error;
+  }
+  return undefined;
+}
+
+/** The `--data-version` value and the data it pins, or the failure that stops the command. */
+async function dataPhase(
+  command: string,
+  args: readonly string[],
+  config: EvergreenConfig | undefined,
+  ctx: CommandContext,
+): Promise<ReturnType<typeof dataVersionOption> | number> {
+  const dataVersion = dataVersionOption(args);
+  if (dataVersion.index !== -1 && (!dataVersion.value || dataVersion.value.startsWith("-"))) {
+    return ctx.fail("usage", '--data-version needs a version, for example 2026.10.01, or "bundled".');
+  }
+  const isUpdate = command === "data" && args[1] === "update";
+  const failure = await pinnedData(command, isUpdate, activeDataPin(isUpdate, dataVersion.value, config), ctx);
+  return failure === undefined ? dataVersion : failure;
+}
+
 /** Option parsing, config loading, and the data pin. Returns an exit code when that setup fails. */
 export async function prepare(
   command: string,
@@ -166,50 +247,15 @@ export async function prepare(
     }
     return values;
   };
-  const positional: string[] = [];
-  for (let index = 1; index < args.length; index += 1) {
-    const argument = args[index];
-    if (!argument) continue;
-    if (valueOptions.has(argument)) {
-      index += 1;
-    } else if (!argument.startsWith("-")) {
-      positional.push(argument);
-    }
-  }
-
+  const positional = positionalWords(args);
   const takesFindingId = command === "explain" || command === "context" || command === "report-issue";
   const findingId = takesFindingId ? positional[0] : undefined;
   const pathArgument = takesFindingId ? (positional[1] ?? ".") : command === "check" ? "." : (positional[0] ?? ".");
   const demo = args.includes("--demo");
-
-  let config: EvergreenConfig | undefined;
-  if (!demo && command !== "capabilities" && command !== "data") {
-    try {
-      config = await loadConfig(pathArgument);
-    } catch (error) {
-      if (error instanceof ConfigError) return ctx.fail("usage", error.message);
-      throw error;
-    }
-  }
-
-  const dataVersionIndex = args.indexOf("--data-version");
-  const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
-  if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {
-    return ctx.fail("usage", '--data-version needs a version, for example 2026.10.01, or "bundled".');
-  }
-  const isUpdate = command === "data" && args[1] === "update";
-  const dataPin = isUpdate
-    ? undefined
-    : (dataVersionFlag ?? config?.dataVersion ?? (process.env.EVERGREEN_DATA_VERSION || undefined));
-  if (command !== "capabilities" && !isUpdate) {
-    configureActiveData(dataPin === undefined ? {} : { pinnedVersion: dataPin });
-    try {
-      await getActiveData();
-    } catch (error) {
-      if (error instanceof DataPinError) return ctx.fail(error.malformed ? "usage" : "data", error.message);
-      throw error;
-    }
-  }
+  const config = await preparedConfig(command, demo, pathArgument, ctx);
+  if (typeof config === "number") return config;
+  const dataVersion = await dataPhase(command, args, config, ctx);
+  if (typeof dataVersion === "number") return dataVersion;
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
   return {
@@ -220,8 +266,8 @@ export async function prepare(
     pathArgument,
     demo,
     config,
-    dataVersionFlag,
-    dataVersionIndex,
+    dataVersionFlag: dataVersion.value,
+    dataVersionIndex: dataVersion.index,
     format,
     formatIndex,
     optionValue,
@@ -320,54 +366,74 @@ export async function sharedGates(state: Prepared, ctx: CommandContext): Promise
   return { ...state, json, noCache, selection };
 }
 
-/** `--all`, `--demo`, and the repository-root check. A multi-path scan is handled here and returns its exit code. */
-export async function repositoryPhase(state: Gated, ctx: CommandContext): Promise<number | undefined> {
-  const { command, args, positional, demo, json, noCache, selection } = state;
-  const allIndex = args.indexOf("--all");
-  const allDirectory = allIndex === -1 ? undefined : args[allIndex + 1];
-  if (allIndex !== -1 && (command !== "scan" || !allDirectory || allDirectory.startsWith("-"))) {
+/** The index of `--all` in `args` and the directory it names. */
+function allDirectoriesOption(args: readonly string[]): { index: number; directory: string | undefined } {
+  const index = args.indexOf("--all");
+  return { index, directory: index === -1 ? undefined : args[index + 1] };
+}
+
+type AllDirectories = ReturnType<typeof allDirectoriesOption>;
+
+/** The `--all` and `--demo` combinations that cannot mean one scan, in the order the command refuses them. */
+function repositoryFlagProblem(state: Gated, all: AllDirectories, ctx: CommandContext): number | undefined {
+  const { command, args, demo, positional } = state;
+  if (all.index !== -1 && (command !== "scan" || !all.directory || all.directory.startsWith("-"))) {
     return ctx.fail("usage", "--all needs a directory of repositories and is only available for the scan command.");
   }
-  if (demo && allIndex !== -1) return ctx.fail("usage", "--all is not available with --demo.");
+  if (demo && all.index !== -1) return ctx.fail("usage", "--all is not available with --demo.");
   if (demo && positional.length > 0) return ctx.fail("usage", "--demo does not take a path argument.");
   if (demo && (args.includes("--baseline") || args.includes("--write-status"))) {
     return ctx.fail("usage", "--baseline and --write-status are not available with --demo.");
   }
-  if (command === "scan" && (positional.length > 1 || allDirectory !== undefined)) {
-    if (state.format !== undefined && state.format !== "text" && state.format !== "json") {
-      return ctx.fail("usage", "Scanning several paths supports --json and --format text|json only.");
-    }
-    if (args.includes("--baseline") || args.includes("--write-status")) {
-      return ctx.fail("usage", "--baseline and --write-status are not available when scanning several paths.");
-    }
-    let found: string[] = [];
-    if (allDirectory !== undefined) {
-      try {
-        found = await findRepositories(allDirectory);
-      } catch (error) {
-        return ctx.fail(
-          "usage",
-          `Cannot read ${allDirectory}: ${error instanceof Error ? error.message : String(error)}`,
-        );
-      }
-    }
-    const paths = [...positional, ...found];
-    if (paths.length === 0) return ctx.fail("usage", `No Git repositories found in ${allDirectory}.`);
-    const multi = await scanProjects(paths, builtInDetectors, { noCache });
-    if (selection) {
-      multi.projects = multi.projects.map((project) => {
-        const result = applyScanSelection(project.result, selection);
-        return { ...project, findings: result.findings.length, result };
-      });
-      multi.total = {
-        projects: multi.projects.length,
-        findings: multi.projects.reduce((sum, project) => sum + project.findings, 0),
-      };
-    }
-    process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
-    return 0;
+  return undefined;
+}
+
+/** Several paths, or every repository under `--all`, scanned and printed as one document. */
+async function multiScanPhase(state: Gated, allDirectory: string | undefined, ctx: CommandContext): Promise<number> {
+  if (state.format !== undefined && state.format !== "text" && state.format !== "json") {
+    return ctx.fail("usage", "Scanning several paths supports --json and --format text|json only.");
   }
-  if (!demo) {
+  if (state.args.includes("--baseline") || state.args.includes("--write-status")) {
+    return ctx.fail("usage", "--baseline and --write-status are not available when scanning several paths.");
+  }
+  let found: string[] = [];
+  if (allDirectory !== undefined) {
+    try {
+      found = await findRepositories(allDirectory);
+    } catch (error) {
+      return ctx.fail(
+        "usage",
+        `Cannot read ${allDirectory}: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+  const paths = [...state.positional, ...found];
+  if (paths.length === 0) return ctx.fail("usage", `No Git repositories found in ${allDirectory}.`);
+  const multi = await scanProjects(paths, builtInDetectors, { noCache: state.noCache });
+  const selection = state.selection;
+  if (selection) {
+    multi.projects = multi.projects.map((project) => {
+      const result = applyScanSelection(project.result, selection);
+      return { ...project, findings: result.findings.length, result };
+    });
+    multi.total = {
+      projects: multi.projects.length,
+      findings: multi.projects.reduce((sum, project) => sum + project.findings, 0),
+    };
+  }
+  process.stdout.write(`${state.json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
+  return 0;
+}
+
+/** `--all`, `--demo`, and the repository-root check. A multi-path scan is handled here and returns its exit code. */
+export async function repositoryPhase(state: Gated, ctx: CommandContext): Promise<number | undefined> {
+  const all = allDirectoriesOption(state.args);
+  const refusal = repositoryFlagProblem(state, all, ctx);
+  if (refusal !== undefined) return refusal;
+  if (state.command === "scan" && (state.positional.length > 1 || all.directory !== undefined)) {
+    return multiScanPhase(state, all.directory, ctx);
+  }
+  if (!state.demo) {
     const rootProblem = await repositoryRootProblem(state.pathArgument);
     if (rootProblem) return ctx.failActionable("usage", rootProblem);
   }

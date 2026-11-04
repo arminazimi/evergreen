@@ -62,34 +62,52 @@ function isJsonObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+/** The finding fields the scan output contract requires to be strings, in the order the contract reports them. */
+const requiredFindingFields = ["id", "ruleId", "detector", "title", "summary"];
+
+/** Why one finding's `location` breaks the scan output contract, or undefined when it does not. */
+function findingLocationProblem(location: unknown): string | undefined {
+  if (!isJsonObject(location) || typeof location.path !== "string") {
+    return `"location.path" is missing or not a string.`;
+  }
+  const line = location.line;
+  if (line !== undefined && (!Number.isInteger(line) || (line as number) < 1)) {
+    return `"location.line" is not a positive integer.`;
+  }
+  return undefined;
+}
+
+/** Why one `migration.verification` entry breaks the scan output contract, or undefined when they all match. */
+function verificationEntriesProblem(verification: unknown): string | undefined {
+  if (!Array.isArray(verification)) return `"migration.verification" is not an array.`;
+  for (let index = 0; index < verification.length; index += 1) {
+    const command = verification[index];
+    if (!isJsonObject(command) || typeof command.command !== "string" || typeof command.purpose !== "string") {
+      return `"migration.verification[${index}]" is not an object with command and purpose strings.`;
+    }
+  }
+  return undefined;
+}
+
+/** Why one finding's `migration` block breaks the scan output contract, or undefined when it does not. */
+function findingMigrationProblem(migration: unknown): string | undefined {
+  if (!isJsonObject(migration)) return `"migration" is not an object.`;
+  const verification = migration.verification;
+  return verification === undefined ? undefined : verificationEntriesProblem(verification);
+}
+
 /** Why one entry of a saved scan's `findings` does not match the scan output contract, or undefined when it does. */
 function scanFindingProblem(value: unknown): string | undefined {
   if (!isJsonObject(value)) return "the entry is not an object.";
-  for (const field of ["id", "ruleId", "detector", "title", "summary"]) {
+  for (const field of requiredFindingFields) {
     if (typeof value[field] !== "string") return `"${field}" is missing or not a string.`;
   }
   if (!severityValues.includes(value.severity as Severity))
     return `"severity" is not one of ${severityValues.join(", ")}.`;
-  if (!isJsonObject(value.location) || typeof value.location.path !== "string")
-    return `"location.path" is missing or not a string.`;
-  const line = value.location.line;
-  if (line !== undefined && (!Number.isInteger(line) || (line as number) < 1))
-    return `"location.line" is not a positive integer.`;
+  const location = findingLocationProblem(value.location);
+  if (location !== undefined) return location;
   if (!Array.isArray(value.sources)) return `"sources" is missing or not an array.`;
-  if (value.migration !== undefined) {
-    if (!isJsonObject(value.migration)) return `"migration" is not an object.`;
-    const verification = value.migration.verification;
-    if (verification !== undefined) {
-      if (!Array.isArray(verification)) return `"migration.verification" is not an array.`;
-      for (let index = 0; index < verification.length; index += 1) {
-        const command = verification[index];
-        if (!isJsonObject(command) || typeof command.command !== "string" || typeof command.purpose !== "string") {
-          return `"migration.verification[${index}]" is not an object with command and purpose strings.`;
-        }
-      }
-    }
-  }
-  return undefined;
+  return value.migration === undefined ? undefined : findingMigrationProblem(value.migration);
 }
 
 /** Why the saved scan's `data` does not match the scan output contract, or undefined when it does. */

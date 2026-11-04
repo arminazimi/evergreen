@@ -6,6 +6,7 @@ import { severityValues } from "../domain.js";
 import { initAgents, initClaudeHooks, initCodexHooks } from "../init-agents.js";
 import type { AgentFileName } from "../init-agents.js";
 import { initHooks } from "../init-hooks.js";
+import type { InitHooksResult } from "../init-hooks.js";
 import { initPersonal } from "../init-personal.js";
 import { planInitSetup, applyInitSetup, hasWritables, initAgent, planSummary, siteSuggestion } from "../init.js";
 import type { InitStep } from "../init.js";
@@ -45,76 +46,143 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
   }
 }
 
-async function runInit(args: string[], ctx: CommandContext): Promise<number> {
-  const usage =
-    "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
-  if (args[0] === "agent") {
-    const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
-    const agentArgs = args.slice(1);
-    const dryRun = agentArgs.includes("--dry-run");
-    const fileIndex = agentArgs.indexOf("--file");
-    const fileValue = fileIndex === -1 ? undefined : agentArgs[fileIndex + 1];
-    if (fileIndex !== -1 && fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md") {
-      return ctx.fail("usage", "--file must be AGENTS.md or CLAUDE.md.", agentUsage);
-    }
-    const flags = new Set(["--dry-run", "--file"]);
-    const positional = agentArgs.filter(
-      (argument, index) =>
-        !flags.has(argument) && (fileIndex === -1 || index !== fileIndex + 1) && !argument.startsWith("-"),
-    );
-    const unknown = agentArgs.filter((argument) => argument.startsWith("-") && !flags.has(argument));
-    if (unknown.length > 0 || positional.length > 1) return ctx.fail("usage", agentUsage.trimEnd());
-    const root = positional[0] ?? ".";
-    try {
-      const result = await initAgent({ root, dryRun, ...(fileValue ? { file: fileValue as AgentFileName } : {}) });
-      for (const entry of result.entries) {
-        if (entry.change === "unchanged") {
-          process.stdout.write(`${entry.file} already has the current Evergreen section; nothing to change.\n`);
-        } else {
-          const verb =
-            entry.change === "created"
-              ? "create"
-              : entry.change === "added"
-                ? "add the Evergreen section to"
-                : "update the Evergreen section in";
-          process.stdout.write(
-            dryRun
-              ? `Would ${verb} ${entry.file}:\n\n${entry.diff}\n`
-              : `${entry.change === "created" ? "Created" : entry.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${entry.file}.\n`,
-          );
-        }
-      }
-      return 0;
-    } catch (error) {
-      if (error instanceof AgentFileError) return ctx.fail("parse", error.message);
-      throw error;
-    }
+const initUsage =
+  "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [--hooks-for claude-code|codex] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
+
+/** The `init` flags that choose what to set up, and the operands and values they take. */
+interface InitOptions {
+  readonly agents: boolean;
+  readonly hooks: boolean;
+  readonly personal: boolean;
+  readonly hooksFor: string | undefined;
+  readonly guided: boolean;
+  readonly dryRun: boolean;
+  readonly yes: boolean;
+  readonly root: string;
+  readonly gate: string | undefined;
+  readonly file: string | undefined;
+}
+
+/** One agent instruction file and what the run did to it, as both `init agent` and `init --agents` report it. */
+interface AgentSectionChange {
+  readonly file: string;
+  readonly change: "created" | "added" | "updated" | "unchanged";
+  readonly diff: string;
+}
+
+/** The line `init` prints for one agent-section file, in the tense the run needs. */
+function agentSectionReport(change: AgentSectionChange, dryRun: boolean): string {
+  if (change.change === "unchanged")
+    return `${change.file} already has the current Evergreen section; nothing to change.\n`;
+  const verb =
+    change.change === "created"
+      ? "create"
+      : change.change === "added"
+        ? "add the Evergreen section to"
+        : "update the Evergreen section in";
+  if (dryRun) return `Would ${verb} ${change.file}:\n\n${change.diff}\n`;
+  const done =
+    change.change === "created"
+      ? "Created"
+      : change.change === "added"
+        ? "Added the Evergreen section to"
+        : "Updated the Evergreen section in";
+  return `${done} ${change.file}.\n`;
+}
+
+/** `init agent`: detect the agent host and write the matching config. */
+async function runInitAgent(args: readonly string[], ctx: CommandContext): Promise<number> {
+  const agentArgs = args.slice(1);
+  const dryRun = agentArgs.includes("--dry-run");
+  const fileIndex = agentArgs.indexOf("--file");
+  const fileValue = fileIndex === -1 ? undefined : agentArgs[fileIndex + 1];
+  if (fileIndex !== -1 && fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md") {
+    return ctx.fail("usage", "--file must be AGENTS.md or CLAUDE.md.", agentUsage);
   }
+  const flags = new Set(["--dry-run", "--file"]);
+  const positional = agentArgs.filter(
+    (argument, index) =>
+      !flags.has(argument) && (fileIndex === -1 || index !== fileIndex + 1) && !argument.startsWith("-"),
+  );
+  const unknown = agentArgs.filter((argument) => argument.startsWith("-") && !flags.has(argument));
+  if (unknown.length > 0 || positional.length > 1) return ctx.fail("usage", agentUsage.trimEnd());
+  try {
+    const result = await initAgent({
+      root: positional[0] ?? ".",
+      dryRun,
+      ...(fileValue ? { file: fileValue as AgentFileName } : {}),
+    });
+    for (const entry of result.entries) process.stdout.write(agentSectionReport(entry, dryRun));
+    return 0;
+  } catch (error) {
+    if (error instanceof AgentFileError) return ctx.fail("parse", error.message);
+    throw error;
+  }
+}
+
+/** The flags that choose what `init` sets up, and the host named by `--hooks-for`. */
+function initFlags(args: readonly string[]) {
   const agents = args.includes("--agents");
   const hooks = args.includes("--hooks");
   const personal = args.includes("--personal");
   const hooksForIndex = args.indexOf("--hooks-for");
   const hooksFor = hooksForIndex === -1 ? undefined : args[hooksForIndex + 1];
-  if (hooksForIndex !== -1 && hooksFor !== "claude-code" && hooksFor !== "codex")
-    return ctx.fail("usage", "--hooks-for needs a host: claude-code or codex.", usage);
-  const guided = !agents && !hooks && !personal && !hooksFor;
-  if (personal && (agents || hooks || hooksFor))
-    return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", usage);
+  return { agents, hooks, personal, hooksFor, hooksForIndex, guided: !agents && !hooks && !personal && !hooksFor };
+}
+
+/** The `--file` and `--fail-on` values and where they sit in `args`. */
+function initValueOptions(args: readonly string[]) {
   const fileIndex = args.indexOf("--file");
-  const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
-  if (fileIndex !== -1 && ((!agents && !guided) || (fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md"))) {
-    return ctx.fail("usage", "--file must be AGENTS.md or CLAUDE.md, and needs --agents or the guided init.", usage);
-  }
   const gateIndex = args.indexOf("--fail-on");
-  const gate = gateIndex === -1 ? "high" : args[gateIndex + 1];
-  if (gateIndex !== -1 && ((!(hooks || personal) && !guided) || !severityValues.includes(gate as Severity))) {
+  return {
+    fileIndex,
+    fileValue: fileIndex === -1 ? undefined : args[fileIndex + 1],
+    gateIndex,
+    gate: gateIndex === -1 ? "high" : args[gateIndex + 1],
+  };
+}
+
+type InitFlags = ReturnType<typeof initFlags>;
+type InitValues = ReturnType<typeof initValueOptions>;
+
+/** Flag combinations that cannot mean one thing, in the order `init` refuses them. */
+function initCombinationProblem(flags: InitFlags, ctx: CommandContext): number | undefined {
+  if (flags.hooksForIndex !== -1 && flags.hooksFor !== "claude-code" && flags.hooksFor !== "codex")
+    return ctx.fail("usage", "--hooks-for needs a host: claude-code or codex.", initUsage);
+  if (flags.personal && (flags.agents || flags.hooks || flags.hooksFor))
+    return ctx.fail("usage", "--personal cannot be combined with --agents, --hooks, or --hooks-for.", initUsage);
+  return undefined;
+}
+
+/** A `--file` or `--fail-on` used where `init` does not accept it. */
+function initValueProblem(flags: InitFlags, values: InitValues, ctx: CommandContext): number | undefined {
+  if (
+    values.fileIndex !== -1 &&
+    ((!flags.agents && !flags.guided) || (values.fileValue !== "AGENTS.md" && values.fileValue !== "CLAUDE.md"))
+  ) {
+    return ctx.fail(
+      "usage",
+      "--file must be AGENTS.md or CLAUDE.md, and needs --agents or the guided init.",
+      initUsage,
+    );
+  }
+  if (
+    values.gateIndex !== -1 &&
+    ((!(flags.hooks || flags.personal) && !flags.guided) || !severityValues.includes(values.gate as Severity))
+  ) {
     return ctx.fail(
       "usage",
       `--fail-on needs the guided init, --hooks or --personal, and a severity (${severityValues.join(", ")}).`,
-      usage,
+      initUsage,
     );
   }
-  const flags = new Set([
+  return undefined;
+}
+
+/** The path operand and the unknown flags, skipping the values `init`'s options take. */
+function initWords(args: readonly string[], flags: InitFlags, values: InitValues) {
+  const known = new Set([
     "--agents",
     "--hooks",
     "--personal",
@@ -127,89 +195,122 @@ async function runInit(args: string[], ctx: CommandContext): Promise<number> {
   ]);
   const positional = args.filter(
     (argument, index) =>
-      !flags.has(argument) &&
-      index !== fileIndex + 1 &&
-      index !== gateIndex + 1 &&
-      (hooksForIndex === -1 || index !== hooksForIndex + 1) &&
+      !known.has(argument) &&
+      index !== values.fileIndex + 1 &&
+      index !== values.gateIndex + 1 &&
+      (flags.hooksForIndex === -1 || index !== flags.hooksForIndex + 1) &&
       !argument.startsWith("-"),
   );
-  const unknown = args.filter((argument) => argument.startsWith("-") && !flags.has(argument));
-  if (unknown.length > 0 || positional.length > 1 || (personal && positional.length > 0))
-    return ctx.fail("usage", usage.trimEnd());
-  const dryRun = args.includes("--dry-run");
-  const root = positional[0] ?? ".";
+  const unknown = args.filter((argument) => argument.startsWith("-") && !known.has(argument));
+  return { positional, unknown };
+}
+
+/** Operands and flags as `init` accepts them, or the exit code of the first refusal it hits. */
+function parseInitOptions(args: string[], ctx: CommandContext): InitOptions | number {
+  const flags = initFlags(args);
+  const values = initValueOptions(args);
+  const combination = initCombinationProblem(flags, ctx);
+  if (combination !== undefined) return combination;
+  const value = initValueProblem(flags, values, ctx);
+  if (value !== undefined) return value;
+  const { positional, unknown } = initWords(args, flags, values);
+  if (unknown.length > 0 || positional.length > 1 || (flags.personal && positional.length > 0))
+    return ctx.fail("usage", initUsage.trimEnd());
+  return {
+    agents: flags.agents,
+    hooks: flags.hooks,
+    personal: flags.personal,
+    hooksFor: flags.hooksFor,
+    guided: flags.guided,
+    dryRun: args.includes("--dry-run"),
+    yes: args.includes("--yes") || args.includes("-y"),
+    root: positional[0] ?? ".",
+    gate: values.gate,
+    file: values.fileValue,
+  };
+}
+
+/** `init --personal`: the global config and pre-push hook for every repository. */
+async function runPersonalInit(options: InitOptions): Promise<number> {
+  const result = await initPersonal({
+    gate: options.gate as Severity,
+    dryRun: options.dryRun,
+    confirm: options.yes ? async () => true : confirmOnTerminal,
+  });
+  if (result.change === "unchanged")
+    process.stdout.write("The global Evergreen config and pre-push hook are already current; nothing to change.\n");
+  else if (result.change === "declined") process.stdout.write("Nothing was changed.\n");
+  else if (options.dryRun)
+    process.stdout.write(
+      `Would write the global config and pre-push hook in ${result.hooksDirectory}:\n\n${result.diff}\n`,
+    );
+  else
+    process.stdout.write(
+      `Wrote ${result.configFile} and the pre-push hook in ${result.hooksDirectory}; every repository now blocks a push at ${options.gate} or above.\nBypass it once with \`git push --no-verify\` or \`EVERGREEN_SKIP=1 git push\`.\n`,
+    );
+  return 0;
+}
+
+/** What `init --hooks` did to the pre-push hook, plus the bypass note for a hook it wrote. */
+function printHooksResult(result: InitHooksResult, dryRun: boolean, gate: string | undefined): void {
+  if (result.change === "managed") {
+    process.stdout.write(
+      `${result.manager} manages the Git hooks here, so Evergreen did not write one. Add this to ${result.file}:\n\n${result.snippet}\n`,
+    );
+  } else if (result.change === "unchanged")
+    process.stdout.write(`${result.file} already has the current Evergreen hook; nothing to change.\n`);
+  else {
+    const verb = result.change === "created" ? "create" : "update";
+    process.stdout.write(
+      dryRun
+        ? `Would ${verb} ${result.file}:\n\n${result.diff}\n`
+        : `${result.change === "created" ? "Created" : "Updated"} ${result.file}; it blocks a push at ${gate} or above.\n`,
+    );
+  }
+  if (result.change !== "managed")
+    process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
+}
+
+/** Runs whichever setup the parsed options ask for and prints what it changed. */
+async function applyInit(options: InitOptions, ctx: CommandContext): Promise<number> {
   try {
-    if (guided)
+    if (options.guided)
       return await guidedInit(ctx, {
-        root,
-        gate: gate as Severity,
-        dryRun,
-        ...(fileValue !== undefined ? { file: fileValue as AgentFileName } : {}),
-        yes: args.includes("--yes") || args.includes("-y"),
+        root: options.root,
+        gate: options.gate as Severity,
+        dryRun: options.dryRun,
+        ...(options.file !== undefined ? { file: options.file as AgentFileName } : {}),
+        yes: options.yes,
       });
-    if (personal) {
-      const yes = args.includes("--yes") || args.includes("-y");
-      const result = await initPersonal({
-        gate: gate as Severity,
-        dryRun,
-        confirm: yes ? async () => true : confirmOnTerminal,
+    if (options.personal) return await runPersonalInit(options);
+    if (options.agents) {
+      const result = await initAgents({
+        root: options.root,
+        dryRun: options.dryRun,
+        ...(options.file ? { file: options.file as AgentFileName } : {}),
       });
-      if (result.change === "unchanged")
-        process.stdout.write("The global Evergreen config and pre-push hook are already current; nothing to change.\n");
-      else if (result.change === "declined") process.stdout.write("Nothing was changed.\n");
-      else if (dryRun)
-        process.stdout.write(
-          `Would write the global config and pre-push hook in ${result.hooksDirectory}:\n\n${result.diff}\n`,
-        );
-      else
-        process.stdout.write(
-          `Wrote ${result.configFile} and the pre-push hook in ${result.hooksDirectory}; every repository now blocks a push at ${gate} or above.\nBypass it once with \`git push --no-verify\` or \`EVERGREEN_SKIP=1 git push\`.\n`,
-        );
-      return 0;
+      process.stdout.write(agentSectionReport(result, options.dryRun));
     }
-    if (agents) {
-      const result = await initAgents({ root, dryRun, ...(fileValue ? { file: fileValue as AgentFileName } : {}) });
-      if (result.change === "unchanged")
-        process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
-      else {
-        const verb =
-          result.change === "created"
-            ? "create"
-            : result.change === "added"
-              ? "add the Evergreen section to"
-              : "update the Evergreen section in";
-        process.stdout.write(
-          dryRun
-            ? `Would ${verb} ${result.file}:\n\n${result.diff}\n`
-            : `${result.change === "created" ? "Created" : result.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${result.file}.\n`,
-        );
-      }
-    }
-    if (hooks) {
-      const result = await initHooks({ root, gate: gate as Severity, dryRun });
-      if (result.change === "managed") {
-        process.stdout.write(
-          `${result.manager} manages the Git hooks here, so Evergreen did not write one. Add this to ${result.file}:\n\n${result.snippet}\n`,
-        );
-      } else if (result.change === "unchanged")
-        process.stdout.write(`${result.file} already has the current Evergreen hook; nothing to change.\n`);
-      else {
-        const verb = result.change === "created" ? "create" : "update";
-        process.stdout.write(
-          dryRun
-            ? `Would ${verb} ${result.file}:\n\n${result.diff}\n`
-            : `${result.change === "created" ? "Created" : "Updated"} ${result.file}; it blocks a push at ${gate} or above.\n`,
-        );
-      }
-      if (result.change !== "managed")
-        process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
-    }
-    if (hooksFor === "claude-code" || hooksFor === "codex") await applyHooksFor(hooksFor, root, dryRun);
+    if (options.hooks)
+      printHooksResult(
+        await initHooks({ root: options.root, gate: options.gate as Severity, dryRun: options.dryRun }),
+        options.dryRun,
+        options.gate,
+      );
+    if (options.hooksFor === "claude-code" || options.hooksFor === "codex")
+      await applyHooksFor(options.hooksFor, options.root, options.dryRun);
     return 0;
   } catch (error) {
     if (error instanceof AgentFileError) return ctx.fail("parse", error.message);
     throw error;
   }
+}
+
+async function runInit(args: string[], ctx: CommandContext): Promise<number> {
+  if (args[0] === "agent") return runInitAgent(args, ctx);
+  const options = parseInitOptions(args, ctx);
+  if (typeof options === "number") return options;
+  return applyInit(options, ctx);
 }
 
 /** Runs the host's post-edit hook setup and prints its result; one shape for every `--hooks-for` host. */

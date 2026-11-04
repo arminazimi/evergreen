@@ -44,40 +44,8 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/commands/badge.ts",
-      "function": "run",
-      "lines": 53,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/commands/check-snippet.ts",
       "function": "run",
-      "lines": 52,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/commands/init.ts",
-      "function": "runInit",
-      "lines": 166,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/commands/runtime.ts",
-      "function": "prepare",
-      "lines": 83,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/commands/runtime.ts",
-      "function": "repositoryPhase",
       "lines": 52,
       "owner": "#2049",
       "expires": "2027-01-26",
@@ -1154,70 +1122,6 @@
       "function": "parseCleDocument",
       "complexity": 28,
       "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/commands/badge.ts",
-      "function": "run",
-      "complexity": 23,
-      "owner": "#2253",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/commands/forecast.ts",
-      "function": "run > <anonymous>",
-      "complexity": 25,
-      "owner": "#2253",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/commands/glance.ts",
-      "function": "run",
-      "complexity": 17,
-      "owner": "#2253",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/commands/init.ts",
-      "function": "runInit",
-      "complexity": 75,
-      "owner": "#2253",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/commands/plan.ts",
-      "function": "run > <anonymous>",
-      "complexity": 17,
-      "owner": "#2253",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/commands/receipt.ts",
-      "function": "scanFindingProblem",
-      "complexity": 19,
-      "owner": "#2253",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/commands/runtime.ts",
-      "function": "prepare",
-      "complexity": 33,
-      "owner": "#2253",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/commands/runtime.ts",
-      "function": "repositoryPhase",
-      "complexity": 29,
-      "owner": "#2253",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
