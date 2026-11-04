@@ -39,6 +39,32 @@ Contributor-facing note: [CONTRIBUTING.md](../CONTRIBUTING.md#quality-standards)
 A job's `timeout-minutes` must fit its lane. Raising a lane budget, or moving work between lanes,
 updates this page in the same change as the workflow edit.
 
+## Runner-minute budget (325)
+
+Wall-clock time is not the only cost. A pull request also spends **runner minutes**: for each job,
+its `timeout-minutes` times the number of jobs its matrix expands to, summed over every workflow
+that can start on `pull_request`. The budget is **325 runner minutes**, the ceiling measured on
+2026-11-04. [`ci.yml`](../.github/workflows/ci.yml) is the largest part: four `check` shards at
+20 minutes each, `coverage`, the Windows cross-OS run, `docs`, and the small jobs.
+
+`npm run check` runs [`tools/check-workflow-change.ts`](../tools/check-workflow-change.ts), which
+recomputes the ceiling from the workflow files and fails above the budget. It is offline: it reads
+the workflows, git history, and the event payload file Actions already writes. A job without
+`timeout-minutes` is charged the 25-minute pull-request lane budget, so a new job cannot hide its
+cost. Matrix `include` entries and dynamic `fromJSON` dimensions count as one job, so the number is
+a ceiling rather than an estimate of a particular run.
+
+When a pull request changes a workflow under `.github/workflows/`, it must also fill in the
+**Workflow changes** section of the [pull request template](../.github/pull_request_template.md):
+the reason, and the effect on this budget (for example `+20 runner minutes`, `-5`, or `none`). The
+check compares the stated effect with the measured change. A workflow change without the note
+fails, and a note that understates the effect fails too. The note is enforced on `pull_request`
+runs, where the body exists; the merge queue has no pull-request body and re-runs only the budget.
+
+Raising the budget is a design change: update this page and
+`PULL_REQUEST_RUNNER_MINUTE_BUDGET` in the tool in the same pull request, and say why in the note.
+Do not raise it to make a single change pass.
+
 ## Pull request (25 minutes)
 
 **Goal.** Catch failures early without pretending the pull request is the landing proof.
@@ -54,6 +80,9 @@ updates this page in the same change as the workflow edit.
 - Decision-record presence when `schemas/`, `src/sdk.ts`, or `src/mcp.ts` change
   ([`decisions.yml`](../.github/workflows/decisions.yml)).
 - Rules lint when registry files change ([`rules.yml`](../.github/workflows/rules.yml)).
+- The [runner-minute budget](#runner-minute-budget-325) on every `npm run check`, plus the
+  workflow-change note when `.github/workflows/` changes
+  ([`tools/check-workflow-change.ts`](../tools/check-workflow-change.ts)).
 
 **Docs-only pull requests.** Skip the test matrix. Build and check reference pages, verify
 `llms-full.txt`, `dashboard/data.json`, and `api/v1` are buildable, generate `llms-full.txt`,
@@ -614,5 +643,8 @@ Checked with `gh run list --workflow <file> --limit 1` against `arminazimi/everg
   between lanes or raise a budget update this page in the same change.
 - **Inventory.** When you add, rename, delete, or change the purpose of a workflow file, update the
   [Workflow inventory](#workflow-inventory) table in the same pull request.
+- **Workflow changes.** A pull request that edits `.github/workflows/` fills in the
+  [pull request template](../.github/pull_request_template.md) section and keeps the
+  [runner-minute ceiling](#runner-minute-budget-325) at or below the budget.
 - **Shared setup.** Checkout-independent Node install and cache move into one composite action in
   #2026; lanes above stay the same.

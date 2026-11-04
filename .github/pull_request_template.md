@@ -3,6 +3,11 @@ Closes #
 ## What changed
 <!-- One or two sentences per change. Keep the PR to one issue. -->
 
+## Workflow changes
+<!-- Required when .github/workflows/** changes: state why and the effect on the pull-request runner-minute budget. Delete this section otherwise. CI checks both. -->
+- Reason:
+- Budget effect:
+
 ## Quality bar
 Read [docs/QUALITY.md](../docs/QUALITY.md) before you change code, data, or docs. CI enforces its nine criteria: add no new debt, and allowlist existing debt only with an expiry.
 

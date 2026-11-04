@@ -85,12 +85,13 @@ test("check runs the action build, tests, plugin drift, and plugin eval together
     },
   });
 
-  await until(() => events.filter((event) => event.endsWith(":start")).length === 8);
+  await until(() => events.filter((event) => event.endsWith(":start")).length === 9);
   assert.deepEqual(events.filter((event) => event.endsWith(":start")).sort(), [
     "build:action:start",
     "check:commands:start",
     "check:plugins:start",
     "check:quality:start",
+    "check:workflows:start",
     "eval:agent-loop:start",
     "eval:plugins:start",
     "lint:start",
@@ -147,6 +148,7 @@ test("an ordinary pull request builds the action bundle but neither publishes no
     "check:commands",
     "check:plugins",
     "check:quality",
+    "check:workflows",
     "eval:agent-loop",
     "eval:plugins",
     "lint",
@@ -567,6 +569,7 @@ function stepName(args: readonly string[]): string {
   if (args.some((arg) => arg.includes("eslint"))) return "lint";
   if (args.some((arg) => arg.includes("generate-commands-index"))) return "check:commands";
   if (args.some((arg) => arg.includes("check-quality"))) return "check:quality";
+  if (args.some((arg) => arg.includes("check-workflow-change"))) return "check:workflows";
   if (args.includes("--check")) return "check:plugins";
   if (args.some((arg) => arg.includes("plugin-host-eval.js"))) return "eval:plugins";
   if (args.some((arg) => arg.includes("agent-loop"))) return "eval:agent-loop";
