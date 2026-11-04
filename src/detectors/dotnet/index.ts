@@ -265,19 +265,19 @@ export class DotnetDetector implements Detector {
 
     // Where the repository's C# source uses a deprecated package, so a migration packet can list the files.
     const rulesById = new Map(rules.map((rule) => [rule.id, rule]));
-    const withUsage = [...findings.values()].filter(
-      (finding) => (rulesById.get(finding.ruleId)?.usage ?? []).length > 0,
-    );
+    const withUsage = [...findings.values()]
+      .map((finding) => ({ finding, matchers: rulesById.get(finding.ruleId)?.usage ?? [] }))
+      .filter((entry) => entry.matchers.length > 0);
     if (withUsage.length > 0) {
       const analyses = new Map(
         (
           await analyzeSourceUsage(
             context.root,
-            withUsage.map((finding) => ({ id: finding.id, matchers: rulesById.get(finding.ruleId)!.usage ?? [] })),
+            withUsage.map((entry) => ({ id: entry.finding.id, matchers: entry.matchers })),
           )
         ).map((analysis) => [analysis.contractId, analysis]),
       );
-      for (const finding of withUsage) {
+      for (const { finding } of withUsage) {
         const analysis = analyses.get(finding.id);
         if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
       }

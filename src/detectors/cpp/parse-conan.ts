@@ -86,8 +86,8 @@ export function parseConanfileTxt(contents: string): ConanDeclaration[] {
     const text = rawLine.trim();
     if (text === "" || text.startsWith("#")) continue;
     if (text.startsWith("[")) {
-      const section = SECTION.exec(text);
-      inRequires = section !== null && section[1]!.trim() === "requires";
+      const header = SECTION.exec(text)?.[1];
+      inRequires = header !== undefined && header.trim() === "requires";
       continue;
     }
     if (!inRequires) continue;
@@ -128,7 +128,7 @@ function scanPythonLine(line: string, state: PythonState): ScannedLine | undefin
       continue;
     }
 
-    const character = line[index]!;
+    const character = line.charAt(index);
     if (character === "#") break;
     if (character !== '"' && character !== "'") {
       code += character;
@@ -139,10 +139,10 @@ function scanPythonLine(line: string, state: PythonState): ScannedLine | undefin
     const triple = line.startsWith(character.repeat(3), index);
     const quote = triple ? character.repeat(3) : character;
     let prefix = "";
-    const tail = /([A-Za-z]{1,2})$/.exec(code);
-    if (tail && PREFIXES.test(tail[1]!)) {
-      prefix = tail[1]!.toLowerCase();
-      code = code.slice(0, -tail[1]!.length);
+    const tail = /([A-Za-z]{1,2})$/.exec(code)?.[1];
+    if (tail !== undefined && PREFIXES.test(tail)) {
+      prefix = tail.toLowerCase();
+      code = code.slice(0, -tail.length);
     }
 
     if (triple) {
@@ -159,7 +159,7 @@ function scanPythonLine(line: string, state: PythonState): ScannedLine | undefin
     let closed = false;
     index += 1;
     while (index < line.length) {
-      const next = line[index]!;
+      const next = line.charAt(index);
       if (next === "\\" && !prefix.includes("r")) {
         const escaped = line[index + 1];
         if (escaped === undefined) break;
@@ -245,9 +245,9 @@ export function parseConanfilePy(contents: string): ConanDeclaration[] {
     const scanned = scanPythonLine(rawLine, state);
     if (!scanned) return [];
 
-    const assignment = ASSIGNMENT.exec(scanned.code);
-    if (assignment) {
-      const indices = literalsIn(assignment[1]!);
+    const assignment = ASSIGNMENT.exec(scanned.code)?.[1];
+    if (assignment !== undefined) {
+      const indices = literalsIn(assignment);
       if (indices) {
         for (const literal of indices) {
           if (scanned.dynamic[literal]) continue;
