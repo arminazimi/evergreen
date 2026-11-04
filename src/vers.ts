@@ -130,14 +130,14 @@ function parse(value: string, canonical: boolean): VersRange {
   if (body.endsWith("|")) throw new VersError("non-canonical VERS: trailing pipe is not permitted");
   if (body.includes("||")) throw new VersError("non-canonical VERS: consecutive pipes are not permitted");
 
-  const scheme_ = versionScheme(scheme);
+  const versionSchemeFor = versionScheme(scheme);
   const parts = body.split("|");
   if (parts.includes("*")) throw new VersError(`"*" must be the only constraint: ${value}`);
   const constraints = parts.map((part) => parseConstraint(part, canonical));
 
-  const sorted = [...constraints].sort((left, right) => scheme_.compare(left.version, right.version));
+  const sorted = [...constraints].sort((left, right) => versionSchemeFor.compare(left.version, right.version));
   for (let index = 1; index < sorted.length; index++) {
-    if (scheme_.compare(sorted[index - 1]!.version, sorted[index]!.version) === 0) {
+    if (versionSchemeFor.compare(sorted[index - 1]!.version, sorted[index]!.version) === 0) {
       throw new VersError(`Invalid VERS: version "${sorted[index]!.version}" appears more than once: ${value}`);
     }
   }
