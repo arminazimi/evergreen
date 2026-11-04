@@ -109,6 +109,10 @@ function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+function isExtensionKey(key: string): key is `x-${string}` {
+  return EXTENSION.test(key);
+}
+
 /** True for a real calendar date written as YYYY-MM-DD. */
 export function isIsoDate(value: unknown): value is string {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
@@ -317,7 +321,8 @@ export function legacyRule(rule: RegistryV2Rule): Record<string, unknown> {
     if (V2_ONLY_FIELDS.has(key) || EXTENSION.test(key)) continue;
     view[key] = value;
   }
-  const hints = (rule as unknown as UnknownRecord)[`x-${rule.ecosystem}`];
+  const hintKey = `x-${rule.ecosystem}`;
+  const hints = isExtensionKey(hintKey) ? rule[hintKey] : undefined;
   return isRecord(hints) ? { ...view, ...hints } : view;
 }
 

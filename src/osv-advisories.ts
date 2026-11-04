@@ -25,7 +25,7 @@ export async function advisoryIdsByRuleId(): Promise<Map<string, string[]>> {
   }
   const map = new Map<string, string[]>();
   for (const rule of registry.rules) {
-    const extension = (rule as unknown as Record<string, unknown>)["x-osv"];
+    const extension = rule["x-osv"];
     if (!isRecord(extension)) continue;
     const lifecycleRuleId = typeof extension.ruleId === "string" ? extension.ruleId : rule.id;
     const ids = Array.isArray(extension.ids) ? extension.ids : [];

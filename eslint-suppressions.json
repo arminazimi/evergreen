@@ -534,11 +534,6 @@
       "count": 6
     }
   },
-  "src/osv-advisories.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
   "src/package-files.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 3
@@ -564,7 +559,7 @@
       "count": 2
     },
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 7
+      "count": 6
     }
   },
   "src/report-issue.ts": {
@@ -664,7 +659,7 @@
   },
   "src/usage/tree-sitter.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 3
+      "count": 1
     }
   },
   "src/watch.ts": {

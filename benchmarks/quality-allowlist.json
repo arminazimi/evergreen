@@ -2590,29 +2590,7 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     }
   ],
-  "asUnknownAs": [
-    {
-      "file": "src/osv-advisories.ts",
-      "count": 1,
-      "owner": "#2230",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
-    },
-    {
-      "file": "src/registry.ts",
-      "count": 1,
-      "owner": "#2230",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
-    },
-    {
-      "file": "src/usage/tree-sitter.ts",
-      "count": 2,
-      "owner": "#2230",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Existing `as unknown as`; narrow the type in the type-safety follow-up."
-    }
-  ],
+  "asUnknownAs": [],
   "nonNull": [
     {
       "file": "src/action-tracking-issue.ts",

@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import type { Language, Parser, Query, Tree } from "./vendor/tree-sitter/tree-sitter.js";
+import type { Language, ParseOptions, Parser, Query, Tree } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceLanguage } from "../domain.js";
 
@@ -15,6 +15,15 @@ const nodeRequire = createRequire(import.meta.url);
 const vendorDirectory = dirname(fileURLToPath(new URL("./vendor/tree-sitter/tree-sitter.cjs", import.meta.url)));
 
 type TreeSitter = typeof import("./vendor/tree-sitter/tree-sitter.js");
+
+/**
+ * Emscripten module options the runtime accepts but the published typings omit: `wasmBinary` lets it
+ * instantiate the decoded payload instead of reading a `.wasm` file.
+ */
+interface ParserInitOptions {
+  wasmBinary: Uint8Array;
+  locateFile: (file: string, folder: string) => string;
+}
 
 export type TreeSitterGrammar = "javascript" | "typescript" | "tsx" | "python";
 
@@ -40,9 +49,7 @@ function loadRuntime(): Promise<{ module: TreeSitter; directory: string }> {
     const wasmBinary = await loadPayload(vendorDirectory, "tree-sitter.wasm");
     // `wasmBinary` is an Emscripten module option the published typings do not expose. Supplying it
     // means the runtime instantiates the decoded payload and never reads a `.wasm` file.
-    const options = { wasmBinary, locateFile: (file: string) => file } as unknown as Parameters<
-      TreeSitter["Parser"]["init"]
-    >[0];
+    const options: ParserInitOptions = { wasmBinary, locateFile: (file: string) => file };
     await module.Parser.init(options);
     return { module, directory: vendorDirectory };
   })();
@@ -112,7 +119,7 @@ export async function parseSource(
     parsers.set(grammar, parser);
   }
   const deadline = Date.now() + budgetMilliseconds;
-  const options = { progressCallback: () => Date.now() > deadline } as unknown as Parameters<Parser["parse"]>[2];
+  const options: ParseOptions = { progressCallback: () => Date.now() > deadline };
   try {
     return parser.parse(source, null, options) ?? undefined;
   } finally {
