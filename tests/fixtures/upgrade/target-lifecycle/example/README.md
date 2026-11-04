@@ -4,7 +4,7 @@
 Node.js 18 — itself end-of-life — is blocked, and every pin that would still need to change is listed:
 
 ```bash
-evergreen upgrade-check --to nodejs@18 examples/upgrade/target-lifecycle
+evergreen upgrade-check --to nodejs@18 tests/fixtures/upgrade/target-lifecycle/example
 ```
 
 ```text
@@ -18,7 +18,7 @@ Dockerfile:1  pin to update  Dockerfile still pins Node.js node:20-alpine; updat
 A move to a supported target only lists the files to change; the verdict stays `ready` and the command exits `0`:
 
 ```bash
-evergreen upgrade-check --to nodejs@24 examples/upgrade/target-lifecycle
+evergreen upgrade-check --to nodejs@24 tests/fixtures/upgrade/target-lifecycle/example
 ```
 
 ```text

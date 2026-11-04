@@ -256,7 +256,7 @@ Every pin of the target runtime that differs from the target is listed as a `war
 - **`unknown`:** this analyzer reports none. A runtime with no pins in the repository simply does not apply, and a target the bundled data does not flag produces only the pin list.
 
 ```bash
-evergreen upgrade-check --to nodejs@18 examples/upgrade/target-lifecycle
+evergreen upgrade-check --to nodejs@18 tests/fixtures/upgrade/target-lifecycle/example
 ```
 
-The example repository pins Node.js 20 in `.nvmrc`, a `Dockerfile`, and `.tool-versions`, so the end-of-life target is blocked with the suggestion and all three pins are listed. See [examples/upgrade/target-lifecycle](../examples/upgrade/target-lifecycle).
+The example repository pins Node.js 20 in `.nvmrc`, a `Dockerfile`, and `.tool-versions`, so the end-of-life target is blocked with the suggestion and all three pins are listed. See [tests/fixtures/upgrade/target-lifecycle/example](../tests/fixtures/upgrade/target-lifecycle/example).
