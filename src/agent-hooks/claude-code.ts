@@ -53,8 +53,8 @@ function findingLines(finding: Finding, index: number): string[] {
  * run, so this is feedback the model can act on in the same turn, never a block.
  */
 export function claudeCodeFeedback(findings: readonly Finding[]): HookResponse {
-  if (findings.length === 0) return silent;
-  const first = findings[0]!;
+  const first = findings.at(0);
+  if (first === undefined) return silent;
   const file = first.location.path;
   const noun = findings.length === 1 ? "issue" : "issues";
   const footer = ["", "Fix this before continuing; nothing was changed automatically."];

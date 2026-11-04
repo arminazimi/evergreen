@@ -37,14 +37,13 @@ export interface HookArguments {
 export function parseHookArguments(argv: readonly string[]): HookArguments | undefined {
   let host: string | undefined;
   let gate: HookGate = DEFAULT_HOOK_GATE;
-  for (let index = 0; index < argv.length; index += 1) {
-    const argument = argv[index]!;
+  const pending = [...argv];
+  for (let argument = pending.shift(); argument !== undefined; argument = pending.shift()) {
     if (argument === "--fail-on") {
-      const value = argv[index + 1];
+      const value = pending.shift();
       if (value === undefined) return undefined;
       if (value !== "none" && !severityValues.includes(value as Severity)) return undefined;
       gate = value as HookGate;
-      index += 1;
       continue;
     }
     if (argument.startsWith("-") || host !== undefined) return undefined;

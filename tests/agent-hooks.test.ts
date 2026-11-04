@@ -85,6 +85,13 @@ test("arguments parse the host and the gate, and reject an unknown severity", ()
   assert.deepEqual(parseHookArguments(["a", "b"]), undefined);
 });
 
+test("a missing token is a fail-open, never a thrown parse", () => {
+  assert.deepEqual(parseHookArguments(["fake", "--fail-on"]), undefined);
+  const withHole: string[] = ["fake"];
+  withHole.length = 3;
+  assert.deepEqual(parseHookArguments(withHole), { host: "fake", gate: "medium" });
+});
+
 test("an unknown host fails open", async () => {
   assert.deepEqual(await run(["nope"]), failOpen);
 });
