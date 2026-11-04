@@ -4,6 +4,7 @@ import { getActiveData, loadDataFile } from "./data-source.js";
 import { dataInfoFrom } from "./data-status.js";
 import { recordCheck } from "./usage-log.js";
 import { parsePurl, PurlError, purlIdentity } from "./purl.js";
+import { required } from "./required.js";
 import { validateRegistryV2 } from "./registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
 import { parseVersLenient, versContains } from "./vers.js";
@@ -107,11 +108,6 @@ function bySeverity(left: DependencyFinding, right: DependencyFinding): number {
   );
 }
 
-/** The one-line report of the rule that applies: its title, its summary, and the fix when there is one. */
-function findingText(finding: DependencyFinding): string {
-  return `${finding.title}. ${finding.summary}${finding.replacement ? ` Replacement: ${finding.replacement}.` : ""}`;
-}
-
 function summarize(
   status: CheckStatus,
   purl: string,
@@ -120,10 +116,11 @@ function summarize(
 ): string {
   const subject = version ? `${purl}@${version}` : purl;
   switch (status) {
-    // An "affected" status is only set together with the rules that matched, so the first finding is there;
-    // mapping the first element keeps that true without an assertion.
-    case "affected":
-      return `${subject}: ${findings.slice(0, 1).map(findingText).join("")}`;
+    // An "affected" status is only set together with the rules that matched, so the first finding is there.
+    case "affected": {
+      const top = required(findings[0], "matching finding");
+      return `${subject}: ${top.title}. ${top.summary}${top.replacement ? ` Replacement: ${top.replacement}.` : ""}`;
+    }
     case "version-dependent":
       return `${subject}: ${findings.length === 1 ? "a lifecycle rule applies" : `${findings.length} lifecycle rules apply`} to some versions (${findings.map((finding) => finding.affectedVersions).join(", ")}). Check again with a version.`;
     case "not-affected":
