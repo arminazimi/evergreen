@@ -5,7 +5,8 @@ import type { SourceUsage, SymbolUsageMatcher } from "../src/domain.js";
 import { analyzeJavaScriptFile, javaScriptOccurrences } from "../src/usage/javascript.js";
 import { analyzePythonFile } from "../src/usage/python.js";
 import { symbolUsages, type SymbolBinding } from "../src/usage/symbols.js";
-import { lineLocator, parseSource } from "../src/usage/tree-sitter.js";
+import { UsageList } from "../src/usage/usage-results.js";
+import { lineLocator, maximumParseBytes, parseSource } from "../src/usage/tree-sitter.js";
 import type { Node } from "../src/usage/vendor/tree-sitter/tree-sitter.js";
 
 async function jsLines(
@@ -215,6 +216,11 @@ test("symbolUsages reports call, reference, and option occurrences against the b
     assert.deepEqual(lines([shaped("reference")]), ["symbol 2:11 fs.exists"]);
     assert.deepEqual(lines([shaped("option", { option: "flag" })]), ["symbol 1:15 fs.exists(flag)"]);
     assert.deepEqual(lines([shaped("construct")]), []);
+    const bare = [{ head: nth("exists", 0), path: ["exists"], role: "call" as const }];
+    assert.deepEqual(
+      symbolUsages([shaped("option", { option: "flag" })], bare, bindings, describe, { language: "javascript" }),
+      [],
+    );
   } finally {
     tree.delete();
   }
@@ -244,4 +250,115 @@ test("javaScriptOccurrences lists each callee as a call and, when wanted, each u
   } finally {
     tree.delete();
   }
+});
+
+test("Python: a method matcher without a module reports calls only inside unittest.TestCase subclasses", async () => {
+  const source = `import unittest
+from typing import Generic
+class A(Generic[T]):
+    def t(self):
+        self.assertEquals(1, 1)
+class B(unittest.TestCase):
+    def t(self):
+        self.assertEquals(1, 1)
+class C(unittest.Foo):
+    def t(self):
+        self.assertEquals(1, 1)
+class D(make().TestCase):
+    def t(self):
+        self.assertEquals(1, 1)
+`;
+  assert.deepEqual(await pyLines(source, [{ symbol: "assertEquals", shape: "method" }]), ["symbol 8:14 assertEquals"]);
+});
+
+test("UsageList keeps one usage per kind, position, and symbol, and sorts by position", () => {
+  const list = new UsageList();
+  const at = (symbol: string, line?: number, column?: number): SourceUsage => ({
+    kind: "call",
+    language: "javascript",
+    symbol,
+    location: {
+      path: "x.js",
+      ...(line === undefined ? {} : { line }),
+      ...(column === undefined ? {} : { column }),
+    },
+    excerpt: "",
+  });
+  list.add(at("b", 2, 1));
+  list.add(at("a", 1, 5));
+  list.add(at("b", 2, 1));
+  list.add(at("d", 1));
+  list.add(at("c"));
+  list.add(at("f", 3));
+  list.add(at("e", 3));
+  assert.deepEqual(
+    list.sorted().map((usage) => `${usage.location.line ?? "-"}:${usage.symbol}`),
+    ["-:c", "1:d", "1:a", "2:b", "3:f", "3:e"],
+  );
+});
+
+test("JavaScript: rest, computed, and default destructuring, bare constructions, and string option keys are read", async () => {
+  const source = `import { get, post, ...others } from "request";
+const { [key]: dynamic, b = 1, ...rest } = require("request");
+const { c: { d } } = require("request");
+function f(a = 1, ...more) {}
+const t = new Thing;
+get(url, { "timeout": 1, ...opts, retries: 2 });
+make().get(url);
+get(url, { verbose });
+`;
+  assert.deepEqual(await jsLines(source, [{ module: "request", symbol: "get", shape: "call" }]), [
+    "symbol 6:1 request.get",
+    "symbol 8:1 request.get",
+  ]);
+  assert.deepEqual(await jsLines(source, [{ module: "request", symbol: "get", shape: "option", option: "timeout" }]), [
+    "symbol 6:12 request.get(timeout)",
+  ]);
+  const twice = { module: "request", symbol: "get", shape: "call" as const };
+  assert.deepEqual(await jsLines(source, [twice, twice]), ["symbol 6:1 request.get", "symbol 8:1 request.get"]);
+});
+
+test("Python: star imports, submodule imports, and classes without bases are read", async () => {
+  const source = `from os import *
+from . import sibling
+import os.path as osp
+class Plain:
+    pass
+def f(a, *args, **kwargs):
+    global counter
+    x: int = 1
+make().get(url)
+self.assertEquals(1, 1)
+`;
+  const result = await analyzePythonFile({ path: "x.py", language: "python", source }, [
+    { id: "r", matchers: [{ kind: "import", language: "python", module: "os" }] },
+  ]);
+  assert.deepEqual(
+    (result?.get("r") ?? []).map((usage) => `${usage.kind} ${usage.location.line}`),
+    ["import 1", "import 3"],
+  );
+});
+
+test("Python: an analysis that binds more names than the ceiling says so", async () => {
+  const source = Array.from({ length: 1100 }, (_, index) => `from pkg${index} import name${index}`).join("\n");
+  const result = await analyzePythonFile({ path: "x.py", language: "python", source }, [
+    { id: "r", matchers: [{ kind: "call", language: "python", module: "pkg0", targets: ["name0"] }] },
+  ]);
+  assert.equal(result?.analysisCapped, true);
+});
+
+test("a binding from another module that shares a local name does not match, and a file over the parse ceiling is not parsed", async () => {
+  assert.deepEqual(
+    await jsLines(`import { exists } from "other";\nexists("x");\n`, [
+      { module: "fs", symbol: "exists", shape: "call" },
+    ]),
+    [],
+  );
+  assert.equal(
+    await analyzeJavaScriptFile(
+      { path: "big.js", language: "javascript", source: "x".repeat(maximumParseBytes + 1) },
+      [],
+    ),
+    undefined,
+  );
 });
