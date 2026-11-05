@@ -127,6 +127,27 @@ test("reports the Xcode release a project pins in .xcode-version", async () => {
   assert.match(findings[0]!.summary, /^\.xcode-version pins Xcode 14\.3\./);
 });
 
+test("analyze reports matched manifests in path and line order and returns no unclassified references", async () => {
+  const detector = new SwiftDetector(async () => [packageRule()]);
+  const manifest = [
+    "import PackageDescription",
+    "let package = Package(dependencies: [",
+    '    .package(url: "https://github.com/acme/Example-Library.git", exact: "1.4.0"),',
+    "])",
+    "",
+  ].join("\n");
+  const root = await repository({ "Package.swift": manifest, "Sub/Package.swift": manifest });
+  const analysis = await detector.analyze({ root });
+  assert.deepEqual(analysis.unclassified, []);
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.location.path, finding.location.line]),
+    [
+      ["Package.swift", 3],
+      ["Sub/Package.swift", 3],
+    ],
+  );
+});
+
 test("matches an exact Package.swift dependency and a Package.resolved pin by SwiftPM identity", async () => {
   const detector = new SwiftDetector(async () => [packageRule()]);
   const manifest = await repository({

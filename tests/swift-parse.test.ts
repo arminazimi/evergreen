@@ -10,11 +10,15 @@ import {
 import {
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
+  blankStringsAndLineComments,
+  packageFromCall,
   parsePackageSwift,
+  stripBlockComments,
 } from "../src/detectors/swift/parse-package-swift.js";
 import {
   MAXIMUM_PROJECT_BYTES,
   parseXcodeProjectIOSDeploymentTargets,
+  projectObjects,
 } from "../src/detectors/swift/parse-xcode-project.js";
 import {
   MAXIMUM_INPUT_BYTES as TOOLCHAIN_MAXIMUM_INPUT_BYTES,
@@ -419,4 +423,105 @@ test("returns nothing for a truncated, oversized, or ambiguous project", () => {
     "C100000000000000000000C1 /* Debug */ = {",
   );
   assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(duplicated), []);
+});
+
+test("stripBlockComments blanks a single-line block comment and keeps its length", () => {
+  const input = "x /* a */ y";
+  assert.equal(stripBlockComments(input), "x" + " ".repeat(9) + "y");
+  assert.equal(stripBlockComments(input).length, input.length);
+});
+
+test("stripBlockComments keeps newlines inside a multi-line block comment", () => {
+  assert.equal(stripBlockComments("a/*\nb*/c"), "a  \n   c");
+});
+
+test("stripBlockComments blanks a nested block comment in full", () => {
+  const input = "a /* one /* two */ still */ b";
+  assert.equal(stripBlockComments(input), "a" + " ".repeat(27) + "b");
+});
+
+test("stripBlockComments leaves an unterminated block comment blanked to the end", () => {
+  assert.equal(stripBlockComments("a /* open\nb"), "a" + " ".repeat(8) + "\n" + " ");
+});
+
+test("blankStringsAndLineComments blanks string interiors and line comments with offsets unchanged", () => {
+  const input = 'let s = "a.package" // .package\nx';
+  const masked = blankStringsAndLineComments(input);
+  assert.equal(masked, 'let s = "' + " ".repeat(9) + '" ' + " ".repeat(11) + "\nx");
+  assert.equal(masked.length, input.length);
+});
+
+test("blankStringsAndLineComments blanks a multi-line string and resets a one-line string at a newline", () => {
+  assert.equal(blankStringsAndLineComments('"""\n.package\n"""'), '"""\n' + " ".repeat(8) + "\n" + '"""');
+  assert.equal(blankStringsAndLineComments('"abc\n.package'), '"' + " ".repeat(3) + "\n.package");
+});
+
+test("packageFromCall reads a from or exact requirement with the closing paren index", () => {
+  const from = '.package(url: "https://example.com/a/b.git", from: "1.2.0")';
+  assert.deepEqual(packageFromCall(from, from.indexOf("("), 7), {
+    declaration: { kind: "package", url: "https://example.com/a/b.git", requirement: "from", value: "1.2.0", line: 7 },
+    end: from.length - 1,
+  });
+  const exact = '.package(url: "https://example.com/c", exact: "2.0.0")';
+  assert.equal(packageFromCall(exact, exact.indexOf("("), 3)?.declaration?.requirement, "exact");
+});
+
+test("packageFromCall skips unsupported, ambiguous, and incomplete calls without a declaration", () => {
+  const unsupported = [
+    '.package(path: "../x", from: "1.0.0")',
+    '.package(url: "https://example.com/a", from: "1.0.0", exact: "1.0.0")',
+    '.package(url: "https://example.com/a")',
+    '.package(url: "https://example.com/a", from: "1.0.0", .upToNextMajor(from: "1.0.0"))',
+  ];
+  for (const code of unsupported) {
+    const result = packageFromCall(code, code.indexOf("("), 1);
+    assert.ok(result, code);
+    assert.equal(result.declaration, undefined, code);
+  }
+  assert.equal(packageFromCall('.package(url: "https://x', 8, 1), undefined);
+  assert.equal(packageFromCall('.package(url: "https://x", from: "1.0.0"', 8, 1), undefined);
+});
+
+test("projectObjects keys objects by identifier and reads their fields, lists, and deployment targets", () => {
+  const app = "A".repeat(24);
+  const list = "B".repeat(24);
+  const configuration = "C".repeat(24);
+  const lines = [
+    `\t\t${app} /* App */ = {`,
+    "\t\t\tisa = PBXNativeTarget;",
+    '\t\t\tproductType = "com.apple.product-type.application";',
+    `\t\t\tbuildConfigurationList = ${list} /* list */;`,
+    "\t\t};",
+    `\t\t${list} = {`,
+    "\t\t\tisa = XCConfigurationList;",
+    "\t\t\tbuildConfigurations = (",
+    `\t\t\t\t${configuration} /* Release */,`,
+    "\t\t\t);",
+    "\t\t};",
+    `\t\t${configuration} = {`,
+    "\t\t\tisa = XCBuildConfiguration;",
+    "\t\t\tbuildSettings = {",
+    "\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 12.0;",
+    "\t\t\t};",
+    "\t\t};",
+  ];
+  const objects = projectObjects(lines);
+  assert.equal(objects.size, 3);
+  assert.deepEqual(objects.get(app), {
+    isa: "PBXNativeTarget",
+    productType: "com.apple.product-type.application",
+    buildConfigurationList: list,
+    buildConfigurations: [],
+    deploymentTargets: [],
+  });
+  assert.deepEqual(objects.get(list)?.buildConfigurations, [configuration]);
+  assert.deepEqual(objects.get(configuration)?.deploymentTargets, [{ value: "12.0", line: 15 }]);
+});
+
+test("projectObjects drops an identifier that appears twice and returns nothing for an unclosed object", () => {
+  const id = "D".repeat(24);
+  const object = [`\t\t${id} = {`, "\t\t\tisa = PBXGroup;", "\t\t};"];
+  assert.equal(projectObjects([...object, ...object]).size, 0);
+  assert.equal(projectObjects([...object, `\t\t${"E".repeat(24)} = {`, "\t\t\tisa = PBXGroup;"]).size, 0);
+  assert.equal(projectObjects([`\t\t${id} = {`, "\t\t\tbuildConfigurations = (", "\t\t};"]).size, 0);
 });
