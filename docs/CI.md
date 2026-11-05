@@ -161,6 +161,7 @@ covered. That transitional cost is accepted; removing it is #2030's job after #2
 | Lifecycle importers | `importers.yml` | Weekly |
 | Scorecard + floor | `scorecard.yml`, `scorecard-floor.yml` | Weekly |
 | CodeQL | `codeql.yml` | Weekly |
+| Open alerts gate | `open-alerts.yml` | Push to main + daily |
 | MCP listings | `mcp-listings.yml` | Weekly |
 | Label sync | `labels.yml` | Weekly + path pushes |
 
@@ -619,6 +620,7 @@ just because a later task will fold it.
 | `scorecard.yml` | Nightly | Weekly schedule; `branch_protection_rule`; `workflow_dispatch` | OpenSSF Scorecard publish + SARIF upload |
 | `scorecard-floor.yml` | Nightly | Weekly schedule (after Scorecard); `workflow_dispatch` | Alert when the published Scorecard score is below the QUALITY.md floor |
 | `codeql.yml` | Nightly | Weekly schedule; `workflow_dispatch` | CodeQL analysis of `main` |
+| `open-alerts.yml` | Push to main | Push to `main`; daily schedule; `workflow_dispatch` | Fail on any open code-scanning or Dependabot alert on `main` that `tools/open-alerts-baseline.json` does not accept |
 | `mcp-listings.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Compare tracked MCP directory listings to `server.json` |
 | `publish.yml` | Release | `workflow_call` from `release.yml` | npm trusted publish with provenance, package smoke, MCP Registry |
 | `data-release.yml` | Release | `data-v*` tags; dry-run `workflow_dispatch` | Build, sign, and publish the lifecycle data bundle |

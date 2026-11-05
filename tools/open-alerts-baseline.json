@@ -1,0 +1,73 @@
+{
+  "measurement": "Open code-scanning and Dependabot alerts on main when the gate was added (2026-11-05, issue #2070). This list may only shrink: remove an entry when its alert is fixed or dismissed.",
+  "accepted": [
+    {
+      "key": "code-scanning#21",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#24",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#25",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#26",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#104",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#157",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#230",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#231",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#232",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#233",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#234",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#235",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "code-scanning#236",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "dependabot#1",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "dependabot#64",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "dependabot#65",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    },
+    {
+      "key": "dependabot#66",
+      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
+    }
+  ]
+}
