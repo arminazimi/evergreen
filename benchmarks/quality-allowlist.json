@@ -492,14 +492,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/terraform/plan.ts",
-      "function": "parseTerraformPlanJson",
-      "lines": 130,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
       "lines": 82,
@@ -1514,14 +1506,6 @@
       "function": "collectResourcesFromModule",
       "complexity": 20,
       "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/plan.ts",
-      "function": "parseTerraformPlanJson",
-      "complexity": 43,
-      "owner": "#2264",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

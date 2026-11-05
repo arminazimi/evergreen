@@ -303,11 +303,6 @@
       "count": 2
     }
   },
-  "src/detectors/terraform/plan.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    }
-  },
   "src/diff.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
