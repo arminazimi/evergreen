@@ -852,38 +852,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/sbom/cyclonedx.ts",
-      "function": "enrichCycloneDx",
-      "lines": 70,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "function": "scanCycloneDx",
-      "lines": 62,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "function": "scanSpdx",
-      "lines": 52,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/sbom/spdx.ts",
-      "function": "enrichSpdx",
-      "lines": 84,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/source-usage.ts",
       "function": "readRubyLiteral",
       "lines": 63,
@@ -1874,38 +1842,6 @@
       "function": "structuralProblemOffset",
       "complexity": 16,
       "owner": "#2274",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/sbom/cyclonedx.ts",
-      "function": "enrichCycloneDx > component",
-      "complexity": 18,
-      "owner": "#2277",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "function": "scanCycloneDx",
-      "complexity": 22,
-      "owner": "#2277",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "function": "scanSpdx",
-      "complexity": 24,
-      "owner": "#2277",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/sbom/spdx.ts",
-      "function": "enrichSpdx",
-      "complexity": 26,
-      "owner": "#2277",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
