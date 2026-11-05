@@ -364,14 +364,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/php/index.ts",
-      "function": "PhpDetector.analyze",
-      "lines": 126,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/detectors/python.ts",
       "function": "PythonDetector.scan",
       "lines": 121,
@@ -380,41 +372,9 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/ruby/index.ts",
-      "function": "RubyDetector.analyze",
-      "lines": 140,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/rust/index.ts",
-      "function": "RustDetector.analyze",
-      "lines": 125,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/rust/parse-cargo-toml.ts",
-      "function": "parseCargoToml",
-      "lines": 64,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/detectors/scala/index.ts",
       "function": "ScalaDetector.analyze",
       "lines": 59,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/serverless/parse-tf.ts",
-      "function": "maskHcl",
-      "lines": 72,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -1230,14 +1190,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/detectors/php/index.ts",
-      "function": "PhpDetector.analyze",
-      "complexity": 31,
-      "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/detectors/python.ts",
       "function": "collectIniRuntime",
       "complexity": 21,
@@ -1250,70 +1202,6 @@
       "function": "PythonDetector.scan",
       "complexity": 37,
       "owner": "#2256",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/ruby/index.ts",
-      "function": "RubyDetector.analyze",
-      "complexity": 29,
-      "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/ruby/parse-gemfile-lock.ts",
-      "function": "parseGemfileLock",
-      "complexity": 17,
-      "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/rust/index.ts",
-      "function": "RustDetector.analyze",
-      "complexity": 28,
-      "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/rust/parse-cargo-toml.ts",
-      "function": "parseCargoToml",
-      "complexity": 24,
-      "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/rust/toml-lines.ts",
-      "function": "readTomlLines",
-      "complexity": 24,
-      "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/serverless/parse-template.ts",
-      "function": "parseTemplate",
-      "complexity": 16,
-      "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/serverless/parse-tf.ts",
-      "function": "maskHcl",
-      "complexity": 23,
-      "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/serverless/parse-tf.ts",
-      "function": "parseTf",
-      "complexity": 19,
-      "owner": "#2261",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

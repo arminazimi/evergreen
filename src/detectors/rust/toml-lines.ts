@@ -64,6 +64,75 @@ export function stringValue(value: string | undefined): string | undefined {
   return match[1] !== undefined ? match[1].replace(/\\(["\\])/g, "$1") : match[2];
 }
 
+/** What the reader carries from one line to the next. */
+interface Reader {
+  lines: TomlLine[];
+  table: string;
+  /** The closing delimiter of a multi-line string that is still open. */
+  multiline: string | undefined;
+  /** Brackets still open from a multi-line array or inline table. */
+  open: number;
+}
+
+/** A line that opens a multi-line string keeps the reader inside it until the closing delimiter. */
+function openMultiline(reader: Reader, value: string): void {
+  if (/^"""/.test(value) && !/^""".*"""$/.test(value)) reader.multiline = '"""';
+  else if (/^'''/.test(value) && !/^'''.*'''$/.test(value)) reader.multiline = "'''";
+}
+
+/** A table header line. Returns false when the header is not closed. */
+function readHeader(reader: Reader, text: string, number: number): boolean {
+  const array = text.startsWith("[[");
+  const match = array ? /^\[\[(.+)\]\]$/.exec(text) : /^\[(.+)\]$/.exec(text);
+  if (!match) return false;
+  reader.table = required(match[1], "table header").trim();
+  reader.lines.push({
+    line: number,
+    table: reader.table,
+    arrayTable: array,
+    header: reader.table,
+  });
+  return true;
+}
+
+/** A `key = value` line. Returns false when it has no key or an unbalanced quote. */
+function readKeyValue(reader: Reader, text: string, number: number): boolean {
+  const equals = text.indexOf("=");
+  if (equals === -1) return false;
+  const key = text.slice(0, equals).trim();
+  const value = text.slice(equals + 1).trim();
+  const unbalancedQuote = (value.match(/(?<!\\)"/g)?.length ?? 0) % 2 === 1 && !/^"""|^'''/.test(value);
+  if (key === "" || unbalancedQuote) return false;
+  openMultiline(reader, value);
+  // A value that opens a bracket it does not close continues on the next lines.
+  const depth = openBrackets(value);
+  if (depth < 0) return false;
+  if (depth > 0) reader.open = depth;
+  reader.lines.push(
+    depth > 0
+      ? { line: number, table: reader.table, arrayTable: false, key }
+      : { line: number, table: reader.table, arrayTable: false, key, value },
+  );
+  return true;
+}
+
+/** Reads one raw line. Returns false when the line makes the rest of the document unreliable. */
+function readLine(reader: Reader, raw: string, number: number): boolean {
+  if (raw.length > MAXIMUM_LINE_LENGTH) return false;
+  // Skip the inside of multi-line strings.
+  if (reader.multiline) {
+    if (raw.includes(reader.multiline)) reader.multiline = undefined;
+    return true;
+  }
+  const text = stripComment(raw).trim();
+  if (text === "") return true;
+  if (reader.open > 0) {
+    reader.open += openBrackets(text);
+    return reader.open >= 0;
+  }
+  return text.startsWith("[") ? readHeader(reader, text, number) : readKeyValue(reader, text, number);
+}
+
 /**
  * Reads the lines of a TOML document. Returns undefined when it is malformed in a way that makes the rest
  * unreliable (a table header that is not closed, or a line with an unbalanced quote), so a caller returns
@@ -71,50 +140,14 @@ export function stringValue(value: string | undefined): string | undefined {
  */
 export function readTomlLines(contents: string): TomlLine[] | undefined {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return undefined;
-  const lines: TomlLine[] = [];
-  let table = "";
-  let multiline: string | undefined;
-  // Lines still inside a multi-line array or inline table (their values are skipped, not read).
-  let open = 0;
+  const reader: Reader = {
+    lines: [],
+    table: "",
+    multiline: undefined,
+    open: 0,
+  };
   for (const [index, raw] of contents.split(/\r?\n/).entries()) {
-    const number = index + 1;
-    if (raw.length > MAXIMUM_LINE_LENGTH) return undefined;
-    // Skip the inside of multi-line strings.
-    if (multiline) {
-      if (raw.includes(multiline)) multiline = undefined;
-      continue;
-    }
-    const text = stripComment(raw).trim();
-    if (text === "") continue;
-    if (open > 0) {
-      open += openBrackets(text);
-      if (open < 0) return undefined;
-      continue;
-    }
-    if (text.startsWith("[")) {
-      const array = text.startsWith("[[");
-      const match = array ? /^\[\[(.+)\]\]$/.exec(text) : /^\[(.+)\]$/.exec(text);
-      if (!match) return undefined;
-      table = required(match[1], "table header").trim();
-      lines.push({ line: number, table, arrayTable: array, header: table });
-      continue;
-    }
-    const equals = text.indexOf("=");
-    if (equals === -1) return undefined;
-    const key = text.slice(0, equals).trim();
-    const value = text.slice(equals + 1).trim();
-    if (key === "" || ((value.match(/(?<!\\)"/g)?.length ?? 0) % 2 === 1 && !/^"""|^'''/.test(value))) return undefined;
-    if (/^"""/.test(value) && !/^""".*"""$/.test(value)) multiline = '"""';
-    else if (/^'''/.test(value) && !/^'''.*'''$/.test(value)) multiline = "'''";
-    // A value that opens a bracket it does not close continues on the next lines.
-    const depth = openBrackets(value);
-    if (depth < 0) return undefined;
-    if (depth > 0) open = depth;
-    lines.push(
-      depth > 0
-        ? { line: number, table, arrayTable: false, key }
-        : { line: number, table, arrayTable: false, key, value },
-    );
+    if (!readLine(reader, raw, index + 1)) return undefined;
   }
-  return lines;
+  return reader.lines;
 }

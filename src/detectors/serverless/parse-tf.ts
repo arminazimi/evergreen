@@ -56,82 +56,104 @@ function blankNonNewlines(text: string): string {
   return text.replace(/[^\n]/g, " ");
 }
 
+/** The scan position and the masked output, shared by the token readers below. */
+interface MaskState {
+  readonly source: string;
+  index: number;
+  readonly chunks: string[];
+}
+
+/** A `/* … *\/` comment. Returns false when it is unterminated, undefined when the token is something else. */
+function maskBlockComment(state: MaskState): boolean | undefined {
+  const { source, index } = state;
+  if (!source.startsWith("/*", index)) return undefined;
+  const end = source.indexOf("*/", index + 2);
+  if (end < 0) return false;
+  state.chunks.push(blankNonNewlines(source.slice(index, end + 2)));
+  state.index = end + 2;
+  return true;
+}
+
+/** A `//` or `#` comment, which runs to the end of the line. */
+function maskLineComment(state: MaskState): boolean | undefined {
+  const { source, index } = state;
+  if (!source.startsWith("//", index) && source[index] !== "#") return undefined;
+  const end = source.indexOf("\n", index);
+  const stop = end < 0 ? source.length : end;
+  state.chunks.push(blankNonNewlines(source.slice(index, stop)));
+  state.index = stop;
+  return true;
+}
+
+/** A `<<MARK` heredoc through its closing marker. Returns false when the closer is missing. */
+function maskHeredoc(state: MaskState): boolean | undefined {
+  const { source, index } = state;
+  const heredoc = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/.exec(source.slice(index));
+  if (!heredoc) return undefined;
+  const marker = required(heredoc[1], "heredoc marker");
+  const bodyStart = index + heredoc[0].length;
+  const closer = new RegExp(`\\n[\\t ]*${marker}\\b`).exec(source.slice(bodyStart));
+  if (!closer) return false;
+  const end = bodyStart + required(closer.index, "heredoc closer") + closer[0].length;
+  state.chunks.push(blankNonNewlines(source.slice(index, end)));
+  state.index = end;
+  return true;
+}
+
+/** A double-quoted string, where a backslash skips the next character. Returns false when it is unterminated. */
+function maskString(state: MaskState): boolean | undefined {
+  const { source, index } = state;
+  if (source[index] !== '"') return undefined;
+  let position = index + 1;
+  while (position < source.length && source[position] !== '"') {
+    position += source[position] === "\\" ? 2 : 1;
+  }
+  if (position >= source.length) return false;
+  state.chunks.push(blankNonNewlines(source.slice(index, position + 1)));
+  state.index = position + 1;
+  return true;
+}
+
+/** Everything up to the next character that could start a comment, string, or heredoc, kept as it is. */
+function maskPlain(state: MaskState): boolean {
+  const { source } = state;
+  const plainStart = state.index;
+  let index = state.index;
+  while (index < source.length) {
+    const character = source.charAt(index);
+    if (character === "#" || character === '"') break;
+    if (character === "/" && (source[index + 1] === "/" || source[index + 1] === "*")) break;
+    if (character === "<" && source.startsWith("<<", index)) break;
+    index++;
+  }
+  if (index > plainStart) {
+    state.chunks.push(source.slice(plainStart, index));
+    state.index = index;
+  } else {
+    // `<<` that the heredoc pattern rejected (for example `<<1`) would otherwise stall here forever.
+    state.index = index + 1;
+  }
+  return true;
+}
+
 /**
  * Comments and double-quoted string/heredoc text become spaces; newlines and offsets
  * stay aligned with the source. HCL strings use `"`, so an apostrophe is left alone.
  * Returns undefined when a comment, string, or heredoc is unterminated.
  */
 function maskHcl(source: string): string | undefined {
-  const chunks: string[] = [];
-  let index = 0;
-
-  while (index < source.length) {
-    if (source.startsWith("/*", index)) {
-      const end = source.indexOf("*/", index + 2);
-      if (end < 0) return undefined;
-      chunks.push(blankNonNewlines(source.slice(index, end + 2)));
-      index = end + 2;
-      continue;
-    }
-    if (source.startsWith("//", index) || source[index] === "#") {
-      const end = source.indexOf("\n", index);
-      const stop = end < 0 ? source.length : end;
-      chunks.push(blankNonNewlines(source.slice(index, stop)));
-      index = stop;
-      continue;
-    }
-
-    const heredoc = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/.exec(source.slice(index));
-    if (heredoc) {
-      const marker = required(heredoc[1], "heredoc marker");
-      const start = index;
-      index += heredoc[0].length;
-      const closer = new RegExp(`\\n[\\t ]*${marker}\\b`);
-      const rest = source.slice(index);
-      const match = closer.exec(rest);
-      if (!match) return undefined;
-      const end = index + required(match.index, "heredoc closer") + match[0].length;
-      chunks.push(blankNonNewlines(source.slice(start, end)));
-      index = end;
-      continue;
-    }
-
-    if (source[index] === '"') {
-      let position = index + 1;
-      while (position < source.length) {
-        const code = source.charCodeAt(position);
-        if (code === 0x5c) {
-          position += 2;
-          continue;
-        }
-        if (source[position] === '"') {
-          chunks.push(blankNonNewlines(source.slice(index, position + 1)));
-          index = position + 1;
-          break;
-        }
-        position++;
-      }
-      if (position >= source.length) return undefined;
-      continue;
-    }
-
-    const plainStart = index;
-    while (index < source.length) {
-      const character = source.charAt(index);
-      if (character === "#" || character === '"') break;
-      if (character === "/" && (source[index + 1] === "/" || source[index + 1] === "*")) break;
-      if (character === "<" && source.startsWith("<<", index)) break;
-      index++;
-    }
-    if (index > plainStart) {
-      chunks.push(source.slice(plainStart, index));
-    } else {
-      // `<<` that the heredoc pattern rejected (for example `<<1`) would otherwise stall here forever.
-      index++;
-    }
+  const state: MaskState = { source, index: 0, chunks: [] };
+  while (state.index < source.length) {
+    if (!maskToken(state)) return undefined;
   }
+  return state.chunks.join("");
+}
 
-  return chunks.join("");
+/** Masks the token at the current position. False when it is an unterminated comment, string, or heredoc. */
+function maskToken(state: MaskState): boolean {
+  return (
+    maskBlockComment(state) ?? maskLineComment(state) ?? maskHeredoc(state) ?? maskString(state) ?? maskPlain(state)
+  );
 }
 
 function blankOverlongLines(text: string): string {
@@ -306,6 +328,58 @@ function collectDirectAttributes(
   }
 }
 
+/** The cloud whose runtime identifiers a resource type uses; undefined when the types share no identifiers. */
+function platformOf(type: string): "aws" | "gcp" | undefined {
+  if (type === "aws_lambda_function") return "aws";
+  return type.startsWith("google_") ? "gcp" : undefined;
+}
+
+/** Cloud Functions 2nd gen keeps its runtime in a top-level `build_config` block. */
+function collectBuildConfigAttributes(
+  contents: string,
+  masked: string,
+  start: number,
+  end: number,
+  declarations: RuntimeDeclaration[],
+): void {
+  for (const block of directBlocks(masked, start, end, "build_config")) {
+    collectDirectAttributes(contents, masked, block[0], block[1], new Set(["runtime"]), declarations);
+  }
+}
+
+/** Azure function apps keep their runtime versions in `site_config` › `application_stack`. */
+function collectStackAttributes(
+  contents: string,
+  masked: string,
+  start: number,
+  end: number,
+  declarations: RuntimeDeclaration[],
+): void {
+  for (const siteConfig of directBlocks(masked, start, end, "site_config")) {
+    for (const stack of directBlocks(masked, siteConfig[0], siteConfig[1], "application_stack")) {
+      collectDirectAttributes(contents, masked, stack[0], stack[1], STACK_KEYS, declarations);
+    }
+  }
+}
+
+/** Collects the runtime attributes of one resource, reading each kind of resource where it keeps them. */
+function collectResourceAttributes(
+  contents: string,
+  masked: string,
+  type: string,
+  start: number,
+  end: number,
+  declarations: RuntimeDeclaration[],
+): void {
+  if (type === "google_cloudfunctions2_function") {
+    collectBuildConfigAttributes(contents, masked, start, end, declarations);
+  } else if (type === "aws_lambda_function" || type === "google_cloudfunctions_function") {
+    collectDirectAttributes(contents, masked, start, end, new Set(["runtime"]), declarations);
+  } else {
+    collectStackAttributes(contents, masked, start, end, declarations);
+  }
+}
+
 /** Parse Terraform serverless runtime declarations without file, network, or process I/O. */
 export function parseTf(contents: string): RuntimeDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
@@ -322,24 +396,10 @@ export function parseTf(contents: string): RuntimeDeclaration[] {
       if (!header || !RESOURCE_TYPES.has(header.type)) continue;
       const body = blockBody(masked, header.openBrace);
       if (!body) return [];
-      const [start, end] = body;
       const firstOfResource = declarations.length;
 
-      if (header.type === "aws_lambda_function" || header.type === "google_cloudfunctions_function") {
-        collectDirectAttributes(contents, masked, start, end, new Set(["runtime"]), declarations);
-      } else if (header.type === "google_cloudfunctions2_function") {
-        for (const block of directBlocks(masked, start, end, "build_config")) {
-          collectDirectAttributes(contents, masked, block[0], block[1], new Set(["runtime"]), declarations);
-        }
-      } else {
-        for (const siteConfig of directBlocks(masked, start, end, "site_config")) {
-          for (const stack of directBlocks(masked, siteConfig[0], siteConfig[1], "application_stack")) {
-            collectDirectAttributes(contents, masked, stack[0], stack[1], STACK_KEYS, declarations);
-          }
-        }
-      }
-      const platform =
-        header.type === "aws_lambda_function" ? "aws" : header.type.startsWith("google_") ? "gcp" : undefined;
+      collectResourceAttributes(contents, masked, header.type, body[0], body[1], declarations);
+      const platform = platformOf(header.type);
       if (platform) for (const declaration of declarations.slice(firstOfResource)) declaration.platform = platform;
       if (declarations.length >= MAXIMUM_DECLARATIONS) break;
     }

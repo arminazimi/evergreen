@@ -286,9 +286,6 @@
     }
   },
   "src/detectors/rust/parse-cargo-toml.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 1
-    },
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
