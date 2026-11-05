@@ -87,22 +87,23 @@ function comparePre(left: Key["pre"], right: Key["pre"]): number {
   return compareNumbers(left[0], right[0]) || compareNumbers(left[1], right[1]);
 }
 
-// Local versions: absent sorts first; numeric segments sort after alphanumeric ones.
+// Numeric segments sort after alphanumeric ones; two alphanumeric segments compare as strings.
+function compareLocalSegment(a: LocalSegment, b: LocalSegment): number {
+  if (typeof a === "number" && typeof b === "number") return compareNumbers(a, b);
+  if (typeof a === "number") return 1;
+  if (typeof b === "number") return -1;
+  return a === b ? 0 : a < b ? -1 : 1;
+}
+
+// Local versions: an absent label sorts first, and a label that runs out before the other sorts first.
 function compareLocal(left: LocalSegment[] | null, right: LocalSegment[] | null): number {
   if (left === null || right === null) return left === right ? 0 : left === null ? -1 : 1;
   for (let index = 0; index < Math.max(left.length, right.length); index++) {
     const a = left[index];
     const b = right[index];
     if (a === undefined || b === undefined) return a === b ? 0 : a === undefined ? -1 : 1;
-    if (typeof a === "number" && typeof b === "number") {
-      if (a !== b) return compareNumbers(a, b);
-    } else if (typeof a === "number") {
-      return 1;
-    } else if (typeof b === "number") {
-      return -1;
-    } else if (a !== b) {
-      return a < b ? -1 : 1;
-    }
+    const difference = compareLocalSegment(a, b);
+    if (difference !== 0) return difference;
   }
   return 0;
 }

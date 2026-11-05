@@ -41,57 +41,81 @@ export async function scanCycloneDx(input: unknown): Promise<SbomComponentCheck[
     throw new CycloneDxError("Expected a CycloneDX JSON BOM with specVersion 1.3, 1.4, 1.5 or 1.6.");
   }
 
+  // Depth-first traversal with an explicit stack, so deep nesting cannot grow the call stack.
   const pending: Array<{ value: unknown; location: string }> = [];
-  function children(parent: JsonObject, location: string): void {
-    if (parent.components === undefined) return;
-    if (!Array.isArray(parent.components)) {
-      throw new CycloneDxError(`CycloneDX ${location}/components must be an array of objects.`);
-    }
-    for (let index = parent.components.length - 1; index >= 0; index--) {
-      pending.push({ value: parent.components[index], location: `${location}/components/${index}` });
-    }
-  }
-
   if (input.metadata !== undefined) {
     if (!object(input.metadata)) throw new CycloneDxError("CycloneDX metadata must be an object.");
     if (input.metadata.component !== undefined) {
       pending.push({ value: input.metadata.component, location: "/metadata/component" });
     }
   }
-  children(input, "");
+  queueChildren(input, "", pending);
 
   const results: SbomComponentCheck[] = [];
   while (pending.length > 0) {
     const { value, location } = required(pending.pop(), "the queued component");
-    if (!object(value)) throw new CycloneDxError(`CycloneDX ${location} must be an object.`);
-    children(value, location);
-    if (value.purl === undefined) continue;
-    if (
-      typeof value.purl !== "string" ||
-      (value.version !== undefined && typeof value.version !== "string") ||
-      (value["bom-ref"] !== undefined && typeof value["bom-ref"] !== "string")
-    ) {
-      throw new CycloneDxError(`CycloneDX ${location} purl, version and bom-ref must be strings.`);
-    }
-    try {
-      // An explicit PURL version takes precedence over the component's version field.
-      const version = parsePurl(value.purl).version ?? value.version;
-      const check = await checkDependency({
-        purl: value.purl,
-        ...(typeof version === "string" && version ? { version } : {}),
-      });
-      results.push({
-        ...check,
-        location,
-        ...(typeof value["bom-ref"] === "string" ? { bomRef: value["bom-ref"] } : {}),
-      });
-    } catch (error) {
-      throw new CycloneDxError(
-        `Cannot check CycloneDX ${location}: ${error instanceof Error ? error.message : String(error)}`,
-      );
-    }
+    await checkCycloneDxComponent(value, location, pending, results);
   }
   return results;
+}
+
+/** Pushes a parent's children in reverse, so popping visits them in document order. */
+function queueChildren(
+  parent: JsonObject,
+  location: string,
+  pending: Array<{ value: unknown; location: string }>,
+): void {
+  if (parent.components === undefined) return;
+  if (!Array.isArray(parent.components)) {
+    throw new CycloneDxError(`CycloneDX ${location}/components must be an array of objects.`);
+  }
+  for (let index = parent.components.length - 1; index >= 0; index--) {
+    pending.push({ value: parent.components[index], location: `${location}/components/${index}` });
+  }
+}
+
+async function checkCycloneDxComponent(
+  value: unknown,
+  location: string,
+  pending: Array<{ value: unknown; location: string }>,
+  results: SbomComponentCheck[],
+): Promise<void> {
+  if (!object(value)) throw new CycloneDxError(`CycloneDX ${location} must be an object.`);
+  queueChildren(value, location, pending);
+  if (value.purl === undefined) return;
+  if (
+    typeof value.purl !== "string" ||
+    (value.version !== undefined && typeof value.version !== "string") ||
+    (value["bom-ref"] !== undefined && typeof value["bom-ref"] !== "string")
+  ) {
+    throw new CycloneDxError(`CycloneDX ${location} purl, version and bom-ref must be strings.`);
+  }
+  results.push(
+    await checkComponentPurl(value.purl, value.version, location, {
+      ...(typeof value["bom-ref"] === "string" ? { bomRef: value["bom-ref"] } : {}),
+    }),
+  );
+}
+
+async function checkComponentPurl(
+  purl: string,
+  version: unknown,
+  location: string,
+  identity: Pick<SbomComponentCheck, "bomRef">,
+): Promise<SbomComponentCheck> {
+  try {
+    // An explicit PURL version takes precedence over the component's version field.
+    const resolved = parsePurl(purl).version ?? version;
+    const check = await checkDependency({
+      purl,
+      ...(typeof resolved === "string" && resolved ? { version: resolved } : {}),
+    });
+    return { ...check, location, ...identity };
+  } catch (error) {
+    throw new CycloneDxError(
+      `Cannot check CycloneDX ${location}: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
 }
 
 /** Read a local CycloneDX JSON file without changing it or accessing the network. */
@@ -121,48 +145,66 @@ export async function scanSpdx(input: unknown): Promise<SbomComponentCheck[]> {
   if (input.packages === undefined) return results;
   if (!Array.isArray(input.packages)) throw new SpdxError("SPDX packages must be an array of objects.");
   for (const [index, pkg] of input.packages.entries()) {
-    const location = `/packages/${index}`;
-    if (!object(pkg)) throw new SpdxError(`SPDX ${location} must be an object.`);
-    if (pkg.externalRefs === undefined) continue;
-    if (!Array.isArray(pkg.externalRefs)) {
-      throw new SpdxError(`SPDX ${location}/externalRefs must be an array of objects.`);
-    }
-    if (
-      (pkg.versionInfo !== undefined && typeof pkg.versionInfo !== "string") ||
-      (pkg["SPDXID"] !== undefined && typeof pkg["SPDXID"] !== "string")
-    ) {
-      throw new SpdxError(`SPDX ${location} SPDXID and versionInfo must be strings.`);
-    }
-    for (const [referenceIndex, reference] of pkg.externalRefs.entries()) {
-      const referenceLocation = `${location}/externalRefs/${referenceIndex}`;
-      if (!object(reference)) throw new SpdxError(`SPDX ${referenceLocation} must be an object.`);
-      if (typeof reference.referenceType !== "string") {
-        throw new SpdxError(`SPDX ${referenceLocation} referenceType must be a string.`);
-      }
-      if (reference.referenceType.toLowerCase() !== "purl") continue;
-      if (typeof reference.referenceLocator !== "string") {
-        throw new SpdxError(`SPDX ${referenceLocation} referenceLocator must be a string.`);
-      }
-      try {
-        // An explicit PURL version takes precedence over the package's versionInfo field.
-        const version = parsePurl(reference.referenceLocator).version ?? pkg.versionInfo;
-        const check = await checkDependency({
-          purl: reference.referenceLocator,
-          ...(typeof version === "string" && version ? { version } : {}),
-        });
-        results.push({
-          ...check,
-          location: referenceLocation,
-          ...(typeof pkg["SPDXID"] === "string" ? { spdxId: pkg["SPDXID"] } : {}),
-        });
-      } catch (error) {
-        throw new SpdxError(
-          `Cannot check SPDX ${referenceLocation}: ${error instanceof Error ? error.message : String(error)}`,
-        );
-      }
-    }
+    await scanSpdxPackage(pkg, `/packages/${index}`, results);
   }
   return results;
+}
+
+async function scanSpdxPackage(pkg: unknown, location: string, results: SbomComponentCheck[]): Promise<void> {
+  if (!object(pkg)) throw new SpdxError(`SPDX ${location} must be an object.`);
+  if (pkg.externalRefs === undefined) return;
+  if (!Array.isArray(pkg.externalRefs)) {
+    throw new SpdxError(`SPDX ${location}/externalRefs must be an array of objects.`);
+  }
+  if (
+    (pkg.versionInfo !== undefined && typeof pkg.versionInfo !== "string") ||
+    (pkg["SPDXID"] !== undefined && typeof pkg["SPDXID"] !== "string")
+  ) {
+    throw new SpdxError(`SPDX ${location} SPDXID and versionInfo must be strings.`);
+  }
+  for (const [referenceIndex, reference] of pkg.externalRefs.entries()) {
+    await scanSpdxReference(reference, `${location}/externalRefs/${referenceIndex}`, pkg, results);
+  }
+}
+
+async function scanSpdxReference(
+  reference: unknown,
+  location: string,
+  pkg: JsonObject,
+  results: SbomComponentCheck[],
+): Promise<void> {
+  if (!object(reference)) throw new SpdxError(`SPDX ${location} must be an object.`);
+  if (typeof reference.referenceType !== "string") {
+    throw new SpdxError(`SPDX ${location} referenceType must be a string.`);
+  }
+  if (reference.referenceType.toLowerCase() !== "purl") return;
+  if (typeof reference.referenceLocator !== "string") {
+    throw new SpdxError(`SPDX ${location} referenceLocator must be a string.`);
+  }
+  results.push(
+    await checkSpdxPurl(reference.referenceLocator, pkg, location, {
+      ...(typeof pkg["SPDXID"] === "string" ? { spdxId: pkg["SPDXID"] } : {}),
+    }),
+  );
+}
+
+async function checkSpdxPurl(
+  purl: string,
+  pkg: JsonObject,
+  location: string,
+  identity: Pick<SbomComponentCheck, "spdxId">,
+): Promise<SbomComponentCheck> {
+  try {
+    // An explicit PURL version takes precedence over the package's versionInfo field.
+    const version = parsePurl(purl).version ?? pkg.versionInfo;
+    const check = await checkDependency({
+      purl,
+      ...(typeof version === "string" && version ? { version } : {}),
+    });
+    return { ...check, location, ...identity };
+  } catch (error) {
+    throw new SpdxError(`Cannot check SPDX ${location}: ${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 /** Read a local SPDX JSON document without changing it or accessing the network. */

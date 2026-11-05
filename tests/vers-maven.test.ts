@@ -69,3 +69,27 @@ test("matches the JDK and Gradle ranges Evergreen registry rules use", () => {
   assert.equal(versContains("vers:maven/>=1.8|<9", "1.8.0_402"), true);
   assert.equal(versContains("vers:maven/<3.0.0", "2.7.18"), true);
 });
+
+test("reads single-letter and short qualifiers as their full names", () => {
+  for (const [left, right] of [
+    ["1.0-a1", "1.0-alpha-1"],
+    ["1.0-b2", "1.0-beta-2"],
+    ["1.0-m3", "1.0-milestone-3"],
+    ["1.0-cr1", "1.0-rc1"],
+    ["1.0-X-1", "1.0-x1"],
+  ]) {
+    assert.equal(maven.compare(left!, right!), 0, `${left} == ${right}`);
+  }
+});
+
+test("orders unknown qualifiers after the release and before the next number", () => {
+  const ordered = ["1.0-alpha-1", "1.0-rc1", "1.0", "1.0-foo", "1.0-foo1", "1.0.1"];
+  for (let index = 0; index < ordered.length - 1; index++) {
+    assert.ok(maven.compare(ordered[index]!, ordered[index + 1]!) < 0, `${ordered[index]} < ${ordered[index + 1]}`);
+  }
+});
+
+test("keeps dotted qualifiers distinct from dashed ones", () => {
+  assert.ok(maven.compare("2.0.a", "2-a") !== 0);
+  assert.ok(maven.compare("1.0.0.X1", "1.0.0-X2") < 0);
+});

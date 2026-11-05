@@ -492,14 +492,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/terraform/plan.ts",
-      "function": "parseTerraformPlanJson",
-      "lines": 130,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
       "lines": 82,
@@ -820,38 +812,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/sbom/cyclonedx.ts",
-      "function": "enrichCycloneDx",
-      "lines": 70,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "function": "scanCycloneDx",
-      "lines": 62,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "function": "scanSpdx",
-      "lines": 52,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/sbom/spdx.ts",
-      "function": "enrichSpdx",
-      "lines": 84,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/source-usage.ts",
       "function": "readRubyLiteral",
       "lines": 63,
@@ -887,14 +847,6 @@
       "file": "src/usage/python.ts",
       "function": "analyzePythonFile",
       "lines": 181,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/vers/maven.ts",
-      "function": "parse",
-      "lines": 65,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -1486,14 +1438,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/detectors/terraform/plan.ts",
-      "function": "parseTerraformPlanJson",
-      "complexity": 43,
-      "owner": "#2264",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/drift/java.ts",
       "function": "setupJavaVersions",
       "complexity": 22,
@@ -1798,38 +1742,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/sbom/cyclonedx.ts",
-      "function": "enrichCycloneDx > component",
-      "complexity": 18,
-      "owner": "#2277",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "function": "scanCycloneDx",
-      "complexity": 22,
-      "owner": "#2277",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/sbom/input.ts",
-      "function": "scanSpdx",
-      "complexity": 24,
-      "owner": "#2277",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/sbom/spdx.ts",
-      "function": "enrichSpdx",
-      "complexity": 26,
-      "owner": "#2277",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/source-usage.ts",
       "function": "readRubyLiteral",
       "complexity": 35,
@@ -1906,22 +1818,6 @@
       "function": "versContains",
       "complexity": 22,
       "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/vers/maven.ts",
-      "function": "parse",
-      "complexity": 23,
-      "owner": "#2281",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/vers/pep440.ts",
-      "function": "compareLocal",
-      "complexity": 17,
-      "owner": "#2281",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 
 import { checkAgainst } from "../check-dependency.js";
+import type { DependencyFinding } from "../check-dependency.js";
 import { BUNDLED_ECOSYSTEMS } from "../data-bundle.js";
 import { getActiveData } from "../data-source.js";
 import type { ActiveData } from "../data-source.js";
@@ -45,65 +46,94 @@ export function enrichCycloneDx(input: unknown, rules: readonly RegistryV2Rule[]
     throw new CycloneDxError("Expected a CycloneDX JSON BOM with specVersion 1.3, 1.4, 1.5 or 1.6.");
   }
   const bom = structuredClone(input);
-  const candidates = rules
-    .filter((rule) => rule.deadline && milestones[rule.event] && !rule.usage?.some((usage) => usage.kind === "symbol"))
-    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  const candidates = milestoneCandidates(rules);
 
-  function entries(parent: JsonObject, key: string): JsonObject[] {
-    const value = parent[key];
-    if (value === undefined) return [];
-    if (!Array.isArray(value) || !value.every(object)) {
-      throw new CycloneDxError(`CycloneDX ${key} must be an array of objects.`);
-    }
-    return value;
-  }
-
-  function component(value: unknown): void {
-    if (!object(value)) throw new CycloneDxError("CycloneDX component must be an object.");
-    const children = entries(value, "components");
-    const properties = entries(value, "properties");
-    const references = entries(value, "externalReferences");
-    if (value.purl !== undefined) {
-      if (typeof value.purl !== "string" || (value.version !== undefined && typeof value.version !== "string")) {
-        throw new CycloneDxError("CycloneDX component purl and version must be strings.");
-      }
-      let result;
-      try {
-        const version = parsePurl(value.purl).version ?? value.version;
-        result = checkAgainst(candidates, {
-          purl: value.purl,
-          ...(typeof version === "string" && version ? { version } : {}),
-        });
-      } catch (error) {
-        throw new CycloneDxError(
-          `Cannot match component ${value.purl}: ${error instanceof Error ? error.message : String(error)}`,
-        );
-      }
-      if (result.status === "affected") {
-        for (const finding of result.findings) {
-          const name = required(milestones[finding.event], "the milestone");
-          if (!properties.some((property) => property.name === name && property.value === finding.deadline)) {
-            properties.push({ name, value: required(finding.deadline, "the deadline") });
-          }
-          for (const source of finding.sources) {
-            if (!references.some((reference) => reference.url === source.url)) {
-              references.push({ type: "documentation", url: source.url, comment: source.title });
-            }
-          }
-        }
-        value.properties = properties;
-        if (references.length > 0) value.externalReferences = references;
-      }
-    }
-    for (const child of children) component(child);
-  }
-
-  for (const value of entries(bom, "components")) component(value);
+  for (const value of entries(bom, "components")) enrichComponent(value, candidates);
   if (bom.metadata !== undefined) {
     if (!object(bom.metadata)) throw new CycloneDxError("CycloneDX metadata must be an object.");
-    if (bom.metadata.component !== undefined) component(bom.metadata.component);
+    if (bom.metadata.component !== undefined) enrichComponent(bom.metadata.component, candidates);
   }
   return bom;
+}
+
+/** Rules that can establish a dated, version-independent component milestone, in stable id order. */
+function milestoneCandidates(rules: readonly RegistryV2Rule[]): RegistryV2Rule[] {
+  return rules
+    .filter((rule) => rule.deadline && milestones[rule.event] && !rule.usage?.some((usage) => usage.kind === "symbol"))
+    .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+}
+
+function entries(parent: JsonObject, key: string): JsonObject[] {
+  const value = parent[key];
+  if (value === undefined) return [];
+  if (!Array.isArray(value) || !value.every(object)) {
+    throw new CycloneDxError(`CycloneDX ${key} must be an array of objects.`);
+  }
+  return value;
+}
+
+/** Enriches a component and, depth first, its nested components. */
+function enrichComponent(value: unknown, candidates: readonly RegistryV2Rule[]): void {
+  if (!object(value)) throw new CycloneDxError("CycloneDX component must be an object.");
+  const children = entries(value, "components");
+  const properties = entries(value, "properties");
+  const references = entries(value, "externalReferences");
+  if (value.purl !== undefined) enrichPurlComponent(value, value.purl, properties, references, candidates);
+  for (const child of children) enrichComponent(child, candidates);
+}
+
+function enrichPurlComponent(
+  value: JsonObject,
+  purl: unknown,
+  properties: JsonObject[],
+  references: JsonObject[],
+  candidates: readonly RegistryV2Rule[],
+): void {
+  if (typeof purl !== "string" || (value.version !== undefined && typeof value.version !== "string")) {
+    throw new CycloneDxError("CycloneDX component purl and version must be strings.");
+  }
+  const result = checkComponentPurl(purl, value.version, candidates);
+  if (result.status !== "affected") return;
+
+  for (const finding of result.findings) {
+    addMilestoneProperty(properties, finding);
+    addEvidenceReferences(references, finding);
+  }
+  value.properties = properties;
+  if (references.length > 0) value.externalReferences = references;
+}
+
+function checkComponentPurl(
+  purl: string,
+  version: unknown,
+  candidates: readonly RegistryV2Rule[],
+): ReturnType<typeof checkAgainst> {
+  try {
+    const resolved = parsePurl(purl).version ?? version;
+    return checkAgainst(candidates, {
+      purl,
+      ...(typeof resolved === "string" && resolved ? { version: resolved } : {}),
+    });
+  } catch (error) {
+    throw new CycloneDxError(
+      `Cannot match component ${purl}: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+}
+
+/** Adds the milestone property unless the same name and deadline are already present. */
+function addMilestoneProperty(properties: JsonObject[], finding: DependencyFinding): void {
+  const name = required(milestones[finding.event], "the milestone");
+  if (properties.some((property) => property.name === name && property.value === finding.deadline)) return;
+  properties.push({ name, value: required(finding.deadline, "the deadline") });
+}
+
+/** Adds one documentation reference per source URL not already present. */
+function addEvidenceReferences(references: JsonObject[], finding: DependencyFinding): void {
+  for (const source of finding.sources) {
+    if (references.some((reference) => reference.url === source.url)) continue;
+    references.push({ type: "documentation", url: source.url, comment: source.title });
+  }
 }
 
 /** Reads local JSON and the active (optionally pinned) lifecycle data; never writes the input. */
