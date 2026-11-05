@@ -15,6 +15,16 @@ export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 export const MAXIMUM_DECLARATIONS = 5000;
 
+const SECTION = /^\s*\[([^\]]+)\]\s*$/;
+const VERSION_ENTRY = /^\s*([A-Za-z0-9_-]+)\s*=\s*"([^"]+)"\s*$/;
+const BLANK_OR_COMMENT = /^\s*(?:#.*)?$/;
+// alias = { group = "...", name = "...", version = "..." }
+const INLINE_VERSION =
+  /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\s*=\s*"([^"]+)"[^}]*\}/;
+// alias = { group = "...", name = "...", version.ref = "..." }
+const VERSION_REF =
+  /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\.ref\s*=\s*"([^"]+)"[^}]*\}/;
+
 function libraryDeclaration(
   match: RegExpExecArray,
   line: number,
@@ -29,16 +39,59 @@ function libraryDeclaration(
   return { kind: "dependency", group, artifact: name, version, line };
 }
 
-function tryPushLibrary(
-  found: DependencyDeclaration[],
-  match: RegExpExecArray | null,
-  line: number,
-  versionFor: (third: string) => string | undefined,
-): boolean {
-  if (!match) return false;
-  const declaration = libraryDeclaration(match, line, versionFor);
-  if (declaration && found.length < MAXIMUM_DECLARATIONS) found.push(declaration);
-  return true;
+/** The library an entry line declares with a resolvable version, or undefined. */
+function libraryOf(line: string, lineNumber: number, versions: Map<string, string>): DependencyDeclaration | undefined {
+  const inline = INLINE_VERSION.exec(line);
+  if (inline) return libraryDeclaration(inline, lineNumber, (version) => version);
+  const ref = VERSION_REF.exec(line);
+  if (ref) return libraryDeclaration(ref, lineNumber, (alias) => versions.get(alias.toLowerCase()));
+  return undefined;
+}
+
+/** A line over the length limit is read as blank, so it can declare nothing. */
+const lineText = (rawLine: string): string => (rawLine.length > MAXIMUM_LINE_LENGTH ? "" : rawLine);
+
+/** The section name a header line opens, lower-cased, or undefined when the line is not a header. */
+function sectionOf(line: string): string | undefined {
+  const match = SECTION.exec(line);
+  return match ? required(match[1], "section name").trim().toLowerCase() : undefined;
+}
+
+/** First pass: every literal `[versions]` entry, so `version.ref` can be resolved whatever the section order. */
+function collectVersions(lines: string[]): Map<string, string> {
+  const versions = new Map<string, string>();
+  let section = "";
+  for (const rawLine of lines) {
+    const line = lineText(rawLine);
+    const header = sectionOf(line);
+    if (header !== undefined) {
+      section = header;
+      continue;
+    }
+    if (section !== "versions") continue;
+    const versionMatch = VERSION_ENTRY.exec(line);
+    if (versionMatch)
+      versions.set(required(versionMatch[1], "version alias").toLowerCase(), required(versionMatch[2], "version"));
+  }
+  return versions;
+}
+
+/** Second pass: the `[libraries]` entries, with their versions resolved. */
+function collectLibraries(lines: string[], versions: Map<string, string>): DependencyDeclaration[] {
+  const found: DependencyDeclaration[] = [];
+  let section = "";
+  for (const [index, rawLine] of lines.entries()) {
+    const line = lineText(rawLine);
+    const header = sectionOf(line);
+    if (header !== undefined) {
+      section = header;
+      continue;
+    }
+    if (section !== "libraries" || BLANK_OR_COMMENT.test(line)) continue;
+    const declaration = libraryOf(line, index + 1, versions);
+    if (declaration && found.length < MAXIMUM_DECLARATIONS) found.push(declaration);
+  }
+  return found;
 }
 
 /** Parse a Gradle version catalog without file, network, or process I/O. */
@@ -46,65 +99,8 @@ export function parseCatalog(contents: string): DependencyDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
 
   try {
-    const rawLines = contents.split(/\r?\n/);
-    // Map alias (normalized to lower-case) → version string
-    const versions = new Map<string, string>();
-    const found: DependencyDeclaration[] = [];
-
-    // First pass: collect all [versions] entries so refs can be resolved when
-    // [libraries] appears after [versions] (the standard order).
-    let section = "";
-    for (const rawLine of rawLines) {
-      const line = rawLine.length > MAXIMUM_LINE_LENGTH ? "" : rawLine;
-      const sectionMatch = /^\s*\[([^\]]+)\]\s*$/.exec(line);
-      if (sectionMatch) {
-        section = required(sectionMatch[1], "section name").trim().toLowerCase();
-        continue;
-      }
-      if (section === "versions") {
-        const versionMatch = /^\s*([A-Za-z0-9_-]+)\s*=\s*"([^"]+)"\s*$/.exec(line);
-        if (versionMatch) {
-          versions.set(required(versionMatch[1], "version alias").toLowerCase(), required(versionMatch[2], "version"));
-        }
-      }
-    }
-
-    // Second pass: collect [libraries] entries with resolved versions.
-    section = "";
-    let lineNumber = 0;
-    for (const rawLine of rawLines) {
-      lineNumber++;
-      const line = rawLine.length > MAXIMUM_LINE_LENGTH ? "" : rawLine;
-
-      const sectionMatch = /^\s*\[([^\]]+)\]\s*$/.exec(line);
-      if (sectionMatch) {
-        section = required(sectionMatch[1], "section name").trim().toLowerCase();
-        continue;
-      }
-
-      if (section !== "libraries") continue;
-
-      // Skip blank lines and comments
-      if (/^\s*(?:#.*)?$/.test(line)) continue;
-
-      // Inline table with a literal version:
-      //   alias = { group = "...", name = "...", version = "..." }
-      const libInlineMatch =
-        /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\s*=\s*"([^"]+)"[^}]*\}/.exec(
-          line,
-        );
-      if (tryPushLibrary(found, libInlineMatch, lineNumber, (version) => version)) continue;
-
-      // Inline table with a version.ref:
-      //   alias = { group = "...", name = "...", version.ref = "..." }
-      const libRefMatch =
-        /^\s*[A-Za-z0-9_-]+\s*=\s*\{[^}]*\bgroup\s*=\s*"([^"]+)"[^}]*\bname\s*=\s*"([^"]+)"[^}]*\bversion\.ref\s*=\s*"([^"]+)"[^}]*\}/.exec(
-          line,
-        );
-      tryPushLibrary(found, libRefMatch, lineNumber, (ref) => versions.get(ref.toLowerCase()));
-    }
-
-    return found.sort((left, right) => left.line - right.line);
+    const lines = contents.split(/\r?\n/);
+    return collectLibraries(lines, collectVersions(lines)).sort((left, right) => left.line - right.line);
   } catch {
     return [];
   }

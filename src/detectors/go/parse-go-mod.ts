@@ -46,6 +46,23 @@ function requirement(line: string, lineNumber: number, comment: string): GoRequi
   return { kind: "require", module, value, line: lineNumber };
 }
 
+/** A `go` or `toolchain` directive line with a supported version, or undefined for anything else. */
+export function parseVersionDirective(
+  code: string,
+  line: number,
+): GoVersionDeclaration | GoToolchainDeclaration | undefined {
+  const directive = code.match(/^(go|toolchain)\s+(\S+)$/);
+  if (!directive) return undefined;
+  const [, kind, value] = directive;
+  if (kind === "go" && value && GO_VERSION.test(value)) return { kind, value, line };
+  if (kind === "toolchain" && value && TOOLCHAIN_VERSION.test(value)) return { kind, value, line };
+  return undefined;
+}
+
+function pushDefined<T>(list: T[], item: T | undefined): void {
+  if (item !== undefined) list.push(item);
+}
+
 /** Parse supported go.mod declarations without file, network, or process I/O. */
 export function parseGoMod(contents: string): GoModDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
@@ -60,33 +77,19 @@ export function parseGoMod(contents: string): GoModDeclaration[] {
     const line = index + 1;
 
     if (requireBlock) {
-      if (code === ")") {
-        requireBlock = false;
-        continue;
-      }
-      if (code === "") continue;
-      const parsed = requirement(code, line, comment);
-      if (parsed) declarations.push(parsed);
+      if (code === ")") requireBlock = false;
+      else if (code !== "") pushDefined(declarations, requirement(code, line, comment));
       continue;
     }
-
     if (code === "require (") {
       requireBlock = true;
       continue;
     }
 
-    const directive = code.match(/^(go|toolchain)\s+(\S+)$/);
-    if (directive) {
-      const [, kind, value] = directive;
-      if (kind === "go" && value && GO_VERSION.test(value)) declarations.push({ kind, value, line });
-      if (kind === "toolchain" && value && TOOLCHAIN_VERSION.test(value)) declarations.push({ kind, value, line });
-      continue;
-    }
-
-    if (code.startsWith("require ")) {
-      const parsed = requirement(code.slice("require ".length).trim(), line, comment);
-      if (parsed) declarations.push(parsed);
-    }
+    const directive = parseVersionDirective(code, line);
+    if (directive) declarations.push(directive);
+    else if (code.startsWith("require "))
+      pushDefined(declarations, requirement(code.slice("require ".length).trim(), line, comment));
   }
 
   return requireBlock ? [] : declarations;

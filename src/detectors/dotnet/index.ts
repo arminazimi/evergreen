@@ -12,7 +12,7 @@ import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, Dete
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseGlobalJson } from "./parse-global-json.js";
 import { parseMsbuild } from "./parse-msbuild.js";
-import type { MsbuildDeclarations } from "./parse-msbuild.js";
+import type { MsbuildDeclarations, PackageDeclaration, TargetDeclaration } from "./parse-msbuild.js";
 import { parsePackagesLock } from "./parse-packages-lock.js";
 import type { LockedPackage } from "./parse-packages-lock.js";
 
@@ -106,6 +106,214 @@ function contains(rule: RegistryV2Rule, version: string): boolean {
   }
 }
 
+/** Everything one `analyze` run collects: the rules it judges with, and the findings and unclassified references it has made so far. */
+interface Run {
+  readonly root: string;
+  readonly rules: RegistryV2Rule[];
+  readonly runtimeRules: RegistryV2Rule[];
+  readonly packageRules: Map<string, RegistryV2Rule[]>;
+  readonly findings: Map<string, DetectorFinding>;
+  readonly unclassified: Omit<UnclassifiedReference, "detector">[];
+}
+
+function newRun(root: string, rules: RegistryV2Rule[]): Run {
+  const packageRules = new Map<string, RegistryV2Rule[]>();
+  for (const rule of rules) {
+    if (!rule.purl.startsWith("pkg:nuget/")) continue;
+    const id = decodeURIComponent(rule.purl.slice("pkg:nuget/".length)).toLowerCase();
+    packageRules.set(id, [...(packageRules.get(id) ?? []), rule]);
+  }
+  return {
+    root,
+    rules,
+    runtimeRules: rules.filter((rule) => rule.purl === RUNTIME_PURL),
+    packageRules,
+    findings: new Map(),
+    unclassified: [],
+  };
+}
+
+function reportFinding(run: Run, rule: RegistryV2Rule, path: string, line: number, summary: string): void {
+  const id = `${rule.id}:${path}:${line}`;
+  if (run.findings.has(id)) return;
+  run.findings.set(id, {
+    id,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location: { path, line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  });
+}
+
+function judgeRuntime(run: Run, version: string, path: string, line: number, text: string): void {
+  const rule = run.runtimeRules.find((item) => contains(item, version));
+  if (rule) reportFinding(run, rule, path, line, `${path} ${text}. ${rule.summary}`);
+}
+
+function judgeGlobalJson(run: Run, contents: string, path: string): void {
+  for (const sdk of parseGlobalJson(contents)) {
+    if (!LITERAL_VERSION.test(sdk.value)) {
+      run.unclassified.push({
+        component: "dotnet",
+        reference: sdk.value,
+        reason: "the SDK version is not a version number, so Evergreen does not judge it",
+        location: { path, line: sdk.line },
+      });
+      continue;
+    }
+    judgeRuntime(run, sdk.value, path, sdk.line, `pins .NET SDK ${sdk.value}`);
+  }
+}
+
+/** Reads every candidate file in order; global.json is judged as it is read, MSBuild and lock files are returned for later phases. */
+async function readFiles(
+  run: Run,
+  files: string[],
+): Promise<{
+  locks: Array<{ path: string; packages: LockedPackage[] }>;
+  parsed: Array<{ path: string; declarations: MsbuildDeclarations }>;
+}> {
+  const locks: Array<{ path: string; packages: LockedPackage[] }> = [];
+  const parsed: Array<{ path: string; declarations: MsbuildDeclarations }> = [];
+  for (const file of files) {
+    let contents: string;
+    try {
+      contents = await readFile(file, "utf8");
+    } catch {
+      continue;
+    }
+    const path = relativePosix(run.root, file);
+    const name = basename(file).toLowerCase();
+    if (name === "global.json") judgeGlobalJson(run, contents, path);
+    else if (name === "packages.lock.json") locks.push({ path, packages: parsePackagesLock(contents) });
+    else parsed.push({ path, declarations: parseMsbuild(contents) });
+  }
+  return { locks, parsed };
+}
+
+function judgeTargets(run: Run, targets: TargetDeclaration[], path: string): void {
+  for (const target of targets) {
+    const result = targetVersion(target.value);
+    if (result.kind === "version") judgeRuntime(run, result.version, path, target.line, `targets ${target.value}`);
+    else if (result.kind === "unclassified")
+      run.unclassified.push({
+        component: "dotnet",
+        reference: target.value,
+        reason: result.reason,
+        location: { path, line: target.line },
+      });
+  }
+}
+
+function judgePackage(run: Run, declaration: PackageDeclaration, path: string, central: boolean): void {
+  const candidates = run.packageRules.get(declaration.name.toLowerCase());
+  if (!candidates) return;
+  if (declaration.version === undefined) {
+    if (declaration.kind === "reference" && !central)
+      run.unclassified.push({
+        component: declaration.name,
+        reference: declaration.name,
+        reason:
+          "the reference has no version and central package management is not enabled, so Evergreen does not judge it",
+        location: { path, line: declaration.line },
+      });
+    return;
+  }
+  if (!LITERAL_VERSION.test(declaration.version)) {
+    run.unclassified.push({
+      component: declaration.name,
+      reference: declaration.version,
+      reason: "the version is an MSBuild property, a floating version, or a range, so Evergreen does not judge it",
+      location: { path, line: declaration.line },
+    });
+    return;
+  }
+  const suffix = declaration.kind === "version" ? " (central package version)" : "";
+  for (const rule of candidates) {
+    if (contains(rule, declaration.version))
+      reportFinding(
+        run,
+        rule,
+        path,
+        declaration.line,
+        `${path} references ${declaration.name} ${declaration.version}${suffix}. ${rule.summary}`,
+      );
+  }
+}
+
+/** Central package management set in a file applies to the projects in its directory and below. */
+function centralDirectories(parsed: Array<{ path: string; declarations: MsbuildDeclarations }>): string[] {
+  return parsed.filter((file) => file.declarations.centralPackageManagement).map((file) => dirname(file.path));
+}
+
+function isCentral(directories: string[], path: string): boolean {
+  return directories.some(
+    (directory) => directory === "." || dirname(path) === directory || dirname(path).startsWith(`${directory}/`),
+  );
+}
+
+function judgeProjects(run: Run, parsed: Array<{ path: string; declarations: MsbuildDeclarations }>): void {
+  const directories = centralDirectories(parsed);
+  for (const { path, declarations } of parsed) {
+    judgeTargets(run, declarations.targets, path);
+    const central = isCentral(directories, path);
+    for (const declaration of declarations.packages) judgePackage(run, declaration, path, central);
+  }
+}
+
+/** A package deprecated at every version is reported where it is declared; a rule for specific versions is reported where the lock file resolves it. */
+function judgeLocks(run: Run, locks: Array<{ path: string; packages: LockedPackage[] }>): void {
+  for (const lock of locks) {
+    for (const pkg of lock.packages) {
+      for (const rule of run.packageRules.get(pkg.name.toLowerCase()) ?? []) {
+        if (!coversEveryVersion(rule) && contains(rule, pkg.version))
+          reportFinding(
+            run,
+            rule,
+            lock.path,
+            pkg.line,
+            `${lock.path} resolves ${pkg.name} ${pkg.version}. ${rule.summary}`,
+          );
+      }
+    }
+  }
+}
+
+/** Where the repository's C# source uses a deprecated package, so a migration packet can list the files. */
+async function attachUsage(run: Run): Promise<void> {
+  const rulesById = new Map(run.rules.map((rule) => [rule.id, rule]));
+  const withUsage = [...run.findings.values()]
+    .map((finding) => ({ finding, matchers: rulesById.get(finding.ruleId)?.usage ?? [] }))
+    .filter((entry) => entry.matchers.length > 0);
+  if (withUsage.length === 0) return;
+  const analyses = new Map(
+    (
+      await analyzeSourceUsage(
+        run.root,
+        withUsage.map((entry) => ({ id: entry.finding.id, matchers: entry.matchers })),
+      )
+    ).map((analysis) => [analysis.contractId, analysis]),
+  );
+  for (const { finding } of withUsage) {
+    const analysis = analyses.get(finding.id);
+    if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
+  }
+}
+
+function sortedFindings(findings: Iterable<DetectorFinding>): DetectorFinding[] {
+  return [...findings].sort(
+    (left, right) =>
+      left.location.path.localeCompare(right.location.path) ||
+      (left.location.line ?? 0) - (right.location.line ?? 0) ||
+      left.id.localeCompare(right.id),
+  );
+}
+
 export class DotnetDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "dotnet";
@@ -130,166 +338,12 @@ export class DotnetDetector implements Detector {
     const files = await dotnetFiles(context.root);
     if (files.length === 0) return { findings: [], unclassified: [] };
 
-    const rules = await this.loadRules();
-    const runtimeRules = rules.filter((rule) => rule.purl === RUNTIME_PURL);
-    const packageRules = new Map<string, RegistryV2Rule[]>();
-    for (const rule of rules) {
-      if (!rule.purl.startsWith("pkg:nuget/")) continue;
-      const id = decodeURIComponent(rule.purl.slice("pkg:nuget/".length)).toLowerCase();
-      packageRules.set(id, [...(packageRules.get(id) ?? []), rule]);
-    }
-
-    const findings = new Map<string, DetectorFinding>();
-    const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
-      const id = `${rule.id}:${path}:${line}`;
-      if (findings.has(id)) return;
-      findings.set(id, {
-        id,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
-    };
-    const judgeRuntime = (version: string, path: string, line: number, text: string): void => {
-      const rule = runtimeRules.find((item) => contains(item, version));
-      if (rule) report(rule, path, line, `${path} ${text}. ${rule.summary}`);
-    };
-
-    const locks: Array<{ path: string; packages: LockedPackage[] }> = [];
-    const parsed: Array<{ path: string; declarations: MsbuildDeclarations }> = [];
-
-    for (const file of files) {
-      let contents: string;
-      try {
-        contents = await readFile(file, "utf8");
-      } catch {
-        continue;
-      }
-      const path = relativePosix(context.root, file);
-      const name = basename(file).toLowerCase();
-
-      if (name === "global.json") {
-        for (const sdk of parseGlobalJson(contents)) {
-          if (!LITERAL_VERSION.test(sdk.value)) {
-            unclassified.push({
-              component: "dotnet",
-              reference: sdk.value,
-              reason: "the SDK version is not a version number, so Evergreen does not judge it",
-              location: { path, line: sdk.line },
-            });
-            continue;
-          }
-          judgeRuntime(sdk.value, path, sdk.line, `pins .NET SDK ${sdk.value}`);
-        }
-      } else if (name === "packages.lock.json") {
-        locks.push({ path, packages: parsePackagesLock(contents) });
-      } else {
-        parsed.push({ path, declarations: parseMsbuild(contents) });
-      }
-    }
-
-    // Central package management set in a file applies to the projects in its directory and below.
-    const centralDirectories = parsed
-      .filter((file) => file.declarations.centralPackageManagement)
-      .map((file) => dirname(file.path));
-    const isCentral = (path: string): boolean =>
-      centralDirectories.some(
-        (directory) => directory === "." || dirname(path) === directory || dirname(path).startsWith(`${directory}/`),
-      );
-    for (const { path, declarations } of parsed) {
-      for (const target of declarations.targets) {
-        const result = targetVersion(target.value);
-        if (result.kind === "version") judgeRuntime(result.version, path, target.line, `targets ${target.value}`);
-        else if (result.kind === "unclassified")
-          unclassified.push({
-            component: "dotnet",
-            reference: target.value,
-            reason: result.reason,
-            location: { path, line: target.line },
-          });
-      }
-      for (const declaration of declarations.packages) {
-        const candidates = packageRules.get(declaration.name.toLowerCase());
-        if (!candidates) continue;
-        if (declaration.version === undefined) {
-          if (declaration.kind === "reference" && !isCentral(path)) {
-            unclassified.push({
-              component: declaration.name,
-              reference: declaration.name,
-              reason:
-                "the reference has no version and central package management is not enabled, so Evergreen does not judge it",
-              location: { path, line: declaration.line },
-            });
-          }
-          continue;
-        }
-        if (!LITERAL_VERSION.test(declaration.version)) {
-          unclassified.push({
-            component: declaration.name,
-            reference: declaration.version,
-            reason:
-              "the version is an MSBuild property, a floating version, or a range, so Evergreen does not judge it",
-            location: { path, line: declaration.line },
-          });
-          continue;
-        }
-        for (const rule of candidates) {
-          if (contains(rule, declaration.version)) {
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} references ${declaration.name} ${declaration.version}${declaration.kind === "version" ? " (central package version)" : ""}. ${rule.summary}`,
-            );
-          }
-        }
-      }
-    }
-
-    // A package deprecated at every version is reported where it is declared; a rule for specific versions is reported where the lock file resolves it.
-    for (const lock of locks) {
-      for (const pkg of lock.packages) {
-        for (const rule of packageRules.get(pkg.name.toLowerCase()) ?? []) {
-          if (!coversEveryVersion(rule) && contains(rule, pkg.version))
-            report(rule, lock.path, pkg.line, `${lock.path} resolves ${pkg.name} ${pkg.version}. ${rule.summary}`);
-        }
-      }
-    }
-
-    // Where the repository's C# source uses a deprecated package, so a migration packet can list the files.
-    const rulesById = new Map(rules.map((rule) => [rule.id, rule]));
-    const withUsage = [...findings.values()]
-      .map((finding) => ({ finding, matchers: rulesById.get(finding.ruleId)?.usage ?? [] }))
-      .filter((entry) => entry.matchers.length > 0);
-    if (withUsage.length > 0) {
-      const analyses = new Map(
-        (
-          await analyzeSourceUsage(
-            context.root,
-            withUsage.map((entry) => ({ id: entry.finding.id, matchers: entry.matchers })),
-          )
-        ).map((analysis) => [analysis.contractId, analysis]),
-      );
-      for (const { finding } of withUsage) {
-        const analysis = analyses.get(finding.id);
-        if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
-      }
-    }
-
-    const sorted = [...findings.values()].sort(
-      (left, right) =>
-        left.location.path.localeCompare(right.location.path) ||
-        (left.location.line ?? 0) - (right.location.line ?? 0) ||
-        left.id.localeCompare(right.id),
-    );
-    return { findings: sorted, unclassified };
+    const run = newRun(context.root, await this.loadRules());
+    const { locks, parsed } = await readFiles(run, files);
+    judgeProjects(run, parsed);
+    judgeLocks(run, locks);
+    await attachUsage(run);
+    return { findings: sortedFindings(run.findings.values()), unclassified: run.unclassified };
   }
 }
 

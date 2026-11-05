@@ -96,6 +96,109 @@ function ruleForDeclared(rules: readonly RegistryV2Rule[], value: string): Regis
   return EXACT_VERSION.test(value) ? firstMatchingRule(rules, value) : rules.find(coversEveryVersion);
 }
 
+/** Rules and the findings collected so far in one `analyze` run. */
+interface Run {
+  readonly root: string;
+  readonly elixirRules: RegistryV2Rule[];
+  readonly erlangRules: RegistryV2Rule[];
+  readonly packageRules: Map<string, RegistryV2Rule[]>;
+  readonly findings: DetectorFinding[];
+}
+
+function newRun(root: string, rules: RegistryV2Rule[]): Run {
+  const packageRules = new Map<string, RegistryV2Rule[]>();
+  for (const rule of rules) {
+    if (!rule.purl.startsWith(HEX_PURL_PREFIX)) continue;
+    const name = decodeURIComponent(rule.purl.slice(HEX_PURL_PREFIX.length));
+    const existing = packageRules.get(name);
+    if (existing) existing.push(rule);
+    else packageRules.set(name, [rule]);
+  }
+  return {
+    root,
+    elixirRules: rules.filter((rule) => rule.purl === ELIXIR_PURL),
+    erlangRules: rules.filter((rule) => rule.purl === ERLANG_PURL),
+    packageRules,
+    findings: [],
+  };
+}
+
+function report(run: Run, rule: RegistryV2Rule, path: string, line: number, summary: string): void {
+  run.findings.push({
+    id: `${rule.id}:${path}:${line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location: { path, line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  });
+}
+
+function judgeToolVersions(run: Run, contents: string, path: string): void {
+  for (const declaration of parseToolVersions(contents)) {
+    if (declaration.kind === "elixir") {
+      const rule = firstMatchingRule(run.elixirRules, declaration.value);
+      if (rule) report(run, rule, path, declaration.line, `${path} pins Elixir ${declaration.value}. ${rule.summary}`);
+    } else {
+      const rule = firstMatchingRule(run.erlangRules, declaration.value);
+      if (rule)
+        report(run, rule, path, declaration.line, `${path} pins Erlang/OTP ${declaration.value}. ${rule.summary}`);
+    }
+  }
+}
+
+function judgeMixExs(run: Run, contents: string, path: string): void {
+  for (const declaration of parseMixExs(contents)) {
+    if (declaration.kind === "elixir") {
+      const rule = ruleForDeclared(run.elixirRules, declaration.value);
+      if (rule)
+        report(run, rule, path, declaration.line, `${path} declares Elixir ${declaration.value}. ${rule.summary}`);
+      continue;
+    }
+    for (const rule of run.packageRules.get(declaration.name) ?? []) {
+      if (coversEveryVersion(rule))
+        report(
+          run,
+          rule,
+          path,
+          declaration.line,
+          `${path} depends on ${declaration.name} ${declaration.value}. ${rule.summary}`,
+        );
+    }
+  }
+}
+
+function judgeMixLock(run: Run, contents: string, path: string): void {
+  for (const declaration of parseMixLock(contents)) {
+    const rule = firstMatchingRule(run.packageRules.get(declaration.name) ?? [], declaration.value);
+    if (rule)
+      report(
+        run,
+        rule,
+        path,
+        declaration.line,
+        `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
+      );
+  }
+}
+
+const JUDGES: Record<string, (run: Run, contents: string, path: string) => void> = {
+  ".tool-versions": judgeToolVersions,
+  "mix.exs": judgeMixExs,
+  "mix.lock": judgeMixLock,
+};
+
+function sortedFindings(findings: DetectorFinding[]): DetectorFinding[] {
+  return findings.sort((left, right) => {
+    if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
+    return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
+  });
+}
+
 export class ElixirDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "elixir";
@@ -116,34 +219,7 @@ export class ElixirDetector implements Detector {
     const files = await elixirFiles(context.root);
     if (files.length === 0) return { findings: [], unclassified: [] };
 
-    const rules = await this.loadRules();
-    const elixirRules = rules.filter((rule) => rule.purl === ELIXIR_PURL);
-    const erlangRules = rules.filter((rule) => rule.purl === ERLANG_PURL);
-    const packageRules = new Map<string, RegistryV2Rule[]>();
-    for (const rule of rules) {
-      if (!rule.purl.startsWith(HEX_PURL_PREFIX)) continue;
-      const name = decodeURIComponent(rule.purl.slice(HEX_PURL_PREFIX.length));
-      const existing = packageRules.get(name);
-      if (existing) existing.push(rule);
-      else packageRules.set(name, [rule]);
-    }
-
-    const findings: DetectorFinding[] = [];
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
-      findings.push({
-        id: `${rule.id}:${path}:${line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
-    };
-
+    const run = newRun(context.root, await this.loadRules());
     for (const file of files) {
       let contents: string;
       try {
@@ -151,57 +227,10 @@ export class ElixirDetector implements Detector {
       } catch {
         continue;
       }
-      const path = relativePosix(context.root, file);
-      const name = basename(file);
-
-      if (name === ".tool-versions") {
-        for (const declaration of parseToolVersions(contents)) {
-          if (declaration.kind === "elixir") {
-            const rule = firstMatchingRule(elixirRules, declaration.value);
-            if (rule) report(rule, path, declaration.line, `${path} pins Elixir ${declaration.value}. ${rule.summary}`);
-          } else {
-            const rule = firstMatchingRule(erlangRules, declaration.value);
-            if (rule)
-              report(rule, path, declaration.line, `${path} pins Erlang/OTP ${declaration.value}. ${rule.summary}`);
-          }
-        }
-      } else if (name === "mix.exs") {
-        for (const declaration of parseMixExs(contents)) {
-          if (declaration.kind === "elixir") {
-            const rule = ruleForDeclared(elixirRules, declaration.value);
-            if (rule)
-              report(rule, path, declaration.line, `${path} declares Elixir ${declaration.value}. ${rule.summary}`);
-            continue;
-          }
-          for (const rule of packageRules.get(declaration.name) ?? []) {
-            if (coversEveryVersion(rule))
-              report(
-                rule,
-                path,
-                declaration.line,
-                `${path} depends on ${declaration.name} ${declaration.value}. ${rule.summary}`,
-              );
-          }
-        }
-      } else if (name === "mix.lock") {
-        for (const declaration of parseMixLock(contents)) {
-          const rule = firstMatchingRule(packageRules.get(declaration.name) ?? [], declaration.value);
-          if (rule)
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
-            );
-        }
-      }
+      const judge = JUDGES[basename(file)];
+      judge?.(run, contents, relativePosix(context.root, file));
     }
-
-    findings.sort((left, right) => {
-      if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
-      return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
-    });
-    return { findings, unclassified: [] };
+    return { findings: sortedFindings(run.findings), unclassified: [] };
   }
 }
 

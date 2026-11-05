@@ -1,6 +1,6 @@
 import { readXml, walk } from "./msbuild-xml.js";
 import { required } from "../../required.js";
-import type { XmlElement } from "./msbuild-xml.js";
+import type { XmlAttribute, XmlElement } from "./msbuild-xml.js";
 
 /**
  * Pure, bounded parser for the declarations in MSBuild files: project files (`*.csproj`, `*.fsproj`,
@@ -39,8 +39,6 @@ export interface MsbuildDeclarations {
   centralPackageManagement: boolean;
 }
 
-const EMPTY: MsbuildDeclarations = { targets: [], packages: [], centralPackageManagement: false };
-
 function conditioned(element: XmlElement): boolean {
   for (let current: XmlElement | undefined = element; current; current = current.parent) {
     if (current.attributes.has("condition")) return true;
@@ -50,41 +48,61 @@ function conditioned(element: XmlElement): boolean {
 
 const named = (element: XmlElement, name: string): boolean => element.name.toLowerCase() === name;
 
+function emptyDeclarations(): MsbuildDeclarations {
+  return { targets: [], packages: [], centralPackageManagement: false };
+}
+
+/** A `PropertyGroup` child: the target frameworks, or the central-management switch. */
+function readProperty(element: XmlElement, declarations: MsbuildDeclarations): void {
+  if (named(element, "targetframework") || named(element, "targetframeworks")) {
+    for (const part of element.text.split(";")) {
+      if (part.trim() !== "") declarations.targets.push({ value: part.trim(), line: element.line });
+    }
+  } else if (named(element, "managepackageversionscentrally") && element.text.toLowerCase() === "true") {
+    declarations.centralPackageManagement = true;
+  }
+}
+
+/** The line of the version: its attribute, its child element, or, when the item has none, the item itself. */
+function versionLine(
+  element: XmlElement,
+  version: string | undefined,
+  attribute: XmlAttribute | undefined,
+  child: XmlElement | undefined,
+): number {
+  if (!version) return element.line;
+  if (attribute?.value.trim()) return attribute.line;
+  return required(child, "version child").line;
+}
+
+/** A `PackageReference` or `PackageVersion` item in an `ItemGroup`; an item without an `Include` is ignored. */
+function readPackage(element: XmlElement, declarations: MsbuildDeclarations): void {
+  const name = element.attributes.get("include")?.value.trim();
+  if (!name) return;
+  const attribute = element.attributes.get("version");
+  const child = element.children.find(
+    (candidate) => named(candidate, "version") && !candidate.attributes.has("condition"),
+  );
+  const version = attribute?.value.trim() || child?.text;
+  declarations.packages.push({
+    kind: named(element, "packagereference") ? "reference" : "version",
+    name,
+    ...(version ? { version } : {}),
+    line: versionLine(element, version, attribute, child),
+  });
+}
+
 export function parseMsbuild(contents: string): MsbuildDeclarations {
+  const declarations = emptyDeclarations();
   const root = readXml(contents);
-  if (!root || !named(root, "project")) return { ...EMPTY, targets: [], packages: [] };
-  const declarations: MsbuildDeclarations = { targets: [], packages: [], centralPackageManagement: false };
+  if (!root || !named(root, "project")) return declarations;
 
   for (const element of walk(root)) {
     const parent = element.parent;
     if (!parent || conditioned(element)) continue;
-    if (named(parent, "propertygroup")) {
-      if (named(element, "targetframework") || named(element, "targetframeworks")) {
-        for (const part of element.text.split(";")) {
-          if (part.trim() !== "") declarations.targets.push({ value: part.trim(), line: element.line });
-        }
-      } else if (named(element, "managepackageversionscentrally") && element.text.toLowerCase() === "true") {
-        declarations.centralPackageManagement = true;
-      }
-    } else if (named(parent, "itemgroup") && (named(element, "packagereference") || named(element, "packageversion"))) {
-      const name = element.attributes.get("include")?.value.trim();
-      if (!name) continue;
-      const attribute = element.attributes.get("version");
-      const child = element.children.find(
-        (candidate) => named(candidate, "version") && !candidate.attributes.has("condition"),
-      );
-      const version = attribute?.value.trim() || child?.text;
-      declarations.packages.push({
-        kind: named(element, "packagereference") ? "reference" : "version",
-        name,
-        ...(version ? { version } : {}),
-        line: version
-          ? attribute?.value.trim()
-            ? attribute.line
-            : required(child, "version child").line
-          : element.line,
-      });
-    }
+    if (named(parent, "propertygroup")) readProperty(element, declarations);
+    else if (named(parent, "itemgroup") && (named(element, "packagereference") || named(element, "packageversion")))
+      readPackage(element, declarations);
   }
   return declarations;
 }

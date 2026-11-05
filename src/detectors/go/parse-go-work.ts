@@ -1,6 +1,7 @@
 import {
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
+  parseVersionDirective,
   type GoToolchainDeclaration,
   type GoVersionDeclaration,
 } from "./parse-go-mod.js";
@@ -16,9 +17,6 @@ import {
 export { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 
 export type GoWorkDeclaration = GoVersionDeclaration | GoToolchainDeclaration;
-
-const GO_VERSION = /^[1-9][0-9]*\.[0-9]+(?:\.[0-9]+)?$/;
-const TOOLCHAIN_VERSION = /^go[1-9][0-9]*\.[0-9]+(?:\.[0-9]+)?(?:rc[1-9][0-9]*)?$/;
 
 /** Parse supported go.work declarations without file, network, or process I/O. */
 export function parseGoWork(contents: string): GoWorkDeclaration[] {
@@ -48,11 +46,8 @@ export function parseGoWork(contents: string): GoWorkDeclaration[] {
       continue;
     }
 
-    const directive = code.match(/^(go|toolchain)\s+(\S+)$/);
-    if (!directive) continue;
-    const [, kind, value] = directive;
-    if (kind === "go" && value && GO_VERSION.test(value)) declarations.push({ kind, value, line });
-    if (kind === "toolchain" && value && TOOLCHAIN_VERSION.test(value)) declarations.push({ kind, value, line });
+    const directive = parseVersionDirective(code, line);
+    if (directive) declarations.push(directive);
   }
 
   return block || malformed ? [] : declarations;

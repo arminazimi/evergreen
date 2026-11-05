@@ -104,6 +104,107 @@ const ROLE_TEXT = {
   "compile-level": "the language level the code is compiled for",
 } as const;
 
+type Located = { path: string; declaration: ReturnType<Parser>[number] };
+
+async function readCandidate(file: string): Promise<string | undefined> {
+  try {
+    if ((await stat(file)).size > MAXIMUM_INPUT_BYTES) return undefined;
+    return await readFile(file, "utf8");
+  } catch {
+    return undefined;
+  }
+}
+
+/** Every declaration in every candidate file, in file order. */
+async function locateDeclarations(root: string): Promise<Located[]> {
+  const located: Located[] = [];
+  for (const file of await candidateFiles(root)) {
+    const contents = await readCandidate(file);
+    if (contents === undefined) continue;
+    const path = relativePosix(root, file);
+    const parse = required(PARSERS.get(basename(file)), "parser");
+    for (const declaration of parse(contents)) located.push({ path, declaration });
+  }
+  return located;
+}
+
+interface Match {
+  rule: RegistryV2Rule;
+  subject: string;
+  severity: RegistryV2Rule["severity"];
+}
+
+/** The rule a declaration is judged by, with how the finding names it. */
+function matchDeclaration(
+  rules: Map<string, RegistryV2Rule[]>,
+  declaration: Located["declaration"],
+): Match | undefined {
+  if (declaration.kind === "jdk") {
+    const jdk = declaration as JdkDeclaration;
+    const rule = rules.get(JDK_PURL)?.find((item) => matches(item, jdkRuleVersion(jdk.major)));
+    if (!rule) return undefined;
+    const subject = `JDK ${jdk.value}, ${ROLE_TEXT[jdk.role]},`;
+    return { rule, subject, severity: jdk.role === "compile-level" ? "medium" : rule.severity };
+  }
+  if (declaration.kind === "dependency") {
+    const dependency = declaration as DependencyDeclaration;
+    const purl = formatPurl({ type: "maven", namespace: dependency.group, name: dependency.artifact });
+    const rule = rules.get(purl)?.find((item) => matches(item, dependency.version));
+    if (!rule) return undefined;
+    return {
+      rule,
+      subject: `${dependency.group}:${dependency.artifact}:${dependency.version}`,
+      severity: rule.severity,
+    };
+  }
+  return undefined;
+}
+
+function dynamicReference(path: string, declaration: DynamicJdkDeclaration): Omit<UnclassifiedReference, "detector"> {
+  return {
+    component: "java",
+    reference: declaration.value,
+    reason: `the JDK version of ${ROLE_TEXT[declaration.role]} is a property, expression, or floating value, which Evergreen does not expand`,
+    location: { path, line: declaration.line },
+  };
+}
+
+function findingFor(path: string, declaration: Located["declaration"], match: Match): DetectorFinding {
+  const { rule } = match;
+  return {
+    id: `${rule.id}:${path}:${declaration.line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary: `${path} declares ${match.subject}. ${rule.summary}`,
+    severity: match.severity,
+    location: { path, line: declaration.line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
+/** Where the repository's Java and Kotlin source imports an affected dependency, so a packet can list the files. */
+async function attachUsages(
+  root: string,
+  findings: DetectorFinding[],
+  withUsage: Array<{ id: string; rule: RegistryV2Rule }>,
+): Promise<void> {
+  const analyses = new Map(
+    (
+      await analyzeSourceUsage(
+        root,
+        withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })),
+      )
+    ).map((analysis) => [analysis.contractId, analysis]),
+  );
+  for (const finding of findings) {
+    const analysis = analyses.get(finding.id);
+    if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
+  }
+}
+
 export class JavaDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "java";
@@ -126,19 +227,7 @@ export class JavaDetector implements Detector {
   }
 
   async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
-    const located: Array<{ path: string; declaration: ReturnType<Parser>[number] }> = [];
-    for (const file of await candidateFiles(context.root)) {
-      let contents: string;
-      try {
-        if ((await stat(file)).size > MAXIMUM_INPUT_BYTES) continue;
-        contents = await readFile(file, "utf8");
-      } catch {
-        continue;
-      }
-      const path = relativePosix(context.root, file);
-      const name = basename(file);
-      for (const declaration of required(PARSERS.get(name), "parser")(contents)) located.push({ path, declaration });
-    }
+    const located = await locateDeclarations(context.root);
     if (located.length === 0) return { findings: [], unclassified: [] };
 
     const registry = validateRegistryV2(await loadDataFile("registry/java.json"));
@@ -148,67 +237,18 @@ export class JavaDetector implements Detector {
     const withUsage: Array<{ id: string; rule: RegistryV2Rule }> = [];
 
     for (const { path, declaration } of located) {
-      const location = { path, line: declaration.line };
       if (declaration.kind === "dynamic") {
-        const dynamic = declaration as DynamicJdkDeclaration;
-        unclassified.push({
-          component: "java",
-          reference: dynamic.value,
-          reason: `the JDK version of ${ROLE_TEXT[dynamic.role]} is a property, expression, or floating value, which Evergreen does not expand`,
-          location,
-        });
+        unclassified.push(dynamicReference(path, declaration as DynamicJdkDeclaration));
         continue;
       }
-
-      let subject: string;
-      let candidates: RegistryV2Rule[] | undefined;
-      let version: string;
-      let severityOf = (rule: RegistryV2Rule): RegistryV2Rule["severity"] => rule.severity;
-      if (declaration.kind === "jdk") {
-        const jdk = declaration as JdkDeclaration;
-        candidates = rules.get(JDK_PURL);
-        version = jdkRuleVersion(jdk.major);
-        subject = `JDK ${jdk.value}, ${ROLE_TEXT[jdk.role]},`;
-        if (jdk.role === "compile-level") severityOf = () => "medium";
-      } else if (declaration.kind === "dependency") {
-        const dependency = declaration as DependencyDeclaration;
-        candidates = rules.get(formatPurl({ type: "maven", namespace: dependency.group, name: dependency.artifact }));
-        version = dependency.version;
-        subject = `${dependency.group}:${dependency.artifact}:${dependency.version}`;
-      } else {
-        continue;
-      }
-
-      const rule = candidates?.find((item) => matches(item, version));
-      if (!rule) continue;
-      if ((rule.usage ?? []).length > 0) withUsage.push({ id: `${rule.id}:${path}:${declaration.line}`, rule });
-      findings.push({
-        id: `${rule.id}:${path}:${declaration.line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary: `${path} declares ${subject}. ${rule.summary}`,
-        severity: severityOf(rule),
-        location,
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
+      const match = matchDeclaration(rules, declaration);
+      if (!match) continue;
+      const finding = findingFor(path, declaration, match);
+      if ((match.rule.usage ?? []).length > 0) withUsage.push({ id: finding.id, rule: match.rule });
+      findings.push(finding);
     }
 
-    // Where the repository's Java and Kotlin source imports an affected dependency, so a packet can list the files.
-    const analyses = new Map(
-      (
-        await analyzeSourceUsage(
-          context.root,
-          withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })),
-        )
-      ).map((analysis) => [analysis.contractId, analysis]),
-    );
-    for (const finding of findings) {
-      const analysis = analyses.get(finding.id);
-      if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
-    }
+    await attachUsages(context.root, findings, withUsage);
     return { findings, unclassified };
   }
 }
