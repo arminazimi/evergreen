@@ -165,6 +165,18 @@ test("watch digests what is registered, once per week with --weekly, and as JSON
   assert.equal(bare.code, 0, bare.failures[0]?.message);
 });
 
+test("watch reads --format json as the JSON flag, skipping its value when it looks for the subcommand", async () => {
+  const home = await machine();
+  const project = await machine();
+  await watchIn(home, "add", project);
+
+  const viaFormat = await watchIn(home, "--format", "json", "list");
+  const viaFlag = await watchIn(home, "list", "--json");
+  assert.equal(viaFormat.code, 0, viaFormat.failures[0]?.message);
+  assert.equal(viaFormat.stdout, viaFlag.stdout);
+  assert.deepEqual(JSON.parse(viaFormat.stdout), { projects: [project] });
+});
+
 test("watch answers a usage error for a subcommand it does not know and a flag it does not take", async () => {
   const home = await machine();
   for (const args of [["browse"], ["run", "--monthly"], ["add", "path", "--weekly"]]) {
