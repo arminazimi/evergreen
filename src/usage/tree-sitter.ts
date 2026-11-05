@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import type { Language, ParseOptions, Parser, Query, Tree } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceLanguage } from "../domain.js";
+import { required } from "../required.js";
 
 // Trimmed runtime + grammars under ./vendor/tree-sitter (from @vscode/tree-sitter-wasm). Offline, no native build.
 // The WebAssembly modules are committed as base64 text (`*.wasm.b64`) and decoded in memory, so the
@@ -136,9 +137,14 @@ export function lineLocator(source: string): (offset: number) => { line: number;
     let high = starts.length - 1;
     while (low < high) {
       const middle = Math.ceil((low + high) / 2);
-      if (starts[middle]! <= offset) low = middle;
+      if (required(starts[middle], "line start") <= offset) low = middle;
       else high = middle - 1;
     }
-    return { line: low + 1, column: offset - starts[low]! + 1 };
+    return { line: low + 1, column: offset - required(starts[low], "line start") + 1 };
   };
+}
+
+/** The trimmed text of a one-based line of a source the caller already split into lines. */
+export function lineExcerpt(lines: readonly string[], line: number): string {
+  return required(lines[line - 1], "the source line").trim();
 }

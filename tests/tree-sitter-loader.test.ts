@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { grammarFor, maximumParseBytes, parseSource } from "../src/usage/tree-sitter.js";
+import { grammarFor, lineExcerpt, lineLocator, maximumParseBytes, parseSource } from "../src/usage/tree-sitter.js";
 
 test("parses JavaScript, TypeScript, TSX, and Python samples", async () => {
   const samples = [
@@ -53,4 +53,24 @@ test("maps source languages to grammars", () => {
   assert.equal(grammarFor("typescript", "a.ts"), "typescript");
   assert.equal(grammarFor("typescript", "A.TSX"), "tsx");
   assert.equal(grammarFor("go", "a.go"), undefined);
+});
+
+test("locates every offset in its own line, including blank ones", () => {
+  const source = "alpha\nbeta\n\ngamma";
+  const locate = lineLocator(source);
+  assert.deepEqual(locate(0), { line: 1, column: 1 });
+  assert.deepEqual(locate(4), { line: 1, column: 5 });
+  assert.deepEqual(locate(6), { line: 2, column: 1 });
+  assert.deepEqual(locate(11), { line: 3, column: 1 });
+  assert.deepEqual(locate(12), { line: 4, column: 1 });
+  assert.deepEqual(locate(14), { line: 4, column: 3 });
+});
+
+test("reads a line excerpt by its one-based number", () => {
+  const lines = "alpha\n  beta  \n\ngamma".split(/\r?\n/);
+  assert.equal(lineExcerpt(lines, 1), "alpha");
+  assert.equal(lineExcerpt(lines, 2), "beta");
+  assert.equal(lineExcerpt(lines, 3), "");
+  assert.equal(lineExcerpt(lines, 4), "gamma");
+  assert.throws(() => lineExcerpt(lines, 5), /missing the source line/);
 });

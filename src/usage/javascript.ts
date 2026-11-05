@@ -1,9 +1,10 @@
 import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
+import { required } from "../required.js";
 import { BindingBudget, maximumImportBindings, type ImportBinding } from "./binding-budget.js";
 import { symbolUsages, type SymbolOccurrence } from "./symbols.js";
-import { grammarFor, loadQuery, parseSource } from "./tree-sitter.js";
+import { grammarFor, lineExcerpt, loadQuery, parseSource } from "./tree-sitter.js";
 
 export { maximumImportBindings };
 
@@ -129,6 +130,11 @@ function lineStarts(source: string): number[] {
   return starts;
 }
 
+/** The property of `const a = require("m").a`; its query rule always captures `@binding.property` too. */
+function boundPropertyName(captured: Map<string, Node>): string {
+  return required(captured.get("binding.property"), "bound property").text;
+}
+
 /** Usage map from {@link analyzeJavaScriptFile}; `analysisCapped` is set when the binding ceiling refused further work. */
 export type JavaScriptUsageMap = Map<string, SourceUsage[]> & { analysisCapped?: boolean };
 
@@ -190,10 +196,10 @@ export async function analyzeJavaScriptFile(
       let high = starts.length - 1;
       while (low < high) {
         const middle = Math.ceil((low + high) / 2);
-        if (starts[middle]! <= node.startIndex) low = middle;
+        if (required(starts[middle], "line start") <= node.startIndex) low = middle;
         else high = middle - 1;
       }
-      return { line: low + 1, column: node.startIndex - starts[low]! + 1 };
+      return { line: low + 1, column: node.startIndex - required(starts[low], "line start") + 1 };
     };
 
     const references = new Map<number, { module: string; node: Node }>();
@@ -222,7 +228,7 @@ export async function analyzeJavaScriptFile(
         if (pattern) {
           for (const entry of patternEntries(pattern)) addBinding({ module, local: entry.local, imported: entry.key });
         }
-        if (member) addBinding({ module, local: member.text, imported: captured.get("binding.property")!.text });
+        if (member) addBinding({ module, local: member.text, imported: boundPropertyName(captured) });
         continue;
       }
       const aliasValue = captured.get("alias.value");
@@ -300,7 +306,7 @@ export async function analyzeJavaScriptFile(
               language: file.language,
               symbol: matcher.module,
               location: { path: file.path, line, column },
-              excerpt: lines[line - 1]!.trim(),
+              excerpt: lineExcerpt(lines, line),
             });
           }
         } else if (matcher.kind === "call") {
@@ -322,7 +328,7 @@ export async function analyzeJavaScriptFile(
                   language: file.language,
                   symbol: target === "default" ? matcher.module : `${matcher.module}.${target}`,
                   location: { path: file.path, line, column },
-                  excerpt: lines[line - 1]!.trim(),
+                  excerpt: lineExcerpt(lines, line),
                 });
               }
             }
@@ -333,7 +339,7 @@ export async function analyzeJavaScriptFile(
       if (symbols.length > 0) {
         const describe = (node: Node): Pick<SourceUsage, "location" | "excerpt"> => {
           const { line, column } = locate(node);
-          return { location: { path: file.path, line, column }, excerpt: lines[line - 1]!.trim() };
+          return { location: { path: file.path, line, column }, excerpt: lineExcerpt(lines, line) };
         };
         for (const usage of symbolUsages(symbols, occurrencesOf(), bindings, describe, file)) push(usage);
       }

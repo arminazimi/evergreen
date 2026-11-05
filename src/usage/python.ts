@@ -1,9 +1,10 @@
 import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
+import { required } from "../required.js";
 import { BindingBudget, type ImportBinding } from "./binding-budget.js";
 import { positionalKey, symbolUsages, type SymbolOccurrence } from "./symbols.js";
-import { lineLocator, loadQuery, parseSource } from "./tree-sitter.js";
+import { lineExcerpt, lineLocator, loadQuery, parseSource } from "./tree-sitter.js";
 
 export interface PythonSourceFile {
   /** Repository-relative POSIX path, reported in every usage location. */
@@ -158,7 +159,7 @@ export async function analyzePythonFile(
         const dotted = captured.get("binding.dotted");
         const name = captured.get("binding.name");
         const alias = captured.get("binding.alias")?.text;
-        if (dotted) addBinding({ module, local: module.split(".")[0]!, imported: "*" });
+        if (dotted) addBinding({ module, local: required(module.split(".")[0], "module name"), imported: "*" });
         else if (name) addBinding({ module, local: alias ?? name.text, imported: name.text });
         else if (alias) addBinding({ module, local: alias, imported: "*" });
         continue;
@@ -219,7 +220,7 @@ export async function analyzePythonFile(
     );
     const describe = (node: Node): Pick<SourceUsage, "location" | "excerpt"> => {
       const { line, column } = locate(node.startIndex);
-      return { location: { path: file.path, line, column }, excerpt: lines[line - 1]!.trim() };
+      return { location: { path: file.path, line, column }, excerpt: lineExcerpt(lines, line) };
     };
 
     const results = new Map<string, SourceUsage[]>();
@@ -243,7 +244,7 @@ export async function analyzePythonFile(
               language: "python",
               symbol: matcher.module,
               location: { path: file.path, line, column },
-              excerpt: lines[line - 1]!.trim(),
+              excerpt: lineExcerpt(lines, line),
             });
           }
         } else if (matcher.kind === "call") {
@@ -267,7 +268,7 @@ export async function analyzePythonFile(
                   language: "python",
                   symbol: target === "default" ? matcher.module : `${matcher.module}.${target}`,
                   location: { path: file.path, line, column },
-                  excerpt: lines[line - 1]!.trim(),
+                  excerpt: lineExcerpt(lines, line),
                 });
               }
             }

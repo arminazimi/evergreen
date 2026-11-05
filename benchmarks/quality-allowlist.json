@@ -2071,29 +2071,7 @@
     }
   ],
   "asUnknownAs": [],
-  "nonNull": [
-    {
-      "file": "src/usage/javascript.ts",
-      "count": 6,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/usage/python.ts",
-      "count": 4,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/usage/tree-sitter.ts",
-      "count": 2,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    }
-  ],
+  "nonNull": [],
   "boundaries": [],
   "audit": [
     {
