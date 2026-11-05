@@ -1,6 +1,8 @@
 import { required } from "../../required.js";
 import {
   directBlocks,
+  heredocEnd,
+  isHeredocStart,
   MAXIMUM_DECLARATIONS,
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
@@ -218,31 +220,42 @@ interface CallScan {
   commas: number[];
 }
 
+/** What starts at an offset: code to read, a string or comment to skip up to `end`, or one that never ends. */
+type OpaqueSkip = { kind: "code" } | { kind: "skip"; end: number } | { kind: "unterminated" };
+
+/** Whether a string or comment starts at `index`, and where it ends. */
+function skipOpaque(text: string, index: number): OpaqueSkip {
+  const character = text.charAt(index);
+  if (character === '"') {
+    const end = stringEnd(text, index);
+    return end === undefined ? { kind: "unterminated" } : { kind: "skip", end };
+  }
+  if (character === "#" || (character === "/" && text[index + 1] === "/")) {
+    const end = text.indexOf("\n", index);
+    return end < 0 ? { kind: "unterminated" } : { kind: "skip", end };
+  }
+  if (character === "/" && text[index + 1] === "*") {
+    const end = text.indexOf("*/", index + 2);
+    return end < 0 ? { kind: "unterminated" } : { kind: "skip", end: end + 1 };
+  }
+  return { kind: "code" };
+}
+
 /** Read the call opened at `open`, skipping strings and comments inside its arguments. */
 function scanCall(text: string, open: number): CallScan | undefined {
   let depth = 0;
   const commas: number[] = [];
   for (let index = open; index < text.length; index++) {
-    const character = text.charAt(index);
-    if (character === '"') {
-      const end = stringEnd(text, index);
-      if (end === undefined) return undefined;
-      index = end;
-    } else if (character === "#" || (character === "/" && text[index + 1] === "/")) {
-      const end = text.indexOf("\n", index);
-      if (end < 0) return undefined;
-      index = end;
-    } else if (character === "/" && text[index + 1] === "*") {
-      const end = text.indexOf("*/", index + 2);
-      if (end < 0) return undefined;
-      index = end + 1;
-    } else if (character === "(") {
-      depth++;
-    } else if (character === ")" && --depth === 0) {
-      return { close: index, commas };
-    } else if (character === "," && depth === 1) {
-      commas.push(index);
+    const skip = skipOpaque(text, index);
+    if (skip.kind === "unterminated") return undefined;
+    if (skip.kind === "skip") {
+      index = skip.end;
+      continue;
     }
+    const character = text.charAt(index);
+    if (character === "(") depth++;
+    else if (character === ")" && --depth === 0) return { close: index, commas };
+    else if (character === "," && depth === 1) commas.push(index);
   }
   return undefined;
 }
@@ -267,18 +280,33 @@ function interpolationExpression(contents: string): string | undefined {
   return expression === "" ? undefined : expression;
 }
 
+/** The first offset from `index` in `direction` that is not a space or tab; it may fall outside the text. */
+function skipBlanks(text: string, index: number, direction: 1 | -1): number {
+  let position = index;
+  while (position >= 0 && position < text.length && (text[position] === " " || text[position] === "\t")) {
+    position += direction;
+  }
+  return position;
+}
+
+/** A string followed by `=` (and not `==`) is an attribute name, so its quotes cannot be dropped. */
+function isKeyContext(text: string, close: number): boolean {
+  const after = skipBlanks(text, close + 1, 1);
+  return text[after] === "=" && text[after + 1] !== "=";
+}
+
+/** A string after an identifier or another string, and before `{` or another string, is a block label. */
+function isLabelContext(text: string, open: number, close: number): boolean {
+  const before = skipBlanks(text, open - 1, -1);
+  if (before < 0 || !(isIdentifierPart(text.charAt(before)) || text[before] === '"')) return false;
+  const next = skipBlanks(text, close + 1, 1);
+  return text[next] === "{" || text[next] === '"';
+}
+
 /** How a quoted string is used, which decides whether dropping its quotes keeps the file valid. */
 function stringContext(text: string, open: number, close: number): "value" | "key" | "label" {
-  let after = close + 1;
-  while (after < text.length && (text[after] === " " || text[after] === "\t")) after++;
-  if (text[after] === "=" && text[after + 1] !== "=") return "key";
-  let before = open - 1;
-  while (before >= 0 && (text[before] === " " || text[before] === "\t")) before--;
-  if (before >= 0 && (isIdentifierPart(text.charAt(before)) || text[before] === '"')) {
-    let next = close + 1;
-    while (next < text.length && (text[next] === " " || text[next] === "\t")) next++;
-    if (text[next] === "{" || text[next] === '"') return "label";
-  }
+  if (isKeyContext(text, close)) return "key";
+  if (isLabelContext(text, open, close)) return "label";
   return "value";
 }
 
@@ -362,6 +390,23 @@ function readTemplate(contents: string, base: number, starts: LineStarts, found:
   }
 }
 
+/** Read an identifier at `index`, add a `list()` or `map()` call it names, and return the offset after it. */
+function readName(
+  text: string,
+  index: number,
+  base: number,
+  starts: LineStarts,
+  found: TerraformLegacyDeclaration[],
+): number {
+  let nameEnd = index + 1;
+  while (nameEnd < text.length && isIdentifierPart(text.charAt(nameEnd))) nameEnd++;
+  const name = text.slice(index, nameEnd);
+  if ((name === "list" || name === "map") && text[nameEnd] === "(" && isCallStart(text, index)) {
+    readCall(text, nameEnd, index, name as "list" | "map", base, starts, found);
+  }
+  return nameEnd;
+}
+
 /** Read `list()` and `map()` calls inside one expression, skipping its nested quoted strings. */
 function readExpression(
   expression: string,
@@ -378,58 +423,52 @@ function readExpression(
       readTemplate(expression.slice(index + 1, close), base + index + 1, starts, found);
       index = close + 1;
     } else if (isIdentifierStart(character)) {
-      let nameEnd = index + 1;
-      while (nameEnd < expression.length && isIdentifierPart(expression.charAt(nameEnd))) nameEnd++;
-      const name = expression.slice(index, nameEnd);
-      if ((name === "list" || name === "map") && expression[nameEnd] === "(" && isCallStart(expression, index)) {
-        readCall(expression, nameEnd, index, name as "list" | "map", base, starts, found);
-      }
-      index = nameEnd;
+      index = readName(expression, index, base, starts, found);
     } else {
       index++;
     }
   }
 }
 
-/** A heredoc opener, read with `matchAll` so the marker needs no assertion. */
-const HEREDOC = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/g;
+/**
+ * Read the token at `index` of one `*.tf` source and return the offset after it, or undefined when a
+ * comment, string, or heredoc never ends, which stops the read.
+ */
+function readToken(
+  text: string,
+  index: number,
+  base: number,
+  starts: LineStarts,
+  found: TerraformLegacyDeclaration[],
+): number | undefined {
+  const character = text.charAt(index);
+  if (character === '"') {
+    const close = stringEnd(text, index);
+    if (close === undefined) return undefined;
+    readString(text, index, close, starts, found);
+    readTemplate(text.slice(index + 1, close), base + index + 1, starts, found);
+    return close + 1;
+  }
+  if (character === "#" || (character === "/" && text[index + 1] === "/")) {
+    const end = text.indexOf("\n", index);
+    return end < 0 ? undefined : end + 1;
+  }
+  if (character === "/" && text[index + 1] === "*") {
+    const end = text.indexOf("*/", index + 2);
+    return end < 0 ? undefined : end + 2;
+  }
+  if (isHeredocStart(text, index)) return heredocEnd(text, index);
+  if (isIdentifierStart(character)) return readName(text, index, base, starts, found);
+  return index + 1;
+}
 
 /** Read one `*.tf` source in order, skipping comments, heredocs, and quoted string contents. */
 function readCode(text: string, base: number, starts: LineStarts, found: TerraformLegacyDeclaration[]): void {
   let index = 0;
   while (index < text.length && found.length < MAXIMUM_DECLARATIONS) {
-    const character = text.charAt(index);
-    if (character === '"') {
-      const close = stringEnd(text, index);
-      if (close === undefined) return;
-      readString(text, index, close, starts, found);
-      readTemplate(text.slice(index + 1, close), base + index + 1, starts, found);
-      index = close + 1;
-    } else if (character === "#" || (character === "/" && text[index + 1] === "/")) {
-      const end = text.indexOf("\n", index);
-      if (end < 0) return;
-      index = end + 1;
-    } else if (character === "/" && text[index + 1] === "*") {
-      const end = text.indexOf("*/", index + 2);
-      if (end < 0) return;
-      index = end + 2;
-    } else if (text.startsWith("<<", index) && /^<<-?[A-Za-z_]/.test(text.slice(index, index + 4))) {
-      const opener = required(text.slice(index).matchAll(HEREDOC).next().value, "heredoc opener");
-      const marker = required(opener[1], "heredoc marker");
-      const closer = new RegExp(`\\n[\\t ]*${marker}[\\t ]*(?:\\r?\\n|$)`).exec(text.slice(index));
-      if (!closer) return;
-      index += closer.index + closer[0].length;
-    } else if (isIdentifierStart(character)) {
-      let nameEnd = index + 1;
-      while (nameEnd < text.length && isIdentifierPart(text.charAt(nameEnd))) nameEnd++;
-      const name = text.slice(index, nameEnd);
-      if ((name === "list" || name === "map") && text[nameEnd] === "(" && isCallStart(text, index)) {
-        readCall(text, nameEnd, index, name as "list" | "map", base, starts, found);
-      }
-      index = nameEnd;
-    } else {
-      index++;
-    }
+    const next = readToken(text, index, base, starts, found);
+    if (next === undefined) return;
+    index = next;
   }
 }
 

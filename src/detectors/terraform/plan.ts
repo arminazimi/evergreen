@@ -62,6 +62,56 @@ function extractStringOrNumber(value: unknown): string | undefined {
   return undefined;
 }
 
+/** A string field of a resource, or the empty string when it is absent or not a string. */
+function stringField(value: unknown): string {
+  return typeof value === "string" ? value : "";
+}
+
+/**
+ * The engine declaration of one resource, or undefined when it has no address or values, no engine or engine
+ * version, or an address that was already read. The first reading of an address wins.
+ */
+function declareEngine(
+  resource: { address: string; type: string; name: string; values: Record<string, unknown> | undefined },
+  pointer: string,
+  seenAddresses: Set<string>,
+): TerraformPlanEngineDeclaration | undefined {
+  if (!resource.address || !resource.values || seenAddresses.has(resource.address)) return undefined;
+  const engine = extractStringOrNumber(resource.values.engine);
+  const engineVersion = extractStringOrNumber(resource.values.engine_version);
+  if (!engine || !engineVersion) return undefined;
+
+  seenAddresses.add(resource.address);
+  return {
+    kind: "engine_version",
+    resource: resource.type,
+    name: resource.name,
+    engine,
+    value: engineVersion,
+    address: resource.address,
+    pointer,
+  };
+}
+
+/** The engine declaration of one `planned_values` resource, pointed at its address. */
+function engineFromPlannedResource(
+  res: unknown,
+  seenAddresses: Set<string>,
+): TerraformPlanEngineDeclaration | undefined {
+  if (!isRecord(res)) return undefined;
+  const address = stringField(res.address);
+  return declareEngine(
+    {
+      address,
+      type: stringField(res.type),
+      name: stringField(res.name),
+      values: recordAt(res.values),
+    },
+    address,
+    seenAddresses,
+  );
+}
+
 function collectResourcesFromModule(
   moduleObj: unknown,
   depth: number,
@@ -75,29 +125,8 @@ function collectResourcesFromModule(
   if (Array.isArray(moduleObj.resources)) {
     for (const res of moduleObj.resources) {
       if (declarations.length >= MAXIMUM_DECLARATIONS) break;
-      if (!isRecord(res)) continue;
-
-      const address = typeof res.address === "string" ? res.address : "";
-      const type = typeof res.type === "string" ? res.type : "";
-      const name = typeof res.name === "string" ? res.name : "";
-      const values = isRecord(res.values) ? res.values : undefined;
-
-      if (address && values) {
-        const engine = extractStringOrNumber(values.engine);
-        const engineVersion = extractStringOrNumber(values.engine_version);
-        if (engine && engineVersion && !seenAddresses.has(address)) {
-          seenAddresses.add(address);
-          declarations.push({
-            kind: "engine_version",
-            resource: type,
-            name,
-            engine,
-            value: engineVersion,
-            address,
-            pointer: address,
-          });
-        }
-      }
+      const declaration = engineFromPlannedResource(res, seenAddresses);
+      if (declaration) declarations.push(declaration);
     }
   }
 
@@ -197,25 +226,16 @@ function engineFromResourceChange(
   seenAddresses: Set<string>,
 ): TerraformPlanEngineDeclaration | undefined {
   if (!isRecord(rc)) return undefined;
-
-  const address = typeof rc.address === "string" ? rc.address : "";
-  const after = recordAt(recordAt(rc.change)?.after);
-  if (!address || !after || seenAddresses.has(address)) return undefined;
-
-  const engine = extractStringOrNumber(after.engine);
-  const engineVersion = extractStringOrNumber(after.engine_version);
-  if (!engine || !engineVersion) return undefined;
-
-  seenAddresses.add(address);
-  return {
-    kind: "engine_version",
-    resource: typeof rc.type === "string" ? rc.type : "",
-    name: typeof rc.name === "string" ? rc.name : "",
-    engine,
-    value: engineVersion,
-    address,
-    pointer: `/resource_changes/${index}/change/after`,
-  };
+  return declareEngine(
+    {
+      address: stringField(rc.address),
+      type: stringField(rc.type),
+      name: stringField(rc.name),
+      values: recordAt(recordAt(rc.change)?.after),
+    },
+    `/resource_changes/${index}/change/after`,
+    seenAddresses,
+  );
 }
 
 function collectResourceChanges(

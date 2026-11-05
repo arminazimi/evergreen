@@ -18,11 +18,12 @@ import type {
 } from "../../sdk.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseManagedKubernetes } from "./kubernetes.js";
-import type { ManagedKubernetesProduct } from "./kubernetes.js";
+import type { ManagedKubernetesDeclaration, ManagedKubernetesProduct } from "./kubernetes.js";
 import { parseTerraformLock } from "./parse-lock.js";
 import { parseTerraformFile, parseTerraformLegacy } from "./parse-terraform.js";
-import type { TerraformLegacyDeclaration } from "./parse-terraform.js";
+import type { TerraformDeclaration, TerraformLegacyDeclaration } from "./parse-terraform.js";
 import { parseTerraformPlanJson } from "./plan.js";
+import type { TerraformPlanDeclaration } from "./plan.js";
 import { parseTerraformVersionFile, parseToolVersionsTerraform } from "./parse-version-files.js";
 
 /**
@@ -232,6 +233,294 @@ function ruleForPartialVersion(rules: readonly RegistryV2Rule[], value: string):
   return rules.find((rule) => containsAll(rule, low === high ? [low] : [low, high]));
 }
 
+/** What one scan matches against, and the findings and unclassified references it has read so far. */
+interface TerraformScan {
+  /** The rules for `pkg:generic/terraform`, without the two legacy-form rules. */
+  readonly cliRules: readonly RegistryV2Rule[];
+  /** Every registry rule grouped by canonical Package URL identity. */
+  readonly byPurl: ReadonlyMap<string, readonly RegistryV2Rule[]>;
+  /** The two legacy-form rules by id; a form whose rule is not in the registry is not reported. */
+  readonly legacyRules: ReadonlyMap<string, RegistryV2Rule>;
+  readonly findings: DetectorFinding[];
+  readonly unclassified: DetectorUnclassifiedReference[];
+}
+
+function createScan(rules: readonly RegistryV2Rule[]): TerraformScan {
+  const byPurl = rulesByPurl(rules);
+  const isLegacyRule = (rule: RegistryV2Rule): boolean =>
+    rule.id === INTERPOLATION_RULE_ID || rule.id === LEGACY_FUNCTION_RULE_ID;
+  return {
+    cliRules: (byPurl.get(TERRAFORM_PURL) ?? []).filter((rule) => !isLegacyRule(rule)),
+    byPurl,
+    legacyRules: new Map(rules.filter(isLegacyRule).map((rule) => [rule.id, rule])),
+    findings: [],
+    unclassified: [],
+  };
+}
+
+/** The rule-derived fields of a finding that are the same for every location, in the order findings are written. */
+function ruleDetails(
+  rule: RegistryV2Rule,
+): Pick<DetectorFinding, "replacement" | "deadline" | "migration" | "sources"> {
+  return {
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
+/** A finding at a line of a file, or at a JSON pointer or address when `locationKey` is not a line. */
+function ruleFinding(
+  rule: RegistryV2Rule,
+  path: string,
+  locationKey: number | string,
+  summary: string,
+): DetectorFinding {
+  const line = typeof locationKey === "number" ? locationKey : undefined;
+  return {
+    id: `${rule.id}:${path}:${locationKey}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location: { path, ...(line !== undefined ? { line } : {}) },
+    ...ruleDetails(rule),
+  };
+}
+
+/** A finding at the line and column of a legacy language form. */
+function legacyFinding(
+  rule: RegistryV2Rule,
+  path: string,
+  declaration: TerraformLegacyDeclaration,
+  summary: string,
+): DetectorFinding {
+  return {
+    id: `${rule.id}:${path}:${declaration.line}:${declaration.column}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location: { path, line: declaration.line, column: declaration.column },
+    ...ruleDetails(rule),
+  };
+}
+
+/** The rules for one provider, by its namespace and name, in lowercase. */
+function providerRules(scan: TerraformScan, namespace: string, name: string): readonly RegistryV2Rule[] {
+  return scan.byPurl.get(providerPurl(namespace, name)) ?? [];
+}
+
+/** A file that cannot be read is skipped rather than failing the scan. */
+async function readText(file: string): Promise<string | undefined> {
+  try {
+    return await readFile(file, "utf8");
+  } catch {
+    return undefined;
+  }
+}
+
+/** `.terraform-version` and `.tool-versions` pin a CLI version. */
+function scanVersionFile(scan: TerraformScan, path: string, name: string, contents: string): void {
+  const declarations =
+    name === ".terraform-version" ? parseTerraformVersionFile(contents) : parseToolVersionsTerraform(contents);
+  for (const declaration of declarations) {
+    const rule = firstMatchingRule(scan.cliRules, declaration.value);
+    if (rule) {
+      scan.findings.push(
+        ruleFinding(rule, path, declaration.line, `${path} pins Terraform ${declaration.value}. ${rule.summary}`),
+      );
+    }
+  }
+}
+
+/** `.terraform.lock.hcl` locks provider versions; only providers on the public registry are read. */
+function scanLockFile(scan: TerraformScan, path: string, contents: string): void {
+  for (const provider of parseTerraformLock(contents)) {
+    const [host, namespace, providerName] = provider.address.split("/");
+    if (host?.toLowerCase() !== REGISTRY_HOST || !namespace || !providerName) continue;
+    const rule = firstMatchingRule(
+      providerRules(scan, namespace.toLowerCase(), providerName.toLowerCase()),
+      provider.value,
+    );
+    if (rule) {
+      scan.findings.push(
+        ruleFinding(
+          rule,
+          path,
+          provider.line,
+          `${path} locks provider ${namespace}/${providerName} ${provider.value}. ${rule.summary}`,
+        ),
+      );
+    }
+  }
+}
+
+/** A `required_version` or a `required_providers` constraint in a `*.tf` file. */
+function scanDeclaration(scan: TerraformScan, path: string, declaration: TerraformDeclaration): void {
+  if (declaration.kind === "required_version") {
+    const rule = ruleForDeclared(scan.cliRules, declaration.value);
+    if (rule) {
+      scan.findings.push(
+        ruleFinding(rule, path, declaration.line, `${path} requires Terraform ${declaration.value}. ${rule.summary}`),
+      );
+    }
+    return;
+  }
+  const source = providerSource(declaration.source, declaration.provider);
+  if (!source) return;
+  const rule = ruleForDeclared(providerRules(scan, source.namespace, source.name), declaration.value);
+  if (rule) {
+    scan.findings.push(
+      ruleFinding(
+        rule,
+        path,
+        declaration.line,
+        `${path} requires provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`,
+      ),
+    );
+  }
+}
+
+/** An interpolation-only string or a removed `list()` / `map()` call. */
+function scanLegacyForm(scan: TerraformScan, path: string, declaration: TerraformLegacyDeclaration): void {
+  if (declaration.kind === "interpolation_only") {
+    const rule = scan.legacyRules.get(INTERPOLATION_RULE_ID);
+    if (rule) {
+      scan.findings.push(
+        legacyFinding(
+          rule,
+          path,
+          declaration,
+          `${path} uses the interpolation-only string ${declaration.value}. ${rule.summary}`,
+        ),
+      );
+    }
+    return;
+  }
+  const rule = scan.legacyRules.get(LEGACY_FUNCTION_RULE_ID);
+  if (!rule) return;
+  const count = declaration.arguments.length;
+  scan.findings.push(
+    legacyFinding(
+      rule,
+      path,
+      declaration,
+      `${path} calls the ${declaration.name}() function with ${count} ${count === 1 ? "argument" : "arguments"}. ${rule.summary}`,
+    ),
+  );
+}
+
+/** Why a managed Kubernetes value is not judged: a reference, a non-literal expression, or not a version. */
+function unjudgedReason(value: string): string {
+  return /^(var|local|module)\./.test(value)
+    ? "the value is a variable or module reference, so Evergreen does not judge it"
+    : "the value is not one plain version literal, so Evergreen does not judge it";
+}
+
+/** A managed Kubernetes version attribute on a resource or a module. */
+function scanManagedKubernetes(scan: TerraformScan, path: string, declaration: ManagedKubernetesDeclaration): void {
+  const location = { path, line: declaration.line };
+  if (declaration.product === undefined) {
+    scan.unclassified.push({
+      component: "kubernetes",
+      reference: declaration.value,
+      reason: "the module source is not a known managed Kubernetes module",
+      location,
+    });
+    return;
+  }
+  if (!declaration.literal) {
+    scan.unclassified.push({
+      component: declaration.product,
+      reference: declaration.value,
+      reason: unjudgedReason(declaration.value),
+      location,
+    });
+    return;
+  }
+  const rules = scan.byPurl.get(purlIdentity(MANAGED_KUBERNETES_PURLS[declaration.product])) ?? [];
+  const rule = ruleForPartialVersion(rules, declaration.value);
+  if (rule) {
+    const target =
+      declaration.block === "module" ? `module.${declaration.name}` : `${declaration.block}.${declaration.name}`;
+    scan.findings.push(
+      ruleFinding(
+        rule,
+        path,
+        declaration.line,
+        `${path} sets ${target} ${declaration.attribute} ${declaration.value}. ${rule.summary}`,
+      ),
+    );
+  } else if (!PARTIAL_VERSION.test(declaration.value.trim())) {
+    scan.unclassified.push({
+      component: declaration.product,
+      reference: declaration.value,
+      reason: "the value is not a Kubernetes version number, so Evergreen does not judge it",
+      location,
+    });
+  }
+}
+
+/** Every declaration and legacy form in one `*.tf` file, in the order the file is read. */
+function scanConfigurationFile(scan: TerraformScan, path: string, contents: string): void {
+  for (const declaration of parseTerraformFile(contents)) scanDeclaration(scan, path, declaration);
+  for (const declaration of parseTerraformLegacy(contents)) scanLegacyForm(scan, path, declaration);
+  for (const declaration of parseManagedKubernetes(contents)) scanManagedKubernetes(scan, path, declaration);
+}
+
+/** One declaration read from a Terraform plan JSON file. */
+function scanPlanDeclaration(scan: TerraformScan, path: string, declaration: TerraformPlanDeclaration): void {
+  if (declaration.kind === "cli_version") {
+    const rule = ruleForDeclared(scan.cliRules, declaration.value);
+    if (rule) {
+      scan.findings.push(
+        ruleFinding(
+          rule,
+          path,
+          declaration.pointer,
+          `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`,
+        ),
+      );
+    }
+  } else if (declaration.kind === "provider_version") {
+    const source = providerSource(declaration.source, declaration.provider);
+    if (!source) return;
+    const rule = ruleForDeclared(providerRules(scan, source.namespace, source.name), declaration.value);
+    if (rule) {
+      scan.findings.push(
+        ruleFinding(
+          rule,
+          path,
+          declaration.pointer,
+          `${path} (${declaration.pointer}) constrains provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`,
+        ),
+      );
+    }
+  } else {
+    const purl = ENGINE_PURLS[declaration.engine.toLowerCase()];
+    if (!purl) return;
+    const rule = ruleForPartialVersion(scan.byPurl.get(purlIdentity(purl)) ?? [], declaration.value);
+    if (rule) {
+      scan.findings.push(
+        ruleFinding(
+          rule,
+          path,
+          declaration.address,
+          `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`,
+        ),
+      );
+    }
+  }
+}
+
+/** Findings are ordered by file, then line, then id, so the output is the same on every platform. */
+function compareFindings(left: DetectorFinding, right: DetectorFinding): number {
+  if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
+  return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
+}
+
 export class TerraformDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "terraform";
@@ -257,236 +546,29 @@ export class TerraformDetector implements Detector {
     const { tfFiles, planFiles } = await terraformFiles(context.root);
     if (tfFiles.length === 0 && planFiles.length === 0) return { findings: [], unclassified: [] };
 
-    const rules = await this.loadRules();
-    const byPurl = rulesByPurl(rules);
-    const cliRules = (byPurl.get(TERRAFORM_PURL) ?? []).filter(
-      (rule) => rule.id !== INTERPOLATION_RULE_ID && rule.id !== LEGACY_FUNCTION_RULE_ID,
-    );
-    const legacyRules = new Map(
-      rules
-        .filter((rule) => rule.id === INTERPOLATION_RULE_ID || rule.id === LEGACY_FUNCTION_RULE_ID)
-        .map((rule) => [rule.id, rule]),
-    );
-    const findings: DetectorFinding[] = [];
-    const unclassified: DetectorUnclassifiedReference[] = [];
-    const report = (rule: RegistryV2Rule, path: string, locationKey: number | string, summary: string): void => {
-      const line = typeof locationKey === "number" ? locationKey : undefined;
-      findings.push({
-        id: `${rule.id}:${path}:${locationKey}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, ...(line !== undefined ? { line } : {}) },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
-    };
-    const reportLegacy = (
-      rule: RegistryV2Rule,
-      path: string,
-      declaration: TerraformLegacyDeclaration,
-      summary: string,
-    ): void => {
-      findings.push({
-        id: `${rule.id}:${path}:${declaration.line}:${declaration.column}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line: declaration.line, column: declaration.column },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
-    };
-
+    const scan = createScan(await this.loadRules());
     for (const file of tfFiles) {
-      let contents: string;
-      try {
-        contents = await readFile(file, "utf8");
-      } catch {
-        continue;
-      }
+      const contents = await readText(file);
+      if (contents === undefined) continue;
       const path = relativePosix(context.root, file);
       const name = basename(file);
-
       if (name === ".terraform-version" || name === ".tool-versions") {
-        for (const declaration of name === ".terraform-version"
-          ? parseTerraformVersionFile(contents)
-          : parseToolVersionsTerraform(contents)) {
-          const rule = firstMatchingRule(cliRules, declaration.value);
-          if (rule)
-            report(rule, path, declaration.line, `${path} pins Terraform ${declaration.value}. ${rule.summary}`);
-        }
+        scanVersionFile(scan, path, name, contents);
       } else if (name === ".terraform.lock.hcl") {
-        for (const provider of parseTerraformLock(contents)) {
-          const [host, namespace, providerName] = provider.address.split("/");
-          if (host?.toLowerCase() !== REGISTRY_HOST || !namespace || !providerName) continue;
-          const rule = firstMatchingRule(
-            byPurl.get(providerPurl(namespace.toLowerCase(), providerName.toLowerCase())) ?? [],
-            provider.value,
-          );
-          if (rule)
-            report(
-              rule,
-              path,
-              provider.line,
-              `${path} locks provider ${namespace}/${providerName} ${provider.value}. ${rule.summary}`,
-            );
-        }
+        scanLockFile(scan, path, contents);
       } else {
-        for (const declaration of parseTerraformFile(contents)) {
-          if (declaration.kind === "required_version") {
-            const rule = ruleForDeclared(cliRules, declaration.value);
-            if (rule)
-              report(rule, path, declaration.line, `${path} requires Terraform ${declaration.value}. ${rule.summary}`);
-          } else {
-            const source = providerSource(declaration.source, declaration.provider);
-            if (!source) continue;
-            const rule = ruleForDeclared(
-              byPurl.get(providerPurl(source.namespace, source.name)) ?? [],
-              declaration.value,
-            );
-            if (rule)
-              report(
-                rule,
-                path,
-                declaration.line,
-                `${path} requires provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`,
-              );
-          }
-        }
-
-        for (const declaration of parseTerraformLegacy(contents)) {
-          if (declaration.kind === "interpolation_only") {
-            const rule = legacyRules.get(INTERPOLATION_RULE_ID);
-            if (!rule) continue;
-            reportLegacy(
-              rule,
-              path,
-              declaration,
-              `${path} uses the interpolation-only string ${declaration.value}. ${rule.summary}`,
-            );
-          } else {
-            const rule = legacyRules.get(LEGACY_FUNCTION_RULE_ID);
-            if (!rule) continue;
-            const count = declaration.arguments.length;
-            reportLegacy(
-              rule,
-              path,
-              declaration,
-              `${path} calls the ${declaration.name}() function with ${count} ${count === 1 ? "argument" : "arguments"}. ${rule.summary}`,
-            );
-          }
-        }
-
-        for (const declaration of parseManagedKubernetes(contents)) {
-          if (declaration.product === undefined) {
-            unclassified.push({
-              component: "kubernetes",
-              reference: declaration.value,
-              reason: "the module source is not a known managed Kubernetes module",
-              location: { path, line: declaration.line },
-            });
-            continue;
-          }
-          const rules = byPurl.get(purlIdentity(MANAGED_KUBERNETES_PURLS[declaration.product])) ?? [];
-          if (!declaration.literal) {
-            unclassified.push({
-              component: declaration.product,
-              reference: declaration.value,
-              reason: /^(var|local|module)\./.test(declaration.value)
-                ? "the value is a variable or module reference, so Evergreen does not judge it"
-                : "the value is not one plain version literal, so Evergreen does not judge it",
-              location: { path, line: declaration.line },
-            });
-            continue;
-          }
-          const rule = ruleForPartialVersion(rules, declaration.value);
-          if (rule) {
-            const target =
-              declaration.block === "module"
-                ? `module.${declaration.name}`
-                : `${declaration.block}.${declaration.name}`;
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} sets ${target} ${declaration.attribute} ${declaration.value}. ${rule.summary}`,
-            );
-          } else if (!PARTIAL_VERSION.test(declaration.value.trim())) {
-            unclassified.push({
-              component: declaration.product,
-              reference: declaration.value,
-              reason: "the value is not a Kubernetes version number, so Evergreen does not judge it",
-              location: { path, line: declaration.line },
-            });
-          }
-        }
+        scanConfigurationFile(scan, path, contents);
       }
     }
-
     for (const file of planFiles) {
-      let contents: string;
-      try {
-        contents = await readFile(file, "utf8");
-      } catch {
-        continue;
-      }
+      const contents = await readText(file);
+      if (contents === undefined) continue;
       const path = relativePosix(context.root, file);
-
-      for (const declaration of parseTerraformPlanJson(contents)) {
-        if (declaration.kind === "cli_version") {
-          const rule = ruleForDeclared(cliRules, declaration.value);
-          if (rule) {
-            report(
-              rule,
-              path,
-              declaration.pointer,
-              `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`,
-            );
-          }
-        } else if (declaration.kind === "provider_version") {
-          const source = providerSource(declaration.source, declaration.provider);
-          if (!source) continue;
-          const rule = ruleForDeclared(
-            byPurl.get(providerPurl(source.namespace, source.name)) ?? [],
-            declaration.value,
-          );
-          if (rule) {
-            report(
-              rule,
-              path,
-              declaration.pointer,
-              `${path} (${declaration.pointer}) constrains provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`,
-            );
-          }
-        } else if (declaration.kind === "engine_version") {
-          const purl = ENGINE_PURLS[declaration.engine.toLowerCase()];
-          if (!purl) continue;
-          const rules = byPurl.get(purlIdentity(purl)) ?? [];
-          const rule = ruleForPartialVersion(rules, declaration.value);
-          if (rule) {
-            report(
-              rule,
-              path,
-              declaration.address,
-              `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`,
-            );
-          }
-        }
-      }
+      for (const declaration of parseTerraformPlanJson(contents)) scanPlanDeclaration(scan, path, declaration);
     }
 
-    findings.sort((left, right) => {
-      if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
-      return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
-    });
-    return { findings, unclassified };
+    scan.findings.sort(compareFindings);
+    return { findings: scan.findings, unclassified: scan.unclassified };
   }
 }
 

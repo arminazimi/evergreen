@@ -1,5 +1,6 @@
 import { required } from "../../required.js";
 import { attributeValues, directBlocks, MAXIMUM_DECLARATIONS, prepareHcl } from "./hcl.js";
+import type { HclAttributeValue, HclBlock } from "./hcl.js";
 
 /**
  * Pure, bounded parser for managed Kubernetes control-plane versions in `*.tf` files.
@@ -89,72 +90,76 @@ export interface ManagedKubernetesDeclaration {
   line: number;
 }
 
+/** The block type and name labels of a `resource` or `module` block, or undefined for any other block or a malformed label. */
+function blockIdentity(block: HclBlock): { blockType: string; name: string } | undefined {
+  if (block.name === "resource") {
+    const labels = /^\s*"([^"\n]+)"\s*"([^"\n]+)"\s*$/.exec(block.header);
+    if (!labels) return undefined;
+    return { blockType: required(labels[1], "resource type"), name: required(labels[2], "resource name") };
+  }
+  if (block.name === "module") {
+    const labels = /^\s*"([^"\n]+)"\s*$/.exec(block.header);
+    if (!labels) return undefined;
+    return { blockType: "module", name: required(labels[1], "module name") };
+  }
+  return undefined;
+}
+
+function toDeclaration(
+  blockType: string,
+  name: string,
+  attribute: HclAttributeValue,
+  product: ManagedKubernetesProduct | undefined,
+): ManagedKubernetesDeclaration {
+  return {
+    ...(product === undefined ? {} : { product }),
+    block: blockType,
+    name,
+    attribute: attribute.name,
+    value: attribute.value,
+    literal: attribute.literal,
+    line: attribute.line,
+  };
+}
+
+/** The version inputs of a module block, judged by the module's vendor when its source is a known address. */
+function moduleDeclarations(name: string, attributes: readonly HclAttributeValue[]): ManagedKubernetesDeclaration[] {
+  const source = attributes.find((attribute) => attribute.name === "source");
+  const address = source?.literal ? moduleAddress(source.value) : undefined;
+  const module = address !== undefined && Object.hasOwn(MODULE_SOURCES, address) ? MODULE_SOURCES[address] : undefined;
+  return attributes
+    .filter((attribute) =>
+      module ? module.attributes.includes(attribute.name) : VERSION_ATTRIBUTES.has(attribute.name),
+    )
+    .map((attribute) => toDeclaration("module", name, attribute, module?.product));
+}
+
+/** The control-plane version attributes of a managed resource type; other types and attributes are not declarations. */
+function resourceDeclarations(
+  blockType: string,
+  name: string,
+  attributes: readonly HclAttributeValue[],
+): ManagedKubernetesDeclaration[] {
+  const resourceAttributes = Object.hasOwn(RESOURCE_ATTRIBUTES, blockType) ? RESOURCE_ATTRIBUTES[blockType] : undefined;
+  if (!resourceAttributes) return [];
+  return attributes.flatMap((attribute) => {
+    const product = Object.hasOwn(resourceAttributes, attribute.name) ? resourceAttributes[attribute.name] : undefined;
+    return product ? [toDeclaration(blockType, name, attribute, product)] : [];
+  });
+}
+
 /** Parse managed Kubernetes control-plane versions from a `*.tf` file. */
 export function parseManagedKubernetes(contents: string): ManagedKubernetesDeclaration[] {
   const hcl = prepareHcl(contents);
   if (!hcl) return [];
 
-  const declarations: ManagedKubernetesDeclaration[] = [];
-  for (const block of directBlocks(hcl, 0, hcl.masked.length)) {
-    let blockType: string;
-    let name: string;
-    if (block.name === "resource") {
-      const labels = /^\s*"([^"\n]+)"\s*"([^"\n]+)"\s*$/.exec(block.header);
-      if (!labels) continue;
-      blockType = required(labels[1], "resource type");
-      name = required(labels[2], "resource name");
-    } else if (block.name === "module") {
-      const labels = /^\s*"([^"\n]+)"\s*$/.exec(block.header);
-      if (!labels) continue;
-      blockType = "module";
-      name = required(labels[1], "module name");
-    } else {
-      continue;
-    }
-
+  const declarations = directBlocks(hcl, 0, hcl.masked.length).flatMap((block) => {
+    const identity = blockIdentity(block);
+    if (!identity) return [];
     const attributes = attributeValues(hcl, block.bodyStart, block.bodyEnd);
-
-    if (blockType === "module") {
-      const source = attributes.find((attribute) => attribute.name === "source");
-      const address = source?.literal ? moduleAddress(source.value) : undefined;
-      const module =
-        address !== undefined && Object.hasOwn(MODULE_SOURCES, address) ? MODULE_SOURCES[address] : undefined;
-      for (const attribute of attributes) {
-        if (module ? !module.attributes.includes(attribute.name) : !VERSION_ATTRIBUTES.has(attribute.name)) continue;
-        declarations.push({
-          ...(module === undefined ? {} : { product: module.product }),
-          block: blockType,
-          name,
-          attribute: attribute.name,
-          value: attribute.value,
-          literal: attribute.literal,
-          line: attribute.line,
-        });
-        if (declarations.length >= MAXIMUM_DECLARATIONS) return declarations;
-      }
-      continue;
-    }
-
-    const resourceAttributes = Object.hasOwn(RESOURCE_ATTRIBUTES, blockType)
-      ? RESOURCE_ATTRIBUTES[blockType]
-      : undefined;
-    if (!resourceAttributes) continue;
-    for (const attribute of attributes) {
-      const product = Object.hasOwn(resourceAttributes, attribute.name)
-        ? resourceAttributes[attribute.name]
-        : undefined;
-      if (!product) continue;
-      declarations.push({
-        product,
-        block: blockType,
-        name,
-        attribute: attribute.name,
-        value: attribute.value,
-        literal: attribute.literal,
-        line: attribute.line,
-      });
-      if (declarations.length >= MAXIMUM_DECLARATIONS) return declarations;
-    }
-  }
-  return declarations;
+    return identity.blockType === "module"
+      ? moduleDeclarations(identity.name, attributes)
+      : resourceDeclarations(identity.blockType, identity.name, attributes);
+  });
+  return declarations.slice(0, MAXIMUM_DECLARATIONS);
 }

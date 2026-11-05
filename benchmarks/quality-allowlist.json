@@ -404,22 +404,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/terraform/index.ts",
-      "function": "TerraformDetector.analyze",
-      "lines": 235,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/kubernetes.ts",
-      "function": "parseManagedKubernetes",
-      "lines": 68,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
       "lines": 82,
@@ -1178,70 +1162,6 @@
       "function": "parseTf",
       "complexity": 19,
       "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/hcl.ts",
-      "function": "attributeValues > <anonymous>",
-      "complexity": 17,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/hcl.ts",
-      "function": "maskHcl",
-      "complexity": 16,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/index.ts",
-      "function": "TerraformDetector.analyze",
-      "complexity": 50,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/kubernetes.ts",
-      "function": "parseManagedKubernetes",
-      "complexity": 22,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/parse-terraform.ts",
-      "function": "readCode",
-      "complexity": 22,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/parse-terraform.ts",
-      "function": "scanCall",
-      "complexity": 16,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/parse-terraform.ts",
-      "function": "stringContext",
-      "complexity": 17,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/plan.ts",
-      "function": "collectResourcesFromModule",
-      "complexity": 20,
-      "owner": "#2263",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
