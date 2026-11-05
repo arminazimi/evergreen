@@ -76,5 +76,8 @@
     "@vscode/vsce": "^4.0.0",
     "@types/vscode": "1.85.0",
     "typescript": "^5.9.0"
+  },
+  "overrides": {
+    "minimatch": "^11.0.4"
   }
 }
