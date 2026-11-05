@@ -1,0 +1,8 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # echo "::set-env name=NAME::value"
+          echo "::set-env name=NAME::value"
+        shell: bash

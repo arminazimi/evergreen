@@ -1,0 +1,8 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # echo "::add-path::/opt/bin"
+          echo "::add-path::/opt/bin"
+        shell: bash
