@@ -48,6 +48,24 @@
         "kind": "maintainer-review",
         "note": "Reviewed at this commit: line 34 of .github/workflows/inject-sidecar.yaml reads `- uses: \"actions/setup-python@v2\"`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/inject-sidecar.yaml",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Inspected stefanprodan/gitops-istio@3851e1802537cd5f7f833b05502f6db1f4528f47, .github/workflows/inject-sidecar.yaml:85 directly on 2026-11-06: `echo ::set-output name=version::${ISTIO_VERSION}` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/update-istio.yaml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Inspected stefanprodan/gitops-istio@3851e1802537cd5f7f833b05502f6db1f4528f47, .github/workflows/update-istio.yaml:36 directly on 2026-11-06: `echo ::set-output name=version::${ISTIO_VERSION}` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+      }
     }
   ]
 }

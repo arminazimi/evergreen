@@ -111,6 +111,24 @@
         "kind": "maintainer-review",
         "note": "Reviewed at this commit: line 42 of .github/workflows/test.yml reads `uses: actions/cache@v3`, which github-actions.cache.node20 reports."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/release.yml",
+      "line": 118,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Inspected rustwasm/wasm-pack@62ab39cf82ec4d358c1f08f348cd0dc44768f412, .github/workflows/release.yml:118 directly on 2026-11-06: `echo ::set-output name=version::\"${GITHUB_REF:10}\"` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/release.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Inspected rustwasm/wasm-pack@62ab39cf82ec4d358c1f08f348cd0dc44768f412, .github/workflows/release.yml:52 directly on 2026-11-06: `echo ::set-output name=version::\"${GITHUB_REF:10}\"` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+      }
     }
   ]
 }
