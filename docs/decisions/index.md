@@ -52,7 +52,7 @@ otherwise. Records are numbered in the order they were written; this page groups
 | [0025](0025-linter-and-formatter.md) | Choose the linter and formatter | Lint with ESLint and typescript-eslint (type-aware); format with Biome; do not use Biome for typed lint or Prettier for format. |
 | [0026](0026-public-api-doc-comments.md) | Document the public API and enforce it with lint | Put a behavior-focused doc comment on every public declaration and enforce it with a local ESLint rule; no contract semantics change. |
 | [0027](0027-fixtures-invisible-to-scanners.md) | Keep fixtures out of scanners' sight with neutral names | Commit manifest-shaped fixtures under a `.fixture` suffix and restore the real name in a temporary directory at test time; reject archives and dismissals; scanner config is a narrow fallback. |
-| [0028](0028-cut-scanner-complexity-by-extracting-the-line-masker.md) | Cut scanner complexity by extracting the line masker and replacing branch chains with tables | Move the per-language literal scanner to `src/usage/masking.ts`, dispatch readers on tables, and prove parity differentially against a build of `main`; the SDK export surface is unchanged. |
+| [0029](0029-cut-scanner-complexity-by-extracting-the-line-masker.md) | Cut scanner complexity by extracting the line masker and replacing branch chains with tables | Move the per-language literal scanner to `src/usage/masking.ts`, dispatch readers on tables, and prove parity differentially against a build of `main`; the SDK export surface is unchanged. |
 
 ## Operations
 

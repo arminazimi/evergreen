@@ -1,4 +1,4 @@
-# 0028 — Cut scanner complexity by extracting the line masker and replacing branch chains with tables
+# 0029 — Cut scanner complexity by extracting the line masker and replacing branch chains with tables
 
 Status: accepted
 
