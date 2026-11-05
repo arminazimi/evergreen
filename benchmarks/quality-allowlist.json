@@ -1044,49 +1044,9 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/upgrade/composer-lock.ts",
-      "function": "analyze",
-      "lines": 82,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/upgrade/go-modules.ts",
       "function": "GoModulesAnalyzer.analyze",
       "lines": 90,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/upgrade/pep440.ts",
-      "function": "parseClause",
-      "lines": 51,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/upgrade/poetry-lock.ts",
-      "function": "PoetryLockAnalyzer.analyze",
-      "lines": 119,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/upgrade/uv-pdm-lock.ts",
-      "function": "analyzePdmLock",
-      "lines": 105,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/upgrade/uv-pdm-lock.ts",
-      "function": "analyzeUvLock",
-      "lines": 99,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -2410,70 +2370,6 @@
       "function": "reduce",
       "complexity": 18,
       "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/composer-lock.ts",
-      "function": "analyze",
-      "complexity": 17,
-      "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/composer-lock.ts",
-      "function": "parseTerm",
-      "complexity": 22,
-      "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/dart-sdk.ts",
-      "function": "compareVersions",
-      "complexity": 16,
-      "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/pep440.ts",
-      "function": "parseClause",
-      "complexity": 26,
-      "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/pnpm-lock.ts",
-      "function": "readPackages",
-      "complexity": 16,
-      "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/poetry-lock.ts",
-      "function": "PoetryLockAnalyzer.analyze",
-      "complexity": 25,
-      "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/uv-pdm-lock.ts",
-      "function": "analyzePdmLock",
-      "complexity": 21,
-      "owner": "#2278",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/upgrade/uv-pdm-lock.ts",
-      "function": "analyzeUvLock",
-      "complexity": 23,
-      "owner": "#2278",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

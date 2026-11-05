@@ -52,8 +52,17 @@ test("orders pre-releases as semver does", () => {
   assert.equal(matchesDartConstraint("3.6.0-beta", "<3.6.0-alpha"), false);
   assert.equal(matchesDartConstraint("3.6.0-1", "<3.6.0-alpha"), true);
   assert.equal(matchesDartConstraint("3.6.0-alpha", "<3.6.0-alpha.1"), true);
+  assert.equal(matchesDartConstraint("3.6.0-alpha.1", ">3.6.0-alpha"), true);
   assert.equal(matchesDartConstraint("3.6.0-beta.1", "<3.6.0-beta.1"), false);
   assert.equal(matchesDartConstraint("3.6.0", "<3.6.0-beta"), false);
+  // Identifiers compare part by part: equal numeric parts continue, and equal text parts do too.
+  assert.equal(matchesDartConstraint("3.6.0-1.2", "<3.6.0-1.3"), true);
+  assert.equal(matchesDartConstraint("3.6.0-1.2", ">3.6.0-1.3"), false);
+  assert.equal(matchesDartConstraint("3.6.0-alpha.1", "<3.6.0-alpha.2"), true);
+  assert.equal(matchesDartConstraint("3.6.0-1.2", "3.6.0-1.2"), true);
+  // Build metadata takes no part in the order.
+  assert.equal(matchesDartConstraint("3.6.0+build.2", "3.6.0"), true);
+  assert.equal(matchesDartConstraint("3.6.0", "^3.6.0+build.2"), true);
 });
 
 test("expands a partial target to its release", () => {

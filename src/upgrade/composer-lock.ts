@@ -147,6 +147,35 @@ function hyphenRange(lowerText: string, upperText: string): Predicate | undefine
   return inRange(lower, versionFromNumbers(upperParts));
 }
 
+/** A term written without an operator: `*` or `x`, a caret, a tilde, or a `1.2.*` wildcard, in that order. */
+const BARE_TERM_RULES: readonly {
+  appliesTo: (text: string) => boolean;
+  build: (text: string) => Predicate | undefined;
+}[] = [
+  {
+    appliesTo: (text) => text === "*" || text.toLowerCase() === "x",
+    build: () => () => true,
+  },
+  { appliesTo: (text) => text.startsWith("^"), build: (text) => caret(text.slice(1)) },
+  { appliesTo: (text) => text.startsWith("~"), build: (text) => tilde(text.slice(1)) },
+  { appliesTo: (text) => /(^|\.)[*xX](\.|$)/.test(text), build: wildcard },
+];
+
+/** `==`, `=` and a version written bare all state the same thing: that version exactly. */
+function equalPredicate(target: PhpVersion): Predicate {
+  return (version) => comparePhpVersions(version, target) === 0;
+}
+
+/** The comparison each operator states, over the version its term names. */
+const PREDICATES_BY_OP: Readonly<Record<string, (target: PhpVersion) => Predicate>> = {
+  ">": (target) => (version) => comparePhpVersions(version, target) > 0,
+  ">=": (target) => (version) => comparePhpVersions(version, target) >= 0,
+  "<": (target) => (version) => comparePhpVersions(version, target) < 0,
+  "<=": (target) => (version) => comparePhpVersions(version, target) <= 0,
+  "!=": (target) => (version) => comparePhpVersions(version, target) !== 0,
+  "<>": (target) => (version) => comparePhpVersions(version, target) !== 0,
+};
+
 function parseTerm(term: string): Predicate | undefined {
   if (term.startsWith("\u0000")) {
     const [, lower, upper] = term.split("\u0000");
@@ -157,27 +186,13 @@ function parseTerm(term: string): Predicate | undefined {
   if (match === null) return undefined;
   const operator = match[1] ?? "";
   const versionText = match[0].slice(operator.length);
-  if (operator === "" && (versionText === "*" || versionText.toLowerCase() === "x")) return () => true;
-  if (operator === "" && versionText.startsWith("^")) return caret(versionText.slice(1));
-  if (operator === "" && versionText.startsWith("~")) return tilde(versionText.slice(1));
-  if (operator === "" && /(^|\.)[*xX](\.|$)/.test(versionText)) return wildcard(versionText);
+  if (operator === "") {
+    const bare = BARE_TERM_RULES.find((rule) => rule.appliesTo(versionText));
+    if (bare !== undefined) return bare.build(versionText);
+  }
   const target = parsePhpVersion(versionText);
   if (target === undefined) return undefined;
-  switch (operator) {
-    case ">=":
-      return (version) => comparePhpVersions(version, target) >= 0;
-    case ">":
-      return (version) => comparePhpVersions(version, target) > 0;
-    case "<=":
-      return (version) => comparePhpVersions(version, target) <= 0;
-    case "<":
-      return (version) => comparePhpVersions(version, target) < 0;
-    case "!=":
-    case "<>":
-      return (version) => comparePhpVersions(version, target) !== 0;
-    default:
-      return (version) => comparePhpVersions(version, target) === 0;
-  }
+  return (PREDICATES_BY_OP[operator] ?? equalPredicate)(target);
 }
 
 function parseAndGroup(group: string): Predicate | undefined {
@@ -337,80 +352,103 @@ export const composerLockAnalyzer: UpgradeAnalyzer = {
     if (candidates === undefined) return [];
 
     const issues: UpgradeIssue[] = [];
-    const seen = new Set<string>();
     const lockText = await readText(root, LOCKFILE);
     const lock = lockText === undefined ? undefined : readJsonLines(lockText, { comments: false });
-    if (lock?.kind === "object") {
-      for (const declaration of [
-        ...packagesFrom(member(lock, "packages")?.value, false),
-        ...packagesFrom(member(lock, "packages-dev")?.value, true),
-      ]) {
-        const key = `${declaration.name}\u0000${declaration.version}\u0000${declaration.constraint}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        const subject = declaration.version === "" ? declaration.name : `${declaration.name}@${declaration.version}`;
-        const issue = judge(
-          {
-            level: declaration.dev ? "warning" : "blocker",
-            subject,
-            path: LOCKFILE,
-            line: declaration.line,
-            field: "require.php",
-            kind: "lockfile",
-            constraint: declaration.constraint,
-            requirement: `${subject} requires php`,
-          },
-          target,
-          candidates,
-        );
-        if (issue !== undefined) issues.push(issue);
-      }
-      for (const [key, field] of [
-        ["platform", "platform.php"],
-        ["platform-overrides", "platform-overrides.php"],
-      ] as const) {
-        const platform = platformPhp(lock, key);
-        if (platform === undefined) continue;
-        const issue = judge(
-          {
-            level: "blocker",
-            subject: field,
-            path: LOCKFILE,
-            line: platform.line,
-            field,
-            kind: "lockfile",
-            constraint: platform.constraint,
-            requirement: `The lockfile records ${field}`,
-          },
-          target,
-          candidates,
-        );
-        if (issue !== undefined) issues.push(issue);
-      }
-    }
-
-    const manifestText = await readText(root, MANIFEST);
-    if (manifestText !== undefined) {
-      for (const declaration of parseComposerJson(manifestText)) {
-        if (declaration.kind !== "require-php") continue;
-        const issue = judge(
-          {
-            level: "blocker",
-            subject: MANIFEST,
-            path: MANIFEST,
-            line: declaration.line,
-            field: "require.php",
-            kind: "manifest",
-            constraint: declaration.value,
-            requirement: `${MANIFEST} requires php`,
-          },
-          target,
-          candidates,
-        );
-        if (issue !== undefined) issues.push(issue);
-      }
-    }
-
+    if (lock?.kind === "object") issues.push(...lockIssues(lock, target, candidates));
+    issues.push(...manifestIssues(await readText(root, MANIFEST), target, candidates));
     return issues;
   },
 };
+
+/** The php requirements the lockfile states: one per package that records one, then the platform sections. */
+function lockIssues(lock: JsonNode, target: UpgradeTarget, candidates: readonly string[]): UpgradeIssue[] {
+  const issues: UpgradeIssue[] = [];
+  const seen = new Set<string>();
+  for (const declaration of [
+    ...packagesFrom(member(lock, "packages")?.value, false),
+    ...packagesFrom(member(lock, "packages-dev")?.value, true),
+  ]) {
+    const key = `${declaration.name}\u0000${declaration.version}\u0000${declaration.constraint}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const issue = judge(packageRequirement(declaration), target, candidates);
+    if (issue !== undefined) issues.push(issue);
+  }
+  issues.push(...platformIssues(lock, target, candidates));
+  return issues;
+}
+
+/** The `require.php` one lockfile package states, with a dev package reported as a warning. */
+function packageRequirement(declaration: LockPackage): PhpRequirement {
+  const subject = declaration.version === "" ? declaration.name : `${declaration.name}@${declaration.version}`;
+  return {
+    level: declaration.dev ? "warning" : "blocker",
+    subject,
+    path: LOCKFILE,
+    line: declaration.line,
+    field: "require.php",
+    kind: "lockfile",
+    constraint: declaration.constraint,
+    requirement: `${subject} requires php`,
+  };
+}
+
+/** The two lockfile sections that pin the platform PHP, and the field each is reported under. */
+const PLATFORM_SECTIONS = [
+  { key: "platform", field: "platform.php" },
+  { key: "platform-overrides", field: "platform-overrides.php" },
+] as const;
+
+/** The php constraints the `platform` and `platform-overrides` sections record. */
+function platformIssues(lock: JsonNode, target: UpgradeTarget, candidates: readonly string[]): UpgradeIssue[] {
+  const issues: UpgradeIssue[] = [];
+  for (const section of PLATFORM_SECTIONS) {
+    const platform = platformPhp(lock, section.key);
+    if (platform === undefined) continue;
+    const issue = judge(
+      {
+        level: "blocker",
+        subject: section.field,
+        path: LOCKFILE,
+        line: platform.line,
+        field: section.field,
+        kind: "lockfile",
+        constraint: platform.constraint,
+        requirement: `The lockfile records ${section.field}`,
+      },
+      target,
+      candidates,
+    );
+    if (issue !== undefined) issues.push(issue);
+  }
+  return issues;
+}
+
+/** The `require.php` constraint the manifest states, when the manifest exists and records one. */
+function manifestIssues(
+  manifestText: string | undefined,
+  target: UpgradeTarget,
+  candidates: readonly string[],
+): UpgradeIssue[] {
+  if (manifestText === undefined) return [];
+  const issues: UpgradeIssue[] = [];
+  for (const declaration of parseComposerJson(manifestText)) {
+    if (declaration.kind !== "require-php") continue;
+    const issue = judge(
+      {
+        level: "blocker",
+        subject: MANIFEST,
+        path: MANIFEST,
+        line: declaration.line,
+        field: "require.php",
+        kind: "manifest",
+        constraint: declaration.value,
+        requirement: `${MANIFEST} requires php`,
+      },
+      target,
+      candidates,
+    );
+    if (issue !== undefined) issues.push(issue);
+  }
+  return issues;
+}

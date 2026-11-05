@@ -320,209 +320,228 @@ function makeIssue(
   };
 }
 
-async function analyzeUvLock(root: string, target: UpgradeTarget, issues: UpgradeIssue[]): Promise<void> {
-  const contents = await readOptional(resolve(root, "uv.lock"));
-  if (contents === undefined) return;
-  let document: UnknownRecord | undefined;
+type ParsedLock = { document: UnknownRecord | undefined } | { error: UpgradeIssue };
+
+const UV_LOCK = "uv.lock";
+const PDM_LOCK = "pdm.lock";
+
+/** A TOML field's text, or undefined when the lockfile states it another way. */
+const textField = (value: unknown): string | undefined => (typeof value === "string" ? value : undefined);
+
+const lockEvidence = (value: string): UpgradeIssue["evidence"] => ({ kind: "lockfile", value });
+
+/** A lockfile that does not parse is reported, never guessed at. `field` names the constraint it hides. */
+function parseLock(path: string, contents: string, field: string): ParsedLock {
   try {
-    document = asRecord(parseToml(contents));
+    return { document: asRecord(parseToml(contents)) };
   } catch {
-    issues.push(
-      makeIssue("unknown", "uv.lock", "uv.lock", 1, "uv.lock is not valid TOML, so requires-python cannot be read.", {
+    return {
+      error: makeIssue("unknown", path, path, 1, `${path} is not valid TOML, so ${field} cannot be read.`, {
         kind: "lockfile",
-        value: "uv.lock: invalid TOML",
+        value: `${path}: invalid TOML`,
       }),
-    );
-    return;
-  }
-
-  const lines = scanLines(contents);
-  const requirement = typeof document?.["requires-python"] === "string" ? document["requires-python"] : undefined;
-  if (requirement !== undefined) {
-    const matches = matchesSpecifier(requirement, target.version);
-    if (matches === undefined) {
-      issues.push(
-        makeIssue(
-          "unknown",
-          "python",
-          "uv.lock",
-          lines.pythonRequirement,
-          `Cannot parse the project's requires-python constraint "${requirement}".`,
-          {
-            kind: "lockfile",
-            value: `requires-python: ${requirement}`,
-          },
-        ),
-      );
-    } else if (!matches) {
-      issues.push(
-        makeIssue(
-          "blocker",
-          "python",
-          "uv.lock",
-          lines.pythonRequirement,
-          `The project's requires-python "${requirement}" excludes Python ${target.version}.`,
-          {
-            kind: "lockfile",
-            value: `requires-python: ${requirement}`,
-          },
-        ),
-      );
-    }
-  }
-
-  const packages = Array.isArray(document?.package) ? document.package : [];
-  const entries = new Map<string, Array<{ record: UnknownRecord; version: string | undefined; lines: BlockLines }>>();
-  for (const [index, value] of packages.entries()) {
-    const record = asRecord(value);
-    if (!record) continue;
-    const name = typeof record.name === "string" ? record.name : undefined;
-    if (!name) continue;
-    const version = typeof record.version === "string" ? record.version : undefined;
-    const block = lines.blocks[index] ?? { fields: new Map([["__block", 1]]), wheelUrls: [] };
-    const group = entries.get(name) ?? [];
-    group.push({ record, version, lines: block });
-    entries.set(name, group);
-  }
-
-  for (const [name, group] of entries) {
-    const verdicts = group.map((entry) => evaluateEntry(entry.record, entry.lines, targetRelease(target)));
-    if (verdicts.some((verdict) => verdict.verdict === "allows" || verdict.verdict === "none")) continue;
-    const subject = group.length === 1 && group[0]?.version ? `${name}@${group[0].version}` : name;
-    const unknown = verdicts.find((verdict) => verdict.verdict === "unknown");
-    if (unknown) {
-      issues.push(
-        makeIssue(
-          "unknown",
-          subject,
-          "uv.lock",
-          unknown.line,
-          `Cannot read the Python bounds of ${subject} in uv.lock: ${unknown.value}.`,
-          {
-            kind: "lockfile",
-            value: unknown.value,
-          },
-        ),
-      );
-      continue;
-    }
-    const excluding = verdicts.find((verdict) => verdict.verdict === "excludes");
-    if (!excluding) continue;
-    const marker = excluding.value.startsWith("resolution-markers: ")
-      ? excluding.value.slice("resolution-markers: ".length)
-      : undefined;
-    const reason = marker
-      ? `${subject} resolves only for Python versions matching "${marker}", which excludes Python ${target.version}.`
-      : `${subject} has no wheel for Python ${target.version} and no sdist to fall back on (${excluding.value.slice("wheels: ".length)}).`;
-    issues.push(
-      makeIssue("blocker", subject, "uv.lock", excluding.line, reason, { kind: "lockfile", value: excluding.value }),
-    );
+    };
   }
 }
 
-async function analyzePdmLock(root: string, target: UpgradeTarget, issues: UpgradeIssue[]): Promise<void> {
-  const contents = await readOptional(resolve(root, "pdm.lock"));
-  if (contents === undefined) return;
-  let document: UnknownRecord | undefined;
-  try {
-    document = asRecord(parseToml(contents));
-  } catch {
-    issues.push(
-      makeIssue(
-        "unknown",
-        "pdm.lock",
-        "pdm.lock",
-        1,
-        "pdm.lock is not valid TOML, so requires_python cannot be read.",
-        {
-          kind: "lockfile",
-          value: "pdm.lock: invalid TOML",
-        },
-      ),
+/**
+ * The project-level constraint of a lockfile. `field` names it in the evidence, `wording` in the reason, because
+ * uv writes `requires-python` and PDM writes `[metadata] requires_python`.
+ */
+function projectIssue(
+  path: string,
+  field: string,
+  wording: string,
+  requirement: string,
+  line: number | undefined,
+  version: string,
+): UpgradeIssue | undefined {
+  const evidence = lockEvidence(`${field}: ${requirement}`);
+  const matches = matchesSpecifier(requirement, version);
+  if (matches === undefined)
+    return makeIssue(
+      "unknown",
+      "python",
+      path,
+      line,
+      `Cannot parse the project's ${wording} constraint "${requirement}".`,
+      evidence,
     );
+  if (matches) return undefined;
+  return makeIssue(
+    "blocker",
+    "python",
+    path,
+    line,
+    `The project's ${wording} "${requirement}" excludes Python ${version}.`,
+    evidence,
+  );
+}
+
+/** One `[[package]]` entry of uv.lock, kept with every other entry resolved for the same name. */
+interface UvEntry {
+  record: UnknownRecord;
+  version: string | undefined;
+  lines: BlockLines;
+}
+
+const unnamedBlock = (): BlockLines => ({ fields: new Map([["__block", 1]]), wheelUrls: [] });
+
+function uvEntries(packages: unknown[], blocks: BlockLines[]): Map<string, UvEntry[]> {
+  const entries = new Map<string, UvEntry[]>();
+  for (const [index, value] of packages.entries()) {
+    const record = asRecord(value);
+    if (!record) continue;
+    const name = textField(record.name);
+    if (!name) continue;
+    const group = entries.get(name) ?? [];
+    group.push({ record, version: textField(record.version), lines: blocks[index] ?? unnamedBlock() });
+    entries.set(name, group);
+  }
+  return entries;
+}
+
+const MARKERS_PREFIX = "resolution-markers: ";
+const WHEELS_PREFIX = "wheels: ";
+
+/** Why an excluding verdict blocks: either the resolution fork or the wheel set leaves the target out. */
+function exclusionReason(subject: string, value: string, version: string): string {
+  const marker = value.startsWith(MARKERS_PREFIX) ? value.slice(MARKERS_PREFIX.length) : undefined;
+  if (marker !== undefined)
+    return `${subject} resolves only for Python versions matching "${marker}", which excludes Python ${version}.`;
+  return `${subject} has no wheel for Python ${version} and no sdist to fall back on (${value.slice(WHEELS_PREFIX.length)}).`;
+}
+
+/** An entry that allows the target, or states no bound at all, keeps the whole package out of the report. */
+function allowingVerdict(verdict: BoundVerdict): boolean {
+  return verdict === "allows" || verdict === "none";
+}
+
+function uvPackageIssue(name: string, group: UvEntry[], target: UpgradeTarget): UpgradeIssue | undefined {
+  const verdicts = group.map((entry) => evaluateEntry(entry.record, entry.lines, targetRelease(target)));
+  if (verdicts.some((verdict) => allowingVerdict(verdict.verdict))) return undefined;
+  const only = group.length === 1 ? group[0] : undefined;
+  const subject = only?.version ? `${name}@${only.version}` : name;
+  const unknown = verdicts.find((verdict) => verdict.verdict === "unknown");
+  if (unknown)
+    return makeIssue(
+      "unknown",
+      subject,
+      UV_LOCK,
+      unknown.line,
+      `Cannot read the Python bounds of ${subject} in uv.lock: ${unknown.value}.`,
+      lockEvidence(unknown.value),
+    );
+  const excluding = verdicts.find((verdict) => verdict.verdict === "excludes");
+  if (excluding === undefined) return undefined;
+  return makeIssue(
+    "blocker",
+    subject,
+    UV_LOCK,
+    excluding.line,
+    exclusionReason(subject, excluding.value, target.version),
+    lockEvidence(excluding.value),
+  );
+}
+
+async function analyzeUvLock(root: string, target: UpgradeTarget, issues: UpgradeIssue[]): Promise<void> {
+  const contents = await readOptional(resolve(root, UV_LOCK));
+  if (contents === undefined) return;
+  const parsed = parseLock(UV_LOCK, contents, "requires-python");
+  if ("error" in parsed) {
+    issues.push(parsed.error);
     return;
   }
-
+  const document = parsed.document;
   const lines = scanLines(contents);
-  const metadata = asRecord(document?.metadata);
-  const requirement = typeof metadata?.requires_python === "string" ? metadata.requires_python : undefined;
+
+  const requirement = textField(document?.["requires-python"]);
   if (requirement !== undefined) {
-    const matches = matchesSpecifier(requirement, target.version);
-    if (matches === undefined) {
-      issues.push(
-        makeIssue(
-          "unknown",
-          "python",
-          "pdm.lock",
-          lines.pythonRequirement,
-          `Cannot parse the project's [metadata] requires_python constraint "${requirement}".`,
-          {
-            kind: "lockfile",
-            value: `requires_python: ${requirement}`,
-          },
-        ),
-      );
-    } else if (!matches) {
-      issues.push(
-        makeIssue(
-          "blocker",
-          "python",
-          "pdm.lock",
-          lines.pythonRequirement,
-          `The project's [metadata] requires_python "${requirement}" excludes Python ${target.version}.`,
-          {
-            kind: "lockfile",
-            value: `requires_python: ${requirement}`,
-          },
-        ),
-      );
-    }
+    const issue = projectIssue(
+      UV_LOCK,
+      "requires-python",
+      "requires-python",
+      requirement,
+      lines.pythonRequirement,
+      target.version,
+    );
+    if (issue !== undefined) issues.push(issue);
+  }
+
+  const packages = Array.isArray(document?.package) ? document.package : [];
+  for (const [name, group] of uvEntries(packages, lines.blocks)) {
+    const issue = uvPackageIssue(name, group, target);
+    if (issue !== undefined) issues.push(issue);
+  }
+}
+
+/** The `requires_python` verdict for one PDM package, or nothing when it cannot exclude a target. */
+function pdmPackageIssue(value: unknown, line: number | undefined, version: string): UpgradeIssue | undefined {
+  const record = asRecord(value);
+  if (record === undefined) return undefined;
+  const name = textField(record.name);
+  const specifier = textField(record.requires_python);
+  if (!name || specifier === undefined) return undefined;
+  const packageVersion = textField(record.version);
+  const subject = packageVersion ? `${name}@${packageVersion}` : name;
+
+  const evidence = lockEvidence(`requires_python: ${specifier}`);
+  const matches = matchesSpecifier(specifier, version);
+  if (matches === undefined)
+    return makeIssue(
+      "unknown",
+      subject,
+      PDM_LOCK,
+      line,
+      `Cannot parse the requires_python constraint "${specifier}" for ${subject}.`,
+      evidence,
+    );
+  if (matches) return undefined;
+
+  const main = isMainGroup(record.groups);
+  const detail = Array.isArray(record.groups)
+    ? record.groups.filter((group) => typeof group === "string").join(", ")
+    : "unspecified";
+  return makeIssue(
+    main ? "blocker" : "warning",
+    subject,
+    PDM_LOCK,
+    line,
+    main
+      ? `${subject} declares requires_python "${specifier}", which excludes Python ${version}.`
+      : `${subject} is in the ${detail} group and its requires_python "${specifier}" excludes Python ${version}.`,
+    evidence,
+  );
+}
+
+async function analyzePdmLock(root: string, target: UpgradeTarget, issues: UpgradeIssue[]): Promise<void> {
+  const contents = await readOptional(resolve(root, PDM_LOCK));
+  if (contents === undefined) return;
+  const parsed = parseLock(PDM_LOCK, contents, "requires_python");
+  if ("error" in parsed) {
+    issues.push(parsed.error);
+    return;
+  }
+  const document = parsed.document;
+  const lines = scanLines(contents);
+
+  const requirement = textField(asRecord(document?.metadata)?.requires_python);
+  if (requirement !== undefined) {
+    const issue = projectIssue(
+      PDM_LOCK,
+      "requires_python",
+      "[metadata] requires_python",
+      requirement,
+      lines.pythonRequirement,
+      target.version,
+    );
+    if (issue !== undefined) issues.push(issue);
   }
 
   const packages = Array.isArray(document?.package) ? document.package : [];
   for (const [index, value] of packages.entries()) {
-    const record = asRecord(value);
-    if (!record) continue;
-    const name = typeof record.name === "string" ? record.name : undefined;
-    const version = typeof record.version === "string" ? record.version : undefined;
-    const specifier = typeof record.requires_python === "string" ? record.requires_python : undefined;
-    if (!name || specifier === undefined) continue;
-    const subject = version ? `${name}@${version}` : name;
-    const line = lines.blocks[index]?.fields.get("requires_python");
-    const matches = matchesSpecifier(specifier, target.version);
-    if (matches === undefined) {
-      issues.push(
-        makeIssue(
-          "unknown",
-          subject,
-          "pdm.lock",
-          line,
-          `Cannot parse the requires_python constraint "${specifier}" for ${subject}.`,
-          {
-            kind: "lockfile",
-            value: `requires_python: ${specifier}`,
-          },
-        ),
-      );
-      continue;
-    }
-    if (matches) continue;
-    const main = isMainGroup(record.groups);
-    const groups = Array.isArray(record.groups)
-      ? record.groups.filter((group) => typeof group === "string").join(", ")
-      : "unspecified";
-    issues.push(
-      makeIssue(
-        main ? "blocker" : "warning",
-        subject,
-        "pdm.lock",
-        line,
-        main
-          ? `${subject} declares requires_python "${specifier}", which excludes Python ${target.version}.`
-          : `${subject} is in the ${groups} group and its requires_python "${specifier}" excludes Python ${target.version}.`,
-        { kind: "lockfile", value: `requires_python: ${specifier}` },
-      ),
-    );
+    const issue = pdmPackageIssue(value, lines.blocks[index]?.fields.get("requires_python"), target.version);
+    if (issue !== undefined) issues.push(issue);
   }
 }
 
@@ -532,8 +551,8 @@ export class UvPdmLockAnalyzer implements UpgradeAnalyzer {
 
   async applies(root: string): Promise<boolean> {
     return (
-      (await readOptional(resolve(root, "uv.lock"))) !== undefined ||
-      (await readOptional(resolve(root, "pdm.lock"))) !== undefined
+      (await readOptional(resolve(root, UV_LOCK))) !== undefined ||
+      (await readOptional(resolve(root, PDM_LOCK))) !== undefined
     );
   }
 

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
-import { rm } from "node:fs/promises";
-import { resolve } from "node:path";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import { after, before, test } from "node:test";
 
 import { composerLockAnalyzer, matchesComposerConstraint } from "../src/upgrade/composer-lock.js";
@@ -43,6 +44,9 @@ const cases: Array<[string, string, boolean | undefined]> = [
   ["<=2.0", "2.0.0", true],
   ["!=1.0.0", "1.0.0", false],
   ["!=1.0.0", "1.0.1", true],
+  ["<>8.1", "8.1.0", false],
+  ["<>8.1", "8.0.0", true],
+  ["<>8.1", "8.2.0", true],
   ["1.0.*", "1.0.9", true],
   ["1.0.*", "1.1.0", false],
   ["1.0.x", "1.0.5", true],
@@ -168,4 +172,76 @@ test("a release line target is tested as both its first and last patch, so narro
 test("the analyzer applies only when composer.lock exists", async () => {
   assert.equal(await composerLockAnalyzer.applies(fixture("ready")), true);
   assert.equal(await composerLockAnalyzer.applies(resolve("tests/fixtures/upgrade/composer-lock")), false);
+});
+
+/** Writes the files into a temporary repository removed with the rest of the suite. */
+async function repo(files: Record<string, string>): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-composer-"));
+  temporaryRoots.push(root);
+  for (const [name, contents] of Object.entries(files)) await writeFile(resolve(root, name), contents, "utf8");
+  return root;
+}
+
+test("analyze reads every term form, both platform sections, and the manifest", async () => {
+  const root = await repo({
+    "composer.lock": `{
+  "packages": [
+    { "name": "acme/caret", "version": "1.0.0", "require": { "php": "^7.0" } },
+    { "name": "acme/tilde", "version": "2.0.0", "require": { "php": "~8.0.0" } },
+    { "name": "acme/wildcard", "version": "3.0.0", "require": { "php": "8.3.*" } },
+    { "name": "acme/range", "version": "4.0.0", "require": { "php": ">=8.0 <8.2" } },
+    { "name": "acme/hyphen", "version": "5.0.0", "require": { "php": "1.0 - 2.0" } },
+    { "name": "acme/any", "version": "6.0.0", "require": { "php": "*" } },
+    { "name": "acme/not-equal", "version": "7.0.0", "require": { "php": "<>8.3" } },
+    { "name": "acme/unreadable", "version": "8.0.0", "require": { "php": "banana" } },
+    { "name": "acme/caret", "version": "1.0.0", "require": { "php": "^7.0" } }
+  ],
+  "packages-dev": [
+    { "name": "acme/phpunit", "version": "9.0.0", "require": { "php": "^5.0" } }
+  ],
+  "platform": { "php": ">=8.0 <8.2" },
+  "platform-overrides": { "php": "^7.4" }
+}
+`,
+    "composer.json": `{
+  "require": {
+    "php": "~8.3.0"
+  }
+}
+`,
+  });
+  const issues = await composerLockAnalyzer.analyze(root, target);
+  assert.deepEqual(
+    issues.map((issue) => [issue.level, issue.subject, issue.evidence.value]),
+    [
+      ["blocker", "acme/caret@1.0.0", "require.php: ^7.0"],
+      ["blocker", "acme/tilde@2.0.0", "require.php: ~8.0.0"],
+      ["blocker", "acme/wildcard@3.0.0", "require.php: 8.3.*"],
+      ["blocker", "acme/range@4.0.0", "require.php: >=8.0 <8.2"],
+      ["blocker", "acme/hyphen@5.0.0", "require.php: 1.0 - 2.0"],
+      ["unknown", "acme/unreadable@8.0.0", "require.php: banana"],
+      ["warning", "acme/phpunit@9.0.0", "require.php: ^5.0"],
+      ["blocker", "platform.php", "platform.php: >=8.0 <8.2"],
+      ["blocker", "platform-overrides.php", "platform-overrides.php: ^7.4"],
+      ["blocker", "composer.json", "require.php: ~8.3.0"],
+    ],
+  );
+  assert.equal(
+    issues[0]?.reason,
+    "acme/caret@1.0.0 requires php ^7.0, which excludes PHP 8.4.",
+    "a caret term excludes the target as a blocker",
+  );
+  assert.equal(
+    issues[5]?.reason,
+    "The constraint banana in require.php is not one this analyzer understands, so support for PHP 8.4 is unknown.",
+  );
+  assert.equal(
+    issues[7]?.reason,
+    "The lockfile records platform.php >=8.0 <8.2, which excludes PHP 8.4.",
+    "the platform section is reported under its own field",
+  );
+
+  assert.deepEqual(await composerLockAnalyzer.analyze(root, { runtime: "nodejs", version: "22" }), []);
+  assert.deepEqual(await composerLockAnalyzer.analyze(root, { runtime: "php", version: "banana" }), []);
+  assert.deepEqual(await composerLockAnalyzer.analyze(await repo({ "composer.json": "{}" }), target), []);
 });

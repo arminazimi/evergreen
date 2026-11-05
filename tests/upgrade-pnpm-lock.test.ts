@@ -170,3 +170,89 @@ test("readPackages keeps package order and ignores a document that does not pars
     [["a@1.0.0", ">=20", 4]],
   );
 });
+
+test("readPackages reads the dev flag from the package entry in pnpm 6", () => {
+  const entries = readPackages(`lockfileVersion: '6.0'
+packages:
+  /prod@1.0.0:
+    engines: {node: '>=20'}
+  /dev-flag@1.0.0:
+    engines: {node: '>=20'}
+    dev: true
+  /dev-optional@1.0.0:
+    engines: {node: '>=20'}
+    devOptional: true
+  /no-engines@1.0.0:
+    resolution: {tarball: https://example.invalid/a.tgz}
+  /not-a-version:
+    engines: {node: '>=20'}
+`);
+  assert.deepEqual(
+    entries.map((entry) => [entry.subject, entry.dev]),
+    [
+      ["prod@1.0.0", false],
+      ["dev-flag@1.0.0", true],
+      ["dev-optional@1.0.0", true],
+    ],
+  );
+});
+
+test("readPackages resolves the dev flag from importers and snapshots in pnpm 9", () => {
+  const entries = readPackages(`lockfileVersion: '9.0'
+importers:
+  .:
+    dependencies:
+      prod-pkg:
+        version: 1.0.0
+      peer-pkg:
+        version: 1.0.0(dep@1.0.0)
+    devDependencies:
+      dev-root:
+        version: 2.0.0
+packages:
+  /prod-pkg@1.0.0:
+    engines: {node: '>=20'}
+  /peer-pkg@1.0.0(dep@1.0.0):
+    engines: {node: '>=20'}
+  /dev-root@2.0.0:
+    engines: {node: '>=20'}
+  /dev-dep@3.0.0:
+    engines: {node: '>=20'}
+  /orphan@4.0.0:
+    engines: {node: '>=20'}
+snapshots:
+  /prod-pkg@1.0.0: {}
+  /peer-pkg@1.0.0(dep@1.0.0): {}
+  /dev-root@2.0.0:
+    dependencies:
+      dev-dep: 3.0.0
+  /dev-dep@3.0.0: {}
+  /orphan@4.0.0: {}
+`);
+  assert.deepEqual(
+    entries.map((entry) => [entry.subject, entry.dev]),
+    [
+      ["prod-pkg@1.0.0", false],
+      ["peer-pkg@1.0.0", false],
+      ["dev-root@2.0.0", true],
+      ["dev-dep@3.0.0", true],
+      ["orphan@4.0.0", false],
+    ],
+  );
+});
+
+test("readPackages ignores unsupported versions and documents without a packages map", () => {
+  const entries = readPackages(`lockfileVersion: '7.0'
+packages:
+  /a@1.0.0:
+    engines: {node: '>=20'}
+---
+lockfileVersion: '9.0'
+importers: {}
+snapshots: {}
+---
+lockfileVersion: '6.0'
+snapshots: {}
+`);
+  assert.deepEqual(entries, []);
+});

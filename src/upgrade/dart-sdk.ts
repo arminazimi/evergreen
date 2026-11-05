@@ -65,27 +65,28 @@ function compareVersions(left: DartVersion, right: DartVersion): number {
   for (const part of ["major", "minor", "patch"] as const) {
     if (left[part] !== right[part]) return left[part] - right[part];
   }
-  if (left.prerelease.length === 0 || right.prerelease.length === 0) {
-    return left.prerelease.length === right.prerelease.length ? 0 : left.prerelease.length === 0 ? 1 : -1;
+  return comparePrerelease(left.prerelease, right.prerelease);
+}
+
+/** A version with no pre-release sorts after one with a pre-release; two empty sets are equal. */
+function comparePrerelease(left: readonly string[], right: readonly string[]): number {
+  if (left.length === 0 || right.length === 0) {
+    return left.length === right.length ? 0 : left.length === 0 ? 1 : -1;
   }
-  for (let index = 0; index < Math.max(left.prerelease.length, right.prerelease.length); index += 1) {
-    const a = left.prerelease[index];
-    const b = right.prerelease[index];
-    if (a === undefined) return -1;
-    if (b === undefined) return 1;
-    const aNumeric = /^\d+$/.test(a);
-    const bNumeric = /^\d+$/.test(b);
-    if (aNumeric && bNumeric) {
-      const difference = Number(a) - Number(b);
-      if (difference !== 0) return difference;
-    } else if (aNumeric !== bNumeric) {
-      return aNumeric ? -1 : 1;
-    } else {
-      const difference = a.localeCompare(b);
-      if (difference !== 0) return difference;
-    }
+  for (let index = 0; index < Math.max(left.length, right.length); index += 1) {
+    const difference = comparePrereleaseIdentifier(left[index], right[index]);
+    if (difference !== 0) return difference;
   }
   return 0;
+}
+
+/** One pre-release identifier pair: a missing part is shorter, numeric parts compare as numbers and sort first. */
+function comparePrereleaseIdentifier(left: string | undefined, right: string | undefined): number {
+  if (left === undefined) return -1;
+  if (right === undefined) return 1;
+  const leftNumeric = /^\d+$/.test(left);
+  if (leftNumeric !== /^\d+$/.test(right)) return leftNumeric ? -1 : 1;
+  return leftNumeric ? Number(left) - Number(right) : left.localeCompare(right);
 }
 
 /** The exclusive upper bound of `^version`, following pub's caret rules for `0.x` releases. */

@@ -8,6 +8,10 @@ import type { UpgradeAnalyzer, UpgradeIssue, UpgradeTarget } from "./types.js";
 
 type UnknownRecord = Record<string, unknown>;
 
+const LOCKFILE = "poetry.lock";
+const MANIFEST = "pyproject.toml";
+const PYTHON_SUBJECT = "python";
+
 function asRecord(value: unknown): UnknownRecord | undefined {
   return typeof value === "object" && value !== null && !Array.isArray(value) ? (value as UnknownRecord) : undefined;
 }
@@ -102,16 +106,122 @@ function pyprojectPythonLine(contents: string): number {
   return 1;
 }
 
+/** The `python-versions` verdict for one `[[package]]` block, or nothing when the block cannot exclude a target. */
+function packageIssue(
+  value: unknown,
+  block: Map<string, number> | undefined,
+  version: string,
+): UpgradeIssue | undefined {
+  const metadata = asRecord(value);
+  if (metadata === undefined) return undefined;
+  const name = typeof metadata.name === "string" ? metadata.name : undefined;
+  const specifier = typeof metadata["python-versions"] === "string" ? metadata["python-versions"] : undefined;
+  if (!name || specifier === undefined) return undefined;
+
+  const packageVersion = typeof metadata.version === "string" ? metadata.version : undefined;
+  const subject = packageVersion ? `${name}@${packageVersion}` : name;
+  const line = block?.get("python-versions") ?? block?.get("__block");
+  const matches = matchesSpecifier(specifier, version);
+  if (matches === undefined)
+    return makeIssue(
+      "unknown",
+      subject,
+      LOCKFILE,
+      line,
+      `Cannot parse the python-versions constraint "${specifier}" for ${subject}.`,
+      { kind: "lockfile", value: `python-versions: ${specifier}` },
+    );
+  if (matches) return undefined;
+  return groupIssue(metadata, subject, specifier, line, version);
+}
+
+/** A main-group package blocks the upgrade; a package in any other group only warns. */
+function groupIssue(
+  metadata: UnknownRecord,
+  subject: string,
+  specifier: string,
+  line: number | undefined,
+  version: string,
+): UpgradeIssue {
+  const groups = groupNames(metadata);
+  const main = groups.length === 0 || groups.includes("main");
+  const detail = groups.length > 0 ? groups.join(", ") : "unspecified";
+  return makeIssue(
+    main ? "blocker" : "warning",
+    subject,
+    LOCKFILE,
+    line,
+    main
+      ? `${subject} declares python-versions "${specifier}", which excludes Python ${version}.`
+      : `${subject} is in the ${detail} group and its python-versions "${specifier}" excludes Python ${version}.`,
+    { kind: "lockfile", value: `python-versions: ${specifier}` },
+  );
+}
+
+function lockIssues(document: UnknownRecord | undefined, contents: string, version: string): UpgradeIssue[] {
+  const packages = Array.isArray(document?.package) ? document.package : [];
+  const blocks = packageFieldLines(contents);
+  const issues: UpgradeIssue[] = [];
+  for (const [index, value] of packages.entries()) {
+    const issue = packageIssue(value, blocks[index], version);
+    if (issue !== undefined) issues.push(issue);
+  }
+  return issues;
+}
+
+/** The project's own constraint from `pyproject.toml`, which the lockfile never contradicts. */
+function manifestIssue(contents: string, version: string): UpgradeIssue | undefined {
+  let pyproject: UnknownRecord | undefined;
+  try {
+    pyproject = asRecord(parseToml(contents));
+  } catch {
+    pyproject = undefined;
+  }
+  if (pyproject === undefined)
+    return makeIssue(
+      "unknown",
+      PYTHON_SUBJECT,
+      MANIFEST,
+      1,
+      "pyproject.toml is not valid TOML, so the project's Python constraint cannot be read.",
+      { kind: "manifest", value: "pyproject.toml: invalid TOML" },
+    );
+
+  const specifier = poetryPythonSpecifier(pyproject);
+  if (specifier === undefined) return undefined;
+  const evidence = { kind: "manifest", value: `python: ${specifier}` } as const;
+  const line = pyprojectPythonLine(contents);
+  const matches = matchesSpecifier(specifier, version);
+  if (matches === undefined)
+    return makeIssue(
+      "unknown",
+      PYTHON_SUBJECT,
+      MANIFEST,
+      line,
+      `Cannot parse the project's [tool.poetry.dependencies] python constraint "${specifier}".`,
+      evidence,
+    );
+  if (matches) return undefined;
+  return makeIssue(
+    "blocker",
+    PYTHON_SUBJECT,
+    MANIFEST,
+    line,
+    `The project's [tool.poetry.dependencies] python constraint "${specifier}" excludes Python ${version}.`,
+    evidence,
+  );
+}
+
 export class PoetryLockAnalyzer implements UpgradeAnalyzer {
   readonly id = "poetry-lock";
   readonly runtimes = ["python"] as const;
 
   async applies(root: string): Promise<boolean> {
-    return (await readOptional(resolve(root, "poetry.lock"))) !== undefined;
+    return (await readOptional(resolve(root, LOCKFILE))) !== undefined;
   }
 
   async analyze(root: string, target: UpgradeTarget): Promise<UpgradeIssue[]> {
-    const lockContents = await readOptional(resolve(root, "poetry.lock"));
+    const lockContents = await readOptional(resolve(root, LOCKFILE));
     if (lockContents === undefined) return [];
     let document: UnknownRecord | undefined;
     try {
@@ -120,8 +230,8 @@ export class PoetryLockAnalyzer implements UpgradeAnalyzer {
       return [
         makeIssue(
           "unknown",
-          "poetry.lock",
-          "poetry.lock",
+          LOCKFILE,
+          LOCKFILE,
           1,
           "poetry.lock is not valid TOML, so python-versions cannot be read.",
           { kind: "lockfile", value: "poetry.lock: invalid TOML" },
@@ -129,104 +239,12 @@ export class PoetryLockAnalyzer implements UpgradeAnalyzer {
       ];
     }
 
-    const issues: UpgradeIssue[] = [];
-    const packages = Array.isArray(document?.package) ? document.package : [];
-    const lines = packageFieldLines(lockContents);
-    for (const [index, value] of packages.entries()) {
-      const metadata = asRecord(value);
-      if (!metadata) continue;
-      const name = typeof metadata.name === "string" ? metadata.name : undefined;
-      const packageVersion = typeof metadata.version === "string" ? metadata.version : undefined;
-      const specifier = typeof metadata["python-versions"] === "string" ? metadata["python-versions"] : undefined;
-      if (!name || specifier === undefined) continue;
-
-      const block = lines[index];
-      const line = block?.get("python-versions") ?? block?.get("__block");
-      const subject = packageVersion ? `${name}@${packageVersion}` : name;
-      const matches = matchesSpecifier(specifier, target.version);
-      if (matches === undefined) {
-        issues.push(
-          makeIssue(
-            "unknown",
-            subject,
-            "poetry.lock",
-            line,
-            `Cannot parse the python-versions constraint "${specifier}" for ${subject}.`,
-            { kind: "lockfile", value: `python-versions: ${specifier}` },
-          ),
-        );
-        continue;
-      }
-      if (matches) continue;
-
-      const groups = groupNames(metadata);
-      const main = groups.length === 0 || groups.includes("main");
-      const groupText = groups.length > 0 ? groups.join(", ") : "unspecified";
-      issues.push(
-        makeIssue(
-          main ? "blocker" : "warning",
-          subject,
-          "poetry.lock",
-          line,
-          main
-            ? `${subject} declares python-versions "${specifier}", which excludes Python ${target.version}.`
-            : `${subject} is in the ${groupText} group and its python-versions "${specifier}" excludes Python ${target.version}.`,
-          { kind: "lockfile", value: `python-versions: ${specifier}` },
-        ),
-      );
+    const issues = lockIssues(document, lockContents, target.version);
+    const manifestContents = await readOptional(resolve(root, MANIFEST));
+    if (manifestContents !== undefined) {
+      const issue = manifestIssue(manifestContents, target.version);
+      if (issue !== undefined) issues.push(issue);
     }
-
-    const pyprojectContents = await readOptional(resolve(root, "pyproject.toml"));
-    if (pyprojectContents !== undefined) {
-      let pyproject: UnknownRecord | undefined;
-      try {
-        pyproject = asRecord(parseToml(pyprojectContents));
-      } catch {
-        pyproject = undefined;
-      }
-      if (pyproject === undefined) {
-        issues.push(
-          makeIssue(
-            "unknown",
-            "python",
-            "pyproject.toml",
-            1,
-            "pyproject.toml is not valid TOML, so the project's Python constraint cannot be read.",
-            { kind: "manifest", value: "pyproject.toml: invalid TOML" },
-          ),
-        );
-      } else {
-        const specifier = poetryPythonSpecifier(pyproject);
-        if (specifier !== undefined) {
-          const line = pyprojectPythonLine(pyprojectContents);
-          const matches = matchesSpecifier(specifier, target.version);
-          if (matches === undefined) {
-            issues.push(
-              makeIssue(
-                "unknown",
-                "python",
-                "pyproject.toml",
-                line,
-                `Cannot parse the project's [tool.poetry.dependencies] python constraint "${specifier}".`,
-                { kind: "manifest", value: `python: ${specifier}` },
-              ),
-            );
-          } else if (!matches) {
-            issues.push(
-              makeIssue(
-                "blocker",
-                "python",
-                "pyproject.toml",
-                line,
-                `The project's [tool.poetry.dependencies] python constraint "${specifier}" excludes Python ${target.version}.`,
-                { kind: "manifest", value: `python: ${specifier}` },
-              ),
-            );
-          }
-        }
-      }
-    }
-
     return issues;
   }
 }

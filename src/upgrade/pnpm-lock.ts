@@ -185,6 +185,46 @@ function targetVersions(version: string): string[] | undefined {
   return exact === null ? undefined : [exact];
 }
 
+/** One `packages` entry: its key node and its body node. */
+type PackagePair = { key: unknown; value: unknown };
+
+type Reachability = { production: Set<string>; dev: Set<string> };
+
+function reachableFlags(root: unknown): Reachability {
+  const roots = importerRoots(root);
+  const graph = snapshotGraph(root);
+  return { production: reachable(roots.production, graph), dev: reachable(roots.dev, graph) };
+}
+
+/** The dev flag pnpm 6 writes on the entry, or the one pnpm 9 only implies through the importer roots. */
+function entryDev(value: unknown, key: string, reach: Reachability | undefined): boolean {
+  if (reach === undefined) return truthy(mapValue(value, "dev")) || truthy(mapValue(value, "devOptional"));
+  return reach.dev.has(key) && !reach.production.has(key);
+}
+
+function packageEntries(
+  items: readonly PackagePair[],
+  line: (offset: number) => number,
+  reach: Reachability | undefined,
+): PackageEntry[] {
+  const entries: PackageEntry[] = [];
+  for (const pair of items) {
+    const parsed = packageKey(scalarValue(pair.key));
+    if (parsed === undefined) continue;
+    const engines = enginesNode(pair.value);
+    if (engines === undefined) continue;
+    const key = keyOf(parsed.name, parsed.version);
+    entries.push({
+      subject: key,
+      key,
+      range: engines.range,
+      line: line(engines.line),
+      dev: entryDev(pair.value, key, reach),
+    });
+  }
+  return entries;
+}
+
 /**
  * Reads every package entry in every document. pnpm 9 records `engines` under `packages` and no dev flag there, so
  * that flag is resolved from `importers` and `snapshots`; pnpm 6 records it on the package entry itself.
@@ -199,26 +239,7 @@ export function readPackages(text: string): PackageEntry[] {
     if (version === undefined || !supported(version)) continue;
     const packages = mapValue(root, "packages");
     if (!isMap(packages)) continue;
-    const usesSnapshots = version.startsWith("9");
-    const roots = usesSnapshots ? importerRoots(root) : undefined;
-    const graph = roots === undefined ? new Map<string, string[]>() : snapshotGraph(root);
-    const production = roots === undefined ? new Set<string>() : reachable(roots.production, graph);
-    const dev = roots === undefined ? new Set<string>() : reachable(roots.dev, graph);
-    for (const pair of packages.items) {
-      const parsed = packageKey(scalarValue(pair.key));
-      if (parsed === undefined) continue;
-      const engines = enginesNode(pair.value);
-      if (engines === undefined) continue;
-      const key = keyOf(parsed.name, parsed.version);
-      const explicitlyDev = truthy(mapValue(pair.value, "dev")) || truthy(mapValue(pair.value, "devOptional"));
-      entries.push({
-        subject: key,
-        key,
-        range: engines.range,
-        line: line(engines.line),
-        dev: roots === undefined ? explicitlyDev : dev.has(key) && !production.has(key),
-      });
-    }
+    entries.push(...packageEntries(packages.items, line, version.startsWith("9") ? reachableFlags(root) : undefined));
   }
   return entries;
 }

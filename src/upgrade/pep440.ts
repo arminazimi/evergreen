@@ -111,56 +111,81 @@ function upperVersion(epoch: number, release: readonly number[]): ParsedVersion 
   return { epoch, release };
 }
 
-function parseClause(text: string): readonly Comparator[] | undefined {
-  const match = /^(===|==|!=|>=|<=|~=|>|<|\^|~)?\s*(.+)$/.exec(text.trim());
-  if (!match) return undefined;
-  const op = match[1];
-  const raw = (match[2] ?? "").trim();
-  if (!raw) return undefined;
-  if (raw === "*") return op === undefined || op === "==" ? [{ kind: "any" }] : undefined;
+/** One clause shape: the comparators the text after the operator expands to, or undefined when it names none. */
+type ClauseBuilder = (raw: string, op: string) => readonly Comparator[] | undefined;
 
-  if (op === "^" || op === "~") {
+/** A bounded form expands to the half-open range from the version to the limit its rule computes. */
+function boundedRange(
+  raw: string,
+  upper: (release: readonly number[]) => readonly number[] | undefined,
+): readonly Comparator[] | undefined {
+  const version = parseVersion(raw);
+  if (version === undefined) return undefined;
+  const limit = upper(version.release);
+  if (limit === undefined) return undefined;
+  return [
+    { kind: "range", op: ">=", version },
+    { kind: "range", op: "<", version: upperVersion(version.epoch, limit) },
+  ];
+}
+
+/** `~=1.4` bounds the release its last segment names: drop that segment and bump what remains. */
+function compatibleUpper(release: readonly number[]): readonly number[] | undefined {
+  return release.length < 2 ? undefined : incrementLast(release.slice(0, -1));
+}
+
+/** A single-sided range is its own operator over the version the text names. */
+function rangeComparator(op: "<" | "<=" | ">" | ">="): ClauseBuilder {
+  return (raw) => {
     const version = parseVersion(raw);
-    if (!version) return undefined;
-    const upper = op === "^" ? caretUpper(version.release) : tildeUpper(version.release);
-    return [
-      { kind: "range", op: ">=", version },
-      { kind: "range", op: "<", version: upperVersion(version.epoch, upper) },
-    ];
-  }
+    return version === undefined ? undefined : [{ kind: "range", op, version }];
+  };
+}
 
-  if (op === "~=") {
-    const version = parseVersion(raw);
-    if (!version || version.release.length < 2) return undefined;
-    const upper = incrementLast(version.release.slice(0, -1));
-    return [
-      { kind: "range", op: ">=", version },
-      { kind: "range", op: "<", version: upperVersion(version.epoch, upper) },
-    ];
-  }
+/** A `.*` prefix states a release and nothing else, as PEP 440 requires. */
+function isPlainRelease(version: ParsedVersion): boolean {
+  return (
+    version.pre === undefined && version.post === undefined && version.dev === undefined && version.local === undefined
+  );
+}
 
-  if (op === ">" || op === ">=" || op === "<" || op === "<=") {
-    const version = parseVersion(raw);
-    return version ? [{ kind: "range", op, version }] : undefined;
-  }
-
+/** `==`, `!=`, `===` and a bare version name one release, or a prefix when the text ends in `.*`. */
+const bareComparator: ClauseBuilder = (raw, op) => {
   const negate = op === "!=";
   if (raw.endsWith(".*")) {
-    const prefixVersion = parseVersion(raw.slice(0, -2));
-    if (
-      !prefixVersion ||
-      prefixVersion.pre ||
-      prefixVersion.post !== undefined ||
-      prefixVersion.dev !== undefined ||
-      prefixVersion.local !== undefined
-    ) {
-      return undefined;
-    }
-    return [{ kind: "prefix", prefix: prefixVersion.release, negate }];
+    const prefix = parseVersion(raw.slice(0, -2));
+    if (prefix === undefined || !isPlainRelease(prefix)) return undefined;
+    return [{ kind: "prefix", prefix: prefix.release, negate }];
   }
   const version = parseVersion(raw);
-  if (!version) return undefined;
-  return [{ kind: "exact", version, negate }];
+  return version === undefined ? undefined : [{ kind: "exact", version, negate }];
+};
+
+/** How each operator reads the text after it. The empty key is a clause written without one. */
+const CLAUSES_BY_OP: Readonly<Record<string, ClauseBuilder>> = {
+  "": bareComparator,
+  "!=": bareComparator,
+  "==": bareComparator,
+  "===": bareComparator,
+  "<": rangeComparator("<"),
+  "<=": rangeComparator("<="),
+  ">": rangeComparator(">"),
+  ">=": rangeComparator(">="),
+  "^": (raw) => boundedRange(raw, caretUpper),
+  "~": (raw) => boundedRange(raw, tildeUpper),
+  "~=": (raw) => boundedRange(raw, compatibleUpper),
+};
+
+const CLAUSE = /^(===|==|!=|>=|<=|~=|>|<|\^|~)?\s*(.+)$/;
+
+function parseClause(text: string): readonly Comparator[] | undefined {
+  const match = CLAUSE.exec(text.trim());
+  if (match === null) return undefined;
+  const op = match[1] ?? "";
+  const raw = (match[2] ?? "").trim();
+  if (!raw) return undefined;
+  if (raw === "*") return op === "" || op === "==" ? [{ kind: "any" }] : undefined;
+  return CLAUSES_BY_OP[op]?.(raw, op);
 }
 
 function matchesComparator(comparator: Comparator, version: ParsedVersion): boolean {

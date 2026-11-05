@@ -1,10 +1,13 @@
 import assert from "node:assert/strict";
-import { rm } from "node:fs/promises";
-import { resolve } from "node:path";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import { after, before, test } from "node:test";
 
 import { checkUpgrade } from "../src/upgrade/index.js";
 import { matchesSpecifier, parseVersion } from "../src/upgrade/pep440.js";
+import { poetryLockAnalyzer } from "../src/upgrade/poetry-lock.js";
+import type { UpgradeIssue } from "../src/upgrade/types.js";
 import { copyFixtureTree } from "./fixture-copies.js";
 
 const temporaryRoots: string[] = [];
@@ -173,4 +176,171 @@ test("a project-level Poetry python constraint that excludes the target is a blo
       evidence: { kind: "manifest", value: "python: >=3.8,<3.12" },
     },
   ]);
+});
+
+/** Writes the files into a temporary repository removed with the rest of the suite. */
+async function repo(files: Record<string, string>): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-poetry-"));
+  temporaryRoots.push(root);
+  for (const [name, contents] of Object.entries(files)) await writeFile(resolve(root, name), contents, "utf8");
+  return root;
+}
+
+const summarize = (issues: UpgradeIssue[]): string[] =>
+  issues.map((issue) => `${issue.level} ${issue.subject} ${issue.path}:${issue.line ?? "-"} ${issue.evidence.value}`);
+
+test("analyze reports an unreadable lockfile and stops there", async () => {
+  const root = await repo({
+    "poetry.lock": "package = [[[\n",
+    "pyproject.toml": '[tool.poetry.dependencies]\npython = ">=3.8,<3.12"\n',
+  });
+  assert.deepEqual(await poetryLockAnalyzer.analyze(root, target), [
+    {
+      analyzer: "poetry-lock",
+      level: "unknown",
+      subject: "poetry.lock",
+      path: "poetry.lock",
+      line: 1,
+      reason: "poetry.lock is not valid TOML, so python-versions cannot be read.",
+      evidence: { kind: "lockfile", value: "poetry.lock: invalid TOML" },
+    },
+  ]);
+});
+
+test("analyze reads only the package fields, not nested tables", async () => {
+  const root = await repo({
+    "poetry.lock": `lockfileVersion = "1.1"
+
+[[package]]
+name = "numpy"
+version = "1.24.0"
+python-versions = ">=3.8,<3.12"
+
+[package.dependencies]
+python-versions = ">=3.12"
+
+[[package]]
+name = "no-version"
+python-versions = ">=3.8,<3.12"
+
+[[package]]
+python-versions = ">=3.8,<3.12"
+
+[[package]]
+name = "no-python-versions"
+version = "1.0.0"
+
+[[package]]
+name = "unparsable"
+python-versions = "unsupported"
+`,
+  });
+  assert.deepEqual(summarize(await poetryLockAnalyzer.analyze(root, target)), [
+    "blocker numpy@1.24.0 poetry.lock:6 python-versions: >=3.8,<3.12",
+    "blocker no-version poetry.lock:13 python-versions: >=3.8,<3.12",
+    "unknown unparsable poetry.lock:24 python-versions: unsupported",
+  ]);
+});
+
+test("analyze weighs the category and groups formats the same way", async () => {
+  const root = await repo({
+    "poetry.lock": `[[package]]
+name = "black"
+version = "23.1.0"
+python-versions = ">=3.8,<3.12"
+category = "dev"
+
+[[package]]
+name = "isort"
+version = "5.12.0"
+python-versions = ">=3.8,<3.12"
+category = "main"
+
+[[package]]
+name = "mypy"
+version = "1.0.0"
+python-versions = ">=3.8,<3.12"
+groups = ["dev", "typing"]
+`,
+  });
+  const issues = await poetryLockAnalyzer.analyze(root, target);
+  assert.deepEqual(summarize(issues), [
+    "warning black@23.1.0 poetry.lock:4 python-versions: >=3.8,<3.12",
+    "blocker isort@5.12.0 poetry.lock:10 python-versions: >=3.8,<3.12",
+    "warning mypy@1.0.0 poetry.lock:16 python-versions: >=3.8,<3.12",
+  ]);
+  assert.deepEqual(
+    issues.map((issue) => issue.reason),
+    [
+      'black@23.1.0 is in the dev group and its python-versions ">=3.8,<3.12" excludes Python 3.13.',
+      'isort@5.12.0 declares python-versions ">=3.8,<3.12", which excludes Python 3.13.',
+      'mypy@1.0.0 is in the dev, typing group and its python-versions ">=3.8,<3.12" excludes Python 3.13.',
+    ],
+  );
+});
+
+test("analyze reads the project constraint from the string and table forms", async () => {
+  const lock = `[[package]]
+name = "six"
+version = "1.16.0"
+python-versions = "*"
+`;
+  const expected = {
+    analyzer: "poetry-lock",
+    level: "blocker",
+    subject: "python",
+    path: "pyproject.toml",
+    line: 2,
+    reason: 'The project\'s [tool.poetry.dependencies] python constraint ">=3.8,<3.12" excludes Python 3.13.',
+    evidence: { kind: "manifest", value: "python: >=3.8,<3.12" },
+  } satisfies UpgradeIssue;
+
+  const stringForm = await repo({
+    "poetry.lock": lock,
+    "pyproject.toml": '[tool.poetry.dependencies]\npython = ">=3.8,<3.12"\n',
+  });
+  assert.deepEqual(await poetryLockAnalyzer.analyze(stringForm, target), [expected]);
+
+  const tableForm = await repo({
+    "poetry.lock": lock,
+    "pyproject.toml":
+      '[tool.poetry.dependencies]\npython = {version = ">=3.8,<3.12", markers = "python_version < \'3.12\'"}\n',
+  });
+  assert.deepEqual(await poetryLockAnalyzer.analyze(tableForm, target), [expected]);
+});
+
+test("analyze reports an unreadable manifest, an unparsable constraint, and nothing without one", async () => {
+  const lock = `[[package]]\nname = "six"\nversion = "1.16.0"\npython-versions = "*"\n`;
+
+  const unreadable = await repo({ "poetry.lock": lock, "pyproject.toml": "tool = [[[\n" });
+  assert.deepEqual(await poetryLockAnalyzer.analyze(unreadable, target), [
+    {
+      analyzer: "poetry-lock",
+      level: "unknown",
+      subject: "python",
+      path: "pyproject.toml",
+      line: 1,
+      reason: "pyproject.toml is not valid TOML, so the project's Python constraint cannot be read.",
+      evidence: { kind: "manifest", value: "pyproject.toml: invalid TOML" },
+    },
+  ]);
+
+  const unparsable = await repo({
+    "poetry.lock": lock,
+    "pyproject.toml": '[tool.poetry.dependencies]\npython = "banana"\n',
+  });
+  assert.deepEqual(summarize(await poetryLockAnalyzer.analyze(unparsable, target)), [
+    "unknown python pyproject.toml:2 python: banana",
+  ]);
+
+  const absent = await repo({
+    "poetry.lock": lock,
+    "pyproject.toml": '[tool.poetry]\nname = "proj"\n\n[tool.poetry.dependencies]\nclick = "*"\n',
+  });
+  assert.deepEqual(await poetryLockAnalyzer.analyze(absent, target), []);
+
+  const withoutManifest = await repo({ "poetry.lock": lock });
+  assert.equal(await poetryLockAnalyzer.applies(withoutManifest), true);
+  assert.deepEqual(await poetryLockAnalyzer.analyze(withoutManifest, target), []);
+  assert.equal(await poetryLockAnalyzer.applies(await repo({ "pyproject.toml": "[tool.poetry]\n" })), false);
 });
