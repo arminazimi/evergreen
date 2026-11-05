@@ -27,6 +27,29 @@ The repository has 137 dependency manifests and lockfiles (`package.json`, lockf
 
 Fixture manifests are test inputs. They are not installed, shipped, or run as the product's dependencies. An alert that comes only from a fixture is still recorded here, and is triaged as below before it is dismissed.
 
+## Secret scanning push protection
+
+Secret scanning and secret scanning push protection are enabled for `arminazimi/evergreen`, verified through
+the repository API on 2026-11-05 (`security_and_analysis.secret_scanning_push_protection.status: enabled`).
+The maintainer checks this setting in **Settings → Security → Secret scanning** at each release.
+
+If push protection blocks a recording, screenshot, transcript, or fixture:
+
+1. Stop the push and read the reported file and commit locations. Do not paste the secret into an issue,
+   pull request, or bypass explanation.
+2. If the value is a real credential, revoke or rotate it with its provider immediately. Remove it from the
+   recording and every local commit being pushed; deleting it only in a later commit leaves it in history.
+3. Replace the recording with a redacted version or record it again with dummy values. Keep credentials in
+   environment variables outside the recording, and inspect the replacement and the outgoing diff.
+4. Retry the push after removing the value from all affected commits. Do not bypass protection to publish
+   a recording containing a real credential.
+5. For a confirmed false positive or an intentionally nonfunctional test value that cannot be replaced,
+   ask the maintainer to review the exact detection. Only the maintainer may authorize a bypass, with a
+   written reason and a link to the tracking issue. Never use an "I'll fix it later" bypass for a real secret.
+
+Report a credential that already reached GitHub privately through [`SECURITY.md`](../SECURITY.md), and rotate
+it even if the file or commit has since been removed.
+
 ## Deadlines
 
 Every alert has a deadline, counted in calendar days from the day it is created. Reading the alert, opening a follow-up issue, or asking for a fix does not stop the clock.
