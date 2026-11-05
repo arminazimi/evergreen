@@ -186,7 +186,7 @@ test("recognizes references that are never expanded", () => {
 // build.gradle and build.gradle.kts
 
 test("reads toolchain, compatibility, Kotlin plugin, and dependency declarations from Groovy", async () => {
-  assert.deepEqual(parseGradle(await fixture("positive", "gradle-groovy", "build.gradle")), [
+  assert.deepEqual(parseGradle(await fixture("positive", "gradle-groovy", "build.gradle.fixture")), [
     { kind: "kotlin-plugin", value: "1.9.22", line: 3 },
     { kind: "jdk", role: "toolchain", value: "20", major: 20, line: 8 },
     { kind: "jdk", role: "compile-level", value: "19", major: 19, line: 10 },
@@ -196,19 +196,19 @@ test("reads toolchain, compatibility, Kotlin plugin, and dependency declarations
 });
 
 test("reads the Kotlin DSL forms", async () => {
-  assert.deepEqual(parseGradle(await fixture("positive", "gradle-kotlin", "build.gradle.kts")), [
+  assert.deepEqual(parseGradle(await fixture("positive", "gradle-kotlin", "build.gradle.kts.fixture")), [
     { kind: "kotlin-plugin", value: "1.9.22", line: 3 },
     { kind: "jdk", role: "toolchain", value: "24", major: 24, line: 8 },
     { kind: "jdk", role: "compile-level", value: "23", major: 23, line: 10 },
     { kind: "dependency", group: "com.google.guava", artifact: "guava", version: "33.0.0-jre", line: 14 },
   ]);
-  assert.deepEqual(parseGradle(await fixture("zero", "gradle", "build.gradle.kts")), [
+  assert.deepEqual(parseGradle(await fixture("zero", "gradle", "build.gradle.kts.fixture")), [
     { kind: "jdk", role: "toolchain", value: "25", major: 25, line: 7 },
   ]);
 });
 
 test("ignores comments and strings, and returns expressions as dynamic", async () => {
-  assert.deepEqual(parseGradle(await fixture("negative", "gradle", "build.gradle")), [
+  assert.deepEqual(parseGradle(await fixture("negative", "gradle", "build.gradle.fixture")), [
     { kind: "dynamic", role: "toolchain", value: "libs.versions.java.get().toInteger()", line: 7 },
     { kind: "dynamic", role: "compile-level", value: "JavaVersion.toVersion(javaVersion)", line: 9 },
     { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 10 },
@@ -243,7 +243,7 @@ test("reads legacy and compact forms", () => {
 });
 
 test("a block comment or string that never ends yields nothing", async () => {
-  const malformed = await fixture("malformed", "gradle", "build.gradle");
+  const malformed = await fixture("malformed", "gradle", "build.gradle.fixture");
   assert.doesNotThrow(() => parseGradle(malformed));
   assert.deepEqual(parseGradle(malformed), []);
   for (const junk of [
@@ -274,7 +274,7 @@ test("bounds gradle size, line length, and declaration count", () => {
 });
 
 test("gradle parsing is deterministic and handles CRLF", async () => {
-  const contents = await fixture("positive", "gradle-groovy", "build.gradle");
+  const contents = await fixture("positive", "gradle-groovy", "build.gradle.fixture");
   assert.deepEqual(parseGradle(contents), parseGradle(contents));
   assert.deepEqual(parseGradle("\r\nsourceCompatibility = 17\r\n"), [
     { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 2 },

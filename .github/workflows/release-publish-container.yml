@@ -66,7 +66,9 @@ jobs:
       - name: Build and smoke test
         run: |
           docker build -t evergreen-smoke .
-          node .github/scripts/smoke.mjs /workspace -- docker run --rm --network none --read-only -v "$PWD/tests/fixtures/smoke:/workspace:ro" evergreen-smoke
+          mkdir -p "$RUNNER_TEMP/evergreen-smoke"
+          cp tests/fixtures/smoke/package.json.fixture "$RUNNER_TEMP/evergreen-smoke/package.json"
+          node .github/scripts/smoke.mjs /workspace -- docker run --rm --network none --read-only -v "$RUNNER_TEMP/evergreen-smoke:/workspace:ro" evergreen-smoke
       - name: Publish image
         id: image
         if: ${{ !inputs.dry_run }}

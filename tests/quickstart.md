@@ -11,7 +11,7 @@ Everything runs offline once the package is downloaded: Evergreen scans never to
 
 ## Setup per runner
 
-Each runner copies `tests/fixtures/smoke/package.json` into a clean working directory, then runs every command
+Each runner copies `tests/fixtures/smoke/package.json.fixture` into a clean working directory, then runs every command
 there with the published package in the quickstart form (`npx --yes evergreen-deprecation@<version>`). The fixture
 declares exactly one deprecated package and one end-of-life Node.js range:
 

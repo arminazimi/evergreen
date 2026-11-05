@@ -17,7 +17,7 @@ async function fixture(caseName: string, file: string): Promise<string> {
 }
 
 test("reads compileSdk, minSdk, and targetSdk from Groovy build.gradle with lines", async () => {
-  assert.deepEqual(parseAndroidBuildGradle(await fixture("positive", "build.gradle")), [
+  assert.deepEqual(parseAndroidBuildGradle(await fixture("positive", "build.gradle.fixture")), [
     { kind: "compileSdk", value: "34", line: 7 },
     { kind: "minSdk", value: "21", line: 11 },
     { kind: "targetSdk", value: "34", line: 12 },
@@ -25,7 +25,7 @@ test("reads compileSdk, minSdk, and targetSdk from Groovy build.gradle with line
 });
 
 test("reads compileSdk, minSdk, and targetSdk from Kotlin build.gradle.kts with lines", async () => {
-  assert.deepEqual(parseAndroidBuildGradle(await fixture("positive", "build.gradle.kts")), [
+  assert.deepEqual(parseAndroidBuildGradle(await fixture("positive", "build.gradle.kts.fixture")), [
     { kind: "compileSdk", value: "34", line: 7 },
     { kind: "minSdk", value: "21", line: 11 },
     { kind: "targetSdk", value: "34", line: 12 },
@@ -33,12 +33,12 @@ test("reads compileSdk, minSdk, and targetSdk from Kotlin build.gradle.kts with 
 });
 
 test("zero fixtures yield the same literal declarations (no lifecycle claim)", async () => {
-  assert.deepEqual(parseAndroidBuildGradle(await fixture("zero", "build.gradle")), [
+  assert.deepEqual(parseAndroidBuildGradle(await fixture("zero", "build.gradle.fixture")), [
     { kind: "compileSdk", value: "35", line: 7 },
     { kind: "minSdk", value: "24", line: 11 },
     { kind: "targetSdk", value: "35", line: 12 },
   ]);
-  assert.deepEqual(parseAndroidBuildGradle(await fixture("zero", "build.gradle.kts")), [
+  assert.deepEqual(parseAndroidBuildGradle(await fixture("zero", "build.gradle.kts.fixture")), [
     { kind: "compileSdk", value: "35", line: 7 },
     { kind: "minSdk", value: "24", line: 11 },
     { kind: "targetSdk", value: "35", line: 12 },
@@ -46,12 +46,12 @@ test("zero fixtures yield the same literal declarations (no lifecycle claim)", a
 });
 
 test("skips comments, dynamics, and lookalikes in negative fixtures", async () => {
-  assert.deepEqual(parseAndroidBuildGradle(await fixture("negative", "build.gradle")), []);
-  assert.deepEqual(parseAndroidBuildGradle(await fixture("negative", "build.gradle.kts")), []);
+  assert.deepEqual(parseAndroidBuildGradle(await fixture("negative", "build.gradle.fixture")), []);
+  assert.deepEqual(parseAndroidBuildGradle(await fixture("negative", "build.gradle.kts.fixture")), []);
 });
 
 test("malformed unterminated string yields nothing without throwing", async () => {
-  const malformed = await fixture("malformed", "build.gradle.kts");
+  const malformed = await fixture("malformed", "build.gradle.kts.fixture");
   assert.doesNotThrow(() => parseAndroidBuildGradle(malformed));
   assert.deepEqual(parseAndroidBuildGradle(malformed), []);
 });

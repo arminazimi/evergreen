@@ -6,6 +6,8 @@ import { join, relative, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 import { pathToFileURL } from "node:url";
 
+import { restoreFixtureNames } from "../src/fixture-names.js";
+
 /**
  * Cold-start budget for the GitHub Action, enforced by the `check` job on ubuntu-latest:
  * fifteen seconds from step start to a written report. Documented in docs/BENCHMARKS.md.
@@ -95,6 +97,7 @@ export async function createCleanActionWorkspace(fixtureDir = resolve("tests/fix
   for (const entry of await readdir(fixtureDir)) {
     await copyFile(join(fixtureDir, entry), join(directory, entry));
   }
+  await restoreFixtureNames(directory);
   return { directory, cleanup: () => rm(directory, { recursive: true, force: true }) };
 }
 

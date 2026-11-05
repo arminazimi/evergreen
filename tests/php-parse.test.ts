@@ -19,7 +19,7 @@ async function fixture(path: string): Promise<string> {
 }
 
 test("parses require.php, platform.php, and direct packages from composer.json with exact lines", async () => {
-  assert.deepEqual(parseComposerJson(await fixture("positive/composer.json")), [
+  assert.deepEqual(parseComposerJson(await fixture("positive/composer.json.fixture")), [
     { kind: "require-php", value: ">=7.4", line: 4 },
     { kind: "package", name: "monolog/monolog", value: "2.9.1", dev: false, line: 5 },
     { kind: "package", name: "symfony/http-foundation", value: "5.4.0", dev: false, line: 6 },
@@ -29,7 +29,7 @@ test("parses require.php, platform.php, and direct packages from composer.json w
 });
 
 test("a valid composer.json with no lifecycle findings still parses its declarations", async () => {
-  assert.deepEqual(parseComposerJson(await fixture("zero/composer.json")), [
+  assert.deepEqual(parseComposerJson(await fixture("zero/composer.json.fixture")), [
     { kind: "require-php", value: ">=8.3", line: 4 },
     { kind: "package", name: "monolog/monolog", value: "3.8.0", dev: false, line: 5 },
     { kind: "platform-php", value: "8.3.12", line: 9 },
@@ -37,7 +37,7 @@ test("a valid composer.json with no lifecycle findings still parses its declarat
 });
 
 test("ignores lookalikes, floating versions, and dynamic values", async () => {
-  assert.deepEqual(parseComposerJson(await fixture("negative/composer.json")), []);
+  assert.deepEqual(parseComposerJson(await fixture("negative/composer.json.fixture")), []);
   for (const contents of [
     '{"require":{"php":""}}\n',
     '{"require":{"php":"*"}}\n',
@@ -57,7 +57,7 @@ test("ignores lookalikes, floating versions, and dynamic values", async () => {
 });
 
 test("a malformed composer.json returns nothing and never throws", async () => {
-  const contents = await fixture("malformed/composer.json");
+  const contents = await fixture("malformed/composer.json.fixture");
   assert.doesNotThrow(() => parseComposerJson(contents));
   assert.deepEqual(parseComposerJson(contents), []);
   for (const junk of [

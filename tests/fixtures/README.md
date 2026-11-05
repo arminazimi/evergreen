@@ -17,3 +17,8 @@ False-positive boundaries that maintainers have already triaged become small `go
 | [#1690](https://github.com/arminazimi/evergreen/issues/1690) | PHP dynamic `require` / `include` stay unclassified | [COMPATIBILITY.md](../../docs/COMPATIBILITY.md#known-limits-and-false-positive-boundaries) |
 
 Browse every open fixture task: [type: fixture is:open](https://github.com/arminazimi/evergreen/issues?q=is%3Aopen+label%3A%22type%3A+fixture%22).
+
+`npm run check` rejects tracked paths under this directory whose basename a dependency scanner recognizes,
+including any case-insensitive occurrence of `dockerfile`. The guard and copy helper share the name rule in
+[`src/fixture-names.ts`](../../src/fixture-names.ts). Stage new fixtures before running the check; parser-only
+tests can read the stored `.fixture` bytes directly, while scans must use a temporary materialized copy.
