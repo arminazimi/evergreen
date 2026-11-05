@@ -594,12 +594,6 @@
   "src/source-usage.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
-    },
-    "no-useless-assignment": {
-      "count": 1
-    },
-    "no-useless-escape": {
-      "count": 1
     }
   },
   "src/tui.ts": {

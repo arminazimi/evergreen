@@ -996,38 +996,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/sdk.ts",
-      "function": "isUsageMatcher",
-      "lines": 52,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "analyzeSourceUsage",
-      "lines": 268,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "javascriptImports",
-      "lines": 63,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "maskCodeLine",
-      "lines": 198,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/source-usage.ts",
       "function": "readRubyLiteral",
       "lines": 63,
@@ -2346,38 +2314,6 @@
       "function": "enrichSpdx",
       "complexity": 26,
       "owner": "#2277",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/sdk.ts",
-      "function": "isUsageMatcher",
-      "complexity": 32,
-      "owner": "#2275",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "analyzeSourceUsage",
-      "complexity": 96,
-      "owner": "#2275",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-03. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "javascriptImports",
-      "complexity": 19,
-      "owner": "#2275",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/source-usage.ts",
-      "function": "maskCodeLine",
-      "complexity": 130,
-      "owner": "#2275",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
