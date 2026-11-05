@@ -134,56 +134,78 @@ function nodeItems(document: unknown, file: string): InventoryItem[] {
     if (!isRecord(metadata) || !isRecord(nodeInfo)) return;
     const name = metadata.name;
     if (typeof name !== "string" || name.length === 0 || ADDRESS.test(name)) return;
-
-    const kubelet = nodeInfo.kubeletVersion;
-    const kubeletVersion = typeof kubelet === "string" ? releaseVersion(kubelet) : undefined;
-    if (kubeletVersion) {
-      items.push({
-        importer: K8S_CLUSTER_IMPORTER_ID,
-        file,
-        pointer: pointer(["items", index, "status", "nodeInfo", "kubeletVersion"]),
-        resource: name,
-        purl: KUBERNETES,
-        version: kubeletVersion,
-      });
-    }
-
-    const image = nodeInfo.osImage;
-    if (typeof image === "string" && image.trim() !== "") {
-      const distribution = OS_IMAGES.find(([pattern]) => pattern.test(image));
-      if (distribution) {
-        const version = osImageVersion(image);
-        items.push({
-          importer: K8S_CLUSTER_IMPORTER_ID,
-          file,
-          pointer: pointer(["items", index, "status", "nodeInfo", "osImage"]),
-          resource: name,
-          purl: `pkg:generic/${distribution[1]}`,
-          ...(version === undefined ? {} : { version }),
-        });
-      }
-    }
-
-    const runtime = nodeInfo.containerRuntimeVersion;
-    if (typeof runtime === "string") {
-      const separator = runtime.indexOf("://");
-      const scheme = separator === -1 ? undefined : RUNTIMES.get(runtime.slice(0, separator));
-      if (scheme) {
-        const value = runtime.slice(separator + 3);
-        const version = runtimeVersion(value);
-        items.push({
-          importer: K8S_CLUSTER_IMPORTER_ID,
-          file,
-          pointer: pointer(["items", index, "status", "nodeInfo", "containerRuntimeVersion"]),
-          resource: name,
-          purl: `pkg:generic/${scheme}`,
-          ...(version === undefined ? {} : { version }),
-        });
-      }
-    }
+    items.push(...nodeInfoItems(nodeInfo, name, index, file));
   });
   return items;
 }
+
+/** The item a node's `nodeInfo` supports for one field, or undefined when the field names nothing to judge. */
+type NodeInfoItem = (
+  nodeInfo: Record<string, unknown>,
+  name: string,
+  index: number,
+  file: string,
+) => InventoryItem | undefined;
+
+function nodeInfoItems(nodeInfo: Record<string, unknown>, name: string, index: number, file: string): InventoryItem[] {
+  return [kubeletItem, osImageItem, runtimeItem]
+    .map((read) => read(nodeInfo, name, index, file))
+    .filter((item): item is InventoryItem => item !== undefined);
+}
+
+/** The node's own item, pointing at the `nodeInfo` field the claim rests on. */
+function nodeItem(
+  index: number,
+  field: "kubeletVersion" | "osImage" | "containerRuntimeVersion",
+  name: string,
+  file: string,
+  purl: string,
+  version: string | undefined,
+): InventoryItem {
+  return {
+    importer: K8S_CLUSTER_IMPORTER_ID,
+    file,
+    pointer: pointer(["items", index, "status", "nodeInfo", field]),
+    resource: name,
+    purl,
+    ...(version === undefined ? {} : { version }),
+  };
+}
+
+/** The node's kubelet, as the upstream release its `kubeletVersion` names. */
+const kubeletItem: NodeInfoItem = (nodeInfo, name, index, file) => {
+  const kubelet = nodeInfo.kubeletVersion;
+  const version = typeof kubelet === "string" ? releaseVersion(kubelet) : undefined;
+  if (version === undefined) return undefined;
+  return nodeItem(index, "kubeletVersion", name, file, KUBERNETES, version);
+};
+
+/** The node's operating system, as the distribution its `osImage` names and the version that image carries. */
+const osImageItem: NodeInfoItem = (nodeInfo, name, index, file) => {
+  const image = nodeInfo.osImage;
+  if (typeof image !== "string" || image.trim() === "") return undefined;
+  const distribution = OS_IMAGES.find(([pattern]) => pattern.test(image));
+  if (distribution === undefined) return undefined;
+  return nodeItem(index, "osImage", name, file, `pkg:generic/${distribution[1]}`, osImageVersion(image));
+};
+
+/** The node's container runtime, as the runtime its `containerRuntimeVersion` scheme names. */
+const runtimeItem: NodeInfoItem = (nodeInfo, name, index, file) => {
+  const runtime = nodeInfo.containerRuntimeVersion;
+  if (typeof runtime !== "string") return undefined;
+  const separator = runtime.indexOf("://");
+  if (separator === -1) return undefined;
+  const scheme = RUNTIMES.get(runtime.slice(0, separator));
+  if (scheme === undefined) return undefined;
+  return nodeItem(
+    index,
+    "containerRuntimeVersion",
+    name,
+    file,
+    `pkg:generic/${scheme}`,
+    runtimeVersion(runtime.slice(separator + 3)),
+  );
+};
 
 export const k8sClusterImporter: InventoryImporter = {
   id: K8S_CLUSTER_IMPORTER_ID,

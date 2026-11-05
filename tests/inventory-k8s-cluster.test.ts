@@ -170,6 +170,78 @@ test("containerRuntimeVersion maps to the runtime PURL and reports no-data for n
   assert.equal(floating.check.status, "no-data");
 });
 
+/** A node list whose entries each stress one part of the node rules. */
+function nodeDocument(nodes: readonly Record<string, unknown>[]): Record<string, unknown> {
+  return { apiVersion: "v1", kind: "List", items: nodes.map((node) => ({ apiVersion: "v1", kind: "Node", ...node })) };
+}
+
+function node(name: unknown, nodeInfo: Record<string, unknown>): Record<string, unknown> {
+  return { metadata: { name }, status: { nodeInfo } };
+}
+
+test("every node shape yields exactly the items its fields support", () => {
+  const document = nodeDocument([
+    // An osImage the rules do not cover and a runtime they do not name report nothing.
+    node("ip-10-0-1-11.ec2.internal", {
+      kubeletVersion: "v1.30.0",
+      osImage: "NixOS 24.05",
+      containerRuntimeVersion: "nerdctl://1.7.1",
+    }),
+    // A kubelet version that names no release, a blank osImage, and a runtime without a scheme.
+    node("ip-10-0-1-12.ec2.internal", {
+      kubeletVersion: "master",
+      osImage: "   ",
+      containerRuntimeVersion: "docker-24.0.7",
+    }),
+    // Names that are not usable: empty, an IPv6 address, and a non-string.
+    node("", {}),
+    node("fd00::9", { kubeletVersion: "v1.31.1", osImage: "Debian", containerRuntimeVersion: "containerd://1.6.0" }),
+    node(42, { kubeletVersion: "v1.31.1" }),
+    // No nodeInfo fields at all.
+    node("ip-10-0-1-15.ec2.internal", {}),
+    // An EKS suffix stripped, a distribution whose version is the first release-shaped token, and the cri-o runtime.
+    node("ip-10-0-1-16.ec2.internal", {
+      kubeletVersion: "v1.29.7-eks-9f2c5c6",
+      osImage: "Debian GNU/Linux 12 (bookworm)",
+      containerRuntimeVersion: "cri-o://1.30.0",
+    }),
+    // The remaining runtimes the rules name.
+    node("ip-10-0-1-17.ec2.internal", {
+      kubeletVersion: "v1.32.0",
+      osImage: "Alpine Linux v3.20",
+      containerRuntimeVersion: "cri-dockerd://1.24.0",
+    }),
+    // An image and a runtime that name no version still report, without a version.
+    node("ip-10-0-1-18.ec2.internal", {
+      kubeletVersion: "v1.28.9",
+      osImage: "Ubuntu",
+      containerRuntimeVersion: "containerd://1.6.x",
+    }),
+  ]);
+
+  const items = k8sClusterImporter.items(document, "nodes.json").sort((a, b) => (a.pointer < b.pointer ? -1 : 1));
+
+  assert.deepEqual(
+    items.map((item) => `${item.pointer} ${item.purl} ${item.version ?? "unversioned"} ${item.resource}`),
+    [
+      "/items/0/status/nodeInfo/kubeletVersion pkg:generic/kubernetes 1.30.0 ip-10-0-1-11.ec2.internal",
+      "/items/6/status/nodeInfo/containerRuntimeVersion pkg:generic/cri-o 1.30.0 ip-10-0-1-16.ec2.internal",
+      "/items/6/status/nodeInfo/kubeletVersion pkg:generic/kubernetes 1.29.7 ip-10-0-1-16.ec2.internal",
+      "/items/6/status/nodeInfo/osImage pkg:generic/debian 12 ip-10-0-1-16.ec2.internal",
+      "/items/7/status/nodeInfo/containerRuntimeVersion pkg:generic/cri-dockerd 1.24.0 ip-10-0-1-17.ec2.internal",
+      "/items/7/status/nodeInfo/kubeletVersion pkg:generic/kubernetes 1.32.0 ip-10-0-1-17.ec2.internal",
+      "/items/7/status/nodeInfo/osImage pkg:generic/alpine 3.20 ip-10-0-1-17.ec2.internal",
+      "/items/8/status/nodeInfo/containerRuntimeVersion pkg:generic/containerd unversioned ip-10-0-1-18.ec2.internal",
+      "/items/8/status/nodeInfo/kubeletVersion pkg:generic/kubernetes 1.28.9 ip-10-0-1-18.ec2.internal",
+      "/items/8/status/nodeInfo/osImage pkg:generic/ubuntu unversioned ip-10-0-1-18.ec2.internal",
+    ],
+  );
+
+  for (const item of items) assert.equal(item.importer, "k8s-cluster");
+  // The unusable names are skipped outright: no item carries an address, an empty name, or a non-string one.
+  for (const item of items) assert.match(item.resource, /^ip-10-0-1-1[1678]\.ec2\.internal$/);
+});
+
 test("every pointer resolves to the value its claim rests on", async () => {
   for (const path of [versionExport, nodesExport]) {
     const document = await readJson(path);
