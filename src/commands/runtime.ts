@@ -22,7 +22,7 @@ import type { EvergreenConfig } from "../config.js";
 import { configureActiveData, DataPinError, getActiveData } from "../data-source.js";
 import { scanDemo } from "../demo.js";
 import { builtInDetectors } from "../detectors/index.js";
-import type { ScanSelection, Severity } from "../domain.js";
+import type { ScanSelection, ScanResult, Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
 import { applyScanSelection, findRepositories, renderMultiScanText, scanProjects, scanRepository } from "../engine.js";
 import { invalidConfig, renderActionable, unreadablePath, type ActionableMessage } from "../errors.js";
@@ -275,94 +275,138 @@ export async function prepare(
   };
 }
 
+/** Every `--format` value the reporters know; anything else is a usage error for any command. */
+const KNOWN_FORMATS = new Set([
+  "text",
+  "json",
+  "markdown",
+  "junit",
+  "sarif",
+  "rdjson",
+  "codequality",
+  "compact",
+  "html",
+  "slack",
+  "teams",
+  "webhook",
+  "mermaid",
+]);
+
+/** The message a command with a narrow output set prints for a format outside it. */
+// Maps, not objects: a plain object answers for inherited names such as `constructor`, so a lookup by user input needs a Map.
+const COMMAND_FORMATS: ReadonlyMap<string, { readonly allowed: readonly string[]; readonly rejection: string }> =
+  new Map([
+    ["check", { allowed: ["text", "json"], rejection: "check supports --json and --format text|json only." }],
+    [
+      "check-snippet",
+      { allowed: ["text", "json"], rejection: "check-snippet supports --json and --format text|json only." },
+    ],
+    ["receipt", { allowed: ["markdown", "json"], rejection: "receipt supports --format markdown|json only." }],
+  ]);
+
+/** Formats only `scan` renders, with the commands besides `scan` and `receipt` that take them too. */
+const SCAN_ONLY_FORMATS: ReadonlyMap<string, readonly string[]> = new Map([
+  ["markdown", []],
+  ["junit", []],
+  ["sarif", []],
+  ["rdjson", []],
+  ["codequality", []],
+  ["compact", []],
+  ["slack", []],
+  ["teams", []],
+  ["webhook", []],
+  ["html", ["rollup"]],
+]);
+
+/** Formats whose list of commands is neither `scan` alone nor the scan set above. */
+const FORMAT_COMMANDS: ReadonlyMap<string, { readonly commands: readonly string[]; readonly rejection: string }> =
+  new Map([
+    [
+      "mermaid",
+      {
+        commands: ["scan", "forecast"],
+        rejection: "--format mermaid is only available for the scan and forecast commands.",
+      },
+    ],
+  ]);
+
+/** Flags only `scan` accepts, and the message each prints for another command. */
+const SCAN_ONLY_FLAGS: readonly { readonly taken: (state: Prepared) => boolean; readonly rejection: string }[] = [
+  { taken: (state) => state.demo, rejection: "--demo is only available for the scan command." },
+  {
+    taken: (state) => state.args.includes("--write-status"),
+    rejection: "--write-status is only available for the scan command.",
+  },
+  {
+    taken: (state) => state.args.includes("--no-cache"),
+    rejection: "--no-cache is only available for the scan command.",
+  },
+  {
+    taken: (state) => hasSelectors(state),
+    rejection: "--only and --exclude are only available for the scan command.",
+  },
+];
+
+/** `--only` or `--exclude` anywhere in the arguments. */
+function hasSelectors(state: Prepared): boolean {
+  return state.optionValues("--only").length > 0 || state.optionValues("--exclude").length > 0;
+}
+
+/** The one usage rejection the first failing gate asks for, in the order the checks have always run. */
+const USAGE_GATES: readonly ((state: Prepared) => string | undefined)[] = [
+  (state) => {
+    if (state.formatIndex === -1 || (state.format !== undefined && KNOWN_FORMATS.has(state.format))) return undefined;
+    return `Unknown format: ${state.format ?? ""} (expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid).`;
+  },
+  (state) => {
+    const rule = COMMAND_FORMATS.get(state.command);
+    return rule && state.format !== undefined && !rule.allowed.includes(state.format) ? rule.rejection : undefined;
+  },
+  (state) => {
+    const { format } = state;
+    if (format === undefined || state.command === "scan" || state.command === "receipt") return undefined;
+    const extra = SCAN_ONLY_FORMATS.get(format);
+    if (extra === undefined) return undefined;
+    if (extra.includes(state.command)) return undefined;
+    return `--format ${format} is only available for the scan command.`;
+  },
+  (state) => {
+    const rule = state.format === undefined ? undefined : FORMAT_COMMANDS.get(state.format);
+    return rule && !rule.commands.includes(state.command) ? rule.rejection : undefined;
+  },
+  (state) => SCAN_ONLY_FLAGS.find((flag) => flag.taken(state) && state.command !== "scan")?.rejection,
+];
+
+/** The `--only`/`--exclude` document, or `undefined` when the scan is unfiltered. */
+function scanSelection(only: string[], exclude: string[]): ScanSelection | undefined {
+  if (only.length === 0 && exclude.length === 0) return undefined;
+  return { ...(only.length > 0 ? { only } : {}), ...(exclude.length > 0 ? { exclude } : {}) };
+}
+
+/** Selectors that are duplicated, empty, or not an ecosystem or rule-id prefix, in the order they were given. */
+async function unknownSelectors(selectors: string[]): Promise<string[]> {
+  const known = await selectorValues();
+  return [...new Set(selectors)].filter((value) => !known.has(value) || value === "" || value.startsWith("-"));
+}
+
 /** Format and scan-only flag checks that used to run before any of the later commands. */
 export async function sharedGates(state: Prepared, ctx: CommandContext): Promise<Gated | number> {
-  const { command, args, format, formatIndex } = state;
-  if (
-    formatIndex !== -1 &&
-    format !== "text" &&
-    format !== "json" &&
-    format !== "markdown" &&
-    format !== "junit" &&
-    format !== "sarif" &&
-    format !== "rdjson" &&
-    format !== "codequality" &&
-    format !== "compact" &&
-    format !== "html" &&
-    format !== "slack" &&
-    format !== "teams" &&
-    format !== "webhook" &&
-    format !== "mermaid"
-  ) {
-    return ctx.fail(
-      "usage",
-      `Unknown format: ${format ?? ""} (expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid).`,
-    );
-  }
-  if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
-    return ctx.fail("usage", "check supports --json and --format text|json only.");
-  }
-  if (command === "check-snippet" && format !== undefined && format !== "json" && format !== "text") {
-    return ctx.fail("usage", "check-snippet supports --json and --format text|json only.");
-  }
-  if (command === "receipt" && format !== undefined && format !== "markdown" && format !== "json") {
-    return ctx.fail("usage", "receipt supports --format markdown|json only.");
-  }
-  if (
-    (format === "markdown" ||
-      format === "junit" ||
-      format === "sarif" ||
-      format === "rdjson" ||
-      format === "codequality" ||
-      format === "compact" ||
-      (format === "html" && command !== "rollup") ||
-      format === "slack" ||
-      format === "teams" ||
-      format === "webhook") &&
-    command !== "scan" &&
-    command !== "receipt"
-  ) {
-    return ctx.fail("usage", `--format ${format} is only available for the scan command.`);
-  }
-  if (format === "mermaid" && command !== "scan" && command !== "forecast") {
-    return ctx.fail("usage", "--format mermaid is only available for the scan and forecast commands.");
-  }
-  if (state.demo && command !== "scan") {
-    return ctx.fail("usage", "--demo is only available for the scan command.");
-  }
-  const json = args.includes("--json") || format === "json";
-  if (args.includes("--write-status") && command !== "scan") {
-    return ctx.fail("usage", "--write-status is only available for the scan command.");
-  }
-  if (args.includes("--no-cache") && command !== "scan") {
-    return ctx.fail("usage", "--no-cache is only available for the scan command.");
-  }
-  const noCache = args.includes("--no-cache") || process.env.EVERGREEN_NO_CACHE === "1";
-  const onlySelectors = state.optionValues("--only");
-  const excludeSelectors = state.optionValues("--exclude");
-  if ((onlySelectors.length > 0 || excludeSelectors.length > 0) && command !== "scan") {
-    return ctx.fail("usage", "--only and --exclude are only available for the scan command.");
-  }
-  const selection: ScanSelection | undefined =
-    onlySelectors.length > 0 || excludeSelectors.length > 0
-      ? {
-          ...(onlySelectors.length > 0 ? { only: onlySelectors } : {}),
-          ...(excludeSelectors.length > 0 ? { exclude: excludeSelectors } : {}),
-        }
-      : undefined;
+  const rejection = USAGE_GATES.map((gate) => gate(state)).find((message) => message !== undefined);
+  if (rejection !== undefined) return ctx.fail("usage", rejection);
+  const only = state.optionValues("--only");
+  const exclude = state.optionValues("--exclude");
+  const selection = scanSelection(only, exclude);
   if (selection) {
-    const known = await selectorValues();
-    const invalid = [...new Set([...onlySelectors, ...excludeSelectors])].filter(
-      (value) => !known.has(value) || value === "" || value.startsWith("-"),
-    );
-    if (invalid.length > 0) {
+    const invalid = await unknownSelectors([...only, ...exclude]);
+    if (invalid.length > 0)
       return ctx.fail(
         "usage",
         `Unknown selector: ${invalid.join(", ")}. Use an ecosystem or a rule-id prefix (for example npm.package.request).`,
         `\n${await selectorValuesSummary()}\n`,
       );
-    }
   }
+  const json = state.args.includes("--json") || state.format === "json";
+  const noCache = state.args.includes("--no-cache") || process.env.EVERGREEN_NO_CACHE === "1";
   return { ...state, json, noCache, selection };
 }
 
@@ -496,171 +540,226 @@ export async function runScanPipeline(command: string, args: readonly string[], 
 }
 
 async function runScanFamily(state: Gated, ctx: CommandContext): Promise<number> {
-  const { command, args, pathArgument, demo, config, json, noCache, selection, findingId, format } = state;
+  const scanned = await scanWithFilters(state, ctx);
+  if (typeof scanned === "number") return scanned;
+  const { result, asOfValue } = scanned;
+  if (state.command === "baseline") return writeBaselineFile(state, result);
+  const suppressed = await suppressFromBaselines(state, result, asOfValue, ctx);
+  if (typeof suppressed === "number") return suppressed;
+  const early = await printFindings(state, suppressed.result, asOfValue, ctx);
+  if (early !== undefined) return early;
+  if (suppressed.expiredFailure) {
+    return ctx.fail("policy", "Failing because a baseline suppression has expired (--on-expired fail).");
+  }
+  return failOnSeverity(state, suppressed.result, ctx);
+}
+
+/** The scan every `scan`-family command reads, with the date, support, ignore, and selector filters in that order. */
+async function scanWithFilters(
+  state: Gated,
+  ctx: CommandContext,
+): Promise<{ result: ScanResult; asOfValue: string | undefined } | number> {
   const minSupportValue = state.optionValue("--min-support-days");
   const minSupportDays = minSupportValue === undefined ? undefined : parseMinSupportDays(minSupportValue);
   if (minSupportValue !== undefined && minSupportDays === undefined) {
     return ctx.fail("usage", "--min-support-days must be a whole number of days (0 to 3650).");
   }
-  const cliIgnore = state.optionValues("--ignore");
-  const ignorePatterns = args.includes("--ignore") ? cliIgnore : (config?.ignore ?? []);
   const asOfValue = state.optionValue("--as-of") ?? state.optionValue("--today");
-
-  let result = demo
+  let result = state.demo
     ? await scanDemo(builtInDetectors)
-    : await scanRepository(pathArgument, builtInDetectors, { noCache });
+    : await scanRepository(state.pathArgument, builtInDetectors, { noCache: state.noCache });
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
   if (minSupportDays !== undefined)
     result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
+  const ignorePatterns = state.args.includes("--ignore")
+    ? state.optionValues("--ignore")
+    : (state.config?.ignore ?? []);
   if (ignorePatterns.length > 0) result = applyIgnore(result, ignorePatterns);
-  if (selection) result = applyScanSelection(result, selection);
-  if (command === "baseline") {
-    const output = resolve(state.optionValue("--output") ?? ".evergreen-baseline.json");
-    // A missing or unreadable earlier file just means there is no history to carry forward.
-    const previous = await readBaseline(output).catch(() => undefined);
-    const baseline = createBaseline(
-      result,
-      {},
-      previous ?? {
-        schemaVersion: "evergreen.baseline.v1",
-        createdAt: "",
-        findings: [],
-      },
-    );
-    await writeBaseline(output, baseline);
-    process.stdout.write(
-      `Wrote ${baseline.findings.length} findings to ${output}\n${debtTrendLine(baseline.history ?? [])}\n`,
-    );
-    return 0;
-  }
-  let baselineExpiredFailure = false;
-  const cliBaselinePaths = state.optionValues("--baseline");
-  const baselinePaths = args.includes("--baseline") ? cliBaselinePaths : (config?.baseline ?? []);
-  if (baselinePaths.length > 0) {
-    const today = asOfValue ?? new Date().toISOString().slice(0, 10);
-    const warnValue = state.optionValue("--baseline-warn-days");
-    const warnWithinDays = warnValue === undefined ? DEFAULT_WARN_DAYS : Number(warnValue);
-    const onExpired = (state.optionValue("--on-expired") ?? "resurface") as ExpiredPolicy;
-    if (
-      !isIsoDate(today) ||
-      !Number.isInteger(warnWithinDays) ||
-      warnWithinDays < 0 ||
-      warnWithinDays > 365 ||
-      !expiredPolicies.includes(onExpired)
-    ) {
-      return ctx.fail(
-        "usage",
-        `--today must be a date (YYYY-MM-DD), --baseline-warn-days a whole number from 0 to 365, and --on-expired one of ${expiredPolicies.join(", ")}.`,
-      );
-    }
-    let baseline: Awaited<ReturnType<typeof readBaselines>>;
-    try {
-      baseline = await readBaselines(baselinePaths.map((path) => resolve(path)));
-    } catch (error) {
-      const detail = error instanceof Error ? error.message : String(error);
-      return ctx.failActionable("parse", invalidConfig(detail));
-    }
-    const evaluated = evaluateBaseline(result, baseline, { today, warnWithinDays, onExpired });
-    result = evaluated.result;
-    baselineExpiredFailure = expiredSuppressionsFail(onExpired, evaluated.expired);
-  }
-  if (command === "context") {
-    try {
-      // findingId is required for context; runScanPipeline rejects a missing id before this runs.
-      const packet = createMigrationPacket(
-        result,
-        requireFindingId(findingId),
-        await bundledRules(),
-        await readPinnedRuntimes(result.root),
-      );
-      process.stdout.write(`${json ? JSON.stringify(packet, null, 2) : renderMigrationPacketText(packet)}\n`);
-    } catch (error) {
-      return ctx.fail("data", error instanceof Error ? error.message : String(error));
-    }
-  } else if (command === "report-issue") {
-    const finding = result.findings.find((candidate) => candidate.id === findingId);
-    if (!finding) return ctx.fail("data", `Finding not found: ${findingId}`);
-    try {
-      const report = await createIssueReport(pathArgument, finding);
-      const output = state.optionValue("--output");
-      if (output) {
-        const destination = resolve(output);
-        await writeFile(destination, report);
-        process.stdout.write(
-          `Wrote the report to ${destination}. Review it before you open an issue; Evergreen never opens one.\n`,
-        );
-      } else {
-        process.stdout.write(`${report}\n`);
-      }
-    } catch (error) {
-      if (error instanceof ReportIssueError) return ctx.fail("data", error.message);
-      throw error;
-    }
-  } else if (command === "explain") {
-    const finding = result.findings.find((candidate) => candidate.id === findingId);
-    if (!finding) return ctx.fail("data", `Finding not found: ${findingId}`);
-    process.stdout.write(`${json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
-  } else if (args.includes("--interactive") && !json && format === "text" && canBrowse(process.stdin, process.stdout)) {
-    await browseFindings(result, { input: process.stdin, output: process.stdout });
-  } else if (command === "scan" && args.includes("--by-owner")) {
-    if (format !== undefined && format !== "text" && format !== "json")
-      return ctx.fail("usage", "--by-owner supports --json and --format text|json only.");
-    const groups = await groupScanByOwner(result);
-    process.stdout.write(`${json ? JSON.stringify(groups, null, 2) : renderOwnerGroupsText(groups)}\n`);
-  } else {
-    // Only the shareable HTML report carries a forecast; building it would otherwise slow every other format down.
-    const forecast =
-      format === "html" && command === "scan"
-        ? buildForecast(result, await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10))
-        : undefined;
-    const output =
-      format === "sarif"
-        ? renderSarif(result)
-        : format === "rdjson"
-          ? renderRdjson(result)
-          : format === "codequality"
-            ? renderCodeQuality(result)
-            : format === "compact"
-              ? renderCompact(result)
-              : format === "html"
-                ? renderHtml(result, { forecast })
-                : format === "markdown"
-                  ? renderMarkdown(result)
-                  : format === "junit"
-                    ? renderJunit(result)
-                    : format === "slack"
-                      ? renderSlack(result)
-                      : format === "teams"
-                        ? renderTeams(result)
-                        : format === "webhook"
-                          ? renderWebhook(result)
-                          : format === "mermaid"
-                            ? renderScanMermaid(result, asOfValue ?? new Date().toISOString().slice(0, 10))
-                            : json
-                              ? renderJson(result)
-                              : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
-    process.stdout.write(`${output}\n`);
-    if (args.includes("--write-status")) {
-      const statusRoot = resolve(pathArgument);
-      await writeStatusFile(statusRoot, result);
-      process.stderr.write(`Wrote ${STATUS_FILE_NAME} in ${statusRoot}.\n`);
-    }
-  }
-  if (baselineExpiredFailure) {
-    return ctx.fail("policy", "Failing because a baseline suppression has expired (--on-expired fail).");
-  }
-  const scanGate = state.optionValue("--fail-on") ?? config?.failOn ?? "none";
-  if (command === "scan" && scanGate !== "none") {
-    const blocking = result.findings.filter(
-      (finding) => severityValues.indexOf(finding.severity) >= severityValues.indexOf(scanGate as Severity),
-    );
-    if (blocking.length > 0)
-      return ctx.fail(
-        "policy",
-        `${blocking.length} finding${blocking.length === 1 ? "" : "s"} at ${scanGate} or above (--fail-on ${scanGate}).`,
-      );
-  }
+  if (state.selection) result = applyScanSelection(result, state.selection);
+  return { result, asOfValue };
+}
+
+/** `baseline`: writes the current findings as suppressions, carrying the history of the file it replaces. */
+async function writeBaselineFile(state: Gated, result: ScanResult): Promise<number> {
+  const output = resolve(state.optionValue("--output") ?? ".evergreen-baseline.json");
+  // A missing or unreadable earlier file just means there is no history to carry forward.
+  const previous = await readBaseline(output).catch(() => undefined);
+  const baseline = createBaseline(
+    result,
+    {},
+    previous ?? {
+      schemaVersion: "evergreen.baseline.v1",
+      createdAt: "",
+      findings: [],
+    },
+  );
+  await writeBaseline(output, baseline);
+  process.stdout.write(
+    `Wrote ${baseline.findings.length} findings to ${output}\n${debtTrendLine(baseline.history ?? [])}\n`,
+  );
   return 0;
+}
+
+/** `--baseline`: the suppressed result and whether an expired suppression must fail the run. */
+async function suppressFromBaselines(
+  state: Gated,
+  result: ScanResult,
+  asOfValue: string | undefined,
+  ctx: CommandContext,
+): Promise<{ result: ScanResult; expiredFailure: boolean } | number> {
+  const paths = state.args.includes("--baseline") ? state.optionValues("--baseline") : (state.config?.baseline ?? []);
+  if (paths.length === 0) return { result, expiredFailure: false };
+  const today = asOfValue ?? new Date().toISOString().slice(0, 10);
+  const warnValue = state.optionValue("--baseline-warn-days");
+  const warnWithinDays = warnValue === undefined ? DEFAULT_WARN_DAYS : Number(warnValue);
+  const onExpired = (state.optionValue("--on-expired") ?? "resurface") as ExpiredPolicy;
+  if (
+    !isIsoDate(today) ||
+    !Number.isInteger(warnWithinDays) ||
+    warnWithinDays < 0 ||
+    warnWithinDays > 365 ||
+    !expiredPolicies.includes(onExpired)
+  ) {
+    return ctx.fail(
+      "usage",
+      `--today must be a date (YYYY-MM-DD), --baseline-warn-days a whole number from 0 to 365, and --on-expired one of ${expiredPolicies.join(", ")}.`,
+    );
+  }
+  let baseline: Awaited<ReturnType<typeof readBaselines>>;
+  try {
+    baseline = await readBaselines(paths.map((path) => resolve(path)));
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
+    return ctx.failActionable("parse", invalidConfig(detail));
+  }
+  const evaluated = evaluateBaseline(result, baseline, { today, warnWithinDays, onExpired });
+  return { result: evaluated.result, expiredFailure: expiredSuppressionsFail(onExpired, evaluated.expired) };
+}
+
+/** What the command prints. A number is the exit code for the whole run; `undefined` means the gates still apply. */
+async function printFindings(
+  state: Gated,
+  result: ScanResult,
+  asOfValue: string | undefined,
+  ctx: CommandContext,
+): Promise<number | undefined> {
+  if (state.command === "context") return printContextPacket(state, result, ctx);
+  if (state.command === "report-issue") return printIssueReport(state, result, ctx);
+  if (state.command === "explain") return printExplainedFinding(state, result, ctx);
+  const { args, json, format } = state;
+  if (args.includes("--interactive") && !json && format === "text" && canBrowse(process.stdin, process.stdout)) {
+    await browseFindings(result, { input: process.stdin, output: process.stdout });
+    return undefined;
+  }
+  if (state.command === "scan" && args.includes("--by-owner")) return printByOwner(state, result, ctx);
+  const output = await renderScanReport(state, result, asOfValue);
+  process.stdout.write(`${output}\n`);
+  if (!args.includes("--write-status")) return undefined;
+  const statusRoot = resolve(state.pathArgument);
+  await writeStatusFile(statusRoot, result);
+  process.stderr.write(`Wrote ${STATUS_FILE_NAME} in ${statusRoot}.\n`);
+  return undefined;
+}
+
+/** `context`: the migration packet for the one finding named on the command line. */
+async function printContextPacket(state: Gated, result: ScanResult, ctx: CommandContext): Promise<number | undefined> {
+  try {
+    // findingId is required for context; runScanPipeline rejects a missing id before this runs.
+    const packet = createMigrationPacket(
+      result,
+      requireFindingId(state.findingId),
+      await bundledRules(),
+      await readPinnedRuntimes(result.root),
+    );
+    process.stdout.write(`${state.json ? JSON.stringify(packet, null, 2) : renderMigrationPacketText(packet)}\n`);
+  } catch (error) {
+    return ctx.fail("data", error instanceof Error ? error.message : String(error));
+  }
+  return undefined;
+}
+
+/** `report-issue`: the issue text, printed or written where the user can review it. */
+async function printIssueReport(state: Gated, result: ScanResult, ctx: CommandContext): Promise<number | undefined> {
+  const finding = result.findings.find((candidate) => candidate.id === state.findingId);
+  if (!finding) return ctx.fail("data", `Finding not found: ${state.findingId}`);
+  try {
+    const report = await createIssueReport(state.pathArgument, finding);
+    const output = state.optionValue("--output");
+    if (!output) {
+      process.stdout.write(`${report}\n`);
+      return undefined;
+    }
+    const destination = resolve(output);
+    await writeFile(destination, report);
+    process.stdout.write(
+      `Wrote the report to ${destination}. Review it before you open an issue; Evergreen never opens one.\n`,
+    );
+  } catch (error) {
+    if (error instanceof ReportIssueError) return ctx.fail("data", error.message);
+    throw error;
+  }
+  return undefined;
+}
+
+/** `explain`: the one finding named on the command line, as text or as the JSON document. */
+function printExplainedFinding(state: Gated, result: ScanResult, ctx: CommandContext): number | undefined {
+  const finding = result.findings.find((candidate) => candidate.id === state.findingId);
+  if (!finding) return ctx.fail("data", `Finding not found: ${state.findingId}`);
+  process.stdout.write(`${state.json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
+  return undefined;
+}
+
+/** `--by-owner`: the findings grouped by the CODEOWNER of each affected file. */
+async function printByOwner(state: Gated, result: ScanResult, ctx: CommandContext): Promise<number | undefined> {
+  const { format, json } = state;
+  if (format !== undefined && format !== "text" && format !== "json")
+    return ctx.fail("usage", "--by-owner supports --json and --format text|json only.");
+  const groups = await groupScanByOwner(result);
+  process.stdout.write(`${json ? JSON.stringify(groups, null, 2) : renderOwnerGroupsText(groups)}\n`);
+  return undefined;
+}
+
+/** The scan renders these from the findings alone. */
+const SCAN_RENDERERS: ReadonlyMap<string, (result: ScanResult) => string> = new Map([
+  ["sarif", renderSarif],
+  ["rdjson", renderRdjson],
+  ["codequality", renderCodeQuality],
+  ["compact", renderCompact],
+  ["markdown", renderMarkdown],
+  ["junit", renderJunit],
+  ["slack", renderSlack],
+  ["teams", renderTeams],
+  ["webhook", renderWebhook],
+]);
+
+/** The scan report in the format asked for; text and JSON are the fallback. */
+async function renderScanReport(state: Gated, result: ScanResult, asOfValue: string | undefined): Promise<string> {
+  const { format, json, command } = state;
+  const render = format === undefined ? undefined : SCAN_RENDERERS.get(format);
+  if (render) return render(result);
+  const asOf = asOfValue ?? new Date().toISOString().slice(0, 10);
+  if (format === "html")
+    return renderHtml(result, {
+      // Only the shareable HTML report carries a forecast; building it would otherwise slow every other format down.
+      forecast: command === "scan" ? buildForecast(result, await bundledRules(), asOf) : undefined,
+    });
+  if (format === "mermaid") return renderScanMermaid(result, asOf);
+  if (json) return renderJson(result);
+  return renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
+}
+
+/** `--fail-on`: the policy gate on the scan's own severity floor. */
+function failOnSeverity(state: Gated, result: ScanResult, ctx: CommandContext): number {
+  if (state.command !== "scan") return 0;
+  const scanGate = state.optionValue("--fail-on") ?? state.config?.failOn ?? "none";
+  if (scanGate === "none") return 0;
+  const floor = severityValues.indexOf(scanGate as Severity);
+  const blocking = result.findings.filter((finding) => severityValues.indexOf(finding.severity) >= floor);
+  if (blocking.length === 0) return 0;
+  return ctx.fail(
+    "policy",
+    `${blocking.length} finding${blocking.length === 1 ? "" : "s"} at ${scanGate} or above (--fail-on ${scanGate}).`,
+  );
 }
 
 /** Context always has a finding id by the time runScanFamily runs; this keeps TypeScript aligned. */

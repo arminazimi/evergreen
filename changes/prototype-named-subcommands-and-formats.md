@@ -1,0 +1,1 @@
+- Fix `evergreen watch constructor` (and `toString`, `valueOf`, `hasOwnProperty`, `__proto__`) printing a non-numeric result instead of a usage error, and `evergreen check --format constructor` (or any other Object.prototype name passed as `--format`) crashing instead of printing the unknown-format message.

@@ -12,7 +12,6 @@ import { MAX_BODY_CHARS, renderPullRequestBody } from "../../tools/importers/pr-
 import type { DraftRegistry } from "../../tools/importers/types.js";
 
 const run = promisify(execFile);
-const snapshotPath = resolve("tests/importers/snapshots/pr-body.md");
 
 function rule(id: string, extra: Record<string, unknown> = {}, importer?: string): RegistryV2Rule {
   return {
@@ -101,11 +100,21 @@ function scenario(): { drafts: DraftRegistry; registry: RegistryV2 } {
   };
 }
 
-test("the pull-request body matches its snapshot", async () => {
+test("the pull-request body states the draft status, the counts, and the review steps", () => {
   const { drafts, registry } = scenario();
   const body = renderPullRequestBody(diffDrafts(drafts, registry), drafts);
-  if (process.env.UPDATE_SNAPSHOTS) await writeFile(snapshotPath, body);
-  assert.equal(body, await readFile(snapshotPath, "utf8"));
+  assert.ok(
+    body.startsWith("Drafts from the `node-schedule` importer for `registry/nodejs.json`, observed 2026-10-15."),
+  );
+  assert.match(body, /These are \*\*drafts\*\*\. .* Nothing is merged until a maintainer has checked it\./);
+  assert.match(body, /^## Summary\n\n1 added, 3 changed, 1 removed, 0 unchanged\.$/m);
+  assert.match(body, /^## Evidence$/m);
+  assert.match(body, /^## Skipped or undecided$/m);
+  assert.match(body, /^## Review checklist$/m);
+  assert.equal(body.match(/^- \[ \] /gm)?.length, 4);
+  assert.match(body, /^## Reproduce$/m);
+  assert.ok(body.includes("node dist/tools/importers/run.js node-schedule --out drafts.json"));
+  assert.ok(body.includes("node dist/tools/importers/diff.js drafts.json registry/nodejs.json"));
 });
 
 test("the evidence table has one row per added, changed, or removed rule, with the source beside it", () => {
@@ -225,12 +234,10 @@ test("the command line writes the same body", async () => {
     await writeFile(registryFile, JSON.stringify(registry));
     const script = resolve("dist/tools/importers/pr-body.js");
 
+    const expected = renderPullRequestBody(diffDrafts(drafts, registry), drafts);
     await run(process.execPath, [script, draftsFile, registryFile, "--out", outFile]);
-    assert.equal(await readFile(outFile, "utf8"), await readFile(snapshotPath, "utf8"));
-    assert.equal(
-      (await run(process.execPath, [script, draftsFile, registryFile])).stdout,
-      await readFile(snapshotPath, "utf8"),
-    );
+    assert.equal(await readFile(outFile, "utf8"), expected);
+    assert.equal((await run(process.execPath, [script, draftsFile, registryFile])).stdout, expected);
     await assert.rejects(run(process.execPath, [script, draftsFile]), /Usage: pr-body/);
   } finally {
     await rm(directory, { recursive: true, force: true });

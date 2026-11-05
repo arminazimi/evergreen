@@ -54,6 +54,7 @@ otherwise. Records are numbered in the order they were written; this page groups
 | [0026](0026-public-api-doc-comments.md) | Document the public API and enforce it with lint | Put a behavior-focused doc comment on every public declaration and enforce it with a local ESLint rule; no contract semantics change. |
 | [0027](0027-fixtures-invisible-to-scanners.md) | Keep fixtures out of scanners' sight with neutral names | Commit manifest-shaped fixtures under a `.fixture` suffix and restore the real name in a temporary directory at test time; reject archives and dismissals; scanner config is a narrow fallback. |
 | [0029](0029-cut-scanner-complexity-by-extracting-the-line-masker.md) | Cut scanner complexity by extracting the line masker and replacing branch chains with tables | Move the per-language literal scanner to `src/usage/masking.ts`, dispatch readers on tables, and prove parity differentially against a build of `main`; the SDK export surface is unchanged. |
+| [0030](0030-corpus-selection-and-200-target.md) | Select corpus repositories independently of results; target 200 per ecosystem | Freeze eligibility and stack variety for all 23 buckets before scanning; retain poor results and publish honest shortfalls against 200 reviewed repositories per bucket. Accepted on maintainer merge of the PR for #2116. |
 
 ## Operations
 
