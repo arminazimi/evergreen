@@ -650,22 +650,6 @@
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/usage/javascript.ts",
-      "function": "analyzeJavaScriptFile",
-      "lines": 182,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/usage/python.ts",
-      "function": "analyzePythonFile",
-      "lines": 181,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     }
   ],
   "complexity": [
@@ -1274,38 +1258,6 @@
       "function": "reduce",
       "complexity": 18,
       "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/usage/javascript.ts",
-      "function": "analyzeJavaScriptFile",
-      "complexity": 36,
-      "owner": "#2280",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/usage/javascript.ts",
-      "function": "analyzeJavaScriptFile > occurrencesOf",
-      "complexity": 19,
-      "owner": "#2280",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/usage/python.ts",
-      "function": "analyzePythonFile",
-      "complexity": 40,
-      "owner": "#2280",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/usage/symbols.ts",
-      "function": "symbolUsages",
-      "complexity": 20,
-      "owner": "#2280",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
