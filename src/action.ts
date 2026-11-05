@@ -388,137 +388,292 @@ async function publishFixes(result: ScanResult): Promise<void> {
   }
 }
 
+type Env = Record<string, string | undefined>;
+type RunOptions = Parameters<typeof runGitHubAction>[0];
+type RunOutcome = Awaited<ReturnType<typeof runGitHubAction>>;
+type AnnotationMode = "changed" | "all" | "none";
+type ProposedBaseline = { path: string; baseline: Baseline };
+type DiffScope = { mode?: "diff"; diffRange?: string };
+
+/** Everything the run decided up front, passed to the helpers that build its options. */
+interface RunContext {
+  env: Env;
+  workspace: string;
+  root: string;
+  scanPaths: string[] | undefined;
+  event: PullRequestEvent;
+  diff: DiffScope | undefined;
+  fork: boolean;
+  suggestFixes: boolean;
+  inputAnnotations: AnnotationMode | undefined;
+  proposeBaseline: boolean;
+  reportPaths: ReportPaths;
+}
+
+interface ReportPaths {
+  reportPath: string;
+  sarifPath: string | undefined;
+  badgePath: string | undefined;
+}
+
+function isAnnotationMode(value: string): value is AnnotationMode {
+  return value === "changed" || value === "all" || value === "none";
+}
+
+const plural = (count: number): string => (count === 1 ? "" : "s");
+
+/** A `/evergreen` comment is answered instead of scanned. True when that was this run. */
+async function answerCommentRun(env: Env, root: string): Promise<boolean> {
+  if (env.INPUT_COMMANDS !== "true" || env.GITHUB_EVENT_NAME !== "issue_comment") return false;
+  await runCommentCommands({
+    root,
+    ...(env.GITHUB_EVENT_PATH ? { eventPath: env.GITHUB_EVENT_PATH } : {}),
+    ...(env.INPUT_BASELINE ? { baselinePath: env.INPUT_BASELINE } : {}),
+    ...(env["INPUT_GITHUB-TOKEN"] ? { token: env["INPUT_GITHUB-TOKEN"] } : {}),
+    ...(env.GITHUB_REPOSITORY ? { repository: env.GITHUB_REPOSITORY } : {}),
+    ...(env.GITHUB_API_URL ? { apiUrl: env.GITHUB_API_URL } : {}),
+  });
+  return true;
+}
+
+/** The mode and annotation inputs, checked before anything runs. */
+function readModeInputs(env: Env): { inputMode: "scan" | "diff"; inputAnnotations: AnnotationMode | undefined } {
+  const inputMode = env.INPUT_MODE || "scan";
+  if (inputMode !== "scan" && inputMode !== "diff")
+    throw new Error(`Invalid mode: ${inputMode}. Use "scan" or "diff".`);
+  const inputAnnotations = env.INPUT_ANNOTATIONS || undefined;
+  if (inputAnnotations !== undefined && !isAnnotationMode(inputAnnotations)) {
+    throw new Error(`Invalid annotations: ${inputAnnotations}. Use "changed", "all", or "none".`);
+  }
+  return { inputMode, inputAnnotations };
+}
+
+/** Where the run's report and optional SARIF and badge files go. */
+function resolveReportPaths(env: Env, workspace: string): ReportPaths {
+  const runnerTemp = env.RUNNER_TEMP ?? workspace;
+  return {
+    reportPath: resolve(runnerTemp, "evergreen-report.json"),
+    sarifPath: env["INPUT_UPLOAD-SARIF"] === "true" ? resolve(runnerTemp, "evergreen-results.sarif") : undefined,
+    badgePath: env["INPUT_UPLOAD-BADGE"] === "true" ? resolve(runnerTemp, "evergreen-badge.json") : undefined,
+  };
+}
+
+/** The inputs this mode ignores, announced in the run log so a setting never has a silent effect. */
+function noticeIgnoredInputs(facts: {
+  inputMode: "scan" | "diff";
+  pathPatterns: readonly string[];
+  suggestFixes: boolean;
+  diff: DiffScope | undefined;
+  fork: boolean;
+  inputAnnotations: AnnotationMode | undefined;
+  baseline: string | undefined;
+}): void {
+  const { diff } = facts;
+  if (facts.pathPatterns.length > 0 && facts.inputMode === "diff") {
+    console.log(
+      "::notice title=Evergreen paths ignored in diff mode::mode: diff compares the whole pull request checkout; the paths input applies only to scan mode.",
+    );
+  }
+  if (facts.suggestFixes && !diff)
+    console.log(
+      "::notice title=Evergreen suggest-fixes skipped::suggest-fixes needs mode: diff and a pull_request event, because suggestions apply only to lines the pull request changed.",
+    );
+  if (facts.suggestFixes && diff && facts.fork)
+    console.log(
+      "::notice title=Evergreen suggest-fixes skipped::Pull requests from forks get a read-only token, so Evergreen cannot post a review with fix suggestions.",
+    );
+  if (diff && facts.baseline)
+    console.log(
+      `::notice title=Evergreen baseline ignored in diff mode::mode: diff judges only what the pull request introduces, so the baseline ${facts.baseline} is not applied.`,
+    );
+  if (facts.inputAnnotations === "changed" && !diff)
+    console.log(
+      "::notice title=Evergreen annotations: changed needs diff mode::annotations: changed annotates only lines a pull request changed, and this run has no pull request range; annotating every finding.",
+    );
+}
+
+/**
+ * The onboarding pull request starts without a baseline, so its first run records today's findings as a
+ * suggested file instead of failing on them. Returns that path, or undefined when this run proposes nothing.
+ * Evergreen never writes the file or pushes it.
+ */
+async function baselineProposalPath(
+  env: Env,
+  workspace: string,
+  root: string,
+  diff: DiffScope | undefined,
+): Promise<string | undefined> {
+  const path = (diff ? undefined : env.INPUT_BASELINE) || undefined;
+  if (path === undefined || !(await isOnboardingRun(env))) return undefined;
+  const existing = await stat(resolve(workspace, root, path)).catch(() => undefined);
+  return existing === undefined ? path : undefined;
+}
+
+/** What is scanned, where the results go, and what they are compared against. */
+function scanOptionsFor(ctx: RunContext): Partial<RunOptions> {
+  const { env, diff, scanPaths, reportPaths } = ctx;
+  return {
+    ...(scanPaths ? { paths: scanPaths } : {}),
+    ...(reportPaths.sarifPath ? { sarifPath: reportPaths.sarifPath } : {}),
+    ...(reportPaths.badgePath ? { badgePath: reportPaths.badgePath } : {}),
+    ...(diff ? { mode: "diff" as const } : {}),
+    ...(diff?.diffRange ? { diffRange: diff.diffRange } : {}),
+    ...(ctx.event.pull_request?.user?.login ? { pullRequestAuthor: ctx.event.pull_request.user.login } : {}),
+    ...(env["INPUT_AGENT-AUTHORS"] !== undefined ? { agentAuthors: env["INPUT_AGENT-AUTHORS"] } : {}),
+    ...(env.INPUT_BASELINE && !ctx.proposeBaseline ? { baselinePath: env.INPUT_BASELINE } : {}),
+  };
+}
+
+/** The severity gate, the expiry policy, and how findings are annotated. */
+function policyOptionsFor(ctx: RunContext): Pick<RunOptions, "failOnSeverity"> & Partial<RunOptions> {
+  const { env } = ctx;
+  return {
+    ...(env["INPUT_BASELINE-WARN-DAYS"] ? { baselineWarnDays: Number(env["INPUT_BASELINE-WARN-DAYS"]) } : {}),
+    ...(env["INPUT_ON-EXPIRED"] ? { onExpired: env["INPUT_ON-EXPIRED"] as ExpiredPolicy } : {}),
+    ...(env["INPUT_MIN-SUPPORT-DAYS"] ? { minSupportDays: Number(env["INPUT_MIN-SUPPORT-DAYS"]) } : {}),
+    ...(ctx.inputAnnotations ? { annotations: ctx.inputAnnotations } : {}),
+    ...(ctx.suggestFixes && ctx.diff && !ctx.fork ? { suggestFixes: true } : {}),
+    failOnSeverity: (ctx.proposeBaseline ? "none" : env["INPUT_FAIL-ON-SEVERITY"] || "high") as SeverityGate,
+  };
+}
+
+/** The first-line warnings for baseline suppressions that have expired or are about to. */
+function warnAboutSuppressions(outcome: RunOutcome): void {
+  for (const diagnostic of outcome.result.diagnostics) {
+    if (diagnostic.includes("Baseline suppression expired"))
+      console.log(`::warning title=Evergreen baseline suppression expired::${commandValue(diagnostic)}`);
+    if (diagnostic.includes("Baseline suppression expires"))
+      console.log(`::warning title=Evergreen baseline suppression expires soon::${commandValue(diagnostic)}`);
+  }
+}
+
+async function publishOutputs(outcome: RunOutcome): Promise<void> {
+  const { findings } = outcome.result;
+  await setOutput("report-path", outcome.reportPath);
+  if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
+  if (outcome.badgePath) await setOutput("badge-path", outcome.badgePath);
+  if (outcome.badgeSvgPath) await setOutput("badge-svg-path", outcome.badgeSvgPath);
+  await setOutput("finding-count", String(findings.length));
+  await setOutput("has-new-findings", findings.length > 0 ? "true" : "false");
+  await setOutput("highest-severity", highestSeverity(findings));
+  await setOutput("next-eol-date", nextEndOfLife(findings));
+  await setOutput("findings-json", renderFindingsJson(findings));
+}
+
+/** The count of findings no annotation could point at, with a link to the full report when there is one. */
+function unannotatedNote(outcome: RunOutcome): { count: number; reportUrl?: string } | undefined {
+  if (outcome.unannotated === 0) return undefined;
+  const link = reportUrl();
+  return { count: outcome.unannotated, ...(link ? { reportUrl: link } : {}) };
+}
+
+/** The one line the run log ends with: what this run found, in the mode it ran in. */
+function runSummary(
+  outcome: RunOutcome,
+  diff: DiffScope | undefined,
+  scanCount: number | undefined,
+  proposal: ProposedBaseline | undefined,
+): string {
+  const count = outcome.result.findings.length;
+  if (proposal) {
+    const proposed = proposal.baseline.findings.length;
+    return `Evergreen proposed a baseline of ${proposed} finding${plural(proposed)} for ${proposal.path} in the pull request comment.`;
+  }
+  if (diff) {
+    const fixed = outcome.diff?.fixed.length ?? 0;
+    return `Evergreen found ${count} introduced lifecycle finding${plural(count)} and ${fixed} fixed lifecycle finding${plural(fixed)} between ${diff.diffRange}.`;
+  }
+  if (scanCount !== undefined)
+    return `Evergreen found ${count} new lifecycle finding${plural(count)} across ${scanCount} package${plural(scanCount)}.`;
+  return `Evergreen found ${count} new lifecycle finding${plural(count)}.`;
+}
+
+/** The baseline this run would have written, offered in the pull request comment instead of enforced. */
+function proposedBaselineFor(outcome: RunOutcome, path: string): ProposedBaseline {
+  return {
+    path,
+    baseline: createBaseline(
+      outcome.result,
+      {},
+      { schemaVersion: "evergreen.baseline.v1", createdAt: "", findings: [] },
+    ),
+  };
+}
+
+function warnAboutStaleData(outcome: RunOutcome): void {
+  const data = outcome.result.data;
+  if (data?.stale)
+    console.log(
+      `::warning title=Evergreen lifecycle data is stale::The data is ${data.ageDays} days old, so findings may miss recent changes.`,
+    );
+}
+
+/** Fails the run, with the reason, when the policy gate says so. */
+function reportGateFailure(outcome: RunOutcome): void {
+  const failure = renderFailure(outcome);
+  if (!failure) return;
+  console.log(`::error title=Evergreen policy gate failed::${commandValue(failure)}`);
+  process.exitCode = 1;
+}
+
 async function main(): Promise<void> {
   try {
-    const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
-    const root = process.env.INPUT_PATH || workspace;
-    // A comment command is answered instead of scanned: there is no pull request checkout to gate here.
-    if (process.env.INPUT_COMMANDS === "true" && process.env.GITHUB_EVENT_NAME === "issue_comment") {
-      await runCommentCommands({
-        root,
-        ...(process.env.GITHUB_EVENT_PATH ? { eventPath: process.env.GITHUB_EVENT_PATH } : {}),
-        ...(process.env.INPUT_BASELINE ? { baselinePath: process.env.INPUT_BASELINE } : {}),
-        ...(process.env["INPUT_GITHUB-TOKEN"] ? { token: process.env["INPUT_GITHUB-TOKEN"] } : {}),
-        ...(process.env.GITHUB_REPOSITORY ? { repository: process.env.GITHUB_REPOSITORY } : {}),
-        ...(process.env.GITHUB_API_URL ? { apiUrl: process.env.GITHUB_API_URL } : {}),
-      });
-      return;
-    }
-    const inputMode = process.env.INPUT_MODE || "scan";
-    if (inputMode !== "scan" && inputMode !== "diff")
-      throw new Error(`Invalid mode: ${inputMode}. Use "scan" or "diff".`);
-    const inputAnnotations = process.env.INPUT_ANNOTATIONS || undefined;
-    if (
-      inputAnnotations !== undefined &&
-      inputAnnotations !== "changed" &&
-      inputAnnotations !== "all" &&
-      inputAnnotations !== "none"
-    ) {
-      throw new Error(`Invalid annotations: ${inputAnnotations}. Use "changed", "all", or "none".`);
-    }
-    const pathPatterns = parsePathsInput(process.env.INPUT_PATHS ?? "");
-    if (pathPatterns.length > 0 && inputMode === "diff") {
-      console.log(
-        "::notice title=Evergreen paths ignored in diff mode::mode: diff compares the whole pull request checkout; the paths input applies only to scan mode.",
-      );
-    }
+    const env: Env = process.env;
+    const workspace = env.GITHUB_WORKSPACE ?? process.cwd();
+    const root = env.INPUT_PATH || workspace;
+    if (await answerCommentRun(env, root)) return;
+
+    const { inputMode, inputAnnotations } = readModeInputs(env);
+    const pathPatterns = parsePathsInput(env.INPUT_PATHS ?? "");
+    const event = await readEvent(env.GITHUB_EVENT_PATH);
+    const diff = inputMode === "diff" ? resolveDiffMode(event) : undefined;
+    const suggestFixes = env["INPUT_SUGGEST-FIXES"] === "true";
+    const fork = isForkPullRequest(event);
+    noticeIgnoredInputs({
+      inputMode,
+      pathPatterns,
+      suggestFixes,
+      diff,
+      fork,
+      inputAnnotations,
+      baseline: env.INPUT_BASELINE,
+    });
     const scanPaths =
       pathPatterns.length > 0 && inputMode !== "diff"
         ? await resolveScanPaths(resolve(workspace, root), pathPatterns)
         : undefined;
-    const reportPath = resolve(process.env.RUNNER_TEMP ?? workspace, "evergreen-report.json");
-    const sarifPath =
-      process.env["INPUT_UPLOAD-SARIF"] === "true"
-        ? resolve(process.env.RUNNER_TEMP ?? workspace, "evergreen-results.sarif")
-        : undefined;
-    const badgePath =
-      process.env["INPUT_UPLOAD-BADGE"] === "true"
-        ? resolve(process.env.RUNNER_TEMP ?? workspace, "evergreen-badge.json")
-        : undefined;
-    const event = await readEvent(process.env.GITHUB_EVENT_PATH);
-    const diff = inputMode === "diff" ? resolveDiffMode(event) : undefined;
-    const suggestFixes = process.env["INPUT_SUGGEST-FIXES"] === "true";
-    const fork = isForkPullRequest(event);
-    if (suggestFixes && !diff)
-      console.log(
-        "::notice title=Evergreen suggest-fixes skipped::suggest-fixes needs mode: diff and a pull_request event, because suggestions apply only to lines the pull request changed.",
-      );
-    if (suggestFixes && diff && fork)
-      console.log(
-        "::notice title=Evergreen suggest-fixes skipped::Pull requests from forks get a read-only token, so Evergreen cannot post a review with fix suggestions.",
-      );
-    if (diff && process.env.INPUT_BASELINE)
-      console.log(
-        `::notice title=Evergreen baseline ignored in diff mode::mode: diff judges only what the pull request introduces, so the baseline ${process.env.INPUT_BASELINE} is not applied.`,
-      );
-    if (inputAnnotations === "changed" && !diff)
-      console.log(
-        "::notice title=Evergreen annotations: changed needs diff mode::annotations: changed annotates only lines a pull request changed, and this run has no pull request range; annotating every finding.",
-      );
-    // The onboarding pull request starts without a baseline, so its first run records today's findings
-    // as a suggested file instead of failing on them. Evergreen never writes the file or pushes.
-    const proposeBaselinePath = (diff ? undefined : process.env.INPUT_BASELINE) || undefined;
-    const proposeBaseline =
-      proposeBaselinePath !== undefined &&
-      (await isOnboardingRun(process.env)) &&
-      (await stat(resolve(workspace, root, proposeBaselinePath)).catch(() => undefined)) === undefined;
-    if (proposeBaseline && proposeBaselinePath) {
+
+    const proposeBaselinePath = await baselineProposalPath(env, workspace, root, diff);
+    if (proposeBaselinePath !== undefined) {
       console.log(
         `::notice title=Evergreen proposed a baseline::${proposeBaselinePath} does not exist yet, so this first run on ${ONBOARDING_BRANCH} proposes it in the pull request comment and does not enforce the severity gate.`,
       );
     }
+    const ctx: RunContext = {
+      env,
+      workspace,
+      root,
+      scanPaths,
+      event,
+      diff,
+      fork,
+      suggestFixes,
+      inputAnnotations,
+      proposeBaseline: proposeBaselinePath !== undefined,
+      reportPaths: resolveReportPaths(env, workspace),
+    };
     const outcome = await runGitHubAction({
       root: scanPaths ? resolve(workspace, root) : root,
-      reportPath,
-      ...(scanPaths ? { paths: scanPaths } : {}),
-      ...(sarifPath ? { sarifPath } : {}),
-      ...(badgePath ? { badgePath } : {}),
-      ...(diff ? { mode: "diff" as const } : {}),
-      ...(diff?.diffRange ? { diffRange: diff.diffRange } : {}),
-      ...(event.pull_request?.user?.login ? { pullRequestAuthor: event.pull_request.user.login } : {}),
-      ...(process.env["INPUT_AGENT-AUTHORS"] !== undefined ? { agentAuthors: process.env["INPUT_AGENT-AUTHORS"] } : {}),
-      ...(process.env.INPUT_BASELINE && !proposeBaseline ? { baselinePath: process.env.INPUT_BASELINE } : {}),
-      ...(process.env["INPUT_BASELINE-WARN-DAYS"]
-        ? { baselineWarnDays: Number(process.env["INPUT_BASELINE-WARN-DAYS"]) }
-        : {}),
-      ...(process.env["INPUT_ON-EXPIRED"] ? { onExpired: process.env["INPUT_ON-EXPIRED"] as ExpiredPolicy } : {}),
-      ...(process.env["INPUT_MIN-SUPPORT-DAYS"]
-        ? { minSupportDays: Number(process.env["INPUT_MIN-SUPPORT-DAYS"]) }
-        : {}),
-      ...(inputAnnotations ? { annotations: inputAnnotations } : {}),
-      ...(suggestFixes && diff && !fork ? { suggestFixes: true } : {}),
-      failOnSeverity: (proposeBaseline ? "none" : process.env["INPUT_FAIL-ON-SEVERITY"] || "high") as SeverityGate,
+      reportPath: ctx.reportPaths.reportPath,
+      ...scanOptionsFor(ctx),
+      ...policyOptionsFor(ctx),
     });
-    const proposedBaseline = proposeBaseline
-      ? createBaseline(outcome.result, {}, { schemaVersion: "evergreen.baseline.v1", createdAt: "", findings: [] })
-      : undefined;
+    const proposal = proposeBaselinePath === undefined ? undefined : proposedBaselineFor(outcome, proposeBaselinePath);
 
     for (const annotation of outcome.annotations) console.log(annotationCommand(annotation));
-    // A suppression about to expire is a warning on the run, not a finding.
-    for (const diagnostic of outcome.result.diagnostics) {
-      if (diagnostic.includes("Baseline suppression expired"))
-        console.log(`::warning title=Evergreen baseline suppression expired::${commandValue(diagnostic)}`);
-      if (diagnostic.includes("Baseline suppression expires"))
-        console.log(`::warning title=Evergreen baseline suppression expires soon::${commandValue(diagnostic)}`);
-    }
-    await setOutput("report-path", outcome.reportPath);
-    if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
-    if (outcome.badgePath) await setOutput("badge-path", outcome.badgePath);
-    if (outcome.badgeSvgPath) await setOutput("badge-svg-path", outcome.badgeSvgPath);
-    await setOutput("finding-count", String(outcome.result.findings.length));
-    await setOutput("has-new-findings", outcome.result.findings.length > 0 ? "true" : "false");
-    await setOutput("highest-severity", highestSeverity(outcome.result.findings));
-    await setOutput("next-eol-date", nextEndOfLife(outcome.result.findings));
-    await setOutput("findings-json", renderFindingsJson(outcome.result.findings));
-    const reportLink = reportUrl();
-    const unannotated =
-      outcome.unannotated > 0
-        ? { count: outcome.unannotated, ...(reportLink ? { reportUrl: reportLink } : {}) }
-        : undefined;
-    const proposal =
-      proposedBaseline && proposeBaselinePath
-        ? { path: proposeBaselinePath, count: proposedBaseline.findings.length }
-        : undefined;
+    warnAboutSuppressions(outcome);
+    await publishOutputs(outcome);
+    const unannotated = unannotatedNote(outcome);
     await writeSummary(
       outcome.result.findings,
       outcome.gateFailed,
@@ -529,35 +684,15 @@ async function main(): Promise<void> {
       outcome.diff,
       outcome.packages,
       unannotated,
-      proposal,
+      proposal ? { path: proposal.path, count: proposal.baseline.findings.length } : undefined,
     );
-    await postComment(
-      outcome,
-      event,
-      unannotated,
-      proposedBaseline && proposeBaselinePath ? { path: proposeBaselinePath, baseline: proposedBaseline } : undefined,
-    );
+    await postComment(outcome, event, unannotated, proposal);
     await postFixSuggestions(outcome, event);
     await publishFixes(outcome.result);
     await updateTrackingIssue(outcome);
-    if (outcome.result.data?.stale)
-      console.log(
-        `::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`,
-      );
-    console.log(
-      proposedBaseline && proposeBaselinePath
-        ? `Evergreen proposed a baseline of ${proposedBaseline.findings.length} finding${proposedBaseline.findings.length === 1 ? "" : "s"} for ${proposeBaselinePath} in the pull request comment.`
-        : diff
-          ? `Evergreen found ${outcome.result.findings.length} introduced lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"} and ${outcome.diff?.fixed.length ?? 0} fixed lifecycle finding${(outcome.diff?.fixed.length ?? 0) === 1 ? "" : "s"} between ${diff.diffRange}.`
-          : scanPaths
-            ? `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"} across ${scanPaths.length} package${scanPaths.length === 1 ? "" : "s"}.`
-            : `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"}.`,
-    );
-    const failure = renderFailure(outcome);
-    if (failure) {
-      console.log(`::error title=Evergreen policy gate failed::${commandValue(failure)}`);
-      process.exitCode = 1;
-    }
+    warnAboutStaleData(outcome);
+    console.log(runSummary(outcome, diff, scanPaths?.length, proposal));
+    reportGateFailure(outcome);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.log(`::error title=Evergreen failed::${commandValue(message)}`);

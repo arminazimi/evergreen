@@ -289,3 +289,30 @@ test("the Action answers an issue_comment event when commands is true", async ()
     await new Promise<void>((closed) => server.close(() => closed()));
   }
 });
+
+test("parseCommentCommand names each way an explain or ignore command can be malformed", () => {
+  const usage = /Usage: /;
+  const tooLong = "x".repeat(301);
+  const longReason = "r".repeat(501);
+  const error = (comment: string) => {
+    const parsed = parseCommentCommand(comment);
+    assert.ok(parsed && "error" in parsed, `expected an error for ${JSON.stringify(comment)}`);
+    return parsed.error;
+  };
+  assert.match(error("/evergreen"), usage);
+  assert.match(error("/evergreen explain"), usage);
+  assert.match(error("/evergreen explain one two"), usage);
+  assert.equal(error(`/evergreen explain ${tooLong}`), "That finding id is too long.");
+  assert.match(error("/evergreen ignore abc"), usage);
+  assert.match(error("/evergreen ignore abc   "), usage);
+  assert.equal(error(`/evergreen ignore ${tooLong} reason`), "That finding id is too long.");
+  assert.equal(error(`/evergreen ignore abc ${longReason}`), "The reason must be at most 500 characters.");
+  assert.match(error("/evergreen frobnicate abc"), /Unknown command .*frobnicate/);
+  assert.equal(parseCommentCommand("no command on this line\nat all"), undefined);
+});
+
+test("parseCommentCommand keeps the whole ignore reason, including its spaces", () => {
+  assert.deepEqual(parseCommentCommand("/evergreen ignore abc:package.json  vendored   until  2027"), {
+    command: { kind: "ignore", findingId: "abc:package.json", reason: "vendored   until  2027" },
+  });
+});

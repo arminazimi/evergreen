@@ -1,3 +1,4 @@
+import type { Dirent } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -80,40 +81,12 @@ function isNonEmptyString(value: unknown): value is string {
 export function parseCleDocument(input: unknown): CleDocumentRecord | undefined {
   if (!isRecord(input) || input.$schema !== CLE_SCHEMA) return undefined;
   if (!isNonEmptyString(input.updatedAt) || !Array.isArray(input.events)) return undefined;
-  const identifiers = Array.isArray(input.identifier)
-    ? input.identifier.filter(isNonEmptyString)
-    : isNonEmptyString(input.identifier)
-      ? [input.identifier]
-      : [];
+  const identifiers = identifierList(input.identifier);
   if (identifiers.length === 0) return undefined;
   const events: CleEventRecord[] = [];
   for (const raw of input.events) {
-    if (!isRecord(raw) || typeof raw.id !== "number" || !Number.isInteger(raw.id) || raw.id < 1) return undefined;
-    if (!isNonEmptyString(raw.type) || !isNonEmptyString(raw.effective) || !isNonEmptyString(raw.published))
-      return undefined;
-    const event: CleEventRecord = {
-      id: raw.id,
-      type: raw.type,
-      effective: raw.effective,
-      published: raw.published,
-    };
-    if (raw.versions !== undefined) {
-      if (!Array.isArray(raw.versions) || raw.versions.length === 0) return undefined;
-      const versions: CleVersionSpec[] = [];
-      for (const spec of raw.versions) {
-        if (!isRecord(spec) || !isNonEmptyString(spec.range)) return undefined;
-        versions.push({ range: spec.range });
-      }
-      event.versions = versions;
-    }
-    if (raw.description !== undefined) {
-      if (!isNonEmptyString(raw.description)) return undefined;
-      event.description = raw.description;
-    }
-    if (raw.references !== undefined) {
-      if (!Array.isArray(raw.references) || !raw.references.every(isNonEmptyString)) return undefined;
-      event.references = raw.references;
-    }
+    const event = parseCleEvent(raw);
+    if (event === undefined) return undefined;
     events.push(event);
   }
   return {
@@ -123,6 +96,48 @@ export function parseCleDocument(input: unknown): CleDocumentRecord | undefined 
     updatedAt: input.updatedAt,
     events,
   };
+}
+
+/** The non-empty identifier strings, whether the document gave one or a list. */
+function identifierList(value: unknown): string[] {
+  if (Array.isArray(value)) return value.filter(isNonEmptyString);
+  return isNonEmptyString(value) ? [value] : [];
+}
+
+function parseCleEvent(raw: unknown): CleEventRecord | undefined {
+  if (!isRecord(raw) || typeof raw.id !== "number" || !Number.isInteger(raw.id) || raw.id < 1) return undefined;
+  if (!isNonEmptyString(raw.type) || !isNonEmptyString(raw.effective) || !isNonEmptyString(raw.published))
+    return undefined;
+  const event: CleEventRecord = {
+    id: raw.id,
+    type: raw.type,
+    effective: raw.effective,
+    published: raw.published,
+  };
+  if (raw.versions !== undefined) {
+    const versions = parseVersionSpecs(raw.versions);
+    if (versions === undefined) return undefined;
+    event.versions = versions;
+  }
+  if (raw.description !== undefined) {
+    if (!isNonEmptyString(raw.description)) return undefined;
+    event.description = raw.description;
+  }
+  if (raw.references !== undefined) {
+    if (!Array.isArray(raw.references) || !raw.references.every(isNonEmptyString)) return undefined;
+    event.references = raw.references;
+  }
+  return event;
+}
+
+function parseVersionSpecs(raw: unknown): CleVersionSpec[] | undefined {
+  if (!Array.isArray(raw) || raw.length === 0) return undefined;
+  const versions: CleVersionSpec[] = [];
+  for (const spec of raw) {
+    if (!isRecord(spec) || !isNonEmptyString(spec.range)) return undefined;
+    versions.push({ range: spec.range });
+  }
+  return versions;
 }
 
 function deadlineOf(effective: string): string | undefined {
@@ -238,57 +253,49 @@ async function readJson(path: string): Promise<unknown | undefined> {
  */
 async function clePackages(root: string): Promise<ClePackage[]> {
   const found: ClePackage[] = [];
-  async function walkNodeModules(directory: string): Promise<void> {
-    let entries;
-    try {
-      entries = await readdir(directory, { withFileTypes: true });
-    } catch {
-      return;
-    }
-    for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
-      if (entry.isSymbolicLink() || SKIPPED_NODE_MODULES.has(entry.name)) continue;
-      if (!entry.isDirectory()) continue;
-      const path = join(directory, entry.name);
-      if (entry.name === ".pnpm") {
-        let stores;
-        try {
-          stores = await readdir(path, { withFileTypes: true });
-        } catch {
-          continue;
-        }
-        for (const store of stores.sort((left, right) => left.name.localeCompare(right.name))) {
-          if (store.isSymbolicLink() || !store.isDirectory()) continue;
-          await walkNodeModules(join(path, store.name, "node_modules"));
-        }
-        continue;
-      }
-      if (entry.name.startsWith("@")) {
-        let scoped;
-        try {
-          scoped = await readdir(path, { withFileTypes: true });
-        } catch {
-          continue;
-        }
-        for (const child of scoped.sort((left, right) => left.name.localeCompare(right.name))) {
-          if (child.isSymbolicLink() || !child.isDirectory()) continue;
-          await considerPackage(join(path, child.name));
-        }
-        continue;
-      }
-      await considerPackage(path);
-    }
-  }
-  async function considerPackage(directory: string): Promise<void> {
-    const clePath = join(directory, CLE_FILE_NAME);
-    const document = parseCleDocument(await readJson(clePath));
-    if (document) {
-      const manifest = await readJson(join(directory, "package.json"));
-      if (isRecord(manifest)) found.push({ directory, clePath, document, manifest });
-    }
-    await walkNodeModules(join(directory, "node_modules"));
-  }
-  await walkNodeModules(join(root, "node_modules"));
+  await walkNodeModules(join(root, "node_modules"), found);
   return found.sort((left, right) => left.directory.localeCompare(right.directory));
+}
+
+/** Directory entries in name order; an unreadable directory has none. */
+async function readSortedEntries(directory: string): Promise<Dirent[]> {
+  try {
+    return (await readdir(directory, { withFileTypes: true })).sort((left, right) =>
+      left.name.localeCompare(right.name),
+    );
+  } catch {
+    return [];
+  }
+}
+
+async function walkNodeModules(directory: string, found: ClePackage[]): Promise<void> {
+  for (const entry of await readSortedEntries(directory)) {
+    if (entry.isSymbolicLink() || SKIPPED_NODE_MODULES.has(entry.name) || !entry.isDirectory()) continue;
+    const path = join(directory, entry.name);
+    if (entry.name === ".pnpm") {
+      for (const store of await readSortedEntries(path)) {
+        if (store.isSymbolicLink() || !store.isDirectory()) continue;
+        await walkNodeModules(join(path, store.name, "node_modules"), found);
+      }
+    } else if (entry.name.startsWith("@")) {
+      for (const child of await readSortedEntries(path)) {
+        if (child.isSymbolicLink() || !child.isDirectory()) continue;
+        await considerPackage(join(path, child.name), found);
+      }
+    } else {
+      await considerPackage(path, found);
+    }
+  }
+}
+
+async function considerPackage(directory: string, found: ClePackage[]): Promise<void> {
+  const clePath = join(directory, CLE_FILE_NAME);
+  const document = parseCleDocument(await readJson(clePath));
+  if (document) {
+    const manifest = await readJson(join(directory, "package.json"));
+    if (isRecord(manifest)) found.push({ directory, clePath, document, manifest });
+  }
+  await walkNodeModules(join(directory, "node_modules"), found);
 }
 
 /** Findings from maintainer CLE documents shipped inside installed packages. Offline only. */

@@ -1,0 +1,13 @@
+name: Workflow command migration
+defaults:
+  run:
+    shell: bash
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "RESULT=value" >> "$GITHUB_OUTPUT"
+          echo 'CACHE=saved' >> "$GITHUB_STATE"
+          echo "MODE=production" >> "$GITHUB_ENV"
+          echo "/opt/bin" >> "$GITHUB_PATH"

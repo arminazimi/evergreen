@@ -27,8 +27,7 @@ export const githubActionsUsesFixer: Fixer = {
   async plan(result, refuse) {
     const targets = new Map<string, Targets>();
     for (const finding of result.findings) {
-      if (!finding.ruleId.startsWith("github-actions.") || !finding.location.path.startsWith(".github/workflows/"))
-        continue;
+      if (!isActionRule(finding.ruleId) || !finding.location.path.startsWith(".github/workflows/")) continue;
       if (finding.location.line === undefined) {
         refuse?.(finding, "The finding names no line to rewrite.");
         continue;
@@ -133,4 +132,8 @@ function refusalReason(line: string | undefined, edit: ActionEdit): string | und
   if (!current) return "The reference is not a version tag; a branch or floating reference is left alone.";
   if (Number(current[1]) >= edit.major) return undefined;
   return "The reference did not match the action on its line.";
+}
+
+function isActionRule(id: string): boolean {
+  return id.startsWith("github-actions.") && !id.startsWith("github-actions.workflow-command.");
 }

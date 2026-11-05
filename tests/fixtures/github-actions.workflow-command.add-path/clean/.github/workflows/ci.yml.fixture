@@ -1,0 +1,8 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # echo "::add-path::/opt/bin"
+          echo "supported" >> "$GITHUB_PATH"
+        shell: bash

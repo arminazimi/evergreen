@@ -140,7 +140,7 @@
       "count": 2
     },
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 5
+      "count": 4
     }
   },
   "src/conformance/checks/locations.ts": {

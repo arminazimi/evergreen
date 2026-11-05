@@ -32,16 +32,14 @@ export type CommentParse = { command: CommentCommand } | { error: string } | und
 const USAGE = "Usage: `/evergreen explain <finding-id>` or `/evergreen ignore <finding-id> <reason>`.";
 const MAX_REASON_LENGTH = 500;
 const MAX_FINDING_ID_LENGTH = 300;
+const FINDING_ID_TOO_LONG = "That finding id is too long.";
 
 /**
  * Reads the first line of a comment that starts with `/evergreen`. A line that is not an Evergreen
  * command yields `undefined`; a command with the wrong arguments yields a short usage error.
  */
 export function parseCommentCommand(body: string): CommentParse {
-  const line = body
-    .split(/\r?\n/)
-    .map((candidate) => candidate.trim())
-    .find((candidate) => new RegExp(`^${COMMAND_PREFIX}(?:\\s|$)`, "i").test(candidate));
+  const line = findCommandLine(body);
   if (line === undefined) return undefined;
 
   const rest = line.slice(COMMAND_PREFIX.length).trim();
@@ -54,18 +52,33 @@ export function parseCommentCommand(body: string): CommentParse {
   const argumentsText = rest.slice((verb ?? "").length).trim();
   if (argumentsText.length === 0) return { error: USAGE };
 
-  if (command === "explain") {
-    if (words.length !== 1) return { error: USAGE };
-    const findingId = words[0] ?? "";
-    if (findingId.length > MAX_FINDING_ID_LENGTH) return { error: "That finding id is too long." };
-    return { command: { kind: "explain", findingId } };
-  }
+  return command === "explain" ? parseExplainArguments(words) : parseIgnoreArguments(argumentsText);
+}
 
+/** The first trimmed line that starts with the command prefix, or undefined when there is none. */
+function findCommandLine(body: string): string | undefined {
+  const commandStart = new RegExp(`^${COMMAND_PREFIX}(?:\\s|$)`, "i");
+  return body
+    .split(/\r?\n/)
+    .map((candidate) => candidate.trim())
+    .find((candidate) => commandStart.test(candidate));
+}
+
+/** `explain <finding-id>`: exactly one id. */
+function parseExplainArguments(words: readonly string[]): CommentParse {
+  if (words.length !== 1) return { error: USAGE };
+  const findingId = words[0] ?? "";
+  if (findingId.length > MAX_FINDING_ID_LENGTH) return { error: FINDING_ID_TOO_LONG };
+  return { command: { kind: "explain", findingId } };
+}
+
+/** `ignore <finding-id> <reason>`: an id followed by a non-empty reason. */
+function parseIgnoreArguments(argumentsText: string): CommentParse {
   const separator = argumentsText.search(/\s/);
   if (separator < 0) return { error: USAGE };
   const findingId = argumentsText.slice(0, separator);
   const reason = argumentsText.slice(separator + 1).trim();
-  if (findingId.length > MAX_FINDING_ID_LENGTH) return { error: "That finding id is too long." };
+  if (findingId.length > MAX_FINDING_ID_LENGTH) return { error: FINDING_ID_TOO_LONG };
   if (reason.length === 0) return { error: USAGE };
   if (reason.length > MAX_REASON_LENGTH)
     return { error: `The reason must be at most ${MAX_REASON_LENGTH} characters.` };

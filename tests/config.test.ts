@@ -313,3 +313,23 @@ test("CLI: a config file changes a scan's result and a flag overrides it (data-v
   const overrideScan = await runCli(["scan", dir, "--data-version", "bundled"]);
   assert.equal(overrideScan.code, 0, "CLI --data-version bundled should override config file and succeed");
 });
+
+test("validateConfig reads the first set spelling of a key and words each path-list problem for its key", () => {
+  assert.equal(validateConfig({ failOn: null, "fail-on": "high" }).failOn, "high");
+  assert.deepEqual(validateConfig({ ignore: " dist " }).ignore, ["dist"]);
+  assert.throws(
+    () => validateConfig({ ignore: ["ok", " "] }),
+    /Invalid ignore in .*expected array of non-empty strings/,
+  );
+  assert.throws(() => validateConfig({ ignore: 3 }), /Invalid ignore in .*expected string or array of strings/);
+  assert.throws(() => validateConfig({ ignore: "  " }), /Invalid ignore path in .*cannot be empty/);
+  assert.throws(
+    () => validateConfig({ baseline: 3 }),
+    /Invalid baseline in .*expected file path or array of file paths/,
+  );
+  assert.throws(
+    () => validateConfig({ baselineFiles: ["ok", 1] }),
+    /Invalid baseline in .*expected array of non-empty file paths/,
+  );
+  assert.throws(() => validateConfig({ baseline: "" }), /Invalid baseline path in .*cannot be empty/);
+});

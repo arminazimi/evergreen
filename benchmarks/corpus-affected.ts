@@ -46,6 +46,7 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "github-actions": ["node-actions"],
   "github-actions-dotnet": ["node-actions", "dotnet"],
   "github-actions-node": ["node-actions", "node"],
+  "github-actions-workflow-commands": ["node-actions"],
   go: ["go"],
   java: ["java"],
   kubernetes: ["kubernetes"],
@@ -191,6 +192,11 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
         "terraform",
       ],
       reason: "checked lookups in parsers",
+    },
+    {
+      pattern: /^src\/source-files\.ts$/,
+      ecosystems: ["node-actions"],
+      reason: "workflow and composite action discovery",
     },
     {
       pattern: /^src\/detectors\/json-lines\.ts$/,

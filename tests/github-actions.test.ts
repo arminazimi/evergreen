@@ -280,6 +280,7 @@ test("every bundled action rule flags the release below its supported major and 
   };
   assert.ok(registry.rules.length >= 15);
   for (const rule of registry.rules) {
+    if (rule.id.startsWith("github-actions.workflow-command.")) continue;
     const { action, supportedFromMajor } = rule["x-github-actions"];
     const root = await repositoryWithWorkflow(
       `jobs:\n  test:\n    steps:\n      - uses: ${action}@v${supportedFromMajor - 1}\n      - uses: ${action}@v${supportedFromMajor}\n      - uses: ${action}@v${supportedFromMajor}.1.0\n`,

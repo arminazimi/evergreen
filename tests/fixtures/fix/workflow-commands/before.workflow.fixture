@@ -1,0 +1,13 @@
+name: Workflow command migration
+defaults:
+  run:
+    shell: bash
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "::set-output name=RESULT::value"
+          echo '::save-state name=CACHE::saved'
+          echo ::set-env name=MODE::production
+          echo "::add-path::/opt/bin"

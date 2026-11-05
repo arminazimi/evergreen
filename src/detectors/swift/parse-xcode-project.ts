@@ -51,56 +51,67 @@ const LIST_ITEM = /^\t\t\t\t([0-9A-Fa-f]{24})(?: \/\*.*\*\/)?,$/;
 const DEPLOYMENT_TARGET = /^\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = "?([^";]*)"?;$/;
 
 /** Every top-level object of the project, keyed by identifier. An identifier that appears twice is dropped as ambiguous. */
-function projectObjects(lines: readonly string[]): Map<string, ProjectObject> {
+export function projectObjects(lines: readonly string[]): Map<string, ProjectObject> {
   const objects = new Map<string, ProjectObject>();
   const ambiguous = new Set<string>();
 
   for (let index = 0; index < lines.length; index += 1) {
     const start = OBJECT_START.exec(required(lines[index], "the object line"));
     if (!start) continue;
+    const body = readObjectBody(lines, index + 1);
+    if (!body) return new Map();
+    index = body.end;
+
     const identifier = required(start[1], "object identifier");
-    const object: ProjectObject = { buildConfigurations: [], deploymentTargets: [] };
-    let closed = false;
-    let inList = false;
-
-    for (index += 1; index < lines.length; index += 1) {
-      const line = required(lines[index], "the object body line");
-      if (OBJECT_END.test(line)) {
-        closed = true;
-        break;
-      }
-      if (inList) {
-        if (LIST_END.test(line)) inList = false;
-        else {
-          const item = LIST_ITEM.exec(line);
-          if (item) object.buildConfigurations.push(required(item[1], "configuration identifier"));
-        }
-        continue;
-      }
-      if (LIST_START.test(line)) {
-        inList = true;
-        continue;
-      }
-      const field = FIELD.exec(line);
-      if (field) {
-        if (field[1] === "isa") object.isa = required(field[2], "object class");
-        else if (field[1] === "productType") object.productType = required(field[2], "product type");
-        else object.buildConfigurationList = required(field[2], "configuration list");
-        continue;
-      }
-      const deployment = DEPLOYMENT_TARGET.exec(line);
-      if (deployment && line.length <= MAXIMUM_LINE_LENGTH) {
-        object.deploymentTargets.push({ value: required(deployment[1], "deployment target"), line: index + 1 });
-      }
-    }
-    if (!closed || inList) return new Map();
-
     if (objects.has(identifier)) ambiguous.add(identifier);
-    objects.set(identifier, object);
+    objects.set(identifier, body.object);
   }
 
   for (const identifier of ambiguous) objects.delete(identifier);
   return objects;
+}
+
+/** Read the body of one object from `from` through its closing line. Undefined when the object, or a list inside it, is never closed. */
+function readObjectBody(lines: readonly string[], from: number): { object: ProjectObject; end: number } | undefined {
+  const object: ProjectObject = { buildConfigurations: [], deploymentTargets: [] };
+  let inList = false;
+  for (let index = from; index < lines.length; index += 1) {
+    const line = required(lines[index], "the object body line");
+    if (OBJECT_END.test(line)) return inList ? undefined : { object, end: index };
+    if (inList) {
+      if (LIST_END.test(line)) inList = false;
+      else addConfigurationItem(object, line);
+    } else if (LIST_START.test(line)) {
+      inList = true;
+    } else {
+      readObjectLine(object, line, index + 1);
+    }
+  }
+  return undefined;
+}
+
+function addConfigurationItem(object: ProjectObject, line: string): void {
+  const item = LIST_ITEM.exec(line);
+  if (item) object.buildConfigurations.push(required(item[1], "configuration identifier"));
+}
+
+/** Read one field or build setting line of an object body. */
+function readObjectLine(object: ProjectObject, line: string, lineNumber: number): void {
+  const field = FIELD.exec(line);
+  if (field) {
+    assignField(object, required(field[1], "field name"), required(field[2], "field value"));
+    return;
+  }
+  const deployment = DEPLOYMENT_TARGET.exec(line);
+  if (deployment && line.length <= MAXIMUM_LINE_LENGTH) {
+    object.deploymentTargets.push({ value: required(deployment[1], "deployment target"), line: lineNumber });
+  }
+}
+
+function assignField(object: ProjectObject, name: string, value: string): void {
+  if (name === "isa") object.isa = value;
+  else if (name === "productType") object.productType = value;
+  else object.buildConfigurationList = value;
 }
 
 /** The iOS deployment targets set on the build configurations of app targets, in source order. Libraries and other product types are never reported. */

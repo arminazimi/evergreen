@@ -68,234 +68,222 @@ function blankPreservingNewlines(contents: string, from: number, to: number): st
   return parts.join("");
 }
 
+type StripMode = "code" | "lineComment" | "block" | "lineString" | "multiString";
+
+/** The cursor and output of one `stripBlockComments` scan. `keepStart` marks text not yet copied to `chunks`. */
+interface StripState {
+  contents: string;
+  index: number;
+  keepStart: number;
+  depth: number;
+  mode: StripMode;
+  chunks: string[];
+}
+
 /**
  * Blank block comments (newlines kept) so line numbers stay stable. Single linear scan, in order:
  * `//` line comments (block openers inside them are ignored; text kept for later stripping),
  * nestable block comments, multi-line `"""` strings, and ordinary one-line strings (string state
  * resets at a newline). Result is built from chunks joined once.
  */
-function stripBlockComments(contents: string): string {
-  const chunks: string[] = [];
-  let keepStart = 0;
-  let index = 0;
-  let depth = 0;
-  type Mode = "code" | "lineComment" | "block" | "lineString" | "multiString";
-  let mode: Mode = "code";
+export function stripBlockComments(contents: string): string {
+  const state: StripState = { contents, index: 0, keepStart: 0, depth: 0, mode: "code", chunks: [] };
+  while (state.index < contents.length) STRIP_STEPS[state.mode](state);
+  if (state.mode === "block") state.chunks.push(blankPreservingNewlines(contents, state.keepStart, contents.length));
+  else flushKeep(state, contents.length);
+  return state.chunks.join("");
+}
 
-  const flushKeep = (until: number) => {
-    if (until > keepStart) chunks.push(contents.slice(keepStart, until));
-    keepStart = until;
-  };
+const STRIP_STEPS: Record<StripMode, (state: StripState) => void> = {
+  code: stripCode,
+  lineComment: stripLineComment,
+  block: stripBlock,
+  lineString: stripLineString,
+  multiString: stripMultiString,
+};
 
-  while (index < contents.length) {
-    const char = contents.charAt(index);
-    const next = contents[index + 1];
-    const next2 = contents[index + 2];
+/** Copy the raw text up to `until` and start a new pending run there. */
+function flushKeep(state: StripState, until: number): void {
+  if (until > state.keepStart) state.chunks.push(state.contents.slice(state.keepStart, until));
+  state.keepStart = until;
+}
 
-    if (mode === "lineComment") {
-      if (char === "\n" || char === "\r") {
-        mode = "code";
-        index += 1;
-        continue;
-      }
-      index += 1;
-      continue;
-    }
-
-    if (mode === "block") {
-      if (char === "/" && next === "*") {
-        chunks.push(blankPreservingNewlines(contents, keepStart, index));
-        chunks.push("  ");
-        keepStart = index + 2;
-        depth += 1;
-        index += 2;
-        continue;
-      }
-      if (char === "*" && next === "/") {
-        chunks.push(blankPreservingNewlines(contents, keepStart, index));
-        chunks.push("  ");
-        keepStart = index + 2;
-        depth -= 1;
-        index += 2;
-        if (depth === 0) mode = "code";
-        continue;
-      }
-      index += 1;
-      continue;
-    }
-
-    if (mode === "lineString") {
-      if (char === "\\") {
-        index += next !== undefined ? 2 : 1;
-        continue;
-      }
-      if (char === '"') {
-        mode = "code";
-        index += 1;
-        continue;
-      }
-      if (char === "\n" || char === "\r") {
-        // One-line strings cannot span lines; reset so a later block comment is still stripped.
-        mode = "code";
-        index += 1;
-        continue;
-      }
-      index += 1;
-      continue;
-    }
-
-    if (mode === "multiString") {
-      if (char === "\\") {
-        index += next !== undefined ? 2 : 1;
-        continue;
-      }
-      if (char === '"' && next === '"' && next2 === '"') {
-        mode = "code";
-        index += 3;
-        continue;
-      }
-      index += 1;
-      continue;
-    }
-
-    // mode === "code"
-    if (char === "/" && next === "/") {
-      mode = "lineComment";
-      index += 2;
-      continue;
-    }
-    if (char === "/" && next === "*") {
-      flushKeep(index);
-      chunks.push("  ");
-      keepStart = index + 2;
-      mode = "block";
-      depth = 1;
-      index += 2;
-      continue;
-    }
-    if (char === '"' && next === '"' && next2 === '"') {
-      mode = "multiString";
-      index += 3;
-      continue;
-    }
-    if (char === '"') {
-      mode = "lineString";
-      index += 1;
-      continue;
-    }
-    index += 1;
-  }
-
-  if (mode === "block") {
-    chunks.push(blankPreservingNewlines(contents, keepStart, contents.length));
+function stripCode(state: StripState): void {
+  const { contents, index } = state;
+  const char = contents.charAt(index);
+  const next = contents[index + 1];
+  const next2 = contents[index + 2];
+  if (char === "/" && next === "/") {
+    state.mode = "lineComment";
+    state.index += 2;
+  } else if (char === "/" && next === "*") {
+    flushKeep(state, index);
+    state.chunks.push("  ");
+    state.keepStart = index + 2;
+    state.mode = "block";
+    state.depth = 1;
+    state.index += 2;
+  } else if (char === '"' && next === '"' && next2 === '"') {
+    state.mode = "multiString";
+    state.index += 3;
+  } else if (char === '"') {
+    state.mode = "lineString";
+    state.index += 1;
   } else {
-    flushKeep(contents.length);
+    state.index += 1;
   }
-  return chunks.join("");
+}
+
+function stripLineComment(state: StripState): void {
+  const char = state.contents.charAt(state.index);
+  if (char === "\n" || char === "\r") state.mode = "code";
+  state.index += 1;
+}
+
+function stripBlock(state: StripState): void {
+  const { contents, index } = state;
+  const char = contents.charAt(index);
+  const next = contents[index + 1];
+  if (char === "/" && next === "*") {
+    state.chunks.push(blankPreservingNewlines(contents, state.keepStart, index), "  ");
+    state.keepStart = index + 2;
+    state.depth += 1;
+    state.index += 2;
+  } else if (char === "*" && next === "/") {
+    state.chunks.push(blankPreservingNewlines(contents, state.keepStart, index), "  ");
+    state.keepStart = index + 2;
+    state.depth -= 1;
+    state.index += 2;
+    if (state.depth === 0) state.mode = "code";
+  } else {
+    state.index += 1;
+  }
+}
+
+function stripLineString(state: StripState): void {
+  const { contents, index } = state;
+  const char = contents.charAt(index);
+  if (char === "\\") {
+    state.index += contents[index + 1] !== undefined ? 2 : 1;
+    return;
+  }
+  // One-line strings cannot span lines; a newline resets so a later block comment is still stripped.
+  if (char === '"' || char === "\n" || char === "\r") state.mode = "code";
+  state.index += 1;
+}
+
+function stripMultiString(state: StripState): void {
+  const { contents, index } = state;
+  const char = contents.charAt(index);
+  if (char === "\\") {
+    state.index += contents[index + 1] !== undefined ? 2 : 1;
+  } else if (char === '"' && contents[index + 1] === '"' && contents[index + 2] === '"') {
+    state.mode = "code";
+    state.index += 3;
+  } else {
+    state.index += 1;
+  }
+}
+
+type MaskMode = "code" | "lineComment" | "lineString" | "multiString";
+
+/** The cursor and output of one `blankStringsAndLineComments` scan; `keepStart` marks text not yet copied to `chunks`. */
+interface MaskState {
+  contents: string;
+  index: number;
+  keepStart: number;
+  mode: MaskMode;
+  chunks: string[];
 }
 
 /**
  * Blank string interiors and `//` line comments to spaces (offsets unchanged) so `.package` text
  * inside literals is not found. Understands `"""`, one-line strings (reset at newline), and `//`.
  */
-function blankStringsAndLineComments(contents: string): string {
-  const chunks: string[] = [];
-  let keepStart = 0;
-  let index = 0;
-  type Mode = "code" | "lineComment" | "lineString" | "multiString";
-  let mode: Mode = "code";
+export function blankStringsAndLineComments(contents: string): string {
+  const state: MaskState = { contents, index: 0, keepStart: 0, mode: "code", chunks: [] };
+  while (state.index < contents.length) MASK_STEPS[state.mode](state);
+  if (state.mode === "code") flushMaskKeep(state, contents.length);
+  else state.chunks.push(blankPreservingNewlines(contents, state.keepStart, contents.length));
+  return state.chunks.join("");
+}
 
-  const flushKeep = (until: number) => {
-    if (until > keepStart) chunks.push(contents.slice(keepStart, until));
-    keepStart = until;
-  };
+const MASK_STEPS: Record<MaskMode, (state: MaskState) => void> = {
+  code: maskCode,
+  lineComment: maskLineComment,
+  lineString: maskLineString,
+  multiString: maskMultiString,
+};
 
-  while (index < contents.length) {
-    const char = contents.charAt(index);
-    const next = contents[index + 1];
-    const next2 = contents[index + 2];
+/** Copy the raw text up to `until` and start a new pending run there. */
+function flushMaskKeep(state: MaskState, until: number): void {
+  if (until > state.keepStart) state.chunks.push(state.contents.slice(state.keepStart, until));
+  state.keepStart = until;
+}
 
-    if (mode === "lineComment") {
-      if (char === "\n" || char === "\r") {
-        chunks.push(blankPreservingNewlines(contents, keepStart, index));
-        keepStart = index;
-        mode = "code";
-        index += 1;
-        continue;
-      }
-      index += 1;
-      continue;
-    }
+/** Blank the pending run up to `until` (newlines kept), then start a new run there. */
+function blankPending(state: MaskState, until: number): void {
+  state.chunks.push(blankPreservingNewlines(state.contents, state.keepStart, until));
+  state.keepStart = until;
+}
 
-    if (mode === "lineString") {
-      if (char === "\\") {
-        index += next !== undefined ? 2 : 1;
-        continue;
-      }
-      if (char === '"') {
-        chunks.push(blankPreservingNewlines(contents, keepStart, index));
-        keepStart = index;
-        mode = "code";
-        index += 1;
-        continue;
-      }
-      if (char === "\n" || char === "\r") {
-        chunks.push(blankPreservingNewlines(contents, keepStart, index));
-        keepStart = index;
-        mode = "code";
-        index += 1;
-        continue;
-      }
-      index += 1;
-      continue;
-    }
-
-    if (mode === "multiString") {
-      if (char === "\\") {
-        index += next !== undefined ? 2 : 1;
-        continue;
-      }
-      if (char === '"' && next === '"' && next2 === '"') {
-        chunks.push(blankPreservingNewlines(contents, keepStart, index));
-        keepStart = index;
-        mode = "code";
-        index += 3;
-        continue;
-      }
-      index += 1;
-      continue;
-    }
-
-    if (char === "/" && next === "/") {
-      flushKeep(index);
-      keepStart = index;
-      mode = "lineComment";
-      index += 2;
-      continue;
-    }
-    if (char === '"' && next === '"' && next2 === '"') {
-      flushKeep(index + 3);
-      keepStart = index + 3;
-      mode = "multiString";
-      index += 3;
-      continue;
-    }
-    if (char === '"') {
-      flushKeep(index + 1);
-      keepStart = index + 1;
-      mode = "lineString";
-      index += 1;
-      continue;
-    }
-    index += 1;
-  }
-
-  if (mode === "lineComment" || mode === "lineString" || mode === "multiString") {
-    chunks.push(blankPreservingNewlines(contents, keepStart, contents.length));
+function maskCode(state: MaskState): void {
+  const { contents, index } = state;
+  const char = contents.charAt(index);
+  const next = contents[index + 1];
+  const next2 = contents[index + 2];
+  if (char === "/" && next === "/") {
+    flushMaskKeep(state, index);
+    state.mode = "lineComment";
+    state.index += 2;
+  } else if (char === '"' && next === '"' && next2 === '"') {
+    flushMaskKeep(state, index + 3);
+    state.mode = "multiString";
+    state.index += 3;
+  } else if (char === '"') {
+    flushMaskKeep(state, index + 1);
+    state.mode = "lineString";
+    state.index += 1;
   } else {
-    flushKeep(contents.length);
+    state.index += 1;
   }
-  return chunks.join("");
+}
+
+function maskLineComment(state: MaskState): void {
+  const char = state.contents.charAt(state.index);
+  if (char === "\n" || char === "\r") {
+    blankPending(state, state.index);
+    state.mode = "code";
+  }
+  state.index += 1;
+}
+
+function maskLineString(state: MaskState): void {
+  const { contents, index } = state;
+  const char = contents.charAt(index);
+  if (char === "\\") {
+    state.index += contents[index + 1] !== undefined ? 2 : 1;
+    return;
+  }
+  if (char === '"' || char === "\n" || char === "\r") {
+    blankPending(state, index);
+    state.mode = "code";
+  }
+  state.index += 1;
+}
+
+function maskMultiString(state: MaskState): void {
+  const { contents, index } = state;
+  const char = contents.charAt(index);
+  if (char === "\\") {
+    state.index += contents[index + 1] !== undefined ? 2 : 1;
+  } else if (char === '"' && contents[index + 1] === '"' && contents[index + 2] === '"') {
+    blankPending(state, index);
+    state.mode = "code";
+    state.index += 3;
+  } else {
+    state.index += 1;
+  }
 }
 
 /** Unquote a Swift string literal, or undefined when it is empty, interpolated, or not a plain string. */
@@ -318,53 +306,62 @@ function stringLiteral(raw: string | undefined): string | undefined {
   return value === "" ? undefined : value;
 }
 
+/** The index of the quote that closes the string opened at `open`, or -1 when it is never closed. */
+function closingQuote(code: string, open: number): number {
+  let index = open + 1;
+  while (index < code.length) {
+    if (code[index] === "\\") {
+      index += 2;
+      continue;
+    }
+    if (code[index] === '"') return index;
+    index += 1;
+  }
+  return -1;
+}
+
+/** The index of the `)` that closes the call opened at `open`, or -1 when the call or one of its strings is never closed. */
+function closingParenthesis(code: string, open: number): number {
+  let depth = 0;
+  for (let index = open; index < code.length; index += 1) {
+    const char = code.charAt(index);
+    if (char === '"') {
+      index = closingQuote(code, index);
+      if (index < 0) return -1;
+    } else if (char === "(") {
+      depth += 1;
+    } else if (char === ")") {
+      depth -= 1;
+      if (depth === 0) return index;
+    }
+  }
+  return -1;
+}
+
 /** Parse one `.package(...)` argument list, or undefined when incomplete or unsupported. */
-function packageFromCall(
+export function packageFromCall(
   code: string,
   open: number,
   line: number,
 ): { declaration?: SwiftPackageDependencyDeclaration; end: number } | undefined {
-  let depth = 0;
-  let end = -1;
-  for (let index = open; index < code.length; index += 1) {
-    const char = code.charAt(index);
-    if (char === '"') {
-      index += 1;
-      while (index < code.length) {
-        if (code[index] === "\\") {
-          index += 2;
-          continue;
-        }
-        if (code[index] === '"') break;
-        index += 1;
-      }
-      if (index >= code.length) return undefined;
-      continue;
-    }
-    if (char === "(") depth += 1;
-    if (char === ")") {
-      depth -= 1;
-      if (depth === 0) {
-        end = index;
-        break;
-      }
-    }
-  }
+  const end = closingParenthesis(code, open);
   if (end < 0) return undefined;
-
   const body = code.slice(open + 1, end);
   if (DYNAMIC_BODY.test(body) || PATH_LIKE.test(body) || RANGE_LIKE.test(body)) return { end };
+  const declaration = packageDeclaration(body, line);
+  return declaration ? { declaration, end } : { end };
+}
 
+/** The `url:` and exactly one of `from:` or `exact:` literal of a call body, or undefined. */
+function packageDeclaration(body: string, line: number): SwiftPackageDependencyDeclaration | undefined {
   const urlMatch = body.match(URL_FIELD);
   const fromMatch = body.match(FROM_FIELD);
   const exactMatch = body.match(EXACT_FIELD);
-  if (!urlMatch || (fromMatch && exactMatch) || (!fromMatch && !exactMatch)) return { end };
-
+  if (!urlMatch || Boolean(fromMatch) === Boolean(exactMatch)) return undefined;
   const url = stringLiteral(urlMatch[1]);
-  const requirement = fromMatch ? "from" : "exact";
   const value = stringLiteral(fromMatch?.[1] ?? exactMatch?.[1]);
-  if (!url || !value) return { end };
-  return { declaration: { kind: "package", url, requirement, value, line }, end };
+  if (!url || !value) return undefined;
+  return { kind: "package", url, requirement: fromMatch ? "from" : "exact", value, line };
 }
 
 /**
