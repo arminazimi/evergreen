@@ -7,6 +7,7 @@ import type { Node } from "yaml";
 import { parseCircleci } from "../detectors/ci-images/parse-circleci.js";
 import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
 import { parseDockerfile } from "../detectors/container/parse-dockerfile.js";
+import type { DockerfileRuntimeDeclaration } from "../detectors/container/parse-dockerfile.js";
 import { parseImageReference } from "../detectors/container/parse-image.js";
 import { parseJdkVersion } from "../detectors/java/jdk-version.js";
 import type { DynamicJdkDeclaration, JdkDeclaration } from "../detectors/java/jdk-version.js";
@@ -302,136 +303,223 @@ function alignImageLine(lineText: string, raw: string, release: string): string 
   return undefined;
 }
 
-export const javaCollector: DriftCollector = {
-  runtime: "java",
+/** The JDK pins of a candidate file, keyed by the kind its name and path select. */
+type CandidateKindReader = (path: string, name: string, contents: string) => RuntimePin[];
 
-  async collect(root: string): Promise<RuntimePin[]> {
-    const pins: RuntimePin[] = [];
-    for (const file of await candidateFiles(root)) {
-      let contents: string;
-      try {
-        const info = await stat(file.absolute);
-        if (info.size > MAXIMUM_INPUT_BYTES) continue;
-        contents = await readFile(file.absolute, "utf8");
-      } catch {
-        continue;
-      }
-      const { path, name } = file;
-
-      if (name === "pom.xml") {
-        for (const declaration of parsePom(contents)) {
-          if (declaration.kind === "jdk" || declaration.kind === "dynamic") {
-            addJdkDeclaration(pins, path, COMPILER_SOURCE, declaration);
-          }
-        }
-      } else if (name === "build.gradle" || name === "build.gradle.kts") {
-        for (const declaration of parseGradle(contents)) {
-          if (declaration.kind === "jdk" || declaration.kind === "dynamic") {
-            const source = declaration.role === "toolchain" ? `${name} toolchain` : `${name} compatibility`;
-            addJdkDeclaration(pins, path, source, declaration);
-          }
-        }
-      } else if (name === ".java-version") {
-        for (const declaration of parseJavaVersion(contents))
-          addJdkDeclaration(pins, path, ".java-version", declaration);
-      } else if (name === ".sdkmanrc") {
-        for (const declaration of parseSdkmanrc(contents)) addJdkDeclaration(pins, path, ".sdkmanrc java", declaration);
-      } else if (name === ".tool-versions") {
-        for (const declaration of parseToolVersions(contents))
-          addJdkDeclaration(pins, path, ".tool-versions java", declaration);
-      } else if (DOCKERFILE_NAME.test(name)) {
-        for (const declaration of parseDockerfile(contents)) {
-          if (declaration.kind === "image")
-            addJavaImage(pins, path, `${name} FROM`, declaration.value, declaration.line);
-          else if (declaration.kind === "runtime" && declaration.runtime === "java") {
-            const major = leadingJdkMajor(declaration.value);
-            pins.push(
-              major === undefined
-                ? pin(
-                    path,
-                    declaration.line,
-                    `${name} RUN`,
-                    declaration.value,
-                    undefined,
-                    "the value does not name a JDK release",
-                  )
-                : pin(path, declaration.line, `${name} RUN`, declaration.value, String(major)),
-            );
-          } else if (declaration.kind === "dynamic" && IMAGE_FAMILY.test(declaration.value)) {
-            pins.push(
-              pin(
-                path,
-                declaration.line,
-                `${name} FROM`,
-                declaration.value,
-                undefined,
-                "the image reference is dynamic, which Evergreen does not expand",
-              ),
-            );
-          }
-        }
-      } else if (name === ".gitlab-ci.yml") {
-        for (const reference of parseGitlabCi(contents).unclassified)
-          addJavaImage(pins, path, `${path} image`, reference.value, reference.line);
-      } else if (name === "config.yml" && path.endsWith(".circleci/config.yml")) {
-        const parsed = parseCircleci(contents);
-        for (const reference of [...parsed.declarations, ...parsed.unclassified])
-          addJavaImage(pins, path, `${path} image`, reference.value, reference.line);
-      } else if (/\.ya?ml$/i.test(name)) {
-        for (const version of setupJavaVersions(contents)) {
-          const source = `${path} actions/setup-java java-version${version.direct ? "" : " matrix"}`;
-          const major = leadingJdkMajor(version.value);
-          if (version.value.includes("${{")) {
-            pins.push(pin(path, version.line, source, version.value, undefined, EXPRESSION_REASON));
-          } else if (major === undefined) {
-            pins.push(
-              pin(path, version.line, source, version.value, undefined, "the value does not name a JDK release"),
-            );
-          } else {
-            pins.push(pin(path, version.line, source, version.value, String(major)));
-          }
-        }
-      }
+function pomPins(path: string, contents: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of parsePom(contents)) {
+    if (declaration.kind === "jdk" || declaration.kind === "dynamic") {
+      addJdkDeclaration(pins, path, COMPILER_SOURCE, declaration);
     }
-    return pins;
+  }
+  return pins;
+}
+
+function gradlePins(path: string, name: string, contents: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of parseGradle(contents)) {
+    if (declaration.kind === "jdk" || declaration.kind === "dynamic") {
+      const source = declaration.role === "toolchain" ? `${name} toolchain` : `${name} compatibility`;
+      addJdkDeclaration(pins, path, source, declaration);
+    }
+  }
+  return pins;
+}
+
+function declaredPins(
+  path: string,
+  source: string,
+  declarations: readonly (JdkDeclaration | DynamicJdkDeclaration)[],
+): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of declarations) addJdkDeclaration(pins, path, source, declaration);
+  return pins;
+}
+
+/** The pins a Dockerfile adds: image references, `RUN` installs of a JDK, and dynamic references it cannot expand. */
+function dockerfilePins(path: string, name: string, contents: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of parseDockerfile(contents)) {
+    if (declaration.kind === "image") addJavaImage(pins, path, `${name} FROM`, declaration.value, declaration.line);
+    else if (declaration.kind === "runtime" && declaration.runtime === "java") addRunPin(pins, path, name, declaration);
+    else if (declaration.kind === "dynamic" && IMAGE_FAMILY.test(declaration.value)) {
+      pins.push(
+        pin(
+          path,
+          declaration.line,
+          `${name} FROM`,
+          declaration.value,
+          undefined,
+          "the image reference is dynamic, which Evergreen does not expand",
+        ),
+      );
+    }
+  }
+  return pins;
+}
+
+function addRunPin(pins: RuntimePin[], path: string, name: string, declaration: DockerfileRuntimeDeclaration): void {
+  const major = leadingJdkMajor(declaration.value);
+  pins.push(
+    major === undefined
+      ? pin(
+          path,
+          declaration.line,
+          `${name} RUN`,
+          declaration.value,
+          undefined,
+          "the value does not name a JDK release",
+        )
+      : pin(path, declaration.line, `${name} RUN`, declaration.value, String(major)),
+  );
+}
+
+function imagePins(path: string, items: readonly { line: number; value: string }[]): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const item of items) addJavaImage(pins, path, `${path} image`, item.value, item.line);
+  return pins;
+}
+
+function setupJavaPins(path: string, contents: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const version of setupJavaVersions(contents)) {
+    const source = `${path} actions/setup-java java-version${version.direct ? "" : " matrix"}`;
+    const major = leadingJdkMajor(version.value);
+    if (version.value.includes("${{")) {
+      pins.push(pin(path, version.line, source, version.value, undefined, EXPRESSION_REASON));
+    } else if (major === undefined) {
+      pins.push(pin(path, version.line, source, version.value, undefined, "the value does not name a JDK release"));
+    } else {
+      pins.push(pin(path, version.line, source, version.value, String(major)));
+    }
+  }
+  return pins;
+}
+
+type CandidateFileKind =
+  | "pom"
+  | "gradle"
+  | "java-version"
+  | "sdkmanrc"
+  | "tool-versions"
+  | "dockerfile"
+  | "gitlab"
+  | "circleci"
+  | "workflow";
+
+/** The reader a candidate file gets; the first rule that matches wins, so the order is the dispatch. */
+function candidateKind(name: string, path: string): CandidateFileKind | undefined {
+  if (name === "pom.xml") return "pom";
+  if (name === "build.gradle" || name === "build.gradle.kts") return "gradle";
+  if (name === ".java-version") return "java-version";
+  if (name === ".sdkmanrc") return "sdkmanrc";
+  if (name === ".tool-versions") return "tool-versions";
+  if (DOCKERFILE_NAME.test(name)) return "dockerfile";
+  if (name === ".gitlab-ci.yml") return "gitlab";
+  if (name === "config.yml" && path.endsWith(".circleci/config.yml")) return "circleci";
+  if (/\.ya?ml$/i.test(name)) return "workflow";
+  return undefined;
+}
+
+const PINS_BY_KIND: Record<CandidateFileKind, CandidateKindReader> = {
+  pom: (path, _name, contents) => pomPins(path, contents),
+  gradle: (path, name, contents) => gradlePins(path, name, contents),
+  "java-version": (path, _name, contents) => declaredPins(path, ".java-version", parseJavaVersion(contents)),
+  sdkmanrc: (path, _name, contents) => declaredPins(path, ".sdkmanrc java", parseSdkmanrc(contents)),
+  "tool-versions": (path, _name, contents) => declaredPins(path, ".tool-versions java", parseToolVersions(contents)),
+  dockerfile: dockerfilePins,
+  gitlab: (path, _name, contents) => imagePins(path, parseGitlabCi(contents).unclassified),
+  circleci: (path, _name, contents) => {
+    const parsed = parseCircleci(contents);
+    return imagePins(path, [...parsed.declarations, ...parsed.unclassified]);
   },
-
-  align(candidate: RuntimePin, lineText: string, release: string): string | undefined {
-    if (!/^\d+$/.test(release)) return undefined;
-    const source = candidate.source;
-
-    if (source === ".java-version") {
-      if (lineText.trim() !== candidate.raw || !isLiteralJdkValue(candidate.raw)) return undefined;
-      const index = lineText.indexOf(candidate.raw);
-      return `${lineText.slice(0, index)}${release}${lineText.slice(index + candidate.raw.length)}`;
-    }
-    if (source === ".sdkmanrc java") {
-      const match = /^(\s*java\s*=\s*)(\S+)(\s*)$/.exec(lineText);
-      if (!match || match[2] !== candidate.raw || !isLiteralJdkValue(candidate.raw)) return undefined;
-      return `${match[1]}${release}${match[3]}`;
-    }
-    if (source === ".tool-versions java") {
-      const match = /^(\s*java\s+)(\S+)(.*)$/.exec(lineText);
-      if (!match || match[2] !== candidate.raw || !isLiteralJdkValue(candidate.raw)) return undefined;
-      return `${match[1]}${release}${match[3]}`;
-    }
-    if (source === COMPILER_SOURCE) {
-      const match = /^(.*<([A-Za-z0-9._-]+)>)([^<]*)(<\/\2>.*)$/.exec(lineText);
-      if (!match) return undefined;
-      const [, prefix = "", , value = "", suffix = ""] = match;
-      if (!isLiteralJdkValue(value.trim())) return undefined;
-      return `${prefix}${release}${suffix}`;
-    }
-    if (source.endsWith("toolchain") || source.endsWith("compatibility")) return undefined;
-    if (source.endsWith(" RUN")) return undefined;
-    if (source.endsWith("actions/setup-java java-version")) {
-      if (!isLiteralJdkValue(candidate.raw)) return undefined;
-      const match = /^(\s*(?:-\s*)?java-version\s*:\s*)(["']?)([^"'#\s]+)(\2)(.*)$/.exec(lineText);
-      if (!match || match[3] !== candidate.raw) return undefined;
-      return `${match[1]}${match[2]}${release}${match[2]}${match[5]}`;
-    }
-    if (source.endsWith("actions/setup-java java-version matrix")) return undefined;
-    if (source.endsWith(" FROM") || source.endsWith(" image")) return alignImageLine(lineText, candidate.raw, release);
-    return undefined;
-  },
+  workflow: (path, _name, contents) => setupJavaPins(path, contents),
 };
+
+/** The file contents, or undefined when the file is too large to read or cannot be read at all. */
+async function candidateText(file: CandidateFile): Promise<string | undefined> {
+  try {
+    const info = await stat(file.absolute);
+    if (info.size > MAXIMUM_INPUT_BYTES) return undefined;
+    return await readFile(file.absolute, "utf8");
+  } catch {
+    return undefined;
+  }
+}
+
+async function collect(root: string): Promise<RuntimePin[]> {
+  const pins: RuntimePin[] = [];
+  for (const file of await candidateFiles(root)) {
+    const kind = candidateKind(file.name, file.path);
+    if (kind === undefined) continue;
+    const contents = await candidateText(file);
+    if (contents === undefined) continue;
+    pins.push(...PINS_BY_KIND[kind](file.path, file.name, contents));
+  }
+  return pins;
+}
+
+function alignJavaVersionFile(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  if (lineText.trim() !== pin.raw || !isLiteralJdkValue(pin.raw)) return undefined;
+  const index = lineText.indexOf(pin.raw);
+  return `${lineText.slice(0, index)}${release}${lineText.slice(index + pin.raw.length)}`;
+}
+
+function alignSdkmanrcLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*java\s*=\s*)(\S+)(\s*)$/.exec(lineText);
+  if (!match || match[2] !== pin.raw || !isLiteralJdkValue(pin.raw)) return undefined;
+  return `${match[1]}${release}${match[3]}`;
+}
+
+function alignToolVersionsLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*java\s+)(\S+)(.*)$/.exec(lineText);
+  if (!match || match[2] !== pin.raw || !isLiteralJdkValue(pin.raw)) return undefined;
+  return `${match[1]}${release}${match[3]}`;
+}
+
+function alignCompilerSetting(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(.*<([A-Za-z0-9._-]+)>)([^<]*)(<\/\2>.*)$/.exec(lineText);
+  if (!match) return undefined;
+  const [, prefix = "", , value = "", suffix = ""] = match;
+  if (!isLiteralJdkValue(value.trim())) return undefined;
+  return `${prefix}${release}${suffix}`;
+}
+
+function alignSetupJavaLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  if (!isLiteralJdkValue(pin.raw)) return undefined;
+  const match = /^(\s*(?:-\s*)?java-version\s*:\s*)(["']?)([^"'#\s]+)(\2)(.*)$/.exec(lineText);
+  if (!match || match[3] !== pin.raw) return undefined;
+  return `${match[1]}${match[2]}${release}${match[2]}${match[5]}`;
+}
+
+/** Which rewriter a pin source gets; the first rule that matches wins, so the order is the dispatch. */
+interface JavaAlignRule {
+  appliesTo: (source: string) => boolean;
+  rewrite: (pin: RuntimePin, lineText: string, release: string) => string | undefined;
+}
+
+const JAVA_ALIGN_RULES: readonly JavaAlignRule[] = [
+  { appliesTo: (source) => source === ".java-version", rewrite: alignJavaVersionFile },
+  { appliesTo: (source) => source === ".sdkmanrc java", rewrite: alignSdkmanrcLine },
+  { appliesTo: (source) => source === ".tool-versions java", rewrite: alignToolVersionsLine },
+  { appliesTo: (source) => source === COMPILER_SOURCE, rewrite: alignCompilerSetting },
+  { appliesTo: (source) => source.endsWith("actions/setup-java java-version"), rewrite: alignSetupJavaLine },
+  {
+    appliesTo: (source) => source.endsWith(" FROM") || source.endsWith(" image"),
+    rewrite: (pin, lineText, release) => alignImageLine(lineText, pin.raw, release),
+  },
+];
+
+/**
+ * Rewrites a candidate line, or undefined. A source with no rule here — a Gradle toolchain or compatibility
+ * setting, a `RUN` install, or a matrix value — is never rewritten, because the patch would not be the value
+ * the build reads.
+ */
+function align(candidate: RuntimePin, lineText: string, release: string): string | undefined {
+  if (!/^\d+$/.test(release)) return undefined;
+  const rule = JAVA_ALIGN_RULES.find((entry) => entry.appliesTo(candidate.source));
+  return rule === undefined ? undefined : rule.rewrite(candidate, lineText, release);
+}
+
+export const javaCollector: DriftCollector = { runtime: "java", collect, align };

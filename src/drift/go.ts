@@ -8,7 +8,9 @@ import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
 import { parseDockerfile } from "../detectors/container/parse-dockerfile.js";
 import { parseImageReference } from "../detectors/container/parse-image.js";
 import { parseGoMod } from "../detectors/go/parse-go-mod.js";
+import type { GoModDeclaration } from "../detectors/go/parse-go-mod.js";
 import { parseGoWork } from "../detectors/go/parse-go-work.js";
+import type { GoWorkDeclaration } from "../detectors/go/parse-go-work.js";
 import { relativePosix } from "../paths.js";
 import type { DriftCollector, RuntimePin } from "./types.js";
 
@@ -57,6 +59,35 @@ interface RepositoryFile {
   kind: RepositoryFileKind;
 }
 
+/** Which reader a repository file gets; the first rule that matches wins, so the order is the dispatch. */
+interface FileKindRule {
+  kind: RepositoryFileKind;
+  matches: (name: string, directory: string) => boolean;
+}
+
+const FILE_KIND_RULES: readonly FileKindRule[] = [
+  { kind: "go-mod", matches: (name) => name === "go.mod" },
+  { kind: "go-work", matches: (name) => name === "go.work" },
+  { kind: "go-version", matches: (name) => name === ".go-version" },
+  { kind: "tool-versions", matches: (name) => name === ".tool-versions" },
+  { kind: "dockerfile", matches: (name) => DOCKERFILE_NAME.test(name) },
+  { kind: "gitlab", matches: (name) => name === ".gitlab-ci.yml" },
+  { kind: "azure", matches: (name) => name === "azure-pipelines.yml" },
+  { kind: "circleci", matches: (name, directory) => name === "config.yml" && basename(directory) === ".circleci" },
+  {
+    kind: "workflow",
+    matches: (name, directory) =>
+      WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github",
+  },
+];
+
+function fileKind(name: string, directory: string): RepositoryFileKind | undefined {
+  for (const rule of FILE_KIND_RULES) {
+    if (rule.matches(name, directory)) return rule.kind;
+  }
+  return undefined;
+}
+
 async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
   const files: RepositoryFile[] = [];
   async function walk(directory: string, depth: number): Promise<void> {
@@ -75,21 +106,8 @@ async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
         continue;
       }
       if (!entry.isFile()) continue;
-      const name = entry.name;
-      if (name === "go.mod") files.push({ path, kind: "go-mod" });
-      else if (name === "go.work") files.push({ path, kind: "go-work" });
-      else if (name === ".go-version") files.push({ path, kind: "go-version" });
-      else if (name === ".tool-versions") files.push({ path, kind: "tool-versions" });
-      else if (DOCKERFILE_NAME.test(name)) files.push({ path, kind: "dockerfile" });
-      else if (name === ".gitlab-ci.yml") files.push({ path, kind: "gitlab" });
-      else if (name === "azure-pipelines.yml") files.push({ path, kind: "azure" });
-      else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path, kind: "circleci" });
-      else if (
-        WORKFLOW_NAME.test(name) &&
-        basename(directory) === "workflows" &&
-        basename(dirname(directory)) === ".github"
-      )
-        files.push({ path, kind: "workflow" });
+      const kind = fileKind(entry.name, directory);
+      if (kind !== undefined) files.push({ path, kind });
     }
   }
   await walk(root, 0);
@@ -155,76 +173,87 @@ function textOf(node: unknown): string | undefined {
   return undefined;
 }
 
+/** A node whose start offset the line counter can resolve. */
+type LineNode = { range?: [number, number, ...unknown[]] | null };
+
+/** The 1-based line a node starts on. */
+type LineOf = (node: LineNode) => number;
+
 /** `actions/setup-go` inputs in one workflow. A matrix reference is followed to the job's literal list. */
 function workflowPins(path: string, contents: string): RuntimePin[] {
   try {
     const lineCounter = new LineCounter();
     const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
     if (document.errors.length > 0 || !isMap(document.contents)) return [];
-    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number =>
-      lineCounter.linePos(node.range?.[0] ?? 0).line;
-
     const jobs = document.contents.get("jobs", true);
     if (!isMap(jobs)) return [];
+    const lineOf: LineOf = (node) => lineCounter.linePos(node.range?.[0] ?? 0).line;
     const pins: RuntimePin[] = [];
-    const addVersion = (node: unknown, source: string): void => {
-      const value = textOf(node);
-      if (value !== undefined && value !== "")
-        pins.push(
-          versionPin(path, lineOf(node as { range?: [number, number, ...unknown[]] | null }), source, value, "pin"),
-        );
-    };
-    for (const job of jobs.items) {
-      if (!isMap(job.value)) continue;
-      const strategy = job.value.get("strategy", true);
-      const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
-      const steps = job.value.get("steps", true);
-      if (!isSeq(steps)) continue;
-      for (const step of steps.items) {
-        if (!isMap(step)) continue;
-        const uses = step.get("uses");
-        if (typeof uses !== "string" || !SETUP_GO.test(uses)) continue;
-        const inputs = step.get("with", true);
-        if (!isMap(inputs)) continue;
-
-        const version = inputs.get("go-version", true) as { value?: unknown } | null;
-        if (version && isScalar(version)) {
-          const value = textOf(version);
-          const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
-          const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
-          if (isSeq(list)) for (const item of list.items) addVersion(item, "actions/setup-go matrix");
-          else if (value !== undefined)
-            pins.push(
-              versionPin(
-                path,
-                lineOf(version as { range?: [number, number, ...unknown[]] | null }),
-                "actions/setup-go go-version",
-                value,
-                "pin",
-              ),
-            );
-        }
-
-        const versionFile = inputs.get("go-version-file", true);
-        if (versionFile && isScalar(versionFile)) {
-          const value = textOf(versionFile);
-          if (value !== undefined && value !== "") {
-            pins.push({
-              path,
-              line: lineOf(versionFile as { range?: [number, number, ...unknown[]] | null }),
-              source: "actions/setup-go go-version-file",
-              raw: value,
-              kind: "pin",
-              unresolved: `the version comes from ${value}, which this report reads separately`,
-            });
-          }
-        }
-      }
-    }
+    for (const job of jobs.items) pins.push(...jobSetupGoPins(path, job, lineOf));
     return pins;
   } catch {
     return [];
   }
+}
+
+/** The setup-go pins of one job; a matrix reference resolves against that job's own matrix. */
+function jobSetupGoPins(path: string, job: { value?: unknown }, lineOf: LineOf): RuntimePin[] {
+  if (!isMap(job.value)) return [];
+  const strategy = job.value.get("strategy", true);
+  const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
+  const steps = job.value.get("steps", true);
+  if (!isSeq(steps)) return [];
+  const pins: RuntimePin[] = [];
+  for (const step of steps.items) pins.push(...setupGoStepPins(path, step, matrix, lineOf));
+  return pins;
+}
+
+/** The pins of a step that uses `actions/setup-go`; every other step contributes nothing. */
+function setupGoStepPins(path: string, step: unknown, matrix: unknown, lineOf: LineOf): RuntimePin[] {
+  if (!isMap(step)) return [];
+  const uses = step.get("uses");
+  if (typeof uses !== "string" || !SETUP_GO.test(uses)) return [];
+  const inputs = step.get("with", true);
+  if (!isMap(inputs)) return [];
+  return [
+    ...goVersionPins(path, inputs.get("go-version", true), matrix, lineOf),
+    ...goVersionFilePins(path, inputs.get("go-version-file", true), lineOf),
+  ];
+}
+
+/** One pin per entry of the matrix a `go-version` reference names, or the literal value when it names none. */
+function goVersionPins(path: string, version: unknown, matrix: unknown, lineOf: LineOf): RuntimePin[] {
+  if (!isScalar(version)) return [];
+  const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
+  const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
+  if (isSeq(list)) {
+    const pins: RuntimePin[] = [];
+    for (const item of list.items) {
+      const value = textOf(item);
+      if (value === undefined || value === "") continue;
+      pins.push(versionPin(path, lineOf(item as LineNode), "actions/setup-go matrix", value, "pin"));
+    }
+    return pins;
+  }
+  const value = textOf(version);
+  return value === undefined ? [] : [versionPin(path, lineOf(version), "actions/setup-go go-version", value, "pin")];
+}
+
+/** The pin naming the file a `go-version-file` input defers to, which the report reads separately. */
+function goVersionFilePins(path: string, versionFile: unknown, lineOf: LineOf): RuntimePin[] {
+  if (!isScalar(versionFile)) return [];
+  const value = textOf(versionFile);
+  if (value === undefined || value === "") return [];
+  return [
+    {
+      path,
+      line: lineOf(versionFile),
+      source: "actions/setup-go go-version-file",
+      raw: value,
+      kind: "pin",
+      unresolved: `the version comes from ${value}, which this report reads separately`,
+    },
+  ];
 }
 
 /** Literal and map-form `container` images on Azure Pipelines jobs. */
@@ -298,96 +327,136 @@ function toolVersionsPins(path: string, contents: string): RuntimePin[] {
   return [];
 }
 
+/** Which rewriter a pin source gets; the first rule that matches wins, so the order is the dispatch. */
+interface GoAlignRule {
+  appliesTo: (source: string) => boolean;
+  rewrite: (lineText: string, version: string) => string | undefined;
+}
+
+function alignToolchainLine(lineText: string, version: string): string | undefined {
+  const match = /^(\s*toolchain\s+)(\S+)(.*)$/.exec(lineText);
+  return match ? `${match[1]}go${version}${match[3]}` : undefined;
+}
+
+function alignGoVersionLine(lineText: string, version: string): string | undefined {
+  const match = /^(\s*)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
+  return match ? `${match[1]}${version}${match[3]}` : undefined;
+}
+
+function alignToolVersionsLine(lineText: string, version: string): string | undefined {
+  const match = /^(\s*golang\s+)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
+  return match ? `${match[1]}${version}${match[3]}` : undefined;
+}
+
+function alignGolangFrom(lineText: string, version: string): string | undefined {
+  const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
+  if (!match) return undefined;
+  const [, prefix = "", imageText = "", rest = ""] = match;
+  const reference = parseImageReference(imageText);
+  if (
+    !reference ||
+    reference.digest !== undefined ||
+    reference.registry !== "docker.io" ||
+    reference.repository !== "library/golang" ||
+    reference.tag === undefined
+  )
+    return undefined;
+  const parts = releaseFromDockerTag(reference.tag);
+  if (parts.release === undefined) return undefined;
+  return `${prefix}golang:${version}${parts.variant}${rest}`;
+}
+
+function alignSetupGoLine(lineText: string, version: string): string | undefined {
+  const match = /^(\s*(?:-\s+)?go-version:\s*)(["']?)([^"'\s#]+)(["']?)(.*)$/.exec(lineText);
+  return match ? `${match[1]}${match[2]}${version}${match[4]}${match[5]}` : undefined;
+}
+
+const GO_ALIGN_RULES: readonly GoAlignRule[] = [
+  {
+    appliesTo: (source) => source === "go.mod toolchain" || source === "go.work toolchain",
+    rewrite: alignToolchainLine,
+  },
+  { appliesTo: (source) => source === ".go-version", rewrite: alignGoVersionLine },
+  { appliesTo: (source) => source === ".tool-versions", rewrite: alignToolVersionsLine },
+  { appliesTo: (source) => source.endsWith(" FROM"), rewrite: alignGolangFrom },
+  { appliesTo: (source) => source === "actions/setup-go go-version", rewrite: alignSetupGoLine },
+];
+
 function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (pin.kind !== "pin") return undefined;
   const version = release.trim().replace(/^go/, "");
   if (!GO_VERSION.test(version)) return undefined;
+  const rule = GO_ALIGN_RULES.find((entry) => entry.appliesTo(pin.source));
+  return rule === undefined ? undefined : rule.rewrite(lineText, version);
+}
 
-  if (pin.source === "go.mod toolchain" || pin.source === "go.work toolchain") {
-    const match = /^(\s*toolchain\s+)(\S+)(.*)$/.exec(lineText);
-    return match ? `${match[1]}go${version}${match[3]}` : undefined;
+/** The pins one repository file adds, keyed by the kind the traversal gave it. */
+type KindReader = (path: string, contents: string, absolute: string) => RuntimePin[];
+
+const PINS_BY_KIND: Record<RepositoryFileKind, KindReader> = {
+  "go-mod": (path, contents) => declarationPins(path, "go.mod", parseGoMod(contents)),
+  "go-work": (path, contents) => declarationPins(path, "go.work", parseGoWork(contents)),
+  "go-version": (path, contents) => versionFilePins(path, contents),
+  "tool-versions": (path, contents) => toolVersionsPins(path, contents),
+  dockerfile: (path, contents, absolute) => dockerfilePins(path, contents, absolute),
+  workflow: (path, contents) => workflowPins(path, contents),
+  gitlab: (path, contents) => imagePins(path, "GitLab CI image", parseGitlabCi(contents).unclassified),
+  circleci: (path, contents) => {
+    const parsed = parseCircleci(contents);
+    return imagePins(path, "CircleCI image", [...parsed.declarations, ...parsed.unclassified]);
+  },
+  azure: (path, contents) => imagePins(path, "Azure Pipelines container", azureContainerImages(contents)),
+};
+
+function declarationPins(
+  path: string,
+  source: string,
+  declarations: readonly (GoModDeclaration | GoWorkDeclaration)[],
+): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of declarations) {
+    if (declaration.kind === "require") continue;
+    if (declaration.kind === "toolchain")
+      pins.push(versionPin(path, declaration.line, `${source} toolchain`, declaration.value, "pin"));
+    else pins.push(versionPin(path, declaration.line, `${source} go`, declaration.value, "floor"));
   }
-  if (pin.source === ".go-version") {
-    const match = /^(\s*)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
-    return match ? `${match[1]}${version}${match[3]}` : undefined;
+  return pins;
+}
+
+function dockerfilePins(path: string, contents: string, absolute: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of parseDockerfile(contents)) {
+    if (declaration.kind !== "image") continue;
+    const found = imagePin(path, declaration.line, `${basename(absolute)} FROM`, declaration.value);
+    if (found) pins.push(found);
   }
-  if (pin.source === ".tool-versions") {
-    const match = /^(\s*golang\s+)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
-    return match ? `${match[1]}${version}${match[3]}` : undefined;
+  return pins;
+}
+
+function imagePins(path: string, source: string, items: readonly { line: number; value: string }[]): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const item of items) {
+    const found = imagePin(path, item.line, source, item.value);
+    if (found) pins.push(found);
   }
-  if (pin.source.endsWith(" FROM")) {
-    const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
-    if (!match) return undefined;
-    const [, prefix = "", imageText = "", rest = ""] = match;
-    const reference = parseImageReference(imageText);
-    if (
-      !reference ||
-      reference.digest !== undefined ||
-      reference.registry !== "docker.io" ||
-      reference.repository !== "library/golang" ||
-      reference.tag === undefined
-    )
-      return undefined;
-    const parts = releaseFromDockerTag(reference.tag);
-    if (parts.release === undefined) return undefined;
-    return `${prefix}golang:${version}${parts.variant}${rest}`;
+  return pins;
+}
+
+/** The file contents, or undefined when the file cannot be read. */
+async function readText(path: string): Promise<string | undefined> {
+  try {
+    return await readFile(path, "utf8");
+  } catch {
+    return undefined;
   }
-  if (pin.source === "actions/setup-go go-version") {
-    const match = /^(\s*(?:-\s+)?go-version:\s*)(["']?)([^"'\s#]+)(["']?)(.*)$/.exec(lineText);
-    return match ? `${match[1]}${match[2]}${version}${match[4]}${match[5]}` : undefined;
-  }
-  return undefined;
 }
 
 async function collect(root: string): Promise<RuntimePin[]> {
   const pins: RuntimePin[] = [];
   for (const file of await repositoryFiles(root)) {
-    let contents: string;
-    try {
-      contents = await readFile(file.path, "utf8");
-    } catch {
-      continue;
-    }
-    const path = relativePosix(root, file.path);
-
-    if (file.kind === "go-mod" || file.kind === "go-work") {
-      const source = file.kind === "go-mod" ? "go.mod" : "go.work";
-      const declarations = file.kind === "go-mod" ? parseGoMod(contents) : parseGoWork(contents);
-      for (const declaration of declarations) {
-        if (declaration.kind === "require") continue;
-        if (declaration.kind === "toolchain")
-          pins.push(versionPin(path, declaration.line, `${source} toolchain`, declaration.value, "pin"));
-        else pins.push(versionPin(path, declaration.line, `${source} go`, declaration.value, "floor"));
-      }
-    } else if (file.kind === "go-version") {
-      pins.push(...versionFilePins(path, contents));
-    } else if (file.kind === "tool-versions") {
-      pins.push(...toolVersionsPins(path, contents));
-    } else if (file.kind === "dockerfile") {
-      for (const declaration of parseDockerfile(contents)) {
-        if (declaration.kind !== "image") continue;
-        const found = imagePin(path, declaration.line, `${basename(file.path)} FROM`, declaration.value);
-        if (found) pins.push(found);
-      }
-    } else if (file.kind === "workflow") {
-      pins.push(...workflowPins(path, contents));
-    } else if (file.kind === "gitlab") {
-      for (const item of parseGitlabCi(contents).unclassified) {
-        const found = imagePin(path, item.line, "GitLab CI image", item.value);
-        if (found) pins.push(found);
-      }
-    } else if (file.kind === "circleci") {
-      const parsed = parseCircleci(contents);
-      for (const item of [...parsed.declarations, ...parsed.unclassified]) {
-        const found = imagePin(path, item.line, "CircleCI image", item.value);
-        if (found) pins.push(found);
-      }
-    } else {
-      for (const item of azureContainerImages(contents)) {
-        const found = imagePin(path, item.line, "Azure Pipelines container", item.value);
-        if (found) pins.push(found);
-      }
-    }
+    const contents = await readText(file.path);
+    if (contents === undefined) continue;
+    pins.push(...PINS_BY_KIND[file.kind](relativePosix(root, file.path), contents, file.path));
   }
   return pins;
 }

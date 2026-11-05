@@ -147,3 +147,15 @@ test("a bad flag exits 2, and --align requires --runtime", async () => {
   assert.equal(missing.code, 2);
   assert.match(missing.stderr, /--align requires --runtime/);
 });
+
+test("align to a release every pin already names prints nothing and still exits 0", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-align-none-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "go.mod"), "module example.com/app\n\ngo 1.21\n\ntoolchain go1.21.4\n");
+
+  const aligned = await runCli(["drift", root, "--runtime", "go", "--align", "1.21"]);
+  assert.equal(aligned.code, 0, aligned.stderr);
+  assert.equal(aligned.stdout, "");
+  assert.match(aligned.stderr, /No pin could be aligned to 1\.21\./);
+  assert.doesNotMatch(aligned.stderr, /Refused/);
+});

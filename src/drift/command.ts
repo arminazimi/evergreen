@@ -77,40 +77,71 @@ function collectorsByRuntime(runtimes: readonly RuntimeDrift[]): Map<string, Dri
   return selected;
 }
 
-async function renderAlign(root: string, report: DriftReport, release: string): Promise<number> {
+interface AlignFile {
+  source: string;
+  lines: string[];
+}
+
+async function readAlignFile(root: string, path: string): Promise<AlignFile | undefined> {
+  let contents: string;
+  try {
+    contents = await readFile(resolve(root, path), "utf8");
+  } catch {
+    return undefined;
+  }
+  const source = contents.endsWith("\n") ? contents.slice(0, -1) : contents;
+  return { source, lines: source.split("\n") };
+}
+
+/** Rewrites one pin's line in `files`, or records the pin as refused when nothing can rewrite it. */
+async function alignPin(
+  root: string,
+  files: Map<string, AlignFile>,
+  refused: RuntimePin[],
+  pin: RuntimePin,
+  collector: DriftCollector | undefined,
+  release: string,
+): Promise<void> {
+  if (pin.release === release) return;
+  if (!collector?.align) {
+    refused.push(pin);
+    return;
+  }
+  let file = files.get(pin.path);
+  if (file === undefined) {
+    file = await readAlignFile(root, pin.path);
+    if (file === undefined) {
+      refused.push(pin);
+      return;
+    }
+    files.set(pin.path, file);
+  }
+  const lineText = file.lines[pin.line - 1];
+  const replacement = lineText === undefined ? undefined : collector.align(pin, lineText, release);
+  if (lineText === undefined || replacement === undefined || replacement === lineText) {
+    refused.push(pin);
+    return;
+  }
+  file.lines[pin.line - 1] = replacement;
+}
+
+async function collectAlignments(
+  root: string,
+  report: DriftReport,
+  release: string,
+): Promise<{ files: Map<string, AlignFile>; refused: RuntimePin[] }> {
   const collectors = collectorsByRuntime(report.runtimes);
   const refused: RuntimePin[] = [];
-  const files = new Map<string, { source: string; lines: string[] }>();
+  const files = new Map<string, AlignFile>();
   for (const runtime of report.runtimes) {
     const collector = collectors.get(runtime.runtime);
-    for (const pin of runtime.pins) {
-      if (pin.release === release) continue;
-      if (!collector?.align) {
-        refused.push(pin);
-        continue;
-      }
-      let file = files.get(pin.path);
-      if (!file) {
-        let contents: string;
-        try {
-          contents = await readFile(resolve(root, pin.path), "utf8");
-        } catch {
-          refused.push(pin);
-          continue;
-        }
-        const source = contents.endsWith("\n") ? contents.slice(0, -1) : contents;
-        file = { source, lines: source.split("\n") };
-        files.set(pin.path, file);
-      }
-      const lineText = file.lines[pin.line - 1];
-      const replacement = lineText === undefined ? undefined : collector.align(pin, lineText, release);
-      if (lineText === undefined || replacement === undefined || replacement === lineText) {
-        refused.push(pin);
-        continue;
-      }
-      file.lines[pin.line - 1] = replacement;
-    }
+    for (const pin of runtime.pins) await alignPin(root, files, refused, pin, collector, release);
   }
+  return { files, refused };
+}
+
+/** Unified diffs of every file an alignment changed, and the count of them. */
+function printAlignedFiles(files: Map<string, AlignFile>): number {
   let printed = 0;
   for (const [path, file] of files) {
     const after = file.lines.join("\n");
@@ -118,11 +149,21 @@ async function renderAlign(root: string, report: DriftReport, release: string): 
     process.stdout.write(`${renderDiff(path, file.source, after)}\n`);
     printed += 1;
   }
+  return printed;
+}
+
+function printRefusals(refused: RuntimePin[]): void {
   for (const pin of refused) {
     process.stderr.write(
       `Refused ${pin.path}:${pin.line} (${pin.source} ${pin.raw}): a floor or a value this collector will not rewrite.\n`,
     );
   }
+}
+
+async function renderAlign(root: string, report: DriftReport, release: string): Promise<number> {
+  const { files, refused } = await collectAlignments(root, report, release);
+  const printed = printAlignedFiles(files);
+  printRefusals(refused);
   if (printed === 0) process.stderr.write(`No pin could be aligned to ${release}.\n`);
   return 0;
 }

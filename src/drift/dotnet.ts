@@ -74,6 +74,33 @@ interface Resolved {
   unresolved?: string;
 }
 
+/** Which reader a repository file gets; the first rule that matches wins, so the order is the dispatch. */
+interface FileKindRule {
+  kind: RepositoryFileKind;
+  matches: (name: string, directory: string) => boolean;
+}
+
+const FILE_KIND_RULES: readonly FileKindRule[] = [
+  { kind: "global-json", matches: (name) => name.toLowerCase() === "global.json" },
+  { kind: "msbuild", matches: (name) => name.toLowerCase() === "directory.build.props" || PROJECT_FILE.test(name) },
+  { kind: "dockerfile", matches: (name) => DOCKERFILE_NAME.test(name) },
+  { kind: "gitlab", matches: (name) => name === ".gitlab-ci.yml" },
+  { kind: "circleci", matches: (name, directory) => name === "config.yml" && basename(directory) === ".circleci" },
+  { kind: "azure", matches: (name) => AZURE_PIPELINES_NAME.test(name) },
+  {
+    kind: "workflow",
+    matches: (name, directory) =>
+      WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github",
+  },
+];
+
+function fileKind(name: string, directory: string): RepositoryFileKind | undefined {
+  for (const rule of FILE_KIND_RULES) {
+    if (rule.matches(name, directory)) return rule.kind;
+  }
+  return undefined;
+}
+
 async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
   const files: RepositoryFile[] = [];
   async function visit(directory: string, depth: number): Promise<void> {
@@ -92,20 +119,8 @@ async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
         continue;
       }
       if (!entry.isFile()) continue;
-      const name = entry.name;
-      const lower = name.toLowerCase();
-      if (lower === "global.json") files.push({ path, kind: "global-json" });
-      else if (lower === "directory.build.props" || PROJECT_FILE.test(name)) files.push({ path, kind: "msbuild" });
-      else if (DOCKERFILE_NAME.test(name)) files.push({ path, kind: "dockerfile" });
-      else if (name === ".gitlab-ci.yml") files.push({ path, kind: "gitlab" });
-      else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path, kind: "circleci" });
-      else if (AZURE_PIPELINES_NAME.test(name)) files.push({ path, kind: "azure" });
-      else if (
-        WORKFLOW_NAME.test(name) &&
-        basename(directory) === "workflows" &&
-        basename(dirname(directory)) === ".github"
-      )
-        files.push({ path, kind: "workflow" });
+      const kind = fileKind(entry.name, directory);
+      if (kind !== undefined) files.push({ path, kind });
     }
   }
   await visit(root, 0);
@@ -336,53 +351,65 @@ function alignMoniker(current: string, release: string): string | undefined {
   return undefined;
 }
 
+function alignGlobalJson(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  if (!RELEASE.test(release)) return undefined;
+  const token = `"${pin.raw}"`;
+  const index = lineText.indexOf(token);
+  if (index === -1) return undefined;
+  return `${lineText.slice(0, index)}"${release}"${lineText.slice(index + token.length)}`;
+}
+
+function alignTargetFramework(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  if (pin.raw.includes("$")) return undefined;
+  const match = /^(\s*<TargetFramework\b[^>]*>)([^<]*)(<\/TargetFramework\s*>.*)$/i.exec(lineText);
+  if (!match) return undefined;
+  const [, open = "", currentRaw = "", close = ""] = match;
+  const current = currentRaw.trim();
+  const next = alignMoniker(current, release);
+  if (next === undefined || next === current) return undefined;
+  return `${open}${currentRaw.replace(current, next)}${close}`;
+}
+
+function alignFromLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  if (!RELEASE.test(release)) return undefined;
+  const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)([\s\S]*)$/i.exec(lineText);
+  if (!match) return undefined;
+  const [, prefix = "", original = "", rest = ""] = match;
+  const image = parseImageReference(original);
+  if (!image || !isDotnetImage(image) || image.tag === undefined || image.digest !== undefined) return undefined;
+  const tag = image.tag.replace(/^\d+\.\d+(?:\.\d+)?/, release);
+  if (tag === image.tag) return undefined;
+  const colon = original.lastIndexOf(":");
+  const withoutTag = colon > original.lastIndexOf("/") ? original.slice(0, colon) : original;
+  return `${prefix}${withoutTag}:${tag}${rest}`;
+}
+
+function alignSetupDotnet(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  if (!RELEASE.test(release)) return undefined;
+  const match = /^(\s*(?:-\s+)?dotnet-version\s*:\s*)(["']?)([^"'\s#]+)(["']?)(\s*(?:#.*)?)$/.exec(lineText);
+  if (!match) return undefined;
+  const [, prefix = "", quote = "", version = "", closingQuote = "", rest = ""] = match;
+  if (version.includes("$")) return undefined;
+  return `${prefix}${quote}${release}${closingQuote}${rest}`;
+}
+
+/** Which rewriter a pin source gets; the first rule that matches wins, so the order is the dispatch. */
+interface AlignRule {
+  appliesTo: (source: string) => boolean;
+  rewrite: (pin: RuntimePin, lineText: string, release: string) => string | undefined;
+}
+
+const ALIGN_RULES: readonly AlignRule[] = [
+  { appliesTo: (source) => source === "global.json sdk.version", rewrite: alignGlobalJson },
+  { appliesTo: (source) => source === "TargetFramework", rewrite: alignTargetFramework },
+  { appliesTo: (source) => source.endsWith(" FROM"), rewrite: alignFromLine },
+  { appliesTo: (source) => source === "actions/setup-dotnet dotnet-version", rewrite: alignSetupDotnet },
+];
+
 function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (pin.kind !== "pin" || pin.release === undefined) return undefined;
-  if (pin.source === "TargetFrameworks") return undefined;
-
-  if (pin.source === "global.json sdk.version") {
-    if (!RELEASE.test(release)) return undefined;
-    const token = `"${pin.raw}"`;
-    const index = lineText.indexOf(token);
-    if (index === -1) return undefined;
-    return `${lineText.slice(0, index)}"${release}"${lineText.slice(index + token.length)}`;
-  }
-
-  if (pin.source === "TargetFramework") {
-    if (pin.raw.includes("$")) return undefined;
-    const match = /^(\s*<TargetFramework\b[^>]*>)([^<]*)(<\/TargetFramework\s*>.*)$/i.exec(lineText);
-    if (!match) return undefined;
-    const [, open = "", currentRaw = "", close = ""] = match;
-    const current = currentRaw.trim();
-    const next = alignMoniker(current, release);
-    if (next === undefined || next === current) return undefined;
-    return `${open}${currentRaw.replace(current, next)}${close}`;
-  }
-
-  if (pin.source.endsWith(" FROM")) {
-    if (!RELEASE.test(release)) return undefined;
-    const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)([\s\S]*)$/i.exec(lineText);
-    if (!match) return undefined;
-    const [, prefix = "", original = "", rest = ""] = match;
-    const image = parseImageReference(original);
-    if (!image || !isDotnetImage(image) || image.tag === undefined || image.digest !== undefined) return undefined;
-    const tag = image.tag.replace(/^\d+\.\d+(?:\.\d+)?/, release);
-    if (tag === image.tag) return undefined;
-    const colon = original.lastIndexOf(":");
-    const withoutTag = colon > original.lastIndexOf("/") ? original.slice(0, colon) : original;
-    return `${prefix}${withoutTag}:${tag}${rest}`;
-  }
-
-  if (pin.source === "actions/setup-dotnet dotnet-version") {
-    if (!RELEASE.test(release)) return undefined;
-    const match = /^(\s*(?:-\s+)?dotnet-version\s*:\s*)(["']?)([^"'\s#]+)(["']?)(\s*(?:#.*)?)$/.exec(lineText);
-    if (!match) return undefined;
-    const [, prefix = "", quote = "", version = "", closingQuote = "", rest = ""] = match;
-    if (version.includes("$")) return undefined;
-    return `${prefix}${quote}${release}${closingQuote}${rest}`;
-  }
-
-  return undefined;
+  const rule = ALIGN_RULES.find((entry) => entry.appliesTo(pin.source));
+  return rule === undefined ? undefined : rule.rewrite(pin, lineText, release);
 }
 
 async function collect(root: string): Promise<RuntimePin[]> {

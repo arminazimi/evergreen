@@ -338,11 +338,8 @@
     }
   },
   "src/drift/go.ts": {
-    "@typescript-eslint/no-unnecessary-type-assertion": {
-      "count": 2
-    },
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
+      "count": 1
     }
   },
   "src/drift/index.ts": {

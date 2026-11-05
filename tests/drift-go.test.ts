@@ -8,6 +8,7 @@ import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
+import { goDriftCollector } from "../src/drift/go.js";
 import { runCli } from "./cli-runner.js";
 import { copyFixtureTree } from "./fixture-copies.js";
 
@@ -201,4 +202,40 @@ test("no drift source imports a process, network, or fetch API", async () => {
     const contents = await readFile(resolve("src/drift", name), "utf8");
     assert.doesNotMatch(contents, /node:(?:child_process|http|https|net)\b|\bfetch\s*\(/, name);
   }
+});
+
+test("the walk classifies every file name and directory edge exactly once", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-go-kinds-"));
+  temporaryRoots.push(root);
+  const files: Record<string, string> = {
+    "config.yml":
+      "version: 2.1\njobs:\n  test:\n    docker:\n      - image: golang:1.11\n    steps:\n      - checkout\n",
+    ".circleci/config.yml":
+      "version: 2.1\njobs:\n  test:\n    docker:\n      - image: golang:1.21\n    steps:\n      - checkout\n",
+    ".circleci/other.yml":
+      "version: 2.1\njobs:\n  test:\n    docker:\n      - image: golang:1.12\n    steps:\n      - checkout\n",
+    "azure-pipelines.yml": "container: golang:1.23\n",
+    "azure-pipelines.yaml": "container: golang:1.24\n",
+    ".github/workflows/ci.yaml":
+      "jobs:\n  t:\n    steps:\n      - uses: actions/setup-go@v5\n        with:\n          go-version: '1.20.1'\n",
+    ".github/workflows/nested/deep.yml":
+      "jobs:\n  t:\n    steps:\n      - uses: actions/setup-go@v5\n        with:\n          go-version: '1.19'\n",
+    ".github/workflows/notes.md": "go-version: 1.18\n",
+    ".github/actions.yml": "go-version: 1.17\n",
+    "vendor/go.mod": "module vendored\n\ngo 1.16\n",
+    "docs/Dockerfile": "FROM golang:1.15\n",
+  };
+  for (const [path, contents] of Object.entries(files)) {
+    const target = join(root, path);
+    await mkdir(target.slice(0, target.lastIndexOf("/")), { recursive: true });
+    await writeFile(target, contents);
+  }
+
+  const pins = await goDriftCollector.collect(root);
+  assert.deepEqual(pins.map((pin) => `${pin.path} ${pin.source}`).sort(), [
+    ".circleci/config.yml CircleCI image",
+    ".github/workflows/ci.yaml actions/setup-go go-version",
+    "azure-pipelines.yml Azure Pipelines container",
+    "docs/Dockerfile Dockerfile FROM",
+  ]);
 });

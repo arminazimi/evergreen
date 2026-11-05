@@ -227,3 +227,28 @@ test("bad flags exit 2", async () => {
   assert.equal((await runCli(["drift", ".", "--bogus"], { cwd: repo })).code, 2, "unknown flag");
   assert.equal((await runCli(["drift", ".", "--runtime", "nope"], { cwd: repo })).code, 2, "unknown runtime");
 });
+
+test("the walk classifies every candidate name and directory edge exactly once", async () => {
+  const repo = await makeRepo({
+    "config.yml": "version: 2\njobs:\n  t:\n    docker:\n      - image: cimg/openjdk:11.0\n",
+    ".circleci/config.yml": "version: 2\njobs:\n  t:\n    docker:\n      - image: cimg/openjdk:17.0\n",
+    ".github/workflows/ci.yaml":
+      "jobs:\n  t:\n    steps:\n      - uses: actions/setup-java@v4\n        with:\n          java-version: '17'\n",
+    ".github/workflows/nested/deep.yml":
+      "jobs:\n  t:\n    steps:\n      - uses: actions/setup-java@v4\n        with:\n          java-version: '11'\n",
+    "azure-pipelines.yml": "container: eclipse-temurin:11\n",
+    "App.Dockerfile": "FROM eclipse-temurin:17-jdk\n",
+    "docker/Containerfile": "FROM maven:3.9-eclipse-temurin-11\n",
+    "api/pom.xml": "<project><properties><maven.compiler.release>17</maven.compiler.release></properties></project>\n",
+    ".gitlab-ci.yml": "test:\n  image: maven:3.9-eclipse-temurin-21\n",
+  });
+  const pins = await javaCollector.collect(repo);
+  assert.deepEqual(pins.map((entry) => `${entry.path} ${entry.source}`).sort(), [
+    ".circleci/config.yml .circleci/config.yml image",
+    ".github/workflows/ci.yaml .github/workflows/ci.yaml actions/setup-java java-version",
+    ".gitlab-ci.yml .gitlab-ci.yml image",
+    "App.Dockerfile App.Dockerfile FROM",
+    "api/pom.xml pom.xml compiler setting",
+    "docker/Containerfile Containerfile FROM",
+  ]);
+});

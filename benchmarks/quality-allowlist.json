@@ -556,30 +556,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/drift/go.ts",
-      "function": "collect",
-      "lines": 52,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/drift/go.ts",
-      "function": "workflowPins",
-      "lines": 70,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/drift/java.ts",
-      "function": "collect",
-      "lines": 90,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
       "lines": 82,
@@ -1810,78 +1786,6 @@
       "function": "parseTerraformPlanJson",
       "complexity": 44,
       "owner": "#2264",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/command.ts",
-      "function": "renderAlign",
-      "complexity": 16,
-      "owner": "#2265",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/dotnet.ts",
-      "function": "align",
-      "complexity": 25,
-      "owner": "#2265",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/dotnet.ts",
-      "function": "repositoryFiles > visit",
-      "complexity": 20,
-      "owner": "#2265",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/go.ts",
-      "function": "align",
-      "complexity": 20,
-      "owner": "#2265",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/go.ts",
-      "function": "collect",
-      "complexity": 25,
-      "owner": "#2265",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/go.ts",
-      "function": "repositoryFiles > walk",
-      "complexity": 21,
-      "owner": "#2265",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/go.ts",
-      "function": "workflowPins",
-      "complexity": 26,
-      "owner": "#2265",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/java.ts",
-      "function": "align",
-      "complexity": 26,
-      "owner": "#2265",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/java.ts",
-      "function": "collect",
-      "complexity": 38,
-      "owner": "#2265",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

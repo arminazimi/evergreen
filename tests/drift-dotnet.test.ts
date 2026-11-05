@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { after, before, test } from "node:test";
@@ -211,4 +211,35 @@ test("--align patches apply, remove the drift, and refuse multi-targeting and pr
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }
+});
+
+test("the walk classifies every file name and directory edge exactly once", async () => {
+  const repo = await mkdtemp(join(tmpdir(), "evergreen-drift-dotnet-kinds-"));
+  temporaryRoots.push(repo);
+  const files: Record<string, string> = {
+    "config.yml": "jobs:\n  t:\n    docker:\n      - image: mcr.microsoft.com/dotnet/sdk:6.0\n",
+    ".circleci/config.yml": "version: 2\njobs:\n  t:\n    docker:\n      - image: mcr.microsoft.com/dotnet/sdk:8.0\n",
+    "azure-pipelines.yaml": "container: mcr.microsoft.com/dotnet/sdk:9.0\n",
+    ".github/workflows/ci.yml":
+      "jobs:\n  t:\n    steps:\n      - uses: actions/setup-dotnet@v4\n        with:\n          dotnet-version: '8.0.x'\n",
+    ".github/workflows/nested/deep.yml":
+      "jobs:\n  t:\n    steps:\n      - uses: actions/setup-dotnet@v4\n        with:\n          dotnet-version: '6.0.x'\n",
+    "api/App.fsproj": "<Project><PropertyGroup><TargetFramework>net8.0</TargetFramework></PropertyGroup></Project>\n",
+    "sdk.Dockerfile": "FROM mcr.microsoft.com/dotnet/sdk:10.0\n",
+    "notes.md": "# mcr.microsoft.com/dotnet/sdk:7.0\n",
+  };
+  for (const [path, contents] of Object.entries(files)) {
+    const target = join(repo, path);
+    await mkdir(target.slice(0, target.lastIndexOf("/")), { recursive: true });
+    await writeFile(target, contents);
+  }
+
+  const pins = await dotnetCollector.collect(repo);
+  assert.deepEqual(pins.map((entry) => `${entry.path} ${entry.source}`).sort(), [
+    ".circleci/config.yml CircleCI image",
+    ".github/workflows/ci.yml actions/setup-dotnet dotnet-version",
+    "api/App.fsproj TargetFramework",
+    "azure-pipelines.yaml Azure Pipelines container",
+    "sdk.Dockerfile sdk.Dockerfile FROM",
+  ]);
 });
