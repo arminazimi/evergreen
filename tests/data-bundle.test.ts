@@ -12,7 +12,9 @@ import {
   bundleVersion,
   canonicalJson,
   computeContentDigest,
+  DATA_BUNDLE_SCHEMA_VERSION,
   dataBundleIntegrityProblems,
+  dataBundleShapeProblems,
   DataBundleError,
   serializeDataBundle,
   sha256Hex,
@@ -226,4 +228,45 @@ test("the content address is the digest of the sorted path and digest lines", ()
     `sha256:${sha256Hex(`registry/a.json ${"a".repeat(64)}\nregistry/b.json ${"b".repeat(64)}\n`)}`,
   );
   assert.equal(computeContentDigest([...files].reverse()), computeContentDigest(files));
+});
+
+test("dataBundleShapeProblems accepts a well-formed bundle and names each problem in a broken one", () => {
+  const digest = `sha256:${"a".repeat(64)}`;
+  const entry = { path: "registry/npm.json", sha256: "a".repeat(64), bytes: 10, kind: "registry" };
+  const good = {
+    manifest: {
+      schemaVersion: DATA_BUNDLE_SCHEMA_VERSION,
+      version: "2026.10.16",
+      createdAt,
+      minimumEvergreenVersion: "0.8.0",
+      contentDigest: digest,
+      files: [entry],
+    },
+    files: { "registry/npm.json": {} },
+  };
+  assert.deepEqual(dataBundleShapeProblems(good), []);
+  assert.deepEqual(dataBundleShapeProblems(null), ["The bundle must have a manifest and files."]);
+  assert.deepEqual(dataBundleShapeProblems({ manifest: {}, files: {} }), [
+    'Unsupported bundle format "undefined".',
+    "The version must look like 2026.10.16.",
+    "createdAt must be UTC like 2026-10-16T09:30:00Z.",
+    "minimumEvergreenVersion must be a semantic version.",
+    "The content digest is malformed.",
+    "The manifest lists no files.",
+  ]);
+  const broken = {
+    manifest: {
+      ...good.manifest,
+      files: [
+        { ...entry, path: "../escape.json" },
+        { ...entry, sha256: "xyz", kind: "other" },
+      ],
+    },
+    files: { "README.md": 3 },
+  };
+  assert.deepEqual(dataBundleShapeProblems(broken), [
+    "A manifest entry has an unsafe or missing path.",
+    "registry/npm.json has a malformed manifest entry.",
+    "README.md is not a valid bundle file.",
+  ]);
 });

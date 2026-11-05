@@ -232,45 +232,63 @@ const CREATED_AT_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 const SEMVER_PATTERN = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
 const PATH_PATTERN = /^registry\/[a-z0-9][a-z0-9-]*\.json$/;
 
+/** Manifest fields that must be strings matching a pattern, with the problem to report when one does not. */
+const MANIFEST_STRING_FIELDS: ReadonlyArray<readonly [key: string, pattern: RegExp, problem: string]> = [
+  ["version", VERSION_PATTERN, "The version must look like 2026.10.16."],
+  ["createdAt", CREATED_AT_PATTERN, "createdAt must be UTC like 2026-10-16T09:30:00Z."],
+  ["minimumEvergreenVersion", SEMVER_PATTERN, "minimumEvergreenVersion must be a semantic version."],
+  ["contentDigest", /^sha256:[a-f0-9]{64}$/, "The content digest is malformed."],
+];
+
+function isBundleObject(item: unknown): item is Record<string, unknown> {
+  return typeof item === "object" && item !== null && !Array.isArray(item);
+}
+
+function manifestProblems(manifest: Record<string, unknown>): string[] {
+  const problems: string[] = [];
+  if (manifest.schemaVersion !== DATA_BUNDLE_SCHEMA_VERSION)
+    problems.push(`Unsupported bundle format "${String(manifest.schemaVersion)}".`);
+  for (const [key, pattern, problem] of MANIFEST_STRING_FIELDS) {
+    const field = manifest[key];
+    if (typeof field !== "string" || !pattern.test(field)) problems.push(problem);
+  }
+  return problems;
+}
+
+/** The problem with one manifest file entry, or undefined when it is well formed. */
+function manifestEntryProblem(entry: unknown): string | undefined {
+  if (!isBundleObject(entry) || typeof entry.path !== "string" || !PATH_PATTERN.test(entry.path))
+    return "A manifest entry has an unsafe or missing path.";
+  if (
+    typeof entry.sha256 !== "string" ||
+    !/^[a-f0-9]{64}$/.test(entry.sha256) ||
+    !Number.isInteger(entry.bytes) ||
+    (entry.kind !== "registry" && entry.kind !== "sha-map")
+  )
+    return `${entry.path} has a malformed manifest entry.`;
+  return undefined;
+}
+
 /**
  * Checks the shape of a parsed bundle by hand (the published JSON Schema is the reference; this is the runtime
  * form, so the package needs no schema validator). Returns the problems found; an empty list means the document
  * can be handed to {@link dataBundleIntegrityProblems}.
  */
 export function dataBundleShapeProblems(value: unknown): string[] {
-  const problems: string[] = [];
-  const isObject = (item: unknown): item is Record<string, unknown> =>
-    typeof item === "object" && item !== null && !Array.isArray(item);
-  if (!isObject(value) || !isObject(value.manifest) || !isObject(value.files))
+  if (!isBundleObject(value) || !isBundleObject(value.manifest) || !isBundleObject(value.files))
     return ["The bundle must have a manifest and files."];
   const manifest = value.manifest;
-  if (manifest.schemaVersion !== DATA_BUNDLE_SCHEMA_VERSION)
-    problems.push(`Unsupported bundle format "${String(manifest.schemaVersion)}".`);
-  if (typeof manifest.version !== "string" || !VERSION_PATTERN.test(manifest.version))
-    problems.push("The version must look like 2026.10.16.");
-  if (typeof manifest.createdAt !== "string" || !CREATED_AT_PATTERN.test(manifest.createdAt))
-    problems.push("createdAt must be UTC like 2026-10-16T09:30:00Z.");
-  if (typeof manifest.minimumEvergreenVersion !== "string" || !SEMVER_PATTERN.test(manifest.minimumEvergreenVersion))
-    problems.push("minimumEvergreenVersion must be a semantic version.");
-  if (typeof manifest.contentDigest !== "string" || !/^sha256:[a-f0-9]{64}$/.test(manifest.contentDigest))
-    problems.push("The content digest is malformed.");
+  const problems = manifestProblems(manifest);
   if (!Array.isArray(manifest.files) || manifest.files.length === 0) {
     problems.push("The manifest lists no files.");
     return problems;
   }
   for (const entry of manifest.files as unknown[]) {
-    if (!isObject(entry) || typeof entry.path !== "string" || !PATH_PATTERN.test(entry.path))
-      problems.push("A manifest entry has an unsafe or missing path.");
-    else if (
-      typeof entry.sha256 !== "string" ||
-      !/^[a-f0-9]{64}$/.test(entry.sha256) ||
-      !Number.isInteger(entry.bytes) ||
-      (entry.kind !== "registry" && entry.kind !== "sha-map")
-    )
-      problems.push(`${entry.path} has a malformed manifest entry.`);
+    const problem = manifestEntryProblem(entry);
+    if (problem !== undefined) problems.push(problem);
   }
   for (const [path, content] of Object.entries(value.files))
-    if (!PATH_PATTERN.test(path) || !isObject(content)) problems.push(`${path} is not a valid bundle file.`);
+    if (!PATH_PATTERN.test(path) || !isBundleObject(content)) problems.push(`${path} is not a valid bundle file.`);
   return problems;
 }
 

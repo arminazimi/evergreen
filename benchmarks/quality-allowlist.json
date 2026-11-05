@@ -22,10 +22,10 @@
     {
       "file": "src/action.ts",
       "function": "main",
-      "lines": 176,
+      "lines": 83,
       "owner": "#2049",
       "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+      "reason": "Measured 2026-11-05. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
       "file": "src/baseline.ts",
@@ -36,25 +36,9 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/cle-ingest.ts",
-      "function": "clePackages",
-      "lines": 54,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/commands/check-snippet.ts",
       "function": "run",
       "lines": 52,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/config.ts",
-      "function": "validateConfig",
-      "lines": 80,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -71,14 +55,6 @@
       "file": "src/data-source.ts",
       "function": "resolveActiveData",
       "lines": 67,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/data-update.ts",
-      "function": "updateData",
-      "lines": 144,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -853,70 +829,6 @@
     }
   ],
   "complexity": [
-    {
-      "file": "src/action-commands.ts",
-      "function": "parseCommentCommand",
-      "complexity": 16,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/action.ts",
-      "function": "main",
-      "complexity": 94,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/check-dependency.ts",
-      "function": "checkAgainst",
-      "complexity": 16,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/cle-ingest.ts",
-      "function": "clePackages > walkNodeModules",
-      "complexity": 16,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/cle-ingest.ts",
-      "function": "parseCleDocument",
-      "complexity": 28,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/config.ts",
-      "function": "validateConfig",
-      "complexity": 38,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/data-bundle.ts",
-      "function": "dataBundleShapeProblems",
-      "complexity": 27,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/data-update.ts",
-      "function": "updateData",
-      "complexity": 26,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
     {
       "file": "src/detectors/android/gradle-scan.ts",
       "function": "maskGradleSource",

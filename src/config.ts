@@ -23,6 +23,8 @@ export interface EvergreenConfig {
   configPath?: string;
 }
 
+const CONFIG_SCHEMA_VERSION = "evergreen.config.v1";
+
 export const KNOWN_CONFIG_KEYS = new Set([
   "$schema",
   "schemaVersion",
@@ -55,72 +57,87 @@ export function validateConfig(raw: unknown, filePath = CONFIG_FILE_NAME): Everg
     );
   }
 
-  if (record.schemaVersion !== undefined) {
-    if (typeof record.schemaVersion !== "string" || record.schemaVersion !== "evergreen.config.v1") {
-      throw new ConfigError(`Invalid schemaVersion in ${filePath}: expected "evergreen.config.v1".`);
-    }
+  if (record.schemaVersion !== undefined && record.schemaVersion !== CONFIG_SCHEMA_VERSION) {
+    throw new ConfigError(`Invalid schemaVersion in ${filePath}: expected "${CONFIG_SCHEMA_VERSION}".`);
   }
 
-  const failOnRaw = record.failOn ?? record["fail-on"];
-  let failOn: (Severity | "none") | undefined;
-  if (failOnRaw !== undefined) {
-    if (typeof failOnRaw !== "string" || (failOnRaw !== "none" && !severityValues.includes(failOnRaw as Severity))) {
-      throw new ConfigError(
-        `Invalid severity for fail-on in ${filePath}: "${String(failOnRaw)}" (expected none, ${severityValues.join(", ")}).`,
-      );
-    }
-    failOn = failOnRaw as Severity | "none";
-  }
-
-  const dataVersionRaw = record.dataVersion ?? record["data-version"];
-  let dataVersion: string | undefined;
-  if (dataVersionRaw !== undefined) {
-    if (typeof dataVersionRaw !== "string" || dataVersionRaw.trim() === "") {
-      throw new ConfigError(`Invalid data-version in ${filePath}: expected non-empty string.`);
-    }
-    dataVersion = dataVersionRaw.trim();
-  }
-
-  const ignoreRaw = record.ignore ?? record.ignorePaths ?? record["ignore-paths"];
-  let ignore: string[] | undefined;
-  if (ignoreRaw !== undefined) {
-    if (typeof ignoreRaw === "string") {
-      if (ignoreRaw.trim() === "") throw new ConfigError(`Invalid ignore path in ${filePath}: cannot be empty.`);
-      ignore = [ignoreRaw.trim()];
-    } else if (Array.isArray(ignoreRaw)) {
-      if (ignoreRaw.some((item) => typeof item !== "string" || item.trim() === "")) {
-        throw new ConfigError(`Invalid ignore in ${filePath}: expected array of non-empty strings.`);
-      }
-      ignore = ignoreRaw.map((item) => (item as string).trim());
-    } else {
-      throw new ConfigError(`Invalid ignore in ${filePath}: expected string or array of strings.`);
-    }
-  }
-
-  const baselineRaw = record.baseline ?? record.baselines ?? record.baselineFiles ?? record["baseline-files"];
-  let baseline: string[] | undefined;
-  if (baselineRaw !== undefined) {
-    if (typeof baselineRaw === "string") {
-      if (baselineRaw.trim() === "") throw new ConfigError(`Invalid baseline path in ${filePath}: cannot be empty.`);
-      baseline = [baselineRaw.trim()];
-    } else if (Array.isArray(baselineRaw)) {
-      if (baselineRaw.some((item) => typeof item !== "string" || item.trim() === "")) {
-        throw new ConfigError(`Invalid baseline in ${filePath}: expected array of non-empty file paths.`);
-      }
-      baseline = baselineRaw.map((item) => (item as string).trim());
-    } else {
-      throw new ConfigError(`Invalid baseline in ${filePath}: expected file path or array of file paths.`);
-    }
-  }
+  const failOn = parseFailOn(firstSetKey(record, ["failOn", "fail-on"]), filePath);
+  const dataVersion = parseDataVersion(firstSetKey(record, ["dataVersion", "data-version"]), filePath);
+  const ignore = parsePathList(
+    firstSetKey(record, ["ignore", "ignorePaths", "ignore-paths"]),
+    filePath,
+    IGNORE_PROBLEMS,
+  );
+  const baseline = parsePathList(
+    firstSetKey(record, ["baseline", "baselines", "baselineFiles", "baseline-files"]),
+    filePath,
+    BASELINE_PROBLEMS,
+  );
 
   return {
     ...(record.$schema ? { $schema: String(record.$schema) } : {}),
-    ...(record.schemaVersion ? { schemaVersion: "evergreen.config.v1" } : {}),
+    ...(record.schemaVersion ? { schemaVersion: CONFIG_SCHEMA_VERSION } : {}),
     ...(failOn !== undefined ? { failOn } : {}),
     ...(dataVersion !== undefined ? { dataVersion } : {}),
     ...(ignore !== undefined ? { ignore } : {}),
     ...(baseline !== undefined ? { baseline } : {}),
   };
+}
+
+/** The value under the first of a key's spellings that is set (not absent and not null). */
+function firstSetKey(record: Record<string, unknown>, keys: readonly string[]): unknown {
+  return keys.map((key) => record[key]).find((value) => value !== undefined && value !== null);
+}
+
+function parseFailOn(raw: unknown, filePath: string): (Severity | "none") | undefined {
+  if (raw === undefined) return undefined;
+  if (typeof raw !== "string" || (raw !== "none" && !severityValues.includes(raw as Severity))) {
+    throw new ConfigError(
+      `Invalid severity for fail-on in ${filePath}: "${String(raw)}" (expected none, ${severityValues.join(", ")}).`,
+    );
+  }
+  return raw as Severity | "none";
+}
+
+function parseDataVersion(raw: unknown, filePath: string): string | undefined {
+  if (raw === undefined) return undefined;
+  if (typeof raw !== "string" || raw.trim() === "") {
+    throw new ConfigError(`Invalid data-version in ${filePath}: expected non-empty string.`);
+  }
+  return raw.trim();
+}
+
+/** The wording of each problem a path-list key (`ignore`, `baseline`) can have. */
+interface PathListProblems {
+  emptyPath: (filePath: string) => string;
+  badItem: (filePath: string) => string;
+  badShape: (filePath: string) => string;
+}
+
+const IGNORE_PROBLEMS: PathListProblems = {
+  emptyPath: (filePath) => `Invalid ignore path in ${filePath}: cannot be empty.`,
+  badItem: (filePath) => `Invalid ignore in ${filePath}: expected array of non-empty strings.`,
+  badShape: (filePath) => `Invalid ignore in ${filePath}: expected string or array of strings.`,
+};
+
+const BASELINE_PROBLEMS: PathListProblems = {
+  emptyPath: (filePath) => `Invalid baseline path in ${filePath}: cannot be empty.`,
+  badItem: (filePath) => `Invalid baseline in ${filePath}: expected array of non-empty file paths.`,
+  badShape: (filePath) => `Invalid baseline in ${filePath}: expected file path or array of file paths.`,
+};
+
+/** A single path or a list of paths, trimmed. Absent stays absent. */
+function parsePathList(raw: unknown, filePath: string, problems: PathListProblems): string[] | undefined {
+  if (raw === undefined) return undefined;
+  if (typeof raw === "string") {
+    if (raw.trim() === "") throw new ConfigError(problems.emptyPath(filePath));
+    return [raw.trim()];
+  }
+  if (!Array.isArray(raw)) throw new ConfigError(problems.badShape(filePath));
+  if (raw.some((item) => typeof item !== "string" || item.trim() === "")) {
+    throw new ConfigError(problems.badItem(filePath));
+  }
+  return raw.map((item) => (item as string).trim());
 }
 
 /**

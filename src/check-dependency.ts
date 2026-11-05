@@ -132,39 +132,17 @@ function summarize(
 
 /** Checks one dependency against rules. Pure: it reads no files and uses no network. */
 export function checkAgainst(rules: readonly RegistryV2Rule[], input: CheckDependencyInput): DependencyCheck {
-  let parsed;
-  try {
-    parsed = parsePurl(input.purl);
-  } catch (error) {
-    if (error instanceof PurlError) throw new CheckDependencyError(error.message);
-    throw error;
-  }
+  const parsed = parseCheckPurl(input.purl);
   const identity = purlIdentity(parsed);
   const rawVersion = input.version ?? parsed.version;
   const version = rawVersion === undefined || rawVersion === "" ? undefined : normalizeVersion(parsed.type, rawVersion);
 
-  const candidates = rules.filter((rule) => rule.purl === identity);
-  let status: CheckStatus;
-  let matching: RegistryV2Rule[];
-
-  if (candidates.length === 0) {
-    status = "no-data";
-    matching = [];
-  } else if (version === undefined) {
-    const coversEveryVersion = candidates.filter((rule) => parseVersLenient(rule.vers).all);
-    status = coversEveryVersion.length > 0 ? "affected" : "version-dependent";
-    matching = coversEveryVersion.length > 0 ? coversEveryVersion : candidates;
-  } else {
-    try {
-      matching = candidates.filter((rule) => versContains(rule.vers, version));
-    } catch (error) {
-      throw new CheckDependencyError(
-        `"${rawVersion}" is not a valid version for ${identity}: ${error instanceof Error ? error.message : String(error)}`,
-      );
-    }
-    status = matching.length > 0 ? "affected" : "not-affected";
-  }
-
+  const { status, matching } = matchCandidates(
+    rules.filter((rule) => rule.purl === identity),
+    identity,
+    rawVersion,
+    version,
+  );
   const findings = matching.map(toFinding).sort(bySeverity);
   const shownVersion = version === undefined ? undefined : rawVersion;
   return {
@@ -176,6 +154,52 @@ export function checkAgainst(rules: readonly RegistryV2Rule[], input: CheckDepen
     ...(findings[0] ? { severity: findings[0].severity } : {}),
     message: summarize(status, identity, shownVersion, findings),
   };
+}
+
+/** Parses the purl the caller gave, turning a malformed one into a CheckDependencyError. */
+function parseCheckPurl(purl: string): ReturnType<typeof parsePurl> {
+  try {
+    return parsePurl(purl);
+  } catch (error) {
+    if (error instanceof PurlError) throw new CheckDependencyError(error.message);
+    throw error;
+  }
+}
+
+/**
+ * Decides the status and the rules that explain it. Without a version, a rule that covers every version
+ * makes the package affected; otherwise the answer depends on the version.
+ */
+function matchCandidates(
+  candidates: readonly RegistryV2Rule[],
+  identity: string,
+  rawVersion: string | undefined,
+  version: string | undefined,
+): { status: CheckStatus; matching: readonly RegistryV2Rule[] } {
+  if (candidates.length === 0) return { status: "no-data", matching: [] };
+  if (version === undefined) {
+    const coversEveryVersion = candidates.filter((rule) => parseVersLenient(rule.vers).all);
+    return coversEveryVersion.length > 0
+      ? { status: "affected", matching: coversEveryVersion }
+      : { status: "version-dependent", matching: candidates };
+  }
+  const matching = rulesContaining(candidates, identity, rawVersion, version);
+  return { status: matching.length > 0 ? "affected" : "not-affected", matching };
+}
+
+function rulesContaining(
+  candidates: readonly RegistryV2Rule[],
+  identity: string,
+  rawVersion: string | undefined,
+  version: string,
+): RegistryV2Rule[] {
+  try {
+    return candidates.filter((rule) => versContains(rule.vers, version));
+  } catch (error) {
+    throw new CheckDependencyError(
+      `"${rawVersion}" is not a valid version for ${identity}: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
 }
 
 let loaded: { source: Promise<unknown>; rules: Promise<RegistryV2Rule[]> } | undefined;
