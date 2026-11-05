@@ -177,6 +177,17 @@ test("watch reads --format json as the JSON flag, skipping its value when it loo
   assert.deepEqual(JSON.parse(viaFormat.stdout), { projects: [project] });
 });
 
+test("watch with only --json runs the digest, because run is the default subcommand", async () => {
+  const home = await machine();
+  const project = await machine();
+  await watchIn(home, "add", project);
+
+  const implicit = await watchIn(home, "--json");
+  const explicit = await watchIn(home, "run", "--json");
+  assert.equal(implicit.code, 0, implicit.failures[0]?.message);
+  assert.deepEqual(JSON.parse(implicit.stdout), JSON.parse(explicit.stdout));
+});
+
 test("watch answers a usage error for a subcommand it does not know and a flag it does not take", async () => {
   const home = await machine();
   for (const args of [["browse"], ["run", "--monthly"], ["add", "path", "--weekly"]]) {
