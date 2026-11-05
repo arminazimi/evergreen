@@ -1,3 +1,4 @@
+import { required } from "../required.js";
 import { registerVersionScheme, VersError } from "../vers.js";
 import type { VersionScheme } from "../vers.js";
 
@@ -14,7 +15,7 @@ function parse(value: string): NuGetVersion {
   if (!match) throw new VersError(`Invalid NuGet version "${value}".`);
   const [, major, minor, patch, revision, release] = match;
   return {
-    numbers: [BigInt(major!), BigInt(minor ?? 0), BigInt(patch ?? 0), BigInt(revision ?? 0)],
+    numbers: [BigInt(required(major, "the major")), BigInt(minor ?? 0), BigInt(patch ?? 0), BigInt(revision ?? 0)],
     release: release ? release.split(".") : [],
   };
 }
@@ -40,7 +41,7 @@ export const nugetScheme: VersionScheme = {
     const a = parse(left);
     const b = parse(right);
     for (let index = 0; index < 4; index++) {
-      const difference = a.numbers[index]! - b.numbers[index]!;
+      const difference = required(a.numbers[index], "the number") - required(b.numbers[index], "the number");
       if (difference !== 0n) return difference < 0n ? -1 : 1;
     }
     if (a.release.length === 0 || b.release.length === 0) {

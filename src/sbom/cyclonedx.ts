@@ -7,6 +7,7 @@ import type { ActiveData } from "../data-source.js";
 import { parsePurl } from "../purl.js";
 import { validateRegistryV2 } from "../registry.js";
 import type { RegistryV2Rule } from "../registry.js";
+import { required } from "../required.js";
 import "../vers/index.js";
 
 type JsonObject = Record<string, unknown>;
@@ -80,9 +81,9 @@ export function enrichCycloneDx(input: unknown, rules: readonly RegistryV2Rule[]
       }
       if (result.status === "affected") {
         for (const finding of result.findings) {
-          const name = milestones[finding.event]!;
+          const name = required(milestones[finding.event], "the milestone");
           if (!properties.some((property) => property.name === name && property.value === finding.deadline)) {
-            properties.push({ name, value: finding.deadline! });
+            properties.push({ name, value: required(finding.deadline, "the deadline") });
           }
           for (const source of finding.sources) {
             if (!references.some((reference) => reference.url === source.url)) {

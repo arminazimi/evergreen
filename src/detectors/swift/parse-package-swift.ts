@@ -54,7 +54,7 @@ function blankPreservingNewlines(contents: string, from: number, to: number): st
   const parts: string[] = [];
   let index = from;
   while (index < to) {
-    const char = contents[index]!;
+    const char = contents.charAt(index);
     if (char === "\n" || char === "\r") {
       parts.push(char);
       index += 1;
@@ -88,7 +88,7 @@ function stripBlockComments(contents: string): string {
   };
 
   while (index < contents.length) {
-    const char = contents[index]!;
+    const char = contents.charAt(index);
     const next = contents[index + 1];
     const next2 = contents[index + 2];
 
@@ -211,7 +211,7 @@ function blankStringsAndLineComments(contents: string): string {
   };
 
   while (index < contents.length) {
-    const char = contents[index]!;
+    const char = contents.charAt(index);
     const next = contents[index + 1];
     const next2 = contents[index + 2];
 
@@ -305,7 +305,7 @@ function stringLiteral(raw: string | undefined): string | undefined {
   if (body === "" || body.includes("\\(") || body.includes("${")) return undefined;
   let value = "";
   for (let index = 0; index < body.length; index += 1) {
-    const char = body[index]!;
+    const char = body.charAt(index);
     if (char === "\\") {
       const next = body[index + 1];
       if (next === undefined) return undefined;
@@ -327,7 +327,7 @@ function packageFromCall(
   let depth = 0;
   let end = -1;
   for (let index = open; index < code.length; index += 1) {
-    const char = code[index]!;
+    const char = code.charAt(index);
     if (char === '"') {
       index += 1;
       while (index < code.length) {

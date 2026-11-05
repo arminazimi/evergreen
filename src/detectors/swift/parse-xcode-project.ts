@@ -15,6 +15,8 @@
  * evaluates contents or runs Xcode tooling.
  */
 
+import { required } from "../../required.js";
+
 export const MAXIMUM_PROJECT_BYTES = 16 * 1024 * 1024;
 export const MAXIMUM_LINE_LENGTH = 4096;
 
@@ -54,15 +56,15 @@ function projectObjects(lines: readonly string[]): Map<string, ProjectObject> {
   const ambiguous = new Set<string>();
 
   for (let index = 0; index < lines.length; index += 1) {
-    const start = OBJECT_START.exec(lines[index]!);
+    const start = OBJECT_START.exec(required(lines[index], "the object line"));
     if (!start) continue;
-    const identifier = start[1]!;
+    const identifier = required(start[1], "object identifier");
     const object: ProjectObject = { buildConfigurations: [], deploymentTargets: [] };
     let closed = false;
     let inList = false;
 
     for (index += 1; index < lines.length; index += 1) {
-      const line = lines[index]!;
+      const line = required(lines[index], "the object body line");
       if (OBJECT_END.test(line)) {
         closed = true;
         break;
@@ -71,7 +73,7 @@ function projectObjects(lines: readonly string[]): Map<string, ProjectObject> {
         if (LIST_END.test(line)) inList = false;
         else {
           const item = LIST_ITEM.exec(line);
-          if (item) object.buildConfigurations.push(item[1]!);
+          if (item) object.buildConfigurations.push(required(item[1], "configuration identifier"));
         }
         continue;
       }
@@ -81,14 +83,14 @@ function projectObjects(lines: readonly string[]): Map<string, ProjectObject> {
       }
       const field = FIELD.exec(line);
       if (field) {
-        if (field[1] === "isa") object.isa = field[2]!;
-        else if (field[1] === "productType") object.productType = field[2]!;
-        else object.buildConfigurationList = field[2]!;
+        if (field[1] === "isa") object.isa = required(field[2], "object class");
+        else if (field[1] === "productType") object.productType = required(field[2], "product type");
+        else object.buildConfigurationList = required(field[2], "configuration list");
         continue;
       }
       const deployment = DEPLOYMENT_TARGET.exec(line);
       if (deployment && line.length <= MAXIMUM_LINE_LENGTH) {
-        object.deploymentTargets.push({ value: deployment[1]!, line: index + 1 });
+        object.deploymentTargets.push({ value: required(deployment[1], "deployment target"), line: index + 1 });
       }
     }
     if (!closed || inList) return new Map();

@@ -6,6 +6,7 @@ import { relativePosix } from "../../paths.js";
 import { purlIdentity } from "../../purl.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
+import { required } from "../../required.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type {
   Detector,
@@ -159,11 +160,11 @@ function providerSource(
 ): { namespace: string; name: string } | undefined {
   const parts = (source ?? `hashicorp/${localName}`).split("/");
   if (parts.length === 3) {
-    if (parts[0]!.toLowerCase() !== REGISTRY_HOST) return undefined;
+    if (required(parts[0], "registry host").toLowerCase() !== REGISTRY_HOST) return undefined;
     parts.shift();
   }
   return parts.length === 2 && parts.every((part) => /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(part))
-    ? { namespace: parts[0]!.toLowerCase(), name: parts[1]!.toLowerCase() }
+    ? { namespace: required(parts[0], "namespace").toLowerCase(), name: required(parts[1], "name").toLowerCase() }
     : undefined;
 }
 
