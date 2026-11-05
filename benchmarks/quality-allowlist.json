@@ -2073,13 +2073,5 @@
   "asUnknownAs": [],
   "nonNull": [],
   "boundaries": [],
-  "audit": [
-    {
-      "advisory": "GHSA-g3hv-75wg-m249",
-      "package": "minimatch",
-      "owner": "#2231",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Development-only dependency of minimatch; not shipped. Update it or drop it in the security follow-up."
-    }
-  ]
+  "audit": []
 }
