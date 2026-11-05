@@ -169,3 +169,36 @@ test("fix --json reports the refusal", async () => {
   assert.equal(ours[0]!.ruleId, "python.symbol.unittest.removed-aliases");
   assert.match(ours[0]!.reason, /no replacement/);
 });
+
+test("unittest bindings from an aliased module or an aliased TestCase are followed", async () => {
+  const cases = [
+    {
+      name: "aliased module",
+      source:
+        "import unittest as ut\n\n\nclass Example(ut.TestCase):\n    def test_one(self):\n        self.assertEquals(a, b)\n",
+    },
+    {
+      name: "aliased TestCase",
+      source:
+        "from unittest import TestCase as TC\n\n\nclass Example(TC):\n    def test_one(self):\n        self.assertEquals(a, b)\n",
+    },
+  ];
+  for (const { name, source } of cases) {
+    const { root, patches, refusals } = await plan({ "app.py": source });
+    assert.deepEqual(refusals, [], `${name} is not refused`);
+    assert.equal(patches.length, 1, `${name} is rewritten`);
+    const fixed = await apply(root, patches[0]!.diff);
+    assert.match(fixed, /self\.assertEqual\(a, b\)/, name);
+    assert.doesNotMatch(fixed, /assertEquals/, name);
+    await assertParses(fixed);
+  }
+});
+
+test("an alias imported from unittest is not treated as a TestCase base when the class subclasses something else", async () => {
+  const source =
+    "from unittest import TestCase as TC\n\n\nclass Example(Other):\n    def test_one(self):\n        self.assertEquals(a, b)\n";
+  const { patches, refusals } = await plan({ "app.py": source });
+  assert.deepEqual(patches, []);
+  assert.equal(refusals.length, 1);
+  assert.match(refusals[0]!.reason, /not inside a class that subclasses unittest\.TestCase/);
+});

@@ -8,9 +8,9 @@ import {
   type TerraformLegacyDeclaration,
   type TerraformLegacyFunctionDeclaration,
 } from "../../detectors/terraform/parse-terraform.js";
-import type { Finding } from "../../domain.js";
+import type { Finding, ScanResult } from "../../domain.js";
 import { required } from "../../required.js";
-import type { FilePatch, Fixer } from "../index.js";
+import type { FilePatch, Fixer, Refuse } from "../index.js";
 
 const INTERPOLATION_RULE_ID = "terraform.syntax.interpolation-only";
 const LEGACY_FUNCTION_RULE_ID = "terraform.function.list-map";
@@ -158,92 +158,127 @@ function generated(contents: string): boolean {
 export const terraformLegacyFixer: Fixer = {
   id: "terraform-legacy",
   async plan(result, refuse) {
-    const byPath = new Map<string, Finding[]>();
-    for (const finding of result.findings) {
-      if (!isLegacyFinding(finding)) continue;
-      if (finding.location.path.split("/").includes(".terraform")) {
-        refuse?.(finding, "The file is inside .terraform/, which Terraform generates.");
-        continue;
-      }
-      if (finding.location.line === undefined) {
-        refuse?.(finding, "The finding names no line to rewrite.");
-        continue;
-      }
-      const existing = byPath.get(finding.location.path) ?? [];
-      existing.push(finding);
-      byPath.set(finding.location.path, existing);
-    }
-
+    const byPath = groupByPath(result, refuse);
     const patches: FilePatch[] = [];
     for (const [path, findings] of [...byPath].sort(([left], [right]) => left.localeCompare(right))) {
-      const decline = (reason: string) => {
-        for (const finding of findings) refuse?.(finding, reason);
-      };
-      const absolute = resolve(result.root, path);
-      const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) {
-        decline("The path resolves outside the repository.");
-        continue;
-      }
-      const before = await readFile(absolute, "utf8").catch(() => undefined);
-      if (before === undefined) {
-        decline("The Terraform file could not be read.");
-        continue;
-      }
-      if (generated(before)) {
-        decline("The file says another tool generates it.");
-        continue;
-      }
-      if (!before.endsWith("\n")) {
-        decline("The Terraform file does not end with a newline.");
-        continue;
-      }
-
-      const original = before.split("\n");
-      let text = before;
-      const targets: Target[] = [];
-      const initial = parseTerraformLegacy(text);
-      for (const finding of findings) {
-        const target: Target = {
-          finding,
-          kind: finding.ruleId === INTERPOLATION_RULE_ID ? "interpolation" : "function",
-        };
-        const declaration = declarationFor(initial, target);
-        if (declaration?.kind === "legacy_function") target.name = declaration.name;
-        targets.push(target);
-      }
-
-      // One pass cannot apply an edit nested inside another, as in "${list("a")}"; repeat until nothing moves.
-      for (let pass = 0; pass < 8; pass++) {
-        const declarations = parseTerraformLegacy(text);
-        const lines = text.split("\n");
-        let changed = false;
-        for (const lineNumber of new Set(targets.map((target) => required(target.finding.location.line, "the line")))) {
-          const lineTargets = targets.filter((target) => target.finding.location.line === lineNumber);
-          if (lineTargets.length === 0) continue;
-          const edits = lineEdits(lines[lineNumber - 1] ?? "", declarations, lineTargets);
-          if (edits.length === 0) continue;
-          lines[lineNumber - 1] = applyEdits(lines[lineNumber - 1] ?? "", edits);
-          changed = true;
-        }
-        if (!changed) break;
-        text = lines.join("\n");
-      }
-
-      const after = text.split("\n");
-      const final = parseTerraformLegacy(text);
-      for (const target of targets) {
-        const index = required(target.finding.location.line, "the line") - 1;
-        const declaration = declarationFor(final, target);
-        if (declaration) {
-          refuse?.(target.finding, reasonOf(declaration));
-        } else if (after[index] === original[index]) {
-          refuse?.(target.finding, "The line no longer holds the legacy syntax the finding names.");
-        }
-      }
-      // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
+      const patch = await planFile(result.root, path, findings, refuse);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },
 };
+
+/** The legacy findings the codemod may rewrite, grouped by file; a finding it cannot reach is refused on the spot. */
+function groupByPath(result: ScanResult, refuse: Refuse | undefined): Map<string, Finding[]> {
+  const byPath = new Map<string, Finding[]>();
+  for (const finding of result.findings) {
+    if (!isLegacyFinding(finding)) continue;
+    const reason = unreachableReason(finding);
+    if (reason !== undefined) {
+      refuse?.(finding, reason);
+      continue;
+    }
+    const existing = byPath.get(finding.location.path) ?? [];
+    existing.push(finding);
+    byPath.set(finding.location.path, existing);
+  }
+  return byPath;
+}
+
+/** Why a legacy finding cannot be rewritten at all, or undefined when it can be. */
+function unreachableReason(finding: Finding): string | undefined {
+  if (finding.location.path.split("/").includes(".terraform")) {
+    return "The file is inside .terraform/, which Terraform generates.";
+  }
+  if (finding.location.line === undefined) return "The finding names no line to rewrite.";
+  return undefined;
+}
+
+/** The patch for one file's findings, or undefined when no line changes. Every refusal is reported. */
+async function planFile(
+  root: string,
+  path: string,
+  findings: readonly Finding[],
+  refuse: Refuse | undefined,
+): Promise<FilePatch | undefined> {
+  const source = await readTerraformSource(root, path);
+  if ("reason" in source) {
+    for (const finding of findings) refuse?.(finding, source.reason);
+    return undefined;
+  }
+  const before = source.text;
+  const targets = targetsIn(before, findings);
+  const text = rewriteToStability(before, targets);
+  reportRemaining(before, text, targets, refuse);
+  if (text === before) return undefined;
+  // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
+  return { path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) };
+}
+
+/** The file's text, or the reason the file cannot be rewritten. */
+async function readTerraformSource(root: string, path: string): Promise<{ text: string } | { reason: string }> {
+  const absolute = resolve(root, path);
+  const inside = relative(resolve(root), absolute);
+  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
+  const before = await readFile(absolute, "utf8").catch(() => undefined);
+  if (before === undefined) return { reason: "The Terraform file could not be read." };
+  if (generated(before)) return { reason: "The file says another tool generates it." };
+  if (!before.endsWith("\n")) return { reason: "The Terraform file does not end with a newline." };
+  return { text: before };
+}
+
+/** Each finding as a target, with the function name of a legacy call resolved from the file as it is now. */
+function targetsIn(text: string, findings: readonly Finding[]): Target[] {
+  const initial = parseTerraformLegacy(text);
+  return findings.map((finding) => {
+    const target: Target = {
+      finding,
+      kind: finding.ruleId === INTERPOLATION_RULE_ID ? "interpolation" : "function",
+    };
+    const declaration = declarationFor(initial, target);
+    if (declaration?.kind === "legacy_function") target.name = declaration.name;
+    return target;
+  });
+}
+
+/** One pass cannot apply an edit nested inside another, as in "${list("a")}"; repeat until nothing moves. */
+function rewriteToStability(before: string, targets: readonly Target[]): string {
+  let text = before;
+  for (let pass = 0; pass < 8; pass++) {
+    const next = rewritePass(text, targets);
+    if (next === undefined) break;
+    text = next;
+  }
+  return text;
+}
+
+/** One pass over the lines the targets name; undefined when no line changes. */
+function rewritePass(text: string, targets: readonly Target[]): string | undefined {
+  const declarations = parseTerraformLegacy(text);
+  const lines = text.split("\n");
+  let changed = false;
+  for (const lineNumber of new Set(targets.map((target) => required(target.finding.location.line, "the line")))) {
+    const lineTargets = targets.filter((target) => target.finding.location.line === lineNumber);
+    const edits = lineEdits(lines[lineNumber - 1] ?? "", declarations, lineTargets);
+    if (edits.length === 0) continue;
+    lines[lineNumber - 1] = applyEdits(lines[lineNumber - 1] ?? "", edits);
+    changed = true;
+  }
+  return changed ? lines.join("\n") : undefined;
+}
+
+/** Refuses each finding whose legacy syntax survives the rewrite, with the reason the remaining declaration gives. */
+function reportRemaining(before: string, text: string, targets: readonly Target[], refuse: Refuse | undefined): void {
+  const original = before.split("\n");
+  const after = text.split("\n");
+  const final = parseTerraformLegacy(text);
+  for (const target of targets) {
+    const index = required(target.finding.location.line, "the line") - 1;
+    const declaration = declarationFor(final, target);
+    if (declaration) {
+      refuse?.(target.finding, reasonOf(declaration));
+    } else if (after[index] === original[index]) {
+      refuse?.(target.finding, "The line no longer holds the legacy syntax the finding names.");
+    }
+  }
+}

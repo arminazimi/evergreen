@@ -612,38 +612,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/fix/codemods/python-utcnow.ts",
-      "function": "inspectDatetimeImports",
-      "lines": 52,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-utcnow.ts",
-      "function": "plan",
-      "lines": 71,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-utcnow.ts",
-      "function": "rewriteFor",
-      "lines": 54,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/terraform-legacy.ts",
-      "function": "plan",
-      "lines": 89,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/fix/dockerfile.ts",
       "function": "plan",
       "lines": 68,
@@ -1698,54 +1666,6 @@
       "function": "targetsFor",
       "complexity": 17,
       "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-renames.ts",
-      "function": "unittestBindings",
-      "complexity": 23,
-      "owner": "#2270",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-utcnow.ts",
-      "function": "bindsTimezoneOutsideDatetimeImports",
-      "complexity": 20,
-      "owner": "#2270",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-utcnow.ts",
-      "function": "inspectDatetimeImports",
-      "complexity": 28,
-      "owner": "#2270",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-utcnow.ts",
-      "function": "plan",
-      "complexity": 17,
-      "owner": "#2270",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-utcnow.ts",
-      "function": "rewriteFor",
-      "complexity": 16,
-      "owner": "#2270",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/terraform-legacy.ts",
-      "function": "plan",
-      "complexity": 26,
-      "owner": "#2270",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

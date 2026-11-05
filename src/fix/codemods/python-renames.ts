@@ -488,37 +488,50 @@ interface UnittestBindings {
 function unittestBindings(root: Node): UnittestBindings {
   const bindings: UnittestBindings = { modules: new Set(), names: new Map(), star: false };
   for (const statement of root.descendantsOfType("import_statement")) {
-    if (!statement) continue;
-    for (const child of statement.namedChildren) {
-      if (!child) continue;
-      if (child.type === "dotted_name" && moduleMatches(child.text, "unittest")) {
-        bindings.modules.add(child.text.split(".", 1).join());
-      }
-      if (child.type === "aliased_import") {
-        const name = child.childForFieldName("name");
-        const alias = child.childForFieldName("alias");
-        if (name && alias && moduleMatches(name.text, "unittest")) bindings.modules.add(alias.text);
-      }
-    }
+    if (statement) bindModuleImport(statement, bindings);
   }
   for (const statement of root.descendantsOfType("import_from_statement")) {
-    if (!statement) continue;
-    const module = statement.childForFieldName("module_name");
-    if (!module || !moduleMatches(module.text, "unittest")) continue;
-    for (const child of statement.namedChildren) {
-      if (!child || child.id === module.id) continue;
-      if (child.type === "wildcard_import") {
-        bindings.star = true;
-      } else if (child.type === "dotted_name") {
-        bindings.names.set(child.text, child.text);
-      } else if (child.type === "aliased_import") {
-        const name = child.childForFieldName("name")?.text;
-        const alias = child.childForFieldName("alias")?.text;
-        if (name !== undefined && alias !== undefined) bindings.names.set(alias, name);
-      }
-    }
+    if (statement) bindNameImport(statement, bindings);
   }
   return bindings;
+}
+
+/** Reads `import unittest` and `import unittest as u`, which bind the module under a local name. */
+function bindModuleImport(statement: Node, bindings: UnittestBindings): void {
+  for (const child of statement.namedChildren) {
+    if (!child) continue;
+    if (child.type === "dotted_name" && moduleMatches(child.text, "unittest")) {
+      bindings.modules.add(child.text.split(".", 1).join());
+    }
+    if (child.type === "aliased_import") {
+      const name = child.childForFieldName("name");
+      const alias = child.childForFieldName("alias");
+      if (name && alias && moduleMatches(name.text, "unittest")) bindings.modules.add(alias.text);
+    }
+  }
+}
+
+/** Reads `from unittest import ...`, which binds each imported name, or every name for a star import. */
+function bindNameImport(statement: Node, bindings: UnittestBindings): void {
+  const module = statement.childForFieldName("module_name");
+  if (!module || !moduleMatches(module.text, "unittest")) return;
+  for (const child of statement.namedChildren) {
+    if (!child || child.id === module.id) continue;
+    bindImportedName(child, bindings);
+  }
+}
+
+/** One name in `from unittest import ...`: a star, a plain name, or an alias mapped to the imported name. */
+function bindImportedName(child: Node, bindings: UnittestBindings): void {
+  if (child.type === "wildcard_import") {
+    bindings.star = true;
+  } else if (child.type === "dotted_name") {
+    bindings.names.set(child.text, child.text);
+  } else if (child.type === "aliased_import") {
+    const name = child.childForFieldName("name")?.text;
+    const alias = child.childForFieldName("alias")?.text;
+    if (name !== undefined && alias !== undefined) bindings.names.set(alias, name);
+  }
 }
 
 /** The removed alias a call goes through, when the file's unittest bindings explain the name. */
