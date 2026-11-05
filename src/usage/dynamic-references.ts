@@ -2,9 +2,9 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { sourceFiles } from "../source-files.js";
-import { maskCodeLine, phpRequires, rubyInvocations } from "../source-usage.js";
+import { phpRequires, rubyInvocations } from "../source-usage.js";
 import { checkoutSourceIgnored } from "./checkout.js";
-import { type MaskState } from "./masking.js";
+import { maskCodeLine, type MaskState } from "./masking.js";
 import { PHP_DYNAMIC_ARGUMENT_REASON, phpVariableCalls } from "./php.js";
 
 export interface RubyDynamicReference {

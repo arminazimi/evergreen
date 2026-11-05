@@ -158,60 +158,101 @@ export function isMigrationGuidance(value: unknown): value is MigrationGuidance 
   );
 }
 
-const SYMBOL_FIELDS = ["kind", "language", "module", "symbol", "shape", "option", "argument", "replacement"];
+const SYMBOL_FIELDS = new Set(["kind", "language", "module", "symbol", "shape", "option", "argument", "replacement"]);
 const SYMBOL_PATH = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*$/;
+
+/** Languages the source-usage scanner reads a plain import or require statement for. */
+const IMPORT_LANGUAGES = new Set([
+  "javascript",
+  "typescript",
+  "python",
+  "go",
+  "java",
+  "kotlin",
+  "rust",
+  "csharp",
+  "ruby",
+  "php",
+  "swift",
+  "dart",
+]);
+
+/** Languages the source-usage scanner reads a call site for; Java and Kotlin bind only through imports. */
+const CALL_LANGUAGES = new Set([
+  "javascript",
+  "typescript",
+  "python",
+  "go",
+  "rust",
+  "csharp",
+  "ruby",
+  "php",
+  "swift",
+  "dart",
+]);
+
+/** Languages the symbol matcher, which reads one expression path, supports. */
+const SYMBOL_LANGUAGES = new Set(["javascript", "typescript", "python"]);
+
+function isImportMatcher(value: Record<string, unknown>): boolean {
+  return IMPORT_LANGUAGES.has(value.language as string) && isNonEmptyString(value.module);
+}
+
+function isCallMatcher(value: Record<string, unknown>): boolean {
+  return (
+    CALL_LANGUAGES.has(value.language as string) &&
+    isNonEmptyString(value.module) &&
+    Array.isArray(value.targets) &&
+    value.targets.length > 0 &&
+    value.targets.every(isNonEmptyString)
+  );
+}
+
+function isConfigKeyMatcher(value: Record<string, unknown>): boolean {
+  return isNonEmptyString(value.key) && (value.valueIncludes === undefined || isNonEmptyString(value.valueIncludes));
+}
+
+/** A symbol matcher names exactly its own fields and nothing else. */
+function hasOnlySymbolFields(value: Record<string, unknown>): boolean {
+  return Object.keys(value).every((key) => SYMBOL_FIELDS.has(key));
+}
+
+/** Python has no constructors to reach as free functions and always names the receiver of a method. */
+function isSymbolShapeForLanguage(value: Record<string, unknown>): boolean {
+  if (value.shape === "construct") return value.language !== "python";
+  if (value.shape === "method") return value.language === "python";
+  return true;
+}
+
+/** Only an option-shaped symbol carries an option name, and only a call-shaped one an argument index. */
+function isSymbolOptionFieldsForShape(value: Record<string, unknown>): boolean {
+  if (value.shape === "option") return isNonEmptyString(value.option);
+  return value.option === undefined && value.argument === undefined;
+}
+
+function isSymbolArgument(value: unknown): boolean {
+  return value === undefined || (Number.isInteger(value) && (value as number) >= 0);
+}
+
+function isSymbolMatcher(value: Record<string, unknown>): boolean {
+  if (!hasOnlySymbolFields(value)) return false;
+  if (!SYMBOL_LANGUAGES.has(value.language as string)) return false;
+  if (value.module !== undefined && !isNonEmptyString(value.module)) return false;
+  if (typeof value.symbol !== "string" || !SYMBOL_PATH.test(value.symbol)) return false;
+  if (!symbolShapeValues.includes(value.shape as never)) return false;
+  if (!isSymbolShapeForLanguage(value)) return false;
+  if (!isSymbolOptionFieldsForShape(value)) return false;
+  if (!isSymbolArgument(value.argument)) return false;
+  return value.replacement === undefined || isNonEmptyString(value.replacement);
+}
 
 /** Narrows an unknown value to one of the supported source-usage matchers. */
 export function isUsageMatcher(value: unknown): value is UsageMatcher {
   if (!isRecord(value) || !sourceLanguageValues.includes(value.language as never)) return false;
-  if (value.kind === "import") {
-    return (
-      [
-        "javascript",
-        "typescript",
-        "python",
-        "go",
-        "java",
-        "kotlin",
-        "rust",
-        "csharp",
-        "ruby",
-        "php",
-        "swift",
-        "dart",
-      ].includes(value.language as string) && isNonEmptyString(value.module)
-    );
-  }
-  if (value.kind === "call") {
-    return (
-      ["javascript", "typescript", "python", "go", "rust", "csharp", "ruby", "php", "swift", "dart"].includes(
-        value.language as string,
-      ) &&
-      isNonEmptyString(value.module) &&
-      Array.isArray(value.targets) &&
-      value.targets.length > 0 &&
-      value.targets.every(isNonEmptyString)
-    );
-  }
-  if (value.kind === "symbol") {
-    const hasOption = value.shape === "option";
-    return (
-      Object.keys(value).every((key) => SYMBOL_FIELDS.includes(key)) &&
-      ["javascript", "typescript", "python"].includes(value.language as string) &&
-      (value.module === undefined || isNonEmptyString(value.module)) &&
-      typeof value.symbol === "string" &&
-      SYMBOL_PATH.test(value.symbol) &&
-      symbolShapeValues.includes(value.shape as never) &&
-      (value.shape !== "construct" || value.language !== "python") &&
-      (value.shape !== "method" || value.language === "python") &&
-      (hasOption ? isNonEmptyString(value.option) : value.option === undefined && value.argument === undefined) &&
-      (value.argument === undefined || (Number.isInteger(value.argument) && (value.argument as number) >= 0)) &&
-      (value.replacement === undefined || isNonEmptyString(value.replacement))
-    );
-  }
-  if (value.kind === "config-key") {
-    return isNonEmptyString(value.key) && (value.valueIncludes === undefined || isNonEmptyString(value.valueIncludes));
-  }
+  if (value.kind === "import") return isImportMatcher(value);
+  if (value.kind === "call") return isCallMatcher(value);
+  if (value.kind === "symbol") return isSymbolMatcher(value);
+  if (value.kind === "config-key") return isConfigKeyMatcher(value);
   return false;
 }
 
