@@ -82,3 +82,18 @@ test("passes the VERS pypi containment vectors", async (t) => {
     );
   }
 });
+
+test("orders local version labels segment by segment", () => {
+  // Absent local sorts first; a longer label wins when the shared segments are equal.
+  const ordered = ["1.0", "1.0+a", "1.0+a.b", "1.0+a.b.1", "1.0+a.c", "1.0+a.1", "1.0+1", "1.0+1.2", "1.0+1.10"];
+  for (let index = 0; index < ordered.length - 1; index++) {
+    assert.ok(pypi.compare(ordered[index]!, ordered[index + 1]!) < 0, `${ordered[index]} < ${ordered[index + 1]}`);
+    assert.ok(pypi.compare(ordered[index + 1]!, ordered[index]!) > 0, `${ordered[index + 1]} > ${ordered[index]}`);
+  }
+});
+
+test("compares local labels with mixed numeric and alphanumeric segments", () => {
+  assert.equal(pypi.compare("1.0+ABC.10", "1.0+abc.10"), 0);
+  assert.ok(pypi.compare("1.0+5", "1.0+z") > 0);
+  assert.ok(pypi.compare("1.0+z", "1.0+5.0") < 0);
+});

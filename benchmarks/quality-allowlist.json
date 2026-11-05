@@ -922,14 +922,6 @@
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/vers/maven.ts",
-      "function": "parse",
-      "lines": 65,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     }
   ],
   "complexity": [
@@ -1986,22 +1978,6 @@
       "function": "versContains",
       "complexity": 22,
       "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/vers/maven.ts",
-      "function": "parse",
-      "complexity": 23,
-      "owner": "#2281",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/vers/pep440.ts",
-      "function": "compareLocal",
-      "complexity": 17,
-      "owner": "#2281",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

@@ -147,70 +147,100 @@ function parseItem(isCombination: boolean, isDigit: boolean, buffer: string): It
   return new StringItem(buffer, false);
 }
 
+/** Walks a lowercased version one character at a time, building nested lists the way ComparableVersion does. */
+class VersionScanner {
+  private readonly root = new ListItem();
+  private list = this.root;
+  private readonly stack: ListItem[] = [this.root];
+  private isDigit = false;
+  private isCombination = false;
+  private start = 0;
+
+  constructor(private readonly version: string) {}
+
+  scan(): ListItem {
+    for (let index = 0; index < this.version.length; index++) this.visit(index);
+    this.finish();
+    while (this.stack.length > 0) required(this.stack.pop(), "the stacked list").normalize();
+    return this.root;
+  }
+
+  private visit(index: number): void {
+    const character = this.version.charAt(index);
+    if (character === ".") this.endAtDot(index);
+    else if (character === "-") this.endAtDash(index);
+    else if (character >= "0" && character <= "9") this.visitDigit(index);
+    else this.visitLetter(index);
+  }
+
+  /** The pending buffer, from the last boundary up to (not including) `end`. */
+  private pendingItem(end: number): Item {
+    return parseItem(this.isCombination, this.isDigit, this.version.slice(this.start, end));
+  }
+
+  private push(fromTrailingDot = false): void {
+    const next = new ListItem(fromTrailingDot);
+    this.list.items.push(next);
+    this.list = next;
+    this.stack.push(next);
+  }
+
+  private endAtDot(index: number): void {
+    this.list.items.push(index === this.start ? new IntItem(0n) : this.pendingItem(index));
+    this.isCombination = false;
+    this.start = index + 1;
+  }
+
+  private endAtDash(index: number): void {
+    if (index === this.start) {
+      this.list.items.push(new IntItem(0n));
+    } else if (this.isLetterDashDigit(index)) {
+      // X-1 is treated as X1.
+      this.isCombination = true;
+      return;
+    } else {
+      this.list.items.push(this.pendingItem(index));
+    }
+    this.start = index + 1;
+    if (this.list.items.length > 0) this.push();
+    this.isCombination = false;
+  }
+
+  /** A dash inside letters that is followed by a digit, such as the dash in "x-1". */
+  private isLetterDashDigit(index: number): boolean {
+    return !this.isDigit && index !== this.version.length - 1 && /\d/.test(this.version.charAt(index + 1));
+  }
+
+  private visitDigit(index: number): void {
+    if (!this.isDigit && index > this.start) {
+      // X1
+      this.isCombination = true;
+      if (this.list.items.length > 0) this.push();
+    }
+    this.isDigit = true;
+  }
+
+  private visitLetter(index: number): void {
+    if (this.isDigit && index > this.start) {
+      this.list.items.push(parseItem(this.isCombination, true, this.version.slice(this.start, index)));
+      this.start = index;
+      this.push();
+      this.isCombination = false;
+    }
+    this.isDigit = false;
+  }
+
+  private finish(): void {
+    if (this.version.length <= this.start) return;
+    // 1.0.0.X1 < 1.0.0-X2: treat .X as -X for any string qualifier X.
+    if (!this.isDigit && this.list.items.length > 0) this.push(this.version.charAt(this.start - 1) === ".");
+    this.list.items.push(parseItem(this.isCombination, this.isDigit, this.version.slice(this.start)));
+  }
+}
+
 function parse(input: string): ListItem {
   if (!input || /\s/.test(input)) throw new VersError(`Invalid Maven version "${input}".`);
-  const version = input.toLowerCase();
-  const root = new ListItem();
-  let list = root;
-  const stack: ListItem[] = [list];
-  let isDigit = false;
-  let isCombination = false;
-  let start = 0;
-
-  const push = (fromTrailingDot = false) => {
-    const next = new ListItem(fromTrailingDot);
-    list.items.push(next);
-    list = next;
-    stack.push(next);
-  };
-
-  for (let index = 0; index < version.length; index++) {
-    const character = version.charAt(index);
-    if (character === ".") {
-      list.items.push(
-        index === start ? new IntItem(0n) : parseItem(isCombination, isDigit, version.slice(start, index)),
-      );
-      isCombination = false;
-      start = index + 1;
-    } else if (character === "-") {
-      if (index === start) {
-        list.items.push(new IntItem(0n));
-      } else {
-        // X-1 is treated as X1.
-        if (!isDigit && index !== version.length - 1 && /\d/.test(version.charAt(index + 1))) {
-          isCombination = true;
-          continue;
-        }
-        list.items.push(parseItem(isCombination, isDigit, version.slice(start, index)));
-      }
-      start = index + 1;
-      if (list.items.length > 0) push();
-      isCombination = false;
-    } else if (character >= "0" && character <= "9") {
-      if (!isDigit && index > start) {
-        // X1
-        isCombination = true;
-        if (list.items.length > 0) push();
-      }
-      isDigit = true;
-    } else {
-      if (isDigit && index > start) {
-        list.items.push(parseItem(isCombination, true, version.slice(start, index)));
-        start = index;
-        push();
-        isCombination = false;
-      }
-      isDigit = false;
-    }
-  }
-
-  if (version.length > start) {
-    // 1.0.0.X1 < 1.0.0-X2: treat .X as -X for any string qualifier X.
-    if (!isDigit && list.items.length > 0) push(version[start - 1] === ".");
-    list.items.push(parseItem(isCombination, isDigit, version.slice(start)));
-  }
-  while (stack.length > 0) required(stack.pop(), "the stacked list").normalize();
-  return root;
+  return new VersionScanner(input.toLowerCase()).scan();
 }
 
 /** Maven ComparableVersion ordering for Java and Kotlin artifacts. */
