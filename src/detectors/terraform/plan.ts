@@ -47,6 +47,11 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+/** The value as a record, or undefined for anything else, so a narrowed read needs no assertion. */
+function recordAt(value: unknown): Record<string, unknown> | undefined {
+  return isRecord(value) ? value : undefined;
+}
+
 function extractStringOrNumber(value: unknown): string | undefined {
   if (typeof value === "string" && value.trim().length > 0) {
     return value.trim();
@@ -135,18 +140,14 @@ export function parseTerraformPlanJson(contents: string): TerraformPlanDeclarati
 
   // 2. Provider configurations
   const configuration = isRecord(data.configuration) ? data.configuration : undefined;
-  const providerConfig = isRecord(configuration?.provider_config)
-    ? (configuration!.provider_config as Record<string, unknown>)
-    : isRecord(data.provider_config)
-      ? (data.provider_config as Record<string, unknown>)
-      : undefined;
+  const providerConfig = recordAt(configuration?.provider_config) ?? recordAt(data.provider_config);
 
   if (providerConfig) {
     for (const [key, config] of Object.entries(providerConfig)) {
       if (declarations.length >= MAXIMUM_DECLARATIONS) break;
       if (!isRecord(config)) continue;
 
-      const providerName = typeof config.name === "string" ? config.name : key.split(".")[0]!;
+      const providerName = typeof config.name === "string" ? config.name : key.split(".", 1).join();
       const fullName = extractStringOrNumber(config.full_name) ?? extractStringOrNumber(config.source);
       const constraint = extractStringOrNumber(config.version_constraint) ?? extractStringOrNumber(config.version);
 
@@ -166,8 +167,9 @@ export function parseTerraformPlanJson(contents: string): TerraformPlanDeclarati
   }
 
   // Also check configuration.provider_requirements if provider_config didn't yield provider versions
-  if (isRecord(configuration?.provider_requirements)) {
-    for (const [key, req] of Object.entries(configuration!.provider_requirements as Record<string, unknown>)) {
+  const providerRequirements = recordAt(configuration?.provider_requirements);
+  if (providerRequirements) {
+    for (const [key, req] of Object.entries(providerRequirements)) {
       if (declarations.length >= MAXIMUM_DECLARATIONS) break;
       if (!isRecord(req)) continue;
 

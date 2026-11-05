@@ -518,7 +518,7 @@
     {
       "file": "src/detectors/terraform/plan.ts",
       "function": "parseTerraformPlanJson",
-      "lines": 133,
+      "lines": 130,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -1576,7 +1576,7 @@
     {
       "file": "src/detectors/terraform/plan.ts",
       "function": "parseTerraformPlanJson",
-      "complexity": 44,
+      "complexity": 43,
       "owner": "#2264",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
@@ -2072,20 +2072,6 @@
   ],
   "asUnknownAs": [],
   "nonNull": [
-    {
-      "file": "src/detectors/terraform/parse-terraform.ts",
-      "count": 15,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/plan.ts",
-      "count": 3,
-      "owner": "#2223",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Non-null assertions in this file; remove them in the non-null follow-up."
-    },
     {
       "file": "src/usage/javascript.ts",
       "count": 6,
