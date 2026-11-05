@@ -8,6 +8,15 @@ import type { CliCommand, CommandContext } from "./types.js";
 
 const USAGE_TEXT = "Usage: evergreen watch add|remove <path> | list [--json] | [run] [--weekly] [--json]";
 
+/**
+ * A failure the watch command reports as a parse error. A programming error (a `TypeError`, or anything that is not an
+ * `Error`) is not a user mistake, so it propagates instead of being reported.
+ */
+export function reportOrRethrow(error: unknown, ctx: CommandContext): number {
+  if (error instanceof Error && !(error instanceof TypeError)) return ctx.fail("parse", error.message);
+  throw error;
+}
+
 /** `add` and `remove`: one path operand, and a line naming what the list now holds. */
 async function registerWatched(subcommand: "add" | "remove", operands: string[], ctx: CommandContext): Promise<number> {
   const [path] = operands;
@@ -74,8 +83,7 @@ export const command: CliCommand = {
       try {
         return await action(operands, state.json, ctx);
       } catch (error) {
-        if (error instanceof Error && !(error instanceof TypeError)) return ctx.fail("parse", error.message);
-        throw error;
+        return reportOrRethrow(error, ctx);
       }
     });
   },

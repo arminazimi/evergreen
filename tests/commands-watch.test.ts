@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { EXIT_CODES, createCommandContext } from "../src/commands/runtime.js";
-import { command } from "../src/commands/watch.js";
+import { command, reportOrRethrow } from "../src/commands/watch.js";
 import type { CommandContext, FailureClass } from "../src/commands/types.js";
 import { renderActionable } from "../src/errors.js";
 import { watchStateFile } from "../src/watch.js";
@@ -186,6 +186,26 @@ test("watch with only --json runs the digest, because run is the default subcomm
   const explicit = await watchIn(home, "run", "--json");
   assert.equal(implicit.code, 0, implicit.failures[0]?.message);
   assert.deepEqual(JSON.parse(implicit.stdout), JSON.parse(explicit.stdout));
+});
+
+test("a runtime error becomes a parse failure, and a programming error propagates", () => {
+  const failures: Run["failures"] = [];
+  const base = createCommandContext(["watch", "list"], "help");
+  const ctx: CommandContext = {
+    ...base,
+    fail(kind, message) {
+      failures.push({ kind, message });
+      return EXIT_CODES[kind];
+    },
+  };
+  assert.equal(reportOrRethrow(new Error("state unreadable"), ctx), EXIT_CODES.parse);
+  assert.deepEqual(failures, [{ kind: "parse", message: "state unreadable" }]);
+  assert.throws(() => reportOrRethrow(new TypeError("bad shape"), ctx), TypeError);
+  assert.throws(
+    () => reportOrRethrow("not an error", ctx),
+    (thrown: unknown) => thrown === "not an error",
+  );
+  assert.equal(failures.length, 1);
 });
 
 test("watch answers a usage error for a subcommand it does not know and a flag it does not take", async () => {
