@@ -4,7 +4,7 @@ import { basename, isAbsolute, relative, resolve } from "node:path";
 import { renderDiff } from "../../agent-instructions.js";
 import type { Finding } from "../../domain.js";
 import { required } from "../../required.js";
-import type { FilePatch, Fixer } from "../index.js";
+import type { FilePatch, Fixer, Refuse } from "../index.js";
 
 const DOCKERFILE = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const MAINTAINER_RULE = "container.dockerfile.maintainer";
@@ -60,14 +60,18 @@ function rewrite(line: string, ruleId: string): Rewrite {
     if (HEREDOC.test(parsed.value)) return { reason: HEREDOC_REASON };
     if (parsed.value.includes('"')) return { reason: QUOTE_REASON };
     if (parsed.value.includes("\\")) return { reason: BACKSLASH_REASON };
-    return { text: `${parsed.indent}LABEL org.opencontainers.image.authors="${parsed.value}"${lineEnding(line)}` };
+    return {
+      text: `${parsed.indent}LABEL org.opencontainers.image.authors="${parsed.value}"${lineEnding(line)}`,
+    };
   }
   const parsed = parseLegacyEnv(line);
   if ("reason" in parsed) return parsed;
   if (HEREDOC.test(parsed.value)) return { reason: HEREDOC_REASON };
   if (parsed.value.includes('"')) return { reason: QUOTE_REASON };
   if (parsed.value.includes("\\")) return { reason: BACKSLASH_REASON };
-  return { text: `${parsed.indent}ENV ${parsed.key}="${parsed.value}"${lineEnding(line)}` };
+  return {
+    text: `${parsed.indent}ENV ${parsed.key}="${parsed.value}"${lineEnding(line)}`,
+  };
 }
 
 /**
@@ -79,65 +83,90 @@ function rewrite(line: string, ruleId: string): Rewrite {
 export const dockerfileLegacyFixer: Fixer = {
   id: "dockerfile-legacy",
   async plan(result, refuse) {
-    const targets = new Map<string, Map<number, Target>>();
-    for (const finding of result.findings) {
-      if (finding.detector !== "container" || !DOCKERFILE.test(basename(finding.location.path))) continue;
-      if (finding.ruleId !== MAINTAINER_RULE && finding.ruleId !== LEGACY_ENV_RULE) continue;
-      const line = finding.location.line;
-      if (line === undefined) {
-        refuse?.(finding, "The finding names no line to rewrite.");
-        continue;
-      }
-      const lines = targets.get(finding.location.path) ?? new Map<number, Target>();
-      const target = lines.get(line) ?? { ruleId: finding.ruleId, findings: [] };
-      target.findings.push(finding);
-      lines.set(line, target);
-      targets.set(finding.location.path, lines);
-    }
-
+    const targets = legacyTargets(result.findings, refuse);
     const patches: FilePatch[] = [];
     for (const [path, lines] of [...targets].sort(([left], [right]) => left.localeCompare(right))) {
-      const decline = (reason: string) => {
-        for (const target of lines.values()) for (const finding of target.findings) refuse?.(finding, reason);
-      };
-      const absolute = resolve(result.root, path);
-      const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) {
-        decline("The path resolves outside the repository.");
-        continue;
-      }
-      const before = await readFile(absolute, "utf8").catch(() => undefined);
-      if (before === undefined) {
-        decline("The Dockerfile could not be read.");
-        continue;
-      }
-      if (!before.endsWith("\n")) {
-        decline("The Dockerfile does not end with a newline.");
-        continue;
-      }
-      const refusals = new Map<number, string>();
-      const original = before.split("\n");
-      const text = original
-        .map((line, index) => {
-          const target = lines.get(index + 1);
-          if (!target) return line;
-          const rewritten = rewrite(line, target.ruleId);
-          if ("reason" in rewritten) {
-            refusals.set(index + 1, rewritten.reason);
-            return line;
-          }
-          return rewritten.text;
-        })
-        .join("\n");
-      // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
-      const updated = text.split("\n");
-      for (const [line, target] of lines) {
-        if (updated[line - 1] !== original[line - 1]) continue;
-        const reason = refusals.get(line) ?? "The line no longer carries the deprecated instruction.";
-        for (const finding of target.findings) refuse?.(finding, reason);
-      }
+      const patch = await planFile(result.root, path, lines, refuse);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },
 };
+
+/** The Dockerfiles that carry a legacy instruction finding, each with its findings by line; a finding without a line is refused. */
+function legacyTargets(findings: readonly Finding[], refuse: Refuse | undefined): Map<string, Map<number, Target>> {
+  const targets = new Map<string, Map<number, Target>>();
+  for (const finding of findings) {
+    if (finding.detector !== "container" || !DOCKERFILE.test(basename(finding.location.path))) continue;
+    if (finding.ruleId !== MAINTAINER_RULE && finding.ruleId !== LEGACY_ENV_RULE) continue;
+    const line = finding.location.line;
+    if (line === undefined) {
+      refuse?.(finding, "The finding names no line to rewrite.");
+      continue;
+    }
+    const lines = targets.get(finding.location.path) ?? new Map<number, Target>();
+    const target = lines.get(line) ?? { ruleId: finding.ruleId, findings: [] };
+    target.findings.push(finding);
+    lines.set(line, target);
+    targets.set(finding.location.path, lines);
+  }
+  return targets;
+}
+
+/** The rewritten Dockerfile patch, or undefined when no instruction changes; declined and unchanged findings are reported. */
+async function planFile(
+  root: string,
+  path: string,
+  lines: ReadonlyMap<number, Target>,
+  refuse: Refuse | undefined,
+): Promise<FilePatch | undefined> {
+  const decline = (reason: string): undefined => {
+    for (const target of lines.values()) for (const finding of target.findings) refuse?.(finding, reason);
+    return undefined;
+  };
+  const absolute = resolve(root, path);
+  const inside = relative(resolve(root), absolute);
+  if (inside.startsWith("..") || isAbsolute(inside)) return decline("The path resolves outside the repository.");
+  const before = await readFile(absolute, "utf8").catch(() => undefined);
+  if (before === undefined) return decline("The Dockerfile could not be read.");
+  if (!before.endsWith("\n")) return decline("The Dockerfile does not end with a newline.");
+
+  const original = before.split("\n");
+  const { text, refusals } = rewriteInstructions(original, lines);
+  // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
+  const patch =
+    text === before
+      ? undefined
+      : {
+          path,
+          diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)),
+        };
+  const updated = text.split("\n");
+  for (const [line, target] of lines) {
+    if (updated[line - 1] !== original[line - 1]) continue;
+    const reason = refusals.get(line) ?? "The line no longer carries the deprecated instruction.";
+    for (const finding of target.findings) refuse?.(finding, reason);
+  }
+  return patch;
+}
+
+/** The file with each targeted instruction rewritten, and the reason each one it left alone was declined. */
+function rewriteInstructions(
+  original: readonly string[],
+  lines: ReadonlyMap<number, Target>,
+): { text: string; refusals: Map<number, string> } {
+  const refusals = new Map<number, string>();
+  const text = original
+    .map((line, index) => {
+      const target = lines.get(index + 1);
+      if (!target) return line;
+      const rewritten = rewrite(line, target.ruleId);
+      if ("reason" in rewritten) {
+        refusals.set(index + 1, rewritten.reason);
+        return line;
+      }
+      return rewritten.text;
+    })
+    .join("\n");
+  return { text, refusals };
+}
