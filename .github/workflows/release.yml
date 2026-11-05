@@ -140,6 +140,17 @@ jobs:
       dry_run: ${{ github.event_name == 'workflow_dispatch' }}
       release_sha: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.sha || '' }}
 
+  release-notes:
+    needs: [publish-binaries]
+    if: >-
+      always() && !cancelled() && needs.publish-binaries.result == 'success'
+    uses: ./.github/workflows/release-notes.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
+    permissions:
+      contents: write
+    with:
+      dry_run: ${{ github.event_name == 'workflow_dispatch' }}
+      release_tag: ${{ github.event_name == 'push' && github.ref_name || '' }}
+
   smoke:
     needs: [publish-npm]
     if: >-
