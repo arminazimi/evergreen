@@ -195,3 +195,14 @@ test("a selector the registry knows becomes a selection, and one it does not lis
     "Unknown selector: bogus. Use an ecosystem or a rule-id prefix (for example npm.package.request).",
   );
 });
+
+test("a format or command named like an Object.prototype property is a usage error, not a crash", async () => {
+  for (const format of ["constructor", "toString", "valueOf", "hasOwnProperty", "__proto__"]) {
+    for (const command of ["check", "scan", "receipt", "forecast"]) {
+      const failures = await gate(command, empty, "--format", format);
+      assert.equal(failures.length, 1, `${command} --format ${format}`);
+      assert.equal(failures[0]?.kind, "usage", `${command} --format ${format}`);
+      assert.ok(failures[0]?.message.startsWith("Unknown format:"), `${command} --format ${format}`);
+    }
+  }
+});

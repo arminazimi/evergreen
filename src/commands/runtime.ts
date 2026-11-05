@@ -293,37 +293,42 @@ const KNOWN_FORMATS = new Set([
 ]);
 
 /** The message a command with a narrow output set prints for a format outside it. */
-const COMMAND_FORMATS: Readonly<Record<string, { readonly allowed: readonly string[]; readonly rejection: string }>> = {
-  check: { allowed: ["text", "json"], rejection: "check supports --json and --format text|json only." },
-  "check-snippet": {
-    allowed: ["text", "json"],
-    rejection: "check-snippet supports --json and --format text|json only.",
-  },
-  receipt: { allowed: ["markdown", "json"], rejection: "receipt supports --format markdown|json only." },
-};
+// Maps, not objects: a plain object answers for inherited names such as `constructor`, so a lookup by user input needs a Map.
+const COMMAND_FORMATS: ReadonlyMap<string, { readonly allowed: readonly string[]; readonly rejection: string }> =
+  new Map([
+    ["check", { allowed: ["text", "json"], rejection: "check supports --json and --format text|json only." }],
+    [
+      "check-snippet",
+      { allowed: ["text", "json"], rejection: "check-snippet supports --json and --format text|json only." },
+    ],
+    ["receipt", { allowed: ["markdown", "json"], rejection: "receipt supports --format markdown|json only." }],
+  ]);
 
 /** Formats only `scan` renders, with the commands besides `scan` and `receipt` that take them too. */
-const SCAN_ONLY_FORMATS: Readonly<Record<string, readonly string[]>> = {
-  markdown: [],
-  junit: [],
-  sarif: [],
-  rdjson: [],
-  codequality: [],
-  compact: [],
-  slack: [],
-  teams: [],
-  webhook: [],
-  html: ["rollup"],
-};
+const SCAN_ONLY_FORMATS: ReadonlyMap<string, readonly string[]> = new Map([
+  ["markdown", []],
+  ["junit", []],
+  ["sarif", []],
+  ["rdjson", []],
+  ["codequality", []],
+  ["compact", []],
+  ["slack", []],
+  ["teams", []],
+  ["webhook", []],
+  ["html", ["rollup"]],
+]);
 
 /** Formats whose list of commands is neither `scan` alone nor the scan set above. */
-const FORMAT_COMMANDS: Readonly<Record<string, { readonly commands: readonly string[]; readonly rejection: string }>> =
-  {
-    mermaid: {
-      commands: ["scan", "forecast"],
-      rejection: "--format mermaid is only available for the scan and forecast commands.",
-    },
-  };
+const FORMAT_COMMANDS: ReadonlyMap<string, { readonly commands: readonly string[]; readonly rejection: string }> =
+  new Map([
+    [
+      "mermaid",
+      {
+        commands: ["scan", "forecast"],
+        rejection: "--format mermaid is only available for the scan and forecast commands.",
+      },
+    ],
+  ]);
 
 /** Flags only `scan` accepts, and the message each prints for another command. */
 const SCAN_ONLY_FLAGS: readonly { readonly taken: (state: Prepared) => boolean; readonly rejection: string }[] = [
@@ -354,19 +359,19 @@ const USAGE_GATES: readonly ((state: Prepared) => string | undefined)[] = [
     return `Unknown format: ${state.format ?? ""} (expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid).`;
   },
   (state) => {
-    const rule = COMMAND_FORMATS[state.command];
+    const rule = COMMAND_FORMATS.get(state.command);
     return rule && state.format !== undefined && !rule.allowed.includes(state.format) ? rule.rejection : undefined;
   },
   (state) => {
     const { format } = state;
     if (format === undefined || state.command === "scan" || state.command === "receipt") return undefined;
-    const extra = SCAN_ONLY_FORMATS[format];
+    const extra = SCAN_ONLY_FORMATS.get(format);
     if (extra === undefined) return undefined;
     if (extra.includes(state.command)) return undefined;
     return `--format ${format} is only available for the scan command.`;
   },
   (state) => {
-    const rule = state.format === undefined ? undefined : FORMAT_COMMANDS[state.format];
+    const rule = state.format === undefined ? undefined : FORMAT_COMMANDS.get(state.format);
     return rule && !rule.commands.includes(state.command) ? rule.rejection : undefined;
   },
   (state) => SCAN_ONLY_FLAGS.find((flag) => flag.taken(state) && state.command !== "scan")?.rejection,
@@ -715,22 +720,22 @@ async function printByOwner(state: Gated, result: ScanResult, ctx: CommandContex
 }
 
 /** The scan renders these from the findings alone. */
-const SCAN_RENDERERS: Readonly<Record<string, (result: ScanResult) => string>> = {
-  sarif: renderSarif,
-  rdjson: renderRdjson,
-  codequality: renderCodeQuality,
-  compact: renderCompact,
-  markdown: renderMarkdown,
-  junit: renderJunit,
-  slack: renderSlack,
-  teams: renderTeams,
-  webhook: renderWebhook,
-};
+const SCAN_RENDERERS: ReadonlyMap<string, (result: ScanResult) => string> = new Map([
+  ["sarif", renderSarif],
+  ["rdjson", renderRdjson],
+  ["codequality", renderCodeQuality],
+  ["compact", renderCompact],
+  ["markdown", renderMarkdown],
+  ["junit", renderJunit],
+  ["slack", renderSlack],
+  ["teams", renderTeams],
+  ["webhook", renderWebhook],
+]);
 
 /** The scan report in the format asked for; text and JSON are the fallback. */
 async function renderScanReport(state: Gated, result: ScanResult, asOfValue: string | undefined): Promise<string> {
   const { format, json, command } = state;
-  const render = format === undefined ? undefined : SCAN_RENDERERS[format];
+  const render = format === undefined ? undefined : SCAN_RENDERERS.get(format);
   if (render) return render(result);
   const asOf = asOfValue ?? new Date().toISOString().slice(0, 10);
   if (format === "html")

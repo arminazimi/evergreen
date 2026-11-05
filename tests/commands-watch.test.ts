@@ -231,3 +231,14 @@ test("a watch list that is not readable fails as a parse error instead of crashi
   );
   assert.match(broken.failures[0]?.message ?? "", /is not readable/);
 });
+
+test("watch answers a usage error for prototype property names, not a value from Object.prototype", async () => {
+  const home = await machine();
+  for (const subcommand of ["constructor", "toString", "valueOf", "hasOwnProperty", "__proto__"]) {
+    const run = await watchIn(home, subcommand);
+    assert.equal(run.code, 2, subcommand);
+    assert.equal(typeof run.code, "number", subcommand);
+    assert.deepEqual(run.failures, [{ kind: "usage", message: USAGE }], subcommand);
+    assert.equal(run.stdout, "", subcommand);
+  }
+});

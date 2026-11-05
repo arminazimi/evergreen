@@ -51,14 +51,14 @@ async function runDigest(operands: string[], json: boolean, ctx: CommandContext)
 }
 
 /** One row per `watch` subcommand, including the bare `run` the parser defaults to. */
-const SUBCOMMANDS: Readonly<
-  Record<string, (operands: string[], json: boolean, ctx: CommandContext) => Promise<number>>
-> = {
-  add: (operands, _json, ctx) => registerWatched("add", operands, ctx),
-  remove: (operands, _json, ctx) => registerWatched("remove", operands, ctx),
-  list: listProjects,
-  run: runDigest,
-};
+// A Map, not an object: a plain object answers for inherited names such as `constructor` and `toString`.
+const SUBCOMMANDS: ReadonlyMap<string, (operands: string[], json: boolean, ctx: CommandContext) => Promise<number>> =
+  new Map([
+    ["add", (operands, _json, ctx) => registerWatched("add", operands, ctx)],
+    ["remove", (operands, _json, ctx) => registerWatched("remove", operands, ctx)],
+    ["list", listProjects],
+    ["run", runDigest],
+  ]);
 
 /** `watch`: keeps a list of projects and prints only the findings that are new since the last digest. */
 export const command: CliCommand = {
@@ -78,7 +78,7 @@ export const command: CliCommand = {
         (argument, index) => argument !== "--json" && argument !== "--format" && args[index - 1] !== "--format",
       );
       const [subcommand = "run", ...operands] = rest;
-      const action = SUBCOMMANDS[subcommand];
+      const action = SUBCOMMANDS.get(subcommand);
       if (!action) return ctx.fail("usage", USAGE_TEXT);
       try {
         return await action(operands, state.json, ctx);
