@@ -64,6 +64,34 @@ function resolve(
   return undefined;
 }
 
+/** The occurrence role each named shape reports. `option` and `method` are not listed: they are handled elsewhere. */
+const roleForShape: Partial<Record<SymbolUsageMatcher["shape"], SymbolOccurrence["role"]>> = {
+  reference: "reference",
+  call: "call",
+  construct: "construct",
+};
+
+/** The node an option check finds for one occurrence: the keyword in Python, the object property in JavaScript. */
+function optionNode(matcher: SymbolUsageMatcher, option: string, occurrence: SymbolOccurrence): Node | undefined {
+  const options = occurrence.options ?? [];
+  if (matcher.language === "python") return pythonOption(options, option, matcher.argument);
+  return options[matcher.argument ?? options.length - 1]?.get(option);
+}
+
+/** The node and symbol one occurrence reports for one matcher, or undefined when it is not reported. */
+function reportedFor(
+  matcher: SymbolUsageMatcher,
+  occurrence: SymbolOccurrence,
+  name: string,
+): { node: Node; symbol: string } | undefined {
+  if (matcher.shape === "option") {
+    if (occurrence.role === "reference" || matcher.option === undefined) return undefined;
+    const found = optionNode(matcher, matcher.option, occurrence);
+    return found ? { node: found, symbol: `${name}(${matcher.option})` } : undefined;
+  }
+  return roleForShape[matcher.shape] === occurrence.role ? { node: occurrence.head, symbol: name } : undefined;
+}
+
 /**
  * Evaluates symbol matchers over the occurrences of one file. A `call` or `construct` entry reports the callee, a
  * `reference` entry reports a name that is used but not called, and an `option` entry reports the deprecated property
@@ -82,31 +110,42 @@ export function symbolUsages(
     const name = `${matcher.module === undefined ? "" : `${matcher.module}.`}${matcher.symbol}`;
     for (const occurrence of occurrences) {
       if (resolve(matcher, occurrence, bindings) !== matcher.symbol) continue;
-      let reported: { node: Node; symbol: string } | undefined;
-      if (matcher.shape === "reference" && occurrence.role === "reference")
-        reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "call" && occurrence.role === "call")
-        reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "construct" && occurrence.role === "construct")
-        reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "option" && occurrence.role !== "reference" && matcher.option !== undefined) {
-        const options = occurrence.options ?? [];
-        const position = matcher.argument ?? options.length - 1;
-        const found =
-          matcher.language === "python"
-            ? pythonOption(options, matcher.option, matcher.argument)
-            : options[position]?.get(matcher.option);
-        if (found) reported = { node: found, symbol: `${name}(${matcher.option})` };
-      }
+      const reported = reportedFor(matcher, occurrence, name);
       if (!reported) continue;
       const { location, excerpt } = describe(reported.node);
       const key = `${location.line}:${location.column}:${reported.symbol}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      usages.push({ kind: "symbol", language: file.language, symbol: reported.symbol, location, excerpt });
+      usages.push({
+        kind: "symbol",
+        language: file.language,
+        symbol: reported.symbol,
+        location,
+        excerpt,
+      });
     }
   }
   return usages;
+}
+
+/** Keeps the first usage of each kind, line, column, and symbol, in the order given. */
+export function distinctUsages(usages: readonly SourceUsage[]): SourceUsage[] {
+  const seen = new Set<string>();
+  return usages.filter((usage) => {
+    const key = `${usage.kind}:${usage.location.line}:${usage.location.column}:${usage.symbol}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+/** Orders usages by line, then column. */
+export function sortUsages(usages: SourceUsage[]): SourceUsage[] {
+  return usages.sort(
+    (left, right) =>
+      (left.location.line ?? 0) - (right.location.line ?? 0) ||
+      (left.location.column ?? 0) - (right.location.column ?? 0),
+  );
 }
 
 /** A Python option is a keyword argument anywhere in the call, or a positional argument at the declared position. */

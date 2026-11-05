@@ -1,9 +1,16 @@
-import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
+import type { Node, Query } from "./vendor/tree-sitter/tree-sitter.js";
 
-import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
+import type {
+  CallUsageMatcher,
+  ImportUsageMatcher,
+  SourceUsage,
+  SourceUsageContract,
+  SymbolUsageMatcher,
+  UsageMatcher,
+} from "../domain.js";
 import { required } from "../required.js";
 import { BindingBudget, type ImportBinding } from "./binding-budget.js";
-import { positionalKey, symbolUsages, type SymbolOccurrence } from "./symbols.js";
+import { distinctUsages, positionalKey, sortUsages, symbolUsages, type SymbolOccurrence } from "./symbols.js";
 import { lineExcerpt, lineLocator, loadQuery, parseSource } from "./tree-sitter.js";
 
 export interface PythonSourceFile {
@@ -20,8 +27,31 @@ interface Chain {
   path: string[];
 }
 
+/** A module import site in the file, keyed by the module's position so each is reported once. */
+interface Reference {
+  module: string;
+  node: Node;
+}
+
+/** What one file's matchers are evaluated against, read once from the syntax tree. */
+interface FileUsages {
+  file: PythonSourceFile;
+  describe: (node: Node) => Pick<SourceUsage, "location" | "excerpt">;
+  references: ReadonlyMap<number, Reference>;
+  bindings: readonly Binding[];
+  callees: readonly Node[];
+}
+
+/** Parent positions in which a name is the object or callee of a larger expression, which call occurrences report. */
+const operandPositions: [type: string, field: string][] = [
+  ["attribute", "object"],
+  ["call", "function"],
+];
+
 /** Usage map from {@link analyzePythonFile}; `analysisCapped` is set when the binding ceiling refused further work. */
-export type PythonUsageMap = Map<string, SourceUsage[]> & { analysisCapped?: boolean };
+export type PythonUsageMap = Map<string, SourceUsage[]> & {
+  analysisCapped?: boolean;
+};
 
 /** `get = requests.get` and `session = requests` rebind an imported symbol under a new name. */
 function rebindImportedAliases(budget: BindingBudget<Node>): void {
@@ -35,8 +65,11 @@ function rebindImportedAliases(budget: BindingBudget<Node>): void {
       const rest = chain.path.slice(1);
       for (const binding of bindings.filter((candidate) => candidate.local === chain.path[0])) {
         changed =
-          budget.addBinding({ module: binding.module, local: alias.local, imported: symbolPath(binding, rest) }) ||
-          changed;
+          budget.addBinding({
+            module: binding.module,
+            local: alias.local,
+            imported: symbolPath(binding, rest),
+          }) || changed;
       }
     }
     if (!changed || budget.capped) break;
@@ -125,6 +158,201 @@ function moduleMatches(actual: string, expected: string): boolean {
   return actual === expected || actual.startsWith(`${expected}.`);
 }
 
+/** The bindings one import match creates: a dotted import, a `from` import, or an alias, in that order of precedence. */
+function importBindings(module: string, captured: Map<string, Node>): Binding[] {
+  const dotted = captured.get("binding.dotted");
+  const name = captured.get("binding.name");
+  const alias = captured.get("binding.alias")?.text;
+  if (dotted)
+    return [
+      {
+        module,
+        local: required(module.split(".")[0], "module name"),
+        imported: "*",
+      },
+    ];
+  if (name) return [{ module, local: alias ?? name.text, imported: name.text }];
+  if (alias) return [{ module, local: alias, imported: "*" }];
+  return [];
+}
+
+/** Reads every query match of the file into the budget; returns the module import sites and the TestCase class candidates. */
+function collectMatches(
+  query: Query,
+  root: Node,
+  budget: BindingBudget<Node>,
+): { references: Map<number, Reference>; classCandidates: Node[] } {
+  const references = new Map<number, Reference>();
+  const classCandidates: Node[] = [];
+  for (const match of query.matches(root)) {
+    const captured = new Map<string, Node>();
+    for (const capture of match.captures) captured.set(capture.name, capture.node);
+    const moduleNode = captured.get("module");
+    if (moduleNode) {
+      const module = moduleNode.text;
+      references.set(moduleNode.startIndex, { module, node: moduleNode });
+      for (const binding of importBindings(module, captured)) budget.addBinding(binding);
+      continue;
+    }
+    const aliasValue = captured.get("alias.value");
+    const aliasLocal = captured.get("alias.local");
+    if (aliasValue && aliasLocal) {
+      budget.addAlias({
+        local: aliasLocal.text,
+        pattern: undefined,
+        value: aliasValue,
+      });
+      continue;
+    }
+    const callee = captured.get("callee");
+    if (callee) budget.addCallee(callee);
+    const testcaseClass = captured.get("testcase.class");
+    if (testcaseClass) classCandidates.push(testcaseClass);
+  }
+  return { references, classCandidates };
+}
+
+/** Call occurrences from the recorded callees, and then, when a reference matcher asks, bare uses. */
+function symbolOccurrences(callees: readonly Node[], root: Node, wantsReferences: boolean): SymbolOccurrence[] {
+  const occurrences: SymbolOccurrence[] = [];
+  const used = new Set<number>();
+  for (const callee of callees) {
+    const chain = chainOf(callee);
+    const call = callee.parent;
+    if (!chain || !call) continue;
+    used.add(callee.id);
+    occurrences.push({
+      head: chain.head,
+      path: chain.path,
+      role: "call",
+      options: argumentOptions(call.childForFieldName("arguments")),
+    });
+  }
+  return wantsReferences ? occurrences.concat(referenceOccurrences(root, used)) : occurrences;
+}
+
+/** Identifiers and attribute reads that are used rather than called, declared, or read through a larger expression. */
+function referenceOccurrences(root: Node, used: ReadonlySet<number>): SymbolOccurrence[] {
+  const found: SymbolOccurrence[] = [];
+  for (const node of root.descendantsOfType(["identifier", "attribute"])) {
+    if (!node || used.has(node.id) || namesADeclaration(node) || isOperandOfLarger(node)) continue;
+    const chain = chainOf(node);
+    if (chain) found.push({ head: chain.head, path: chain.path, role: "reference" });
+  }
+  return found;
+}
+
+function isOperandOfLarger(node: Node): boolean {
+  const parent = node.parent;
+  return operandPositions.some(
+    ([type, field]) => parent?.type === type && parent.childForFieldName(field)?.id === node.id,
+  );
+}
+
+/** Import usages: every module import site that matches the matcher's module, or a submodule of it. */
+function importUsages(matcher: ImportUsageMatcher, ctx: FileUsages): SourceUsage[] {
+  const usages: SourceUsage[] = [];
+  for (const reference of ctx.references.values()) {
+    if (!moduleMatches(reference.module, matcher.module)) continue;
+    usages.push({
+      kind: "import",
+      language: "python",
+      symbol: matcher.module,
+      ...ctx.describe(reference.node),
+    });
+  }
+  return usages;
+}
+
+/** Whether a callee path bound to `binding` denotes one of a call matcher's targets. */
+function isCallTarget(binding: Binding, symbol: string, rest: readonly string[], target: string): boolean {
+  if (target === "default") return (binding.imported === "*" || binding.imported === "default") && rest.length === 0;
+  return symbol === target;
+}
+
+/** Call usages: each callee that reads a target of the matcher's module through a binding of that module. */
+function callUsages(matcher: CallUsageMatcher, ctx: FileUsages): SourceUsage[] {
+  const usages: SourceUsage[] = [];
+  const matching = ctx.bindings.filter((binding) => moduleMatches(binding.module, matcher.module));
+  for (const callee of ctx.callees) {
+    const chain = chainOf(callee);
+    if (!chain) continue;
+    const rest = chain.path.slice(1);
+    for (const binding of matching) {
+      if (binding.local !== chain.path[0]) continue;
+      const symbol = symbolPath(binding, rest);
+      for (const target of matcher.targets) {
+        if (!isCallTarget(binding, symbol, rest, target)) continue;
+        usages.push({
+          kind: "call",
+          language: "python",
+          symbol: target === "default" ? matcher.module : `${matcher.module}.${target}`,
+          ...ctx.describe(chain.head),
+        });
+      }
+    }
+  }
+  return usages;
+}
+
+/** The usages one matcher finds. Symbol matchers are evaluated separately, over all occurrences at once. */
+function matcherUsages(matcher: UsageMatcher, ctx: FileUsages): SourceUsage[] {
+  if (matcher.language !== "python") return [];
+  if (matcher.kind === "import") return importUsages(matcher, ctx);
+  if (matcher.kind === "call") return callUsages(matcher, ctx);
+  return [];
+}
+
+/**
+ * `method` is a call by name on any receiver, reported at the method name, so it does not go through symbol
+ * resolution: the receiver may be `self`, `cls`, another object, or absent from the imports.
+ */
+function methodUsages(
+  matcher: SymbolUsageMatcher,
+  callees: readonly Node[],
+  testcaseClassIds: ReadonlySet<number>,
+  describe: FileUsages["describe"],
+): SourceUsage[] {
+  const usages: SourceUsage[] = [];
+  for (const callee of callees) {
+    if (callee.type !== "attribute") continue;
+    const attribute = callee.childForFieldName("attribute");
+    if (attribute?.text !== matcher.symbol) continue;
+    if (!isInsideTestcaseClass(callee, testcaseClassIds)) continue;
+    usages.push({
+      kind: "symbol",
+      language: "python",
+      symbol: matcher.module === undefined ? matcher.symbol : `${matcher.module}.${matcher.symbol}`,
+      ...describe(attribute),
+    });
+  }
+  return usages;
+}
+
+/** The symbol matchers of a contract, all of which are Python. */
+function symbolMatchers(contract: SourceUsageContract): SymbolUsageMatcher[] {
+  return contract.matchers.filter(
+    (matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === "python",
+  );
+}
+
+/** One contract's usages in this file, deduplicated and in source order. */
+function contractUsages(
+  contract: SourceUsageContract,
+  ctx: FileUsages,
+  testcaseClassIds: ReadonlySet<number>,
+  occurrencesOf: () => SymbolOccurrence[],
+): SourceUsage[] {
+  const usages = contract.matchers.flatMap((matcher) => matcherUsages(matcher, ctx));
+  const symbols = symbolMatchers(contract);
+  const named = symbols.filter((matcher) => matcher.shape !== "method");
+  const namedFound = named.length > 0 ? symbolUsages(named, occurrencesOf(), ctx.bindings, ctx.describe, ctx.file) : [];
+  const methodFound = symbols
+    .filter((matcher) => matcher.shape === "method")
+    .flatMap((matcher) => methodUsages(matcher, ctx.callees, testcaseClassIds, ctx.describe));
+  return sortUsages(distinctUsages(usages.concat(namedFound, methodFound)));
+}
+
 /**
  * Finds import and call usages in one Python file with the tree-sitter queries in `queries/python.scm`.
  * Returns undefined when the file cannot be parsed (too large or over budget), so the caller can fall
@@ -142,170 +370,39 @@ export async function analyzePythonFile(
     const query = await loadQuery("python", "python");
     const locate = lineLocator(file.source);
     const lines = file.source.split(/\r?\n/);
+    const describe = (node: Node): Pick<SourceUsage, "location" | "excerpt"> => {
+      const { line, column } = locate(node.startIndex);
+      return {
+        location: { path: file.path, line, column },
+        excerpt: lineExcerpt(lines, line),
+      };
+    };
 
-    const references = new Map<number, { module: string; node: Node }>();
     const budget = new BindingBudget<Node>();
-    const { bindings, callees } = budget;
-    const classCandidates: Node[] = [];
-    const addBinding = (binding: Binding): boolean => budget.addBinding(binding);
-
-    for (const match of query.matches(tree.rootNode)) {
-      const captured = new Map<string, Node>();
-      for (const capture of match.captures) captured.set(capture.name, capture.node);
-      const moduleNode = captured.get("module");
-      if (moduleNode) {
-        const module = moduleNode.text;
-        references.set(moduleNode.startIndex, { module, node: moduleNode });
-        const dotted = captured.get("binding.dotted");
-        const name = captured.get("binding.name");
-        const alias = captured.get("binding.alias")?.text;
-        if (dotted) addBinding({ module, local: required(module.split(".")[0], "module name"), imported: "*" });
-        else if (name) addBinding({ module, local: alias ?? name.text, imported: name.text });
-        else if (alias) addBinding({ module, local: alias, imported: "*" });
-        continue;
-      }
-      const aliasValue = captured.get("alias.value");
-      const aliasLocal = captured.get("alias.local");
-      if (aliasValue && aliasLocal) {
-        budget.addAlias({ local: aliasLocal.text, pattern: undefined, value: aliasValue });
-        continue;
-      }
-      const callee = captured.get("callee");
-      if (callee) budget.addCallee(callee);
-      const testcaseClass = captured.get("testcase.class");
-      if (testcaseClass) classCandidates.push(testcaseClass);
-    }
-
+    const { references, classCandidates } = collectMatches(query, tree.rootNode, budget);
     rebindImportedAliases(budget);
 
-    const symbolMatchers = (contract: SourceUsageContract): SymbolUsageMatcher[] =>
-      contract.matchers.filter(
-        (matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === "python",
-      );
+    const bindings = budget.bindings;
+    const testcaseClassIds = new Set(
+      classCandidates.filter((node) => isTestcaseClass(node, bindings)).map((node) => node.id),
+    );
+    const ctx: FileUsages = {
+      file,
+      describe,
+      references,
+      bindings,
+      callees: budget.callees,
+    };
     const wantsReferences = contracts.some((contract) =>
       symbolMatchers(contract).some((matcher) => matcher.shape === "reference"),
     );
     let occurrences: SymbolOccurrence[] | undefined;
-    const occurrencesOf = (): SymbolOccurrence[] => {
-      if (occurrences) return occurrences;
-      occurrences = [];
-      const used = new Set<number>();
-      for (const callee of callees) {
-        const chain = chainOf(callee);
-        const call = callee.parent;
-        if (!chain || !call) continue;
-        used.add(callee.id);
-        occurrences.push({
-          head: chain.head,
-          path: chain.path,
-          role: "call",
-          options: argumentOptions(call.childForFieldName("arguments")),
-        });
-      }
-      if (wantsReferences) {
-        for (const node of tree.rootNode.descendantsOfType(["identifier", "attribute"])) {
-          if (!node || used.has(node.id) || namesADeclaration(node)) continue;
-          const parent = node.parent;
-          if (parent?.type === "attribute" && parent.childForFieldName("object")?.id === node.id) continue;
-          if (parent?.type === "call" && parent.childForFieldName("function")?.id === node.id) continue;
-          const chain = chainOf(node);
-          if (chain) occurrences.push({ head: chain.head, path: chain.path, role: "reference" });
-        }
-      }
-      return occurrences;
-    };
-
-    const testcaseClassIds = new Set(
-      classCandidates.filter((node) => isTestcaseClass(node, bindings)).map((node) => node.id),
-    );
-    const describe = (node: Node): Pick<SourceUsage, "location" | "excerpt"> => {
-      const { line, column } = locate(node.startIndex);
-      return { location: { path: file.path, line, column }, excerpt: lineExcerpt(lines, line) };
-    };
+    const occurrencesOf = (): SymbolOccurrence[] =>
+      (occurrences ??= symbolOccurrences(budget.callees, tree.rootNode, wantsReferences));
 
     const results = new Map<string, SourceUsage[]>();
     for (const contract of contracts) {
-      const usages: SourceUsage[] = [];
-      const seen = new Set<string>();
-      const push = (usage: SourceUsage): void => {
-        const key = `${usage.kind}:${usage.location.line}:${usage.location.column}:${usage.symbol}`;
-        if (seen.has(key)) return;
-        seen.add(key);
-        usages.push(usage);
-      };
-      for (const matcher of contract.matchers) {
-        if (matcher.language !== "python") continue;
-        if (matcher.kind === "import") {
-          for (const reference of references.values()) {
-            if (!moduleMatches(reference.module, matcher.module)) continue;
-            const { line, column } = locate(reference.node.startIndex);
-            push({
-              kind: "import",
-              language: "python",
-              symbol: matcher.module,
-              location: { path: file.path, line, column },
-              excerpt: lineExcerpt(lines, line),
-            });
-          }
-        } else if (matcher.kind === "call") {
-          const matching = bindings.filter((binding) => moduleMatches(binding.module, matcher.module));
-          for (const callee of callees) {
-            const chain = chainOf(callee);
-            if (!chain) continue;
-            const rest = chain.path.slice(1);
-            for (const binding of matching) {
-              if (binding.local !== chain.path[0]) continue;
-              const symbol = symbolPath(binding, rest);
-              for (const target of matcher.targets) {
-                const hit =
-                  target === "default"
-                    ? (binding.imported === "*" || binding.imported === "default") && rest.length === 0
-                    : symbol === target;
-                if (!hit) continue;
-                const { line, column } = locate(chain.head.startIndex);
-                push({
-                  kind: "call",
-                  language: "python",
-                  symbol: target === "default" ? matcher.module : `${matcher.module}.${target}`,
-                  location: { path: file.path, line, column },
-                  excerpt: lineExcerpt(lines, line),
-                });
-              }
-            }
-          }
-        }
-      }
-      const symbols = symbolMatchers(contract);
-      if (symbols.length > 0) {
-        const named = symbols.filter((matcher) => matcher.shape !== "method");
-        if (named.length > 0) {
-          for (const usage of symbolUsages(named, occurrencesOf(), bindings, describe, file)) push(usage);
-        }
-        // `method` is a call by name on any receiver, reported at the method name, so it does not go through
-        // symbol resolution: the receiver may be `self`, `cls`, another object, or absent from the imports.
-        for (const matcher of symbols.filter((candidate) => candidate.shape === "method")) {
-          for (const callee of callees) {
-            if (callee.type !== "attribute") continue;
-            const attribute = callee.childForFieldName("attribute");
-            if (attribute?.text !== matcher.symbol) continue;
-            if (!isInsideTestcaseClass(callee, testcaseClassIds)) continue;
-            push({
-              kind: "symbol",
-              language: "python",
-              symbol: matcher.module === undefined ? matcher.symbol : `${matcher.module}.${matcher.symbol}`,
-              ...describe(attribute),
-            });
-          }
-        }
-      }
-      results.set(
-        contract.id,
-        usages.sort(
-          (left, right) =>
-            (left.location.line ?? 0) - (right.location.line ?? 0) ||
-            (left.location.column ?? 0) - (right.location.column ?? 0),
-        ),
-      );
+      results.set(contract.id, contractUsages(contract, ctx, testcaseClassIds, occurrencesOf));
     }
     if (budget.capped) (results as PythonUsageMap).analysisCapped = true;
     return results;
