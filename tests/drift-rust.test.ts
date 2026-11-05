@@ -8,6 +8,7 @@ import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
+import { rustDriftCollector } from "../src/drift/rust.js";
 import { runCli } from "./cli-runner.js";
 import { copyFixtureTree } from "./fixture-copies.js";
 
@@ -94,6 +95,62 @@ test("every Rust source is collected, and the report is a drift", async () => {
   const moving = runtime.pins.find((pin) => pin.source === "dtolnay/rust-toolchain ref" && pin.raw === "stable");
   assert.equal(moving?.release, undefined);
   assert.match(moving?.unresolved ?? "", /moving channel/);
+});
+
+test("the walk classifies every Rust source name and directory edge exactly once", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-rust-walk-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, ".github", "workflows", "nested"), { recursive: true });
+  await mkdir(join(root, ".circleci"), { recursive: true });
+  await mkdir(join(root, "node_modules"), { recursive: true });
+  await writeFile(join(root, "rust-toolchain.toml"), '[toolchain]\nchannel = "1.79.0"\n');
+  await writeFile(join(root, "rust-toolchain"), "1.79.0\n");
+  await writeFile(join(root, "Cargo.toml"), '[package]\nname = "walk"\nrust-version = "1.75"\n');
+  await writeFile(join(root, ".tool-versions"), "rust 1.79.0\nnodejs 22.11.0\n");
+  await writeFile(join(root, "Dockerfile"), "FROM rust:1.79.0-slim AS build\n");
+  await writeFile(join(root, ".gitlab-ci.yml"), "build:\n  image: rust:1.79.0\n");
+  await writeFile(
+    join(root, ".circleci", "config.yml"),
+    "version: 2.1\njobs:\n  build:\n    docker:\n      - image: rust:1.79.0\n    steps:\n      - checkout\n",
+  );
+  await writeFile(join(root, "azure-pipelines.yml"), "jobs:\n  - job: build\n    container: rust:1.79.0\n");
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    container:\n      image: rust:1.79.0\n    services:\n      integration:\n        image: rust:1.79.0\n    steps:\n      - uses: dtolnay/rust-toolchain@1.79.0\n      - uses: dtolnay/rust-toolchain@stable\n        with:\n          toolchain: 1.79.0\n      - uses: actions-rs/toolchain@v1\n        with:\n          toolchain: 1.79.0\n",
+  );
+  // every name below is one the walk must reject: an unknown extension, a CI config outside
+  // `.circleci`, an extension the Azure rule does not accept, a workflow below its directory, a
+  // skipped directory, and a non-YAML file in the workflows directory
+  await writeFile(join(root, "rust-toolchain.yml"), "channel: 1.79.0\n");
+  await writeFile(join(root, "config.yml"), "version: 2.1\njobs:\n  build:\n    docker:\n      - image: rust:1.79.0\n");
+  await writeFile(join(root, "azure-pipelines.yaml"), "jobs:\n  - job: build\n    container: rust:1.79.0\n");
+  await writeFile(
+    join(root, ".github", "workflows", "nested", "deep.yml"),
+    "jobs:\n  test:\n    container: rust:1.79.0\n",
+  );
+  await writeFile(join(root, "node_modules", "rust-toolchain"), "1.79.0\n");
+
+  const pins = await rustDriftCollector.collect(root);
+  assert.deepEqual(pins.map((pin) => `${pin.path} ${pin.source} ${pin.kind} ${pin.release ?? "unresolved"}`).sort(), [
+    ".circleci/config.yml CircleCI image pin 1.79",
+    ".github/workflows/ci.yml GitHub Actions container pin 1.79",
+    ".github/workflows/ci.yml GitHub Actions service image pin 1.79",
+    ".github/workflows/ci.yml actions-rs/toolchain toolchain pin 1.79",
+    ".github/workflows/ci.yml dtolnay/rust-toolchain ref pin 1.79",
+    ".github/workflows/ci.yml dtolnay/rust-toolchain ref pin unresolved",
+    ".github/workflows/ci.yml dtolnay/rust-toolchain toolchain pin 1.79",
+    ".gitlab-ci.yml GitLab CI image pin 1.79",
+    ".tool-versions .tool-versions pin 1.79",
+    "Cargo.toml Cargo.toml rust-version floor 1.75",
+    "Dockerfile Dockerfile FROM pin 1.79",
+    "azure-pipelines.yml Azure Pipelines container pin 1.79",
+    "rust-toolchain rust-toolchain pin 1.79",
+    "rust-toolchain.toml rust-toolchain.toml channel pin 1.79",
+  ]);
+  assert.match(
+    pins.find((pin) => pin.raw === "stable")?.unresolved ?? "",
+    /moving channel, not a release Evergreen can resolve offline/,
+  );
 });
 
 test("rust-version is a floor, never a pin, in package and workspace.package", async () => {

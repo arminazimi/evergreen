@@ -8,6 +8,7 @@ import { after, before, test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
+import { terraformCollector } from "../src/drift/terraform.js";
 import { runCli } from "./cli-runner.js";
 import { copyFixtureTree } from "./fixture-copies.js";
 
@@ -112,6 +113,113 @@ test("an exact required_version is a pin, a range is a floor, and both carry the
   assert.equal(floor?.release, "1.17");
   assert.equal(floor?.scope, "modules/network");
   assert.equal(find(runtime, "modules/network/.terraform-version", ".terraform-version")?.scope, "modules/network");
+});
+
+test("the walk classifies every Terraform source name and directory edge exactly once", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-terraform-walk-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, ".github", "workflows", "nested"), { recursive: true });
+  await mkdir(join(root, ".circleci"), { recursive: true });
+  await mkdir(join(root, ".terraform"), { recursive: true });
+  await mkdir(join(root, "modules", "network"), { recursive: true });
+  await writeFile(join(root, ".terraform-version"), "1.16.0\n");
+  await writeFile(join(root, "modules", "network", ".terraform-version"), "1.17.0\n");
+  await writeFile(join(root, ".tool-versions"), "terraform 1.16.0\nnodejs 22.11.0\n");
+  await writeFile(join(root, "main.tf"), 'terraform {\n  required_version = ">= 1.16.0"\n}\n');
+  await writeFile(join(root, "Dockerfile"), "FROM hashicorp/terraform:1.16.0 AS tools\nFROM ubuntu:22.04\n");
+  await writeFile(join(root, ".gitlab-ci.yml"), "plan:\n  image: hashicorp/terraform:1.16.0\n");
+  await writeFile(
+    join(root, ".circleci", "config.yml"),
+    "version: 2.1\njobs:\n  build:\n    docker:\n      - image: hashicorp/terraform:1.16.0\n    steps:\n      - checkout\n",
+  );
+  await writeFile(
+    join(root, "azure-pipelines.yml"),
+    "jobs:\n  - job: build\n    container: hashicorp/terraform:1.16.0\n",
+  );
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    container:\n      image: hashicorp/terraform:1.17.0\n    services:\n      state:\n        image: hashicorp/terraform:1.9.5\n      cache:\n        image: redis:7\n    steps:\n      - uses: hashicorp/setup-terraform@v3\n        with:\n          terraform_version: 1.16.0\n",
+  );
+  // every name below is one the walk must reject: a CI config outside `.circleci`, an extension the
+  // Azure rule does not accept, a workflow below its directory, a skipped directory, and a file that
+  // only looks like Terraform
+  await writeFile(
+    join(root, "config.yml"),
+    "version: 2.1\njobs:\n  build:\n    docker:\n      - image: hashicorp/terraform:1.16.0\n",
+  );
+  await writeFile(
+    join(root, "azure-pipelines.yaml"),
+    "jobs:\n  - job: build\n    container: hashicorp/terraform:1.16.0\n",
+  );
+  await writeFile(
+    join(root, ".github", "workflows", "nested", "deep.yml"),
+    "jobs:\n  test:\n    container: hashicorp/terraform:1.16.0\n",
+  );
+  await writeFile(join(root, ".terraform", ".terraform-version"), "1.20.0\n");
+  await writeFile(join(root, "notes.tf.md"), 'terraform {\n  required_version = "1.20.0"\n}\n');
+
+  const pins = await terraformCollector.collect(root);
+  assert.deepEqual(pins.map((pin) => `${pin.path} ${pin.source} ${pin.kind} ${pin.raw}`).sort(), [
+    ".circleci/config.yml CircleCI image pin 1.16.0",
+    ".github/workflows/ci.yml GitHub Actions container pin 1.17.0",
+    ".github/workflows/ci.yml GitHub Actions container pin 1.9.5",
+    ".github/workflows/ci.yml hashicorp/setup-terraform terraform_version pin 1.16.0",
+    ".gitlab-ci.yml GitLab CI image pin 1.16.0",
+    ".terraform-version .terraform-version pin 1.16.0",
+    ".tool-versions .tool-versions pin 1.16.0",
+    "Dockerfile Dockerfile FROM pin 1.16.0",
+    "azure-pipelines.yml Azure Pipelines container pin 1.16.0",
+    "main.tf terraform required_version floor >= 1.16.0",
+    "modules/network/.terraform-version .terraform-version pin 1.17.0",
+  ]);
+});
+
+test("every required_version constraint form becomes the pin or floor its shape states", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-terraform-constraints-"));
+  temporaryRoots.push(root);
+  const constraints: Array<[string, string]> = [
+    ["bare.tf", "1.17.0"],
+    ["equals.tf", "= 1.17"],
+    ["minor-line.tf", "~> 1.9.0"],
+    ["open-line.tf", "~> 1.16"],
+    ["window.tf", ">= 1.16, < 2.0.0"],
+    ["highest-floor.tf", ">= 1.9, > 1.10"],
+    ["maximum.tf", "< 1.0"],
+    ["invalid.tf", "banana"],
+  ];
+  for (const [file, constraint] of constraints) {
+    await writeFile(join(root, file), `terraform {\n  required_version = "${constraint}"\n}\n`);
+  }
+
+  const pins = await terraformCollector.collect(root);
+  const expected: Array<[string, "pin" | "floor", string, string]> = [
+    ["bare.tf", "pin", "1.17.0", "1.17"],
+    ["equals.tf", "pin", "= 1.17", "1.17"],
+    ["minor-line.tf", "pin", "~> 1.9.0", "1.9"],
+    ["open-line.tf", "floor", "~> 1.16", "1.16"],
+    ["window.tf", "floor", ">= 1.16, < 2.0.0", "1.16"],
+    ["highest-floor.tf", "floor", ">= 1.9, > 1.10", "1.10"],
+  ];
+  for (const [path, kind, raw, release] of expected) {
+    const pin = pins.find((entry) => entry.path === path);
+    assert.ok(pin, path);
+    assert.equal(pin.source, "terraform required_version");
+    assert.equal(pin.kind, kind, path);
+    assert.equal(pin.raw, raw, path);
+    assert.equal(pin.release, release, path);
+    assert.equal(pin.scope, ".", path);
+  }
+
+  const unresolved = pins.filter((pin) => pin.release === undefined);
+  assert.deepEqual(unresolved.map((pin) => `${pin.path} ${pin.kind} ${pin.raw}`).sort(), [
+    "invalid.tf floor banana",
+    "maximum.tf floor < 1.0",
+  ]);
+  assert.match(unresolved.find((pin) => pin.path === "maximum.tf")?.unresolved ?? "", /states no minimum version/);
+  assert.match(
+    unresolved.find((pin) => pin.path === "invalid.tf")?.unresolved ?? "",
+    /not a Terraform version constraint/,
+  );
 });
 
 test("a consistent repository has one release and no conflicts", async () => {

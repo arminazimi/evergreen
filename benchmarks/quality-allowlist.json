@@ -588,22 +588,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/drift/rust.ts",
-      "function": "workflowPins",
-      "lines": 81,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/drift/terraform.ts",
-      "function": "workflowPins",
-      "lines": 71,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/engine.ts",
       "function": "scanRepository",
       "lines": 335,
@@ -1954,78 +1938,6 @@
       "function": "setupRubyVersions",
       "complexity": 21,
       "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/rust.ts",
-      "function": "align",
-      "complexity": 20,
-      "owner": "#2267",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/rust.ts",
-      "function": "collect",
-      "complexity": 22,
-      "owner": "#2267",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/rust.ts",
-      "function": "repositoryFiles > walk",
-      "complexity": 21,
-      "owner": "#2267",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/rust.ts",
-      "function": "workflowPins",
-      "complexity": 24,
-      "owner": "#2267",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/terraform.ts",
-      "function": "align",
-      "complexity": 22,
-      "owner": "#2267",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/terraform.ts",
-      "function": "collect",
-      "complexity": 21,
-      "owner": "#2267",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/terraform.ts",
-      "function": "repositoryFiles > walk",
-      "complexity": 20,
-      "owner": "#2267",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/terraform.ts",
-      "function": "requiredVersionPin",
-      "complexity": 18,
-      "owner": "#2267",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/terraform.ts",
-      "function": "workflowPins",
-      "complexity": 24,
-      "owner": "#2267",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

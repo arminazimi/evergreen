@@ -1,7 +1,8 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 
-import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
+import { LineCounter, isMap, isNode, isScalar, isSeq, parseDocument } from "yaml";
+import type { YAMLMap } from "yaml";
 
 import { parseCircleci } from "../detectors/ci-images/parse-circleci.js";
 import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
@@ -64,6 +65,34 @@ interface RepositoryFile {
   kind: RepositoryFileKind;
 }
 
+interface FileKindRule {
+  kind: RepositoryFileKind;
+  matches: (name: string, directory: string) => boolean;
+}
+
+/** Which reader a file gets; the first rule that matches wins, so the order is the dispatch. */
+const FILE_KIND_RULES: readonly FileKindRule[] = [
+  { kind: "toolchain", matches: (name) => name === "rust-toolchain" || name === "rust-toolchain.toml" },
+  { kind: "cargo", matches: (name) => name === "Cargo.toml" },
+  { kind: "tool-versions", matches: (name) => name === ".tool-versions" },
+  { kind: "dockerfile", matches: (name) => DOCKERFILE_NAME.test(name) },
+  { kind: "gitlab", matches: (name) => name === ".gitlab-ci.yml" },
+  { kind: "azure", matches: (name) => name === "azure-pipelines.yml" },
+  { kind: "circleci", matches: (name, directory) => name === "config.yml" && basename(directory) === ".circleci" },
+  {
+    kind: "workflow",
+    matches: (name, directory) =>
+      WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github",
+  },
+];
+
+function fileKind(name: string, directory: string): RepositoryFileKind | undefined {
+  for (const rule of FILE_KIND_RULES) {
+    if (rule.matches(name, directory)) return rule.kind;
+  }
+  return undefined;
+}
+
 async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
   const files: RepositoryFile[] = [];
   async function walk(directory: string, depth: number): Promise<void> {
@@ -82,20 +111,8 @@ async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
         continue;
       }
       if (!entry.isFile()) continue;
-      const name = entry.name;
-      if (name === "rust-toolchain" || name === "rust-toolchain.toml") files.push({ path, kind: "toolchain" });
-      else if (name === "Cargo.toml") files.push({ path, kind: "cargo" });
-      else if (name === ".tool-versions") files.push({ path, kind: "tool-versions" });
-      else if (DOCKERFILE_NAME.test(name)) files.push({ path, kind: "dockerfile" });
-      else if (name === ".gitlab-ci.yml") files.push({ path, kind: "gitlab" });
-      else if (name === "azure-pipelines.yml") files.push({ path, kind: "azure" });
-      else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path, kind: "circleci" });
-      else if (
-        WORKFLOW_NAME.test(name) &&
-        basename(directory) === "workflows" &&
-        basename(dirname(directory)) === ".github"
-      )
-        files.push({ path, kind: "workflow" });
+      const kind = fileKind(entry.name, directory);
+      if (kind !== undefined) files.push({ path, kind });
     }
   }
   await walk(root, 0);
@@ -168,84 +185,86 @@ interface ImageValue {
   line: number;
 }
 
+/** The 1-based line a YAML node starts on; nodes without a source range read as line 1. */
+type LineOf = (node: unknown) => number;
+
+function imageValue(node: unknown, lineOf: LineOf): ImageValue | undefined {
+  if (isScalar(node) && typeof node.value === "string" && node.range) {
+    return { value: node.value, line: lineOf(node) };
+  }
+  if (isMap(node)) return imageValue(node.get("image", true), lineOf);
+  return undefined;
+}
+
+/** One `rust` image pin from a literal or map-form `container` or `services` entry. */
+function containerImagePin(path: string, node: unknown, source: string, lineOf: LineOf): RuntimePin[] {
+  const found = imageValue(node, lineOf);
+  if (found === undefined) return [];
+  const pin = imagePin(path, found.line, source, found.value);
+  return pin === undefined ? [] : [pin];
+}
+
+/** The `dtolnay/rust-toolchain@1.79` ref, when the step pins its version in the `uses` line. */
+function dtolnayRefPin(path: string, usesNode: unknown, version: string | undefined, lineOf: LineOf): RuntimePin[] {
+  if (version === undefined || !isScalar(usesNode) || usesNode.range === undefined) return [];
+  return [versionPin(path, lineOf(usesNode), "dtolnay/rust-toolchain ref", version, "pin")];
+}
+
+/** The `toolchain` input of a `dtolnay/rust-toolchain` or `actions-rs/toolchain` step. */
+function toolchainInputPins(path: string, step: unknown, dtolnay: boolean, lineOf: LineOf): RuntimePin[] {
+  const inputs = isMap(step) ? step.get("with", true) : undefined;
+  const toolchain = isMap(inputs) ? inputs.get("toolchain", true) : undefined;
+  const value = textOf(toolchain);
+  if (value === undefined || value === "") return [];
+  return [
+    versionPin(
+      path,
+      lineOf(toolchain),
+      dtolnay ? "dtolnay/rust-toolchain toolchain" : "actions-rs/toolchain toolchain",
+      value,
+      "pin",
+    ),
+  ];
+}
+
+/** One workflow step: the version in the action ref, and the toolchain input of the Rust actions. */
+function stepPins(path: string, step: unknown, lineOf: LineOf): RuntimePin[] {
+  if (!isMap(step)) return [];
+  const usesNode = step.get("uses", true);
+  const uses = textOf(usesNode);
+  if (uses === undefined) return [];
+  const dtolnay = DTOLNAY.exec(uses);
+  const pins = dtolnayRefPin(path, usesNode, dtolnay?.[1], lineOf);
+  if (dtolnay === null && !ACTIONS_RS.test(uses)) return pins;
+  pins.push(...toolchainInputPins(path, step, dtolnay !== null, lineOf));
+  return pins;
+}
+
+function jobPins(path: string, jobs: YAMLMap, lineOf: LineOf): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const job of jobs.items) {
+    if (!isMap(job.value)) continue;
+    pins.push(...containerImagePin(path, job.value.get("container", true), "GitHub Actions container", lineOf));
+    const services = job.value.get("services", true);
+    if (isMap(services))
+      for (const service of services.items)
+        pins.push(...containerImagePin(path, service.value, "GitHub Actions service image", lineOf));
+    const steps = job.value.get("steps", true);
+    if (isSeq(steps)) for (const step of steps.items) pins.push(...stepPins(path, step, lineOf));
+  }
+  return pins;
+}
+
 /** `rust-toolchain` action inputs and container images in one GitHub Actions workflow. */
 function workflowPins(path: string, contents: string): RuntimePin[] {
   try {
     const lineCounter = new LineCounter();
     const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
     if (document.errors.length > 0 || !isMap(document.contents)) return [];
-    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number =>
-      lineCounter.linePos(node.range?.[0] ?? 0).line;
-
+    const lineOf: LineOf = (node) => lineCounter.linePos(isNode(node) ? (node.range?.[0] ?? 0) : 0).line;
     const jobs = document.contents.get("jobs", true);
     if (!isMap(jobs)) return [];
-    const pins: RuntimePin[] = [];
-    const image = (node: unknown, source: string): void => {
-      const found = imageValue(node);
-      if (found === undefined) return;
-      const pin = imagePin(path, found.line, source, found.value);
-      if (pin) pins.push(pin);
-    };
-    const imageValue = (node: unknown): ImageValue | undefined => {
-      if (isScalar(node) && typeof node.value === "string" && node.range) {
-        return { value: node.value, line: lineCounter.linePos(node.range[0]).line };
-      }
-      if (isMap(node)) return imageValue(node.get("image", true));
-      return undefined;
-    };
-
-    for (const job of jobs.items) {
-      if (!isMap(job.value)) continue;
-      image(job.value.get("container", true), "GitHub Actions container");
-      const services = job.value.get("services", true);
-      if (isMap(services)) {
-        for (const service of services.items) image(service.value, "GitHub Actions service image");
-      }
-
-      const steps = job.value.get("steps", true);
-      if (!isSeq(steps)) continue;
-      for (const step of steps.items) {
-        if (!isMap(step)) continue;
-        const usesNode = step.get("uses", true);
-        const uses = textOf(usesNode);
-        if (uses === undefined) continue;
-
-        const dtolnay = DTOLNAY.exec(uses);
-        const actionsRs = ACTIONS_RS.test(uses);
-        if (dtolnay?.[1] && isScalar(usesNode) && usesNode.range) {
-          pins.push(
-            versionPin(
-              path,
-              lineCounter.linePos(usesNode.range[0]).line,
-              "dtolnay/rust-toolchain ref",
-              dtolnay[1],
-              "pin",
-            ),
-          );
-        }
-        if (!dtolnay && !actionsRs) continue;
-
-        const inputs = step.get("with", true);
-        if (!isMap(inputs)) continue;
-        const toolchain = inputs.get("toolchain", true) as {
-          value?: unknown;
-          range?: [number, number, ...unknown[]];
-        } | null;
-        if (!toolchain || !isScalar(toolchain)) continue;
-        const value = textOf(toolchain);
-        if (value === undefined || value === "") continue;
-        pins.push(
-          versionPin(
-            path,
-            lineOf(toolchain),
-            dtolnay ? "dtolnay/rust-toolchain toolchain" : "actions-rs/toolchain toolchain",
-            value,
-            "pin",
-          ),
-        );
-      }
-    }
-    return pins;
+    return jobPins(path, jobs, lineOf);
   } catch {
     return [];
   }
@@ -318,6 +337,76 @@ function channel(source: string, path: string, contents: string): RuntimePin[] {
   );
 }
 
+function cargoPins(path: string, contents: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of parseCargoToml(contents)) {
+    if (declaration.kind === "rust-version")
+      pins.push(versionPin(path, declaration.line, "Cargo.toml rust-version", declaration.value, "floor"));
+  }
+  return pins;
+}
+
+function dockerfilePins(path: string, contents: string, absolute: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of parseDockerfile(contents)) {
+    if (declaration.kind !== "image") continue;
+    const found = imagePin(path, declaration.line, `${basename(absolute)} FROM`, declaration.value);
+    if (found) pins.push(found);
+  }
+  return pins;
+}
+
+function imagePins(path: string, source: string, items: readonly ImageValue[]): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const item of items) {
+    const found = imagePin(path, item.line, source, item.value);
+    if (found) pins.push(found);
+  }
+  return pins;
+}
+
+function circleciPins(path: string, contents: string): RuntimePin[] {
+  const parsed = parseCircleci(contents);
+  return imagePins(path, "CircleCI image", [...parsed.declarations, ...parsed.unclassified]);
+}
+
+type KindReader = (path: string, contents: string, absolute: string) => RuntimePin[];
+
+/** Which reader a classified file gets. The dispatch is a lookup, so adding a kind is one entry. */
+const PINS_BY_KIND: Record<RepositoryFileKind, KindReader> = {
+  toolchain: (path, contents, absolute) =>
+    channel(
+      basename(absolute) === "rust-toolchain.toml" ? "rust-toolchain.toml channel" : "rust-toolchain",
+      path,
+      contents,
+    ),
+  cargo: cargoPins,
+  "tool-versions": toolVersionsPins,
+  dockerfile: dockerfilePins,
+  workflow: workflowPins,
+  gitlab: (path, contents) => imagePins(path, "GitLab CI image", parseGitlabCi(contents).unclassified),
+  circleci: circleciPins,
+  azure: (path, contents) => imagePins(path, "Azure Pipelines container", azureContainerImages(contents)),
+};
+
+async function readText(path: string): Promise<string | undefined> {
+  try {
+    return await readFile(path, "utf8");
+  } catch {
+    return undefined;
+  }
+}
+
+async function collect(root: string): Promise<RuntimePin[]> {
+  const pins: RuntimePin[] = [];
+  for (const file of await repositoryFiles(root)) {
+    const contents = await readText(file.path);
+    if (contents === undefined) continue;
+    pins.push(...PINS_BY_KIND[file.kind](relativePosix(root, file.path), contents, file.path));
+  }
+  return pins;
+}
+
 function alignImage(lineText: string, version: string, suffix: string): string | undefined {
   const match = /(\brust:)([^\s"']+)/.exec(lineText);
   if (!match) return undefined;
@@ -327,92 +416,59 @@ function alignImage(lineText: string, version: string, suffix: string): string |
   return `${lineText.slice(0, index)}${prefix}${version}${suffix}${lineText.slice(index + match[0].length)}`;
 }
 
+function alignChannel(lineText: string, version: string, suffix: string): string | undefined {
+  const match = /^(\s*channel\s*=\s*)(["'])([^"']*)\2(.*)$/.exec(lineText);
+  return match ? `${match[1]}${match[2]}${version}${suffix}${match[2]}${match[4]}` : undefined;
+}
+
+function alignToolchainFile(lineText: string, version: string, suffix: string): string | undefined {
+  const match = /^(\s*)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
+  return match ? `${match[1]}${version}${suffix}${match[3]}` : undefined;
+}
+
+function alignToolVersions(lineText: string, version: string, suffix: string): string | undefined {
+  const match = /^(\s*rust\s+)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
+  return match ? `${match[1]}${version}${suffix}${match[3]}` : undefined;
+}
+
+function alignDtolnayRef(lineText: string, version: string, suffix: string): string | undefined {
+  const match = /^(\s*(?:-\s*)?uses\s*:\s*["']?dtolnay\/rust-toolchain@)([^\s"'#]+)(["']?(?:\s+#.*)?)$/.exec(lineText);
+  return match ? `${match[1]}${version}${suffix}${match[3]}` : undefined;
+}
+
+function alignToolchainInput(lineText: string, version: string, suffix: string): string | undefined {
+  const match = /^(\s*(?:-\s+)?toolchain\s*:\s*)(["']?)([^"'\s#]+)\2(\s*(?:#.*)?)$/.exec(lineText);
+  return match ? `${match[1]}${match[2]}${version}${suffix}${match[2]}${match[4]}` : undefined;
+}
+
+interface AlignRule {
+  appliesTo: (source: string, lineText: string) => boolean;
+  rewrite: (lineText: string, version: string, suffix: string) => string | undefined;
+}
+
+/** Which rewriter a pin source gets; the first rule that matches wins, so a source with no rule is never rewritten. */
+const ALIGN_RULES: readonly AlignRule[] = [
+  {
+    appliesTo: (source, lineText) =>
+      source === "rust-toolchain.toml channel" || (source === "rust-toolchain" && /^\s*channel\s*=/.test(lineText)),
+    rewrite: alignChannel,
+  },
+  { appliesTo: (source) => source === "rust-toolchain", rewrite: alignToolchainFile },
+  { appliesTo: (source) => source === ".tool-versions", rewrite: alignToolVersions },
+  { appliesTo: (source) => source.endsWith(" FROM") || IMAGE_SOURCES.has(source), rewrite: alignImage },
+  { appliesTo: (source) => source === "dtolnay/rust-toolchain ref", rewrite: alignDtolnayRef },
+  {
+    appliesTo: (source) => source === "dtolnay/rust-toolchain toolchain" || source === "actions-rs/toolchain toolchain",
+    rewrite: alignToolchainInput,
+  },
+];
+
 function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (pin.kind !== "pin" || pin.release === undefined) return undefined;
   const target = releaseParts(release);
   if (target === undefined) return undefined;
-  const version = target.release;
-  const suffix = releaseParts(pin.raw)?.suffix ?? "";
-
-  if (
-    pin.source === "rust-toolchain.toml channel" ||
-    (pin.source === "rust-toolchain" && /^\s*channel\s*=/.test(lineText))
-  ) {
-    const match = /^(\s*channel\s*=\s*)(["'])([^"']*)\2(.*)$/.exec(lineText);
-    return match ? `${match[1]}${match[2]}${version}${suffix}${match[2]}${match[4]}` : undefined;
-  }
-  if (pin.source === "rust-toolchain") {
-    const match = /^(\s*)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
-    return match ? `${match[1]}${version}${suffix}${match[3]}` : undefined;
-  }
-  if (pin.source === ".tool-versions") {
-    const match = /^(\s*rust\s+)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
-    return match ? `${match[1]}${version}${suffix}${match[3]}` : undefined;
-  }
-  if (pin.source.endsWith(" FROM") || IMAGE_SOURCES.has(pin.source)) {
-    return alignImage(lineText, version, suffix);
-  }
-  if (pin.source === "dtolnay/rust-toolchain ref") {
-    const match = /^(\s*(?:-\s*)?uses\s*:\s*["']?dtolnay\/rust-toolchain@)([^\s"'#]+)(["']?(?:\s+#.*)?)$/.exec(
-      lineText,
-    );
-    return match ? `${match[1]}${version}${suffix}${match[3]}` : undefined;
-  }
-  if (pin.source === "dtolnay/rust-toolchain toolchain" || pin.source === "actions-rs/toolchain toolchain") {
-    const match = /^(\s*(?:-\s+)?toolchain\s*:\s*)(["']?)([^"'\s#]+)\2(\s*(?:#.*)?)$/.exec(lineText);
-    return match ? `${match[1]}${match[2]}${version}${suffix}${match[2]}${match[4]}` : undefined;
-  }
-  return undefined;
-}
-
-async function collect(root: string): Promise<RuntimePin[]> {
-  const pins: RuntimePin[] = [];
-  for (const file of await repositoryFiles(root)) {
-    let contents: string;
-    try {
-      contents = await readFile(file.path, "utf8");
-    } catch {
-      continue;
-    }
-    const path = relativePosix(root, file.path);
-
-    if (file.kind === "toolchain") {
-      const source = basename(file.path) === "rust-toolchain.toml" ? "rust-toolchain.toml channel" : "rust-toolchain";
-      pins.push(...channel(source, path, contents));
-    } else if (file.kind === "cargo") {
-      for (const declaration of parseCargoToml(contents)) {
-        if (declaration.kind === "rust-version")
-          pins.push(versionPin(path, declaration.line, "Cargo.toml rust-version", declaration.value, "floor"));
-      }
-    } else if (file.kind === "tool-versions") {
-      pins.push(...toolVersionsPins(path, contents));
-    } else if (file.kind === "dockerfile") {
-      for (const declaration of parseDockerfile(contents)) {
-        if (declaration.kind !== "image") continue;
-        const found = imagePin(path, declaration.line, `${basename(file.path)} FROM`, declaration.value);
-        if (found) pins.push(found);
-      }
-    } else if (file.kind === "workflow") {
-      pins.push(...workflowPins(path, contents));
-    } else if (file.kind === "gitlab") {
-      for (const item of parseGitlabCi(contents).unclassified) {
-        const found = imagePin(path, item.line, "GitLab CI image", item.value);
-        if (found) pins.push(found);
-      }
-    } else if (file.kind === "circleci") {
-      const parsed = parseCircleci(contents);
-      for (const item of [...parsed.declarations, ...parsed.unclassified]) {
-        const found = imagePin(path, item.line, "CircleCI image", item.value);
-        if (found) pins.push(found);
-      }
-    } else {
-      for (const item of azureContainerImages(contents)) {
-        const found = imagePin(path, item.line, "Azure Pipelines container", item.value);
-        if (found) pins.push(found);
-      }
-    }
-  }
-  return pins;
+  const rule = ALIGN_RULES.find((entry) => entry.appliesTo(pin.source, lineText));
+  return rule?.rewrite(lineText, target.release, releaseParts(pin.raw)?.suffix ?? "");
 }
 
 export const rustDriftCollector: DriftCollector = { runtime: "rust", collect, align };

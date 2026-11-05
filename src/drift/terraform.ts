@@ -1,7 +1,8 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 
-import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
+import { LineCounter, isMap, isNode, isScalar, isSeq, parseDocument } from "yaml";
+import type { YAMLMap } from "yaml";
 
 import { parseCircleci } from "../detectors/ci-images/parse-circleci.js";
 import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
@@ -63,6 +64,34 @@ interface RepositoryFile {
   kind: RepositoryFileKind;
 }
 
+interface FileKindRule {
+  kind: RepositoryFileKind;
+  matches: (name: string, directory: string) => boolean;
+}
+
+/** Which reader a file gets; the first rule that matches wins, so the order is the dispatch. */
+const FILE_KIND_RULES: readonly FileKindRule[] = [
+  { kind: "terraform-version", matches: (name) => name === ".terraform-version" },
+  { kind: "tool-versions", matches: (name) => name === ".tool-versions" },
+  { kind: "tf", matches: (name) => name.endsWith(".tf") },
+  { kind: "dockerfile", matches: (name) => DOCKERFILE_NAME.test(name) },
+  { kind: "gitlab", matches: (name) => name === ".gitlab-ci.yml" },
+  { kind: "azure", matches: (name) => name === "azure-pipelines.yml" },
+  { kind: "circleci", matches: (name, directory) => name === "config.yml" && basename(directory) === ".circleci" },
+  {
+    kind: "workflow",
+    matches: (name, directory) =>
+      WORKFLOW_NAME.test(name) && basename(directory) === "workflows" && basename(dirname(directory)) === ".github",
+  },
+];
+
+function fileKind(name: string, directory: string): RepositoryFileKind | undefined {
+  for (const rule of FILE_KIND_RULES) {
+    if (rule.matches(name, directory)) return rule.kind;
+  }
+  return undefined;
+}
+
 async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
   const files: RepositoryFile[] = [];
   async function walk(directory: string, depth: number): Promise<void> {
@@ -81,20 +110,8 @@ async function repositoryFiles(root: string): Promise<RepositoryFile[]> {
         continue;
       }
       if (!entry.isFile()) continue;
-      const name = entry.name;
-      if (name === ".terraform-version") files.push({ path, kind: "terraform-version" });
-      else if (name === ".tool-versions") files.push({ path, kind: "tool-versions" });
-      else if (name.endsWith(".tf")) files.push({ path, kind: "tf" });
-      else if (DOCKERFILE_NAME.test(name)) files.push({ path, kind: "dockerfile" });
-      else if (name === ".gitlab-ci.yml") files.push({ path, kind: "gitlab" });
-      else if (name === "azure-pipelines.yml") files.push({ path, kind: "azure" });
-      else if (name === "config.yml" && basename(directory) === ".circleci") files.push({ path, kind: "circleci" });
-      else if (
-        WORKFLOW_NAME.test(name) &&
-        basename(directory) === "workflows" &&
-        basename(dirname(directory)) === ".github"
-      )
-        files.push({ path, kind: "workflow" });
+      const kind = fileKind(entry.name, directory);
+      if (kind !== undefined) files.push({ path, kind });
     }
   }
   await walk(root, 0);
@@ -194,48 +211,79 @@ function constraintParts(value: string): ConstraintPart[] | undefined {
  * `required_version = "1.17.0"`, `= 1.17`, and `~> 1.17.0` select one minor line, so they are pins. Every other
  * constraint is a floor resolved from its greatest lower bound, such as `>= 1.16, < 2.0.0` resolving to `1.16`.
  */
-function requiredVersionPin(path: string, scope: string, line: number, value: string): RuntimePin {
-  const source = "terraform required_version";
-  const parts = constraintParts(value);
-  if (parts === undefined) {
-    return {
-      path,
-      line,
-      source,
-      raw: value,
-      kind: "floor",
-      scope,
-      unresolved: `"${value}" is not a Terraform version constraint`,
-    };
-  }
-  const single = parts.length === 1 ? parts[0] : undefined;
-  if (single !== undefined) {
-    const exact = (single.operator === "" || single.operator === "=") && RELEASE.test(single.version);
-    const pessimistic = single.operator === "~>" && /^\d+\.\d+\.\d+$/.test(single.version);
-    if (exact || pessimistic) {
-      const release = releaseFromVersion(single.version);
-      return release === undefined
-        ? {
-            path,
-            line,
-            source,
-            raw: value,
-            kind: "pin",
-            scope,
-            unresolved: `"${single.version}" is not a Terraform release line`,
-          }
-        : { path, line, source, raw: value, kind: "pin", scope, release };
-    }
-  }
+const REQUIRED_SOURCE = "terraform required_version";
+
+function constraintPin(
+  path: string,
+  scope: string,
+  line: number,
+  raw: string,
+  kind: "pin" | "floor",
+  release: string | undefined,
+  unresolved: string | undefined,
+): RuntimePin {
+  return {
+    path,
+    line,
+    source: REQUIRED_SOURCE,
+    raw,
+    kind,
+    scope,
+    ...(release === undefined ? {} : { release }),
+    ...(unresolved === undefined ? {} : { unresolved }),
+  };
+}
+
+/** True when one constraint part fixes the minor line: an exact `1.17`/`= 1.17` or a `~> 1.17.0` pessimistic pin. */
+function selectsOneLine(part: ConstraintPart): boolean {
+  if (part.operator === "~>") return /^\d+\.\d+\.\d+$/.test(part.version);
+  return (part.operator === "" || part.operator === "=") && RELEASE.test(part.version);
+}
+
+function singleConstraintPin(
+  path: string,
+  scope: string,
+  line: number,
+  value: string,
+  parts: readonly ConstraintPart[],
+): RuntimePin | undefined {
+  const [part] = parts;
+  if (parts.length !== 1 || part === undefined || !selectsOneLine(part)) return undefined;
+  const release = releaseFromVersion(part.version);
+  return release === undefined
+    ? constraintPin(path, scope, line, value, "pin", undefined, `"${part.version}" is not a Terraform release line`)
+    : constraintPin(path, scope, line, value, "pin", release, undefined);
+}
+
+/** The greatest lower bound of the constraint, or undefined when no part states a minimum. */
+function greatestLowerBound(parts: readonly ConstraintPart[]): string | undefined {
   let floor: string | undefined;
   for (const part of parts) {
     if (part.operator !== ">=" && part.operator !== ">" && part.operator !== "~>") continue;
     const release = releaseFromVersion(part.version);
     if (release !== undefined && (floor === undefined || newerRelease(release, floor) === release)) floor = release;
   }
+  return floor;
+}
+
+function requiredVersionPin(path: string, scope: string, line: number, value: string): RuntimePin {
+  const parts = constraintParts(value);
+  if (parts === undefined)
+    return constraintPin(
+      path,
+      scope,
+      line,
+      value,
+      "floor",
+      undefined,
+      `"${value}" is not a Terraform version constraint`,
+    );
+  const single = singleConstraintPin(path, scope, line, value, parts);
+  if (single !== undefined) return single;
+  const floor = greatestLowerBound(parts);
   return floor === undefined
-    ? { path, line, source, raw: value, kind: "floor", scope, unresolved: `"${value}" states no minimum version` }
-    : { path, line, source, raw: value, kind: "floor", scope, release: floor };
+    ? constraintPin(path, scope, line, value, "floor", undefined, `"${value}" states no minimum version`)
+    : constraintPin(path, scope, line, value, "floor", floor, undefined);
 }
 
 function textOf(node: unknown): string | undefined {
@@ -245,74 +293,75 @@ function textOf(node: unknown): string | undefined {
   return undefined;
 }
 
+/** The 1-based line a YAML node starts on; nodes without a source range read as line 1. */
+type LineOf = (node: unknown) => number;
+
+const SETUP_TERRAFORM_SOURCE = "hashicorp/setup-terraform terraform_version";
+
+/** One `hashicorp/terraform` image pin from a literal or map-form `container` or `services` entry. */
+function containerImagePin(path: string, node: unknown, lineOf: LineOf): RuntimePin[] {
+  const entry = isMap(node) ? node.get("image", true) : node;
+  const value = textOf(entry);
+  if (value === undefined) return [];
+  const found = imagePin(path, lineOf(entry), "GitHub Actions container", value);
+  return found === undefined ? [] : [found];
+}
+
+function jobContainerPins(path: string, job: YAMLMap, lineOf: LineOf): RuntimePin[] {
+  const pins = containerImagePin(path, job.get("container", true), lineOf);
+  const services = job.get("services", true);
+  if (isMap(services))
+    for (const service of services.items) pins.push(...containerImagePin(path, service.value, lineOf));
+  return pins;
+}
+
+/** The `terraform_version` input of a `hashicorp/setup-terraform` step. */
+function setupTerraformPins(path: string, step: unknown, lineOf: LineOf): RuntimePin[] {
+  if (!isMap(step)) return [];
+  const uses = step.get("uses");
+  if (typeof uses !== "string" || !SETUP_TERRAFORM.test(uses)) return [];
+  const inputs = step.get("with", true);
+  if (!isMap(inputs)) return [];
+  const version = inputs.get("terraform_version", true);
+  const value = textOf(version);
+  if (value === undefined || value === "") return [];
+  const line = lineOf(version);
+  const release = releaseFromVersion(value);
+  return [
+    release === undefined
+      ? {
+          path,
+          line,
+          source: SETUP_TERRAFORM_SOURCE,
+          raw: value,
+          kind: "pin",
+          unresolved: `"${value}" is not a Terraform release line`,
+        }
+      : { path, line, source: SETUP_TERRAFORM_SOURCE, raw: value, kind: "pin", release },
+  ];
+}
+
+function jobPins(path: string, jobs: YAMLMap, lineOf: LineOf): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const job of jobs.items) {
+    if (!isMap(job.value)) continue;
+    pins.push(...jobContainerPins(path, job.value, lineOf));
+    const steps = job.value.get("steps", true);
+    if (isSeq(steps)) for (const step of steps.items) pins.push(...setupTerraformPins(path, step, lineOf));
+  }
+  return pins;
+}
+
 /** `hashicorp/setup-terraform` inputs and `hashicorp/terraform` job container images in one workflow. */
 function workflowPins(path: string, contents: string): RuntimePin[] {
   try {
     const lineCounter = new LineCounter();
     const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
     if (document.errors.length > 0 || !isMap(document.contents)) return [];
-    const lineOf = (node: { range?: [number, number, ...unknown[]] | null }): number =>
-      lineCounter.linePos(node.range?.[0] ?? 0).line;
-
+    const lineOf: LineOf = (node) => lineCounter.linePos(isNode(node) ? (node.range?.[0] ?? 0) : 0).line;
     const jobs = document.contents.get("jobs", true);
     if (!isMap(jobs)) return [];
-    const pins: RuntimePin[] = [];
-    const addImage = (node: unknown): void => {
-      const value = textOf(node);
-      if (value === undefined) return;
-      const found = imagePin(
-        path,
-        lineOf(node as { range?: [number, number, ...unknown[]] | null }),
-        "GitHub Actions container",
-        value,
-      );
-      if (found) pins.push(found);
-    };
-    for (const job of jobs.items) {
-      if (!isMap(job.value)) continue;
-
-      const container: unknown = job.value.get("container", true);
-      if (isScalar(container)) addImage(container);
-      else if (isMap(container)) addImage(container.get("image", true));
-      const services = job.value.get("services", true);
-      if (isMap(services)) {
-        for (const service of services.items) {
-          const entry: unknown = service.value;
-          if (isScalar(entry)) addImage(entry);
-          else if (isMap(entry)) addImage(entry.get("image", true));
-        }
-      }
-
-      const steps = job.value.get("steps", true);
-      if (!isSeq(steps)) continue;
-      for (const step of steps.items) {
-        if (!isMap(step)) continue;
-        const uses = step.get("uses");
-        if (typeof uses !== "string" || !SETUP_TERRAFORM.test(uses)) continue;
-        const inputs = step.get("with", true);
-        if (!isMap(inputs)) continue;
-        const version = inputs.get("terraform_version", true);
-        if (version && isScalar(version)) {
-          const value = textOf(version);
-          if (value === undefined || value === "") continue;
-          const line = lineOf(version as { range?: [number, number, ...unknown[]] | null });
-          const release = releaseFromVersion(value);
-          pins.push(
-            release === undefined
-              ? {
-                  path,
-                  line,
-                  source: "hashicorp/setup-terraform terraform_version",
-                  raw: value,
-                  kind: "pin",
-                  unresolved: `"${value}" is not a Terraform release line`,
-                }
-              : { path, line, source: "hashicorp/setup-terraform terraform_version", raw: value, kind: "pin", release },
-          );
-        }
-      }
-    }
-    return pins;
+    return jobPins(path, jobs, lineOf);
   } catch {
     return [];
   }
@@ -409,47 +458,66 @@ function toolVersionsPins(path: string, scope: string, contents: string): Runtim
   return [];
 }
 
+function alignVersionFile(_pin: RuntimePin, lineText: string, full: string): string | undefined {
+  const found = /^(\s*)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
+  return found ? `${found[1]}${full}${found[3]}` : undefined;
+}
+
+function alignToolVersions(_pin: RuntimePin, lineText: string, full: string): string | undefined {
+  const found = /^(\s*terraform\s+)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
+  return found ? `${found[1]}${full}${found[3]}` : undefined;
+}
+
+function alignSetupTerraform(_pin: RuntimePin, lineText: string, full: string): string | undefined {
+  const found = /^(\s*(?:-\s+)?terraform_version:\s*)(["']?)([^"'\s#]+)(["']?)(.*)$/.exec(lineText);
+  return found ? `${found[1]}${found[2]}${full}${found[4]}${found[5]}` : undefined;
+}
+
+function alignFromLine(_pin: RuntimePin, lineText: string, full: string): string | undefined {
+  const found = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
+  if (!found) return undefined;
+  const [, prefix = "", imageText = "", rest = ""] = found;
+  const reference = parseImageReference(imageText);
+  if (
+    !reference ||
+    reference.digest !== undefined ||
+    reference.registry !== "docker.io" ||
+    reference.repository !== TERRAFORM_IMAGE ||
+    reference.tag === undefined
+  )
+    return undefined;
+  const parts = releaseFromDockerTag(reference.tag);
+  if (parts.release === undefined) return undefined;
+  return `${prefix}${TERRAFORM_IMAGE}:${full}${parts.variant}${rest}`;
+}
+
+function alignRequiredVersion(pin: RuntimePin, lineText: string, full: string): string | undefined {
+  const exact = /^(=\s*)?(\d+\.\d+(?:\.\d+)?)$/.exec(pin.raw.trim());
+  if (!exact || !lineText.includes(pin.raw)) return undefined;
+  return lineText.replace(pin.raw, `${exact[1] ? "= " : ""}${full}`);
+}
+
+interface AlignRule {
+  appliesTo: (source: string) => boolean;
+  rewrite: (pin: RuntimePin, lineText: string, full: string) => string | undefined;
+}
+
+/** Which rewriter a pin source gets; a source with no rule is never rewritten. */
+const ALIGN_RULES: readonly AlignRule[] = [
+  { appliesTo: (source) => source === ".terraform-version", rewrite: alignVersionFile },
+  { appliesTo: (source) => source === ".tool-versions", rewrite: alignToolVersions },
+  { appliesTo: (source) => source === SETUP_TERRAFORM_SOURCE, rewrite: alignSetupTerraform },
+  { appliesTo: (source) => source.endsWith(" FROM"), rewrite: alignFromLine },
+  { appliesTo: (source) => source === REQUIRED_SOURCE, rewrite: alignRequiredVersion },
+];
+
 function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (pin.kind !== "pin") return undefined;
   const match = ALIGN_RELEASE.exec(release.trim());
-  if (!match) return undefined;
+  if (match === null) return undefined;
   const full = match[3] === undefined ? `${match[1]}.${match[2]}.0` : release.trim();
-
-  if (pin.source === ".terraform-version") {
-    const found = /^(\s*)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
-    return found ? `${found[1]}${full}${found[3]}` : undefined;
-  }
-  if (pin.source === ".tool-versions") {
-    const found = /^(\s*terraform\s+)(\S+)(\s*(?:#.*)?)$/.exec(lineText);
-    return found ? `${found[1]}${full}${found[3]}` : undefined;
-  }
-  if (pin.source === "hashicorp/setup-terraform terraform_version") {
-    const found = /^(\s*(?:-\s+)?terraform_version:\s*)(["']?)([^"'\s#]+)(["']?)(.*)$/.exec(lineText);
-    return found ? `${found[1]}${found[2]}${full}${found[4]}${found[5]}` : undefined;
-  }
-  if (pin.source.endsWith(" FROM")) {
-    const found = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)(.*)$/i.exec(lineText);
-    if (!found) return undefined;
-    const [, prefix = "", imageText = "", rest = ""] = found;
-    const reference = parseImageReference(imageText);
-    if (
-      !reference ||
-      reference.digest !== undefined ||
-      reference.registry !== "docker.io" ||
-      reference.repository !== TERRAFORM_IMAGE ||
-      reference.tag === undefined
-    )
-      return undefined;
-    const parts = releaseFromDockerTag(reference.tag);
-    if (parts.release === undefined) return undefined;
-    return `${prefix}${TERRAFORM_IMAGE}:${full}${parts.variant}${rest}`;
-  }
-  if (pin.source === "terraform required_version") {
-    const exact = /^(=\s*)?(\d+\.\d+(?:\.\d+)?)$/.exec(pin.raw.trim());
-    if (!exact || !lineText.includes(pin.raw)) return undefined;
-    return lineText.replace(pin.raw, `${exact[1] ? "= " : ""}${full}`);
-  }
-  return undefined;
+  const rule = ALIGN_RULES.find((entry) => entry.appliesTo(pin.source));
+  return rule?.rewrite(pin, lineText, full);
 }
 
 /** The directory a file's value applies to, `.` for the repository root. */
@@ -458,52 +526,68 @@ function scopeOf(root: string, path: string): string {
   return directory === "" ? "." : directory;
 }
 
+function tfPins(path: string, scope: string, contents: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of parseTerraformFile(contents)) {
+    if (declaration.kind !== "required_version") continue;
+    pins.push(requiredVersionPin(path, scope, declaration.line, declaration.value));
+  }
+  return pins;
+}
+
+function dockerfilePins(path: string, contents: string, absolute: string): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const declaration of parseDockerfile(contents)) {
+    if (declaration.kind !== "image") continue;
+    const found = imagePin(path, declaration.line, `${basename(absolute)} FROM`, declaration.value);
+    if (found) pins.push(found);
+  }
+  return pins;
+}
+
+function imagePins(path: string, source: string, items: readonly { value: string; line: number }[]): RuntimePin[] {
+  const pins: RuntimePin[] = [];
+  for (const item of items) {
+    const found = imagePin(path, item.line, source, item.value);
+    if (found) pins.push(found);
+  }
+  return pins;
+}
+
+function circleciPins(path: string, contents: string): RuntimePin[] {
+  const parsed = parseCircleci(contents);
+  return imagePins(path, "CircleCI image", [...parsed.declarations, ...parsed.unclassified]);
+}
+
+type KindReader = (path: string, scope: string, contents: string, absolute: string) => RuntimePin[];
+
+/** Which reader a classified file gets. The dispatch is a lookup, so adding a kind is one entry. */
+const PINS_BY_KIND: Record<RepositoryFileKind, KindReader> = {
+  "terraform-version": terraformVersionFilePins,
+  "tool-versions": toolVersionsPins,
+  tf: tfPins,
+  dockerfile: (path, _scope, contents, absolute) => dockerfilePins(path, contents, absolute),
+  workflow: (path, _scope, contents) => workflowPins(path, contents),
+  gitlab: (path, _scope, contents) => imagePins(path, "GitLab CI image", parseGitlabCi(contents).unclassified),
+  circleci: (path, _scope, contents) => circleciPins(path, contents),
+  azure: (path, _scope, contents) => imagePins(path, "Azure Pipelines container", azureContainerImages(contents)),
+};
+
+async function readText(path: string): Promise<string | undefined> {
+  try {
+    return await readFile(path, "utf8");
+  } catch {
+    return undefined;
+  }
+}
+
 async function collect(root: string): Promise<RuntimePin[]> {
   const pins: RuntimePin[] = [];
   for (const file of await repositoryFiles(root)) {
-    let contents: string;
-    try {
-      contents = await readFile(file.path, "utf8");
-    } catch {
-      continue;
-    }
+    const contents = await readText(file.path);
+    if (contents === undefined) continue;
     const path = relativePosix(root, file.path);
-
-    if (file.kind === "terraform-version") {
-      pins.push(...terraformVersionFilePins(path, scopeOf(root, file.path), contents));
-    } else if (file.kind === "tool-versions") {
-      pins.push(...toolVersionsPins(path, scopeOf(root, file.path), contents));
-    } else if (file.kind === "tf") {
-      const scope = scopeOf(root, file.path);
-      for (const declaration of parseTerraformFile(contents)) {
-        if (declaration.kind !== "required_version") continue;
-        pins.push(requiredVersionPin(path, scope, declaration.line, declaration.value));
-      }
-    } else if (file.kind === "dockerfile") {
-      for (const declaration of parseDockerfile(contents)) {
-        if (declaration.kind !== "image") continue;
-        const found = imagePin(path, declaration.line, `${basename(file.path)} FROM`, declaration.value);
-        if (found) pins.push(found);
-      }
-    } else if (file.kind === "workflow") {
-      pins.push(...workflowPins(path, contents));
-    } else if (file.kind === "gitlab") {
-      for (const item of parseGitlabCi(contents).unclassified) {
-        const found = imagePin(path, item.line, "GitLab CI image", item.value);
-        if (found) pins.push(found);
-      }
-    } else if (file.kind === "circleci") {
-      const parsed = parseCircleci(contents);
-      for (const item of [...parsed.declarations, ...parsed.unclassified]) {
-        const found = imagePin(path, item.line, "CircleCI image", item.value);
-        if (found) pins.push(found);
-      }
-    } else {
-      for (const item of azureContainerImages(contents)) {
-        const found = imagePin(path, item.line, "Azure Pipelines container", item.value);
-        if (found) pins.push(found);
-      }
-    }
+    pins.push(...PINS_BY_KIND[file.kind](path, scopeOf(root, file.path), contents, file.path));
   }
   return pins;
 }
