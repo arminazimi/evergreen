@@ -1,3 +1,4 @@
+import { workflowCommandsFixer } from "./codemods/workflow-commands.js";
 import type { Finding, ScanResult } from "../domain.js";
 import { dockerfileLegacyFixer } from "./codemods/dockerfile-legacy.js";
 import { renameCodemodsFixer } from "./codemods/index.js";
@@ -58,6 +59,7 @@ export interface FixPlan {
 }
 
 export {
+  workflowCommandsFixer,
   dockerfileBaseImageFixer,
   githubActionsUsesFixer,
   goModFixer,
@@ -79,6 +81,7 @@ export {
 
 /** Every fixer Evergreen ships, in the order their patches are printed. */
 export const fixers: Fixer[] = [
+  workflowCommandsFixer,
   githubActionsUsesFixer,
   runtimePinsFixer,
   pythonFixer,

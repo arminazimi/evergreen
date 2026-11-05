@@ -9,14 +9,14 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 557 pinned repositories (3125 expected findings). The last full corpus run was commit `114f19b` on 2026-11-01 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 557 pinned repositories (3128 expected findings). The last full corpus run was commit `114f19b` on 2026-11-01 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
 | Repositories | 557 |
-| Expected findings | 3125 |
-| Products with findings | 140 |
-| Release lines with findings | 195 |
+| Expected findings | 3128 |
+| Products with findings | 141 |
+| Release lines with findings | 196 |
 
 ### By product
 
@@ -96,6 +96,7 @@ Measured on the public corpus of 557 pinned repositories (3125 expected findings
 | request | 4 | 1 | 4 |
 | rollup-plugin-terser | 4 | 1 | 4 |
 | django | 3 | 2 | 3 |
+| github-actions/set-output | 3 | 1 | 2 |
 | kubernetes/extensions/ReplicaSet | 3 | 1 | 2 |
 | kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | 3 | 1 | 2 |
 | rollup-plugin-babel | 3 | 1 | 3 |
@@ -268,6 +269,7 @@ Measured on the public corpus of 557 pinned repositories (3125 expected findings
 | rollup-plugin-terser | rollup-plugin-terser is deprecated | [`npm.package.rollup-plugin-terser.deprecated`](rules/npm.package.rollup-plugin-terser.deprecated.html) | deprecated | 4 | 4 |
 | terraform | Terraform CLI 1.13 is no longer a supported release line | [`terraform.cli.end-of-support-1.13`](rules/terraform.cli.end-of-support-1.13.html) | end-of-support | 4 | 3 |
 | xcode | Xcode 15 through 25 are not accepted for App Store uploads | [`swift.xcode.app-store-15-through-25`](rules/swift.xcode.app-store-15-through-25.html) | end-of-support | 4 | 4 |
+| github-actions/set-output | Deprecated GitHub Actions ::set-output command | [`github-actions.workflow-command.set-output`](rules/github-actions.workflow-command.set-output.html) | deprecated | 3 | 2 |
 | kubernetes/extensions/ReplicaSet | ReplicaSet extensions/v1beta1 is no longer served | [`kubernetes.extensions.replicaset.v1beta1.removed`](rules/kubernetes.extensions.replicaset.v1beta1.removed.html) | removed | 3 | 2 |
 | kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | ClusterRoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served | [`kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed`](rules/kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html) | removed | 3 | 2 |
 | library/python | Python image release line 3.11 reaches end-of-life on 2027-10-31 | [`container.python.eol-3.11-and-older`](rules/container.python.eol-3.11-and-older.html) | scheduled-end-of-life | 3 | 2 |

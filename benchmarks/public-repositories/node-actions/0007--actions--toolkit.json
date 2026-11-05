@@ -21,6 +21,15 @@
         "kind": "maintainer-review",
         "note": "Read .github/workflows/unit-tests.yml:23 at this commit: `node-version: [20.x, 24.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/update-github.yaml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Inspected actions/toolkit@7e25f67e8fd17369aa21e6e816ac99654106e0dc, .github/workflows/update-github.yaml:23 directly on 2026-11-05: `echo \"::set-output name=createPR::true\"` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and the GITHUB_OUTPUT replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+      }
     }
   ]
 }

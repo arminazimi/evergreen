@@ -1,0 +1,6 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::set-output name=NAME::value"
+        shell: bash
