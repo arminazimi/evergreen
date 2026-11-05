@@ -725,40 +725,8 @@
     },
     {
       "file": "src/migration-packet.ts",
-      "function": "planUpgradePath",
-      "lines": 53,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/migration-packet.ts",
       "function": "stepsFor",
       "lines": 59,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/purl.ts",
-      "function": "parsePurl",
-      "lines": 59,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/registry.ts",
-      "function": "ruleIssues",
-      "lines": 114,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/renovate-preset.ts",
-      "function": "buildRenovatePreset",
-      "lines": 69,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -1698,46 +1666,6 @@
       "function": "EvergreenLanguageServer.dispatch",
       "complexity": 19,
       "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/migration-packet.ts",
-      "function": "planUpgradePath",
-      "complexity": 17,
-      "owner": "#2274",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/purl.ts",
-      "function": "parsePurl",
-      "complexity": 17,
-      "owner": "#2274",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/registry.ts",
-      "function": "ruleIssues",
-      "complexity": 58,
-      "owner": "#2274",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/renovate-preset.ts",
-      "function": "buildRenovatePreset",
-      "complexity": 21,
-      "owner": "#2274",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/rule-lint.ts",
-      "function": "structuralProblemOffset",
-      "complexity": 16,
-      "owner": "#2274",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

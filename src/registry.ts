@@ -125,26 +125,43 @@ function dayNumber(date: string): number {
   return Date.parse(`${date}T00:00:00Z`) / 86_400_000;
 }
 
-function ruleIssues(rule: unknown, index: number, ecosystem: string | undefined): string[] {
-  if (!isRecord(rule)) return [`rules[${index}]: must be an object`];
-  const name = isNonEmptyString(rule.id) ? `rule "${rule.id}"` : `rules[${index}]`;
-  const issues: string[] = [];
-  const problem = (message: string) => issues.push(`${name}: ${message}`);
+type Problem = (message: string) => void;
 
+/** The rule's id, and its ecosystem when it must match the registry's. */
+function identityIssues(rule: UnknownRecord, problem: Problem, ecosystem: string | undefined): void {
   if (!isNonEmptyString(rule.id)) problem("id is required");
   else if (!RULE_ID.test(rule.id)) problem("id must use lowercase letters, numbers, dots, and hyphens");
 
-  if (!isNonEmptyString(rule.ecosystem) || !SLUG.test(rule.ecosystem))
+  if (!isNonEmptyString(rule.ecosystem) || !SLUG.test(rule.ecosystem)) {
     problem("ecosystem is required and must be a lowercase slug");
-  else if (ecosystem !== undefined && rule.ecosystem !== ecosystem) {
+  } else if (ecosystem !== undefined && rule.ecosystem !== ecosystem) {
     problem(`ecosystem "${rule.ecosystem}" does not match the registry ecosystem "${ecosystem}"`);
   }
+}
 
+/** Unknown fields, and extension keys whose value is not an object. */
+function fieldKeyIssues(rule: UnknownRecord, problem: Problem): void {
   for (const key of Object.keys(rule)) {
     if (!RULE_FIELDS.has(key) && !EXTENSION.test(key)) problem(`unknown field "${key}"`);
     if (EXTENSION.test(key) && !isRecord(rule[key])) problem(`${key} must be an object`);
   }
+}
 
+function requiresIssues(requires: unknown, problem: Problem): void {
+  if (!isRecord(requires) || Object.keys(requires).length === 0) {
+    problem("requires must be an object with at least one runtime");
+    return;
+  }
+  for (const [runtime, minimum] of Object.entries(requires)) {
+    if (!REQUIRES_RUNTIMES.includes(runtime)) problem(`requires has unknown runtime "${runtime}"`);
+    else if (typeof minimum !== "string" || !/^\d+(?:\.\d+){0,2}$/.test(minimum)) {
+      problem(`requires.${runtime} must be a version such as "18.0.0"`);
+    }
+  }
+}
+
+/** Title, summary, severity, event, replacement, and requires. */
+function descriptionIssues(rule: UnknownRecord, problem: Problem): void {
   for (const field of ["title", "summary"] as const) {
     if (!isNonEmptyString(rule[field])) problem(`${field} is required`);
   }
@@ -152,88 +169,110 @@ function ruleIssues(rule: unknown, index: number, ecosystem: string | undefined)
     problem(`severity must be one of ${severityValues.join(", ")}`);
   if (!lifecycleEvents.includes(rule.event as LifecycleEvent))
     problem(`event must be one of ${lifecycleEvents.join(", ")}`);
-  if (rule.replacement !== undefined && !isNonEmptyString(rule.replacement))
+  if (rule.replacement !== undefined && !isNonEmptyString(rule.replacement)) {
     problem("replacement must be a non-empty string");
-  if (rule.requires !== undefined) {
-    if (!isRecord(rule.requires) || Object.keys(rule.requires).length === 0) {
-      problem("requires must be an object with at least one runtime");
-    } else {
-      for (const [runtime, minimum] of Object.entries(rule.requires)) {
-        if (!REQUIRES_RUNTIMES.includes(runtime)) problem(`requires has unknown runtime "${runtime}"`);
-        else if (typeof minimum !== "string" || !/^\d+(?:\.\d+){0,2}$/.test(minimum))
-          problem(`requires.${runtime} must be a version such as "18.0.0"`);
-      }
-    }
   }
+  if (rule.requires !== undefined) requiresIssues(rule.requires, problem);
+}
+
+/** The deadline, and the announced date a scheduled end of life needs (decision 0010). */
+function deadlineIssues(rule: UnknownRecord, problem: Problem): void {
   if (rule.deadline !== undefined && !isIsoDate(rule.deadline)) problem("deadline must be a valid date (YYYY-MM-DD)");
   // An announced end of life that has not happened yet: it needs the announced date, and it must not fail a severity gate (decision 0010).
-  if (rule.event === "scheduled-end-of-life") {
-    if (rule.deadline === undefined) problem("a scheduled-end-of-life rule needs the announced date as its deadline");
-    if (rule.severity !== "low") problem("a scheduled-end-of-life rule must have severity low");
-  }
+  if (rule.event !== "scheduled-end-of-life") return;
+  if (rule.deadline === undefined) problem("a scheduled-end-of-life rule needs the announced date as its deadline");
+  if (rule.severity !== "low") problem("a scheduled-end-of-life rule must have severity low");
+}
 
-  let purlType: string | undefined;
+/** Checks the purl and returns its type when it parses, so the version scheme can be matched to it. */
+function purlIssues(rule: UnknownRecord, problem: Problem): string | undefined {
   if (!isNonEmptyString(rule.purl)) {
     problem("purl is required");
-  } else {
-    try {
-      const parsed = parsePurl(rule.purl);
-      const identity = purlIdentity(parsed);
-      if (identity !== rule.purl) problem(`purl must be canonical and version-less (expected "${identity}")`);
-      purlType = parsed.type;
-    } catch (error) {
-      problem(`purl is invalid: ${(error as Error).message}`);
-    }
+    return undefined;
   }
+  try {
+    const parsed = parsePurl(rule.purl);
+    const identity = purlIdentity(parsed);
+    if (identity !== rule.purl) problem(`purl must be canonical and version-less (expected "${identity}")`);
+    return parsed.type;
+  } catch (error) {
+    problem(`purl is invalid: ${(error as Error).message}`);
+    return undefined;
+  }
+}
 
+function versIssues(rule: UnknownRecord, problem: Problem, purlType: string | undefined): void {
   if (!isNonEmptyString(rule.vers)) {
     problem("vers is required");
-  } else {
-    try {
-      const range = parseVers(rule.vers);
-      versionScheme(range.scheme);
-      validateVersVersions(range);
-      const allowed = purlType ? SCHEMES_BY_PURL_TYPE[purlType] : undefined;
-      if (allowed && !allowed.includes(range.scheme)) {
-        problem(`vers scheme "${range.scheme}" does not fit purl type "${purlType}" (use ${allowed.join(" or ")})`);
-      }
-    } catch (error) {
-      problem(`vers is invalid: ${(error as Error).message}`);
-    }
+    return;
   }
+  try {
+    const range = parseVers(rule.vers);
+    versionScheme(range.scheme);
+    validateVersVersions(range);
+    const allowed = purlType ? SCHEMES_BY_PURL_TYPE[purlType] : undefined;
+    if (allowed && !allowed.includes(range.scheme)) {
+      problem(`vers scheme "${range.scheme}" does not fit purl type "${purlType}" (use ${allowed.join(" or ")})`);
+    }
+  } catch (error) {
+    problem(`vers is invalid: ${(error as Error).message}`);
+  }
+}
 
+function sourceIssues(source: unknown, sourceIndex: number, problem: Problem): void {
+  if (!isRecord(source) || !isNonEmptyString(source.title)) problem(`sources[${sourceIndex}].title is required`);
+  if (!isRecord(source) || !isNonEmptyString(source.url) || !/^https:\/\/\S+$/.test(source.url)) {
+    problem(`sources[${sourceIndex}].url must be an https URL`);
+  }
+  if (isRecord(source) && source.accessedAt !== undefined && !isIsoDate(source.accessedAt)) {
+    problem(`sources[${sourceIndex}].accessedAt must be a valid date (YYYY-MM-DD)`);
+  }
+}
+
+function sourcesIssues(rule: UnknownRecord, problem: Problem): void {
   if (!Array.isArray(rule.sources) || rule.sources.length === 0) {
     problem("sources must list at least one authoritative source");
-  } else {
-    rule.sources.forEach((source, sourceIndex) => {
-      if (!isRecord(source) || !isNonEmptyString(source.title)) problem(`sources[${sourceIndex}].title is required`);
-      if (!isRecord(source) || !isNonEmptyString(source.url) || !/^https:\/\/\S+$/.test(source.url)) {
-        problem(`sources[${sourceIndex}].url must be an https URL`);
-      }
-      if (isRecord(source) && source.accessedAt !== undefined && !isIsoDate(source.accessedAt)) {
-        problem(`sources[${sourceIndex}].accessedAt must be a valid date (YYYY-MM-DD)`);
-      }
-    });
+    return;
   }
+  rule.sources.forEach((source, sourceIndex) => sourceIssues(source, sourceIndex, problem));
+}
 
+function provenanceIssues(rule: UnknownRecord, problem: Problem): void {
   if (!isRecord(rule.provenance)) {
     problem("provenance is required");
-  } else {
-    const { observedAt, reviewedAt, reviewer, importer } = rule.provenance;
-    if (observedAt === undefined) problem("provenance.observedAt is required");
-    else if (!isIsoDate(observedAt)) problem("provenance.observedAt must be a valid date (YYYY-MM-DD)");
-    if (reviewedAt === undefined) problem("provenance.reviewedAt is required");
-    else if (!isIsoDate(reviewedAt)) problem("provenance.reviewedAt must be a valid date (YYYY-MM-DD)");
-    if (isIsoDate(observedAt) && isIsoDate(reviewedAt) && dayNumber(reviewedAt) < dayNumber(observedAt)) {
-      problem("provenance.reviewedAt must not be earlier than provenance.observedAt");
-    }
-    if (!isNonEmptyString(reviewer)) problem("provenance.reviewer is required");
-    if (importer !== undefined && !isNonEmptyString(importer))
-      problem("provenance.importer must be a non-empty string");
+    return;
   }
+  const { observedAt, reviewedAt, reviewer, importer } = rule.provenance;
+  if (observedAt === undefined) problem("provenance.observedAt is required");
+  else if (!isIsoDate(observedAt)) problem("provenance.observedAt must be a valid date (YYYY-MM-DD)");
+  if (reviewedAt === undefined) problem("provenance.reviewedAt is required");
+  else if (!isIsoDate(reviewedAt)) problem("provenance.reviewedAt must be a valid date (YYYY-MM-DD)");
+  if (isIsoDate(observedAt) && isIsoDate(reviewedAt) && dayNumber(reviewedAt) < dayNumber(observedAt)) {
+    problem("provenance.reviewedAt must not be earlier than provenance.observedAt");
+  }
+  if (!isNonEmptyString(reviewer)) problem("provenance.reviewer is required");
+  if (importer !== undefined && !isNonEmptyString(importer)) problem("provenance.importer must be a non-empty string");
+}
 
-  if (rule.migration !== undefined && !isMigrationGuidance(rule.migration))
+function ruleIssues(rule: unknown, index: number, ecosystem: string | undefined): string[] {
+  if (!isRecord(rule)) return [`rules[${index}]: must be an object`];
+  const name = isNonEmptyString(rule.id) ? `rule "${rule.id}"` : `rules[${index}]`;
+  const issues: string[] = [];
+  const problem: Problem = (message) => {
+    issues.push(`${name}: ${message}`);
+  };
+
+  identityIssues(rule, problem, ecosystem);
+  fieldKeyIssues(rule, problem);
+  descriptionIssues(rule, problem);
+  deadlineIssues(rule, problem);
+  versIssues(rule, problem, purlIssues(rule, problem));
+  sourcesIssues(rule, problem);
+  provenanceIssues(rule, problem);
+
+  if (rule.migration !== undefined && !isMigrationGuidance(rule.migration)) {
     problem("migration is not valid migration guidance");
+  }
   if (rule.usage !== undefined && (!Array.isArray(rule.usage) || !rule.usage.every(isUsageMatcher))) {
     problem("usage must be a list of valid usage matchers");
   }
@@ -367,5 +406,8 @@ export function withoutSymbolRules(data: unknown): unknown {
       (matcher: unknown) =>
         typeof matcher === "object" && matcher !== null && "kind" in matcher && matcher.kind === "symbol",
     );
-  return { ...data, rules: data.rules.filter((rule: unknown) => !isSymbolRule(rule)) };
+  return {
+    ...data,
+    rules: data.rules.filter((rule: unknown) => !isSymbolRule(rule)),
+  };
 }

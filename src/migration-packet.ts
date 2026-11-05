@@ -434,6 +434,73 @@ function lineFor(rule: RegistryV2Rule, today: string): UpgradePathLine | undefin
   };
 }
 
+/** The lower bound of a rule's range, or undefined when the range cannot be read. */
+function safeLowerBound(rule: RegistryV2Rule): ReturnType<typeof lowerBound> {
+  try {
+    return lowerBound(rule);
+  } catch {
+    return undefined;
+  }
+}
+
+interface LaterRule {
+  rule: RegistryV2Rule;
+  version: string;
+}
+
+/** The other rules for the same package that start at a later version of the same scheme, in release order. */
+function laterRules(
+  rule: RegistryV2Rule,
+  rules: readonly RegistryV2Rule[],
+  start: { scheme: string; version: string },
+): LaterRule[] {
+  const scheme = versionScheme(start.scheme);
+  const later: LaterRule[] = [];
+  for (const candidate of rules) {
+    if (candidate.purl !== rule.purl || candidate.id === rule.id) continue;
+    const bound = safeLowerBound(candidate);
+    if (bound?.version && bound.scheme === start.scheme && scheme.compare(bound.version, start.version) > 0) {
+      later.push({ rule: candidate, version: bound.version });
+    }
+  }
+  return later.sort(
+    (left, right) => scheme.compare(left.version, right.version) || left.rule.id.localeCompare(right.rule.id),
+  );
+}
+
+/** The release line the path starts on; a rule with no line for today is reported as ending soon. */
+function startingLine(rule: RegistryV2Rule, today: string): UpgradePathLine {
+  return (
+    lineFor(rule, today) ?? { ruleId: rule.id, versions: rule.vers, title: rule.title, status: "ending-soon" as const }
+  );
+}
+
+/**
+ * Walks the later lines in release order. Each line that is ended or ending soon is skipped; the first supported one
+ * is the target. Returns no target when every later line is unsupported.
+ */
+function walkLaterLines(
+  later: readonly LaterRule[],
+  today: string,
+): { skipped: UpgradePathLine[]; target?: UpgradePath["target"] } {
+  const skipped: UpgradePathLine[] = [];
+  for (const { rule: candidate } of later) {
+    const line = lineFor(candidate, today);
+    if (!line) {
+      return {
+        skipped,
+        target: {
+          versions: candidate.vers,
+          title: candidate.title,
+          ...(candidate.deadline ? { endsOn: candidate.deadline } : {}),
+        },
+      };
+    }
+    skipped.push(line);
+  }
+  return { skipped };
+}
+
 /**
  * Orders the release lines the registry knows for the finding's product and walks forward from the one in use. It
  * never lands on a line that has ended or ends within the horizon, and lands on the first line after that which is
@@ -447,51 +514,16 @@ export function planUpgradePath(
 ): UpgradePath | undefined {
   const rule = rules.find((candidate) => candidate.id === finding.ruleId);
   if (!rule) return undefined;
-  let start: ReturnType<typeof lowerBound>;
-  try {
-    start = lowerBound(rule);
-  } catch {
-    return undefined;
-  }
+  const start = safeLowerBound(rule);
   if (!start?.version) return undefined;
-  const scheme = versionScheme(start.scheme);
-  const later: Array<{ rule: RegistryV2Rule; version: string }> = [];
-  for (const candidate of rules) {
-    if (candidate.purl !== rule.purl || candidate.id === rule.id) continue;
-    try {
-      const bound = lowerBound(candidate);
-      if (bound?.version && bound.scheme === start.scheme && scheme.compare(bound.version, start.version) > 0) {
-        later.push({ rule: candidate, version: bound.version });
-      }
-    } catch {
-      continue;
-    }
-  }
+  const later = laterRules(rule, rules, { scheme: start.scheme, version: start.version });
   if (later.length === 0) return undefined;
-  later.sort((left, right) => scheme.compare(left.version, right.version) || left.rule.id.localeCompare(right.rule.id));
-  const from = lineFor(rule, today) ?? {
-    ruleId: rule.id,
-    versions: rule.vers,
-    title: rule.title,
-    status: "ending-soon" as const,
+  const { skipped, target } = walkLaterLines(later, today);
+  return {
+    from: startingLine(rule, today),
+    skipped,
+    target: target ?? { replacement: rule.replacement ?? "the newest supported release" },
   };
-  const skipped: UpgradePathLine[] = [];
-  for (const { rule: candidate } of later) {
-    const line = lineFor(candidate, today);
-    if (!line) {
-      return {
-        from,
-        skipped,
-        target: {
-          versions: candidate.vers,
-          title: candidate.title,
-          ...(candidate.deadline ? { endsOn: candidate.deadline } : {}),
-        },
-      };
-    }
-    skipped.push(line);
-  }
-  return { from, skipped, target: { replacement: rule.replacement ?? "the newest supported release" } };
 }
 
 /** Builds the migration packet for one finding in a scan result. */

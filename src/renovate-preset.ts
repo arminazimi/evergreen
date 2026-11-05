@@ -107,6 +107,63 @@ function ruleKey(rule: RenovatePackageRule): string {
   return `${rule.matchDatasources[0] ?? ""}\0${rule.matchPackageNames[0] ?? ""}\0${rule.replacementName ?? ""}\0${rule.allowedVersions ?? ""}`;
 }
 
+/** Stores a runtime pin unless a higher floor is already there: the highest supported floor wins. */
+function keepHigherFloor(
+  runtimes: Map<string, RenovatePackageRule>,
+  key: string,
+  allowedVersions: string,
+  pin: RenovatePackageRule,
+): void {
+  const existing = runtimes.get(key);
+  if (!existing || compareVersionFloors(allowedVersions, required(existing.allowedVersions, "stored floor")) > 0) {
+    runtimes.set(key, pin);
+  }
+}
+
+function addNodeRuntime(runtimes: Map<string, RenovatePackageRule>, finding: Finding, replacement: string | undefined) {
+  if (!replacement) return;
+  const allowedVersions = nodeFloor(replacement);
+  if (!allowedVersions) return;
+  keepHigherFloor(runtimes, "node-version\0node", allowedVersions, {
+    description: `Evergreen: keep Node.js on a supported release (${finding.ruleId})`,
+    matchDatasources: ["node-version"],
+    matchPackageNames: ["node"],
+    allowedVersions,
+  });
+}
+
+function addPythonRuntime(runtimes: Map<string, RenovatePackageRule>, finding: Finding, rule: RegistryV2Rule) {
+  const allowedVersions = pythonFloorFromMaximum(rule["x-python"]?.maximumVersion);
+  if (!allowedVersions) return;
+  keepHigherFloor(runtimes, "docker\0python", allowedVersions, {
+    description: `Evergreen: keep Python on a supported release (${finding.ruleId})`,
+    matchDatasources: ["docker"],
+    matchPackageNames: ["python"],
+    allowedVersions,
+  });
+}
+
+/** A package finding with a package-name replacement becomes one `replacementName` rule per datasource and name. */
+function addPackageReplacement(
+  replacements: Map<string, RenovatePackageRule>,
+  finding: Finding,
+  rule: RegistryV2Rule,
+  replacement: string | undefined,
+): void {
+  if (!replacement || !isRenovatePackageName(replacement)) return;
+  const datasource = datasourceFor(rule.purl);
+  const packageName = renovatePackageName(rule.purl);
+  if (!datasource || !packageName || packageName === replacement) return;
+  const key = `${datasource}\0${packageName}`;
+  if (replacements.has(key)) return;
+  replacements.set(key, {
+    description: `Evergreen: replace ${packageName} (${finding.ruleId})`,
+    matchDatasources: [datasource],
+    matchPackageNames: [packageName],
+    replacementName: replacement,
+  });
+}
+
 /**
  * Builds a Renovate preset from scan findings. Package findings with a package-name replacement
  * become `replacementName` rules; Node.js and Python runtime findings become `allowedVersions`
@@ -121,53 +178,13 @@ export function buildRenovatePreset(findings: readonly Finding[], rules: readonl
     const rule = byId.get(finding.ruleId);
     if (!rule) continue;
     const replacement = finding.replacement ?? rule.replacement;
-
     if (rule.purl === "pkg:generic/nodejs" || rule.id.startsWith("nodejs.runtime.")) {
-      if (!replacement) continue;
-      const allowedVersions = nodeFloor(replacement);
-      if (!allowedVersions) continue;
-      const key = "node-version\0node";
-      const existing = runtimes.get(key);
-      if (!existing || compareVersionFloors(allowedVersions, required(existing.allowedVersions, "stored floor")) > 0) {
-        runtimes.set(key, {
-          description: `Evergreen: keep Node.js on a supported release (${finding.ruleId})`,
-          matchDatasources: ["node-version"],
-          matchPackageNames: ["node"],
-          allowedVersions,
-        });
-      }
-      continue;
+      addNodeRuntime(runtimes, finding, replacement);
+    } else if (rule.purl === "pkg:generic/python" || rule.id.startsWith("python.runtime.")) {
+      addPythonRuntime(runtimes, finding, rule);
+    } else {
+      addPackageReplacement(replacements, finding, rule, replacement);
     }
-
-    if (rule.purl === "pkg:generic/python" || rule.id.startsWith("python.runtime.")) {
-      const extension = rule["x-python"];
-      const allowedVersions = pythonFloorFromMaximum(extension?.maximumVersion);
-      if (!allowedVersions) continue;
-      const key = "docker\0python";
-      const existing = runtimes.get(key);
-      if (!existing || compareVersionFloors(allowedVersions, required(existing.allowedVersions, "stored floor")) > 0) {
-        runtimes.set(key, {
-          description: `Evergreen: keep Python on a supported release (${finding.ruleId})`,
-          matchDatasources: ["docker"],
-          matchPackageNames: ["python"],
-          allowedVersions,
-        });
-      }
-      continue;
-    }
-
-    if (!replacement || !isRenovatePackageName(replacement)) continue;
-    const datasource = datasourceFor(rule.purl);
-    const packageName = renovatePackageName(rule.purl);
-    if (!datasource || !packageName || packageName === replacement) continue;
-    const key = `${datasource}\0${packageName}`;
-    if (replacements.has(key)) continue;
-    replacements.set(key, {
-      description: `Evergreen: replace ${packageName} (${finding.ruleId})`,
-      matchDatasources: [datasource],
-      matchPackageNames: [packageName],
-      replacementName: replacement,
-    });
   }
 
   const packageRules = [...replacements.values(), ...runtimes.values()].sort((left, right) =>
