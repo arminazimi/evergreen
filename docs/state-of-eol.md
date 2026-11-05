@@ -9,14 +9,14 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 557 pinned repositories (3128 expected findings). The last full corpus run was commit `114f19b` on 2026-11-01 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 557 pinned repositories (3164 expected findings). The last full corpus run was commit `114f19b` on 2026-11-01 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
 | Repositories | 557 |
-| Expected findings | 3128 |
-| Products with findings | 141 |
-| Release lines with findings | 196 |
+| Expected findings | 3164 |
+| Products with findings | 142 |
+| Release lines with findings | 197 |
 
 ### By product
 
@@ -35,6 +35,7 @@ Measured on the public corpus of 557 pinned repositories (3128 expected findings
 | aws-lambda-runtime/nodejs24.x | 74 | 1 | 1 |
 | terraform | 65 | 3 | 9 |
 | java | 60 | 3 | 13 |
+| github-actions/set-output | 37 | 1 | 8 |
 | actions/setup-go | 35 | 1 | 15 |
 | library/ubuntu | 34 | 2 | 18 |
 | actions/download-artifact | 31 | 1 | 21 |
@@ -96,7 +97,6 @@ Measured on the public corpus of 557 pinned repositories (3128 expected findings
 | request | 4 | 1 | 4 |
 | rollup-plugin-terser | 4 | 1 | 4 |
 | django | 3 | 2 | 3 |
-| github-actions/set-output | 3 | 1 | 2 |
 | kubernetes/extensions/ReplicaSet | 3 | 1 | 2 |
 | kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | 3 | 1 | 2 |
 | rollup-plugin-babel | 3 | 1 | 3 |
@@ -107,6 +107,7 @@ Measured on the public corpus of 557 pinned repositories (3128 expected findings
 | aws-lambda-runtime/nodejs20.x | 2 | 1 | 1 |
 | aws-lambda-runtime/provided.al2 | 2 | 1 | 1 |
 | crypto-js | 2 | 1 | 2 |
+| github-actions/set-env | 2 | 1 | 1 |
 | hashicorp/setup-terraform | 2 | 1 | 2 |
 | istanbul | 2 | 1 | 2 |
 | kubernetes/apps/ReplicaSet | 2 | 1 | 1 |
@@ -186,6 +187,7 @@ Measured on the public corpus of 557 pinned repositories (3128 expected findings
 | dotnet | .NET Core 2.0 is no longer supported | [`dotnet.runtime.end-of-support-2.0`](rules/dotnet.runtime.end-of-support-2.0.html) | end-of-support | 48 | 2 |
 | nodejs | Node.js 22 reaches end-of-life on 2027-04-30 | [`nodejs.runtime.eol-22`](rules/nodejs.runtime.eol-22.html) | scheduled-end-of-life | 42 | 23 |
 | dotnet | .NET 7 is no longer supported | [`dotnet.runtime.end-of-support-7.0`](rules/dotnet.runtime.end-of-support-7.0.html) | end-of-support | 39 | 3 |
+| github-actions/set-output | Deprecated GitHub Actions ::set-output command | [`github-actions.workflow-command.set-output`](rules/github-actions.workflow-command.set-output.html) | deprecated | 37 | 8 |
 | actions/setup-go | Unsupported actions/setup-go runtime | [`github-actions.setup-go.node20`](rules/github-actions.setup-go.node20.html) | end-of-support | 35 | 15 |
 | nodejs | Node.js 19 is end-of-life | [`nodejs.runtime.eol-19`](rules/nodejs.runtime.eol-19.html) | end-of-life | 34 | 31 |
 | library/ubuntu | Ubuntu image release lines 20.04 and older are past standard support end-of-life | [`container.ubuntu.eol-20.04-and-older`](rules/container.ubuntu.eol-20.04-and-older.html) | end-of-life | 32 | 16 |
@@ -269,7 +271,6 @@ Measured on the public corpus of 557 pinned repositories (3128 expected findings
 | rollup-plugin-terser | rollup-plugin-terser is deprecated | [`npm.package.rollup-plugin-terser.deprecated`](rules/npm.package.rollup-plugin-terser.deprecated.html) | deprecated | 4 | 4 |
 | terraform | Terraform CLI 1.13 is no longer a supported release line | [`terraform.cli.end-of-support-1.13`](rules/terraform.cli.end-of-support-1.13.html) | end-of-support | 4 | 3 |
 | xcode | Xcode 15 through 25 are not accepted for App Store uploads | [`swift.xcode.app-store-15-through-25`](rules/swift.xcode.app-store-15-through-25.html) | end-of-support | 4 | 4 |
-| github-actions/set-output | Deprecated GitHub Actions ::set-output command | [`github-actions.workflow-command.set-output`](rules/github-actions.workflow-command.set-output.html) | deprecated | 3 | 2 |
 | kubernetes/extensions/ReplicaSet | ReplicaSet extensions/v1beta1 is no longer served | [`kubernetes.extensions.replicaset.v1beta1.removed`](rules/kubernetes.extensions.replicaset.v1beta1.removed.html) | removed | 3 | 2 |
 | kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | ClusterRoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served | [`kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed`](rules/kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html) | removed | 3 | 2 |
 | library/python | Python image release line 3.11 reaches end-of-life on 2027-10-31 | [`container.python.eol-3.11-and-older`](rules/container.python.eol-3.11-and-older.html) | scheduled-end-of-life | 3 | 2 |
@@ -285,6 +286,7 @@ Measured on the public corpus of 557 pinned repositories (3128 expected findings
 | django | Django 4.2 LTS is end-of-life | [`python.package.django-4.2.eol`](rules/python.package.django-4.2.eol.html) | end-of-life | 2 | 2 |
 | dotnet | .NET Core 2.2 is no longer supported | [`dotnet.runtime.end-of-support-2.2`](rules/dotnet.runtime.end-of-support-2.2.html) | end-of-support | 2 | 1 |
 | dotnet | .NET Core 3.0 is no longer supported | [`dotnet.runtime.end-of-support-3.0`](rules/dotnet.runtime.end-of-support-3.0.html) | end-of-support | 2 | 1 |
+| github-actions/set-env | Removed GitHub Actions ::set-env command | [`github-actions.workflow-command.set-env`](rules/github-actions.workflow-command.set-env.html) | removed | 2 | 1 |
 | hashicorp/setup-terraform | Unsupported hashicorp/setup-terraform runtime | [`github-actions.setup-terraform.node20`](rules/github-actions.setup-terraform.node20.html) | end-of-support | 2 | 2 |
 | istanbul | istanbul is deprecated | [`npm.package.istanbul.deprecated`](rules/npm.package.istanbul.deprecated.html) | deprecated | 2 | 2 |
 | kubernetes/apps/ReplicaSet | ReplicaSet apps/v1beta2 is no longer served | [`kubernetes.apps.replicaset.v1beta2.removed`](rules/kubernetes.apps.replicaset.v1beta2.removed.html) | removed | 2 | 1 |

@@ -30,6 +30,24 @@
         "kind": "maintainer-review",
         "note": "Reviewed line 17 of .github/workflows/auto_release.yml at this commit: `- uses: actions/cache@v2`. GitHub's Actions runtime notice Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) retires the runtime this pinned action version uses."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-env",
+      "path": ".github/workflows/auto_delete.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/TimUntersberger/nog/blob/5558654eb9cf7f8aa68acda80088ac1dfbbc4e23/.github/workflows/auto_delete.yml#L13: `echo \"::set-env name=REF_NAME::$REF_NAME\"` emits the `set-env` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-env",
+      "path": ".github/workflows/auto_release.yml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/TimUntersberger/nog/blob/5558654eb9cf7f8aa68acda80088ac1dfbbc4e23/.github/workflows/auto_release.yml#L28: `echo \"::set-env name=COMMIT_HASH::$(git rev-parse --short HEAD)\"` emits the `set-env` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/"
+      }
     }
   ]
 }
