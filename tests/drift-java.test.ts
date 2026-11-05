@@ -221,6 +221,79 @@ test("--align refuses expressions and floating values and never writes a file", 
   assert.match(aligned.stderr, /Refused build\.gradle:2/);
 });
 
+test("--align rewrites the JDK version files and the setup-java input", async () => {
+  const repo = await makeRepo({
+    ".java-version": "17\n",
+    ".sdkmanrc": "java = 17\n",
+    ".tool-versions": "java 17\nnodejs 22.11.0\n",
+    ".github/workflows/ci.yml":
+      "name: CI\non: push\njobs:\n  build:\n    steps:\n      - uses: actions/setup-java@v4\n        with:\n          distribution: temurin\n          java-version: 17\n",
+  });
+  await execute("git", ["init", "-q"], { cwd: repo });
+
+  const aligned = await runCli(["drift", ".", "--runtime", "java", "--align", "21"], { cwd: repo });
+  assert.equal(aligned.code, 0, aligned.stderr);
+  for (const file of [".java-version", ".sdkmanrc", ".tool-versions", ".github/workflows/ci.yml"]) {
+    assert.ok(aligned.stdout.includes(`+++ b/${file}`), file);
+  }
+
+  await writeFile(join(repo, "patch.diff"), aligned.stdout);
+  await execute("git", ["apply", "--check", "patch.diff"], { cwd: repo });
+  await execute("git", ["apply", "patch.diff"], { cwd: repo });
+
+  assert.equal(await readFile(join(repo, ".java-version"), "utf8"), "21\n");
+  assert.equal(await readFile(join(repo, ".sdkmanrc"), "utf8"), "java = 21\n");
+  assert.match(await readFile(join(repo, ".tool-versions"), "utf8"), /^java 21$/m);
+  assert.match(await readFile(join(repo, ".github", "workflows", "ci.yml"), "utf8"), /java-version: 21\n/);
+  assert.equal((await runCli(["drift", ".", "--check"], { cwd: repo })).code, 0);
+});
+
+test("a RUN install, a dynamic image and a matrix reference are collected, and align refuses them", async () => {
+  const repo = await makeRepo({
+    "pom.xml": `<?xml version="1.0"?>
+<project>
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+  </properties>
+</project>
+`,
+    Dockerfile:
+      "ARG TAG=17\nFROM openjdk:${TAG} AS build\nRUN sdk install java 17.0.10-tem\nRUN sdk install java v17.0.10-tem\n",
+    ".github/workflows/matrix.yml":
+      "jobs:\n  build:\n    strategy:\n      matrix:\n        java:\n          - 17\n          - 21\n    steps:\n      - uses: actions/setup-java@v4\n        with:\n          java-version: ${{ matrix.java }}\n",
+    ".github/workflows/expression.yml":
+      "jobs:\n  build:\n    steps:\n      - uses: actions/setup-java@v4\n        with:\n          java-version: ${{ matrix.java }}\n",
+    ".github/workflows/floating.yml":
+      "jobs:\n  build:\n    steps:\n      - uses: actions/setup-java@v4\n        with:\n          java-version: adopt-hotspot\n",
+  });
+
+  const pins = await javaCollector.collect(repo);
+  assert.ok(has(pins, "Dockerfile RUN", "17.0.10-tem", "17"), "sdk install java");
+  const floatingRun = pins.find((pin) => pin.source === "Dockerfile RUN" && pin.raw === "v17.0.10-tem");
+  assert.equal(floatingRun?.release, undefined);
+  assert.match(floatingRun?.unresolved ?? "", /does not name a JDK release/);
+  const dynamic = pins.find((pin) => pin.source === "Dockerfile FROM");
+  assert.equal(dynamic?.raw, "openjdk:${TAG}");
+  assert.match(dynamic?.unresolved ?? "", /dynamic, which Evergreen does not expand/);
+  assert.ok(has(pins, ".github/workflows/matrix.yml actions/setup-java java-version matrix", "17", "17"), "matrix 17");
+  assert.ok(has(pins, ".github/workflows/matrix.yml actions/setup-java java-version matrix", "21", "21"), "matrix 21");
+  const expression = pins.find((pin) => pin.path === ".github/workflows/expression.yml");
+  assert.equal(expression?.release, undefined);
+  assert.match(expression?.unresolved ?? "", /expression, which Evergreen does not expand/);
+  const floatingInput = pins.find((pin) => pin.path === ".github/workflows/floating.yml");
+  assert.equal(floatingInput?.release, undefined);
+  assert.match(floatingInput?.unresolved ?? "", /does not name a JDK release/);
+
+  await execute("git", ["init", "-q"], { cwd: repo });
+  const aligned = await runCli(["drift", ".", "--runtime", "java", "--align", "21"], { cwd: repo });
+  assert.equal(aligned.code, 0, aligned.stderr);
+  assert.match(aligned.stdout, /<maven\.compiler\.release>21</);
+  assert.match(aligned.stderr, /Refused Dockerfile:2 \(Dockerfile FROM openjdk:\$\{TAG\}\)/);
+  assert.match(aligned.stderr, /Refused Dockerfile:3 \(Dockerfile RUN 17\.0\.10-tem\)/);
+  assert.match(aligned.stderr, /Refused Dockerfile:4 \(Dockerfile RUN v17\.0\.10-tem\)/);
+  assert.match(aligned.stderr, /Refused \.github\/workflows\/matrix\.yml:6 \(.* java-version matrix 17\)/);
+});
+
 test("bad flags exit 2", async () => {
   const repo = resolve(fixtures, "consistent");
   assert.equal((await runCli(["drift", ".", "--align", "21"], { cwd: repo })).code, 2, "--align requires --runtime");
