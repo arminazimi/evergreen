@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "github-actions.workflow-command.set-output",
+  "ecosystem": "github-actions",
+  "purl": "pkg:generic/github-actions/set-output",
+  "affectedVersions": "vers:semver/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "Deprecated GitHub Actions ::set-output command",
+  "summary": "GitHub deprecated the ::set-output workflow command. Append to the GITHUB_OUTPUT environment file instead.",
+  "replacement": "$GITHUB_OUTPUT",
+  "sources": [
+    {
+      "title": "GitHub Actions: Deprecating save-state and set-output commands",
+      "url": "https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-11-05",
+    "reviewedAt": "2026-11-05",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Use environment files with a runner version supporting them. Multiline values require delimiter syntax.",
+      "Preserve the effective shell and quote expansion; never copy encoded command values directly."
+    ],
+    "steps": [
+      {
+        "id": "use-environment-file",
+        "title": "Append to GITHUB_OUTPUT",
+        "instructions": "Replace literal single-line echo commands with the corresponding environment-file append to \"$GITHUB_OUTPUT\". Migrate complex values manually.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "git diff --check",
+        "purpose": "Review the workflow patch before running it."
+      }
+    ]
+  }
+}

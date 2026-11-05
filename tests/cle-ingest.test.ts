@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { cp, mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, mkdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -190,4 +190,46 @@ test("parseCleDocument accepts valid CLE and rejects incomplete documents", () =
   assert.equal(parseCleDocument(null), undefined);
   assert.equal(parseCleDocument({ ...valid, events: "nope" }), undefined);
   assert.equal(parseCleDocument({ ...valid, identifier: "" }), undefined);
+});
+
+test("the installed-package walk reads pnpm stores and scoped packages and skips symbolic links", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-cle-walk-"));
+  temporaryRoots.push(root);
+  const modules = join(root, "node_modules");
+  const writePackage = async (directory: string, name: string, identifier: string): Promise<void> => {
+    await mkdir(directory, { recursive: true });
+    await writeFile(join(directory, "package.json"), JSON.stringify({ name, version: "1.0.0" }));
+    await writeFile(
+      join(directory, CLE_FILE_NAME),
+      JSON.stringify({
+        $schema: CLE_SCHEMA,
+        identifier,
+        updatedAt: "2024-01-01T00:00:00Z",
+        events: [
+          {
+            id: 1,
+            type: "endOfLife",
+            effective: "2024-01-01T00:00:00Z",
+            published: "2024-01-01T00:00:00Z",
+            versions: [{ range: "vers:npm/*" }],
+            description: "Walk fixture.",
+          },
+        ],
+      }),
+    );
+  };
+  await writePackage(
+    join(modules, ".pnpm", "store-widget@1.0.0", "node_modules", "store-widget"),
+    "store-widget",
+    "pkg:npm/store-widget",
+  );
+  await writePackage(join(modules, "@scope", "scoped-widget"), "@scope/scoped-widget", "pkg:npm/scope/scoped-widget");
+  const elsewhere = join(root, "elsewhere", "linked-widget");
+  await writePackage(elsewhere, "linked-widget", "pkg:npm/linked-widget");
+  await symlink(elsewhere, join(modules, "linked-widget"));
+
+  const serialized = JSON.stringify(await ingestCle(root, { scannedAt: SCAN_AT }));
+  assert.ok(serialized.includes("store-widget"), "a package in a pnpm store is read");
+  assert.ok(serialized.includes("scoped-widget"), "a scoped package is read");
+  assert.ok(!serialized.includes("linked-widget"), "a symbolic link is not followed");
 });

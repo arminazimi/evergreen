@@ -1,0 +1,8 @@
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # echo "::save-state name=NAME::value"
+          echo "supported" >> "$GITHUB_STATE"
+        shell: bash

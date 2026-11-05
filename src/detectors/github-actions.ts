@@ -1,6 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 
+import { workflowCommandFindings, workflowCommandPrefix } from "./github-actions-workflow-commands.js";
 import { relativePosix } from "../paths.js";
 import type { DeprecationRule } from "../domain.js";
 import { loadDataFile } from "../data-source.js";
@@ -57,17 +58,22 @@ const COMMENT_VERSION = /^#\s*(?:(v?\d+(?:\.\d+){0,2})(?![.\d])|(?:tag=|version:
  */
 const CONFLICTING_VERSION = /\bv\d+(?:\.\d+){0,2}\b/;
 
+function isActionRule(value: DeprecationRule): value is GitHubActionRule {
+  return (
+    "action" in value &&
+    typeof value.action === "string" &&
+    "supportedFromMajor" in value &&
+    typeof value.supportedFromMajor === "number"
+  );
+}
+
 async function loadRegistry(): Promise<GitHubActionRule[]> {
   const registry = loadRegistryRules(await loadDataFile("registry/github-actions.json"), {
     schemaVersion: "evergreen.github-actions-registry.v1",
-    isRule: (value): value is GitHubActionRule =>
-      isDeprecationRule(value) &&
-      "action" in value &&
-      typeof value.action === "string" &&
-      "supportedFromMajor" in value &&
-      typeof value.supportedFromMajor === "number",
+    isRule: (value): value is DeprecationRule =>
+      isDeprecationRule(value) && (value.id.startsWith(workflowCommandPrefix) || isActionRule(value)),
   });
-  return [...registry.rules];
+  return registry.rules.filter(isActionRule);
 }
 
 async function loadShaRegistry(): Promise<Map<string, ReadonlyMap<string, string>>> {
@@ -302,7 +308,7 @@ export class GitHubActionsDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "github-actions";
   /** The files `scan` may read; conformance fails a scan that reads another. */
-  readonly inputs: DetectorInputs = { directories: [".github/workflows"] };
+  readonly inputs: DetectorInputs = { directories: [".github/workflows"], fileNames: ["action.yml", "action.yaml"] };
 
   async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
     const [rules, shaRegistry, workflowFiles] = await Promise.all([
@@ -313,7 +319,7 @@ export class GitHubActionsDetector implements Detector {
     let dotnetRules: RegistryV2Rule[] | undefined;
     let nodeRules: RegistryV2Rule[] | undefined;
     const rulesByAction = new Map(rules.map((rule) => [rule.action.toLowerCase(), rule]));
-    const findings: DetectorFinding[] = [];
+    const findings: DetectorFinding[] = await workflowCommandFindings(context.root);
     const unclassified: DetectorUnclassifiedReference[] = [];
 
     for (const workflowFile of workflowFiles) {

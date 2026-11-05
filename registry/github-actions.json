@@ -1401,6 +1401,176 @@
         "action": "docker/bake-action",
         "supportedFromMajor": 7
       }
+    },
+    {
+      "id": "github-actions.workflow-command.set-output",
+      "ecosystem": "github-actions",
+      "purl": "pkg:generic/github-actions/set-output",
+      "vers": "vers:semver/*",
+      "event": "deprecated",
+      "title": "Deprecated GitHub Actions ::set-output command",
+      "summary": "GitHub deprecated the ::set-output workflow command. Append to the GITHUB_OUTPUT environment file instead.",
+      "severity": "medium",
+      "replacement": "$GITHUB_OUTPUT",
+      "sources": [
+        {
+          "title": "GitHub Actions: Deprecating save-state and set-output commands",
+          "url": "https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-05",
+        "reviewedAt": "2026-11-05",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Use environment files with a runner version supporting them. Multiline values require delimiter syntax.",
+          "Preserve the effective shell and quote expansion; never copy encoded command values directly."
+        ],
+        "steps": [
+          {
+            "id": "use-environment-file",
+            "title": "Append to GITHUB_OUTPUT",
+            "instructions": "Replace literal single-line echo commands with the corresponding environment-file append to \"$GITHUB_OUTPUT\". Migrate complex values manually.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Review the workflow patch before running it."
+          }
+        ]
+      }
+    },
+    {
+      "id": "github-actions.workflow-command.save-state",
+      "ecosystem": "github-actions",
+      "purl": "pkg:generic/github-actions/save-state",
+      "vers": "vers:semver/*",
+      "event": "deprecated",
+      "title": "Deprecated GitHub Actions ::save-state command",
+      "summary": "GitHub deprecated the ::save-state workflow command. Append to the GITHUB_STATE environment file instead.",
+      "severity": "medium",
+      "replacement": "$GITHUB_STATE",
+      "sources": [
+        {
+          "title": "GitHub Actions: Deprecating save-state and set-output commands",
+          "url": "https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-05",
+        "reviewedAt": "2026-11-05",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Use environment files with a runner version supporting them. Multiline values require delimiter syntax.",
+          "Preserve the effective shell and quote expansion; never copy encoded command values directly."
+        ],
+        "steps": [
+          {
+            "id": "use-environment-file",
+            "title": "Append to GITHUB_STATE",
+            "instructions": "Replace literal single-line echo commands with the corresponding environment-file append to \"$GITHUB_STATE\". Migrate complex values manually.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Review the workflow patch before running it."
+          }
+        ]
+      }
+    },
+    {
+      "id": "github-actions.workflow-command.set-env",
+      "ecosystem": "github-actions",
+      "purl": "pkg:generic/github-actions/set-env",
+      "vers": "vers:semver/*",
+      "event": "removed",
+      "title": "Removed GitHub Actions ::set-env command",
+      "summary": "GitHub removed the ::set-env workflow command. Append to the GITHUB_ENV environment file instead.",
+      "severity": "high",
+      "replacement": "$GITHUB_ENV",
+      "sources": [
+        {
+          "title": "GitHub Actions: Removing set-env and add-path commands on November 16",
+          "url": "https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-05",
+        "reviewedAt": "2026-11-05",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Use environment files with a runner version supporting them. Multiline values require delimiter syntax.",
+          "Preserve the effective shell and quote expansion; never copy encoded command values directly."
+        ],
+        "steps": [
+          {
+            "id": "use-environment-file",
+            "title": "Append to GITHUB_ENV",
+            "instructions": "Replace literal single-line echo commands with the corresponding environment-file append to \"$GITHUB_ENV\". Migrate complex values manually.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Review the workflow patch before running it."
+          }
+        ]
+      },
+      "deadline": "2020-11-16"
+    },
+    {
+      "id": "github-actions.workflow-command.add-path",
+      "ecosystem": "github-actions",
+      "purl": "pkg:generic/github-actions/add-path",
+      "vers": "vers:semver/*",
+      "event": "removed",
+      "title": "Removed GitHub Actions ::add-path command",
+      "summary": "GitHub removed the ::add-path workflow command. Append to the GITHUB_PATH environment file instead.",
+      "severity": "high",
+      "replacement": "$GITHUB_PATH",
+      "sources": [
+        {
+          "title": "GitHub Actions: Removing set-env and add-path commands on November 16",
+          "url": "https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-11-05",
+        "reviewedAt": "2026-11-05",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Use environment files with a runner version supporting them. Multiline values require delimiter syntax.",
+          "Preserve the effective shell and quote expansion; never copy encoded command values directly."
+        ],
+        "steps": [
+          {
+            "id": "use-environment-file",
+            "title": "Append to GITHUB_PATH",
+            "instructions": "Replace literal single-line echo commands with the corresponding environment-file append to \"$GITHUB_PATH\". Migrate complex values manually.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Review the workflow patch before running it."
+          }
+        ]
+      },
+      "deadline": "2020-11-16"
     }
   ]
 }

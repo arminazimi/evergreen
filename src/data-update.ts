@@ -64,6 +64,9 @@ interface ReleaseAsset {
   name: string;
   browser_download_url: string;
 }
+/** The newest release the listing offers that carries a bundle and its signature. */
+type LatestRelease = { version: string; bundleUrl: string; signatureUrl: string };
+
 interface Release {
   tag_name: string;
   draft?: boolean;
@@ -123,11 +126,8 @@ async function download(url: string, limit: number, what: string, request: typeo
 }
 
 /** The newest `data-v…` release that has both a bundle and its signature. */
-export function latestDataRelease(
-  releases: Release[],
-  only?: string,
-): { version: string; bundleUrl: string; signatureUrl: string } | undefined {
-  let best: { version: string; bundleUrl: string; signatureUrl: string } | undefined;
+export function latestDataRelease(releases: Release[], only?: string): LatestRelease | undefined {
+  let best: LatestRelease | undefined;
   for (const release of releases) {
     const version = TAG_PATTERN.exec(release.tag_name)?.[1];
     if (!version || release.draft || (only !== undefined && version !== only)) continue;
@@ -170,6 +170,130 @@ async function prune(cache: string, keep: string): Promise<void> {
   await Promise.all(stale.map((name) => rm(join(cache, "data", name), { recursive: true, force: true })));
 }
 
+type ActiveData = Awaited<ReturnType<typeof resolveActiveData>>;
+type ActiveInfo = ActiveData["info"];
+type UpdateStamp = Pick<DataUpdateResult, "createdAt" | "contentDigest" | "signer">;
+
+/** Everything the update decided once the bundle is verified, before anything is written. */
+interface PendingUpdate {
+  before: ActiveData;
+  bytes: Uint8Array;
+  signature: string;
+  bundle: VerifiedDataBundle["bundle"];
+  signer: DataUpdateResult["signer"];
+  rules: DataUpdateResult["rules"];
+  cache: string;
+}
+
+function describeSource(info: { source: string; version: string }): { source: string; version: string } {
+  return { source: info.source, version: info.version };
+}
+
+/** The newest release the listing offers (or the exact one asked for); its absence is an error. */
+async function findLatestRelease(
+  releasesUrl: string,
+  version: string | undefined,
+  request: typeof fetch,
+): Promise<LatestRelease> {
+  const listing = await download(releasesUrl, MAXIMUM_LISTING_BYTES, "the release list", request);
+  let releases: Release[];
+  try {
+    releases = JSON.parse(Buffer.from(listing).toString("utf8")) as Release[];
+    if (!Array.isArray(releases)) throw new Error("not a list");
+  } catch {
+    throw new DataUpdateError("The release list is not valid JSON.");
+  }
+  const latest = latestDataRelease(releases, version);
+  if (!latest)
+    throw new DataUpdateError(
+      version ? `No signed data release ${version} was found.` : "No signed data release was found.",
+    );
+  return latest;
+}
+
+/** Checks the signature and the signed version. Any failure refuses the whole download. */
+function verifyRelease(
+  latest: LatestRelease,
+  bytes: Uint8Array,
+  signature: string,
+  options: DataUpdateOptions,
+): VerifiedDataBundle {
+  let verified: VerifiedDataBundle;
+  try {
+    verified = verifyDataBundle(bytes, signature, options);
+  } catch (error) {
+    if (error instanceof DataBundleError)
+      throw new DataUpdateError(`Refusing data bundle ${latest.version}: ${error.message}`);
+    throw error;
+  }
+  if (verified.bundle.manifest.version !== latest.version) {
+    throw new DataUpdateError(
+      `Refusing data bundle ${latest.version}: the signed bundle says it is version ${verified.bundle.manifest.version}.`,
+    );
+  }
+  return verified;
+}
+
+/** Rules per registry before and after the update, for what changed. */
+async function ruleChanges(
+  before: ActiveData,
+  files: VerifiedDataBundle["bundle"]["files"],
+): Promise<DataUpdateResult["rules"]> {
+  const rulesBefore = rulesByRegistry(
+    Object.fromEntries(
+      await Promise.all(
+        Object.keys(files).map(async (path) => [path, (await before.read(path)) as Record<string, unknown>]),
+      ),
+    ),
+  );
+  return Object.fromEntries(
+    Object.entries(rulesByRegistry(files)).map(([name, after]) => [name, { before: rulesBefore[name] ?? null, after }]),
+  );
+}
+
+function upToDateResult(
+  current: ActiveInfo,
+  rules: DataUpdateResult["rules"],
+  cache: string,
+  stamp: UpdateStamp,
+): DataUpdateResult {
+  return {
+    schemaVersion: DATA_UPDATE_SCHEMA_VERSION,
+    status: "up-to-date",
+    from: describeSource(current),
+    to: describeSource(current),
+    createdAt: stamp.createdAt,
+    contentDigest: stamp.contentDigest,
+    signer: stamp.signer,
+    rules,
+    cacheDirectory: cache,
+  };
+}
+
+/** Refuses a bundle older than the active data unless the user explicitly allowed a downgrade. */
+function assertNotRollback(
+  current: ActiveInfo,
+  manifest: VerifiedDataBundle["bundle"]["manifest"],
+  allowDowngrade: boolean | undefined,
+): void {
+  if (current.source === "cache" && current.createdAt && manifest.createdAt < current.createdAt && !allowDowngrade) {
+    throw new DataUpdateError(
+      `Refusing data bundle ${manifest.version}: it is older than the active data ${current.version}. A replayed older bundle would roll the rules back.`,
+    );
+  }
+}
+
+/** Replaces the bundle directory with the verified files, all at once: a half-written bundle is never left behind. */
+async function stageBundle(directory: string, bytes: Uint8Array, signature: string): Promise<void> {
+  const staging = `${directory}.${process.pid}.new`;
+  await rm(staging, { recursive: true, force: true });
+  await mkdir(staging, { recursive: true });
+  await writeFile(join(staging, BUNDLE_FILE), bytes);
+  await writeFile(join(staging, SIGNATURE_FILE), signature);
+  await rm(directory, { recursive: true, force: true });
+  await rename(staging, directory);
+}
+
 /**
  * Downloads the newest signed data bundle into the user cache. This is the only place Evergreen uses the network,
  * and it runs only when the user asks. The download is verified completely before anything is written; the cache
@@ -186,83 +310,47 @@ export async function updateData(options: DataUpdateOptions = {}): Promise<DataU
   }
   const { pinnedVersion: _ignored, ...sourceOptions } = options;
   const before = await resolveActiveData(sourceOptions);
-  const listing = await download(releasesUrl, MAXIMUM_LISTING_BYTES, "the release list", request);
-  let releases: Release[];
-  try {
-    releases = JSON.parse(Buffer.from(listing).toString("utf8")) as Release[];
-    if (!Array.isArray(releases)) throw new Error("not a list");
-  } catch {
-    throw new DataUpdateError("The release list is not valid JSON.");
-  }
-  const latest = latestDataRelease(releases, options.version);
-  if (!latest)
-    throw new DataUpdateError(
-      options.version ? `No signed data release ${options.version} was found.` : "No signed data release was found.",
-    );
-
+  const latest = await findLatestRelease(releasesUrl, options.version, request);
   const bytes = await download(latest.bundleUrl, MAXIMUM_BUNDLE_BYTES, `data bundle ${latest.version}`, request);
   const signature = Buffer.from(
     await download(latest.signatureUrl, MAXIMUM_SIGNATURE_BYTES, `the signature of ${latest.version}`, request),
   ).toString("utf8");
+  const verified = verifyRelease(latest, bytes, signature, options);
+  return applyUpdate(
+    {
+      before,
+      bytes,
+      signature,
+      bundle: verified.bundle,
+      signer: verified.signer,
+      rules: await ruleChanges(before, verified.bundle.files),
+      cache,
+    },
+    options,
+  );
+}
 
-  let verified: VerifiedDataBundle;
-  try {
-    verified = verifyDataBundle(bytes, signature, options);
-  } catch (error) {
-    if (error instanceof DataBundleError)
-      throw new DataUpdateError(`Refusing data bundle ${latest.version}: ${error.message}`);
-    throw error;
-  }
-  const { bundle, signer } = verified;
-  if (bundle.manifest.version !== latest.version) {
-    throw new DataUpdateError(
-      `Refusing data bundle ${latest.version}: the signed bundle says it is version ${bundle.manifest.version}.`,
-    );
-  }
-
+/** Decides what the verified bundle changes on disk, and reports it. Nothing is written when it is already current. */
+async function applyUpdate(pending: PendingUpdate, options: DataUpdateOptions): Promise<DataUpdateResult> {
+  const { before, bytes, signature, bundle, signer, rules, cache } = pending;
   const current = before.info;
-  const rulesBefore = rulesByRegistry(
-    Object.fromEntries(
-      await Promise.all(
-        Object.keys(bundle.files).map(async (path) => [path, (await before.read(path)) as Record<string, unknown>]),
-      ),
-    ),
-  );
-  const rules = Object.fromEntries(
-    Object.entries(rulesByRegistry(bundle.files)).map(([name, after]) => [
-      name,
-      { before: rulesBefore[name] ?? null, after },
-    ]),
-  );
-  const describe = (info: { source: string; version: string }) => ({ source: info.source, version: info.version });
+  const version = bundle.manifest.version;
+  const directory = cachedBundleDirectory(cache, version);
 
   if (current.source === "cache" && current.contentDigest === bundle.manifest.contentDigest) {
-    return {
-      schemaVersion: DATA_UPDATE_SCHEMA_VERSION,
-      status: "up-to-date",
-      from: describe(current),
-      to: describe(current),
+    return upToDateResult(current, rules, cache, {
       createdAt: current.createdAt,
       contentDigest: current.contentDigest,
       signer: current.signer,
-      rules,
-      cacheDirectory: cache,
-    };
+    });
   }
   if (options.version !== undefined) {
-    const target = cachedBundleDirectory(cache, bundle.manifest.version);
-    const staging = `${target}.${process.pid}.new`;
-    await rm(staging, { recursive: true, force: true });
-    await mkdir(staging, { recursive: true });
-    await writeFile(join(staging, BUNDLE_FILE), bytes);
-    await writeFile(join(staging, SIGNATURE_FILE), signature);
-    await rm(target, { recursive: true, force: true });
-    await rename(staging, target);
+    await stageBundle(directory, bytes, signature);
     return {
       schemaVersion: DATA_UPDATE_SCHEMA_VERSION,
       status: "downloaded",
-      from: describe(current),
-      to: { source: "pinned", version: bundle.manifest.version },
+      from: describeSource(current),
+      to: { source: "pinned", version },
       createdAt: bundle.manifest.createdAt,
       contentDigest: bundle.manifest.contentDigest,
       signer,
@@ -270,48 +358,22 @@ export async function updateData(options: DataUpdateOptions = {}): Promise<DataU
       cacheDirectory: cache,
     };
   }
+  // The installed release already carries data at least this new, and a download that is not newer is never used.
   if (current.source === "bundled" && bundle.manifest.createdAt.slice(0, 10) <= current.reviewedThrough) {
-    // The installed release already carries data at least this new, and a download that is not newer is never used.
-    return {
-      schemaVersion: DATA_UPDATE_SCHEMA_VERSION,
-      status: "up-to-date",
-      from: describe(current),
-      to: describe(current),
-      createdAt: null,
-      contentDigest: null,
-      signer: null,
-      rules,
-      cacheDirectory: cache,
-    };
+    return upToDateResult(current, rules, cache, { createdAt: null, contentDigest: null, signer: null });
   }
-  if (
-    current.source === "cache" &&
-    current.createdAt &&
-    bundle.manifest.createdAt < current.createdAt &&
-    !options.allowDowngrade
-  ) {
-    throw new DataUpdateError(
-      `Refusing data bundle ${bundle.manifest.version}: it is older than the active data ${current.version}. A replayed older bundle would roll the rules back.`,
-    );
-  }
+  assertNotRollback(current, bundle.manifest, options.allowDowngrade);
 
-  const directory = cachedBundleDirectory(cache, bundle.manifest.version);
-  const staging = `${directory}.${process.pid}.new`;
-  await rm(staging, { recursive: true, force: true });
-  await mkdir(staging, { recursive: true });
-  await writeFile(join(staging, BUNDLE_FILE), bytes);
-  await writeFile(join(staging, SIGNATURE_FILE), signature);
-  await rm(directory, { recursive: true, force: true });
-  await rename(staging, directory);
-  await writeAtomically(join(cache, "data", ACTIVE_FILE), `${JSON.stringify({ version: bundle.manifest.version })}\n`);
-  await prune(cache, bundle.manifest.version);
+  await stageBundle(directory, bytes, signature);
+  await writeAtomically(join(cache, "data", ACTIVE_FILE), `${JSON.stringify({ version })}\n`);
+  await prune(cache, version);
 
   const after = await resolveActiveData(options);
   return {
     schemaVersion: DATA_UPDATE_SCHEMA_VERSION,
     status: "updated",
-    from: describe(current),
-    to: describe(after.info),
+    from: describeSource(current),
+    to: describeSource(after.info),
     createdAt: after.info.createdAt,
     contentDigest: after.info.contentDigest,
     signer: after.info.signer ?? signer,

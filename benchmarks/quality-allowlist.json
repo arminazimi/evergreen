@@ -22,10 +22,10 @@
     {
       "file": "src/action.ts",
       "function": "main",
-      "lines": 176,
+      "lines": 83,
       "owner": "#2049",
       "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+      "reason": "Measured 2026-11-05. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
       "file": "src/baseline.ts",
@@ -36,25 +36,9 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/cle-ingest.ts",
-      "function": "clePackages",
-      "lines": 54,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/commands/check-snippet.ts",
       "function": "run",
       "lines": 52,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/config.ts",
-      "function": "validateConfig",
-      "lines": 80,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -71,14 +55,6 @@
       "file": "src/data-source.ts",
       "function": "resolveActiveData",
       "lines": 67,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/data-update.ts",
-      "function": "updateData",
-      "lines": 144,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -428,54 +404,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/shell/parse-powershell.ts",
-      "function": "parsePowerShell",
-      "lines": 150,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/shell/parse-workflow.ts",
-      "function": "parseWorkflow",
-      "lines": 72,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/swift/index.ts",
-      "function": "SwiftDetector.analyze",
-      "lines": 124,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-package-swift.ts",
-      "function": "blankStringsAndLineComments",
-      "lines": 99,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-package-swift.ts",
-      "function": "stripBlockComments",
-      "lines": 119,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-xcode-project.ts",
-      "function": "projectObjects",
-      "lines": 51,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/detectors/terraform/index.ts",
       "function": "TerraformDetector.analyze",
       "lines": 235,
@@ -614,7 +542,7 @@
     {
       "file": "src/fix/github-actions.ts",
       "function": "plan",
-      "lines": 56,
+      "lines": 55,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -821,70 +749,6 @@
     }
   ],
   "complexity": [
-    {
-      "file": "src/action-commands.ts",
-      "function": "parseCommentCommand",
-      "complexity": 16,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/action.ts",
-      "function": "main",
-      "complexity": 94,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/check-dependency.ts",
-      "function": "checkAgainst",
-      "complexity": 16,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/cle-ingest.ts",
-      "function": "clePackages > walkNodeModules",
-      "complexity": 16,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/cle-ingest.ts",
-      "function": "parseCleDocument",
-      "complexity": 28,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/config.ts",
-      "function": "validateConfig",
-      "complexity": 38,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/data-bundle.ts",
-      "function": "dataBundleShapeProblems",
-      "complexity": 27,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/data-update.ts",
-      "function": "updateData",
-      "complexity": 26,
-      "owner": "#2272",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
     {
       "file": "src/detectors/android/gradle-scan.ts",
       "function": "maskGradleSource",
@@ -1282,62 +1146,6 @@
       "function": "parseTf",
       "complexity": 19,
       "owner": "#2261",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/shell/parse-powershell.ts",
-      "function": "parsePowerShell",
-      "complexity": 71,
-      "owner": "#2262",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/shell/parse-workflow.ts",
-      "function": "parseWorkflow",
-      "complexity": 17,
-      "owner": "#2262",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/swift/index.ts",
-      "function": "SwiftDetector.analyze",
-      "complexity": 34,
-      "owner": "#2262",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-package-swift.ts",
-      "function": "blankStringsAndLineComments",
-      "complexity": 26,
-      "owner": "#2262",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-package-swift.ts",
-      "function": "packageFromCall",
-      "complexity": 23,
-      "owner": "#2262",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-package-swift.ts",
-      "function": "stripBlockComments",
-      "complexity": 32,
-      "owner": "#2262",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/swift/parse-xcode-project.ts",
-      "function": "projectObjects",
-      "complexity": 18,
-      "owner": "#2262",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

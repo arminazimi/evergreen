@@ -238,3 +238,22 @@ Refused, with the reason in `fix --json`:
 - a manifest that is not valid YAML, does not end with a newline, is larger than Evergreen reads, or has more documents than Evergreen rewrites.
 
 The `examples/codemods/k8s-ingress-v1` directory contains a before and after pair.
+
+## GitHub Actions workflow commands
+
+The `workflow-commands` fixer migrates deprecated stdout commands in workflow `run:` steps and composite `action.yml` / `action.yaml` steps:
+
+| Command | Environment file |
+| --- | --- |
+| `::set-output name=N::V` | `echo "N=V" >> "$GITHUB_OUTPUT"` |
+| `::save-state name=N::V` | `echo "N=V" >> "$GITHUB_STATE"` |
+| `::set-env name=N::V` | `echo "N=V" >> "$GITHUB_ENV"` |
+| `::add-path::P` | `echo "P" >> "$GITHUB_PATH"` |
+
+Only standalone single-line `echo` statements are rewritten. Double quotes, single quotes, and unquoted literal arguments are accepted; single quotes stay single quotes so literal dollar signs keep their meaning. YAML comments and surrounding formatting are preserved.
+
+The effective shell must be exactly `bash` or `sh`. Step `shell:` overrides job `defaults.run.shell`, which overrides workflow defaults. An Ubuntu or macOS hosted runner without a shell setting uses bash; Windows, matrix, and self-hosted runners need an explicit supported shell. PowerShell, cmd, and custom shell templates remain manual.
+
+Refusals explain unsafe values or syntax: `%0A`, `%0D`, `%25` (case-insensitive), literal newlines, embedded quotes or backslashes, command substitution, GitHub expressions, echo options, extra shell commands or redirections, paths that could become echo options, heredocs, continuations, and folded or multiline YAML scalars. Multiline values need environment-file delimiter syntax and must be migrated manually. Simple shell variable expansion in double quotes is preserved; check that the runtime value is a single line before using the patch. No workflow or repository code is executed by detection or patch planning.
+
+See the [before and after example](../examples/codemods/workflow-commands/). The rules cite GitHub's [set-output/save-state deprecation](https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/) and [set-env/add-path removal](https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/).

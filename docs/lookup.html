@@ -164,7 +164,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 739 rules and makes no network requests after it loads.
+        This page embeds 743 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -180,7 +180,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 739 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 743 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -3077,6 +3077,76 @@ h1 {
       {
         "title": "Deprecation notice for artifact actions v3",
         "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+      }
+    ]
+  },
+  {
+    "id": "github-actions.workflow-command.add-path",
+    "title": "Removed GitHub Actions ::add-path command",
+    "summary": "GitHub removed the ::add-path workflow command. Append to the GITHUB_PATH environment file instead.",
+    "event": "removed",
+    "severity": "high",
+    "ecosystem": "github-actions",
+    "purl": "pkg:generic/github-actions/add-path",
+    "vers": "vers:semver/*",
+    "deadline": "2020-11-16",
+    "replacement": "$GITHUB_PATH",
+    "sources": [
+      {
+        "title": "GitHub Actions: Removing set-env and add-path commands on November 16",
+        "url": "https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/"
+      }
+    ]
+  },
+  {
+    "id": "github-actions.workflow-command.save-state",
+    "title": "Deprecated GitHub Actions ::save-state command",
+    "summary": "GitHub deprecated the ::save-state workflow command. Append to the GITHUB_STATE environment file instead.",
+    "event": "deprecated",
+    "severity": "medium",
+    "ecosystem": "github-actions",
+    "purl": "pkg:generic/github-actions/save-state",
+    "vers": "vers:semver/*",
+    "replacement": "$GITHUB_STATE",
+    "sources": [
+      {
+        "title": "GitHub Actions: Deprecating save-state and set-output commands",
+        "url": "https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    ]
+  },
+  {
+    "id": "github-actions.workflow-command.set-env",
+    "title": "Removed GitHub Actions ::set-env command",
+    "summary": "GitHub removed the ::set-env workflow command. Append to the GITHUB_ENV environment file instead.",
+    "event": "removed",
+    "severity": "high",
+    "ecosystem": "github-actions",
+    "purl": "pkg:generic/github-actions/set-env",
+    "vers": "vers:semver/*",
+    "deadline": "2020-11-16",
+    "replacement": "$GITHUB_ENV",
+    "sources": [
+      {
+        "title": "GitHub Actions: Removing set-env and add-path commands on November 16",
+        "url": "https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/"
+      }
+    ]
+  },
+  {
+    "id": "github-actions.workflow-command.set-output",
+    "title": "Deprecated GitHub Actions ::set-output command",
+    "summary": "GitHub deprecated the ::set-output workflow command. Append to the GITHUB_OUTPUT environment file instead.",
+    "event": "deprecated",
+    "severity": "medium",
+    "ecosystem": "github-actions",
+    "purl": "pkg:generic/github-actions/set-output",
+    "vers": "vers:semver/*",
+    "replacement": "$GITHUB_OUTPUT",
+    "sources": [
+      {
+        "title": "GitHub Actions: Deprecating save-state and set-output commands",
+        "url": "https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
       }
     ]
   },
