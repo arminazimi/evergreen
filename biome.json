@@ -20,6 +20,8 @@
       "!tests/fixtures/**",
       "!tests/gitlab/fixtures/**",
       "!benchmarks/public-repositories/**",
+      "!benchmarks/comparison/endoflife-date.json",
+      "!benchmarks/comparison/endoflife-date.snapshot.json",
       "!dist/**",
       "!plugins/**"
     ]

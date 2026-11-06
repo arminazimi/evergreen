@@ -1,0 +1,4324 @@
+{
+  "schemaVersion": "evergreen.comparison.endoflife-date.snapshot.v1",
+  "retrievedAt": "2026-11-06",
+  "source": {
+    "homepage": "https://endoflife.date",
+    "catalog": "https://endoflife.date/api/all.json",
+    "cycles": "https://endoflife.date/api/{product}.json",
+    "license": "MIT",
+    "licenseUrl": "https://github.com/endoflife-date/endoflife.date/blob/master/LICENSE",
+    "note": "A projection of the public API: cycle, eol, and support are kept; every other field is dropped."
+  },
+  "catalog": [
+    "adonisjs",
+    "akeneo-pim",
+    "alibaba-ack",
+    "alibaba-dragonwell",
+    "almalinux",
+    "alpine-linux",
+    "amazon-aurora-mysql",
+    "amazon-aurora-postgresql",
+    "amazon-cdk",
+    "amazon-corretto",
+    "amazon-documentdb",
+    "amazon-eks",
+    "amazon-elasticache-redis",
+    "amazon-elasticsearch",
+    "amazon-glue",
+    "amazon-linux",
+    "amazon-mq-activemq",
+    "amazon-mq-rabbitmq",
+    "amazon-msk",
+    "amazon-neptune",
+    "amazon-opensearch",
+    "amazon-rds-mariadb",
+    "amazon-rds-mysql",
+    "amazon-rds-postgresql",
+    "android",
+    "angular",
+    "angularjs",
+    "ansible",
+    "ansible-core",
+    "ant",
+    "antix",
+    "apache-activemq",
+    "apache-airflow",
+    "apache-apisix",
+    "apache-artemis",
+    "apache-camel",
+    "apache-cassandra",
+    "apache-celeborn",
+    "apache-couchdb",
+    "apache-flink",
+    "apache-groovy",
+    "apache-hadoop",
+    "apache-hop",
+    "apache-http-server",
+    "apache-kafka",
+    "apache-lucene",
+    "apache-maven",
+    "apache-nifi",
+    "apache-pulsar",
+    "apache-spark",
+    "apache-struts",
+    "apache-subversion",
+    "api-platform",
+    "apple-watch",
+    "arangodb",
+    "argo-cd",
+    "argo-workflows",
+    "artifactory",
+    "authentik",
+    "aws-lambda",
+    "azul-zulu",
+    "azure-database-for-mysql",
+    "azure-database-for-postgresql",
+    "azure-devops-server",
+    "azure-kubernetes-service",
+    "backdrop",
+    "bamboo",
+    "bazel",
+    "beats",
+    "behat",
+    "bellsoft-liberica",
+    "big-ip",
+    "bigbluebutton",
+    "bind-9",
+    "bitbucket",
+    "bitcoin-core",
+    "blender",
+    "bootstrap",
+    "boundary",
+    "bun",
+    "cachet",
+    "caddy",
+    "cakephp",
+    "calico",
+    "centos",
+    "centos-stream",
+    "centreon",
+    "ceph",
+    "cert-manager",
+    "cfengine",
+    "checkmk",
+    "chef-infra-client",
+    "chef-infra-server",
+    "chef-inspec",
+    "chef-supermarket",
+    "chef-workstation",
+    "chrome",
+    "chromecast",
+    "cilium",
+    "cisco-ios-xe",
+    "citrix-vad",
+    "ckeditor",
+    "clamav",
+    "claude",
+    "clear-linux",
+    "clickhouse",
+    "cloud-sql-auth-proxy",
+    "cnspec",
+    "cockroachdb",
+    "coder",
+    "coldfusion",
+    "commvault",
+    "composer",
+    "concrete-cms",
+    "confluence",
+    "consul",
+    "containerd",
+    "contao",
+    "contour",
+    "controlm",
+    "cortex-xdr",
+    "cos",
+    "couchbase-server",
+    "craft-cms",
+    "dapr",
+    "dbt-core",
+    "dce",
+    "debian",
+    "deno",
+    "dependency-track",
+    "devuan",
+    "discourse",
+    "django",
+    "docker-engine",
+    "dotnet",
+    "dotnetfx",
+    "dovecot",
+    "dropwizard",
+    "drupal",
+    "drush",
+    "duckdb",
+    "eclipse-jetty",
+    "eclipse-temurin",
+    "elasticsearch",
+    "electron",
+    "elixir",
+    "emberjs",
+    "envoy",
+    "erlang",
+    "eslint",
+    "esxi",
+    "etcd",
+    "eurolinux",
+    "exim",
+    "express",
+    "external-dns",
+    "fairphone",
+    "fedora",
+    "ffmpeg",
+    "filemaker",
+    "firefox",
+    "fluent-bit",
+    "flux",
+    "font-awesome",
+    "foreman",
+    "forgejo",
+    "fortios",
+    "foundationdb",
+    "freebsd",
+    "freedesktop-sdk",
+    "gatekeeper",
+    "geoserver",
+    "gerrit",
+    "ghc",
+    "git",
+    "github-actions-runner-images",
+    "gitlab",
+    "gitlab-runner",
+    "gleam",
+    "go",
+    "goaccess",
+    "godot",
+    "google-kubernetes-engine",
+    "google-nexus",
+    "gorilla",
+    "graalvm-ce",
+    "gradle",
+    "grafana",
+    "grafana-loki",
+    "grails",
+    "graylog",
+    "greenlight",
+    "grumphp",
+    "grunt",
+    "gstreamer",
+    "guzzle",
+    "haproxy",
+    "haproxy-ingress",
+    "harbor",
+    "hashicorp-packer",
+    "hashicorp-vault",
+    "hbase",
+    "heroku-postgres",
+    "hibernate-orm",
+    "horizon",
+    "ibm-aix",
+    "ibm-db2",
+    "ibm-i",
+    "ibm-mq",
+    "ibm-semeru-runtime",
+    "icinga",
+    "icinga-web",
+    "idl",
+    "influxdb",
+    "intel-processors",
+    "internet-explorer",
+    "ionic",
+    "ios",
+    "ipad",
+    "ipados",
+    "iphone",
+    "isc-dhcp",
+    "istio",
+    "jaeger",
+    "jekyll",
+    "jenkins",
+    "jfrog-xray",
+    "jhipster",
+    "jira-service-management",
+    "jira-software",
+    "joomla",
+    "jquery",
+    "jquery-ui",
+    "jreleaser",
+    "jruby",
+    "julia",
+    "karpenter",
+    "kde-plasma",
+    "keda",
+    "keycloak",
+    "kiali",
+    "kibana",
+    "kindle",
+    "kirby",
+    "knative",
+    "kong-gateway",
+    "kotlin",
+    "kubernetes",
+    "kubernetes-csi-node-driver-registrar",
+    "kubernetes-node-feature-discovery",
+    "kuma",
+    "kyverno",
+    "laravel",
+    "ldap-account-manager",
+    "libreoffice",
+    "lineageos",
+    "linux",
+    "linuxmint",
+    "liquibase",
+    "liquibase-secure",
+    "livewire",
+    "log4j",
+    "logstash",
+    "longhorn",
+    "looker",
+    "lua",
+    "macos",
+    "mageia",
+    "magento",
+    "mandrel",
+    "mariadb",
+    "mastodon",
+    "matomo",
+    "mattermost",
+    "mautic",
+    "mediawiki",
+    "meilisearch",
+    "memcached",
+    "metabase",
+    "metallb",
+    "micronaut",
+    "microsoft-build-of-openjdk",
+    "mongodb",
+    "moodle",
+    "motorola-mobility",
+    "msexchange",
+    "mssqlserver",
+    "mulesoft-runtime",
+    "mxlinux",
+    "mysql",
+    "neo4j",
+    "neos",
+    "nestjs",
+    "netapp-ontap",
+    "netbackup-appliance-os",
+    "netbsd",
+    "nextcloud",
+    "nextjs",
+    "nexus",
+    "nginx",
+    "nix",
+    "nixos",
+    "nodejs",
+    "nokia",
+    "nomad",
+    "notepad-plus-plus",
+    "numpy",
+    "nura",
+    "nutanix-aos",
+    "nutanix-files",
+    "nutanix-prism",
+    "nuxt",
+    "nvidia",
+    "nvidia-gpu",
+    "nvm",
+    "office",
+    "oneplus",
+    "oniguruma",
+    "openai-api-models",
+    "openbao",
+    "openbsd",
+    "openjdk-builds-from-oracle",
+    "opensearch",
+    "openssl",
+    "opensuse",
+    "opentofu",
+    "openvpn",
+    "openwrt",
+    "openzfs",
+    "opnsense",
+    "oracle-apex",
+    "oracle-database",
+    "oracle-graalvm",
+    "oracle-jdk",
+    "oracle-linux",
+    "oracle-solaris",
+    "otobo",
+    "ovirt",
+    "pangp",
+    "panos",
+    "pci-dss",
+    "perl",
+    "pgadmin",
+    "phoenix-framework",
+    "photon",
+    "php",
+    "phpbb",
+    "phpmyadmin",
+    "pigeonhole",
+    "pixel",
+    "pixel-watch",
+    "plesk",
+    "plone",
+    "pnpm",
+    "podman",
+    "pop-os",
+    "postfix",
+    "postgresql",
+    "postmarketos",
+    "powershell",
+    "privatebin",
+    "proftpd",
+    "prometheus",
+    "protractor",
+    "proxmox-backup-server",
+    "proxmox-datacenter-manager",
+    "proxmox-mail-gateway",
+    "proxmox-ve",
+    "puppet",
+    "python",
+    "qt",
+    "quarkus-framework",
+    "quasar",
+    "rabbitmq",
+    "rails",
+    "rancher",
+    "raspberry-pi",
+    "react",
+    "react-native",
+    "red-hat-ansible-automation-platform",
+    "red-hat-openshift",
+    "redhat-build-of-openjdk",
+    "redhat-jboss-eap",
+    "redhat-satellite",
+    "redis",
+    "redmine",
+    "renovate",
+    "rhel",
+    "robo",
+    "rocket-chat",
+    "rocky-linux",
+    "ros",
+    "ros-2",
+    "roundcube",
+    "routeros",
+    "rtpengine",
+    "ruby",
+    "rust",
+    "salt",
+    "samba",
+    "samsung-galaxy-tab",
+    "samsung-galaxy-watch",
+    "samsung-mobile",
+    "sapmachine",
+    "scala",
+    "sharepoint",
+    "shopware",
+    "silverstripe",
+    "slackware",
+    "sles",
+    "sns-firmware",
+    "sns-hardware",
+    "sns-smc",
+    "solr",
+    "sonarqube-community",
+    "sonarqube-server",
+    "sony-xperia",
+    "sourcegraph",
+    "splunk",
+    "spring-boot",
+    "spring-cloud",
+    "spring-framework",
+    "spring-security",
+    "sqlite",
+    "squid",
+    "statamic",
+    "steamos",
+    "strapi",
+    "surface",
+    "suse-linux-micro",
+    "suse-manager",
+    "svelte",
+    "sylius",
+    "symfony",
+    "tails",
+    "tailwind-css",
+    "tarantool",
+    "tarteaucitron",
+    "telegraf",
+    "teleport",
+    "terraform",
+    "thumbor",
+    "tls",
+    "tomcat",
+    "traefik",
+    "truenas",
+    "tvos",
+    "twig",
+    "typo3",
+    "ubuntu",
+    "umbraco",
+    "unity",
+    "unrealircd",
+    "valkey",
+    "vcenter",
+    "veeam-backup-and-replication",
+    "veeam-backup-for-microsoft-365",
+    "veeam-one",
+    "vinyl-cache",
+    "virtualbox",
+    "visionos",
+    "visual-cobol",
+    "visual-studio",
+    "vitess",
+    "vmware-cloud-foundation",
+    "vmware-harbor-registry",
+    "vmware-srm",
+    "vue",
+    "vuetify",
+    "wagtail",
+    "watchos",
+    "weakforced",
+    "weechat",
+    "windows",
+    "windows-embedded",
+    "windows-nano-server",
+    "windows-powershell",
+    "windows-server",
+    "windows-server-core",
+    "wireshark",
+    "wordpress",
+    "xcp-ng",
+    "yarn",
+    "yocto",
+    "youtrack",
+    "zabbix",
+    "zentyal",
+    "zerto",
+    "zookeeper"
+  ],
+  "products": {
+    "alpine-linux": [
+      {
+        "cycle": "2.1",
+        "eol": "2012-11-01"
+      },
+      {
+        "cycle": "2.2",
+        "eol": "2013-05-01"
+      },
+      {
+        "cycle": "2.3",
+        "eol": "2013-11-01"
+      },
+      {
+        "cycle": "2.4",
+        "eol": "2014-05-01"
+      },
+      {
+        "cycle": "2.5",
+        "eol": "2014-11-01"
+      },
+      {
+        "cycle": "2.6",
+        "eol": "2015-05-01"
+      },
+      {
+        "cycle": "2.7",
+        "eol": "2015-11-01"
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2016-05-01"
+      },
+      {
+        "cycle": "3.1",
+        "eol": "2016-11-01"
+      },
+      {
+        "cycle": "3.10",
+        "eol": "2021-05-01"
+      },
+      {
+        "cycle": "3.11",
+        "eol": "2021-11-01"
+      },
+      {
+        "cycle": "3.12",
+        "eol": "2022-05-01"
+      },
+      {
+        "cycle": "3.13",
+        "eol": "2022-11-01"
+      },
+      {
+        "cycle": "3.14",
+        "eol": "2023-05-01"
+      },
+      {
+        "cycle": "3.15",
+        "eol": "2023-11-01"
+      },
+      {
+        "cycle": "3.16",
+        "eol": "2024-05-23"
+      },
+      {
+        "cycle": "3.17",
+        "eol": "2024-11-22"
+      },
+      {
+        "cycle": "3.18",
+        "eol": "2025-05-09"
+      },
+      {
+        "cycle": "3.19",
+        "eol": "2025-11-01"
+      },
+      {
+        "cycle": "3.2",
+        "eol": "2017-05-01"
+      },
+      {
+        "cycle": "3.20",
+        "eol": "2026-04-01"
+      },
+      {
+        "cycle": "3.21",
+        "eol": "2026-11-01"
+      },
+      {
+        "cycle": "3.22",
+        "eol": "2027-05-01"
+      },
+      {
+        "cycle": "3.23",
+        "eol": "2027-11-01"
+      },
+      {
+        "cycle": "3.24",
+        "eol": "2028-06-01"
+      },
+      {
+        "cycle": "3.3",
+        "eol": "2017-11-01"
+      },
+      {
+        "cycle": "3.4",
+        "eol": "2018-05-01"
+      },
+      {
+        "cycle": "3.5",
+        "eol": "2018-11-01"
+      },
+      {
+        "cycle": "3.6",
+        "eol": "2019-05-01"
+      },
+      {
+        "cycle": "3.7",
+        "eol": "2019-11-01"
+      },
+      {
+        "cycle": "3.8",
+        "eol": "2020-05-01"
+      },
+      {
+        "cycle": "3.9",
+        "eol": "2020-11-01"
+      }
+    ],
+    "amazon-aurora-postgresql": [
+      {
+        "cycle": "11",
+        "eol": "2024-02-29"
+      },
+      {
+        "cycle": "12",
+        "eol": "2025-02-28"
+      },
+      {
+        "cycle": "13",
+        "eol": "2026-02-28"
+      },
+      {
+        "cycle": "14",
+        "eol": "2027-02-28"
+      },
+      {
+        "cycle": "15",
+        "eol": "2028-02-29"
+      },
+      {
+        "cycle": "16",
+        "eol": "2029-02-28"
+      },
+      {
+        "cycle": "17",
+        "eol": "2030-02-28"
+      },
+      {
+        "cycle": "18",
+        "eol": "2031-02-28"
+      }
+    ],
+    "amazon-eks": [
+      {
+        "cycle": "1.18",
+        "eol": "2022-08-15"
+      },
+      {
+        "cycle": "1.19",
+        "eol": "2022-08-01"
+      },
+      {
+        "cycle": "1.20",
+        "eol": "2022-11-01"
+      },
+      {
+        "cycle": "1.21",
+        "eol": "2023-02-16"
+      },
+      {
+        "cycle": "1.22",
+        "eol": "2023-06-04"
+      },
+      {
+        "cycle": "1.23",
+        "eol": "2023-10-11"
+      },
+      {
+        "cycle": "1.24",
+        "eol": "2024-01-31"
+      },
+      {
+        "cycle": "1.25",
+        "eol": "2024-05-01"
+      },
+      {
+        "cycle": "1.26",
+        "eol": "2024-06-11"
+      },
+      {
+        "cycle": "1.27",
+        "eol": "2024-07-24"
+      },
+      {
+        "cycle": "1.28",
+        "eol": "2024-11-26"
+      },
+      {
+        "cycle": "1.29",
+        "eol": "2025-03-23"
+      },
+      {
+        "cycle": "1.30",
+        "eol": "2025-07-23"
+      },
+      {
+        "cycle": "1.31",
+        "eol": "2025-11-26"
+      },
+      {
+        "cycle": "1.32",
+        "eol": "2026-03-23"
+      },
+      {
+        "cycle": "1.33",
+        "eol": "2026-07-29"
+      },
+      {
+        "cycle": "1.34",
+        "eol": "2026-12-02"
+      },
+      {
+        "cycle": "1.35",
+        "eol": "2027-03-27"
+      },
+      {
+        "cycle": "1.36",
+        "eol": "2027-08-02"
+      },
+      {
+        "cycle": "1.37",
+        "eol": "2027-12-01"
+      }
+    ],
+    "amazon-elasticache-redis": [
+      {
+        "cycle": "4",
+        "eol": "2026-01-31"
+      },
+      {
+        "cycle": "5",
+        "eol": "2026-01-31"
+      },
+      {
+        "cycle": "6",
+        "eol": "2027-01-31"
+      },
+      {
+        "cycle": "7",
+        "eol": false
+      }
+    ],
+    "amazon-linux": [
+      {
+        "cycle": "2",
+        "eol": "2026-06-30",
+        "support": "2026-06-30"
+      },
+      {
+        "cycle": "2010.11",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2011.09",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2012.03",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2012.09",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2013.03",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2013.09",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2014.03",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2014.09",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2015.03",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2015.09",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2016.03",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2016.09",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2017.03",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2017.09",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2018.03",
+        "eol": "2023-12-31",
+        "support": "2020-12-31"
+      },
+      {
+        "cycle": "2023",
+        "eol": "2029-06-30",
+        "support": "2027-06-30"
+      }
+    ],
+    "amazon-rds-mysql": [
+      {
+        "cycle": "5.6",
+        "eol": "2022-03-01",
+        "support": "2022-03-01"
+      },
+      {
+        "cycle": "5.7",
+        "eol": "2024-02-29",
+        "support": "2024-02-29"
+      },
+      {
+        "cycle": "8.0",
+        "eol": "2026-07-31",
+        "support": "2026-07-31"
+      },
+      {
+        "cycle": "8.0.40",
+        "eol": "2026-07-31",
+        "support": "2026-05-31"
+      },
+      {
+        "cycle": "8.0.41",
+        "eol": "2026-07-31",
+        "support": "2026-05-31"
+      },
+      {
+        "cycle": "8.0.42",
+        "eol": "2026-07-31",
+        "support": "2026-07-31"
+      },
+      {
+        "cycle": "8.0.43",
+        "eol": "2026-07-31",
+        "support": "2026-07-31"
+      },
+      {
+        "cycle": "8.0.44",
+        "eol": "2026-07-31",
+        "support": "2026-07-31"
+      },
+      {
+        "cycle": "8.0.45",
+        "eol": "2026-07-31",
+        "support": "2026-07-31"
+      },
+      {
+        "cycle": "8.0.46",
+        "eol": "2026-07-31",
+        "support": "2026-07-31"
+      },
+      {
+        "cycle": "8.4",
+        "eol": "2029-07-31",
+        "support": "2029-07-31"
+      },
+      {
+        "cycle": "8.4.3",
+        "eol": "2029-07-31",
+        "support": "2026-05-31"
+      },
+      {
+        "cycle": "8.4.4",
+        "eol": "2029-07-31",
+        "support": "2026-05-31"
+      },
+      {
+        "cycle": "8.4.5",
+        "eol": "2029-07-31",
+        "support": "2026-09-30"
+      },
+      {
+        "cycle": "8.4.6",
+        "eol": "2029-07-31",
+        "support": "2026-09-30"
+      },
+      {
+        "cycle": "8.4.7",
+        "eol": "2029-07-31",
+        "support": "2026-11-30"
+      },
+      {
+        "cycle": "8.4.8",
+        "eol": "2029-07-31",
+        "support": "2027-02-03"
+      },
+      {
+        "cycle": "8.4.9",
+        "eol": "2029-07-31",
+        "support": "2027-05-08"
+      }
+    ],
+    "amazon-rds-postgresql": [
+      {
+        "cycle": "10",
+        "eol": "2023-04-30"
+      },
+      {
+        "cycle": "11",
+        "eol": "2024-02-29"
+      },
+      {
+        "cycle": "12",
+        "eol": "2025-02-28"
+      },
+      {
+        "cycle": "13",
+        "eol": "2026-02-28"
+      },
+      {
+        "cycle": "14",
+        "eol": "2027-02-28"
+      },
+      {
+        "cycle": "15",
+        "eol": "2028-02-29"
+      },
+      {
+        "cycle": "16",
+        "eol": "2029-02-28"
+      },
+      {
+        "cycle": "17",
+        "eol": "2030-02-28"
+      },
+      {
+        "cycle": "18",
+        "eol": "2031-02-28"
+      },
+      {
+        "cycle": "9.6",
+        "eol": "2022-04-30"
+      }
+    ],
+    "apache-couchdb": [
+      {
+        "cycle": "3.2",
+        "eol": "2024-09-20"
+      },
+      {
+        "cycle": "3.3",
+        "eol": "2025-05-05"
+      },
+      {
+        "cycle": "3.4",
+        "eol": false
+      },
+      {
+        "cycle": "3.5",
+        "eol": false
+      }
+    ],
+    "aws-lambda": [
+      {
+        "cycle": "dotnet10",
+        "eol": "2029-01-15",
+        "support": "2028-11-14"
+      },
+      {
+        "cycle": "dotnet5.0",
+        "eol": true,
+        "support": "2022-05-10"
+      },
+      {
+        "cycle": "dotnet6",
+        "eol": "2027-08-31",
+        "support": "2024-12-20"
+      },
+      {
+        "cycle": "dotnet7",
+        "eol": true,
+        "support": "2024-05-14"
+      },
+      {
+        "cycle": "dotnet8",
+        "eol": "2027-08-31",
+        "support": "2026-11-10"
+      },
+      {
+        "cycle": "dotnet9",
+        "eol": false,
+        "support": "2026-11-10"
+      },
+      {
+        "cycle": "dotnetcore1.0",
+        "eol": "2019-07-30",
+        "support": "2019-06-27"
+      },
+      {
+        "cycle": "dotnetcore2.0",
+        "eol": "2019-05-30",
+        "support": "2019-05-30"
+      },
+      {
+        "cycle": "dotnetcore2.1",
+        "eol": "2022-04-13",
+        "support": "2022-01-05"
+      },
+      {
+        "cycle": "dotnetcore3.1",
+        "eol": "2023-05-03",
+        "support": "2023-04-03"
+      },
+      {
+        "cycle": "go1.x",
+        "eol": "2027-08-31",
+        "support": "2024-01-08"
+      },
+      {
+        "cycle": "java11",
+        "eol": "2027-08-31",
+        "support": "2027-06-30"
+      },
+      {
+        "cycle": "java11.al2023",
+        "eol": "2029-08-31",
+        "support": "2029-06-30"
+      },
+      {
+        "cycle": "java17",
+        "eol": "2027-08-31",
+        "support": "2027-06-30"
+      },
+      {
+        "cycle": "java17.al2023",
+        "eol": "2029-08-31",
+        "support": "2029-06-30"
+      },
+      {
+        "cycle": "java21",
+        "eol": "2029-08-31",
+        "support": "2029-06-30"
+      },
+      {
+        "cycle": "java25",
+        "eol": "2029-08-31",
+        "support": "2029-06-30"
+      },
+      {
+        "cycle": "java8",
+        "eol": "2027-08-31",
+        "support": "2024-01-08"
+      },
+      {
+        "cycle": "java8.al2",
+        "eol": "2027-08-31",
+        "support": "2027-06-30"
+      },
+      {
+        "cycle": "java8.al2023",
+        "eol": "2029-08-31",
+        "support": "2029-06-30"
+      },
+      {
+        "cycle": "nodejs",
+        "eol": "2016-10-31",
+        "support": "2016-08-30"
+      },
+      {
+        "cycle": "nodejs10.x",
+        "eol": "2022-02-14",
+        "support": "2021-07-30"
+      },
+      {
+        "cycle": "nodejs12.x",
+        "eol": "2023-04-30",
+        "support": "2023-03-31"
+      },
+      {
+        "cycle": "nodejs14.x",
+        "eol": "2027-08-31",
+        "support": "2023-12-04"
+      },
+      {
+        "cycle": "nodejs16.x",
+        "eol": "2027-08-31",
+        "support": "2024-06-12"
+      },
+      {
+        "cycle": "nodejs18.x",
+        "eol": "2027-08-31",
+        "support": "2025-09-01"
+      },
+      {
+        "cycle": "nodejs20.x",
+        "eol": "2027-08-31",
+        "support": "2026-04-30"
+      },
+      {
+        "cycle": "nodejs22.x",
+        "eol": "2027-08-31",
+        "support": "2027-04-30"
+      },
+      {
+        "cycle": "nodejs24.x",
+        "eol": "2028-07-01",
+        "support": "2028-04-30"
+      },
+      {
+        "cycle": "nodejs4.3",
+        "eol": "2020-03-05",
+        "support": "2020-03-05"
+      },
+      {
+        "cycle": "nodejs4.3-edge",
+        "eol": "2020-04-30",
+        "support": "2020-03-05"
+      },
+      {
+        "cycle": "nodejs6.10",
+        "eol": "2019-08-12",
+        "support": "2019-08-12"
+      },
+      {
+        "cycle": "nodejs8.10",
+        "eol": "2020-03-06",
+        "support": "2020-03-06"
+      },
+      {
+        "cycle": "provided",
+        "eol": "2027-08-31",
+        "support": "2024-01-08"
+      },
+      {
+        "cycle": "provided.al2",
+        "eol": "2027-08-31",
+        "support": "2026-07-31"
+      },
+      {
+        "cycle": "provided.al2023",
+        "eol": "2029-08-31",
+        "support": "2029-06-30"
+      },
+      {
+        "cycle": "python2.7",
+        "eol": "2022-05-30",
+        "support": "2021-07-15"
+      },
+      {
+        "cycle": "python3.10",
+        "eol": "2027-08-31",
+        "support": "2026-10-31"
+      },
+      {
+        "cycle": "python3.11",
+        "eol": "2027-08-31",
+        "support": "2027-06-30"
+      },
+      {
+        "cycle": "python3.12",
+        "eol": "2029-01-10",
+        "support": "2028-10-31"
+      },
+      {
+        "cycle": "python3.13",
+        "eol": "2029-08-31",
+        "support": "2029-06-30"
+      },
+      {
+        "cycle": "python3.14",
+        "eol": "2029-08-31",
+        "support": "2029-06-30"
+      },
+      {
+        "cycle": "python3.6",
+        "eol": "2022-08-29",
+        "support": "2022-07-18"
+      },
+      {
+        "cycle": "python3.7",
+        "eol": "2027-08-31",
+        "support": "2023-12-04"
+      },
+      {
+        "cycle": "python3.8",
+        "eol": "2027-08-31",
+        "support": "2024-10-14"
+      },
+      {
+        "cycle": "python3.9",
+        "eol": "2027-08-31",
+        "support": "2025-12-15"
+      },
+      {
+        "cycle": "ruby2.5",
+        "eol": "2022-03-31",
+        "support": "2021-07-30"
+      },
+      {
+        "cycle": "ruby2.7",
+        "eol": "2027-08-31",
+        "support": "2023-12-07"
+      },
+      {
+        "cycle": "ruby3.2",
+        "eol": "2027-08-31",
+        "support": "2026-03-31"
+      },
+      {
+        "cycle": "ruby3.3",
+        "eol": "2027-08-31",
+        "support": "2027-03-31"
+      },
+      {
+        "cycle": "ruby3.4",
+        "eol": "2028-05-31",
+        "support": "2028-03-31"
+      },
+      {
+        "cycle": "ruby4.0",
+        "eol": "2029-05-31",
+        "support": "2029-03-31"
+      }
+    ],
+    "azure-database-for-mysql": [
+      {
+        "cycle": "5.7",
+        "eol": "2026-09-30"
+      },
+      {
+        "cycle": "8.0",
+        "eol": "2027-01-31"
+      },
+      {
+        "cycle": "8.4",
+        "eol": false
+      }
+    ],
+    "azure-database-for-postgresql": [
+      {
+        "cycle": "11",
+        "eol": "2026-07-31"
+      },
+      {
+        "cycle": "12",
+        "eol": "2026-07-31"
+      },
+      {
+        "cycle": "13",
+        "eol": "2026-07-31"
+      },
+      {
+        "cycle": "14",
+        "eol": "2027-01-31"
+      },
+      {
+        "cycle": "15",
+        "eol": "2027-11-11"
+      },
+      {
+        "cycle": "16",
+        "eol": "2028-11-09"
+      },
+      {
+        "cycle": "17",
+        "eol": "2029-11-08"
+      },
+      {
+        "cycle": "18",
+        "eol": "2030-11-14"
+      }
+    ],
+    "bun": [
+      {
+        "cycle": "1",
+        "eol": false
+      }
+    ],
+    "caddy": [
+      {
+        "cycle": "1",
+        "eol": "2020-07-01"
+      },
+      {
+        "cycle": "2",
+        "eol": false
+      }
+    ],
+    "centos": [
+      {
+        "cycle": "5",
+        "eol": "2017-03-31",
+        "support": "2014-01-31"
+      },
+      {
+        "cycle": "6",
+        "eol": "2020-11-30",
+        "support": "2017-05-10"
+      },
+      {
+        "cycle": "7",
+        "eol": "2024-06-30",
+        "support": "2020-08-06"
+      },
+      {
+        "cycle": "8",
+        "eol": "2021-12-31",
+        "support": "2021-12-31"
+      }
+    ],
+    "clickhouse": [
+      {
+        "cycle": "25.1",
+        "eol": "2025-04-22"
+      },
+      {
+        "cycle": "25.10",
+        "eol": "2026-01-30"
+      },
+      {
+        "cycle": "25.11",
+        "eol": "2026-02-27"
+      },
+      {
+        "cycle": "25.12",
+        "eol": "2026-03-26"
+      },
+      {
+        "cycle": "25.2",
+        "eol": "2025-05-22"
+      },
+      {
+        "cycle": "25.3",
+        "eol": "2026-03-20"
+      },
+      {
+        "cycle": "25.4",
+        "eol": "2025-07-29"
+      },
+      {
+        "cycle": "25.5",
+        "eol": "2025-08-29"
+      },
+      {
+        "cycle": "25.6",
+        "eol": "2025-09-27"
+      },
+      {
+        "cycle": "25.7",
+        "eol": "2025-11-01"
+      },
+      {
+        "cycle": "25.8",
+        "eol": "2026-08-29"
+      },
+      {
+        "cycle": "25.9",
+        "eol": "2025-12-18"
+      },
+      {
+        "cycle": "26.1",
+        "eol": "2026-05-05"
+      },
+      {
+        "cycle": "26.10",
+        "eol": false
+      },
+      {
+        "cycle": "26.2",
+        "eol": "2026-05-21"
+      },
+      {
+        "cycle": "26.3",
+        "eol": "2027-03-26"
+      },
+      {
+        "cycle": "26.4",
+        "eol": "2026-07-22"
+      },
+      {
+        "cycle": "26.5",
+        "eol": "2026-08-27"
+      },
+      {
+        "cycle": "26.6",
+        "eol": "2026-09-21"
+      },
+      {
+        "cycle": "26.7",
+        "eol": "2026-10-24"
+      },
+      {
+        "cycle": "26.8",
+        "eol": "2027-08-27"
+      },
+      {
+        "cycle": "26.9",
+        "eol": false
+      }
+    ],
+    "couchbase-server": [
+      {
+        "cycle": "1.8",
+        "eol": "2014-01-31"
+      },
+      {
+        "cycle": "2.0",
+        "eol": "2014-06-30"
+      },
+      {
+        "cycle": "2.1",
+        "eol": "2014-12-31"
+      },
+      {
+        "cycle": "2.2",
+        "eol": "2015-03-31"
+      },
+      {
+        "cycle": "2.5",
+        "eol": "2015-12-31"
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2016-04-30"
+      },
+      {
+        "cycle": "3.1",
+        "eol": "2017-02-28"
+      },
+      {
+        "cycle": "4.0",
+        "eol": "2017-04-30"
+      },
+      {
+        "cycle": "4.1",
+        "eol": "2018-04-30"
+      },
+      {
+        "cycle": "4.5",
+        "eol": "2018-04-30"
+      },
+      {
+        "cycle": "4.6",
+        "eol": "2018-08-31"
+      },
+      {
+        "cycle": "5.0",
+        "eol": "2018-08-31"
+      },
+      {
+        "cycle": "5.1",
+        "eol": "2019-01-31"
+      },
+      {
+        "cycle": "5.5",
+        "eol": "2020-07-31"
+      },
+      {
+        "cycle": "6.0",
+        "eol": "2020-07-31"
+      },
+      {
+        "cycle": "6.5",
+        "eol": "2021-02-28"
+      },
+      {
+        "cycle": "6.6",
+        "eol": "2023-01-31"
+      },
+      {
+        "cycle": "7.0",
+        "eol": "2023-01-31"
+      },
+      {
+        "cycle": "7.1",
+        "eol": "2024-01-31"
+      },
+      {
+        "cycle": "7.2",
+        "eol": "2026-07-31"
+      },
+      {
+        "cycle": "7.6",
+        "eol": "2027-03-31"
+      },
+      {
+        "cycle": "8.0",
+        "eol": "2028-10-31"
+      }
+    ],
+    "debian": [
+      {
+        "cycle": "1.1",
+        "eol": "1996-12-12",
+        "support": "1996-12-12"
+      },
+      {
+        "cycle": "1.2",
+        "eol": "1997-10-23",
+        "support": "1997-10-23"
+      },
+      {
+        "cycle": "1.3",
+        "eol": "1998-12-08",
+        "support": "1998-12-08"
+      },
+      {
+        "cycle": "10",
+        "eol": "2024-06-30",
+        "support": "2022-09-10"
+      },
+      {
+        "cycle": "11",
+        "eol": "2026-08-31",
+        "support": "2024-08-14"
+      },
+      {
+        "cycle": "12",
+        "eol": "2028-06-30",
+        "support": "2026-07-11"
+      },
+      {
+        "cycle": "13",
+        "eol": "2030-06-30",
+        "support": "2028-08-09"
+      },
+      {
+        "cycle": "2.0",
+        "eol": "1999-02-15",
+        "support": "1999-02-15"
+      },
+      {
+        "cycle": "2.1",
+        "eol": "2000-10-30",
+        "support": "2000-09-30"
+      },
+      {
+        "cycle": "2.2",
+        "eol": "2003-06-30",
+        "support": "2003-06-30"
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2006-06-30",
+        "support": "2006-06-30"
+      },
+      {
+        "cycle": "3.1",
+        "eol": "2008-03-31",
+        "support": "2008-03-31"
+      },
+      {
+        "cycle": "4",
+        "eol": "2010-02-15",
+        "support": "2010-02-15"
+      },
+      {
+        "cycle": "5",
+        "eol": "2012-02-06",
+        "support": "2012-02-06"
+      },
+      {
+        "cycle": "6",
+        "eol": "2016-02-29",
+        "support": "2014-05-31"
+      },
+      {
+        "cycle": "7",
+        "eol": "2018-05-31",
+        "support": "2016-04-25"
+      },
+      {
+        "cycle": "8",
+        "eol": "2020-06-30",
+        "support": "2018-06-17"
+      },
+      {
+        "cycle": "9",
+        "eol": "2022-07-01",
+        "support": "2020-07-18"
+      }
+    ],
+    "deno": [
+      {
+        "cycle": "1",
+        "eol": "2024-10-09"
+      },
+      {
+        "cycle": "2.0",
+        "eol": "2024-11-21"
+      },
+      {
+        "cycle": "2.1",
+        "eol": "2025-04-30"
+      },
+      {
+        "cycle": "2.2",
+        "eol": "2025-10-31"
+      },
+      {
+        "cycle": "2.3",
+        "eol": "2025-07-01"
+      },
+      {
+        "cycle": "2.4",
+        "eol": "2025-09-10"
+      },
+      {
+        "cycle": "2.5",
+        "eol": "2026-04-30"
+      },
+      {
+        "cycle": "2.6",
+        "eol": "2026-02-25"
+      },
+      {
+        "cycle": "2.7",
+        "eol": "2026-05-22"
+      },
+      {
+        "cycle": "2.8",
+        "eol": "2026-06-25"
+      },
+      {
+        "cycle": "2.9",
+        "eol": false
+      }
+    ],
+    "dotnet": [
+      {
+        "cycle": "1.0",
+        "eol": "2019-06-27"
+      },
+      {
+        "cycle": "1.1",
+        "eol": "2019-06-27"
+      },
+      {
+        "cycle": "10",
+        "eol": "2028-11-14"
+      },
+      {
+        "cycle": "2.0",
+        "eol": "2018-10-01"
+      },
+      {
+        "cycle": "2.1",
+        "eol": "2021-08-21"
+      },
+      {
+        "cycle": "2.2",
+        "eol": "2019-12-23"
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2020-03-03"
+      },
+      {
+        "cycle": "3.1",
+        "eol": "2022-12-13"
+      },
+      {
+        "cycle": "5",
+        "eol": "2022-05-10"
+      },
+      {
+        "cycle": "6",
+        "eol": "2024-11-12"
+      },
+      {
+        "cycle": "7",
+        "eol": "2024-05-14"
+      },
+      {
+        "cycle": "8",
+        "eol": "2026-11-10"
+      },
+      {
+        "cycle": "9",
+        "eol": "2026-11-10"
+      }
+    ],
+    "drupal": [
+      {
+        "cycle": "10.0",
+        "eol": "2023-12-15",
+        "support": "2023-06-21"
+      },
+      {
+        "cycle": "10.1",
+        "eol": "2024-06-20",
+        "support": "2023-12-15"
+      },
+      {
+        "cycle": "10.2",
+        "eol": "2024-12-17",
+        "support": "2024-06-20"
+      },
+      {
+        "cycle": "10.3",
+        "eol": "2025-06-16",
+        "support": "2024-08-02"
+      },
+      {
+        "cycle": "10.4",
+        "eol": "2025-12-10",
+        "support": "2025-06-18"
+      },
+      {
+        "cycle": "10.5",
+        "eol": "2026-07-01",
+        "support": "2025-12-17"
+      },
+      {
+        "cycle": "10.6",
+        "eol": "2026-12-16",
+        "support": "2026-06-16"
+      },
+      {
+        "cycle": "11.0",
+        "eol": "2025-06-16",
+        "support": "2024-12-16"
+      },
+      {
+        "cycle": "11.1",
+        "eol": "2025-12-10",
+        "support": "2025-06-18"
+      },
+      {
+        "cycle": "11.2",
+        "eol": "2026-07-01",
+        "support": "2025-12-10"
+      },
+      {
+        "cycle": "11.3",
+        "eol": "2026-12-16",
+        "support": "2026-06-16"
+      },
+      {
+        "cycle": "11.4",
+        "eol": "2027-07-07",
+        "support": "2027-01-01"
+      },
+      {
+        "cycle": "7",
+        "eol": "2025-01-05",
+        "support": "2015-11-19"
+      },
+      {
+        "cycle": "8.8",
+        "eol": "2020-12-01",
+        "support": "2020-06-03"
+      },
+      {
+        "cycle": "8.9",
+        "eol": "2021-11-02",
+        "support": "2020-12-01"
+      },
+      {
+        "cycle": "9.0",
+        "eol": "2021-06-16",
+        "support": "2020-12-02"
+      },
+      {
+        "cycle": "9.1",
+        "eol": "2021-12-08",
+        "support": "2021-06-16"
+      },
+      {
+        "cycle": "9.2",
+        "eol": "2022-06-15",
+        "support": "2021-12-08"
+      },
+      {
+        "cycle": "9.3",
+        "eol": "2022-12-14",
+        "support": "2022-06-15"
+      },
+      {
+        "cycle": "9.4",
+        "eol": "2023-06-21",
+        "support": "2022-12-14"
+      },
+      {
+        "cycle": "9.5",
+        "eol": "2023-11-01",
+        "support": "2023-06-21"
+      }
+    ],
+    "elixir": [
+      {
+        "cycle": "1.10",
+        "eol": "2023-06-19",
+        "support": "2020-10-06"
+      },
+      {
+        "cycle": "1.11",
+        "eol": "2023-12-22",
+        "support": "2021-05-19"
+      },
+      {
+        "cycle": "1.12",
+        "eol": "2024-06-12",
+        "support": "2021-12-03"
+      },
+      {
+        "cycle": "1.13",
+        "eol": "2024-12-19",
+        "support": "2022-09-01"
+      },
+      {
+        "cycle": "1.14",
+        "eol": "2025-10-16",
+        "support": "2023-06-19"
+      },
+      {
+        "cycle": "1.15",
+        "eol": "2026-06-03",
+        "support": "2023-12-22"
+      },
+      {
+        "cycle": "1.16",
+        "eol": false,
+        "support": "2024-06-12"
+      },
+      {
+        "cycle": "1.17",
+        "eol": false,
+        "support": "2024-12-19"
+      },
+      {
+        "cycle": "1.18",
+        "eol": false,
+        "support": "2025-10-16"
+      },
+      {
+        "cycle": "1.19",
+        "eol": false,
+        "support": "2026-06-03"
+      },
+      {
+        "cycle": "1.20",
+        "eol": false,
+        "support": true
+      },
+      {
+        "cycle": "1.4",
+        "eol": "2019-06-24",
+        "support": "2017-07-25"
+      },
+      {
+        "cycle": "1.5",
+        "eol": "2020-01-27",
+        "support": "2018-01-17"
+      },
+      {
+        "cycle": "1.6",
+        "eol": "2020-10-06",
+        "support": "2018-07-25"
+      },
+      {
+        "cycle": "1.7",
+        "eol": "2021-05-19",
+        "support": "2019-01-14"
+      },
+      {
+        "cycle": "1.8",
+        "eol": "2021-12-03",
+        "support": "2019-06-24"
+      },
+      {
+        "cycle": "1.9",
+        "eol": "2022-09-01",
+        "support": "2020-01-27"
+      }
+    ],
+    "erlang": [
+      {
+        "cycle": "17",
+        "eol": "2018-10-11",
+        "support": "2015-06-23"
+      },
+      {
+        "cycle": "18",
+        "eol": "2018-11-09",
+        "support": "2016-06-21"
+      },
+      {
+        "cycle": "19",
+        "eol": "2019-06-21",
+        "support": "2017-06-21"
+      },
+      {
+        "cycle": "20",
+        "eol": "2020-06-21",
+        "support": "2018-06-19"
+      },
+      {
+        "cycle": "21",
+        "eol": "2021-06-19",
+        "support": "2019-05-10"
+      },
+      {
+        "cycle": "22",
+        "eol": "2024-03-18",
+        "support": "2020-05-11"
+      },
+      {
+        "cycle": "23",
+        "eol": "2024-03-14",
+        "support": "2021-05-10"
+      },
+      {
+        "cycle": "24",
+        "eol": "2024-05-10",
+        "support": "2022-05-17"
+      },
+      {
+        "cycle": "25",
+        "eol": "2025-05-17",
+        "support": "2023-05-15"
+      },
+      {
+        "cycle": "26",
+        "eol": "2026-05-26",
+        "support": "2024-05-17"
+      },
+      {
+        "cycle": "27",
+        "eol": "2027-05-20",
+        "support": "2025-05-20"
+      },
+      {
+        "cycle": "28",
+        "eol": "2028-05-20",
+        "support": "2026-05-11"
+      },
+      {
+        "cycle": "29",
+        "eol": "2029-05-11",
+        "support": true
+      }
+    ],
+    "go": [
+      {
+        "cycle": "1.10",
+        "eol": "2019-02-25"
+      },
+      {
+        "cycle": "1.11",
+        "eol": "2019-09-03"
+      },
+      {
+        "cycle": "1.12",
+        "eol": "2020-02-25"
+      },
+      {
+        "cycle": "1.13",
+        "eol": "2020-08-11"
+      },
+      {
+        "cycle": "1.14",
+        "eol": "2021-02-16"
+      },
+      {
+        "cycle": "1.15",
+        "eol": "2021-08-16"
+      },
+      {
+        "cycle": "1.16",
+        "eol": "2022-03-15"
+      },
+      {
+        "cycle": "1.17",
+        "eol": "2022-08-02"
+      },
+      {
+        "cycle": "1.18",
+        "eol": "2023-02-01"
+      },
+      {
+        "cycle": "1.19",
+        "eol": "2023-09-06"
+      },
+      {
+        "cycle": "1.20",
+        "eol": "2024-02-06"
+      },
+      {
+        "cycle": "1.21",
+        "eol": "2024-08-13"
+      },
+      {
+        "cycle": "1.22",
+        "eol": "2025-02-11"
+      },
+      {
+        "cycle": "1.23",
+        "eol": "2025-08-12"
+      },
+      {
+        "cycle": "1.24",
+        "eol": "2026-02-10"
+      },
+      {
+        "cycle": "1.25",
+        "eol": "2026-08-19"
+      },
+      {
+        "cycle": "1.26",
+        "eol": false
+      },
+      {
+        "cycle": "1.27",
+        "eol": false
+      }
+    ],
+    "kubernetes": [
+      {
+        "cycle": "1.16",
+        "eol": "2020-08-04",
+        "support": false
+      },
+      {
+        "cycle": "1.17",
+        "eol": "2020-12-25",
+        "support": false
+      },
+      {
+        "cycle": "1.18",
+        "eol": "2021-06-18",
+        "support": "2021-04-28"
+      },
+      {
+        "cycle": "1.19",
+        "eol": "2021-10-28",
+        "support": "2021-08-28"
+      },
+      {
+        "cycle": "1.20",
+        "eol": "2022-02-28",
+        "support": "2021-12-28"
+      },
+      {
+        "cycle": "1.21",
+        "eol": "2022-06-28",
+        "support": "2022-04-28"
+      },
+      {
+        "cycle": "1.22",
+        "eol": "2022-10-28",
+        "support": "2022-08-28"
+      },
+      {
+        "cycle": "1.23",
+        "eol": "2023-02-28",
+        "support": "2022-12-28"
+      },
+      {
+        "cycle": "1.24",
+        "eol": "2023-07-28",
+        "support": "2023-05-28"
+      },
+      {
+        "cycle": "1.25",
+        "eol": "2023-10-27",
+        "support": "2023-08-27"
+      },
+      {
+        "cycle": "1.26",
+        "eol": "2024-02-28",
+        "support": "2023-12-28"
+      },
+      {
+        "cycle": "1.27",
+        "eol": "2024-06-28",
+        "support": "2024-04-28"
+      },
+      {
+        "cycle": "1.28",
+        "eol": "2024-10-28",
+        "support": "2024-08-28"
+      },
+      {
+        "cycle": "1.29",
+        "eol": "2025-02-28",
+        "support": "2024-12-28"
+      },
+      {
+        "cycle": "1.30",
+        "eol": "2025-07-15",
+        "support": "2025-04-28"
+      },
+      {
+        "cycle": "1.31",
+        "eol": "2025-11-11",
+        "support": "2025-08-28"
+      },
+      {
+        "cycle": "1.32",
+        "eol": "2026-02-28",
+        "support": "2025-12-28"
+      },
+      {
+        "cycle": "1.33",
+        "eol": "2026-06-28",
+        "support": "2026-04-28"
+      },
+      {
+        "cycle": "1.34",
+        "eol": "2026-10-27",
+        "support": "2026-08-27"
+      },
+      {
+        "cycle": "1.35",
+        "eol": "2027-02-28",
+        "support": "2026-12-28"
+      },
+      {
+        "cycle": "1.36",
+        "eol": "2027-06-28",
+        "support": "2027-04-28"
+      },
+      {
+        "cycle": "1.37",
+        "eol": "2027-10-28",
+        "support": "2027-08-28"
+      }
+    ],
+    "mariadb": [
+      {
+        "cycle": "10.0",
+        "eol": "2019-03-31"
+      },
+      {
+        "cycle": "10.1",
+        "eol": "2020-10-17"
+      },
+      {
+        "cycle": "10.10",
+        "eol": "2023-11-17"
+      },
+      {
+        "cycle": "10.11",
+        "eol": "2028-02-16"
+      },
+      {
+        "cycle": "10.2",
+        "eol": "2022-05-23"
+      },
+      {
+        "cycle": "10.3",
+        "eol": "2023-05-25"
+      },
+      {
+        "cycle": "10.4",
+        "eol": "2024-06-18"
+      },
+      {
+        "cycle": "10.5",
+        "eol": "2025-06-24"
+      },
+      {
+        "cycle": "10.6",
+        "eol": "2026-07-06"
+      },
+      {
+        "cycle": "10.7",
+        "eol": "2023-02-09"
+      },
+      {
+        "cycle": "10.8",
+        "eol": "2023-05-20"
+      },
+      {
+        "cycle": "10.9",
+        "eol": "2023-08-22"
+      },
+      {
+        "cycle": "11.0",
+        "eol": "2024-06-06"
+      },
+      {
+        "cycle": "11.1",
+        "eol": "2024-08-21"
+      },
+      {
+        "cycle": "11.2",
+        "eol": "2024-11-21"
+      },
+      {
+        "cycle": "11.3",
+        "eol": "2024-05-29"
+      },
+      {
+        "cycle": "11.4",
+        "eol": "2029-05-29"
+      },
+      {
+        "cycle": "11.5",
+        "eol": "2024-11-21"
+      },
+      {
+        "cycle": "11.6",
+        "eol": "2025-02-13"
+      },
+      {
+        "cycle": "11.7",
+        "eol": "2025-05-12"
+      },
+      {
+        "cycle": "11.8",
+        "eol": "2028-06-04"
+      },
+      {
+        "cycle": "12.0",
+        "eol": "2025-11-18"
+      },
+      {
+        "cycle": "12.1",
+        "eol": "2026-02-13"
+      },
+      {
+        "cycle": "12.2",
+        "eol": "2026-05-28"
+      },
+      {
+        "cycle": "12.3",
+        "eol": "2029-06-12"
+      },
+      {
+        "cycle": "13.0",
+        "eol": "2026-12-31"
+      },
+      {
+        "cycle": "5.1",
+        "eol": "2015-02-01"
+      },
+      {
+        "cycle": "5.2",
+        "eol": "2015-11-10"
+      },
+      {
+        "cycle": "5.3",
+        "eol": "2017-03-01"
+      },
+      {
+        "cycle": "5.5",
+        "eol": "2020-04-11"
+      }
+    ],
+    "mongodb": [
+      {
+        "cycle": "1.0",
+        "eol": "2010-08-31"
+      },
+      {
+        "cycle": "1.2",
+        "eol": "2011-06-30"
+      },
+      {
+        "cycle": "1.4",
+        "eol": "2012-09-30"
+      },
+      {
+        "cycle": "1.6",
+        "eol": "2012-02-28"
+      },
+      {
+        "cycle": "1.8",
+        "eol": "2012-09-30"
+      },
+      {
+        "cycle": "2.0",
+        "eol": "2013-03-31"
+      },
+      {
+        "cycle": "2.2",
+        "eol": "2014-02-28"
+      },
+      {
+        "cycle": "2.4",
+        "eol": "2013-03-31"
+      },
+      {
+        "cycle": "2.6",
+        "eol": "2016-10-31"
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2018-02-28"
+      },
+      {
+        "cycle": "3.2",
+        "eol": "2018-09-30"
+      },
+      {
+        "cycle": "3.4",
+        "eol": "2020-01-31"
+      },
+      {
+        "cycle": "3.6",
+        "eol": "2021-04-30"
+      },
+      {
+        "cycle": "4.0",
+        "eol": "2022-04-30"
+      },
+      {
+        "cycle": "4.2",
+        "eol": "2023-04-30"
+      },
+      {
+        "cycle": "4.4",
+        "eol": "2024-02-29"
+      },
+      {
+        "cycle": "5.0",
+        "eol": "2024-10-31"
+      },
+      {
+        "cycle": "5.1",
+        "eol": "2022-01-19"
+      },
+      {
+        "cycle": "5.2",
+        "eol": "2022-03-23"
+      },
+      {
+        "cycle": "5.3",
+        "eol": "2022-07-19"
+      },
+      {
+        "cycle": "6.0",
+        "eol": "2025-07-31"
+      },
+      {
+        "cycle": "6.1",
+        "eol": "2023-02-09"
+      },
+      {
+        "cycle": "6.2",
+        "eol": "2023-04-24"
+      },
+      {
+        "cycle": "6.3",
+        "eol": "2023-08-31"
+      },
+      {
+        "cycle": "7.0",
+        "eol": "2027-08-31"
+      },
+      {
+        "cycle": "7.1",
+        "eol": "2024-01-23"
+      },
+      {
+        "cycle": "7.2",
+        "eol": "2024-03-27"
+      },
+      {
+        "cycle": "7.3",
+        "eol": "2024-10-02"
+      },
+      {
+        "cycle": "8.0",
+        "eol": "2029-10-31"
+      },
+      {
+        "cycle": "8.1",
+        "eol": "2025-09-30"
+      },
+      {
+        "cycle": "8.2",
+        "eol": "2026-07-31"
+      },
+      {
+        "cycle": "8.3",
+        "eol": "2029-10-31"
+      },
+      {
+        "cycle": "9.0",
+        "eol": "2031-10-31"
+      }
+    ],
+    "mysql": [
+      {
+        "cycle": "26.10",
+        "eol": false,
+        "support": true
+      },
+      {
+        "cycle": "26.7",
+        "eol": "2026-10-20",
+        "support": "2026-10-20"
+      },
+      {
+        "cycle": "3.23",
+        "eol": "2006-12-31",
+        "support": "2006-07-31"
+      },
+      {
+        "cycle": "4.0",
+        "eol": "2008-09-30",
+        "support": "2006-09-30"
+      },
+      {
+        "cycle": "4.1",
+        "eol": "2009-12-31",
+        "support": "2006-12-31"
+      },
+      {
+        "cycle": "5.0",
+        "eol": "2011-12-31",
+        "support": "2011-12-31"
+      },
+      {
+        "cycle": "5.1",
+        "eol": "2013-12-31",
+        "support": "2013-12-31"
+      },
+      {
+        "cycle": "5.5",
+        "eol": "2018-12-31",
+        "support": "2015-12-31"
+      },
+      {
+        "cycle": "5.6",
+        "eol": "2021-02-28",
+        "support": "2018-02-28"
+      },
+      {
+        "cycle": "5.7",
+        "eol": "2023-10-31",
+        "support": "2020-10-31"
+      },
+      {
+        "cycle": "8.0",
+        "eol": "2026-04-30",
+        "support": "2025-04-30"
+      },
+      {
+        "cycle": "8.1",
+        "eol": "2023-10-25",
+        "support": "2023-10-25"
+      },
+      {
+        "cycle": "8.2",
+        "eol": "2024-01-16",
+        "support": "2024-01-16"
+      },
+      {
+        "cycle": "8.3",
+        "eol": "2024-04-30",
+        "support": "2024-04-30"
+      },
+      {
+        "cycle": "8.4",
+        "eol": "2032-04-30",
+        "support": "2029-04-30"
+      },
+      {
+        "cycle": "9.0",
+        "eol": "2024-10-15",
+        "support": "2024-10-15"
+      },
+      {
+        "cycle": "9.1",
+        "eol": "2025-01-21",
+        "support": "2025-01-21"
+      },
+      {
+        "cycle": "9.2",
+        "eol": "2025-04-15",
+        "support": "2025-04-15"
+      },
+      {
+        "cycle": "9.3",
+        "eol": "2025-07-22",
+        "support": "2025-07-22"
+      },
+      {
+        "cycle": "9.4",
+        "eol": "2025-10-21",
+        "support": "2025-10-21"
+      },
+      {
+        "cycle": "9.5",
+        "eol": "2026-01-20",
+        "support": "2026-01-20"
+      },
+      {
+        "cycle": "9.6",
+        "eol": "2026-04-21",
+        "support": "2026-04-21"
+      },
+      {
+        "cycle": "9.7",
+        "eol": "2034-04-30",
+        "support": "2031-04-30"
+      }
+    ],
+    "nginx": [
+      {
+        "cycle": "1.0",
+        "eol": "2012-04-23"
+      },
+      {
+        "cycle": "1.1",
+        "eol": "2012-05-15"
+      },
+      {
+        "cycle": "1.10",
+        "eol": "2017-04-12"
+      },
+      {
+        "cycle": "1.11",
+        "eol": "2017-04-25"
+      },
+      {
+        "cycle": "1.12",
+        "eol": "2018-04-17"
+      },
+      {
+        "cycle": "1.13",
+        "eol": "2018-06-05"
+      },
+      {
+        "cycle": "1.14",
+        "eol": "2019-04-23"
+      },
+      {
+        "cycle": "1.15",
+        "eol": "2019-05-21"
+      },
+      {
+        "cycle": "1.16",
+        "eol": "2020-04-20"
+      },
+      {
+        "cycle": "1.17",
+        "eol": "2020-05-26"
+      },
+      {
+        "cycle": "1.18",
+        "eol": "2021-04-20"
+      },
+      {
+        "cycle": "1.19",
+        "eol": "2021-05-25"
+      },
+      {
+        "cycle": "1.2",
+        "eol": "2013-04-24"
+      },
+      {
+        "cycle": "1.20",
+        "eol": "2022-05-24"
+      },
+      {
+        "cycle": "1.21",
+        "eol": "2022-06-21"
+      },
+      {
+        "cycle": "1.22",
+        "eol": "2023-04-11"
+      },
+      {
+        "cycle": "1.23",
+        "eol": "2023-05-23"
+      },
+      {
+        "cycle": "1.24",
+        "eol": "2024-04-23"
+      },
+      {
+        "cycle": "1.25",
+        "eol": "2024-05-29"
+      },
+      {
+        "cycle": "1.26",
+        "eol": "2025-04-23"
+      },
+      {
+        "cycle": "1.27",
+        "eol": "2025-06-24"
+      },
+      {
+        "cycle": "1.28",
+        "eol": "2026-04-14"
+      },
+      {
+        "cycle": "1.29",
+        "eol": "2026-05-13"
+      },
+      {
+        "cycle": "1.3",
+        "eol": "2013-05-07"
+      },
+      {
+        "cycle": "1.30",
+        "eol": false
+      },
+      {
+        "cycle": "1.31",
+        "eol": false
+      },
+      {
+        "cycle": "1.4",
+        "eol": "2014-04-24"
+      },
+      {
+        "cycle": "1.5",
+        "eol": "2014-04-24"
+      },
+      {
+        "cycle": "1.6",
+        "eol": "2015-04-21"
+      },
+      {
+        "cycle": "1.7",
+        "eol": "2015-04-28"
+      },
+      {
+        "cycle": "1.8",
+        "eol": "2016-04-26"
+      },
+      {
+        "cycle": "1.9",
+        "eol": "2016-05-24"
+      }
+    ],
+    "nodejs": [
+      {
+        "cycle": "1",
+        "eol": true,
+        "support": false
+      },
+      {
+        "cycle": "10",
+        "eol": "2021-04-30",
+        "support": "2020-05-19"
+      },
+      {
+        "cycle": "11",
+        "eol": "2019-06-30",
+        "support": "2019-04-01"
+      },
+      {
+        "cycle": "12",
+        "eol": "2022-04-30",
+        "support": "2020-10-20"
+      },
+      {
+        "cycle": "13",
+        "eol": "2020-06-01",
+        "support": "2020-04-01"
+      },
+      {
+        "cycle": "14",
+        "eol": "2023-04-30",
+        "support": "2021-10-19"
+      },
+      {
+        "cycle": "15",
+        "eol": "2021-06-01",
+        "support": "2021-04-01"
+      },
+      {
+        "cycle": "16",
+        "eol": "2023-09-11",
+        "support": "2022-10-18"
+      },
+      {
+        "cycle": "17",
+        "eol": "2022-06-01",
+        "support": "2022-04-01"
+      },
+      {
+        "cycle": "18",
+        "eol": "2025-04-30",
+        "support": "2023-10-18"
+      },
+      {
+        "cycle": "19",
+        "eol": "2023-06-01",
+        "support": "2023-04-01"
+      },
+      {
+        "cycle": "2",
+        "eol": true,
+        "support": false
+      },
+      {
+        "cycle": "20",
+        "eol": "2026-04-30",
+        "support": "2024-10-22"
+      },
+      {
+        "cycle": "21",
+        "eol": "2024-06-01",
+        "support": "2024-04-01"
+      },
+      {
+        "cycle": "22",
+        "eol": "2027-04-30",
+        "support": "2025-10-21"
+      },
+      {
+        "cycle": "23",
+        "eol": "2025-06-01",
+        "support": "2025-04-01"
+      },
+      {
+        "cycle": "24",
+        "eol": "2028-04-30",
+        "support": "2026-10-20"
+      },
+      {
+        "cycle": "25",
+        "eol": "2026-06-01",
+        "support": "2026-04-01"
+      },
+      {
+        "cycle": "26",
+        "eol": "2029-04-30",
+        "support": "2027-10-27"
+      },
+      {
+        "cycle": "3",
+        "eol": true,
+        "support": false
+      },
+      {
+        "cycle": "4",
+        "eol": "2018-04-30",
+        "support": "2017-04-01"
+      },
+      {
+        "cycle": "5",
+        "eol": "2016-06-30",
+        "support": "2016-06-30"
+      },
+      {
+        "cycle": "6",
+        "eol": "2019-04-30",
+        "support": "2018-04-30"
+      },
+      {
+        "cycle": "7",
+        "eol": "2017-06-30",
+        "support": "2017-06-30"
+      },
+      {
+        "cycle": "8",
+        "eol": "2019-12-31",
+        "support": "2019-01-01"
+      },
+      {
+        "cycle": "9",
+        "eol": "2018-06-30",
+        "support": "2018-06-30"
+      }
+    ],
+    "php": [
+      {
+        "cycle": "4.0",
+        "eol": "2001-06-23",
+        "support": "2001-06-23"
+      },
+      {
+        "cycle": "4.1",
+        "eol": "2002-03-12",
+        "support": "2002-03-12"
+      },
+      {
+        "cycle": "4.2",
+        "eol": "2002-09-06",
+        "support": "2002-09-06"
+      },
+      {
+        "cycle": "4.3",
+        "eol": "2005-03-31",
+        "support": "2005-03-31"
+      },
+      {
+        "cycle": "4.4",
+        "eol": "2008-08-07",
+        "support": "2007-12-31"
+      },
+      {
+        "cycle": "5.0",
+        "eol": "2005-09-05",
+        "support": "2005-09-05"
+      },
+      {
+        "cycle": "5.1",
+        "eol": "2006-08-24",
+        "support": "2006-08-24"
+      },
+      {
+        "cycle": "5.2",
+        "eol": "2011-01-06",
+        "support": "2008-11-02"
+      },
+      {
+        "cycle": "5.3",
+        "eol": "2014-08-14",
+        "support": "2011-06-30"
+      },
+      {
+        "cycle": "5.4",
+        "eol": "2015-09-14",
+        "support": "2014-09-14"
+      },
+      {
+        "cycle": "5.5",
+        "eol": "2016-07-21",
+        "support": "2015-07-10"
+      },
+      {
+        "cycle": "5.6",
+        "eol": "2018-12-31",
+        "support": "2017-01-19"
+      },
+      {
+        "cycle": "7.0",
+        "eol": "2019-01-10",
+        "support": "2018-01-04"
+      },
+      {
+        "cycle": "7.1",
+        "eol": "2019-12-01",
+        "support": "2018-12-01"
+      },
+      {
+        "cycle": "7.2",
+        "eol": "2020-11-30",
+        "support": "2019-11-30"
+      },
+      {
+        "cycle": "7.3",
+        "eol": "2021-12-06",
+        "support": "2020-12-06"
+      },
+      {
+        "cycle": "7.4",
+        "eol": "2022-11-28",
+        "support": "2021-11-28"
+      },
+      {
+        "cycle": "8.0",
+        "eol": "2023-11-26",
+        "support": "2022-11-26"
+      },
+      {
+        "cycle": "8.1",
+        "eol": "2025-12-31",
+        "support": "2023-11-25"
+      },
+      {
+        "cycle": "8.2",
+        "eol": "2026-12-31",
+        "support": "2024-12-31"
+      },
+      {
+        "cycle": "8.3",
+        "eol": "2027-12-31",
+        "support": "2025-12-31"
+      },
+      {
+        "cycle": "8.4",
+        "eol": "2028-12-31",
+        "support": "2026-12-31"
+      },
+      {
+        "cycle": "8.5",
+        "eol": "2029-12-31",
+        "support": "2027-12-31"
+      }
+    ],
+    "phpmyadmin": [
+      {
+        "cycle": "4.0",
+        "eol": "2017-04-01",
+        "support": "2013-12-31"
+      },
+      {
+        "cycle": "4.1",
+        "eol": "2015-01-01",
+        "support": "2015-01-01"
+      },
+      {
+        "cycle": "4.2",
+        "eol": "2015-07-01",
+        "support": "2015-07-01"
+      },
+      {
+        "cycle": "4.3",
+        "eol": "2015-10-01",
+        "support": "2015-10-01"
+      },
+      {
+        "cycle": "4.4",
+        "eol": "2016-10-01",
+        "support": "2016-10-01"
+      },
+      {
+        "cycle": "4.5",
+        "eol": "2016-04-01",
+        "support": "2016-04-01"
+      },
+      {
+        "cycle": "4.6",
+        "eol": "2017-04-01",
+        "support": "2017-04-01"
+      },
+      {
+        "cycle": "4.7",
+        "eol": "2018-04-07",
+        "support": "2018-04-07"
+      },
+      {
+        "cycle": "4.8",
+        "eol": "2019-06-04",
+        "support": "2019-06-04"
+      },
+      {
+        "cycle": "4.9",
+        "eol": false,
+        "support": "2019-12-31"
+      },
+      {
+        "cycle": "5.0",
+        "eol": "2021-02-24",
+        "support": "2021-02-24"
+      },
+      {
+        "cycle": "5.1",
+        "eol": "2022-05-11",
+        "support": "2022-05-11"
+      },
+      {
+        "cycle": "5.2",
+        "eol": false,
+        "support": true
+      }
+    ],
+    "postgresql": [
+      {
+        "cycle": "10",
+        "eol": "2022-11-10"
+      },
+      {
+        "cycle": "11",
+        "eol": "2023-11-09"
+      },
+      {
+        "cycle": "12",
+        "eol": "2024-11-21"
+      },
+      {
+        "cycle": "13",
+        "eol": "2025-11-13"
+      },
+      {
+        "cycle": "14",
+        "eol": "2026-11-12"
+      },
+      {
+        "cycle": "15",
+        "eol": "2027-11-11"
+      },
+      {
+        "cycle": "16",
+        "eol": "2028-11-09"
+      },
+      {
+        "cycle": "17",
+        "eol": "2029-11-08"
+      },
+      {
+        "cycle": "18",
+        "eol": "2030-11-14"
+      },
+      {
+        "cycle": "6.0",
+        "eol": true
+      },
+      {
+        "cycle": "6.1",
+        "eol": true
+      },
+      {
+        "cycle": "6.2",
+        "eol": true
+      },
+      {
+        "cycle": "6.3",
+        "eol": "2003-03-01"
+      },
+      {
+        "cycle": "6.4",
+        "eol": "2003-10-30"
+      },
+      {
+        "cycle": "6.5",
+        "eol": "2004-06-09"
+      },
+      {
+        "cycle": "7.0",
+        "eol": "2005-05-08"
+      },
+      {
+        "cycle": "7.1",
+        "eol": "2006-04-13"
+      },
+      {
+        "cycle": "7.2",
+        "eol": "2007-02-04"
+      },
+      {
+        "cycle": "7.3",
+        "eol": "2007-11-27"
+      },
+      {
+        "cycle": "7.4",
+        "eol": "2010-10-01"
+      },
+      {
+        "cycle": "8.0",
+        "eol": "2010-10-01"
+      },
+      {
+        "cycle": "8.1",
+        "eol": "2010-11-08"
+      },
+      {
+        "cycle": "8.2",
+        "eol": "2011-12-05"
+      },
+      {
+        "cycle": "8.3",
+        "eol": "2013-02-07"
+      },
+      {
+        "cycle": "8.4",
+        "eol": "2014-07-24"
+      },
+      {
+        "cycle": "9.0",
+        "eol": "2015-10-08"
+      },
+      {
+        "cycle": "9.1",
+        "eol": "2016-10-27"
+      },
+      {
+        "cycle": "9.2",
+        "eol": "2017-11-09"
+      },
+      {
+        "cycle": "9.3",
+        "eol": "2018-11-08"
+      },
+      {
+        "cycle": "9.4",
+        "eol": "2020-02-13"
+      },
+      {
+        "cycle": "9.5",
+        "eol": "2021-02-11"
+      },
+      {
+        "cycle": "9.6",
+        "eol": "2021-11-11"
+      }
+    ],
+    "powershell": [
+      {
+        "cycle": "6.0",
+        "eol": "2019-02-13"
+      },
+      {
+        "cycle": "6.1",
+        "eol": "2019-09-28"
+      },
+      {
+        "cycle": "6.2",
+        "eol": "2020-09-04"
+      },
+      {
+        "cycle": "7.0",
+        "eol": "2022-12-03"
+      },
+      {
+        "cycle": "7.1",
+        "eol": "2022-05-08"
+      },
+      {
+        "cycle": "7.2",
+        "eol": "2024-11-08"
+      },
+      {
+        "cycle": "7.3",
+        "eol": "2024-05-08"
+      },
+      {
+        "cycle": "7.4",
+        "eol": "2026-11-10"
+      },
+      {
+        "cycle": "7.5",
+        "eol": "2026-11-10"
+      },
+      {
+        "cycle": "7.6",
+        "eol": "2028-11-14"
+      }
+    ],
+    "python": [
+      {
+        "cycle": "2.6",
+        "eol": "2013-10-29",
+        "support": false
+      },
+      {
+        "cycle": "2.7",
+        "eol": "2020-01-01",
+        "support": false
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2009-06-27",
+        "support": false
+      },
+      {
+        "cycle": "3.1",
+        "eol": "2012-04-09",
+        "support": false
+      },
+      {
+        "cycle": "3.10",
+        "eol": "2026-10-01",
+        "support": "2023-04-05"
+      },
+      {
+        "cycle": "3.11",
+        "eol": "2027-10-31",
+        "support": "2024-04-01"
+      },
+      {
+        "cycle": "3.12",
+        "eol": "2028-10-31",
+        "support": "2025-04-02"
+      },
+      {
+        "cycle": "3.13",
+        "eol": "2029-10-31",
+        "support": "2026-10-01"
+      },
+      {
+        "cycle": "3.14",
+        "eol": "2030-10-31",
+        "support": "2027-10-01"
+      },
+      {
+        "cycle": "3.15",
+        "eol": "2031-10-31",
+        "support": "2028-10-09"
+      },
+      {
+        "cycle": "3.2",
+        "eol": "2016-02-20",
+        "support": false
+      },
+      {
+        "cycle": "3.3",
+        "eol": "2017-09-29",
+        "support": false
+      },
+      {
+        "cycle": "3.4",
+        "eol": "2019-03-18",
+        "support": false
+      },
+      {
+        "cycle": "3.5",
+        "eol": "2020-09-30",
+        "support": false
+      },
+      {
+        "cycle": "3.6",
+        "eol": "2021-12-23",
+        "support": "2018-12-24"
+      },
+      {
+        "cycle": "3.7",
+        "eol": "2023-06-27",
+        "support": "2020-06-27"
+      },
+      {
+        "cycle": "3.8",
+        "eol": "2024-10-07",
+        "support": "2021-05-03"
+      },
+      {
+        "cycle": "3.9",
+        "eol": "2025-10-31",
+        "support": "2022-05-17"
+      }
+    ],
+    "redis": [
+      {
+        "cycle": "5.0",
+        "eol": "2022-04-27",
+        "support": "2020-04-30"
+      },
+      {
+        "cycle": "6.0",
+        "eol": "2022-05-31",
+        "support": "2021-02-22"
+      },
+      {
+        "cycle": "6.2",
+        "eol": "2027-04-01",
+        "support": "2022-04-27"
+      },
+      {
+        "cycle": "7.0",
+        "eol": "2024-07-29",
+        "support": "2023-08-15"
+      },
+      {
+        "cycle": "7.2",
+        "eol": "2029-12-01",
+        "support": "2024-07-29"
+      },
+      {
+        "cycle": "7.4",
+        "eol": "2029-12-01",
+        "support": "2025-05-02"
+      },
+      {
+        "cycle": "8.0",
+        "eol": "2026-12-01",
+        "support": "2025-08-04"
+      },
+      {
+        "cycle": "8.10",
+        "eol": false,
+        "support": true
+      },
+      {
+        "cycle": "8.2",
+        "eol": "2030-09-01",
+        "support": "2025-11-18"
+      },
+      {
+        "cycle": "8.4",
+        "eol": false,
+        "support": "2026-02-11"
+      },
+      {
+        "cycle": "8.6",
+        "eol": false,
+        "support": "2026-05-25"
+      },
+      {
+        "cycle": "8.8",
+        "eol": false,
+        "support": "2026-07-29"
+      }
+    ],
+    "rhel": [
+      {
+        "cycle": "10",
+        "eol": "2035-05-31",
+        "support": "2030-05-31"
+      },
+      {
+        "cycle": "4",
+        "eol": "2012-02-29",
+        "support": "2009-03-31"
+      },
+      {
+        "cycle": "5",
+        "eol": "2017-03-31",
+        "support": "2013-01-08"
+      },
+      {
+        "cycle": "6",
+        "eol": "2020-11-30",
+        "support": "2016-05-10"
+      },
+      {
+        "cycle": "7",
+        "eol": "2024-06-30",
+        "support": "2019-08-06"
+      },
+      {
+        "cycle": "8",
+        "eol": "2029-05-31",
+        "support": "2024-05-31"
+      },
+      {
+        "cycle": "9",
+        "eol": "2032-05-31",
+        "support": "2027-05-31"
+      }
+    ],
+    "ruby": [
+      {
+        "cycle": "1.9.3",
+        "eol": "2015-02-23"
+      },
+      {
+        "cycle": "2.0.0",
+        "eol": "2016-02-24"
+      },
+      {
+        "cycle": "2.1",
+        "eol": "2017-03-31"
+      },
+      {
+        "cycle": "2.2",
+        "eol": "2018-03-31"
+      },
+      {
+        "cycle": "2.3",
+        "eol": "2019-03-31"
+      },
+      {
+        "cycle": "2.4",
+        "eol": "2020-03-31"
+      },
+      {
+        "cycle": "2.5",
+        "eol": "2021-03-31"
+      },
+      {
+        "cycle": "2.6",
+        "eol": "2022-03-31"
+      },
+      {
+        "cycle": "2.7",
+        "eol": "2023-03-31"
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2024-04-23"
+      },
+      {
+        "cycle": "3.1",
+        "eol": "2025-03-26"
+      },
+      {
+        "cycle": "3.2",
+        "eol": "2026-03-31"
+      },
+      {
+        "cycle": "3.3",
+        "eol": "2027-03-31"
+      },
+      {
+        "cycle": "3.4",
+        "eol": "2028-03-31"
+      },
+      {
+        "cycle": "4.0",
+        "eol": "2029-03-31"
+      }
+    ],
+    "rust": [
+      {
+        "cycle": "1.29",
+        "eol": "2018-10-26"
+      },
+      {
+        "cycle": "1.30",
+        "eol": "2018-12-07"
+      },
+      {
+        "cycle": "1.31",
+        "eol": "2019-01-18"
+      },
+      {
+        "cycle": "1.32",
+        "eol": "2019-03-01"
+      },
+      {
+        "cycle": "1.33",
+        "eol": "2019-04-12"
+      },
+      {
+        "cycle": "1.34",
+        "eol": "2019-05-24"
+      },
+      {
+        "cycle": "1.35",
+        "eol": "2019-07-04"
+      },
+      {
+        "cycle": "1.36",
+        "eol": "2019-08-16"
+      },
+      {
+        "cycle": "1.37",
+        "eol": "2019-09-27"
+      },
+      {
+        "cycle": "1.38",
+        "eol": "2019-11-08"
+      },
+      {
+        "cycle": "1.39",
+        "eol": "2019-12-20"
+      },
+      {
+        "cycle": "1.40",
+        "eol": "2020-01-31"
+      },
+      {
+        "cycle": "1.41",
+        "eol": "2020-03-13"
+      },
+      {
+        "cycle": "1.42",
+        "eol": "2020-04-24"
+      },
+      {
+        "cycle": "1.43",
+        "eol": "2020-06-05"
+      },
+      {
+        "cycle": "1.44",
+        "eol": "2020-07-17"
+      },
+      {
+        "cycle": "1.45",
+        "eol": "2020-08-28"
+      },
+      {
+        "cycle": "1.46",
+        "eol": "2020-10-08"
+      },
+      {
+        "cycle": "1.47",
+        "eol": "2020-11-20"
+      },
+      {
+        "cycle": "1.48",
+        "eol": "2021-01-01"
+      },
+      {
+        "cycle": "1.49",
+        "eol": "2021-02-12"
+      },
+      {
+        "cycle": "1.50",
+        "eol": "2021-03-26"
+      },
+      {
+        "cycle": "1.51",
+        "eol": "2021-05-07"
+      },
+      {
+        "cycle": "1.52",
+        "eol": "2021-06-18"
+      },
+      {
+        "cycle": "1.53",
+        "eol": "2021-07-30"
+      },
+      {
+        "cycle": "1.54",
+        "eol": "2021-09-10"
+      },
+      {
+        "cycle": "1.55",
+        "eol": "2021-10-22"
+      },
+      {
+        "cycle": "1.56",
+        "eol": "2021-12-03"
+      },
+      {
+        "cycle": "1.57",
+        "eol": "2022-01-14"
+      },
+      {
+        "cycle": "1.58",
+        "eol": "2022-02-25"
+      },
+      {
+        "cycle": "1.59",
+        "eol": "2022-04-08"
+      },
+      {
+        "cycle": "1.60",
+        "eol": "2022-05-20"
+      },
+      {
+        "cycle": "1.61",
+        "eol": "2022-07-01"
+      },
+      {
+        "cycle": "1.62",
+        "eol": "2022-09-12"
+      },
+      {
+        "cycle": "1.63",
+        "eol": "2022-09-23"
+      },
+      {
+        "cycle": "1.64",
+        "eol": "2022-11-04"
+      },
+      {
+        "cycle": "1.65",
+        "eol": "2022-12-16"
+      },
+      {
+        "cycle": "1.66",
+        "eol": "2023-01-27"
+      },
+      {
+        "cycle": "1.67",
+        "eol": "2023-03-10"
+      },
+      {
+        "cycle": "1.68",
+        "eol": "2023-04-21"
+      },
+      {
+        "cycle": "1.69",
+        "eol": "2023-06-02"
+      },
+      {
+        "cycle": "1.70",
+        "eol": "2023-07-14"
+      },
+      {
+        "cycle": "1.71",
+        "eol": "2023-08-25"
+      },
+      {
+        "cycle": "1.72",
+        "eol": "2023-10-06"
+      },
+      {
+        "cycle": "1.73",
+        "eol": "2023-11-17"
+      },
+      {
+        "cycle": "1.74",
+        "eol": "2023-12-28"
+      },
+      {
+        "cycle": "1.75",
+        "eol": "2024-02-08"
+      },
+      {
+        "cycle": "1.76",
+        "eol": "2024-03-21"
+      },
+      {
+        "cycle": "1.77",
+        "eol": "2024-05-02"
+      },
+      {
+        "cycle": "1.78",
+        "eol": "2024-06-13"
+      },
+      {
+        "cycle": "1.79",
+        "eol": "2024-07-25"
+      },
+      {
+        "cycle": "1.80",
+        "eol": "2024-09-05"
+      },
+      {
+        "cycle": "1.81",
+        "eol": "2024-10-17"
+      },
+      {
+        "cycle": "1.82",
+        "eol": "2024-11-28"
+      },
+      {
+        "cycle": "1.83",
+        "eol": "2025-01-09"
+      },
+      {
+        "cycle": "1.84",
+        "eol": "2025-02-20"
+      },
+      {
+        "cycle": "1.85",
+        "eol": "2025-04-03"
+      },
+      {
+        "cycle": "1.86",
+        "eol": "2025-05-15"
+      },
+      {
+        "cycle": "1.87",
+        "eol": "2025-06-26"
+      },
+      {
+        "cycle": "1.88",
+        "eol": "2025-08-07"
+      },
+      {
+        "cycle": "1.89",
+        "eol": "2025-09-18"
+      },
+      {
+        "cycle": "1.90",
+        "eol": "2025-10-30"
+      },
+      {
+        "cycle": "1.91",
+        "eol": "2025-12-11"
+      },
+      {
+        "cycle": "1.92",
+        "eol": "2026-01-22"
+      },
+      {
+        "cycle": "1.93",
+        "eol": "2026-03-06"
+      },
+      {
+        "cycle": "1.94",
+        "eol": "2026-04-16"
+      },
+      {
+        "cycle": "1.95",
+        "eol": "2026-05-28"
+      },
+      {
+        "cycle": "1.96",
+        "eol": "2026-07-09"
+      },
+      {
+        "cycle": "1.97",
+        "eol": "2026-08-20"
+      },
+      {
+        "cycle": "1.98",
+        "eol": "2026-10-01"
+      },
+      {
+        "cycle": "1.99",
+        "eol": false
+      }
+    ],
+    "scala": [
+      {
+        "cycle": "2.10",
+        "eol": false,
+        "support": "2014-04-17"
+      },
+      {
+        "cycle": "2.11",
+        "eol": false,
+        "support": "2016-11-03"
+      },
+      {
+        "cycle": "2.12",
+        "eol": false,
+        "support": "2019-06-07"
+      },
+      {
+        "cycle": "2.13",
+        "eol": false,
+        "support": true
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2021-10-18",
+        "support": "2021-10-18"
+      },
+      {
+        "cycle": "3.1",
+        "eol": "2022-09-01",
+        "support": "2022-09-01"
+      },
+      {
+        "cycle": "3.10",
+        "eol": false,
+        "support": true
+      },
+      {
+        "cycle": "3.2",
+        "eol": "2023-05-23",
+        "support": "2023-05-23"
+      },
+      {
+        "cycle": "3.3",
+        "eol": false,
+        "support": true
+      },
+      {
+        "cycle": "3.4",
+        "eol": "2024-08-22",
+        "support": "2024-08-22"
+      },
+      {
+        "cycle": "3.5",
+        "eol": "2024-12-10",
+        "support": "2024-12-10"
+      },
+      {
+        "cycle": "3.6",
+        "eol": "2025-05-07",
+        "support": "2025-05-07"
+      },
+      {
+        "cycle": "3.7",
+        "eol": "2026-01-22",
+        "support": "2026-01-22"
+      },
+      {
+        "cycle": "3.8",
+        "eol": "2026-09-03",
+        "support": "2026-09-03"
+      },
+      {
+        "cycle": "3.9",
+        "eol": false,
+        "support": true
+      }
+    ],
+    "sles": [
+      {
+        "cycle": "10.0",
+        "eol": "2007-12-31"
+      },
+      {
+        "cycle": "10.1",
+        "eol": "2008-11-30"
+      },
+      {
+        "cycle": "10.2",
+        "eol": "2010-04-11"
+      },
+      {
+        "cycle": "10.3",
+        "eol": "2011-10-11"
+      },
+      {
+        "cycle": "10.4",
+        "eol": "2013-07-31"
+      },
+      {
+        "cycle": "11.0",
+        "eol": "2010-12-31"
+      },
+      {
+        "cycle": "11.1",
+        "eol": "2012-08-31"
+      },
+      {
+        "cycle": "11.2",
+        "eol": "2014-01-31"
+      },
+      {
+        "cycle": "11.3",
+        "eol": "2016-01-31"
+      },
+      {
+        "cycle": "11.4",
+        "eol": "2019-03-31"
+      },
+      {
+        "cycle": "12.0",
+        "eol": "2016-06-30"
+      },
+      {
+        "cycle": "12.1",
+        "eol": "2017-05-31"
+      },
+      {
+        "cycle": "12.2",
+        "eol": "2018-03-31"
+      },
+      {
+        "cycle": "12.3",
+        "eol": "2019-06-30"
+      },
+      {
+        "cycle": "12.4",
+        "eol": "2020-06-30"
+      },
+      {
+        "cycle": "12.5",
+        "eol": "2024-10-31"
+      },
+      {
+        "cycle": "15.0",
+        "eol": "2019-12-31"
+      },
+      {
+        "cycle": "15.1",
+        "eol": "2021-01-31"
+      },
+      {
+        "cycle": "15.2",
+        "eol": "2021-12-31"
+      },
+      {
+        "cycle": "15.3",
+        "eol": "2022-12-31"
+      },
+      {
+        "cycle": "15.4",
+        "eol": "2023-12-31"
+      },
+      {
+        "cycle": "15.5",
+        "eol": "2024-12-31"
+      },
+      {
+        "cycle": "15.6",
+        "eol": "2025-12-31"
+      },
+      {
+        "cycle": "15.7",
+        "eol": "2031-07-31"
+      },
+      {
+        "cycle": "16.0",
+        "eol": "2027-11-30"
+      }
+    ],
+    "terraform": [
+      {
+        "cycle": "1.0",
+        "eol": "2022-05-18"
+      },
+      {
+        "cycle": "1.1",
+        "eol": "2022-09-21"
+      },
+      {
+        "cycle": "1.10",
+        "eol": "2025-05-14"
+      },
+      {
+        "cycle": "1.11",
+        "eol": "2025-08-20"
+      },
+      {
+        "cycle": "1.12",
+        "eol": "2025-11-19"
+      },
+      {
+        "cycle": "1.13",
+        "eol": "2026-04-29"
+      },
+      {
+        "cycle": "1.14",
+        "eol": "2026-08-26"
+      },
+      {
+        "cycle": "1.15",
+        "eol": "2026-10-21"
+      },
+      {
+        "cycle": "1.16",
+        "eol": false
+      },
+      {
+        "cycle": "1.17",
+        "eol": false
+      },
+      {
+        "cycle": "1.2",
+        "eol": "2023-03-08"
+      },
+      {
+        "cycle": "1.3",
+        "eol": "2023-06-12"
+      },
+      {
+        "cycle": "1.4",
+        "eol": "2023-10-04"
+      },
+      {
+        "cycle": "1.5",
+        "eol": "2024-01-17"
+      },
+      {
+        "cycle": "1.6",
+        "eol": "2024-04-10"
+      },
+      {
+        "cycle": "1.7",
+        "eol": "2024-06-26"
+      },
+      {
+        "cycle": "1.8",
+        "eol": "2024-11-26"
+      },
+      {
+        "cycle": "1.9",
+        "eol": "2025-02-27"
+      }
+    ],
+    "traefik": [
+      {
+        "cycle": "1.7",
+        "eol": "2021-12-31",
+        "support": "2021-12-31"
+      },
+      {
+        "cycle": "2.0",
+        "eol": "2019-12-11",
+        "support": "2019-12-11"
+      },
+      {
+        "cycle": "2.1",
+        "eol": "2020-03-25",
+        "support": "2020-03-25"
+      },
+      {
+        "cycle": "2.10",
+        "eol": "2024-02-12",
+        "support": "2024-02-12"
+      },
+      {
+        "cycle": "2.11",
+        "eol": "2026-09-07",
+        "support": "2025-04-29"
+      },
+      {
+        "cycle": "2.2",
+        "eol": "2020-09-23",
+        "support": "2020-09-23"
+      },
+      {
+        "cycle": "2.3",
+        "eol": "2021-01-19",
+        "support": "2021-01-19"
+      },
+      {
+        "cycle": "2.4",
+        "eol": "2021-08-17",
+        "support": "2021-08-17"
+      },
+      {
+        "cycle": "2.5",
+        "eol": "2022-01-24",
+        "support": "2022-01-24"
+      },
+      {
+        "cycle": "2.6",
+        "eol": "2022-05-24",
+        "support": "2022-05-24"
+      },
+      {
+        "cycle": "2.7",
+        "eol": "2022-06-29",
+        "support": "2022-06-29"
+      },
+      {
+        "cycle": "2.8",
+        "eol": "2022-10-03",
+        "support": "2022-10-03"
+      },
+      {
+        "cycle": "2.9",
+        "eol": "2023-04-24",
+        "support": "2023-04-24"
+      },
+      {
+        "cycle": "3.0",
+        "eol": "2024-07-15",
+        "support": "2024-07-15"
+      },
+      {
+        "cycle": "3.1",
+        "eol": "2024-10-28",
+        "support": "2024-10-28"
+      },
+      {
+        "cycle": "3.2",
+        "eol": "2025-01-06",
+        "support": "2025-01-06"
+      },
+      {
+        "cycle": "3.3",
+        "eol": "2025-05-05",
+        "support": "2025-05-05"
+      },
+      {
+        "cycle": "3.4",
+        "eol": "2025-07-23",
+        "support": "2025-07-23"
+      },
+      {
+        "cycle": "3.5",
+        "eol": "2025-11-07",
+        "support": "2025-11-07"
+      },
+      {
+        "cycle": "3.6",
+        "eol": "2026-08-16",
+        "support": "2026-05-07"
+      },
+      {
+        "cycle": "3.7",
+        "eol": false,
+        "support": true
+      }
+    ],
+    "ubuntu": [
+      {
+        "cycle": "10.04",
+        "eol": "2013-05-09",
+        "support": "2013-05-09"
+      },
+      {
+        "cycle": "10.10",
+        "eol": "2012-04-10",
+        "support": "2012-04-10"
+      },
+      {
+        "cycle": "11.04",
+        "eol": "2012-10-28",
+        "support": "2012-10-28"
+      },
+      {
+        "cycle": "11.10",
+        "eol": "2013-05-09",
+        "support": "2013-05-09"
+      },
+      {
+        "cycle": "12.04",
+        "eol": "2017-04-28",
+        "support": "2017-04-28"
+      },
+      {
+        "cycle": "12.10",
+        "eol": "2014-05-16",
+        "support": "2014-05-16"
+      },
+      {
+        "cycle": "13.04",
+        "eol": "2014-01-27",
+        "support": "2014-01-27"
+      },
+      {
+        "cycle": "13.10",
+        "eol": "2014-07-17",
+        "support": "2014-07-17"
+      },
+      {
+        "cycle": "14.04",
+        "eol": "2019-04-02",
+        "support": "2019-04-02"
+      },
+      {
+        "cycle": "14.10",
+        "eol": "2015-07-23",
+        "support": "2015-07-23"
+      },
+      {
+        "cycle": "15.04",
+        "eol": "2016-02-04",
+        "support": "2016-02-04"
+      },
+      {
+        "cycle": "15.10",
+        "eol": "2016-07-28",
+        "support": "2016-07-28"
+      },
+      {
+        "cycle": "16.04",
+        "eol": "2021-04-02",
+        "support": "2021-04-02"
+      },
+      {
+        "cycle": "16.10",
+        "eol": "2017-07-20",
+        "support": "2017-07-20"
+      },
+      {
+        "cycle": "17.04",
+        "eol": "2018-01-13",
+        "support": "2018-01-13"
+      },
+      {
+        "cycle": "17.10",
+        "eol": "2018-07-19",
+        "support": "2018-07-19"
+      },
+      {
+        "cycle": "18.04",
+        "eol": "2023-05-31",
+        "support": "2023-05-31"
+      },
+      {
+        "cycle": "18.10",
+        "eol": "2019-07-18",
+        "support": "2019-07-18"
+      },
+      {
+        "cycle": "19.04",
+        "eol": "2020-01-23",
+        "support": "2020-01-23"
+      },
+      {
+        "cycle": "19.10",
+        "eol": "2020-07-06",
+        "support": "2020-07-06"
+      },
+      {
+        "cycle": "20.04",
+        "eol": "2025-05-31",
+        "support": "2022-10-01"
+      },
+      {
+        "cycle": "20.10",
+        "eol": "2021-07-22",
+        "support": "2021-07-22"
+      },
+      {
+        "cycle": "21.04",
+        "eol": "2022-01-20",
+        "support": "2022-01-20"
+      },
+      {
+        "cycle": "21.10",
+        "eol": "2022-07-14",
+        "support": "2022-07-14"
+      },
+      {
+        "cycle": "22.04",
+        "eol": "2027-06-01",
+        "support": "2024-09-30"
+      },
+      {
+        "cycle": "22.10",
+        "eol": "2023-07-20",
+        "support": "2023-07-20"
+      },
+      {
+        "cycle": "23.04",
+        "eol": "2024-01-20",
+        "support": "2024-01-20"
+      },
+      {
+        "cycle": "23.10",
+        "eol": "2024-07-12",
+        "support": "2024-07-12"
+      },
+      {
+        "cycle": "24.04",
+        "eol": "2029-05-31",
+        "support": "2029-05-31"
+      },
+      {
+        "cycle": "24.10",
+        "eol": "2025-07-10",
+        "support": "2025-07-10"
+      },
+      {
+        "cycle": "25.04",
+        "eol": "2026-01-17",
+        "support": "2026-01-17"
+      },
+      {
+        "cycle": "25.10",
+        "eol": "2026-07-01",
+        "support": "2026-07-01"
+      },
+      {
+        "cycle": "26.04",
+        "eol": "2031-05-29",
+        "support": "2031-05-29"
+      },
+      {
+        "cycle": "26.10",
+        "eol": "2027-07-01",
+        "support": "2027-07-01"
+      },
+      {
+        "cycle": "4.10",
+        "eol": "2006-04-30",
+        "support": "2004-10-26"
+      },
+      {
+        "cycle": "5.04",
+        "eol": "2006-10-31",
+        "support": "2006-10-31"
+      },
+      {
+        "cycle": "5.10",
+        "eol": "2007-04-13",
+        "support": "2007-04-13"
+      },
+      {
+        "cycle": "6.06",
+        "eol": "2011-06-01",
+        "support": "2011-06-01"
+      },
+      {
+        "cycle": "6.10",
+        "eol": "2008-04-26",
+        "support": "2006-10-26"
+      },
+      {
+        "cycle": "7.04",
+        "eol": "2008-10-19",
+        "support": "2008-10-19"
+      },
+      {
+        "cycle": "7.10",
+        "eol": "2009-04-18",
+        "support": "2009-04-18"
+      },
+      {
+        "cycle": "8.04",
+        "eol": "2013-05-09",
+        "support": "2013-05-09"
+      },
+      {
+        "cycle": "8.10",
+        "eol": "2010-04-30",
+        "support": "2010-04-30"
+      },
+      {
+        "cycle": "9.04",
+        "eol": "2010-10-23",
+        "support": "2010-10-23"
+      },
+      {
+        "cycle": "9.10",
+        "eol": "2011-04-30",
+        "support": "2011-04-30"
+      }
+    ],
+    "zookeeper": [
+      {
+        "cycle": "3.4",
+        "eol": "2020-06-01",
+        "support": "2020-03-27"
+      },
+      {
+        "cycle": "3.5",
+        "eol": "2022-06-01",
+        "support": "2021-03-27"
+      },
+      {
+        "cycle": "3.6",
+        "eol": "2022-12-30",
+        "support": "2022-03-07"
+      },
+      {
+        "cycle": "3.7",
+        "eol": "2024-01-19",
+        "support": "2023-07-19"
+      },
+      {
+        "cycle": "3.8",
+        "eol": false,
+        "support": true
+      },
+      {
+        "cycle": "3.9",
+        "eol": false,
+        "support": true
+      }
+    ]
+  }
+}
