@@ -71,16 +71,16 @@ test(".tool-versions ignores other tools and rejects a mixed unsupported line", 
 });
 
 test("parses mix.exs elixir: and Hex deps with exact lines", async () => {
-  assert.deepEqual(parseMixExs(await fixture("positive/mix.exs")), [
+  assert.deepEqual(parseMixExs(await fixture("positive/mix.exs.fixture")), [
     { kind: "elixir", value: "1.14.5", line: 8 },
     { kind: "package", name: "fennec", value: "~> 0.3.0", line: 15 },
     { kind: "package", name: "jason", value: "~> 1.4", line: 16 },
   ]);
-  assert.deepEqual(parseMixExs(await fixture("negative/mix.exs")), [
+  assert.deepEqual(parseMixExs(await fixture("negative/mix.exs.fixture")), [
     { kind: "elixir", value: "~> 1.17", line: 8 },
     { kind: "package", name: "jason", value: "~> 1.4", line: 15 },
   ]);
-  assert.deepEqual(parseMixExs(await fixture("malformed/mix.exs")), []);
+  assert.deepEqual(parseMixExs(await fixture("malformed/mix.exs.fixture")), []);
 });
 
 test("parses Hex packages from mix.lock and ignores non-Hex sources", async () => {

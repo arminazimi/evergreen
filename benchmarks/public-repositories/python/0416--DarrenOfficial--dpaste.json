@@ -120,6 +120,24 @@
         "kind": "maintainer-review",
         "note": "Read .python-version:4 at this commit: `3.5.8`; the declaration matches the rule's affected range."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/docker.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Inspected DarrenOfficial/dpaste@64068f7a78158a09babd5880f1384610ffc710c8, .github/workflows/docker.yml:37 directly on 2026-11-06: `echo ::set-output name=tags::${TAGS}` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/docker.yml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Inspected DarrenOfficial/dpaste@64068f7a78158a09babd5880f1384610ffc710c8, .github/workflows/docker.yml:38 directly on 2026-11-06: `echo ::set-output name=docker_image::${DOCKER_IMAGE}` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+      }
     }
   ]
 }

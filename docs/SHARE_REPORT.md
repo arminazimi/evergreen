@@ -11,7 +11,11 @@ Every command below runs offline against files on disk. The examples use the del
 ## Terminal timeline
 
 ```bash
-npx evergreen-deprecation forecast --timeline examples/demo
+# From a clone of Evergreen:
+npm ci
+npm run build
+demo="$(node dist/tools/examples.js demo)"
+npx evergreen-deprecation forecast --timeline "$demo"
 ```
 
 A real run on 2026-10-30 printed:
@@ -39,7 +43,7 @@ Each bar is a month that has at least one dated lifecycle event in the default t
 ## HTML report
 
 ```bash
-npx evergreen-deprecation scan --format html examples/demo > report.html
+npx evergreen-deprecation scan --format html "$demo" > report.html
 ```
 
 Open `report.html` in a browser, attach it to an issue, or paste it into chat. The file is self-contained: styles and the embedded JSON scan result travel with it. Nothing leaves your machine unless you choose to send the file.

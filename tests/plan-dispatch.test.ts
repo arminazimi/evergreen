@@ -1,13 +1,21 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
 import { pathToFileURL } from "node:url";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 import { buildPlan } from "../src/plan-build.js";
 import type { Plan } from "../src/plan.js";
+
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const demoRoots: string[] = [];
+const demoFixture = await copyFixtureTree(resolve("examples/demo"), demoRoots);
+after(async () => {
+  await Promise.all(demoRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 const scriptPath = resolve("examples/plan-dispatch/dispatch.mjs");
 const dispatch = (await import(pathToFileURL(scriptPath).href)) as {
@@ -40,7 +48,7 @@ migrate-finding
 `;
 
 test("the dispatch example prints one worktree command and migrate-finding per demo task", async () => {
-  const scan = await scanRepository(resolve("examples/demo"), builtInDetectors);
+  const scan = await scanRepository(demoFixture, builtInDetectors);
   const plan = buildPlan(scan);
   assert.equal(plan.summary.items, 5);
   assert.equal(plan.summary.waves, 4);

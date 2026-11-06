@@ -43,37 +43,49 @@ function asMap(node: unknown): YAMLMap | undefined {
   return isMap(node) ? node : undefined;
 }
 
+/** `Globals.Function` holds the Runtime that every function inherits. */
+function globalRuntime(root: YAMLMap, lines: LineCounter): RuntimeDeclaration | undefined {
+  const globals = asMap(root.get("Globals", true));
+  const globalFunction = globals && asMap(globals.get("Function", true));
+  return globalFunction ? literal(globalFunction, "Runtime", lines) : undefined;
+}
+
+/** True for a resource whose `Type` is a Lambda function. */
+function isFunctionResource(resource: YAMLMap): boolean {
+  const type = resource.get("Type", true);
+  return isScalar(type) && typeof type.value === "string" && FUNCTION_TYPES.has(type.value);
+}
+
+/** The Runtime declared in a function resource's `Properties`, if it has one. */
+function functionRuntime(node: unknown, lines: LineCounter): RuntimeDeclaration | undefined {
+  const resource = asMap(node);
+  if (!resource || !isFunctionResource(resource)) return undefined;
+  const properties = asMap(resource.get("Properties", true));
+  return properties ? literal(properties, "Runtime", lines) : undefined;
+}
+
 /** Parse SAM and CloudFormation Runtime declarations without file, network, or process I/O. */
 export function parseTemplate(contents: string): RuntimeDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
 
   try {
     const lines = new LineCounter();
-    const document = parseDocument(contents, { lineCounter: lines, merge: false });
+    const document = parseDocument(contents, {
+      lineCounter: lines,
+      merge: false,
+    });
     if (document.errors.length > 0 || !isMap(document.contents)) return [];
 
-    const declarations: RuntimeDeclaration[] = [];
     const root = document.contents;
-
-    const globals = asMap(root.get("Globals", true));
-    const globalFunction = globals && asMap(globals.get("Function", true));
-    const globalRuntime = globalFunction && literal(globalFunction, "Runtime", lines);
-    if (globalRuntime) declarations.push(globalRuntime);
+    const declarations: RuntimeDeclaration[] = [];
+    const inherited = globalRuntime(root, lines);
+    if (inherited) declarations.push(inherited);
 
     const resources = asMap(root.get("Resources", true));
-    if (!resources) return declarations;
-
-    for (const item of resources.items) {
-      const resource = asMap(item.value);
-      if (!resource) continue;
-      const type = resource.get("Type", true);
-      if (!isScalar(type) || typeof type.value !== "string" || !FUNCTION_TYPES.has(type.value)) continue;
-      const properties = asMap(resource.get("Properties", true));
-      if (!properties) continue;
-      const runtime = literal(properties, "Runtime", lines);
+    for (const item of resources?.items ?? []) {
+      const runtime = functionRuntime(item.value, lines);
       if (runtime) declarations.push(runtime);
     }
-
     return declarations;
   } catch {
     return [];

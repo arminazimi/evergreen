@@ -8,5 +8,8 @@
  * that every pipe is escaped and every line break becomes a space, so the text cannot split the row.
  */
 export function escapeTableCell(text: string): string {
-  return text.replace(/\\/g, "\\\\").replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
+  return text
+    .replace(/\\/g, "\\\\")
+    .replace(/\|/g, "\\|")
+    .replace(/\r\n|[\r\n]/g, " ");
 }

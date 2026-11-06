@@ -107,14 +107,14 @@ jobs:
         run: |
           dir="$RUNNER_TEMP/quickstart"
           mkdir "$dir"
-          cp "$GITHUB_WORKSPACE/tests/fixtures/smoke/package.json" "$dir/package.json"
+          cp "$GITHUB_WORKSPACE/tests/fixtures/smoke/package.json.fixture" "$dir/package.json"
           cd "$dir"
 
           if [ "$DRY_RUN" = "true" ]; then
             cli="$GITHUB_WORKSPACE/dist/src/cli.js"
-            node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$GITHUB_WORKSPACE/tests/fixtures/smoke" -- node "$cli"
+            node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$dir" -- node "$cli"
             node "$GITHUB_WORKSPACE/.github/scripts/quickstart-smoke.mjs" --local "$cli"
           else
-            node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$GITHUB_WORKSPACE/tests/fixtures/smoke" -- npx --yes "evergreen-deprecation@$VERSION"
+            node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$dir" -- npx --yes "evergreen-deprecation@$VERSION"
             node "$GITHUB_WORKSPACE/.github/scripts/quickstart-smoke.mjs" --published "$VERSION"
           fi

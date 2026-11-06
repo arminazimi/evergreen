@@ -7,9 +7,13 @@ title: Migration plans
 `evergreen plan` turns a scan into waves of independent migration tasks. Each task names the files it is expected to edit (its touch set), a suggested branch, and the finding to migrate. Tasks in the same wave never share a touched path, so a host can start them as parallel agent sessions without two agents editing the same file.
 
 ```bash
-npx evergreen-deprecation plan examples/demo
-npx evergreen-deprecation plan examples/demo --json
-npx evergreen-deprecation plan examples/demo --wave 0
+# From a clone of Evergreen:
+npm ci
+npm run build
+demo="$(node dist/tools/examples.js demo)"
+npx evergreen-deprecation plan "$demo"
+npx evergreen-deprecation plan "$demo" --json
+npx evergreen-deprecation plan "$demo" --wave 0
 ```
 
 The JSON form is the versioned `evergreen.plan.v1` document. The local MCP tool `plan_migrations` returns the same object. Evergreen builds the plan and stops: it does not create branches, worktrees, or agent sessions, and it never runs a migration command.
@@ -29,7 +33,7 @@ The example at [`examples/plan-dispatch/dispatch.mjs`](../examples/plan-dispatch
 ```bash
 npm ci
 npm run build
-node dist/src/cli.js plan examples/demo --json | node examples/plan-dispatch/dispatch.mjs
+npm run --silent example -- demo plan --json | node examples/plan-dispatch/dispatch.mjs
 ```
 
 A host that wants parallel sessions creates each printed worktree itself, then runs the `migrate-finding` prompt in that tree with the task's finding id. See [Local MCP server](MCP.md) for the prompt and [Migration packets](MIGRATION_PACKETS.md) for the context each session receives.

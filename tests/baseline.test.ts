@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
@@ -257,7 +257,13 @@ test("a baseline with suppression fields still suppresses, and a baseline withou
   }
 });
 
-const smoke = resolve("tests/fixtures/smoke");
+const fixtureRoots: string[] = [];
+const smokeFixture = await copyFixtureTree(resolve("tests/fixtures/smoke"), fixtureRoots);
+after(async () => {
+  await Promise.all(fixtureRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
+const smoke = smokeFixture;
 
 test("a baseline written by Evergreen 0.1.0 loads, matches today's fingerprints, and still suppresses its findings", async () => {
   const old = await readBaseline(resolve("tests/fixtures/baselines/v0.1.0.json"));
@@ -487,6 +493,8 @@ test("the CLI warns about a suppression that is about to expire, for the day it 
 });
 
 import { evaluateBaseline, expiredPolicies, expiredSuppressionsFail } from "../src/baseline.js";
+
+import { copyFixtureTree } from "./fixture-copies.js";
 
 test("an expired suppression stops hiding its finding, says so with its owner and reason, and the day itself still counts", () => {
   const entry = entryFor({ expires: "2026-10-10", owner: "platform", reason: "tracked" });

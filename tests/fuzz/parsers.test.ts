@@ -321,7 +321,9 @@ test("npm lockfile crashers from the fuzz corpus never fail the scan", async () 
 test("python project crashers from the fuzz corpus never fail the scan", async () => {
   const fixtures = resolve("tests/fixtures/fuzz/python");
 
-  const malformed = await repository({ "pyproject.toml": await readFile(join(fixtures, "pyproject.toml"), "utf8") });
+  const malformed = await repository({
+    "pyproject.toml": await readFile(join(fixtures, "pyproject.toml.fixture"), "utf8"),
+  });
   assert.deepEqual(await new PythonDetector().scan({ root: malformed }), []);
 
   const root = await repository({

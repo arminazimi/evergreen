@@ -14,6 +14,7 @@ Requires Node.js 22 or newer.
 npm ci                # install
 npm run check         # build, Action bundle, tests, plugin checks, evals — must pass before every PR
 npm test              # tests only
+npm run check:fast    # quick local loop: format, lint, affected tests; does not replace check
 npm run dev -- scan   # run the CLI from source
 ```
 

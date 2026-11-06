@@ -5,10 +5,10 @@ import semver from "semver";
 
 import { renderDiff } from "../agent-instructions.js";
 import { loadDataFile } from "../data-source.js";
-import type { Finding } from "../domain.js";
+import type { Finding, ScanResult } from "../domain.js";
 import { validateRegistryV2 } from "../registry.js";
 import { required } from "../required.js";
-import type { FilePatch, Fixer } from "./index.js";
+import type { FilePatch, Fixer, Refuse } from "./index.js";
 
 /** An exact runtime pin: `20`, `v20`, `20.11`, or `20.11.0`. Ranges such as `>=20`, `^20`, `20.x`, or `18 || 20` never match. */
 const EXACT_PIN = /^v?\d+(?:\.\d+){0,2}$/;
@@ -39,9 +39,20 @@ const VERSION_FILES: Record<string, Runtime> = {
 function pinFor(path: string): Pin | undefined {
   const name = path.slice(path.lastIndexOf("/") + 1);
   const runtime = VERSION_FILES[name];
-  if (runtime) return { runtime, kind: "file", value: versionFileValue, rewrite: rewriteVersionFile };
+  if (runtime)
+    return {
+      runtime,
+      kind: "file",
+      value: versionFileValue,
+      rewrite: rewriteVersionFile,
+    };
   if (name === "package.json")
-    return { runtime: "node", kind: "engines", value: enginesValue, rewrite: rewriteEngines };
+    return {
+      runtime: "node",
+      kind: "engines",
+      value: enginesValue,
+      rewrite: rewriteEngines,
+    };
   return undefined;
 }
 
@@ -94,74 +105,112 @@ interface Targets {
 export const runtimePinsFixer: Fixer = {
   id: "runtime-pins",
   async plan(result, refuse) {
-    const targets = new Map<string, Targets>();
-    for (const finding of result.findings) {
-      const pin = pinFor(finding.location.path);
-      if (!pin || !isRuntimeRule(finding, pin.runtime)) continue;
-      if (finding.location.line === undefined) {
-        refuse?.(finding, "The finding names no line to rewrite.");
-        continue;
-      }
-      const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
-      entry.lines.set(finding.location.line, pin);
-      entry.findings.push(finding);
-      targets.set(finding.location.path, entry);
-    }
+    const targets = runtimeTargets(result.findings, refuse);
     if (targets.size === 0) return [];
-
-    let covered: Promise<Set<number>> | undefined;
-    let python: Promise<string | undefined> | undefined;
-    const target = async (pin: Pin, value: string): Promise<string | undefined> => {
-      if (pin.runtime === "node") return nextSupportedNode(await (covered ??= coveredNodeMajors()), value);
-      return (python ??= lowestSupportedPython(result.asOf ?? result.scannedAt.slice(0, 10)));
-    };
-
+    const targetFor = targetResolver(result);
     const patches: FilePatch[] = [];
-    for (const [path, { lines, findings }] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {
-      const decline = (reason: string) => {
-        for (const finding of findings) refuse?.(finding, reason);
-      };
-      const absolute = resolve(result.root, path);
-      const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) {
-        decline("The path resolves outside the repository.");
-        continue;
-      }
-      const before = await readFile(absolute, "utf8");
-      if (!before.endsWith("\n")) {
-        decline("The pin file does not end with a newline.");
-        continue;
-      }
-      const original = before.split("\n");
-      const text = [...original];
-      const rewritten = new Set<number>();
-      for (let index = 0; index < text.length; index += 1) {
-        const pin = lines.get(index + 1);
-        const value = pin?.value(required(text[index], "the pinned line"));
-        if (!pin || value === undefined) continue;
-        const next = await target(pin, value);
-        if (next === undefined) continue;
-        const line = pin.rewrite(required(text[index], "the pinned line"), next);
-        if (line === text[index]) continue;
-        text[index] = line;
-        rewritten.add(index + 1);
-      }
-      const after = text.join("\n");
-      // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (after !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), after.slice(0, -1)) });
-      for (const finding of findings) {
-        const index = required(finding.location.line, "the finding line") - 1;
-        if (rewritten.has(index + 1)) continue;
-        const pin = required(lines.get(index + 1), "the pin for the finding line");
-        const line = original[index] ?? "";
-        const value = pin.value(line);
-        const reason = refusalReason(line, pin, value === undefined ? undefined : await target(pin, value));
-        if (reason !== undefined) refuse?.(finding, reason);
-      }
+    for (const [path, entry] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {
+      const patch = await planFile(result.root, path, entry, targetFor, refuse);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },
 };
+
+/** The pin files that carry a finding of their runtime, each with the pin per line; a finding without a line is refused. */
+function runtimeTargets(findings: readonly Finding[], refuse: Refuse | undefined): Map<string, Targets> {
+  const targets = new Map<string, Targets>();
+  for (const finding of findings) {
+    const pin = pinFor(finding.location.path);
+    if (!pin || !isRuntimeRule(finding, pin.runtime)) continue;
+    if (finding.location.line === undefined) {
+      refuse?.(finding, "The finding names no line to rewrite.");
+      continue;
+    }
+    const entry: Targets = targets.get(finding.location.path) ?? {
+      lines: new Map(),
+      findings: [],
+    };
+    entry.lines.set(finding.location.line, pin);
+    entry.findings.push(finding);
+    targets.set(finding.location.path, entry);
+  }
+  return targets;
+}
+
+/** The target version for a pin: the lowest uncovered Node.js major, or the lowest supported Python line; each registry is read once. */
+function targetResolver(result: ScanResult): (pin: Pin, value: string) => Promise<string | undefined> {
+  let covered: Promise<Set<number>> | undefined;
+  let python: Promise<string | undefined> | undefined;
+  return async (pin, value) => {
+    if (pin.runtime === "node") return nextSupportedNode(await (covered ??= coveredNodeMajors()), value);
+    return (python ??= lowestSupportedPython(result.asOf ?? result.scannedAt.slice(0, 10)));
+  };
+}
+
+/** The raised pin file patch, or undefined when nothing can change; declined and unrewritten findings are reported. */
+async function planFile(
+  root: string,
+  path: string,
+  { lines, findings }: Targets,
+  targetFor: (pin: Pin, value: string) => Promise<string | undefined>,
+  refuse: Refuse | undefined,
+): Promise<FilePatch | undefined> {
+  const absolute = resolve(root, path);
+  const inside = relative(resolve(root), absolute);
+  if (inside.startsWith("..") || isAbsolute(inside)) {
+    for (const finding of findings) refuse?.(finding, "The path resolves outside the repository.");
+    return undefined;
+  }
+  const before = await readFile(absolute, "utf8");
+  if (!before.endsWith("\n")) {
+    for (const finding of findings) refuse?.(finding, "The pin file does not end with a newline.");
+    return undefined;
+  }
+  const original = before.split("\n");
+  const text = [...original];
+  const rewritten = await rewritePins(text, lines, targetFor);
+  const after = text.join("\n");
+  // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
+  const patch =
+    after === before
+      ? undefined
+      : {
+          path,
+          diff: renderDiff(path, before.slice(0, -1), after.slice(0, -1)),
+        };
+  for (const finding of findings) {
+    const index = required(finding.location.line, "the finding line") - 1;
+    if (rewritten.has(index + 1)) continue;
+    const pin = required(lines.get(index + 1), "the pin for the finding line");
+    const line = original[index] ?? "";
+    const value = pin.value(line);
+    const reason = refusalReason(line, pin, value === undefined ? undefined : await targetFor(pin, value));
+    if (reason !== undefined) refuse?.(finding, reason);
+  }
+  return patch;
+}
+
+/** Rewrites each pinned line in `text` in place, and returns the 1-based line numbers that changed. */
+async function rewritePins(
+  text: string[],
+  lines: ReadonlyMap<number, Pin>,
+  targetFor: (pin: Pin, value: string) => Promise<string | undefined>,
+): Promise<Set<number>> {
+  const rewritten = new Set<number>();
+  for (let index = 0; index < text.length; index += 1) {
+    const pin = lines.get(index + 1);
+    const value = pin?.value(required(text[index], "the pinned line"));
+    if (!pin || value === undefined) continue;
+    const next = await targetFor(pin, value);
+    if (next === undefined) continue;
+    const line = pin.rewrite(required(text[index], "the pinned line"), next);
+    if (line === text[index]) continue;
+    text[index] = line;
+    rewritten.add(index + 1);
+  }
+  return rewritten;
+}
 
 /** Why the pin on `line` still holds the finding's value, or undefined when it is already past the target. */
 function refusalReason(line: string, pin: Pin, target: string | undefined): string | undefined {

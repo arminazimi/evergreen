@@ -154,7 +154,7 @@ test("plugin drift check rejects a changed generated package", async () => {
       "brand/assets/evergreen-mark-light.svg",
       "brand/assets/evergreen-mark-dark.svg",
       "integrations/dependency-guard/guard.mjs",
-      "examples/demo/package.json",
+      "examples/demo/package.json.fixture",
       "examples/demo/.github/workflows/ci.yml",
       "examples/demo/src/client.js",
     ]) {
@@ -164,7 +164,14 @@ test("plugin drift check rejects a changed generated package", async () => {
       join(root, "skills/evergreen-deprecation/SKILL.md"),
       await readFile(resolve("skills/evergreen-deprecation/SKILL.md"), "utf8"),
     );
+    await mkdir(join(root, "plugins/codex/review-fixtures/demo"), { recursive: true });
+    await writeFile(join(root, "plugins/codex/review-fixtures/demo/package.json"), "{}");
     await buildPluginPackages(root);
+    await assert.rejects(readFile(join(root, "plugins/codex/review-fixtures/demo/package.json")), { code: "ENOENT" });
+    assert.equal(
+      await readFile(join(root, "plugins/codex/review-fixtures/demo/package.json.fixture"), "utf8"),
+      await readFile("examples/demo/package.json.fixture", "utf8"),
+    );
     await appendFile(join(root, "plugins/claude/skills/evergreen-deprecation/SKILL.md"), "\nmanual drift\n");
 
     assert.deepEqual(await pluginPackageDrift(root), [

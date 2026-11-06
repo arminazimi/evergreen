@@ -86,7 +86,11 @@ function collectTargets(targets: Map<string, Targets>, findings: readonly Findin
     }
     const entry = targets.get(finding.location.path);
     if (!entry) {
-      targets.set(finding.location.path, { target, normalized: next, findings: [finding] });
+      targets.set(finding.location.path, {
+        target,
+        normalized: next,
+        findings: [finding],
+      });
       continue;
     }
     const current = version(entry.target);
@@ -106,83 +110,113 @@ export const goModFixer: Fixer = {
     collectTargets(targets, result.findings, refuse);
     const patches: FilePatch[] = [];
     for (const [path, { normalized, findings }] of targets) {
-      const decline = (reason: string) => {
-        for (const finding of findings) refuse?.(finding, reason);
-      };
-      const absolute = resolve(result.root, path);
-      const before = await readInside(result.root, absolute);
-      if (before === undefined) {
-        decline("The `go.mod` file could not be read inside the repository.");
-        continue;
-      }
-      if (!before.endsWith("\n")) {
-        decline("The `go.mod` file does not end with a newline.");
-        continue;
-      }
-      const declarations = parseGoMod(before);
-      const go = declarations.filter((item) => item.kind === "go");
-      const toolchain = declarations.filter((item) => item.kind === "toolchain");
-      const [directive] = go;
-      if (go.length !== 1 || directive === undefined) {
-        decline("The module has no single literal `go` directive.");
-        continue;
-      }
-      const floor = version(directive.value);
-      if (!floor) {
-        decline("The `go` directive value is not a literal Go version.");
-        continue;
-      }
-      const edits = new Map<number, string>();
-      const text = before.slice(0, -1).split("\n");
-      if (!semver.gt(floor, normalized)) {
-        const problem =
-          toolchain.length > 1
-            ? "The module has more than one `toolchain` directive."
-            : toolchain.some((item) => !version(item.value.replace(/^go/, "")))
-              ? "The module has a computed `toolchain` value."
-              : await dependencyProblem(result.root, absolute, before, normalized);
-        if (problem !== undefined) {
-          decline(problem);
-          continue;
-        }
-        const lines = new Set(declarations.filter((item) => item.kind !== "require").map((item) => item.line));
-        text.forEach((line, index) => {
-          const match = lines.has(index + 1) ? DIRECTIVE.exec(line) : null;
-          const declared = match?.[3];
-          const current = declared === undefined ? undefined : version(declared.replace(/^go/, ""));
-          if (!match || !current || !semver.lt(current, normalized)) return;
-          const after = `${match[1]}${match[2] === "toolchain" ? "go" : ""}${normalized}${match[4]}`;
-          edits.set(index, after);
-        });
-      }
-      if (edits.size > 0) {
-        const start = Math.max(0, Math.min(...edits.keys()) - 2);
-        const end = Math.min(text.length, Math.max(...edits.keys()) + 3);
-        // Intervening declarations are context, never removed and re-added.
-        const hunk = text.slice(start, end).flatMap((line, offset) => {
-          const after = edits.get(start + offset);
-          return after === undefined ? [` ${line}`] : [`-${line}`, `+${after}`];
-        });
-        patches.push({
-          path,
-          diff: [
-            `--- a/${path}`,
-            `+++ b/${path}`,
-            `@@ -${start + 1},${end - start} +${start + 1},${end - start} @@`,
-            ...hunk,
-          ].join("\n"),
-        });
-      }
-      for (const finding of findings) {
-        const index = (finding.location.line ?? 0) - 1;
-        if (index >= 0 && edits.has(index)) continue;
-        const reason = refusalReason(index >= 0 ? text[index] : undefined);
-        if (reason !== undefined) refuse?.(finding, reason);
-      }
+      const patch = await planFile(result.root, path, normalized, findings, refuse);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },
 };
+
+/** The `go.mod` patch that raises its directives to `normalized`, or undefined when nothing can change; declined findings are reported. */
+async function planFile(
+  root: string,
+  path: string,
+  normalized: string,
+  findings: readonly Finding[],
+  refuse: Refuse | undefined,
+): Promise<FilePatch | undefined> {
+  const decline = (reason: string): undefined => {
+    for (const finding of findings) refuse?.(finding, reason);
+    return undefined;
+  };
+  const absolute = resolve(root, path);
+  const before = await readInside(root, absolute);
+  if (before === undefined) return decline("The `go.mod` file could not be read inside the repository.");
+  if (!before.endsWith("\n")) return decline("The `go.mod` file does not end with a newline.");
+  const declarations = parseGoMod(before);
+  const go = declarations.filter((item) => item.kind === "go");
+  const toolchain = declarations.filter((item) => item.kind === "toolchain");
+  const [directive] = go;
+  if (go.length !== 1 || directive === undefined) return decline("The module has no single literal `go` directive.");
+  const floor = version(directive.value);
+  if (!floor) return decline("The `go` directive value is not a literal Go version.");
+
+  const text = before.slice(0, -1).split("\n");
+  let edits = new Map<number, string>();
+  if (!semver.gt(floor, normalized)) {
+    const problem = await raisedDirectiveProblem(root, absolute, before, toolchain, normalized);
+    if (problem !== undefined) return decline(problem);
+    edits = directiveEdits(declarations, text, normalized);
+  }
+  refuseUnchangedDirectives(findings, text, edits, refuse);
+  return edits.size === 0 ? undefined : hunkPatch(path, text, edits);
+}
+
+/** Why the module cannot be raised safely, or undefined when its `toolchain` directives allow it and its dependencies are verifiable. */
+async function raisedDirectiveProblem(
+  root: string,
+  absolute: string,
+  before: string,
+  toolchain: readonly { value: string }[],
+  normalized: string,
+): Promise<string | undefined> {
+  if (toolchain.length > 1) return "The module has more than one `toolchain` directive.";
+  if (toolchain.some((item) => !version(item.value.replace(/^go/, ""))))
+    return "The module has a computed `toolchain` value.";
+  return dependencyProblem(root, absolute, before, normalized);
+}
+
+/** The new text of each `go` and `toolchain` directive line that names a version below `normalized`, keyed by index. */
+function directiveEdits(
+  declarations: readonly { kind: string; line: number }[],
+  text: readonly string[],
+  normalized: string,
+): Map<number, string> {
+  const edits = new Map<number, string>();
+  const lines = new Set(declarations.filter((item) => item.kind !== "require").map((item) => item.line));
+  text.forEach((line, index) => {
+    const match = lines.has(index + 1) ? DIRECTIVE.exec(line) : null;
+    const declared = match?.[3];
+    const current = declared === undefined ? undefined : version(declared.replace(/^go/, ""));
+    if (!match || !current || !semver.lt(current, normalized)) return;
+    edits.set(index, `${match[1]}${match[2] === "toolchain" ? "go" : ""}${normalized}${match[4]}`);
+  });
+  return edits;
+}
+
+/** A unified diff hunk around the edited lines; intervening declarations are context, never removed and re-added. */
+function hunkPatch(path: string, text: readonly string[], edits: ReadonlyMap<number, string>): FilePatch {
+  const start = Math.max(0, Math.min(...edits.keys()) - 2);
+  const end = Math.min(text.length, Math.max(...edits.keys()) + 3);
+  const hunk = text.slice(start, end).flatMap((line, offset) => {
+    const after = edits.get(start + offset);
+    return after === undefined ? [` ${line}`] : [`-${line}`, `+${after}`];
+  });
+  return {
+    path,
+    diff: [
+      `--- a/${path}`,
+      `+++ b/${path}`,
+      `@@ -${start + 1},${end - start} +${start + 1},${end - start} @@`,
+      ...hunk,
+    ].join("\n"),
+  };
+}
+
+/** Refuses each finding whose directive the edit left alone, with the reason it could not be raised. */
+function refuseUnchangedDirectives(
+  findings: readonly Finding[],
+  text: readonly string[],
+  edits: ReadonlyMap<number, string>,
+  refuse: Refuse | undefined,
+): void {
+  for (const finding of findings) {
+    const index = (finding.location.line ?? 0) - 1;
+    if (index >= 0 && edits.has(index)) continue;
+    const reason = refusalReason(index >= 0 ? text[index] : undefined);
+    if (reason !== undefined) refuse?.(finding, reason);
+  }
+}
 
 /** Why the line still holds the finding's value, or undefined when the directive is already at or above the target. */
 function refusalReason(line: string | undefined): string | undefined {

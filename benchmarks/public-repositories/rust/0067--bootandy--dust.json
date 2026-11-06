@@ -48,6 +48,186 @@
         "kind": "maintainer-review",
         "note": "Reviewed at this commit: line 297 of .github/workflows/CICD.yml reads `uses: softprops/action-gh-release@v1`, which github-actions.action-gh-release.node20 reports."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 154,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L154: `echo ::set-output name=TOOLCHAIN::${TOOLCHAIN}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 158,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L158: `echo ::set-output name=STAGING::${STAGING}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 162,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L162: `echo ::set-output name=EXE_suffix::${EXE_suffix}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 172,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L172: `echo ::set-output name=REF_NAME::${REF_NAME}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 173,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L173: `echo ::set-output name=REF_BRANCH::${REF_BRANCH}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 174,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L174: `echo ::set-output name=REF_TAG::${REF_TAG}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 175,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L175: `echo ::set-output name=REF_SHAS::${REF_SHAS}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 179,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L179: `echo ::set-output name=TARGET_ARCH::${TARGET_ARCH}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 182,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L182: `echo ::set-output name=TARGET_OS::${TARGET_OS}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 190,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L190: `echo ::set-output name=PKG_suffix::${PKG_suffix}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 191,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L191: `echo ::set-output name=PKG_BASENAME::${PKG_BASENAME}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 192,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L192: `echo ::set-output name=PKG_NAME::${PKG_NAME}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 196,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L196: `echo ::set-output name=DEPLOY::${DEPLOY}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 202,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L202: `echo ::set-output name=CARGO_FEATURES_OPTION::${CARGO_FEATURES_OPTION}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 206,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L206: `echo ::set-output name=CARGO_USE_CROSS::${CARGO_USE_CROSS}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 211,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L211: `echo ::set-output name=JOB_DO_TESTING::${JOB_DO_TESTING}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 216,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L216: `echo ::set-output name=CARGO_TEST_OPTIONS::${CARGO_TEST_OPTIONS}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 222,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L222: `echo ::set-output name=STRIP::${STRIP}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L34: `echo ::set-output name=JOB_DO_FORMAT_TESTING::${JOB_DO_FORMAT_TESTING}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/CICD.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/bootandy/dust/blob/6c20fae3e8bc63922e2f97dae1bdcf1512b1a255/.github/workflows/CICD.yml#L40: `echo ::set-output name=CARGO_FEATURES_OPTION::${CARGO_FEATURES_OPTION}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
     }
   ]
 }

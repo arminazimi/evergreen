@@ -14,6 +14,8 @@ export const MAXIMUM_DECLARATIONS = 5000;
 
 /** A heredoc opener, read with `matchAll` so the marker needs no assertion. */
 const HEREDOC = /^<<-?([A-Za-z_][A-Za-z0-9_]*)/g;
+const HEREDOC_START = /^<<-?[A-Za-z_]/;
+const ATTRIBUTE_START = /^([A-Za-z_][A-Za-z0-9_-]*)[^\S\n]*=/;
 
 export interface HclSource {
   /** The original text, with overlong lines blanked. */
@@ -36,6 +38,69 @@ function blank(text: string): string {
   return text.replace(/[^\n]/g, " ");
 }
 
+/** True when a heredoc opener (`<<MARKER` or `<<-MARKER`) starts at `index`. */
+export function isHeredocStart(text: string, index: number): boolean {
+  return HEREDOC_START.test(text.slice(index, index + 4));
+}
+
+/**
+ * Offset just after the closing line of the heredoc whose opener starts at `index`,
+ * or undefined when it never closes. Only call it when `isHeredocStart` is true.
+ */
+export function heredocEnd(text: string, index: number): number | undefined {
+  const opener = required(text.slice(index).matchAll(HEREDOC).next().value, "heredoc opener");
+  const marker = required(opener[1], "heredoc marker");
+  const closer = new RegExp(`\\n[\\t ]*${marker}[\\t ]*(?:\\r?\\n|$)`).exec(text.slice(index));
+  return closer ? index + closer.index + closer[0].length : undefined;
+}
+
+/** The masked text of one token and the offset where scanning resumes. */
+interface MaskStep {
+  text: string;
+  next: number;
+}
+
+/** A block comment is blanked whole; undefined when it never closes. */
+function maskBlockComment(source: string, index: number): MaskStep | undefined {
+  const end = source.indexOf("*/", index + 2);
+  if (end < 0) return undefined;
+  return { text: blank(source.slice(index, end + 2)), next: end + 2 };
+}
+
+/** A line comment runs to the end of its line, or to the end of the file. */
+function maskLineComment(source: string, index: number): MaskStep {
+  const end = source.indexOf("\n", index);
+  const stop = end < 0 ? source.length : end;
+  return { text: blank(source.slice(index, stop)), next: stop };
+}
+
+function maskHeredoc(source: string, index: number): MaskStep | undefined {
+  const end = heredocEnd(source, index);
+  return end === undefined ? undefined : { text: blank(source.slice(index, end)), next: end };
+}
+
+/** Keeps the quotes and blanks the contents; undefined for a string that never closes on its line. */
+function maskString(source: string, index: number): MaskStep | undefined {
+  let position = index + 1;
+  for (;;) {
+    if (position >= source.length || source[position] === "\n") return undefined;
+    if (source[position] === "\\") position += 2;
+    else if (source[position] === '"') break;
+    else position++;
+  }
+  return { text: `"${blank(source.slice(index + 1, position))}"`, next: position + 1 };
+}
+
+/** The masked token that starts at `index`; an ordinary character is its own step. */
+function maskStep(source: string, index: number): MaskStep | undefined {
+  const character = source.charAt(index);
+  if (source.startsWith("/*", index)) return maskBlockComment(source, index);
+  if (character === "#" || source.startsWith("//", index)) return maskLineComment(source, index);
+  if (isHeredocStart(source, index)) return maskHeredoc(source, index);
+  if (character === '"') return maskString(source, index);
+  return { text: character, next: index + 1 };
+}
+
 /**
  * Blank comments, string contents, and heredocs. Returns undefined when a
  * comment, string, or heredoc never terminates.
@@ -44,39 +109,10 @@ function maskHcl(source: string): string | undefined {
   const chunks: string[] = [];
   let index = 0;
   while (index < source.length) {
-    const character = source.charAt(index);
-    if (source.startsWith("/*", index)) {
-      const end = source.indexOf("*/", index + 2);
-      if (end < 0) return undefined;
-      chunks.push(blank(source.slice(index, end + 2)));
-      index = end + 2;
-    } else if (character === "#" || source.startsWith("//", index)) {
-      const end = source.indexOf("\n", index);
-      const stop = end < 0 ? source.length : end;
-      chunks.push(blank(source.slice(index, stop)));
-      index = stop;
-    } else if (source.startsWith("<<", index) && /^<<-?[A-Za-z_]/.test(source.slice(index, index + 4))) {
-      const opener = required(source.slice(index).matchAll(HEREDOC).next().value, "heredoc opener");
-      const marker = required(opener[1], "heredoc marker");
-      const closer = new RegExp(`\\n[\\t ]*${marker}[\\t ]*(?:\\r?\\n|$)`).exec(source.slice(index));
-      if (!closer) return undefined;
-      const end = index + closer.index + closer[0].length;
-      chunks.push(blank(source.slice(index, end)));
-      index = end;
-    } else if (character === '"') {
-      let position = index + 1;
-      for (;;) {
-        if (position >= source.length || source[position] === "\n") return undefined;
-        if (source[position] === "\\") position += 2;
-        else if (source[position] === '"') break;
-        else position++;
-      }
-      chunks.push(`"${blank(source.slice(index + 1, position))}"`);
-      index = position + 1;
-    } else {
-      chunks.push(character);
-      index++;
-    }
+    const step = maskStep(source, index);
+    if (step === undefined) return undefined;
+    chunks.push(step.text);
+    index = step.next;
   }
   return chunks.join("");
 }
@@ -210,6 +246,56 @@ export interface HclAttributeValue {
   line: number;
 }
 
+/** A quoted string with no escape, no interpolation or directive, and no padding; `""` is not one. */
+function isPlainLiteral(value: string): boolean {
+  return value !== "" && value === value.trim() && !/[\\$%]\{/.test(value) && !value.includes("\\");
+}
+
+/** The quoted value of an attribute that starts with `"`, or undefined when the quotes do not close before `stop`. */
+function quotedAttribute(
+  hcl: HclSource,
+  name: string,
+  equals: number,
+  stop: number,
+): { value: HclAttributeValue; next: number } | undefined {
+  const open = hcl.masked.indexOf('"', equals);
+  const close = open < 0 ? -1 : hcl.masked.indexOf('"', open + 1);
+  const rest = close < 0 ? "" : hcl.masked.slice(close + 1, stop).trim();
+  if (open < 0 || close < 0 || close >= stop || (rest !== "" && !rest.startsWith("}"))) return undefined;
+  const value = hcl.source.slice(open + 1, close);
+  const literal = isPlainLiteral(value);
+  return {
+    value: {
+      name,
+      value: literal ? value : hcl.source.slice(open, close + 1),
+      literal,
+      line: lineAt(hcl.source, open + 1),
+    },
+    next: close + 1,
+  };
+}
+
+/** The attribute that starts at `index`, if any; its value runs to the end of its line or `end`. */
+function attributeAt(
+  hcl: HclSource,
+  index: number,
+  end: number,
+): { value: HclAttributeValue; next: number } | undefined {
+  const match = ATTRIBUTE_START.exec(hcl.masked.slice(index, index + MAXIMUM_LINE_LENGTH));
+  if (!match) return undefined;
+  const name = required(match[1], "attribute name");
+  const equals = index + match[0].length - 1;
+  const lineEnd = hcl.masked.indexOf("\n", equals);
+  const stop = lineEnd < 0 || lineEnd > end ? end : lineEnd;
+  const masked = hcl.masked.slice(equals + 1, stop).trim();
+  if (masked === "") return undefined;
+  if (masked.startsWith('"')) return quotedAttribute(hcl, name, equals, stop);
+  return {
+    value: { name, value: masked, literal: false, line: lineAt(hcl.source, equals + 1) },
+    next: equals + 1,
+  };
+}
+
 /**
  * Every `name = <value>` attribute at depth 0 of `[start, end)`, whether or not
  * its value is a literal string. A literal is returned without its quotes; any
@@ -217,42 +303,5 @@ export interface HclAttributeValue {
  * A value that is empty is skipped.
  */
 export function attributeValues(hcl: HclSource, start: number, end: number): HclAttributeValue[] {
-  const attribute = /^([A-Za-z_][A-Za-z0-9_-]*)[^\S\n]*=/;
-  return directChildren(hcl.masked, start, end, (index) => {
-    const match = attribute.exec(hcl.masked.slice(index, index + MAXIMUM_LINE_LENGTH));
-    if (!match) return undefined;
-    const equals = index + match[0].length - 1;
-    const lineEnd = hcl.masked.indexOf("\n", equals);
-    const stop = lineEnd < 0 || lineEnd > end ? end : lineEnd;
-    const masked = hcl.masked.slice(equals + 1, stop).trim();
-    if (masked === "") return undefined;
-    if (masked.startsWith('"')) {
-      const open = hcl.masked.indexOf('"', equals);
-      const close = open < 0 ? -1 : hcl.masked.indexOf('"', open + 1);
-      const rest = close < 0 ? "" : hcl.masked.slice(close + 1, stop).trim();
-      if (open >= 0 && close >= 0 && close < stop && (rest === "" || rest.startsWith("}"))) {
-        const value = hcl.source.slice(open + 1, close);
-        const literal = value !== "" && value === value.trim() && !/[\\$%]\{/.test(value) && !value.includes("\\");
-        return {
-          value: {
-            name: required(match[1], "attribute name"),
-            value: literal ? value : hcl.source.slice(open, close + 1),
-            literal,
-            line: lineAt(hcl.source, open + 1),
-          },
-          next: close + 1,
-        };
-      }
-      return undefined;
-    }
-    return {
-      value: {
-        name: required(match[1], "attribute name"),
-        value: masked,
-        literal: false,
-        line: lineAt(hcl.source, equals + 1),
-      },
-      next: equals + 1,
-    };
-  });
+  return directChildren(hcl.masked, start, end, (index) => attributeAt(hcl, index, end));
 }

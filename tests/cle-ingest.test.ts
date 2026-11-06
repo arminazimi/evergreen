@@ -5,6 +5,7 @@ import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { after, test } from "node:test";
 
+import { restoreFixtureNames } from "../src/fixture-names.js";
 import { CLE_FILE_NAME, cleDetector, ingestCle, parseCleDocument } from "../src/cle-ingest.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
@@ -28,6 +29,7 @@ async function installedFixture(): Promise<string> {
   for (const name of ["legacy-widget", "current-widget"]) {
     await cp(join(packagesRoot, name), join(modules, name), { recursive: true });
   }
+  await restoreFixtureNames(modules);
   return root;
 }
 

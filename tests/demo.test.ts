@@ -1,14 +1,23 @@
+import { rm } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanDemo } from "../src/demo.js";
 import { scanRepository } from "../src/engine.js";
 import { createMigrationPacket } from "../src/migration-packet.js";
 
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const demoRoots: string[] = [];
+const demoFixture = await copyFixtureTree(resolve("examples/demo"), demoRoots);
+after(async () => {
+  await Promise.all(demoRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
 test("the public demo exercises discovery and migration context", async () => {
-  const result = await scanRepository(resolve("examples/demo"), builtInDetectors);
+  const result = await scanRepository(demoFixture, builtInDetectors);
   assert.deepEqual(
     result.findings.map((finding) => finding.ruleId),
     [

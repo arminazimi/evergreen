@@ -37,12 +37,14 @@ jobs:
           # Ordinary pull requests ship the committed Action bundle; rebuild so this job compares the
           # source under test, not a stale release artifact.
           npm run build:action --silent
+          mkdir -p "$RUNNER_TEMP/evergreen-smoke"
+          cp tests/fixtures/smoke/package.json.fixture "$RUNNER_TEMP/evergreen-smoke/package.json"
 
       - name: Pack, install, and scan with the npm tarball # zizmor: ignore[adhoc-packages] -- installs the local npm pack tarball under test, not a registry package
         id: npm
         run: |
           set -euo pipefail
-          fixture="$GITHUB_WORKSPACE/tests/fixtures/smoke"
+          fixture="$RUNNER_TEMP/evergreen-smoke"
           out="$RUNNER_TEMP/package-smoke"
           mkdir -p "$out"
           # prepack runs the full check; build already ran, so pack the built tree only.
@@ -80,7 +82,7 @@ jobs:
           docker build -t evergreen-package-smoke .
           # Same network-free, read-only shape as the release image smoke.
           docker run --rm --network none --read-only \
-            -v "$GITHUB_WORKSPACE/tests/fixtures/smoke:/workspace:ro" \
+            -v "$RUNNER_TEMP/evergreen-smoke:/workspace:ro" \
             evergreen-package-smoke scan /workspace --json > "$out/docker-scan.json"
           echo "path=$out/docker-scan.json" >> "$GITHUB_OUTPUT"
           # shellcheck disable=SC2016
@@ -95,7 +97,7 @@ jobs:
         id: action
         uses: ./
         with:
-          path: tests/fixtures/smoke
+          path: ${{ runner.temp }}/evergreen-smoke
           fail-on-severity: none
           upload-report: "false"
           upload-sarif: "false"

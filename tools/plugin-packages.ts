@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -19,28 +19,32 @@ interface PackageMetadata {
 const codexPositiveCases = [
   {
     description: "Scan the review fixture for supported lifecycle risks",
-    prompt: "Scan review-fixtures/demo for end-of-life runtimes, packages, and GitHub Actions.",
+    prompt:
+      "Copy review-fixtures/demo into a temporary directory and rename package.json.fixture to package.json there. Scan that copy for end-of-life runtimes, packages, and GitHub Actions.",
     tools_triggered: "scan_repository",
     expected_behavior:
       "Report the fixture's evidence-backed Node.js, request, and actions/checkout lifecycle findings with file locations.",
   },
   {
     description: "List the fixture's deprecations",
-    prompt: "List every Evergreen deprecation in review-fixtures/demo and group the results by severity.",
+    prompt:
+      "Copy review-fixtures/demo into a temporary directory and rename package.json.fixture to package.json there. List every Evergreen deprecation in that copy and group the results by severity.",
     tools_triggered: "list_deprecations",
     expected_behavior:
       "Return only findings supported by Evergreen's bundled registry and identify their severity and source files.",
   },
   {
     description: "Explain the deprecated request dependency",
-    prompt: "Explain the request package finding in review-fixtures/demo, including its evidence and replacement.",
+    prompt:
+      "Copy review-fixtures/demo into a temporary directory and rename package.json.fixture to package.json there. Explain the request package finding in that copy, including its evidence and replacement.",
     tools_triggered: "scan_repository, explain_deprecation",
     expected_behavior:
       "Explain why request is deprecated, cite the bundled evidence URL, and recommend native fetch or a maintained client.",
   },
   {
     description: "Build migration context for a finding",
-    prompt: "Create migration context for the request dependency finding in review-fixtures/demo.",
+    prompt:
+      "Copy review-fixtures/demo into a temporary directory and rename package.json.fixture to package.json there. Create migration context for the request dependency finding in that copy.",
     tools_triggered: "scan_repository, create_migration_context",
     expected_behavior:
       "Return the affected manifest and source usages, migration guidance, and reviewable verification suggestions without editing files.",
@@ -293,7 +297,7 @@ export async function expectedPluginFiles(root = process.cwd()): Promise<Map<str
   </g>
 </svg>\n`;
   const demoFiles = await Promise.all(
-    ["package.json", ".github/workflows/ci.yml", "src/client.js"].map(
+    ["package.json.fixture", ".github/workflows/ci.yml", "src/client.js"].map(
       async (path) =>
         [
           `plugins/codex/review-fixtures/demo/${path}`,
@@ -343,6 +347,9 @@ export async function expectedPluginFiles(root = process.cwd()): Promise<Map<str
 
 export async function buildPluginPackages(root = process.cwd()): Promise<void> {
   const expected = await expectedPluginFiles(root);
+  for (const path of (await Promise.all(generatedRoots.map((path) => listFiles(resolve(root, path))))).flat()) {
+    if (!expected.has(relativePosix(root, path))) await rm(path);
+  }
   for (const [path, contents] of expected) {
     const absolutePath = resolve(root, path);
     await mkdir(dirname(absolutePath), { recursive: true });

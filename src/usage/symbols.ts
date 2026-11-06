@@ -1,6 +1,6 @@
 import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
-import type { SourceUsage, SymbolUsageMatcher } from "../domain.js";
+import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
 
 /** A name an import binds in a file: the module, the local name, and what of the module the name stands for. */
 export interface SymbolBinding {
@@ -82,31 +82,55 @@ export function symbolUsages(
     const name = `${matcher.module === undefined ? "" : `${matcher.module}.`}${matcher.symbol}`;
     for (const occurrence of occurrences) {
       if (resolve(matcher, occurrence, bindings) !== matcher.symbol) continue;
-      let reported: { node: Node; symbol: string } | undefined;
-      if (matcher.shape === "reference" && occurrence.role === "reference")
-        reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "call" && occurrence.role === "call")
-        reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "construct" && occurrence.role === "construct")
-        reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "option" && occurrence.role !== "reference" && matcher.option !== undefined) {
-        const options = occurrence.options ?? [];
-        const position = matcher.argument ?? options.length - 1;
-        const found =
-          matcher.language === "python"
-            ? pythonOption(options, matcher.option, matcher.argument)
-            : options[position]?.get(matcher.option);
-        if (found) reported = { node: found, symbol: `${name}(${matcher.option})` };
-      }
+      const reported = reportedNode(matcher, occurrence, name);
       if (!reported) continue;
       const { location, excerpt } = describe(reported.node);
       const key = `${location.line}:${location.column}:${reported.symbol}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      usages.push({ kind: "symbol", language: file.language, symbol: reported.symbol, location, excerpt });
+      usages.push({
+        kind: "symbol",
+        language: file.language,
+        symbol: reported.symbol,
+        location,
+        excerpt,
+      });
     }
   }
   return usages;
+}
+
+/** The occurrence role each call-like shape reports. `option` and `method` are handled apart. */
+const roleByShape = new Map<SymbolUsageMatcher["shape"], SymbolOccurrence["role"]>([
+  ["reference", "reference"],
+  ["call", "call"],
+  ["construct", "construct"],
+]);
+
+/** The node a matched occurrence is reported at, and the symbol it is reported as; undefined when it is not reported. */
+function reportedNode(
+  matcher: SymbolUsageMatcher,
+  occurrence: SymbolOccurrence,
+  name: string,
+): { node: Node; symbol: string } | undefined {
+  if (matcher.shape === "option") return optionNode(matcher, occurrence, name);
+  return roleByShape.get(matcher.shape) === occurrence.role ? { node: occurrence.head, symbol: name } : undefined;
+}
+
+/** An option is reported at the option's name inside the call's options, as `name(option)`. */
+function optionNode(
+  matcher: SymbolUsageMatcher,
+  occurrence: SymbolOccurrence,
+  name: string,
+): { node: Node; symbol: string } | undefined {
+  const option = matcher.option;
+  if (option === undefined || occurrence.role === "reference") return undefined;
+  const options = occurrence.options ?? [];
+  const found =
+    matcher.language === "python"
+      ? pythonOption(options, option, matcher.argument)
+      : options[matcher.argument ?? options.length - 1]?.get(option);
+  return found ? { node: found, symbol: `${name}(${option})` } : undefined;
 }
 
 /** A Python option is a keyword argument anywhere in the call, or a positional argument at the declared position. */
@@ -120,4 +144,24 @@ function pythonOption(
     if (found) return found;
   }
   return position === undefined ? undefined : options[position]?.get(positionalKey);
+}
+
+/** The symbol matchers of one contract for one language. */
+export function symbolMatchersFor(
+  contract: SourceUsageContract,
+  language: SymbolUsageMatcher["language"],
+): SymbolUsageMatcher[] {
+  return contract.matchers.filter(
+    (matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === language,
+  );
+}
+
+/** Whether any contract has a reference matcher for `language`, so the analyzer must collect bare names. */
+export function wantsReferences(
+  contracts: readonly SourceUsageContract[],
+  language: SymbolUsageMatcher["language"],
+): boolean {
+  return contracts.some((contract) =>
+    symbolMatchersFor(contract, language).some((matcher) => matcher.shape === "reference"),
+  );
 }

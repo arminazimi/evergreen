@@ -8,7 +8,7 @@ import { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH, parsePubspec } from "../src/d
 const fixtures = resolve("tests/fixtures/dart");
 
 async function fixture(path: string): Promise<string> {
-  return readFile(resolve(fixtures, path), "utf8");
+  return readFile(resolve(fixtures, `${path}.fixture`), "utf8");
 }
 
 test("parses the environment constraints and direct dependencies of a pubspec.yaml with exact lines", async () => {

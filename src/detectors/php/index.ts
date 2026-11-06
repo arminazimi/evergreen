@@ -6,7 +6,14 @@ import { relativePosix } from "../../paths.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
+import type {
+  Detector,
+  DetectorAnalysis,
+  DetectorContext,
+  DetectorFinding,
+  DetectorInputs,
+  DetectorUnclassifiedReference,
+} from "../../sdk.js";
 import { analyzeSourceUsage, findPhpDynamicReferences } from "../../source-usage.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseComposerJson } from "./parse-composer-json.js";
@@ -94,6 +101,188 @@ function coversEveryVersion(rule: RegistryV2Rule): boolean {
   }
 }
 
+type RuleList = readonly RegistryV2Rule[];
+
+/** Findings and the rules that still need their usages matched, collected while the files are read. */
+interface ScanState {
+  readonly findings: DetectorFinding[];
+  readonly withUsage: Array<{ id: string; rule: RegistryV2Rule }>;
+}
+
+function reportFinding(state: ScanState, rule: RegistryV2Rule, path: string, line: number, summary: string): void {
+  const id = `${rule.id}:${path}:${line}`;
+  state.findings.push({
+    id,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location: { path, line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  });
+  if ((rule.usage ?? []).length > 0) state.withUsage.push({ id, rule });
+}
+
+/** Splits the registry into runtime rules and package rules keyed by the decoded Composer package name. */
+function indexRules(rules: RuleList): {
+  runtimeRules: RuleList;
+  packageRules: Map<string, RegistryV2Rule[]>;
+} {
+  const packageRules = new Map<string, RegistryV2Rule[]>();
+  for (const rule of rules) {
+    if (!rule.purl.startsWith(COMPOSER_PURL_PREFIX)) continue;
+    const name = decodeURIComponent(rule.purl.slice(COMPOSER_PURL_PREFIX.length));
+    const existing = packageRules.get(name);
+    if (existing) existing.push(rule);
+    else packageRules.set(name, [rule]);
+  }
+  return {
+    runtimeRules: rules.filter((rule) => rule.purl === RUNTIME_PURL),
+    packageRules,
+  };
+}
+
+/** A PHP runtime pin: the first runtime rule whose range contains it is reported with the given verb. */
+function reportRuntime(
+  state: ScanState,
+  runtimeRules: RuleList,
+  path: string,
+  declaration: { value: string; line: number },
+  verb: string,
+): void {
+  const version = runtimeVersion(declaration.value);
+  const rule = firstMatchingRule(runtimeRules, version);
+  if (rule) reportFinding(state, rule, path, declaration.line, `${path} ${verb} PHP ${version}. ${rule.summary}`);
+}
+
+/** A direct `composer.json` package: only rules that name every version of the package apply. */
+function reportDeclaredPackage(
+  state: ScanState,
+  packageRules: ReadonlyMap<string, RegistryV2Rule[]>,
+  path: string,
+  declaration: { name: string; value: string; line: number },
+): void {
+  for (const rule of packageRules.get(declaration.name) ?? []) {
+    if (coversEveryVersion(rule))
+      reportFinding(
+        state,
+        rule,
+        path,
+        declaration.line,
+        `${path} declares ${declaration.name} ${declaration.value}. ${rule.summary}`,
+      );
+  }
+}
+
+/** A locked package version: the first rule whose range contains the resolved version is reported. */
+function reportResolvedPackage(
+  state: ScanState,
+  packageRules: ReadonlyMap<string, RegistryV2Rule[]>,
+  path: string,
+  declaration: { name: string; value: string; line: number },
+): void {
+  const rule = firstMatchingRule(packageRules.get(declaration.name) ?? [], declaration.value);
+  if (rule)
+    reportFinding(
+      state,
+      rule,
+      path,
+      declaration.line,
+      `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
+    );
+}
+
+function scanComposerJson(
+  state: ScanState,
+  runtimeRules: RuleList,
+  packageRules: ReadonlyMap<string, RegistryV2Rule[]>,
+  path: string,
+  contents: string,
+): void {
+  for (const declaration of parseComposerJson(contents)) {
+    if (declaration.kind === "require-php") reportRuntime(state, runtimeRules, path, declaration, "requires");
+    else if (declaration.kind === "platform-php") reportRuntime(state, runtimeRules, path, declaration, "pins");
+    else reportDeclaredPackage(state, packageRules, path, declaration);
+  }
+}
+
+function scanComposerLock(
+  state: ScanState,
+  runtimeRules: RuleList,
+  packageRules: ReadonlyMap<string, RegistryV2Rule[]>,
+  path: string,
+  contents: string,
+): void {
+  for (const declaration of parseComposerLock(contents)) {
+    if (declaration.kind === "platform-php") reportRuntime(state, runtimeRules, path, declaration, "resolves");
+    else reportResolvedPackage(state, packageRules, path, declaration);
+  }
+}
+
+/** Reads one of the four PHP files, whichever it is, and reports what it declares. */
+function scanFile(
+  state: ScanState,
+  runtimeRules: RuleList,
+  packageRules: ReadonlyMap<string, RegistryV2Rule[]>,
+  name: string,
+  path: string,
+  contents: string,
+): void {
+  if (name === ".php-version") {
+    for (const declaration of parsePhpVersion(contents)) reportRuntime(state, runtimeRules, path, declaration, "pins");
+  } else if (name === ".tool-versions") {
+    for (const declaration of parseToolVersions(contents))
+      reportRuntime(state, runtimeRules, path, declaration, "pins");
+  } else if (name === "composer.json") {
+    scanComposerJson(state, runtimeRules, packageRules, path, contents);
+  } else if (name === "composer.lock") {
+    scanComposerLock(state, runtimeRules, packageRules, path, contents);
+  }
+}
+
+/** Matches the usage rules of every finding that has them, and lists the dynamic references that block a match. */
+async function attachUsages(root: string, state: ScanState): Promise<DetectorUnclassifiedReference[]> {
+  if (state.withUsage.length === 0) return [];
+  const analyses = new Map(
+    (
+      await analyzeSourceUsage(
+        root,
+        state.withUsage.map((item) => ({
+          id: item.id,
+          matchers: item.rule.usage ?? [],
+        })),
+      )
+    ).map((analysis) => [analysis.contractId, analysis]),
+  );
+  for (const finding of state.findings) {
+    const analysis = analyses.get(finding.id);
+    if (analysis)
+      Object.assign(finding, {
+        usages: analysis.usages,
+        impact: analysis.impact,
+      });
+  }
+  return (await findPhpDynamicReferences(root)).map((reference) => ({
+    component: "php",
+    reference: reference.reference,
+    reason: reference.reason,
+    location: {
+      path: reference.path,
+      line: reference.line,
+      column: reference.column,
+    },
+  }));
+}
+
+/** By path, then line, then id. */
+function compareFindings(left: DetectorFinding, right: DetectorFinding): number {
+  if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
+  return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
+}
+
 export class PhpDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "php";
@@ -117,36 +306,8 @@ export class PhpDetector implements Detector {
     const files = await phpFiles(context.root);
     if (files.length === 0) return { findings: [], unclassified: [] };
 
-    const rules = await this.loadRules();
-    const runtimeRules = rules.filter((rule) => rule.purl === RUNTIME_PURL);
-    const packageRules = new Map<string, RegistryV2Rule[]>();
-    for (const rule of rules) {
-      if (!rule.purl.startsWith(COMPOSER_PURL_PREFIX)) continue;
-      const name = decodeURIComponent(rule.purl.slice(COMPOSER_PURL_PREFIX.length));
-      const existing = packageRules.get(name);
-      if (existing) existing.push(rule);
-      else packageRules.set(name, [rule]);
-    }
-
-    const findings: DetectorFinding[] = [];
-    const withUsage: Array<{ id: string; rule: RegistryV2Rule }> = [];
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
-      const id = `${rule.id}:${path}:${line}`;
-      findings.push({
-        id,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
-      if ((rule.usage ?? []).length > 0) withUsage.push({ id, rule });
-    };
-
+    const { runtimeRules, packageRules } = indexRules(await this.loadRules());
+    const state: ScanState = { findings: [], withUsage: [] };
     for (const file of files) {
       let contents: string;
       try {
@@ -154,90 +315,12 @@ export class PhpDetector implements Detector {
       } catch {
         continue;
       }
-      const path = relativePosix(context.root, file);
-      const name = basename(file);
-
-      if (name === ".php-version" || name === ".tool-versions") {
-        const declarations = name === ".php-version" ? parsePhpVersion(contents) : parseToolVersions(contents);
-        for (const declaration of declarations) {
-          const version = runtimeVersion(declaration.value);
-          const rule = firstMatchingRule(runtimeRules, version);
-          if (rule) report(rule, path, declaration.line, `${path} pins PHP ${version}. ${rule.summary}`);
-        }
-      } else if (name === "composer.json") {
-        for (const declaration of parseComposerJson(contents)) {
-          if (declaration.kind === "require-php" || declaration.kind === "platform-php") {
-            const version = runtimeVersion(declaration.value);
-            const rule = firstMatchingRule(runtimeRules, version);
-            const verb = declaration.kind === "require-php" ? "requires" : "pins";
-            if (rule) report(rule, path, declaration.line, `${path} ${verb} PHP ${version}. ${rule.summary}`);
-            continue;
-          }
-          for (const rule of packageRules.get(declaration.name) ?? []) {
-            if (coversEveryVersion(rule))
-              report(
-                rule,
-                path,
-                declaration.line,
-                `${path} declares ${declaration.name} ${declaration.value}. ${rule.summary}`,
-              );
-          }
-        }
-      } else if (name === "composer.lock") {
-        for (const declaration of parseComposerLock(contents)) {
-          if (declaration.kind === "platform-php") {
-            const version = runtimeVersion(declaration.value);
-            const rule = firstMatchingRule(runtimeRules, version);
-            if (rule) report(rule, path, declaration.line, `${path} resolves PHP ${version}. ${rule.summary}`);
-            continue;
-          }
-          const rule = firstMatchingRule(packageRules.get(declaration.name) ?? [], declaration.value);
-          if (rule)
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
-            );
-        }
-      }
+      scanFile(state, runtimeRules, packageRules, basename(file), relativePosix(context.root, file), contents);
     }
 
-    const unclassified: Array<{
-      component: string;
-      reference: string;
-      reason: string;
-      location: { path: string; line: number; column: number };
-    }> = [];
-
-    if (withUsage.length > 0) {
-      const analyses = new Map(
-        (
-          await analyzeSourceUsage(
-            context.root,
-            withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })),
-          )
-        ).map((analysis) => [analysis.contractId, analysis]),
-      );
-      for (const finding of findings) {
-        const analysis = analyses.get(finding.id);
-        if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
-      }
-      for (const reference of await findPhpDynamicReferences(context.root)) {
-        unclassified.push({
-          component: "php",
-          reference: reference.reference,
-          reason: reference.reason,
-          location: { path: reference.path, line: reference.line, column: reference.column },
-        });
-      }
-    }
-
-    findings.sort((left, right) => {
-      if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
-      return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
-    });
-    return { findings, unclassified };
+    const unclassified = await attachUsages(context.root, state);
+    state.findings.sort(compareFindings);
+    return { findings: state.findings, unclassified };
   }
 }
 

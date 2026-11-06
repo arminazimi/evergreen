@@ -92,13 +92,15 @@ npm run check
 
 `npm run check` builds the project, bundles the Action, runs every test, and checks generated plugin files. It is the same gate CI runs.
 
+While you work, `npm run check:fast` answers in under a minute: it builds, then runs the formatter check, lint, and only the tests that match the files you changed against `origin/main`. It does not replace `npm run check`; the merge queue and CI still run everything.
+
 CI also enforces test coverage floors (93% lines, 87% branches, 93% functions) with `npm run test:coverage`. New code should come with tests so the number stays up; raise the floors in `package.json` when coverage rises, never lower them to make a change pass.
 
 The pull request gate GitHub enforces is one status check, `ci-ok`. It runs after every other CI job and fails when any of them failed or was cancelled; a skipped job counts as passing. Only `ci-ok` is required by branch protection, so the jobs behind it can change without editing repository settings. Maintainers enable the merge queue in [MAINTAINERS.md](MAINTAINERS.md#branch-protection-and-the-merge-queue).
 
 ### Optional pre-push hook
 
-The repository ships an opt-in hook with two offline checks. When a push changes a file that the rules read (`src/`, `tools/`, `tests/`, `benchmarks/`, or a rule configuration file), it runs `npm run check:rules`: the formatter, the dead-code scan, type-aware lint, and the quality bar — the same rules as `npm run check`, without the test suite. When the push changes a manifest, lockfile, workflow, or Dockerfile, it builds locally, scans, and blocks the push on any finding the baseline does not cover (the same gate as the `self-scan` CI job). A push that touches neither is not slowed down. The hook uses the dependencies `npm ci` already installs; enabling it needs only `git`.
+The repository ships an opt-in hook with two offline checks. When a push changes a file that the rules read (`src/`, `tools/`, `tests/`, `benchmarks/`, or a rule configuration file), it runs `npm run check:rules`: the formatter, the dead-code scan, type-aware lint, the quality bar, and the architecture boundary check — the same rules as `npm run check`, without the test suite. When the push changes a manifest, lockfile, workflow, or Dockerfile, it builds locally, scans, and blocks the push on any finding the baseline does not cover (the same gate as the `self-scan` CI job). A push that touches neither is not slowed down. The hook uses the dependencies `npm ci` already installs; enabling it needs only `git`.
 
 ```bash
 git config core.hooksPath .githooks

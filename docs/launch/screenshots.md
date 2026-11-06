@@ -85,7 +85,8 @@ path so existing links keep working.
 
 ```bash
 npm run build
-node dist/src/cli.js scan examples/demo --format html > report.html
+demo="$(node dist/tools/examples.js demo)"
+node dist/src/cli.js scan "$demo" --format html > report.html
 ```
 
 For the treemap, use the treemap section of the same HTML report. The Action

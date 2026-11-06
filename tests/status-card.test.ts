@@ -1,10 +1,19 @@
+import { rm } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import { renderStatusCard } from "../src/status-card.js";
 import { runCli } from "./cli-runner.js";
+
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const fixtureRoots: string[] = [];
+const smokeFixture = await copyFixtureTree(resolve("tests/fixtures/smoke"), fixtureRoots);
+after(async () => {
+  await Promise.all(fixtureRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 type Input = Pick<ScanResult, "findings" | "data">;
 
@@ -63,7 +72,7 @@ test("hostile labels and data versions are escaped", () => {
 });
 
 test("the CLI renders a card for the scanned path", async () => {
-  const result = await runCli(["status-card", resolve("tests/fixtures/smoke"), "--name", "acme/widgets"]);
+  const result = await runCli(["status-card", smokeFixture, "--name", "acme/widgets"]);
   assert.equal(result.code, 0);
   assert.match(result.stdout, /^<svg /);
   assert.match(result.stdout, /evergreen status for acme\/widgets/);

@@ -2,12 +2,20 @@ import assert from "node:assert/strict";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
 
 import type { Finding, ScanResult, Severity } from "../src/domain.js";
 import type { Forecast, ForecastEvent } from "../src/forecast.js";
 import { MERMAID_MAX_BARS, renderForecastMermaid, renderScanMermaid } from "../src/mermaid.js";
 import { runCli } from "./cli-runner.js";
+
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const demoRoots: string[] = [];
+const demoFixture = await copyFixtureTree(resolve("examples/demo"), demoRoots);
+after(async () => {
+  await Promise.all(demoRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 const asOf = "2026-10-30";
 
@@ -228,7 +236,7 @@ test("--as-of controls the today marker and every bar start, so output is reprod
     assert.deepEqual(chart.sections, ["github-actions", "today"]);
     assert.equal(chart.bars.at(-1)!.label, `today ${asOf}`);
 
-    const demo = resolve("examples/demo");
+    const demo = demoFixture;
     const forecast = await run("forecast", demo, "--format", "mermaid", "--as-of", asOf);
     assert.equal(forecast.stdout, (await run("forecast", demo, "--format", "mermaid", "--as-of", asOf)).stdout);
     assert.ok(parseChart(forecast.stdout).bars.length > 1);

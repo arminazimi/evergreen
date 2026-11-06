@@ -10,7 +10,7 @@ async function fixture(path: string): Promise<string> {
 }
 
 test("parses Cargo.toml dependencies from every table, edition, and rust-version with exact lines", async () => {
-  assert.deepEqual(parseCargoToml(await fixture("positive/Cargo.toml")), [
+  assert.deepEqual(parseCargoToml(await fixture("positive/Cargo.toml.fixture")), [
     { kind: "edition", value: "2021", line: 4 },
     { kind: "rust-version", value: "1.70", line: 5 },
     { kind: "dependency", crate: "failure", name: "failure", section: "dependencies", value: "0.1.8", line: 8 },
@@ -24,7 +24,7 @@ test("parses Cargo.toml dependencies from every table, edition, and rust-version
 });
 
 test("parses workspace.dependencies and the workspace edition", async () => {
-  assert.deepEqual(parseCargoToml(await fixture("positive/workspace/Cargo.toml")), [
+  assert.deepEqual(parseCargoToml(await fixture("positive/workspace/Cargo.toml.fixture")), [
     { kind: "edition", value: "2018", line: 5 },
     { kind: "dependency", crate: "failure", name: "failure", section: "workspace", value: "0.1", line: 8 },
     { kind: "dependency", crate: "serde", name: "serde", section: "workspace", value: "1", line: 9 },
@@ -33,7 +33,7 @@ test("parses workspace.dependencies and the workspace edition", async () => {
 
 test("ignores comments, prose, features, path, git, workspace, and dynamic dependencies", async () => {
   assert.deepEqual(
-    parseCargoToml(await fixture("negative/Cargo.toml")).map((declaration) => [
+    parseCargoToml(await fixture("negative/Cargo.toml.fixture")).map((declaration) => [
       declaration.kind,
       declaration.value,
       declaration.line,
@@ -44,7 +44,7 @@ test("ignores comments, prose, features, path, git, workspace, and dynamic depen
     ],
     "only edition and the plain serde dependency; nothing for failure, tempdir, local, fork, inherited, or dynamic",
   );
-  assert.deepEqual(parseCargoToml(await fixture("zero/Cargo.toml")), [
+  assert.deepEqual(parseCargoToml(await fixture("zero/Cargo.toml.fixture")), [
     { kind: "edition", value: "2024", line: 4 },
     { kind: "dependency", crate: "serde", name: "serde", section: "dependencies", value: "1.0", line: 7 },
   ]);
@@ -74,7 +74,7 @@ test("reads a dependency written as its own table and dotted keys, and keeps ren
 });
 
 test("malformed input returns nothing and never throws", async () => {
-  const malformed = await fixture("malformed/Cargo.toml");
+  const malformed = await fixture("malformed/Cargo.toml.fixture");
   assert.doesNotThrow(() => parseCargoToml(malformed));
   assert.deepEqual(parseCargoToml(malformed), []);
   for (const junk of ["\u0000\u0001", "[", "[[", "[a", 'a = "', "a b c", "=", "\r\n\r\n", "}}{{"]) {

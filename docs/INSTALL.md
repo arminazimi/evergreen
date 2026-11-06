@@ -28,7 +28,7 @@ npm install -g evergreen-deprecation
 evergreen scan .
 ```
 
-**Verify.** `npx evergreen-deprecation --version` prints the published version (currently `0.7.1`). `npx evergreen-deprecation scan examples/demo` reports findings for the demo project.
+**Verify.** `npx evergreen-deprecation --version` prints the published version (currently `0.7.1`). `npx evergreen-deprecation demo` reports findings for the demo project.
 
 ## GitHub Action
 
@@ -113,7 +113,7 @@ On Apple Silicon, pass `--platform linux/amd64` because the image is published f
 brew install arminazimi/tap/evergreen
 ```
 
-**Verify.** `evergreen --version` prints the formula version, and `evergreen scan examples/demo` (from a clone) reports the demo findings.
+**Verify.** `evergreen --version` prints the formula version, and `evergreen demo` reports the demo findings.
 
 ## Standalone binaries
 
