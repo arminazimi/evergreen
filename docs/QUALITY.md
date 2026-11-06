@@ -173,10 +173,12 @@ change without tests fails the floor.
 
 ## 7. Mutation score
 
-**Target.** On the mutated core (`src/engine/`, `src/baseline.ts`, `src/diff.ts`, `src/vers/**/*.ts`), each
+**Target.** On the mutated core (`src/engine/`, `src/baseline.ts`, `src/diff.ts`, `src/vers/**/*.ts`) and the reporters
+(`src/reporters.ts`, `src/reporters/**/*.ts`), each
 file's score may not fall below the value in
 [`benchmarks/mutation-baseline.json`](../benchmarks/mutation-baseline.json), and the overall score stays at **60% or
-more** (`break`), with **80%** the high-water mark.
+more** (`break`), with **80%** the high-water mark. Every reporter file's baseline is at least 80%, and
+`tests/mutation-baseline.test.ts` fails if one is missing or lower.
 
 **Enforced by.** The `report` job in `mutation.yml` merges the shard reports and runs `tools/mutation-baseline.js`
 (`npm run check:mutation`). A file whose score fell below its baseline fails the job with the file and the
@@ -189,7 +191,9 @@ score. The overall `thresholds.break` stays `null`; setting it is #2282. A full 
 
 **Current.** Measured 2026-11-04 from the nightly report: overall **59.68%**. Per file: engine 23.93%, diff 57.94%,
 semver 68.57%, gem 72.41%, baseline 72.78%, pep440 78.28%, maven 83.10%, nuget 84.56%. The two files below the 60%
-target are existing debt owned by #2103 (engine) and the test-quality epic (#1992).
+target are existing debt owned by #2103 (engine) and the test-quality epic (#1992). The reporters were measured
+2026-11-07 at 94.11% overall (lowest file: `html.ts`, 87.93%), with golden-output tests in
+`tests/reporters-golden.test.ts`.
 
 **Condition to set the break threshold.** The overall score is 59.68% (2026-11-04). #2282 sets `thresholds.break`
 to 60, or to the measured score with a follow-up, and records the score and date here. That change makes the

@@ -1,0 +1,314 @@
+{
+  "type": "message",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "contentUrl": null,
+      "content": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.4",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "Evergreen lifecycle scan",
+            "weight": "Bolder",
+            "size": "Medium",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Evergreen: 21 findings \\(high 21\\)",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 00 \\(src/f0\\.ts:1\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 00",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 01 \\(src/f1\\.ts:2\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 01",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 10 \\(src/f10\\.ts:11\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 10",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 11 \\(src/f11\\.ts:12\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 11",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 12 \\(src/f12\\.ts:13\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 12",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 13 \\(src/f13\\.ts:14\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 13",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 14 \\(src/f14\\.ts:15\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 14",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 15 \\(src/f15\\.ts:16\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 15",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 16 \\(src/f16\\.ts:17\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 16",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 17 \\(src/f17\\.ts:18\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 17",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 18 \\(src/f18\\.ts:19\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 18",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 19 \\(src/f19\\.ts:20\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 19",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 02 \\(src/f2\\.ts:3\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 02",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 20 \\(src/f20\\.ts:21\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 20",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 03 \\(src/f3\\.ts:4\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 03",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 04 \\(src/f4\\.ts:5\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 04",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 05 \\(src/f5\\.ts:6\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 05",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 06 \\(src/f6\\.ts:7\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 06",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 07 \\(src/f7\\.ts:8\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 07",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: Title 08 \\(src/f8\\.ts:9\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary 08",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "1 more finding omitted; use \\-\\-format json for all\\.",
+            "wrap": true,
+            "isSubtle": true
+          }
+        ]
+      }
+    }
+  ]
+}

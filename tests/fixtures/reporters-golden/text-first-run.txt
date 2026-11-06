@@ -1,0 +1,16 @@
+Found 1 lifecycle risk. The most urgent:
+  MEDIUM Title only (a.ts:1)
+Next: run `evergreen init --personal` to check every repository before you push.
+
+Evergreen scan
+Repository: /repository
+Findings: 1
+Data: bundled 2026.11.01, evidence reviewed through 2026-10-31 (today)
+Unclassified: 1 pinned reference (use JSON output for details)
+
+MEDIUM Title only
+a.ts:1
+Confidence: range
+Summary only
+
+Baseline: 0 findings suppressed, 0 expiring, 1 expired.

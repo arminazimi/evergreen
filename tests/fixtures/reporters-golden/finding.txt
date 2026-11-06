@@ -1,0 +1,22 @@
+HIGH request <deprecated>
+ID: npm:request:1
+Rule: npm.request
+Location: package.json:12
+
+Pipe | char & \ back*slash_
+
+Path: app > lib > request
+
+Replacement: Use fetch
+Deadline: 2026-12-31
+Advisories: GHSA-aaaa, GHSA-bbbb
+Impact: medium (2 usages across 2 files)
+
+Affected usages:
+- src/a.ts:3 — import request
+- src/b.ts — call request.get
+
+Sources:
+- Vendor notice: https://example.com/notice?a=1&b=(2)
+- Local: javascript:alert(1)
+- Broken: not a url

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+<title>Evergreen report</title>
+<style>:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font:15px/1.5 system-ui,sans-serif;margin:0 auto;max-width:56rem;padding:1.5rem;color:#1b1f24;background:#fff}
+h1{margin:0 0 .25rem;font-size:1.75rem}h2{font-size:1.15rem;margin:1.5rem 0 .5rem}
+h3{font-size:1rem;font-weight:600;margin:.25rem 0 .5rem}h4{font-size:1rem;margin:0 0 .25rem}
+.meta{color:#57606a;margin:0 0 1rem}
+.summary table{width:100%;border-collapse:collapse;margin:0 0 1rem}
+.summary th,.summary td{padding:.4rem .5rem;text-align:center;border:1px solid #d0d7de;font-variant-numeric:tabular-nums}
+.summary th{font-size:.75rem;text-transform:uppercase;letter-spacing:.03em;color:#57606a}
+.summary td{font-size:1.35rem;font-weight:600}
+.summary td.critical,.summary td.high{color:#cf222e}.summary td.medium{color:#bf8700}.summary td.low,.summary td.info{color:#0969da}
+article{border:1px solid #d0d7de;border-left-width:6px;border-radius:6px;padding:.75rem 1rem;margin:0 0 .75rem}
+article.critical,article.high{border-left-color:#cf222e}article.medium{border-left-color:#bf8700}article.low,article.info{border-left-color:#0969da}
+.badge{display:inline-block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin-right:.5rem;padding:0 .4rem;border-radius:3px}
+.critical .badge,.high .badge{background:#ffebe9;color:#cf222e}.medium .badge{background:#fff8c5;color:#9a6700}.low .badge,.info .badge{background:#ddf4ff;color:#0969da}
+dl{margin:.5rem 0 0}dt{font-weight:600}dd{margin:0 0 .25rem}
+code{font-family:ui-monospace,monospace;background:#f6f8fa;padding:0 .25rem;border-radius:3px}
+@media (prefers-color-scheme:dark){body{color:#e6edf3;background:#0d1117}.meta,.summary th{color:#8b949e}
+.summary th,.summary td,article{border-color:#30363d}
+.summary td.critical,.summary td.high{color:#ff7b72}.summary td.medium{color:#d29922}.summary td.low,.summary td.info{color:#58a6ff}
+article.critical,article.high{border-left-color:#ff7b72}article.medium{border-left-color:#d29922}article.low,article.info{border-left-color:#58a6ff}
+.critical .badge,.high .badge{background:#67060c;color:#ff7b72}.medium .badge{background:#3b2300;color:#d29922}.low .badge,.info .badge{background:#0c2d6b;color:#79c0ff}
+code{background:#161b22;color:#e6edf3}a{color:#58a6ff}}
+@media print{body{max-width:none;padding:0;color:#000;background:#fff;font-size:12px}
+a{color:#000;text-decoration:none}a[href^="https://"]::after{content:" (" attr(href) ")";font-size:.85em}
+article,.summary{break-inside:avoid}h1,h2,h3,h4{break-after:avoid}}
+section.treemap{margin:0 0 1.5rem}section.treemap svg{max-width:100%;height:auto}
+@media print{section.treemap{break-inside:avoid}}</style>
+</head>
+<body>
+<h1>Evergreen report</h1>
+<p class="meta">Repository: /repository<br>Scanned: 2026-11-01T00:00:00.000Z<br>Data: bundled 2026.11.01, evidence reviewed through 2026-10-31 (1 day ago), stale</p>
+<p><strong>4 findings</strong></p>
+<section class="summary">
+<h2>Summary</h2>
+<table>
+<thead><tr><th scope="col">Critical</th><th scope="col">High</th><th scope="col">Medium</th><th scope="col">Low</th><th scope="col">Info</th></tr></thead>
+<tbody><tr><td class="critical">1</td><td class="high">1</td><td class="medium">0</td><td class="low">1</td><td class="info">1</td></tr></tbody>
+</table>
+</section>
+<section class="treemap">
+<h2>Findings by file</h2>
+<p class="meta">Areas are sized by severity-weighted finding count (critical 8, high 4, medium 2, low 1, info 0.5); color is the highest severity. Select a rectangle to jump to its findings.</p>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-labelledby="treemap-title treemap-desc" class="evergreen-treemap"><title id="treemap-title">Findings by file</title><desc id="treemap-desc">4 findings across 3 files in 2 directories. Areas are weighted by severity (critical 8, high 4, medium 2, low 1, info 0.5); color is the highest severity.</desc><style>.evergreen-treemap{--tm-bg:#FFFFFF;--tm-frame:#d0d7de;--tm-label:#57606a;--tm-info:#0969da;--tm-info-text:#ffffff;--tm-low:#0969da;--tm-low-text:#ffffff;--tm-medium:#bf8700;--tm-medium-text:#1b1f24;--tm-high:#cf222e;--tm-high-text:#ffffff;--tm-critical:#cf222e;--tm-critical-text:#ffffff}
+@media (prefers-color-scheme:dark){.evergreen-treemap{--tm-bg:#0d1117;--tm-frame:#30363d;--tm-label:#8b949e;--tm-info:#58a6ff;--tm-info-text:#0d1117;--tm-low:#58a6ff;--tm-low-text:#0d1117;--tm-medium:#d29922;--tm-medium-text:#0d1117;--tm-high:#ff7b72;--tm-high-text:#0d1117;--tm-critical:#ff7b72;--tm-critical-text:#0d1117}}
+.evergreen-treemap{font-family:Verdana,Geneva,DejaVu Sans,sans-serif}
+.evergreen-treemap text{font-size:10px}
+.evergreen-treemap .tm-fill{stroke:var(--tm-bg);stroke-width:1.5}
+.evergreen-treemap .tm-dir-frame{fill:none;stroke:var(--tm-frame)}
+.evergreen-treemap .tm-dir-label{fill:var(--tm-label);font-size:9px;font-weight:600}
+.evergreen-treemap .tm-cell:focus{outline:none}
+.evergreen-treemap .tm-cell:focus .tm-fill{stroke:var(--tm-label);stroke-width:2}
+.evergreen-treemap .tm-cell.info .tm-fill{fill:var(--tm-info)}.evergreen-treemap .tm-cell.info text{fill:var(--tm-info-text)}
+.evergreen-treemap .tm-cell.low .tm-fill{fill:var(--tm-low)}.evergreen-treemap .tm-cell.low text{fill:var(--tm-low-text)}
+.evergreen-treemap .tm-cell.medium .tm-fill{fill:var(--tm-medium)}.evergreen-treemap .tm-cell.medium text{fill:var(--tm-medium-text)}
+.evergreen-treemap .tm-cell.high .tm-fill{fill:var(--tm-high)}.evergreen-treemap .tm-cell.high text{fill:var(--tm-high-text)}
+.evergreen-treemap .tm-cell.critical .tm-fill{fill:var(--tm-critical)}.evergreen-treemap .tm-cell.critical text{fill:var(--tm-critical-text)}</style><rect class="tm-background" width="100%" height="100%" fill="var(--tm-bg)"/><g class="tm-dir"><rect class="tm-dir-frame" x="0" y="0" width="640" height="360"/><text class="tm-dir-label" x="4" y="10">.</text><a class="tm-cell critical tm-file" href="#file-dd2c0eb6ea5c" tabindex="0"><title>Dockerfile: 1 finding (critical 1)</title><rect class="tm-fill" x="2" y="14" width="424" height="344"/><text x="6" y="26">Dockerfile</text></a><a class="tm-cell high tm-file" href="#file-7ae45ad102ea" tabindex="0"><title>package.json: 1 finding (high 1)</title><rect class="tm-fill" x="426" y="14" width="212" height="344"/><text x="430" y="26">package.json</text></a></g><g class="tm-dir"><rect class="tm-dir-frame" x="640" y="0" width="80" height="360"/><text class="tm-dir-label" x="644" y="10">src</text><a class="tm-cell low tm-file" href="#file-60e93bde9acc" tabindex="0"><title>src/z.ts: 2 findings (low 1, info 1)</title><rect class="tm-fill" x="642" y="14" width="76" height="344"/><text x="646" y="26">z.ts</text></a></g></svg>
+</section>
+<section class="severity critical">
+<h2><span class="badge">Critical</span>1 finding</h2>
+<section class="path" id="file-dd2c0eb6ea5c">
+<h3><code>Dockerfile</code></h3>
+<article class="critical" id="c">
+<h4><span class="badge">Critical</span>Title c</h4>
+<p>Summary c</p>
+<dl><dt>Location</dt><dd><code>Dockerfile</code></dd><dt>Rule</dt><dd><code>rule.c</code> (detector example)</dd><dt>Confidence</dt><dd>range</dd></dl>
+</article>
+</section>
+</section>
+<section class="severity high">
+<h2><span class="badge">High</span>1 finding</h2>
+<section class="path" id="file-7ae45ad102ea">
+<h3><code>package.json</code></h3>
+<article class="high" id="npm:request:1">
+<h4><span class="badge">High</span>request &lt;deprecated&gt;</h4>
+<p>Pipe | char &amp; \ back*slash_</p>
+<dl><dt>Location</dt><dd><code>package.json:12</code></dd><dt>Rule</dt><dd><code>npm.request</code> (detector npm)</dd><dt>Confidence</dt><dd>exact</dd><dt>Path</dt><dd>app &gt; lib &gt; request</dd><dt>Replacement</dt><dd>Use fetch</dd><dt>Deadline</dt><dd>2026-12-31</dd><dt>Impact</dt><dd>medium (2 usages across 2 files)</dd><dt>Usage</dt><dd><code>src/a.ts:3</code> import request</dd><dt>Usage</dt><dd><code>src/b.ts</code> call request.get</dd><dt>Source</dt><dd><a href="https://example.com/notice?a=1&amp;b=(2)" rel="noopener noreferrer">Vendor notice</a> <code>https://example.com/notice?a=1&amp;b=(2)</code></dd><dt>Source</dt><dd>Local <code>javascript:alert(1)</code></dd><dt>Source</dt><dd>Broken <code>not a url</code></dd></dl>
+</article>
+</section>
+</section>
+<section class="severity low">
+<h2><span class="badge">Low</span>1 finding</h2>
+<section class="path" id="file-60e93bde9acc">
+<h3><code>src/z.ts</code></h3>
+<article class="low" id="b">
+<h4><span class="badge">Low</span>Title b</h4>
+<p>Summary b</p>
+<dl><dt>Location</dt><dd><code>src/z.ts:4</code></dd><dt>Rule</dt><dd><code>rule.b</code> (detector example)</dd><dt>Confidence</dt><dd>range</dd></dl>
+</article>
+</section>
+</section>
+<section class="severity info">
+<h2><span class="badge">Info</span>1 finding</h2>
+<section class="path">
+<h3><code>src/z.ts</code></h3>
+<article class="info" id="d">
+<h4><span class="badge">Info</span>Title d</h4>
+<p>Summary d</p>
+<dl><dt>Location</dt><dd><code>src/z.ts:2</code></dd><dt>Rule</dt><dd><code>rule.d</code> (detector example)</dd><dt>Confidence</dt><dd>range</dd></dl>
+</article>
+</section>
+</section>
+<p class="meta">Note: first note</p>
+<p class="meta">Note: second &lt;note&gt;</p>
+<script type="application/json" id="evergreen-report">{
+  "schemaVersion": "evergreen.scan.v1",
+  "root": "/repository",
+  "scannedAt": "2026-11-01T00:00:00.000Z",
+  "findings": [
+    {
+      "id": "b",
+      "ruleId": "rule.b",
+      "detector": "example",
+      "title": "Title b",
+      "summary": "Summary b",
+      "severity": "low",
+      "confidence": "range",
+      "location": {
+        "path": "src/z.ts",
+        "line": 4
+      },
+      "sources": []
+    },
+    {
+      "id": "npm:request:1",
+      "ruleId": "npm.request",
+      "detector": "npm",
+      "title": "request \u003cdeprecated>",
+      "summary": "Pipe | char & \\ back*slash_",
+      "severity": "high",
+      "confidence": "exact",
+      "location": {
+        "path": "package.json",
+        "line": 12
+      },
+      "dependencyPath": [
+        "app",
+        "lib",
+        "request"
+      ],
+      "replacement": "Use fetch",
+      "deadline": "2026-12-31",
+      "sources": [
+        {
+          "title": "Vendor notice",
+          "url": "https://example.com/notice?a=1&b=(2)"
+        },
+        {
+          "title": "Local",
+          "url": "javascript:alert(1)"
+        },
+        {
+          "title": "Broken",
+          "url": "not a url"
+        }
+      ],
+      "advisoryIds": [
+        "GHSA-aaaa",
+        "GHSA-bbbb"
+      ],
+      "usages": [
+        {
+          "kind": "import",
+          "language": "typescript",
+          "symbol": "request",
+          "location": {
+            "path": "src/a.ts",
+            "line": 3
+          },
+          "excerpt": "import request from \"request\""
+        },
+        {
+          "kind": "call",
+          "language": "typescript",
+          "symbol": "request.get",
+          "location": {
+            "path": "src/b.ts"
+          },
+          "excerpt": "request.get(url)"
+        }
+      ],
+      "impact": {
+        "usageCount": 2,
+        "affectedFiles": 2,
+        "level": "medium"
+      }
+    },
+    {
+      "id": "c",
+      "ruleId": "rule.c",
+      "detector": "example",
+      "title": "Title c",
+      "summary": "Summary c",
+      "severity": "critical",
+      "confidence": "range",
+      "location": {
+        "path": "Dockerfile"
+      },
+      "sources": []
+    },
+    {
+      "id": "d",
+      "ruleId": "rule.d",
+      "detector": "example",
+      "title": "Title d",
+      "summary": "Summary d",
+      "severity": "info",
+      "confidence": "range",
+      "location": {
+        "path": "src/z.ts",
+        "line": 2
+      },
+      "sources": []
+    }
+  ],
+  "unclassified": {
+    "count": 2,
+    "references": []
+  },
+  "diagnostics": [
+    "first note",
+    "second \u003cnote>"
+  ],
+  "selection": {
+    "only": [
+      "npm",
+      "python"
+    ],
+    "exclude": [
+      "docker"
+    ]
+  },
+  "data": {
+    "source": "bundled",
+    "version": "2026.11.01",
+    "createdAt": null,
+    "reviewedThrough": "2026-10-31",
+    "ageDays": 1,
+    "stale": true
+  },
+  "suppressions": {
+    "suppressed": 1,
+    "warnWithinDays": 14,
+    "expiring": [
+      {
+        "ruleId": "r",
+        "path": "p",
+        "expires": "2026-11-10"
+      }
+    ],
+    "expired": []
+  }
+}</script>
+</body>
+</html>

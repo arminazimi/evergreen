@@ -1,0 +1,12 @@
+Evergreen scan
+Repository: /repository
+Findings: 0
+
+No lifecycle risks found.
+Ecosystems detected: none
+Files read: none
+Data version: none
+Unsupported files: none
+
+Next: run `evergreen scan --demo` to see what a finding looks like.
+Next: after a scan reports findings, run `evergreen explain <finding-id>` for details.

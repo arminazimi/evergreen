@@ -1,0 +1,84 @@
+{
+  "type": "message",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "contentUrl": null,
+      "content": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.4",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "Evergreen lifecycle scan",
+            "weight": "Bolder",
+            "size": "Medium",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Evergreen: 4 findings \\(critical 1, high 1, low 1, info 1\\)",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "critical: Title c \\(Dockerfile\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary c",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "high: request &lt;deprecated&gt; \\(package\\.json:12\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Pipe &#124; char &amp; &#92; back\\*slash\\_",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "low: Title b \\(src/z\\.ts:4\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary b",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          },
+          {
+            "type": "TextBlock",
+            "text": "info: Title d \\(src/z\\.ts:2\\)",
+            "weight": "Bolder",
+            "wrap": true,
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "Summary d",
+            "wrap": true,
+            "isSubtle": true,
+            "spacing": "None"
+          }
+        ]
+      }
+    }
+  ]
+}

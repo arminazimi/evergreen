@@ -1,0 +1,169 @@
+{
+  "text": "Evergreen: 21 findings (high 21)",
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Evergreen lifecycle scan",
+        "emoji": false
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Evergreen: 21 findings (high 21)"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 00\nsrc/f0.ts:1\nSummary 00"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 01\nsrc/f1.ts:2\nSummary 01"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 10\nsrc/f10.ts:11\nSummary 10"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 11\nsrc/f11.ts:12\nSummary 11"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 12\nsrc/f12.ts:13\nSummary 12"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 13\nsrc/f13.ts:14\nSummary 13"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 14\nsrc/f14.ts:15\nSummary 14"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 15\nsrc/f15.ts:16\nSummary 15"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 16\nsrc/f16.ts:17\nSummary 16"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 17\nsrc/f17.ts:18\nSummary 17"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 18\nsrc/f18.ts:19\nSummary 18"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 19\nsrc/f19.ts:20\nSummary 19"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 02\nsrc/f2.ts:3\nSummary 02"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 20\nsrc/f20.ts:21\nSummary 20"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 03\nsrc/f3.ts:4\nSummary 03"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 04\nsrc/f4.ts:5\nSummary 04"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 05\nsrc/f5.ts:6\nSummary 05"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 06\nsrc/f6.ts:7\nSummary 06"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 07\nsrc/f7.ts:8\nSummary 07"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* Title 08\nsrc/f8.ts:9\nSummary 08"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "1 more finding omitted; use --format json for all."
+        }
+      ]
+    }
+  ]
+}

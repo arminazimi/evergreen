@@ -1,0 +1,48 @@
+{
+  "text": "Evergreen: 4 findings (critical 1, high 1, low 1, info 1)",
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Evergreen lifecycle scan",
+        "emoji": false
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Evergreen: 4 findings (critical 1, high 1, low 1, info 1)"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*critical* Title c\nDockerfile\nSummary c"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*high* request &lt;deprecated&gt;\npackage.json:12\nPipe | char &amp; \\ back*slash_\nReplacement: Use fetch"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*low* Title b\nsrc/z.ts:4\nSummary b"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*info* Title d\nsrc/z.ts:2\nSummary d"
+      }
+    }
+  ]
+}

@@ -449,3 +449,17 @@ test("the entry point exits 0 on a passing report and 2 on a bad argument", asyn
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+test("every reporter file is in the mutation scope with a baseline of at least 80%", async () => {
+  const baseline = JSON.parse(await readFile("benchmarks/mutation-baseline.json", "utf8")) as MutationBaseline;
+  const config = JSON.parse(await readFile("stryker.config.json", "utf8")) as { mutate: string[] };
+  assert.ok(config.mutate.includes("src/reporters.ts") && config.mutate.includes("src/reporters/**/*.ts"));
+  const { readdir } = await import("node:fs/promises");
+  const reporters = (await readdir("src/reporters")).filter((name) => name.endsWith(".ts"));
+  assert.ok(reporters.length > 0);
+  for (const name of reporters) {
+    const entry = baseline.files.find((candidate) => candidate.file === `src/reporters/${name}`);
+    assert.ok(entry, `src/reporters/${name} needs a mutation baseline entry`);
+    assert.ok(entry.score >= 80, `src/reporters/${name} baseline is ${entry.score}%, below 80%`);
+  }
+});

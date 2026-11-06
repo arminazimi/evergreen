@@ -1,0 +1,20 @@
+{
+  "text": "Evergreen: no lifecycle risks found",
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Evergreen lifecycle scan",
+        "emoji": false
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Evergreen: no lifecycle risks found"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "text": "Evergreen: 1 finding (medium 1)",
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Evergreen lifecycle scan",
+        "emoji": false
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Evergreen: 1 finding (medium 1)"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*medium* Title only\na.ts:1\nSummary only"
+      }
+    }
+  ]
+}

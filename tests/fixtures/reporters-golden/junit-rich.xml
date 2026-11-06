@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Evergreen" tests="4" failures="4" errors="0">
+  <testsuite name="Evergreen scan" tests="4" failures="4" errors="0" skipped="0">
+    <testcase classname="rule.c" name="Title c (Dockerfile)" file="Dockerfile">
+      <failure message="Summary c" type="critical">Severity: critical
+Location: Dockerfile
+Summary c</failure>
+    </testcase>
+    <testcase classname="npm.request" name="request &lt;deprecated&gt; (package.json:12)" file="package.json" line="12">
+      <failure message="Pipe | char &amp; \ back*slash_" type="high">Severity: high
+Location: package.json:12
+Pipe | char &amp; \ back*slash_
+Replacement: Use fetch
+Evidence: Vendor notice (https://example.com/notice?a=1&amp;b=(2))
+Evidence: Local (javascript:alert(1))
+Evidence: Broken (not a url)</failure>
+    </testcase>
+    <testcase classname="rule.d" name="Title d (src/z.ts:2)" file="src/z.ts" line="2">
+      <failure message="Summary d" type="info">Severity: info
+Location: src/z.ts:2
+Summary d</failure>
+    </testcase>
+    <testcase classname="rule.b" name="Title b (src/z.ts:4)" file="src/z.ts" line="4">
+      <failure message="Summary b" type="low">Severity: low
+Location: src/z.ts:4
+Summary b</failure>
+    </testcase>
+    <system-out>first note
+second &lt;note&gt;</system-out>
+  </testsuite>
+</testsuites>

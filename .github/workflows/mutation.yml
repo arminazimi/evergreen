@@ -33,6 +33,10 @@ jobs:
           - shard: engine
             mutate: src/engine/**/*.ts
             hash: src/engine/**/*.ts
+          - shard: reporters
+            mutate: "src/reporters.ts,src/reporters/**/*.ts"
+            hash: src/reporters/**/*.ts
+            command: "node --test --test-concurrency=1 dist/tests/reporters.test.js dist/tests/reporters-golden.test.js dist/tests/chat-webhook.test.js dist/tests/codequality.test.js dist/tests/compact.test.js dist/tests/html-report.test.js dist/tests/first-run.test.js dist/tests/markdown-report.test.js dist/tests/junit-report.test.js dist/tests/sarif.test.js dist/tests/rdjson.test.js dist/tests/mermaid.test.js"
           - shard: baseline
             mutate: src/baseline.ts
             hash: src/baseline.ts
@@ -65,13 +69,17 @@ jobs:
         env:
           MUTATE: ${{ matrix.mutate }}
           SHARD: ${{ matrix.shard }}
+          # The reporters shard runs the reporter tests; every other shard runs the core tests, so a shard
+          # does not pay for suites that cannot reach its files.
+          TEST_COMMAND: ${{ matrix.command || 'node --test --test-concurrency=1 dist/tests/engine.test.js dist/tests/engine-discover.test.js dist/tests/engine-detect.test.js dist/tests/engine-resolve.test.js dist/tests/engine-report.test.js dist/tests/baseline.test.js dist/tests/diff.test.js dist/tests/vers.test.js dist/tests/vers-semver.test.js dist/tests/vers-pep440.test.js dist/tests/vers-maven.test.js dist/tests/vers-nuget-gem.test.js' }}
         run: |
           set -euo pipefail
           start=$(date +%s)
           set +e
           npm run test:mutation -- \
             --mutate "$MUTATE" \
-            --incrementalFile "reports/stryker-incremental-${SHARD}.json"
+            --incrementalFile "reports/stryker-incremental-${SHARD}.json" \
+            --commandRunner.command "$TEST_COMMAND"
           status=$?
           set -e
           echo "seconds=$(( $(date +%s) - start ))" >> "$GITHUB_OUTPUT"

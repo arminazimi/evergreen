@@ -12,7 +12,7 @@ npm test                                  # build, then every test file
 npm test -- dist/tests/cli.test.js        # one file; the argument goes to tools/run-tests.mjs
 npm run test:coverage                     # coverage floors: 93% lines, 87% branches, 93% functions
 npm run test:fuzz                         # the parser fuzz suite
-npm run test:mutation                     # Stryker on the core engine and version ranges
+npm run test:mutation                     # Stryker on the core engine, version ranges, and reporters
 npm run check                             # build, Action bundle, tests, plugin checks, evals
 ```
 

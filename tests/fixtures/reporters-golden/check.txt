@@ -1,0 +1,21 @@
+Evergreen check
+pkg:npm/request@2.88.2
+Status: affected (high)
+Data: bundled 2026.11.01, evidence reviewed through 2026-10-31 (1 day ago), stale
+
+request is deprecated.
+
+Warning: The lifecycle data is 1 days old (stale after 30), so this answer may miss recent changes. Run "evergreen data update".
+
+HIGH request
+Deprecated.
+Event: deprecated
+Affected versions: vers:npm/*
+Replacement: fetch
+Deadline: 2026-12-31
+Source: https://example.com/notice?a=1&b=(2)
+
+LOW request two
+Again.
+Event: deprecated
+Affected versions: vers:npm/<3

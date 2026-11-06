@@ -1,0 +1,125 @@
+Found 23 lifecycle risks. The most urgent:
+  HIGH Title 00 (src/f0.ts:1)
+  HIGH Title 01 (src/f1.ts:2)
+  HIGH Title 02 (src/f2.ts:3)
+  …and 20 more below.
+Next: run `evergreen init --personal` to check every repository before you push.
+
+Evergreen scan
+Repository: /repository
+Findings: 23
+
+HIGH Title 00
+src/f0.ts:1
+Confidence: range
+Summary 00
+
+HIGH Title 01
+src/f1.ts:2
+Confidence: range
+Summary 01
+
+HIGH Title 02
+src/f2.ts:3
+Confidence: range
+Summary 02
+
+HIGH Title 03
+src/f3.ts:4
+Confidence: range
+Summary 03
+
+HIGH Title 04
+src/f4.ts:5
+Confidence: range
+Summary 04
+
+HIGH Title 05
+src/f5.ts:6
+Confidence: range
+Summary 05
+
+HIGH Title 06
+src/f6.ts:7
+Confidence: range
+Summary 06
+
+HIGH Title 07
+src/f7.ts:8
+Confidence: range
+Summary 07
+
+HIGH Title 08
+src/f8.ts:9
+Confidence: range
+Summary 08
+
+HIGH Title 09
+src/f9.ts:10
+Confidence: range
+Summary 09
+
+HIGH Title 10
+src/f10.ts:11
+Confidence: range
+Summary 10
+
+HIGH Title 11
+src/f11.ts:12
+Confidence: range
+Summary 11
+
+HIGH Title 12
+src/f12.ts:13
+Confidence: range
+Summary 12
+
+HIGH Title 13
+src/f13.ts:14
+Confidence: range
+Summary 13
+
+HIGH Title 14
+src/f14.ts:15
+Confidence: range
+Summary 14
+
+HIGH Title 15
+src/f15.ts:16
+Confidence: range
+Summary 15
+
+HIGH Title 16
+src/f16.ts:17
+Confidence: range
+Summary 16
+
+HIGH Title 17
+src/f17.ts:18
+Confidence: range
+Summary 17
+
+HIGH Title 18
+src/f18.ts:19
+Confidence: range
+Summary 18
+
+HIGH Title 19
+src/f19.ts:20
+Confidence: range
+Summary 19
+
+HIGH Title 20
+src/f20.ts:21
+Confidence: range
+Summary 20
+
+HIGH Title 21
+src/f21.ts:22
+Confidence: range
+Summary 21
+
+HIGH Title 22
+src/f22.ts:23
+Confidence: range
+Summary 22

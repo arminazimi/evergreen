@@ -1,0 +1,8 @@
+LOW Title b
+ID: b
+Rule: rule.b
+Location: a.ts
+
+Summary b
+
+Sources:

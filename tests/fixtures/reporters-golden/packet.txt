@@ -1,0 +1,26 @@
+Migration context: request <deprecated>
+Finding: npm:request:1
+Severity: high
+
+Affected files:
+- package.json
+- src/a.ts
+
+Constraints:
+- Keep Node 22
+
+Migration steps:
+1. Swap: Use fetch.
+2. Clean: Remove dep.
+
+Upgrade path:
+- From: Four (vers:npm/<4)
+- Skip: Five (vers:npm/5) — support has ended
+- Skip: Six (vers:npm/6) — support ends 2027-01-01
+- Land on: Seven (vers:npm/7, supported until 2028-01-01)
+
+Verification:
+- npm test — Run the tests
+
+Sources:
+- Vendor notice: https://example.com/notice?a=1&b=(2)

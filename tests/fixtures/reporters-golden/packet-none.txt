@@ -1,0 +1,20 @@
+Migration context: request <deprecated>
+Finding: npm:request:1
+Severity: high
+
+Affected files:
+- package.json
+- src/a.ts
+
+Constraints:
+- Keep Node 22
+
+Migration steps:
+1. Swap: Use fetch.
+2. Clean: Remove dep.
+
+Verification:
+- npm test — Run the tests
+
+Sources:
+- Vendor notice: https://example.com/notice?a=1&b=(2)

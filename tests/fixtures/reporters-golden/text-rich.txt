@@ -1,0 +1,43 @@
+Evergreen scan
+Repository: /repository
+Findings: 4
+Only: npm, python
+Excluded: docker
+Data: bundled 2026.11.01, evidence reviewed through 2026-10-31 (1 day ago), stale
+Unclassified: 2 pinned references (use JSON output for details)
+
+LOW Title b
+src/z.ts:4
+Confidence: range
+Summary b
+
+HIGH request <deprecated>
+package.json:12
+Confidence: exact
+Pipe | char & \ back*slash_
+Path: app > lib > request
+Replacement: Use fetch
+Deadline: 2026-12-31
+Advisories: GHSA-aaaa, GHSA-bbbb
+Impact: medium (2 usages across 2 files)
+Usage: src/a.ts:3 — import request
+Usage: src/b.ts — call request.get
+Source: https://example.com/notice?a=1&b=(2)
+Source: javascript:alert(1)
+Source: not a url
+
+CRITICAL Title c
+Dockerfile
+Confidence: range
+Summary c
+
+INFO Title d
+src/z.ts:2
+Confidence: range
+Summary d
+
+Baseline: 1 finding suppressed, 1 expiring within 14 days, 0 expired.
+
+Note: first note
+
+Note: second <note>
