@@ -7,9 +7,11 @@ import { configureActiveData } from "../src/data-source.js";
 import {
   CROSS_FILE_DETECTORS,
   defaultConfidence,
+  fileHashReader,
   scanRepository,
   shouldDisableCacheForDetector,
 } from "../src/engine/index.js";
+import { nodeFileSystem } from "../src/node-file-system.js";
 import { computeFileHash, ScanCache } from "../src/scan-cache.js";
 import type { DetectorManifest } from "../src/scan-cache.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
@@ -504,4 +506,26 @@ test("a cross-file detector re-runs against the repository root when one of its 
       id,
     );
   }
+});
+
+test("the scan hash cache reuses a hash and evicts the oldest entry", async () => {
+  let reads = 0;
+  const fileSystem = {
+    ...nodeFileSystem,
+    readBytes: (path: string) => {
+      reads += 1;
+      return Promise.resolve(new TextEncoder().encode(path));
+    },
+  };
+  const hashOf = fileHashReader("/repo", fileSystem);
+
+  const first = await hashOf("a.ts");
+  assert.equal(await hashOf("a.ts"), first);
+  assert.equal(reads, 1);
+
+  // Fill past the cache bound, then ask for the first path again: it must be read again.
+  for (let index = 0; index < 5_000; index += 1) await hashOf(`f-${index}.ts`);
+  assert.equal(reads, 5_001);
+  await hashOf("a.ts");
+  assert.equal(reads, 5_002);
 });

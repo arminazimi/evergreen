@@ -58,7 +58,7 @@ const fileHashCacheEntries = 4096;
  * reuses the work when detectors overlap, while evicting the oldest entry keeps the cache a fixed
  * size instead of one promise per file in the repository.
  */
-function fileHashReader(root: string, fileSystem: ScanFileSystem): (relPath: string) => Promise<string> {
+export function fileHashReader(root: string, fileSystem: ScanFileSystem): (relPath: string) => Promise<string> {
   const hashes = new Map<string, Promise<string>>();
   return (relPath) => {
     const existing = hashes.get(relPath);
