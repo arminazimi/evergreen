@@ -3,7 +3,7 @@ import { readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
 import { after, before, test } from "node:test";
 
-import { NpmDetector } from "../src/detectors/npm.js";
+import { NpmDetector } from "../src/detectors/npm/index.js";
 import { versContains } from "../src/vers.js";
 import { copyFixtureTree } from "./fixture-copies.js";
 

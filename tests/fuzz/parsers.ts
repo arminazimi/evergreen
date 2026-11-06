@@ -117,7 +117,7 @@ import { parsePackageResolved } from "../../src/detectors/swift/parse-package-re
 import { parsePackageSwift } from "../../src/detectors/swift/parse-package-swift.js";
 import { parseSwiftVersion, parseXcodeVersion } from "../../src/detectors/swift/parse-swift-toolchain.js";
 import { parseXcodeProjectIOSDeploymentTargets } from "../../src/detectors/swift/parse-xcode-project.js";
-import { NpmDetector } from "../../src/detectors/npm.js";
+import { NpmDetector } from "../../src/detectors/npm/index.js";
 import { PythonDetector } from "../../src/detectors/python/index.js";
 import { parseExport, inventoryImporters } from "../../src/inventory/index.js";
 import { parseOsReleaseDocument } from "../../src/inventory/os-release.js";

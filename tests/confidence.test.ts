@@ -6,7 +6,7 @@ import { test } from "node:test";
 
 import { defaultConfidence, scanRepository } from "../src/engine.js";
 import { renderSarif, renderText } from "../src/reporters.js";
-import { npmDetector } from "../src/detectors/npm.js";
+import { npmDetector } from "../src/detectors/npm/index.js";
 import type { DetectorFinding } from "../src/sdk.js";
 
 const base: DetectorFinding = {

@@ -23,7 +23,7 @@ test("a change under src/detectors/php runs only the PHP ecosystem", () => {
 });
 
 test("detectors that serve a different corpus name map to it", () => {
-  assert.deepEqual(names(["src/detectors/npm.ts"]), ["node"]);
+  assert.deepEqual(names(["src/detectors/npm/index.ts"]), ["node"]);
   assert.deepEqual(names(["registry/nodejs.json"]), ["node"]);
   assert.deepEqual(names(["src/detectors/github-actions.ts"]), ["node-actions"]);
 });

@@ -7,7 +7,7 @@ import { after, test } from "node:test";
 import { boundsCheck } from "../src/conformance/checks/bounds.js";
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
-import { npmDetector } from "../src/detectors/npm.js";
+import { npmDetector } from "../src/detectors/npm/index.js";
 import { pythonDetector } from "../src/detectors/python/index.js";
 import {
   discoverNpmWorkspaces,

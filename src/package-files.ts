@@ -93,7 +93,7 @@ export async function readBoundedFile(path: string): Promise<BoundedReadResult |
 /**
  * The deepest object or array nesting in JSON text. Brackets inside strings do not count, and an escaped
  * character never ends a string. Iterative, so measuring hostile input cannot itself exhaust the stack.
- * (private helper, not exported — same role as the token scan inside declarationLine in detectors/npm.ts)
+ * (private helper, not exported — same role as the token scan inside declarationLine in detectors/npm/manifest.ts)
  */
 function jsonNestingDepth(contents: string): number {
   let depth = 0;

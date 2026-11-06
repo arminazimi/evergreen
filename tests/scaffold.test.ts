@@ -196,18 +196,18 @@ test("the command creates the skeleton from a checkout, and explains itself else
 
 test("a detector id that is already taken is refused, and nothing is written", async () => {
   const checkout = await scaffoldCheckout(roots);
-  for (const [taken, file] of [
-    ["npm", "src/detectors/npm.ts"],
+  for (const [id, detectorFile] of [
+    ["npm", "src/detectors/npm/index.ts"],
     ["python", "src/detectors/python/index.ts"],
     ["github-actions", "src/detectors/github-actions.ts"],
   ] as const) {
     await assert.rejects(
-      scaffoldDetector(taken, { root: checkout }),
+      scaffoldDetector(id, { root: checkout }),
       (error: unknown) =>
         error instanceof ScaffoldError &&
         error.message.startsWith("Nothing was written:") &&
-        error.message.includes(`the detector id "${taken}" is already used by ${file}`),
-      taken,
+        error.message.includes(`the detector id "${id}" is already used by ${detectorFile}`),
+      id,
     );
   }
   assert.equal(await exists(join(checkout, "tests", "fixtures", "npm")), false);

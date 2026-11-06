@@ -30,7 +30,7 @@ test("normalizes absolute LCOV paths down to dist/", () => {
 
 test("maps changed src files onto the compiled coverage paths", () => {
   assert.equal(sourcePathToCoveragePath("src/engine.ts"), "dist/src/engine.js");
-  assert.equal(sourcePathToCoveragePath("src/detectors/npm.ts"), "dist/src/detectors/npm.js");
+  assert.equal(sourcePathToCoveragePath("src/detectors/npm/index.ts"), "dist/src/detectors/npm/index.js");
   assert.equal(sourcePathToCoveragePath("src/foo.mts"), "dist/src/foo.js");
   assert.equal(sourcePathToCoveragePath("tools/coverage-diff.ts"), undefined);
   assert.equal(sourcePathToCoveragePath("tests/coverage-diff.test.ts"), undefined);

@@ -19,8 +19,8 @@ import {
 const read = (path: string) => readFile(resolve(path), "utf8");
 /** A detector split across files is read as one source, so each file it reads appears somewhere in it. */
 async function readDirectory(path: string): Promise<string> {
-  const entries = (await readdir(resolve(path))).filter((name) => name.endsWith(".ts")).sort();
-  return (await Promise.all(entries.map((name) => read(`${path}/${name}`)))).join("\n");
+  const entries = (await readdir(resolve(path), { recursive: true })).filter((name) => name.endsWith(".ts")).sort();
+  return (await Promise.all(entries.map((name) => read(join(path, name))))).join("\n");
 }
 const readme = await read(README_PATH);
 const manifest = JSON.parse(await read("package.json")) as {
@@ -59,11 +59,12 @@ test("every file the README says Evergreen reads appears in that detector's sour
     assert.ok(row, `no README row for ${id}`);
     return row.reads;
   };
+  const npmSources = await readDirectory("src/detectors/npm");
   const sources = {
     go: await read("src/detectors/go/index.ts"),
     "github-actions": await read("src/detectors/github-actions.ts"),
-    npm: await read("src/detectors/npm.ts"),
-    nodejs: await read("src/detectors/npm.ts"),
+    npm: npmSources,
+    nodejs: npmSources,
     python: await readDirectory("src/detectors/python"),
     rust: await read("src/detectors/rust/index.ts"),
   } as const;

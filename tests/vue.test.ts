@@ -7,7 +7,7 @@ import { after, before, test } from "node:test";
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
-import { NpmDetector } from "../src/detectors/npm.js";
+import { NpmDetector } from "../src/detectors/npm/index.js";
 import { scanRepository } from "../src/engine.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";

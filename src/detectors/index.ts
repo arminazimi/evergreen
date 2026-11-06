@@ -14,7 +14,7 @@ import { scalaDetector } from "./scala/index.js";
 import { javaDetector } from "./java/index.js";
 import { githubActionsDetector } from "./github-actions.js";
 import { kubernetesDetector } from "./kubernetes/index.js";
-import { npmDetector } from "./npm.js";
+import { npmDetector } from "./npm/index.js";
 import { phpDetector } from "./php/index.js";
 import { pythonDetector } from "./python/index.js";
 import { rubyDetector } from "./ruby/index.js";

@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
-import { NpmDetector } from "../src/detectors/npm.js";
+import { NpmDetector } from "../src/detectors/npm/index.js";
 import { renderFindingText } from "../src/reporters.js";
 
 const temporaryRoots: string[] = [];

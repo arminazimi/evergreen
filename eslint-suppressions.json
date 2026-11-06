@@ -263,12 +263,37 @@
       "count": 1
     }
   },
-  "src/detectors/npm.ts": {
+  "src/detectors/npm/lockfiles/bun-lock.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 3
+    }
+  },
+  "src/detectors/npm/lockfiles/package-lock.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/detectors/npm/lockfiles/pnpm-lock.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/detectors/npm/manifest.ts": {
     "@typescript-eslint/no-unnecessary-type-assertion": {
       "count": 1
     },
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 9
+      "count": 1
+    }
+  },
+  "src/detectors/npm/read-optional.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
+    }
+  },
+  "src/detectors/npm/rules.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
     }
   },
   "src/detectors/python/parse-requirements.ts": {
