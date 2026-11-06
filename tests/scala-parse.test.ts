@@ -63,9 +63,13 @@ test(".scala-version rejects multiple pins or unsupported tokens", () => {
 });
 
 test("parses build.sbt scalaVersion forms with exact lines", async () => {
-  assert.deepEqual(parseBuildSbt(await fixture("positive/build.sbt")), [{ kind: "scala", value: "2.11.12", line: 7 }]);
-  assert.deepEqual(parseBuildSbt(await fixture("negative/build.sbt")), [{ kind: "scala", value: "2.13.14", line: 7 }]);
-  assert.deepEqual(parseBuildSbt(await fixture("malformed/build.sbt")), []);
+  assert.deepEqual(parseBuildSbt(await fixture("positive/build.sbt.fixture")), [
+    { kind: "scala", value: "2.11.12", line: 7 },
+  ]);
+  assert.deepEqual(parseBuildSbt(await fixture("negative/build.sbt.fixture")), [
+    { kind: "scala", value: "2.13.14", line: 7 },
+  ]);
+  assert.deepEqual(parseBuildSbt(await fixture("malformed/build.sbt.fixture")), []);
 });
 
 test("build.sbt recognizes ThisBuild slash and in ThisBuild forms", () => {

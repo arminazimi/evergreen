@@ -4,6 +4,7 @@
 // hand-written file-size ceiling in docs/QUALITY.md.
 
 import { renderQualitySection } from "./quality-metrics.js";
+import { escapeTableCell } from "./markdown.js";
 import type { MonthlyReportData } from "./monthly-report.js";
 
 /**
@@ -228,7 +229,7 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
     lines.push("| --- | --- | --- |");
     for (const page of data.adoption.landingPages) {
       lines.push(
-        `| ${page.page.replace(/\|/g, "\\|")} | ${formatNumber(page.clicks)} | ${formatNumber(page.impressions)} |`,
+        `| ${escapeTableCell(page.page)} | ${formatNumber(page.clicks)} | ${formatNumber(page.impressions)} |`,
       );
     }
   } else {

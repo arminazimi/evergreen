@@ -7,7 +7,8 @@ import { parseImageReference } from "../detectors/container/parse-image.js";
 import type { ImageReference } from "../detectors/container/parse-image.js";
 import type { Finding } from "../domain.js";
 import { validateRegistryV2 } from "../registry.js";
-import type { FilePatch, Fixer } from "./index.js";
+import { required } from "../required.js";
+import type { FilePatch, Fixer, Refuse } from "./index.js";
 
 const DOCKERFILE = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const FROM_LINE = /^(\s*FROM\s+(?:--[^\s]+\s+)*)([^\s]+)(.*)$/i;
@@ -71,8 +72,14 @@ function rewriteTarget(finding: Finding, current: ImageReference): { tag: string
       : [];
   });
   const [target, ...others] = [...new Set(named)];
-  if (target === undefined) return { reason: "The rule's replacement does not name a tag for this image." };
-  if (others.length > 0) return { reason: "The rule's replacement names more than one tag; the target is ambiguous." };
+  if (target === undefined)
+    return {
+      reason: "The rule's replacement does not name a tag for this image.",
+    };
+  if (others.length > 0)
+    return {
+      reason: "The rule's replacement names more than one tag; the target is ambiguous.",
+    };
 
   if (current.tag === undefined) return { reason: "The image has no tag to rewrite." };
   const currentParts = RELEASE_TAG.exec(current.tag);
@@ -81,14 +88,18 @@ function rewriteTarget(finding: Finding, current: ImageReference): { tag: string
   const currentFamily = distroFamily(current.tag);
   const targetFamily = distroFamily(target);
   if (currentFamily?.join("-") !== targetFamily?.join("-")) {
-    return { reason: `The rule's replacement tag "${target}" is not in the same distro family as "${current.tag}".` };
+    return {
+      reason: `The rule's replacement tag "${target}" is not in the same distro family as "${current.tag}".`,
+    };
   }
   const currentVersion = currentParts[1];
   const targetVersion = targetParts[1];
   if (currentVersion === undefined || targetVersion === undefined)
     return { reason: "The image tag does not name a release line." };
   if (compareVersions(targetVersion, currentVersion) <= 0) {
-    return { reason: `The rule's replacement tag "${target}" is not newer than the current tag "${current.tag}".` };
+    return {
+      reason: `The rule's replacement tag "${target}" is not newer than the current tag "${current.tag}".`,
+    };
   }
   return { tag: target };
 }
@@ -162,71 +173,100 @@ async function scheduledRuleIds(): Promise<Set<string>> {
 export const dockerfileBaseImageFixer: Fixer = {
   id: "dockerfile",
   async plan(result, refuse) {
-    let scheduled: Promise<Set<string>> | undefined;
-    const targets = new Map<string, Targets>();
-    for (const finding of result.findings) {
-      if (finding.detector !== "container" || !DOCKERFILE.test(basename(finding.location.path))) continue;
-      const current = reportedImage(finding);
-      // A root filesystem or a RUN install names no FROM line; runtime pins have their own fixer.
-      if (!current) continue;
-      if ((await (scheduled ??= scheduledRuleIds())).has(finding.ruleId)) continue;
-      if (finding.location.line === undefined) {
-        refuse?.(finding, "The finding names no line to rewrite.");
-        continue;
-      }
-      if (current.digest !== undefined) {
-        refuse?.(
-          finding,
-          "The image is pinned by digest; rewriting the tag would leave the digest pointing at the old image.",
-        );
-        continue;
-      }
-      const target = rewriteTarget(finding, current);
-      if ("reason" in target) {
-        refuse?.(finding, target.reason);
-        continue;
-      }
-      const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
-      entry.lines.set(finding.location.line, { current, target: target.tag });
-      entry.findings.push(finding);
-      targets.set(finding.location.path, entry);
-    }
-
+    const targets = await dockerfileTargets(result.findings, refuse);
     const patches: FilePatch[] = [];
-    for (const [path, { lines, findings }] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {
-      const decline = (reason: string) => {
-        for (const finding of findings) refuse?.(finding, reason);
-      };
-      const absolute = resolve(result.root, path);
-      const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) {
-        decline("The path resolves outside the repository.");
-        continue;
-      }
-      const before = await readFile(absolute, "utf8").catch(() => undefined);
-      if (before === undefined) {
-        decline("The Dockerfile could not be read.");
-        continue;
-      }
-      if (!before.endsWith("\n")) {
-        decline("The Dockerfile does not end with a newline.");
-        continue;
-      }
-      const original = before.split("\n");
-      const text = original
-        .map((line, index) => {
-          const edit = lines.get(index + 1);
-          return edit ? rewriteFrom(line, edit) : line;
-        })
-        .join("\n");
-      // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
-      const updated = text.split("\n");
-      for (const finding of findings) {
-        const reason = refusalFor(finding, original, updated, lines);
-        if (reason !== undefined) refuse?.(finding, reason);
-      }
+    for (const [path, target] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {
+      const patch = await planFile(result.root, path, target, refuse);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },
 };
+
+/** The Dockerfiles that carry a fixable image finding, each with the tag edit per line; unfixable findings are refused. */
+async function dockerfileTargets(
+  findings: readonly Finding[],
+  refuse: Refuse | undefined,
+): Promise<Map<string, Targets>> {
+  let scheduled: Promise<Set<string>> | undefined;
+  const targets = new Map<string, Targets>();
+  for (const finding of findings) {
+    if (finding.detector !== "container" || !DOCKERFILE.test(basename(finding.location.path))) continue;
+    const current = reportedImage(finding);
+    // A root filesystem or a RUN install names no FROM line; runtime pins have their own fixer.
+    if (!current) continue;
+    if ((await (scheduled ??= scheduledRuleIds())).has(finding.ruleId)) continue;
+    const edit = editFor(finding, current, refuse);
+    if (edit === undefined) continue;
+    const entry: Targets = targets.get(finding.location.path) ?? {
+      lines: new Map(),
+      findings: [],
+    };
+    entry.lines.set(required(finding.location.line, "the finding line"), edit);
+    entry.findings.push(finding);
+    targets.set(finding.location.path, entry);
+  }
+  return targets;
+}
+
+/** The tag edit for one finding, or undefined when it cannot be rewritten exactly; the reason is reported through `refuse`. */
+function editFor(finding: Finding, current: ImageReference, refuse: Refuse | undefined): ImageEdit | undefined {
+  if (finding.location.line === undefined) {
+    refuse?.(finding, "The finding names no line to rewrite.");
+    return undefined;
+  }
+  if (current.digest !== undefined) {
+    refuse?.(
+      finding,
+      "The image is pinned by digest; rewriting the tag would leave the digest pointing at the old image.",
+    );
+    return undefined;
+  }
+  const target = rewriteTarget(finding, current);
+  if ("reason" in target) {
+    refuse?.(finding, target.reason);
+    return undefined;
+  }
+  return { current, target: target.tag };
+}
+
+/** The rewritten Dockerfile patch, or undefined when no `FROM` line changes; declined and unchanged findings are reported. */
+async function planFile(
+  root: string,
+  path: string,
+  { lines, findings }: Targets,
+  refuse: Refuse | undefined,
+): Promise<FilePatch | undefined> {
+  const decline = (reason: string): undefined => {
+    for (const finding of findings) refuse?.(finding, reason);
+    return undefined;
+  };
+  const absolute = resolve(root, path);
+  const inside = relative(resolve(root), absolute);
+  if (inside.startsWith("..") || isAbsolute(inside)) return decline("The path resolves outside the repository.");
+  const before = await readFile(absolute, "utf8").catch(() => undefined);
+  if (before === undefined) return decline("The Dockerfile could not be read.");
+  if (!before.endsWith("\n")) return decline("The Dockerfile does not end with a newline.");
+
+  const original = before.split("\n");
+  const text = original
+    .map((line, index) => {
+      const edit = lines.get(index + 1);
+      return edit ? rewriteFrom(line, edit) : line;
+    })
+    .join("\n");
+  // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
+  const patch =
+    text === before
+      ? undefined
+      : {
+          path,
+          diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)),
+        };
+  const updated = text.split("\n");
+  for (const finding of findings) {
+    const reason = refusalFor(finding, original, updated, lines);
+    if (reason !== undefined) refuse?.(finding, reason);
+  }
+  return patch;
+}

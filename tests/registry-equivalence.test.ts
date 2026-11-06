@@ -1,17 +1,25 @@
 import assert from "node:assert/strict";
-import { readFile, readdir } from "node:fs/promises";
+import { readFile, readdir, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 import { legacyRule, registryV2Issues } from "../src/registry.js";
 import type { RegistryV2 } from "../src/registry.js";
 
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const fixtureRoots: string[] = [];
+const equivalenceFixture = await copyFixtureTree(resolve("tests/fixtures/registry-equivalence"), fixtureRoots);
+after(async () => {
+  await Promise.all(fixtureRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
 // Registries were migrated from v1 to v2 without changing what detectors see. These tests keep that true.
 
 test("scanning the equivalence fixture reports every bundled rule exactly as before the v2 migration", async () => {
-  const root = resolve("tests/fixtures/registry-equivalence");
+  const root = equivalenceFixture;
   const result = await scanRepository(root, builtInDetectors);
   // `data` and `coverage` describe the environment around the rules, not the findings the registries produce.
   const {

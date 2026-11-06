@@ -84,6 +84,15 @@
         "kind": "maintainer-review",
         "note": "Reviewed line 23 of Cargo.toml at this commit: `atty = \"0.2\"`. The RustSec advisory database lists atty as unmaintained (https://rustsec.org/advisories/RUSTSEC-2024-0375.html)."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/release-publish.yaml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/dwisiswant0/ppfuzz/blob/80982ec3984dd2ae4ab16a701e39aaee8027f9be/.github/workflows/release-publish.yaml#L54: `run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
     }
   ]
 }

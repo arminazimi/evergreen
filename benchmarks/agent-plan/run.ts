@@ -21,6 +21,7 @@ import { performance } from "node:perf_hooks";
 import { pathToFileURL } from "node:url";
 
 import { builtInDetectors } from "../../src/detectors/index.js";
+import { restoreFixtureNames } from "../../src/fixture-names.js";
 import { scanRepository } from "../../src/engine.js";
 import { buildPlan } from "../../src/plan-build.js";
 import type { PlanArm, PlanArmScore, PlanResult } from "../../tools/benchmark-report.js";
@@ -29,6 +30,7 @@ import { createCommandAgent } from "../agent-migrations/run.js";
 
 export const SCHEMA_VERSION = "evergreen.benchmark-result.v1" as const;
 export const PLAN_ARMS: readonly PlanArm[] = ["sequential", "wave-parallel"];
+
 export const DEFAULT_FIXTURE_PATH = resolve("tests/fixtures/plan/monorepo");
 export const RESOLUTION_DIR = ".evergreen-plan/resolved" as const;
 export const DEFAULT_TASK_DELAY_MS = 250;
@@ -132,28 +134,34 @@ function wait(delayMs: number): Promise<void> {
  * sequential arm runs them. Each task gets a unique resolution path under `RESOLUTION_DIR`.
  */
 export async function loadPlanTasks(fixturePath = DEFAULT_FIXTURE_PATH): Promise<PlanBenchmarkTask[]> {
-  const repositoryPath = resolve(fixturePath);
-  const scan = await scanRepository(repositoryPath, builtInDetectors, { noCache: true });
-  const plan = buildPlan(scan);
-  const byId = new Map(plan.items.map((item) => [item.id, item]));
+  const repositoryPath = await mkdtemp(join(tmpdir(), "evergreen-plan-fixture-"));
+  try {
+    await cp(fixturePath, repositoryPath, { recursive: true });
+    await restoreFixtureNames(repositoryPath);
+    const scan = await scanRepository(repositoryPath, builtInDetectors, { noCache: true });
+    const plan = buildPlan(scan);
+    const byId = new Map(plan.items.map((item) => [item.id, item]));
 
-  const tasks: PlanBenchmarkTask[] = [];
-  for (const wave of plan.waves) {
-    for (const itemId of wave.itemIds) {
-      const item = byId.get(itemId);
-      if (item === undefined) throw new Error(`The plan lists ${itemId} in wave ${wave.index} without an item.`);
-      const position = String(tasks.length + 1).padStart(2, "0");
-      tasks.push({
-        id: item.id,
-        findingId: item.findingId,
-        title: item.title,
-        wave: wave.index,
-        touches: [...item.touches],
-        resolutionPath: `${RESOLUTION_DIR}/${position}-${slug(item.id)}.json`,
-      });
+    const tasks: PlanBenchmarkTask[] = [];
+    for (const wave of plan.waves) {
+      for (const itemId of wave.itemIds) {
+        const item = byId.get(itemId);
+        if (item === undefined) throw new Error(`The plan lists ${itemId} in wave ${wave.index} without an item.`);
+        const position = String(tasks.length + 1).padStart(2, "0");
+        tasks.push({
+          id: item.id,
+          findingId: item.findingId,
+          title: item.title,
+          wave: wave.index,
+          touches: [...item.touches],
+          resolutionPath: `${RESOLUTION_DIR}/${position}-${slug(item.id)}.json`,
+        });
+      }
     }
+    return tasks;
+  } finally {
+    await rm(repositoryPath, { recursive: true, force: true });
   }
-  return tasks;
 }
 
 /** Prompt for one task, with the markers a scripted adapter parses. */
@@ -275,6 +283,7 @@ async function runArm(
 ): Promise<PlanArmRun> {
   const worktreePath = join(root, arm);
   await cp(fixturePath, worktreePath, { recursive: true });
+  await restoreFixtureNames(worktreePath);
 
   const started = performance.now();
   const results: PlanTaskRun[] = [];

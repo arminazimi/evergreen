@@ -364,22 +364,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/terraform/index.ts",
-      "function": "TerraformDetector.analyze",
-      "lines": 235,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/kubernetes.ts",
-      "function": "parseManagedKubernetes",
-      "lines": 68,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
       "lines": 82,
@@ -407,22 +391,6 @@
       "file": "src/export/cle.ts",
       "function": "exportCle",
       "lines": 65,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/dockerfile-legacy.ts",
-      "function": "plan",
-      "lines": 62,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/index.ts",
-      "function": "plan",
-      "lines": 72,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -492,14 +460,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/fix/dockerfile.ts",
-      "function": "plan",
-      "lines": 68,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/fix/github-actions.ts",
       "function": "plan",
       "lines": 55,
@@ -508,41 +468,9 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/fix/go-mod.ts",
-      "function": "plan",
-      "lines": 81,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/java.ts",
-      "function": "plan",
-      "lines": 86,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/fix/kubernetes.ts",
       "function": "plan",
       "lines": 58,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/python.ts",
-      "function": "plan",
-      "lines": 83,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/runtime-pins.ts",
-      "function": "plan",
-      "lines": 68,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -1070,70 +998,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/detectors/terraform/hcl.ts",
-      "function": "attributeValues > <anonymous>",
-      "complexity": 17,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/hcl.ts",
-      "function": "maskHcl",
-      "complexity": 16,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/index.ts",
-      "function": "TerraformDetector.analyze",
-      "complexity": 50,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/kubernetes.ts",
-      "function": "parseManagedKubernetes",
-      "complexity": 22,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/parse-terraform.ts",
-      "function": "readCode",
-      "complexity": 22,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/parse-terraform.ts",
-      "function": "scanCall",
-      "complexity": 16,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/parse-terraform.ts",
-      "function": "stringContext",
-      "complexity": 17,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/terraform/plan.ts",
-      "function": "collectResourcesFromModule",
-      "complexity": 20,
-      "owner": "#2263",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/drift/java.ts",
       "function": "setupJavaVersions",
       "complexity": 22,
@@ -1222,22 +1086,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/fix/codemods/dockerfile-legacy.ts",
-      "function": "plan",
-      "complexity": 19,
-      "owner": "#2268",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/index.ts",
-      "function": "plan",
-      "complexity": 17,
-      "owner": "#2268",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/fix/codemods/node-buffer.ts",
       "function": "classify",
       "complexity": 16,
@@ -1306,46 +1154,6 @@
       "function": "targetsFor",
       "complexity": 17,
       "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/dockerfile.ts",
-      "function": "plan",
-      "complexity": 18,
-      "owner": "#2268",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/go-mod.ts",
-      "function": "plan",
-      "complexity": 18,
-      "owner": "#2268",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/java.ts",
-      "function": "plan",
-      "complexity": 20,
-      "owner": "#2268",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/python.ts",
-      "function": "plan",
-      "complexity": 36,
-      "owner": "#2268",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/runtime-pins.ts",
-      "function": "plan",
-      "complexity": 22,
-      "owner": "#2268",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

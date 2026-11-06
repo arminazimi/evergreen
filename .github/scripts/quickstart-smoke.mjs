@@ -118,7 +118,7 @@ const checkPurl = "pkg:npm/request@2.88.2";
 const check = run(["check", checkPurl]);
 expect(check.status === 1, `check exits 1 for a high-severity affected rule (got ${check.status})`);
 expect(check.stdout.includes("Status: affected (high)"), "check reports Status: affected (high)");
-expect(check.stdout.includes("https://www.npmjs.com/package/request"), "check names the evidence source");
+expect(check.stdout.split(/\r?\n/).includes("Source: https://www.npmjs.com/package/request"), "check names the evidence source");
 
 const checkJson = jsonOf(run(["check", checkPurl, "--json"]), ["check", checkPurl, "--json"], 1);
 parseJson("evergreen.check.v1", checkJson, "the JSON check");

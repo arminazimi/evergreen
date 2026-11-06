@@ -1,10 +1,19 @@
+import { rm } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
+
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const fixtureRoots: string[] = [];
+const smokeFixture = await copyFixtureTree(resolve("tests/fixtures/smoke"), fixtureRoots);
+after(async () => {
+  await Promise.all(fixtureRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 const script = resolve(".github/scripts/smoke.mjs");
-const fixture = resolve("tests/fixtures/smoke");
+const fixture = smokeFixture;
 
 function smoke(...command: string[]) {
   return spawnSync(process.execPath, [script, fixture, "--", ...command], { encoding: "utf8" });

@@ -2,17 +2,28 @@ import assert from "node:assert/strict";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
+import { after, before, test } from "node:test";
 
 import { NpmDetector } from "../src/detectors/npm.js";
 
-const enginesFixtures = resolve("tests/fixtures/nodejs/engines");
-const typesStubFixtures = resolve("tests/fixtures/npm/types-stubs");
-const nodeSassDeprecatedFixtures = resolve("tests/fixtures/npm/node-sass-deprecated");
+import { copyFixtureTree } from "./fixture-copies.js";
+
+let enginesFixtures: string;
+let typesStubFixtures: string;
+let nodeSassDeprecatedFixtures: string;
 const stubTypeRule = /^npm\.package\.types\.[^.]+\.deprecated$/;
 const nodeSassDeprecatedRule = "npm.package.node-sass.deprecated";
 
 const temporaryRoots: string[] = [];
+
+before(async () => {
+  enginesFixtures = await copyFixtureTree(resolve("tests/fixtures/nodejs/engines"), temporaryRoots);
+  typesStubFixtures = await copyFixtureTree(resolve("tests/fixtures/npm/types-stubs"), temporaryRoots);
+  nodeSassDeprecatedFixtures = await copyFixtureTree(
+    resolve("tests/fixtures/npm/node-sass-deprecated"),
+    temporaryRoots,
+  );
+});
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));

@@ -6,6 +6,7 @@ import { after, test } from "node:test";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
+import type { Finding, ScanResult } from "../src/domain.js";
 import { dockerfileBaseImageFixer } from "../src/fix/dockerfile.js";
 
 const fixtures = resolve("tests/fixtures/fix-dockerfile");
@@ -121,4 +122,60 @@ test("a Dockerfile without a trailing newline is left alone", async () => {
   );
   assert.deepEqual(patches, []);
   assert.deepEqual(refusals, ["The Dockerfile does not end with a newline."]);
+});
+
+test("the fixer refuses each unrewritable image with its own reason and never guesses a target", async () => {
+  const root = await repository({
+    Dockerfile: [
+      "FROM node:22-alpine AS newer",
+      "FROM node AS untagged",
+      "FROM node:20 AS ambiguous",
+      "FROM node:lts AS floating",
+      "FROM node:20 AS unlined",
+      "",
+    ].join("\n"),
+  });
+  const finding = (line: number | undefined, summary: string, replacement: string): Finding =>
+    ({
+      id: `f${line ?? "none"}`,
+      ruleId: "container.image.end-of-life",
+      detector: "container",
+      title: "Base image is end of life",
+      summary,
+      severity: "high",
+      confidence: "exact",
+      location: { path: "Dockerfile", ...(line === undefined ? {} : { line }) },
+      replacement,
+      sources: [],
+    }) as Finding;
+  const result = {
+    schemaVersion: "evergreen.scan.v1",
+    root,
+    scannedAt: "2026-11-06T00:00:00.000Z",
+    diagnostics: [],
+    findings: [
+      finding(1, "The base image uses node:22-alpine. Upgrade it.", "Use node:21-alpine"),
+      finding(2, "The base image uses node. Upgrade it.", "Use node:22"),
+      finding(3, "The base image uses node:20. Upgrade it.", "Use node:22 or node:24"),
+      finding(4, "The base image uses node:lts. Upgrade it.", "Use node:22"),
+      finding(undefined, "The base image uses node:20. Upgrade it.", "Use node:22"),
+    ],
+  } as ScanResult;
+  const refusals: Array<{ line: number | undefined; reason: string }> = [];
+  const patches = await dockerfileBaseImageFixer.plan(result, (found, reason) =>
+    refusals.push({ line: found.location.line, reason }),
+  );
+
+  assert.deepEqual(patches, []);
+  assert.equal(
+    refusals.find((refusal) => refusal.line === 1)?.reason,
+    'The rule\'s replacement tag "21-alpine" is not newer than the current tag "22-alpine".',
+  );
+  assert.equal(refusals.find((refusal) => refusal.line === 2)?.reason, "The image has no tag to rewrite.");
+  assert.equal(
+    refusals.find((refusal) => refusal.line === 3)?.reason,
+    "The rule's replacement names more than one tag; the target is ambiguous.",
+  );
+  assert.equal(refusals.find((refusal) => refusal.line === 4)?.reason, "The image tag does not name a release line.");
+  assert.equal(refusals.find((refusal) => refusal.line === undefined)?.reason, "The finding names no line to rewrite.");
 });

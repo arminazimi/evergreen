@@ -5,7 +5,15 @@ import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 import { runCli } from "./cli-runner.js";
 
-const smoke = resolve("tests/fixtures/smoke");
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const fixtureRoots: string[] = [];
+const smokeFixture = await copyFixtureTree(resolve("tests/fixtures/smoke"), fixtureRoots);
+after(async () => {
+  await Promise.all(fixtureRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
+const smoke = smokeFixture;
 const tempDirs: string[] = [];
 
 after(async () => {

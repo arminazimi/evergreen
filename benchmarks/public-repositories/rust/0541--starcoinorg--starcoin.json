@@ -381,6 +381,15 @@
         "kind": "maintainer-review",
         "note": "Reviewed line 5 of rust-toolchain.toml at this commit: `channel = \"1.93.1\"`. The Rust project supports only its current stable release (https://releases.rs/); this pinned toolchain is outside that window."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/auto_bump_homebrew.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/starcoinorg/starcoin/blob/57559ea1a32c3af5a81d84668c9d4a40511991ed/.github/workflows/auto_bump_homebrew.yml#L19: `printf \"::set-output name=%s::%s\\n\" tag-name \"${GITHUB_REF#refs/tags/}\"` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
     }
   ]
 }

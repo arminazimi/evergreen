@@ -75,6 +75,15 @@
         "kind": "maintainer-review",
         "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/release.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Inspected nestjsx/crud@d6d3c4ebd844d543ab71b494d424660c448a9d42, .github/workflows/release.yml:42 directly on 2026-11-06: `echo \"::set-output name=tag::${TAG}\"` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+      }
     }
   ]
 }

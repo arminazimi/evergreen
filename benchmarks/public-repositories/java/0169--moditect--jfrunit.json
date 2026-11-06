@@ -120,6 +120,15 @@
         "kind": "maintainer-review",
         "note": "Reviewed at this commit: line 50 of pom.xml reads `<java.version>16</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
       }
+    },
+    {
+      "ruleId": "github-actions.workflow-command.set-output",
+      "path": ".github/workflows/release.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed the pinned workflow at https://github.com/moditect/jfrunit/blob/b676511be0506a8653358060eb2fdb4fe27873a3/.github/workflows/release.yml#L16: `run: echo ::set-output name=VERSION::${GITHUB_REF/refs\\/tags\\/v/}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
+      }
     }
   ]
 }

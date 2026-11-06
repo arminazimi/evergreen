@@ -34,7 +34,7 @@ async function fixture(path: string): Promise<string> {
 }
 
 test("parses swift-tools-version and literal from/exact package pins with exact lines", async () => {
-  assert.deepEqual(parsePackageSwift(await fixture("positive/Package.swift")), [
+  assert.deepEqual(parsePackageSwift(await fixture("positive/Package.swift.fixture")), [
     { kind: "tools-version", value: "5.9", line: 1 },
     {
       kind: "package",
@@ -51,7 +51,7 @@ test("parses swift-tools-version and literal from/exact package pins with exact 
       line: 12,
     },
   ]);
-  assert.deepEqual(parsePackageSwift(await fixture("zero/Package.swift")), [
+  assert.deepEqual(parsePackageSwift(await fixture("zero/Package.swift.fixture")), [
     { kind: "tools-version", value: "6.0", line: 1 },
     {
       kind: "package",
@@ -64,11 +64,11 @@ test("parses swift-tools-version and literal from/exact package pins with exact 
 });
 
 test("ignores comments, platforms, path pins, and dynamic package versions", async () => {
-  assert.deepEqual(parsePackageSwift(await fixture("negative/Package.swift")), []);
+  assert.deepEqual(parsePackageSwift(await fixture("negative/Package.swift.fixture")), []);
 });
 
 test("malformed package call skips the pin but keeps a valid tools-version", async () => {
-  const malformed = await fixture("malformed/Package.swift");
+  const malformed = await fixture("malformed/Package.swift.fixture");
   assert.doesNotThrow(() => parsePackageSwift(malformed));
   assert.deepEqual(parsePackageSwift(malformed), [{ kind: "tools-version", value: "5.9", line: 1 }]);
 });

@@ -150,6 +150,16 @@ test("rowsFromSnapshots list every QUALITY.md target and never invent a previous
   assert.match(renderQualitySection({ snapshotDate: current.date, rows }).join("\n"), /## Reference quality/);
 });
 
+test("quality report cells keep backslashes, pipes and line breaks inside one row", () => {
+  const text = renderQualitySection({
+    snapshotDate: null,
+    rows: [
+      { criterion: "a\\|b\r\nc\nd\re", target: "a\\|b\r\nc\nd\re", current: "a\\|b\r\nc\nd\re", value: 1, previous: 1 },
+    ],
+  }).join("\n");
+  assert.ok(text.includes(String.raw`| a\\\|b c d e | a\\\|b c d e | a\\\|b c d e | 0 |`));
+});
+
 test("collectQualityMetrics compares the newest snapshots of this month and the previous month", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "evergreen-quality-metrics-"));
   try {

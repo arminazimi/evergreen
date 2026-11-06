@@ -85,7 +85,7 @@ test("accepts the rbenv prefix and a patchlevel, and ignores other Ruby implemen
 });
 
 test("parses the ruby directive and direct gems from a Gemfile with exact lines", async () => {
-  assert.deepEqual(parseGemfile(await fixture("positive/Gemfile")), [
+  assert.deepEqual(parseGemfile(await fixture("positive/Gemfile.fixture")), [
     { kind: "ruby", value: "3.2.2", line: 3 },
     { kind: "gem", name: "rack", value: "2.2.8", line: 5 },
     { kind: "gem", name: "rake", value: "13.0.6", line: 8 },
@@ -93,18 +93,18 @@ test("parses the ruby directive and direct gems from a Gemfile with exact lines"
 });
 
 test("a valid Gemfile with no lifecycle findings still parses its declarations", async () => {
-  assert.deepEqual(parseGemfile(await fixture("zero/Gemfile")), [
+  assert.deepEqual(parseGemfile(await fixture("zero/Gemfile.fixture")), [
     { kind: "ruby", value: "3.3.0", line: 3 },
     { kind: "gem", name: "rake", value: "13.2.1", line: 5 },
   ]);
 });
 
 test("ignores comments, dynamic values, floating gems, git and path gems, groups, and gemspec directives", async () => {
-  assert.deepEqual(parseGemfile(await fixture("negative/Gemfile")), []);
+  assert.deepEqual(parseGemfile(await fixture("negative/Gemfile.fixture")), []);
 });
 
 test("a malformed Gemfile returns nothing and never throws", async () => {
-  const contents = await fixture("malformed/Gemfile");
+  const contents = await fixture("malformed/Gemfile.fixture");
   assert.doesNotThrow(() => parseGemfile(contents));
   assert.deepEqual(parseGemfile(contents), []);
   for (const junk of ['gem "rack", "1.0\n', 'gem "rack", ENV.fetch(\n', "\u0000\u0001", "\uFEFF", "}}}", "\r\n\r\n"]) {
