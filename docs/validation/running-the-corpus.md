@@ -79,19 +79,38 @@ npm run validate:public-repos -- --changed release/1  # a different base
 
 The map is tested: every built-in detector, every corpus ecosystem, every directory under `src/detectors/`, every file in `registry/`, and every shared file a detector imports must be listed, so adding a detector fails `npm run check` until it is mapped. Other work can import the same module, for example a pull request workflow.
 
+## Sharding a full run
+
+A full run is split into eight shards, one CI job each, so the run stays inside the nightly budget at the 4,600-repository target. Locally:
+
+```bash
+npm run validate:public-repos -- --shard 2/8 --offline
+npm run corpus:merge -- --dir shard-reports --output corpus-result.json
+```
+
+`--shard <index>/<count>` keeps every `count`th entry starting at `index`, applied after `--ecosystem`, `--repo`, `--failed-from`, and `--changed` have selected the entries. Every entry belongs to exactly one shard and membership is stable for a given corpus order, so two runs pick the same split. The JSON report records `"shard": { "index": 2, "count": 8 }`.
+
+A shard is not a full run: it says `"fullRun": false`, does not enforce the precision or recall floors, and `npm run record:corpus-run` refuses `--shard`. Each shard writes `corpus-result-<shard>.json`. `node dist/benchmarks/corpus-merge.js --dir <dir>` reads exactly the `corpus-result-<n>.json` files, refuses anything that is not the complete set of verify-mode shards, checks every repository against its pinned commit exactly once, merges in corpus order, enforces the floors, and writes the single full report the artifact and the job summary expect. It applies the shard budgets described below.
+
+Each repository is scanned in its own worker with an old-generation heap limit: 1024 MB by default, `--memory-limit <MB>` or `EVERGREEN_CORPUS_MEMORY_MB` to change it. A repository that exceeds the limit, throws, or runs longer than its scan timeout (300 s by default, `EVERGREEN_CORPUS_SCAN_TIMEOUT_SECONDS`) prints as `FAILED owner/repo@commit: reason`, counts its expected findings as missing, and the run carries on to the next repository; the run fails at the end. A fetch that exhausts its retries is recorded the same way, so one repository can neither crash the shard nor hide behind a missing report.
+
 ## Run cost and budget
 
 Every report carries a `cost` block: total wall time, the summed fetch time (larger than the wall time when fetches overlap), cache hits and misses, and the size of the git data fetched (git does not expose network bytes, so this is the `.git` size of each fetched checkout). The run prints it as a `COST` line, and the weekly workflow shows it in the job summary.
 
-`benchmarks/thresholds.json` holds the `budget`: a wall-time limit in seconds and a fetched-bytes limit. Going over either prints a `BUDGET` warning (a `::warning::` annotation in Actions), lists it in the report's `budgetWarnings`, and flags it in the job summary. A budget overrun never fails the run; correctness is decided by false positives, false negatives, and the precision floors alone. Tighten the budget in a pull request when a faster fetch strategy lands, and raise it only with a stated reason.
+`benchmarks/thresholds.json` holds the `budget`: a wall-time limit in seconds and a fetched-bytes limit, **per job** — one shard, or one unsharded run. Going over either prints a `BUDGET` warning (a `::warning::` annotation in Actions), lists it in the report's `budgetWarnings`, and flags it in the job summary. A merged report compares its summed fetched bytes against the limit times the shard count and its wall time (the slowest shard) against the single-shard limit. A budget overrun never fails the run; correctness is decided by false positives, false negatives, and failed scans.
+
+The current limits are 600 s and 500 MB per shard, measured rather than guessed. At the 4,600 target a shard owns about 575 repositories, 8.3 times today's 70. A warm shard of 70 takes about 15 s (about two minutes at the target). Measured here on a slow connection, a cold shard of 70 took 319.5 s and fetched 53.3 MB (median checkout 26 s), which is about 440 MB for one target shard; decision 0015 measured 112 repositories cold in 49.8 s on an ordinary connection, so 600 s and 500 MB leave room for both. The weekly job's timeout is 20 minutes. Tighten the budget in a pull request when a faster fetch strategy lands, and raise it only with a stated reason and a measurement.
 
 ## Stalled fetches
 
-One hung connection must not hold a run. Each fetch passes git's low-speed abort (`http.lowSpeedLimit=1000`, `http.lowSpeedTime=30`: below 1 KB/s for 30 s) and a hard limit of 120 s per attempt, changed with `EVERGREEN_CORPUS_FETCH_TIMEOUT_SECONDS`. A stall counts as a failed attempt, so it is retried and, when every attempt fails, reported with the repository name. At the end of every run the five slowest fetches print as `SLOWEST` lines.
+One hung connection must not hold a run. Each fetch passes git's low-speed abort (`http.lowSpeedLimit=1000`, `http.lowSpeedTime=30`: below 1 KB/s for 30 s) and a hard limit of 120 s per attempt, changed with `EVERGREEN_CORPUS_FETCH_TIMEOUT_SECONDS`. A stall counts as a failed attempt, so it is retried and, when every attempt fails, recorded as a `FAILED` entry for that repository while the rest of the shard continues. At the end of every run the five slowest fetches print as `SLOWEST` lines.
 
 ## Reading a run
 
-By default a run prints a short table on stdout instead of the full JSON: true positives, false positives, false negatives, and precision per ecosystem and per detector, then every `UNEXPECTED` and `MISSING` line, then a one-line wall-time summary. Progress goes to stderr as one line per fetched repository (`12/107 owner/name 2.1s`). The `COST`, `SLOWEST`, and `BUDGET` lines follow on stderr.
+By default a run prints a short table on stdout instead of the full JSON: true positives, false positives, false negatives, and precision per ecosystem and per detector, then every `UNEXPECTED`, `MISSING`, and `FAILED` line, then a one-line wall-time summary. Progress goes to stderr as one line per fetched repository (`12/107 owner/name 2.1s`). The `COST`, `SLOWEST`, and `BUDGET` lines follow on stderr.
+
+A `FAILED` line names a repository whose scan or fetch failed (for example its memory limit or its retries) and why. Its expected findings count as missing, and `summary.scanErrors` counts it, so it can never pass as a clean result or disappear from the report.
 
 ```bash
 npm run validate:public-repos -- --output corpus-result.json   # table on screen, full JSON in the file
@@ -111,14 +130,14 @@ One command replaces the hand edits. It runs the whole corpus in verify mode and
 It refuses, and changes nothing, when:
 
 - the working tree has uncommitted changes, because the recorded commit would not describe them;
-- any run-narrowing flag is passed (`--ecosystem`, `--repo`, `--failed-from`, `--changed`), or `--observe`, `--warm`, `--output`, `--json`, or `--compare`;
-- the run did not cover every corpus entry, was not in verify mode, or has any false positive or false negative, or a detector below its precision floor.
+- any run-narrowing flag is passed (`--ecosystem`, `--repo`, `--failed-from`, `--changed`, `--shard`), or `--observe`, `--warm`, `--output`, `--json`, or `--compare`;
+- the run did not cover every corpus entry, was not in verify mode, or has any false positive or false negative, a failed scan, or a detector below its precision floor.
 
-Other harness flags such as `--concurrency` and `--offline` are passed through. The dashboard tests read the recorded commit, counts, and age from `benchmarks/thresholds.json` instead of repeating them, so recording a new run needs no test edits.
+Other harness flags such as `--concurrency` and `--offline` are passed through. Recording runs the corpus in one process, not in shards, because `lastFullRun` is written from a single complete report; the `record` job's 60-minute timeout covers it. The dashboard tests read the recorded commit, counts, and age from `benchmarks/thresholds.json` instead of repeating them, so recording a new run needs no test edits.
 
 ## Pull request check
 
-Pull request CI (`ci.yml`) stays offline, so a detector or rule change that adds false positives would only be found in the weekly run. The `affected` job in [`.github/workflows/corpus.yml`](../../.github/workflows/corpus.yml) closes that gap: when a pull request touches `src/`, `registry/`, `tests/fixtures/`, or `benchmarks/`, it maps the changed files to corpus ecosystems with the same `--changed` logic described above and runs only those, using the weekly run's checkout cache (restore only). The same workflow also covers the full and record modes via schedule and a `mode` `workflow_dispatch` input.
+Pull request CI (`ci.yml`) stays offline, so a detector or rule change that adds false positives would only be found in the weekly run. The `affected` job in [`.github/workflows/corpus.yml`](../../.github/workflows/corpus.yml) closes that gap: when a pull request touches `src/`, `registry/`, `tests/fixtures/`, or `benchmarks/`, it maps the changed files to corpus ecosystems with the same `--changed` logic described above and runs only those, using the weekly run's checkout cache (restore only). It always runs unsharded: the pull request keeps a single, affected-ecosystems-only job. The same workflow also covers the full and record modes via schedule and a `mode` `workflow_dispatch` input.
 
 Before it fetches anything, the affected job also runs `node dist/benchmarks/corpus-snapshot.js`, and the same comparison runs in `npm test` for every pull request. [`benchmarks/corpus-snapshot.json`](../../benchmarks/corpus-snapshot.json) records how many findings, in how many repositories, the corpus expects for each detector. A change that removes or weakens an expectation, so that a known finding would no longer be required, fails with a `SNAPSHOT` line until the snapshot is updated on purpose with `node dist/benchmarks/corpus-snapshot.js --write`; that edit is a reviewable diff. Adding expectations never fails; run `--write` to ratchet the snapshot up.
 
@@ -132,11 +151,12 @@ Decision 0013 requires a recorded full run within 30 days for `beta` and `stable
 
 ## Weekly run and refreshing pins
 
-Pull request CI never touches the network, so the corpus is checked by the `full` job in [`.github/workflows/corpus.yml`](../../.github/workflows/corpus.yml) every Monday and on demand (Actions → Corpus → Run workflow, `mode=full`). The result is uploaded as the `corpus-result-<run id>` artifact even when the comparison fails. A failing run prints one line per mismatch, for example:
+Pull request CI never touches the network, so the corpus is checked by the `full` job in [`.github/workflows/corpus.yml`](../../.github/workflows/corpus.yml) every Monday and on demand (Actions → Corpus → Run workflow, `mode=full`). It runs eight shards in parallel, each restoring the shared checkout cache, and a `merge` job joins their reports into one full run; if any shard fails, the merge job does not run and no full result is published. The merged result is uploaded as the `corpus-result-<run id>` artifact even when it has mismatches. A failing run prints one line per mismatch, for example:
 
 ```text
 UNEXPECTED owner/repo@4ec1ebe0fa: github-actions.setup-node.node20:.github/workflows/ci.yml:20
 MISSING    owner/repo@4ec1ebe0fa: nodejs.runtime.eol-18:package.json:83
+FAILED     owner/huge@4ec1ebe0fa: scan exceeded the 1024 MB per-repository memory limit
 ```
 
 `UNEXPECTED` means Evergreen reported a finding the corpus does not list; `MISSING` means a listed finding was not reported. Because every commit is pinned, a mismatch means Evergreen's rules or detectors changed, not the repository. Decide which side is right before touching the corpus: fix the detector or rule when the corpus is right, and update the expected entry (with its `groundTruthSource`) only when the new result is correct.
