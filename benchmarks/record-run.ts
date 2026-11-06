@@ -22,7 +22,7 @@ export interface RecordableReport {
 }
 
 /** Flags that narrow a run; a narrowed run is never recorded. */
-export const FILTER_FLAGS = ["--ecosystem", "--repo", "--failed-from", "--changed"] as const;
+export const FILTER_FLAGS = ["--ecosystem", "--repo", "--failed-from", "--changed", "--shard"] as const;
 
 /** The first filter flag in `argv`, if any. */
 export function findFilterFlag(argv: readonly string[]): string | undefined {

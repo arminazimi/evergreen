@@ -122,6 +122,7 @@
     "record:corpus-run": "npm run build --silent && node dist/benchmarks/record-corpus-run.js",
     "corpus:warm": "npm run build --silent && node dist/benchmarks/public-repositories.js --warm",
     "corpus:cache": "npm run build --silent && node dist/benchmarks/corpus-cache-cli.js",
+    "corpus:merge": "npm run build --silent && node dist/benchmarks/corpus-merge.js",
     "observe:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js --observe",
     "prepack": "npm run check && npm run build:release-manifest",
     "release:notes": "npm run build --silent && node dist/tools/changelog.js",

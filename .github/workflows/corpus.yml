@@ -107,12 +107,12 @@ jobs:
             else
               grep '^changed: ' corpus.log | sed 's/^/- /' || true
               echo
-              if grep -qE '^(UNEXPECTED|MISSING)' corpus.log; then
+              if grep -qE '^(UNEXPECTED|MISSING|FAILED)' corpus.log; then
                 echo '```text'
-                grep -E '^(UNEXPECTED|MISSING)' corpus.log
+                grep -E '^(UNEXPECTED|MISSING|FAILED)' corpus.log
                 echo '```'
               else
-                echo "No UNEXPECTED or MISSING findings."
+                echo "No UNEXPECTED, MISSING, or FAILED findings."
               fi
               echo
               grep -E '^(COST|BUDGET)' corpus.log | sed 's/^/    /' || true
@@ -128,12 +128,19 @@ jobs:
           retention-days: 14
 
   full:
-    name: corpus (full)
+    # Eight shards keep one full run inside its budget at the 4,600-repository target: a shard owns
+    # every eighth entry, so each job fetches and scans about one eighth of the corpus. The shards
+    # run in parallel and the merge job rebuilds the single full report, including the floors.
+    name: corpus (full shard ${{ matrix.shard }}/8)
     if: >-
       github.event.schedule == '17 5 * * 1' ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'full')
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -142,32 +149,73 @@ jobs:
         with:
           cache: npm
       - run: npm run build --silent
-      # Pinned commits never change, so earlier checkouts stay valid. The restore-keys prefix lets a new
-      # corpus entry add to an old cache instead of starting over. Restore and save are separate steps so
-      # the cache is saved even when the comparison fails.
-      - name: Restore the corpus checkout cache
+      # Pinned commits never change, so earlier checkouts stay valid. Shard membership is
+      # deterministic, so an entry is stored by exactly one shard and no checkout is cached twice.
+      # The shared restore prefix lets a shard start from another shard's cache (and the affected
+      # and record jobs reuse the newest one) after the corpus hash changes. Restore and save are
+      # separate steps so the cache is saved even when the comparison fails.
+      - name: Restore the shared corpus checkout cache
         id: corpus-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ env.EVERGREEN_CORPUS_CACHE }}
-          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories/**') }}
+          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories/**') }}-shard-${{ matrix.shard }}
           restore-keys: |
             corpus-checkouts-
-      - name: Compare findings with the pinned corpus
-        run: node dist/benchmarks/public-repositories.js --output corpus-result.json
-      - name: Show the run cost in the job summary
-        if: always()
-        run: |
-          if [ -s corpus-result.json ]; then
-            jq -r '"### Corpus run cost\n\n| Metric | Value |\n| --- | --- |\n| Wall time | \(.cost.wallMs / 1000 | . * 10 | round / 10) s (budget \(.budget.maxWallSeconds) s) |\n| Fetch time (summed) | \(.cost.fetchMs / 1000 | . * 10 | round / 10) s |\n| Cache hits / misses | \(.cost.cacheHits) / \(.cost.cacheMisses) |\n| Fetched | \(.cost.bytesFetched / 1000000 | . * 10 | round / 10) MB (budget \(.budget.maxFetchedBytes / 1000000) MB) |\n\n" + (if (.budgetWarnings | length) > 0 then "**Over budget:**\n" + (.budgetWarnings | map("- " + .) | join("\n")) + "\n" else "Within budget.\n" end)' corpus-result.json >> "$GITHUB_STEP_SUMMARY"
-          fi
-      - name: Save the corpus checkout cache
+      - name: Compare this shard with the pinned corpus
+        env:
+          SHARD: ${{ matrix.shard }}
+          SHARD_COUNT: "8"
+        # One repository at a time, each in a worker with a memory ceiling (--memory-limit). A
+        # repository that fails is named in the report and fails the run instead of crashing it.
+        run: node dist/benchmarks/public-repositories.js --shard "$SHARD/$SHARD_COUNT" --output "corpus-result-$SHARD.json"
+      - name: Save the shard cache
         if: always() && steps.corpus-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ env.EVERGREEN_CORPUS_CACHE }}
-          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories/**') }}
-      - name: Upload the result
+          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories/**') }}-shard-${{ matrix.shard }}
+      - name: Upload the shard report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: corpus-shard-${{ matrix.shard }}-${{ github.run_id }}
+          path: corpus-result-${{ matrix.shard }}.json
+          if-no-files-found: ignore
+          retention-days: 30
+
+  merge:
+    # Rebuilds one full report from the shard reports, so the precision and recall floors, the job
+    # summary, and the artifact describe the whole corpus rather than eight parts of it.
+    name: corpus (merge shards)
+    needs: full
+    if: >-
+      always() && needs.full.result == 'success' &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/setup
+        with:
+          cache: npm
+      - run: npm run build --silent
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: corpus-shard-*-${{ github.run_id }}
+          path: shard-reports
+          merge-multiple: true
+      - name: Merge the shard reports into one full run
+        run: node dist/benchmarks/corpus-merge.js --dir shard-reports --output corpus-result.json
+      - name: Show the run cost in the job summary
+        if: always()
+        run: |
+          if [ -s corpus-result.json ]; then
+            jq -r '"### Corpus run cost\n\n| Metric | Value |\n| --- | --- |\n| Wall time (slowest shard) | \(.cost.wallMs / 1000 | . * 10 | round / 10) s (budget \(.budget.maxWallSeconds) s per shard) |\n| Fetch time (summed) | \(.cost.fetchMs / 1000 | . * 10 | round / 10) s |\n| Cache hits / misses | \(.cost.cacheHits) / \(.cost.cacheMisses) |\n| Fetched | \(.cost.bytesFetched / 1000000 | . * 10 | round / 10) MB (budget \(.budget.maxFetchedBytes / 1000000) MB per shard) |\n\n" + (if (.budgetWarnings | length) > 0 then "**Over budget:**\n" + (.budgetWarnings | map("- " + .) | join("\n")) + "\n" else "Within budget.\n" end)' corpus-result.json >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload the merged result
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:

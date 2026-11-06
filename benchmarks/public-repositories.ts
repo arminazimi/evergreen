@@ -3,8 +3,6 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 
-import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine/index.js";
 import {
   inBatches,
   type CorpusRepositoryEntry,
@@ -18,13 +16,15 @@ import {
   resolveCorpusCacheDir,
 } from "./corpus-cache.js";
 import { fetchWith, isCheckoutUsable, resolveFetchStrategy } from "./corpus-fetch.js";
-import { budgetWarnings, createCostTracker, formatCost, slowestFetches } from "./corpus-cost.js";
+import { createCostTracker, formatCost, slowestFetches } from "./corpus-cost.js";
 import { affectedEcosystems, changedPaths, describeAffected, parseChangedFlag } from "./corpus-affected.js";
 import { compareRuns, loadBaseline, parseComparePath } from "./corpus-compare.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
 import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "./corpus-filter.js";
 import { loadPublicCorpus } from "./public-corpus.js";
-import { recallViolations, scoreDetectors, violations } from "./thresholds.js";
+import { describeShard, parseShard, shardCoversEverything, shardEntries } from "./corpus-shard.js";
+import { resolveMemoryLimit, resolveScanTimeout, scanWithinMemoryLimit } from "./corpus-scan.js";
+import { buildReport, reportFailed } from "./corpus-result.js";
 import type { Thresholds } from "./thresholds.js";
 
 const fetchStrategy = resolveFetchStrategy();
@@ -32,12 +32,6 @@ const fetchStrategy = resolveFetchStrategy();
 /** Fetches `entry` into `checkout` and returns the size of the fetched git data. */
 async function fetchInto(checkout: string, entry: CorpusRepositoryEntry): Promise<number> {
   return (await fetchWith(fetchStrategy, checkout, entry)).bytes;
-}
-
-function percentile(values: number[], fraction: number): number {
-  const ordered = [...values].sort((left, right) => left - right);
-  const index = Math.max(0, Math.ceil(ordered.length * fraction) - 1);
-  return ordered[index] ?? 0;
 }
 
 const observeOnly = process.argv.includes("--observe");
@@ -52,6 +46,15 @@ try {
 let comparePath: string | undefined;
 try {
   comparePath = parseComparePath();
+} catch (error) {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(2);
+}
+let memoryMb: number;
+let scanTimeoutSeconds: number;
+try {
+  memoryMb = resolveMemoryLimit();
+  scanTimeoutSeconds = resolveScanTimeout();
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   process.exit(2);
@@ -89,10 +92,28 @@ try {
   process.exit(2);
 }
 if (selection.description) console.error(selection.description);
-if (selection.entries.length === 0) {
+
+// A shard narrows the selected entries only. Membership is a position modulo the shard count, so
+// every entry belongs to exactly one shard and two runs over the same corpus pick the same split.
+let shard: ReturnType<typeof parseShard>;
+try {
+  shard = parseShard();
+} catch (error) {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(2);
+}
+const entries = shard === undefined ? selection.entries : shardEntries(selection.entries, shard);
+// Floors are whole-corpus claims, so a single shard is never a full run even when the selected
+// subset happens to be everything.
+const full = selection.full && shardCoversEverything(shard);
+if (shard !== undefined && !shardCoversEverything(shard)) {
+  console.error(describeShard(shard, entries.length, selection.entries.length));
+}
+if (entries.length === 0) {
   console.error("No repository to run: the report has no mismatches, or none of them is in the corpus any more.");
   process.exit(0);
 }
+console.error(`scan limit: ${memoryMb} MB per repository, ${scanTimeoutSeconds} s timeout`);
 
 // The corpus expectations are recorded against the bundled lifecycle data, as CI runs it. A downloaded data
 // cache in the user's cache directory would change the findings and report false MISSING entries, so point
@@ -117,12 +138,10 @@ if (!cacheDir) {
   );
 }
 if (cacheDir) {
-  const missing = await missingCorpusEntries(cacheDir, selection.entries, (existing) =>
+  const missing = await missingCorpusEntries(cacheDir, entries, (existing) =>
     isCheckoutUsable(existing, fetchStrategy),
   );
-  console.error(
-    `cache: ${selection.entries.length - missing.length} of ${selection.entries.length} entries already cached in ${cacheDir}`,
-  );
+  console.error(`cache: ${entries.length - missing.length} of ${entries.length} entries already cached in ${cacheDir}`);
   // An offline run fails before scanning anything, naming every entry it cannot serve.
   if (offline && missing.length > 0) {
     console.error(describeMissingEntries(missing));
@@ -142,9 +161,7 @@ if (cacheDir) {
       fetched += 1;
       console.error(`${fetched}/${missing.length} ${entry.repository}`);
     });
-    console.error(
-      `cache warmed: ${fetched} fetched, ${selection.entries.length - missing.length} were already cached.`,
-    );
+    console.error(`cache warmed: ${fetched} fetched, ${entries.length - missing.length} were already cached.`);
     process.exit(0);
   }
 }
@@ -155,7 +172,7 @@ const runStartedAt = performance.now();
 
 try {
   const results = await runCorpusRepositories({
-    entries: selection.entries,
+    entries,
     concurrency,
     checkout: async (entry, index) => {
       const checkoutStartedAt = performance.now();
@@ -178,66 +195,35 @@ try {
       return { path, checkoutMs: Number((performance.now() - checkoutStartedAt).toFixed(2)) };
     },
     onCheckout: (entry, outcome, done) => {
-      console.error(progressLine(done, selection.entries.length, entry.repository, outcome.checkoutMs));
+      console.error(progressLine(done, entries.length, entry.repository, outcome.checkoutMs));
     },
-    scan: async (path) => {
-      const scan = await scanRepository(path, builtInDetectors);
-      // Transitive findings (those with a dependency path) have no reviewed ground truth, so the corpus scores only declared dependencies.
-      return scan.findings.filter((finding) => finding.dependencyPath === undefined);
-    },
+    scan: async (path) => scanWithinMemoryLimit(path, { memoryMb, timeoutSeconds: scanTimeoutSeconds }),
   });
 
-  const truePositives = results.reduce((total, result) => total + result.truePositives, 0);
-  const falsePositives = results.reduce((total, result) => total + result.falsePositives, 0);
-  const falseNegatives = results.reduce((total, result) => total + result.falseNegatives, 0);
-  const durations = results.map((result) => result.durationMs);
-  const checkoutDurations = results.map((result) => result.checkoutMs);
-  const precision = truePositives + falsePositives === 0 ? 1 : truePositives / (truePositives + falsePositives);
-  const recall = truePositives + falseNegatives === 0 ? 1 : truePositives / (truePositives + falseNegatives);
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
-  const detectors = scoreDetectors(results);
-  // Precision floors are calibrated for the whole corpus, so a filtered run never enforces them.
-  const regressions = selection.full ? violations(detectors, thresholds) : [];
-  const recallRegressions = selection.full ? recallViolations(detectors, thresholds) : [];
-  const cost = costTracker.finish({ wallMs: performance.now() - runStartedAt, checkoutMs: checkoutDurations });
-  const warnings = thresholds.budget ? budgetWarnings(cost, thresholds.budget) : [];
-  const report = {
-    schemaVersion: "evergreen.public-validation-result.v1",
-    mode: observeOnly ? "observe" : "verify",
-    fullRun: selection.full,
-    ...(selection.description ? { filter: selection.description } : {}),
-    repositories: results,
-    detectors,
-    thresholdViolations: regressions,
-    recallViolations: recallRegressions,
-    summary: {
-      repositoryCount: results.length,
-      findingCount: results.reduce((total, result) => total + result.findings.length, 0),
-      truePositives,
-      falsePositives,
-      falseNegatives,
-      precision: Number(precision.toFixed(4)),
-      recall: Number(recall.toFixed(4)),
-      medianScanMs: Number(percentile(durations, 0.5).toFixed(2)),
-      p95ScanMs: Number(percentile(durations, 0.95).toFixed(2)),
-      slowestScanMs: Number(Math.max(...durations).toFixed(2)),
-      medianCheckoutMs: Number(percentile(checkoutDurations, 0.5).toFixed(2)),
-      p95CheckoutMs: Number(percentile(checkoutDurations, 0.95).toFixed(2)),
-      slowestCheckoutMs: Number(Math.max(...checkoutDurations).toFixed(2)),
-    },
+  const cost = costTracker.finish({
+    wallMs: performance.now() - runStartedAt,
+    checkoutMs: results.map((result) => result.checkoutMs),
+  });
+  const report = buildReport({
+    results,
+    full,
+    observeOnly,
+    filter: selection.description,
+    shard: shardCoversEverything(shard) ? undefined : shard,
+    thresholds,
     cost,
-    ...(thresholds.budget ? { budget: thresholds.budget, budgetWarnings: warnings } : {}),
-  };
+  });
 
   if (outputPath) await writeFile(resolve(outputPath), `${JSON.stringify(report, null, 2)}\n`);
   if (jsonToStdout) console.log(JSON.stringify(report, null, 2));
-  say(formatSummaryTables(results, detectors));
+  say(formatSummaryTables(results, report.detectors));
   // Name every mismatch so a failed run says which repository and which finding, without opening the JSON.
   for (const line of mismatchLines(results)) say(line);
   if (comparePath) {
     try {
       for (const line of compareRuns(
-        { repositories: results, detectors, full: selection.full },
+        { repositories: results, detectors: report.detectors, full },
         await loadBaseline(comparePath),
       ))
         say(line);
@@ -247,32 +233,28 @@ try {
     }
   }
   say(
-    `${selection.full ? "full run" : "filtered run"}: ${results.length} repositories, wall ${(cost.wallMs / 1000).toFixed(1)} s${outputPath ? `, report written to ${outputPath}` : ""}`,
+    `${full ? "full run" : "filtered run"}: ${results.length} repositories, wall ${(cost.wallMs / 1000).toFixed(1)} s${outputPath ? `, report written to ${outputPath}` : ""}`,
   );
   console.error(`COST      ${formatCost(cost)}`);
   for (const slow of slowestFetches(results)) {
     console.error(`SLOWEST   ${slow.repository}@${slow.commit.slice(0, 10)}: ${(slow.checkoutMs / 1000).toFixed(1)} s`);
   }
   // A budget overrun is a warning only; it never changes the exit code.
-  for (const warning of warnings) {
+  for (const warning of report.budgetWarnings ?? []) {
     console.error(`BUDGET    ${warning}`);
     if (process.env.GITHUB_ACTIONS === "true") console.error(`::warning title=Corpus budget::${warning}`);
   }
-  for (const regression of regressions) {
+  for (const regression of report.thresholdViolations) {
     console.error(
       `THRESHOLD  ${regression.detector}: precision ${regression.precision} is below the required ${regression.minPrecision}`,
     );
   }
-  for (const regression of recallRegressions) {
+  for (const regression of report.recallViolations) {
     console.error(
       `THRESHOLD  ${regression.detector}: recall ${regression.recall} is below the required ${regression.minRecall}`,
     );
   }
-  if (
-    !observeOnly &&
-    (falsePositives > 0 || falseNegatives > 0 || regressions.length > 0 || recallRegressions.length > 0)
-  )
-    process.exitCode = 1;
+  if (!observeOnly && reportFailed(report)) process.exitCode = 1;
 } finally {
   await rm(root, { recursive: true, force: true });
 }

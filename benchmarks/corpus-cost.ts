@@ -60,16 +60,40 @@ export async function directorySize(directory: string): Promise<number> {
   return total;
 }
 
+/**
+ * One cost for a run split into shards. The shards run in parallel, so the wall time is the slowest
+ * shard's; fetches, cache hits and bytes add up across them.
+ */
+export function combineCosts(costs: readonly CorpusCost[]): CorpusCost {
+  const sum = (pick: (cost: CorpusCost) => number): number =>
+    Number(costs.reduce((total, cost) => total + pick(cost), 0).toFixed(2));
+  return {
+    wallMs: costs.reduce((slowest, cost) => Math.max(slowest, cost.wallMs), 0),
+    fetchMs: sum((cost) => cost.fetchMs),
+    cacheHits: costs.reduce((total, cost) => total + cost.cacheHits, 0),
+    cacheMisses: costs.reduce((total, cost) => total + cost.cacheMisses, 0),
+    bytesFetched: costs.reduce((total, cost) => total + cost.bytesFetched, 0),
+  };
+}
+
 const megabytes = (bytes: number): string => `${(bytes / 1_000_000).toFixed(1)} MB`;
 
-/** One warning per exceeded limit; empty when the run is within budget. */
-export function budgetWarnings(cost: CorpusCost, budget: CorpusBudget): string[] {
+/**
+ * One warning per exceeded limit; empty when the run is within budget. `fetchedMultiplier` scales the
+ * byte limit for a merged report: the budget is per shard, and a merged run sums every shard.
+ */
+export function budgetWarnings(
+  cost: CorpusCost,
+  budget: CorpusBudget,
+  options: { fetchedMultiplier?: number } = {},
+): string[] {
   const warnings: string[] = [];
   if (cost.wallMs > budget.maxWallSeconds * 1000) {
     warnings.push(`wall time ${(cost.wallMs / 1000).toFixed(1)} s exceeds the budget of ${budget.maxWallSeconds} s`);
   }
-  if (cost.bytesFetched > budget.maxFetchedBytes) {
-    warnings.push(`fetched ${megabytes(cost.bytesFetched)} exceeds the budget of ${megabytes(budget.maxFetchedBytes)}`);
+  const fetchedLimit = budget.maxFetchedBytes * (options.fetchedMultiplier ?? 1);
+  if (cost.bytesFetched > fetchedLimit) {
+    warnings.push(`fetched ${megabytes(cost.bytesFetched)} exceeds the budget of ${megabytes(fetchedLimit)}`);
   }
   return warnings;
 }

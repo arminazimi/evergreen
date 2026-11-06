@@ -52,6 +52,12 @@ export interface CorpusRepositoryResult {
   falseNegatives: number;
   unexpected: string[];
   missing: string[];
+  /**
+   * Why the repository was not analyzed, for example it exceeded the per-repository memory limit.
+   * Its findings are then empty and every expected finding counts as missing, so the run fails
+   * visibly instead of dropping the repository.
+   */
+  error?: string;
 }
 
 /** Reads `--concurrency <n>` from argv, then `EVERGREEN_CORPUS_CONCURRENCY`, else the default. */
@@ -90,13 +96,17 @@ export async function inBatches<T, R>(
 }
 
 export interface CheckoutOutcome {
-  path: string;
+  /** Where the checkout is; absent when the checkout failed and is named by `error`. */
+  path?: string;
   checkoutMs: number;
+  /** Why the fetch failed; the repository is reported instead of scanned or crashing the run. */
+  error?: string;
 }
 
 /**
  * Fetches every repository with bounded concurrency, then scans and scores in corpus order
- * so the report shape stays identical to a sequential run.
+ * so the report shape stays identical to a sequential run. A failed fetch or scan is recorded on
+ * its entry and the rest of the corpus still runs.
  */
 export async function runCorpusRepositories(input: {
   entries: readonly CorpusRepositoryEntry[];
@@ -108,7 +118,16 @@ export async function runCorpusRepositories(input: {
 }): Promise<CorpusRepositoryResult[]> {
   let done = 0;
   const checkouts = await inBatches(input.entries, input.concurrency, async (entry, index) => {
-    const outcome = await input.checkout(entry, index);
+    let outcome: CheckoutOutcome;
+    try {
+      outcome = await input.checkout(entry, index);
+    } catch (caught) {
+      // A fetch that exhausts its retries must not abort the other fifteen in-flight checkouts.
+      outcome = {
+        checkoutMs: 0,
+        error: `fetch failed: ${caught instanceof Error ? caught.message : String(caught)}`,
+      };
+    }
     done += 1;
     input.onCheckout?.(entry, outcome, done);
     return outcome;
@@ -118,7 +137,16 @@ export async function runCorpusRepositories(input: {
   for (const [index, entry] of input.entries.entries()) {
     const prepared = checkouts[index]!;
     const startedAt = performance.now();
-    const scanned = await input.scan(prepared.path, entry, index);
+    let scanned: CorpusScannedFinding[] = [];
+    let error = prepared.error;
+    if (error === undefined) {
+      try {
+        scanned = await input.scan(prepared.path ?? "", entry, index);
+      } catch (caught) {
+        // One repository must not stop the shard: name it, score its expectations as missing, and go on.
+        error = caught instanceof Error ? caught.message : String(caught);
+      }
+    }
     const durationMs = Number((performance.now() - startedAt).toFixed(2));
     const findings = scanned.map((finding) => ({
       ruleId: finding.ruleId,
@@ -139,6 +167,7 @@ export async function runCorpusRepositories(input: {
       falseNegatives: [...expected].filter((key) => !actual.has(key)).length,
       unexpected: [...actual].filter((key) => !expected.has(key)).sort(),
       missing: [...expected].filter((key) => !actual.has(key)).sort(),
+      ...(error === undefined ? {} : { error }),
     });
   }
   return results;

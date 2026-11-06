@@ -9,6 +9,8 @@ export interface ReportableResult {
   falseNegatives: number;
   unexpected: string[];
   missing: string[];
+  /** Why the repository was not analyzed; its expected findings count as missing. */
+  error?: string;
 }
 
 interface Row {
@@ -72,11 +74,18 @@ export function formatSummaryTables(
   return [...table("ecosystem", scoreEcosystems(results)), "", ...table("detector", detectorRows)].join("\n");
 }
 
-/** One UNEXPECTED or MISSING line per mismatch, naming the repository and finding. */
+/**
+ * One line per mismatch, naming the repository and finding. A repository whose scan failed prints
+ * a single `FAILED` line instead of one `MISSING` line for every expectation it could not check.
+ */
 export function mismatchLines(results: readonly ReportableResult[]): string[] {
   const lines: string[] = [];
   for (const result of results) {
     const where = `${result.repository}@${result.commit.slice(0, 10)}`;
+    if (result.error !== undefined) {
+      lines.push(`FAILED     ${where}: ${result.error}`);
+      continue;
+    }
     for (const key of result.unexpected) lines.push(`UNEXPECTED ${where}: ${key}`);
     for (const key of result.missing) lines.push(`MISSING    ${where}: ${key}`);
   }

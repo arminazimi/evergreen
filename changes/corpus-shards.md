@@ -1,0 +1,1 @@
+- Shard the public corpus across eight CI jobs, merge their reports into one full run, and cap each repository's scan memory so one repository can no longer crash the run. (#2120)
