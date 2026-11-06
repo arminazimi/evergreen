@@ -557,19 +557,18 @@ test("a visitor-clock age is extra text and never decides the badge", () => {
 });
 
 test("run status reads the recorded age and the reference day", () => {
+  const [runYear, runMonth, runDay] = String(data.run!.date).split("-").map(Number);
+  const visitor = new Date(runYear!, runMonth! - 1, runDay! + 2);
   assert.deepEqual(
     {
-      ...api.runStatus(
-        { ...data, referenceDay: "2026-11-02", run: { ...data.run, runAgeDays: 15 } },
-        new Date(2026, 10, 3),
-      ),
+      ...api.runStatus({ ...data, referenceDay: "2026-11-02", run: { ...data.run, runAgeDays: 15 } }, visitor),
     },
     {
       stale: true,
       ageDays: 15,
       runDate: data.run!.date,
       referenceDay: "2026-11-02",
-      visitorAgeDays: Math.round((Date.UTC(2026, 10, 3) - Date.parse(`${data.run!.date}T00:00:00Z`)) / 86_400_000),
+      visitorAgeDays: 2,
       staleAfterDays: 14,
     },
   );
