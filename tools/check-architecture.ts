@@ -7,7 +7,7 @@
 // removed from it, and a new one fails the check. Offline: it reads source files only.
 
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join, posix, relative, resolve } from "node:path";
+import { join, posix, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 export interface BoundaryRule {
@@ -211,7 +211,7 @@ export function main(argv: readonly string[], root = process.cwd()): number {
   const baselineFile = join(root, BASELINE_PATH);
   if (argv.includes("--update-baseline")) {
     writeFileSync(baselineFile, `${JSON.stringify(current, null, 2)}\n`);
-    console.log(`Wrote ${relative(root, baselineFile)}.`);
+    console.log(`Wrote ${BASELINE_PATH}.`);
     return 0;
   }
   const baseline = parseBaseline(JSON.parse(readFileSync(baselineFile, "utf8")) as unknown);

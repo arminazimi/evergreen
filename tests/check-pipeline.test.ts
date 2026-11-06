@@ -54,7 +54,7 @@ test("the TypeScript build uses build mode, so an unchanged tree is skipped", ()
 test("check:rules names every rule the pre-push hook runs", () => {
   assert.equal(
     scripts["check:rules"],
-    "npm run format:check --silent && npm run check:dead-code --silent && npm run lint --silent && npm run check:quality --silent",
+    "npm run format:check --silent && npm run check:dead-code --silent && npm run lint --silent && npm run check:quality --silent && npm run check:architecture --silent",
   );
 });
 
