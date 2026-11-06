@@ -1,1 +1,0 @@
-- Store the public and plugin-review demo manifests under neutral names and materialize temporary copies before scanning, preserving the same lifecycle findings.

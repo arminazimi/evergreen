@@ -1,1 +1,0 @@
-- Add a `kubernetes-ingress-v1` codemod that moves a v1beta1 Ingress to `networking.k8s.io/v1`, rewriting `spec.backend`, each backend's `serviceName` and `servicePort`, and a missing `pathType` line by line. (#1833)

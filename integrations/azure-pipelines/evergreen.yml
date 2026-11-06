@@ -32,7 +32,7 @@ parameters:
   - name: version
     displayName: Version of the evergreen-deprecation npm package to run
     type: string
-    default: 0.7.2
+    default: 0.7.3
   - name: reportName
     displayName: File name of the JUnit report published to the Tests tab
     type: string

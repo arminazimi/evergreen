@@ -1,1 +1,0 @@
-- Add the Azure inventory importer for App Service, Functions, and AKS exports, with rules for every retired language stack, Functions runtime, and Kubernetes version. (#1878)

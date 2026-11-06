@@ -13,7 +13,7 @@ outcome. [#2173](https://github.com/arminazimi/evergreen/issues/2173),
 what those runs may report.
 
 **Published before results:** 2026-11-03, written against `origin/main` at `9d81af78`
-(Evergreen `0.7.2`). At that commit `benchmarks/comparison/` — where the runs write their results —
+(Evergreen `0.7.3`). At that commit `benchmarks/comparison/` — where the runs write their results —
 does not exist, and neither does `docs/COMPARISON.md`. Every number below is read from a file in the
 repository, named beside it; none is estimated. Where something is not measurable yet this page says
 so instead of guessing.

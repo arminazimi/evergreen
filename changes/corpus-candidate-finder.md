@@ -1,1 +1,0 @@
-- Add an offline corpus candidate finder that records immutable pins, selection checks, and discovery shortfalls for all 23 ecosystems.

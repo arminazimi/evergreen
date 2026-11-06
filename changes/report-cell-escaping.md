@@ -1,1 +1,0 @@
-- Escape backslashes, pipes and line breaks consistently in monthly report cells, and preserve boundaries when removing workflow-note comments.

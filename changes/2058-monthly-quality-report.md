@@ -1,1 +1,0 @@
-- Publish each reference-quality target and its month-over-month trend in the monthly report. (#2058)

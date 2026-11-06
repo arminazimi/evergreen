@@ -1,1 +1,0 @@
-- Add `evergreen verify` to check an installed release against its manifest, verify a bundled signature when one exists, and report what it cannot verify offline. (#2161)

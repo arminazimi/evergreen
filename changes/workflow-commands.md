@@ -1,1 +1,0 @@
-- Detect deprecated GitHub Actions workflow commands and migrate safe bash/sh echo statements to environment files.

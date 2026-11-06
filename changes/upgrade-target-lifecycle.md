@@ -1,1 +1,0 @@
-- Report the target runtime's own lifecycle and every runtime pin that must change in upgrade checks. (#1868)

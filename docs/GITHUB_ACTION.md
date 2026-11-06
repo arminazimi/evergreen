@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.7.2
+      - uses: arminazimi/evergreen@v0.7.3
         with:
           baseline: .evergreen-baseline.json
           fail-on-severity: high
@@ -331,7 +331,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.7.2
+      - uses: arminazimi/evergreen@v0.7.3
         with:
           tracking-issue: "true"
           fail-on-severity: none # the issue is the signal; do not fail the schedule
@@ -410,7 +410,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.7.2
+      - uses: arminazimi/evergreen@v0.7.3
         with:
           fix-pr: "true"
           fail-on-severity: none
@@ -536,7 +536,7 @@ permissions:
 
 steps:
   - uses: actions/checkout@v7
-  - uses: arminazimi/evergreen@v0.7.2
+  - uses: arminazimi/evergreen@v0.7.3
     with:
       upload-sarif: true
 ```

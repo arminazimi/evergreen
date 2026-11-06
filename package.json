@@ -1,6 +1,6 @@
 {
   "name": "evergreen-deprecation",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Find end-of-life and deprecated runtimes, packages, and GitHub Actions at exact file locations, with sources and migration context. CLI, MCP server, GitHub Action, Agent Skill.",
   "keywords": [
     "deprecation",

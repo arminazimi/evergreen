@@ -13,7 +13,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 // Keep in sync with package.json; tests/docs-releasing.test.ts fails the release if this drifts.
-const PACKAGE_SPEC = "evergreen-deprecation@0.7.2";
+const PACKAGE_SPEC = "evergreen-deprecation@0.7.3";
 /** Per-package check budget. Checks run in parallel so wall time stays under the 60s hook timeout. */
 const CHECK_TIMEOUT_MS = 20_000;
 

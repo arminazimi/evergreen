@@ -52,7 +52,7 @@ commands:
       version:
         description: Version of the evergreen-deprecation npm package to run.
         type: string
-        default: 0.7.2
+        default: 0.7.3
     steps:
       - run:
           name: Evergreen scan (evergreen-deprecation@<< parameters.version >>)
@@ -126,7 +126,7 @@ jobs:
       version:
         description: Version of the evergreen-deprecation npm package to run.
         type: string
-        default: 0.7.2
+        default: 0.7.3
     docker:
       - image: << parameters.image >>
     steps:

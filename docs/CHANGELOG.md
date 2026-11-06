@@ -9,6 +9,62 @@ Every release is listed below, newest first. Each heading has a stable anchor, s
 
 ## Unreleased
 
+<a id="v0.7.3"></a>
+
+## 0.7.3 - 2026-11-06
+
+- Add the Elixir and Erlang/OTP drift collectors: read `.elixir-version`, `.tool-versions`, `mix.exs` floors, `elixir` and `hexpm/elixir` images in Dockerfiles and CI, and the `erlef/setup-beam` inputs, reporting Elixir and Erlang/OTP as separate runtimes. (#1846)
+- Read the Python drift sources (`.python-version`, `.tool-versions`, `runtime.txt`, `Pipfile`, `pyproject.toml`, `setup.cfg`, `setup.py`) at any depth instead of only at the repository root. (#1836)
+- Treat a `strategy.matrix` list of Ruby, Go, and Java versions as alternatives in `evergreen drift`, so a repository that tests several versions on purpose is no longer reported as drifted (#1836).
+- Add an AWS EKS importer to `evergreen inventory`. It reads `aws eks describe-cluster` and `aws eks describe-nodegroup` output and judges the control-plane Kubernetes version and node group versions at the exact JSON Pointer each value came from. It reads only the files given to it and calls no AWS API. (#1876)
+- Add an Azure importer to `evergreen inventory`. It reads Azure CLI list output for Web Apps, Function Apps, and AKS clusters and judges runtime stacks and Kubernetes versions at the exact JSON Pointer each value came from. It reads only the files given to it and calls no Azure API. (#1878)
+- Report `netstandard*` targets as unresolved in the .NET drift collector, since a compatibility contract is not a runtime, and treat the `setup-dotnet` steps of one job as alternatives (#1836).
+- Keep `evergreen scan` from exhausting the JavaScript heap on large monorepos: the JavaScript, TypeScript, and Python usage parsers cap alias rebinding and call-site captures on minified or generated files, name each capped path in the report, and still emit a complete JSON result under the default Node.js heap (reproduced on `vercel/next.js`). (#1967)
+- Add a `kubernetes-ingress-v1` codemod that moves a v1beta1 Ingress to `networking.k8s.io/v1`, rewriting `spec.backend`, each backend's `serviceName` and `servicePort`, and a missing `pathType` line by line. (#1833)
+- Report Elixir and Erlang/OTP version drift as two runtimes, collecting `.elixir-version`, `.tool-versions`, `mix.exs`, `elixir` and `hexpm/elixir` image tags, and `erlef/setup-beam` inputs, and align the pins a rewrite can settle. (#1846)
+- Publish each reference-quality target and its month-over-month trend in the monthly report. (#2058)
+- Escape backslashes in table cells and make two runtime-version checks linear, closing five CodeQL alerts. (#2059)
+- Add the Codex CLI edit hook: `evergreen hook codex` feeds lifecycle findings back to the model after `apply_patch`, and `init --hooks-for codex` merges the hook into `.codex/hooks.json`. (#1882)
+- Add an offline corpus candidate finder that records immutable pins, selection checks, and discovery shortfalls for all 23 ecosystems.
+- Add the AWS EKS inventory importer for `describe-cluster` and `describe-nodegroup` exports, with `registry/kubernetes.json` rules from `1.30 and older` through `1.36` sourced to the AWS EKS release calendar (the calendar's `1.37` is more than twelve months from end of standard support, so it waits for its own rule) and an AMI-type mapping onto the Amazon Linux rules. (#1876)
+- Add the Azure inventory importer for App Service, Functions, and AKS exports, with rules for every retired language stack, Functions runtime, and Kubernetes version. (#1878)
+- Store the public and plugin-review demo manifests under neutral names and materialize temporary copies before scanning, preserving the same lifecycle findings.
+- Fix `evergreen watch constructor` (and `toString`, `valueOf`, `hasOwnProperty`, `__proto__`) printing a non-numeric result instead of a usage error, and `evergreen check --format constructor` (or any other Object.prototype name passed as `--format`) crashing instead of printing the unknown-format message.
+- Escape backslashes, pipes and line breaks consistently in monthly report cells, and preserve boundaries when removing workflow-note comments.
+- Report the target runtime's own lifecycle and every runtime pin that must change in upgrade checks. (#1868)
+- Add `evergreen verify` to check an installed release against its manifest, verify a bundled signature when one exists, and report what it cannot verify offline. (#2161)
+- Detect deprecated GitHub Actions workflow commands and migrate safe bash/sh echo statements to environment files.
+- Verify an installed release against its manifest. (#2474)
+- Architecture boundary and import-cycle check. (#2451)
+- Add npm run check:fast for a quick local check (#2040). (#2450)
+- Migrate deprecated GitHub Actions workflow commands. (#2437)
+- Find pinned corpus candidates across 23 ecosystems. (#2429)
+- Gate workflow changes on a note and a runner-minute budget. (#2385)
+- Add the Codex CLI edit hook. (#2356)
+- Publish quality targets and trends in the monthly report. (#2328)
+- Add the Azure inventory importer. (#2316)
+- Netstandard is not a runtime; setup-dotnet steps of one job are alternatives. (#2494)
+- Close the remaining exit criteria of the drift epic (#1836). (#2491)
+- Publish Scorecard results by moving the floor gate to its own job (#2475). (#2476)
+- Resolve tmpdir symlink in package smoke test for npm 11 on macOS. (#2468)
+- Neutralize GitLab pipeline fixture manifests. (#2460)
+- Neutralize source and plugin demo manifests. (#2456)
+- Close report escaping and workflow note boundaries. (#2455)
+- Write GitHub release bodies from the tagged changelog. (#2432)
+- Clear the minimatch advisory behind the Scorecard Vulnerabilities check. (#2425)
+- Let the GitLab sync wait longer than its job timeout. (#2392)
+- Quote every `@mention` in release bullets. (#2393)
+- Redact public devsite API keys from the serverless-2 recording (#1980). (#2388)
+- Close the CodeQL alerts in tests/. (#2383)
+- Upload each signed asset once so provenance runs. (#2382)
+- Close the five open CodeQL alerts in src/ (#2059). (#2381)
+- Use the shared HTML scanner in remaining importers. (#2380)
+- Remove `as unknown as` from osv-advisories, registry, and tree-sitter (#2230). (#2374)
+- Remove non-null assertions from command modules. (#2322)
+- Replace as-unknown-as casts with type guards (#2229). (#2311)
+- Stop github-action.ts importing detectors. (#2310)
+- Keep scan from OOM on large monorepos. (#2308)
+
 <a id="v0.7.2"></a>
 
 ## 0.7.2 - 2026-11-02
