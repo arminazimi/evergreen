@@ -75,89 +75,96 @@ function atComment(source: string, offset: number): boolean {
   return source.startsWith("//", offset) || source.startsWith("/*", offset);
 }
 
+function skipSpaces(source: string, from: number): number {
+  let index = from;
+  while (index < source.length && isSpace(source.charCodeAt(index))) index++;
+  return index;
+}
+
+/** Offset of the literal after optional spaces and an optional `=`. */
+function literalStart(source: string, offset: number): number {
+  const index = skipSpaces(source, offset);
+  if (index < source.length && source.charCodeAt(index) === 0x3d) return skipSpaces(source, index + 1);
+  return index;
+}
+
+/** Read a quoted string starting at the opening quote; undefined on newline or dangling escape. */
+function readQuoted(source: string, start: number): { value: string; end: number } | undefined {
+  const quote = source.charAt(start);
+  let position = start + 1;
+  let value = "";
+  while (position < source.length) {
+    const code = source.charCodeAt(position);
+    if (code === 0x0a) return undefined;
+    if (code === 0x5c) {
+      if (position + 1 >= source.length) return undefined;
+      value += source.charAt(position + 1);
+      position += 2;
+      continue;
+    }
+    if (source[position] === quote) {
+      position++;
+      break;
+    }
+    value += source.charAt(position);
+    position++;
+  }
+  return { value, end: position };
+}
+
+function readBareNumber(source: string, start: number): string | undefined {
+  let position = start;
+  while (position < source.length) {
+    const code = source.charCodeAt(position);
+    if (code < 0x30 || code > 0x39) break;
+    position++;
+  }
+  const trail = skipSpaces(source, position);
+  if (trail < source.length) {
+    const next = source.charCodeAt(trail);
+    if (next !== 0x0a && next !== 0x3b && next !== 0x7d && !atComment(source, trail)) return undefined;
+  }
+  return source.slice(start, position);
+}
+
+function isQuote(code: number): boolean {
+  return code === 0x22 || code === 0x27;
+}
+
+function isTerminator(code: number): boolean {
+  // 0x28 is the method-call form, e.g. compileSdk(34).
+  return code === 0x28 || code === 0x0a || code === 0x3b || code === 0x7d;
+}
+
+/** buildToolsVersion: a closed quoted dotted version without interpolation. */
+function readBuildToolsLiteral(source: string, index: number): string | undefined {
+  if (!isQuote(source.charCodeAt(index))) return undefined;
+  const quoted = readQuoted(source, index);
+  if (quoted === undefined || source[quoted.end - 1] !== source.charAt(index)) return undefined;
+  return !quoted.value.includes("$") && /^\d+(?:\.\d+)*$/.test(quoted.value) ? quoted.value : undefined;
+}
+
+/** Other SDK kinds: a quoted or bare integer. */
+function readSdkNumberLiteral(source: string, index: number): string | undefined {
+  const startCode = source.charCodeAt(index);
+  if (isQuote(startCode)) {
+    const quoted = readQuoted(source, index);
+    if (quoted === undefined) return undefined;
+    return !quoted.value.includes("$") && /^\d+$/.test(quoted.value) ? quoted.value : undefined;
+  }
+  if (startCode < 0x30 || startCode > 0x39) return undefined;
+  return readBareNumber(source, index);
+}
+
 /**
  * Read a literal RHS from the original source after a keyword match.
  * Accepts an optional `=`. Stops at newline, `;`, `}`, or a comment start.
  * Method-call `(` forms yield undefined.
  */
 function readLiteral(source: string, offset: number, kind: AndroidSdkKind): string | undefined {
-  let index = offset;
-  while (index < source.length && isSpace(source.charCodeAt(index))) index++;
-  if (index < source.length && source.charCodeAt(index) === 0x3d) {
-    index++;
-    while (index < source.length && isSpace(source.charCodeAt(index))) index++;
-  }
-  if (index >= source.length || atComment(source, index)) return undefined;
-
-  const startCode = source.charCodeAt(index);
-  if (startCode === 0x28) return undefined; // method-call form, e.g. compileSdk(34)
-  if (startCode === 0x0a || startCode === 0x3b || startCode === 0x7d) return undefined;
-
-  if (kind === "buildToolsVersion") {
-    if (startCode !== 0x22 && startCode !== 0x27) return undefined;
-    const quote = source.charAt(index);
-    let position = index + 1;
-    let value = "";
-    while (position < source.length) {
-      const code = source.charCodeAt(position);
-      if (code === 0x0a) return undefined;
-      if (code === 0x5c) {
-        if (position + 1 >= source.length) return undefined;
-        value += source.charAt(position + 1);
-        position += 2;
-        continue;
-      }
-      if (source[position] === quote) {
-        position++;
-        break;
-      }
-      value += source.charAt(position);
-      position++;
-    }
-    if (position > source.length || source[position - 1] !== quote) return undefined;
-    if (value.includes("$") || !/^\d+(?:\.\d+)*$/.test(value)) return undefined;
-    return value;
-  }
-
-  if (startCode === 0x22 || startCode === 0x27) {
-    const quote = source.charAt(index);
-    let position = index + 1;
-    let value = "";
-    while (position < source.length) {
-      const code = source.charCodeAt(position);
-      if (code === 0x0a) return undefined;
-      if (code === 0x5c) {
-        if (position + 1 >= source.length) return undefined;
-        value += source.charAt(position + 1);
-        position += 2;
-        continue;
-      }
-      if (source[position] === quote) {
-        position++;
-        break;
-      }
-      value += source.charAt(position);
-      position++;
-    }
-    if (value.includes("$") || !/^\d+$/.test(value)) return undefined;
-    return value;
-  }
-
-  if (startCode < 0x30 || startCode > 0x39) return undefined;
-  let position = index;
-  while (position < source.length) {
-    const code = source.charCodeAt(position);
-    if (code < 0x30 || code > 0x39) break;
-    position++;
-  }
-  const value = source.slice(index, position);
-  let trail = position;
-  while (trail < source.length && isSpace(source.charCodeAt(trail))) trail++;
-  if (trail < source.length) {
-    const next = source.charCodeAt(trail);
-    if (next !== 0x0a && next !== 0x3b && next !== 0x7d && !atComment(source, trail)) return undefined;
-  }
-  return value;
+  const index = literalStart(source, offset);
+  if (index >= source.length || atComment(source, index) || isTerminator(source.charCodeAt(index))) return undefined;
+  return kind === "buildToolsVersion" ? readBuildToolsLiteral(source, index) : readSdkNumberLiteral(source, index);
 }
 
 /** Parse an Android Gradle build script without file, network, or process I/O. */

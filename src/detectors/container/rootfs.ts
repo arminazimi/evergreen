@@ -193,18 +193,23 @@ async function snapshot(source: RootfsSource): Promise<RootfsSnapshot | undefine
   };
 }
 
+function osReleaseLine(raw: string): { key: string; value: string } | undefined {
+  const match = /^\s*(?:export\s+)?([A-Z][A-Z0-9_]*)\s*=\s*(.*?)\s*$/.exec(raw);
+  if (!match?.[1] || match[2] === undefined) return undefined;
+  let value = match[2];
+  const quote = value[0];
+  if ((quote === '"' || quote === "'") && value.endsWith(quote)) value = value.slice(1, -1);
+  return { key: match[1], value };
+}
+
 /** Parse the `ID`, `VERSION_ID`, `VERSION_CODENAME`, and `PRETTY_NAME` keys of an `os-release` file. */
 export function parseOsRelease(contents: string): Omit<RootfsOsRelease, "entry" | "path"> | undefined {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_TEXT_BYTES) return undefined;
   const values = new Map<string, { value: string; line: number }>();
   for (const [index, raw] of contents.split(/\r?\n/).entries()) {
-    const match = /^\s*(?:export\s+)?([A-Z][A-Z0-9_]*)\s*=\s*(.*?)\s*$/.exec(raw);
-    if (!match?.[1] || match[2] === undefined) continue;
-    if (values.has(match[1])) continue;
-    let value = match[2];
-    const quote = value[0];
-    if ((quote === '"' || quote === "'") && value.endsWith(quote)) value = value.slice(1, -1);
-    values.set(match[1], { value, line: index + 1 });
+    const parsed = osReleaseLine(raw);
+    if (!parsed || values.has(parsed.key)) continue;
+    values.set(parsed.key, { value: parsed.value, line: index + 1 });
   }
 
   const id = values.get("ID");
@@ -281,77 +286,100 @@ function dotnetVersion(name: string): string | undefined {
   return /^(\d+\.\d+\.\d+)/.exec(name)?.[1];
 }
 
-async function runtimeEvidence(source: RootfsSource): Promise<RootfsRuntimeEvidence[]> {
-  const evidence = new Map<string, RootfsRuntimeEvidence>();
-  const add = (runtime: Runtime, version: string, entry: string, line: number, identity = version): void => {
-    const key = `${runtime}\u0000${identity}`;
-    if (evidence.has(key)) return;
-    evidence.set(key, { runtime, version, entry, path: source.path(entry), line });
-  };
+type AddEvidence = (runtime: Runtime, version: string, entry: string, line: number, identity?: string) => void;
 
+async function names(source: RootfsSource, directory: string): Promise<string[]> {
+  return (await source.list(directory)) ?? [];
+}
+
+async function collectNode(source: RootfsSource, add: AddEvidence): Promise<void> {
   for (const entry of ["usr/local/include/node/node_version.h", "usr/include/node/node_version.h"]) {
     const parsed = parseNodeVersionHeader((await source.read(entry)) ?? "");
     if (parsed) {
       add("nodejs", parsed.version, entry, parsed.line);
-      break;
+      return;
     }
   }
+}
 
-  for (const entry of ["usr/local/go/VERSION"]) {
+async function collectGo(source: RootfsSource, add: AddEvidence): Promise<void> {
+  const entries = ["usr/local/go/VERSION"];
+  for (const name of await names(source, "usr/lib")) {
+    if (/^go-\d+\.\d+(?:\.\d+)?$/.test(name)) entries.push(`usr/lib/${name}/VERSION`);
+  }
+  for (const entry of entries) {
     const parsed = parseGoVersion((await source.read(entry)) ?? "");
     if (parsed) add("golang", parsed.version, entry, parsed.line);
   }
-  for (const name of (await source.list("usr/lib")) ?? []) {
-    if (!/^go-\d+\.\d+(?:\.\d+)?$/.test(name)) continue;
-    const entry = `usr/lib/${name}/VERSION`;
-    const parsed = parseGoVersion((await source.read(entry)) ?? "");
-    if (parsed) add("golang", parsed.version, entry, parsed.line);
-  }
+}
 
+async function collectJava(source: RootfsSource, add: AddEvidence): Promise<void> {
   const javaHomes = new Set<string>(["opt/java/openjdk"]);
-  for (const name of (await source.list("usr/lib/jvm")) ?? []) javaHomes.add(`usr/lib/jvm/${name}`);
-  for (const name of (await source.list("opt/java")) ?? []) javaHomes.add(`opt/java/${name}`);
+  for (const name of await names(source, "usr/lib/jvm")) javaHomes.add(`usr/lib/jvm/${name}`);
+  for (const name of await names(source, "opt/java")) javaHomes.add(`opt/java/${name}`);
   for (const home of [...javaHomes].sort((left, right) => left.localeCompare(right))) {
     const entry = `${home}/release`;
     const parsed = parseJavaRelease((await source.read(entry)) ?? "");
-    if (parsed) {
-      const major = parseJdkVersion(parsed.version);
-      if (major) add("java", parsed.version, entry, parsed.line, `${major.major}`);
-    }
+    const major = parsed ? parseJdkVersion(parsed.version) : undefined;
+    if (parsed && major) add("java", parsed.version, entry, parsed.line, `${major.major}`);
   }
+}
 
-  for (const directory of ["usr/lib", "usr/local/lib"]) {
-    for (const name of (await source.list(directory)) ?? []) {
-      const version = pythonVersion(name);
-      if (version) add("python", version, `${directory}/${name}`, 1);
+/** Add one piece of evidence per directory entry the `versionOf` reader recognises. */
+async function collectNamed(
+  source: RootfsSource,
+  directories: readonly string[],
+  runtime: Runtime,
+  versionOf: (name: string) => string | undefined,
+  identityOf: (version: string) => string,
+  add: AddEvidence,
+): Promise<void> {
+  for (const directory of directories) {
+    for (const name of await names(source, directory)) {
+      const version = versionOf(name);
+      if (version) add(runtime, version, `${directory}/${name}`, 1, identityOf(version));
     }
   }
+}
+
+async function collectBinaries(source: RootfsSource, add: AddEvidence): Promise<void> {
   for (const directory of ["usr/bin", "usr/local/bin"]) {
-    for (const name of (await source.list(directory)) ?? []) {
+    for (const name of await names(source, directory)) {
+      const entry = `${directory}/${name}`;
       const python = pythonVersion(name);
-      if (python) add("python", python, `${directory}/${name}`, 1);
+      if (python) add("python", python, entry, 1);
       const ruby = rubyVersion(name);
-      if (ruby) add("ruby", ruby, `${directory}/${name}`, 1, majorMinor(ruby));
+      if (ruby) add("ruby", ruby, entry, 1, majorMinor(ruby));
       const php = phpVersion(name);
-      if (php) add("php", php, `${directory}/${name}`, 1);
+      if (php) add("php", php, entry, 1);
     }
   }
-  for (const directory of ["usr/lib/ruby", "usr/local/lib/ruby"]) {
-    for (const name of (await source.list(directory)) ?? []) {
-      const version = rubyVersion(name);
-      if (version) add("ruby", version, `${directory}/${name}`, 1, majorMinor(version));
-    }
-  }
+}
 
-  for (const directory of [
-    "usr/share/dotnet/shared/Microsoft.NETCore.App",
-    "usr/lib/dotnet/shared/Microsoft.NETCore.App",
-  ]) {
-    for (const name of (await source.list(directory)) ?? []) {
-      const version = dotnetVersion(name);
-      if (version) add("dotnet", version, `${directory}/${name}`, 1, version.split(".").slice(0, 2).join("."));
-    }
-  }
+const identity = (version: string): string => version;
+
+async function runtimeEvidence(source: RootfsSource): Promise<RootfsRuntimeEvidence[]> {
+  const evidence = new Map<string, RootfsRuntimeEvidence>();
+  const add: AddEvidence = (runtime, version, entry, line, identityKey = version) => {
+    const key = `${runtime}\u0000${identityKey}`;
+    if (evidence.has(key)) return;
+    evidence.set(key, { runtime, version, entry, path: source.path(entry), line });
+  };
+
+  await collectNode(source, add);
+  await collectGo(source, add);
+  await collectJava(source, add);
+  await collectNamed(source, ["usr/lib", "usr/local/lib"], "python", pythonVersion, identity, add);
+  await collectBinaries(source, add);
+  await collectNamed(source, ["usr/lib/ruby", "usr/local/lib/ruby"], "ruby", rubyVersion, majorMinor, add);
+  await collectNamed(
+    source,
+    ["usr/share/dotnet/shared/Microsoft.NETCore.App", "usr/lib/dotnet/shared/Microsoft.NETCore.App"],
+    "dotnet",
+    dotnetVersion,
+    majorMinor,
+    add,
+  );
 
   return [...evidence.values()].sort(
     (left, right) => left.runtime.localeCompare(right.runtime) || left.path.localeCompare(right.path),
@@ -413,8 +441,99 @@ interface PendingEntry {
   bytes: number;
 }
 
+function entryType(flag: string): ArchiveEntry["type"] {
+  if (flag === "5") return "directory";
+  if (flag === "1" || flag === "2") return "symlink";
+  if (flag === "0" || flag === "\u0000" || flag === "7") return "file";
+  return "other";
+}
+
+/** Long-name and pax headers describe the next entry; this reader only needs the well-known short paths. */
+const METADATA_FLAGS = new Set(["L", "x", "g", "K"]);
+
+/** Incremental tar reader: feed it chunks with `push`, then read `entries`. */
+class TarReader {
+  readonly entries = new Map<string, ArchiveEntry>();
+  done = false;
+  private buffer = Buffer.alloc(0);
+  private remaining = 0;
+  private padding = 0;
+  private pending: PendingEntry | undefined;
+
+  push(chunk: Uint8Array): void {
+    this.buffer = this.buffer.length === 0 ? Buffer.from(chunk) : Buffer.concat([this.buffer, chunk]);
+    while (!this.done && this.step()) {
+      // each step consumes input until more is needed
+    }
+  }
+
+  /** Consume what the current state needs; false when more input is required. */
+  private step(): boolean {
+    if (this.padding > 0) return this.skipPadding();
+    if (this.remaining > 0) return this.readBody();
+    return this.readHeader();
+  }
+
+  private skipPadding(): boolean {
+    const take = Math.min(this.padding, this.buffer.length);
+    this.buffer = this.buffer.subarray(take);
+    this.padding -= take;
+    return this.padding === 0;
+  }
+
+  private readBody(): boolean {
+    const take = Math.min(this.remaining, this.buffer.length);
+    if (take === 0) return false;
+    const pending = this.pending;
+    if (pending?.type === "file" && pending.bytes < MAXIMUM_TEXT_BYTES) {
+      const piece = this.buffer.subarray(0, Math.min(take, MAXIMUM_TEXT_BYTES - pending.bytes));
+      pending.chunks.push(piece);
+      pending.bytes += piece.length;
+    }
+    this.buffer = this.buffer.subarray(take);
+    this.remaining -= take;
+    if (this.remaining === 0) this.finish();
+    return true;
+  }
+
+  private readHeader(): boolean {
+    if (this.buffer.length < BLOCK) return false;
+    const header = this.buffer.subarray(0, BLOCK);
+    this.buffer = this.buffer.subarray(BLOCK);
+    if (emptyBlock(header)) {
+      this.done = true;
+      return false;
+    }
+    const flag = String.fromCharCode(header[156] ?? 0);
+    const size = octal(header, 124, 12);
+    this.pending = {
+      name: METADATA_FLAGS.has(flag) ? "" : entryName(header),
+      type: entryType(flag),
+      size,
+      chunks: [],
+      bytes: 0,
+    };
+    this.remaining = size;
+    if (this.remaining === 0) this.finish();
+    return true;
+  }
+
+  private finish(): void {
+    const pending = this.pending;
+    if (!pending) return;
+    const { name, type, size, chunks, bytes } = pending;
+    if (name.length > 0) {
+      const text = type === "file" ? Buffer.concat(chunks).subarray(0, bytes).toString("utf8") : undefined;
+      this.entries.set(name, text === undefined ? { type } : { type, text });
+      if (this.entries.size >= MAXIMUM_MEMBERS) this.done = true;
+    }
+    this.padding = (BLOCK - (size % BLOCK)) % BLOCK;
+    this.pending = undefined;
+  }
+}
+
 async function readArchive(path: string): Promise<Map<string, ArchiveEntry> | undefined> {
-  const entries = new Map<string, ArchiveEntry>();
+  const reader = new TarReader();
   const input = createReadStream(path);
   const gunzip = /\.(?:tar\.gz|tgz)$/i.test(path) ? createGunzip() : undefined;
   // pipe does not forward a source error; hand it to the iterator so an unreadable archive is skipped.
@@ -425,85 +544,13 @@ async function readArchive(path: string): Promise<Map<string, ArchiveEntry> | un
   }
   const stream = gunzip === undefined ? input : input.pipe(gunzip);
 
-  let buffer = Buffer.alloc(0);
-  let remaining = 0;
-  let padding = 0;
-  let pending: PendingEntry | undefined;
   let total = 0;
-  let done = false;
-
-  const finish = (): void => {
-    if (!pending) return;
-    const { name, type, size, chunks, bytes } = pending;
-    if (name.length > 0) {
-      const text = type === "file" ? Buffer.concat(chunks).subarray(0, bytes).toString("utf8") : undefined;
-      entries.set(name, text === undefined ? { type } : { type, text });
-      if (entries.size >= MAXIMUM_MEMBERS) done = true;
-    }
-    padding = (BLOCK - (size % BLOCK)) % BLOCK;
-    pending = undefined;
-  };
-
   try {
-    outer: for await (const chunk of stream) {
+    for await (const chunk of stream as AsyncIterable<Buffer>) {
       total += chunk.length;
       if (total > MAXIMUM_ARCHIVE_BYTES) break;
-      buffer = buffer.length === 0 ? Buffer.from(chunk) : Buffer.concat([buffer, chunk]);
-
-      while (!done) {
-        if (padding > 0) {
-          const take = Math.min(padding, buffer.length);
-          buffer = buffer.subarray(take);
-          padding -= take;
-          if (padding > 0) break;
-          continue;
-        }
-        if (remaining > 0) {
-          const take = Math.min(remaining, buffer.length);
-          if (take === 0) break;
-          if (pending?.type === "file" && pending.bytes < MAXIMUM_TEXT_BYTES) {
-            const piece = buffer.subarray(0, Math.min(take, MAXIMUM_TEXT_BYTES - pending.bytes));
-            pending.chunks.push(piece);
-            pending.bytes += piece.length;
-          }
-          buffer = buffer.subarray(take);
-          remaining -= take;
-          if (remaining === 0) finish();
-          continue;
-        }
-        if (buffer.length < BLOCK) break;
-
-        const header = buffer.subarray(0, BLOCK);
-        buffer = buffer.subarray(BLOCK);
-        if (emptyBlock(header)) {
-          done = true;
-          break;
-        }
-
-        const flag = String.fromCharCode(header[156] ?? 0);
-        const size = octal(header, 124, 12);
-        const name = entryName(header);
-        const type: ArchiveEntry["type"] =
-          flag === "5"
-            ? "directory"
-            : flag === "1" || flag === "2"
-              ? "symlink"
-              : flag === "0" || flag === "\u0000" || flag === "7"
-                ? "file"
-                : "other";
-
-        // Long-name and pax headers describe the next entry; this reader only needs the well-known short paths.
-        pending = {
-          name: flag === "L" || flag === "x" || flag === "g" || flag === "K" ? "" : name,
-          type,
-          size,
-          chunks: [],
-          bytes: 0,
-        };
-        remaining = size;
-        if (remaining === 0) finish();
-      }
-      if (done) break outer;
+      reader.push(chunk);
+      if (reader.done) break;
     }
   } catch {
     // A truncated or unreadable archive is not a root filesystem; keep the entries that were complete.
@@ -513,5 +560,5 @@ async function readArchive(path: string): Promise<Map<string, ArchiveEntry> | un
     if (stream !== input) stream.destroy();
   }
 
-  return entries.size > 0 ? entries : undefined;
+  return reader.entries.size > 0 ? reader.entries : undefined;
 }

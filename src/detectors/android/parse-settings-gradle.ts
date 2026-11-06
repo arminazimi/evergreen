@@ -87,6 +87,33 @@ function readQuoted(source: string, offset: number): { value: string; end: numbe
   return undefined;
 }
 
+/** Skip whitespace, then one optional `token` character and the whitespace after it. */
+function skipOptionalToken(source: string, offset: number, token: number): number | undefined {
+  const index = skipWhitespace(source, offset);
+  if (index === undefined || source.charCodeAt(index) !== token) return index;
+  return skipWhitespace(source, index + 1);
+}
+
+function isIdentifierCode(code: number): boolean {
+  return (
+    (code >= 0x41 && code <= 0x5a) || (code >= 0x61 && code <= 0x7a) || code === 0x5f || (code >= 0x30 && code <= 0x39)
+  );
+}
+
+/** Offset just past a standalone `version` keyword at `index`; rejects `versionX`. */
+function afterVersionKeyword(source: string, index: number): number | undefined {
+  if (!source.startsWith("version", index)) return undefined;
+  const end = index + "version".length;
+  if (end < source.length && isIdentifierCode(source.charCodeAt(end))) return undefined;
+  return end;
+}
+
+function readVersionLiteral(source: string, index: number): string | undefined {
+  const literal = readQuoted(source, index);
+  if (!literal || literal.value.includes("$") || !isLiteralVersion(literal.value)) return undefined;
+  return literal.value;
+}
+
 /**
  * After an `id` keyword in the original source, read optional `(`, plugin id, optional `)`,
  * `version`, optional `(`, and a literal version string.
@@ -95,52 +122,21 @@ function readPluginPin(
   source: string,
   afterId: number,
 ): { kind: AndroidSettingsPluginKind; value: string } | undefined {
-  let index = skipWhitespace(source, afterId);
-  if (index === undefined) return undefined;
+  const idStart = skipOptionalToken(source, afterId, 0x28);
+  if (idStart === undefined) return undefined;
+  const idLiteral = readQuoted(source, idStart);
+  const kind = idLiteral && PLUGIN_IDS.get(idLiteral.value);
+  if (!idLiteral || !kind) return undefined;
 
-  if (source.charCodeAt(index) === 0x28) {
-    index = skipWhitespace(source, index + 1);
-    if (index === undefined) return undefined;
-  }
+  const keywordStart = skipOptionalToken(source, idLiteral.end, 0x29);
+  if (keywordStart === undefined) return undefined;
+  const afterVersion = afterVersionKeyword(source, keywordStart);
+  if (afterVersion === undefined) return undefined;
 
-  const idLiteral = readQuoted(source, index);
-  if (!idLiteral) return undefined;
-  const kind = PLUGIN_IDS.get(idLiteral.value);
-  if (!kind) return undefined;
-  index = idLiteral.end;
-
-  index = skipWhitespace(source, index);
-  if (index === undefined) return undefined;
-  if (source.charCodeAt(index) === 0x29) {
-    index = skipWhitespace(source, index + 1);
-    if (index === undefined) return undefined;
-  }
-
-  if (!source.startsWith("version", index)) return undefined;
-  const afterVersion = index + "version".length;
-  // Reject `versionX` / chained `.version` was already rejected by needing `version` after `)`.
-  const boundary = source.charCodeAt(afterVersion);
-  if (
-    afterVersion < source.length &&
-    ((boundary >= 0x41 && boundary <= 0x5a) ||
-      (boundary >= 0x61 && boundary <= 0x7a) ||
-      boundary === 0x5f ||
-      (boundary >= 0x30 && boundary <= 0x39))
-  ) {
-    return undefined;
-  }
-
-  index = skipWhitespace(source, afterVersion);
-  if (index === undefined) return undefined;
-  if (source.charCodeAt(index) === 0x28) {
-    index = skipWhitespace(source, index + 1);
-    if (index === undefined) return undefined;
-  }
-
-  const versionLiteral = readQuoted(source, index);
-  if (!versionLiteral || versionLiteral.value.includes("$") || !isLiteralVersion(versionLiteral.value))
-    return undefined;
-  return { kind, value: versionLiteral.value };
+  const versionStart = skipOptionalToken(source, afterVersion, 0x28);
+  if (versionStart === undefined) return undefined;
+  const value = readVersionLiteral(source, versionStart);
+  return value === undefined ? undefined : { kind, value };
 }
 
 const ID_KEYWORD = /\bid\b/g;

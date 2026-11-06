@@ -85,6 +85,70 @@ function azureNormalize(label: string): { purl: string; version: string } | unde
   };
 }
 
+type Unclassified = Omit<UnclassifiedReference, "detector">;
+
+function unclassifiedFrom(
+  component: string,
+  path: string,
+  items: readonly { value: string; reason: string; line: number }[],
+): Unclassified[] {
+  return items.map((item) => ({
+    component,
+    reference: item.value,
+    reason: item.reason,
+    location: { path, line: item.line },
+  }));
+}
+
+function ciFinding(rule: RegistryV2Rule, path: string, line: number, summary: string): DetectorFinding {
+  return {
+    id: `${rule.id}:${path}:${line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location: { path, line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
+function analyzeCiFile(
+  name: string,
+  path: string,
+  contents: string,
+  rulesByPurl: ReadonlyMap<string, RegistryV2Rule[]>,
+): DetectorAnalysis {
+  if (name === "gitlab") {
+    return {
+      findings: [],
+      unclassified: unclassifiedFrom("gitlab-ci-image", path, parseGitlabCi(contents).unclassified),
+    };
+  }
+  if (name === "circleci") {
+    return {
+      findings: [],
+      unclassified: unclassifiedFrom("circleci-image", path, parseCircleci(contents).unclassified),
+    };
+  }
+  const azure = parseAzurePipelines(contents);
+  const findings: DetectorFinding[] = [];
+  for (const declaration of azure.declarations) {
+    const normalized = azureNormalize(declaration.value);
+    if (!normalized) continue;
+    for (const rule of rulesByPurl.get(normalized.purl) ?? []) {
+      if (versContains(rule.vers, normalized.version)) {
+        findings.push(
+          ciFinding(rule, path, declaration.line, `${path} uses vmImage ${declaration.value}. ${rule.summary}`),
+        );
+      }
+    }
+  }
+  return { findings, unclassified: unclassifiedFrom("azure-pipelines-image", path, azure.unclassified) };
+}
+
 export class CiImagesDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "ci-images";
@@ -117,22 +181,6 @@ export class CiImagesDetector implements Detector {
 
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
-
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
-      findings.push({
-        id: `${rule.id}:${path}:${line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary,
-        severity: rule.severity,
-        location: { path, line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
-    };
-
     for (const file of files) {
       let contents: string;
       try {
@@ -140,46 +188,9 @@ export class CiImagesDetector implements Detector {
       } catch {
         continue;
       }
-      const path = relativePosix(context.root, file.path);
-
-      if (file.name === "gitlab") {
-        for (const item of parseGitlabCi(contents).unclassified) {
-          unclassified.push({
-            component: "gitlab-ci-image",
-            reference: item.value,
-            reason: item.reason,
-            location: { path, line: item.line },
-          });
-        }
-      } else if (file.name === "circleci") {
-        for (const item of parseCircleci(contents).unclassified) {
-          unclassified.push({
-            component: "circleci-image",
-            reference: item.value,
-            reason: item.reason,
-            location: { path, line: item.line },
-          });
-        }
-      } else {
-        const azure = parseAzurePipelines(contents);
-        for (const declaration of azure.declarations) {
-          const normalized = azureNormalize(declaration.value);
-          if (!normalized) continue;
-          for (const rule of rulesByPurl.get(normalized.purl) ?? []) {
-            if (versContains(rule.vers, normalized.version)) {
-              report(rule, path, declaration.line, `${path} uses vmImage ${declaration.value}. ${rule.summary}`);
-            }
-          }
-        }
-        for (const item of azure.unclassified) {
-          unclassified.push({
-            component: "azure-pipelines-image",
-            reference: item.value,
-            reason: item.reason,
-            location: { path, line: item.line },
-          });
-        }
-      }
+      const result = analyzeCiFile(file.name, relativePosix(context.root, file.path), contents, rulesByPurl);
+      findings.push(...result.findings);
+      unclassified.push(...result.unclassified);
     }
 
     findings.sort(

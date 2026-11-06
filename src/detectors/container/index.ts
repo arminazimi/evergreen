@@ -316,6 +316,33 @@ function matchingOsRule(
   });
 }
 
+function rootfsRuleFinding(rule: RegistryV2Rule, path: string, line: number, summary: string): DetectorFinding {
+  return {
+    id: `${rule.id}:${path}:${line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary: `${summary} ${rule.summary}`,
+    severity: rule.severity,
+    location: { path, line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
+function osFinding(
+  snapshot: RootfsSnapshot,
+  osRules: ReadonlyMap<string, RegistryV2Rule[]>,
+): DetectorFinding | undefined {
+  const osRelease = snapshot.osRelease;
+  const osRule = osRelease === undefined ? undefined : matchingOsRule(osRules, osRelease);
+  if (!osRelease || !osRule) return undefined;
+  const description =
+    osRelease.prettyName ?? [osRelease.id, osRelease.versionId ?? osRelease.codename].filter(Boolean).join(" ");
+  return rootfsRuleFinding(osRule, osRelease.path, osRelease.line, `${osRelease.path} reports ${description}.`);
+}
+
 function rootfsFindings(
   snapshots: readonly RootfsSnapshot[],
   osRules: ReadonlyMap<string, RegistryV2Rule[]>,
@@ -323,39 +350,13 @@ function rootfsFindings(
 ): DetectorFinding[] {
   const findings: DetectorFinding[] = [];
   for (const snapshot of snapshots) {
-    const osRelease = snapshot.osRelease;
-    const osRule = osRelease === undefined ? undefined : matchingOsRule(osRules, osRelease);
-    if (osRelease && osRule) {
-      const description =
-        osRelease.prettyName ?? [osRelease.id, osRelease.versionId ?? osRelease.codename].filter(Boolean).join(" ");
-      findings.push({
-        id: `${osRule.id}:${osRelease.path}:${osRelease.line}`,
-        ruleId: osRule.id,
-        title: osRule.title,
-        summary: `${osRelease.path} reports ${description}. ${osRule.summary}`,
-        severity: osRule.severity,
-        location: { path: osRelease.path, line: osRelease.line },
-        ...(osRule.replacement ? { replacement: osRule.replacement } : {}),
-        ...(osRule.deadline ? { deadline: osRule.deadline } : {}),
-        ...(osRule.migration ? { migration: osRule.migration } : {}),
-        sources: osRule.sources,
-      });
-    }
+    const os = osFinding(snapshot, osRules);
+    if (os) findings.push(os);
     for (const evidence of snapshot.runtimes) {
       const rule = matchingRuntimeRule(runtimeRules.get(evidence.runtime) ?? [], evidence.runtime, evidence.version);
       if (!rule) continue;
-      findings.push({
-        id: `${rule.id}:${evidence.path}:${evidence.line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary: `${evidence.path} ships ${evidence.runtime} ${evidence.version}. ${rule.summary}`,
-        severity: rule.severity,
-        location: { path: evidence.path, line: evidence.line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
+      const summary = `${evidence.path} ships ${evidence.runtime} ${evidence.version}.`;
+      findings.push(rootfsRuleFinding(rule, evidence.path, evidence.line, summary));
     }
   }
   return findings;
@@ -416,6 +417,158 @@ function rulesFor(
   return undefined;
 }
 
+interface CandidateContext {
+  rules: ReadonlyMap<string, RegistryV2Rule[]>;
+  maintainerRule: RegistryV2Rule | undefined;
+  legacyEnvRule: RegistryV2Rule | undefined;
+  dotnetRules: readonly RegistryV2Rule[];
+  runtimeRules: ReadonlyMap<Runtime, RegistryV2Rule[]>;
+}
+
+interface CandidateResult {
+  finding?: DetectorFinding;
+  unclassified?: Omit<UnclassifiedReference, "detector">;
+}
+
+type Location = { path: string; line: number };
+
+async function loadRuntimeRules(
+  found: readonly Candidate[],
+  rootfs: readonly RootfsSnapshot[],
+): Promise<Map<Runtime, RegistryV2Rule[]>> {
+  const runtimeRules = new Map<Runtime, RegistryV2Rule[]>();
+  const runtimes = new Set<Runtime>([
+    ...found
+      .filter((candidate): candidate is RuntimeCandidate => candidate.kind === "runtime")
+      .map((candidate) => candidate.runtime),
+    ...rootfs.flatMap((snapshot) => snapshot.runtimes.map((evidence) => evidence.runtime)),
+  ]);
+  for (const runtime of runtimes) {
+    const source = RUNTIME_RULES[runtime];
+    const loaded = validateRegistryV2(await loadDataFile(source.file)).rules;
+    runtimeRules.set(
+      runtime,
+      loaded.filter((rule) => rule.purl === source.purl && rule.id.startsWith(source.prefix)),
+    );
+  }
+  return runtimeRules;
+}
+
+function candidateFinding(
+  rule: RegistryV2Rule,
+  location: Location,
+  summary: string,
+  withDeadline: boolean,
+): DetectorFinding {
+  return {
+    id: `${rule.id}:${location.path}:${location.line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location,
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(withDeadline && rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
+function analyzeRuntimeCandidate(
+  candidate: RuntimeCandidate,
+  location: Location,
+  context: CandidateContext,
+): CandidateResult {
+  const rule = matchingRuntimeRule(
+    context.runtimeRules.get(candidate.runtime) ?? [],
+    candidate.runtime,
+    candidate.value,
+  );
+  if (!rule) return {};
+  const summary = `${candidate.path} installs ${candidate.runtime} ${candidate.value}. ${rule.summary}`;
+  return { finding: candidateFinding(rule, location, summary, true) };
+}
+
+function analyzeMarkerCandidate(
+  candidate: MaintainerCandidate | LegacyEnvCandidate,
+  location: Location,
+  context: CandidateContext,
+): CandidateResult {
+  const rule = candidate.kind === "maintainer" ? context.maintainerRule : context.legacyEnvRule;
+  if (!rule) return {};
+  const summary =
+    candidate.kind === "maintainer"
+      ? `${candidate.path} uses the deprecated MAINTAINER instruction. ${rule.summary}`
+      : `${candidate.path} sets ${candidate.key} with the legacy "ENV key value" form. ${rule.summary}`;
+  return { finding: candidateFinding(rule, location, summary, false) };
+}
+
+function analyzeDynamicImage(
+  candidate: ImageCandidate,
+  location: Location,
+  context: CandidateContext,
+): CandidateResult {
+  // Only name a reference when its repository part is a literal tracked image, as in node:${VERSION}.
+  const repository = required(candidate.value.split(":")[0], "image repository");
+  const named = parseImageReference(repository);
+  const tracked = named !== undefined && rulesFor(named, context.rules, context.dotnetRules) !== undefined;
+  if (!tracked || repository.includes("$")) return {};
+  return {
+    unclassified: {
+      component: named.repository,
+      reference: candidate.value,
+      reason: "the tag is a build argument or variable, which Evergreen does not expand",
+      location,
+    },
+  };
+}
+
+function analyzeImage(candidate: ImageCandidate, location: Location, context: CandidateContext): CandidateResult {
+  const image = parseImageReference(candidate.value);
+  if (!image) return {};
+  const imageRules = rulesFor(image, context.rules, context.dotnetRules);
+  if (!imageRules) return {};
+
+  const tag = classifyTag(
+    image.registry === "docker.io" && image.tag !== undefined
+      ? resolveCodename(image.repository, image.tag)
+      : image.tag,
+    image.digest,
+    image.registry === MICROSOFT_REGISTRY ? DOTNET_VARIANT : undefined,
+  );
+  if (tag.kind === "unclassified") {
+    return { unclassified: { component: image.repository, reference: candidate.value, reason: tag.reason, location } };
+  }
+
+  const rule = imageRules.find((item) => versContains(item.vers, tag.lowest) && versContains(item.vers, tag.highest));
+  if (rule) {
+    return {
+      finding: candidateFinding(rule, location, `${candidate.path} uses ${candidate.value}. ${rule.summary}`, true),
+    };
+  }
+  if (imageRules.some((item) => versContains(item.vers, tag.lowest) || versContains(item.vers, tag.highest))) {
+    return {
+      unclassified: {
+        component: image.repository,
+        reference: candidate.value,
+        reason: `the tag "${image.tag}" is a floating release line that spans supported and unsupported versions`,
+        location,
+      },
+    };
+  }
+  return {};
+}
+
+function analyzeCandidate(candidate: Candidate, context: CandidateContext): CandidateResult {
+  const location = { path: candidate.path, line: candidate.line };
+  if (candidate.kind === "runtime") return analyzeRuntimeCandidate(candidate, location, context);
+  if (candidate.kind === "maintainer" || candidate.kind === "legacy-env")
+    return analyzeMarkerCandidate(candidate, location, context);
+  return candidate.dynamic
+    ? analyzeDynamicImage(candidate, location, context)
+    : analyzeImage(candidate, location, context);
+}
+
 export class ContainerDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "container";
@@ -449,129 +602,23 @@ export class ContainerDetector implements Detector {
     if (found.length === 0 && rootfs.length === 0) return { findings: [], unclassified: [] };
 
     const registry = validateRegistryV2(await loadDataFile("registry/container.json"));
-    const rules = rulesByRepository(registry.rules);
-    const maintainerRule = registry.rules.find((rule) => rule.id === MAINTAINER_RULE);
-    const legacyEnvRule = registry.rules.find((rule) => rule.id === LEGACY_ENV_RULE);
-    const dotnetRules = validateRegistryV2(await loadDataFile("registry/dotnet.json")).rules.filter(
-      (rule) => rule.purl === "pkg:generic/dotnet" && rule.id.startsWith("dotnet.runtime."),
-    );
-    const runtimeRules = new Map<Runtime, RegistryV2Rule[]>();
-    const runtimes = new Set<Runtime>([
-      ...found
-        .filter((candidate): candidate is RuntimeCandidate => candidate.kind === "runtime")
-        .map((candidate) => candidate.runtime),
-      ...rootfs.flatMap((snapshot) => snapshot.runtimes.map((evidence) => evidence.runtime)),
-    ]);
-    for (const runtime of runtimes) {
-      const source = RUNTIME_RULES[runtime];
-      const loaded = validateRegistryV2(await loadDataFile(source.file)).rules;
-      runtimeRules.set(
-        runtime,
-        loaded.filter((rule) => rule.purl === source.purl && rule.id.startsWith(source.prefix)),
-      );
-    }
+    const candidateContext = {
+      rules: rulesByRepository(registry.rules),
+      maintainerRule: registry.rules.find((rule) => rule.id === MAINTAINER_RULE),
+      legacyEnvRule: registry.rules.find((rule) => rule.id === LEGACY_ENV_RULE),
+      dotnetRules: validateRegistryV2(await loadDataFile("registry/dotnet.json")).rules.filter(
+        (rule) => rule.purl === "pkg:generic/dotnet" && rule.id.startsWith("dotnet.runtime."),
+      ),
+      runtimeRules: await loadRuntimeRules(found, rootfs),
+    };
+    const { rules, runtimeRules } = candidateContext;
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
 
     for (const candidate of found) {
-      const location = { path: candidate.path, line: candidate.line };
-      if (candidate.kind === "runtime") {
-        const rule = matchingRuntimeRule(runtimeRules.get(candidate.runtime) ?? [], candidate.runtime, candidate.value);
-        if (rule) {
-          findings.push({
-            id: `${rule.id}:${candidate.path}:${candidate.line}`,
-            ruleId: rule.id,
-            title: rule.title,
-            summary: `${candidate.path} installs ${candidate.runtime} ${candidate.value}. ${rule.summary}`,
-            severity: rule.severity,
-            location,
-            ...(rule.replacement ? { replacement: rule.replacement } : {}),
-            ...(rule.deadline ? { deadline: rule.deadline } : {}),
-            ...(rule.migration ? { migration: rule.migration } : {}),
-            sources: rule.sources,
-          });
-        }
-        continue;
-      }
-      if (candidate.kind === "maintainer" || candidate.kind === "legacy-env") {
-        const rule = candidate.kind === "maintainer" ? maintainerRule : legacyEnvRule;
-        if (rule) {
-          findings.push({
-            id: `${rule.id}:${candidate.path}:${candidate.line}`,
-            ruleId: rule.id,
-            title: rule.title,
-            summary:
-              candidate.kind === "maintainer"
-                ? `${candidate.path} uses the deprecated MAINTAINER instruction. ${rule.summary}`
-                : `${candidate.path} sets ${candidate.key} with the legacy "ENV key value" form. ${rule.summary}`,
-            severity: rule.severity,
-            location,
-            ...(rule.replacement ? { replacement: rule.replacement } : {}),
-            ...(rule.migration ? { migration: rule.migration } : {}),
-            sources: rule.sources,
-          });
-        }
-        continue;
-      }
-      if (candidate.dynamic) {
-        // Only name a reference when its repository part is a literal tracked image, as in node:${VERSION}.
-        const repository = required(candidate.value.split(":")[0], "image repository");
-        const named = parseImageReference(repository);
-        const tracked = named !== undefined && rulesFor(named, rules, dotnetRules) !== undefined;
-        if (tracked && !repository.includes("$")) {
-          unclassified.push({
-            component: named.repository,
-            reference: candidate.value,
-            reason: "the tag is a build argument or variable, which Evergreen does not expand",
-            location,
-          });
-        }
-        continue;
-      }
-
-      const image = parseImageReference(candidate.value);
-      if (!image) continue;
-      const imageRules = rulesFor(image, rules, dotnetRules);
-      if (!imageRules) continue;
-
-      const tag = classifyTag(
-        image.registry === "docker.io" && image.tag !== undefined
-          ? resolveCodename(image.repository, image.tag)
-          : image.tag,
-        image.digest,
-        image.registry === MICROSOFT_REGISTRY ? DOTNET_VARIANT : undefined,
-      );
-      if (tag.kind === "unclassified") {
-        unclassified.push({ component: image.repository, reference: candidate.value, reason: tag.reason, location });
-        continue;
-      }
-
-      const rule = imageRules.find(
-        (item) => versContains(item.vers, tag.lowest) && versContains(item.vers, tag.highest),
-      );
-      if (rule) {
-        findings.push({
-          id: `${rule.id}:${candidate.path}:${candidate.line}`,
-          ruleId: rule.id,
-          title: rule.title,
-          summary: `${candidate.path} uses ${candidate.value}. ${rule.summary}`,
-          severity: rule.severity,
-          location,
-          ...(rule.replacement ? { replacement: rule.replacement } : {}),
-          ...(rule.deadline ? { deadline: rule.deadline } : {}),
-          ...(rule.migration ? { migration: rule.migration } : {}),
-          sources: rule.sources,
-        });
-      } else if (
-        imageRules.some((item) => versContains(item.vers, tag.lowest) || versContains(item.vers, tag.highest))
-      ) {
-        unclassified.push({
-          component: image.repository,
-          reference: candidate.value,
-          reason: `the tag "${image.tag}" is a floating release line that spans supported and unsupported versions`,
-          location,
-        });
-      }
+      const result = analyzeCandidate(candidate, candidateContext);
+      if (result.finding) findings.push(result.finding);
+      if (result.unclassified) unclassified.push(result.unclassified);
     }
 
     findings.push(...rootfsFindings(rootfs, rules, runtimeRules));
