@@ -40,6 +40,13 @@ test("a malformed pubspec.yaml returns nothing, not partial declarations, and ne
   assert.deepEqual(parsePubspec(contents), []);
 });
 
+test("an unterminated quoted value in an unrelated section still makes the document malformed", () => {
+  assert.deepEqual(
+    parsePubspec('name: sample\ndescription:\n  detail: "unterminated\nenvironment:\n  sdk: ^3.0.0\n'),
+    [],
+  );
+});
+
 test("ignores any, templates, nested mappings, path and git sources, and lookalike values", () => {
   for (const contents of [
     "environment:\n  sdk: any\n  flutter: any\n",

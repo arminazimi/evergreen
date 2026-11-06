@@ -110,6 +110,51 @@ interface ScannedLine {
 }
 
 /**
+ * When a triple-quoted string started on an earlier line, the offset just past its closing delimiter on this line.
+ * Returns -1 when it does not close here, and undefined when no triple-quoted string is open.
+ */
+function resumeTripleString(line: string, state: PythonState, index: number): number | undefined {
+  const triple = state.triple;
+  if (triple === undefined) return undefined;
+  const end = line.indexOf(triple, index);
+  if (end < 0) return -1;
+  state.triple = undefined;
+  return end + triple.length;
+}
+
+/** Remove a one- or two-letter string prefix from the code that precedes a quote, and return it lowercased. */
+function stripStringPrefix(code: string): { code: string; prefix: string } {
+  const tail = /([A-Za-z]{1,2})$/.exec(code)?.[1];
+  if (tail === undefined || !PREFIXES.test(tail)) return { code, prefix: "" };
+  return { code: code.slice(0, -tail.length), prefix: tail.toLowerCase() };
+}
+
+/** Read a single-quoted literal whose opening quote is at `start - 1`, or undefined when it does not close on this line. */
+function readQuotedLiteral(
+  line: string,
+  start: number,
+  quote: string,
+  raw: boolean,
+): { value: string; next: number } | undefined {
+  let value = "";
+  let index = start;
+  while (index < line.length) {
+    const next = line.charAt(index);
+    if (next === "\\" && !raw) {
+      const escaped = line[index + 1];
+      if (escaped === undefined) return undefined;
+      value += escaped;
+      index += 2;
+      continue;
+    }
+    if (next === quote) return { value, next: index + 1 };
+    value += next;
+    index += 1;
+  }
+  return undefined;
+}
+
+/**
  * Read one Python line, masking strings so code patterns never match inside them. Returns undefined for an
  * unterminated single-line string, which makes the file malformed.
  */
@@ -120,11 +165,10 @@ function scanPythonLine(line: string, state: PythonState): ScannedLine | undefin
   let index = 0;
 
   while (index < line.length) {
-    if (state.triple !== undefined) {
-      const end = line.indexOf(state.triple, index);
-      if (end < 0) return { code, literals, dynamic };
-      index = end + state.triple.length;
-      state.triple = undefined;
+    const resumed = resumeTripleString(line, state, index);
+    if (resumed === -1) return { code, literals, dynamic };
+    if (resumed !== undefined) {
+      index = resumed;
       continue;
     }
 
@@ -138,12 +182,9 @@ function scanPythonLine(line: string, state: PythonState): ScannedLine | undefin
 
     const triple = line.startsWith(character.repeat(3), index);
     const quote = triple ? character.repeat(3) : character;
-    let prefix = "";
-    const tail = /([A-Za-z]{1,2})$/.exec(code)?.[1];
-    if (tail !== undefined && PREFIXES.test(tail)) {
-      prefix = tail.toLowerCase();
-      code = code.slice(0, -tail.length);
-    }
+    const prefixed = stripStringPrefix(code);
+    code = prefixed.code;
+    const prefix = prefixed.prefix;
 
     if (triple) {
       const end = line.indexOf(quote, index + quote.length);
@@ -155,30 +196,12 @@ function scanPythonLine(line: string, state: PythonState): ScannedLine | undefin
       continue;
     }
 
-    let value = "";
-    let closed = false;
-    index += 1;
-    while (index < line.length) {
-      const next = line.charAt(index);
-      if (next === "\\" && !prefix.includes("r")) {
-        const escaped = line[index + 1];
-        if (escaped === undefined) break;
-        value += escaped;
-        index += 2;
-        continue;
-      }
-      if (next === character) {
-        index += 1;
-        closed = true;
-        break;
-      }
-      value += next;
-      index += 1;
-    }
-    if (!closed) return undefined;
+    const literal = readQuotedLiteral(line, index + 1, character, prefix.includes("r"));
+    if (literal === undefined) return undefined;
+    index = literal.next;
 
     dynamic.push(prefix.includes("f") || prefix.includes("b"));
-    literals.push(value);
+    literals.push(literal.value);
     code += `\u0000${literals.length - 1}\u0000`;
   }
 
@@ -230,6 +253,44 @@ function closingParenthesis(code: string, open: number): number | undefined {
   return undefined;
 }
 
+/** Add the declarations for the literal indices, skipping dynamic f- and b-strings. */
+function pushRequirements(
+  declarations: ConanDeclaration[],
+  scanned: ScannedLine,
+  indices: readonly number[],
+  line: number,
+): void {
+  for (const literal of indices) {
+    if (scanned.dynamic[literal]) continue;
+    const declaration = requirement(scanned.literals[literal] ?? "");
+    if (declaration) declarations.push(declarationAt(declaration, line));
+  }
+}
+
+/** Add the requirements of a `requires = (...)` assignment, when every value is a literal. */
+function readAssignmentRequirements(declarations: ConanDeclaration[], scanned: ScannedLine, line: number): void {
+  const assignment = ASSIGNMENT.exec(scanned.code)?.[1];
+  if (assignment === undefined) return;
+  const indices = literalsIn(assignment);
+  if (indices) pushRequirements(declarations, scanned, indices, line);
+}
+
+/** Add the requirements of each `self.requires(...)` call whose first argument is a literal. */
+function readCallRequirements(declarations: ConanDeclaration[], scanned: ScannedLine, line: number): void {
+  CALL.lastIndex = 0;
+  for (let call = CALL.exec(scanned.code); call !== null; call = CALL.exec(scanned.code)) {
+    const open = call.index + call[0].length - 1;
+    const close = closingParenthesis(scanned.code, open);
+    if (close === undefined) continue;
+    CALL.lastIndex = close + 1;
+    const argument = firstArgument(scanned.code.slice(open + 1, close));
+    if (argument === undefined) continue;
+    const marker = MARKER.exec(argument.trim());
+    if (!marker) continue;
+    pushRequirements(declarations, scanned, [Number(marker[1])], line);
+  }
+}
+
 /**
  * Parse the direct requirements from a conanfile.py: the `requires` attribute and literal `self.requires(...)`
  * calls. The contents are treated as untrusted text; nothing is executed or imported.
@@ -244,34 +305,8 @@ export function parseConanfilePy(contents: string): ConanDeclaration[] {
     const line = index + 1;
     const scanned = scanPythonLine(rawLine, state);
     if (!scanned) return [];
-
-    const assignment = ASSIGNMENT.exec(scanned.code)?.[1];
-    if (assignment !== undefined) {
-      const indices = literalsIn(assignment);
-      if (indices) {
-        for (const literal of indices) {
-          if (scanned.dynamic[literal]) continue;
-          const declaration = requirement(scanned.literals[literal] ?? "");
-          if (declaration) declarations.push(declarationAt(declaration, line));
-        }
-      }
-    }
-
-    CALL.lastIndex = 0;
-    for (let call = CALL.exec(scanned.code); call !== null; call = CALL.exec(scanned.code)) {
-      const open = call.index + call[0].length - 1;
-      const close = closingParenthesis(scanned.code, open);
-      if (close === undefined) continue;
-      CALL.lastIndex = close + 1;
-      const argument = firstArgument(scanned.code.slice(open + 1, close));
-      if (argument === undefined) continue;
-      const marker = MARKER.exec(argument.trim());
-      if (!marker) continue;
-      const literal = Number(marker[1]);
-      if (scanned.dynamic[literal]) continue;
-      const declaration = requirement(scanned.literals[literal] ?? "");
-      if (declaration) declarations.push(declarationAt(declaration, line));
-    }
+    readAssignmentRequirements(declarations, scanned, line);
+    readCallRequirements(declarations, scanned, line);
   }
 
   return state.triple === undefined ? declarations : [];

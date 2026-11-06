@@ -175,6 +175,123 @@ function packageDeclaration(entry: PackageEntry | undefined): PubPackageDeclarat
   return { kind: "pub-package", name: entry.name, value: text, line: version.line };
 }
 
+/** The state a line-by-line pubspec.lock parse carries between lines. */
+interface LockState {
+  declarations: PubspecLockDeclaration[];
+  /** Every top-level key seen so far; a duplicate makes the document malformed. */
+  topLevel: Set<string>;
+  section: "packages" | "sdks" | undefined;
+  childIndent: number | undefined;
+  childKeys: Set<string>;
+  entry: PackageEntry | undefined;
+}
+
+/** Finish the package entry that is open, if any, and record it when it is a supported hosted package. */
+function closeEntry(state: LockState): void {
+  const declaration = packageDeclaration(state.entry);
+  if (declaration) state.declarations.push(declaration);
+  state.entry = undefined;
+}
+
+/** Handle an unindented key. Returns the index of the value's last line, or undefined for a malformed document. */
+function scanTopLevel(state: LockState, lines: string[], raw: string, index: number, body: string): number | undefined {
+  closeEntry(state);
+  state.section = undefined;
+  state.childIndent = undefined;
+  state.childKeys = new Set<string>();
+  const key = KEY.exec(body);
+  if (!key) return index;
+
+  // `KEY` is the name plus the colon that ends it, and the colon is its last character.
+  const name = key[0].slice(0, -1);
+  if (state.topLevel.has(name)) return undefined;
+  state.topLevel.add(name);
+  const scalar = readScalar(lines, raw, index, key[0].length, 0);
+  if (!scalar) return undefined;
+  const inline = body.slice(key[0].length).trim();
+  if ((inline === "" || inline.startsWith("#")) && (name === "packages" || name === "sdks")) state.section = name;
+  return scalar.last;
+}
+
+/** Handle a field of the package entry that is open. Returns the index of the value's last line. */
+function scanEntryField(
+  state: LockState,
+  lines: string[],
+  raw: string,
+  index: number,
+  body: string,
+  indent: number,
+): number | undefined {
+  const entry = state.entry;
+  if (!entry) return index;
+  entry.fieldIndent ??= indent;
+  if (indent < entry.fieldIndent) return undefined;
+  const field = KEY.exec(body);
+  if (indent !== entry.fieldIndent || !field) return index;
+  const name = field[0].slice(0, -1);
+  if (entry.fields.has(name)) return undefined;
+  const keyLine = index + 1;
+  const scalar = readScalar(lines, raw, index, indent + field[0].length, indent);
+  if (!scalar) return undefined;
+  entry.fields.set(name, { text: scalar.text, line: keyLine });
+  return scalar.last;
+}
+
+/** Handle a direct child of the open `packages` or `sdks` section. Returns the index of the value's last line. */
+function scanSectionChild(
+  state: LockState,
+  lines: string[],
+  raw: string,
+  index: number,
+  body: string,
+  indent: number,
+): number | undefined {
+  closeEntry(state);
+  const key = KEY.exec(body);
+  if (!key) return index;
+
+  const name = key[0].slice(0, -1);
+  if (state.childKeys.has(name)) return undefined;
+  state.childKeys.add(name);
+  const keyLine = index + 1;
+  const scalar = readScalar(lines, raw, index, indent + key[0].length, indent);
+  if (!scalar) return undefined;
+
+  if (state.section === "packages") {
+    const inline = body.slice(key[0].length).trim();
+    if (inline === "" || inline.startsWith("#")) state.entry = { name, fields: new Map() };
+    return scalar.last;
+  }
+  if (scalar.text === undefined) return scalar.last;
+  const value = constraint(scalar.text);
+  if (value === undefined) return scalar.last;
+  if (name === "dart") {
+    state.declarations.push({ kind: "dart-sdk", value, line: keyLine });
+  } else if (name === "flutter") {
+    state.declarations.push({ kind: "flutter-sdk", value, line: keyLine });
+  }
+  return scalar.last;
+}
+
+/**
+ * Read one line of the document and update `state`. Returns the index of the line the value ends on, or undefined
+ * when the document is malformed and the whole file must yield no declarations.
+ */
+function scanLockLine(state: LockState, lines: string[], raw: string, index: number): number | undefined {
+  if (raw.length > MAXIMUM_LINE_LENGTH) return undefined;
+  const body = raw.replace(/^ */, "");
+  const indent = raw.length - body.length;
+  if (body.trim() === "" || body.startsWith("#")) return index;
+  if (body.startsWith("\t")) return undefined;
+
+  if (indent === 0) return scanTopLevel(state, lines, raw, index, body);
+  if (state.section === undefined) return index;
+  state.childIndent ??= indent;
+  if (indent < state.childIndent) return undefined;
+  if (indent > state.childIndent) return scanEntryField(state, lines, raw, index, body, indent);
+  return scanSectionChild(state, lines, raw, index, body, indent);
+}
+
 /**
  * Parse the resolved hosted packages under `packages` and the `dart` and `flutter` constraints under `sdks` from the
  * contents of a pubspec.lock. Declarations are returned in document order. Nothing is evaluated, and a malformed
@@ -184,95 +301,21 @@ export function parsePubspecLock(contents: string): PubspecLockDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
 
   const lines = contents.replace(/^\uFEFF/, "").split(/\r?\n/);
-  const declarations: PubspecLockDeclaration[] = [];
-  const topLevel = new Set<string>();
-  let section: "packages" | "sdks" | undefined;
-  let childIndent: number | undefined;
-  let childKeys = new Set<string>();
-  let entry: PackageEntry | undefined;
-
-  const closeEntry = (): void => {
-    const declaration = packageDeclaration(entry);
-    if (declaration) declarations.push(declaration);
-    entry = undefined;
+  const state: LockState = {
+    declarations: [],
+    topLevel: new Set<string>(),
+    section: undefined,
+    childIndent: undefined,
+    childKeys: new Set<string>(),
+    entry: undefined,
   };
 
   for (let index = 0, raw = lines[0]; raw !== undefined; raw = lines[++index]) {
-    if (raw.length > MAXIMUM_LINE_LENGTH) return [];
-    const body = raw.replace(/^ */, "");
-    const indent = raw.length - body.length;
-    if (body.trim() === "" || body.startsWith("#")) continue;
-    if (body.startsWith("\t")) return [];
-
-    if (indent === 0) {
-      closeEntry();
-      section = undefined;
-      childIndent = undefined;
-      childKeys = new Set<string>();
-      const key = KEY.exec(body);
-      if (!key) continue;
-
-      // `KEY` is the name plus the colon that ends it, and the colon is its last character.
-      const name = key[0].slice(0, -1);
-      if (topLevel.has(name)) return [];
-      topLevel.add(name);
-      const scalar = readScalar(lines, raw, index, key[0].length, 0);
-      if (!scalar) return [];
-      const inline = body.slice(key[0].length).trim();
-      if ((inline === "" || inline.startsWith("#")) && (name === "packages" || name === "sdks")) section = name;
-      index = scalar.last;
-      continue;
-    }
-
-    if (section === undefined) continue;
-    childIndent ??= indent;
-    if (indent < childIndent) return [];
-
-    if (indent > childIndent) {
-      if (entry) {
-        entry.fieldIndent ??= indent;
-        if (indent < entry.fieldIndent) return [];
-        const field = KEY.exec(body);
-        if (indent === entry.fieldIndent && field) {
-          const name = field[0].slice(0, -1);
-          if (entry.fields.has(name)) return [];
-          const keyLine = index + 1;
-          const scalar = readScalar(lines, raw, index, indent + field[0].length, indent);
-          if (!scalar) return [];
-          entry.fields.set(name, { text: scalar.text, line: keyLine });
-          index = scalar.last;
-        }
-      }
-      continue;
-    }
-
-    closeEntry();
-    const key = KEY.exec(body);
-    if (!key) continue;
-
-    const name = key[0].slice(0, -1);
-    if (childKeys.has(name)) return [];
-    childKeys.add(name);
-    const keyLine = index + 1;
-    const scalar = readScalar(lines, raw, index, indent + key[0].length, indent);
-    if (!scalar) return [];
-    index = scalar.last;
-
-    if (section === "packages") {
-      const inline = body.slice(key[0].length).trim();
-      if (inline === "" || inline.startsWith("#")) entry = { name, fields: new Map() };
-      continue;
-    }
-    if (scalar.text === undefined) continue;
-    const value = constraint(scalar.text);
-    if (value === undefined) continue;
-    if (name === "dart") {
-      declarations.push({ kind: "dart-sdk", value, line: keyLine });
-    } else if (name === "flutter") {
-      declarations.push({ kind: "flutter-sdk", value, line: keyLine });
-    }
+    const last = scanLockLine(state, lines, raw, index);
+    if (last === undefined) return [];
+    index = last;
   }
 
-  closeEntry();
-  return declarations;
+  closeEntry(state);
+  return state.declarations;
 }

@@ -233,6 +233,117 @@ function unclassified(
   return { resource, name, attribute, value: raw.value, line: raw.line };
 }
 
+/** The attributes and identity of one supported `resource` block. */
+interface BlockContext {
+  hcl: HclSource;
+  resource: string;
+  name: string;
+  literals: Array<{ name: string; value: string; line: number }>;
+  raws: RawAttribute[];
+}
+
+type AwsSpec = Extract<ResourceSpec, { platform: "aws" }>;
+type AzureSpec = Extract<ResourceSpec, { platform: "azure" }>;
+type GoogleSpec = Extract<ResourceSpec, { platform: "google-cloud-sql" }>;
+
+/** The literal attribute of the block with this name, if it has one. */
+function literalAttribute(
+  context: BlockContext,
+  attribute: string,
+): { name: string; value: string; line: number } | undefined {
+  return context.literals.find((item) => item.name === attribute);
+}
+
+/** The raw attribute of the block with this name, if it has one. */
+function rawAttribute(context: BlockContext, attribute: string): RawAttribute | undefined {
+  return context.raws.find((item) => item.name === attribute);
+}
+
+/** Read an AWS managed database or cache engine and version, and record what cannot be judged. */
+function parseAwsBlock(
+  context: BlockContext,
+  spec: AwsSpec,
+  declarations: DatabaseEngineVersionDeclaration[],
+  unreadable: DatabaseTerraformUnclassified[],
+): void {
+  const engine = literalAttribute(context, "engine");
+  const version = literalAttribute(context, spec.versionAttribute);
+  if (engine !== undefined && !(spec.engines as readonly string[]).includes(engine.value)) return;
+
+  const declaredEngine = rawAttribute(context, "engine");
+  const declaredVersion = rawAttribute(context, spec.versionAttribute);
+  if (!engine && declaredEngine && isUnclassifiable(declaredEngine))
+    unreadable.push(unclassified(context.resource, context.name, "engine", declaredEngine));
+  if (!version && declaredVersion && isUnclassifiable(declaredVersion))
+    unreadable.push(unclassified(context.resource, context.name, spec.versionAttribute, declaredVersion));
+  if (!engine || !version) return;
+
+  const product = productFor(spec.platform, engine.value as DatabaseTerraformEngine);
+  if (!product) return;
+  declarations.push({
+    resource: context.resource,
+    name: context.name,
+    engine: engine.value as DatabaseTerraformEngine,
+    product,
+    value: version.value,
+    line: version.line,
+  });
+}
+
+/** Read an Azure managed database `version`, and record what cannot be judged. */
+function parseAzureBlock(
+  context: BlockContext,
+  spec: AzureSpec,
+  declarations: DatabaseEngineVersionDeclaration[],
+  unreadable: DatabaseTerraformUnclassified[],
+): void {
+  const version = literalAttribute(context, "version");
+  if (!version) {
+    const declared = rawAttribute(context, "version");
+    if (declared && isUnclassifiable(declared))
+      unreadable.push(unclassified(context.resource, context.name, "version", declared));
+    return;
+  }
+  const product = productFor(spec.platform, spec.engine);
+  if (!product) return;
+  declarations.push({
+    resource: context.resource,
+    name: context.name,
+    engine: spec.engine,
+    product,
+    value: version.value,
+    line: version.line,
+  });
+}
+
+/** Read a Google Cloud SQL `database_version`, and record what cannot be judged. */
+function parseGoogleBlock(
+  context: BlockContext,
+  spec: GoogleSpec,
+  declarations: DatabaseEngineVersionDeclaration[],
+  unreadable: DatabaseTerraformUnclassified[],
+): void {
+  const version = literalAttribute(context, "database_version");
+  if (!version) {
+    const declared = rawAttribute(context, "database_version");
+    if (declared && isUnclassifiable(declared))
+      unreadable.push(unclassified(context.resource, context.name, "database_version", declared));
+    return;
+  }
+  const parsed = googleEngineAndVersion(version.value);
+  if (!parsed) return;
+  const product = productFor(spec.platform, parsed.engine);
+  if (!product) return;
+  declarations.push({
+    resource: context.resource,
+    name: context.name,
+    engine: parsed.engine,
+    product,
+    value: parsed.value,
+    line: version.line,
+  });
+}
+
 /** Parse managed database versions and unreadable version expressions from a `*.tf` file. */
 export function parseDatabaseTerraform(contents: string): DatabaseTerraformParseResult {
   const hcl = prepareHcl(contents);
@@ -248,57 +359,16 @@ export function parseDatabaseTerraform(contents: string): DatabaseTerraformParse
     const spec = resource === undefined ? undefined : resourceSpec(resource);
     if (resource === undefined || name === undefined || !spec) continue;
 
-    const literals = stringAttributes(hcl, block.bodyStart, block.bodyEnd);
-    const raws = rawAttributes(hcl, block.bodyStart, block.bodyEnd);
-    const literal = (attribute: string) => literals.find((item) => item.name === attribute);
-    const raw = (attribute: string) => raws.find((item) => item.name === attribute);
-
-    if (spec.platform === "aws") {
-      const engine = literal("engine");
-      const version = literal(spec.versionAttribute);
-      if (engine !== undefined && !(spec.engines as readonly string[]).includes(engine.value)) continue;
-      const declaredEngine = raw("engine");
-      const declaredVersion = raw(spec.versionAttribute);
-      if (!engine && declaredEngine && isUnclassifiable(declaredEngine))
-        unreadable.push(unclassified(resource, name, "engine", declaredEngine));
-      if (!version && declaredVersion && isUnclassifiable(declaredVersion))
-        unreadable.push(unclassified(resource, name, spec.versionAttribute, declaredVersion));
-      if (!engine || !version) continue;
-
-      const product = productFor(spec.platform, engine.value as DatabaseTerraformEngine);
-      if (!product) continue;
-      declarations.push({
-        resource,
-        name,
-        engine: engine.value as DatabaseTerraformEngine,
-        product,
-        value: version.value,
-        line: version.line,
-      });
-    } else if (spec.platform === "azure") {
-      const version = literal("version");
-      if (!version) {
-        const declared = raw("version");
-        if (declared && isUnclassifiable(declared)) unreadable.push(unclassified(resource, name, "version", declared));
-        continue;
-      }
-      const product = productFor(spec.platform, spec.engine);
-      if (!product) continue;
-      declarations.push({ resource, name, engine: spec.engine, product, value: version.value, line: version.line });
-    } else {
-      const version = literal("database_version");
-      if (!version) {
-        const declared = raw("database_version");
-        if (declared && isUnclassifiable(declared))
-          unreadable.push(unclassified(resource, name, "database_version", declared));
-        continue;
-      }
-      const parsed = googleEngineAndVersion(version.value);
-      if (!parsed) continue;
-      const product = productFor(spec.platform, parsed.engine);
-      if (!product) continue;
-      declarations.push({ resource, name, engine: parsed.engine, product, value: parsed.value, line: version.line });
-    }
+    const context: BlockContext = {
+      hcl,
+      resource,
+      name,
+      literals: stringAttributes(hcl, block.bodyStart, block.bodyEnd),
+      raws: rawAttributes(hcl, block.bodyStart, block.bodyEnd),
+    };
+    if (spec.platform === "aws") parseAwsBlock(context, spec, declarations, unreadable);
+    else if (spec.platform === "azure") parseAzureBlock(context, spec, declarations, unreadable);
+    else parseGoogleBlock(context, spec, declarations, unreadable);
 
     if (declarations.length >= MAXIMUM_DECLARATIONS || unreadable.length >= MAXIMUM_DECLARATIONS) {
       return {

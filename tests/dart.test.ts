@@ -120,6 +120,18 @@ test("is registered as a built-in detector", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "dart"));
 });
 
+test("analyze returns the findings and an empty unclassified list", async () => {
+  const detector = new DartDetector(async () => [rule()]);
+  const analysis = await detector.analyze({
+    root: await repository({ "pubspec.yaml": "dependencies:\n  example_widgets: ^1.0.0\n" }),
+  });
+  assert.deepEqual(analysis.unclassified, []);
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["dart.package.example-widgets.discontinued", "pubspec.yaml", 2]],
+  );
+});
+
 test("reports an exact Dart SDK pin and ignores a constraint that admits newer SDKs", async () => {
   const findings = await dartDetector.scan({
     root: await repository({ "pubspec.yaml": 'environment:\n  sdk: ">=3.8.0 <4.0.0"\n' }),

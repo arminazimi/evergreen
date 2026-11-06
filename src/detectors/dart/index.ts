@@ -12,7 +12,9 @@ import { analyzeSourceUsage, findDartDynamicReferences } from "../../source-usag
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseFvmConfigJson, parseFvmrc } from "./parse-fvm.js";
 import { parsePubspec } from "./parse-pubspec.js";
+import type { PubspecDeclaration } from "./parse-pubspec.js";
 import { parsePubspecLock } from "./parse-pubspec-lock.js";
+import type { PubspecLockDeclaration } from "./parse-pubspec-lock.js";
 
 /**
  * Dart and Flutter lifecycle detector.
@@ -132,6 +134,102 @@ function ruleForDeclared(rules: readonly RegistryV2Rule[], value: string): Regis
   return EXACT_VERSION.test(value) ? firstMatchingRule(rules, value) : rules.find(coversEveryVersion);
 }
 
+/** A declaration from either Dart manifest the detector parses. */
+type DartDeclaration = PubspecDeclaration | PubspecLockDeclaration;
+
+/** Adds a finding for a matched rule at a source location. */
+type ReportFinding = (rule: RegistryV2Rule, path: string, line: number, summary: string) => void;
+
+/** The contents of a manifest, or undefined when it cannot be read. */
+async function readManifest(file: string): Promise<string | undefined> {
+  try {
+    return await readFile(file, "utf8");
+  } catch {
+    return undefined;
+  }
+}
+
+/** Report the Flutter pin declared by an `.fvmrc` or `.fvm/fvm_config.json`. */
+function reportFvmPin(
+  path: string,
+  name: string,
+  contents: string,
+  byPurl: Map<string, RegistryV2Rule[]>,
+  report: ReportFinding,
+): void {
+  for (const declaration of name === ".fvmrc" ? parseFvmrc(contents) : parseFvmConfigJson(contents)) {
+    const rule = firstMatchingRule(byPurl.get(FLUTTER_PURL) ?? [], declaration.value);
+    if (rule) report(rule, path, declaration.line, `${path} pins Flutter ${declaration.value}. ${rule.summary}`);
+  }
+}
+
+/** Report one declaration from a pubspec.yaml or pubspec.lock. */
+function reportDeclaration(
+  declaration: DartDeclaration,
+  path: string,
+  byPurl: Map<string, RegistryV2Rule[]>,
+  report: ReportFinding,
+): void {
+  if (declaration.kind === "pub-package") {
+    const rule = firstMatchingRule(byPurl.get(packagePurl(declaration.name)) ?? [], declaration.value);
+    if (rule)
+      report(
+        rule,
+        path,
+        declaration.line,
+        `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
+      );
+    return;
+  }
+  if (declaration.kind === "pub-dependency") {
+    const rule = ruleForDeclared(byPurl.get(packagePurl(declaration.name)) ?? [], declaration.value);
+    if (rule)
+      report(
+        rule,
+        path,
+        declaration.line,
+        `${path} depends on ${declaration.name} ${declaration.value}. ${rule.summary}`,
+      );
+    return;
+  }
+  const sdk = declaration.kind === "dart-sdk" ? "Dart" : "Flutter";
+  const purl = declaration.kind === "dart-sdk" ? DART_PURL : FLUTTER_PURL;
+  const rule = ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
+  if (rule) report(rule, path, declaration.line, `${path} declares ${sdk} SDK ${declaration.value}. ${rule.summary}`);
+}
+
+/** Attach source usages to the findings whose rules declare matchers, and collect unclassified reflection. */
+async function applyUsage(
+  context: DetectorContext,
+  findings: DetectorFinding[],
+  usageContracts: Array<{ id: string; rule: RegistryV2Rule }>,
+): Promise<Array<DetectorAnalysis["unclassified"][number]>> {
+  const unclassified: Array<DetectorAnalysis["unclassified"][number]> = [];
+  if (usageContracts.length === 0) return unclassified;
+
+  const analyses = new Map(
+    (
+      await analyzeSourceUsage(
+        context.root,
+        usageContracts.map(({ id, rule }) => ({ id, matchers: rule.usage ?? [] })),
+      )
+    ).map((analysis) => [analysis.contractId, analysis]),
+  );
+  for (const finding of findings) {
+    const analysis = analyses.get(finding.id);
+    if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
+  }
+  for (const reference of await findDartDynamicReferences(context.root)) {
+    unclassified.push({
+      component: "dart",
+      reference: reference.reference,
+      reason: reference.reason,
+      location: { path: reference.path, line: reference.line, column: reference.column },
+    });
+  }
+  return unclassified;
+}
+
 export class DartDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "dart";
@@ -158,7 +256,7 @@ export class DartDetector implements Detector {
     const byPurl = rulesByPurl(await this.loadRules());
     const findings: DetectorFinding[] = [];
     const usageContracts: Array<{ id: string; rule: RegistryV2Rule }> = [];
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
+    const report: ReportFinding = (rule, path, line, summary) => {
       const id = `${rule.id}:${path}:${line}`;
       findings.push({
         id,
@@ -176,78 +274,22 @@ export class DartDetector implements Detector {
     };
 
     for (const file of files) {
-      let contents: string;
-      try {
-        contents = await readFile(file, "utf8");
-      } catch {
-        continue;
-      }
+      const contents = await readManifest(file);
+      if (contents === undefined) continue;
       const path = relativePosix(context.root, file);
       const name = basename(file);
 
       if (name === ".fvmrc" || name === FVM_CONFIG_FILE) {
-        for (const declaration of name === ".fvmrc" ? parseFvmrc(contents) : parseFvmConfigJson(contents)) {
-          const rule = firstMatchingRule(byPurl.get(FLUTTER_PURL) ?? [], declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} pins Flutter ${declaration.value}. ${rule.summary}`);
-        }
+        reportFvmPin(path, name, contents, byPurl, report);
         continue;
       }
 
       for (const declaration of name === "pubspec.lock" ? parsePubspecLock(contents) : parsePubspec(contents)) {
-        if (declaration.kind === "dart-sdk" || declaration.kind === "flutter-sdk") {
-          const sdk = declaration.kind === "dart-sdk" ? "Dart" : "Flutter";
-          const rule = ruleForDeclared(
-            byPurl.get(declaration.kind === "dart-sdk" ? DART_PURL : FLUTTER_PURL) ?? [],
-            declaration.value,
-          );
-          if (rule)
-            report(rule, path, declaration.line, `${path} declares ${sdk} SDK ${declaration.value}. ${rule.summary}`);
-        } else if (declaration.kind === "pub-package") {
-          const rule = firstMatchingRule(byPurl.get(packagePurl(declaration.name)) ?? [], declaration.value);
-          if (rule)
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} resolves ${declaration.name} ${declaration.value}. ${rule.summary}`,
-            );
-        } else {
-          const rule = ruleForDeclared(byPurl.get(packagePurl(declaration.name)) ?? [], declaration.value);
-          if (rule)
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} depends on ${declaration.name} ${declaration.value}. ${rule.summary}`,
-            );
-        }
+        reportDeclaration(declaration, path, byPurl, report);
       }
     }
 
-    const unclassified: Array<DetectorAnalysis["unclassified"][number]> = [];
-    if (usageContracts.length > 0) {
-      const analyses = new Map(
-        (
-          await analyzeSourceUsage(
-            context.root,
-            usageContracts.map(({ id, rule }) => ({ id, matchers: rule.usage ?? [] })),
-          )
-        ).map((analysis) => [analysis.contractId, analysis]),
-      );
-      for (const finding of findings) {
-        const analysis = analyses.get(finding.id);
-        if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
-      }
-      for (const reference of await findDartDynamicReferences(context.root)) {
-        unclassified.push({
-          component: "dart",
-          reference: reference.reference,
-          reason: reference.reason,
-          location: { path: reference.path, line: reference.line, column: reference.column },
-        });
-      }
-    }
-
+    const unclassified = await applyUsage(context, findings, usageContracts);
     findings.sort((left, right) => {
       if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
       return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);

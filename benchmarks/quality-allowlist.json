@@ -60,49 +60,9 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/cpp/parse-conan.ts",
-      "function": "scanPythonLine",
-      "lines": 71,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/dart/index.ts",
-      "function": "DartDetector.analyze",
-      "lines": 103,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/dart/parse-pubspec-lock.ts",
-      "function": "parsePubspecLock",
-      "lines": 96,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/dart/parse-pubspec.ts",
-      "function": "parsePubspec",
-      "lines": 69,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/detectors/database/index.ts",
       "function": "DatabaseDetector.analyze",
       "lines": 78,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/database/parse-terraform.ts",
-      "function": "parseDatabaseTerraform",
-      "lines": 75,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -485,54 +445,6 @@
     }
   ],
   "complexity": [
-    {
-      "file": "src/detectors/cpp/parse-conan.ts",
-      "function": "parseConanfilePy",
-      "complexity": 19,
-      "owner": "#2258",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/cpp/parse-conan.ts",
-      "function": "scanPythonLine",
-      "complexity": 19,
-      "owner": "#2258",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/dart/index.ts",
-      "function": "DartDetector.analyze",
-      "complexity": 27,
-      "owner": "#2258",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/dart/parse-pubspec-lock.ts",
-      "function": "parsePubspecLock",
-      "complexity": 34,
-      "owner": "#2258",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/dart/parse-pubspec.ts",
-      "function": "parsePubspec",
-      "complexity": 32,
-      "owner": "#2258",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/database/parse-terraform.ts",
-      "function": "parseDatabaseTerraform",
-      "complexity": 32,
-      "owner": "#2258",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
     {
       "file": "src/detectors/dotnet/index.ts",
       "function": "DotnetDetector.analyze",

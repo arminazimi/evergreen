@@ -178,6 +178,102 @@ function declaredKey(body: string): DeclaredKey | undefined {
   return name === undefined ? undefined : { name, width: name.length + 1 };
 }
 
+/** The state a line-by-line pubspec.yaml parse carries between lines. */
+interface PubspecState {
+  declarations: PubspecDeclaration[];
+  /** Every top-level key seen so far; a duplicate makes the document malformed. */
+  topLevel: Set<string>;
+  section: "environment" | "dependencies" | undefined;
+  childIndent: number | undefined;
+  childKeys: Set<string>;
+}
+
+/** Record the declaration a section child makes, when its name and value are supported. */
+function recordDeclaration(state: PubspecState, name: string, value: string, line: number): void {
+  if (state.section === "environment") {
+    if (name === "sdk") state.declarations.push({ kind: "dart-sdk", value, line });
+    else if (name === "flutter") state.declarations.push({ kind: "flutter-sdk", value, line });
+    return;
+  }
+  if (state.section === "dependencies" && PACKAGE.test(name)) {
+    state.declarations.push({ kind: "pub-dependency", name, value, line });
+  }
+}
+
+/** Handle an unindented key. Returns the index of the value's last line, or undefined for a malformed document. */
+function scanPubspecTopLevel(
+  state: PubspecState,
+  lines: string[],
+  raw: string,
+  index: number,
+  body: string,
+  key: DeclaredKey | undefined,
+): number | undefined {
+  state.section = undefined;
+  state.childIndent = undefined;
+  state.childKeys = new Set<string>();
+  if (!key) return index;
+
+  const { name } = key;
+  if (state.topLevel.has(name)) return undefined;
+  state.topLevel.add(name);
+  const scalar = readScalar(lines, raw, index, key.width, 0);
+  if (!scalar) return undefined;
+  const inline = body.slice(key.width).trim();
+  const block = inline === "" || inline.startsWith("#");
+  if (block && name === "environment") state.section = "environment";
+  if (block && name === "dependencies") state.section = "dependencies";
+  return scalar.last;
+}
+
+/** Handle a line inside `environment` or `dependencies`. Returns the index of the value's last line. */
+function scanPubspecChild(
+  state: PubspecState,
+  lines: string[],
+  raw: string,
+  index: number,
+  key: DeclaredKey | undefined,
+  indent: number,
+): number | undefined {
+  if (!key) return index;
+
+  const { name } = key;
+  const direct = state.section !== undefined && indent === state.childIndent;
+  if (direct) {
+    if (state.childKeys.has(name)) return undefined;
+    state.childKeys.add(name);
+  }
+  const keyLine = index + 1;
+  const scalar = readScalar(lines, raw, index, indent + key.width, indent);
+  if (!scalar) return undefined;
+  if (!direct || scalar.text === undefined) return scalar.last;
+
+  const value = constraint(scalar.text);
+  if (value === undefined) return scalar.last;
+  recordDeclaration(state, name, value, keyLine);
+  return scalar.last;
+}
+
+/**
+ * Read one line of the document and update `state`. Returns the index of the line the value ends on, or undefined
+ * when the document is malformed and the whole file must yield no declarations.
+ */
+function scanPubspecLine(state: PubspecState, lines: string[], raw: string, index: number): number | undefined {
+  if (raw.length > MAXIMUM_LINE_LENGTH) return index;
+  const body = raw.replace(/^ */, "");
+  const indent = raw.length - body.length;
+  if (body.trim() === "" || body.startsWith("#")) return index;
+  if (body.startsWith("\t")) return undefined;
+
+  const key = declaredKey(body);
+  if (indent === 0) return scanPubspecTopLevel(state, lines, raw, index, body, key);
+  if (state.section !== undefined) {
+    state.childIndent ??= indent;
+    if (indent < state.childIndent) return undefined;
+  }
+  return scanPubspecChild(state, lines, raw, index, key, indent);
+}
+
 /**
  * Parse the `environment` constraints and the direct `dependencies` from the contents of a pubspec.yaml. Keys are
  * returned in document order. Nothing is evaluated, and a malformed document returns no declarations.
@@ -186,68 +282,20 @@ export function parsePubspec(contents: string): PubspecDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
 
   const lines = contents.replace(/^\uFEFF/, "").split(/\r?\n/);
-  const declarations: PubspecDeclaration[] = [];
-  const topLevel = new Set<string>();
-  let section: "environment" | "dependencies" | undefined;
-  let childIndent: number | undefined;
-  let childKeys = new Set<string>();
+  const state: PubspecState = {
+    declarations: [],
+    topLevel: new Set<string>(),
+    section: undefined,
+    childIndent: undefined,
+    childKeys: new Set<string>(),
+  };
 
   // The loop owns its line, so a missing line is the end of the document and `index` may jump past a multi-line value.
   for (let index = 0, raw = lines[0]; raw !== undefined; raw = lines[++index]) {
-    if (raw.length > MAXIMUM_LINE_LENGTH) continue;
-    const body = raw.replace(/^ */, "");
-    const indent = raw.length - body.length;
-    if (body.trim() === "" || body.startsWith("#")) continue;
-    if (body.startsWith("\t")) return [];
-
-    const key = declaredKey(body);
-    if (indent === 0) {
-      section = undefined;
-      childIndent = undefined;
-      childKeys = new Set<string>();
-      if (!key) continue;
-
-      const { name } = key;
-      if (topLevel.has(name)) return [];
-      topLevel.add(name);
-      const scalar = readScalar(lines, raw, index, key.width, 0);
-      if (!scalar) return [];
-      const inline = body.slice(key.width).trim();
-      const block = inline === "" || inline.startsWith("#");
-      if (block && name === "environment") section = "environment";
-      if (block && name === "dependencies") section = "dependencies";
-      index = scalar.last;
-      continue;
-    }
-
-    if (section !== undefined) {
-      childIndent ??= indent;
-      if (indent < childIndent) return [];
-    }
-    if (!key) continue;
-
-    const { name } = key;
-    const direct = section !== undefined && indent === childIndent;
-    if (direct) {
-      if (childKeys.has(name)) return [];
-      childKeys.add(name);
-    }
-    const keyLine = index + 1;
-    const scalar = readScalar(lines, raw, index, indent + key.width, indent);
-    if (!scalar) return [];
-    index = scalar.last;
-    if (!direct || scalar.text === undefined) continue;
-
-    const value = constraint(scalar.text);
-    if (value === undefined) continue;
-    if (section === "environment" && name === "sdk") {
-      declarations.push({ kind: "dart-sdk", value, line: keyLine });
-    } else if (section === "environment" && name === "flutter") {
-      declarations.push({ kind: "flutter-sdk", value, line: keyLine });
-    } else if (section === "dependencies" && PACKAGE.test(name)) {
-      declarations.push({ kind: "pub-dependency", name, value, line: keyLine });
-    }
+    const last = scanPubspecLine(state, lines, raw, index);
+    if (last === undefined) return [];
+    index = last;
   }
 
-  return declarations;
+  return state.declarations;
 }
