@@ -10,7 +10,7 @@ Evergreen reads code it did not write, loads data it did not build at the same t
 
 In scope: the CLI scan path, the GitHub Action and GitLab component, lifecycle data bundles, the local MCP server, and the Git and agent hooks.
 
-Out of scope: compromise of the operating system or the user's account, vulnerabilities in npm packages Evergreen depends on, the correctness of the Sigstore and GitHub infrastructure, and what an AI host does with the answers it receives. Report Evergreen vulnerabilities through [SECURITY.md](../SECURITY.md).
+Out of scope: compromise of the operating system or the user's account, vulnerabilities in npm packages Evergreen depends on (listed with their reasons in [Runtime dependencies](DEPENDENCIES.md)), the correctness of the Sigstore and GitHub infrastructure, and what an AI host does with the answers it receives. Report Evergreen vulnerabilities through [SECURITY.md](../SECURITY.md).
 
 Assumptions:
 

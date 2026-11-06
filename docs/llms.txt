@@ -51,6 +51,7 @@ Three commands cover most agent use: `npx evergreen-deprecation check pkg:npm/le
 - [State of EOL](https://arminazimi.github.io/evergreen/state-of-eol.html): corpus findings aggregated by product and release line.
 - [Privacy](https://arminazimi.github.io/evergreen/PRIVACY.html): what stays on your machine and the one command that uses the network.
 - [Threat model](https://arminazimi.github.io/evergreen/THREAT_MODEL.html): trust boundaries, STRIDE threats, mitigations, and residual risks for untrusted repositories, data bundles, the MCP server, and hooks.
+- [Runtime dependencies](https://arminazimi.github.io/evergreen/DEPENDENCIES.html): the eight packages Evergreen installs, the reason each one stays, and the checks a new runtime dependency must pass.
 
 ## Extend Evergreen
 
