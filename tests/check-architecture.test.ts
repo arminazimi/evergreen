@@ -61,3 +61,17 @@ test("the repository matches its architecture baseline", () => {
   assert.equal(loadSources(process.cwd()).has("src/engine.ts"), true);
   assert.equal(main([]), 0);
 });
+
+test("domain, SDK, and core may not import the filesystem or network modules", () => {
+  const graph = buildGraph(
+    new Map([
+      ["src/engine.ts", 'import { readFile } from "node:fs/promises";'],
+      ["src/usage/walk.ts", 'import { get } from "node:https";'],
+      ["src/node-file-system.ts", 'import { readFile } from "node:fs/promises";'],
+    ]),
+  );
+  assert.deepEqual(findViolations(graph), [
+    "core-no-fs-or-network: src/engine.ts -> node:fs/promises",
+    "core-no-fs-or-network: src/usage/walk.ts -> node:https",
+  ]);
+});

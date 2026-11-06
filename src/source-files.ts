@@ -1,7 +1,8 @@
-import { readdir, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 
 import type { SourceLanguage } from "./domain.js";
+import type { ScanFileSystem } from "./file-system.js";
+import { nodeFileSystem } from "./node-file-system.js";
 import { childPosixPath } from "./paths.js";
 
 /** Directories that hold build output or a dependency checkout, never the repository's own source. */
@@ -78,14 +79,18 @@ export interface SourceFileWalk {
 }
 
 /** Every source file under `root` in a language the caller asked for, with repository-relative paths. */
-export async function sourceFiles(root: string, wanted: SourceFileWalk): Promise<SourceFile[]> {
+export async function sourceFiles(
+  root: string,
+  wanted: SourceFileWalk,
+  fileSystem: ScanFileSystem = nodeFileSystem,
+): Promise<SourceFile[]> {
   const files: SourceFile[] = [];
   // The repository-relative path is carried down the walk: `relative()` re-resolves both paths for
   // every entry, and on a tree of 100k files that costs more than the directory read itself.
   const descend = async (directory: string, prefix: string): Promise<boolean> => {
     let entries;
     try {
-      entries = await readdir(directory, { withFileTypes: true });
+      entries = await fileSystem.readDirectory(directory);
     } catch (error) {
       const code = (error as NodeJS.ErrnoException).code;
       if (code && skippedReadCodes.has(code)) return false;
@@ -104,7 +109,7 @@ export async function sourceFiles(root: string, wanted: SourceFileWalk): Promise
       const language = languageFor(entry.name);
       if (language === undefined || !wanted.include(language)) continue;
       const path = join(directory, entry.name);
-      if ((await stat(path)).size > maximumFileBytes) continue;
+      if ((await fileSystem.size(path)) > maximumFileBytes) continue;
       files.push({ absolutePath: path, path: childPosixPath(prefix, entry.name), language });
       if (wanted.stopAtFirst === true) return true;
     }
@@ -115,7 +120,15 @@ export async function sourceFiles(root: string, wanted: SourceFileWalk): Promise
 }
 
 /** True when the repository has at least one file in this language, using the same traversal as usage analysis. */
-export async function hasSourceFiles(root: string, language: SourceLanguage): Promise<boolean> {
-  const found = await sourceFiles(resolve(root), { include: (candidate) => candidate === language, stopAtFirst: true });
+export async function hasSourceFiles(
+  root: string,
+  language: SourceLanguage,
+  fileSystem: ScanFileSystem = nodeFileSystem,
+): Promise<boolean> {
+  const found = await sourceFiles(
+    resolve(root),
+    { include: (candidate) => candidate === language, stopAtFirst: true },
+    fileSystem,
+  );
   return found.length > 0;
 }
