@@ -1,4 +1,5 @@
 import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
+import type { YAMLMap } from "yaml";
 
 import { required } from "../../required.js";
 import { isKind, splitApiVersion } from "./api-version.js";
@@ -77,6 +78,71 @@ function scalarField(node: unknown, lines: LineCounter): { value: string; line: 
   return { value, line: lines.linePos(node.range[0]).line };
 }
 
+/** The top-level `kubeVersion` when it is a literal, with its line. */
+function readKubeVersions(chart: YAMLMap, lines: LineCounter): KubeVersionDeclaration[] {
+  const kube = scalarField(chart.get("kubeVersion", true), lines);
+  if (!kube || kube.value.includes("{{")) return [];
+  return [{ kind: "kubeVersion", value: kube.value, line: kube.line }];
+}
+
+/** The first dependency field that is a template action, which keeps the dependency unclassified. */
+function templatedField(
+  fields: Array<{ value: string; line: number } | undefined>,
+): { value: string; line: number } | undefined {
+  return fields.find((field) => field?.value.includes("{{"));
+}
+
+/** One dependency entry as a declaration, an unclassified reference, or nothing to report. */
+function readDependency(
+  item: YAMLMap,
+  lines: LineCounter,
+): ChartDependencyDeclaration | ChartUnclassifiedReference | undefined {
+  const name = scalarField(item.get("name", true), lines);
+  if (!name) return undefined;
+  const version = scalarField(item.get("version", true), lines);
+  const repository = scalarField(item.get("repository", true), lines);
+
+  const templated = templatedField([name, version, repository]);
+  if (templated) {
+    return {
+      value: templated.value,
+      line: templated.line,
+      reason: "the dependency field is a Helm template action, which Evergreen does not evaluate",
+    };
+  }
+  if (repository?.value.startsWith("@")) {
+    return { value: repository.value, line: repository.line, reason: "Helm repository aliases are not resolved" };
+  }
+  return {
+    kind: "dependency",
+    name: name.value,
+    version: version?.value,
+    repository: repository?.value,
+    line: name.line,
+  };
+}
+
+/** The bounded `dependencies` of a `Chart.yaml`, split into declarations and unclassified references. */
+function readDependencies(
+  chart: YAMLMap,
+  lines: LineCounter,
+): { dependencies: ChartDependencyDeclaration[]; unclassified: ChartUnclassifiedReference[] } {
+  const dependencies: ChartDependencyDeclaration[] = [];
+  const unclassified: ChartUnclassifiedReference[] = [];
+  const node = chart.get("dependencies", true);
+  if (!isSeq(node)) return { dependencies, unclassified };
+
+  for (const item of node.items) {
+    if (dependencies.length + unclassified.length >= MAXIMUM_DEPENDENCIES) break;
+    if (!isMap(item)) continue;
+    const entry = readDependency(item, lines);
+    if (!entry) continue;
+    if ("kind" in entry) dependencies.push(entry);
+    else unclassified.push(entry);
+  }
+  return { dependencies, unclassified };
+}
+
 /** Read the top-level `kubeVersion` and `dependencies` of a `Chart.yaml`. */
 export function parseChart(contents: string): ChartParseResult {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return EMPTY_CHART;
@@ -84,59 +150,9 @@ export function parseChart(contents: string): ChartParseResult {
   try {
     const lines = new LineCounter();
     const document = parseDocument(contents, { lineCounter: lines, merge: false });
-    if (document.errors.length > 0 || !isMap(document.contents)) return EMPTY_CHART;
-
-    const kubeVersions: KubeVersionDeclaration[] = [];
-    const kubeNode = document.contents.get("kubeVersion", true);
-    const kube = scalarField(kubeNode, lines);
-    if (kube && !kube.value.includes("{{")) {
-      kubeVersions.push({ kind: "kubeVersion", value: kube.value, line: kube.line });
-    }
-
-    const dependencies: ChartDependencyDeclaration[] = [];
-    const unclassified: ChartUnclassifiedReference[] = [];
-    const depsNode = document.contents.get("dependencies", true);
-    if (isSeq(depsNode)) {
-      for (const item of depsNode.items) {
-        if (dependencies.length + unclassified.length >= MAXIMUM_DEPENDENCIES) break;
-        if (!isMap(item)) continue;
-        const name = scalarField(item.get("name", true), lines);
-        if (!name) continue;
-        const version = scalarField(item.get("version", true), lines);
-        const repository = scalarField(item.get("repository", true), lines);
-
-        const templated =
-          (name.value.includes("{{") ? name : undefined) ??
-          (version?.value.includes("{{") ? version : undefined) ??
-          (repository?.value.includes("{{") ? repository : undefined);
-        if (templated) {
-          unclassified.push({
-            value: templated.value,
-            line: templated.line,
-            reason: "the dependency field is a Helm template action, which Evergreen does not evaluate",
-          });
-          continue;
-        }
-        if (repository?.value.startsWith("@")) {
-          unclassified.push({
-            value: repository.value,
-            line: repository.line,
-            reason: "Helm repository aliases are not resolved",
-          });
-          continue;
-        }
-
-        dependencies.push({
-          kind: "dependency",
-          name: name.value,
-          version: version?.value,
-          repository: repository?.value,
-          line: name.line,
-        });
-      }
-    }
-
-    return { kubeVersions, dependencies, unclassified };
+    const chart: unknown = document.contents;
+    if (document.errors.length > 0 || !isMap(chart)) return EMPTY_CHART;
+    return { kubeVersions: readKubeVersions(chart, lines), ...readDependencies(chart, lines) };
   } catch {
     return EMPTY_CHART;
   }
@@ -149,6 +165,61 @@ interface Action {
   text: string;
   /** Zero-based line where the action starts. */
   line: number;
+}
+
+/** Start of the action's text after `{{`; Helm honors a trim marker only before whitespace. */
+function actionStart(contents: string, open: number): number {
+  const cursor = open + 2;
+  return contents[cursor] === "-" && /\s/.test(contents[cursor + 1] ?? "") ? cursor + 2 : cursor;
+}
+
+function commentActionEnd(contents: string, cursor: number): number | undefined {
+  const close = contents.indexOf("*/", cursor);
+  if (close < 0) return undefined;
+  const tail = /^\s*(?:-\s*)?\}\}/.exec(contents.slice(close + 2));
+  return tail ? close + 2 + tail[0].length : undefined;
+}
+
+/** The index just past the `}}` that closes an expression, skipping quoted and raw strings. */
+function expressionActionEnd(contents: string, cursor: number): number | undefined {
+  let quote = "";
+  for (let position = cursor; position < contents.length; position++) {
+    const character = contents.charAt(position);
+    if (quote) {
+      if (character === "\\" && quote === '"') position++;
+      else if (character === quote) quote = "";
+    } else if (character === '"' || character === "`") {
+      quote = character;
+    } else if (character === "}" && contents[position + 1] === "}") {
+      return position + 2;
+    }
+  }
+  return undefined;
+}
+
+/** The index just past the action that starts at `open`, or undefined when it is unterminated. */
+function actionEnd(contents: string, open: number): number | undefined {
+  const cursor = actionStart(contents, open);
+  return contents.slice(cursor).trimStart().startsWith("/*")
+    ? commentActionEnd(contents, cursor)
+    : expressionActionEnd(contents, cursor);
+}
+
+interface MaskedAction {
+  /** Text between the delimiters, with trim markers removed. */
+  text: string;
+  comment: boolean;
+  end: number;
+  newlines: number;
+}
+
+/** One action's text and bounds; undefined when it is unterminated or over the limit. */
+function readMaskedAction(contents: string, open: number, taken: number): MaskedAction | undefined {
+  const end = actionEnd(contents, open);
+  if (end === undefined || taken >= MAXIMUM_ACTIONS) return undefined;
+  const raw = contents.slice(open, end);
+  const text = raw.replace(/^\{\{-?\s*/, "").replace(/\s*-?\}\}$/, "");
+  return { text, comment: text.startsWith("/*"), end, newlines: countNewlines(raw) };
 }
 
 /** Replace every `{{ ... }}` with a marker, keeping line count; undefined when one is unterminated. */
@@ -167,42 +238,12 @@ function maskActions(contents: string): { masked: string; actions: Action[] } | 
     masked += before;
     line += countNewlines(before);
 
-    let cursor = open + 2;
-    if (contents[cursor] === "-" && /\s/.test(contents[cursor + 1] ?? "")) cursor += 2;
-    let end = -1;
-    const afterTrim = contents.slice(cursor).trimStart();
-    if (afterTrim.startsWith("/*")) {
-      const close = contents.indexOf("*/", cursor);
-      if (close < 0) return undefined;
-      const tail = /^\s*(?:-\s*)?\}\}/.exec(contents.slice(close + 2));
-      if (!tail) return undefined;
-      end = close + 2 + tail[0].length;
-    } else {
-      let quote = "";
-      for (let position = cursor; position < contents.length; position++) {
-        const character = contents.charAt(position);
-        if (quote) {
-          if (character === "\\" && quote === '"') position++;
-          else if (character === quote) quote = "";
-        } else if (character === '"' || character === "`") {
-          quote = character;
-        } else if (character === "}" && contents[position + 1] === "}") {
-          end = position + 2;
-          break;
-        }
-      }
-      if (end < 0) return undefined;
-    }
-
-    const raw = contents.slice(open, end);
-    if (actions.length >= MAXIMUM_ACTIONS) return undefined;
-    const text = raw.replace(/^\{\{-?\s*/, "").replace(/\s*-?\}\}$/, "");
-    const comment = text.startsWith("/*");
-    if (!comment) actions.push({ text, line });
-    const newlines = countNewlines(raw);
-    masked += (comment ? "" : MARKER) + "\n".repeat(newlines);
-    line += newlines;
-    index = end;
+    const action = readMaskedAction(contents, open, actions.length);
+    if (!action) return undefined;
+    if (!action.comment) actions.push({ text: action.text, line });
+    masked += (action.comment ? "" : MARKER) + "\n".repeat(action.newlines);
+    line += action.newlines;
+    index = action.end;
   }
   return { masked, actions };
 }

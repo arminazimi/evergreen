@@ -41,6 +41,45 @@ interface Scanned {
   strings: Array<[number, number]>;
 }
 
+/** The end of a single- or double-quoted string literal at `index`, or undefined when it is unterminated. */
+function quotedEnd(source: string, index: number): number | undefined {
+  const quote = source.charAt(index);
+  let position = index + 1;
+  while (position < source.length && source[position] !== quote && source[position] !== "\n") {
+    position += source[position] === "\\" ? 2 : 1;
+  }
+  return source[position] === quote ? position + 1 : undefined;
+}
+
+type TokenKind = "plain" | "comment" | "string";
+
+interface Token {
+  kind: TokenKind;
+  end: number;
+}
+
+/** The token at `index`: plain code, a comment to blank, or a string literal to record. */
+function readToken(source: string, index: number): Token | undefined {
+  const rest = source.slice(index, index + 3);
+  if (rest.startsWith("//")) {
+    const end = source.indexOf("\n", index);
+    return { kind: "comment", end: end < 0 ? source.length : end };
+  }
+  if (rest.startsWith("/*")) {
+    const end = source.indexOf("*/", index + 2);
+    return end < 0 ? undefined : { kind: "comment", end: end + 2 };
+  }
+  if (rest === '"""' || rest === "'''") {
+    const end = source.indexOf(rest, index + 3);
+    return end < 0 ? undefined : { kind: "string", end: end + 3 };
+  }
+  if (source[index] === '"' || source[index] === "'") {
+    const end = quotedEnd(source, index);
+    return end === undefined ? undefined : { kind: "string", end };
+  }
+  return { kind: "plain", end: index + 1 };
+}
+
 /** Blank comments and record string literals; undefined when a comment or string is unterminated. */
 function scan(source: string): Scanned | undefined {
   const strings: Array<[number, number]> = [];
@@ -49,37 +88,13 @@ function scan(source: string): Scanned | undefined {
   const blank = (text: string) => text.replace(/[^\n]/g, " ");
 
   while (index < source.length) {
-    const rest = source.slice(index, index + 3);
-    if (rest.startsWith("//")) {
-      const end = source.indexOf("\n", index);
-      const stop = end < 0 ? source.length : end;
-      code += blank(source.slice(index, stop));
-      index = stop;
-    } else if (rest.startsWith("/*")) {
-      const end = source.indexOf("*/", index + 2);
-      if (end < 0) return undefined;
-      code += blank(source.slice(index, end + 2));
-      index = end + 2;
-    } else if (rest === '"""' || rest === "'''") {
-      const end = source.indexOf(rest, index + 3);
-      if (end < 0) return undefined;
-      strings.push([index, end + 3]);
-      code += source.slice(index, end + 3);
-      index = end + 3;
-    } else if (source[index] === '"' || source[index] === "'") {
-      const quote = source.charAt(index);
-      let position = index + 1;
-      while (position < source.length && source[position] !== quote && source[position] !== "\n") {
-        position += source[position] === "\\" ? 2 : 1;
-      }
-      if (source[position] !== quote) return undefined;
-      strings.push([index, position + 1]);
-      code += source.slice(index, position + 1);
-      index = position + 1;
-    } else {
-      code += source[index];
-      index++;
-    }
+    const token = readToken(source, index);
+    if (!token) return undefined;
+    const slice = source.slice(index, token.end);
+    if (token.kind === "comment") code += blank(slice);
+    else code += slice;
+    if (token.kind === "string") strings.push([index, token.end]);
+    index = token.end;
   }
   return { code, strings };
 }

@@ -1,5 +1,5 @@
 import { LineCounter, Scalar, isMap, isScalar, isSeq, parseDocument, visit } from "yaml";
-import type { YAMLMap } from "yaml";
+import type { Document, YAMLMap } from "yaml";
 
 import { isKind, splitApiVersion } from "./api-version.js";
 import { readApiDeclaration } from "./parse-manifest.js";
@@ -96,6 +96,54 @@ function readInlinePatch(node: unknown, lines: LineCounter): ApiDeclaration | un
   return { ...declaration, line: headerLine + declaration.line, kindLine: headerLine + declaration.kindLine };
 }
 
+/** Whether any value in the document is an alias, which this parser does not follow. */
+function hasAlias(document: Document): boolean {
+  let aliased = false;
+  visit(document, {
+    Alias() {
+      aliased = true;
+      return visit.BREAK;
+    },
+  });
+  return aliased;
+}
+
+/** A file that says it is some other kind of object is not a kustomization. */
+function isKustomization(root: YAMLMap): boolean {
+  const kind: unknown = root.get("kind");
+  return kind === undefined || kind === "Kustomization" || kind === "Component";
+}
+
+/** Local-path `resources` entries, in file order. */
+function readResources(root: YAMLMap, lines: LineCounter): ResourceReference[] {
+  const declarations: ResourceReference[] = [];
+  for (const item of entries(root, "resources")) {
+    if (!isScalar(item) || typeof item.value !== "string" || !item.range) continue;
+    const value = item.value.trim();
+    if (isLocalPath(value)) declarations.push({ kind: "resource", value, line: lines.linePos(item.range[0]).line });
+  }
+  return declarations;
+}
+
+/** The declarations named by `patches`, `patchesJson6902`, and `patchesStrategicMerge`, in file order. */
+function readPatches(root: YAMLMap, lines: LineCounter): ApiDeclaration[] {
+  const declarations: ApiDeclaration[] = [];
+  for (const key of ["patches", "patchesJson6902"]) {
+    for (const item of entries(root, key)) {
+      if (!isMap(item)) continue;
+      const target = readTarget(item.get("target", true), lines);
+      if (target) declarations.push(target);
+      const inline = readInlinePatch(item.get("patch", true), lines);
+      if (inline) declarations.push(inline);
+    }
+  }
+  for (const item of entries(root, "patchesStrategicMerge")) {
+    const inline = readInlinePatch(item, lines);
+    if (inline) declarations.push(inline);
+  }
+  return declarations;
+}
+
 /** Parse kustomization declarations without file, network, or process I/O. */
 export function parseKustomization(contents: string): KustomizeDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
@@ -103,46 +151,10 @@ export function parseKustomization(contents: string): KustomizeDeclaration[] {
   try {
     const lines = new LineCounter();
     const document = parseDocument(contents, { lineCounter: lines, merge: false });
-    if (document.errors.length > 0 || !isMap(document.contents)) return [];
-    const root = document.contents;
-
-    let aliased = false;
-    visit(document, {
-      Alias() {
-        aliased = true;
-        return visit.BREAK;
-      },
-    });
-    if (aliased) return [];
-
-    // A file that says it is some other kind of object is not a kustomization.
-    const kind: unknown = root.get("kind");
-    if (kind !== undefined && kind !== "Kustomization" && kind !== "Component") return [];
-
-    const declarations: KustomizeDeclaration[] = [];
-
-    for (const item of entries(root, "resources")) {
-      if (!isScalar(item) || typeof item.value !== "string" || !item.range) continue;
-      const value = item.value.trim();
-      if (isLocalPath(value)) declarations.push({ kind: "resource", value, line: lines.linePos(item.range[0]).line });
-    }
-
-    for (const key of ["patches", "patchesJson6902"]) {
-      for (const item of entries(root, key)) {
-        if (!isMap(item)) continue;
-        const target = readTarget(item.get("target", true), lines);
-        if (target) declarations.push(target);
-        const inline = readInlinePatch(item.get("patch", true), lines);
-        if (inline) declarations.push(inline);
-      }
-    }
-
-    for (const item of entries(root, "patchesStrategicMerge")) {
-      const inline = readInlinePatch(item, lines);
-      if (inline) declarations.push(inline);
-    }
-
-    return declarations.sort((left, right) => left.line - right.line);
+    const root: unknown = document.contents;
+    if (document.errors.length > 0 || !isMap(root)) return [];
+    if (hasAlias(document) || !isKustomization(root)) return [];
+    return [...readResources(root, lines), ...readPatches(root, lines)].sort((left, right) => left.line - right.line);
   } catch {
     return [];
   }

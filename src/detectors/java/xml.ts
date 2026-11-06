@@ -23,79 +23,120 @@ export interface XmlElement {
 
 const NAME = /^[A-Za-z_][A-Za-z0-9_.:-]*/;
 
+interface XmlState {
+  text: string;
+  index: number;
+  line: number;
+  elements: number;
+  stack: XmlElement[];
+  textStart: WeakMap<XmlElement, number>;
+}
+
+function advance(state: XmlState, to: number): void {
+  for (let position = state.index; position < to; position++) {
+    if (state.text.charCodeAt(position) === 10) state.line++;
+  }
+  state.index = to;
+}
+
+/** Add the text before the next tag to the open element; false when the document is unreadable. */
+function readText(state: XmlState, open: number): boolean {
+  const current = required(state.stack.at(-1), "the open element");
+  const chunk = state.text.slice(state.index, open < 0 ? state.text.length : open);
+  if (chunk.includes("&") || chunk.includes("\0")) return false;
+  if (chunk.trim() === "") return true;
+  if (state.stack.length === 1) return false;
+  if (!state.textStart.has(current)) {
+    state.textStart.set(current, state.line + countNewlines(chunk.slice(0, chunk.length - chunk.trimStart().length)));
+  }
+  current.text += chunk;
+  return true;
+}
+
+function readComment(state: XmlState): boolean {
+  const end = state.text.indexOf("-->", state.index + 4);
+  if (end < 0) return false;
+  advance(state, end + 3);
+  return true;
+}
+
+function readCdata(state: XmlState): boolean {
+  const end = state.text.indexOf("]]>", state.index + 9);
+  if (end < 0) return false;
+  const data = state.text.slice(state.index + 9, end);
+  if (data.trim() !== "") {
+    const current = required(state.stack.at(-1), "the open element");
+    if (state.stack.length === 1) return false;
+    if (!state.textStart.has(current)) state.textStart.set(current, state.line);
+    current.text += data;
+  }
+  advance(state, end + 3);
+  return true;
+}
+
+function readProcessingInstruction(state: XmlState): boolean {
+  const end = state.text.indexOf("?>", state.index + 2);
+  if (end < 0) return false;
+  advance(state, end + 2);
+  return true;
+}
+
+function readCloseTag(state: XmlState): boolean {
+  const end = state.text.indexOf(">", state.index);
+  if (end < 0) return false;
+  const name = state.text.slice(state.index + 2, end).trim();
+  const closing = required(state.stack.pop(), "the element to close");
+  if (state.stack.length === 0 || closing.name !== name) return false;
+  closing.text = closing.text.trim();
+  closing.line = state.textStart.get(closing) ?? closing.line;
+  advance(state, end + 1);
+  return true;
+}
+
+function readStartTag(state: XmlState): boolean {
+  const end = tagEnd(state.text, state.index + 1);
+  if (end < 0) return false;
+  const body = state.text.slice(state.index + 1, end);
+  const name = NAME.exec(body)?.[0];
+  if (!name) return false;
+  const selfClosing = body.endsWith("/");
+  if (++state.elements > MAXIMUM_ELEMENTS || state.stack.length > MAXIMUM_DEPTH) return false;
+  const element: XmlElement = { name, text: "", line: state.line, children: [] };
+  required(state.stack.at(-1), "the open element").children.push(element);
+  if (!selfClosing) state.stack.push(element);
+  advance(state, end + 1);
+  return true;
+}
+
+/** Read the markup that starts at the current index; false when the document is unreadable. */
+function readMarkup(state: XmlState): boolean {
+  if (state.text.startsWith("<!--", state.index)) return readComment(state);
+  if (state.text.startsWith("<![CDATA[", state.index)) return readCdata(state);
+  if (state.text.startsWith("<?", state.index)) return readProcessingInstruction(state);
+  if (state.text.startsWith("<!", state.index)) return false;
+  if (state.text.startsWith("</", state.index)) return readCloseTag(state);
+  return readStartTag(state);
+}
+
 export function parseXml(contents: string): XmlElement | undefined {
   const root: XmlElement = { name: "#document", text: "", line: 1, children: [] };
-  const stack: XmlElement[] = [root];
-  const textStart = new WeakMap<XmlElement, number>();
-  let line = 1;
-  let elements = 0;
-  let index = 0;
-  const text = contents.charCodeAt(0) === 0xfeff ? contents.slice(1) : contents;
-
-  const advance = (to: number): void => {
-    for (let position = index; position < to; position++) if (text.charCodeAt(position) === 10) line++;
-    index = to;
+  const state: XmlState = {
+    text: contents.charCodeAt(0) === 0xfeff ? contents.slice(1) : contents,
+    index: 0,
+    line: 1,
+    elements: 0,
+    stack: [root],
+    textStart: new WeakMap(),
   };
 
-  while (index < text.length) {
-    const open = text.indexOf("<", index);
-    const current = required(stack.at(-1), "the open element");
-    const chunk = text.slice(index, open < 0 ? text.length : open);
-    if (chunk.includes("&")) return undefined;
-    if (chunk.includes("\0")) return undefined;
-    if (chunk.trim() !== "") {
-      if (stack.length === 1) return undefined;
-      if (!textStart.has(current))
-        textStart.set(current, line + countNewlines(chunk.slice(0, chunk.length - chunk.trimStart().length)));
-      current.text += chunk;
-    }
+  while (state.index < state.text.length) {
+    const open = state.text.indexOf("<", state.index);
+    if (!readText(state, open)) return undefined;
     if (open < 0) break;
-    advance(open);
-
-    if (text.startsWith("<!--", index)) {
-      const end = text.indexOf("-->", index + 4);
-      if (end < 0) return undefined;
-      advance(end + 3);
-    } else if (text.startsWith("<![CDATA[", index)) {
-      const end = text.indexOf("]]>", index + 9);
-      if (end < 0) return undefined;
-      const data = text.slice(index + 9, end);
-      if (data.trim() !== "") {
-        if (stack.length === 1) return undefined;
-        if (!textStart.has(current)) textStart.set(current, line);
-        current.text += data;
-      }
-      advance(end + 3);
-    } else if (text.startsWith("<?", index)) {
-      const end = text.indexOf("?>", index + 2);
-      if (end < 0) return undefined;
-      advance(end + 2);
-    } else if (text.startsWith("<!", index)) {
-      return undefined;
-    } else if (text.startsWith("</", index)) {
-      const end = text.indexOf(">", index);
-      if (end < 0) return undefined;
-      const name = text.slice(index + 2, end).trim();
-      const closing = required(stack.pop(), "the element to close");
-      if (stack.length === 0 || closing.name !== name) return undefined;
-      closing.text = closing.text.trim();
-      closing.line = textStart.get(closing) ?? closing.line;
-      advance(end + 1);
-    } else {
-      const end = tagEnd(text, index + 1);
-      if (end < 0) return undefined;
-      const body = text.slice(index + 1, end);
-      const name = NAME.exec(body)?.[0];
-      if (!name) return undefined;
-      const selfClosing = body.endsWith("/");
-      if (++elements > MAXIMUM_ELEMENTS || stack.length > MAXIMUM_DEPTH) return undefined;
-      const element: XmlElement = { name, text: "", line, children: [] };
-      current.children.push(element);
-      if (!selfClosing) stack.push(element);
-      advance(end + 1);
-    }
+    advance(state, open);
+    if (!readMarkup(state)) return undefined;
   }
-  return stack.length === 1 && root.children.length === 1 ? root.children[0] : undefined;
+  return state.stack.length === 1 && root.children.length === 1 ? root.children[0] : undefined;
 }
 
 /** Index of the `>` that closes a start tag, skipping quoted attribute values. */

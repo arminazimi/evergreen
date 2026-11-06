@@ -124,33 +124,9 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/java/xml.ts",
-      "function": "parseXml",
-      "lines": 74,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/detectors/kubernetes/index.ts",
       "function": "declarations",
       "lines": 51,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/kubernetes/parse-helm.ts",
-      "function": "maskActions",
-      "lines": 54,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/kubernetes/parse-helm.ts",
-      "function": "parseChart",
-      "lines": 63,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -357,62 +333,6 @@
     }
   ],
   "complexity": [
-    {
-      "file": "src/detectors/java/parse-gradle.ts",
-      "function": "scan",
-      "complexity": 16,
-      "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/java/xml.ts",
-      "function": "parseXml",
-      "complexity": 32,
-      "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/kubernetes/index.ts",
-      "function": "candidateFiles > walk",
-      "complexity": 18,
-      "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/kubernetes/index.ts",
-      "function": "KubernetesDetector.analyze",
-      "complexity": 17,
-      "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/kubernetes/parse-helm.ts",
-      "function": "maskActions",
-      "complexity": 22,
-      "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/kubernetes/parse-helm.ts",
-      "function": "parseChart",
-      "complexity": 19,
-      "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/kubernetes/parse-kustomize.ts",
-      "function": "parseKustomization",
-      "complexity": 21,
-      "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
     {
       "file": "src/engine.ts",
       "function": "scanRepository",

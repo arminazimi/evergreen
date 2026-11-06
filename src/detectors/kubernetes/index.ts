@@ -1,3 +1,4 @@
+import type { Dirent } from "node:fs";
 import { readFile, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -93,6 +94,25 @@ interface Candidate {
   kind: FileKind;
 }
 
+/** The candidate a file entry is, or undefined when the walk does not read it. */
+function fileCandidate(directory: string, entry: Dirent, isChart: boolean): Candidate | undefined {
+  if (isChart && entry.name === "Chart.lock") return undefined;
+  if (isChart && entry.name === CHART_FILE) return { file: join(directory, entry.name), kind: "chart" };
+  if (KUSTOMIZATION_FILE.test(entry.name)) return { file: join(directory, entry.name), kind: "kustomization" };
+  if (YAML_FILE.test(entry.name)) return { file: join(directory, entry.name), kind: "manifest" };
+  return undefined;
+}
+
+type DirectoryAction = { kind: "skip" } | { kind: "templates"; path: string } | { kind: "walk"; path: string };
+
+/** What the walk does with a directory entry: skip it, read only its templates, or recurse into it. */
+function directoryAction(directory: string, entry: Dirent, isChart: boolean): DirectoryAction {
+  if (SKIPPED_DIRECTORIES.has(entry.name)) return { kind: "skip" };
+  if (isChart && entry.name === "charts") return { kind: "skip" };
+  const path = join(directory, entry.name);
+  return isChart && entry.name === "templates" ? { kind: "templates", path } : { kind: "walk", path };
+}
+
 /** Find candidate files; a chart's `templates/` are Helm templates and its nested `charts/` are skipped. */
 async function candidateFiles(root: string): Promise<Candidate[]> {
   const files: Candidate[] = [];
@@ -113,21 +133,15 @@ async function candidateFiles(root: string): Promise<Candidate[]> {
 
     for (const entry of entries) {
       if (entry.isSymbolicLink()) continue;
-      const path = join(directory, entry.name);
       if (entry.isDirectory()) {
-        if (SKIPPED_DIRECTORIES.has(entry.name)) continue;
-        if (isChart && entry.name === "charts") continue;
-        if (isChart && entry.name === "templates") await templates(path, depth + 1);
-        else await walk(path, depth + 1);
-      } else if (entry.isFile()) {
-        if (isChart && entry.name === "Chart.lock") continue;
-        if (isChart && entry.name === CHART_FILE) {
-          files.push({ file: path, kind: "chart" });
-          continue;
-        }
-        if (KUSTOMIZATION_FILE.test(entry.name)) files.push({ file: path, kind: "kustomization" });
-        else if (YAML_FILE.test(entry.name)) files.push({ file: path, kind: "manifest" });
+        const action = directoryAction(directory, entry, isChart);
+        if (action.kind === "templates") await templates(action.path, depth + 1);
+        else if (action.kind === "walk") await walk(action.path, depth + 1);
+        continue;
       }
+      if (!entry.isFile()) continue;
+      const candidate = fileCandidate(directory, entry, isChart);
+      if (candidate) files.push(candidate);
     }
   }
 
@@ -236,6 +250,57 @@ function report(findings: DetectorFinding[], rule: RegistryV2Rule, path: string,
   });
 }
 
+/** Findings for literal API declarations, in the order the files were read. */
+function apiFindings(apis: readonly Located[], rules: ReadonlyMap<string, RegistryV2Rule[]>): DetectorFinding[] {
+  const findings: DetectorFinding[] = [];
+  for (const { path, declaration } of apis) {
+    // The core group (no slash) has no removed kinds in the migration guide.
+    if (declaration.group === "") continue;
+    const candidates = rules.get(`${PURL_PREFIX}${declaration.group}/${declaration.resource}`);
+    const version = ruleVersion(declaration.version);
+    if (!candidates || !version) continue;
+
+    const rule = candidates.find((item) => versContains(item.vers, version));
+    if (!rule) continue;
+    report(
+      findings,
+      rule,
+      path,
+      declaration.line,
+      `${path} declares ${declaration.value} ${declaration.resource}. ${rule.summary}`,
+    );
+  }
+  return findings;
+}
+
+/** Findings for chart dependencies whose repository is a retired one. */
+function dependencyFindings(
+  dependencies: readonly LocatedDependency[],
+  rules: ReadonlyMap<string, RegistryV2Rule[]>,
+): DetectorFinding[] {
+  const findings: DetectorFinding[] = [];
+  for (const { path, dependency } of dependencies) {
+    if (!dependency.repository) continue;
+    const purl = helmRepositoryPurl(dependency.repository);
+    if (!purl) continue;
+    const candidates = rules.get(purl) ?? [];
+    const pinned = dependency.version;
+    const rule = pinned
+      ? (candidates.find((item) => versContains(item.vers, pinned)) ?? candidates.find(coversEveryVersion))
+      : candidates.find(coversEveryVersion);
+    if (!rule) continue;
+    const named = dependency.version ? `${dependency.name} ${dependency.version}` : dependency.name;
+    report(
+      findings,
+      rule,
+      path,
+      dependency.line,
+      `${path} depends on ${named} from ${dependency.repository}. ${rule.summary}`,
+    );
+  }
+  return findings;
+}
+
 export class KubernetesDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "kubernetes";
@@ -254,47 +319,7 @@ export class KubernetesDetector implements Detector {
 
     const registry = validateRegistryV2(await loadDataFile("registry/kubernetes.json"));
     const rules = rulesByPurl(registry.rules);
-    const findings: DetectorFinding[] = [];
-
-    for (const { path, declaration } of apis) {
-      // The core group (no slash) has no removed kinds in the migration guide.
-      if (declaration.group === "") continue;
-      const candidates = rules.get(`${PURL_PREFIX}${declaration.group}/${declaration.resource}`);
-      const version = ruleVersion(declaration.version);
-      if (!candidates || !version) continue;
-
-      const rule = candidates.find((item) => versContains(item.vers, version));
-      if (!rule) continue;
-      report(
-        findings,
-        rule,
-        path,
-        declaration.line,
-        `${path} declares ${declaration.value} ${declaration.resource}. ${rule.summary}`,
-      );
-    }
-
-    for (const { path, dependency } of dependencies) {
-      if (!dependency.repository) continue;
-      const purl = helmRepositoryPurl(dependency.repository);
-      if (!purl) continue;
-      const candidates = rules.get(purl) ?? [];
-      const pinned = dependency.version;
-      const rule = pinned
-        ? (candidates.find((item) => versContains(item.vers, pinned)) ?? candidates.find(coversEveryVersion))
-        : candidates.find(coversEveryVersion);
-      if (!rule) continue;
-      const named = dependency.version ? `${dependency.name} ${dependency.version}` : dependency.name;
-      report(
-        findings,
-        rule,
-        path,
-        dependency.line,
-        `${path} depends on ${named} from ${dependency.repository}. ${rule.summary}`,
-      );
-    }
-
-    return { findings, unclassified };
+    return { findings: [...apiFindings(apis, rules), ...dependencyFindings(dependencies, rules)], unclassified };
   }
 }
 
