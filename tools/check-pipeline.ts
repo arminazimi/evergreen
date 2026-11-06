@@ -450,6 +450,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
       },
       { id: "lint", run: () => run(process.execPath, lintArgs(eslintCli)) },
       { id: "check:quality", run: () => run(process.execPath, ["dist/tools/check-quality.js"]) },
+      { id: "check:binaries", run: () => run(process.execPath, ["dist/tools/check-binary-artifacts.js"]) },
       { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },
       { id: "check:workflows", run: () => run(process.execPath, ["dist/tools/check-workflow-change.js"]) },
       ...evals.map((evalStep) => ({
