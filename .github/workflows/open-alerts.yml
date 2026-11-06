@@ -11,7 +11,9 @@ name: Open alerts
 # - Dismissed or fixed alerts: the requests ask for state=open only, so they never count.
 # - Secret scanning and private vulnerability reports: this gate reads neither.
 # - Alerts from a fork's own code scanning or Dependabot settings: they belong to the fork.
-# - Alerts in a repository other than this one: the token is scoped to this repository.
+# - Alerts in a repository other than this one: the tokens are scoped to this repository.
+# - Dependabot alerts when the ALERTS_READ_TOKEN secret is missing, expired or revoked: the read
+#   fails and the run goes red. Renew the token before it expires.
 #
 # It is not a pull request gate. Fork pull requests get a read-only token without security-events
 # access, and a pull request cannot make a new alert appear on main before it merges.
@@ -57,6 +59,10 @@ jobs:
             | jq -s 'add // []' > "$RUNNER_TEMP/code-scanning.json"
 
       - name: Read open Dependabot alerts
+        # The workflow token cannot read Dependabot alerts (HTTP 403), so this step uses a
+        # fine-grained token limited to this repository with "Dependabot alerts: Read-only".
+        env:
+          GH_TOKEN: ${{ secrets.ALERTS_READ_TOKEN }}
         run: |
           set -euo pipefail
           gh api --paginate "repos/$REPOSITORY/dependabot/alerts?state=open&per_page=100" \
