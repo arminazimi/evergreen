@@ -190,6 +190,12 @@ node dist/benchmarks/perf-budget.js --simulate-slowdown-ms 3000 --check
 
 The unit tests cover the same path with a smaller simulated slowdown, so a gate that stopped tripping would fail `npm run check`.
 
+## CLI start-up budget
+
+`evergreen --version` must answer without loading the command table. `src/cli.ts` handles the bare version flag itself (help still wins, as in `cli-main`), because importing `cli-main` pulls in every detector. Before the fast path the call took about 940 ms on the development machine; it now takes about 22 ms. Run `npm run benchmark:startup` to reproduce it: `benchmarks/startup.ts` spawns the built CLI with `--version`, discards one warm-up run, and reports the median wall-clock time of seven runs.
+
+The `perf-budget` CI job fails when the median exceeds 400 ms (`STARTUP_BUDGET` in `benchmarks/startup.ts`), roughly an order of magnitude above the reference so that runner noise never trips it. Raise it only in the commit that intentionally regresses start-up, with the reason, and update this paragraph.
+
 ## Large-monorepo performance
 
 Run `npm run benchmark:monorepo` to time an in-process scan of a synthetic ~100k-file npm workspaces monorepo. The adoption goal is that a repository of that size finishes under 5 seconds mean wall time with caches disabled.

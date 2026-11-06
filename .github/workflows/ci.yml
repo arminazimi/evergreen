@@ -505,6 +505,8 @@ jobs:
           path: dist
       - name: Enforce the scan performance budget
         run: node dist/benchmarks/perf-budget.js --check
+      - name: Enforce the CLI start-up budget
+        run: node dist/benchmarks/startup.js --check
 
   coverage-badge:
     if: github.event_name == 'push'
