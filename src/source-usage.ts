@@ -340,11 +340,16 @@ export interface SourceUsageOptions {
   skips?: string[];
 }
 
-/** The contracts found so far, with the usages of each one deduplicated by position and symbol. */
+/**
+ * The contracts found so far, with the usages of each one deduplicated by position and symbol.
+ * A usage's key includes its file, so duplicates can only arise inside one file: `startFile` drops the
+ * keys of the previous file, which keeps the dedupe state the size of one file instead of the repository.
+ */
 interface UsageResults {
   readonly results: Map<string, SourceUsage[]>;
   readonly seen: Map<string, Set<string>>;
   readonly push: (contractId: string, usage: SourceUsage) => void;
+  readonly startFile: () => void;
 }
 
 function openUsageResults(contracts: readonly SourceUsageContract[]): UsageResults {
@@ -357,7 +362,10 @@ function openUsageResults(contracts: readonly SourceUsageContract[]): UsageResul
     contractSeen.add(key);
     requiredAt(results, contractId).push(usage);
   };
-  return { results, seen, push };
+  const startFile = (): void => {
+    for (const keys of seen.values()) keys.clear();
+  };
+  return { results, seen, push, startFile };
 }
 
 /** The module names one language's files bind, read from its lines and the mask of those lines. */
@@ -665,6 +673,7 @@ function openFileScan(file: SourceFile, lines: readonly string[], push: (contrac
 async function scanSourceFile(file: SourceFile, contracts: readonly SourceUsageContract[], options: SourceUsageOptions, usage: UsageResults): Promise<void> {
   if ((file.language === "ruby" || file.language === "php") && checkoutSourceIgnored(file.path)) return;
   const contents = await readFile(file.absolutePath, "utf8");
+  usage.startFile();
   // JavaScript, TypeScript, and Python import and call usages come from the parser when it can read the file;
   // otherwise (too large, over budget, or the runtime cannot load) the regex scanner below handles them.
   const parsed = options.parser === false ? undefined : await parsedUsages(file, contents, contracts);
