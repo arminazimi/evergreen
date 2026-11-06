@@ -165,25 +165,49 @@ test("--list-targets prints the table and the measurement it came from", () => {
   assert.deepEqual(listed.targets, tool.RECORDED_TARGETS);
 });
 
-test("scorecard.yml runs the floor gate over a JSON analysis of the pinned action", () => {
+test("scorecard.yml keeps its Scorecard job to actions and runs the floor gate separately", () => {
+  type Step = { name?: string; uses?: string; run?: string; with?: Record<string, unknown> };
   const workflow = parse(readFileSync(workflowPath, "utf8")) as {
     jobs: {
-      analysis: {
-        "timeout-minutes": number;
-        steps: { name?: string; uses?: string; run?: string; with?: Record<string, unknown> }[];
-      };
+      analysis: { "timeout-minutes": number; steps: Step[] };
+      floor?: { needs?: string; steps: Step[] };
     };
   };
   const steps = workflow.jobs.analysis.steps;
-  const isScorecard = (step: (typeof steps)[number]) => step.uses?.startsWith("ossf/scorecard-action@");
+  const isScorecard = (step: Step) => step.uses?.startsWith("ossf/scorecard-action@");
   const sarifIndex = steps.findIndex((step) => isScorecard(step) && step.with?.["results_format"] === "sarif");
   const jsonIndex = steps.findIndex((step) => isScorecard(step) && step.with?.["results_format"] === "json");
-  const gateIndex = steps.findIndex((step) => step.run === "node tools/scorecard-floor.mjs results.json");
   assert.ok(sarifIndex >= 0, "the SARIF analysis is missing from scorecard.yml");
   assert.ok(jsonIndex > sarifIndex, "the JSON analysis is missing from scorecard.yml");
-  assert.ok(gateIndex > jsonIndex, "the floor gate must run after the JSON analysis");
   const jsonStep = steps[jsonIndex];
   assert.equal(jsonStep?.with?.["results_file"], "results.json");
   assert.equal(jsonStep?.with?.["publish_results"], false);
   assert.equal(workflow.jobs.analysis["timeout-minutes"], 20);
+
+  // The Scorecard webapp rejects a result when the job that runs ossf/scorecard-action has a
+  // `run:` step, so this job must only use actions.
+  assert.ok(
+    steps.every((step) => step.uses),
+    "every step in the Scorecard job must use an action",
+  );
+  assert.ok(
+    steps.some(
+      (step) => step.uses?.startsWith("actions/upload-artifact@") && step.with?.["name"] === "scorecard-results-json",
+    ),
+    "the Scorecard job must upload results.json for the floor gate",
+  );
+
+  const floor = workflow.jobs.floor;
+  assert.ok(floor, "the floor job is missing from scorecard.yml");
+  assert.equal(floor.needs, "analysis");
+  assert.ok(
+    floor.steps.some(
+      (step) => step.uses?.startsWith("actions/download-artifact@") && step.with?.["name"] === "scorecard-results-json",
+    ),
+    "the floor job must download results.json",
+  );
+  assert.ok(
+    floor.steps.some((step) => step.run === "node tools/scorecard-floor.mjs results.json"),
+    "the floor job must run the gate over results.json",
+  );
 });
