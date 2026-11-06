@@ -25,9 +25,7 @@ function memoryFileSystem(files: Record<string, string>): ScanFileSystem {
         const slash = rest.indexOf(sep);
         children.set(slash === -1 ? rest : rest.slice(0, slash), slash !== -1);
       }
-      return Promise.resolve(
-        [...children].map(([name, directory]) => entry(name, directory)),
-      );
+      return Promise.resolve([...children].map(([name, directory]) => entry(name, directory)));
     },
     readBytes: () => Promise.resolve(unsupported()),
     readText: (path) => Promise.resolve(files[path] ?? ""),
@@ -49,13 +47,6 @@ test("sourceFiles walks an injected file system without touching the disk", asyn
     [join(root, "lib", "util.py")]: "x = 1\n",
     [join(root, "notes.txt")]: "hello",
   });
-  const found = await sourceFiles(
-    root,
-    { include: (language) => language === "python" },
-    fileSystem,
-  );
-  assert.deepEqual(found.map((file) => file.absolutePath).sort(), [
-    join(root, "app.py"),
-    join(root, "lib", "util.py"),
-  ]);
+  const found = await sourceFiles(root, { include: (language) => language === "python" }, fileSystem);
+  assert.deepEqual(found.map((file) => file.absolutePath).sort(), [join(root, "app.py"), join(root, "lib", "util.py")]);
 });
