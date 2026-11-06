@@ -9,6 +9,10 @@ Short, copy-pasteable ways to show what Evergreen found. Every command runs loca
 ## Live countdown
 
 ```bash
+# From a clone of Evergreen:
+npm ci
+npm run build
+demo="$(node dist/tools/examples.js demo)"
 npm run --silent example -- gallery countdown --as-of 2026-10-25
 ```
 
@@ -31,7 +35,7 @@ Under 80 terminal columns the mark is dropped and the facts keep the full width.
 ## Mermaid support windows
 
 ```bash
-npx evergreen-deprecation scan --format mermaid --as-of 2026-10-30 examples/demo
+npx evergreen-deprecation scan --format mermaid --as-of 2026-10-30 "$demo"
 ```
 
 Prints a fenced `mermaid` block containing a Gantt chart: one section per ecosystem and one bar per subject from the day the scan observed it to its deadline. A subject that has already ended is a `crit` milestone at its deadline; one that ends within 30 days is a `crit` bar. A `today` milestone follows `--as-of`. Paste the whole block into a README, an issue, or a pull request comment and GitHub renders the chart without an image file.
@@ -63,7 +67,7 @@ gantt
 The same chart is available for the look-ahead window:
 
 ```bash
-npx evergreen-deprecation forecast --format mermaid --as-of 2026-10-30 examples/demo
+npx evergreen-deprecation forecast --format mermaid --as-of 2026-10-30 "$demo"
 ```
 
 `forecast --format mermaid` draws one bar per dated event in the forecast window, grouped by ecosystem, instead of only the findings in this repository.

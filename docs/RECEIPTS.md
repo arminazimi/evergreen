@@ -21,8 +21,8 @@ Work on a copy of the demo so the repository tree stays unchanged. Scan first, s
 ```bash
 npm ci
 npm run build
-cp -R examples/demo /tmp/evergreen-demo-receipt
-node dist/src/cli.js scan /tmp/evergreen-demo-receipt --json > /tmp/evergreen-demo-before.json
+demo="$(node dist/tools/examples.js demo)"
+node dist/src/cli.js scan "$demo" --json > /tmp/evergreen-demo-before.json
 ```
 
 In the copy, clear the `request` dependency and replace its usage:
@@ -47,7 +47,7 @@ export function fetchStatus(url) {
 Write those contents to `package.json` and `src/client.js`, then:
 
 ```bash
-node dist/src/cli.js receipt /tmp/evergreen-demo-receipt --before /tmp/evergreen-demo-before.json
+node dist/src/cli.js receipt "$demo" --before /tmp/evergreen-demo-before.json
 ```
 
 That produces the Markdown below. Add `--format json` for the structured document.
@@ -92,7 +92,7 @@ npm run build --if-present  # Verify imports, types, and the build remain valid.
 npm run test --if-present  # Run HTTP behavior and repository tests when defined.
 ```
 
-Reproduce with: `evergreen receipt /tmp/evergreen-demo-receipt --before /tmp/evergreen-demo-before.json`
+Reproduce with: `evergreen receipt "$demo" --before /tmp/evergreen-demo-before.json`
 ````
 
 ## What each section means

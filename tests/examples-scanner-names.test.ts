@@ -8,7 +8,14 @@ import { scannerRecognizesFixtureName } from "../src/fixture-names.js";
 // Decision 0027: a file whose name a dependency scanner recognizes is committed under a neutral name and
 // restored in a temporary copy at run time. `tools/examples.ts` performs that copy for these directories.
 
-const ROOTS = ["examples/gallery", "examples/drift", "examples/codemods", "examples/upgrade"];
+const ROOTS = [
+  "examples/demo",
+  "plugins/codex/review-fixtures/demo",
+  "examples/gallery",
+  "examples/drift",
+  "examples/codemods",
+  "examples/upgrade",
+];
 
 test("no example commits a file a dependency scanner reads by name", async () => {
   const committed: string[] = [];

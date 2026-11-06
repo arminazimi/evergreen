@@ -4,14 +4,15 @@ title: 90-second demo
 
 # 90-second demo
 
-This repository includes a deliberately outdated project at `examples/demo`. It declares an unsupported Node.js range, uses the deprecated `request` package, and runs an old checkout action.
+This repository includes a deliberately outdated project at `examples/demo`. Its manifest is stored as `package.json.fixture`; the example helper restores the real name in a temporary copy. It declares an unsupported Node.js range, uses the deprecated `request` package, and runs an old checkout action.
 
 ```bash
 git clone https://github.com/arminazimi/evergreen.git
 cd evergreen
 npm ci
 npm run build
-node dist/src/cli.js scan examples/demo
+demo="$(node dist/tools/examples.js demo)"
+node dist/src/cli.js scan "$demo"
 ```
 
 Evergreen reports four evidence-backed lifecycle findings: Node.js 18 and 20, `request`, and `actions/checkout@v4`. Each result includes the exact declaration, severity, replacement, and authoritative sources.
@@ -19,8 +20,8 @@ Evergreen reports four evidence-backed lifecycle findings: Node.js 18 and 20, `r
 Pick the `request` finding ID from the scan and inspect it:
 
 ```bash
-node dist/src/cli.js explain '<finding-id>' examples/demo
-node dist/src/cli.js context '<finding-id>' examples/demo --json
+node dist/src/cli.js explain '<finding-id>' "$demo"
+node dist/src/cli.js context '<finding-id>' "$demo" --json
 ```
 
 The context packet identifies `package.json` and `src/client.js`, preserves HTTP behavior as a migration constraint, proposes ordered changes, and suggests checks. Evergreen does not modify files or execute suggested commands.

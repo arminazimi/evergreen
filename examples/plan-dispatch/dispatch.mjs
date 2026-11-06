@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Turns an `evergreen plan --json` document into one printed worktree command per task.
 //
-//   node dist/src/cli.js plan examples/demo --json | node examples/plan-dispatch/dispatch.mjs
+//   npm run --silent example -- demo plan --json | node examples/plan-dispatch/dispatch.mjs
 //
 // It prints only. It never runs git, never starts an agent, and never opens the network.
 // A host that wants parallel sessions creates each worktree itself and runs the migrate-finding

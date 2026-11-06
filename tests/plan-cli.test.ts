@@ -9,7 +9,15 @@ import type { Plan } from "../src/plan.js";
 import { EMPTY_PLAN_MESSAGE } from "../src/plan-render.js";
 import { runCli } from "./cli-runner.js";
 
-const demo = resolve("examples/demo");
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const demoRoots: string[] = [];
+const demoFixture = await copyFixtureTree(resolve("examples/demo"), demoRoots);
+after(async () => {
+  await Promise.all(demoRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
+const demo = demoFixture;
 const temporaryRoots: string[] = [];
 
 after(async () => {

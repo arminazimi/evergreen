@@ -12,6 +12,14 @@ import { builtInDetectors } from "../src/detectors/index.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
 import type { Detector } from "../src/sdk.js";
 
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const demoRoots: string[] = [];
+const demoFixture = await copyFixtureTree(resolve("examples/demo"), demoRoots);
+after(async () => {
+  await Promise.all(demoRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -146,7 +154,7 @@ test("a detector that declares nothing, or only declared files, passes", async (
 });
 
 async function scanRoots(): Promise<string[]> {
-  const roots = [resolve("examples/demo")];
+  const roots = [demoFixture];
   for (const entry of await readdir("tests/fixtures", { withFileTypes: true })) {
     if (entry.isDirectory()) roots.push(resolve("tests/fixtures", entry.name));
   }
