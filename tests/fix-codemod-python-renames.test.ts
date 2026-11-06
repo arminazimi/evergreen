@@ -230,3 +230,53 @@ test("plan refuses a Python file with a syntax error", async () => {
   assert.deepEqual(patches, []);
   assert.ok(reasons.some((reason) => reason.includes("syntax errors")));
 });
+
+test("refuses a unittest alias Python 3.12 left without a replacement", async () => {
+  const { patches, refusals } = await plan({
+    "app.py": await readFile(join(fixtures, "refusals", "assert-dict-contains-subset.py"), "utf8"),
+  });
+
+  assert.deepEqual(patches, []);
+  assert.equal(refusals.length, 1);
+  assert.match(refusals[0]!.reason, /no replacement/);
+});
+
+test("refuses a finding whose usage has no line and column to rewrite", async () => {
+  const root = await repository({
+    "app.py": "import configparser\n\nparser = configparser.SafeConfigParser()\n",
+  });
+  const location = { path: "app.py" };
+  const result: ScanResult = {
+    schemaVersion: "evergreen.scan.v1",
+    root,
+    scannedAt: "2026-10-31T00:00:00.000Z",
+    findings: [
+      {
+        id: "python.symbol.configparser.safeconfigparser:app.py",
+        ruleId: "python.symbol.configparser.safeconfigparser",
+        detector: "python",
+        title: "Configparser.SafeConfigParser has been removed",
+        summary: "",
+        severity: "high",
+        confidence: "exact",
+        location,
+        sources: [],
+        usages: [
+          {
+            kind: "symbol",
+            language: "python",
+            symbol: "configparser.SafeConfigParser",
+            location,
+            excerpt: "",
+          },
+        ],
+      },
+    ],
+    diagnostics: [],
+  };
+
+  const reasons: string[] = [];
+  const patches = await pythonRenamesFixer.plan(result, (_finding, reason) => reasons.push(reason));
+  assert.deepEqual(patches, []);
+  assert.ok(reasons.some((reason) => reason.includes("no line and column")));
+});
