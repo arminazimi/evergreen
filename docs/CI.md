@@ -160,12 +160,12 @@ covered. That transitional cost is accepted; removing it is #2030's job after #2
 | Source freshness | `sources.yml` | Weekly |
 | Lifecycle importers | `importers.yml` | Weekly |
 | Scorecard + floor | `scorecard.yml`, `scorecard-floor.yml` | Weekly |
-| CodeQL | `codeql.yml` | Weekly |
+| CodeQL (scheduled scan) | `codeql.yml` | Weekly (also runs on every PR and main push) |
 | Open alerts gate | `open-alerts.yml` | Push to main + daily |
 | MCP listings | `mcp-listings.yml` | Weekly |
 | Label sync | `labels.yml` | Weekly + path pushes |
 
-These must not be required status checks. A red nightly run opens follow-up work; it does not block
+The scheduled runs must not be required status checks. A red nightly run opens follow-up work; it does not block
 a green queue. Affected, full, and record corpus runs live in one file (`corpus.yml`) with a
 `mode` input for `workflow_dispatch`.
 
@@ -556,7 +556,7 @@ hand, and do not re-run the failing `main` commit hoping for green; fix forward 
 ### Nightly and scheduled signal, not a gate
 
 Red `corpus.yml` (affected, full, or record), `mutation.yml`, `sources.yml`, `importers.yml`,
-`scorecard.yml`, CodeQL, or MCP-listing runs **never block a green queue** — see the Nightly lane
+`scorecard.yml`, scheduled CodeQL, or MCP-listing runs **never block a green queue** — see the Nightly lane
 and [What this design deliberately leaves out](#what-this-design-deliberately-leaves-out-of-the-merge-gate).
 The affected-corpus job was the second-heaviest failure source in the 30-day window above; it needs
 the network, so its red is signal rather than a merge blocker, and what it means (upstream flakiness
@@ -619,7 +619,7 @@ just because a later task will fold it.
 | `importers.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Draft lifecycle rules from authoritative sources; open one PR per importer |
 | `scorecard.yml` | Nightly | Weekly schedule; `branch_protection_rule`; `workflow_dispatch` | OpenSSF Scorecard publish + SARIF upload |
 | `scorecard-floor.yml` | Nightly | Weekly schedule (after Scorecard); `workflow_dispatch` | Alert when the published Scorecard score is below the QUALITY.md floor |
-| `codeql.yml` | Nightly | Weekly schedule; `workflow_dispatch` | CodeQL analysis of `main` |
+| `codeql.yml` | Pull request / main / nightly | Every `pull_request`; `push` to `main`; weekly schedule; `workflow_dispatch` | CodeQL analysis of every proposed change and `main` |
 | `open-alerts.yml` | Push to main | Push to `main`; daily schedule; `workflow_dispatch` | Fail on any open code-scanning or Dependabot alert on `main` that `tools/open-alerts-baseline.json` does not accept |
 | `mcp-listings.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Compare tracked MCP directory listings to `server.json` |
 | `publish.yml` | Release | `workflow_call` from `release.yml` | npm trusted publish with provenance, package smoke, MCP Registry |
