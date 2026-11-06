@@ -215,6 +215,21 @@ test("a missing, empty, or placeholder note is reported", () => {
   ]);
 });
 
+test("removing comments cannot assemble delimiters or required labels", () => {
+  const note = parseWorkflowChangeNote(
+    "## Workflow changes\n- Reason: before<!<!-- hidden -->-- after\n- Budget effect: 0",
+  );
+  assert.equal(note.reason, "before<! -- after");
+  const split = checkWorkflowNote("## Workflow changes\n- Rea<!-- hidden -->son: fabricated\n- Budget effect: 0", 0);
+  assert.equal(split.note.reason, undefined);
+  assert.match(split.problems[0] ?? "", /state why/);
+  const ordinary = checkWorkflowNote(
+    "## Workflow changes\n<!-- one --><!-- two -->\n- Reason: keep the ordinary note\n- Budget effect: 0",
+    0,
+  );
+  assert.deepEqual(ordinary.problems, []);
+});
+
 test("budget effects accept signed minutes and the word none", () => {
   assert.equal(parseBudgetMinutes("+20 runner minutes"), 20);
   assert.equal(parseBudgetMinutes("-5"), -5);
@@ -223,6 +238,15 @@ test("budget effects accept signed minutes and the word none", () => {
   assert.equal(parseBudgetMinutes("no change"), 0);
   assert.equal(parseBudgetMinutes("twenty"), undefined);
   assert.equal(parseBudgetMinutes(undefined), undefined);
+});
+
+test("a comment cannot supply a workflow heading or hide the real note", () => {
+  const hidden = "<!--\n## Workflow changes\n- Reason: invisible\n- Budget effect: 0\n-->";
+  assert.equal(parseWorkflowChangeNote(hidden).section, false);
+  assert.notDeepEqual(checkWorkflowNote(hidden, 0).problems, []);
+  const visible = `${hidden}\n## Workflow changes\n- Reason: visible\n- Budget effect: 0`;
+  assert.equal(parseWorkflowChangeNote(visible).reason, "visible");
+  assert.deepEqual(checkWorkflowNote(visible, 0).problems, []);
 });
 
 test("section extraction stops at the next heading", () => {

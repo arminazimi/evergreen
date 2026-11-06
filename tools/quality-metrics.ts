@@ -14,6 +14,7 @@ import { pathToFileURL } from "node:url";
 import { parseLcovTotals } from "./coverage-thresholds.js";
 import type { Allowlist } from "./check-quality.js";
 import { ALLOWLIST_PATH, TARGETS } from "./check-quality.js";
+import { escapeTableCell } from "./markdown.js";
 
 export const SCHEMA_VERSION = "evergreen.quality-snapshot.v1";
 
@@ -391,7 +392,7 @@ export function renderQualitySection(metrics: QualityMetrics): string[] {
   lines.push("| --- | --- | --- | --- |");
   for (const row of metrics.rows) {
     lines.push(
-      `| ${row.criterion} | ${row.target.replace(/\|/g, "\\|")} | ${row.current.replace(/\|/g, "\\|")} | ${formatQualityChange(row)} |`,
+      `| ${escapeTableCell(row.criterion)} | ${escapeTableCell(row.target)} | ${escapeTableCell(row.current)} | ${formatQualityChange(row)} |`,
     );
   }
   lines.push("");

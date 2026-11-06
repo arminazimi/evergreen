@@ -554,6 +554,15 @@ test("generateMonthlyReport escapes pipes in landing-page URLs", () => {
   assert.match(report, /\| https:\/\/example\.test\/a\\\|b \| 1 \| 2 \|/);
 });
 
+test("landing-page cells cannot split the report through backslashes or line breaks", () => {
+  const data = sampleReportData();
+  const report = generateMonthlyReport({
+    ...data,
+    adoption: { ...data.adoption, landingPages: [{ page: "a\\|b\r\nc\nd\re", clicks: 1, impressions: 2 }] },
+  });
+  assert.ok(report.includes(String.raw`| a\\\|b c d e | 1 | 2 |`));
+});
+
 test("collectAdoptionMetrics reads current and previous month snapshots", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "evergreen-test-adoption-"));
   try {

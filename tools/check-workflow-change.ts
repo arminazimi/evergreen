@@ -265,11 +265,10 @@ function isPlaceholder(value: string | undefined): boolean {
 }
 
 export function parseWorkflowChangeNote(body: string): WorkflowChangeNote {
-  const section = extractSection(body, NOTE_HEADING);
+  const section = extractSection(body.replace(/<!--[\s\S]*?-->/g, " "), NOTE_HEADING);
   if (section === undefined) return { section: false };
-  const clean = section.replace(/<!--[\s\S]*?-->/g, "");
-  const reason = labeledValue(clean, REASON_LABEL);
-  const budgetEffect = labeledValue(clean, BUDGET_LABEL);
+  const reason = labeledValue(section, REASON_LABEL);
+  const budgetEffect = labeledValue(section, BUDGET_LABEL);
   const budgetEffectMinutes = parseBudgetMinutes(budgetEffect);
   return {
     section: true,

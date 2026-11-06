@@ -26,7 +26,7 @@ const CASES: readonly RoundTripCase[] = [
     file: ({ name, version }) => `${name}@${version}`,
     names: "zzmark|@zzmark/sub",
     versions: "9.8.7",
-    markers: ({ name, version }) => [`pkg:npm/${name.replace("@", "%40")}`, version],
+    markers: ({ name, version }) => [`pkg:npm/${name.replaceAll("@", "%40")}`, version],
   },
   {
     name: "parseMinSupportDays",
