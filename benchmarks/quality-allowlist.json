@@ -844,38 +844,6 @@
       "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/tui.ts",
-      "function": "reduce",
-      "complexity": 18,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/vers.ts",
-      "function": "parse",
-      "complexity": 17,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/vers.ts",
-      "function": "versContains",
-      "complexity": 22,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/workspaces.ts",
-      "function": "findDirectories > walk",
-      "complexity": 16,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     }
   ],
   "asUnknownAs": [],

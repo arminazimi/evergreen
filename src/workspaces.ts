@@ -1,3 +1,4 @@
+import type { Dirent } from "node:fs";
 import { readFile, readdir, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 
@@ -166,6 +167,34 @@ function mayMatchDeeper(include: readonly string[], relative: string): boolean {
   return include.some((pattern) => patternMayMatchDeeper(pattern, relative));
 }
 
+/** Whether this directory entry may be walked into: a real directory, not hidden or vendored. */
+function isWalkable(entry: Dirent): boolean {
+  return (
+    entry.isDirectory() &&
+    !entry.isSymbolicLink() &&
+    !SKIPPED_DIRECTORIES.has(entry.name) &&
+    !entry.name.startsWith(".")
+  );
+}
+
+/** Whether the walk has reached its depth, entry, or result bound. */
+function walkBoundReached(depth: number, visited: number, found: number): boolean {
+  return depth > MAXIMUM_WORKSPACE_DEPTH || visited >= MAXIMUM_DIRECTORIES_VISITED || found >= MAXIMUM_WORKSPACES;
+}
+
+/** Whether a workspace include pattern matches `path` and no exclusion removes it. */
+function isIncludedPath(path: string, included: readonly RegExp[], excluded: readonly RegExp[]): boolean {
+  return included.some((pattern) => pattern.test(path)) && !excluded.some((pattern) => pattern.test(path));
+}
+
+/** Whether `absolute` holds at least one of the workspace marker files. */
+async function hasMarkerFile(absolute: string, markers: readonly string[]): Promise<boolean> {
+  for (const marker of markers) {
+    if (await isFile(join(absolute, marker))) return true;
+  }
+  return false;
+}
+
 async function findDirectories(
   root: string,
   markers: readonly string[],
@@ -179,8 +208,7 @@ async function findDirectories(
   let visited = 0;
 
   async function walk(directory: string, relative: string, depth: number): Promise<void> {
-    if (depth > MAXIMUM_WORKSPACE_DEPTH || visited >= MAXIMUM_DIRECTORIES_VISITED || found.length >= MAXIMUM_WORKSPACES)
-      return;
+    if (walkBoundReached(depth, visited, found.length)) return;
     let entries;
     try {
       entries = await readdir(directory, { withFileTypes: true });
@@ -190,24 +218,11 @@ async function findDirectories(
     // Binary name order is deterministic across locales and cheaper than localeCompare on large dirs.
     entries.sort((left, right) => (left.name < right.name ? -1 : left.name > right.name ? 1 : 0));
     for (const entry of entries) {
-      if (
-        !entry.isDirectory() ||
-        entry.isSymbolicLink() ||
-        SKIPPED_DIRECTORIES.has(entry.name) ||
-        entry.name.startsWith(".")
-      )
-        continue;
+      if (!isWalkable(entry)) continue;
       visited += 1;
       const path = relative ? `${relative}/${entry.name}` : entry.name;
       const absolute = join(directory, entry.name);
-      if (included.some((pattern) => pattern.test(path)) && !excluded.some((pattern) => pattern.test(path))) {
-        for (const marker of markers) {
-          if (await isFile(join(absolute, marker))) {
-            found.push(path);
-            break;
-          }
-        }
-      }
+      if (isIncludedPath(path, included, excluded) && (await hasMarkerFile(absolute, markers))) found.push(path);
       if (mayMatchDeeper(include, path)) await walk(absolute, path, depth + 1);
     }
   }

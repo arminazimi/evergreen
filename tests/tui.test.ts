@@ -35,6 +35,19 @@ test("keys move the selection within bounds and switch views", () => {
   assert.equal(reduce({ view: "list", selected: 0 }, { name: "return" }, 0).view, "list");
 });
 
+test("detail keys and raw sequences reach the same actions as named keys", () => {
+  const detail = { view: "detail" as const, selected: 1 };
+  assert.equal(reduce(detail, { name: "b" }, 3).view, "list");
+  assert.equal(reduce(detail, { name: "left" }, 3).view, "list");
+  assert.equal(reduce(detail, { name: "z" }, 3).view, "detail");
+  assert.equal(reduce({ view: "list", selected: 0 }, { sequence: "q" }, 3).quit, true);
+  assert.equal(reduce({ view: "list", selected: 0 }, { name: "o" }, 3).open, true);
+  assert.equal(reduce({ view: "list", selected: 2 }, { name: "k" }, 3).selected, 1);
+  assert.equal(reduce({ view: "list", selected: 1 }, { sequence: "unknown" }, 3).selected, 1);
+  // The open request is one keypress, not sticky state.
+  assert.equal(reduce({ view: "detail", selected: 0, open: true }, { name: "z" }, 2).open, undefined);
+});
+
 test("the list marks the selected finding and shows its location", () => {
   const result = { root: "/r", findings: [finding("package.json", 3), finding("a.js")] } as unknown as ScanResult;
   const text = renderList(result, 1);

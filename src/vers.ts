@@ -117,21 +117,37 @@ function validateSequence(constraints: readonly VersConstraint[], value: string)
   }
 }
 
-function parse(value: string, canonical: boolean): VersRange {
+const SCHEME_PATTERN = /^[a-z][a-z0-9.+-]*$/;
+
+/** Applies the whitespace rule of the requested form: canonical forbids it, lenient removes it. */
+function versText(value: string, canonical: boolean): string {
   if (canonical && /\s/.test(value)) throw new VersError("non-canonical VERS: whitespace is not permitted");
-  const text = canonical ? value : value.replace(/\s+/g, "");
+  return canonical ? value : value.replace(/\s+/g, "");
+}
+
+/** Splits `text` into the scheme and the raw constraint body, rejecting the malformed prefix forms. */
+function splitVers(text: string, value: string): { scheme: string; body: string } {
   if (!text.startsWith("vers:")) throw new VersError(`VERS must start with "vers:": ${value}`);
   const slash = text.indexOf("/");
   if (slash < 0) throw new VersError(`VERS is missing constraints: ${value}`);
   const scheme = text.slice(5, slash).toLowerCase();
-  if (!/^[a-z][a-z0-9.+-]*$/.test(scheme)) throw new VersError(`Invalid VERS scheme "${scheme}".`);
+  if (!SCHEME_PATTERN.test(scheme)) throw new VersError(`Invalid VERS scheme "${scheme}".`);
   const body = text.slice(slash + 1);
   if (!body) throw new VersError("non-canonical VERS: constraints must not be empty");
-  if (body === "*") return { scheme, constraints: [], all: true };
+  return { scheme, body };
+}
+
+/** Rejects the pipe placements the spec does not allow. */
+function checkPipes(body: string): void {
   if (body.startsWith("|")) throw new VersError("non-canonical VERS: leading pipe is not permitted");
   if (body.endsWith("|")) throw new VersError("non-canonical VERS: trailing pipe is not permitted");
   if (body.includes("||")) throw new VersError("non-canonical VERS: consecutive pipes are not permitted");
+}
 
+/** The parsed, sorted constraints of `body`; empty for `*`. */
+function parseConstraints(scheme: string, body: string, value: string, canonical: boolean): VersConstraint[] {
+  if (body === "*") return [];
+  checkPipes(body);
   const versionSchemeFor = versionScheme(scheme);
   const parts = body.split("|");
   if (parts.includes("*")) throw new VersError(`"*" must be the only constraint: ${value}`);
@@ -149,7 +165,12 @@ function parse(value: string, canonical: boolean): VersRange {
     throw new VersError("non-canonical VERS: constraints are not sorted by version");
   }
   validateSequence(sorted, value);
-  return { scheme, constraints: sorted, all: false };
+  return sorted;
+}
+
+function parse(value: string, canonical: boolean): VersRange {
+  const { scheme, body } = splitVers(versText(value, canonical), value);
+  return { scheme, constraints: parseConstraints(scheme, body, value, canonical), all: body === "*" };
 }
 
 /** Parses a VERS string in canonical form, as registry rules must be written. */
@@ -186,35 +207,55 @@ export function normalizeVers(value: string): string {
   return formatVers(parseVersLenient(value));
 }
 
+type ConstraintComparison = (constraint: VersConstraint) => number;
+
+/** Comparators whose own version is inside the range. */
+const INCLUSIVE_COMPARATORS = new Set<VersComparator>(["=", "<=", ">="]);
+
+/** The containment procedure's first step: a version equal to an inclusive constraint is inside. */
+function matchesInclusiveConstraint(constraints: readonly VersConstraint[], compareTo: ConstraintComparison): boolean {
+  return constraints.some(
+    (constraint) => INCLUSIVE_COMPARATORS.has(constraint.comparator) && compareTo(constraint) === 0,
+  );
+}
+
+/** A single bound contains versions on its open side only. */
+function singleBoundContains(bound: VersConstraint, compareTo: ConstraintComparison): boolean {
+  const order = compareTo(bound);
+  return isUpper(bound.comparator) ? order < 0 : order > 0;
+}
+
+/** Whether `version` lies outside a pair of bounds or in the open gap between them. */
+function boundPairContains(bounds: readonly VersConstraint[], index: number, compareTo: ConstraintComparison): boolean {
+  const current = required(bounds[index], "the bound");
+  const next = required(bounds[index + 1], "the following bound");
+  if (index === 0 && isUpper(current.comparator) && compareTo(current) < 0) return true;
+  if (index === bounds.length - 2 && isLower(next.comparator) && compareTo(next) > 0) return true;
+  return isLower(current.comparator) && isUpper(next.comparator) && compareTo(current) > 0 && compareTo(next) < 0;
+}
+
+/** Whether any adjacent pair of bounds contains the version. */
+function anyBoundPairContains(bounds: readonly VersConstraint[], compareTo: ConstraintComparison): boolean {
+  for (let index = 0; index < bounds.length - 1; index++) {
+    if (boundPairContains(bounds, index, compareTo)) return true;
+  }
+  return false;
+}
+
 /** Checks whether a version is inside a VERS range, following the spec's containment procedure. */
 export function versContains(range: string | VersRange, version: string): boolean {
   const parsed = typeof range === "string" ? parseVersLenient(range) : range;
   if (parsed.all) return true;
   const scheme = versionScheme(parsed.scheme);
-  const compareTo = (constraint: VersConstraint) => scheme.compare(version, constraint.version);
+  const compareTo: ConstraintComparison = (constraint) => scheme.compare(version, constraint.version);
 
-  for (const constraint of parsed.constraints) {
-    if (["=", "<=", ">="].includes(constraint.comparator) && compareTo(constraint) === 0) return true;
-  }
-  for (const constraint of parsed.constraints) {
-    if (constraint.comparator === "!=" && compareTo(constraint) === 0) return false;
-  }
+  if (matchesInclusiveConstraint(parsed.constraints, compareTo)) return true;
+  if (parsed.constraints.some((constraint) => constraint.comparator === "!=" && compareTo(constraint) === 0))
+    return false;
 
   const bounds = parsed.constraints.filter(
     (constraint) => constraint.comparator !== "=" && constraint.comparator !== "!=",
   );
-  if (bounds.length === 1) {
-    const only = required(bounds[0], "the single bound");
-    return isUpper(only.comparator) ? compareTo(only) < 0 : compareTo(only) > 0;
-  }
-  for (let index = 0; index < bounds.length - 1; index++) {
-    const current = required(bounds[index], "the bound");
-    const next = required(bounds[index + 1], "the following bound");
-    if (index === 0 && isUpper(current.comparator) && compareTo(current) < 0) return true;
-    if (index === bounds.length - 2 && isLower(next.comparator) && compareTo(next) > 0) return true;
-    if (isLower(current.comparator) && isUpper(next.comparator) && compareTo(current) > 0 && compareTo(next) < 0) {
-      return true;
-    }
-  }
-  return false;
+  if (bounds.length === 1) return singleBoundContains(required(bounds[0], "the single bound"), compareTo);
+  return anyBoundPairContains(bounds, compareTo);
 }

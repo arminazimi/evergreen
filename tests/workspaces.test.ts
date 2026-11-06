@@ -9,7 +9,13 @@ import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { npmDetector } from "../src/detectors/npm.js";
 import { pythonDetector } from "../src/detectors/python.js";
-import { discoverNpmWorkspaces, discoverPythonWorkspaces, globToRegExp, usagesOwnedBy } from "../src/workspaces.js";
+import {
+  discoverNpmWorkspaces,
+  discoverPythonWorkspaces,
+  globToRegExp,
+  MAXIMUM_WORKSPACE_DEPTH,
+  usagesOwnedBy,
+} from "../src/workspaces.js";
 
 const temporaryRoots: string[] = [];
 
@@ -124,6 +130,20 @@ test("discovery is bounded by depth, skips symbolic links, and returns sorted pa
   assert.ok(found.includes("a") && found.includes("z") && found.includes("real"));
   assert.ok(!found.includes(deep), "deeper than the depth bound");
   assert.ok(!found.includes("linked"), "symbolic links are not followed");
+});
+
+test("discovery includes the deepest permitted directory and skips hidden and vendored ones", async () => {
+  const atBound = Array.from({ length: MAXIMUM_WORKSPACE_DEPTH }, (_, index) =>
+    String.fromCharCode("a".charCodeAt(0) + index),
+  ).join("/");
+  const root = await repository({
+    "package.json": manifest({ workspaces: ["**"] }),
+    [`${atBound}/package.json`]: manifest({}),
+    [`${atBound}/i/package.json`]: manifest({}),
+    "node_modules/dep/package.json": manifest({}),
+    ".hidden/tool/package.json": manifest({}),
+  });
+  assert.deepEqual(await discoverNpmWorkspaces(root), [atBound]);
 });
 
 test("uv workspace members and excludes", async () => {
