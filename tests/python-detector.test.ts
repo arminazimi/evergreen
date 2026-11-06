@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { test, type TestContext } from "node:test";
 
 import { declaresInput } from "../src/detector-inputs.js";
-import { PythonDetector } from "../src/detectors/python.js";
+import { PythonDetector } from "../src/detectors/python/index.js";
 
 async function scan(t: TestContext, files: Record<string, string>) {
   const root = await mkdtemp(join(tmpdir(), "evergreen-python-runtime-"));

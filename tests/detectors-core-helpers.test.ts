@@ -8,7 +8,7 @@ import {
   unresolvedShaReference,
 } from "../src/detectors/github-actions.js";
 import { stripJsonc } from "../src/jsonc.js";
-import { collectIniRuntime, isRuntimeOption, toxPythonVersions } from "../src/detectors/python.js";
+import { collectIniRuntime, isRuntimeOption, toxPythonVersions } from "../src/detectors/python/parse-ini.js";
 
 test("stripJsonc drops line and block comments but keeps newlines inside block comments", () => {
   const stripped = stripJsonc('{ // note\n"a": 1, /* one\ntwo */ "b": 2 }');

@@ -271,9 +271,14 @@
       "count": 9
     }
   },
-  "src/detectors/python.ts": {
+  "src/detectors/python/parse-requirements.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 3
+      "count": 1
+    }
+  },
+  "src/detectors/python/shared.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 2
     }
   },
   "src/detectors/rust/parse-cargo-toml.ts": {

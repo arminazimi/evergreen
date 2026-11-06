@@ -40,7 +40,7 @@ Until another contributor adopts an ecosystem, the maintainer owns every detecto
 | Node.js | [@arminazimi](https://github.com/arminazimi) | `src/detectors/npm.ts` (Node.js runtime rules) | `registry/nodejs.json` |
 | npm | [@arminazimi](https://github.com/arminazimi) | `src/detectors/npm.ts` | `registry/npm.json` |
 | PHP | [@arminazimi](https://github.com/arminazimi) | `src/detectors/php/` | `registry/php.json` |
-| Python | [@arminazimi](https://github.com/arminazimi) | `src/detectors/python.ts` | `registry/python.json` |
+| Python | [@arminazimi](https://github.com/arminazimi) | `src/detectors/python/` | `registry/python.json` |
 | Ruby | [@arminazimi](https://github.com/arminazimi) | `src/detectors/ruby/` | `registry/ruby.json` |
 | Rust | [@arminazimi](https://github.com/arminazimi) | `src/detectors/rust/` | `registry/rust.json` |
 | Scala | [@arminazimi](https://github.com/arminazimi) | `src/detectors/scala/` | `registry/scala.json` |

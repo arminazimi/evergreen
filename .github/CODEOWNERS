@@ -102,7 +102,7 @@
 /src/detectors/php/               @arminazimi
 /registry/php.json                @arminazimi
 
-/src/detectors/python.ts          @arminazimi
+/src/detectors/python/           @arminazimi
 /registry/python.json             @arminazimi
 
 /src/detectors/ruby/              @arminazimi

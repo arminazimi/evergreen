@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { PythonDetector, staysOnScheduledLine } from "../src/detectors/python.js";
+import { PythonDetector, staysOnScheduledLine } from "../src/detectors/python/index.js";
 import { versContains } from "../src/vers/index.js";
 
 const temporaryRoots: string[] = [];

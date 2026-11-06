@@ -9,7 +9,7 @@ import fc from "fast-check";
 
 import { parseCleDocument } from "../../src/cle-ingest.js";
 import { NpmDetector } from "../../src/detectors/npm.js";
-import { PythonDetector } from "../../src/detectors/python.js";
+import { PythonDetector } from "../../src/detectors/python/index.js";
 import { parseTf } from "../../src/detectors/serverless/parse-tf.js";
 import {
   detectorParsers,

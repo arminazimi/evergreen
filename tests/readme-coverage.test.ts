@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
@@ -17,6 +17,11 @@ import {
   validateReadmeDescriptions,
 } from "../tools/coverage-matrix.js";
 const read = (path: string) => readFile(resolve(path), "utf8");
+/** A detector split across files is read as one source, so each file it reads appears somewhere in it. */
+async function readDirectory(path: string): Promise<string> {
+  const entries = (await readdir(resolve(path))).filter((name) => name.endsWith(".ts")).sort();
+  return (await Promise.all(entries.map((name) => read(`${path}/${name}`)))).join("\n");
+}
 const readme = await read(README_PATH);
 const manifest = JSON.parse(await read("package.json")) as {
   description: string;
@@ -59,7 +64,7 @@ test("every file the README says Evergreen reads appears in that detector's sour
     "github-actions": await read("src/detectors/github-actions.ts"),
     npm: await read("src/detectors/npm.ts"),
     nodejs: await read("src/detectors/npm.ts"),
-    python: await read("src/detectors/python.ts"),
+    python: await readDirectory("src/detectors/python"),
     rust: await read("src/detectors/rust/index.ts"),
   } as const;
   for (const [ecosystem, source] of Object.entries(sources)) {

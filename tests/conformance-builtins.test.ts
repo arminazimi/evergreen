@@ -9,7 +9,7 @@ import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { githubActionsDetector } from "../src/detectors/github-actions.js";
 import { npmDetector } from "../src/detectors/npm.js";
-import { pythonDetector } from "../src/detectors/python.js";
+import { pythonDetector } from "../src/detectors/python/index.js";
 import type { Detector } from "../src/sdk.js";
 
 const temporaryRoots: string[] = [];

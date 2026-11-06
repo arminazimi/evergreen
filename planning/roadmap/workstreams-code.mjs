@@ -68,7 +68,7 @@ export const TASKS_CODE = [
     ["An end-of-life image tag in a Compose file produces a finding."]),
   t("E-v08-formats", "V08", "fm.python-version", "Read .python-version and requires-python", "free", "S", ["type: parser"], ["area: detector"],
     "The interpreter version is pinned in more places than the Python detector reads.",
-    ["src/detectors/python.ts", "tests/python-detector.test.ts", "docs/DETECTORS.md"],
+    ["src/detectors/python/", "tests/python-detector.test.ts", "docs/DETECTORS.md"],
     [CONFIRM, "Read `.python-version`, `requires-python`, `python_requires`, and `tox.ini` envlist.", "Do not guess a version from a range with no lower bound."],
     ["An end-of-life interpreter pin in each of the four places produces a finding."]),
 
