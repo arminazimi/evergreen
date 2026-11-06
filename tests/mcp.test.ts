@@ -19,6 +19,9 @@ interface RpcResponse {
 
 const temporaryRoots: string[] = [];
 
+/** The exact tool list the server advertises: names, descriptions, input schemas, output schemas, and annotations. */
+const TOOL_SCHEMAS = resolve("tests/fixtures/mcp-tool-schemas.json");
+
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
 });
@@ -488,6 +491,18 @@ test("the prompt works from a fresh session and then lets verify_migration run",
       false,
       "the finding is still present, and the prompt made it observable in this session",
     );
+  } finally {
+    await client.close();
+  }
+});
+
+test("the advertised tool schemas are unchanged", async () => {
+  const client = await connectTestClient();
+  try {
+    const tools = (await client.request("tools/list")).tools;
+    const actual = `${JSON.stringify(tools, null, 2)}\n`;
+    if (process.env.UPDATE_GOLDEN === "1") await writeFile(TOOL_SCHEMAS, actual);
+    assert.equal(await readFile(TOOL_SCHEMAS, "utf8"), actual);
   } finally {
     await client.close();
   }
