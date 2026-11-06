@@ -4,6 +4,7 @@
 
 - Add the Elixir and Erlang/OTP drift collectors: read `.elixir-version`, `.tool-versions`, `mix.exs` floors, `elixir` and `hexpm/elixir` images in Dockerfiles and CI, and the `erlef/setup-beam` inputs, reporting Elixir and Erlang/OTP as separate runtimes. (#1846)
 - Read the Python drift sources (`.python-version`, `.tool-versions`, `runtime.txt`, `Pipfile`, `pyproject.toml`, `setup.cfg`, `setup.py`) at any depth instead of only at the repository root. (#1836)
+- Treat a `strategy.matrix` list of Ruby, Go, and Java versions as alternatives in `evergreen drift`, so a repository that tests several versions on purpose is no longer reported as drifted (#1836).
 - Keep `evergreen scan` from exhausting the JavaScript heap on large monorepos: the JavaScript, TypeScript, and Python usage parsers cap alias rebinding and call-site captures on minified or generated files, name each capped path in the report, and still emit a complete JSON result under the default Node.js heap (reproduced on `vercel/next.js`). (#1967)
 
 ## 0.7.2 - 2026-11-02

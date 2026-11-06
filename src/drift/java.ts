@@ -216,6 +216,8 @@ interface SetupJavaVersion {
   line: number;
   /** False when the value comes from `strategy.matrix`, so a patch would have to edit the matrix. */
   direct: boolean;
+  /** Set for the entries of one `strategy.matrix` list, which are alternatives. */
+  group?: string;
 }
 
 function setupJavaVersions(contents: string): SetupJavaVersion[] {
@@ -227,7 +229,7 @@ function setupJavaVersions(contents: string): SetupJavaVersion[] {
   if (!isMap(jobs)) return [];
 
   const versions: SetupJavaVersion[] = [];
-  const add = (node: Node, direct: boolean): void => {
+  const add = (node: Node, direct: boolean, group?: string): void => {
     if (!isScalar(node)) return;
     const value =
       typeof node.value === "string"
@@ -236,7 +238,7 @@ function setupJavaVersions(contents: string): SetupJavaVersion[] {
           ? (node.source ?? String(node.value)).trim()
           : undefined;
     if (value === undefined || value === "") return;
-    versions.push({ value, line: lineOf(node), direct });
+    versions.push({ value, line: lineOf(node), direct, ...(group === undefined ? {} : { group }) });
   };
 
   for (const job of jobs.items) {
@@ -256,8 +258,9 @@ function setupJavaVersions(contents: string): SetupJavaVersion[] {
       const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
       const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
       if (list !== undefined && list !== null) {
-        if (isSeq(list)) for (const item of list.items) add(item as Node, false);
-        else add(list as Node, false);
+        const group = `matrix:${key}@${lineOf(list as Node)}`;
+        if (isSeq(list)) for (const item of list.items) add(item as Node, false, group);
+        else add(list as Node, false, group);
       } else {
         add(version, true);
       }
@@ -383,20 +386,22 @@ function imagePins(path: string, items: readonly { line: number; value: string }
   return pins;
 }
 
-function setupJavaPins(path: string, contents: string): RuntimePin[] {
-  const pins: RuntimePin[] = [];
-  for (const version of setupJavaVersions(contents)) {
-    const source = `${path} actions/setup-java java-version${version.direct ? "" : " matrix"}`;
-    const major = leadingJdkMajor(version.value);
-    if (version.value.includes("${{")) {
-      pins.push(pin(path, version.line, source, version.value, undefined, EXPRESSION_REASON));
-    } else if (major === undefined) {
-      pins.push(pin(path, version.line, source, version.value, undefined, "the value does not name a JDK release"));
-    } else {
-      pins.push(pin(path, version.line, source, version.value, String(major)));
-    }
+function setupJavaPin(path: string, version: SetupJavaVersion): RuntimePin {
+  const source = `${path} actions/setup-java java-version${version.direct ? "" : " matrix"}`;
+  const major = leadingJdkMajor(version.value);
+  if (version.value.includes("${{"))
+    return pin(path, version.line, source, version.value, undefined, EXPRESSION_REASON);
+  if (major === undefined) {
+    return pin(path, version.line, source, version.value, undefined, "the value does not name a JDK release");
   }
-  return pins;
+  return pin(path, version.line, source, version.value, String(major));
+}
+
+function setupJavaPins(path: string, contents: string): RuntimePin[] {
+  return setupJavaVersions(contents).map((version) => {
+    const made = setupJavaPin(path, version);
+    return version.group === undefined ? made : { ...made, group: `${path}:${version.group}` };
+  });
 }
 
 type CandidateFileKind =
