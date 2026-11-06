@@ -102,3 +102,37 @@ test("runCorpusRepositories scores true positives against expected findings", as
   assert.equal(results[0]?.falsePositives, 0);
   assert.equal(results[0]?.falseNegatives, 0);
 });
+
+test("a failed scan is named on its entry and the rest of the corpus still runs", async () => {
+  const expected = [{ ruleId: "npm.package.request.deprecated", path: "package.json", line: 12 }];
+  const results = await runCorpusRepositories({
+    entries: [entry("a/broken", expected), entry("b/fine", expected)],
+    concurrency: 2,
+    checkout: async (item) => ({ path: `/tmp/${item.repository}`, checkoutMs: 1 }),
+    scan: async (path) => {
+      if (path.endsWith("a/broken")) throw new Error("scan exceeded the 1024 MB per-repository memory limit");
+      return [{ ruleId: "npm.package.request.deprecated", location: { path: "package.json", line: 12 } }];
+    },
+  });
+  assert.equal(results[0]?.error, "scan exceeded the 1024 MB per-repository memory limit");
+  assert.deepEqual(results[0]?.findings, []);
+  assert.equal(results[0]?.falseNegatives, 1);
+  assert.deepEqual(results[0]?.missing, ["npm.package.request.deprecated:package.json:12"]);
+  assert.equal(results[1]?.error, undefined);
+  assert.equal(results[1]?.truePositives, 1);
+});
+
+test("a failed fetch is recorded and does not abort the other in-flight checkouts", async () => {
+  const results = await runCorpusRepositories({
+    entries: [entry("a/fails"), entry("b/succeeds")],
+    concurrency: 2,
+    checkout: async (item) => {
+      if (item.repository === "a/fails") throw new Error("fetch failed after 5 attempts");
+      return { path: "/tmp/b", checkoutMs: 1 };
+    },
+    scan: async () => [],
+  });
+  assert.match(results[0]?.error ?? "", /^fetch failed: fetch failed after 5 attempts$/);
+  assert.deepEqual(results[0]?.findings, []);
+  assert.equal(results[1]?.error, undefined);
+});

@@ -59,6 +59,7 @@ test("narrowing flags are found, including the = spelling", () => {
   assert.equal(findFilterFlag(["--repo=a/b"]), "--repo=a/b");
   assert.equal(findFilterFlag(["--changed"]), "--changed");
   assert.equal(findFilterFlag(["--failed-from", "r.json"]), "--failed-from");
+  assert.equal(findFilterFlag(["--shard", "1/8"]), "--shard");
 });
 
 test("the record covers every detector, with zeros for one that reported nothing", async () => {
@@ -98,5 +99,9 @@ test("the command refuses a narrowed run before it fetches anything", async () =
   await assert.rejects(
     execute(process.execPath, [resolve("dist/benchmarks/record-corpus-run.js"), "--observe"]),
     (error: { code: number; stderr: string }) => error.code === 2 && /--observe is not allowed/.test(error.stderr),
+  );
+  await assert.rejects(
+    execute(process.execPath, [resolve("dist/benchmarks/record-corpus-run.js"), "--shard", "1/8"]),
+    (error: { code: number; stderr: string }) => error.code === 2 && /--shard narrows the run/.test(error.stderr),
   );
 });

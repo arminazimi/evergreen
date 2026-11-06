@@ -6,6 +6,7 @@ import { test } from "node:test";
 
 import {
   budgetWarnings,
+  combineCosts,
   createCostTracker,
   directorySize,
   formatCost,
@@ -34,6 +35,27 @@ test("a run within budget has no warnings; each exceeded limit warns once", () =
   assert.equal(warnings.length, 2);
   assert.match(warnings[0]!, /wall time 61\.0 s exceeds the budget of 60 s/);
   assert.match(warnings[1]!, /fetched 2\.5 MB exceeds the budget of 1\.0 MB/);
+});
+
+test("a merged run scales the fetched-byte limit by the shard count but keeps the wall limit per shard", () => {
+  const cost = { wallMs: 61_000, fetchMs: 0, cacheHits: 0, cacheMisses: 2, bytesFetched: 1_500_000 };
+  // 1.5 MB across two shards fits two 1 MB budgets, but the slowest shard still breaks the wall limit.
+  assert.deepEqual(budgetWarnings(cost, budget, { fetchedMultiplier: 2 }), [
+    "wall time 61.0 s exceeds the budget of 60 s",
+  ]);
+  assert.deepEqual(budgetWarnings(cost, budget), [
+    "wall time 61.0 s exceeds the budget of 60 s",
+    "fetched 1.5 MB exceeds the budget of 1.0 MB",
+  ]);
+});
+
+test("shard costs add up except for wall time, which is the slowest shard", () => {
+  const combined = combineCosts([
+    { wallMs: 9000, fetchMs: 1000.5, cacheHits: 3, cacheMisses: 1, bytesFetched: 100 },
+    { wallMs: 12000, fetchMs: 2000.25, cacheHits: 4, cacheMisses: 2, bytesFetched: 200 },
+  ]);
+  assert.deepEqual(combined, { wallMs: 12000, fetchMs: 3000.75, cacheHits: 7, cacheMisses: 3, bytesFetched: 300 });
+  assert.deepEqual(combineCosts([]), { wallMs: 0, fetchMs: 0, cacheHits: 0, cacheMisses: 0, bytesFetched: 0 });
 });
 
 test("directorySize sums nested files", async () => {
