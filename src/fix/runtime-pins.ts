@@ -8,7 +8,7 @@ import { loadDataFile } from "../data-source.js";
 import type { Finding, ScanResult } from "../domain.js";
 import { validateRegistryV2 } from "../registry.js";
 import { required } from "../required.js";
-import type { FilePatch, Fixer, Refuse } from "./index.js";
+import type { FilePatch, Fixer, Refuse } from "./types.js";
 
 /** An exact runtime pin: `20`, `v20`, `20.11`, or `20.11.0`. Ranges such as `>=20`, `^20`, `20.x`, or `18 || 20` never match. */
 const EXACT_PIN = /^v?\d+(?:\.\d+){0,2}$/;

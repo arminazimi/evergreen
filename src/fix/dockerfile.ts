@@ -8,7 +8,7 @@ import type { ImageReference } from "../detectors/container/parse-image.js";
 import type { Finding } from "../domain.js";
 import { validateRegistryV2 } from "../registry.js";
 import { required } from "../required.js";
-import type { FilePatch, Fixer, Refuse } from "./index.js";
+import type { FilePatch, Fixer, Refuse } from "./types.js";
 
 const DOCKERFILE = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const FROM_LINE = /^(\s*FROM\s+(?:--[^\s]+\s+)*)([^\s]+)(.*)$/i;

@@ -7,11 +7,10 @@ export const command: CliCommand = {
   usage: ["  evergreen completions <bash|zsh|fish>   # print a shell completion script"],
   usageSlots: [65],
   completion: { subcommands: ["bash", "zsh", "fish"] },
-  async run(args, ctx) {
-    const { isCompletionShell, renderCompletions } = await import("../completions.js");
-    if (args.length !== 1 || !isCompletionShell(args[0]))
-      return ctx.fail("usage", "Usage: evergreen completions <bash|zsh|fish>");
-    process.stdout.write(renderCompletions(args[0]));
-    return 0;
+  run(args, ctx) {
+    const script = args.length === 1 ? ctx.completionScript(args[0]) : undefined;
+    if (script === undefined) return Promise.resolve(ctx.fail("usage", "Usage: evergreen completions <bash|zsh|fish>"));
+    process.stdout.write(script);
+    return Promise.resolve(0);
   },
 };

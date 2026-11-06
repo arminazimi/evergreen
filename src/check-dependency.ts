@@ -1,62 +1,20 @@
-import type { DataInfo, EvidenceSource, MigrationGuidance, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { getActiveData, loadDataFile } from "./data-source.js";
 import { dataInfoFrom } from "./data-status.js";
 import { recordCheck } from "./usage-log.js";
+import { CHECK_SCHEMA_VERSION } from "./check-dependency-types.js";
+import type { CheckStatus, DependencyCheck, DependencyFinding } from "./check-dependency-types.js";
 import { parsePurl, PurlError, purlIdentity } from "./purl.js";
 import { required } from "./required.js";
 import { validateRegistryV2 } from "./registry.js";
-import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
+import type { RegistryV2Rule } from "./registry.js";
 import { parseVersLenient, versContains } from "./vers.js";
 
-/** Identifies the schema a dependency check result conforms to. */
-export const CHECK_SCHEMA_VERSION = "evergreen.check.v1" as const;
+export { CHECK_SCHEMA_VERSION };
+export type { CheckStatus, DependencyCheck, DependencyFinding };
 
 /** The bundled registries a dependency is looked up in. */
 const BUNDLED_REGISTRIES = ["github-actions", "nodejs", "npm", "python"] as const;
-
-/** How a package or version relates to the lifecycle rules Evergreen holds for it. */
-export type CheckStatus =
-  /** A rule says this package (and version, when given) has a lifecycle problem. */
-  | "affected"
-  /** Rules exist for the package, but they apply to versions the caller has not named. */
-  | "version-dependent"
-  /** Rules exist for the package, and none of them covers the named version. */
-  | "not-affected"
-  /** Evergreen has no rule for this package. That is not a statement that it is safe. */
-  | "no-data";
-
-/** One lifecycle rule that applies to the checked package, flattened for the check result. */
-export interface DependencyFinding {
-  ruleId: string;
-  ecosystem: string;
-  event: LifecycleEvent;
-  severity: Severity;
-  title: string;
-  summary: string;
-  replacement?: string;
-  deadline?: string;
-  /** The VERS range the rule applies to. */
-  affectedVersions: string;
-  sources: EvidenceSource[];
-  migration?: MigrationGuidance;
-}
-
-/** The answer returned for one package and optional version, with the rules that produced it. */
-export interface DependencyCheck {
-  schemaVersion: typeof CHECK_SCHEMA_VERSION;
-  /** Version-less canonical PURL, the identity rules are written against. */
-  purl: string;
-  version?: string;
-  status: CheckStatus;
-  findings: DependencyFinding[];
-  /** Highest severity among the findings, when there are any. */
-  severity?: Severity;
-  /** One sentence a person or an agent can show as is. */
-  message: string;
-  /** The lifecycle data the answer comes from, and how fresh it is. */
-  data?: DataInfo;
-}
 
 /** Thrown when the input cannot be checked, such as an invalid PURL or version. */
 export class CheckDependencyError extends Error {

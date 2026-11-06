@@ -7,7 +7,7 @@ import { required } from "../../required.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
 import { grammarFor, parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
-import type { FilePatch, Fixer, Refuse } from "../index.js";
+import type { FilePatch, Fixer, Refuse } from "../types.js";
 
 interface Rename {
   id: string;

@@ -4,7 +4,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 import { renderDiff } from "../agent-instructions.js";
 import { splitApiVersion } from "../detectors/kubernetes/api-version.js";
 import type { Finding } from "../domain.js";
-import type { FilePatch, Fixer } from "./index.js";
+import type { FilePatch, Fixer } from "./types.js";
 
 /**
  * The removed `apiVersion` values the Kubernetes deprecation guide moves with no schema change,

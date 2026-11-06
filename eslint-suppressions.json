@@ -556,11 +556,6 @@
       "count": 1
     }
   },
-  "src/source-usage.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 1
-    }
-  },
   "src/tui.ts": {
     "@typescript-eslint/no-unused-vars": {
       "count": 1

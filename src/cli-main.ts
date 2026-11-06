@@ -2,7 +2,7 @@ import process from "node:process";
 
 import { commands } from "./commands/index.generated.js";
 import { bindContext, createCommandContext, fail } from "./commands/runtime.js";
-import { renderHelp } from "./completions.js";
+import { isCompletionShell, renderCompletions, renderHelp } from "./completions.js";
 import { unexpectedFailure } from "./errors.js";
 import { VERSION } from "./version.js";
 
@@ -10,7 +10,9 @@ const HELP = renderHelp(commands);
 
 /** Dispatches one CLI invocation and returns its exit code. Exported so tests can drive the shipping commands in process. */
 export async function main(rawArgs: readonly string[]): Promise<number> {
-  const ctx = createCommandContext(rawArgs, HELP);
+  const ctx = createCommandContext(rawArgs, HELP, (shell) =>
+    isCompletionShell(shell) ? renderCompletions(shell) : undefined,
+  );
   bindContext(ctx);
   const args = rawArgs.filter((argument) => argument !== "--debug");
   if (args.includes("--help") || args.includes("-h") || args.length === 0) {

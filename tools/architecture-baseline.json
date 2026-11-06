@@ -1,9 +1,1 @@
-{
-  "violations": [],
-  "cycles": [
-    "src/check-dependency.ts <-> src/usage-log.ts",
-    "src/commands/completions.ts <-> src/commands/index.generated.ts <-> src/completions.ts",
-    "src/fix/codemods/dockerfile-legacy.ts <-> src/fix/codemods/index.ts <-> src/fix/codemods/k8s-ingress-v1.ts <-> src/fix/codemods/node-buffer.ts <-> src/fix/codemods/node-renames.ts <-> src/fix/codemods/node-util-is.ts <-> src/fix/codemods/python-imp.ts <-> src/fix/codemods/python-renames.ts <-> src/fix/codemods/python-utcnow.ts <-> src/fix/codemods/terraform-legacy.ts <-> src/fix/codemods/workflow-commands.ts <-> src/fix/dockerfile.ts <-> src/fix/github-actions.ts <-> src/fix/go-mod.ts <-> src/fix/index.ts <-> src/fix/java.ts <-> src/fix/kubernetes.ts <-> src/fix/python.ts <-> src/fix/runtime-pins.ts",
-    "src/source-usage.ts <-> src/usage/dynamic-references.ts"
-  ]
-}
+{ "violations": [], "cycles": [] }
