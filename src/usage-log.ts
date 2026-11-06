@@ -2,7 +2,7 @@ import { appendFile, mkdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 
 import { defaultCacheDirectory } from "./data-source.js";
-import type { DependencyCheck } from "./check-dependency.js";
+import type { DependencyCheck } from "./check-dependency-types.js";
 
 export const USAGE_SCHEMA_VERSION = "evergreen.usage.v1" as const;
 

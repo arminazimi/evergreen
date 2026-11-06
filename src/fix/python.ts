@@ -8,7 +8,7 @@ import { renderDiff } from "../agent-instructions.js";
 import { loadDataFile } from "../data-source.js";
 import type { Finding, ScanResult } from "../domain.js";
 import { validateRegistryV2 } from "../registry.js";
-import type { FilePatch, Fixer, Refuse } from "./index.js";
+import type { FilePatch, Fixer, Refuse } from "./types.js";
 
 const REQUIRES_PYTHON = /^(\s*requires-python\s*=\s*)(["'])([^"']*)\2(\s*(?:#.*)?\r?)$/;
 const BOUND = /^\s*(>=|<=|<)\s*(\d+(?:\.\d+){0,2})\s*$/;

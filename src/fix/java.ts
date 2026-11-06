@@ -12,7 +12,7 @@ import type {
 import { parseGradle } from "../detectors/java/parse-gradle.js";
 import { parsePom } from "../detectors/java/parse-pom.js";
 import type { Finding } from "../domain.js";
-import type { FilePatch, Fixer, Refuse } from "./index.js";
+import type { FilePatch, Fixer, Refuse } from "./types.js";
 
 const JAVA_REPLACEMENT = /^Java (\d+)(?: \(LTS\))? or later$/;
 const SUPPORTED_FILES = new Set(["pom.xml", "build.gradle", "build.gradle.kts"]);

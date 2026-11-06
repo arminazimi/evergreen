@@ -2,7 +2,8 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { sourceFiles } from "../source-files.js";
-import { phpRequires, rubyInvocations } from "../source-usage.js";
+import { phpRequires } from "./php.js";
+import { rubyInvocations } from "./ruby-invocations.js";
 import { checkoutSourceIgnored } from "./checkout.js";
 import { maskCodeLine, type MaskState } from "./masking.js";
 import { PHP_DYNAMIC_ARGUMENT_REASON, phpVariableCalls } from "./php.js";

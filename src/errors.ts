@@ -2,6 +2,8 @@
  * Actionable CLI failures: a one-line cause plus a next step. Stack traces stay behind `--debug`.
  */
 
+import { ScanMemoryError } from "./usage/memory-guard.js";
+
 /** Evergreen's engines.node major; keep in sync with package.json. */
 export const REQUIRED_NODE_MAJOR = 22;
 
@@ -72,6 +74,12 @@ export function offlineDataUpdate(detail: string): ActionableMessage {
 
 /** Unexpected internal failure; with `--debug`, append the stack to the stderr appendix. */
 export function unexpectedFailure(error: unknown, debug: boolean): { message: string; appendix: string } {
+  if (error instanceof ScanMemoryError) {
+    return {
+      message: error.message,
+      appendix: "Next: raise the limit with NODE_OPTIONS=--max-old-space-size=<megabytes>, or scan a smaller path.\n",
+    };
+  }
   const err = error instanceof Error ? error : new Error(String(error));
   const nextStep = debug
     ? "If this looks like a bug, open an issue with the stack trace above."

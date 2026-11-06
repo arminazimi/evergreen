@@ -4,7 +4,7 @@ import { basename, isAbsolute, relative, resolve } from "node:path";
 import { renderDiff } from "../../agent-instructions.js";
 import type { Finding } from "../../domain.js";
 import { required } from "../../required.js";
-import type { FilePatch, Fixer, Refuse } from "../index.js";
+import type { FilePatch, Fixer, Refuse } from "../types.js";
 
 const DOCKERFILE = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const MAINTAINER_RULE = "container.dockerfile.maintainer";

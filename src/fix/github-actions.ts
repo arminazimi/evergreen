@@ -3,7 +3,7 @@ import { isAbsolute, relative, resolve } from "node:path";
 
 import { renderDiff } from "../agent-instructions.js";
 import type { Finding } from "../domain.js";
-import type { Fixer, FilePatch } from "./index.js";
+import type { Fixer, FilePatch } from "./types.js";
 
 /** `actions/checkout@v5 or later`: the only replacement wording that names an exact action and major version. */
 const ACTION_REPLACEMENT = /^([a-z0-9._-]+\/[a-z0-9._/-]+)@v(\d+) or later$/i;

@@ -5,7 +5,7 @@ import semver from "semver";
 
 import { parseGoMod } from "../detectors/go/parse-go-mod.js";
 import type { Finding } from "../domain.js";
-import type { FilePatch, Fixer, Refuse } from "./index.js";
+import type { FilePatch, Fixer, Refuse } from "./types.js";
 
 const VERSION = /^\d+\.\d+(?:\.\d+)?$/;
 const DIRECTIVE = /^(\s*(go|toolchain)\s+)((?:go)?\d+\.\d+(?:\.\d+)?)(\s*(?:\/\/.*)?\r?)$/;
