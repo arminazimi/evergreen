@@ -1,4 +1,3 @@
-import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -6,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import type { Language, ParseOptions, Parser, Query, Tree } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceLanguage } from "../domain.js";
+import { readBundledText } from "../bundled-assets.js";
 import { required } from "../required.js";
 
 // Trimmed runtime + grammars under ./vendor/tree-sitter (from @vscode/tree-sitter-wasm). Offline, no native build.
@@ -40,7 +40,7 @@ const parsers = new Map<TreeSitterGrammar, Parser>();
 
 /** Reads a committed base64 payload and decodes it without touching the network or the filesystem beyond the vendor directory. */
 async function loadPayload(directory: string, file: string): Promise<Uint8Array> {
-  const encoded = await readFile(join(directory, `${file}.b64`), "utf8");
+  const encoded = await readBundledText(join(directory, `${file}.b64`));
   return new Uint8Array(Buffer.from(encoded, "base64"));
 }
 
@@ -85,7 +85,7 @@ export function loadQuery(grammar: TreeSitterGrammar, ...names: string[]): Promi
     query = Promise.all([
       loadRuntime(),
       loadLanguage(grammar),
-      Promise.all(names.map((name) => readFile(new URL(`./queries/${name}.scm`, import.meta.url), "utf8"))),
+      Promise.all(names.map((name) => readBundledText(new URL(`./queries/${name}.scm`, import.meta.url)))),
     ]).then(([{ module }, language, sources]) => new module.Query(language, sources.join("\n")));
     queries.set(key, query);
     query.catch(() => queries.delete(key));

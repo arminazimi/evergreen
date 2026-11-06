@@ -61,6 +61,37 @@ export const RULES: readonly BoundaryRule[] = [
     to: [...ADAPTERS],
     why: "core layers must not import an adapter",
   },
+  {
+    id: "core-no-fs-or-network",
+    from: [
+      "src/domain.ts",
+      "src/errors.ts",
+      "src/purl.ts",
+      "src/paths.ts",
+      "src/vers/",
+      "src/sdk.ts",
+      "src/engine.ts",
+      "src/source-usage.ts",
+      "src/source-files.ts",
+      "src/scan-cache.ts",
+      "src/registry.ts",
+      "src/detector-inputs.ts",
+      "src/file-system.ts",
+      "src/usage/",
+    ],
+    to: [
+      "node:fs",
+      "node:fs/promises",
+      "node:child_process",
+      "node:http",
+      "node:https",
+      "node:net",
+      "node:tls",
+      "node:dgram",
+      "node:dns",
+    ],
+    why: "domain, SDK, and core reach the filesystem through ScanFileSystem and never open a network connection (ADR 0031)",
+  },
 ];
 
 export interface Baseline {

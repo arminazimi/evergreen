@@ -1,7 +1,5 @@
 import { basename } from "node:path/posix";
-import { copyFile, mkdir, mkdtemp, readdir, readFile, rm, stat } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
 
 import { getActiveData } from "./data-source.js";
 import { dataInfoFrom, staleDataWarning } from "./data-status.js";
@@ -17,6 +15,8 @@ import {
 } from "./domain.js";
 import { advisoryIdsByRuleId } from "./osv-advisories.js";
 import { childPosixPath } from "./paths.js";
+import type { ScanFileSystem } from "./file-system.js";
+import { nodeFileSystem } from "./node-file-system.js";
 import { computeFileHash, defaultScanCacheDirectory, ScanCache } from "./scan-cache.js";
 import type { DetectorFileDescriptor } from "./scan-cache.js";
 import { assertDetectorCompatible } from "./sdk.js";
@@ -31,6 +31,8 @@ export interface ScanOptions {
   readonly noCache?: boolean;
   /** Directory for scan cache entries; defaults to `EVERGREEN_CACHE_DIR` or the platform cache directory. */
   readonly cacheDirectory?: string;
+  /** Where the scan reads files from. Defaults to the real filesystem. */
+  readonly fileSystem?: ScanFileSystem;
   /** Custom scan cache instance. */
   readonly cache?: ScanCache;
   /** Specific scannedAt ISO timestamp to use (keeps scans deterministic in tests). */
@@ -144,7 +146,11 @@ export function defaultConfidence(finding: DetectorFinding): Confidence {
 const COVERAGE_SKIP_READ_CODES = new Set(["EACCES", "ENOENT", "ENOTDIR"]);
 
 /** Repository-relative paths under `root`, skipping vendored trees, capped for large repositories. */
-async function listCoverageFiles(root: string, walkLimit: number): Promise<{ files: string[]; truncated: boolean }> {
+async function listCoverageFiles(
+  root: string,
+  walkLimit: number,
+  fileSystem: ScanFileSystem,
+): Promise<{ files: string[]; truncated: boolean }> {
   const files: string[] = [];
   let visited = 0;
   let truncated = false;
@@ -155,7 +161,7 @@ async function listCoverageFiles(root: string, walkLimit: number): Promise<{ fil
     }
     let entries;
     try {
-      entries = await readdir(directory, { withFileTypes: true });
+      entries = await fileSystem.readDirectory(directory);
     } catch (error) {
       const code = (error as NodeJS.ErrnoException).code;
       if (code && COVERAGE_SKIP_READ_CODES.has(code)) return;
@@ -183,12 +189,12 @@ async function listCoverageFiles(root: string, walkLimit: number): Promise<{ fil
 }
 
 /** Repository-relative paths under `root`, skipping build and vendor directories. */
-async function listRepositoryFiles(root: string): Promise<string[]> {
+async function listRepositoryFiles(root: string, fileSystem: ScanFileSystem): Promise<string[]> {
   const files: string[] = [];
   const walk = async (directory: string, prefix: string): Promise<void> => {
     let entries;
     try {
-      entries = await readdir(directory, { withFileTypes: true });
+      entries = await fileSystem.readDirectory(directory);
     } catch (error) {
       const code = (error as NodeJS.ErrnoException).code;
       if (code && COVERAGE_SKIP_READ_CODES.has(code)) return;
@@ -240,6 +246,7 @@ export async function buildScanCoverage(
   detectors: readonly Detector[],
   unsupportedFiles: readonly string[],
   walkLimit = COVERAGE_WALK_LIMIT,
+  fileSystem: ScanFileSystem = nodeFileSystem,
 ): Promise<ScanCoverage> {
   const withInputs = detectors.flatMap((detector) => {
     const inputs = coverageInputs(detector);
@@ -255,7 +262,7 @@ export async function buildScanCoverage(
   const directoryPrefixes = withInputs.flatMap(({ inputs }) =>
     (inputs.directories ?? []).map((directory) => `${trimTrailingSlashes(directory)}/`),
   );
-  const { files, truncated } = await listCoverageFiles(root, walkLimit);
+  const { files, truncated } = await listCoverageFiles(root, walkLimit, fileSystem);
   const ecosystems: string[] = [];
   const filesRead = new Set<string>();
   for (const { detector, inputs } of withInputs) {
@@ -304,6 +311,13 @@ export function applyScanSelection(result: ScanResult, selection: ScanSelection)
   };
 }
 
+/** The file system and cache a scan uses: the ones in `options`, or the real file system and its default cache. */
+function scanSetup(options: ScanOptions): { fileSystem: ScanFileSystem; scanCache: ScanCache } {
+  const fileSystem = options.fileSystem ?? nodeFileSystem;
+  const scanCache = options.cache ?? new ScanCache(options.cacheDirectory ?? defaultScanCacheDirectory(), fileSystem);
+  return { fileSystem, scanCache };
+}
+
 /** Runs the detectors over a repository and returns the sorted, deduplicated findings. */
 export async function scanRepository(
   root: string,
@@ -312,7 +326,7 @@ export async function scanRepository(
 ): Promise<ScanResult> {
   const resolvedRoot = resolve(root);
   const noCache = options.noCache ?? process.env.EVERGREEN_NO_CACHE === "1";
-  const scanCache = options.cache ?? new ScanCache(options.cacheDirectory ?? defaultScanCacheDirectory());
+  const { fileSystem, scanCache } = scanSetup(options);
 
   // One timestamp for the whole scan: detectors that need "today" (CLE scheduled dates) read it from
   // context instead of the clock, so findings stay deterministic for this run.
@@ -328,14 +342,14 @@ export async function scanRepository(
 
   // Always list when detectors run: the cache needs the paths, and plan touch-sets need them
   // in coverage so shared lockfiles conflict across tasks even when the scan found findings.
-  const repoFiles = detectors.length > 0 ? await listRepositoryFiles(resolvedRoot) : [];
+  const repoFiles = detectors.length > 0 ? await listRepositoryFiles(resolvedRoot, fileSystem) : [];
   const fileHashMap = new Map<string, Promise<string>>();
   const getFileHash = (relPath: string): Promise<string> => {
     let existing = fileHashMap.get(relPath);
     if (existing === undefined) {
       existing = (async () => {
         try {
-          const content = await readFile(join(resolvedRoot, relPath));
+          const content = await fileSystem.readBytes(join(resolvedRoot, relPath));
           return computeFileHash(content);
         } catch {
           return "";
@@ -511,12 +525,10 @@ export async function scanRepository(
           newlyParsedUnclassified = mappedUnclassified;
         } else {
           // Subset of files changed: copy only changed files to a temporary directory and re-parse only those
-          const tempRoot = await mkdtemp(join(tmpdir(), "evergreen-scan-"));
+          const tempRoot = await fileSystem.makeTemporaryDirectory("evergreen-scan-");
           try {
             for (const desc of changedDescriptors) {
-              const dest = join(tempRoot, desc.path);
-              await mkdir(dirname(dest), { recursive: true });
-              await copyFile(resolve(resolvedRoot, desc.path), dest);
+              await fileSystem.copy(resolve(resolvedRoot, desc.path), join(tempRoot, desc.path));
             }
             const subContext: DetectorContext = {
               root: tempRoot,
@@ -551,7 +563,7 @@ export async function scanRepository(
             newlyParsedFindings = mappedFindings;
             newlyParsedUnclassified = mappedUnclassified;
           } finally {
-            await rm(tempRoot, { recursive: true, force: true }).catch(() => undefined);
+            await fileSystem.remove(tempRoot).catch(() => undefined);
           }
         }
 
@@ -617,6 +629,8 @@ export async function scanRepository(
             resolvedRoot,
             detectors,
             references.map((reference) => reference.location.path),
+            COVERAGE_WALK_LIMIT,
+            fileSystem,
           )
         : {
             ecosystems: [...new Set(findingsSorted.map((finding) => finding.detector))].sort((left, right) =>
@@ -647,20 +661,17 @@ export interface MultiScanResult {
 }
 
 /** The immediate subdirectories of `directory` that are Git repositories, sorted by name. */
-export async function findRepositories(directory: string): Promise<string[]> {
+export async function findRepositories(
+  directory: string,
+  fileSystem: ScanFileSystem = nodeFileSystem,
+): Promise<string[]> {
   const root = resolve(directory);
-  const entries = await readdir(root, { withFileTypes: true });
+  const entries = await fileSystem.readDirectory(root);
   const repositories: string[] = [];
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
     const candidate = join(root, entry.name);
-    if (
-      await stat(join(candidate, ".git")).then(
-        () => true,
-        () => false,
-      )
-    )
-      repositories.push(candidate);
+    if (await fileSystem.exists(join(candidate, ".git"))) repositories.push(candidate);
   }
   return repositories.sort((left, right) => left.localeCompare(right));
 }

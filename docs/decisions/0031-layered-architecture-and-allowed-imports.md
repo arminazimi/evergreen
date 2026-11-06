@@ -26,7 +26,7 @@ the same layer are allowed unless a later record narrows them.
 |---|---|---|
 | 1. Domain | `src/domain.ts`, `src/errors.ts`, `src/purl.ts`, `src/vers/`, `src/paths.ts` | Types, output contracts, pure helpers with no I/O |
 | 2. Detector SDK | `src/sdk.ts` | The public seam: API version, stable ID, one `scan` operation |
-| 3. Core | `src/engine.ts`, `src/source-usage.ts`, `src/usage/`, `src/registry.ts`, `src/scan-cache.ts`, `src/detector-inputs.ts` | Detector attribution, sorting, repository traversal, usage matching, rule loading |
+| 3. Core | `src/engine.ts`, `src/source-usage.ts`, `src/source-files.ts`, `src/usage/`, `src/registry.ts`, `src/scan-cache.ts`, `src/detector-inputs.ts`, `src/file-system.ts` | Detector attribution, sorting, repository traversal, usage matching, rule loading |
 | 4. Detectors | `src/detectors/` | Reading manifests and lockfiles for one ecosystem |
 | 5. Services | analysis built on a scan result: `src/plan*.ts`, `src/migration-*.ts`, `src/fix/`, `src/sbom/`, `src/drift/`, `src/export/`, `src/inventory/`, `src/baseline.ts`, `src/diff.ts`, `src/forecast*.ts`, `src/receipt*.ts`, `src/agent-tools.ts`, and similar | Migration context, plans, baselines, exports. No argument parsing, no host protocol |
 | 6. Reporters | `src/reporters.ts`, `src/reporters/`, `src/mermaid.ts` | Turning results into text, JSON, SARIF, HTML, and other formats |
@@ -65,7 +65,7 @@ Notes on the table:
 
 | Rule | Applies to |
 |---|---|
-| No `node:fs`, `node:fs/promises`, `node:child_process`, `node:http`, `node:https`, `node:net`, `node:tls`, `node:dgram`, `node:dns`, or global `fetch` | Domain, SDK, and core, after #2091 moves file access behind an interface |
+| No `node:fs`, `node:fs/promises`, `node:child_process`, `node:http`, `node:https`, `node:net`, `node:tls`, `node:dgram`, `node:dns`, or global `fetch` | Domain, SDK, and core. Since #2091 they reach files through the `ScanFileSystem` interface (`src/file-system.ts`); `src/node-file-system.ts` and `src/bundled-assets.ts` are the Node implementations, outside the core |
 | No network modules or `fetch` | Detectors and reporters. This is the scan-offline guarantee. |
 | Network use is allowed only in the named update and publishing modules that exist today (`data-update.ts`, `pr-comment.ts`, `action-fix-pr.ts`, `action-tracking-issue.ts`, `commands/data.ts`) | Services and adapters; never reachable from a scan |
 | No `eval`, `new Function`, `vm`, or dynamic `import()` of repository paths | Every layer. Repository contents are parsed, never executed. |

@@ -60,7 +60,7 @@ test("the evaluator fails a scan that finds nothing", () => {
 
 test("a deliberate slowdown trips the check on a small synthetic fixture", async () => {
   const slowedDown = await runMonorepoBenchmark({
-    budget: { maxMeanWallMs: 1, minFiles: 20 },
+    budget: { maxMeanWallMs: 1, minFiles: 20, maxPeakRssBytes: 4096 * 1024 * 1024 },
     fileCount: 40,
     packages: 4,
     warmupRuns: 0,
@@ -74,9 +74,31 @@ test("a deliberate slowdown trips the check on a small synthetic fixture", async
   assert.ok(slowedDown.findingsCount > 0);
 });
 
+test("the evaluator fails a memory regression and names both numbers", () => {
+  const violations = evaluateMonorepoBudget(
+    { ...FITTING_MEASUREMENTS, peakRssBytes: MONOREPO_BUDGET.maxPeakRssBytes + 1024 * 1024 },
+    MONOREPO_BUDGET,
+  );
+  assert.equal(violations.length, 1);
+  assert.match(violations[0]!, /peak memory 1537 MB exceeded the 1536 MB budget/);
+});
+
+test("a deliberate leak trips the memory check on a small synthetic fixture", async () => {
+  const leaking = await runMonorepoBenchmark({
+    budget: { maxMeanWallMs: 60_000, minFiles: 20, maxPeakRssBytes: 1 },
+    fileCount: 40,
+    packages: 4,
+    warmupRuns: 0,
+    measuredRuns: 1,
+    simulatedLeakMb: 64,
+  });
+  assert.equal(leaking.withinBudget, false);
+  assert.ok(leaking.violations.some((violation) => /peak memory/.test(violation)));
+});
+
 test("a small synthetic fixture scans within a relaxed budget and finds the deprecated package", async () => {
   const result = await runMonorepoBenchmark({
-    budget: { maxMeanWallMs: 5_000, minFiles: 30 },
+    budget: { maxMeanWallMs: 5_000, minFiles: 30, maxPeakRssBytes: 4096 * 1024 * 1024 },
     fileCount: 50,
     packages: 5,
     warmupRuns: 0,
@@ -91,7 +113,7 @@ test("a small synthetic fixture scans within a relaxed budget and finds the depr
 
 test("the summary names the fixture, the measurements, the budget, and the outcome", async () => {
   const result = await runMonorepoBenchmark({
-    budget: { maxMeanWallMs: 5_000, minFiles: 20 },
+    budget: { maxMeanWallMs: 5_000, minFiles: 20, maxPeakRssBytes: 4096 * 1024 * 1024 },
     fileCount: 30,
     packages: 3,
     warmupRuns: 0,
