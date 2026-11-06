@@ -187,6 +187,31 @@ test("the manifest signer policy accepts only this repository's release chain on
   assert.equal(RELEASE_SIGNER.issuer, "https://token.actions.githubusercontent.com");
 });
 
+test("a malformed manifest entry is rejected instead of half-read", () => {
+  const entries: unknown[] = [
+    null,
+    {},
+    { path: 1, sha256: "a".repeat(64), bytes: 1 },
+    { path: "a", sha256: "not-a-digest", bytes: 1 },
+    { path: "a", sha256: "a".repeat(64), bytes: -1 },
+    { path: "a", sha256: "a".repeat(64), bytes: 1.5 },
+  ];
+  for (const entry of entries) {
+    const text = JSON.stringify({
+      schemaVersion: "evergreen.release-manifest.v1",
+      name: "evergreen-deprecation",
+      version: "9.9.9",
+      files: [entry],
+    });
+    assert.throws(() => parseReleaseManifest(text), ReleaseManifestError, JSON.stringify(entry));
+  }
+});
+
+test("building a manifest refuses a path that leaves the package", async () => {
+  const root = await packageRoot();
+  await assert.rejects(() => buildReleaseManifest(root, ["../outside"]), /not a safe path/);
+});
+
 test("a manifest that lists a directory instead of a file is a problem", async () => {
   const root = await packageRoot();
   await writeReleaseManifest(root, LISTED);
