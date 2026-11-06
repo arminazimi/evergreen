@@ -91,6 +91,9 @@ export interface DetectOptions {
   readonly getFileHash: (relPath: string) => Promise<string>;
 }
 
+/** Files hashed or looked up per batch: bounds the promises and cache entries in flight on a huge tree. */
+const fileBatchSize = 256;
+
 /** Runs every detector; results come back in the order the detectors were given. */
 export async function detectAll(detectors: readonly Detector[], options: DetectOptions): Promise<DetectorResult[]> {
   return Promise.all(detectors.map(async (detector) => detectOne(detector, options)));
@@ -125,7 +128,13 @@ async function describeFiles(
   files: readonly string[],
   getFileHash: (relPath: string) => Promise<string>,
 ): Promise<DetectorFileDescriptor[]> {
-  return Promise.all(files.map(async (path) => ({ path, hash: await getFileHash(path) })));
+  const descriptors: DetectorFileDescriptor[] = [];
+  // Hash in batches: `Promise.all` over a 100k-file tree would allocate one promise per file at once.
+  for (let start = 0; start < files.length; start += fileBatchSize) {
+    const batch = files.slice(start, start + fileBatchSize);
+    descriptors.push(...(await Promise.all(batch.map(async (path) => ({ path, hash: await getFileHash(path) })))));
+  }
+  return descriptors;
 }
 
 function manifestMatches(manifest: DetectorManifest, descriptors: readonly DetectorFileDescriptor[]): boolean {
@@ -211,27 +220,31 @@ async function readCachedFiles(
   version: string,
   descriptors: readonly DetectorFileDescriptor[],
 ): Promise<{ cached: DetectorResult; changed: DetectorFileDescriptor[] }> {
-  const entries = await Promise.all(
-    descriptors.map(async (descriptor) => ({
-      descriptor,
-      entry: await options.cache.get({
-        filePath: descriptor.path,
-        fileHash: descriptor.hash,
-        detectorId: detector.id,
-        detectorVersion: version,
-        dataVersion: options.dataVersion,
-      }),
-    })),
-  );
   const cached: DetectorResult = { findings: [], unclassified: [] };
   const changed: DetectorFileDescriptor[] = [];
-  for (const { descriptor, entry } of entries) {
-    if (!entry) {
-      changed.push(descriptor);
-      continue;
+  // Read in batches for the same reason: one cache lookup per file at once is a large temporary array.
+  for (let start = 0; start < descriptors.length; start += fileBatchSize) {
+    const batch = descriptors.slice(start, start + fileBatchSize);
+    const entries = await Promise.all(
+      batch.map(async (descriptor) => ({
+        descriptor,
+        entry: await options.cache.get({
+          filePath: descriptor.path,
+          fileHash: descriptor.hash,
+          detectorId: detector.id,
+          detectorVersion: version,
+          dataVersion: options.dataVersion,
+        }),
+      })),
+    );
+    for (const { descriptor, entry } of entries) {
+      if (!entry) {
+        changed.push(descriptor);
+        continue;
+      }
+      cached.findings.push(...entry.findings);
+      cached.unclassified.push(...entry.unclassified);
     }
-    cached.findings.push(...entry.findings);
-    cached.unclassified.push(...entry.unclassified);
   }
   return { cached, changed };
 }

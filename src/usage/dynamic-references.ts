@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 
 import type { ScanFileSystem } from "../file-system.js";
 import { nodeFileSystem } from "../node-file-system.js";
-import { sourceFiles } from "../source-files.js";
+import { sourceFileEntries } from "../source-files.js";
 import { phpRequires } from "./php.js";
 import { rubyInvocations } from "./ruby-invocations.js";
 import { checkoutSourceIgnored } from "./checkout.js";
@@ -29,7 +29,11 @@ export async function findRubyDynamicReferences(
   fileSystem: ScanFileSystem = nodeFileSystem,
 ): Promise<RubyDynamicReference[]> {
   const found: RubyDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "ruby" }, fileSystem)) {
+  for await (const file of sourceFileEntries(
+    resolve(root),
+    { include: (language) => language === "ruby" },
+    fileSystem,
+  )) {
     if (checkoutSourceIgnored(file.path)) continue;
     const lines = (await fileSystem.readText(file.absolutePath)).split(/\r?\n/);
     const maskedLines: string[] = [];
@@ -83,7 +87,11 @@ export async function findPhpDynamicReferences(
   fileSystem: ScanFileSystem = nodeFileSystem,
 ): Promise<PhpDynamicReference[]> {
   const found: PhpDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "php" }, fileSystem)) {
+  for await (const file of sourceFileEntries(
+    resolve(root),
+    { include: (language) => language === "php" },
+    fileSystem,
+  )) {
     if (checkoutSourceIgnored(file.path)) continue;
     const lines = (await fileSystem.readText(file.absolutePath)).split(/\r?\n/);
     const maskedLines: string[] = [];
@@ -156,7 +164,11 @@ export async function findDartDynamicReferences(
   fileSystem: ScanFileSystem = nodeFileSystem,
 ): Promise<DartDynamicReference[]> {
   const found: DartDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "dart" }, fileSystem)) {
+  for await (const file of sourceFileEntries(
+    resolve(root),
+    { include: (language) => language === "dart" },
+    fileSystem,
+  )) {
     if (checkoutSourceIgnored(file.path)) continue;
     const lines = (await fileSystem.readText(file.absolutePath)).split(/\r?\n/);
     const maskedLines: string[] = [];
@@ -204,7 +216,11 @@ export async function findSwiftDynamicReferences(
   fileSystem: ScanFileSystem = nodeFileSystem,
 ): Promise<SwiftDynamicReference[]> {
   const found: SwiftDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "swift" }, fileSystem)) {
+  for await (const file of sourceFileEntries(
+    resolve(root),
+    { include: (language) => language === "swift" },
+    fileSystem,
+  )) {
     if (checkoutSourceIgnored(file.path)) continue;
     const lines = (await fileSystem.readText(file.absolutePath)).split(/\r?\n/);
     const maskedLines: string[] = [];

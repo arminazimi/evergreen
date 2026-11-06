@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import type { ConfigUsageMatcher, ImportUsageMatcher, SourceUsage, SourceUsageAnalysis, SourceUsageContract, UsageMatcher } from "./domain.js";
 import type { ScanFileSystem } from "./file-system.js";
 import { nodeFileSystem } from "./node-file-system.js";
-import { type SourceFile, sourceFiles } from "./source-files.js";
+import { type SourceFile, sourceFileEntries } from "./source-files.js";
 import { noteCappedUsage } from "./usage/binding-budget.js";
 import { matchCallUsage } from "./usage/call-matching.js";
 import { checkoutSourceIgnored } from "./usage/checkout.js";
@@ -169,9 +169,11 @@ function summarizeUsage(contracts: readonly SourceUsageContract[], usage: UsageR
 export async function analyzeSourceUsage(root: string, contracts: readonly SourceUsageContract[], options: SourceUsageOptions = {}): Promise<SourceUsageAnalysis[]> {
   const usage = openUsageResults(contracts);
   const relevantLanguages = new Set(contracts.flatMap((contract) => contract.matchers.map((matcher) => matcher.language)));
-  const files = await sourceFiles(resolve(root), { include: (language) => relevantLanguages.has(language) }, options.fileSystem ?? nodeFileSystem);
+  // Stream the walk: each file is read, matched, and dropped before the next one is discovered, so
+  // the live set stays one file plus the usages the caller asked for instead of the whole tree.
+  const files = sourceFileEntries(resolve(root), { include: (language) => relevantLanguages.has(language) }, options.fileSystem ?? nodeFileSystem);
   const checkMemory = openMemoryGuard();
-  for (const file of files) {
+  for await (const file of files) {
     checkMemory();
     await scanSourceFile(file, contracts, options, usage);
   }

@@ -78,30 +78,37 @@ export interface SourceFileWalk {
   stopAtFirst?: boolean;
 }
 
-/** Every source file under `root` in a language the caller asked for, with repository-relative paths. */
-export async function sourceFiles(
+/**
+ * Every source file under `root` in a language the caller asked for, one at a time.
+ *
+ * The walk is a generator so a caller that analyses each file immediately never holds the whole
+ * repository's file list: only the current directory's entries are live, and each `SourceFile`
+ * is dropped once the caller moves on. Callers that need the list use {@link sourceFiles}.
+ */
+export async function* sourceFileEntries(
   root: string,
   wanted: SourceFileWalk,
   fileSystem: ScanFileSystem = nodeFileSystem,
-): Promise<SourceFile[]> {
-  const files: SourceFile[] = [];
+): AsyncGenerator<SourceFile> {
+  let stopped = false;
   // The repository-relative path is carried down the walk: `relative()` re-resolves both paths for
   // every entry, and on a tree of 100k files that costs more than the directory read itself.
-  const descend = async (directory: string, prefix: string): Promise<boolean> => {
+  const descend = async function* (directory: string, prefix: string): AsyncGenerator<SourceFile> {
     let entries;
     try {
       entries = await fileSystem.readDirectory(directory);
     } catch (error) {
       const code = (error as NodeJS.ErrnoException).code;
-      if (code && skippedReadCodes.has(code)) return false;
+      if (code && skippedReadCodes.has(code)) return;
       throw error;
     }
     // Do not sort directory entries here: usage analysis sorts its results by path at the end, and
     // skipping localeCompare on huge non-source trees is the large-monorepo win.
     for (const entry of entries) {
+      if (stopped) return;
       if (entry.isDirectory()) {
         if (ignoredDirectories.has(entry.name)) continue;
-        if (await descend(join(directory, entry.name), childPosixPath(prefix, entry.name))) return true;
+        yield* descend(join(directory, entry.name), childPosixPath(prefix, entry.name));
         continue;
       }
       if (!entry.isFile()) continue;
@@ -110,12 +117,24 @@ export async function sourceFiles(
       if (language === undefined || !wanted.include(language)) continue;
       const path = join(directory, entry.name);
       if ((await fileSystem.size(path)) > maximumFileBytes) continue;
-      files.push({ absolutePath: path, path: childPosixPath(prefix, entry.name), language });
-      if (wanted.stopAtFirst === true) return true;
+      yield { absolutePath: path, path: childPosixPath(prefix, entry.name), language };
+      if (wanted.stopAtFirst === true) {
+        stopped = true;
+        return;
+      }
     }
-    return false;
   };
-  await descend(resolve(root), "");
+  yield* descend(resolve(root), "");
+}
+
+/** Every source file under `root` in a language the caller asked for, with repository-relative paths. */
+export async function sourceFiles(
+  root: string,
+  wanted: SourceFileWalk,
+  fileSystem: ScanFileSystem = nodeFileSystem,
+): Promise<SourceFile[]> {
+  const files: SourceFile[] = [];
+  for await (const file of sourceFileEntries(root, wanted, fileSystem)) files.push(file);
   return files;
 }
 

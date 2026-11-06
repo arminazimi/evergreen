@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
 import type { SourceUsageContract } from "../src/domain.js";
+import { nodeFileSystem } from "../src/node-file-system.js";
 import { analyzeSourceUsage } from "../src/source-usage.js";
 
 const temporaryRoots: string[] = [];
@@ -220,4 +221,32 @@ test("the same usage in two files is reported once per file, not collapsed acros
     analysis?.usages.filter((usage) => usage.location.path === path).length ?? 0;
   assert.equal(perFile("a/one.ts"), perFile("b/two.ts"));
   assert.ok(perFile("a/one.ts") >= 2);
+});
+
+test("analysis reads the first file before it has statted the rest of the tree (#2146)", async () => {
+  const fileCount = 60;
+  const files: Record<string, string> = {};
+  for (let index = 0; index < fileCount; index += 1) {
+    files[`src/file-${index}.ts`] = `import request from "request";\nrequest("https://example.com/${index}");\n`;
+  }
+  const root = await repository(files);
+  let statted = 0;
+  let stattedAtFirstRead = -1;
+  const fileSystem = {
+    ...nodeFileSystem,
+    size: (path: string) => {
+      statted += 1;
+      return nodeFileSystem.size(path);
+    },
+    readText: (path: string) => {
+      if (stattedAtFirstRead === -1) stattedAtFirstRead = statted;
+      return nodeFileSystem.readText(path);
+    },
+  };
+
+  const [analysis] = await analyzeSourceUsage(root, [requestContract], { fileSystem });
+
+  assert.equal(analysis?.usages.length, fileCount * 2);
+  // A walk that collects every file first would have statted all of them before the first read.
+  assert.ok(stattedAtFirstRead > 0 && stattedAtFirstRead < fileCount, `statted ${stattedAtFirstRead}`);
 });

@@ -48,22 +48,40 @@ function scanSetup(options: ScanOptions): { fileSystem: ScanFileSystem; scanCach
   return { fileSystem, scanCache };
 }
 
-/** Reads each file at most once per scan and remembers its content hash. */
+/** Hashes kept between detectors: enough to reuse the same file across detectors, bounded so a huge tree cannot grow the cache. */
+const fileHashCacheEntries = 4096;
+
+/**
+ * Reads each file at most once per scan and remembers its content hash in a bounded cache.
+ *
+ * Every detector asks for the hash of each of its input files. Keeping the last few thousand hashes
+ * reuses the work when detectors overlap, while evicting the oldest entry keeps the cache a fixed
+ * size instead of one promise per file in the repository.
+ */
 function fileHashReader(root: string, fileSystem: ScanFileSystem): (relPath: string) => Promise<string> {
   const hashes = new Map<string, Promise<string>>();
   return (relPath) => {
-    let existing = hashes.get(relPath);
-    if (existing === undefined) {
-      existing = (async () => {
-        try {
-          return computeFileHash(await fileSystem.readBytes(join(root, relPath)));
-        } catch {
-          return "";
-        }
-      })();
+    const existing = hashes.get(relPath);
+    if (existing !== undefined) {
+      // Refresh recency: a hash another detector will ask for again stays in the cache.
+      hashes.delete(relPath);
       hashes.set(relPath, existing);
+      return existing;
     }
-    return existing;
+    const pending = (async () => {
+      try {
+        return computeFileHash(await fileSystem.readBytes(join(root, relPath)));
+      } catch {
+        return "";
+      }
+    })();
+    hashes.set(relPath, pending);
+    while (hashes.size > fileHashCacheEntries) {
+      const oldest = hashes.keys().next().value;
+      if (oldest === undefined) break;
+      hashes.delete(oldest);
+    }
+    return pending;
   };
 }
 
