@@ -1,1 +1,1 @@
-- Generate unreviewed expected findings from local candidate checkouts and report them separately from the reviewed corpus.
+- Generate unreviewed expected findings from local candidate checkouts and report them separately from the reviewed corpus. (#2512)
