@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { after, test } from "node:test";
@@ -81,7 +81,9 @@ test("verify rejects extra paths, unknown flags, and a directory that is not a p
   assert.match(run.stderr, /not an Evergreen package/);
 });
 
-test("the default target is the package that is running", () => {
-  assert.equal(installedPackageRoot(), process.cwd());
+test("the default target is the package that is running", async () => {
+  const root = installedPackageRoot();
+  const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8")) as { name?: string };
+  assert.equal(pkg.name, "evergreen-deprecation");
   assert.equal(RELEASE_MANIFEST_PATH, "dist/src/release-manifest.json");
 });
