@@ -232,7 +232,7 @@
           "line": 8,
           "source": "pom.xml compiler setting",
           "raw": "17",
-          "kind": "pin",
+          "kind": "floor",
           "release": "17"
         }
       ],

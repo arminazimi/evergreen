@@ -21,7 +21,7 @@ import type { DriftCollector, RuntimePin } from "./types.js";
  * Collects every JDK version a repository states, at the major release granularity.
  *
  * Sources: Maven properties and `maven-compiler-plugin` configuration, Gradle toolchains and compatibility
- * settings, `.java-version`, `.sdkmanrc`, `.tool-versions`, Dockerfile and CI images of the JDK families, and
+ * settings (the compile levels are floors, the rest pins), `.java-version`, `.sdkmanrc`, `.tool-versions`, Dockerfile and CI images of the JDK families, and
  * `actions/setup-java`. Values that need a property expansion, a Gradle expression, a matrix expansion, or a
  * floating tag are reported as unresolved and never guessed. Nothing is fetched, installed, or executed.
  */
@@ -116,13 +116,14 @@ function pin(
   raw: string,
   release: string | undefined,
   unresolved?: string,
+  kind: "pin" | "floor" = "pin",
 ): RuntimePin {
   return {
     path,
     line,
     source,
     raw,
-    kind: "pin",
+    kind,
     ...(release === undefined ? {} : { release }),
     ...(unresolved === undefined ? {} : { unresolved }),
   };
@@ -146,12 +147,13 @@ function addJdkDeclaration(
   source: string,
   declaration: JdkDeclaration | DynamicJdkDeclaration,
 ): void {
+  // The source, target, and release levels say the oldest JDK the compiled code runs on: a floor, not the JDK that builds it.
+  const kind = declaration.role === "compile-level" ? "floor" : "pin";
   if (declaration.kind === "jdk") {
-    pins.push(pin(path, declaration.line, source, declaration.value, String(declaration.major)));
+    pins.push(pin(path, declaration.line, source, declaration.value, String(declaration.major), undefined, kind));
   } else {
-    pins.push(
-      pin(path, declaration.line, source, declaration.value, undefined, declarationReason(source, declaration.value)),
-    );
+    const reason = declarationReason(source, declaration.value);
+    pins.push(pin(path, declaration.line, source, declaration.value, undefined, reason, kind));
   }
 }
 
@@ -478,14 +480,6 @@ function alignToolVersionsLine(pin: RuntimePin, lineText: string, release: strin
   return `${match[1]}${release}${match[3]}`;
 }
 
-function alignCompilerSetting(_pin: RuntimePin, lineText: string, release: string): string | undefined {
-  const match = /^(.*<([A-Za-z0-9._-]+)>)([^<]*)(<\/\2>.*)$/.exec(lineText);
-  if (!match) return undefined;
-  const [, prefix = "", , value = "", suffix = ""] = match;
-  if (!isLiteralJdkValue(value.trim())) return undefined;
-  return `${prefix}${release}${suffix}`;
-}
-
 function alignSetupJavaLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (!isLiteralJdkValue(pin.raw)) return undefined;
   const match = /^(\s*(?:-\s*)?java-version\s*:\s*)(["']?)([^"'#\s]+)(\2)(.*)$/.exec(lineText);
@@ -503,7 +497,6 @@ const JAVA_ALIGN_RULES: readonly JavaAlignRule[] = [
   { appliesTo: (source) => source === ".java-version", rewrite: alignJavaVersionFile },
   { appliesTo: (source) => source === ".sdkmanrc java", rewrite: alignSdkmanrcLine },
   { appliesTo: (source) => source === ".tool-versions java", rewrite: alignToolVersionsLine },
-  { appliesTo: (source) => source === COMPILER_SOURCE, rewrite: alignCompilerSetting },
   { appliesTo: (source) => source.endsWith("actions/setup-java java-version"), rewrite: alignSetupJavaLine },
   {
     appliesTo: (source) => source.endsWith(" FROM") || source.endsWith(" image"),
