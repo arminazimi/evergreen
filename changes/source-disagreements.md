@@ -1,0 +1,1 @@
+- Open an issue when two importer sources disagree about the same product's event or deadline.

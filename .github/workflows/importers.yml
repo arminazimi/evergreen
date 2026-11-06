@@ -92,6 +92,12 @@ jobs:
         env:
           ECOSYSTEM: ${{ matrix.ecosystem }}
         run: node dist/tools/importers/pr-body.js drafts.json "registry/$ECOSYSTEM.json" --out body.md
+      - name: Keep every draft for the source comparison
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: all-drafts-${{ matrix.importer }}
+          path: drafts.json
+          if-no-files-found: error
       - name: Keep the drafts
         if: steps.diff.outputs.changed == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -243,3 +249,34 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: node dist/tools/importers/candidate-issues.js drafts.json --max-open 10
 
+  disagreements:
+    name: source disagreements
+    needs: draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Fetch every importer's drafts
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: all-drafts-*
+          path: all-drafts
+      - uses: $/.github/actions/setup
+        with:
+          cache: npm
+      - run: npm run build --silent
+      - name: Open an issue for each disagreement between sources
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          node dist/tools/importers/disagreements.js all-drafts/*/drafts.json --max-open 10
+          code=$?
+          set -e
+          # Exit 10 means disagreements were found and reported; anything else but 0 is a failure.
+          if [ "$code" -ne 0 ] && [ "$code" -ne 10 ]; then exit "$code"; fi
