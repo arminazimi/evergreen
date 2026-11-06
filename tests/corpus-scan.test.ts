@@ -9,6 +9,7 @@ import {
   CorpusScanError,
   DEFAULT_MEMORY_LIMIT_MB,
   DEFAULT_SCAN_TIMEOUT_SECONDS,
+  describeChildExit,
   describeScanFailure,
   resolveMemoryLimit,
   resolveScanTimeout,
@@ -56,26 +57,34 @@ test("a worker out-of-memory error names the limit; any other failure keeps its 
   assert.match(guarded.message, /exceeded the 1024 MB per-repository memory limit/);
 });
 
+test("a child exit is classified as memory only for an abort, and as a crash otherwise", () => {
+  assert.equal(describeChildExit(null, "SIGABRT", "", 512).kind, "memory");
+  assert.equal(describeChildExit(134, null, "", 512).kind, "memory");
+  assert.equal(describeChildExit(1, null, "FATAL ERROR: JavaScript heap out of memory", 512).kind, "memory");
+  const crash = describeChildExit(2, null, "boom\n", 512);
+  assert.equal(crash.kind, "crash");
+  assert.match(crash.message, /exited with code 2 before reporting a result: boom/);
+});
+
 test("a scan that returns findings resolves with them", async () => {
   const worker = await workerEntry(`
-    import { parentPort, workerData } from "node:worker_threads";
-    parentPort.postMessage([{ ruleId: "npm.example", location: { path: workerData.path, line: 3 } }]);
+    process.send({ findings: [{ ruleId: "npm.example", location: { path: "package.json", line: 3 } }] }, () => process.exit(0));
   `);
   try {
-    assert.deepEqual(await scanWithinMemoryLimit("/tmp/repo", { memoryMb: 128, workerUrl: worker.url }), [
-      { ruleId: "npm.example", location: { path: "/tmp/repo", line: 3 } },
+    assert.deepEqual(await scanWithinMemoryLimit("/tmp/repo", { memoryMb: 128, scriptUrl: worker.url }), [
+      { ruleId: "npm.example", location: { path: "package.json", line: 3 } },
     ]);
   } finally {
     await rm(worker.directory, { recursive: true, force: true });
   }
 });
 
-test("a worker that throws is reported as a failed scan, not an unhandled crash", async () => {
+test("a scan that throws is reported with its message, not as an unhandled crash", async () => {
   const worker = await workerEntry(`
-    throw new Error("detector exploded");
+    process.send({ error: "detector exploded" }, () => process.exit(1));
   `);
   try {
-    await assert.rejects(scanWithinMemoryLimit("/tmp/repo", { memoryMb: 128, workerUrl: worker.url }), {
+    await assert.rejects(scanWithinMemoryLimit("/tmp/repo", { memoryMb: 128, scriptUrl: worker.url }), {
       name: "CorpusScanError",
       message: /scan failed: detector exploded/,
     });
@@ -84,14 +93,29 @@ test("a worker that throws is reported as a failed scan, not an unhandled crash"
   }
 });
 
-test("a worker that exhausts its heap fails with the memory limit named", async () => {
+test("a child that exits without reporting is a crash, never a silent pass", async () => {
+  const worker = await workerEntry(`
+    process.exit(3);
+  `);
+  try {
+    await assert.rejects(
+      scanWithinMemoryLimit("/tmp/repo", { memoryMb: 128, scriptUrl: worker.url }),
+      (error: unknown) =>
+        error instanceof CorpusScanError && error.kind === "crash" && /exited with code 3/.test(error.message),
+    );
+  } finally {
+    await rm(worker.directory, { recursive: true, force: true });
+  }
+});
+
+test("a child that exhausts its heap fails with the memory limit named", async () => {
   const worker = await workerEntry(`
     const kept = [];
     for (;;) kept.push(new Uint8Array(1024 * 1024));
   `);
   try {
     await assert.rejects(
-      scanWithinMemoryLimit("/tmp/repo", { memoryMb: 64, workerUrl: worker.url }),
+      scanWithinMemoryLimit("/tmp/repo", { memoryMb: 64, scriptUrl: worker.url }),
       (error: unknown) => error instanceof CorpusScanError && error.kind === "memory",
     );
   } finally {
@@ -99,13 +123,13 @@ test("a worker that exhausts its heap fails with the memory limit named", async 
   }
 });
 
-test("a worker that never answers fails on its timeout", async () => {
+test("a child that never answers fails on its timeout", async () => {
   const worker = await workerEntry(`
     setInterval(() => {}, 1000);
   `);
   try {
     await assert.rejects(
-      scanWithinMemoryLimit("/tmp/repo", { memoryMb: 128, timeoutSeconds: 0.2, workerUrl: worker.url }),
+      scanWithinMemoryLimit("/tmp/repo", { memoryMb: 128, timeoutSeconds: 0.2, scriptUrl: worker.url }),
       (error: unknown) => error instanceof CorpusScanError && error.kind === "timeout",
     );
   } finally {

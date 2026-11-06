@@ -166,7 +166,7 @@ jobs:
         env:
           SHARD: ${{ matrix.shard }}
           SHARD_COUNT: "8"
-        # One repository at a time, each in a worker with a memory ceiling (--memory-limit). A
+        # One repository at a time, each in a child process with a memory ceiling (--memory-limit). A
         # repository that fails is named in the report and fails the run instead of crashing it.
         run: node dist/benchmarks/public-repositories.js --shard "$SHARD/$SHARD_COUNT" --output "corpus-result-$SHARD.json"
       - name: Save the shard cache
