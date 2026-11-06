@@ -102,61 +102,82 @@ export const pythonRenamesFixer: Fixer = {
       list.push(target);
       byPath.set(target.usage.location.path, list);
     }
-
     const patches: FilePatch[] = [];
     for (const path of [...new Set([...byPath.keys(), ...unittestPaths])].sort()) {
-      const fileTargets = byPath.get(path) ?? [];
-      const decline = (reason: string): void => {
-        for (const target of fileTargets) refuse?.(target.finding, reason);
-      };
-      const absolute = resolve(result.root, path);
-      const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) {
-        decline("The path resolves outside the repository.");
-        continue;
-      }
-      const before = await readFile(absolute, "utf8").catch(() => undefined);
-      if (before === undefined) {
-        decline("The source file could not be read.");
-        continue;
-      }
-      if (!before.endsWith("\n")) {
-        decline("The source file does not end with a newline.");
-        continue;
-      }
-      const tree = await parseSource("python", before);
-      if (tree === undefined) {
-        decline("The source file could not be parsed.");
-        continue;
-      }
-      try {
-        if (tree.rootNode.hasError) {
-          decline("The source file has syntax errors.");
-          continue;
-        }
-        const index = indexFile(tree.rootNode);
-        const testcase = testcaseClassIds(tree.rootNode);
-        const edits: Edit[] = [];
-        for (const target of [...fileTargets].sort(compareTargets)) {
-          const rewrite = rewriteFor(target, index, tree.rootNode, before);
-          if ("reason" in rewrite) {
-            refuse?.(target.finding, rewrite.reason);
-            continue;
-          }
-          edits.push(...rewrite.edits);
-        }
-        if (unittestPaths.has(path)) refuseAliasesOutsideTestcase(path, tree.rootNode, before, testcase, refuse);
-        if (edits.length > 0) {
-          const text = applyEdits(before, dedupe(edits));
-          if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
-        }
-      } finally {
-        tree.delete();
-      }
+      const patch = await planPath(result.root, path, byPath.get(path) ?? [], unittestPaths.has(path), refuse);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },
 };
+
+async function planPath(
+  repositoryRoot: string,
+  path: string,
+  fileTargets: readonly Target[],
+  isUnittestPath: boolean,
+  refuse: Refuse | undefined,
+): Promise<FilePatch | undefined> {
+  const decline = (reason: string): void => {
+    for (const target of fileTargets) refuse?.(target.finding, reason);
+  };
+  const source = await readSource(repositoryRoot, path);
+  if ("reason" in source) {
+    decline(source.reason);
+    return undefined;
+  }
+  const tree = await parseSource("python", source.before);
+  if (tree === undefined) {
+    decline("The source file could not be parsed.");
+    return undefined;
+  }
+  try {
+    if (tree.rootNode.hasError) {
+      decline("The source file has syntax errors.");
+      return undefined;
+    }
+    const edits = editsFor(fileTargets, indexFile(tree.rootNode), tree.rootNode, source.before, refuse);
+    if (isUnittestPath) {
+      refuseAliasesOutsideTestcase(path, tree.rootNode, source.before, testcaseClassIds(tree.rootNode), refuse);
+    }
+    return patchFor(path, source.before, dedupe(edits));
+  } finally {
+    tree.delete();
+  }
+}
+
+/** Reads a target file after checking that it is inside the repository and ends with a newline. */
+async function readSource(repositoryRoot: string, path: string): Promise<{ before: string } | { reason: string }> {
+  const absolute = resolve(repositoryRoot, path);
+  const inside = relative(resolve(repositoryRoot), absolute);
+  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
+  const before = await readFile(absolute, "utf8").catch(() => undefined);
+  if (before === undefined) return { reason: "The source file could not be read." };
+  if (!before.endsWith("\n")) return { reason: "The source file does not end with a newline." };
+  return { before };
+}
+
+function editsFor(
+  fileTargets: readonly Target[],
+  index: FileIndex,
+  root: Node,
+  source: string,
+  refuse: Refuse | undefined,
+): Edit[] {
+  const edits: Edit[] = [];
+  for (const target of [...fileTargets].sort(compareTargets)) {
+    const rewrite = rewriteFor(target, index, root, source);
+    if ("reason" in rewrite) refuse?.(target.finding, rewrite.reason);
+    else edits.push(...rewrite.edits);
+  }
+  return edits;
+}
+
+function patchFor(path: string, before: string, edits: readonly Edit[]): FilePatch | undefined {
+  if (edits.length === 0) return undefined;
+  const text = applyEdits(before, edits);
+  return text === before ? undefined : { path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) };
+}
 
 function syntheticFinding(ruleId: string, title: string, severity: Severity, usage: SourceUsage): Finding {
   const line = usage.location.line ?? 1;
@@ -191,7 +212,15 @@ async function targetsFor(
 ): Promise<{ targets: Target[]; unittestPaths: Set<string> }> {
   const ruleIds = [...moduleRenames.map((rename) => rename.id), aliasRuleId];
   const reported = new Map(ruleIds.map((id) => [id, result.findings.filter((finding) => finding.ruleId === id)]));
-  const contracts = [
+  const analyses = await analyzeSourceUsage(root, usageContracts());
+  const byContract = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
+  const targets = [...moduleTargets(reported, byContract), ...aliasTargets(reported, byContract)];
+  const unittestPaths = new Set((byContract.get("import:unittest") ?? []).map((usage) => usage.location.path));
+  return { targets, unittestPaths };
+}
+
+function usageContracts(): { id: string; matchers: UsageMatcher[] }[] {
+  return [
     ...moduleRenames.map((rename) => ({ id: `module:${rename.id}`, matchers: moduleMatchers(rename) })),
     {
       id: "alias",
@@ -205,60 +234,68 @@ async function targetsFor(
         }),
       ),
     },
-    { id: "import:unittest", matchers: [{ kind: "import", language: "python", module: "unittest" }] as UsageMatcher[] },
+    { id: "import:unittest", matchers: [{ kind: "import", language: "python", module: "unittest" }] },
   ];
-  const analyses = await analyzeSourceUsage(root, contracts);
-  const byContract = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
+}
 
+function moduleTargets(
+  reported: ReadonlyMap<string, Finding[]>,
+  byContract: ReadonlyMap<string, SourceUsage[]>,
+): Target[] {
   const targets: Target[] = [];
   for (const rename of moduleRenames) {
     const findings = required(reported.get(rename.id), "reported findings");
     if (findings.length > 0) {
       for (const finding of findings) {
-        for (const usage of finding.usages ?? []) {
-          targets.push({ ruleId: rename.id, title: rename.title, severity: "high", rename, usage, finding });
-        }
+        for (const usage of finding.usages ?? []) targets.push(moduleTarget(rename, usage, finding));
       }
       continue;
     }
     for (const usage of byContract.get(`module:${rename.id}`) ?? []) {
-      targets.push({
-        ruleId: rename.id,
-        title: rename.title,
-        severity: "high",
-        rename,
-        usage,
-        finding: syntheticFinding(rename.id, rename.title, "high", usage),
-      });
+      targets.push(moduleTarget(rename, usage));
     }
   }
+  return targets;
+}
 
-  const findings = required(reported.get(aliasRuleId), "reported findings");
-  if (findings.length > 0) {
-    for (const finding of findings) {
-      for (const usage of finding.usages ?? []) {
-        const alias = aliasFor(usage);
-        if (alias !== undefined)
-          targets.push({ ruleId: aliasRuleId, title: aliasRuleTitle, severity: "high", alias, usage, finding });
-      }
-    }
-  } else {
-    for (const usage of byContract.get("alias") ?? []) {
-      const alias = aliasFor(usage);
-      if (alias === undefined) continue;
+function moduleTarget(rename: ModuleRename, usage: SourceUsage, finding?: Finding): Target {
+  return {
+    ruleId: rename.id,
+    title: rename.title,
+    severity: "high",
+    rename,
+    usage,
+    finding: finding ?? syntheticFinding(rename.id, rename.title, "high", usage),
+  };
+}
+
+function aliasTargets(
+  reported: ReadonlyMap<string, Finding[]>,
+  byContract: ReadonlyMap<string, SourceUsage[]>,
+): Target[] {
+  const targets: Target[] = [];
+  const add = (usage: SourceUsage, finding?: Finding): void => {
+    const alias = aliasFor(usage);
+    if (alias !== undefined) {
       targets.push({
         ruleId: aliasRuleId,
         title: aliasRuleTitle,
         severity: "high",
         alias,
         usage,
-        finding: syntheticFinding(aliasRuleId, aliasRuleTitle, "high", usage),
+        finding: finding ?? syntheticFinding(aliasRuleId, aliasRuleTitle, "high", usage),
       });
     }
+  };
+  const findings = required(reported.get(aliasRuleId), "reported findings");
+  if (findings.length > 0) {
+    for (const finding of findings) {
+      for (const usage of finding.usages ?? []) add(usage, finding);
+    }
+    return targets;
   }
-
-  const unittestPaths = new Set((byContract.get("import:unittest") ?? []).map((usage) => usage.location.path));
-  return { targets, unittestPaths };
+  for (const usage of byContract.get("alias") ?? []) add(usage);
+  return targets;
 }
 
 function aliasFor(usage: SourceUsage): Alias | undefined {

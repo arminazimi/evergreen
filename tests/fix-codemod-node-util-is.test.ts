@@ -276,11 +276,11 @@ test("durableReference accepts identifiers, this, member chains, subscripts, and
   assert.deepEqual(refusals, []);
   assert.equal(patches.length, 1);
   for (const line of [
-    "const direct = value !== null && typeof value === \"object\";",
-    "const member = holder.inner !== null && typeof holder.inner === \"object\";",
-    "const subscript = list[0] !== null && typeof list[0] === \"object\";",
-    "const parenthesized = (value) !== null && typeof (value) === \"object\";",
-    "const that = this !== null && typeof this === \"object\";",
+    'const direct = value !== null && typeof value === "object";',
+    'const member = holder.inner !== null && typeof holder.inner === "object";',
+    'const subscript = list[0] !== null && typeof list[0] === "object";',
+    'const parenthesized = (value) !== null && typeof (value) === "object";',
+    'const that = this !== null && typeof this === "object";',
   ]) {
     assert.ok(patches[0]!.diff.includes(`+${line}`), line);
   }

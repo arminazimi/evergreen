@@ -88,7 +88,7 @@ test("refuses every shape whose argument kind is not visible in the source text"
 
 test("classify accepts a number or a string with an encoding and refuses every other argument shape", async () => {
   const source = [
-    'const one = new Buffer(5);',
+    "const one = new Buffer(5);",
     'const two = Buffer("hello", "utf8");',
     "const big = Buffer(10n);",
     "const numeric = Buffer(5, 0, 2);",
