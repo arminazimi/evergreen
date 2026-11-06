@@ -116,3 +116,28 @@ The main corpus is circular: its expected findings were written by reviewing the
 First result (before #1101): 15 repositories, 55 true positives, 2 false positives, 18 false negatives, precision 0.9649, recall 0.7534. The 18 misses were all `nodejs.runtime` lines in workflows that pin Node.js 14 or 16 (for example `node-version: 16`): the GitHub Actions detector did not read the `node-version` of `actions/setup-node` at all. The main corpus never exercised that case, which is what a held-out set is for. Issue #1101 added it (see [DETECTORS.md](../DETECTORS.md)); the 130 `nodejs.runtime` findings it adds to the main corpus were each checked by reading the line.
 
 After #1101: 15 repositories, 73 true positives, 3 false positives, 0 false negatives, precision 0.9605, recall 1. The 3 "false positives" are not errors: two are `engines.node` declarations in `package.json` and one is a `strategy.matrix` Node.js list (`node: [8, 10, 12]` in `reid/node-jslint`), none of which the labeller reads. Because the rule was written after the first held-out run, this repository set no longer measures generalization for `node-version`; a fresh held-out set is needed for the next rule.
+
+## Unreviewed expected findings
+
+Growing the corpus to 200 repositories per ecosystem means about 4,600 pins, far beyond hand labeling every finding before the first scan. The candidate finder freezes the pins ([decision 0030](../decisions/0030-corpus-selection-and-200-target.md)); a second tool scans a local checkout of each eligible pin and records what the current detectors report as **unreviewed** expected findings.
+
+- **Where they live.** `benchmarks/unreviewed-repositories/<ecosystem>.json`, separate from `benchmarks/public-repositories/`. Each entry has `reviewState: "unreviewed"`, `source: "scan-output"`, and `unreviewedExpected` instead of the reviewed corpus's `expected`. The different field name is deliberate: no scoring, threshold, or maturity function reads it, so an unreviewed entry cannot be mistaken for ground truth.
+- **How they are made.** The tool reads the frozen candidate report, takes only candidates with an eligible immutable pin, and scans `<checkouts-dir>/<owner>--<name>` with the bundled lifecycle data. It never fetches, installs, builds, or runs repository code, and it uses no network. Transitive findings are omitted for the same reason the harness omits them. A missing checkout or scan failure stops the batch rather than writing a partial result.
+- **What they count for.** Nothing. Unreviewed entries are not reviewed repositories, expected findings, precision or recall evidence, detector maturity evidence, or progress toward 200. Reports print the reviewed and unreviewed numbers in separate rows and mark only the reviewed row as precision evidence.
+- **How they become reviewed.** A reviewer reads the pinned file, adds a `groundTruthSource` note quoting the path and line, replaces `unreviewedExpected` with `expected`, and moves the entry to `benchmarks/public-repositories/<ecosystem>/`. The hand-review sample in #2119 is the first consumer.
+
+```bash
+node dist/benchmarks/candidates/expected-cli.js generate candidates.json <checkouts-dir> benchmarks/unreviewed-repositories
+node dist/benchmarks/candidates/expected-cli.js report
+```
+
+The first command prints a table such as:
+
+```text
+scope      repositories  findings  precision evidence
+reviewed            557      3174  yes
+unreviewed          300      1234  no
+```
+
+The unreviewed row says nothing about accuracy: its labels are the current output, so a run against them only shows that the output did not change. Precision still rests on the reviewed corpus and the held-out set.
+
