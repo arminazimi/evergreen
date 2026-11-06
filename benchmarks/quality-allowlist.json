@@ -468,14 +468,6 @@
       "owner": "#2273",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/lsp.ts",
-      "function": "EvergreenLanguageServer.dispatch",
-      "complexity": 19,
-      "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     }
   ],
   "asUnknownAs": [],
