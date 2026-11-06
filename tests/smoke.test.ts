@@ -45,14 +45,14 @@ test("the publish workflow runs the smoke script on a fresh job after publishing
   const workflow = parse(await readFile(".github/workflows/publish.yml", "utf8")) as {
     jobs: {
       smoke: {
-        needs: string;
+        needs?: string;
         permissions: Record<string, string>;
         steps: Array<{ run?: string; "working-directory"?: string }>;
       };
     };
   };
   const smokeJob = workflow.jobs.smoke;
-  assert.equal(smokeJob.needs, "publish");
+  assert.equal(smokeJob.needs, undefined, "release.yml runs the whole publish stage first");
   assert.deepEqual(smokeJob.permissions, { contents: "read" });
   const step = smokeJob.steps.find((item) => item.run?.includes("smoke.mjs"));
   assert.ok(step, "a step runs smoke.mjs");

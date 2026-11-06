@@ -2,8 +2,8 @@ import { readFile, readdir } from "node:fs/promises";
 import { basename, join } from "node:path";
 
 import { parse as parseToml } from "smol-toml";
-import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
-import type { Node } from "yaml";
+import { LineCounter, isMap, isNode, isScalar, isSeq, parseDocument } from "yaml";
+import type { YAMLMap, YAMLSeq } from "yaml";
 
 import { parseCircleci } from "../detectors/ci-images/parse-circleci.js";
 import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
@@ -110,8 +110,9 @@ function addPin(
   raw: string,
   kind: "pin" | "floor",
   resolved: Resolved,
+  group?: string,
 ): void {
-  pins.push({ path, line, source, raw, kind, ...resolved });
+  pins.push({ path, line, source, raw, kind, ...(group === undefined ? {} : { group }), ...resolved });
 }
 
 async function readOptional(path: string): Promise<string | undefined> {
@@ -201,8 +202,26 @@ function collectToolVersionsEntries(pins: RuntimePin[], path: string, lines: rea
     const versions = match?.[1];
     if (versions === undefined) continue;
     for (const value of versions.replace(/#.*$/, "").trim().split(/\s+/).filter(Boolean)) {
-      addPin(pins, path, index + 1, ".tool-versions", value, "pin", resolvePython(value));
+      addPin(
+        pins,
+        path,
+        index + 1,
+        ".tool-versions",
+        value,
+        "pin",
+        resolvePython(value),
+        `.tool-versions:${path}:${index + 1}`,
+      );
     }
+  }
+}
+
+/** Several lines are versions installed side by side, which are alternatives, not drift. */
+function collectPythonVersionFile(pins: RuntimePin[], path: string, lines: readonly string[]): void {
+  for (const [index, line] of lines.entries()) {
+    const value = line.replace(/#.*$/, "").trim();
+    if (value === "") continue;
+    addPin(pins, path, index + 1, ".python-version", value, "pin", resolvePython(value), `.python-version:${path}`);
   }
 }
 
@@ -211,11 +230,7 @@ function collectRootFiles(pins: RuntimePin[], path: string, contents: string): v
   const lines = contents.split(/\r?\n/);
 
   if (name === ".python-version") {
-    for (const [index, line] of lines.entries()) {
-      const value = line.replace(/#.*$/, "").trim();
-      if (value === "") continue;
-      addPin(pins, path, index + 1, ".python-version", value, "pin", resolvePython(value));
-    }
+    collectPythonVersionFile(pins, path, lines);
     return;
   }
 
@@ -312,50 +327,67 @@ function collectDockerfile(pins: RuntimePin[], path: string, contents: string): 
   }
 }
 
-function setupPythonVersions(contents: string): Array<{ value: string; line: number; matrix: boolean }> {
+interface SetupVersion {
+  value: string;
+  line: number;
+  matrix: boolean;
+  group?: string;
+}
+
+function nodeLine(counter: LineCounter, node: unknown): number {
+  return counter.linePos(isNode(node) ? (node.range?.[0] ?? 0) : 0).line;
+}
+
+function nodeText(node: unknown): string | undefined {
+  if (!isScalar(node)) return undefined;
+  if (typeof node.value === "string") return node.value.trim();
+  if (typeof node.value === "number") return (node.source ?? String(node.value)).trim();
+  return undefined;
+}
+
+/** The entries of a matrix list share one group: they are alternatives, not drift. */
+function matrixVersions(counter: LineCounter, list: YAMLSeq, key: string): SetupVersion[] {
+  const versions: SetupVersion[] = [];
+  const group = list.items.length === 0 ? undefined : `matrix:${key}@${nodeLine(counter, list.items[0])}`;
+  for (const item of list.items) {
+    const value = nodeText(item);
+    if (value === undefined || value === "") continue;
+    versions.push({ value, line: nodeLine(counter, item), matrix: true, ...(group === undefined ? {} : { group }) });
+  }
+  return versions;
+}
+
+function stepVersions(counter: LineCounter, step: YAMLMap, matrix: unknown): SetupVersion[] {
+  const uses = step.get("uses");
+  if (typeof uses !== "string" || !/^actions\/setup-python@/i.test(uses)) return [];
+  const inputs = step.get("with", true);
+  if (!isMap(inputs)) return [];
+  const version = inputs.get("python-version", true);
+  if (!isScalar(version)) return [];
+  const key =
+    typeof version.value === "string"
+      ? /^\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}$/.exec(version.value.trim())?.[1]
+      : undefined;
+  const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
+  if (key !== undefined && isSeq(list)) return matrixVersions(counter, list, key);
+  const value = nodeText(version);
+  return value === undefined || value === "" ? [] : [{ value, line: nodeLine(counter, version), matrix: false }];
+}
+
+function setupPythonVersions(contents: string): SetupVersion[] {
   const lineCounter = new LineCounter();
   const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
   if (document.errors.length > 0 || !isMap(document.contents)) return [];
-  const lineOf = (node: Node): number => lineCounter.linePos(node.range?.[0] ?? 0).line;
-  const textOf = (node: Node): string | undefined => {
-    if (!isScalar(node)) return undefined;
-    if (typeof node.value === "string") return node.value.trim();
-    if (typeof node.value === "number") return (node.source ?? String(node.value)).trim();
-    return undefined;
-  };
-
   const jobs = document.contents.get("jobs", true);
   if (!isMap(jobs)) return [];
-  const versions: Array<{ value: string; line: number; matrix: boolean }> = [];
+  const versions: SetupVersion[] = [];
   for (const job of jobs.items) {
     if (!isMap(job.value)) continue;
     const strategy = job.value.get("strategy", true);
     const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
     const steps = job.value.get("steps", true);
     if (!isSeq(steps)) continue;
-    for (const step of steps.items) {
-      if (!isMap(step)) continue;
-      const uses = step.get("uses");
-      if (typeof uses !== "string" || !/^actions\/setup-python@/i.test(uses)) continue;
-      const inputs = step.get("with", true);
-      if (!isMap(inputs)) continue;
-      const version = inputs.get("python-version", true) as Node | null;
-      if (!version || !isScalar(version)) continue;
-      const key =
-        typeof version.value === "string"
-          ? /^\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}$/.exec(version.value.trim())?.[1]
-          : undefined;
-      const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
-      if (isSeq(list)) {
-        for (const item of list.items) {
-          const value = textOf(item as Node);
-          if (value !== undefined && value !== "") versions.push({ value, line: lineOf(item as Node), matrix: true });
-        }
-      } else {
-        const value = textOf(version);
-        if (value !== undefined && value !== "") versions.push({ value, line: lineOf(version), matrix: false });
-      }
-    }
+    for (const step of steps.items) if (isMap(step)) versions.push(...stepVersions(lineCounter, step, matrix));
   }
   return versions;
 }
@@ -373,6 +405,7 @@ function collectWorkflow(pins: RuntimePin[], path: string, contents: string): vo
       version.value,
       "pin",
       unresolved,
+      version.group === undefined ? undefined : `${path}:${version.group}`,
     );
   }
 }
@@ -529,14 +562,13 @@ export const pythonCollector: DriftCollector = {
   runtime: "python",
   async collect(root: string): Promise<RuntimePin[]> {
     const pins: RuntimePin[] = [];
-    for (const name of ROOT_FILES) {
-      const contents = await readOptional(join(root, name));
-      if (contents !== undefined) collectRootFiles(pins, name, contents);
-    }
     for (const file of await walk(root)) {
       const path = relativePosix(root, file);
       const name = basename(file);
-      if (DOCKERFILE_NAME.test(name)) {
+      if ((ROOT_FILES as readonly string[]).includes(name)) {
+        const contents = await readOptional(file);
+        if (contents !== undefined) collectRootFiles(pins, path, contents);
+      } else if (DOCKERFILE_NAME.test(name)) {
         const contents = await readOptional(file);
         if (contents !== undefined) collectDockerfile(pins, path, contents);
       } else if (name === ".gitlab-ci.yml") {

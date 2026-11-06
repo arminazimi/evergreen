@@ -228,10 +228,11 @@ function goVersionPins(path: string, version: unknown, matrix: unknown, lineOf: 
   const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
   if (isSeq(list)) {
     const pins: RuntimePin[] = [];
+    const group = `${path}:matrix:${key}@${lineOf(list)}`;
     for (const item of list.items) {
       const value = textOf(item);
       if (value === undefined || value === "") continue;
-      pins.push(versionPin(path, lineOf(item as LineNode), "actions/setup-go matrix", value, "pin"));
+      pins.push({ ...versionPin(path, lineOf(item as LineNode), "actions/setup-go matrix", value, "pin"), group });
     }
     return pins;
   }

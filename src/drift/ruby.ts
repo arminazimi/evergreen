@@ -372,6 +372,8 @@ interface SetupRubyVersion {
   value: string;
   line: number;
   expression: boolean;
+  /** Set for the entries of one `strategy.matrix` list, which are alternatives. */
+  group?: string;
 }
 
 function setupRubyVersions(contents: string): SetupRubyVersion[] {
@@ -384,11 +386,16 @@ function setupRubyVersions(contents: string): SetupRubyVersion[] {
   const jobs = document.contents.get("jobs", true);
   if (!isMap(jobs)) return [];
   const versions: SetupRubyVersion[] = [];
-  const add = (node: Node | null | undefined): void => {
+  const add = (node: Node | null | undefined, group?: string): void => {
     if (!node) return;
     const value = textOf(node);
     if (value !== undefined && value !== "")
-      versions.push({ value, line: lineOf(node), expression: value.includes("${{") });
+      versions.push({
+        value,
+        line: lineOf(node),
+        expression: value.includes("${{"),
+        ...(group === undefined ? {} : { group }),
+      });
   };
   for (const job of jobs.items) {
     if (!isMap(job.value)) continue;
@@ -406,8 +413,10 @@ function setupRubyVersions(contents: string): SetupRubyVersion[] {
       if (!version || !isScalar(version)) continue;
       const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
       const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
-      if (isSeq(list)) for (const item of list.items) add(item as Node);
-      else add(version);
+      if (isSeq(list)) {
+        const group = `matrix:${key}@${lineOf(list)}`;
+        for (const item of list.items) add(item as Node, group);
+      } else add(version);
     }
   }
   return versions;
@@ -429,7 +438,8 @@ function collectWorkflow(contents: string, path: string, pins: RuntimePin[]): vo
       );
       continue;
     }
-    pins.push(makePin(path, entry.line, SOURCE_SETUP_RUBY, entry.value, "pin", releaseOf(entry.value)));
+    const pin = makePin(path, entry.line, SOURCE_SETUP_RUBY, entry.value, "pin", releaseOf(entry.value));
+    pins.push(entry.group === undefined ? pin : { ...pin, group: `${path}:${entry.group}` });
   }
 }
 

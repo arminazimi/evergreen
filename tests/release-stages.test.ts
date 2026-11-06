@@ -49,6 +49,7 @@ test("release.yml calls verify, build, publish-per-channel, and smoke stages", a
   for (const [job, uses] of Object.entries(expected)) {
     assert.equal(orchestrator.jobs[job]?.uses, uses, job);
   }
+  assert.deepEqual(orchestrator.jobs["publish-npm"]!.needs, ["npm-publish"]);
   assert.deepEqual(orchestrator.jobs["publish-binaries"]!.needs, ["publish-npm", "build-binaries"]);
 
   for (const job of [

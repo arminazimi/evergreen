@@ -163,8 +163,9 @@ test("a multi-module build with one module out of line is drifted", async () => 
   assert.deepEqual(runtime?.releases, ["17", "21"]);
   assert.deepEqual(
     runtime?.pins.map((pin) => pin.path),
-    ["module-a/pom.xml", "module-b/pom.xml", "pom.xml"],
+    ["module-a/.java-version", "module-a/pom.xml", "module-b/.java-version", "module-b/pom.xml", "pom.xml"],
   );
+  assert.ok(runtime?.pins.filter((pin) => pin.path.endsWith("pom.xml")).every((pin) => pin.kind === "floor"));
 });
 
 test("the text report names every pin and the drift", async () => {
@@ -199,9 +200,8 @@ test("--align prints a patch that applies and removes the drift", async () => {
   const aligned = await runCli(["drift", ".", "--runtime", "java", "--align", "21"], { cwd: repo });
   assert.equal(aligned.code, 0, aligned.stderr);
   assert.match(aligned.stdout, /--- a\/Dockerfile/);
-  assert.match(aligned.stdout, /--- a\/pom\.xml/);
+  assert.doesNotMatch(aligned.stdout, /pom\.xml/, "a compile level is a floor and is never rewritten");
   assert.match(aligned.stdout, /\+FROM eclipse-temurin:21/);
-  assert.match(aligned.stdout, /<maven.compiler.release>21</);
 
   await writeFile(join(repo, "patch.diff"), aligned.stdout);
   await execute("git", ["apply", "--check", "patch.diff"], { cwd: repo });
@@ -287,7 +287,7 @@ test("a RUN install, a dynamic image and a matrix reference are collected, and a
   await execute("git", ["init", "-q"], { cwd: repo });
   const aligned = await runCli(["drift", ".", "--runtime", "java", "--align", "21"], { cwd: repo });
   assert.equal(aligned.code, 0, aligned.stderr);
-  assert.match(aligned.stdout, /<maven\.compiler\.release>21</);
+  assert.doesNotMatch(aligned.stdout, /pom\.xml/);
   assert.match(aligned.stderr, /Refused Dockerfile:2 \(Dockerfile FROM openjdk:\$\{TAG\}\)/);
   assert.match(aligned.stderr, /Refused Dockerfile:3 \(Dockerfile RUN 17\.0\.10-tem\)/);
   assert.match(aligned.stderr, /Refused Dockerfile:4 \(Dockerfile RUN v17\.0\.10-tem\)/);

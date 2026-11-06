@@ -184,7 +184,7 @@ a green queue. Affected, full, and record corpus runs live in one file (`corpus.
 - Data-bundle release when registry data changes ([`data-release.yml`](../.github/workflows/data-release.yml)).
 
 **Stages.** `release.yml` is a thin orchestrator that calls reusable stage workflows (verify, build,
-publish per channel including npm via `publish.yml`, smoke). A version tag runs the full chain in
+publish per channel including npm via the `npm-publish` job, smoke). A version tag runs the full chain in
 one workflow run so a failed stage is safe to re-run. A manual run with `dry_run` exercises every
 stage and publishes nothing. Those tasks keep this lane's budget and the rule that `main` does not
 carry the Action bundle.
@@ -569,7 +569,7 @@ fixtures locally with `npm run corpus:warm` and check the tracked repositories w
 ### Release chain
 
 **Symptom.** A `release.yml` run on a `v*` tag fails in one of its stages; `publish.yml` never runs
-on its own (`workflow_call` from `release.yml` only, the npm publish stage since #2337).
+on its own (`workflow_call` from `release.yml` only; it runs package smoke and the MCP Registry after the `npm-publish` job).
 
 **Cause.** Verify, build, per-channel publish (npm, binaries, container, Homebrew, data bundle), or
 smoke failed. Stages receive the audited `release_sha` (since #2340), so a mid-chain failure cannot
@@ -610,7 +610,7 @@ just because a later task will fold it.
 | `workflow-lint.yml` | Main | `push` to `main` on workflow paths; `workflow_dispatch` | actionlint + zizmor on workflow YAML and `action.yml` |
 | `pages.yml` | Main | `push` to `main`; `workflow_dispatch` | Build the docs site, Seaworthy + Lighthouse, deploy to GitHub Pages |
 | `labels.yml` | Main / nightly | `pull_request` / `push` on label paths; weekly schedule; `workflow_dispatch` | Sync `.github/labels.yml` and check good-first-issue briefs |
-| `release.yml` | Main / release | `push` to `main`; version `v*` tags; `workflow_dispatch` | One release chain: Action bundle on `release/<tag>`, npm via `publish.yml`, binaries, provenance, channels, smoke |
+| `release.yml` | Main / release | `push` to `main`; version `v*` tags; `workflow_dispatch` | One release chain: Action bundle on `release/<tag>`, npm via the `npm-publish` job, binaries, provenance, channels, smoke |
 | `package-smoke.yml` | Merge queue / nightly | `merge_group`; nightly schedule; `workflow_dispatch` | Prove npm tarball, Docker image, and local Action scan the same fixture |
 | `ci-health.yml` | Nightly | `workflow_run` of CI on `main`; schedules; `workflow_dispatch` | Open/close devops issues on main failures, measure CI duration, quarantine flaky tests |
 | `mutation.yml` | Nightly | Nightly schedule; `workflow_dispatch` | Mutation testing matrix (too slow for the merge gate) |
@@ -622,7 +622,7 @@ just because a later task will fold it.
 | `codeql.yml` | Pull request / main / nightly | Every `pull_request`; `push` to `main`; weekly schedule; `workflow_dispatch` | CodeQL analysis of every proposed change and `main` |
 | `open-alerts.yml` | Push to main | Push to `main`; daily schedule; `workflow_dispatch` | Fail on any open code-scanning or Dependabot alert on `main` that `tools/open-alerts-baseline.json` does not accept |
 | `mcp-listings.yml` | Nightly | Weekly schedule; `workflow_dispatch` | Compare tracked MCP directory listings to `server.json` |
-| `publish.yml` | Release | `workflow_call` from `release.yml` | npm trusted publish with provenance, package smoke, MCP Registry |
+| `publish.yml` | Release | `workflow_call` from `release.yml` | package smoke and MCP Registry (the npm publish itself is in `release.yml`) |
 | `data-release.yml` | Release | `data-v*` tags; dry-run `workflow_dispatch` | Build, sign, and publish the lifecycle data bundle |
 | `gitlab-sync.yml` | Release | `v*` tags; `workflow_dispatch` | Push the release commit and tags to the GitLab CI/CD Catalog project |
 | `evergreen-reusable.yml` | Product (caller) | `workflow_call` only | Reusable per-repository Evergreen scan for other repositories to `uses:` |

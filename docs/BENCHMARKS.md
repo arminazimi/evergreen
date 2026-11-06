@@ -190,6 +190,12 @@ node dist/benchmarks/perf-budget.js --simulate-slowdown-ms 3000 --check
 
 The unit tests cover the same path with a smaller simulated slowdown, so a gate that stopped tripping would fail `npm run check`.
 
+## CLI start-up budget
+
+`evergreen --version` must answer without loading the command table. `src/cli.ts` handles the bare version flag itself (help still wins, as in `cli-main`), because importing `cli-main` pulls in every detector. Before the fast path the call took about 940 ms on the development machine; it now takes about 22 ms. Run `npm run benchmark:startup` to reproduce it: `benchmarks/startup.ts` spawns the built CLI with `--version`, discards one warm-up run, and reports the median wall-clock time of seven runs.
+
+The `perf-budget` CI job fails when the median exceeds 400 ms (`STARTUP_BUDGET` in `benchmarks/startup.ts`), roughly an order of magnitude above the reference so that runner noise never trips it. Raise it only in the commit that intentionally regresses start-up, with the reason, and update this paragraph.
+
 ## Large-monorepo performance
 
 Run `npm run benchmark:monorepo` to time an in-process scan of a synthetic ~100k-file npm workspaces monorepo. The adoption goal is that a repository of that size finishes under 5 seconds mean wall time with caches disabled.
@@ -206,10 +212,11 @@ The benchmark (`benchmarks/monorepo.ts`) builds a temporary monorepo offline: a 
 | Peak resident set size | observational | 132 MB |
 | Findings (synthetic fixture) | > 0 | 9 |
 
-The 5-second ceiling is the product goal from the roadmap; the reference run sits well under it on the development machine. Raise the ceiling in `MONOREPO_BUDGET` in `benchmarks/monorepo.ts` in the same commit that intentionally regresses large-repo scans, state the reason, and update this table. Unit tests cover the evaluator and a small synthetic fixture; they do not create 100k files.
+The 5-second ceiling is the product goal from the roadmap; the reference run sits well under it on the development machine. Raise the ceiling in `MONOREPO_BUDGET` in `benchmarks/monorepo.ts` in the same commit that intentionally regresses large-repo scans, state the reason, and update this table. The benchmark also enforces a peak-memory ceiling (`maxPeakRssBytes`, 1536 MB; `--max-rss-mb` overrides it), and `--simulate-leak-mb N` retains N MB per measured run to prove the gate trips. The `perf-budget` CI job runs the synthetic fixture and a real monorepo (`babel/babel`, pinned by commit in `.github/workflows/ci.yml`, 768 MB ceiling); bump the pin deliberately. Unit tests cover the evaluator and a small synthetic fixture; they do not create 100k files.
 
 ```bash
 npm run benchmark:monorepo -- --check
 npm run benchmark:monorepo -- --files 5000 --runs 1 --warmup 0
+npm run benchmark:monorepo -- --check --simulate-leak-mb 1500   # a deliberate leak must fail the gate
 npm run benchmark:monorepo -- --path /path/to/local/monorepo --json
 ```

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { after, before, test } from "node:test";
@@ -179,4 +179,41 @@ test("--align patches apply and remove the drift, and floors are refused", async
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }
+});
+
+test("version files and manifests in subdirectories are read, not only those at the repository root", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-python-nested-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, "service"), { recursive: true });
+  await writeFile(join(root, "service", ".python-version"), "3.9\n");
+  await writeFile(join(root, "service", "pyproject.toml"), '[project]\nname = "x"\nrequires-python = ">=3.12"\n');
+  await writeFile(join(root, "service", "Dockerfile"), "FROM python:3.12-slim\n");
+  const runtime = (await analyzeDrift(root, [pythonCollector])).runtimes[0]!;
+  assert.deepEqual(
+    runtime.pins.map((pin) => [pin.path, pin.source, pin.release]),
+    [
+      ["service/.python-version", ".python-version", "3.9"],
+      ["service/Dockerfile", "Dockerfile FROM", "3.12"],
+      ["service/pyproject.toml", "pyproject.toml requires-python", "3.12"],
+    ],
+  );
+  assert.equal(runtime.drifted, true);
+  assert.equal(runtime.floorConflicts.length, 1);
+});
+
+test("a setup-python matrix and a multi-line .python-version are alternatives, not drift", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-python-matrix-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, ".github", "workflows"), { recursive: true });
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    "jobs:\n  test:\n    strategy:\n      matrix:\n        python: ['3.9', '3.10', '3.11']\n    steps:\n      - uses: actions/setup-python@v5\n        with:\n          python-version: ${{ matrix.python }}\n",
+  );
+  await writeFile(join(root, ".python-version"), "3.11.4\n3.10.9\n3.9.1\n");
+  const runtime = (await analyzeDrift(root, [pythonCollector])).runtimes[0]!;
+  assert.deepEqual(runtime.releases, ["3.9", "3.10", "3.11"]);
+  assert.equal(runtime.drifted, false);
+
+  await writeFile(join(root, "Dockerfile"), "FROM python:3.8-slim\n");
+  assert.equal((await analyzeDrift(root, [pythonCollector])).runtimes[0]!.drifted, true);
 });

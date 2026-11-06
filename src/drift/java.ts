@@ -21,7 +21,7 @@ import type { DriftCollector, RuntimePin } from "./types.js";
  * Collects every JDK version a repository states, at the major release granularity.
  *
  * Sources: Maven properties and `maven-compiler-plugin` configuration, Gradle toolchains and compatibility
- * settings, `.java-version`, `.sdkmanrc`, `.tool-versions`, Dockerfile and CI images of the JDK families, and
+ * settings (the compile levels are floors, the rest pins), `.java-version`, `.sdkmanrc`, `.tool-versions`, Dockerfile and CI images of the JDK families, and
  * `actions/setup-java`. Values that need a property expansion, a Gradle expression, a matrix expansion, or a
  * floating tag are reported as unresolved and never guessed. Nothing is fetched, installed, or executed.
  */
@@ -116,13 +116,14 @@ function pin(
   raw: string,
   release: string | undefined,
   unresolved?: string,
+  kind: "pin" | "floor" = "pin",
 ): RuntimePin {
   return {
     path,
     line,
     source,
     raw,
-    kind: "pin",
+    kind,
     ...(release === undefined ? {} : { release }),
     ...(unresolved === undefined ? {} : { unresolved }),
   };
@@ -146,12 +147,13 @@ function addJdkDeclaration(
   source: string,
   declaration: JdkDeclaration | DynamicJdkDeclaration,
 ): void {
+  // The source, target, and release levels say the oldest JDK the compiled code runs on: a floor, not the JDK that builds it.
+  const kind = declaration.role === "compile-level" ? "floor" : "pin";
   if (declaration.kind === "jdk") {
-    pins.push(pin(path, declaration.line, source, declaration.value, String(declaration.major)));
+    pins.push(pin(path, declaration.line, source, declaration.value, String(declaration.major), undefined, kind));
   } else {
-    pins.push(
-      pin(path, declaration.line, source, declaration.value, undefined, declarationReason(source, declaration.value)),
-    );
+    const reason = declarationReason(source, declaration.value);
+    pins.push(pin(path, declaration.line, source, declaration.value, undefined, reason, kind));
   }
 }
 
@@ -214,6 +216,8 @@ interface SetupJavaVersion {
   line: number;
   /** False when the value comes from `strategy.matrix`, so a patch would have to edit the matrix. */
   direct: boolean;
+  /** Set for the entries of one `strategy.matrix` list, which are alternatives. */
+  group?: string;
 }
 
 function setupJavaVersions(contents: string): SetupJavaVersion[] {
@@ -225,7 +229,7 @@ function setupJavaVersions(contents: string): SetupJavaVersion[] {
   if (!isMap(jobs)) return [];
 
   const versions: SetupJavaVersion[] = [];
-  const add = (node: Node, direct: boolean): void => {
+  const add = (node: Node, direct: boolean, group?: string): void => {
     if (!isScalar(node)) return;
     const value =
       typeof node.value === "string"
@@ -234,7 +238,7 @@ function setupJavaVersions(contents: string): SetupJavaVersion[] {
           ? (node.source ?? String(node.value)).trim()
           : undefined;
     if (value === undefined || value === "") return;
-    versions.push({ value, line: lineOf(node), direct });
+    versions.push({ value, line: lineOf(node), direct, ...(group === undefined ? {} : { group }) });
   };
 
   for (const job of jobs.items) {
@@ -254,8 +258,9 @@ function setupJavaVersions(contents: string): SetupJavaVersion[] {
       const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
       const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
       if (list !== undefined && list !== null) {
-        if (isSeq(list)) for (const item of list.items) add(item as Node, false);
-        else add(list as Node, false);
+        const group = `matrix:${key}@${lineOf(list as Node)}`;
+        if (isSeq(list)) for (const item of list.items) add(item as Node, false, group);
+        else add(list as Node, false, group);
       } else {
         add(version, true);
       }
@@ -381,20 +386,22 @@ function imagePins(path: string, items: readonly { line: number; value: string }
   return pins;
 }
 
-function setupJavaPins(path: string, contents: string): RuntimePin[] {
-  const pins: RuntimePin[] = [];
-  for (const version of setupJavaVersions(contents)) {
-    const source = `${path} actions/setup-java java-version${version.direct ? "" : " matrix"}`;
-    const major = leadingJdkMajor(version.value);
-    if (version.value.includes("${{")) {
-      pins.push(pin(path, version.line, source, version.value, undefined, EXPRESSION_REASON));
-    } else if (major === undefined) {
-      pins.push(pin(path, version.line, source, version.value, undefined, "the value does not name a JDK release"));
-    } else {
-      pins.push(pin(path, version.line, source, version.value, String(major)));
-    }
+function setupJavaPin(path: string, version: SetupJavaVersion): RuntimePin {
+  const source = `${path} actions/setup-java java-version${version.direct ? "" : " matrix"}`;
+  const major = leadingJdkMajor(version.value);
+  if (version.value.includes("${{"))
+    return pin(path, version.line, source, version.value, undefined, EXPRESSION_REASON);
+  if (major === undefined) {
+    return pin(path, version.line, source, version.value, undefined, "the value does not name a JDK release");
   }
-  return pins;
+  return pin(path, version.line, source, version.value, String(major));
+}
+
+function setupJavaPins(path: string, contents: string): RuntimePin[] {
+  return setupJavaVersions(contents).map((version) => {
+    const made = setupJavaPin(path, version);
+    return version.group === undefined ? made : { ...made, group: `${path}:${version.group}` };
+  });
 }
 
 type CandidateFileKind =
@@ -478,14 +485,6 @@ function alignToolVersionsLine(pin: RuntimePin, lineText: string, release: strin
   return `${match[1]}${release}${match[3]}`;
 }
 
-function alignCompilerSetting(_pin: RuntimePin, lineText: string, release: string): string | undefined {
-  const match = /^(.*<([A-Za-z0-9._-]+)>)([^<]*)(<\/\2>.*)$/.exec(lineText);
-  if (!match) return undefined;
-  const [, prefix = "", , value = "", suffix = ""] = match;
-  if (!isLiteralJdkValue(value.trim())) return undefined;
-  return `${prefix}${release}${suffix}`;
-}
-
 function alignSetupJavaLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (!isLiteralJdkValue(pin.raw)) return undefined;
   const match = /^(\s*(?:-\s*)?java-version\s*:\s*)(["']?)([^"'#\s]+)(\2)(.*)$/.exec(lineText);
@@ -503,7 +502,6 @@ const JAVA_ALIGN_RULES: readonly JavaAlignRule[] = [
   { appliesTo: (source) => source === ".java-version", rewrite: alignJavaVersionFile },
   { appliesTo: (source) => source === ".sdkmanrc java", rewrite: alignSdkmanrcLine },
   { appliesTo: (source) => source === ".tool-versions java", rewrite: alignToolVersionsLine },
-  { appliesTo: (source) => source === COMPILER_SOURCE, rewrite: alignCompilerSetting },
   { appliesTo: (source) => source.endsWith("actions/setup-java java-version"), rewrite: alignSetupJavaLine },
   {
     appliesTo: (source) => source.endsWith(" FROM") || source.endsWith(" image"),

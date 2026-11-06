@@ -57,7 +57,7 @@ Java releases are compared at the feature-release major: `17`, `21`, `25`. A leg
 | `Dockerfile`, `*.Dockerfile`, `Containerfile*` | `FROM` images of the `eclipse-temurin`, `openjdk`, and `amazoncorretto` families; `maven` and `gradle` tags that name a JDK, such as `3.9-eclipse-temurin-17` or `8.10-jdk21`; and `sdk install java` or `asdf install java` `RUN` lines. |
 | `.github/workflows/*.yml` | The `java-version` input of `actions/setup-java`. A `${{ matrix.<key> }}` value is followed to the matrix list in the same job. |
 | `.gitlab-ci.yml`, `.circleci/config.yml` | `image` references of the same JDK and build-image families. |
-Every one of these is a `pin`: the JDK that builds or runs the project. There is no Java floor source in this collector.
+The Maven `release`, `source`, `target`, and `java.version` properties and the Gradle `sourceCompatibility` and `targetCompatibility` settings are floors: they say the oldest JDK the compiled code runs on, not the JDK that builds it, so a build on JDK 21 that compiles for 17 is not drift. Everything else is a `pin`: the JDK that builds or runs the project. `--align` rewrites pins only.
 Reported as unresolved, never guessed:
 - a Maven property reference such as `${java.version}`;
 - a Gradle expression such as `JavaVersion.toVersion(libs.versions.java.get())`;
@@ -142,7 +142,7 @@ Release granularity is `1.minor`: `go1.22.4` and the image tag `1.22.4-alpine` b
 The Go collector reuses the existing `go.mod` and `go.work` parsers and reads Dockerfile `FROM` lines with the container parser. It reports these values as unresolved, without a release: a floating image tag such as `golang:latest`, an image with no tag, a tag that is not `major.minor`, a `stable` or `oldstable` `go-version`, an expression that is not a `matrix` reference, a matrix entry that is not a plain version, and a `.go-version` or `.tool-versions` value that is not a Go version.
 `--align` rewrites `toolchain go1.x.y` lines, `.go-version`, the `golang` entry of `.tool-versions`, `FROM golang:<version>[-variant]` (keeping the variant suffix), and a single-value `actions/setup-go` `go-version`. It refuses floors, matrix and expression values, `go-version-file` pointers, and floating tags.
 ## Python
-Python pins are reported at `major.minor` granularity: `3.11.4`, `3.11`, and `python-3.11` all select `3.11`.
+Python pins are reported at `major.minor` granularity: `3.11.4`, `3.11`, and `python-3.11` all select `3.11`. Version files and manifests are read at any depth, so a monorepo reports each service.
 | `.python-version` | every line | yes |
 | `.tool-versions` | the `python` line, one pin per version | yes |
 | `runtime.txt` | `python-<version>` | yes |

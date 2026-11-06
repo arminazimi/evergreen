@@ -17,11 +17,14 @@ import { scanRepository } from "../src/engine.js";
 export const MONOREPO_BUDGET = {
   maxMeanWallMs: 5_000,
   minFiles: 100_000,
+  /** Peak resident memory ceiling. Raise it with the reason when a scan intentionally needs more. */
+  maxPeakRssBytes: 1536 * 1024 * 1024,
 } as const;
 
 export interface MonorepoBudget {
   readonly maxMeanWallMs: number;
   readonly minFiles: number;
+  readonly maxPeakRssBytes: number;
 }
 
 export interface MonorepoMeasurements {
@@ -65,7 +68,7 @@ function maxRssBytes(): number {
  * caller lowers `minFiles` for local iteration.
  */
 export function evaluateMonorepoBudget(
-  measurements: Pick<MonorepoMeasurements, "meanWallMs" | "findingsCount" | "fileCount">,
+  measurements: Pick<MonorepoMeasurements, "meanWallMs" | "findingsCount" | "fileCount" | "peakRssBytes">,
   budget: MonorepoBudget,
 ): string[] {
   const violations: string[] = [];
@@ -75,6 +78,13 @@ export function evaluateMonorepoBudget(
   if (measurements.meanWallMs > budget.maxMeanWallMs) {
     violations.push(
       `mean scan wall time ${measurements.meanWallMs.toFixed(0)} ms exceeded the ${budget.maxMeanWallMs} ms budget`,
+    );
+  }
+  if (measurements.peakRssBytes > budget.maxPeakRssBytes) {
+    violations.push(
+      `peak memory ${(measurements.peakRssBytes / 1024 / 1024).toFixed(0)} MB exceeded the ${(
+        budget.maxPeakRssBytes / 1024 / 1024
+      ).toFixed(0)} MB budget`,
     );
   }
   if (measurements.findingsCount === 0) {
@@ -204,6 +214,8 @@ export interface MonorepoBenchmarkOptions {
   readonly measuredRuns?: number | undefined;
   /** Artificial per-run delay added to the measured wall time, to prove the gate trips. */
   readonly simulatedSlowdownMs?: number | undefined;
+  /** Megabytes deliberately retained across the measured runs, to prove the memory gate trips. */
+  readonly simulatedLeakMb?: number | undefined;
   /** Measured runs always use `noCache: true` so cold-path work is timed (default true). */
   readonly noCache?: boolean | undefined;
 }
@@ -224,6 +236,7 @@ export async function measureMonorepoScan(options: MonorepoBenchmarkOptions = {}
   const measuredRuns = options.measuredRuns ?? 3;
   const simulatedSlowdownMs = options.simulatedSlowdownMs ?? 0;
   const noCache = options.noCache ?? true;
+  const leaked: Buffer[] = [];
 
   let directory: string;
   let fileCount: number;
@@ -251,6 +264,8 @@ export async function measureMonorepoScan(options: MonorepoBenchmarkOptions = {}
       const startedAt = performance.now();
       const result = await scanRepository(directory, builtInDetectors, { noCache });
       if (simulatedSlowdownMs > 0) await delay(simulatedSlowdownMs);
+      // Touch every page so the retained buffer counts toward resident memory.
+      if (options.simulatedLeakMb) leaked.push(Buffer.alloc(options.simulatedLeakMb * 1024 * 1024, 1));
       return { wallMs: performance.now() - startedAt, findingsCount: result.findings.length };
     };
 
@@ -315,7 +330,7 @@ export function formatMonorepoSummary(result: MonorepoBenchmarkResult): string {
   return [
     `Monorepo scan (${result.fixture}): ${result.fileCount} files, mean ${result.meanWallMs.toFixed(0)} ms over ${runs} runs,`,
     `peak memory ${(result.peakRssBytes / 1024 / 1024).toFixed(0)} MB, ${result.findingsCount} findings`,
-    `(budget: ${result.budget.maxMeanWallMs} ms / ≥${result.budget.minFiles} files, noCache=${result.noCache} - ${status})`,
+    `(budget: ${result.budget.maxMeanWallMs} ms / ${(result.budget.maxPeakRssBytes / 1024 / 1024).toFixed(0)} MB / ≥${result.budget.minFiles} files, noCache=${result.noCache} - ${status})`,
   ].join(" ");
 }
 
@@ -333,6 +348,7 @@ function parseArgv(argv: readonly string[]): CliOptions {
     warmupRuns: undefined as number | undefined,
     measuredRuns: undefined as number | undefined,
     simulatedSlowdownMs: 0,
+    simulatedLeakMb: undefined as number | undefined,
     noCache: true,
     json: false,
     check: false,
@@ -347,6 +363,8 @@ function parseArgv(argv: readonly string[]): CliOptions {
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--max-wall-ms") {
       draft.budget = { ...(draft.budget ?? MONOREPO_BUDGET), maxMeanWallMs: number("--max-wall-ms") };
+    } else if (argv[i] === "--max-rss-mb") {
+      draft.budget = { ...(draft.budget ?? MONOREPO_BUDGET), maxPeakRssBytes: number("--max-rss-mb") * 1024 * 1024 };
     } else if (argv[i] === "--min-files") {
       draft.budget = { ...(draft.budget ?? MONOREPO_BUDGET), minFiles: number("--min-files") };
     } else if (argv[i] === "--files") draft.fileCount = number("--files");
@@ -354,6 +372,7 @@ function parseArgv(argv: readonly string[]): CliOptions {
     else if (argv[i] === "--warmup") draft.warmupRuns = number("--warmup");
     else if (argv[i] === "--runs") draft.measuredRuns = number("--runs");
     else if (argv[i] === "--simulate-slowdown-ms") draft.simulatedSlowdownMs = number("--simulate-slowdown-ms");
+    else if (argv[i] === "--simulate-leak-mb") draft.simulatedLeakMb = number("--simulate-leak-mb");
     else if (argv[i] === "--path") draft.targetDir = argv[++i];
     else if (argv[i] === "--json") draft.json = true;
     else if (argv[i] === "--check") draft.check = true;

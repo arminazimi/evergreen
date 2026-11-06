@@ -12,6 +12,7 @@ Three commands cover most agent use: `npx evergreen-deprecation check pkg:npm/le
 - [90-second demo](https://arminazimi.github.io/evergreen/DEMO.html): scan, explain, build migration context, and verify on a small repository.
 - [Local MCP server](https://arminazimi.github.io/evergreen/MCP.html): the tools, resources, prompt, and output schemas an agent can use, including `check_dependency`.
 - [Runtime drift](https://arminazimi.github.io/evergreen/DRIFT.html): `evergreen drift` reports every runtime version a repository states, whether those versions agree, and the patch that aligns them.
+- [Inventory](https://arminazimi.github.io/evergreen/INVENTORY.html): `evergreen inventory` reads the JSON or text exports that cloud and cluster tools already produce and reports end-of-life runtimes, engines, cluster versions, images, and operating systems, each with the exact pointer the claim rests on; it never calls a cloud API.
 - [MCP discovery](https://arminazimi.github.io/evergreen/.well-known/mcp.json): stdio server metadata, npm package, and tool list for agents that probe `/.well-known/mcp.json`.
 - [Agent card](https://arminazimi.github.io/evergreen/.well-known/agent.json): A2A agent card describing Evergreen's local MCP skills for agents that probe `/.well-known/agent.json`.
 - [Playbook: agent-driven migrations](https://arminazimi.github.io/evergreen/playbooks/agent.html): let a coding agent migrate one finding while Evergreen supplies the facts and the proof.

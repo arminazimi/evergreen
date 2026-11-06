@@ -1,9 +1,10 @@
 import { createHash } from "node:crypto";
-import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 
 import { defaultCacheDirectory } from "./data-source.js";
 import type { Finding, UnclassifiedReference } from "./domain.js";
+import type { ScanFileSystem } from "./file-system.js";
+import { nodeFileSystem } from "./node-file-system.js";
 import { toPosixPath } from "./paths.js";
 
 export interface ScanCacheKeyInput {
@@ -45,7 +46,7 @@ export interface ScanManifest {
 }
 
 /** Computes the SHA-256 digest of file content. */
-export function computeFileHash(content: string | Buffer): string {
+export function computeFileHash(content: string | Uint8Array): string {
   return createHash("sha256").update(content).digest("hex");
 }
 
@@ -67,22 +68,17 @@ export function defaultScanCacheDirectory(env: NodeJS.ProcessEnv = process.env):
   return join(defaultCacheDirectory(env), "scan-cache");
 }
 
-async function writeAtomically(targetPath: string, content: string): Promise<void> {
-  const dir = dirname(targetPath);
-  await mkdir(dir, { recursive: true });
-  const tempPath = `${targetPath}.${process.pid}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
-  await writeFile(tempPath, content, "utf8");
-  await rename(tempPath, targetPath);
-}
-
 export class ScanCache {
   readonly directory: string;
   private readonly memoryEntries = new Map<string, ScanCacheEntry>();
   private readonly memoryManifests = new Map<string, DetectorManifest>();
   private readonly memoryScanManifests = new Map<string, ScanManifest>();
 
-  constructor(directory: string = defaultScanCacheDirectory()) {
+  private readonly fileSystem: ScanFileSystem;
+
+  constructor(directory: string = defaultScanCacheDirectory(), fileSystem: ScanFileSystem = nodeFileSystem) {
     this.directory = directory;
+    this.fileSystem = fileSystem;
   }
 
   private entryPath(key: string): string {
@@ -106,7 +102,7 @@ export class ScanCache {
 
     const file = this.entryPath(key);
     try {
-      const raw = await readFile(file, "utf8");
+      const raw = await this.fileSystem.readText(file);
       const parsed = JSON.parse(raw) as ScanCacheEntry;
       if (
         parsed.fileHash === input.fileHash &&
@@ -129,7 +125,7 @@ export class ScanCache {
     this.memoryEntries.set(key, entry);
     const file = this.entryPath(key);
     try {
-      await writeAtomically(file, JSON.stringify(entry));
+      await this.fileSystem.writeTextAtomically(file, JSON.stringify(entry));
     } catch {
       // Cache write error must never fail the scan
     }
@@ -139,7 +135,7 @@ export class ScanCache {
     const key = computeCacheKey(input);
     this.memoryEntries.delete(key);
     const file = this.entryPath(key);
-    await rm(file, { force: true }).catch(() => undefined);
+    await this.fileSystem.remove(file).catch(() => undefined);
   }
 
   async getDetectorManifest(
@@ -160,7 +156,7 @@ export class ScanCache {
 
     const file = this.manifestPath(root, detectorId);
     try {
-      const raw = await readFile(file, "utf8");
+      const raw = await this.fileSystem.readText(file);
       const parsed = JSON.parse(raw) as DetectorManifest;
       if (
         parsed.detectorId === detectorId &&
@@ -181,7 +177,7 @@ export class ScanCache {
     this.memoryManifests.set(memoryKey, manifest);
     const file = this.manifestPath(root, manifest.detectorId);
     try {
-      await writeAtomically(file, JSON.stringify(manifest));
+      await this.fileSystem.writeTextAtomically(file, JSON.stringify(manifest));
     } catch {
       // Ignore write errors
     }
@@ -193,7 +189,7 @@ export class ScanCache {
 
     const file = this.scanManifestPath(root);
     try {
-      const raw = await readFile(file, "utf8");
+      const raw = await this.fileSystem.readText(file);
       const parsed = JSON.parse(raw) as ScanManifest;
       if (parsed.root === root) {
         this.memoryScanManifests.set(root, parsed);
@@ -209,7 +205,7 @@ export class ScanCache {
     this.memoryScanManifests.set(manifest.root, manifest);
     const file = this.scanManifestPath(manifest.root);
     try {
-      await writeAtomically(file, JSON.stringify(manifest));
+      await this.fileSystem.writeTextAtomically(file, JSON.stringify(manifest));
     } catch {
       // Ignore write errors
     }
@@ -219,6 +215,6 @@ export class ScanCache {
     this.memoryEntries.clear();
     this.memoryManifests.clear();
     this.memoryScanManifests.clear();
-    await rm(this.directory, { recursive: true, force: true }).catch(() => undefined);
+    await this.fileSystem.remove(this.directory).catch(() => undefined);
   }
 }
