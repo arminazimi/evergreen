@@ -14,6 +14,8 @@ export interface CommandContext {
   /** Full `--help` text, for usage errors that append it. */
   readonly help: string;
   readonly exitCodes: typeof EXIT_CODES;
+  /** The shell completion script for `shell`, or undefined when the shell is unknown. Supplied by the CLI entry. */
+  completionScript(shell: string | undefined): string | undefined;
   fail(kind: FailureClass, message: string, appendix?: string): number;
   failActionable(kind: FailureClass, actionable: ActionableMessage): number;
 }

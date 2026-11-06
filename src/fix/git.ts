@@ -1,6 +1,7 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { renderPatches, type FilePatch } from "./index.js";
+import { renderPatches } from "./render-patches.js";
+import type { FilePatch } from "./types.js";
 
 const execute = promisify(execFile);
 

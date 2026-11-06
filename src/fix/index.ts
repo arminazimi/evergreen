@@ -1,5 +1,6 @@
+import type { FilePatch, FixPlan, Fixer, FixerPatch, FixRefusal, Refuse } from "./types.js";
 import { workflowCommandsFixer } from "./codemods/workflow-commands.js";
-import type { Finding, ScanResult } from "../domain.js";
+import type { ScanResult } from "../domain.js";
 import { dockerfileLegacyFixer } from "./codemods/dockerfile-legacy.js";
 import { renameCodemodsFixer } from "./codemods/index.js";
 import { kubernetesIngressV1Fixer } from "./codemods/k8s-ingress-v1.js";
@@ -18,45 +19,8 @@ import { kubernetesApiVersionFixer } from "./kubernetes.js";
 import { runtimePinsFixer } from "./runtime-pins.js";
 import { pythonFixer } from "./python.js";
 
-/** The change one fixer proposes for one file, as a unified diff that `git apply` accepts. */
-export interface FilePatch {
-  path: string;
-  diff: string;
-}
-
-/** One finding a fixer recognized as its own and left unchanged, with the reason it could not repair it. */
-export interface FixRefusal {
-  fixer: string;
-  findingId: string;
-  ruleId: string;
-  path: string;
-  line?: number;
-  reason: string;
-}
-
-/** Receives each finding a fixer declines, so `fix --json` can report the refusal instead of dropping it silently. */
-export type Refuse = (finding: Finding, reason: string) => void;
-
-/**
- * A deterministic repair. It reads the findings of a scan and the files they point at, and returns patches. It never
- * writes a file, never runs a command, and never uses the network; a finding it cannot repair exactly is left alone and
- * reported through `refuse`.
- */
-export interface Fixer {
-  id: string;
-  plan(result: ScanResult, refuse?: Refuse): Promise<FilePatch[]>;
-}
-
-/** A patch together with the fixer that produced it. */
-export interface FixerPatch extends FilePatch {
-  fixer: string;
-}
-
-/** What `fix` would do: the patches it would apply, and every finding a fixer declined to repair. */
-export interface FixPlan {
-  patches: FixerPatch[];
-  refusals: FixRefusal[];
-}
+export type { FilePatch, FixPlan, FixRefusal, Fixer, FixerPatch } from "./types.js";
+export { renderPatches } from "./render-patches.js";
 
 export {
   workflowCommandsFixer,
@@ -136,9 +100,4 @@ export async function planFixReport(result: ScanResult, available: Fixer[] = fix
 /** Plans every fixer over a scan and returns the patches ordered by file, then fixer. */
 export async function planFixes(result: ScanResult, available: Fixer[] = fixers): Promise<FilePatch[]> {
   return (await planFixReport(result, available)).patches.map(({ path, diff }) => ({ path, diff }));
-}
-
-/** The text `fix` prints: the patches back to back, so the output pipes into `git apply`. */
-export function renderPatches(patches: FilePatch[]): string {
-  return patches.map((patch) => `${patch.diff}\n`).join("");
 }

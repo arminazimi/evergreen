@@ -52,6 +52,7 @@ import {
 } from "../reporters.js";
 import { STATUS_FILE_NAME, writeStatusFile } from "../status-file.js";
 import { browseFindings, canBrowse } from "../tui.js";
+import { selectorValuesSummary, unknownSelectors } from "../scan-selectors.js";
 import { EXIT_CODES, type CommandContext, type FailureClass } from "./types.js";
 
 export type { FailureClass };
@@ -94,7 +95,11 @@ export function fail(kind: FailureClass, message: string, appendix = ""): number
   return EXIT_CODES[kind];
 }
 
-export function createCommandContext(rawArgs: readonly string[], help: string): CommandContext {
+export function createCommandContext(
+  rawArgs: readonly string[],
+  help: string,
+  completionScript: CommandContext["completionScript"] = () => undefined,
+): CommandContext {
   const args = rawArgs.filter((argument) => argument !== "--debug");
   const formatValue = args[args.indexOf("--format") + 1];
   const jsonErrors = args.includes("--json") || (args.includes("--format") && formatValue === "json");
@@ -103,6 +108,7 @@ export function createCommandContext(rawArgs: readonly string[], help: string): 
     debug: rawArgs.includes("--debug"),
     help,
     exitCodes: EXIT_CODES,
+    completionScript,
     fail(kind, message, appendix = "") {
       process.stderr.write(`${message}\n${appendix}`);
       if (jsonErrors && kind !== "policy") {
@@ -381,12 +387,6 @@ const USAGE_GATES: readonly ((state: Prepared) => string | undefined)[] = [
 function scanSelection(only: string[], exclude: string[]): ScanSelection | undefined {
   if (only.length === 0 && exclude.length === 0) return undefined;
   return { ...(only.length > 0 ? { only } : {}), ...(exclude.length > 0 ? { exclude } : {}) };
-}
-
-/** Selectors that are duplicated, empty, or not an ecosystem or rule-id prefix, in the order they were given. */
-async function unknownSelectors(selectors: string[]): Promise<string[]> {
-  const known = await selectorValues();
-  return [...new Set(selectors)].filter((value) => !known.has(value) || value === "" || value.startsWith("-"));
 }
 
 /** Format and scan-only flag checks that used to run before any of the later commands. */
@@ -775,26 +775,4 @@ export async function repositoryRootProblem(path: string): Promise<ActionableMes
   } catch (error) {
     return unreadablePath(path, (error as NodeJS.ErrnoException).code === "ENOENT" ? "missing" : "unreadable");
   }
-}
-
-/** Valid `--only`/`--exclude` values: ecosystem ids, rule ids, and their dotted prefixes. */
-async function selectorValues(): Promise<Set<string>> {
-  const values = new Set<string>(builtInDetectors.map((detector) => detector.id));
-  for (const rule of await bundledRules()) {
-    const parts = rule.id.split(".");
-    for (let index = 1; index <= parts.length; index += 1) values.add(parts.slice(0, index).join("."));
-  }
-  return values;
-}
-
-/** Lists the ecosystems and rule-id families a selector may name, for the unknown-selector error. */
-async function selectorValuesSummary(): Promise<string> {
-  const ecosystems = builtInDetectors.map((detector) => detector.id).sort();
-  const prefixes = [...new Set((await bundledRules()).map((rule) => rule.id.split(".").slice(0, 2).join(".")))].sort(
-    (left, right) => left.localeCompare(right),
-  );
-  return `Valid ecosystems: ${ecosystems.join(", ")}. Valid rule prefixes: ${[...ecosystems, ...prefixes]
-    .filter((value, index, all) => all.indexOf(value) === index)
-    .sort((left, right) => left.localeCompare(right))
-    .join(", ")}.`;
 }

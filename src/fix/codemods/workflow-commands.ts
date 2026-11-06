@@ -11,7 +11,7 @@ import {
 } from "../../detectors/github-actions-workflow-commands.js";
 import type { WorkflowCommand, WorkflowRunLine } from "../../detectors/github-actions-workflow-commands.js";
 import type { Finding } from "../../domain.js";
-import type { FilePatch, Fixer, Refuse } from "../index.js";
+import type { FilePatch, Fixer, Refuse } from "../types.js";
 
 type Rewrite = { text: string } | { reason: string };
 

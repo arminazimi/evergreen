@@ -21,61 +21,57 @@ export interface DevcontainerImageDeclaration {
 
 export type DevcontainerDeclaration = DevcontainerImageDeclaration;
 
+/** End index (exclusive) of the string literal that opens at `start`; escapes are consumed verbatim. */
+function stringEnd(text: string, start: number): number {
+  let i = start + 1;
+  while (i < text.length) {
+    const ch = text.charAt(i);
+    i++;
+    if (ch === "\\" && i < text.length) i++;
+    else if (ch === '"') break;
+  }
+  return i;
+}
+
+/** End index (exclusive) of the `//` comment starting at `start`: up to, not including, the newline. */
+function lineCommentEnd(text: string, start: number): number {
+  let i = start + 2;
+  while (i < text.length && text[i] !== "\n") i++;
+  return i;
+}
+
+/** End index (exclusive) of the block comment opening at `start`; unterminated runs to the end. */
+function blockCommentEnd(text: string, start: number): number {
+  const close = text.indexOf("*/", start + 2);
+  return close === -1 ? text.length : close + 2;
+}
+
+/** Replace a comment with spaces, keeping newlines so line numbers stay accurate. */
+function blank(segment: string): string {
+  return segment.replace(/[^\n]/g, " ");
+}
+
 /** Strip `//` single-line and `/* ... *\/` block comments, preserving newlines. */
 function stripJsoncComments(text: string): string {
   let result = "";
   let i = 0;
-  let inString = false;
 
   while (i < text.length) {
     const ch = text.charAt(i);
-
-    if (inString) {
-      result += ch;
-      if (ch === "\\" && i + 1 < text.length) {
-        // Escaped character — consume it verbatim so `\"` doesn't end the string.
-        i++;
-        result += text.charAt(i);
-      } else if (ch === '"') {
-        inString = false;
-      }
-      i++;
-      continue;
-    }
-
+    const next = text[i + 1];
+    let end = i + 1;
+    let replacement: string | undefined;
     if (ch === '"') {
-      inString = true;
-      result += ch;
-      i++;
-      continue;
+      end = stringEnd(text, i);
+    } else if (ch === "/" && next === "/") {
+      end = lineCommentEnd(text, i);
+      replacement = blank(text.slice(i, end));
+    } else if (ch === "/" && next === "*") {
+      end = blockCommentEnd(text, i);
+      replacement = blank(text.slice(i, end));
     }
-
-    // Single-line comment: replace non-newline characters with spaces.
-    if (ch === "/" && text[i + 1] === "/") {
-      i += 2;
-      while (i < text.length && text[i] !== "\n") {
-        result += " ";
-        i++;
-      }
-      continue;
-    }
-
-    // Block comment: replace with spaces (keep newlines to preserve line numbers).
-    if (ch === "/" && text[i + 1] === "*") {
-      i += 2;
-      while (i < text.length) {
-        if (text[i] === "*" && text[i + 1] === "/") {
-          i += 2;
-          break;
-        }
-        result += text[i] === "\n" ? "\n" : " ";
-        i++;
-      }
-      continue;
-    }
-
-    result += ch;
-    i++;
+    result += replacement ?? text.slice(i, end);
+    i = end;
   }
 
   return result;

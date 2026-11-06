@@ -7,6 +7,7 @@ import { relativePosix } from "../paths.js";
 import type { DeprecationRule, Severity, UsageMatcher } from "../domain.js";
 import { loadDataFile } from "../data-source.js";
 import { analyzeSourceUsage, impactFor } from "../source-usage.js";
+import type { SourceUsage } from "../domain.js";
 import { parseSource } from "../usage/tree-sitter.js";
 import { discoverPythonWorkspaces, usagesOwnedBy } from "../workspaces.js";
 import { DETECTOR_API_VERSION, isDeprecationRule, isUsageMatcher } from "../sdk.js";
@@ -510,6 +511,158 @@ function coversDependency(rule: PythonPackageRule, project: ProjectScan): boolea
   return [...versions].some((version) => versionMatches(range, version));
 }
 
+/** Read one project directory; undefined when it has no pyproject, requirements, or version files. */
+async function scanProject(root: string, directory: string): Promise<ProjectScan | undefined> {
+  const projectRoot = resolve(root, directory);
+  const pyprojectPath = resolve(projectRoot, "pyproject.toml");
+  const pyprojectContents = await readOptional(pyprojectPath);
+  const pyproject = pyprojectContents ? parseTomlDocument(pyprojectContents) : undefined;
+  const requirements = await requirementFiles(projectRoot);
+  const versionDeclarations = await collectVersionFiles(projectRoot);
+  if (!pyprojectContents && requirements.length === 0 && versionDeclarations.length === 0) return undefined;
+
+  const dependencies = new Map<string, DirectDependency>();
+  const resolved: ResolvedVersions = new Map();
+  const declarations =
+    pyproject && pyprojectContents ? collectPyprojectRuntime(pyprojectPath, pyprojectContents, pyproject) : [];
+  declarations.push(...versionDeclarations);
+  if (pyproject && pyprojectContents)
+    collectPyprojectDependencies(pyprojectPath, pyprojectContents, pyproject, dependencies, resolved);
+  for (const path of requirements) {
+    collectRequirementsFile(path, await readFile(path, "utf8"), dependencies, resolved);
+  }
+  await collectLockfiles(projectRoot, resolved);
+  return { directory, declarations, dependencies, resolved };
+}
+
+/** A workspace shares the root's lockfile (uv.lock), so root-resolved versions apply to every project. */
+async function shareRootLockfile(root: string, projects: ProjectScan[]): Promise<void> {
+  const rootResolved: ResolvedVersions = new Map();
+  await collectLockfiles(root, rootResolved);
+  for (const project of projects) {
+    for (const [name, versions] of rootResolved)
+      project.resolved.set(name, new Set([...(project.resolved.get(name) ?? []), ...versions]));
+  }
+}
+
+/**
+ * Each runtime rule reads "Python X.Y and older". A declaration is reported by the narrowest rule that
+ * covers the release line it names, so a 3.8 or 3.9 declaration keeps its existing finding and a 3.10
+ * declaration gets the newer rule, instead of every declaration matching only the first rule.
+ */
+function sortedRuntimeRules(rules: readonly PythonRule[]): PythonRuntimeRule[] {
+  return rules
+    .filter((rule): rule is PythonRuntimeRule => rule.kind === "runtime")
+    .sort((left, right) => {
+      const [leftMajor = 0, leftMinor = 0] = versionPair(left.maximumVersion) ?? [];
+      const [rightMajor = 0, rightMinor = 0] = versionPair(right.maximumVersion) ?? [];
+      return leftMajor - rightMajor || leftMinor - rightMinor;
+    });
+}
+
+/** The release line a rule reports for a declaration, or undefined when the rule does not cover it. */
+function coveredVersion(declaration: Declaration, rule: PythonRuntimeRule): number[] | undefined {
+  const line = versionPair(rule.maximumVersion);
+  if (!rule.scheduled) return unsupportedVersion(declaration.value, rule.maximumVersion);
+  return line && staysOnScheduledLine(declaration, line) ? line : undefined;
+}
+
+function runtimeFinding(
+  root: string,
+  declaration: Declaration,
+  rule: PythonRuntimeRule,
+  version: number[],
+): DetectorFinding {
+  const severity: Severity = declaration.kind === "pinned runtime" ? rule.severity : "medium";
+  const path = relativePosix(root, declaration.path);
+  return {
+    id: `${rule.id}:${path}:${declaration.line}${declaration.identity ? `:${declaration.identity}` : ""}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary: `${declaration.kind} ${declaration.value} includes Python ${version.join(".")}. ${rule.summary}`,
+    severity,
+    location: { path, line: declaration.line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
+function runtimeFindings(root: string, rules: readonly PythonRule[], projects: ProjectScan[]): DetectorFinding[] {
+  const runtimeRules = sortedRuntimeRules(rules);
+  const findings: DetectorFinding[] = [];
+  for (const declaration of projects.flatMap((project) => project.declarations)) {
+    for (const rule of runtimeRules) {
+      const version = coveredVersion(declaration, rule);
+      if (!version) continue;
+      findings.push(runtimeFinding(root, declaration, rule, version));
+      break;
+    }
+  }
+  return findings;
+}
+
+function packageFinding(
+  root: string,
+  rule: PythonPackageRule,
+  dependency: DirectDependency,
+  resolved: string[],
+  owned: SourceUsage[],
+): DetectorFinding {
+  return {
+    id: `${rule.id}:${relativePosix(root, dependency.path)}:${dependency.line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary: `${dependency.name} is declared as ${dependency.constraint || "unconstrained"}; resolved: ${resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile"}. ${rule.summary}`,
+    severity: rule.severity,
+    location: {
+      path: relativePosix(root, dependency.path),
+      line: dependency.line,
+    },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.requires ? { requires: rule.requires } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+    usages: owned,
+    impact: impactFor(owned),
+  };
+}
+
+async function packageFindings(
+  root: string,
+  rules: readonly PythonRule[],
+  projects: ProjectScan[],
+): Promise<DetectorFinding[]> {
+  const matchedPackageRules = rules.filter(
+    (rule): rule is PythonPackageRule =>
+      rule.kind === "package" &&
+      projects.some(
+        (project) => project.dependencies.has(normalizePackageName(rule.package)) && coversDependency(rule, project),
+      ),
+  );
+  const usageAnalyses = await analyzeSourceUsage(
+    root,
+    matchedPackageRules.map((rule) => ({ id: rule.id, matchers: rule.usage ?? [] })),
+  );
+  const usages = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis.usages]));
+  const projectDirectories = projects.map((project) => project.directory);
+
+  const findings: DetectorFinding[] = [];
+  for (const project of projects) {
+    for (const rule of matchedPackageRules) {
+      const dependency = project.dependencies.get(normalizePackageName(rule.package));
+      if (!dependency || !coversDependency(rule, project)) continue;
+      const resolved = [...(project.resolved.get(dependency.name) ?? [])].sort();
+      // Each project reports the usages inside its own directory; the root keeps the ones outside every member.
+      const owned = usagesOwnedBy(required(usages.get(rule.id), "usage"), project.directory, projectDirectories);
+      findings.push(packageFinding(root, rule, dependency, resolved, owned));
+    }
+  }
+  return findings;
+}
+
 export class PythonDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "python";
@@ -537,121 +690,17 @@ export class PythonDetector implements Detector {
     // The root project is "", each uv workspace member is its relative directory.
     const projects: ProjectScan[] = [];
     for (const directory of ["", ...memberDirectories]) {
-      const projectRoot = resolve(context.root, directory);
-      const pyprojectPath = resolve(projectRoot, "pyproject.toml");
-      const pyprojectContents = await readOptional(pyprojectPath);
-      const pyproject = pyprojectContents ? parseTomlDocument(pyprojectContents) : undefined;
-      const requirements = await requirementFiles(projectRoot);
-      const versionDeclarations = await collectVersionFiles(projectRoot);
-      if (!pyprojectContents && requirements.length === 0 && versionDeclarations.length === 0) continue;
-
-      const dependencies = new Map<string, DirectDependency>();
-      const resolved: ResolvedVersions = new Map();
-      const declarations =
-        pyproject && pyprojectContents ? collectPyprojectRuntime(pyprojectPath, pyprojectContents, pyproject) : [];
-      declarations.push(...versionDeclarations);
-      if (pyproject && pyprojectContents)
-        collectPyprojectDependencies(pyprojectPath, pyprojectContents, pyproject, dependencies, resolved);
-      for (const path of requirements) {
-        collectRequirementsFile(path, await readFile(path, "utf8"), dependencies, resolved);
-      }
-      await collectLockfiles(projectRoot, resolved);
-      projects.push({ directory, declarations, dependencies, resolved });
+      const project = await scanProject(context.root, directory);
+      if (project) projects.push(project);
     }
     if (projects.length === 0) return [];
 
-    // A workspace shares the root's lockfile (uv.lock), so root-resolved versions apply to every project.
-    const rootResolved: ResolvedVersions = new Map();
-    await collectLockfiles(context.root, rootResolved);
-    for (const project of projects) {
-      for (const [name, versions] of rootResolved)
-        project.resolved.set(name, new Set([...(project.resolved.get(name) ?? []), ...versions]));
-    }
-
+    await shareRootLockfile(context.root, projects);
     const rules = await loadRules();
-    const declarations = projects.flatMap((project) => project.declarations);
-
-    // Each runtime rule reads "Python X.Y and older". A declaration is reported by the narrowest rule that
-    // covers the release line it names, so a 3.8 or 3.9 declaration keeps its existing finding and a 3.10
-    // declaration gets the newer rule, instead of every declaration matching only the first rule.
-    const runtimeRules = rules
-      .filter((rule): rule is PythonRuntimeRule => rule.kind === "runtime")
-      .sort((left, right) => {
-        const [leftMajor = 0, leftMinor = 0] = versionPair(left.maximumVersion) ?? [];
-        const [rightMajor = 0, rightMinor = 0] = versionPair(right.maximumVersion) ?? [];
-        return leftMajor - rightMajor || leftMinor - rightMinor;
-      });
-    const findings: DetectorFinding[] = [];
-    for (const declaration of declarations) {
-      for (const runtimeRule of runtimeRules) {
-        const line = versionPair(runtimeRule.maximumVersion);
-        const version = runtimeRule.scheduled
-          ? line && staysOnScheduledLine(declaration, line)
-            ? line
-            : undefined
-          : unsupportedVersion(declaration.value, runtimeRule.maximumVersion);
-        if (!version) continue;
-        const severity: Severity = declaration.kind === "pinned runtime" ? runtimeRule.severity : "medium";
-        const path = relativePosix(context.root, declaration.path);
-        findings.push({
-          id: `${runtimeRule.id}:${path}:${declaration.line}${declaration.identity ? `:${declaration.identity}` : ""}`,
-          ruleId: runtimeRule.id,
-          title: runtimeRule.title,
-          summary: `${declaration.kind} ${declaration.value} includes Python ${version.join(".")}. ${runtimeRule.summary}`,
-          severity,
-          location: { path, line: declaration.line },
-          ...(runtimeRule.replacement ? { replacement: runtimeRule.replacement } : {}),
-          ...(runtimeRule.deadline ? { deadline: runtimeRule.deadline } : {}),
-          ...(runtimeRule.migration ? { migration: runtimeRule.migration } : {}),
-          sources: runtimeRule.sources,
-        });
-        break;
-      }
-    }
-
-    const matchedPackageRules = rules.filter(
-      (rule): rule is PythonPackageRule =>
-        rule.kind === "package" &&
-        projects.some(
-          (project) => project.dependencies.has(normalizePackageName(rule.package)) && coversDependency(rule, project),
-        ),
-    );
-    const usageAnalyses = await analyzeSourceUsage(
-      context.root,
-      matchedPackageRules.map((rule) => ({ id: rule.id, matchers: rule.usage ?? [] })),
-    );
-    const usages = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis.usages]));
-    const projectDirectories = projects.map((project) => project.directory);
-
-    for (const project of projects) {
-      for (const rule of matchedPackageRules) {
-        const dependency = project.dependencies.get(normalizePackageName(rule.package));
-        if (!dependency || !coversDependency(rule, project)) continue;
-        const resolved = [...(project.resolved.get(dependency.name) ?? [])].sort();
-        // Each project reports the usages inside its own directory; the root keeps the ones outside every member.
-        const owned = usagesOwnedBy(required(usages.get(rule.id), "usage"), project.directory, projectDirectories);
-        findings.push({
-          id: `${rule.id}:${relativePosix(context.root, dependency.path)}:${dependency.line}`,
-          ruleId: rule.id,
-          title: rule.title,
-          summary: `${dependency.name} is declared as ${dependency.constraint || "unconstrained"}; resolved: ${resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile"}. ${rule.summary}`,
-          severity: rule.severity,
-          location: {
-            path: relativePosix(context.root, dependency.path),
-            line: dependency.line,
-          },
-          ...(rule.replacement ? { replacement: rule.replacement } : {}),
-          ...(rule.requires ? { requires: rule.requires } : {}),
-          ...(rule.deadline ? { deadline: rule.deadline } : {}),
-          ...(rule.migration ? { migration: rule.migration } : {}),
-          sources: rule.sources,
-          usages: owned,
-          impact: impactFor(owned),
-        });
-      }
-    }
-
-    return findings;
+    return [
+      ...runtimeFindings(context.root, rules, projects),
+      ...(await packageFindings(context.root, rules, projects)),
+    ];
   }
 }
 

@@ -10,7 +10,7 @@ import {
 } from "../../detectors/terraform/parse-terraform.js";
 import type { Finding, ScanResult } from "../../domain.js";
 import { required } from "../../required.js";
-import type { FilePatch, Fixer, Refuse } from "../index.js";
+import type { FilePatch, Fixer, Refuse } from "../types.js";
 
 const INTERPOLATION_RULE_ID = "terraform.syntax.interpolation-only";
 const LEGACY_FUNCTION_RULE_ID = "terraform.function.list-map";

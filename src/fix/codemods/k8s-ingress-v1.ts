@@ -6,7 +6,7 @@ import type { Document, Pair, YAMLMap, YAMLSeq } from "yaml";
 import { renderDiff } from "../../agent-instructions.js";
 import { MAXIMUM_DOCUMENTS, MAXIMUM_INPUT_BYTES } from "../../detectors/kubernetes/parse-manifest.js";
 import type { Finding } from "../../domain.js";
-import type { FilePatch, Fixer, Refuse } from "../index.js";
+import type { FilePatch, Fixer, Refuse } from "../types.js";
 
 /**
  * Moves an Ingress from `extensions/v1beta1` or `networking.k8s.io/v1beta1` to `networking.k8s.io/v1`.

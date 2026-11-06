@@ -106,6 +106,7 @@
     "benchmark:perf-budget": "npm run build --silent && node dist/benchmarks/perf-budget.js",
     "benchmark:startup": "npm run build --silent && node dist/benchmarks/startup.js",
     "benchmark:monorepo": "npm run build --silent && node dist/benchmarks/monorepo.js",
+    "benchmark:detector-cost": "npm run build --silent && node dist/benchmarks/detector-cost.js",
     "benchmark:first-run": "npm run build --silent && node dist/benchmarks/first-run.js",
     "eval:skill-triggers": "npm run build --silent && node dist/benchmarks/skill-trigger-eval.js",
     "eval:plugins": "npm run build --silent && node dist/benchmarks/plugin-host-eval.js",

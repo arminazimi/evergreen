@@ -36,6 +36,7 @@ function context(): CapturedContext {
     debug: false,
     help: "help text",
     exitCodes: EXIT_CODES,
+    completionScript: () => undefined,
     failures,
     fail(kind: FailureClass, message: string, appendix = "") {
       failures.push(`${kind}: ${message}${appendix}`);
