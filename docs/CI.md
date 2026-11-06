@@ -73,6 +73,10 @@ Do not raise it to make a single change pass.
 
 - Classify docs-only vs code ([`ci.yml`](../.github/workflows/ci.yml) `changes` job).
 - `npm run check` on Ubuntu with Node 24 and Node 22.
+- Run only the test files a change can reach, from an import map
+  ([`tools/run-tests-selection.ts`](../tools/run-tests-selection.ts)); the `coverage` job still measures the
+  whole suite on every pull request. Shared paths, configuration, fixtures, the registry, and the
+  map's own code run everything.
 - `npm run check` on Windows with Node 24 (path and line-ending bugs before merge).
 - Quality gate against `origin/main`, dependency audit, Action cold-start budget, generated docs
   and data checks, coverage floors and per-file coverage diff — on the Linux Node 24 job.
@@ -114,7 +118,8 @@ the site instead.
 
 **Runs.**
 
-- The full code gate from the pull-request lane, including Windows.
+- The full code gate from the pull-request lane, including Windows — and the whole test suite,
+  never the affected subset the pull-request lane runs.
 - macOS with Node 24 (`check-cross-os`), because that runner is scarce and belongs on the landing
   proof rather than every pull-request push. Its tarball hash joins the Linux and Windows records,
   so the merge-queue comparison covers all three runners.

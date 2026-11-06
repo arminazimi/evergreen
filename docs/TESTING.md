@@ -18,6 +18,26 @@ npm run check                             # build, Action bundle, tests, plugin 
 
 `npm run check` is the gate. It runs the tests in `tools/check-pipeline.ts` (`testProcessArgs` at `tools/check-pipeline.ts:59`) alongside the Action bundle, plugin drift, and plugin evals. A new `tests/*.test.ts` file needs no registration: the runner globs `dist/tests/**/*.test.js` (`tools/run-tests.mjs:241`). Helper modules such as `tests/fuzz/parsers.ts` are compiled but not run as tests.
 
+## Affected tests on pull requests
+
+`ci.yml` writes the files a pull request changes to a list and points `EVERGREEN_AFFECTED_FILES` at it. On that lane, `tools/run-tests.mjs` runs only the test files that reach a changed module through imports (`tools/run-tests-selection.ts`). Every other lane — the merge queue, `main`, a schedule, and a local `npm test` — has no list and runs the whole suite.
+
+- A changed test file runs itself.
+- A changed module under `src/` or `tests/` runs every test that imports it, directly or through a test helper.
+- A change the map cannot place runs everything: configuration (`package.json`, `tsconfig.json`, workflows), shared data (`registry/`, `schemas/`, `data/`), fixtures, `tools/` and `benchmarks/` sources, and a module no test imports.
+- The `coverage` job always measures the whole suite, so the narrowing never moves a coverage floor.
+- The map is built from the checkout at run time; it is not a committed file that can go stale.
+
+Reproduce a narrowed run locally:
+
+```bash
+npm run build --silent
+printf '%s\n' src/detectors/npm/index.ts > /tmp/changed.txt
+EVERGREEN_AFFECTED_FILES=/tmp/changed.txt node tools/run-tests.mjs
+```
+
+The run prints `Affected tests: ...` and writes the same line to the job summary. When a shard is set, the summary notes that the subset is not balanced against the committed timings.
+
 ## Pick a kind
 
 | Kind | Lives in | Use it when |

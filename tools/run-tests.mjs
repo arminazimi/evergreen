@@ -11,6 +11,11 @@
 // balancing by measured file times in benchmarks/test-file-timings.json. When
 // EVERGREEN_CHECK_COVERAGE=1 the same run writes lcov.info for the shard; CI merges the shard
 // reports before the coverage floors and diff.
+//
+// On a pull request, ci.yml writes the change list to EVERGREEN_AFFECTED_FILES and only the tests
+// that can reach a changed module run (tools/run-tests-selection.ts builds the map from imports). The
+// merge queue, main, and every run without that list execute the whole suite, and coverage always
+// measures every file, so the narrowing can cost a review round-trip but never the landing proof.
 
 import { spawn } from "node:child_process";
 import { realpathSync } from "node:fs";
@@ -76,6 +81,7 @@ function realpathOrResolve(path) {
 export const QUARANTINE_PATH = "tests/quarantine.json";
 export const TIME_BUDGET_PATH = "benchmarks/test-time-budget.json";
 export const FILE_TIMINGS_PATH = "benchmarks/test-file-timings.json";
+export const AFFECTED_FILES_ENV = "EVERGREEN_AFFECTED_FILES";
 export const FLAKY_MARKER = "<!-- evergreen-flaky-tests -->";
 export const FLAKY_LOG_PREFIX = "evergreen-flaky-tests:";
 export const USER_AGENT = "evergreen-run-tests (+https://github.com/arminazimi/evergreen)";
@@ -550,6 +556,64 @@ function durationMsForFile(absoluteFile, timings) {
 }
 
 /**
+ * The test files a pull request's change list can reach, or a full-run answer when the map cannot
+ * narrow safely.
+ *
+ * A run without `EVERGREEN_AFFECTED_FILES` always runs the whole suite: the merge queue, `main`, a
+ * scheduled workflow, and a local `npm test` never narrow. Coverage also stays whole, because the
+ * floors are measured on every file.
+ *
+ * @param {readonly string[]} allFiles absolute paths of the compiled test files this run could run
+ * @param {{ root?: string, env?: NodeJS.ProcessEnv }} [options]
+ * @returns {Promise<{ files: string[], reason: string, full: boolean } | undefined>}
+ */
+export async function affectedTestFiles(allFiles, options = {}) {
+  const root = options.root ?? ROOT;
+  const env = options.env ?? process.env;
+  const listPath = env[AFFECTED_FILES_ENV];
+  if (!listPath) return undefined;
+  if (coverageRequested(env)) {
+    return { files: allFiles, reason: "full suite — coverage is measured on every test file", full: true };
+  }
+  let changed;
+  try {
+    changed = (await readFile(listPath, "utf8"))
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return { files: allFiles, reason: `full suite — cannot read the change list (${message})`, full: true };
+  }
+  let selection;
+  try {
+    // Imported lazily: the map's TypeScript parser is only worth loading on the lane that narrows.
+    const { selectAffectedTests } = await import("../dist/tools/run-tests-selection.js");
+    selection = await selectAffectedTests(changed, { root });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return { files: allFiles, reason: `full suite — the test map could not be built (${message})`, full: true };
+  }
+  if (selection.full) return { files: allFiles, reason: selection.reason, full: true };
+
+  const selected = new Set(selection.tests.map((file) => toDistTestPath(file)));
+  const files = allFiles.filter((file) => selected.has(relative(root, file).replaceAll("\\", "/")));
+  return {
+    files,
+    reason: `${selection.reason}; ${files.length} of ${allFiles.length} compiled file(s) run`,
+    full: false,
+  };
+}
+
+/** @param {string} reason */
+async function reportAffected(reason) {
+  process.stdout.write(`\nAffected tests: ${reason}\n`);
+  const summary = `### Affected tests\n\n${reason}\n`;
+  const stepSummary = process.env.GITHUB_STEP_SUMMARY;
+  if (stepSummary) await appendFile(stepSummary, `\n${summary}`);
+}
+
+/**
  * @param {{ quarantineOnly: boolean, files: string[] }} options
  */
 async function runSuite(options) {
@@ -557,6 +621,18 @@ async function runSuite(options) {
   const quarantined = await loadQuarantine();
   const quarantinePaths = quarantineDistSet(quarantined);
   let files = options.files.length > 0 ? options.files.map((file) => resolve(ROOT, file)) : await listDistTests();
+
+  let narrowed = false;
+  if (options.files.length === 0 && !options.quarantineOnly) {
+    const affected = await affectedTestFiles(files);
+    if (affected) {
+      await reportAffected(affected.reason);
+      if (!affected.full) {
+        files = affected.files;
+        narrowed = true;
+      }
+    }
+  }
 
   if (options.quarantineOnly) {
     files = [...quarantinePaths].sort();
@@ -584,9 +660,11 @@ async function runSuite(options) {
     const timings = await loadFileTimings();
     const assignment = selectShardFiles(files, (file) => durationMsForFile(file, timings), shard.index, shard.count);
     files = assignment.files;
-    const balance = shardLoadsWithinTolerance(assignment.loadsMs)
-      ? "within 20%"
-      : "OUTSIDE 20% — update benchmarks/test-file-timings.json";
+    const balance = narrowed
+      ? "affected subset, not balanced against the committed timings"
+      : shardLoadsWithinTolerance(assignment.loadsMs)
+        ? "within 20%"
+        : "OUTSIDE 20% — update benchmarks/test-file-timings.json";
     process.stdout.write(
       `Test shard ${shard.index + 1}/${shard.count}: ${files.length} file(s), planned ${formatTestDuration(assignment.loadMs)} (${balance}; loads ${assignment.loadsMs.map(formatTestDuration).join(", ")}).\n`,
     );

@@ -141,6 +141,10 @@ jobs:
     # the Linux-only gates. Coverage is collected once in the `coverage` job: V8's LCOV BRDA
     # block ids are process-local, so partial shard reports cannot be merged into a correct
     # branch total (lines/functions merge cleanly; branches do not).
+    #
+    # On a pull request these shards run only the tests the change can reach (an import map, see
+    # tools/run-tests-selection.ts); the merge queue and main run every test file, and `coverage` keeps
+    # measuring the whole suite on both.
     name: check (${{ matrix.os }}, node ${{ matrix.node }}, shard ${{ matrix.shard }})
     needs: changes
     if: needs.changes.outputs.docs_only != 'true'
@@ -166,6 +170,24 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: ${{ runner.os != 'Windows' && 'npm' || '' }}
+      - name: List the files this pull request changes
+        # The pull-request lane runs only the tests the change can reach; the merge queue, main, and
+        # scheduled runs set no list and execute the whole suite. The step always writes the file, so
+        # an empty list means "run everything" instead of "run nothing".
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          : > "$RUNNER_TEMP/evergreen-changed-files.txt"
+          if [ -z "${BASE_SHA:-}" ]; then
+            echo "No base SHA; the full suite runs."
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git diff --name-only --diff-filter=ACMRD "$BASE_SHA" HEAD > "$RUNNER_TEMP/evergreen-changed-files.txt"
+          echo "Files changed: $(wc -l < "$RUNNER_TEMP/evergreen-changed-files.txt")"
       - name: npm run check
         # The committed action bundle is verified only for a release; ordinary pull requests would conflict on it.
         env:
@@ -173,6 +195,8 @@ jobs:
           # Shard by measured file times (benchmarks/test-file-timings.json), not by file count.
           EVERGREEN_TEST_SHARD: "${{ matrix.shard }}"
           EVERGREEN_TEST_SHARD_COUNT: "2"
+          # Set on pull requests only; the merge queue and main run the whole suite.
+          EVERGREEN_AFFECTED_FILES: "${{ github.event_name == 'pull_request' && format('{0}/evergreen-changed-files.txt', runner.temp) || '' }}"
         run: npm run check
       - name: Guard the quality gate against main
         # A pull request must not raise an allowlist ceiling, add an entry, or loosen TARGETS — even by editing the checker.
@@ -405,9 +429,25 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: ${{ runner.os != 'Windows' && 'npm' || '' }}
+      - name: List the files this pull request changes
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          : > "$RUNNER_TEMP/evergreen-changed-files.txt"
+          if [ -z "${BASE_SHA:-}" ]; then
+            echo "No base SHA; the full suite runs."
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git diff --name-only --diff-filter=ACMRD "$BASE_SHA" HEAD > "$RUNNER_TEMP/evergreen-changed-files.txt"
+          echo "Files changed: $(wc -l < "$RUNNER_TEMP/evergreen-changed-files.txt")"
       - name: npm run check
         env:
           EVERGREEN_VERIFY_ACTION_BUNDLE: "${{ (startsWith(github.event.pull_request.title, 'chore: release') || startsWith(github.event.head_commit.message, 'chore: release')) && '1' || '' }}"
+          EVERGREEN_AFFECTED_FILES: "${{ github.event_name == 'pull_request' && format('{0}/evergreen-changed-files.txt', runner.temp) || '' }}"
         run: npm run check
       - name: Record the packed tarball hash
         # The comparison runs in ci-ok against the Linux record from `check`. macOS joins on main and
