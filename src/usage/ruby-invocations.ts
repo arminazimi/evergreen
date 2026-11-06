@@ -14,44 +14,38 @@ function rubyCloser(delimiter: string): string | undefined {
   return RUBY_PAIRS[delimiter] ?? (/[^A-Za-z0-9_\s]/.test(delimiter) ? delimiter : undefined);
 }
 
-/** A single-line string literal starting at `start`, or undefined when the text is not a quoted or percent string. */
-function readRubyLiteral(line: string, start: number): RubyLiteral | undefined {
-  const quoted = line[start];
-  if (quoted === "'" || quoted === '"') {
-    let value = "";
-    let escaped = false;
-    for (let index = start + 1; index < line.length; index += 1) {
-      const character = line.charAt(index);
-      if (escaped) {
-        value += character;
-        escaped = false;
-        continue;
-      }
-      if (character === "\\") {
-        escaped = true;
-        continue;
-      }
-      if (quoted === '"' && character === "#" && line[index + 1] === "{") {
-        return { value, end: line.length, column: start + 2, interpolated: true };
-      }
-      if (character === quoted) return { value, end: index + 1, column: start + 2, interpolated: false };
+/** A quoted string starting at `start`, which holds the opening quote. */
+function readQuotedRubyLiteral(line: string, start: number, quoted: string): RubyLiteral | undefined {
+  let value = "";
+  let escaped = false;
+  for (let index = start + 1; index < line.length; index += 1) {
+    const character = line.charAt(index);
+    if (escaped) {
       value += character;
+      escaped = false;
+      continue;
     }
-    return undefined;
+    if (character === "\\") {
+      escaped = true;
+      continue;
+    }
+    if (quoted === '"' && character === "#" && line[index + 1] === "{") {
+      return { value, end: line.length, column: start + 2, interpolated: true };
+    }
+    if (character === quoted) return { value, end: index + 1, column: start + 2, interpolated: false };
+    value += character;
   }
-  if (quoted !== "%") return undefined;
-  let cursor = start + 1;
-  const marker = line[cursor];
-  let type = "";
-  if (marker && /[qQwWrsxiI]/.test(marker)) {
-    type = marker;
-    cursor += 1;
-  }
-  const delimiter = line[cursor];
-  if (!delimiter) return undefined;
-  const closer = rubyCloser(delimiter);
-  if (!closer || (type !== "" && type !== "q" && type !== "Q" && type !== "s")) return undefined;
-  const interpolating = type === "" || type === "Q";
+  return undefined;
+}
+
+/** The body of a percent literal whose opening delimiter is at `cursor`. */
+function scanRubyPercentBody(
+  line: string,
+  cursor: number,
+  delimiter: string,
+  closer: string,
+  interpolating: boolean,
+): RubyLiteral | undefined {
   const paired = closer !== delimiter;
   let depth = 1;
   let value = "";
@@ -79,6 +73,25 @@ function readRubyLiteral(line: string, start: number): RubyLiteral | undefined {
   return undefined;
 }
 
+/** A single-line string literal starting at `start`, or undefined when the text is not a quoted or percent string. */
+function readRubyLiteral(line: string, start: number): RubyLiteral | undefined {
+  const quoted = line[start];
+  if (quoted === "'" || quoted === '"') return readQuotedRubyLiteral(line, start, quoted);
+  if (quoted !== "%") return undefined;
+  let cursor = start + 1;
+  const marker = line[cursor];
+  let type = "";
+  if (marker && /[qQwWrsxiI]/.test(marker)) {
+    type = marker;
+    cursor += 1;
+  }
+  const delimiter = line[cursor];
+  if (!delimiter) return undefined;
+  const closer = rubyCloser(delimiter);
+  if (!closer || !["", "q", "Q", "s"].includes(type)) return undefined;
+  return scanRubyPercentBody(line, cursor, delimiter, closer, type === "" || type === "Q");
+}
+
 const RUBY_KINDS = ["require", "load", "gem", "autoload", "require_relative"] as const;
 
 function isRubyKind(value: string): value is RubyInvocation["kind"] {
@@ -98,6 +111,16 @@ const RUBY_MAX_INVOCATIONS = 10_000;
 const RUBY_MAX_REFERENCE = 200;
 const RUBY_DEF_LOOKBEHIND = 32;
 
+const RUBY_NOT_ARGUMENT_START = new Set([".", ",", "}", ")", ";"]);
+
+/** True when `next`, the first character after the keyword and blanks, can begin an argument. */
+function rubyArgumentStarts(line: string, cursor: number, next: string | undefined): boolean {
+  if (next === undefined || RUBY_NOT_ARGUMENT_START.has(next)) return false;
+  // Assignment (`gem = …`), but not `==`.
+  if (next === "=" && line[cursor + 1] !== "=") return false;
+  return /[A-Za-z_$@'"%/(]/.test(next);
+}
+
 /**
  * True when the keyword at `index` is a real call site, not a hash key, method receiver, or bare assignment.
  * Argument-start checks use the original `line` because string literals are blanked in `masked`.
@@ -105,17 +128,12 @@ const RUBY_DEF_LOOKBEHIND = 32;
 function rubyKeywordIsCall(line: string, masked: string, index: number, keywordLength: number): boolean {
   const before = index > 0 ? masked[index - 1] : "";
   if (before === ":" || before === "@" || before === "$") return false;
-  let cursor = index + keywordLength;
-  const hadSpace = line[cursor] === " " || line[cursor] === "\t";
-  while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+  const hadSpace = line[index + keywordLength] === " " || line[index + keywordLength] === "\t";
+  const cursor = skipBlanks(line, index + keywordLength);
   const next = line[cursor];
   // Hash key `load:` has no space before `:`; `autoload :Foo` has whitespace then a symbol.
   if (next === ":") return hadSpace;
-  if (next === undefined || next === "." || next === "," || next === "}" || next === ")" || next === ";") return false;
-  // Assignment (`gem = …`), but not `==`.
-  if (next === "=" && line[cursor + 1] !== "=") return false;
-  if (next === "(") return true;
-  return next === "'" || next === '"' || next === "%" || next === "/" || /[A-Za-z_$@]/.test(next);
+  return rubyArgumentStarts(line, cursor, next);
 }
 
 /** True when `def` appears immediately before the match within a short look-behind window. */
@@ -139,25 +157,10 @@ interface RubyInvocationScan {
 
 const RUBY_INVOCATION_HINT = /(?:^|[^\w.:])(?:(?:::)?Kernel\s*\.\s*)?(?:require_relative|require|load|gem|autoload)\b/;
 
-/**
- * `require`, `load`, `gem`, `autoload`, and `require_relative` on one line. A string literal is a path; a
- * variable, interpolation, concatenation, or method call on the string is dynamic. `JSON.load` and
- * `require_relative` are not `load` or `require`. Lines over 4,096 characters and matches past
- * {@link RUBY_MAX_INVOCATIONS} are not scanned; each is reported in `skips` instead of being dropped.
- */
 function skipBlanks(line: string, from: number): number {
   let cursor = from;
   while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
   return cursor;
-}
-
-function dynamicInvocation(
-  kind: RubyInvocation["kind"],
-  line: number,
-  keywordColumn: number,
-  reference: string,
-): RubyInvocation {
-  return { kind, line, keywordColumn, reference, argument: { kind: "dynamic" } };
 }
 
 function longLineSkip(line: string, lineNumber: number): RubyScanSkip {
@@ -169,74 +172,72 @@ function longLineSkip(line: string, lineNumber: number): RubyScanSkip {
   };
 }
 
-export function rubyInvocations(lines: readonly string[], maskedLines: readonly string[]): RubyInvocationScan {
-  const keyword = /(?<![\w.:])(?:(?:::)?Kernel\s*\.\s*)?(require_relative|require|load|gem|autoload)\b/g;
-  const invocations: RubyInvocation[] = [];
-  const skips: RubyScanSkip[] = [];
-  let invocationCapReached = false;
-  for (const [index, masked] of maskedLines.entries()) {
-    const line = lines[index] ?? "";
-    if (line.length > RUBY_MAX_LINE || masked.length > RUBY_MAX_LINE) {
-      if (RUBY_INVOCATION_HINT.test(line)) skips.push(longLineSkip(line, index + 1));
+/** The argument that follows a keyword ending at `from`: a plain string literal, or dynamic. */
+function rubyArgument(line: string, kind: RubyInvocation["kind"], from: number): RubyInvocation["argument"] {
+  let cursor = skipBlanks(line, from);
+  if (line[cursor] === "(") cursor = skipBlanks(line, cursor + 1);
+  if (kind === "autoload") {
+    const symbol = /^:([A-Za-z_]\w*)/.exec(line.slice(cursor));
+    if (!symbol) return { kind: "dynamic" };
+    cursor = skipBlanks(line, cursor + symbol[0].length);
+    if (line[cursor] !== ",") return { kind: "dynamic" };
+    cursor = skipBlanks(line, cursor + 1);
+  }
+  const literal = readRubyLiteral(line, cursor);
+  const after = skipBlanks(line, literal?.end ?? cursor);
+  const transformed =
+    literal !== undefined &&
+    (literal.interpolated || line[after] === "+" || line[after] === "\\" || line[after] === ".");
+  return literal && !transformed
+    ? { kind: "literal", value: literal.value, column: literal.column }
+    : { kind: "dynamic" };
+}
+
+const RUBY_KEYWORD = /(?<![\w.:])(?:(?:::)?Kernel\s*\.\s*)?(require_relative|require|load|gem|autoload)\b/g;
+
+interface RubyScanState extends RubyInvocationScan {
+  capReached: boolean;
+}
+
+function scanRubyLine(line: string, masked: string, lineNumber: number, state: RubyScanState): void {
+  if (line.length > RUBY_MAX_LINE || masked.length > RUBY_MAX_LINE) {
+    if (RUBY_INVOCATION_HINT.test(line)) state.skips.push(longLineSkip(line, lineNumber));
+    return;
+  }
+  RUBY_KEYWORD.lastIndex = 0;
+  for (const match of masked.matchAll(RUBY_KEYWORD)) {
+    const kind = match[1];
+    if (match.index === undefined || !kind || !isRubyKind(kind)) continue;
+    const keywordLength = match[0].length;
+    if (rubyKeywordIsMethodDefinition(masked, match.index)) continue;
+    if (!rubyKeywordIsCall(line, masked, match.index, keywordLength)) continue;
+    const reference = line.slice(match.index, match.index + RUBY_MAX_REFERENCE).trim();
+    const column = match.index + 1;
+    if (state.capReached || state.invocations.length >= RUBY_MAX_INVOCATIONS) {
+      state.capReached = true;
+      state.skips.push({
+        line: lineNumber,
+        column,
+        reference,
+        reason: `more than ${RUBY_MAX_INVOCATIONS} invocations in this repository`,
+      });
       continue;
     }
-    keyword.lastIndex = 0;
-    for (const match of masked.matchAll(keyword)) {
-      if (match.index === undefined || !match[1]) continue;
-      const kind = match[1];
-      if (!isRubyKind(kind)) continue;
-      const keywordLength = match[0].length;
-      if (rubyKeywordIsMethodDefinition(masked, match.index)) continue;
-      if (!rubyKeywordIsCall(line, masked, match.index, keywordLength)) continue;
-      const reference = line.slice(match.index, match.index + RUBY_MAX_REFERENCE).trim();
-      if (invocationCapReached || invocations.length >= RUBY_MAX_INVOCATIONS) {
-        invocationCapReached = true;
-        skips.push({
-          line: index + 1,
-          column: match.index + 1,
-          reference,
-          reason: `more than ${RUBY_MAX_INVOCATIONS} invocations in this repository`,
-        });
-        continue;
-      }
-      let cursor = match.index + keywordLength;
-      cursor = skipBlanks(line, cursor);
-      if (line[cursor] === "(") {
-        cursor += 1;
-        cursor = skipBlanks(line, cursor);
-      }
-      if (kind === "autoload") {
-        const symbol = /^:([A-Za-z_]\w*)/.exec(line.slice(cursor));
-        if (!symbol) {
-          invocations.push(dynamicInvocation(kind, index + 1, match.index + 1, reference));
-          continue;
-        }
-        cursor += symbol[0].length;
-        cursor = skipBlanks(line, cursor);
-        if (line[cursor] !== ",") {
-          invocations.push(dynamicInvocation(kind, index + 1, match.index + 1, reference));
-          continue;
-        }
-        cursor += 1;
-        cursor = skipBlanks(line, cursor);
-      }
-      const literal = readRubyLiteral(line, cursor);
-      let after = literal?.end ?? cursor;
-      after = skipBlanks(line, after);
-      const transformed =
-        literal !== undefined &&
-        (literal.interpolated || line[after] === "+" || line[after] === "\\" || line[after] === ".");
-      invocations.push({
-        kind,
-        line: index + 1,
-        keywordColumn: match.index + 1,
-        reference,
-        argument:
-          literal && !transformed
-            ? { kind: "literal", value: literal.value, column: literal.column }
-            : { kind: "dynamic" },
-      });
-    }
+    const argument = rubyArgument(line, kind, match.index + keywordLength);
+    state.invocations.push({ kind, line: lineNumber, keywordColumn: column, reference, argument });
   }
-  return { invocations, skips };
+}
+
+/**
+ * `require`, `load`, `gem`, `autoload`, and `require_relative` on one line. A string literal is a path; a
+ * variable, interpolation, concatenation, or method call on the string is dynamic. `JSON.load` and
+ * `require_relative` are not `load` or `require`. Lines over 4,096 characters and matches past
+ * {@link RUBY_MAX_INVOCATIONS} are not scanned; each is reported in `skips` instead of being dropped.
+ */
+export function rubyInvocations(lines: readonly string[], maskedLines: readonly string[]): RubyInvocationScan {
+  const state: RubyScanState = { invocations: [], skips: [], capReached: false };
+  for (const [index, masked] of maskedLines.entries()) {
+    scanRubyLine(lines[index] ?? "", masked, index + 1, state);
+  }
+  return { invocations: state.invocations, skips: state.skips };
 }

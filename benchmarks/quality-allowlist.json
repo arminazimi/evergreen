@@ -596,22 +596,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/usage/ruby-invocations.ts",
-      "function": "readRubyLiteral",
-      "lines": 63,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/usage/ruby-invocations.ts",
-      "function": "rubyInvocations",
-      "lines": 71,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/upgrade/go-modules.ts",
       "function": "GoModulesAnalyzer.analyze",
       "lines": 90,
@@ -1154,30 +1138,6 @@
       "function": "EvergreenLanguageServer.dispatch",
       "complexity": 19,
       "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/usage/ruby-invocations.ts",
-      "function": "readRubyLiteral",
-      "complexity": 30,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/usage/ruby-invocations.ts",
-      "function": "rubyInvocations",
-      "complexity": 25,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/usage/ruby-invocations.ts",
-      "function": "rubyKeywordIsCall",
-      "complexity": 22,
-      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
