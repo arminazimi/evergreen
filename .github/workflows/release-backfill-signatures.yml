@@ -21,10 +21,6 @@ on:
         description: Sign and verify the downloaded copies; upload nothing
         type: boolean
         default: true
-  # Temporary bootstrap: lets this workflow sign the first batch from its pull-request branch.
-  # Removed before the pull request is ready, so a normal run is always workflow_dispatch on main.
-  push:
-    branches: [ci/2289-signed-releases]
 
 permissions:
   contents: read
@@ -42,9 +38,8 @@ jobs:
       id-token: write
     env:
       OIDC_ISSUER: https://token.actions.githubusercontent.com
-      # A run signs as this workflow at the ref it runs from: main for a manual run, or the
-      # pull-request branch while the workflow itself is being introduced.
-      IDENTITY_PATTERN: ^https://github\.com/arminazimi/evergreen/\.github/workflows/release-backfill-signatures\.yml@refs/heads/(?:main|ci/2289-signed-releases)$
+      # A manual run signs as this workflow on the default branch.
+      IDENTITY_PATTERN: ^https://github\.com/arminazimi/evergreen/\.github/workflows/release-backfill-signatures\.yml@refs/heads/main$
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -53,7 +48,7 @@ jobs:
       - name: Sign and verify the published assets
         env:
           GH_TOKEN: ${{ github.token }}
-          TAGS: ${{ inputs.tags || 'v0.7.0 v0.6.1 v0.6.0' }}
+          TAGS: ${{ inputs.tags }}
           DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
         shell: bash
         run: |
