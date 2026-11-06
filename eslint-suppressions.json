@@ -440,14 +440,21 @@
     }
   },
   "src/mcp.ts": {
+    "@typescript-eslint/require-await": {
+      "count": 2
+    }
+  },
+  "src/mcp/output-schema.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 7
+      "count": 6
     },
     "@typescript-eslint/no-unused-vars": {
       "count": 1
-    },
-    "@typescript-eslint/require-await": {
-      "count": 2
+    }
+  },
+  "src/mcp/tool-support.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     }
   },
   "src/migration-packet.ts": {

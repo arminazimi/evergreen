@@ -286,10 +286,10 @@
     {
       "file": "src/mcp.ts",
       "function": "createEvergreenMcpServer",
-      "lines": 381,
+      "lines": 122,
       "owner": "#2049",
       "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+      "reason": "Measured 2026-11-06, down from 381 after the tools moved to src/mcp/tools/. Still over 50 because it wires the resources and the migration prompt."
     },
     {
       "file": "src/migration-packet.ts",
