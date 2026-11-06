@@ -25,22 +25,37 @@ export function canBrowse(input: { isTTY?: boolean }, output: { isTTY?: boolean 
   return Boolean(input.isTTY && output.isTTY);
 }
 
+type KeyCommand = (state: BrowserState, count: number) => BrowserState;
+
+/** Keys that act on the list: movement, opening a finding, and switching to the detail view. */
+const LIST_COMMANDS: Readonly<Record<string, KeyCommand>> = {
+  down: (state, count) => ({ ...state, selected: Math.min(count - 1, state.selected + 1) }),
+  j: (state, count) => ({ ...state, selected: Math.min(count - 1, state.selected + 1) }),
+  up: (state) => ({ ...state, selected: Math.max(0, state.selected - 1) }),
+  k: (state) => ({ ...state, selected: Math.max(0, state.selected - 1) }),
+  return: (state) => ({ ...state, view: "detail" }),
+  right: (state) => ({ ...state, view: "detail" }),
+  o: (state) => ({ ...state, open: true }),
+};
+
+/** Keys that act on one finding: opening it in an editor, or going back to the list. */
+const DETAIL_COMMANDS: Readonly<Record<string, KeyCommand>> = {
+  o: (state) => ({ ...state, open: true }),
+  escape: (state) => ({ ...state, view: "list" }),
+  b: (state) => ({ ...state, view: "list" }),
+  left: (state) => ({ ...state, view: "list" }),
+};
+
 /** Pure key handling, so the behavior is testable without a terminal. */
 export function reduce(state: BrowserState, key: Key, count: number): BrowserState {
   const { open: _open, ...base } = state;
   const name = key.ctrl && key.name === "c" ? "q" : (key.name ?? key.sequence);
   if (name === "q") return { ...base, quit: true };
-  if (state.view === "detail") {
-    if (name === "o") return { ...base, open: true };
-    if (name === "escape" || name === "b" || name === "left") return { ...base, view: "list" };
-    return base;
-  }
-  if (count === 0) return base;
-  if (name === "down" || name === "j") return { ...base, selected: Math.min(count - 1, state.selected + 1) };
-  if (name === "up" || name === "k") return { ...base, selected: Math.max(0, state.selected - 1) };
-  if (name === "return" || name === "right") return { ...base, view: "detail" };
-  if (name === "o") return { ...base, open: true };
-  return base;
+  const commands = state.view === "detail" ? DETAIL_COMMANDS : LIST_COMMANDS;
+  const command = commands[name ?? ""];
+  if (command === undefined) return base;
+  if (state.view === "list" && count === 0) return base;
+  return command(base, count);
 }
 
 const location = (finding: Finding): string =>

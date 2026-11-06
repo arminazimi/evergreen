@@ -242,44 +242,65 @@ function rewriteFor(target: Target, calls: Map<number, Node[]>, source: string):
 }
 
 type LiteralKind = "number" | "string" | "array";
+type Classification = { kind: LiteralKind } | { reason: string };
+type FirstArgumentCheck = (first: Node, values: readonly Node[]) => Classification;
 
-function classify(values: readonly Node[]): { kind: LiteralKind } | { reason: string } {
+const firstArgumentChecks = new Map<string, FirstArgumentCheck>([
+  ["number", classifyNumber],
+  ["string", classifyString],
+  ["template_string", classifyString],
+  ["array", classifyArray],
+]);
+
+function classify(values: readonly Node[]): Classification {
   if (values.length === 0)
     return { reason: "The call passes no argument, so its kind is not known from the source text." };
   const first = unwrapParentheses(required(values[0], "argument node"));
   if (typeAssertions.has(first.type)) {
     return { reason: "The argument has a TypeScript type assertion, so its runtime kind is not rewritten." };
   }
-  if (first.type === "number") {
-    if (/n$/i.test(first.text)) return { reason: "The argument is a BigInt literal, not a number literal." };
-    if (values.length !== 1) return { reason: "The numeric form takes exactly one argument." };
-    return { kind: "number" };
+  const check = firstArgumentChecks.get(first.type);
+  if (check === undefined) {
+    return { reason: `The argument is ${describe(first.type)}; only a number, string, or array literal is rewritten.` };
   }
-  if (first.type === "string" || first.type === "template_string") {
-    if (
-      first.type === "template_string" &&
-      first.namedChildren.some((child) => child?.type === "template_substitution")
-    ) {
-      return { reason: "The template literal has substitutions, so its value is not known from the source text." };
-    }
-    if (values.length > 2) return { reason: "The string form takes at most a string literal encoding." };
-    const encoding = values[1];
-    if (encoding !== undefined) {
-      const unwrapped = unwrapParentheses(encoding);
-      if (typeAssertions.has(unwrapped.type)) {
-        return {
-          reason: "The encoding argument has a TypeScript type assertion, so its runtime kind is not rewritten.",
-        };
-      }
-      if (unwrapped.type !== "string") return { reason: "The second argument is not a string literal encoding." };
-    }
-    return { kind: "string" };
+  return check(first, values);
+}
+
+function classifyNumber(first: Node, values: readonly Node[]): Classification {
+  if (/n$/i.test(first.text)) return { reason: "The argument is a BigInt literal, not a number literal." };
+  if (values.length !== 1) return { reason: "The numeric form takes exactly one argument." };
+  return { kind: "number" };
+}
+
+function classifyString(first: Node, values: readonly Node[]): Classification {
+  if (first.type === "template_string" && hasSubstitution(first)) {
+    return { reason: "The template literal has substitutions, so its value is not known from the source text." };
   }
-  if (first.type === "array") {
-    if (values.length !== 1) return { reason: "The array form takes exactly one argument." };
-    return { kind: "array" };
+  if (values.length > 2) return { reason: "The string form takes at most a string literal encoding." };
+  const encoding = values[1];
+  if (encoding !== undefined) {
+    const problem = encodingProblem(encoding);
+    if (problem !== undefined) return { reason: problem };
   }
-  return { reason: `The argument is ${describe(first.type)}; only a number, string, or array literal is rewritten.` };
+  return { kind: "string" };
+}
+
+function hasSubstitution(node: Node): boolean {
+  return node.namedChildren.some((child) => child?.type === "template_substitution");
+}
+
+function encodingProblem(encoding: Node): string | undefined {
+  const unwrapped = unwrapParentheses(encoding);
+  if (typeAssertions.has(unwrapped.type)) {
+    return "The encoding argument has a TypeScript type assertion, so its runtime kind is not rewritten.";
+  }
+  if (unwrapped.type !== "string") return "The second argument is not a string literal encoding.";
+  return undefined;
+}
+
+function classifyArray(_first: Node, values: readonly Node[]): Classification {
+  if (values.length !== 1) return { reason: "The array form takes exactly one argument." };
+  return { kind: "array" };
 }
 
 function unwrapParentheses(node: Node): Node {

@@ -233,3 +233,145 @@ test("refuses every call it cannot rewrite exactly, with a reason", async () => 
   assert.equal(patches[0]!.path, "destructured.js");
   assert.ok(patches[0]!.diff.includes('+const object = value !== null && typeof value === "object";'));
 });
+
+test("utilBindings follows aliases of the module, of a function, and destructuring defaults", async () => {
+  const source = [
+    'const util = require("node:util");',
+    "const u = util;",
+    "const check = u.isArray;",
+    'const { isString: isText, isNumber = fallback } = require("util");',
+    "const a = check(value);",
+    "const b = isText(value);",
+    "const c = isNumber(value);",
+    "",
+  ].join("\n");
+  const { patches, refusals } = await plan({ "index.js": source });
+
+  assert.deepEqual(refusals, []);
+  assert.equal(patches.length, 1);
+  const added = patches[0]!.diff
+    .split("\n")
+    .filter((line) => line.startsWith("+"))
+    .map((line) => line.slice(1));
+  assert.ok(added.includes("const a = Array.isArray(value);"));
+  assert.ok(added.includes('const b = typeof value === "string";'));
+  assert.ok(added.includes('const c = typeof value === "number";'));
+});
+
+test("durableReference accepts identifiers, this, member chains, subscripts, and wrappers", async () => {
+  const source = [
+    'const util = require("util");',
+    "const holder = { inner: {} };",
+    "const list = [];",
+    "const value = {};",
+    "const direct = util.isObject(value);",
+    "const member = util.isObject(holder.inner);",
+    "const subscript = util.isObject(list[0]);",
+    "const parenthesized = util.isObject((value));",
+    "const that = util.isObject(this);",
+    "",
+  ].join("\n");
+  const { patches, refusals } = await plan({ "index.js": source });
+
+  assert.deepEqual(refusals, []);
+  assert.equal(patches.length, 1);
+  for (const line of [
+    'const direct = value !== null && typeof value === "object";',
+    'const member = holder.inner !== null && typeof holder.inner === "object";',
+    'const subscript = list[0] !== null && typeof list[0] === "object";',
+    'const parenthesized = (value) !== null && typeof (value) === "object";',
+    'const that = this !== null && typeof this === "object";',
+  ]) {
+    assert.ok(patches[0]!.diff.includes(`+${line}`), line);
+  }
+});
+
+test("rewriteFor reports a usage whose location names no direct util.isArray call", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-node-util-is-locations-"));
+  temporaryRoots.push(root);
+  const files: Record<string, string> = {
+    "call.js": 'const util = require("util");\nconst ok = util.isNull(value);\n',
+    "noncall.js": "const value = 1;\n",
+    "beyond.js": "const value = 1;\n",
+  };
+  for (const [path, source] of Object.entries(files)) await writeFile(join(root, path), source);
+  const finding = (
+    path: string,
+    ruleId: string,
+    line: number,
+    column: number,
+    index: number,
+  ): ScanResult["findings"][number] => {
+    const location = { path, line, column };
+    return {
+      id: `${ruleId}:${path}:${index}`,
+      ruleId,
+      detector: "npm",
+      title: "util.is* has been deprecated",
+      summary: "",
+      severity: "low",
+      confidence: "exact",
+      location,
+      sources: [],
+      usages: [{ kind: "symbol", language: "javascript", symbol: ruleId, location, excerpt: "" }],
+    };
+  };
+  const result: ScanResult = {
+    schemaVersion: "evergreen.scan.v1",
+    root,
+    scannedAt: "2026-10-31T00:00:00.000Z",
+    findings: [
+      finding("call.js", "nodejs.symbol.util.isarray", 2, 12, 0),
+      finding("call.js", "nodejs.symbol.util.isnull", 2, 12, 1),
+      finding("noncall.js", "nodejs.symbol.util.isarray", 1, 1, 2),
+      finding("beyond.js", "nodejs.symbol.util.isarray", 9, 1, 3),
+    ],
+    diagnostics: [],
+  };
+
+  const reasons: string[] = [];
+  await nodeUtilIsFixer.plan(result, (_finding, reason) => reasons.push(reason));
+  assert.ok(reasons.some((reason) => reason.includes("is not a direct `util.isArray` call")));
+  assert.ok(reasons.some((reason) => reason.includes("No `util.isArray` call is at the reported location")));
+  assert.ok(reasons.some((reason) => reason.includes("not in the source file")));
+});
+
+test("plan refuses a file without a final newline, a missing file, and a path outside the root", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-node-util-is-safety-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "no-newline.js"), 'const util = require("util");\nconst ok = util.isArray(value);');
+  const paths = ["no-newline.js", "missing.js", "../outside.js"];
+  const result: ScanResult = {
+    schemaVersion: "evergreen.scan.v1",
+    root,
+    scannedAt: "2026-10-31T00:00:00.000Z",
+    findings: paths.map((path, index) => ({
+      id: `nodejs.symbol.util.isarray:${path}:${index}`,
+      ruleId: "nodejs.symbol.util.isarray",
+      detector: "npm",
+      title: "util.isArray is deprecated",
+      summary: "",
+      severity: "low",
+      confidence: "exact",
+      location: { path, line: 2, column: 1 },
+      sources: [],
+      usages: [
+        {
+          kind: "symbol",
+          language: "javascript",
+          symbol: "util.isArray",
+          location: { path, line: 2, column: 1 },
+          excerpt: "",
+        },
+      ],
+    })),
+    diagnostics: [],
+  };
+
+  const reasons: string[] = [];
+  const patches = await nodeUtilIsFixer.plan(result, (_finding, reason) => reasons.push(reason));
+  assert.deepEqual(patches, []);
+  assert.ok(reasons.some((reason) => reason.includes("does not end with a newline")));
+  assert.ok(reasons.some((reason) => reason.includes("could not be read")));
+  assert.ok(reasons.some((reason) => reason.includes("resolves outside the repository")));
+});

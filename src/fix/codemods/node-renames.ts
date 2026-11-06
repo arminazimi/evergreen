@@ -127,61 +127,77 @@ export const nodeRenamesFixer: Fixer = {
       list.push(target);
       byPath.set(target.usage.location.path, list);
     }
-
     const patches: FilePatch[] = [];
     for (const path of [...new Set([...byPath.keys(), ...importPaths])].sort()) {
-      const fileTargets = byPath.get(path) ?? [];
-      const decline = (reason: string): void => {
-        for (const target of fileTargets) refuse?.(target.finding, reason);
-      };
-      const absolute = resolve(result.root, path);
-      const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) {
-        decline("The path resolves outside the repository.");
-        continue;
-      }
-      const before = await readFile(absolute, "utf8").catch(() => undefined);
-      if (before === undefined) {
-        decline("The source file could not be read.");
-        continue;
-      }
-      if (!before.endsWith("\n")) {
-        decline("The source file does not end with a newline.");
-        continue;
-      }
-      const grammar = grammarFor(languageFor(path, fileTargets), path);
-      if (grammar === undefined) {
-        decline("No parser covers this source language.");
-        continue;
-      }
-      const tree = await parseSource(grammar, before);
-      if (tree === undefined) {
-        decline("The source file could not be parsed.");
-        continue;
-      }
-      try {
-        const calls = callsByCallee(tree.rootNode);
-        const edits: Edit[] = [];
-        for (const target of [...fileTargets].sort(compareTargets)) {
-          const rewrite = rewriteFor(target, calls, before);
-          if ("reason" in rewrite) {
-            refuse?.(target.finding, rewrite.reason);
-            continue;
-          }
-          edits.push(rewrite);
-        }
-        if (edits.length > 0) {
-          const text = applyEdits(before, edits);
-          if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
-        }
-        if (importPaths.has(path)) refuseComputedAccess(path, tree.rootNode, before, refuse);
-      } finally {
-        tree.delete();
-      }
+      const patch = await planPath(result.root, path, byPath.get(path) ?? [], importPaths.has(path), refuse);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },
 };
+
+async function planPath(
+  repositoryRoot: string,
+  path: string,
+  fileTargets: readonly Target[],
+  hasImportPath: boolean,
+  refuse: Refuse | undefined,
+): Promise<FilePatch | undefined> {
+  const decline = (reason: string): void => {
+    for (const target of fileTargets) refuse?.(target.finding, reason);
+  };
+  const source = await readSource(repositoryRoot, path, languageFor(path, fileTargets));
+  if ("reason" in source) {
+    decline(source.reason);
+    return undefined;
+  }
+  const tree = await parseSource(source.grammar, source.before);
+  if (tree === undefined) {
+    decline("The source file could not be parsed.");
+    return undefined;
+  }
+  try {
+    const patch = patchFor(path, source.before, editsFor(fileTargets, tree.rootNode, source.before, refuse));
+    if (hasImportPath) refuseComputedAccess(path, tree.rootNode, source.before, refuse);
+    return patch;
+  } finally {
+    tree.delete();
+  }
+}
+
+/** Reads a target file after checking that it is inside the repository and parseable by a known grammar. */
+async function readSource(
+  repositoryRoot: string,
+  path: string,
+  language: "javascript" | "typescript",
+): Promise<{ before: string; grammar: NonNullable<ReturnType<typeof grammarFor>> } | { reason: string }> {
+  const absolute = resolve(repositoryRoot, path);
+  const inside = relative(resolve(repositoryRoot), absolute);
+  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
+  const before = await readFile(absolute, "utf8").catch(() => undefined);
+  if (before === undefined) return { reason: "The source file could not be read." };
+  if (!before.endsWith("\n")) return { reason: "The source file does not end with a newline." };
+  const grammar = grammarFor(language, path);
+  if (grammar === undefined) return { reason: "No parser covers this source language." };
+  return { before, grammar };
+}
+
+function editsFor(fileTargets: readonly Target[], root: Node, source: string, refuse: Refuse | undefined): Edit[] {
+  const calls = callsByCallee(root);
+  const edits: Edit[] = [];
+  for (const target of [...fileTargets].sort(compareTargets)) {
+    const rewrite = rewriteFor(target, calls, source);
+    if ("reason" in rewrite) refuse?.(target.finding, rewrite.reason);
+    else edits.push(rewrite);
+  }
+  return edits;
+}
+
+function patchFor(path: string, before: string, edits: readonly Edit[]): FilePatch | undefined {
+  if (edits.length === 0) return undefined;
+  const text = applyEdits(before, edits);
+  return text === before ? undefined : { path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) };
+}
 
 function languageFor(path: string, targets: readonly Target[]): "javascript" | "typescript" {
   const target = targets[0];

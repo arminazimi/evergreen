@@ -1,8 +1,8 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 
-import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
-import type { Node } from "yaml";
+import { LineCounter, isMap, isNode, isScalar, isSeq, parseDocument } from "yaml";
+import type { YAMLMap } from "yaml";
 
 import { parseCircleci } from "../detectors/ci-images/parse-circleci.js";
 import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
@@ -361,7 +361,7 @@ function collectDockerfile(contents: string, path: string, pins: RuntimePin[]): 
 }
 
 /** The text a scalar was written as: YAML reads `3.3` as the number 3.3, so numbers use their source. */
-function textOf(node: Node): string | undefined {
+function textOf(node: unknown): string | undefined {
   if (!isScalar(node)) return undefined;
   if (typeof node.value === "string") return node.value.trim();
   if (typeof node.value === "number") return (node.source ?? String(node.value)).trim();
@@ -376,49 +376,61 @@ interface SetupRubyVersion {
   group?: string;
 }
 
-function setupRubyVersions(contents: string): SetupRubyVersion[] {
+function rubyNodeLine(counter: LineCounter, node: unknown): number {
+  return counter.linePos(isNode(node) ? (node.range?.[0] ?? 0) : 0).line;
+}
+
+function addSetupRubyVersion(versions: SetupRubyVersion[], node: unknown, counter: LineCounter, group?: string): void {
+  if (node === undefined || node === null) return;
+  const value = textOf(node);
+  if (value === undefined || value === "") return;
+  versions.push({
+    value,
+    line: rubyNodeLine(counter, node),
+    expression: value.includes("${{"),
+    ...(group === undefined ? {} : { group }),
+  });
+}
+
+function appendRubyVersionsOfStep(
+  versions: SetupRubyVersion[],
+  step: YAMLMap,
+  matrix: unknown,
+  counter: LineCounter,
+): void {
+  const uses = step.get("uses");
+  if (typeof uses !== "string" || !SETUP_RUBY.test(uses)) return;
+  const inputs = step.get("with", true);
+  if (!isMap(inputs)) return;
+  const version = inputs.get("ruby-version", true);
+  if (!isScalar(version)) return;
+  const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
+  const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
+  if (!isSeq(list)) {
+    addSetupRubyVersion(versions, version, counter);
+    return;
+  }
+  const group = `matrix:${key}@${rubyNodeLine(counter, list)}`;
+  for (const item of list.items) addSetupRubyVersion(versions, item, counter, group);
+}
+
+function appendRubyVersionsOfJob(versions: SetupRubyVersion[], job: YAMLMap, counter: LineCounter): void {
+  const strategy = job.get("strategy", true);
+  const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
+  const steps = job.get("steps", true);
+  if (!isSeq(steps)) return;
+  for (const step of steps.items) if (isMap(step)) appendRubyVersionsOfStep(versions, step, matrix, counter);
+}
+
+export function setupRubyVersions(contents: string): SetupRubyVersion[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
   const lineCounter = new LineCounter();
   const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
   if (document.errors.length > 0 || !isMap(document.contents)) return [];
-  const lineOf = (node: Node): number => lineCounter.linePos(node.range?.[0] ?? 0).line;
-
   const jobs = document.contents.get("jobs", true);
   if (!isMap(jobs)) return [];
   const versions: SetupRubyVersion[] = [];
-  const add = (node: Node | null | undefined, group?: string): void => {
-    if (!node) return;
-    const value = textOf(node);
-    if (value !== undefined && value !== "")
-      versions.push({
-        value,
-        line: lineOf(node),
-        expression: value.includes("${{"),
-        ...(group === undefined ? {} : { group }),
-      });
-  };
-  for (const job of jobs.items) {
-    if (!isMap(job.value)) continue;
-    const strategy = job.value.get("strategy", true);
-    const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
-    const steps = job.value.get("steps", true);
-    if (!isSeq(steps)) continue;
-    for (const step of steps.items) {
-      if (!isMap(step)) continue;
-      const uses = step.get("uses");
-      if (typeof uses !== "string" || !SETUP_RUBY.test(uses)) continue;
-      const inputs = step.get("with", true);
-      if (!isMap(inputs)) continue;
-      const version = inputs.get("ruby-version", true) as Node | null;
-      if (!version || !isScalar(version)) continue;
-      const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
-      const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
-      if (isSeq(list)) {
-        const group = `matrix:${key}@${lineOf(list)}`;
-        for (const item of list.items) add(item as Node, group);
-      } else add(version);
-    }
-  }
+  for (const job of jobs.items) if (isMap(job.value)) appendRubyVersionsOfJob(versions, job.value, lineCounter);
   return versions;
 }
 
@@ -457,46 +469,54 @@ function alignImage(pin: RuntimePin, lineText: string, release: string): string 
   return `${lineText.slice(0, at)}:${tag}${lineText.slice(at + 1 + pin.raw.length)}`;
 }
 
-function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
+function alignRubyVersionLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const value = lineText.trim();
+  if (value !== pin.raw) return undefined;
+  const indent = lineText.slice(0, lineText.length - lineText.trimStart().length);
+  return `${indent}${value.startsWith("ruby-") ? "ruby-" : ""}${release}`;
+}
+
+function alignToolVersionsLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*ruby\s+)([^\s#]+)(\s*(?:#.*)?)$/.exec(lineText);
+  if (!match) return undefined;
+  return `${match[1]}${release}${match[3]}`;
+}
+
+function alignGemfileLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*ruby\s+)(["'])([^"']*)\2(\s*(?:#.*)?)$/.exec(lineText);
+  if (!match) return undefined;
+  return `${match[1]}${match[2]}${release}${match[2]}${match[4]}`;
+}
+
+function alignDockerfileRunLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const at = lineText.indexOf(pin.raw);
+  if (at === -1) return undefined;
+  return `${lineText.slice(0, at)}${release}${lineText.slice(at + pin.raw.length)}`;
+}
+
+function alignSetupRubyLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  if (pin.raw.includes("${{")) return undefined;
+  const match = /^(\s*(?:-\s*)?ruby-version\s*:\s*)(["']?)([^"'\s#]+)\2(\s*(?:#.*)?)$/.exec(lineText);
+  if (!match) return undefined;
+  return `${match[1]}${match[2]}${release}${match[2]}${match[4]}`;
+}
+
+type LineAligner = (pin: RuntimePin, lineText: string, release: string) => string | undefined;
+
+const IMAGE_SOURCES = new Set([SOURCE_DOCKERFILE_FROM, SOURCE_GITLAB, SOURCE_CIRCLECI]);
+
+const ALIGNERS: Readonly<Record<string, LineAligner>> = {
+  [SOURCE_RUBY_VERSION]: alignRubyVersionLine,
+  [SOURCE_TOOL_VERSIONS]: alignToolVersionsLine,
+  [SOURCE_GEMFILE]: alignGemfileLine,
+  [SOURCE_DOCKERFILE_RUN]: alignDockerfileRunLine,
+  [SOURCE_SETUP_RUBY]: alignSetupRubyLine,
+};
+
+export function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (pin.kind === "floor") return undefined;
-
-  if (pin.source === SOURCE_RUBY_VERSION) {
-    const value = lineText.trim();
-    if (value !== pin.raw) return undefined;
-    const indent = lineText.slice(0, lineText.length - lineText.trimStart().length);
-    return `${indent}${value.startsWith("ruby-") ? "ruby-" : ""}${release}`;
-  }
-
-  if (pin.source === SOURCE_TOOL_VERSIONS) {
-    const match = /^(\s*ruby\s+)([^\s#]+)(\s*(?:#.*)?)$/.exec(lineText);
-    if (!match) return undefined;
-    return `${match[1]}${release}${match[3]}`;
-  }
-
-  if (pin.source === SOURCE_GEMFILE) {
-    const match = /^(\s*ruby\s+)(["'])([^"']*)\2(\s*(?:#.*)?)$/.exec(lineText);
-    if (!match) return undefined;
-    return `${match[1]}${match[2]}${release}${match[2]}${match[4]}`;
-  }
-
-  if (pin.source === SOURCE_DOCKERFILE_FROM || pin.source === SOURCE_GITLAB || pin.source === SOURCE_CIRCLECI) {
-    return alignImage(pin, lineText, release);
-  }
-
-  if (pin.source === SOURCE_DOCKERFILE_RUN) {
-    const at = lineText.indexOf(pin.raw);
-    if (at === -1) return undefined;
-    return `${lineText.slice(0, at)}${release}${lineText.slice(at + pin.raw.length)}`;
-  }
-
-  if (pin.source === SOURCE_SETUP_RUBY) {
-    if (pin.raw.includes("${{")) return undefined;
-    const match = /^(\s*(?:-\s*)?ruby-version\s*:\s*)(["']?)([^"'\s#]+)\2(\s*(?:#.*)?)$/.exec(lineText);
-    if (!match) return undefined;
-    return `${match[1]}${match[2]}${release}${match[2]}${match[4]}`;
-  }
-
-  return undefined;
+  if (IMAGE_SOURCES.has(pin.source)) return alignImage(pin, lineText, release);
+  return ALIGNERS[pin.source]?.(pin, lineText, release);
 }
 
 export const rubyDriftCollector: DriftCollector = {

@@ -145,81 +145,116 @@ export const pythonImpFixer: Fixer = {
       list.push(target);
       byPath.set(target.usage.location.path, list);
     }
-
     const patches: FilePatch[] = [];
     for (const [path, fileTargets] of [...byPath].sort(([left], [right]) => left.localeCompare(right))) {
-      const decline = (reason: string): void => {
-        for (const target of fileTargets) refuse?.(target.finding, reason);
-      };
-      const absolute = resolve(result.root, path);
-      const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) {
-        decline("The path resolves outside the repository.");
-        continue;
-      }
-      const before = await readFile(absolute, "utf8").catch(() => undefined);
-      if (before === undefined) {
-        decline("The source file could not be read.");
-        continue;
-      }
-      if (!before.endsWith("\n")) {
-        decline("The source file does not end with a newline.");
-        continue;
-      }
-      const tree = await parseSource("python", before);
-      if (tree === undefined) {
-        decline("The source file could not be parsed.");
-        continue;
-      }
-      try {
-        if (tree.rootNode.hasError) {
-          decline("The source file has syntax errors.");
-          continue;
-        }
-        const imports = inspectImports(tree.rootNode, before);
-        const calls = callsByCallee(tree.rootNode);
-        const edits: Edit[] = [];
-        const rewritten = new Set<number>();
-        const needed: string[] = [];
-        for (const target of fileTargets.sort(compareTargets)) {
-          if (imports.problem !== undefined) {
-            declineOne(refuse, target, imports.problem);
-            continue;
-          }
-          if (target.rule.refusal !== undefined) {
-            declineOne(refuse, target, target.rule.refusal);
-            continue;
-          }
-          const rewrite = rewriteFor(target, calls, before);
-          if ("reason" in rewrite) {
-            declineOne(refuse, target, rewrite.reason);
-            continue;
-          }
-          edits.push(rewrite.edit);
-          rewritten.add(rewrite.calleeStart);
-          if (target.rule.module !== undefined) needed.push(target.rule.module);
-        }
-        if (rewritten.size === 0) continue;
-
-        const existing = importedModules(tree.rootNode);
-        const additions = [...new Set(needed)].filter((module) => !isImported(module, existing));
-        const importEdit = importEditFor(
-          required(imports.statement, "the `import imp` statement"),
-          additions,
-          hasRemainingImpReference(tree.rootNode, rewritten),
-          before,
-        );
-        if (importEdit !== undefined) edits.push(importEdit);
-
-        const text = applyEdits(before, edits);
-        if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
-      } finally {
-        tree.delete();
-      }
+      const patch = await planPath(result.root, path, fileTargets, refuse);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },
 };
+
+async function planPath(
+  repositoryRoot: string,
+  path: string,
+  fileTargets: readonly Target[],
+  refuse: Refuse | undefined,
+): Promise<FilePatch | undefined> {
+  const decline = (reason: string): void => {
+    for (const target of fileTargets) refuse?.(target.finding, reason);
+  };
+  const source = await readSource(repositoryRoot, path);
+  if ("reason" in source) {
+    decline(source.reason);
+    return undefined;
+  }
+  const tree = await parseSource("python", source.before);
+  if (tree === undefined) {
+    decline("The source file could not be parsed.");
+    return undefined;
+  }
+  try {
+    if (tree.rootNode.hasError) {
+      decline("The source file has syntax errors.");
+      return undefined;
+    }
+    return planSource(path, tree.rootNode, source.before, fileTargets, refuse);
+  } finally {
+    tree.delete();
+  }
+}
+
+/** Reads a target file after checking that it is inside the repository and ends with a newline. */
+async function readSource(repositoryRoot: string, path: string): Promise<{ before: string } | { reason: string }> {
+  const absolute = resolve(repositoryRoot, path);
+  const inside = relative(resolve(repositoryRoot), absolute);
+  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
+  const before = await readFile(absolute, "utf8").catch(() => undefined);
+  if (before === undefined) return { reason: "The source file could not be read." };
+  if (!before.endsWith("\n")) return { reason: "The source file does not end with a newline." };
+  return { before };
+}
+
+interface Rewrites {
+  edits: Edit[];
+  rewritten: Set<number>;
+  needed: string[];
+}
+
+function planSource(
+  path: string,
+  root: Node,
+  source: string,
+  fileTargets: readonly Target[],
+  refuse: Refuse | undefined,
+): FilePatch | undefined {
+  const imports = inspectImports(root, source);
+  const rewrites = rewritesFor(fileTargets, callsByCallee(root), source, imports, refuse);
+  if (rewrites.edits.length === 0) return undefined;
+  const existing = importedModules(root);
+  const additions = [...new Set(rewrites.needed)].filter((module) => !isImported(module, existing));
+  const importEdit = importEditFor(
+    required(imports.statement, "the `import imp` statement"),
+    additions,
+    hasRemainingImpReference(root, rewrites.rewritten),
+    source,
+  );
+  const edits = importEdit === undefined ? rewrites.edits : [...rewrites.edits, importEdit];
+  const text = applyEdits(source, edits);
+  if (text === source) return undefined;
+  return { path, diff: renderDiff(path, source.slice(0, -1), text.slice(0, -1)) };
+}
+
+function rewritesFor(
+  fileTargets: readonly Target[],
+  calls: Map<number, Node[]>,
+  source: string,
+  imports: Imports,
+  refuse: Refuse | undefined,
+): Rewrites {
+  const edits: Edit[] = [];
+  const rewritten = new Set<number>();
+  const needed: string[] = [];
+  for (const target of [...fileTargets].sort(compareTargets)) {
+    if (imports.problem !== undefined) {
+      declineOne(refuse, target, imports.problem);
+      continue;
+    }
+    if (target.rule.refusal !== undefined) {
+      declineOne(refuse, target, target.rule.refusal);
+      continue;
+    }
+    const rewrite = rewriteFor(target, calls, source);
+    if ("reason" in rewrite) {
+      declineOne(refuse, target, rewrite.reason);
+      continue;
+    }
+    edits.push(rewrite.edit);
+    rewritten.add(rewrite.calleeStart);
+    if (target.rule.module !== undefined) needed.push(target.rule.module);
+  }
+  return { edits, rewritten, needed };
+}
 
 function matchers(rule: Rule): UsageMatcher[] {
   return [{ kind: "symbol", language: "python", module: "imp", symbol: rule.symbol, shape: "call" }];

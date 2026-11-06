@@ -7,8 +7,9 @@ import { promisify } from "node:util";
 import { after, test } from "node:test";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
+import type { ScanResult } from "../src/domain.js";
 import { scanRepository } from "../src/engine.js";
-import { planFixReport } from "../src/fix/index.js";
+import { planFixReport, pythonImpFixer } from "../src/fix/index.js";
 import type { FixerPatch, FixRefusal } from "../src/fix/index.js";
 import { parseSource } from "../src/usage/tree-sitter.js";
 
@@ -169,4 +170,46 @@ test("every needed import is added in rule order", async () => {
 
   assert.equal(patches.length, 1);
   assert.equal(await apply(root, patches[0]!.diff), expected);
+});
+
+test("plan refuses a syntax error, a file without a final newline, a missing file, and a path outside the root", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-python-imp-safety-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "syntax.py"), "import imp\n\ndef broken(:\n    imp.reload(x)\n");
+  await writeFile(join(root, "no-newline.py"), "import imp\n\nmodule = imp.reload(existing)");
+  const paths = ["syntax.py", "no-newline.py", "missing.py", "../outside.py"];
+  const result: ScanResult = {
+    schemaVersion: "evergreen.scan.v1",
+    root,
+    scannedAt: "2026-10-31T00:00:00.000Z",
+    findings: paths.map((path, index) => ({
+      id: `python.symbol.imp.reload:${path}:${index}`,
+      ruleId: "python.symbol.imp.reload",
+      detector: "python",
+      title: "Imp.reload has been removed",
+      summary: "",
+      severity: "high",
+      confidence: "exact",
+      location: { path, line: 3, column: 10 },
+      sources: [],
+      usages: [
+        {
+          kind: "symbol",
+          language: "python",
+          symbol: "imp.reload",
+          location: { path, line: 3, column: 10 },
+          excerpt: "",
+        },
+      ],
+    })),
+    diagnostics: [],
+  };
+
+  const reasons: string[] = [];
+  const patches = await pythonImpFixer.plan(result, (_finding, reason) => reasons.push(reason));
+  assert.deepEqual(patches, []);
+  assert.ok(reasons.some((reason) => reason.includes("syntax errors")));
+  assert.ok(reasons.some((reason) => reason.includes("does not end with a newline")));
+  assert.ok(reasons.some((reason) => reason.includes("could not be read")));
+  assert.ok(reasons.some((reason) => reason.includes("resolves outside the repository")));
 });

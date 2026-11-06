@@ -121,3 +121,26 @@ test("follows the containment procedure for bounds, equality, and exclusions", (
   assert.equal(versContains("vers:intdot/1.0|2.0", "1.5"), false);
   assert.equal(versContains("vers:intdot/*", "9.9"), true);
 });
+
+test("containment reads a single bound by its direction", () => {
+  assert.equal(versContains("vers:intdot/>2.0", "3.0"), true);
+  assert.equal(versContains("vers:intdot/>2.0", "1.0"), false);
+  assert.equal(versContains("vers:intdot/<2.0", "1.0"), true);
+  assert.equal(versContains("vers:intdot/<2.0", "3.0"), false);
+});
+
+test("containment reads a pair of bounds outside and inside the gap", () => {
+  assert.equal(versContains("vers:intdot/<1.0|>2.0", "0.5"), true);
+  assert.equal(versContains("vers:intdot/<1.0|>2.0", "2.5"), true);
+  assert.equal(versContains("vers:intdot/<1.0|>2.0", "1.5"), false);
+});
+
+test("parse rejects unsorted canonical constraints and each malformed pipe form", () => {
+  assert.throws(() => parseVers("vers:intdot/>=2.0|1.0"), /not sorted/);
+  assert.throws(() => parseVers("vers:intdot/|1.0"), /leading pipe/);
+  assert.throws(() => parseVers("vers:intdot/1.0|"), /trailing pipe/);
+  assert.throws(() => parseVers("vers:intdot/1.0||2.0"), /consecutive pipes/);
+  assert.throws(() => parseVers("vers:intdot/"), /must not be empty/);
+  assert.throws(() => parseVers("vers:1bad/1.0"), /Invalid VERS scheme/);
+  assert.deepEqual(parseVers("vers:intdot/*"), { scheme: "intdot", constraints: [], all: true });
+});

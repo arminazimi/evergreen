@@ -7,9 +7,9 @@ import { promisify } from "node:util";
 import { after, test } from "node:test";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
-import type { SymbolUsageMatcher } from "../src/domain.js";
+import type { ScanResult, SymbolUsageMatcher } from "../src/domain.js";
 import { scanRepository } from "../src/engine.js";
-import { planFixReport } from "../src/fix/index.js";
+import { planFixReport, pythonRenamesFixer } from "../src/fix/index.js";
 import type { FixerPatch, FixRefusal } from "../src/fix/index.js";
 import { analyzePythonFile } from "../src/usage/python.js";
 import { parseSource } from "../src/usage/tree-sitter.js";
@@ -201,4 +201,83 @@ test("an alias imported from unittest is not treated as a TestCase base when the
   assert.deepEqual(patches, []);
   assert.equal(refusals.length, 1);
   assert.match(refusals[0]!.reason, /not inside a class that subclasses unittest\.TestCase/);
+});
+
+test("targetsFor rewrites a usage a scan finding already carries", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-python-renames-finding-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "app.py"), "import configparser\n\nparser = configparser.SafeConfigParser()\n");
+  const location = { path: "app.py", line: 3, column: 10 };
+  const result: ScanResult = {
+    schemaVersion: "evergreen.scan.v1",
+    root,
+    scannedAt: "2026-10-31T00:00:00.000Z",
+    findings: [
+      {
+        id: "python.symbol.configparser.safeconfigparser:app.py:3:10",
+        ruleId: "python.symbol.configparser.safeconfigparser",
+        detector: "python",
+        title: "Configparser.SafeConfigParser has been removed",
+        summary: "",
+        severity: "high",
+        confidence: "exact",
+        location,
+        sources: [],
+        usages: [
+          {
+            kind: "symbol",
+            language: "python",
+            symbol: "configparser.SafeConfigParser",
+            location,
+            excerpt: "parser = configparser.SafeConfigParser()",
+          },
+        ],
+      },
+    ],
+    diagnostics: [],
+  };
+
+  const patches = await pythonRenamesFixer.plan(result);
+  assert.equal(patches.length, 1);
+  assert.ok(patches[0]!.diff.includes("+parser = configparser.ConfigParser()"));
+});
+
+test("plan refuses a Python file with a syntax error", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-python-renames-safety-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "app.py"), "import configparser\n\ndef broken(:\n    configparser.SafeConfigParser()\n");
+  const location = { path: "app.py", line: 4, column: 5 };
+  const result: ScanResult = {
+    schemaVersion: "evergreen.scan.v1",
+    root,
+    scannedAt: "2026-10-31T00:00:00.000Z",
+    findings: [
+      {
+        id: "python.symbol.configparser.safeconfigparser:app.py:4:5",
+        ruleId: "python.symbol.configparser.safeconfigparser",
+        detector: "python",
+        title: "Configparser.SafeConfigParser has been removed",
+        summary: "",
+        severity: "high",
+        confidence: "exact",
+        location,
+        sources: [],
+        usages: [
+          {
+            kind: "symbol",
+            language: "python",
+            symbol: "configparser.SafeConfigParser",
+            location,
+            excerpt: "",
+          },
+        ],
+      },
+    ],
+    diagnostics: [],
+  };
+
+  const reasons: string[] = [];
+  const patches = await pythonRenamesFixer.plan(result, (_finding, reason) => reasons.push(reason));
+  assert.deepEqual(patches, []);
+  assert.ok(reasons.some((reason) => reason.includes("syntax errors")));
 });

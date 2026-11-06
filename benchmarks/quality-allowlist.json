@@ -78,26 +78,10 @@
     {
       "file": "src/detectors/dotnet/index.ts",
       "function": "DotnetDetector.analyze",
-      "lines": 165,
+      "lines": 57,
       "owner": "#2049",
       "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/dotnet/msbuild-xml.ts",
-      "function": "readXml",
-      "lines": 112,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/elixir/index.ts",
-      "function": "ElixirDetector.analyze",
-      "lines": 91,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+      "reason": "Measured 2026-11-06. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
       "file": "src/detectors/github-actions.ts",
@@ -119,14 +103,6 @@
       "file": "src/detectors/go/index.ts",
       "function": "GoDetector.analyze",
       "lines": 96,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/java/index.ts",
-      "function": "JavaDetector.analyze",
-      "lines": 86,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -204,14 +180,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/drift/python.ts",
-      "function": "collectRootFiles",
-      "lines": 78,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/engine.ts",
       "function": "scanRepository",
       "lines": 334,
@@ -239,62 +207,6 @@
       "file": "src/fix/codemods/node-buffer.ts",
       "function": "plan",
       "lines": 59,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-renames.ts",
-      "function": "plan",
-      "lines": 62,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-util-is.ts",
-      "function": "plan",
-      "lines": 71,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-util-is.ts",
-      "function": "rewriteFor",
-      "lines": 65,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-util-is.ts",
-      "function": "utilBindings",
-      "lines": 55,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-imp.ts",
-      "function": "plan",
-      "lines": 82,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-renames.ts",
-      "function": "plan",
-      "lines": 62,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-renames.ts",
-      "function": "targetsFor",
-      "lines": 75,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -446,62 +358,6 @@
   ],
   "complexity": [
     {
-      "file": "src/detectors/dotnet/index.ts",
-      "function": "DotnetDetector.analyze",
-      "complexity": 33,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/dotnet/msbuild-xml.ts",
-      "function": "readXml",
-      "complexity": 33,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/dotnet/parse-msbuild.ts",
-      "function": "parseMsbuild",
-      "complexity": 22,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/elixir/index.ts",
-      "function": "ElixirDetector.analyze",
-      "complexity": 23,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/go/parse-go-mod.ts",
-      "function": "parseGoMod",
-      "complexity": 19,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/go/parse-go-work.ts",
-      "function": "parseGoWork",
-      "complexity": 19,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/java/index.ts",
-      "function": "JavaDetector.analyze",
-      "complexity": 19,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/detectors/java/parse-gradle.ts",
       "function": "scan",
       "complexity": 16,
@@ -558,70 +414,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/drift/java.ts",
-      "function": "setupJavaVersions",
-      "complexity": 22,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/php.ts",
-      "function": "align",
-      "complexity": 17,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/php.ts",
-      "function": "setupPhpVersions",
-      "complexity": 21,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/python.ts",
-      "function": "collect",
-      "complexity": 17,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/python.ts",
-      "function": "collectAlignable",
-      "complexity": 20,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/python.ts",
-      "function": "collectRootFiles",
-      "complexity": 31,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/ruby.ts",
-      "function": "align",
-      "complexity": 17,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/ruby.ts",
-      "function": "setupRubyVersions",
-      "complexity": 21,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/engine.ts",
       "function": "scanRepository",
       "complexity": 18,
@@ -634,78 +426,6 @@
       "function": "scanRepository > <anonymous>",
       "complexity": 22,
       "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-buffer.ts",
-      "function": "classify",
-      "complexity": 16,
-      "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-renames.ts",
-      "function": "plan",
-      "complexity": 16,
-      "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-util-is.ts",
-      "function": "durableReference",
-      "complexity": 17,
-      "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-util-is.ts",
-      "function": "plan",
-      "complexity": 18,
-      "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-util-is.ts",
-      "function": "rewriteFor",
-      "complexity": 26,
-      "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/node-util-is.ts",
-      "function": "utilBindings",
-      "complexity": 30,
-      "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-imp.ts",
-      "function": "plan",
-      "complexity": 18,
-      "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-renames.ts",
-      "function": "plan",
-      "complexity": 16,
-      "owner": "#2269",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/fix/codemods/python-renames.ts",
-      "function": "targetsFor",
-      "complexity": 17,
-      "owner": "#2269",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
@@ -754,38 +474,6 @@
       "function": "EvergreenLanguageServer.dispatch",
       "complexity": 19,
       "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/tui.ts",
-      "function": "reduce",
-      "complexity": 18,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/vers.ts",
-      "function": "parse",
-      "complexity": 17,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/vers.ts",
-      "function": "versContains",
-      "complexity": 22,
-      "owner": "#2276",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/workspaces.ts",
-      "function": "findDirectories > walk",
-      "complexity": 16,
-      "owner": "#2276",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     }

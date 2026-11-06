@@ -106,6 +106,173 @@ function contains(rule: RegistryV2Rule, version: string): boolean {
   }
 }
 
+type Unclassified = Omit<UnclassifiedReference, "detector">;
+type Report = (rule: RegistryV2Rule, path: string, line: number, summary: string) => void;
+type RuntimeJudge = (version: string, path: string, line: number, text: string) => void;
+
+/** NuGet package rules by lower-cased package id; every other rule is left out. */
+function nugetPackageRules(rules: readonly RegistryV2Rule[]): Map<string, RegistryV2Rule[]> {
+  const packageRules = new Map<string, RegistryV2Rule[]>();
+  for (const rule of rules) {
+    if (!rule.purl.startsWith("pkg:nuget/")) continue;
+    const id = decodeURIComponent(rule.purl.slice("pkg:nuget/".length)).toLowerCase();
+    packageRules.set(id, [...(packageRules.get(id) ?? []), rule]);
+  }
+  return packageRules;
+}
+
+async function readUtf8(file: string): Promise<string | undefined> {
+  try {
+    return await readFile(file, "utf8");
+  } catch {
+    return undefined;
+  }
+}
+
+/** Judge the SDK version pinned by a `global.json`; a non-version pin is unclassified. */
+function judgeGlobalJson(
+  path: string,
+  contents: string,
+  unclassified: Unclassified[],
+  judgeRuntime: RuntimeJudge,
+): void {
+  for (const sdk of parseGlobalJson(contents)) {
+    if (!LITERAL_VERSION.test(sdk.value)) {
+      unclassified.push({
+        component: "dotnet",
+        reference: sdk.value,
+        reason: "the SDK version is not a version number, so Evergreen does not judge it",
+        location: { path, line: sdk.line },
+      });
+      continue;
+    }
+    judgeRuntime(sdk.value, path, sdk.line, `pins .NET SDK ${sdk.value}`);
+  }
+}
+
+/** Judge the target frameworks declared by one MSBuild file. */
+function judgeTargets(
+  path: string,
+  declarations: MsbuildDeclarations,
+  unclassified: Unclassified[],
+  judgeRuntime: RuntimeJudge,
+): void {
+  for (const target of declarations.targets) {
+    const result = targetVersion(target.value);
+    if (result.kind === "version") judgeRuntime(result.version, path, target.line, `targets ${target.value}`);
+    else if (result.kind === "unclassified")
+      unclassified.push({
+        component: "dotnet",
+        reference: target.value,
+        reason: result.reason,
+        location: { path, line: target.line },
+      });
+  }
+}
+
+/** True when `path` is at or under a directory that enables central package management. */
+function isCentral(centralDirectories: readonly string[], path: string): boolean {
+  return centralDirectories.some(
+    (directory) => directory === "." || dirname(path) === directory || dirname(path).startsWith(`${directory}/`),
+  );
+}
+
+/** Judge the package items declared by one MSBuild file. */
+function judgePackages(
+  path: string,
+  declarations: MsbuildDeclarations,
+  centralDirectories: readonly string[],
+  packageRules: ReadonlyMap<string, RegistryV2Rule[]>,
+  report: Report,
+  unclassified: Unclassified[],
+): void {
+  for (const declaration of declarations.packages) {
+    const candidates = packageRules.get(declaration.name.toLowerCase());
+    if (!candidates) continue;
+    if (declaration.version === undefined) {
+      if (declaration.kind === "reference" && !isCentral(centralDirectories, path)) {
+        unclassified.push({
+          component: declaration.name,
+          reference: declaration.name,
+          reason:
+            "the reference has no version and central package management is not enabled, so Evergreen does not judge it",
+          location: { path, line: declaration.line },
+        });
+      }
+      continue;
+    }
+    if (!LITERAL_VERSION.test(declaration.version)) {
+      unclassified.push({
+        component: declaration.name,
+        reference: declaration.version,
+        reason: "the version is an MSBuild property, a floating version, or a range, so Evergreen does not judge it",
+        location: { path, line: declaration.line },
+      });
+      continue;
+    }
+    for (const rule of candidates) {
+      if (contains(rule, declaration.version)) {
+        report(
+          rule,
+          path,
+          declaration.line,
+          `${path} references ${declaration.name} ${declaration.version}${declaration.kind === "version" ? " (central package version)" : ""}. ${rule.summary}`,
+        );
+      }
+    }
+  }
+}
+
+// A package deprecated at every version is reported where it is declared; a rule for specific versions is reported where the lock file resolves it.
+function judgeLockedPackages(
+  locks: ReadonlyArray<{ path: string; packages: LockedPackage[] }>,
+  packageRules: ReadonlyMap<string, RegistryV2Rule[]>,
+  report: Report,
+): void {
+  for (const lock of locks) {
+    for (const pkg of lock.packages) {
+      for (const rule of packageRules.get(pkg.name.toLowerCase()) ?? []) {
+        if (!coversEveryVersion(rule) && contains(rule, pkg.version))
+          report(rule, lock.path, pkg.line, `${lock.path} resolves ${pkg.name} ${pkg.version}. ${rule.summary}`);
+      }
+    }
+  }
+}
+
+/** Where the repository's C# source uses a deprecated package, so a migration packet can list the files. */
+async function attachUsage(
+  root: string,
+  findings: ReadonlyMap<string, DetectorFinding>,
+  rules: readonly RegistryV2Rule[],
+): Promise<void> {
+  const rulesById = new Map(rules.map((rule) => [rule.id, rule]));
+  const withUsage = [...findings.values()]
+    .map((finding) => ({ finding, matchers: rulesById.get(finding.ruleId)?.usage ?? [] }))
+    .filter((entry) => entry.matchers.length > 0);
+  if (withUsage.length === 0) return;
+  const analyses = new Map(
+    (
+      await analyzeSourceUsage(
+        root,
+        withUsage.map((entry) => ({ id: entry.finding.id, matchers: entry.matchers })),
+      )
+    ).map((analysis) => [analysis.contractId, analysis]),
+  );
+  for (const { finding } of withUsage) {
+    const analysis = analyses.get(finding.id);
+    if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
+  }
+}
+
+function sortedFindings(findings: ReadonlyMap<string, DetectorFinding>): DetectorFinding[] {
+  return [...findings.values()].sort(
+    (left, right) =>
+      left.location.path.localeCompare(right.location.path) ||
+      (left.location.line ?? 0) - (right.location.line ?? 0) ||
+      left.id.localeCompare(right.id),
+  );
+}
+
 export class DotnetDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "dotnet";
@@ -132,16 +299,11 @@ export class DotnetDetector implements Detector {
 
     const rules = await this.loadRules();
     const runtimeRules = rules.filter((rule) => rule.purl === RUNTIME_PURL);
-    const packageRules = new Map<string, RegistryV2Rule[]>();
-    for (const rule of rules) {
-      if (!rule.purl.startsWith("pkg:nuget/")) continue;
-      const id = decodeURIComponent(rule.purl.slice("pkg:nuget/".length)).toLowerCase();
-      packageRules.set(id, [...(packageRules.get(id) ?? []), rule]);
-    }
+    const packageRules = nugetPackageRules(rules);
 
     const findings = new Map<string, DetectorFinding>();
-    const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
+    const unclassified: Unclassified[] = [];
+    const report: Report = (rule, path, line, summary) => {
       const id = `${rule.id}:${path}:${line}`;
       if (findings.has(id)) return;
       findings.set(id, {
@@ -157,139 +319,36 @@ export class DotnetDetector implements Detector {
         sources: rule.sources,
       });
     };
-    const judgeRuntime = (version: string, path: string, line: number, text: string): void => {
+    const judgeRuntime: RuntimeJudge = (version, path, line, text) => {
       const rule = runtimeRules.find((item) => contains(item, version));
       if (rule) report(rule, path, line, `${path} ${text}. ${rule.summary}`);
     };
 
     const locks: Array<{ path: string; packages: LockedPackage[] }> = [];
     const parsed: Array<{ path: string; declarations: MsbuildDeclarations }> = [];
-
     for (const file of files) {
-      let contents: string;
-      try {
-        contents = await readFile(file, "utf8");
-      } catch {
-        continue;
-      }
+      const contents = await readUtf8(file);
+      if (contents === undefined) continue;
       const path = relativePosix(context.root, file);
       const name = basename(file).toLowerCase();
 
-      if (name === "global.json") {
-        for (const sdk of parseGlobalJson(contents)) {
-          if (!LITERAL_VERSION.test(sdk.value)) {
-            unclassified.push({
-              component: "dotnet",
-              reference: sdk.value,
-              reason: "the SDK version is not a version number, so Evergreen does not judge it",
-              location: { path, line: sdk.line },
-            });
-            continue;
-          }
-          judgeRuntime(sdk.value, path, sdk.line, `pins .NET SDK ${sdk.value}`);
-        }
-      } else if (name === "packages.lock.json") {
-        locks.push({ path, packages: parsePackagesLock(contents) });
-      } else {
-        parsed.push({ path, declarations: parseMsbuild(contents) });
-      }
+      if (name === "global.json") judgeGlobalJson(path, contents, unclassified, judgeRuntime);
+      else if (name === "packages.lock.json") locks.push({ path, packages: parsePackagesLock(contents) });
+      else parsed.push({ path, declarations: parseMsbuild(contents) });
     }
 
     // Central package management set in a file applies to the projects in its directory and below.
     const centralDirectories = parsed
       .filter((file) => file.declarations.centralPackageManagement)
       .map((file) => dirname(file.path));
-    const isCentral = (path: string): boolean =>
-      centralDirectories.some(
-        (directory) => directory === "." || dirname(path) === directory || dirname(path).startsWith(`${directory}/`),
-      );
     for (const { path, declarations } of parsed) {
-      for (const target of declarations.targets) {
-        const result = targetVersion(target.value);
-        if (result.kind === "version") judgeRuntime(result.version, path, target.line, `targets ${target.value}`);
-        else if (result.kind === "unclassified")
-          unclassified.push({
-            component: "dotnet",
-            reference: target.value,
-            reason: result.reason,
-            location: { path, line: target.line },
-          });
-      }
-      for (const declaration of declarations.packages) {
-        const candidates = packageRules.get(declaration.name.toLowerCase());
-        if (!candidates) continue;
-        if (declaration.version === undefined) {
-          if (declaration.kind === "reference" && !isCentral(path)) {
-            unclassified.push({
-              component: declaration.name,
-              reference: declaration.name,
-              reason:
-                "the reference has no version and central package management is not enabled, so Evergreen does not judge it",
-              location: { path, line: declaration.line },
-            });
-          }
-          continue;
-        }
-        if (!LITERAL_VERSION.test(declaration.version)) {
-          unclassified.push({
-            component: declaration.name,
-            reference: declaration.version,
-            reason:
-              "the version is an MSBuild property, a floating version, or a range, so Evergreen does not judge it",
-            location: { path, line: declaration.line },
-          });
-          continue;
-        }
-        for (const rule of candidates) {
-          if (contains(rule, declaration.version)) {
-            report(
-              rule,
-              path,
-              declaration.line,
-              `${path} references ${declaration.name} ${declaration.version}${declaration.kind === "version" ? " (central package version)" : ""}. ${rule.summary}`,
-            );
-          }
-        }
-      }
+      judgeTargets(path, declarations, unclassified, judgeRuntime);
+      judgePackages(path, declarations, centralDirectories, packageRules, report, unclassified);
     }
+    judgeLockedPackages(locks, packageRules, report);
+    await attachUsage(context.root, findings, rules);
 
-    // A package deprecated at every version is reported where it is declared; a rule for specific versions is reported where the lock file resolves it.
-    for (const lock of locks) {
-      for (const pkg of lock.packages) {
-        for (const rule of packageRules.get(pkg.name.toLowerCase()) ?? []) {
-          if (!coversEveryVersion(rule) && contains(rule, pkg.version))
-            report(rule, lock.path, pkg.line, `${lock.path} resolves ${pkg.name} ${pkg.version}. ${rule.summary}`);
-        }
-      }
-    }
-
-    // Where the repository's C# source uses a deprecated package, so a migration packet can list the files.
-    const rulesById = new Map(rules.map((rule) => [rule.id, rule]));
-    const withUsage = [...findings.values()]
-      .map((finding) => ({ finding, matchers: rulesById.get(finding.ruleId)?.usage ?? [] }))
-      .filter((entry) => entry.matchers.length > 0);
-    if (withUsage.length > 0) {
-      const analyses = new Map(
-        (
-          await analyzeSourceUsage(
-            context.root,
-            withUsage.map((entry) => ({ id: entry.finding.id, matchers: entry.matchers })),
-          )
-        ).map((analysis) => [analysis.contractId, analysis]),
-      );
-      for (const { finding } of withUsage) {
-        const analysis = analyses.get(finding.id);
-        if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
-      }
-    }
-
-    const sorted = [...findings.values()].sort(
-      (left, right) =>
-        left.location.path.localeCompare(right.location.path) ||
-        (left.location.line ?? 0) - (right.location.line ?? 0) ||
-        left.id.localeCompare(right.id),
-    );
-    return { findings: sorted, unclassified };
+    return { findings: sortedFindings(findings), unclassified };
   }
 }
 
