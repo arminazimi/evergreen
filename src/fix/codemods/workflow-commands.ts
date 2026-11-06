@@ -1,7 +1,3 @@
-import { readFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve } from "node:path";
-
-import { renderDiff } from "../../agent-instructions.js";
 import {
   commandsOnLine,
   isWorkflowCommandPath,
@@ -12,6 +8,8 @@ import {
 import type { WorkflowCommand, WorkflowRunLine } from "../../detectors/github-actions-workflow-commands.js";
 import type { Finding } from "../../domain.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { diffFor } from "./shared/edits.js";
+import { insideRepository, readRepositoryFile } from "./shared/source.js";
 
 type Rewrite = { text: string } | { reason: string };
 
@@ -98,14 +96,14 @@ async function planFile(
   findings: Finding[],
   refuse?: Refuse,
 ): Promise<FilePatch | undefined> {
-  const inside = relative(resolve(root), resolve(root, path));
-  const safe = isWorkflowCommandPath(path) && !inside.startsWith("..") && !isAbsolute(inside);
-  const before = safe ? await readFile(resolve(root, path), "utf8").catch(() => undefined) : undefined;
-  if (before === undefined || !before.endsWith("\n")) {
+  const safe = isWorkflowCommandPath(path) && insideRepository(root, path) !== undefined;
+  const source = safe ? await readRepositoryFile(root, path) : undefined;
+  if (source === undefined || "reason" in source) {
     for (const finding of findings)
       refuse?.(finding, "The workflow path is invalid, unreadable, or lacks a trailing newline.");
     return undefined;
   }
+  const before = source.text;
   const entries = workflowRunLines(before, !path.startsWith(".github/workflows/"));
   const edits = findings
     .flatMap((finding) => {
@@ -120,7 +118,7 @@ async function planFile(
     text = text.slice(0, edit.start) + edit.text + text.slice(edit.end);
     previous = edit.start;
   }
-  return text === before ? undefined : { path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) };
+  return diffFor(path, before, text);
 }
 
 /** Plans literal echo migrations only; repository scripts are never executed. */

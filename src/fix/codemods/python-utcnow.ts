@@ -1,13 +1,13 @@
-import { readFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve } from "node:path";
-
-import { renderDiff } from "../../agent-instructions.js";
-import type { Finding, ScanResult, SourceUsage, UsageMatcher } from "../../domain.js";
+import type { ScanResult, UsageMatcher } from "../../domain.js";
 import { required } from "../../required.js";
-import { analyzeSourceUsage } from "../../source-usage.js";
 import { parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { callsByCallee, namedChildNodes } from "./shared/ast.js";
+import { applyEdits, diffFor, type Edit } from "./shared/edits.js";
+import { declineAll, groupByPath, planEachFile, sortTargets } from "./shared/plan.js";
+import { offsetOf, readRepositoryFile } from "./shared/source.js";
+import { analyzeTargets, syntheticFinding, type UsageTarget } from "./shared/targets.js";
 
 interface Rule {
   id: string;
@@ -25,17 +25,7 @@ const rules: readonly Rule[] = [
   },
 ];
 
-interface Target {
-  rule: Rule;
-  usage: SourceUsage;
-  finding: Finding;
-}
-
-interface Edit {
-  start: number;
-  end: number;
-  replacement: string;
-}
+type Target = UsageTarget<Rule>;
 
 /**
  * One of the import shapes the codemod rewrites. The class shape reads the class through
@@ -57,20 +47,9 @@ interface Shape {
 export const pythonUtcnowFixer: Fixer = {
   id: "python-utcnow",
   async plan(result, refuse) {
-    const targets = await targetsFor(result);
-    const byPath = new Map<string, Target[]>();
-    for (const target of targets) {
-      const list = byPath.get(target.usage.location.path) ?? [];
-      list.push(target);
-      byPath.set(target.usage.location.path, list);
-    }
-
-    const patches: FilePatch[] = [];
-    for (const [path, fileTargets] of [...byPath].sort(([left], [right]) => left.localeCompare(right))) {
-      const patch = await planFile(result.root, path, fileTargets, refuse);
-      if (patch !== undefined) patches.push(patch);
-    }
-    return patches;
+    return planEachFile(groupByPath(await targetsFor(result)), (path, fileTargets) =>
+      planFile(result.root, path, fileTargets, refuse),
+    );
   },
 };
 
@@ -81,42 +60,28 @@ async function planFile(
   fileTargets: readonly Target[],
   refuse: Refuse | undefined,
 ): Promise<FilePatch | undefined> {
-  const decline = (reason: string): void => {
-    for (const target of fileTargets) refuse?.(target.finding, reason);
-  };
-  const source = await readSource(root, path);
+  const source = await readRepositoryFile(root, path);
   if ("reason" in source) {
-    decline(source.reason);
+    declineAll(fileTargets, refuse, source.reason);
     return undefined;
   }
   const before = source.text;
   const tree = await parseSource("python", before);
   if (tree === undefined) {
-    decline("The source file could not be parsed.");
+    declineAll(fileTargets, refuse, "The source file could not be parsed.");
     return undefined;
   }
   try {
     if (tree.rootNode.hasError) {
-      decline("The source file has syntax errors.");
+      declineAll(fileTargets, refuse, "The source file has syntax errors.");
       return undefined;
     }
     const text = rewriteSource(tree.rootNode, before, fileTargets, refuse);
-    if (text === undefined || text === before) return undefined;
-    return { path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) };
+    if (text === undefined) return undefined;
+    return diffFor(path, before, text);
   } finally {
     tree.delete();
   }
-}
-
-/** The file's text, or the reason it cannot be read as a Python source the codemod may change. */
-async function readSource(root: string, path: string): Promise<{ text: string } | { reason: string }> {
-  const absolute = resolve(root, path);
-  const inside = relative(resolve(root), absolute);
-  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
-  const before = await readFile(absolute, "utf8").catch(() => undefined);
-  if (before === undefined) return { reason: "The source file could not be read." };
-  if (!before.endsWith("\n")) return { reason: "The source file does not end with a newline." };
-  return { text: before };
 }
 
 /** The file with its rewritable calls rewritten, or undefined when none of the file's targets can be rewritten. */
@@ -126,13 +91,13 @@ function rewriteSource(
   fileTargets: readonly Target[],
   refuse: Refuse | undefined,
 ): string | undefined {
-  const calls = callsByCallee(root);
+  const calls = callsByCallee(root, "call");
   const imports = inspectDatetimeImports(root);
   const shape = shapeFor(imports);
   const problem = shapeProblem(imports, shape);
   const edits: Edit[] = [];
   let rewrote = false;
-  for (const target of [...fileTargets].sort(compareTargets)) {
+  for (const target of sortTargets(fileTargets, (candidate) => candidate.rule.id)) {
     if (problem !== undefined) {
       refuse?.(target.finding, problem);
       continue;
@@ -157,73 +122,16 @@ function matchers(rule: Rule): UsageMatcher[] {
   return [{ kind: "symbol", language: "python", module: "datetime", symbol: `datetime.${rule.symbol}`, shape: "call" }];
 }
 
-function syntheticFinding(rule: Rule, usage: SourceUsage): Finding {
-  return {
-    id: `${rule.id}:${usage.location.path}:${usage.location.line ?? 1}`,
-    ruleId: rule.id,
-    detector: "codemod",
-    title: rule.title,
-    summary: "",
-    severity: "medium",
-    confidence: "exact",
-    location: usage.location,
-    sources: [],
-  };
-}
-
 /**
  * Symbol-only rules have no package declaration a detector can report, so a scan carries no finding for them. The
  * fixer falls back to the same parser-backed usage analysis the detectors use, over the rules it covers.
  */
 async function targetsFor(result: ScanResult): Promise<Target[]> {
-  const reported = new Map(
-    rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
-  );
-  const missing = rules.filter((rule) => required(reported.get(rule.id), "reported findings").length === 0);
-  const analyses =
-    missing.length === 0
-      ? []
-      : await analyzeSourceUsage(
-          result.root,
-          missing.map((rule) => ({ id: rule.id, matchers: matchers(rule) })),
-        );
-  const derived = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
-
-  const targets: Target[] = [];
-  for (const rule of rules) {
-    const findings = required(reported.get(rule.id), "reported findings");
-    if (findings.length > 0) {
-      for (const finding of findings) {
-        for (const usage of finding.usages ?? []) targets.push({ rule, usage, finding });
-      }
-      continue;
-    }
-    for (const usage of derived.get(rule.id) ?? [])
-      targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
-  }
+  const { targets } = await analyzeTargets(result, rules, {
+    matchers: (rule) => matchers(rule),
+    finding: (rule, usage) => syntheticFinding({ id: rule.id, title: rule.title, severity: "medium" }, usage),
+  });
   return targets;
-}
-
-function compareTargets(left: Target, right: Target): number {
-  return (
-    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
-    (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.rule.id.localeCompare(right.rule.id)
-  );
-}
-
-/** Calls keyed by the offset where their callee starts, which is the location a symbol usage reports. */
-function callsByCallee(root: Node): Map<number, Node[]> {
-  const calls = new Map<number, Node[]>();
-  for (const node of root.descendantsOfType("call")) {
-    if (!node) continue;
-    const callee = node.childForFieldName("function");
-    if (!callee) continue;
-    const list = calls.get(callee.startIndex) ?? [];
-    list.push(node);
-    calls.set(callee.startIndex, list);
-  }
-  return calls;
 }
 
 interface Imports {
@@ -422,11 +330,6 @@ function shapeProblem(imports: Imports, shape: Shape | undefined): string | unde
   return undefined;
 }
 
-/** The named children of a node, with the holes a partial parse leaves between them removed. */
-function namedChildNodes(node: Node): Node[] {
-  return node.namedChildren.filter((child): child is Node => child !== null);
-}
-
 /** The `object` of a call whose callee is an attribute on a name or dotted name, such as `datetime.utcnow()`. */
 function receiverOf(call: Node): Node | undefined {
   const callee = call.childForFieldName("function");
@@ -520,25 +423,4 @@ function timezoneEditFor(statement: Node): Edit {
   );
   const last = required(names.at(-1), "the imported name");
   return { start: last.endIndex, end: last.endIndex, replacement: ", timezone" };
-}
-
-/** The character offset of a one-based line and column, or -1 when it is past the end of the source. */
-function offsetOf(source: string, line: number, column: number): number {
-  let start = 0;
-  for (let current = 1; current < line; current += 1) {
-    const next = source.indexOf("\n", start);
-    if (next === -1) return -1;
-    start = next + 1;
-  }
-  const offset = start + column - 1;
-  return offset <= source.length ? offset : -1;
-}
-
-/** Applies edits from the end of the file backwards so earlier offsets stay valid; the edits never overlap. */
-function applyEdits(source: string, edits: readonly Edit[]): string {
-  let text = source;
-  for (const edit of [...edits].sort((left, right) => right.start - left.start || left.end - right.end)) {
-    text = `${text.slice(0, edit.start)}${edit.replacement}${text.slice(edit.end)}`;
-  }
-  return text;
 }

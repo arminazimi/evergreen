@@ -180,14 +180,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/fix/codemods/node-buffer.ts",
-      "function": "plan",
-      "lines": 59,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/fix/github-actions.ts",
       "function": "plan",
       "lines": 55,

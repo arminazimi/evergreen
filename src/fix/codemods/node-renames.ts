@@ -1,13 +1,13 @@
-import { readFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve } from "node:path";
-
-import { renderDiff } from "../../agent-instructions.js";
-import type { Finding, ScanResult, Severity, SourceUsage, UsageMatcher } from "../../domain.js";
-import { required } from "../../required.js";
-import { analyzeSourceUsage } from "../../source-usage.js";
-import { grammarFor, parseSource } from "../../usage/tree-sitter.js";
+import type { ScanResult, Severity, SourceUsage, UsageMatcher } from "../../domain.js";
+import { parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { callsByCallee } from "./shared/ast.js";
+import { type Edit, patchFor } from "./shared/edits.js";
+import { normalizeModule, optionalCall, requiredModule, unquote } from "./shared/javascript.js";
+import { declineAll, groupByPath, planEachFile, sortTargets } from "./shared/plan.js";
+import { locate, offsetOf, readParseableFile } from "./shared/source.js";
+import { analyzeTargets, syntheticFinding, type UsageTarget } from "./shared/targets.js";
 
 interface Rename {
   id: string;
@@ -99,17 +99,7 @@ const renames: readonly Rename[] = [
 
 const modules: readonly string[] = [...new Set(renames.map((rename) => rename.module))];
 
-interface Target {
-  rename: Rename;
-  usage: SourceUsage;
-  finding: Finding;
-}
-
-interface Edit {
-  start: number;
-  end: number;
-  replacement: string;
-}
+type Target = UsageTarget<Rename>;
 
 /**
  * Rewrites the exact Node.js API renames in a call's member name: `os.tmpDir()` to `os.tmpdir()`, and the same for
@@ -121,18 +111,11 @@ export const nodeRenamesFixer: Fixer = {
   id: "node-renames",
   async plan(result, refuse) {
     const { targets, importPaths } = await targetsFor(result);
-    const byPath = new Map<string, Target[]>();
-    for (const target of targets) {
-      const list = byPath.get(target.usage.location.path) ?? [];
-      list.push(target);
-      byPath.set(target.usage.location.path, list);
-    }
-    const patches: FilePatch[] = [];
-    for (const path of [...new Set([...byPath.keys(), ...importPaths])].sort()) {
-      const patch = await planPath(result.root, path, byPath.get(path) ?? [], importPaths.has(path), refuse);
-      if (patch !== undefined) patches.push(patch);
-    }
-    return patches;
+    const byPath = groupByPath(targets);
+    for (const path of importPaths) if (!byPath.has(path)) byPath.set(path, []);
+    return planEachFile(byPath, (path, fileTargets) =>
+      planPath(result.root, path, fileTargets, importPaths.has(path), refuse),
+    );
   },
 };
 
@@ -143,49 +126,29 @@ async function planPath(
   hasImportPath: boolean,
   refuse: Refuse | undefined,
 ): Promise<FilePatch | undefined> {
-  const decline = (reason: string): void => {
-    for (const target of fileTargets) refuse?.(target.finding, reason);
-  };
-  const source = await readSource(repositoryRoot, path, languageFor(path, fileTargets));
+  const source = await readParseableFile(repositoryRoot, path, languageFor(path, fileTargets));
   if ("reason" in source) {
-    decline(source.reason);
+    declineAll(fileTargets, refuse, source.reason);
     return undefined;
   }
-  const tree = await parseSource(source.grammar, source.before);
+  const tree = await parseSource(source.grammar, source.text);
   if (tree === undefined) {
-    decline("The source file could not be parsed.");
+    declineAll(fileTargets, refuse, "The source file could not be parsed.");
     return undefined;
   }
   try {
-    const patch = patchFor(path, source.before, editsFor(fileTargets, tree.rootNode, source.before, refuse));
-    if (hasImportPath) refuseComputedAccess(path, tree.rootNode, source.before, refuse);
+    const patch = patchFor(path, source.text, editsFor(fileTargets, tree.rootNode, source.text, refuse));
+    if (hasImportPath) refuseComputedAccess(path, tree.rootNode, source.text, refuse);
     return patch;
   } finally {
     tree.delete();
   }
 }
 
-/** Reads a target file after checking that it is inside the repository and parseable by a known grammar. */
-async function readSource(
-  repositoryRoot: string,
-  path: string,
-  language: "javascript" | "typescript",
-): Promise<{ before: string; grammar: NonNullable<ReturnType<typeof grammarFor>> } | { reason: string }> {
-  const absolute = resolve(repositoryRoot, path);
-  const inside = relative(resolve(repositoryRoot), absolute);
-  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
-  const before = await readFile(absolute, "utf8").catch(() => undefined);
-  if (before === undefined) return { reason: "The source file could not be read." };
-  if (!before.endsWith("\n")) return { reason: "The source file does not end with a newline." };
-  const grammar = grammarFor(language, path);
-  if (grammar === undefined) return { reason: "No parser covers this source language." };
-  return { before, grammar };
-}
-
 function editsFor(fileTargets: readonly Target[], root: Node, source: string, refuse: Refuse | undefined): Edit[] {
-  const calls = callsByCallee(root);
+  const calls = callsByCallee(root, ["call_expression", "new_expression"]);
   const edits: Edit[] = [];
-  for (const target of [...fileTargets].sort(compareTargets)) {
+  for (const target of sortTargets(fileTargets, (candidate) => candidate.rule.id)) {
     const rewrite = rewriteFor(target, calls, source);
     if ("reason" in rewrite) refuse?.(target.finding, rewrite.reason);
     else edits.push(rewrite);
@@ -193,31 +156,10 @@ function editsFor(fileTargets: readonly Target[], root: Node, source: string, re
   return edits;
 }
 
-function patchFor(path: string, before: string, edits: readonly Edit[]): FilePatch | undefined {
-  if (edits.length === 0) return undefined;
-  const text = applyEdits(before, edits);
-  return text === before ? undefined : { path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) };
-}
-
 function languageFor(path: string, targets: readonly Target[]): "javascript" | "typescript" {
   const target = targets[0];
   if (target !== undefined) return target.usage.language === "typescript" ? "typescript" : "javascript";
   return /\.(?:ts|tsx|mts|cts)$/i.test(path) ? "typescript" : "javascript";
-}
-
-function syntheticFinding(rename: Rename, usage: SourceUsage): Finding {
-  const line = usage.location.line ?? 1;
-  return {
-    id: `${rename.id}:${usage.location.path}:${line}:${usage.location.column ?? 1}`,
-    ruleId: rename.id,
-    detector: "codemod",
-    title: rename.title,
-    summary: "",
-    severity: rename.severity,
-    confidence: "exact",
-    location: usage.location,
-    sources: [],
-  };
 }
 
 /**
@@ -227,12 +169,11 @@ function syntheticFinding(rename: Rename, usage: SourceUsage): Finding {
  * analysis cannot report it as a usage.
  */
 async function targetsFor(result: ScanResult): Promise<{ targets: Target[]; importPaths: Set<string> }> {
-  const reported = new Map(
-    renames.map((rename) => [rename.id, result.findings.filter((finding) => finding.ruleId === rename.id)]),
-  );
-  const contracts = [
-    ...renames.map((rename) => ({ id: `symbol:${rename.id}`, matchers: rename.matchers })),
-    ...modules.map((module) => ({
+  const { targets, contracts } = await analyzeTargets(result, renames, {
+    contractId: (rename) => `symbol:${rename.id}`,
+    matchers: (rename) => rename.matchers,
+    finding: (rename, usage) => syntheticFinding(rename, usage, true),
+    extraContracts: modules.map((module) => ({
       id: `import:${module}`,
       matchers: [
         { kind: "import", language: "javascript", module },
@@ -241,55 +182,15 @@ async function targetsFor(result: ScanResult): Promise<{ targets: Target[]; impo
         { kind: "import", language: "typescript", module: `node:${module}` },
       ] as UsageMatcher[],
     })),
-  ];
-  const analyses = await analyzeSourceUsage(result.root, contracts);
-  const byContract = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
-
-  const targets: Target[] = [];
-  for (const rename of renames) {
-    const findings = required(reported.get(rename.id), "reported findings");
-    if (findings.length > 0) {
-      for (const finding of findings) {
-        for (const usage of finding.usages ?? []) targets.push({ rename, usage, finding });
-      }
-      continue;
-    }
-    for (const usage of byContract.get(`symbol:${rename.id}`) ?? []) {
-      targets.push({ rename, usage, finding: syntheticFinding(rename, usage) });
-    }
-  }
-
+  });
   const importPaths = new Set(
-    modules.flatMap((module) => (byContract.get(`import:${module}`) ?? []).map((usage) => usage.location.path)),
+    modules.flatMap((module) => (contracts.get(`import:${module}`) ?? []).map((usage) => usage.location.path)),
   );
   return { targets, importPaths };
 }
 
-function compareTargets(left: Target, right: Target): number {
-  return (
-    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
-    (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.rename.id.localeCompare(right.rename.id)
-  );
-}
-
-/** Calls and constructions keyed by the offset where their callee starts, which is the location a symbol usage reports. */
-function callsByCallee(root: Node): Map<number, Node[]> {
-  const calls = new Map<number, Node[]>();
-  for (const node of root.descendantsOfType(["call_expression", "new_expression"])) {
-    if (!node) continue;
-    const callee =
-      node.type === "new_expression" ? node.childForFieldName("constructor") : node.childForFieldName("function");
-    if (!callee) continue;
-    const list = calls.get(callee.startIndex) ?? [];
-    list.push(node);
-    calls.set(callee.startIndex, list);
-  }
-  return calls;
-}
-
 function rewriteFor(target: Target, calls: Map<number, Node[]>, source: string): Edit | { reason: string } {
-  const { usage, rename } = target;
+  const { usage, rule: rename } = target;
   if (usage.location.line === undefined || usage.location.column === undefined) {
     return { reason: "The usage has no line and column to rewrite." };
   }
@@ -329,17 +230,6 @@ function rewriteFor(target: Target, calls: Map<number, Node[]>, source: string):
 }
 
 /**
- * `os.tmpDir?.()` puts the chain on the call in the JavaScript grammar but drops the node in the TypeScript
- * grammar, so the `?.` is also read from the source between the callee and its arguments.
- */
-function optionalCall(call: Node, callee: Node, source: string): boolean {
-  if (call.childForFieldName("optional_chain") !== null) return true;
-  const args = call.childForFieldName("arguments");
-  const gap = args ? source.slice(callee.endIndex, args.startIndex) : "";
-  return source.slice(callee.startIndex, callee.endIndex).includes("?.") || gap.includes("?.");
-}
-
-/**
  * A computed member access, such as `os["tmpDir"]()`, is not a usage the analysis can report, so it is found here in
  * the files that import the module and refused with the reason the rewrite is not exact.
  */
@@ -367,7 +257,7 @@ function refuseComputedAccess(path: string, root: Node, source: string, refuse: 
       excerpt: (lines[line - 1] ?? "").trim(),
     };
     refuse?.(
-      syntheticFinding(rename, usage),
+      syntheticFinding(rename, usage, true),
       "The member is accessed with a computed key, so renaming only the member name is not exact.",
     );
   }
@@ -402,15 +292,6 @@ function moduleBindings(root: Node): Map<string, string> {
   return bindings;
 }
 
-/** The module `require("m")` reads, including the `node:` prefix, or undefined for any other expression. */
-function requiredModule(node: Node | null | undefined): string | undefined {
-  if (node?.type !== "call_expression") return undefined;
-  const callee = node.childForFieldName("function");
-  if (callee?.type !== "identifier" || callee.text !== "require") return undefined;
-  const argument = node.childForFieldName("arguments")?.namedChildren[0];
-  return argument?.type === "string" ? normalizeModule(unquote(argument.text)) : undefined;
-}
-
 /** The module an expression reads from: a bound name, an inline `require`, or one wrapped in type syntax. */
 function moduleOf(node: Node, bindings: Map<string, string>): string | undefined {
   if (node.type === "identifier") return bindings.get(node.text);
@@ -421,43 +302,4 @@ function moduleOf(node: Node, bindings: Map<string, string>): string | undefined
     return inner ? moduleOf(inner, bindings) : undefined;
   }
   return requiredModule(node);
-}
-
-function normalizeModule(module: string): string {
-  return module.startsWith("node:") ? module.slice(5) : module;
-}
-
-function unquote(text: string): string {
-  return text.replace(/^["'`]|["'`]$/g, "");
-}
-
-function locate(source: string, offset: number): { line: number; column: number } {
-  let line = 1;
-  let start = 0;
-  for (let index = 0; index < offset; index += 1) {
-    if (source.charCodeAt(index) === 10) {
-      line += 1;
-      start = index + 1;
-    }
-  }
-  return { line, column: offset - start + 1 };
-}
-
-function offsetOf(source: string, line: number, column: number): number {
-  let start = 0;
-  for (let current = 1; current < line; current += 1) {
-    const next = source.indexOf("\n", start);
-    if (next === -1) return -1;
-    start = next + 1;
-  }
-  return start + column - 1 <= source.length ? start + column - 1 : -1;
-}
-
-/** Applies edits from the end of the file backwards so earlier offsets stay valid; nested calls never overlap. */
-function applyEdits(source: string, edits: readonly Edit[]): string {
-  let text = source;
-  for (const edit of [...edits].sort((left, right) => right.start - left.start)) {
-    text = `${text.slice(0, edit.start)}${edit.replacement}${text.slice(edit.end)}`;
-  }
-  return text;
 }

@@ -1,7 +1,3 @@
-import { readFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve } from "node:path";
-
-import { renderDiff } from "../../agent-instructions.js";
 import {
   parseTerraformLegacy,
   type TerraformInterpolationOnlyDeclaration,
@@ -11,6 +7,8 @@ import {
 import type { Finding, ScanResult } from "../../domain.js";
 import { required } from "../../required.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { type Edit, diffFor } from "./shared/edits.js";
+import { newlineReason, readRepositoryText } from "./shared/source.js";
 
 const INTERPOLATION_RULE_ID = "terraform.syntax.interpolation-only";
 const LEGACY_FUNCTION_RULE_ID = "terraform.function.list-map";
@@ -94,12 +92,6 @@ function declarationFor(
   return (
     matches.find((declaration) => declaration.column === column) ?? (matches.length === 1 ? matches[0] : undefined)
   );
-}
-
-interface Edit {
-  start: number;
-  end: number;
-  replacement: string;
 }
 
 /** Apply the non-overlapping edits right to left; a nested edit waits for the next pass. */
@@ -210,21 +202,16 @@ async function planFile(
   const targets = targetsIn(before, findings);
   const text = rewriteToStability(before, targets);
   reportRemaining(before, text, targets, refuse);
-  if (text === before) return undefined;
-  // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-  return { path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) };
+  return diffFor(path, before, text);
 }
 
 /** The file's text, or the reason the file cannot be rewritten. */
 async function readTerraformSource(root: string, path: string): Promise<{ text: string } | { reason: string }> {
-  const absolute = resolve(root, path);
-  const inside = relative(resolve(root), absolute);
-  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
-  const before = await readFile(absolute, "utf8").catch(() => undefined);
-  if (before === undefined) return { reason: "The Terraform file could not be read." };
-  if (generated(before)) return { reason: "The file says another tool generates it." };
-  if (!before.endsWith("\n")) return { reason: "The Terraform file does not end with a newline." };
-  return { text: before };
+  const source = await readRepositoryText(root, path, "Terraform file");
+  if ("reason" in source) return source;
+  if (generated(source.text)) return { reason: "The file says another tool generates it." };
+  const missing = newlineReason(source.text, "Terraform file");
+  return missing === undefined ? source : { reason: missing };
 }
 
 /** Each finding as a target, with the function name of a legacy call resolved from the file as it is now. */

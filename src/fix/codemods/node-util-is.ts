@@ -1,13 +1,14 @@
-import { readFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve } from "node:path";
-
-import { renderDiff } from "../../agent-instructions.js";
-import type { Finding, ScanResult, Severity, SourceUsage, UsageMatcher } from "../../domain.js";
+import type { ScanResult, Severity, UsageMatcher } from "../../domain.js";
 import { required } from "../../required.js";
-import { analyzeSourceUsage } from "../../source-usage.js";
-import { grammarFor, parseSource } from "../../usage/tree-sitter.js";
+import { parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { callsByCallee } from "./shared/ast.js";
+import { type Edit, patchFor } from "./shared/edits.js";
+import { optionalCall, requiredModule, normalizeModule, unquote } from "./shared/javascript.js";
+import { declineAll, groupByPath, planEachFile, sortTargets } from "./shared/plan.js";
+import { offsetOf, readParseableFile } from "./shared/source.js";
+import { analyzeTargets, syntheticFinding, type UsageTarget } from "./shared/targets.js";
 
 interface Rule {
   id: string;
@@ -194,17 +195,7 @@ const rules: readonly Rule[] = [
   },
 ];
 
-interface Target {
-  rule: Rule;
-  usage: SourceUsage;
-  finding: Finding;
-}
-
-interface Edit {
-  start: number;
-  end: number;
-  replacement: string;
-}
+type Target = UsageTarget<Rule>;
 
 /** What a call's callee reads: the deprecated function, and the util expression when the call already has one. */
 interface Callee {
@@ -225,67 +216,33 @@ const utilModule = "util";
 export const nodeUtilIsFixer: Fixer = {
   id: "node-util-is",
   async plan(result, refuse) {
-    const targets = await targetsFor(result);
-    const byPath = new Map<string, Target[]>();
-    for (const target of targets) {
-      const list = byPath.get(target.usage.location.path) ?? [];
-      list.push(target);
-      byPath.set(target.usage.location.path, list);
-    }
-    const patches: FilePatch[] = [];
-    for (const [path, fileTargets] of [...byPath].sort(([left], [right]) => left.localeCompare(right))) {
-      const patch = await planFile(result.root, path, fileTargets, refuse);
-      if (patch !== undefined) patches.push(patch);
-    }
-    return patches;
+    return planEachFile(groupByPath(await targetsFor(result)), (path, fileTargets) =>
+      planFile(result.root, path, fileTargets, refuse),
+    );
   },
 };
 
 async function planFile(
-  repositoryRoot: string,
+  root: string,
   path: string,
   fileTargets: readonly Target[],
   refuse: Refuse | undefined,
 ): Promise<FilePatch | undefined> {
-  const decline = (reason: string): void => {
-    for (const target of fileTargets) refuse?.(target.finding, reason);
-  };
-  const source = await readTarget(repositoryRoot, path, required(fileTargets[0], "the file target").usage.language);
+  const source = await readParseableFile(root, path, required(fileTargets[0], "the file target").usage.language);
   if ("reason" in source) {
-    decline(source.reason);
+    declineAll(fileTargets, refuse, source.reason);
     return undefined;
   }
-  const tree = await parseSource(source.grammar, source.before);
+  const tree = await parseSource(source.grammar, source.text);
   if (tree === undefined) {
-    decline("The source file could not be parsed.");
+    declineAll(fileTargets, refuse, "The source file could not be parsed.");
     return undefined;
   }
   try {
-    const edits = editsForFile(fileTargets, tree.rootNode, source.before, refuse);
-    if (edits.length === 0) return undefined;
-    const text = applyEdits(source.before, edits);
-    if (text === source.before) return undefined;
-    return { path, diff: renderDiff(path, source.before.slice(0, -1), text.slice(0, -1)) };
+    return patchFor(path, source.text, editsForFile(fileTargets, tree.rootNode, source.text, refuse));
   } finally {
     tree.delete();
   }
-}
-
-/** Reads a target file after checking that it is inside the repository and parseable by a known grammar. */
-async function readTarget(
-  repositoryRoot: string,
-  path: string,
-  language: SourceUsage["language"],
-): Promise<{ before: string; grammar: NonNullable<ReturnType<typeof grammarFor>> } | { reason: string }> {
-  const absolute = resolve(repositoryRoot, path);
-  const inside = relative(resolve(repositoryRoot), absolute);
-  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
-  const before = await readFile(absolute, "utf8").catch(() => undefined);
-  if (before === undefined) return { reason: "The source file could not be read." };
-  if (!before.endsWith("\n")) return { reason: "The source file does not end with a newline." };
-  const grammar = grammarFor(language, path);
-  if (grammar === undefined) return { reason: "No parser covers this source language." };
-  return { before, grammar };
 }
 
 function editsForFile(fileTargets: readonly Target[], root: Node, source: string, refuse: Refuse | undefined): Edit[] {
@@ -301,7 +258,7 @@ function editsForFile(fileTargets: readonly Target[], root: Node, source: string
     if (offset !== -1) targetOffsets.add(offset);
   }
   const edits: Edit[] = [];
-  for (const target of [...fileTargets].sort(compareTargets)) {
+  for (const target of sortTargets(fileTargets, (candidate) => candidate.rule.id)) {
     const rewrite = rewriteFor(target, calls, targetOffsets, context, source);
     if ("reason" in rewrite) refuse?.(target.finding, rewrite.reason);
     else edits.push(rewrite);
@@ -309,74 +266,16 @@ function editsForFile(fileTargets: readonly Target[], root: Node, source: string
   return edits;
 }
 
-function syntheticFinding(rule: Rule, usage: SourceUsage): Finding {
-  const line = usage.location.line ?? 1;
-  return {
-    id: `${rule.id}:${usage.location.path}:${line}:${usage.location.column ?? 1}`,
-    ruleId: rule.id,
-    detector: "codemod",
-    title: rule.title,
-    summary: "",
-    severity: rule.severity,
-    confidence: "exact",
-    location: usage.location,
-    sources: [],
-  };
-}
-
 /**
  * Symbol-only rules have no package declaration a detector can report, so a scan carries no finding for them. The
  * fixer falls back to the same parser-backed usage analysis the detectors use, over the rules it covers.
  */
 async function targetsFor(result: ScanResult): Promise<Target[]> {
-  const targets: Target[] = [];
-  const reported = new Map(
-    rules.map((rule) => [rule.id, result.findings.filter((finding) => finding.ruleId === rule.id)]),
-  );
-  const missing = rules.filter((rule) => required(reported.get(rule.id), "reported findings").length === 0);
-  const analyses =
-    missing.length === 0
-      ? []
-      : await analyzeSourceUsage(
-          result.root,
-          missing.map((rule) => ({ id: rule.id, matchers: matchers(rule.name) })),
-        );
-  const derived = new Map(analyses.map((analysis) => [analysis.contractId, analysis.usages]));
-
-  for (const rule of rules) {
-    const findings = required(reported.get(rule.id), "reported findings");
-    if (findings.length > 0) {
-      for (const finding of findings) {
-        for (const usage of finding.usages ?? []) targets.push({ rule, usage, finding });
-      }
-      continue;
-    }
-    for (const usage of derived.get(rule.id) ?? [])
-      targets.push({ rule, usage, finding: syntheticFinding(rule, usage) });
-  }
+  const { targets } = await analyzeTargets(result, rules, {
+    matchers: (rule) => matchers(rule.name),
+    finding: (rule, usage) => syntheticFinding(rule, usage, true),
+  });
   return targets;
-}
-
-function compareTargets(left: Target, right: Target): number {
-  return (
-    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
-    (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.rule.id.localeCompare(right.rule.id)
-  );
-}
-
-/** Calls keyed by the offset where their callee starts, which is the location a symbol usage reports. */
-function callsByCallee(root: Node): Map<number, Node[]> {
-  const calls = new Map<number, Node[]>();
-  for (const node of root.descendantsOfType("call_expression")) {
-    if (!node) continue;
-    const callee = node.childForFieldName("function");
-    if (!callee) continue;
-    const list = calls.get(callee.startIndex) ?? [];
-    list.push(node);
-    calls.set(callee.startIndex, list);
-  }
-  return calls;
 }
 
 interface FileContext {
@@ -497,17 +396,6 @@ function nestedTarget(call: Node, offsets: ReadonlySet<number>): boolean {
     if (offset > call.startIndex && offset < call.endIndex) return true;
   }
   return false;
-}
-
-/**
- * `os.tmpDir?.()` and `util?.isArray(x)` put the chain on the call in the JavaScript grammar but drop the node in the
- * TypeScript grammar, so the `?.` is also read from the source around the callee.
- */
-function optionalCall(call: Node, callee: Node, source: string): boolean {
-  if (call.childForFieldName("optional_chain") !== null) return true;
-  const args = call.childForFieldName("arguments");
-  const gap = args ? source.slice(callee.endIndex, args.startIndex) : "";
-  return source.slice(callee.startIndex, callee.endIndex).includes("?.") || gap.includes("?.");
 }
 
 /** The function a callee reads and, when it names the module, the expression that reads `util`. */
@@ -650,23 +538,6 @@ function patternEntries(pattern: Node): { key: string; local: string }[] {
   return entries;
 }
 
-/** The module `require("m")` reads, including the `node:` prefix, or undefined for any other expression. */
-function requiredModule(node: Node | null | undefined): string | undefined {
-  if (node?.type !== "call_expression") return undefined;
-  const callee = node.childForFieldName("function");
-  if (callee?.type !== "identifier" || callee.text !== "require") return undefined;
-  const argument = node.childForFieldName("arguments")?.namedChildren[0];
-  return argument?.type === "string" ? normalizeModule(unquote(argument.text)) : undefined;
-}
-
-function normalizeModule(module: string): string {
-  return module.startsWith("node:") ? module.slice(5) : module;
-}
-
-function unquote(text: string): string {
-  return text.replace(/^["'`]|["'`]$/g, "");
-}
-
 /** Local names a file assigns to, so a call through one cannot be assumed to reach `util`. */
 function reassignedNames(root: Node): Set<string> {
   const names = new Set<string>();
@@ -776,23 +647,4 @@ function needsParentheses(call: Node): boolean {
     default:
       return true;
   }
-}
-
-function offsetOf(source: string, line: number, column: number): number {
-  let start = 0;
-  for (let current = 1; current < line; current += 1) {
-    const next = source.indexOf("\n", start);
-    if (next === -1) return -1;
-    start = next + 1;
-  }
-  return start + column - 1 <= source.length ? start + column - 1 : -1;
-}
-
-/** Applies edits from the end of the file backwards so earlier offsets stay valid; their ranges never overlap. */
-function applyEdits(source: string, edits: readonly Edit[]): string {
-  let text = source;
-  for (const edit of [...edits].sort((left, right) => right.start - left.start)) {
-    text = `${text.slice(0, edit.start)}${edit.replacement}${text.slice(edit.end)}`;
-  }
-  return text;
 }

@@ -1,10 +1,10 @@
-import { readFile } from "node:fs/promises";
-import { basename, isAbsolute, relative, resolve } from "node:path";
+import { basename } from "node:path";
 
-import { renderDiff } from "../../agent-instructions.js";
 import type { Finding } from "../../domain.js";
 import { required } from "../../required.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { diffFor } from "./shared/edits.js";
+import { readRepositoryFile } from "./shared/source.js";
 
 const DOCKERFILE = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const MAINTAINER_RULE = "container.dockerfile.maintainer";
@@ -124,23 +124,13 @@ async function planFile(
     for (const target of lines.values()) for (const finding of target.findings) refuse?.(finding, reason);
     return undefined;
   };
-  const absolute = resolve(root, path);
-  const inside = relative(resolve(root), absolute);
-  if (inside.startsWith("..") || isAbsolute(inside)) return decline("The path resolves outside the repository.");
-  const before = await readFile(absolute, "utf8").catch(() => undefined);
-  if (before === undefined) return decline("The Dockerfile could not be read.");
-  if (!before.endsWith("\n")) return decline("The Dockerfile does not end with a newline.");
+  const source = await readRepositoryFile(root, path, "Dockerfile");
+  if ("reason" in source) return decline(source.reason);
 
+  const before = source.text;
   const original = before.split("\n");
   const { text, refusals } = rewriteInstructions(original, lines);
-  // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-  const patch =
-    text === before
-      ? undefined
-      : {
-          path,
-          diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)),
-        };
+  const patch = diffFor(path, before, text);
   const updated = text.split("\n");
   for (const [line, target] of lines) {
     if (updated[line - 1] !== original[line - 1]) continue;

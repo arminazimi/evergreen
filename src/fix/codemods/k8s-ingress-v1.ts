@@ -1,12 +1,11 @@
-import { readFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve } from "node:path";
 import { LineCounter, Scalar, isMap, isNode, isScalar, isSeq, parseAllDocuments, visit } from "yaml";
 import type { Document, Pair, YAMLMap, YAMLSeq } from "yaml";
 
-import { renderDiff } from "../../agent-instructions.js";
 import { MAXIMUM_DOCUMENTS, MAXIMUM_INPUT_BYTES } from "../../detectors/kubernetes/parse-manifest.js";
 import type { Finding } from "../../domain.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { diffFor } from "./shared/edits.js";
+import { readRepositoryFile } from "./shared/source.js";
 
 /**
  * Moves an Ingress from `extensions/v1beta1` or `networking.k8s.io/v1beta1` to `networking.k8s.io/v1`.
@@ -421,12 +420,9 @@ async function rewritesForFile(
     for (const target of targets) refuse?.(target.finding, reason);
     return undefined;
   };
-  const absolute = resolve(root, path);
-  const inside = relative(resolve(root), absolute);
-  if (inside.startsWith("..") || isAbsolute(inside)) return decline("The path resolves outside the repository.");
-  const contents = await readFile(absolute, "utf8").catch(() => undefined);
-  if (contents === undefined) return decline("The manifest could not be read.");
-  if (!contents.endsWith("\n")) return decline("The manifest does not end with a newline.");
+  const file = await readRepositoryFile(root, path, "manifest");
+  if ("reason" in file) return decline(file.reason);
+  const contents = file.text;
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES)
     return decline("The manifest is larger than Evergreen reads.");
   const source = parseSource(contents);
@@ -470,9 +466,8 @@ export const kubernetesIngressV1Fixer: Fixer = {
       const file = await rewritesForFile(result.root, path, targets, refuse);
       if (file === undefined || file.rewrites.length === 0) continue;
       const text = applyRewrites(file.lines, file.rewrites).join("\n");
-      // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (text !== file.contents)
-        patches.push({ path, diff: renderDiff(path, file.contents.slice(0, -1), text.slice(0, -1)) });
+      const patch = diffFor(path, file.contents, text);
+      if (patch !== undefined) patches.push(patch);
     }
     return patches;
   },

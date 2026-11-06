@@ -1,9 +1,7 @@
-import { readFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve } from "node:path";
-
-import { renderDiff } from "../../agent-instructions.js";
 import type { Finding } from "../../domain.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { diffFor } from "./shared/edits.js";
+import { readRepositoryFile } from "./shared/source.js";
 
 /** A package whose successor exports the same API under a new name, so replacing the module specifier is the whole migration. */
 export interface RenameCodemod {
@@ -62,9 +60,9 @@ export const renameCodemodsFixer: Fixer = {
     const updated = new Map<string, string[]>();
     const failures = new Map<string, string>();
     for (const [path, lines] of [...edits].sort(([a], [b]) => a.localeCompare(b))) {
-      const source = await readSource(result.root, path);
-      if ("failure" in source) {
-        failures.set(path, source.failure);
+      const source = await readRepositoryFile(result.root, path);
+      if ("reason" in source) {
+        failures.set(path, source.reason);
         continue;
       }
       const original = source.text.split("\n");
@@ -76,12 +74,8 @@ export const renameCodemodsFixer: Fixer = {
         .join("\n");
       originals.set(path, original);
       updated.set(path, text.split("\n"));
-      // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (text !== source.text)
-        patches.push({
-          path,
-          diff: renderDiff(path, source.text.slice(0, -1), text.slice(0, -1)),
-        });
+      const patch = diffFor(path, source.text, text);
+      if (patch !== undefined) patches.push(patch);
     }
     refuseUnrenamed(tracked, originals, updated, failures, refuse);
     return patches;
@@ -119,17 +113,6 @@ function renameTargets(
     }
   }
   return { edits, tracked };
-}
-
-/** The source file's text, or why it cannot be read inside the repository. */
-async function readSource(root: string, path: string): Promise<{ text: string } | { failure: string }> {
-  const absolute = resolve(root, path);
-  const inside = relative(resolve(root), absolute);
-  if (inside.startsWith("..") || isAbsolute(inside)) return { failure: "The path resolves outside the repository." };
-  const text = await readFile(absolute, "utf8").catch(() => undefined);
-  if (text === undefined) return { failure: "The source file could not be read." };
-  if (!text.endsWith("\n")) return { failure: "The source file does not end with a newline." };
-  return { text };
 }
 
 /** Refuses each tracked finding none of whose import lines changed, with the file failure or the reason no specifier matched. */

@@ -1,13 +1,13 @@
-import { readFile } from "node:fs/promises";
-import { isAbsolute, relative, resolve } from "node:path";
-
-import { renderDiff } from "../../agent-instructions.js";
 import type { Finding, ScanResult, Severity, SourceUsage, UsageMatcher } from "../../domain.js";
 import { required } from "../../required.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
 import { parseSource } from "../../usage/tree-sitter.js";
 import type { Node } from "../../usage/vendor/tree-sitter/tree-sitter.js";
 import type { FilePatch, Fixer, Refuse } from "../types.js";
+import { type Edit, patchFor } from "./shared/edits.js";
+import { declineAll, groupByPath, planEachFile, sortTargets } from "./shared/plan.js";
+import { locate, offsetOf, readRepositoryFile } from "./shared/source.js";
+import { syntheticFinding } from "./shared/targets.js";
 
 interface ModuleRename {
   id: string;
@@ -80,12 +80,6 @@ interface Target {
   finding: Finding;
 }
 
-interface Edit {
-  start: number;
-  end: number;
-  replacement: string;
-}
-
 /**
  * Rewrites the Python 3.12 one-to-one renames: `configparser.SafeConfigParser` to `configparser.ConfigParser`,
  * `io.OpenWrapper` to `io.open`, and the deprecated `unittest.TestCase` aliases to the methods they call. A call
@@ -96,18 +90,11 @@ export const pythonRenamesFixer: Fixer = {
   id: "python-renames",
   async plan(result, refuse) {
     const { targets, unittestPaths } = await targetsFor(result.root, result);
-    const byPath = new Map<string, Target[]>();
-    for (const target of targets) {
-      const list = byPath.get(target.usage.location.path) ?? [];
-      list.push(target);
-      byPath.set(target.usage.location.path, list);
-    }
-    const patches: FilePatch[] = [];
-    for (const path of [...new Set([...byPath.keys(), ...unittestPaths])].sort()) {
-      const patch = await planPath(result.root, path, byPath.get(path) ?? [], unittestPaths.has(path), refuse);
-      if (patch !== undefined) patches.push(patch);
-    }
-    return patches;
+    const byPath = groupByPath(targets);
+    for (const path of unittestPaths) if (!byPath.has(path)) byPath.set(path, []);
+    return planEachFile(byPath, (path, fileTargets) =>
+      planPath(result.root, path, fileTargets, unittestPaths.has(path), refuse),
+    );
   },
 };
 
@@ -118,43 +105,29 @@ async function planPath(
   isUnittestPath: boolean,
   refuse: Refuse | undefined,
 ): Promise<FilePatch | undefined> {
-  const decline = (reason: string): void => {
-    for (const target of fileTargets) refuse?.(target.finding, reason);
-  };
-  const source = await readSource(repositoryRoot, path);
+  const source = await readRepositoryFile(repositoryRoot, path);
   if ("reason" in source) {
-    decline(source.reason);
+    declineAll(fileTargets, refuse, source.reason);
     return undefined;
   }
-  const tree = await parseSource("python", source.before);
+  const tree = await parseSource("python", source.text);
   if (tree === undefined) {
-    decline("The source file could not be parsed.");
+    declineAll(fileTargets, refuse, "The source file could not be parsed.");
     return undefined;
   }
   try {
     if (tree.rootNode.hasError) {
-      decline("The source file has syntax errors.");
+      declineAll(fileTargets, refuse, "The source file has syntax errors.");
       return undefined;
     }
-    const edits = editsFor(fileTargets, indexFile(tree.rootNode), tree.rootNode, source.before, refuse);
+    const edits = editsFor(fileTargets, indexFile(tree.rootNode), tree.rootNode, source.text, refuse);
     if (isUnittestPath) {
-      refuseAliasesOutsideTestcase(path, tree.rootNode, source.before, testcaseClassIds(tree.rootNode), refuse);
+      refuseAliasesOutsideTestcase(path, tree.rootNode, source.text, testcaseClassIds(tree.rootNode), refuse);
     }
-    return patchFor(path, source.before, dedupe(edits));
+    return patchFor(path, source.text, dedupe(edits));
   } finally {
     tree.delete();
   }
-}
-
-/** Reads a target file after checking that it is inside the repository and ends with a newline. */
-async function readSource(repositoryRoot: string, path: string): Promise<{ before: string } | { reason: string }> {
-  const absolute = resolve(repositoryRoot, path);
-  const inside = relative(resolve(repositoryRoot), absolute);
-  if (inside.startsWith("..") || isAbsolute(inside)) return { reason: "The path resolves outside the repository." };
-  const before = await readFile(absolute, "utf8").catch(() => undefined);
-  if (before === undefined) return { reason: "The source file could not be read." };
-  if (!before.endsWith("\n")) return { reason: "The source file does not end with a newline." };
-  return { before };
 }
 
 function editsFor(
@@ -165,33 +138,12 @@ function editsFor(
   refuse: Refuse | undefined,
 ): Edit[] {
   const edits: Edit[] = [];
-  for (const target of [...fileTargets].sort(compareTargets)) {
+  for (const target of sortTargets(fileTargets, (candidate) => candidate.ruleId)) {
     const rewrite = rewriteFor(target, index, root, source);
     if ("reason" in rewrite) refuse?.(target.finding, rewrite.reason);
     else edits.push(...rewrite.edits);
   }
   return edits;
-}
-
-function patchFor(path: string, before: string, edits: readonly Edit[]): FilePatch | undefined {
-  if (edits.length === 0) return undefined;
-  const text = applyEdits(before, edits);
-  return text === before ? undefined : { path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) };
-}
-
-function syntheticFinding(ruleId: string, title: string, severity: Severity, usage: SourceUsage): Finding {
-  const line = usage.location.line ?? 1;
-  return {
-    id: `${ruleId}:${usage.location.path}:${line}:${usage.location.column ?? 1}`,
-    ruleId,
-    detector: "codemod",
-    title,
-    summary: "",
-    severity,
-    confidence: "exact",
-    location: usage.location,
-    sources: [],
-  };
 }
 
 function moduleMatchers(rename: ModuleRename): UsageMatcher[] {
@@ -265,7 +217,7 @@ function moduleTarget(rename: ModuleRename, usage: SourceUsage, finding?: Findin
     severity: "high",
     rename,
     usage,
-    finding: finding ?? syntheticFinding(rename.id, rename.title, "high", usage),
+    finding: finding ?? syntheticFinding({ id: rename.id, title: rename.title, severity: "high" }, usage, true),
   };
 }
 
@@ -283,7 +235,7 @@ function aliasTargets(
         severity: "high",
         alias,
         usage,
-        finding: finding ?? syntheticFinding(aliasRuleId, aliasRuleTitle, "high", usage),
+        finding: finding ?? syntheticFinding({ id: aliasRuleId, title: aliasRuleTitle, severity: "high" }, usage, true),
       });
     }
   };
@@ -300,14 +252,6 @@ function aliasTargets(
 
 function aliasFor(usage: SourceUsage): Alias | undefined {
   return aliases.find((alias) => usage.symbol === `unittest.${alias.from}`);
-}
-
-function compareTargets(left: Target, right: Target): number {
-  return (
-    (left.usage.location.line ?? 0) - (right.usage.location.line ?? 0) ||
-    (left.usage.location.column ?? 0) - (right.usage.location.column ?? 0) ||
-    left.ruleId.localeCompare(right.ruleId)
-  );
 }
 
 interface FileIndex {
@@ -507,7 +451,7 @@ function refuseAliasesOutsideTestcase(
       excerpt: (lines[line - 1] ?? "").trim(),
     };
     refuse(
-      syntheticFinding(aliasRuleId, aliasRuleTitle, "high", usage),
+      syntheticFinding({ id: aliasRuleId, title: aliasRuleTitle, severity: "high" }, usage, true),
       `The \`${alias.from}()\` call is not inside a class that subclasses unittest.TestCase, so it is not one of the removed TestCase aliases.`,
     );
   }
@@ -654,36 +598,4 @@ function dedupe(edits: readonly Edit[]): Edit[] {
     seen.add(key);
     return true;
   });
-}
-
-function locate(source: string, offset: number): { line: number; column: number } {
-  let line = 1;
-  let start = 0;
-  for (let index = 0; index < offset; index += 1) {
-    if (source.charCodeAt(index) === 10) {
-      line += 1;
-      start = index + 1;
-    }
-  }
-  return { line, column: offset - start + 1 };
-}
-
-function offsetOf(source: string, line: number, column: number): number {
-  let start = 0;
-  for (let current = 1; current < line; current += 1) {
-    const next = source.indexOf("\n", start);
-    if (next === -1) return -1;
-    start = next + 1;
-  }
-  const offset = start + column - 1;
-  return offset <= source.length ? offset : -1;
-}
-
-/** Applies edits from the end of the file backwards so earlier offsets stay valid; the edits never overlap. */
-function applyEdits(source: string, edits: readonly Edit[]): string {
-  let text = source;
-  for (const edit of [...edits].sort((left, right) => right.start - left.start || left.end - right.end)) {
-    text = `${text.slice(0, edit.start)}${edit.replacement}${text.slice(edit.end)}`;
-  }
-  return text;
 }
