@@ -30,6 +30,10 @@ export interface XmlElement {
 
 class Malformed extends Error {}
 
+function fail(): never {
+  throw new Malformed();
+}
+
 /** The five XML predefined entities; the pattern in `decode` can only capture one of these names. */
 const predefinedEntities = { lt: "<", gt: ">", amp: "&", quot: '"', apos: "'" };
 
@@ -51,117 +55,162 @@ function decode(text: string): string {
   );
 }
 
-export function readXml(contents: string): XmlElement | undefined {
-  if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return undefined;
-  const text = contents.charCodeAt(0) === 0xfeff ? contents.slice(1) : contents;
-  let position = 0;
-  let line = 1;
+/** The number of newlines before `end` in a matched attribute, so an attribute keeps its own line. */
+function leadingNewlines(value: string, end: number): number {
   let count = 0;
-  let root: XmlElement | undefined;
-  let current: XmlElement | undefined;
+  for (const char of value.slice(0, end)) if (char === "\n") count += 1;
+  return count;
+}
 
-  // Annotating the const (not just the return) as `() => never` lets tsc narrow guarded values after `if (...) fail();`.
-  const fail: () => never = () => {
-    throw new Malformed();
-  };
-  const advance = (to: number): void => {
-    for (let index = position; index < to; index += 1) if (text[index] === "\n") line += 1;
-    position = to;
-  };
-  const closing = (marker: string): number => {
-    const end = text.indexOf(marker, position);
-    if (end === -1) return fail();
+/**
+ * A bounded cursor over XML text. Each step of the scan is its own method so the reader stays readable and
+ * every branch is separately testable; the state it moves is `position`, `line`, and the open-element stack.
+ */
+class XmlReader {
+  private position = 0;
+  private line = 1;
+  private count = 0;
+  private root: XmlElement | undefined;
+  private current: XmlElement | undefined;
+
+  constructor(private readonly text: string) {}
+
+  read(): XmlElement | undefined {
+    try {
+      this.scan();
+      if (this.current || !this.root) return undefined;
+      return this.root;
+    } catch (error) {
+      if (error instanceof Malformed) return undefined;
+      throw error;
+    }
+  }
+
+  private scan(): void {
+    while (this.position < this.text.length) {
+      const open = this.text.indexOf("<", this.position);
+      if (open === -1) {
+        this.addText(this.text.slice(this.position));
+        this.advance(this.text.length);
+        break;
+      }
+      this.addText(this.text.slice(this.position, open));
+      this.advance(open);
+      this.readMarkup();
+    }
+  }
+
+  private readMarkup(): void {
+    if (this.text.startsWith("<!--", this.position)) this.advance(this.closing("-->"));
+    else if (this.text.startsWith("<![CDATA[", this.position)) this.readCdata();
+    else if (this.text.startsWith("<?", this.position)) this.advance(this.closing("?>"));
+    else if (this.text.startsWith("<!", this.position)) this.advance(this.closing(">"));
+    else if (this.text.startsWith("</", this.position)) this.readEndTag();
+    else this.readStartTag();
+  }
+
+  private readCdata(): void {
+    const end = this.text.indexOf("]]>", this.position);
+    if (end === -1) fail();
+    const current = this.current ?? fail();
+    current.text = `${current.text}${this.text.slice(this.position + 9, end)}`.trim();
+    this.advance(end + 3);
+  }
+
+  private readEndTag(): void {
+    const match = /^<\/([^\s>/]+)\s*>/.exec(this.text.slice(this.position, this.position + 512));
+    if (!match) fail();
+    const current = this.current;
+    if (!current || current.name !== match[1]) fail();
+    this.current = current.parent;
+    this.advance(this.position + match[0].length);
+  }
+
+  private readStartTag(): void {
+    const name = /^<([A-Za-z_][^\s=/>]*)/.exec(this.text.slice(this.position, this.position + 512));
+    if (!name) fail();
+    this.count += 1;
+    if (this.count > MAXIMUM_ELEMENTS) fail();
+    const element: XmlElement = {
+      name: groupText(name, 1),
+      line: this.line,
+      attributes: new Map(),
+      text: "",
+      children: [],
+      parent: this.current,
+    };
+    this.advance(this.position + name[0].length);
+    this.attach(element, this.readAttributes(element));
+  }
+
+  /** Read attributes until `>` or `/>`; true when the element closes itself. */
+  private readAttributes(element: XmlElement): boolean {
+    for (;;) {
+      this.advance(this.position + leadingWhitespace(this.text, this.position));
+      if (this.text.startsWith("/>", this.position)) {
+        this.advance(this.position + 2);
+        return true;
+      }
+      if (this.text[this.position] === ">") {
+        this.advance(this.position + 1);
+        return false;
+      }
+      this.readAttribute(element);
+    }
+  }
+
+  private readAttribute(element: XmlElement): void {
+    const attribute = /^([^\s=/>]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/.exec(
+      this.text.slice(this.position, this.position + 4096),
+    );
+    if (!attribute) fail();
+    const valueLine = this.line + leadingNewlines(this.text.slice(this.position), attribute[0].indexOf("="));
+    const key = groupText(attribute, 1).toLowerCase();
+    if (element.attributes.has(key)) fail();
+    element.attributes.set(key, { value: decode(attribute[2] ?? attribute[3] ?? ""), line: valueLine });
+    this.advance(this.position + attribute[0].length);
+  }
+
+  private attach(element: XmlElement, selfClosing: boolean): void {
+    if (this.current) this.current.children.push(element);
+    else if (this.root) fail();
+    else this.root = element;
+
+    if (selfClosing) return;
+    this.current = element;
+    if (this.depth(element) > MAXIMUM_DEPTH) fail();
+  }
+
+  private depth(element: XmlElement): number {
+    let depth = 0;
+    for (let walker: XmlElement | undefined = element; walker; walker = walker.parent) depth += 1;
+    return depth;
+  }
+
+  private advance(to: number): void {
+    for (let index = this.position; index < to; index += 1) if (this.text[index] === "\n") this.line += 1;
+    this.position = to;
+  }
+
+  private closing(marker: string): number {
+    const end = this.text.indexOf(marker, this.position);
+    if (end === -1) fail();
     return end + marker.length;
-  };
-  const addText = (value: string): void => {
-    if (!current) {
+  }
+
+  private addText(value: string): void {
+    if (!this.current) {
       if (value.trim() !== "") fail();
       return;
     }
-    current.text = `${current.text}${decode(value)}`.trim();
-  };
-
-  try {
-    while (position < text.length) {
-      const open = text.indexOf("<", position);
-      if (open === -1) {
-        addText(text.slice(position));
-        advance(text.length);
-        break;
-      }
-      addText(text.slice(position, open));
-      advance(open);
-
-      if (text.startsWith("<!--", position)) {
-        advance(closing("-->"));
-      } else if (text.startsWith("<![CDATA[", position)) {
-        const end = text.indexOf("]]>", position);
-        if (end === -1) fail();
-        if (!current) fail();
-        current.text = `${current.text}${text.slice(position + 9, end)}`.trim();
-        advance(end + 3);
-      } else if (text.startsWith("<?", position)) {
-        advance(closing("?>"));
-      } else if (text.startsWith("<!", position)) {
-        advance(closing(">"));
-      } else if (text.startsWith("</", position)) {
-        const match = /^<\/([^\s>/]+)\s*>/.exec(text.slice(position, position + 512));
-        if (!match || !current || current.name !== match[1]) fail();
-        current = current.parent;
-        advance(position + match[0].length);
-      } else {
-        const name = /^<([A-Za-z_][^\s=/>]*)/.exec(text.slice(position, position + 512));
-        if (!name) fail();
-        count += 1;
-        if (count > MAXIMUM_ELEMENTS) fail();
-        const element: XmlElement = {
-          name: groupText(name, 1),
-          line,
-          attributes: new Map(),
-          text: "",
-          children: [],
-          parent: current,
-        };
-        advance(position + name[0].length);
-        let selfClosing = false;
-        for (;;) {
-          advance(position + leadingWhitespace(text, position));
-          if (text.startsWith("/>", position)) {
-            selfClosing = true;
-            advance(position + 2);
-            break;
-          }
-          if (text[position] === ">") {
-            advance(position + 1);
-            break;
-          }
-          const attribute = /^([^\s=/>]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/.exec(text.slice(position, position + 4096));
-          if (!attribute) fail();
-          const valueLine =
-            line +
-            [...text.slice(position, position + attribute[0].indexOf("="))].filter((char) => char === "\n").length;
-          const key = groupText(attribute, 1).toLowerCase();
-          if (element.attributes.has(key)) fail();
-          element.attributes.set(key, { value: decode(attribute[2] ?? attribute[3] ?? ""), line: valueLine });
-          advance(position + attribute[0].length);
-        }
-        if (current) current.children.push(element);
-        else if (root) fail();
-        else root = element;
-        if (!selfClosing) {
-          current = element;
-          let depth = 0;
-          for (let walker: XmlElement | undefined = current; walker; walker = walker.parent) depth += 1;
-          if (depth > MAXIMUM_DEPTH) fail();
-        }
-      }
-    }
-    if (current || !root) return undefined;
-    return root;
-  } catch (error) {
-    if (error instanceof Malformed) return undefined;
-    throw error;
+    this.current.text = `${this.current.text}${decode(value)}`.trim();
   }
+}
+
+export function readXml(contents: string): XmlElement | undefined {
+  if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return undefined;
+  const text = contents.charCodeAt(0) === 0xfeff ? contents.slice(1) : contents;
+  return new XmlReader(text).read();
 }
 
 export function* walk(element: XmlElement): Generator<XmlElement> {

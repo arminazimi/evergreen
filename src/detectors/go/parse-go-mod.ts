@@ -46,48 +46,58 @@ function requirement(line: string, lineNumber: number, comment: string): GoRequi
   return { kind: "require", module, value, line: lineNumber };
 }
 
+/** The `go` or `toolchain` declaration a matched directive names, when its value is a supported version. */
+export function versionDirective(
+  match: RegExpMatchArray,
+  line: number,
+): GoVersionDeclaration | GoToolchainDeclaration | undefined {
+  const [, kind, value] = match;
+  if (!value) return undefined;
+  if (kind === "go" && GO_VERSION.test(value)) return { kind: "go", value, line };
+  if (kind === "toolchain" && TOOLCHAIN_VERSION.test(value)) return { kind: "toolchain", value, line };
+  return undefined;
+}
+
+/** The require block state carried from one go.mod line to the next. */
+interface ModState {
+  requireBlock: boolean;
+}
+
+/** One go.mod line as its declaration, if any; a `require (`/`)` pair only moves the block state. */
+function modLine(code: string, comment: string, line: number, state: ModState): GoModDeclaration | undefined {
+  if (state.requireBlock) {
+    if (code === ")") {
+      state.requireBlock = false;
+      return undefined;
+    }
+    return code === "" ? undefined : requirement(code, line, comment);
+  }
+
+  if (code === "require (") {
+    state.requireBlock = true;
+    return undefined;
+  }
+
+  const directive = code.match(/^(go|toolchain)\s+(\S+)$/);
+  if (directive) return versionDirective(directive, line);
+
+  if (code.startsWith("require ")) return requirement(code.slice("require ".length).trim(), line, comment);
+  return undefined;
+}
+
 /** Parse supported go.mod declarations without file, network, or process I/O. */
 export function parseGoMod(contents: string): GoModDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
 
   const declarations: GoModDeclaration[] = [];
-  let requireBlock = false;
+  const state: ModState = { requireBlock: false };
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
     if (rawLine.length > MAXIMUM_LINE_LENGTH) continue;
     const [rawCode = "", ...commentParts] = rawLine.split("//");
-    const code = rawCode.trim();
-    const comment = commentParts.join("//");
-    const line = index + 1;
-
-    if (requireBlock) {
-      if (code === ")") {
-        requireBlock = false;
-        continue;
-      }
-      if (code === "") continue;
-      const parsed = requirement(code, line, comment);
-      if (parsed) declarations.push(parsed);
-      continue;
-    }
-
-    if (code === "require (") {
-      requireBlock = true;
-      continue;
-    }
-
-    const directive = code.match(/^(go|toolchain)\s+(\S+)$/);
-    if (directive) {
-      const [, kind, value] = directive;
-      if (kind === "go" && value && GO_VERSION.test(value)) declarations.push({ kind, value, line });
-      if (kind === "toolchain" && value && TOOLCHAIN_VERSION.test(value)) declarations.push({ kind, value, line });
-      continue;
-    }
-
-    if (code.startsWith("require ")) {
-      const parsed = requirement(code.slice("require ".length).trim(), line, comment);
-      if (parsed) declarations.push(parsed);
-    }
+    const declaration = modLine(rawCode.trim(), commentParts.join("//"), index + 1, state);
+    if (declaration) declarations.push(declaration);
   }
 
-  return requireBlock ? [] : declarations;
+  if (state.requireBlock) return [];
+  return declarations;
 }

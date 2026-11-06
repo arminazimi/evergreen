@@ -118,26 +118,10 @@
     {
       "file": "src/detectors/dotnet/index.ts",
       "function": "DotnetDetector.analyze",
-      "lines": 165,
+      "lines": 57,
       "owner": "#2049",
       "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/dotnet/msbuild-xml.ts",
-      "function": "readXml",
-      "lines": 112,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/elixir/index.ts",
-      "function": "ElixirDetector.analyze",
-      "lines": 91,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
+      "reason": "Measured 2026-11-06. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
       "file": "src/detectors/github-actions.ts",
@@ -159,14 +143,6 @@
       "file": "src/detectors/go/index.ts",
       "function": "GoDetector.analyze",
       "lines": 96,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/java/index.ts",
-      "function": "JavaDetector.analyze",
-      "lines": 86,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -530,62 +506,6 @@
       "function": "parseDatabaseTerraform",
       "complexity": 32,
       "owner": "#2258",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/dotnet/index.ts",
-      "function": "DotnetDetector.analyze",
-      "complexity": 33,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/dotnet/msbuild-xml.ts",
-      "function": "readXml",
-      "complexity": 33,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/dotnet/parse-msbuild.ts",
-      "function": "parseMsbuild",
-      "complexity": 22,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/elixir/index.ts",
-      "function": "ElixirDetector.analyze",
-      "complexity": 23,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/go/parse-go-mod.ts",
-      "function": "parseGoMod",
-      "complexity": 19,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/go/parse-go-work.ts",
-      "function": "parseGoWork",
-      "complexity": 19,
-      "owner": "#2259",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/java/index.ts",
-      "function": "JavaDetector.analyze",
-      "complexity": 19,
-      "owner": "#2259",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },

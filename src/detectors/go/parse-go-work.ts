@@ -3,6 +3,7 @@ import {
   MAXIMUM_LINE_LENGTH,
   type GoToolchainDeclaration,
   type GoVersionDeclaration,
+  versionDirective,
 } from "./parse-go-mod.js";
 
 /**
@@ -17,43 +18,56 @@ export { MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 
 export type GoWorkDeclaration = GoVersionDeclaration | GoToolchainDeclaration;
 
-const GO_VERSION = /^[1-9][0-9]*\.[0-9]+(?:\.[0-9]+)?$/;
-const TOOLCHAIN_VERSION = /^go[1-9][0-9]*\.[0-9]+(?:\.[0-9]+)?(?:rc[1-9][0-9]*)?$/;
+/** A block that opened on an earlier line, and whether a nested block was seen. */
+interface WorkState {
+  block: "use" | "replace" | undefined;
+  malformed: boolean;
+}
+
+/** The `use` or `replace` block a line opens, if any. */
+function blockName(code: string): "use" | "replace" | undefined {
+  const match = /^(use|replace)\s*\($/.exec(code);
+  if (match?.[1] === "use") return "use";
+  if (match?.[1] === "replace") return "replace";
+  return undefined;
+}
+
+/** One go.work line as its declaration, if any; block lines only move the block state. */
+function workLine(code: string, line: number, state: WorkState): GoWorkDeclaration | undefined {
+  if (state.block) {
+    if (code === ")") state.block = undefined;
+    else if (/^(?:use|replace)\s*\($/.test(code)) state.malformed = true;
+    return undefined;
+  }
+
+  const start = blockName(code);
+  if (start) {
+    state.block = start;
+    return undefined;
+  }
+  if (code === ")") {
+    state.malformed = true;
+    return undefined;
+  }
+
+  const directive = code.match(/^(go|toolchain)\s+(\S+)$/);
+  if (directive) return versionDirective(directive, line);
+  return undefined;
+}
 
 /** Parse supported go.work declarations without file, network, or process I/O. */
 export function parseGoWork(contents: string): GoWorkDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
 
   const declarations: GoWorkDeclaration[] = [];
-  let block: "use" | "replace" | undefined;
-  let malformed = false;
+  const state: WorkState = { block: undefined, malformed: false };
   for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
     if (rawLine.length > MAXIMUM_LINE_LENGTH) continue;
     const code = rawLine.replace(/\/\/.*$/, "").trim();
-    const line = index + 1;
-
-    if (block) {
-      if (code === ")") block = undefined;
-      else if (/^(?:use|replace)\s*\($/.test(code)) malformed = true;
-      continue;
-    }
-
-    const blockStart = code.match(/^(use|replace)\s*\($/);
-    if (blockStart?.[1] === "use" || blockStart?.[1] === "replace") {
-      block = blockStart[1];
-      continue;
-    }
-    if (code === ")") {
-      malformed = true;
-      continue;
-    }
-
-    const directive = code.match(/^(go|toolchain)\s+(\S+)$/);
-    if (!directive) continue;
-    const [, kind, value] = directive;
-    if (kind === "go" && value && GO_VERSION.test(value)) declarations.push({ kind, value, line });
-    if (kind === "toolchain" && value && TOOLCHAIN_VERSION.test(value)) declarations.push({ kind, value, line });
+    const declaration = workLine(code, index + 1, state);
+    if (declaration) declarations.push(declaration);
   }
 
-  return block || malformed ? [] : declarations;
+  if (state.block || state.malformed) return [];
+  return declarations;
 }
