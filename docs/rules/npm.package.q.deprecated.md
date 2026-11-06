@@ -40,8 +40,8 @@ The q maintainer states that consumers can almost certainly migrate to native Ja
 
 ## Sources
 
-- [q package deprecation notice](https://www.npmjs.com/package/q)
-- [q registry metadata](https://registry.npmjs.org/q/latest)
+- [q package deprecation notice](https://www.npmjs.com/package/q) (accessed 2026-10-16)
+- [q registry metadata](https://registry.npmjs.org/q/latest) (accessed 2026-10-16)
 
 ## Migration
 

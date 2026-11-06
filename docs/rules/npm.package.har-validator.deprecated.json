@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "har-validator package deprecation notice",
-      "url": "https://www.npmjs.com/package/har-validator"
+      "url": "https://www.npmjs.com/package/har-validator",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "har-validator registry metadata",
-      "url": "https://registry.npmjs.org/har-validator/latest"
+      "url": "https://registry.npmjs.org/har-validator/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

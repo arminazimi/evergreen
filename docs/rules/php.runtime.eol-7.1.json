@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "PHP release branches",
-      "url": "https://www.php.net/releases/branches.php"
+      "url": "https://www.php.net/releases/branches.php",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "PHP supported versions",
-      "url": "https://www.php.net/supported-versions.php"
+      "url": "https://www.php.net/supported-versions.php",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

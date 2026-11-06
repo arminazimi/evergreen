@@ -40,7 +40,7 @@ RubyGems lists json 2.17.1.1 as yanked: the version is not available for downloa
 
 ## Sources
 
-- [RubyGems: json 2.17.1.1 is yanked](https://rubygems.org/gems/json/versions/2.17.1.1)
+- [RubyGems: json 2.17.1.1 is yanked](https://rubygems.org/gems/json/versions/2.17.1.1) (accessed 2026-10-18)
 
 ## Migration
 

@@ -40,8 +40,8 @@ The maintainer deprecated source-map-url and recommends convert-source-map for w
 
 ## Sources
 
-- [source-map-url maintainer deprecation notice](https://github.com/lydell/source-map-url#deprecated)
-- [source-map-url registry metadata](https://registry.npmjs.org/source-map-url/latest)
+- [source-map-url maintainer deprecation notice](https://github.com/lydell/source-map-url#deprecated) (accessed 2026-10-16)
+- [source-map-url registry metadata](https://registry.npmjs.org/source-map-url/latest) (accessed 2026-10-16)
 
 ## Migration
 

@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { validateRegistryV2 } from "../../src/registry.js";
+import { withoutAccessDates } from "./evidence.js";
 import { versContains } from "../../src/vers/index.js";
 import { RUST_CRATE_CANDIDATES } from "../../tools/importers/rust-candidates.js";
 import { rustToolchainImporter, RUST_RELEASES_URL } from "../../tools/importers/rust-1.js";
@@ -43,19 +44,10 @@ test("the committed toolchain rule matches what the importer drafts from the rec
   const registry = validateRegistryV2(JSON.parse(await readFile("registry/rust.json", "utf8")));
   const committed = registry.rules.find((rule) => rule.id === draft!.id);
   assert.ok(committed, "registry/rust.json has the rule the importer drafts");
-  for (const field of [
-    "purl",
-    "vers",
-    "event",
-    "title",
-    "summary",
-    "severity",
-    "replacement",
-    "deadline",
-    "sources",
-  ] as const) {
+  for (const field of ["purl", "vers", "event", "title", "summary", "severity", "replacement", "deadline"] as const) {
     assert.deepEqual(committed[field], draft![field], field);
   }
+  assert.deepEqual(withoutAccessDates(committed.sources), withoutAccessDates(draft!.sources), "sources");
 });
 
 test("rust-1 follows the calendar: a new minor release moves the rule, and a future-dated heading is ignored", async () => {

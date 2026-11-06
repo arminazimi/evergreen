@@ -40,7 +40,7 @@ Python 3.12 removed the long-deprecated unittest.TestCase aliases, such as asser
 
 ## Sources
 
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-11-02)
 
 ## Migration
 

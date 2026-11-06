@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
-      "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html",
+      "accessedAt": "2026-10-26"
     }
   ],
   "provenance": {

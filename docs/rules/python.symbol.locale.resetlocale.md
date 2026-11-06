@@ -40,7 +40,7 @@ Python 3.13 removed locale.resetlocale, so using it raises an error.
 
 ## Sources
 
-- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html)
+- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) (accessed 2026-10-21)
 
 ## Migration
 

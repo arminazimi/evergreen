@@ -40,7 +40,7 @@ Node.js removed crypto.Credentials (DEP0011: runtime deprecation since v0.11.13,
 
 ## Sources
 
-- [Node.js deprecations: DEP0011](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0011](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

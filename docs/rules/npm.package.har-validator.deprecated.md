@@ -39,8 +39,8 @@ npm states that har-validator is no longer supported.
 
 ## Sources
 
-- [har-validator package deprecation notice](https://www.npmjs.com/package/har-validator)
-- [har-validator registry metadata](https://registry.npmjs.org/har-validator/latest)
+- [har-validator package deprecation notice](https://www.npmjs.com/package/har-validator) (accessed 2026-10-16)
+- [har-validator registry metadata](https://registry.npmjs.org/har-validator/latest) (accessed 2026-10-16)
 
 ## Migration
 

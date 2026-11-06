@@ -14,6 +14,7 @@ import {
   xcodeFloors,
 } from "../../tools/importers/swift-1.js";
 import { execute } from "../../tools/importers/run.js";
+import { withoutAccessDates } from "./evidence.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
 const recording = resolve("tests/importers/recordings/swift-1.json");
@@ -84,7 +85,7 @@ test("drafts Xcode App Store upload bands from the recording", async () => {
     through25.summary,
     "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
   );
-  assert.deepEqual(through25.sources, [
+  assert.deepEqual(withoutAccessDates(through25.sources), [
     {
       title: "SDK minimum requirements — App Store upcoming requirements (Xcode 26)",
       url: "https://developer.apple.com/news/upcoming-requirements/?id=04282026a",

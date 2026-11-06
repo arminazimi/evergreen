@@ -40,7 +40,7 @@ Node.js removed util.isPrimitive (DEP0054: documentation-only since v4.0.0, runt
 
 ## Sources
 
-- [Node.js deprecations: DEP0054](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0054](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

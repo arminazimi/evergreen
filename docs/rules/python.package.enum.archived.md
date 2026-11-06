@@ -39,9 +39,9 @@ PyPI marks enum as archived: the project does not expect to be updated in the fu
 
 ## Sources
 
-- [enum on PyPI](https://pypi.org/project/enum/)
-- [enum project status (PyPI Simple API)](https://pypi.org/simple/enum/)
-- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/)
+- [enum on PyPI](https://pypi.org/project/enum/) (accessed 2026-10-20)
+- [enum project status (PyPI Simple API)](https://pypi.org/simple/enum/) (accessed 2026-10-20)
+- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/) (accessed 2026-10-20)
 
 ## Migration
 

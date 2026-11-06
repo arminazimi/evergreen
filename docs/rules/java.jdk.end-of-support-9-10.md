@@ -40,7 +40,7 @@ The Oracle Java SE Support Roadmap lists Java 9 and 10 as non-LTS releases whose
 
 ## Sources
 
-- [Oracle Java SE Support Roadmap](https://www.oracle.com/java/technologies/java-se-support-roadmap.html)
+- [Oracle Java SE Support Roadmap](https://www.oracle.com/java/technologies/java-se-support-roadmap.html) (accessed 2026-10-17)
 
 ## Migration
 

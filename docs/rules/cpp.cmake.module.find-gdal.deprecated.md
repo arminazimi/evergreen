@@ -40,8 +40,8 @@ CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CM
 
 ## Sources
 
-- [CMake 4.0 release notes (FindGDAL deprecated)](https://cmake.org/cmake/help/latest/release/4.0.html)
-- [FindGDAL module documentation](https://cmake.org/cmake/help/latest/module/FindGDAL.html)
+- [CMake 4.0 release notes (FindGDAL deprecated)](https://cmake.org/cmake/help/latest/release/4.0.html) (accessed 2026-10-19)
+- [FindGDAL module documentation](https://cmake.org/cmake/help/latest/module/FindGDAL.html) (accessed 2026-10-19)
 
 ## Migration
 

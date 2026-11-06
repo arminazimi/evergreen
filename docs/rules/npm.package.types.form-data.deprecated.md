@@ -40,8 +40,8 @@ npm marks @types/form-data as deprecated: "This is a stub types definition. form
 
 ## Sources
 
-- [@types/form-data on npm](https://www.npmjs.com/package/@types/form-data)
-- [@types/form-data version metadata](https://registry.npmjs.org/@types%2fform-data)
+- [@types/form-data on npm](https://www.npmjs.com/package/@types/form-data) (accessed 2026-10-19)
+- [@types/form-data version metadata](https://registry.npmjs.org/@types%2fform-data) (accessed 2026-10-19)
 
 ## Migration
 

@@ -40,8 +40,8 @@ npm marks babel-eslint as deprecated: "babel-eslint is now @babel/eslint-parser.
 
 ## Sources
 
-- [babel-eslint on npm](https://www.npmjs.com/package/babel-eslint)
-- [babel-eslint version metadata](https://registry.npmjs.org/babel-eslint)
+- [babel-eslint on npm](https://www.npmjs.com/package/babel-eslint) (accessed 2026-10-17)
+- [babel-eslint version metadata](https://registry.npmjs.org/babel-eslint) (accessed 2026-10-17)
 
 ## Migration
 

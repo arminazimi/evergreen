@@ -40,9 +40,9 @@ These Python release lines no longer receive security or bug fixes from the Pyth
 
 ## Sources
 
-- [Status of Python versions](https://devguide.python.org/versions/)
-- [Python release cycle (machine-readable)](https://peps.python.org/api/release-cycle.json)
-- [PEP 619 — Python 3.10 release schedule](https://peps.python.org/pep-0619/)
+- [Status of Python versions](https://devguide.python.org/versions/) (accessed 2026-10-16)
+- [Python release cycle (machine-readable)](https://peps.python.org/api/release-cycle.json) (accessed 2026-10-17)
+- [PEP 619 — Python 3.10 release schedule](https://peps.python.org/pep-0619/) (accessed 2026-10-17)
 
 ## Migration
 

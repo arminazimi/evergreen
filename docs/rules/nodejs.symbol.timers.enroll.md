@@ -40,7 +40,7 @@ Node.js removed timers.enroll (DEP0095: runtime deprecation since v10.0.0, end-o
 
 ## Sources
 
-- [Node.js deprecations: DEP0095](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0095](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

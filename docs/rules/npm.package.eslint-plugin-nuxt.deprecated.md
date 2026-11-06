@@ -40,8 +40,8 @@ npm marks eslint-plugin-nuxt as deprecated: "eslint-plugin-nuxt was built for Nu
 
 ## Sources
 
-- [eslint-plugin-nuxt on npm](https://www.npmjs.com/package/eslint-plugin-nuxt)
-- [eslint-plugin-nuxt registry metadata](https://registry.npmjs.org/eslint-plugin-nuxt/latest)
+- [eslint-plugin-nuxt on npm](https://www.npmjs.com/package/eslint-plugin-nuxt) (accessed 2026-10-19)
+- [eslint-plugin-nuxt registry metadata](https://registry.npmjs.org/eslint-plugin-nuxt/latest) (accessed 2026-10-19)
 
 ## Migration
 

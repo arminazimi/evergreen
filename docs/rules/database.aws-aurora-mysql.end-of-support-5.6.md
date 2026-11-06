@@ -40,8 +40,8 @@ AWS ended standard support for Aurora MySQL version 1 (MySQL 5.6 compatible) on 
 
 ## Sources
 
-- [Release calendars for Amazon Aurora MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraMySQLReleaseNotes/AuroraMySQL.release-calendars.html)
-- [Using Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html)
+- [Release calendars for Amazon Aurora MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraMySQLReleaseNotes/AuroraMySQL.release-calendars.html) (accessed 2026-10-30)
+- [Using Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) (accessed 2026-10-30)
 
 ## Migration
 

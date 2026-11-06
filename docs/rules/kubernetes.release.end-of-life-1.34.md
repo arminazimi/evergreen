@@ -40,7 +40,7 @@ The Kubernetes release history lists Kubernetes 1.34 as supported until its end-
 
 ## Sources
 
-- [Kubernetes release history](https://kubernetes.io/releases/)
+- [Kubernetes release history](https://kubernetes.io/releases/) (accessed 2026-10-17)
 
 ## Migration
 

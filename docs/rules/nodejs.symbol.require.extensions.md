@@ -39,7 +39,7 @@ Node.js deprecates require.extensions (DEP0039: documentation-only since v0.10.6
 
 ## Sources
 
-- [Node.js deprecations: DEP0039](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0039](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

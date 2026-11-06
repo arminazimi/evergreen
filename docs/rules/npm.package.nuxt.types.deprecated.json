@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@nuxt/types on npm",
-      "url": "https://www.npmjs.com/package/@nuxt/types"
+      "url": "https://www.npmjs.com/package/@nuxt/types",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@nuxt/types registry metadata",
-      "url": "https://registry.npmjs.org/@nuxt%2ftypes/latest"
+      "url": "https://registry.npmjs.org/@nuxt%2ftypes/latest",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

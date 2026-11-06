@@ -40,8 +40,8 @@ npm states that Jade was renamed to Pug and directs users to the pug package.
 
 ## Sources
 
-- [jade package deprecation notice](https://www.npmjs.com/package/jade)
-- [jade registry metadata](https://registry.npmjs.org/jade/latest)
+- [jade package deprecation notice](https://www.npmjs.com/package/jade) (accessed 2026-10-16)
+- [jade registry metadata](https://registry.npmjs.org/jade/latest) (accessed 2026-10-16)
 
 ## Migration
 

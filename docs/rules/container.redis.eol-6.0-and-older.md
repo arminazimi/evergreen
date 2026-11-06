@@ -40,7 +40,7 @@ These Redis release lines no longer receive fixes from the vendor.
 
 ## Sources
 
-- [Redis release policy (vendor)](https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/)
+- [Redis release policy (vendor)](https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/) (accessed 2026-10-20)
 
 ## Migration
 

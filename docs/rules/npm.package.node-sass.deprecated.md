@@ -40,8 +40,8 @@ npm marks node-sass as deprecated: "Node Sass is no longer supported. Please use
 
 ## Sources
 
-- [node-sass package deprecation notice](https://www.npmjs.com/package/node-sass)
-- [node-sass registry metadata](https://registry.npmjs.org/node-sass)
+- [node-sass package deprecation notice](https://www.npmjs.com/package/node-sass) (accessed 2026-10-30)
+- [node-sass registry metadata](https://registry.npmjs.org/node-sass) (accessed 2026-10-30)
 
 ## Migration
 

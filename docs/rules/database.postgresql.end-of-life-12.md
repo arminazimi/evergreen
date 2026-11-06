@@ -40,8 +40,8 @@ The PostgreSQL Global Development Group lists 12 as unsupported: its final relea
 
 ## Sources
 
-- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/)
-- [endoflife.date: PostgreSQL](https://endoflife.date/postgresql)
+- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/) (accessed 2026-10-22)
+- [endoflife.date: PostgreSQL](https://endoflife.date/postgresql) (accessed 2026-10-22)
 
 ## Migration
 

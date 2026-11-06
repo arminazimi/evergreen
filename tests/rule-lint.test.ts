@@ -29,7 +29,7 @@ function validRule(id = "npm.package.sample.deprecated"): Record<string, unknown
     title: "Sample package is deprecated",
     summary: "The package is deprecated and no new changes are expected.",
     severity: "high",
-    sources: [{ title: "Sample notice", url: "https://example.com/sample" }],
+    sources: [{ title: "Sample notice", url: "https://example.com/sample", accessedAt: "2026-10-01" }],
     provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-02", reviewer: "tester" },
     "x-npm": { package: "sample-package" },
   };
@@ -71,6 +71,19 @@ test("an http source is reported at its own line with an https hint", async () =
   assert.match(issue!.message, /sources\[0\]\.url must be an https URL/);
   assert.match(issue!.hint, /https/);
   assert.match(renderRuleLintText(result), new RegExp(`${display(file)}:${issue!.line}:`));
+});
+
+test("a source without an access date is reported with a fix hint", async () => {
+  const rule = validRule();
+  delete (rule.sources as Array<{ accessedAt?: string }>)[0]!.accessedAt;
+  const text = registry([rule]);
+  const directory = await registryDirectory({ "npm.json": text });
+
+  const result = await lintRuleFiles([join(directory, "npm.json")]);
+  assert.equal(result.issues.length, 1);
+  assert.equal(result.issues[0]!.line, lineOf(text, '"sources"'));
+  assert.match(result.issues[0]!.message, /sources\[0\]\.accessedAt is required \(YYYY-MM-DD\)/);
+  assert.match(result.issues[0]!.hint, /accessedAt/);
 });
 
 test("reviewedAt before observedAt is reported at provenance with a fix hint", async () => {

@@ -40,8 +40,8 @@ npm states that modern JavaScript engines already provide stable Array.prototype
 
 ## Sources
 
-- [stable package deprecation notice](https://www.npmjs.com/package/stable)
-- [stable registry metadata](https://registry.npmjs.org/stable/latest)
+- [stable package deprecation notice](https://www.npmjs.com/package/stable) (accessed 2026-10-16)
+- [stable registry metadata](https://registry.npmjs.org/stable/latest) (accessed 2026-10-16)
 
 ## Migration
 

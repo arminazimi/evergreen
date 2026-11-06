@@ -40,7 +40,7 @@ Ubuntu 22.04 is scheduled to stop receiving standard security updates on 2027-06
 
 ## Sources
 
-- [Ubuntu release cycle](https://ubuntu.com/about/release-cycle)
+- [Ubuntu release cycle](https://ubuntu.com/about/release-cycle) (accessed 2026-10-26)
 
 ## Migration
 

@@ -40,9 +40,9 @@ npm marks react-beautiful-dnd as deprecated: "react-beautiful-dnd is now depreca
 
 ## Sources
 
-- [react-beautiful-dnd on npm](https://www.npmjs.com/package/react-beautiful-dnd)
-- [react-beautiful-dnd version metadata](https://registry.npmjs.org/react-beautiful-dnd)
-- [react-beautiful-dnd deprecation announcement](https://github.com/atlassian/react-beautiful-dnd/issues/2672)
+- [react-beautiful-dnd on npm](https://www.npmjs.com/package/react-beautiful-dnd) (accessed 2026-10-19)
+- [react-beautiful-dnd version metadata](https://registry.npmjs.org/react-beautiful-dnd) (accessed 2026-10-19)
+- [react-beautiful-dnd deprecation announcement](https://github.com/atlassian/react-beautiful-dnd/issues/2672) (accessed 2026-10-19)
 
 ## Migration
 

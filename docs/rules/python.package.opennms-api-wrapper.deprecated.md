@@ -40,7 +40,7 @@ The maintainer renamed opennms-api-wrapper to python-opennms and states that no 
 
 ## Sources
 
-- [opennms-api-wrapper rename notice](https://pypi.org/project/opennms-api-wrapper/)
+- [opennms-api-wrapper rename notice](https://pypi.org/project/opennms-api-wrapper/) (accessed 2026-10-16)
 
 ## Migration
 

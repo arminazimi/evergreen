@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@npmcli/move-file package deprecation notice",
-      "url": "https://www.npmjs.com/package/@npmcli/move-file"
+      "url": "https://www.npmjs.com/package/@npmcli/move-file",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "@npmcli/move-file registry metadata",
-      "url": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest"
+      "url": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

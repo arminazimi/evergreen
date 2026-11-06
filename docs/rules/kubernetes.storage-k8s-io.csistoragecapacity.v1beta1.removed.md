@@ -40,8 +40,8 @@ The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1b
 
 ## Sources
 
-- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/)
-- [Kubernetes v1.27: Chill Vibes (release announcement, 2023-04-11)](https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/)
+- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/) (accessed 2026-10-17)
+- [Kubernetes v1.27: Chill Vibes (release announcement, 2023-04-11)](https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/) (accessed 2026-10-20)
 
 ## Migration
 

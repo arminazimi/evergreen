@@ -40,7 +40,7 @@ Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which mean
 
 ## Sources
 
-- [MySQL end-of-life notice](https://www.mysql.com/support/eol-notice.html)
+- [MySQL end-of-life notice](https://www.mysql.com/support/eol-notice.html) (accessed 2026-10-16)
 
 ## Migration
 

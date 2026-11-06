@@ -40,7 +40,7 @@ The maintainer states that headroom-cli is no longer maintained and development 
 
 ## Sources
 
-- [headroom-cli rename and migration notice](https://pypi.org/project/headroom-cli/)
+- [headroom-cli rename and migration notice](https://pypi.org/project/headroom-cli/) (accessed 2026-10-16)
 
 ## Migration
 

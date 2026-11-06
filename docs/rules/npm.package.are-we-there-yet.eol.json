@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "are-we-there-yet package deprecation notice",
-      "url": "https://www.npmjs.com/package/are-we-there-yet"
+      "url": "https://www.npmjs.com/package/are-we-there-yet",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "are-we-there-yet registry metadata",
-      "url": "https://registry.npmjs.org/are-we-there-yet/latest"
+      "url": "https://registry.npmjs.org/are-we-there-yet/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

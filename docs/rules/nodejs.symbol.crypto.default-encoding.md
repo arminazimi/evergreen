@@ -39,7 +39,7 @@ Node.js removed crypto.DEFAULT_ENCODING (DEP0091: runtime deprecation since v10.
 
 ## Sources
 
-- [Node.js deprecations: DEP0091](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0091](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

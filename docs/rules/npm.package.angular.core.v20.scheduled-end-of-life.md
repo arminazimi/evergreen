@@ -40,8 +40,8 @@ Angular's release schedule lists v20 as LTS with "LTS ends 2026-11-28". LTS rece
 
 ## Sources
 
-- [Angular release and support schedule](https://angular.dev/reference/releases)
-- [Angular Update Guide](https://angular.dev/update-guide)
+- [Angular release and support schedule](https://angular.dev/reference/releases) (accessed 2026-10-21)
+- [Angular Update Guide](https://angular.dev/update-guide) (accessed 2026-10-21)
 
 ## Migration
 

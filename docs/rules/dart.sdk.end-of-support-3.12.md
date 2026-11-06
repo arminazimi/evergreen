@@ -40,8 +40,8 @@ The Dart security policy commits security updates only for the most recent stabl
 
 ## Sources
 
-- [Dart security policy](https://dart.dev/security)
-- [Dart changelog](https://dart.dev/changelog)
+- [Dart security policy](https://dart.dev/security) (accessed 2026-10-21)
+- [Dart changelog](https://dart.dev/changelog) (accessed 2026-10-21)
 
 ## Migration
 

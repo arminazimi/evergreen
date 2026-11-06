@@ -40,8 +40,8 @@ npm states that rollup-plugin-babel is deprecated and no longer maintained, and 
 
 ## Sources
 
-- [rollup-plugin-babel package deprecation notice](https://www.npmjs.com/package/rollup-plugin-babel)
-- [rollup-plugin-babel version metadata](https://registry.npmjs.org/rollup-plugin-babel)
+- [rollup-plugin-babel package deprecation notice](https://www.npmjs.com/package/rollup-plugin-babel) (accessed 2026-10-16)
+- [rollup-plugin-babel version metadata](https://registry.npmjs.org/rollup-plugin-babel) (accessed 2026-10-16)
 
 ## Migration
 

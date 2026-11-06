@@ -40,7 +40,7 @@ The maintainers state that the imagej Python package was renamed to pyimagej.
 
 ## Sources
 
-- [imagej rename notice](https://pypi.org/project/imagej/)
+- [imagej rename notice](https://pypi.org/project/imagej/) (accessed 2026-10-16)
 
 ## Migration
 

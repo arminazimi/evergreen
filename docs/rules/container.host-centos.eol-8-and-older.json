@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "CentOS Linux",
-      "url": "https://www.centos.org/centos-linux/"
+      "url": "https://www.centos.org/centos-linux/",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

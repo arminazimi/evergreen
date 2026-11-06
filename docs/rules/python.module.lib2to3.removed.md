@@ -40,8 +40,8 @@ Python 3.13 removed lib2to3, so importing it raises ModuleNotFoundError; use a m
 
 ## Sources
 
-- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html)
-- [What's New in Python 3.9](https://docs.python.org/3/whatsnew/3.9.html)
+- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) (accessed 2026-10-30)
+- [What's New in Python 3.9](https://docs.python.org/3/whatsnew/3.9.html) (accessed 2026-10-30)
 
 ## Migration
 

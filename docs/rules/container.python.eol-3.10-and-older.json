@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Status of Python versions",
-      "url": "https://devguide.python.org/versions/"
+      "url": "https://devguide.python.org/versions/",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "Python release cycle (machine-readable)",
-      "url": "https://peps.python.org/api/release-cycle.json"
+      "url": "https://peps.python.org/api/release-cycle.json",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

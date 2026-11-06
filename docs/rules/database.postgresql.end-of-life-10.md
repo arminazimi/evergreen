@@ -40,7 +40,7 @@ The PostgreSQL Global Development Group lists 10 as unsupported: its final relea
 
 ## Sources
 
-- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/)
+- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/) (accessed 2026-10-29)
 
 ## Migration
 

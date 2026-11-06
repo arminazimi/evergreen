@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "cloud.google.com/go/pubsub v1.51.1 go.mod",
-      "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod"
+      "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Go module deprecation reference",
-      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

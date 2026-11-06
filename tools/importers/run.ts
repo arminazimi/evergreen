@@ -23,7 +23,8 @@ const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 /**
  * Runs one importer and returns reviewable drafts. The runner owns provenance: it stamps each rule
  * with the run date, this importer's id, and the pending-review reviewer, so an importer cannot
- * present its output as reviewed.
+ * present its output as reviewed. It also stamps every source's `accessedAt` with the run date, so
+ * a draft always carries the day its evidence was retrieved.
  */
 export async function runImporter(importer: Importer, context: ImporterContext): Promise<DraftRegistry> {
   const name = `Importer "${importer.id}"`;
@@ -45,6 +46,7 @@ export async function runImporter(importer: Importer, context: ImporterContext):
       throw new ImporterError(`${name}: draft rules must not set provenance; the runner stamps it.`);
     return canonicalRule({
       ...draft,
+      sources: draft.sources.map((source) => ({ ...source, accessedAt: observedAt })),
       provenance: { observedAt, reviewedAt: observedAt, reviewer: PENDING_REVIEWER, importer: importer.id },
     }) as unknown as RegistryV2Rule;
   });

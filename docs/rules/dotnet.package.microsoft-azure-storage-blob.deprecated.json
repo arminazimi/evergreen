@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Microsoft.Azure.Storage.Blob on NuGet (deprecation metadata)",
-      "url": "https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob"
+      "url": "https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "NuGet package deprecation",
-      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "MySQL end-of-life notice",
-      "url": "https://www.mysql.com/support/eol-notice.html"
+      "url": "https://www.mysql.com/support/eol-notice.html",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

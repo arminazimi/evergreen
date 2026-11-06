@@ -40,8 +40,8 @@ The Dockerfile reference marks MAINTAINER as deprecated because author metadata 
 
 ## Sources
 
-- [Dockerfile reference: MAINTAINER (deprecated)](https://docs.docker.com/reference/dockerfile/#maintainer-deprecated)
-- [Docker build check: MaintainerDeprecated](https://docs.docker.com/reference/build-checks/maintainer-deprecated/)
+- [Dockerfile reference: MAINTAINER (deprecated)](https://docs.docker.com/reference/dockerfile/#maintainer-deprecated) (accessed 2026-10-31)
+- [Docker build check: MaintainerDeprecated](https://docs.docker.com/reference/build-checks/maintainer-deprecated/) (accessed 2026-10-31)
 
 ## Migration
 

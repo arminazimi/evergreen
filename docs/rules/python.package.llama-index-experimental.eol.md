@@ -39,7 +39,7 @@ The maintainer states that llama-index-experimental is deprecated, no longer mai
 
 ## Sources
 
-- [llama-index-experimental lifecycle notice](https://pypi.org/project/llama-index-experimental/)
+- [llama-index-experimental lifecycle notice](https://pypi.org/project/llama-index-experimental/) (accessed 2026-10-16)
 
 ## Migration
 

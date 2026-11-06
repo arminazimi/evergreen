@@ -40,7 +40,7 @@ Node.js removed Intl.v8BreakIterator (DEP0017: runtime deprecation since v7.0.0,
 
 ## Sources
 
-- [Node.js deprecations: DEP0017](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0017](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

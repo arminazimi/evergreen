@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "Release calendars for Amazon RDS for PostgreSQL",
-      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html"
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "Using Amazon RDS Extended Support",
-      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

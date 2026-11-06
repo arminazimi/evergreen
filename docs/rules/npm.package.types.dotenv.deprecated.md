@@ -40,8 +40,8 @@ npm marks @types/dotenv as deprecated: "This is a stub types definition. dotenv 
 
 ## Sources
 
-- [@types/dotenv on npm](https://www.npmjs.com/package/@types/dotenv)
-- [@types/dotenv version metadata](https://registry.npmjs.org/@types%2fdotenv)
+- [@types/dotenv on npm](https://www.npmjs.com/package/@types/dotenv) (accessed 2026-10-19)
+- [@types/dotenv version metadata](https://registry.npmjs.org/@types%2fdotenv) (accessed 2026-10-19)
 
 ## Migration
 

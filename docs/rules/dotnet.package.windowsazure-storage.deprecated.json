@@ -13,15 +13,18 @@
   "sources": [
     {
       "title": "WindowsAzure.Storage on NuGet (deprecation metadata)",
-      "url": "https://www.nuget.org/packages/WindowsAzure.Storage"
+      "url": "https://www.nuget.org/packages/WindowsAzure.Storage",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "NuGet package deprecation",
-      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "Azure SDK support policies",
-      "url": "https://azure.github.io/azure-sdk/policies_support.html"
+      "url": "https://azure.github.io/azure-sdk/policies_support.html",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

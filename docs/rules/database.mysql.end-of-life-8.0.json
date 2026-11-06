@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "MySQL supported platforms and lifecycle",
-      "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+      "url": "https://www.mysql.com/support/supportedplatforms/database.html",
+      "accessedAt": "2026-10-22"
     },
     {
       "title": "endoflife.date: MySQL",
-      "url": "https://endoflife.date/mysql"
+      "url": "https://endoflife.date/mysql",
+      "accessedAt": "2026-10-22"
     }
   ],
   "provenance": {

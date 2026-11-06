@@ -39,7 +39,7 @@ Node.js removed tls.parseCertString (DEP0076: documentation-only since v8.6.0, r
 
 ## Sources
 
-- [Node.js deprecations: DEP0076](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0076](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

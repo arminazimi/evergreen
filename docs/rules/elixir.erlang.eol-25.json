@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Erlang/OTP security policy",
-      "url": "https://github.com/erlang/otp/security/policy"
+      "url": "https://github.com/erlang/otp/security/policy",
+      "accessedAt": "2026-10-26"
     },
     {
       "title": "OTP 28.0 release",
-      "url": "https://github.com/erlang/otp/releases/tag/OTP-28.0"
+      "url": "https://github.com/erlang/otp/releases/tag/OTP-28.0",
+      "accessedAt": "2026-10-26"
     }
   ],
   "provenance": {

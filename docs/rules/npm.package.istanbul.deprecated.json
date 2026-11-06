@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "istanbul package deprecation notice",
-      "url": "https://www.npmjs.com/package/istanbul"
+      "url": "https://www.npmjs.com/package/istanbul",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "istanbul version metadata",
-      "url": "https://registry.npmjs.org/istanbul"
+      "url": "https://registry.npmjs.org/istanbul",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

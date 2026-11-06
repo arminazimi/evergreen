@@ -40,7 +40,7 @@ The maintainer states that aiohttp-valera-validator is no longer maintained and 
 
 ## Sources
 
-- [aiohttp-valera-validator rename notice](https://pypi.org/project/aiohttp-valera-validator/)
+- [aiohttp-valera-validator rename notice](https://pypi.org/project/aiohttp-valera-validator/) (accessed 2026-10-16)
 
 ## Migration
 

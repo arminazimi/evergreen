@@ -71,12 +71,15 @@
           "minItems": 1,
           "items": {
             "type": "object",
-            "required": ["title", "url"],
+            "required": ["title", "url", "accessedAt"],
             "additionalProperties": false,
             "properties": {
               "title": { "$ref": "#/$defs/nonEmpty" },
               "url": { "type": "string", "pattern": "^https://" },
-              "accessedAt": { "$ref": "#/$defs/date" }
+              "accessedAt": {
+                "description": "Day the source was read for this record (YYYY-MM-DD). Every finding carries it.",
+                "$ref": "#/$defs/date"
+              }
             }
           }
         },

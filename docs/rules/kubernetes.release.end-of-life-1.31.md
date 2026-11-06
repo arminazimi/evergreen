@@ -40,7 +40,7 @@ The Kubernetes release history lists Kubernetes 1.31 as end-of-life on 2025-11-1
 
 ## Sources
 
-- [Kubernetes release history](https://kubernetes.io/releases/)
+- [Kubernetes release history](https://kubernetes.io/releases/) (accessed 2026-10-17)
 
 ## Migration
 

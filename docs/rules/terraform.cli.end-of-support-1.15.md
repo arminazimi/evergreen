@@ -40,9 +40,9 @@ HashiCorp supports the two most recent Terraform release lines. Terraform 1.15 (
 
 ## Sources
 
-- [hashicorp/terraform release v1.17.0](https://github.com/hashicorp/terraform/releases/tag/v1.17.0)
-- [hashicorp/terraform release v1.15.0](https://github.com/hashicorp/terraform/releases/tag/v1.15.0)
-- [HashiCorp Terraform support policy](https://support.hashicorp.com/hc/en-us/articles/360021185113)
+- [hashicorp/terraform release v1.17.0](https://github.com/hashicorp/terraform/releases/tag/v1.17.0) (accessed 2026-10-30)
+- [hashicorp/terraform release v1.15.0](https://github.com/hashicorp/terraform/releases/tag/v1.15.0) (accessed 2026-10-30)
+- [HashiCorp Terraform support policy](https://support.hashicorp.com/hc/en-us/articles/360021185113) (accessed 2026-10-30)
 
 ## Migration
 

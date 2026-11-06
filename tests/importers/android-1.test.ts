@@ -23,6 +23,7 @@ import type { RegistryV2 } from "../../src/registry.js";
 import { TARGET_SDK_URL, androidTargetSdkImporter } from "../../tools/importers/android-1.js";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
+import { withoutAccessDates } from "./evidence.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
 const recording = resolve("tests/importers/recordings/android-1.json");
@@ -136,7 +137,7 @@ test("drafts one form-factor rule per Play targetSdk floor from the recording", 
   assert.equal(phoneNew.purl, "pkg:generic/android/targetSdk");
   assert.match(phoneNew.summary, /New apps and app updates must target Android 16 \(API level 36\)/);
   assert.match(phoneNew.summary, /extension to 2026-11-01/);
-  assert.deepEqual(phoneNew.sources, [
+  assert.deepEqual(withoutAccessDates(phoneNew.sources), [
     { title: "Meet Google Play's target API level requirement", url: TARGET_SDK_URL },
   ]);
   assert.deepEqual(phoneNew.provenance, {

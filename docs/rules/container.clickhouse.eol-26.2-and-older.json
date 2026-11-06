@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "ClickHouse security policy: supported versions",
-      "url": "https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md"
+      "url": "https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

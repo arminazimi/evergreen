@@ -40,7 +40,7 @@ Node.js removed tls.createSecurePair() (DEP0064: documentation-only since v6.0.0
 
 ## Sources
 
-- [Node.js deprecations: DEP0064 tls.createSecurePair](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0064 tls.createSecurePair](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

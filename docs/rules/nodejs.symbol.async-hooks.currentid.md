@@ -40,7 +40,7 @@ Node.js removed async_hooks.currentId (DEP0070: runtime deprecation since v8.2.0
 
 ## Sources
 
-- [Node.js deprecations: DEP0070](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0070](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

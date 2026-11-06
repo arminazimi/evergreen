@@ -39,9 +39,9 @@ PyPI marks argparse as archived: the project does not expect to be updated in th
 
 ## Sources
 
-- [argparse on PyPI](https://pypi.org/project/argparse/)
-- [argparse project status (PyPI Simple API)](https://pypi.org/simple/argparse/)
-- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/)
+- [argparse on PyPI](https://pypi.org/project/argparse/) (accessed 2026-10-20)
+- [argparse project status (PyPI Simple API)](https://pypi.org/simple/argparse/) (accessed 2026-10-20)
+- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/) (accessed 2026-10-20)
 
 ## Migration
 

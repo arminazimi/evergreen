@@ -40,7 +40,7 @@ These Drupal release lines no longer receive security fixes from the vendor: the
 
 ## Sources
 
-- [Drupal release policy (vendor)](https://www.drupal.org/about/core/policies/core-release-cycles/schedule)
+- [Drupal release policy (vendor)](https://www.drupal.org/about/core/policies/core-release-cycles/schedule) (accessed 2026-10-20)
 
 ## Migration
 

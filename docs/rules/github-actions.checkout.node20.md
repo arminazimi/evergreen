@@ -40,8 +40,8 @@ This release predates the action's Node.js 24 runtime. GitHub no longer provides
 
 ## Sources
 
-- [Node 20 is no longer available in GitHub Actions](https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)
-- [actions/checkout runtime guidance](https://github.com/actions/checkout#checkout-v5)
+- [Node 20 is no longer available in GitHub Actions](https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) (accessed 2026-10-16)
+- [actions/checkout runtime guidance](https://github.com/actions/checkout#checkout-v5) (accessed 2026-10-16)
 
 ## Migration
 

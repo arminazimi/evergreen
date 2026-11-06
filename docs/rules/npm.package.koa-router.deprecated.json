@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "koa-router on npm",
-      "url": "https://www.npmjs.com/package/koa-router"
+      "url": "https://www.npmjs.com/package/koa-router",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "koa-router registry metadata",
-      "url": "https://registry.npmjs.org/koa-router/latest"
+      "url": "https://registry.npmjs.org/koa-router/latest",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

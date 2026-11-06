@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "gulp-util package deprecation notice",
-      "url": "https://www.npmjs.com/package/gulp-util"
+      "url": "https://www.npmjs.com/package/gulp-util",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "gulp-util registry metadata",
-      "url": "https://registry.npmjs.org/gulp-util/latest"
+      "url": "https://registry.npmjs.org/gulp-util/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

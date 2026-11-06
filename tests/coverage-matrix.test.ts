@@ -357,7 +357,7 @@ function rule(partial: { id: string; purl: string; title: string; event?: Lifecy
     title: partial.title,
     summary: partial.title,
     severity: "high",
-    sources: [{ title: "source", url: "https://example.com" }],
+    sources: [{ title: "source", url: "https://example.com", accessedAt: "2026-10-01" }],
     provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-01", reviewer: "test" },
   };
 }

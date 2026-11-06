@@ -40,8 +40,8 @@ npm recommends babel-preset-env instead of babel-preset-es2015.
 
 ## Sources
 
-- [babel-preset-es2015 package deprecation notice](https://www.npmjs.com/package/babel-preset-es2015)
-- [babel-preset-es2015 registry metadata](https://registry.npmjs.org/babel-preset-es2015/latest)
+- [babel-preset-es2015 package deprecation notice](https://www.npmjs.com/package/babel-preset-es2015) (accessed 2026-10-16)
+- [babel-preset-es2015 registry metadata](https://registry.npmjs.org/babel-preset-es2015/latest) (accessed 2026-10-16)
 
 ## Migration
 

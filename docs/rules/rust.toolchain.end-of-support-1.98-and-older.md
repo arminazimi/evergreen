@@ -40,8 +40,8 @@ The Rust project only provides support and security updates for the most recent 
 
 ## Sources
 
-- [Rust security policy](https://www.rust-lang.org/policies/security)
-- [Rust release notes (release dates)](https://github.com/rust-lang/rust/blob/master/RELEASES.md)
+- [Rust security policy](https://www.rust-lang.org/policies/security) (accessed 2026-10-17)
+- [Rust release notes (release dates)](https://github.com/rust-lang/rust/blob/master/RELEASES.md) (accessed 2026-10-17)
 
 ## Migration
 

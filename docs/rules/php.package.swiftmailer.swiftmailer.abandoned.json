@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "swiftmailer/swiftmailer on Packagist",
-      "url": "https://packagist.org/packages/swiftmailer/swiftmailer"
+      "url": "https://packagist.org/packages/swiftmailer/swiftmailer",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "The end of Swiftmailer (Symfony Blog)",
-      "url": "https://symfony.com/blog/the-end-of-swiftmailer"
+      "url": "https://symfony.com/blog/the-end-of-swiftmailer",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

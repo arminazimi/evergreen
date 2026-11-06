@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/form-data on npm",
-      "url": "https://www.npmjs.com/package/@types/form-data"
+      "url": "https://www.npmjs.com/package/@types/form-data",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/form-data version metadata",
-      "url": "https://registry.npmjs.org/@types%2fform-data"
+      "url": "https://registry.npmjs.org/@types%2fform-data",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

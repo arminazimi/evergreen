@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Ruby on Rails maintenance policy",
-      "url": "https://rubyonrails.org/maintenance"
+      "url": "https://rubyonrails.org/maintenance",
+      "accessedAt": "2026-10-23"
     },
     {
       "title": "Upgrading Ruby on Rails",
-      "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"
+      "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html",
+      "accessedAt": "2026-10-23"
     }
   ],
   "provenance": {

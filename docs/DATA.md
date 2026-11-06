@@ -99,7 +99,7 @@ To reuse the dataset, credit it and link the license, for example:
 
 > Lifecycle data from Evergreen (`evergreen-data`), by Armin Azimi and Evergreen contributors, licensed under CC BY 4.0. https://github.com/arminazimi/evergreen
 
-Every rule carries its own `sources` (title and URL) and `reviewedAt`, so a consumer can trace a claim back to the page that states it. `registry/sources.lock.json` records every cited URL with the date it was checked; it is maintainer tooling and stays out of the published package. The upstream facts remain subject to the terms of the pages they come from; the license covers Evergreen's selection, arrangement, normalization, and original text. Product and project names are trademarks of their owners and do not imply endorsement.
+Every rule carries its own `sources` (title, URL, and the `accessedAt` day it was read) and `reviewedAt`, so a consumer can trace a claim back to the page that states it and the date it was retrieved. `registry/sources.lock.json` records the current title and final URL of each cited page for maintainers and stays out of the published package. The upstream facts remain subject to the terms of the pages they come from; the license covers Evergreen's selection, arrangement, normalization, and original text. Product and project names are trademarks of their owners and do not imply endorsement.
 
 ## Publishing a bundle
 

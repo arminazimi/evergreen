@@ -11,15 +11,18 @@
   "sources": [
     {
       "title": "argparse on PyPI",
-      "url": "https://pypi.org/project/argparse/"
+      "url": "https://pypi.org/project/argparse/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "argparse project status (PyPI Simple API)",
-      "url": "https://pypi.org/simple/argparse/"
+      "url": "https://pypi.org/simple/argparse/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Project status markers (PEP 792)",
-      "url": "https://packaging.python.org/specifications/project-status-markers/"
+      "url": "https://packaging.python.org/specifications/project-status-markers/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

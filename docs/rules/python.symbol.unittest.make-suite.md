@@ -40,8 +40,8 @@ Python 3.13 removed the unittest functions makeSuite(), findTestCases() and getT
 
 ## Sources
 
-- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html)
-- [What's New in Python 3.11](https://docs.python.org/3/whatsnew/3.11.html)
+- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) (accessed 2026-10-21)
+- [What's New in Python 3.11](https://docs.python.org/3/whatsnew/3.11.html) (accessed 2026-10-21)
 
 ## Migration
 

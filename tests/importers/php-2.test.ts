@@ -15,6 +15,7 @@ import {
   phpPackagistAbandonedImporter,
 } from "../../tools/importers/php-2.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
+import { withoutAccessDates } from "./evidence.js";
 import { ImporterError } from "../../tools/importers/types.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
@@ -129,7 +130,7 @@ test("drafts abandoned rules from the real recording, including a flag with no r
   assert.equal(swift.severity, "high");
   assert.equal(swift.replacement, "symfony/mailer");
   assert.equal(swift.deadline, undefined);
-  assert.deepEqual(swift.sources, [
+  assert.deepEqual(withoutAccessDates(swift.sources), [
     { title: "swiftmailer/swiftmailer on Packagist", url: packagePageUrl("swiftmailer/swiftmailer") },
     { title: "swiftmailer/swiftmailer Composer metadata", url: metadataUrl("swiftmailer/swiftmailer") },
   ]);

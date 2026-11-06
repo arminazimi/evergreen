@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Helm Chart Repository Deprecation Update (2020-10-30)",
-      "url": "https://helm.sh/blog/charts-repo-deprecation/"
+      "url": "https://helm.sh/blog/charts-repo-deprecation/",
+      "accessedAt": "2026-10-26"
     },
     {
       "title": "Helm community: stable repository charts — new locations",
-      "url": "https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md"
+      "url": "https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md",
+      "accessedAt": "2026-10-26"
     }
   ],
   "provenance": {

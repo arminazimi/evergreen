@@ -13,23 +13,28 @@
   "sources": [
     {
       "title": "Vue 2 LTS, EOL & Extended Support",
-      "url": "https://v2.vuejs.org/lts/"
+      "url": "https://v2.vuejs.org/lts/",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Vue 3 Migration Guide",
-      "url": "https://v3-migration.vuejs.org/"
+      "url": "https://v3-migration.vuejs.org/",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Vue 3 Migration Guide: Migration Build",
-      "url": "https://v3-migration.vuejs.org/migration-build.html"
+      "url": "https://v3-migration.vuejs.org/migration-build.html",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Vue 3 Migration Guide: Breaking Changes",
-      "url": "https://v3-migration.vuejs.org/breaking-changes/"
+      "url": "https://v3-migration.vuejs.org/breaking-changes/",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Vue 3 Migration Guide: Global API",
-      "url": "https://v3-migration.vuejs.org/breaking-changes/global-api.html"
+      "url": "https://v3-migration.vuejs.org/breaking-changes/global-api.html",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

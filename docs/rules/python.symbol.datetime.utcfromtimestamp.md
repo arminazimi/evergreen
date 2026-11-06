@@ -40,8 +40,8 @@ Python 3.12 deprecates datetime.datetime.utcfromtimestamp() and says to use time
 
 ## Sources
 
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
-- [datetime documentation](https://docs.python.org/3/library/datetime.html)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-10-21)
+- [datetime documentation](https://docs.python.org/3/library/datetime.html) (accessed 2026-10-21)
 
 ## Migration
 

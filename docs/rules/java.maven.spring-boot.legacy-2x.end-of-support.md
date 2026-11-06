@@ -40,7 +40,7 @@ Spring Boot 2.x no longer receives regular open-source releases. Spring Boot 2.7
 
 ## Sources
 
-- [Spring Boot support policy](https://spring.io/projects/spring-boot#support)
+- [Spring Boot support policy](https://spring.io/projects/spring-boot#support) (accessed 2026-10-25)
 
 ## Migration
 

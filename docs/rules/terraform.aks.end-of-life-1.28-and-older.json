@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
-      "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions",
+      "accessedAt": "2026-10-26"
     }
   ],
   "provenance": {

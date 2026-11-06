@@ -12,15 +12,18 @@
   "sources": [
     {
       "title": "react-beautiful-dnd on npm",
-      "url": "https://www.npmjs.com/package/react-beautiful-dnd"
+      "url": "https://www.npmjs.com/package/react-beautiful-dnd",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "react-beautiful-dnd version metadata",
-      "url": "https://registry.npmjs.org/react-beautiful-dnd"
+      "url": "https://registry.npmjs.org/react-beautiful-dnd",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "react-beautiful-dnd deprecation announcement",
-      "url": "https://github.com/atlassian/react-beautiful-dnd/issues/2672"
+      "url": "https://github.com/atlassian/react-beautiful-dnd/issues/2672",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

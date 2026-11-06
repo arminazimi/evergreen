@@ -13,15 +13,18 @@
   "sources": [
     {
       "title": "Status of Python versions",
-      "url": "https://devguide.python.org/versions/"
+      "url": "https://devguide.python.org/versions/",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "Python release cycle (machine-readable)",
-      "url": "https://peps.python.org/api/release-cycle.json"
+      "url": "https://peps.python.org/api/release-cycle.json",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "PEP 619 — Python 3.10 release schedule",
-      "url": "https://peps.python.org/pep-0619/"
+      "url": "https://peps.python.org/pep-0619/",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

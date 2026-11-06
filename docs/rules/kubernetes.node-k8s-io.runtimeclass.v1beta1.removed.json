@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Kubernetes Deprecated API Migration Guide",
-      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
-      "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+      "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

@@ -40,9 +40,9 @@ Next.js 14 was released on 2023-10-26 and is listed under Unsupported Versions i
 
 ## Sources
 
-- [Next.js support policy](https://nextjs.org/support-policy)
-- [Next.js upgrade guide: version 15](https://nextjs.org/docs/app/guides/upgrading/version-15)
-- [Next.js upgrade guide: version 16](https://nextjs.org/docs/app/guides/upgrading/version-16)
+- [Next.js support policy](https://nextjs.org/support-policy) (accessed 2026-10-21)
+- [Next.js upgrade guide: version 15](https://nextjs.org/docs/app/guides/upgrading/version-15) (accessed 2026-10-21)
+- [Next.js upgrade guide: version 16](https://nextjs.org/docs/app/guides/upgrading/version-16) (accessed 2026-10-21)
 
 ## Migration
 

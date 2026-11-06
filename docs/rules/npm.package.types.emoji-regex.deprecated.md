@@ -40,8 +40,8 @@ npm marks @types/emoji-regex as deprecated: "This is a stub types definition. em
 
 ## Sources
 
-- [@types/emoji-regex on npm](https://www.npmjs.com/package/@types/emoji-regex)
-- [@types/emoji-regex version metadata](https://registry.npmjs.org/@types%2femoji-regex)
+- [@types/emoji-regex on npm](https://www.npmjs.com/package/@types/emoji-regex) (accessed 2026-10-19)
+- [@types/emoji-regex version metadata](https://registry.npmjs.org/@types%2femoji-regex) (accessed 2026-10-19)
 
 ## Migration
 

@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "protractor package deprecation notice",
-      "url": "https://www.npmjs.com/package/protractor"
+      "url": "https://www.npmjs.com/package/protractor",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "protractor registry metadata",
-      "url": "https://registry.npmjs.org/protractor/latest"
+      "url": "https://registry.npmjs.org/protractor/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

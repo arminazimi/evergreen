@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "i18next-parser on npm",
-      "url": "https://www.npmjs.com/package/i18next-parser"
+      "url": "https://www.npmjs.com/package/i18next-parser",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "i18next-parser registry metadata",
-      "url": "https://registry.npmjs.org/i18next-parser/latest"
+      "url": "https://registry.npmjs.org/i18next-parser/latest",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

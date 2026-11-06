@@ -40,7 +40,7 @@ The PostgreSQL Global Development Group lists 14 as supported until its final re
 
 ## Sources
 
-- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/)
+- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/) (accessed 2026-10-24)
 
 ## Migration
 

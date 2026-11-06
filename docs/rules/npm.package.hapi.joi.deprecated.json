@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@hapi/joi package deprecation notice",
-      "url": "https://www.npmjs.com/package/@hapi/joi"
+      "url": "https://www.npmjs.com/package/@hapi/joi",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "@hapi/joi registry metadata",
-      "url": "https://registry.npmjs.org/@hapi%2fjoi/latest"
+      "url": "https://registry.npmjs.org/@hapi%2fjoi/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

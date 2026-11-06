@@ -127,6 +127,10 @@ function hintFor(message: string): string {
       "Link the authoritative notice over https; http and relative URLs are not evidence.",
     ],
     [
+      /^sources\[\d+\]\.accessedAt is required/,
+      "Add the day you read this source as accessedAt (YYYY-MM-DD); every finding shows it.",
+    ],
+    [
       /^provenance\.reviewedAt must not be earlier/,
       "Set reviewedAt to the date you last checked the sources; it cannot precede observedAt.",
     ],

@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "doctrine/cache on Packagist",
-      "url": "https://packagist.org/packages/doctrine/cache"
+      "url": "https://packagist.org/packages/doctrine/cache",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "doctrine/cache Composer metadata",
-      "url": "https://repo.packagist.org/p2/doctrine/cache.json"
+      "url": "https://repo.packagist.org/p2/doctrine/cache.json",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

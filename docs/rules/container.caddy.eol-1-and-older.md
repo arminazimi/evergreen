@@ -40,7 +40,7 @@ These Caddy release lines no longer receive fixes from the vendor.
 
 ## Sources
 
-- [Caddy release policy (vendor)](https://github.com/caddyserver/caddy/security)
+- [Caddy release policy (vendor)](https://github.com/caddyserver/caddy/security) (accessed 2026-10-20)
 
 ## Migration
 

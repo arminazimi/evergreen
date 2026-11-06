@@ -39,9 +39,9 @@ PyPI marks PIL as archived: the project does not expect to be updated in the fut
 
 ## Sources
 
-- [PIL on PyPI](https://pypi.org/project/pil/)
-- [PIL project status (PyPI Simple API)](https://pypi.org/simple/pil/)
-- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/)
+- [PIL on PyPI](https://pypi.org/project/pil/) (accessed 2026-10-20)
+- [PIL project status (PyPI Simple API)](https://pypi.org/simple/pil/) (accessed 2026-10-20)
+- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/) (accessed 2026-10-20)
 
 ## Migration
 

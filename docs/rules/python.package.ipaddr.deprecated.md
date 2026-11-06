@@ -40,7 +40,7 @@ The project states that ipaddr was superseded by the Python standard-library ipa
 
 ## Sources
 
-- [ipaddr supersession notice](https://pypi.org/project/ipaddr/)
+- [ipaddr supersession notice](https://pypi.org/project/ipaddr/) (accessed 2026-10-16)
 
 ## Migration
 

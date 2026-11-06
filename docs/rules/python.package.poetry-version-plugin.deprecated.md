@@ -40,7 +40,7 @@ The maintainer states that poetry-version-plugin is deprecated and recommends mi
 
 ## Sources
 
-- [poetry-version-plugin deprecation notice](https://pypi.org/project/poetry-version-plugin/)
+- [poetry-version-plugin deprecation notice](https://pypi.org/project/poetry-version-plugin/) (accessed 2026-10-16)
 
 ## Migration
 

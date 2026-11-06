@@ -40,7 +40,7 @@ The project states that django-celery is no longer required because Celery suppo
 
 ## Sources
 
-- [django-celery retirement notice](https://pypi.org/project/django-celery/)
+- [django-celery retirement notice](https://pypi.org/project/django-celery/) (accessed 2026-10-16)
 
 ## Migration
 

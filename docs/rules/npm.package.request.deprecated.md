@@ -40,7 +40,7 @@ The package is fully deprecated and no new changes are expected.
 
 ## Sources
 
-- [request package deprecation notice](https://www.npmjs.com/package/request)
+- [request package deprecation notice](https://www.npmjs.com/package/request) (accessed 2026-10-13)
 
 ## Migration
 

@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 POM on Maven Central",
-      "url": "https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom"
+      "url": "https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

@@ -40,7 +40,7 @@ The maintainer of atty has published an official notice that the crate is no lon
 
 ## Sources
 
-- [RustSec advisory RUSTSEC-2024-0375](https://rustsec.org/advisories/RUSTSEC-2024-0375.html)
+- [RustSec advisory RUSTSEC-2024-0375](https://rustsec.org/advisories/RUSTSEC-2024-0375.html) (accessed 2026-10-17)
 
 ## Migration
 

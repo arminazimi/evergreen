@@ -40,7 +40,7 @@ Node.js removed os.tmpDir (DEP0022: runtime deprecation since v7.0.0, end-of-lif
 
 ## Sources
 
-- [Node.js deprecations: DEP0022](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0022](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

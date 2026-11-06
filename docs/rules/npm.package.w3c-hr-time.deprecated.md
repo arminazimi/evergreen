@@ -40,8 +40,8 @@ npm directs users of w3c-hr-time to native performance.now() and performance.tim
 
 ## Sources
 
-- [w3c-hr-time package deprecation notice](https://www.npmjs.com/package/w3c-hr-time)
-- [w3c-hr-time registry metadata](https://registry.npmjs.org/w3c-hr-time/latest)
+- [w3c-hr-time package deprecation notice](https://www.npmjs.com/package/w3c-hr-time) (accessed 2026-10-16)
+- [w3c-hr-time registry metadata](https://registry.npmjs.org/w3c-hr-time/latest) (accessed 2026-10-16)
 
 ## Migration
 

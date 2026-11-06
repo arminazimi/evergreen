@@ -40,8 +40,8 @@ The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1
 
 ## Sources
 
-- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/)
-- [Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)](https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/)
+- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/) (accessed 2026-10-17)
+- [Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)](https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/) (accessed 2026-10-20)
 
 ## Migration
 

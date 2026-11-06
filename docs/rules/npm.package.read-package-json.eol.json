@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "read-package-json package deprecation notice",
-      "url": "https://www.npmjs.com/package/read-package-json"
+      "url": "https://www.npmjs.com/package/read-package-json",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "read-package-json registry metadata",
-      "url": "https://registry.npmjs.org/read-package-json/latest"
+      "url": "https://registry.npmjs.org/read-package-json/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

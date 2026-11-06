@@ -39,8 +39,8 @@ The latest github.com/discord/lilliput module declares: "discord/lilliput is unm
 
 ## Sources
 
-- [github.com/discord/lilliput v1.5.1 go.mod](https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod)
-- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation)
+- [github.com/discord/lilliput v1.5.1 go.mod](https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod) (accessed 2026-10-20)
+- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation) (accessed 2026-10-20)
 
 ## Migration
 

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "lodash.get package deprecation notice",
-      "url": "https://www.npmjs.com/package/lodash.get"
+      "url": "https://www.npmjs.com/package/lodash.get",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "lodash.get registry metadata",
-      "url": "https://registry.npmjs.org/lodash.get/latest"
+      "url": "https://registry.npmjs.org/lodash.get/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

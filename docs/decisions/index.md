@@ -37,6 +37,7 @@ otherwise. Records are numbered in the order they were written; this page groups
 | [0022](0022-python-method-shape.md) | Match Python `TestCase` method calls with a `method` shape | Add a Python-only `method` symbol shape that matches a call by name on any receiver inside a class that directly subclasses `unittest.TestCase` or an alias of it. |
 | [0028](0028-mcp-schema-inlining-fails-closed.md) | Publish a self-contained MCP output schema | Inline every cross-file `$ref` before the MCP server advertises a tool's schema and throw when one cannot resolve; same-document references stay, and sibling keywords win over the inlined target. |
 | [0032](0032-split-mcp-tools-into-one-file-per-tool.md) | Split the MCP server into one file per tool | Give each MCP tool its own file under `src/mcp/tools/`, list them in a small registry, and prove with a `tools/list` snapshot that no advertised name, description, input schema, output schema, or annotation changed. |
+| [0033](0033-required-source-access-date.md) | Require the retrieval date on every lifecycle source | Make `sources[].accessedAt` required in registry v2, backfill every bundled record, and let the importer runner stamp the run date so every finding shows when its source was read. |
 
 ## Adoption
 

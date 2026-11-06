@@ -40,7 +40,7 @@ The POM of org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 declares a relocat
 
 ## Sources
 
-- [org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 POM on Maven Central](https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom)
+- [org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 POM on Maven Central](https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom) (accessed 2026-10-20)
 
 ## Migration
 

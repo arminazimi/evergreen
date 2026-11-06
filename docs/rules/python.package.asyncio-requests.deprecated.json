@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "asyncio-gateway migration notice",
-      "url": "https://pypi.org/project/asyncio-gateway/"
+      "url": "https://pypi.org/project/asyncio-gateway/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

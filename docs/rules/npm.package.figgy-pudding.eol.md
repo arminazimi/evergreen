@@ -39,8 +39,8 @@ npm states that the figgy-pudding module is no longer supported.
 
 ## Sources
 
-- [figgy-pudding package deprecation notice](https://www.npmjs.com/package/figgy-pudding)
-- [figgy-pudding registry metadata](https://registry.npmjs.org/figgy-pudding/latest)
+- [figgy-pudding package deprecation notice](https://www.npmjs.com/package/figgy-pudding) (accessed 2026-10-16)
+- [figgy-pudding registry metadata](https://registry.npmjs.org/figgy-pudding/latest) (accessed 2026-10-16)
 
 ## Migration
 

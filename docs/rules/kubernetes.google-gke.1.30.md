@@ -40,8 +40,8 @@ The GKE release schedule lists GKE 1.30 with end of standard support on 2025-09-
 
 ## Sources
 
-- [GKE versioning and support](https://cloud.google.com/kubernetes-engine/versioning)
-- [GKE release schedule](https://cloud.google.com/kubernetes-engine/docs/release-schedule)
+- [GKE versioning and support](https://cloud.google.com/kubernetes-engine/versioning) (accessed 2026-10-30)
+- [GKE release schedule](https://cloud.google.com/kubernetes-engine/docs/release-schedule) (accessed 2026-10-30)
 
 ## Migration
 

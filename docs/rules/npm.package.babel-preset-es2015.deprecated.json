@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "babel-preset-es2015 package deprecation notice",
-      "url": "https://www.npmjs.com/package/babel-preset-es2015"
+      "url": "https://www.npmjs.com/package/babel-preset-es2015",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "babel-preset-es2015 registry metadata",
-      "url": "https://registry.npmjs.org/babel-preset-es2015/latest"
+      "url": "https://registry.npmjs.org/babel-preset-es2015/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

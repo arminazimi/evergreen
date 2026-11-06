@@ -40,7 +40,7 @@ The package states that it is in maintenance mode and recommends pytest or Djang
 
 ## Sources
 
-- [django-nose project notice](https://pypi.org/project/django-nose/)
+- [django-nose project notice](https://pypi.org/project/django-nose/) (accessed 2026-10-16)
 
 ## Migration
 

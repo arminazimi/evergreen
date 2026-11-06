@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "django-nose project notice",
-      "url": "https://pypi.org/project/django-nose/"
+      "url": "https://pypi.org/project/django-nose/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

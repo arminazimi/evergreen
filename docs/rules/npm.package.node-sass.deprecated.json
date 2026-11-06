@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "node-sass package deprecation notice",
-      "url": "https://www.npmjs.com/package/node-sass"
+      "url": "https://www.npmjs.com/package/node-sass",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "node-sass registry metadata",
-      "url": "https://registry.npmjs.org/node-sass"
+      "url": "https://registry.npmjs.org/node-sass",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

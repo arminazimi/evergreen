@@ -23,7 +23,7 @@ function rule(id: string, extra: Record<string, unknown> = {}, importer?: string
     summary: `${id} summary`,
     severity: "high",
     deadline: "2025-04-30",
-    sources: [{ title: "Node.js releases", url: "https://nodejs.org/en/about/releases" }],
+    sources: [{ title: "Node.js releases", url: "https://nodejs.org/en/about/releases", accessedAt: "2026-10-01" }],
     provenance: {
       observedAt: "2026-10-01",
       reviewedAt: "2026-10-02",
@@ -66,8 +66,12 @@ test("classifies additions, changed dates, changed sources, other changes, and r
     rule("nodejs.date", { deadline: "2025-05-15" }),
     rule("nodejs.sources", {
       sources: [
-        { title: "Node.js release schedule", url: "https://nodejs.org/en/about/releases" },
-        { title: "Schedule JSON", url: "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json" },
+        { title: "Node.js release schedule", url: "https://nodejs.org/en/about/releases", accessedAt: "2026-10-01" },
+        {
+          title: "Schedule JSON",
+          url: "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json",
+          accessedAt: "2026-10-01",
+        },
       ],
     }),
     rule("nodejs.text", { summary: "Reworded.", severity: "critical", "x-nodejs": { major: 16 } }),
@@ -166,12 +170,14 @@ test("a dropped source and a dropped deadline are reported", () => {
   const registry = registryOf([
     rule("nodejs.a", {
       sources: [
-        { title: "A", url: "https://example.com/a" },
-        { title: "B", url: "https://example.com/b" },
+        { title: "A", url: "https://example.com/a", accessedAt: "2026-10-01" },
+        { title: "B", url: "https://example.com/b", accessedAt: "2026-10-01" },
       ],
     }),
   ]);
-  const drafts = draftOf([rule("nodejs.a", { sources: [{ title: "A", url: "https://example.com/a" }] })]);
+  const drafts = draftOf([
+    rule("nodejs.a", { sources: [{ title: "A", url: "https://example.com/a", accessedAt: "2026-10-01" }] }),
+  ]);
   assert.deepEqual(
     diffDrafts(drafts, registry).changed[0]!.sources?.removed.map((s) => s.url),
     ["https://example.com/b"],

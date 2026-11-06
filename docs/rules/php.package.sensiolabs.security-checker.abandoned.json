@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "sensiolabs/security-checker on Packagist",
-      "url": "https://packagist.org/packages/sensiolabs/security-checker"
+      "url": "https://packagist.org/packages/sensiolabs/security-checker",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "sensiolabs/security-checker Composer metadata",
-      "url": "https://repo.packagist.org/p2/sensiolabs/security-checker.json"
+      "url": "https://repo.packagist.org/p2/sensiolabs/security-checker.json",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

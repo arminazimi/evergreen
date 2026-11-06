@@ -39,8 +39,8 @@ The latest go.opentelemetry.io/otel/exporters/zipkin module declares: "The zipki
 
 ## Sources
 
-- [go.opentelemetry.io/otel/exporters/zipkin v1.47.0 go.mod](https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod)
-- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation)
+- [go.opentelemetry.io/otel/exporters/zipkin v1.47.0 go.mod](https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod) (accessed 2026-10-20)
+- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation) (accessed 2026-10-20)
 
 ## Migration
 

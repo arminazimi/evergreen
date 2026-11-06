@@ -40,8 +40,8 @@ npm marks crypto-js as deprecated: "Active development of CryptoJS has been disc
 
 ## Sources
 
-- [crypto-js on npm](https://www.npmjs.com/package/crypto-js)
-- [crypto-js registry metadata](https://registry.npmjs.org/crypto-js/latest)
+- [crypto-js on npm](https://www.npmjs.com/package/crypto-js) (accessed 2026-10-19)
+- [crypto-js registry metadata](https://registry.npmjs.org/crypto-js/latest) (accessed 2026-10-19)
 
 ## Migration
 

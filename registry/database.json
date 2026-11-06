@@ -19,7 +19,8 @@
       "sources": [
         {
           "title": "PostgreSQL versioning policy",
-          "url": "https://www.postgresql.org/support/versioning/"
+          "url": "https://www.postgresql.org/support/versioning/",
+          "accessedAt": "2026-10-29"
         }
       ],
       "provenance": {
@@ -89,11 +90,13 @@
       "sources": [
         {
           "title": "PostgreSQL versioning policy",
-          "url": "https://www.postgresql.org/support/versioning/"
+          "url": "https://www.postgresql.org/support/versioning/",
+          "accessedAt": "2026-10-22"
         },
         {
           "title": "endoflife.date: PostgreSQL",
-          "url": "https://endoflife.date/postgresql"
+          "url": "https://endoflife.date/postgresql",
+          "accessedAt": "2026-10-22"
         }
       ],
       "provenance": {
@@ -163,11 +166,13 @@
       "sources": [
         {
           "title": "PostgreSQL versioning policy",
-          "url": "https://www.postgresql.org/support/versioning/"
+          "url": "https://www.postgresql.org/support/versioning/",
+          "accessedAt": "2026-10-22"
         },
         {
           "title": "endoflife.date: PostgreSQL",
-          "url": "https://endoflife.date/postgresql"
+          "url": "https://endoflife.date/postgresql",
+          "accessedAt": "2026-10-22"
         }
       ],
       "provenance": {
@@ -237,11 +242,13 @@
       "sources": [
         {
           "title": "PostgreSQL versioning policy",
-          "url": "https://www.postgresql.org/support/versioning/"
+          "url": "https://www.postgresql.org/support/versioning/",
+          "accessedAt": "2026-10-22"
         },
         {
           "title": "endoflife.date: PostgreSQL",
-          "url": "https://endoflife.date/postgresql"
+          "url": "https://endoflife.date/postgresql",
+          "accessedAt": "2026-10-22"
         }
       ],
       "provenance": {
@@ -311,7 +318,8 @@
       "sources": [
         {
           "title": "PostgreSQL versioning policy",
-          "url": "https://www.postgresql.org/support/versioning/"
+          "url": "https://www.postgresql.org/support/versioning/",
+          "accessedAt": "2026-10-24"
         }
       ],
       "provenance": {
@@ -381,11 +389,13 @@
       "sources": [
         {
           "title": "MySQL supported platforms and lifecycle",
-          "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+          "url": "https://www.mysql.com/support/supportedplatforms/database.html",
+          "accessedAt": "2026-10-22"
         },
         {
           "title": "endoflife.date: MySQL",
-          "url": "https://endoflife.date/mysql"
+          "url": "https://endoflife.date/mysql",
+          "accessedAt": "2026-10-22"
         }
       ],
       "provenance": {
@@ -455,11 +465,13 @@
       "sources": [
         {
           "title": "MySQL supported platforms and lifecycle",
-          "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+          "url": "https://www.mysql.com/support/supportedplatforms/database.html",
+          "accessedAt": "2026-10-22"
         },
         {
           "title": "endoflife.date: MySQL",
-          "url": "https://endoflife.date/mysql"
+          "url": "https://endoflife.date/mysql",
+          "accessedAt": "2026-10-22"
         }
       ],
       "provenance": {
@@ -1016,11 +1028,13 @@
       "sources": [
         {
           "title": "Release calendars for Amazon RDS for PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1090,11 +1104,13 @@
       "sources": [
         {
           "title": "Release calendars for Amazon RDS for PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1165,11 +1181,13 @@
       "sources": [
         {
           "title": "Release calendars for Amazon RDS for PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1240,11 +1258,13 @@
       "sources": [
         {
           "title": "Release calendars for Amazon RDS for PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1315,11 +1335,13 @@
       "sources": [
         {
           "title": "Release calendars for Amazon RDS for PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1390,11 +1412,13 @@
       "sources": [
         {
           "title": "Release calendars for Amazon RDS for PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1465,11 +1489,13 @@
       "sources": [
         {
           "title": "MySQL on Amazon RDS versions",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Amazon RDS Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1540,11 +1566,13 @@
       "sources": [
         {
           "title": "MySQL on Amazon RDS versions",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Amazon RDS Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1615,11 +1643,13 @@
       "sources": [
         {
           "title": "Release calendars for Aurora PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support with Amazon Aurora",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1690,11 +1720,13 @@
       "sources": [
         {
           "title": "Release calendars for Aurora PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support with Amazon Aurora",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1765,11 +1797,13 @@
       "sources": [
         {
           "title": "Release calendars for Aurora PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support with Amazon Aurora",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1840,11 +1874,13 @@
       "sources": [
         {
           "title": "Release calendars for Aurora PostgreSQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support with Amazon Aurora",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1915,11 +1951,13 @@
       "sources": [
         {
           "title": "Release calendars for Amazon Aurora MySQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraMySQLReleaseNotes/AuroraMySQL.release-calendars.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraMySQLReleaseNotes/AuroraMySQL.release-calendars.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support with Amazon Aurora",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1990,11 +2028,13 @@
       "sources": [
         {
           "title": "Release calendars for Amazon Aurora MySQL",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraMySQLReleaseNotes/AuroraMySQL.release-calendars.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraMySQLReleaseNotes/AuroraMySQL.release-calendars.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Using Amazon RDS Extended Support with Amazon Aurora",
-          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -2065,11 +2105,13 @@
       "sources": [
         {
           "title": "Engine versions and upgrading in ElastiCache",
-          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html"
+          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "ElastiCache Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -2140,11 +2182,13 @@
       "sources": [
         {
           "title": "Engine versions and upgrading in ElastiCache",
-          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html"
+          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "ElastiCache Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -2215,11 +2259,13 @@
       "sources": [
         {
           "title": "Engine versions and upgrading in ElastiCache",
-          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html"
+          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "ElastiCache Extended Support",
-          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html"
+          "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {

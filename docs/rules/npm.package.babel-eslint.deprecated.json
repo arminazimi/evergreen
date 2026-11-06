@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "babel-eslint on npm",
-      "url": "https://www.npmjs.com/package/babel-eslint"
+      "url": "https://www.npmjs.com/package/babel-eslint",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "babel-eslint version metadata",
-      "url": "https://registry.npmjs.org/babel-eslint"
+      "url": "https://registry.npmjs.org/babel-eslint",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

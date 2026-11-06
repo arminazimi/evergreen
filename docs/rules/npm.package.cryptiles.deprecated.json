@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "cryptiles package deprecation notice",
-      "url": "https://www.npmjs.com/package/cryptiles"
+      "url": "https://www.npmjs.com/package/cryptiles",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "cryptiles registry metadata",
-      "url": "https://registry.npmjs.org/cryptiles/latest"
+      "url": "https://registry.npmjs.org/cryptiles/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

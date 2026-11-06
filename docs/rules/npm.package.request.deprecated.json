@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "request package deprecation notice",
-      "url": "https://www.npmjs.com/package/request"
+      "url": "https://www.npmjs.com/package/request",
+      "accessedAt": "2026-10-13"
     }
   ],
   "provenance": {

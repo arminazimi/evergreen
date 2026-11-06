@@ -40,7 +40,7 @@ Deno 0.x pre-release versions are obsolete and end-of-life following the release
 
 ## Sources
 
-- [Deno 1.0.0 Release](https://github.com/denoland/deno/releases/tag/v1.0.0)
+- [Deno 1.0.0 Release](https://github.com/denoland/deno/releases/tag/v1.0.0) (accessed 2026-10-26)
 
 ## Migration
 

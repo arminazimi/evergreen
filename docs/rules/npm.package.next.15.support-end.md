@@ -40,8 +40,8 @@ Next.js 15 was released on 2024-10-21. The support policy keeps each major in Ma
 
 ## Sources
 
-- [Next.js support policy](https://nextjs.org/support-policy)
-- [Next.js upgrade guide: version 16](https://nextjs.org/docs/app/guides/upgrading/version-16)
+- [Next.js support policy](https://nextjs.org/support-policy) (accessed 2026-10-25)
+- [Next.js upgrade guide: version 16](https://nextjs.org/docs/app/guides/upgrading/version-16) (accessed 2026-10-25)
 
 ## Migration
 

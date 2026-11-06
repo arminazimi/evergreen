@@ -39,9 +39,9 @@ PyPI marks typing as archived: the project does not expect to be updated in the 
 
 ## Sources
 
-- [typing on PyPI](https://pypi.org/project/typing/)
-- [typing project status (PyPI Simple API)](https://pypi.org/simple/typing/)
-- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/)
+- [typing on PyPI](https://pypi.org/project/typing/) (accessed 2026-10-20)
+- [typing project status (PyPI Simple API)](https://pypi.org/simple/typing/) (accessed 2026-10-20)
+- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/) (accessed 2026-10-20)
 
 ## Migration
 

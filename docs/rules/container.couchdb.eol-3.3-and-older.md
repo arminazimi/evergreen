@@ -40,7 +40,7 @@ The CouchDB project publishes CVE fixes only for the current release series and 
 
 ## Sources
 
-- [Apache CouchDB security policy](https://docs.couchdb.org/en/stable/cve/index.html)
+- [Apache CouchDB security policy](https://docs.couchdb.org/en/stable/cve/index.html) (accessed 2026-10-20)
 
 ## Migration
 

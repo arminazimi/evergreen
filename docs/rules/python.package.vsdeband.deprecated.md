@@ -40,7 +40,7 @@ The maintainer marks vsdeband as deprecated and directs users to the vsjetpack p
 
 ## Sources
 
-- [vsdeband deprecation notice](https://pypi.org/project/vsdeband/)
+- [vsdeband deprecation notice](https://pypi.org/project/vsdeband/) (accessed 2026-10-16)
 
 ## Migration
 

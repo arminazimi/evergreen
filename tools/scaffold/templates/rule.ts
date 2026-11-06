@@ -15,7 +15,13 @@ export function ruleTemplate(names: RuleScaffoldNames, today: string): Record<st
     summary: "Replace this placeholder with the lifecycle claim stated by an authoritative source.",
     severity: "info",
     replacement: "Replace with the replacement the source names",
-    sources: [{ title: "Replace with the authoritative notice", url: `https://example.com/${names.id}` }],
+    sources: [
+      {
+        title: "Replace with the authoritative notice",
+        url: `https://example.com/${names.id}`,
+        accessedAt: today,
+      },
+    ],
     provenance: { observedAt: today, reviewedAt: today, reviewer: "unreviewed" },
     usage: [{ kind: "import", language: "javascript", module: names.id }],
   };

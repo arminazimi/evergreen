@@ -40,7 +40,7 @@ The maintainer states that agentops-toolkit is no longer maintained and now ship
 
 ## Sources
 
-- [agentops-toolkit rename notice](https://pypi.org/project/agentops-toolkit/)
+- [agentops-toolkit rename notice](https://pypi.org/project/agentops-toolkit/) (accessed 2026-10-16)
 
 ## Migration
 

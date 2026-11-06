@@ -40,9 +40,9 @@ Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Le
 
 ## Sources
 
-- [WindowsAzure.Storage on NuGet (deprecation metadata)](https://www.nuget.org/packages/WindowsAzure.Storage)
-- [NuGet package deprecation](https://learn.microsoft.com/nuget/nuget-org/deprecate-packages)
-- [Azure SDK support policies](https://azure.github.io/azure-sdk/policies_support.html)
+- [WindowsAzure.Storage on NuGet (deprecation metadata)](https://www.nuget.org/packages/WindowsAzure.Storage) (accessed 2026-10-17)
+- [NuGet package deprecation](https://learn.microsoft.com/nuget/nuget-org/deprecate-packages) (accessed 2026-10-17)
+- [Azure SDK support policies](https://azure.github.io/azure-sdk/policies_support.html) (accessed 2026-10-17)
 
 ## Migration
 

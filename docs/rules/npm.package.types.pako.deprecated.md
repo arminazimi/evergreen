@@ -40,8 +40,8 @@ npm marks @types/pako as deprecated: "This is a stub types definition. pako prov
 
 ## Sources
 
-- [@types/pako on npm](https://www.npmjs.com/package/@types/pako)
-- [@types/pako version metadata](https://registry.npmjs.org/@types%2fpako)
+- [@types/pako on npm](https://www.npmjs.com/package/@types/pako) (accessed 2026-10-19)
+- [@types/pako version metadata](https://registry.npmjs.org/@types%2fpako) (accessed 2026-10-19)
 
 ## Migration
 

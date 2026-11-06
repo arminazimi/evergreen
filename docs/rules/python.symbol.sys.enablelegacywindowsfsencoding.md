@@ -40,8 +40,8 @@ Python 3.13 deprecates sys._enablelegacywindowsfsencoding, to be removed in Pyth
 
 ## Sources
 
-- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html)
-- [Python deprecations: pending removal in 3.16](https://docs.python.org/3/deprecations/pending-removal-in-3.16.html)
+- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) (accessed 2026-10-21)
+- [Python deprecations: pending removal in 3.16](https://docs.python.org/3/deprecations/pending-removal-in-3.16.html) (accessed 2026-10-21)
 
 ## Migration
 

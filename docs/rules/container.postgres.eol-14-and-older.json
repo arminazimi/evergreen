@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "PostgreSQL release policy (vendor)",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "url": "https://www.postgresql.org/support/versioning/",
+      "accessedAt": "2026-10-24"
     }
   ],
   "provenance": {

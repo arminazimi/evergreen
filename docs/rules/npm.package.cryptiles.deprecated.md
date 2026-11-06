@@ -40,8 +40,8 @@ npm states that cryptiles moved to @hapi/cryptiles and that the old distribution
 
 ## Sources
 
-- [cryptiles package deprecation notice](https://www.npmjs.com/package/cryptiles)
-- [cryptiles registry metadata](https://registry.npmjs.org/cryptiles/latest)
+- [cryptiles package deprecation notice](https://www.npmjs.com/package/cryptiles) (accessed 2026-10-16)
+- [cryptiles registry metadata](https://registry.npmjs.org/cryptiles/latest) (accessed 2026-10-16)
 
 ## Migration
 

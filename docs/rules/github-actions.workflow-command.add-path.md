@@ -40,7 +40,7 @@ GitHub removed the ::add-path workflow command. Append to the GITHUB_PATH enviro
 
 ## Sources
 
-- [GitHub Actions: Removing set-env and add-path commands on November 16](https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/)
+- [GitHub Actions: Removing set-env and add-path commands on November 16](https://github.blog/changelog/2020-11-09-github-actions-removing-set-env-and-add-path-commands-on-november-16/) (accessed 2026-11-05)
 
 ## Migration
 

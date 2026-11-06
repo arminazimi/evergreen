@@ -40,8 +40,8 @@ Elixir's security policy provides security patches only for the five most recent
 
 ## Sources
 
-- [Elixir security policy](https://github.com/elixir-lang/elixir/security/policy)
-- [Elixir v1.19.0 release](https://github.com/elixir-lang/elixir/releases/tag/v1.19.0)
+- [Elixir security policy](https://github.com/elixir-lang/elixir/security/policy) (accessed 2026-10-26)
+- [Elixir v1.19.0 release](https://github.com/elixir-lang/elixir/releases/tag/v1.19.0) (accessed 2026-10-26)
 
 ## Migration
 

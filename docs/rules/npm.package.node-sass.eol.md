@@ -40,7 +40,7 @@ Node Sass is no longer maintained and its repository has been archived.
 
 ## Sources
 
-- [Node Sass is end-of-life](https://sass-lang.com/blog/node-sass-is-end-of-life/)
+- [Node Sass is end-of-life](https://sass-lang.com/blog/node-sass-is-end-of-life/) (accessed 2026-10-16)
 
 ## Migration
 

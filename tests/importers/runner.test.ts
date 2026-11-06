@@ -81,6 +81,7 @@ test("the runner stamps provenance that marks every draft as unreviewed", async 
     reviewer: PENDING_REVIEWER,
     importer: "test-importer",
   });
+  assert.deepEqual(result.rules[0]!.sources[0]!.accessedAt, "2026-10-15");
   assert.equal(result.observedAt, "2026-10-15");
   assert.equal(PENDING_REVIEWER, "pending-review");
 });

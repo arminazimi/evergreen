@@ -40,7 +40,7 @@ The PostgreSQL project no longer releases fixes for these major versions.
 
 ## Sources
 
-- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/)
+- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/) (accessed 2026-10-16)
 
 ## Migration
 

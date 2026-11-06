@@ -40,7 +40,7 @@ Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadO
 
 ## Sources
 
-- [Xcode 15 — App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/?id=04292024a)
+- [Xcode 15 — App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/?id=04292024a) (accessed 2026-10-19)
 
 ## Migration
 

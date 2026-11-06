@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "stable package deprecation notice",
-      "url": "https://www.npmjs.com/package/stable"
+      "url": "https://www.npmjs.com/package/stable",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "stable registry metadata",
-      "url": "https://registry.npmjs.org/stable/latest"
+      "url": "https://registry.npmjs.org/stable/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

@@ -40,8 +40,8 @@ npm marks uglify-es as deprecated: "support for ECMAScript is superseded by `ugl
 
 ## Sources
 
-- [uglify-es on npm](https://www.npmjs.com/package/uglify-es)
-- [uglify-es registry metadata](https://registry.npmjs.org/uglify-es/latest)
+- [uglify-es on npm](https://www.npmjs.com/package/uglify-es) (accessed 2026-10-17)
+- [uglify-es registry metadata](https://registry.npmjs.org/uglify-es/latest) (accessed 2026-10-17)
 
 ## Migration
 

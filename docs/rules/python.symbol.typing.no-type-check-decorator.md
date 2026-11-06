@@ -39,8 +39,8 @@ Python 3.13 deprecates typing.no_type_check_decorator, to be removed in Python 3
 
 ## Sources
 
-- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html)
-- [Python deprecations: pending removal in 3.15](https://docs.python.org/3/deprecations/pending-removal-in-3.15.html)
+- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) (accessed 2026-10-21)
+- [Python deprecations: pending removal in 3.15](https://docs.python.org/3/deprecations/pending-removal-in-3.15.html) (accessed 2026-10-21)
 
 ## Migration
 

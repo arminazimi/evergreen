@@ -40,8 +40,8 @@ npm marks rollup-plugin-terser as deprecated: "This package has been deprecated 
 
 ## Sources
 
-- [rollup-plugin-terser on npm](https://www.npmjs.com/package/rollup-plugin-terser)
-- [rollup-plugin-terser registry metadata](https://registry.npmjs.org/rollup-plugin-terser/latest)
+- [rollup-plugin-terser on npm](https://www.npmjs.com/package/rollup-plugin-terser) (accessed 2026-10-19)
+- [rollup-plugin-terser registry metadata](https://registry.npmjs.org/rollup-plugin-terser/latest) (accessed 2026-10-19)
 
 ## Migration
 

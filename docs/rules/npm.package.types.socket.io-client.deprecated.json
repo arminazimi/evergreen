@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/socket.io-client on npm",
-      "url": "https://www.npmjs.com/package/@types/socket.io-client"
+      "url": "https://www.npmjs.com/package/@types/socket.io-client",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/socket.io-client version metadata",
-      "url": "https://registry.npmjs.org/@types%2fsocket.io-client"
+      "url": "https://registry.npmjs.org/@types%2fsocket.io-client",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

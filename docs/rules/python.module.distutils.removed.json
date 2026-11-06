@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "PEP 632 — Deprecate distutils module",
-      "url": "https://peps.python.org/pep-0632/"
+      "url": "https://peps.python.org/pep-0632/",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "What's New in Python 3.12",
-      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      "url": "https://docs.python.org/3/whatsnew/3.12.html",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

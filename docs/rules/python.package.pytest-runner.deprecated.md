@@ -40,7 +40,7 @@ The maintainer warns that pytest-runner depends on deprecated Setuptools feature
 
 ## Sources
 
-- [pytest-runner deprecation notice](https://pypi.org/project/pytest-runner/)
+- [pytest-runner deprecation notice](https://pypi.org/project/pytest-runner/) (accessed 2026-10-16)
 
 ## Migration
 

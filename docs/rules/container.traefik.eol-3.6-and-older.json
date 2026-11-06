@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "Traefik release policy (vendor)",
-      "url": "https://doc.traefik.io/traefik/deprecation/releases"
+      "url": "https://doc.traefik.io/traefik/deprecation/releases",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

@@ -40,7 +40,7 @@ Node.js deprecates new crypto.Certificate() (DEP0146: documentation-only since v
 
 ## Sources
 
-- [Node.js deprecations: DEP0146](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0146](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

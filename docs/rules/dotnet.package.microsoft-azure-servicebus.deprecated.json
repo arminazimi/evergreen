@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Microsoft.Azure.ServiceBus on NuGet (deprecation metadata)",
-      "url": "https://www.nuget.org/packages/Microsoft.Azure.ServiceBus"
+      "url": "https://www.nuget.org/packages/Microsoft.Azure.ServiceBus",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "NuGet package deprecation",
-      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

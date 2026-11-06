@@ -39,8 +39,8 @@ npm states that nomnom is no longer supported.
 
 ## Sources
 
-- [nomnom package deprecation notice](https://www.npmjs.com/package/nomnom)
-- [nomnom registry metadata](https://registry.npmjs.org/nomnom/latest)
+- [nomnom package deprecation notice](https://www.npmjs.com/package/nomnom) (accessed 2026-10-16)
+- [nomnom registry metadata](https://registry.npmjs.org/nomnom/latest) (accessed 2026-10-16)
 
 ## Migration
 

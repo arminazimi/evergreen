@@ -40,7 +40,7 @@ These Ruby branches no longer receive security or bug fixes.
 
 ## Sources
 
-- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/)
+- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/) (accessed 2026-10-16)
 
 ## Migration
 

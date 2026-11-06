@@ -40,7 +40,7 @@ These Alpine Linux releases no longer receive security updates from the vendor.
 
 ## Sources
 
-- [Alpine Linux releases](https://alpinelinux.org/releases/)
+- [Alpine Linux releases](https://alpinelinux.org/releases/) (accessed 2026-10-26)
 
 ## Migration
 

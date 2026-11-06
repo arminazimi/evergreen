@@ -39,7 +39,7 @@ OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affec
 
 ## Sources
 
-- [GHSA-p8p7-x288-28g6](https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6)
+- [GHSA-p8p7-x288-28g6](https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6) (accessed 2026-10-27)
 
 ## Detected by
 

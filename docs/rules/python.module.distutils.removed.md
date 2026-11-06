@@ -40,8 +40,8 @@ Python 3.12 removed distutils (PEP 632), so importing it raises ModuleNotFoundEr
 
 ## Sources
 
-- [PEP 632 — Deprecate distutils module](https://peps.python.org/pep-0632/)
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
+- [PEP 632 — Deprecate distutils module](https://peps.python.org/pep-0632/) (accessed 2026-10-30)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-10-30)
 
 ## Migration
 

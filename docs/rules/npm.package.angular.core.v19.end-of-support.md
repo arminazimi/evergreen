@@ -40,8 +40,8 @@ Angular's release schedule states that Angular versions v2 to v19 are no longer 
 
 ## Sources
 
-- [Angular release and support schedule](https://angular.dev/reference/releases)
-- [Angular Update Guide](https://angular.dev/update-guide)
+- [Angular release and support schedule](https://angular.dev/reference/releases) (accessed 2026-10-21)
+- [Angular Update Guide](https://angular.dev/update-guide) (accessed 2026-10-21)
 
 ## Migration
 

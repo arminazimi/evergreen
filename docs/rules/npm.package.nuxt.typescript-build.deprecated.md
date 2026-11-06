@@ -40,8 +40,8 @@ npm marks @nuxt/typescript-build as deprecated: "Nuxt 2 has reached EOL and is n
 
 ## Sources
 
-- [@nuxt/typescript-build on npm](https://www.npmjs.com/package/@nuxt/typescript-build)
-- [@nuxt/typescript-build registry metadata](https://registry.npmjs.org/@nuxt%2ftypescript-build/latest)
+- [@nuxt/typescript-build on npm](https://www.npmjs.com/package/@nuxt/typescript-build) (accessed 2026-10-19)
+- [@nuxt/typescript-build registry metadata](https://registry.npmjs.org/@nuxt%2ftypescript-build/latest) (accessed 2026-10-19)
 
 ## Migration
 

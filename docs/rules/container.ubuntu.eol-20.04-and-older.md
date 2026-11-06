@@ -40,7 +40,7 @@ These Ubuntu releases no longer receive standard security updates from the vendo
 
 ## Sources
 
-- [Ubuntu release cycle](https://ubuntu.com/about/release-cycle)
+- [Ubuntu release cycle](https://ubuntu.com/about/release-cycle) (accessed 2026-10-26)
 
 ## Migration
 

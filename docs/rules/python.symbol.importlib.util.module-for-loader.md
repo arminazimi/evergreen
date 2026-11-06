@@ -39,7 +39,7 @@ Python 3.12 removed importlib.util.module_for_loader, so using it raises an erro
 
 ## Sources
 
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-10-21)
 
 ## Migration
 

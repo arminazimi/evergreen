@@ -40,8 +40,8 @@ Docker's LegacyKeyValueFormat build check flags the space-separated ENV form and
 
 ## Sources
 
-- [Docker build check: LegacyKeyValueFormat](https://docs.docker.com/reference/build-checks/legacy-key-value-format/)
-- [Dockerfile reference: ENV](https://docs.docker.com/reference/dockerfile/#env)
+- [Docker build check: LegacyKeyValueFormat](https://docs.docker.com/reference/build-checks/legacy-key-value-format/) (accessed 2026-10-31)
+- [Dockerfile reference: ENV](https://docs.docker.com/reference/dockerfile/#env) (accessed 2026-10-31)
 
 ## Migration
 

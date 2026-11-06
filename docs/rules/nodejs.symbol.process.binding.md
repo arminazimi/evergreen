@@ -40,7 +40,7 @@ Node.js documents process.binding() as for internal use only and deprecates it (
 
 ## Sources
 
-- [Node.js deprecations: DEP0111 process.binding](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0111 process.binding](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

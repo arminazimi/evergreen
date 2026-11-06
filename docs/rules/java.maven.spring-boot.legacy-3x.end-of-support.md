@@ -40,9 +40,9 @@ Spring Boot 3.x has reached the end of its open-source support lifecycle. The 3.
 
 ## Sources
 
-- [Spring Boot 3.3.13 — end of open-source support](https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/)
-- [Spring Boot 3.4.13 — end of open-source support](https://spring.io/blog/2025/12/18/spring-boot-3-4-13-available-now/)
-- [Spring Boot 3.5.16 — last OSS release of the 3.5.x generation](https://spring.io/blog/2026/06/25/spring-boot-3-5-16-available-now/)
+- [Spring Boot 3.3.13 — end of open-source support](https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/) (accessed 2026-10-25)
+- [Spring Boot 3.4.13 — end of open-source support](https://spring.io/blog/2025/12/18/spring-boot-3-4-13-available-now/) (accessed 2026-10-25)
+- [Spring Boot 3.5.16 — last OSS release of the 3.5.x generation](https://spring.io/blog/2026/06/25/spring-boot-3-5-16-available-now/) (accessed 2026-10-25)
 
 ## Migration
 

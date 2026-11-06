@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "tslint on npm",
-      "url": "https://www.npmjs.com/package/tslint"
+      "url": "https://www.npmjs.com/package/tslint",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "tslint version metadata",
-      "url": "https://registry.npmjs.org/tslint"
+      "url": "https://registry.npmjs.org/tslint",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

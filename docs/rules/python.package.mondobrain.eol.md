@@ -40,7 +40,7 @@ The maintainer yanked mondobrain releases because the project is no longer maint
 
 ## Sources
 
-- [mondobrain maintenance and replacement notice](https://pypi.org/project/mondobrain/)
+- [mondobrain maintenance and replacement notice](https://pypi.org/project/mondobrain/) (accessed 2026-10-16)
 
 ## Migration
 

@@ -40,7 +40,7 @@ The Ruby maintenance branches page marks Ruby 1.9.3 as eol: normal maintenance e
 
 ## Sources
 
-- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/)
+- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/) (accessed 2026-10-20)
 
 ## Migration
 

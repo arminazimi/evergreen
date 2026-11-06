@@ -40,7 +40,7 @@ Bun 1.0.x was superseded by Bun 1.1.0 and is end-of-life.
 
 ## Sources
 
-- [Bun 1.1.0 Release](https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0)
+- [Bun 1.1.0 Release](https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0) (accessed 2026-10-26)
 
 ## Migration
 

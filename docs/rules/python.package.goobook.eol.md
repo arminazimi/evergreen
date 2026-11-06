@@ -39,7 +39,7 @@ The maintainer states that the project is no longer maintained.
 
 ## Sources
 
-- [goobook maintenance notice](https://pypi.org/project/goobook/)
+- [goobook maintenance notice](https://pypi.org/project/goobook/) (accessed 2026-10-16)
 
 ## Migration
 

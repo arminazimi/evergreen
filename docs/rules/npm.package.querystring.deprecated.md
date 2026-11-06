@@ -40,8 +40,8 @@ npm describes the querystring API as legacy and recommends URLSearchParams for n
 
 ## Sources
 
-- [querystring package deprecation notice](https://www.npmjs.com/package/querystring)
-- [querystring registry metadata](https://registry.npmjs.org/querystring/latest)
+- [querystring package deprecation notice](https://www.npmjs.com/package/querystring) (accessed 2026-10-16)
+- [querystring registry metadata](https://registry.npmjs.org/querystring/latest) (accessed 2026-10-16)
 
 ## Migration
 

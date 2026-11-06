@@ -40,7 +40,7 @@ Node.js removed timers._unrefActive (DEP0127: runtime deprecation since v11.14.0
 
 ## Sources
 
-- [Node.js deprecations: DEP0127](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0127](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

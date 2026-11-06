@@ -39,7 +39,7 @@ Node.js deprecates fs.lchmod and fs.lchmodSync (DEP0035: documentation-only sinc
 
 ## Sources
 
-- [Node.js deprecations: DEP0035](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0035](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

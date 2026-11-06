@@ -40,7 +40,7 @@ The Go release policy supports a major release until two newer major releases ex
 
 ## Sources
 
-- [Go release history and support policy](https://go.dev/doc/devel/release)
+- [Go release history and support policy](https://go.dev/doc/devel/release) (accessed 2026-10-16)
 
 ## Migration
 

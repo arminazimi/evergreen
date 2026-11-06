@@ -40,8 +40,8 @@ These Debian releases no longer receive LTS security updates from the vendor.
 
 ## Sources
 
-- [Debian LTS](https://wiki.debian.org/LTS)
-- [Debian Releases](https://www.debian.org/releases/)
+- [Debian LTS](https://wiki.debian.org/LTS) (accessed 2026-10-26)
+- [Debian Releases](https://www.debian.org/releases/) (accessed 2026-10-26)
 
 ## Migration
 

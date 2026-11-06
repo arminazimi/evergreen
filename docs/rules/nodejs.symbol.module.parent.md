@@ -40,7 +40,7 @@ Node.js deprecates module.parent (DEP0144: documentation-only since v14.6.0).
 
 ## Sources
 
-- [Node.js deprecations: DEP0144](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0144](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

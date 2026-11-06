@@ -40,7 +40,7 @@ These MariaDB release lines no longer receive fixes from the vendor.
 
 ## Sources
 
-- [MariaDB release policy (vendor)](https://mariadb.org/about/#maintenance-policy)
+- [MariaDB release policy (vendor)](https://mariadb.org/about/#maintenance-policy) (accessed 2026-10-20)
 
 ## Migration
 

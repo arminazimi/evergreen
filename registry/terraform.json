@@ -19,15 +19,18 @@
       "sources": [
         {
           "title": "hashicorp/terraform release v1.17.0",
-          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.17.0"
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.17.0",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "hashicorp/terraform release v1.15.0",
-          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0"
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "HashiCorp Terraform support policy",
-          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -91,15 +94,18 @@
       "sources": [
         {
           "title": "endoflife.date: Terraform",
-          "url": "https://endoflife.date/terraform"
+          "url": "https://endoflife.date/terraform",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "hashicorp/terraform release v1.16.0",
-          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.16.0"
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.16.0",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "HashiCorp Terraform support policy",
-          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113",
+          "accessedAt": "2026-10-21"
         }
       ],
       "provenance": {
@@ -163,15 +169,18 @@
       "sources": [
         {
           "title": "endoflife.date: Terraform",
-          "url": "https://endoflife.date/terraform"
+          "url": "https://endoflife.date/terraform",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "hashicorp/terraform release v1.15.0",
-          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0"
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "HashiCorp Terraform support policy",
-          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113",
+          "accessedAt": "2026-10-21"
         }
       ],
       "provenance": {
@@ -235,15 +244,18 @@
       "sources": [
         {
           "title": "endoflife.date: Terraform",
-          "url": "https://endoflife.date/terraform"
+          "url": "https://endoflife.date/terraform",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "hashicorp/terraform release v1.14.0",
-          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.14.0"
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.14.0",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "HashiCorp Terraform support policy",
-          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113",
+          "accessedAt": "2026-10-21"
         }
       ],
       "provenance": {
@@ -307,15 +319,18 @@
       "sources": [
         {
           "title": "endoflife.date: Terraform",
-          "url": "https://endoflife.date/terraform"
+          "url": "https://endoflife.date/terraform",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "hashicorp/terraform release v1.13.0",
-          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.13.0"
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.13.0",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "HashiCorp Terraform support policy",
-          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113",
+          "accessedAt": "2026-10-21"
         }
       ],
       "provenance": {
@@ -379,15 +394,18 @@
       "sources": [
         {
           "title": "endoflife.date: Terraform",
-          "url": "https://endoflife.date/terraform"
+          "url": "https://endoflife.date/terraform",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "hashicorp/terraform release v1.12.0",
-          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.12.0"
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.12.0",
+          "accessedAt": "2026-10-21"
         },
         {
           "title": "HashiCorp Terraform support policy",
-          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113",
+          "accessedAt": "2026-10-21"
         }
       ],
       "provenance": {
@@ -451,7 +469,8 @@
       "sources": [
         {
           "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
-          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -519,7 +538,8 @@
       "sources": [
         {
           "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
-          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -587,7 +607,8 @@
       "sources": [
         {
           "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
-          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -654,7 +675,8 @@
       "sources": [
         {
           "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
-          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -722,11 +744,13 @@
       "sources": [
         {
           "title": "GKE versioning and support",
-          "url": "https://cloud.google.com/kubernetes-engine/versioning"
+          "url": "https://cloud.google.com/kubernetes-engine/versioning",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "GKE release schedule",
-          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule"
+          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -794,11 +818,13 @@
       "sources": [
         {
           "title": "GKE versioning and support",
-          "url": "https://cloud.google.com/kubernetes-engine/versioning"
+          "url": "https://cloud.google.com/kubernetes-engine/versioning",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "GKE release schedule",
-          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule"
+          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -866,11 +892,13 @@
       "sources": [
         {
           "title": "GKE versioning and support",
-          "url": "https://cloud.google.com/kubernetes-engine/versioning"
+          "url": "https://cloud.google.com/kubernetes-engine/versioning",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "GKE release schedule",
-          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule"
+          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -938,11 +966,13 @@
       "sources": [
         {
           "title": "GKE versioning and support",
-          "url": "https://cloud.google.com/kubernetes-engine/versioning"
+          "url": "https://cloud.google.com/kubernetes-engine/versioning",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "GKE release schedule",
-          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule"
+          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1009,11 +1039,13 @@
       "sources": [
         {
           "title": "GKE versioning and support",
-          "url": "https://cloud.google.com/kubernetes-engine/versioning"
+          "url": "https://cloud.google.com/kubernetes-engine/versioning",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "GKE release schedule",
-          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule"
+          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1081,7 +1113,8 @@
       "sources": [
         {
           "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
-          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1149,7 +1182,8 @@
       "sources": [
         {
           "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
-          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1217,7 +1251,8 @@
       "sources": [
         {
           "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
-          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1285,7 +1320,8 @@
       "sources": [
         {
           "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
-          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1353,7 +1389,8 @@
       "sources": [
         {
           "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
-          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1420,7 +1457,8 @@
       "sources": [
         {
           "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
-          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {

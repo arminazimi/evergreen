@@ -40,8 +40,8 @@ Packagist marks sensiolabs/security-checker as abandoned and no longer maintaine
 
 ## Sources
 
-- [sensiolabs/security-checker on Packagist](https://packagist.org/packages/sensiolabs/security-checker)
-- [sensiolabs/security-checker Composer metadata](https://repo.packagist.org/p2/sensiolabs/security-checker.json)
+- [sensiolabs/security-checker on Packagist](https://packagist.org/packages/sensiolabs/security-checker) (accessed 2026-10-20)
+- [sensiolabs/security-checker Composer metadata](https://repo.packagist.org/p2/sensiolabs/security-checker.json) (accessed 2026-10-20)
 
 ## Migration
 

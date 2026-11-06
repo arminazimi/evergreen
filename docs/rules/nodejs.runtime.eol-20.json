@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "Node.js Release Working Group schedule",
-      "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+      "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "Ruby maintenance branches",
-      "url": "https://www.ruby-lang.org/en/downloads/branches/"
+      "url": "https://www.ruby-lang.org/en/downloads/branches/",
+      "accessedAt": "2026-10-18"
     }
   ],
   "provenance": {

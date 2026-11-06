@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "MariaDB release policy (vendor)",
-      "url": "https://mariadb.org/about/#maintenance-policy"
+      "url": "https://mariadb.org/about/#maintenance-policy",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "What's New in Python 3.12",
-      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      "url": "https://docs.python.org/3/whatsnew/3.12.html",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "datetime documentation",
-      "url": "https://docs.python.org/3/library/datetime.html"
+      "url": "https://docs.python.org/3/library/datetime.html",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

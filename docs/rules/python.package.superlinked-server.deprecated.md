@@ -40,7 +40,7 @@ The maintainer identifies superlinked-server as a legacy package deprecated for 
 
 ## Sources
 
-- [superlinked-server deprecation notice](https://pypi.org/project/superlinked-server/)
+- [superlinked-server deprecation notice](https://pypi.org/project/superlinked-server/) (accessed 2026-10-16)
 
 ## Migration
 

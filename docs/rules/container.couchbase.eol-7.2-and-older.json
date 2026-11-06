@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Couchbase software lifecycle schedules",
-      "url": "https://www.couchbase.com/support-policy/EOL/"
+      "url": "https://www.couchbase.com/support-policy/EOL/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Couchbase enterprise software support policy",
-      "url": "https://www.couchbase.com/support-policy/enterprise-software/"
+      "url": "https://www.couchbase.com/support-policy/enterprise-software/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

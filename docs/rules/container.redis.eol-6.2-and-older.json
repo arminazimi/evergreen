@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "Redis release policy (vendor)",
-      "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+      "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

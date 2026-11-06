@@ -39,7 +39,7 @@ Node.js deprecates the fs.Stats constructor (DEP0180: documentation-only since v
 
 ## Sources
 
-- [Node.js deprecations: DEP0180](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0180](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

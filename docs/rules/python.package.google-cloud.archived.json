@@ -11,15 +11,18 @@
   "sources": [
     {
       "title": "google-cloud on PyPI",
-      "url": "https://pypi.org/project/google-cloud/"
+      "url": "https://pypi.org/project/google-cloud/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "google-cloud project status (PyPI Simple API)",
-      "url": "https://pypi.org/simple/google-cloud/"
+      "url": "https://pypi.org/simple/google-cloud/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Project status markers (PEP 792)",
-      "url": "https://packaging.python.org/specifications/project-status-markers/"
+      "url": "https://packaging.python.org/specifications/project-status-markers/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

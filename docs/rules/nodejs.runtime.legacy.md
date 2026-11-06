@@ -40,7 +40,7 @@ This Node.js release line is end-of-life and no longer receives security or bug 
 
 ## Sources
 
-- [Node.js end-of-life releases](https://nodejs.org/en/about/eol)
+- [Node.js end-of-life releases](https://nodejs.org/en/about/eol) (accessed 2026-10-16)
 
 ## Migration
 

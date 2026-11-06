@@ -40,8 +40,8 @@ npm marks @types/react-window as deprecated: "This is a stub types definition. r
 
 ## Sources
 
-- [@types/react-window on npm](https://www.npmjs.com/package/@types/react-window)
-- [@types/react-window version metadata](https://registry.npmjs.org/@types%2freact-window)
+- [@types/react-window on npm](https://www.npmjs.com/package/@types/react-window) (accessed 2026-10-19)
+- [@types/react-window version metadata](https://registry.npmjs.org/@types%2freact-window) (accessed 2026-10-19)
 
 ## Migration
 

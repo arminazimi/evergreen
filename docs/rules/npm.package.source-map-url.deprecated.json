@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "source-map-url maintainer deprecation notice",
-      "url": "https://github.com/lydell/source-map-url#deprecated"
+      "url": "https://github.com/lydell/source-map-url#deprecated",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "source-map-url registry metadata",
-      "url": "https://registry.npmjs.org/source-map-url/latest"
+      "url": "https://registry.npmjs.org/source-map-url/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

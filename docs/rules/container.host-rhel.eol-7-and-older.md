@@ -40,8 +40,8 @@ RHEL 7 reached the end of its maintenance support phase on 2024-06-30, and older
 
 ## Sources
 
-- [Red Hat Enterprise Linux 7 end of maintenance](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/rhel-7-end-of-maintenance)
-- [Red Hat product life cycles](https://access.redhat.com/product-life-cycles)
+- [Red Hat Enterprise Linux 7 end of maintenance](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/rhel-7-end-of-maintenance) (accessed 2026-10-30)
+- [Red Hat product life cycles](https://access.redhat.com/product-life-cycles) (accessed 2026-10-30)
 
 ## Migration
 

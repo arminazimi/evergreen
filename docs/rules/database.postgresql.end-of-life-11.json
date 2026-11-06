@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "PostgreSQL versioning policy",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "url": "https://www.postgresql.org/support/versioning/",
+      "accessedAt": "2026-10-22"
     },
     {
       "title": "endoflife.date: PostgreSQL",
-      "url": "https://endoflife.date/postgresql"
+      "url": "https://endoflife.date/postgresql",
+      "accessedAt": "2026-10-22"
     }
   ],
   "provenance": {

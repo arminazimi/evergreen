@@ -19,7 +19,8 @@
       "sources": [
         {
           "title": "Deno 2.0.0 Release",
-          "url": "https://github.com/denoland/deno/releases/tag/v2.0.0"
+          "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -61,7 +62,8 @@
       "sources": [
         {
           "title": "Deno 1.0.0 Release",
-          "url": "https://github.com/denoland/deno/releases/tag/v1.0.0"
+          "url": "https://github.com/denoland/deno/releases/tag/v1.0.0",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -103,7 +105,8 @@
       "sources": [
         {
           "title": "Bun 1.1.0 Release",
-          "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0"
+          "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -145,7 +148,8 @@
       "sources": [
         {
           "title": "Bun 1.0.0 Release",
-          "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0"
+          "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {

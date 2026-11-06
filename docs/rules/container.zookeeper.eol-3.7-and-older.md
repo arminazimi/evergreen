@@ -40,7 +40,7 @@ These Apache ZooKeeper release lines no longer receive fixes from the vendor.
 
 ## Sources
 
-- [Apache ZooKeeper release policy (vendor)](https://zookeeper.apache.org/releases/)
+- [Apache ZooKeeper release policy (vendor)](https://zookeeper.apache.org/releases/) (accessed 2026-10-20)
 
 ## Migration
 

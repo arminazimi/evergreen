@@ -40,7 +40,7 @@ Node.js deprecates repl.builtinModules (DEP0191: documentation-only since v24.0.
 
 ## Sources
 
-- [Node.js deprecations: DEP0191](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0191](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

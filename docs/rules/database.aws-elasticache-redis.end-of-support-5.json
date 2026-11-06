@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Engine versions and upgrading in ElastiCache",
-      "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html"
+      "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "ElastiCache Extended Support",
-      "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html"
+      "url": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Release calendars for Aurora PostgreSQL",
-      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html"
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraPostgreSQLReleaseNotes/aurorapostgresql-release-calendar.html",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "Using Amazon RDS Extended Support with Amazon Aurora",
-      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html"
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "node-pre-gyp package deprecation notice",
-      "url": "https://www.npmjs.com/package/node-pre-gyp"
+      "url": "https://www.npmjs.com/package/node-pre-gyp",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "node-pre-gyp version metadata",
-      "url": "https://registry.npmjs.org/node-pre-gyp"
+      "url": "https://registry.npmjs.org/node-pre-gyp",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

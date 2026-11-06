@@ -40,8 +40,8 @@ Hex marks every published fennec release as retired with reason renamed, and the
 
 ## Sources
 
-- [fennec on Hex](https://hex.pm/packages/fennec)
-- [mongooseice on Hex](https://hex.pm/packages/mongooseice)
+- [fennec on Hex](https://hex.pm/packages/fennec) (accessed 2026-10-26)
+- [mongooseice on Hex](https://hex.pm/packages/mongooseice) (accessed 2026-10-26)
 
 ## Migration
 

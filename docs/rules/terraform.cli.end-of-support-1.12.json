@@ -13,15 +13,18 @@
   "sources": [
     {
       "title": "endoflife.date: Terraform",
-      "url": "https://endoflife.date/terraform"
+      "url": "https://endoflife.date/terraform",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "hashicorp/terraform release v1.14.0",
-      "url": "https://github.com/hashicorp/terraform/releases/tag/v1.14.0"
+      "url": "https://github.com/hashicorp/terraform/releases/tag/v1.14.0",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "HashiCorp Terraform support policy",
-      "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+      "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

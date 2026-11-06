@@ -40,7 +40,7 @@ Node.js removed timers.active (DEP0126: runtime deprecation since v11.14.0, end-
 
 ## Sources
 
-- [Node.js deprecations: DEP0126](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0126](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

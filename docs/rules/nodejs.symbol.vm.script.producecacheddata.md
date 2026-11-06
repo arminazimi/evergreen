@@ -40,7 +40,7 @@ Node.js deprecates the produceCachedData option of vm.Script (DEP0110: documenta
 
 ## Sources
 
-- [Node.js deprecations: DEP0110](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0110](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

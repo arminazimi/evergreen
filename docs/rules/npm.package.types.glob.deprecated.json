@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/glob on npm",
-      "url": "https://www.npmjs.com/package/@types/glob"
+      "url": "https://www.npmjs.com/package/@types/glob",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/glob version metadata",
-      "url": "https://registry.npmjs.org/@types%2fglob"
+      "url": "https://registry.npmjs.org/@types%2fglob",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

@@ -40,8 +40,8 @@ npm recommends replacing lodash.isequal with node:util.isDeepStrictEqual.
 
 ## Sources
 
-- [lodash.isequal package deprecation notice](https://www.npmjs.com/package/lodash.isequal)
-- [lodash.isequal registry metadata](https://registry.npmjs.org/lodash.isequal/latest)
+- [lodash.isequal package deprecation notice](https://www.npmjs.com/package/lodash.isequal) (accessed 2026-10-16)
+- [lodash.isequal registry metadata](https://registry.npmjs.org/lodash.isequal/latest) (accessed 2026-10-16)
 
 ## Migration
 

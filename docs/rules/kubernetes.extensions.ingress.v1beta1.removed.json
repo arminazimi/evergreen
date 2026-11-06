@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Kubernetes Deprecated API Migration Guide",
-      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
-      "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+      "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

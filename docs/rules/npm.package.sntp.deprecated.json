@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "sntp package deprecation notice",
-      "url": "https://www.npmjs.com/package/sntp"
+      "url": "https://www.npmjs.com/package/sntp",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "sntp registry metadata",
-      "url": "https://registry.npmjs.org/sntp/latest"
+      "url": "https://registry.npmjs.org/sntp/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

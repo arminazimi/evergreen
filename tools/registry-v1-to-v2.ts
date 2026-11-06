@@ -75,6 +75,16 @@ function isRecord(value: unknown): value is UnknownRecord {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+/** A rule as v1 knew it: the source retrieval date v2 adds is evidence, not a change detectors can see. */
+function asV1View(rule: RegistryV2Rule): unknown {
+  return {
+    ...legacyRule(rule),
+    sources: rule.sources.map((source) =>
+      Object.fromEntries(Object.entries(source).filter(([key]) => key !== "accessedAt")),
+    ),
+  };
+}
+
 function fail(rule: UnknownRecord, message: string): never {
   throw new Error(`Rule "${String(rule.id)}": ${message}`);
 }
@@ -159,7 +169,8 @@ export function convertRegistryV1(value: unknown, options: ConvertOptions): Regi
       severity: raw.severity,
     };
     for (const key of ["replacement", "deadline"]) if (raw[key] !== undefined) rule[key] = raw[key];
-    rule.sources = raw.sources;
+    const sources: unknown[] = Array.isArray(raw.sources) ? raw.sources : [];
+    rule.sources = sources.map((source) => (isRecord(source) ? { ...source, accessedAt: options.observedAt } : source));
     rule.provenance = { observedAt: options.observedAt, reviewedAt: options.reviewedAt, reviewer: options.reviewer };
     for (const key of ["migration", "usage"]) if (raw[key] !== undefined) rule[key] = raw[key];
     if (Object.keys(hints).length > 0) rule[`x-${String(raw.ecosystem)}`] = hints;
@@ -175,7 +186,7 @@ export function convertRegistryV1(value: unknown, options: ConvertOptions): Regi
 
   // The migration must not change what detectors see.
   registry.rules.forEach((rule, index) => {
-    if (!isDeepStrictEqual(legacyRule(rule), sourceRules[index])) {
+    if (!isDeepStrictEqual(asV1View(rule), sourceRules[index])) {
       throw new Error(`Rule "${rule.id}" does not read back as its v1 form; refusing to convert.`);
     }
   });

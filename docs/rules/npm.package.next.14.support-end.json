@@ -13,15 +13,18 @@
   "sources": [
     {
       "title": "Next.js support policy",
-      "url": "https://nextjs.org/support-policy"
+      "url": "https://nextjs.org/support-policy",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Next.js upgrade guide: version 15",
-      "url": "https://nextjs.org/docs/app/guides/upgrading/version-15"
+      "url": "https://nextjs.org/docs/app/guides/upgrading/version-15",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Next.js upgrade guide: version 16",
-      "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+      "url": "https://nextjs.org/docs/app/guides/upgrading/version-16",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

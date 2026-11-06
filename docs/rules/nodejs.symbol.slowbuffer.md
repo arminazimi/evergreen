@@ -40,7 +40,7 @@ Node.js removed SlowBuffer (DEP0030: documentation-only since v6.0.0, runtime de
 
 ## Sources
 
-- [Node.js deprecations: DEP0030](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0030](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

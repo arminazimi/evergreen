@@ -7,6 +7,7 @@ import type { RegistryV2 } from "../../src/registry.js";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { FIRST_DRAFTED_MAJOR, NODEJS_SCHEDULE_URL, nodejsScheduleImporter } from "../../tools/importers/nodejs.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
+import { withoutAccessDates } from "./evidence.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
 const recording = resolve("tests/importers/recordings/nodejs-schedule.json");
@@ -43,7 +44,7 @@ test("drafts one end-of-life rule per release line whose end date has passed, fr
   assert.equal(eol20.title, "Node.js 20 is end-of-life");
   assert.equal(eol20.replacement, "Node.js 22 LTS or later");
   assert.deepEqual(eol20["x-nodejs"], { major: 20 });
-  assert.deepEqual(eol20.sources, [
+  assert.deepEqual(withoutAccessDates(eol20.sources), [
     {
       title: "Node.js Release Working Group schedule",
       url: "https://github.com/nodejs/Release/blob/main/schedule.json",

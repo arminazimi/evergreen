@@ -40,7 +40,7 @@ The POM of org.slf4j:slf4j-log4j12 2.1.0-alpha1 declares a relocation to org.slf
 
 ## Sources
 
-- [org.slf4j:slf4j-log4j12 2.1.0-alpha1 POM on Maven Central](https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom)
+- [org.slf4j:slf4j-log4j12 2.1.0-alpha1 POM on Maven Central](https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom) (accessed 2026-10-17)
 
 ## Migration
 

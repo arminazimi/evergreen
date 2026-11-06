@@ -40,8 +40,8 @@ The latest github.com/streadway/amqp module declares: "Consider using the github
 
 ## Sources
 
-- [github.com/streadway/amqp v1.1.0 go.mod](https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod)
-- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation)
+- [github.com/streadway/amqp v1.1.0 go.mod](https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod) (accessed 2026-10-20)
+- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation) (accessed 2026-10-20)
 
 ## Migration
 

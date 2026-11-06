@@ -40,8 +40,8 @@ Python 3.13 removed the uu module (PEP 594), so importing it raises ModuleNotFou
 
 ## Sources
 
-- [PEP 594 — Removing dead batteries from the standard library](https://peps.python.org/pep-0594/)
-- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html)
+- [PEP 594 — Removing dead batteries from the standard library](https://peps.python.org/pep-0594/) (accessed 2026-10-30)
+- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) (accessed 2026-10-30)
 
 ## Migration
 

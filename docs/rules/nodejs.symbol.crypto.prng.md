@@ -40,7 +40,7 @@ Node.js deprecates crypto.prng, crypto.pseudoRandomBytes and crypto.rng (DEP0115
 
 ## Sources
 
-- [Node.js deprecations: DEP0115](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0115](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

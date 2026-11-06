@@ -40,7 +40,7 @@ Alpine Linux 3.20, the newest release this range covers, stopped receiving secur
 
 ## Sources
 
-- [Alpine Linux releases](https://alpinelinux.org/releases/)
+- [Alpine Linux releases](https://alpinelinux.org/releases/) (accessed 2026-10-30)
 
 ## Migration
 

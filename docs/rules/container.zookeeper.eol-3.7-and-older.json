@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "Apache ZooKeeper release policy (vendor)",
-      "url": "https://zookeeper.apache.org/releases/"
+      "url": "https://zookeeper.apache.org/releases/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

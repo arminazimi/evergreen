@@ -40,7 +40,7 @@ Python 3.11 deprecates locale.getdefaultlocale(), to be removed in Python 3.15.
 
 ## Sources
 
-- [What's New in Python 3.11](https://docs.python.org/3/whatsnew/3.11.html)
+- [What's New in Python 3.11](https://docs.python.org/3/whatsnew/3.11.html) (accessed 2026-10-21)
 
 ## Migration
 

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@humanwhocodes/config-array package deprecation notice",
-      "url": "https://www.npmjs.com/package/@humanwhocodes/config-array"
+      "url": "https://www.npmjs.com/package/@humanwhocodes/config-array",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "@humanwhocodes/config-array registry metadata",
-      "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest"
+      "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

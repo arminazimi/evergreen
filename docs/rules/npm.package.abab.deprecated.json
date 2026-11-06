@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "abab package deprecation notice",
-      "url": "https://www.npmjs.com/package/abab"
+      "url": "https://www.npmjs.com/package/abab",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "abab registry metadata",
-      "url": "https://registry.npmjs.org/abab/latest"
+      "url": "https://registry.npmjs.org/abab/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

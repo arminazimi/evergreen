@@ -40,7 +40,7 @@ The sklearn maintainers state that the PyPI package is deprecated and that sciki
 
 ## Sources
 
-- [sklearn deprecation notice](https://pypi.org/project/sklearn/)
+- [sklearn deprecation notice](https://pypi.org/project/sklearn/) (accessed 2026-10-16)
 
 ## Migration
 

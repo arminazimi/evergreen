@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "figgy-pudding package deprecation notice",
-      "url": "https://www.npmjs.com/package/figgy-pudding"
+      "url": "https://www.npmjs.com/package/figgy-pudding",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "figgy-pudding registry metadata",
-      "url": "https://registry.npmjs.org/figgy-pudding/latest"
+      "url": "https://registry.npmjs.org/figgy-pudding/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

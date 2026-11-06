@@ -40,8 +40,8 @@ npm marks i18next-parser as deprecated: "Project is deprecated, use i18next-cli 
 
 ## Sources
 
-- [i18next-parser on npm](https://www.npmjs.com/package/i18next-parser)
-- [i18next-parser registry metadata](https://registry.npmjs.org/i18next-parser/latest)
+- [i18next-parser on npm](https://www.npmjs.com/package/i18next-parser) (accessed 2026-10-19)
+- [i18next-parser registry metadata](https://registry.npmjs.org/i18next-parser/latest) (accessed 2026-10-19)
 
 ## Migration
 

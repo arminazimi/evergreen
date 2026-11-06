@@ -40,9 +40,9 @@ CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmak
 
 ## Sources
 
-- [CMake 3.31 release notes (compatibility older than 3.10 deprecated)](https://cmake.org/cmake/help/latest/release/3.31.html)
-- [cmake_minimum_required (Changed in 3.31)](https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html)
-- [CMake 3.31.0 GitHub release](https://github.com/Kitware/CMake/releases/tag/v3.31.0)
+- [CMake 3.31 release notes (compatibility older than 3.10 deprecated)](https://cmake.org/cmake/help/latest/release/3.31.html) (accessed 2026-10-19)
+- [cmake_minimum_required (Changed in 3.31)](https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html) (accessed 2026-10-19)
+- [CMake 3.31.0 GitHub release](https://github.com/Kitware/CMake/releases/tag/v3.31.0) (accessed 2026-10-19)
 
 ## Migration
 

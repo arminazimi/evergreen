@@ -40,7 +40,7 @@ Node.js deprecates util.toUSVString (DEP0175: documentation-only since v20.8.0).
 
 ## Sources
 
-- [Node.js deprecations: DEP0175](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0175](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

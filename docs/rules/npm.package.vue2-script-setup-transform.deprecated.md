@@ -40,8 +40,8 @@ npm marks vue2-script-setup-transform as deprecated: "renamed to `unplugin-vue2-
 
 ## Sources
 
-- [vue2-script-setup-transform on npm](https://www.npmjs.com/package/vue2-script-setup-transform)
-- [vue2-script-setup-transform registry metadata](https://registry.npmjs.org/vue2-script-setup-transform/latest)
+- [vue2-script-setup-transform on npm](https://www.npmjs.com/package/vue2-script-setup-transform) (accessed 2026-10-19)
+- [vue2-script-setup-transform registry metadata](https://registry.npmjs.org/vue2-script-setup-transform/latest) (accessed 2026-10-19)
 
 ## Migration
 

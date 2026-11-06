@@ -39,8 +39,8 @@ The Protractor maintainers deprecated the package and announced end-of-life for 
 
 ## Sources
 
-- [protractor package deprecation notice](https://www.npmjs.com/package/protractor)
-- [protractor registry metadata](https://registry.npmjs.org/protractor/latest)
+- [protractor package deprecation notice](https://www.npmjs.com/package/protractor) (accessed 2026-10-16)
+- [protractor registry metadata](https://registry.npmjs.org/protractor/latest) (accessed 2026-10-16)
 
 ## Migration
 

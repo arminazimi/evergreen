@@ -40,8 +40,8 @@ NuGet marks all 36 listed versions of Microsoft.Azure.DocumentDB as deprecated (
 
 ## Sources
 
-- [Microsoft.Azure.DocumentDB on NuGet (deprecation metadata)](https://www.nuget.org/packages/Microsoft.Azure.DocumentDB)
-- [NuGet package deprecation](https://learn.microsoft.com/nuget/nuget-org/deprecate-packages)
+- [Microsoft.Azure.DocumentDB on NuGet (deprecation metadata)](https://www.nuget.org/packages/Microsoft.Azure.DocumentDB) (accessed 2026-10-19)
+- [NuGet package deprecation](https://learn.microsoft.com/nuget/nuget-org/deprecate-packages) (accessed 2026-10-19)
 
 ## Migration
 

@@ -40,7 +40,7 @@ Node.js deprecates repl._builtinLibs (DEP0142: documentation-only since v14.3.0)
 
 ## Sources
 
-- [Node.js deprecations: DEP0142](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0142](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

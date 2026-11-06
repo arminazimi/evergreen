@@ -11,7 +11,8 @@
   "sources": [
     {
       "title": "GHSA-p8p7-x288-28g6",
-      "url": "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6"
+      "url": "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6",
+      "accessedAt": "2026-10-27"
     }
   ],
   "provenance": {

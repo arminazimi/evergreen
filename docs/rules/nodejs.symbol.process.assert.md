@@ -40,7 +40,7 @@ Node.js removed process.assert (DEP0100: documentation-only since v0.3.7, runtim
 
 ## Sources
 
-- [Node.js deprecations: DEP0100](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0100](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

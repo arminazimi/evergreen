@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "What's New in Python 3.11",
-      "url": "https://docs.python.org/3/whatsnew/3.11.html"
+      "url": "https://docs.python.org/3/whatsnew/3.11.html",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

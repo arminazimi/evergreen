@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/sanitize-filename on npm",
-      "url": "https://www.npmjs.com/package/@types/sanitize-filename"
+      "url": "https://www.npmjs.com/package/@types/sanitize-filename",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/sanitize-filename version metadata",
-      "url": "https://registry.npmjs.org/@types%2fsanitize-filename"
+      "url": "https://registry.npmjs.org/@types%2fsanitize-filename",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

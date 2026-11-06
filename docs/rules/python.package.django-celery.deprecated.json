@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "django-celery retirement notice",
-      "url": "https://pypi.org/project/django-celery/"
+      "url": "https://pypi.org/project/django-celery/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

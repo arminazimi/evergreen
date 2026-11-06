@@ -39,8 +39,8 @@ Packagist marks doctrine/cache as abandoned and no longer maintained.
 
 ## Sources
 
-- [doctrine/cache on Packagist](https://packagist.org/packages/doctrine/cache)
-- [doctrine/cache Composer metadata](https://repo.packagist.org/p2/doctrine/cache.json)
+- [doctrine/cache on Packagist](https://packagist.org/packages/doctrine/cache) (accessed 2026-10-20)
+- [doctrine/cache Composer metadata](https://repo.packagist.org/p2/doctrine/cache.json) (accessed 2026-10-20)
 
 ## Migration
 

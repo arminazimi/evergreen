@@ -40,8 +40,8 @@ The Kubernetes Deprecated API Migration Guide states that the node.k8s.io/v1beta
 
 ## Sources
 
-- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/)
-- [Kubernetes v1.25: Combiner (release announcement, 2022-08-23)](https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/)
+- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/) (accessed 2026-10-17)
+- [Kubernetes v1.25: Combiner (release announcement, 2022-08-23)](https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/) (accessed 2026-10-17)
 
 ## Migration
 

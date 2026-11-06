@@ -40,8 +40,8 @@ These Couchbase Server release lines are past their end-of-life date in the vend
 
 ## Sources
 
-- [Couchbase software lifecycle schedules](https://www.couchbase.com/support-policy/EOL/)
-- [Couchbase enterprise software support policy](https://www.couchbase.com/support-policy/enterprise-software/)
+- [Couchbase software lifecycle schedules](https://www.couchbase.com/support-policy/EOL/) (accessed 2026-10-20)
+- [Couchbase enterprise software support policy](https://www.couchbase.com/support-policy/enterprise-software/) (accessed 2026-10-20)
 
 ## Migration
 

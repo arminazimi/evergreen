@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { validateRegistryV2 } from "../../src/registry.js";
+import { withoutAccessDates } from "./evidence.js";
 import { DOTNET_RELEASES_INDEX_URL, dotnetReleasesImporter } from "../../tools/importers/dotnet-1.js";
 import { execute } from "../../tools/importers/run.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
@@ -66,19 +67,10 @@ test("the committed runtime rules match what the importer drafts from the record
   for (const rule of committed) {
     const draft = drafts.find((candidate) => candidate.id === rule.id);
     assert.ok(draft, `${rule.id} is drafted by the importer`);
-    for (const field of [
-      "purl",
-      "vers",
-      "event",
-      "title",
-      "summary",
-      "severity",
-      "replacement",
-      "deadline",
-      "sources",
-    ] as const) {
+    for (const field of ["purl", "vers", "event", "title", "summary", "severity", "replacement", "deadline"] as const) {
       assert.deepEqual(rule[field], draft[field], `${rule.id} ${field}`);
     }
+    assert.deepEqual(withoutAccessDates(rule.sources), withoutAccessDates(draft.sources), `${rule.id} sources`);
   }
 });
 

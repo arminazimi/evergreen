@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Red Hat Enterprise Linux 7 end of maintenance",
-      "url": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/rhel-7-end-of-maintenance"
+      "url": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/rhel-7-end-of-maintenance",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "Red Hat product life cycles",
-      "url": "https://access.redhat.com/product-life-cycles"
+      "url": "https://access.redhat.com/product-life-cycles",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

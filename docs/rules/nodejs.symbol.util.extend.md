@@ -40,7 +40,7 @@ Node.js deprecates util._extend() (DEP0060): documentation-only since v6.0.0, ru
 
 ## Sources
 
-- [Node.js deprecations: DEP0060 util._extend](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0060 util._extend](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

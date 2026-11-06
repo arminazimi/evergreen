@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "w3c-hr-time package deprecation notice",
-      "url": "https://www.npmjs.com/package/w3c-hr-time"
+      "url": "https://www.npmjs.com/package/w3c-hr-time",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "w3c-hr-time registry metadata",
-      "url": "https://registry.npmjs.org/w3c-hr-time/latest"
+      "url": "https://registry.npmjs.org/w3c-hr-time/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

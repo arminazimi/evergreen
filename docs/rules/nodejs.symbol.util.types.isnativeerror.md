@@ -40,7 +40,7 @@ Node.js deprecates util.types.isNativeError (DEP0197: documentation-only since v
 
 ## Sources
 
-- [Node.js deprecations: DEP0197](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0197](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

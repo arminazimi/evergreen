@@ -40,7 +40,7 @@ Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, 
 
 ## Sources
 
-- [Node.js Release Working Group schedule](https://github.com/nodejs/Release/blob/main/schedule.json)
+- [Node.js Release Working Group schedule](https://github.com/nodejs/Release/blob/main/schedule.json) (accessed 2026-10-24)
 
 ## Migration
 

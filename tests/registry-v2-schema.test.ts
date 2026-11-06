@@ -76,6 +76,12 @@ test("the registry v2 schema rejects incomplete or ambiguous rules", async (t) =
       },
     ],
     [
+      "source without an access date",
+      (value: Example) => {
+        delete value.rules[0].sources[0].accessedAt;
+      },
+    ],
+    [
       "missing provenance",
       (value: Example) => {
         delete value.rules[0].provenance;

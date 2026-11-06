@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "PostgreSQL versioning policy",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "url": "https://www.postgresql.org/support/versioning/",
+      "accessedAt": "2026-10-24"
     }
   ],
   "provenance": {

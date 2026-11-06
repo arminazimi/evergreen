@@ -40,8 +40,8 @@ evergreen check pkg:generic/dotnet
 
 ## Sources
 
-- [.NET and .NET Core official support policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core)
-- [.NET releases index (channel, support phase, end-of-life date)](https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json)
+- [.NET and .NET Core official support policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core) (accessed 2026-10-18)
+- [.NET releases index (channel, support phase, end-of-life date)](https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json) (accessed 2026-10-18)
 
 ## Migration
 

@@ -40,7 +40,7 @@ Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcod
 
 ## Sources
 
-- [SDK minimum requirements — App Store upcoming requirements (Xcode 26)](https://developer.apple.com/news/upcoming-requirements/?id=04282026a)
+- [SDK minimum requirements — App Store upcoming requirements (Xcode 26)](https://developer.apple.com/news/upcoming-requirements/?id=04282026a) (accessed 2026-10-19)
 
 ## Migration
 

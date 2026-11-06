@@ -40,7 +40,7 @@ Microsoft's PowerShell support lifecycle lists 7.0 LTS (built on .NET Core 3.1) 
 
 ## Sources
 
-- [PowerShell support lifecycle](https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)
+- [PowerShell support lifecycle](https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle) (accessed 2026-10-22)
 
 ## Migration
 

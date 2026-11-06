@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "fstream package deprecation notice",
-      "url": "https://www.npmjs.com/package/fstream"
+      "url": "https://www.npmjs.com/package/fstream",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "fstream registry metadata",
-      "url": "https://registry.npmjs.org/fstream/latest"
+      "url": "https://registry.npmjs.org/fstream/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

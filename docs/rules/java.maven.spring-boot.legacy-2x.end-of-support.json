@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Spring Boot support policy",
-      "url": "https://spring.io/projects/spring-boot#support"
+      "url": "https://spring.io/projects/spring-boot#support",
+      "accessedAt": "2026-10-25"
     }
   ],
   "provenance": {

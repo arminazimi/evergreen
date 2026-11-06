@@ -40,7 +40,7 @@ The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:
 
 ## Sources
 
-- [mysql:mysql-connector-java 8.0.33 POM on Maven Central](https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom)
+- [mysql:mysql-connector-java 8.0.33 POM on Maven Central](https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom) (accessed 2026-10-17)
 
 ## Migration
 

@@ -40,8 +40,8 @@ Python 3.12 removed the imp module, so importing it raises ModuleNotFoundError; 
 
 ## Sources
 
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
-- [Python 3.11 documentation: imp — Access the import internals](https://docs.python.org/3.11/library/imp.html)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-10-30)
+- [Python 3.11 documentation: imp — Access the import internals](https://docs.python.org/3.11/library/imp.html) (accessed 2026-10-30)
 
 ## Migration
 

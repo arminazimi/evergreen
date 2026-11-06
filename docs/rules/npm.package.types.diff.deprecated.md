@@ -40,8 +40,8 @@ npm marks @types/diff as deprecated: "This is a stub types definition. diff prov
 
 ## Sources
 
-- [@types/diff on npm](https://www.npmjs.com/package/@types/diff)
-- [@types/diff version metadata](https://registry.npmjs.org/@types%2fdiff)
+- [@types/diff on npm](https://www.npmjs.com/package/@types/diff) (accessed 2026-10-19)
+- [@types/diff version metadata](https://registry.npmjs.org/@types%2fdiff) (accessed 2026-10-19)
 
 ## Migration
 

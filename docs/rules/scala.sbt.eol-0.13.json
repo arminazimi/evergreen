@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "sbt download — release timeline",
-      "url": "https://www.scala-sbt.org/download/"
+      "url": "https://www.scala-sbt.org/download/",
+      "accessedAt": "2026-10-27"
     },
     {
       "title": "Migrating from sbt 0.13.x",
-      "url": "https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html"
+      "url": "https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html",
+      "accessedAt": "2026-10-27"
     }
   ],
   "provenance": {

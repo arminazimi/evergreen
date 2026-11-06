@@ -40,8 +40,8 @@ The latest cloud.google.com/go/pubsub module declares: "use cloud.google.com/go/
 
 ## Sources
 
-- [cloud.google.com/go/pubsub v1.51.1 go.mod](https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod)
-- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation)
+- [cloud.google.com/go/pubsub v1.51.1 go.mod](https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod) (accessed 2026-10-20)
+- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation) (accessed 2026-10-20)
 
 ## Migration
 

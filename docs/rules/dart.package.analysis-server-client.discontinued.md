@@ -39,9 +39,9 @@ pub.dev marks analysis_server_client as discontinued.
 
 ## Sources
 
-- [analysis_server_client on pub.dev](https://pub.dev/packages/analysis_server_client)
-- [analysis_server_client package metadata](https://pub.dev/api/packages/analysis_server_client)
-- [Hosted Pub Repository Specification Version 2](https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md)
+- [analysis_server_client on pub.dev](https://pub.dev/packages/analysis_server_client) (accessed 2026-10-21)
+- [analysis_server_client package metadata](https://pub.dev/api/packages/analysis_server_client) (accessed 2026-10-21)
+- [Hosted Pub Repository Specification Version 2](https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md) (accessed 2026-10-21)
 
 ## Migration
 

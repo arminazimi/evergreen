@@ -40,7 +40,7 @@ The maintainer says not to use BatchNotebook, marks it deprecated, and recommend
 
 ## Sources
 
-- [BatchNotebook deprecation notice](https://pypi.org/project/BatchNotebook/)
+- [BatchNotebook deprecation notice](https://pypi.org/project/BatchNotebook/) (accessed 2026-10-16)
 
 ## Migration
 

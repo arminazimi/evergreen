@@ -39,8 +39,8 @@ npm states that the are-we-there-yet package is no longer supported.
 
 ## Sources
 
-- [are-we-there-yet package deprecation notice](https://www.npmjs.com/package/are-we-there-yet)
-- [are-we-there-yet registry metadata](https://registry.npmjs.org/are-we-there-yet/latest)
+- [are-we-there-yet package deprecation notice](https://www.npmjs.com/package/are-we-there-yet) (accessed 2026-10-16)
+- [are-we-there-yet registry metadata](https://registry.npmjs.org/are-we-there-yet/latest) (accessed 2026-10-16)
 
 ## Migration
 

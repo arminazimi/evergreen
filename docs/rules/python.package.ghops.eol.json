@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "ghops deprecation notice",
-      "url": "https://pypi.org/project/ghops/"
+      "url": "https://pypi.org/project/ghops/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

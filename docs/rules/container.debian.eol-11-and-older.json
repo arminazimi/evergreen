@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Debian LTS",
-      "url": "https://wiki.debian.org/LTS"
+      "url": "https://wiki.debian.org/LTS",
+      "accessedAt": "2026-10-26"
     },
     {
       "title": "Debian Releases",
-      "url": "https://www.debian.org/releases/"
+      "url": "https://www.debian.org/releases/",
+      "accessedAt": "2026-10-26"
     }
   ],
   "provenance": {

@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "sklearn deprecation notice",
-      "url": "https://pypi.org/project/sklearn/"
+      "url": "https://pypi.org/project/sklearn/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "eslint-plugin-nuxt on npm",
-      "url": "https://www.npmjs.com/package/eslint-plugin-nuxt"
+      "url": "https://www.npmjs.com/package/eslint-plugin-nuxt",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "eslint-plugin-nuxt registry metadata",
-      "url": "https://registry.npmjs.org/eslint-plugin-nuxt/latest"
+      "url": "https://registry.npmjs.org/eslint-plugin-nuxt/latest",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

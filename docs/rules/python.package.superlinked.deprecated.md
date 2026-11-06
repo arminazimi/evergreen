@@ -40,7 +40,7 @@ Superlinked marks its legacy Python framework deprecated for new projects and di
 
 ## Sources
 
-- [superlinked legacy framework notice](https://pypi.org/project/superlinked/)
+- [superlinked legacy framework notice](https://pypi.org/project/superlinked/) (accessed 2026-10-16)
 
 ## Migration
 

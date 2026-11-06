@@ -40,7 +40,7 @@ Deno 1.x was superseded by Deno 2.0 (released October 2024). Deno 1.x is end-of-
 
 ## Sources
 
-- [Deno 2.0.0 Release](https://github.com/denoland/deno/releases/tag/v2.0.0)
+- [Deno 2.0.0 Release](https://github.com/denoland/deno/releases/tag/v2.0.0) (accessed 2026-10-26)
 
 ## Migration
 

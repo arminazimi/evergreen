@@ -40,8 +40,8 @@ npm directs users of domexception to the platform-native DOMException implementa
 
 ## Sources
 
-- [domexception package deprecation notice](https://www.npmjs.com/package/domexception)
-- [domexception registry metadata](https://registry.npmjs.org/domexception/latest)
+- [domexception package deprecation notice](https://www.npmjs.com/package/domexception) (accessed 2026-10-16)
+- [domexception registry metadata](https://registry.npmjs.org/domexception/latest) (accessed 2026-10-16)
 
 ## Migration
 

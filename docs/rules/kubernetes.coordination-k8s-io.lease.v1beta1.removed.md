@@ -40,8 +40,8 @@ The Kubernetes Deprecated API Migration Guide states that the coordination.k8s.i
 
 ## Sources
 
-- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/)
-- [Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)](https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/)
+- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/) (accessed 2026-10-17)
+- [Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)](https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/) (accessed 2026-10-17)
 
 ## Migration
 

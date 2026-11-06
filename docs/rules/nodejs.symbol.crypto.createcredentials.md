@@ -40,7 +40,7 @@ Node.js removed crypto.createCredentials (DEP0010: runtime deprecation since v0.
 
 ## Sources
 
-- [Node.js deprecations: DEP0010](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0010](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

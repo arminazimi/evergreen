@@ -40,7 +40,7 @@ Python 3.13 deprecates glob.glob0 and glob.glob1.
 
 ## Sources
 
-- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html)
+- [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html) (accessed 2026-10-21)
 
 ## Migration
 

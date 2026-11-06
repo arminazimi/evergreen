@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "rollup-plugin-terser on npm",
-      "url": "https://www.npmjs.com/package/rollup-plugin-terser"
+      "url": "https://www.npmjs.com/package/rollup-plugin-terser",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "rollup-plugin-terser registry metadata",
-      "url": "https://registry.npmjs.org/rollup-plugin-terser/latest"
+      "url": "https://registry.npmjs.org/rollup-plugin-terser/latest",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

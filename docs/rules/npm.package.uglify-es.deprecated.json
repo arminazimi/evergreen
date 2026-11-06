@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "uglify-es on npm",
-      "url": "https://www.npmjs.com/package/uglify-es"
+      "url": "https://www.npmjs.com/package/uglify-es",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "uglify-es registry metadata",
-      "url": "https://registry.npmjs.org/uglify-es/latest"
+      "url": "https://registry.npmjs.org/uglify-es/latest",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

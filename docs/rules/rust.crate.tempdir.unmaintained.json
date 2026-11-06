@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "RustSec advisory RUSTSEC-2018-0017",
-      "url": "https://rustsec.org/advisories/RUSTSEC-2018-0017.html"
+      "url": "https://rustsec.org/advisories/RUSTSEC-2018-0017.html",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

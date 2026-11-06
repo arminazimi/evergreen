@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "karma-phantomjs-launcher package deprecation notice",
-      "url": "https://www.npmjs.com/package/karma-phantomjs-launcher"
+      "url": "https://www.npmjs.com/package/karma-phantomjs-launcher",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "karma-phantomjs-launcher registry metadata",
-      "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest"
+      "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

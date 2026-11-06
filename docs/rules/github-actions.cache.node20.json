@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Node 20 is no longer available in GitHub Actions",
-      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "actions/cache runtime and service guidance",
-      "url": "https://github.com/actions/cache#whats-new"
+      "url": "https://github.com/actions/cache#whats-new",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

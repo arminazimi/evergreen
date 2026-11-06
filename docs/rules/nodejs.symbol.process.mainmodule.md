@@ -40,7 +40,7 @@ Node.js deprecates process.mainModule (DEP0138: documentation-only since v14.0.0
 
 ## Sources
 
-- [Node.js deprecations: DEP0138](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0138](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

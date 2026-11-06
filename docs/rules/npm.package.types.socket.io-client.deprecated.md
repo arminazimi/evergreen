@@ -40,8 +40,8 @@ npm marks @types/socket.io-client as deprecated: "This is a stub types definitio
 
 ## Sources
 
-- [@types/socket.io-client on npm](https://www.npmjs.com/package/@types/socket.io-client)
-- [@types/socket.io-client version metadata](https://registry.npmjs.org/@types%2fsocket.io-client)
+- [@types/socket.io-client on npm](https://www.npmjs.com/package/@types/socket.io-client) (accessed 2026-10-19)
+- [@types/socket.io-client version metadata](https://registry.npmjs.org/@types%2fsocket.io-client) (accessed 2026-10-19)
 
 ## Migration
 

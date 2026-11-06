@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Node.js deprecations: DEP0100",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "url": "https://nodejs.org/api/deprecations.html",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

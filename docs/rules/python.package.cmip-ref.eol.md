@@ -40,7 +40,7 @@ The maintainers state that cmip_ref is deprecated, no longer maintained, and ren
 
 ## Sources
 
-- [cmip_ref rename and maintenance notice](https://pypi.org/project/cmip-ref/)
+- [cmip_ref rename and maintenance notice](https://pypi.org/project/cmip-ref/) (accessed 2026-10-16)
 
 ## Migration
 

@@ -40,7 +40,7 @@ The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and cont
 
 ## Sources
 
-- [Archived PyCrypto repository warning](https://github.com/pycrypto/pycrypto)
+- [Archived PyCrypto repository warning](https://github.com/pycrypto/pycrypto) (accessed 2026-10-16)
 
 ## Migration
 

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "domexception package deprecation notice",
-      "url": "https://www.npmjs.com/package/domexception"
+      "url": "https://www.npmjs.com/package/domexception",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "domexception registry metadata",
-      "url": "https://registry.npmjs.org/domexception/latest"
+      "url": "https://registry.npmjs.org/domexception/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

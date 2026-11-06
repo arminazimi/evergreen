@@ -40,8 +40,8 @@ AWS ends standard support for ElastiCache for Redis OSS 6 on 2027-01-31. RDS Ext
 
 ## Sources
 
-- [Engine versions and upgrading in ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html)
-- [ElastiCache Extended Support](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html)
+- [Engine versions and upgrading in ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/engine-versions.html) (accessed 2026-10-30)
+- [ElastiCache Extended Support](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/extended-support.html) (accessed 2026-10-30)
 
 ## Migration
 

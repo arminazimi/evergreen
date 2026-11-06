@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "fennec on Hex",
-      "url": "https://hex.pm/packages/fennec"
+      "url": "https://hex.pm/packages/fennec",
+      "accessedAt": "2026-10-26"
     },
     {
       "title": "mongooseice on Hex",
-      "url": "https://hex.pm/packages/mongooseice"
+      "url": "https://hex.pm/packages/mongooseice",
+      "accessedAt": "2026-10-26"
     }
   ],
   "provenance": {

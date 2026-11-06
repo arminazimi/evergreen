@@ -40,8 +40,8 @@ npm marks @types/refractor as deprecated: "This is a stub types definition. refr
 
 ## Sources
 
-- [@types/refractor on npm](https://www.npmjs.com/package/@types/refractor)
-- [@types/refractor version metadata](https://registry.npmjs.org/@types%2frefractor)
+- [@types/refractor on npm](https://www.npmjs.com/package/@types/refractor) (accessed 2026-10-19)
+- [@types/refractor version metadata](https://registry.npmjs.org/@types%2frefractor) (accessed 2026-10-19)
 
 ## Migration
 

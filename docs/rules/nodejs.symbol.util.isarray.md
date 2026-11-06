@@ -40,7 +40,7 @@ Node.js deprecates util.isArray() (DEP0044): documentation-only since v4.0.0, ru
 
 ## Sources
 
-- [Node.js deprecations: DEP0044 util.isArray](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0044 util.isArray](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

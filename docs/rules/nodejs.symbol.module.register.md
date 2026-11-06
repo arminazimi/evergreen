@@ -40,7 +40,7 @@ Node.js deprecates module.register (DEP0205: documentation-only since v25.9.0, r
 
 ## Sources
 
-- [Node.js deprecations: DEP0205](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0205](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

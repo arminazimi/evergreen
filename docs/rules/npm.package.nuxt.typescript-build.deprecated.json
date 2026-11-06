@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@nuxt/typescript-build on npm",
-      "url": "https://www.npmjs.com/package/@nuxt/typescript-build"
+      "url": "https://www.npmjs.com/package/@nuxt/typescript-build",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@nuxt/typescript-build registry metadata",
-      "url": "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest"
+      "url": "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

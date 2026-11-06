@@ -40,7 +40,7 @@ Node.js removed module.createRequireFromPath (DEP0130: documentation-only since 
 
 ## Sources
 
-- [Node.js deprecations: DEP0130](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0130](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

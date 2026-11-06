@@ -40,8 +40,8 @@ Erlang/OTP supports the last three major releases with security updates. OTP 26 
 
 ## Sources
 
-- [Erlang/OTP security policy](https://github.com/erlang/otp/security/policy)
-- [OTP 29.0 release](https://github.com/erlang/otp/releases/tag/OTP-29.0)
+- [Erlang/OTP security policy](https://github.com/erlang/otp/security/policy) (accessed 2026-10-26)
+- [OTP 29.0 release](https://github.com/erlang/otp/releases/tag/OTP-29.0) (accessed 2026-10-26)
 
 ## Migration
 

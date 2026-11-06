@@ -25,7 +25,11 @@ function rule(id: string, extra: Record<string, unknown> = {}, importer?: string
     severity: "high",
     deadline: "2025-04-30",
     sources: [
-      { title: "Node.js release schedule", url: "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json" },
+      {
+        title: "Node.js release schedule",
+        url: "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json",
+        accessedAt: "2026-10-01",
+      },
     ],
     provenance: {
       observedAt: "2026-10-01",
@@ -49,7 +53,7 @@ function scenario(): { drafts: DraftRegistry; registry: RegistryV2 } {
         {
           vers: "vers:semver/>=14.0.0|<15.0.0",
           deadline: "2023-04-30",
-          sources: [{ title: "Old | page", url: "https://example.com/old" }],
+          sources: [{ title: "Old | page", url: "https://example.com/old", accessedAt: "2026-10-01" }],
         },
         "node-schedule",
       ),
@@ -66,8 +70,9 @@ function scenario(): { drafts: DraftRegistry; registry: RegistryV2 } {
         {
           title: "Node.js release schedule",
           url: "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json",
+          accessedAt: "2026-10-01",
         },
-        { title: "Node.js EOL list", url: "https://nodejs.org/en/about/eol" },
+        { title: "Node.js EOL list", url: "https://nodejs.org/en/about/eol", accessedAt: "2026-10-01" },
       ],
     }),
     rule("nodejs.runtime.eol-20", { vers: "vers:semver/>=20.0.0|<22.0.0", deadline: "2026-04-30" }),
@@ -203,6 +208,7 @@ test("a large diff stays under GitHub's limit and says how many rows it left out
         {
           title: "A long source title that takes up space in the table row",
           url: `https://example.com/${"path/".repeat(10)}${index}`,
+          accessedAt: "2026-10-01",
         },
       ],
     }),

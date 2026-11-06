@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { validateRegistryV2 } from "../../src/registry.js";
+import { withoutAccessDates } from "./evidence.js";
 import { containerOfficialImagesImporter, officialTags } from "../../tools/importers/container.js";
 import { execute } from "../../tools/importers/run.js";
 
@@ -40,7 +41,11 @@ test("the committed Node.js and Python rules match what the importer drafts from
     assert.ok(committed, `${draft.id} is missing from registry/container.json`);
     const { provenance: _draft, ...draftBody } = draft;
     const { provenance: _committed, ...committedBody } = committed;
-    assert.deepEqual(committedBody, draftBody, draft.id);
+    assert.deepEqual(
+      { ...committedBody, sources: withoutAccessDates(committed.sources) },
+      { ...draftBody, sources: withoutAccessDates(draft.sources) },
+      draft.id,
+    );
   }
 });
 

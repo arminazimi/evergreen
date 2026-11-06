@@ -40,8 +40,8 @@ npm states that read-package-json is no longer supported and recommends @npmcli/
 
 ## Sources
 
-- [read-package-json package deprecation notice](https://www.npmjs.com/package/read-package-json)
-- [read-package-json registry metadata](https://registry.npmjs.org/read-package-json/latest)
+- [read-package-json package deprecation notice](https://www.npmjs.com/package/read-package-json) (accessed 2026-10-16)
+- [read-package-json registry metadata](https://registry.npmjs.org/read-package-json/latest) (accessed 2026-10-16)
 
 ## Migration
 

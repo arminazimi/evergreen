@@ -19,11 +19,13 @@
       "sources": [
         {
           "title": "Elixir security policy",
-          "url": "https://github.com/elixir-lang/elixir/security/policy"
+          "url": "https://github.com/elixir-lang/elixir/security/policy",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "Elixir v1.20.0 release",
-          "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.20.0"
+          "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.20.0",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -80,11 +82,13 @@
       "sources": [
         {
           "title": "Elixir security policy",
-          "url": "https://github.com/elixir-lang/elixir/security/policy"
+          "url": "https://github.com/elixir-lang/elixir/security/policy",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "Elixir v1.19.0 release",
-          "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.19.0"
+          "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.19.0",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -141,11 +145,13 @@
       "sources": [
         {
           "title": "Erlang/OTP security policy",
-          "url": "https://github.com/erlang/otp/security/policy"
+          "url": "https://github.com/erlang/otp/security/policy",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "OTP 29.0 release",
-          "url": "https://github.com/erlang/otp/releases/tag/OTP-29.0"
+          "url": "https://github.com/erlang/otp/releases/tag/OTP-29.0",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -202,11 +208,13 @@
       "sources": [
         {
           "title": "Erlang/OTP security policy",
-          "url": "https://github.com/erlang/otp/security/policy"
+          "url": "https://github.com/erlang/otp/security/policy",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "OTP 28.0 release",
-          "url": "https://github.com/erlang/otp/releases/tag/OTP-28.0"
+          "url": "https://github.com/erlang/otp/releases/tag/OTP-28.0",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -262,11 +270,13 @@
       "sources": [
         {
           "title": "fennec on Hex",
-          "url": "https://hex.pm/packages/fennec"
+          "url": "https://hex.pm/packages/fennec",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "mongooseice on Hex",
-          "url": "https://hex.pm/packages/mongooseice"
+          "url": "https://hex.pm/packages/mongooseice",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {

@@ -40,7 +40,7 @@ Node.js removed timers.unenroll (DEP0096: runtime deprecation since v10.0.0, end
 
 ## Sources
 
-- [Node.js deprecations: DEP0096](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0096](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "jade package deprecation notice",
-      "url": "https://www.npmjs.com/package/jade"
+      "url": "https://www.npmjs.com/package/jade",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "jade registry metadata",
-      "url": "https://registry.npmjs.org/jade/latest"
+      "url": "https://registry.npmjs.org/jade/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

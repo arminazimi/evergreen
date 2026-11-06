@@ -40,8 +40,8 @@ AWS ended standard support for RDS for MySQL 5.7 on 2024-02-29. RDS Extended Sup
 
 ## Sources
 
-- [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html)
-- [Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html)
+- [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html) (accessed 2026-10-30)
+- [Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) (accessed 2026-10-30)
 
 ## Migration
 

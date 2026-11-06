@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@humanwhocodes/object-schema package deprecation notice",
-      "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema"
+      "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "@humanwhocodes/object-schema registry metadata",
-      "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest"
+      "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

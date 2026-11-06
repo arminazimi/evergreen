@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "q package deprecation notice",
-      "url": "https://www.npmjs.com/package/q"
+      "url": "https://www.npmjs.com/package/q",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "q registry metadata",
-      "url": "https://registry.npmjs.org/q/latest"
+      "url": "https://registry.npmjs.org/q/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

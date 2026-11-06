@@ -40,7 +40,7 @@ Node.js removed crypto.createCipher() and crypto.createDecipher() because they u
 
 ## Sources
 
-- [Node.js deprecations: DEP0106 crypto.createCipher](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0106 crypto.createCipher](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

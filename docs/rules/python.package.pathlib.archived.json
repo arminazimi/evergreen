@@ -11,15 +11,18 @@
   "sources": [
     {
       "title": "pathlib on PyPI",
-      "url": "https://pypi.org/project/pathlib/"
+      "url": "https://pypi.org/project/pathlib/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "pathlib project status (PyPI Simple API)",
-      "url": "https://pypi.org/simple/pathlib/"
+      "url": "https://pypi.org/simple/pathlib/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Project status markers (PEP 792)",
-      "url": "https://packaging.python.org/specifications/project-status-markers/"
+      "url": "https://packaging.python.org/specifications/project-status-markers/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

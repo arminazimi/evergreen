@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "CMake 4.0 release notes (FindGDAL deprecated)",
-      "url": "https://cmake.org/cmake/help/latest/release/4.0.html"
+      "url": "https://cmake.org/cmake/help/latest/release/4.0.html",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "FindGDAL module documentation",
-      "url": "https://cmake.org/cmake/help/latest/module/FindGDAL.html"
+      "url": "https://cmake.org/cmake/help/latest/module/FindGDAL.html",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

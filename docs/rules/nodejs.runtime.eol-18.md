@@ -40,7 +40,7 @@ Node.js 18 no longer receives security or bug fixes.
 
 ## Sources
 
-- [Node.js Release Working Group schedule](https://github.com/nodejs/Release/blob/main/schedule.json)
+- [Node.js Release Working Group schedule](https://github.com/nodejs/Release/blob/main/schedule.json) (accessed 2026-10-17)
 
 ## Migration
 

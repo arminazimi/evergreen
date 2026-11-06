@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "github.com/golang/protobuf v1.5.4 go.mod",
-      "url": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod"
+      "url": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Go module deprecation reference",
-      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

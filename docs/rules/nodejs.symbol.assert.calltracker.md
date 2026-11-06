@@ -39,7 +39,7 @@ Node.js removed assert.CallTracker (DEP0173: runtime deprecation since v20.1.0, 
 
 ## Sources
 
-- [Node.js deprecations: DEP0173](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0173](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

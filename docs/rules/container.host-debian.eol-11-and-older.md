@@ -40,8 +40,8 @@ Debian 11 reached the end of long-term support on 2026-08-31, and older releases
 
 ## Sources
 
-- [Debian releases](https://www.debian.org/releases/)
-- [Debian Long Term Support](https://wiki.debian.org/LTS)
+- [Debian releases](https://www.debian.org/releases/) (accessed 2026-10-30)
+- [Debian Long Term Support](https://wiki.debian.org/LTS) (accessed 2026-10-30)
 
 ## Migration
 

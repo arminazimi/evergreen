@@ -28,7 +28,7 @@ const rule = (id: string, deadline: string | undefined, title = `Title ${id}`): 
   summary: "s",
   severity: "high",
   ...(deadline ? { deadline } : {}),
-  sources: [{ title: "t", url: "https://example.com/x" }],
+  sources: [{ title: "t", url: "https://example.com/x", accessedAt: "2026-10-01" }],
   provenance: { observedAt: "2026-10-16", reviewedAt: "2026-10-16", reviewer: "r" },
 });
 

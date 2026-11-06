@@ -1,0 +1,1 @@
+- Require and show the retrieval date of every lifecycle source.

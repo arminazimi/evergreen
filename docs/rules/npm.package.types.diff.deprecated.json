@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/diff on npm",
-      "url": "https://www.npmjs.com/package/@types/diff"
+      "url": "https://www.npmjs.com/package/@types/diff",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/diff version metadata",
-      "url": "https://registry.npmjs.org/@types%2fdiff"
+      "url": "https://registry.npmjs.org/@types%2fdiff",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

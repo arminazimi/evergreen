@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/pako on npm",
-      "url": "https://www.npmjs.com/package/@types/pako"
+      "url": "https://www.npmjs.com/package/@types/pako",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/pako version metadata",
-      "url": "https://registry.npmjs.org/@types%2fpako"
+      "url": "https://registry.npmjs.org/@types%2fpako",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

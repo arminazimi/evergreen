@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/react-window on npm",
-      "url": "https://www.npmjs.com/package/@types/react-window"
+      "url": "https://www.npmjs.com/package/@types/react-window",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/react-window version metadata",
-      "url": "https://registry.npmjs.org/@types%2freact-window"
+      "url": "https://registry.npmjs.org/@types%2freact-window",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

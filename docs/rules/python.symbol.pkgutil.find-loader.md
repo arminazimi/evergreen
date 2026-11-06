@@ -40,8 +40,8 @@ Python 3.12 deprecates pkgutil.find_loader() and pkgutil.get_loader(), to be rem
 
 ## Sources
 
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
-- [Python deprecations: pending removal in 3.14](https://docs.python.org/3/deprecations/pending-removal-in-3.14.html)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-10-21)
+- [Python deprecations: pending removal in 3.14](https://docs.python.org/3/deprecations/pending-removal-in-3.14.html) (accessed 2026-10-21)
 
 ## Migration
 

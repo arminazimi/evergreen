@@ -40,8 +40,8 @@ npm marks gulp-util as deprecated and links to the Gulp migration guidance.
 
 ## Sources
 
-- [gulp-util package deprecation notice](https://www.npmjs.com/package/gulp-util)
-- [gulp-util registry metadata](https://registry.npmjs.org/gulp-util/latest)
+- [gulp-util package deprecation notice](https://www.npmjs.com/package/gulp-util) (accessed 2026-10-16)
+- [gulp-util registry metadata](https://registry.npmjs.org/gulp-util/latest) (accessed 2026-10-16)
 
 ## Migration
 

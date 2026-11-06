@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "CMake 3.31 release notes (Visual Studio 12 2013 generator removed)",
-      "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+      "url": "https://cmake.org/cmake/help/latest/release/3.31.html",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "Visual Studio 12 2013 generator documentation",
-      "url": "https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html"
+      "url": "https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

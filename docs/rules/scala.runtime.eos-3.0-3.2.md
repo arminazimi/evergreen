@@ -40,8 +40,8 @@ The Scala project's development guarantees page states that a non-LTS Scala 3 mi
 
 ## Sources
 
-- [Scala development guarantees — Scala 3 LTS](https://scala-lang.org/development/)
-- [Scala 3.9 LTS released](https://scala-lang.org/news/3.9/)
+- [Scala development guarantees — Scala 3 LTS](https://scala-lang.org/development/) (accessed 2026-10-27)
+- [Scala 3.9 LTS released](https://scala-lang.org/news/3.9/) (accessed 2026-10-27)
 
 ## Migration
 

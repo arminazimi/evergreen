@@ -40,7 +40,7 @@ Node.js removed util.isSymbol (DEP0057: documentation-only since v4.0.0, runtime
 
 ## Sources
 
-- [Node.js deprecations: DEP0057](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0057](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

@@ -40,8 +40,8 @@ The Helm project retired the stable chart repository: on 2020-11-13 CI was disab
 
 ## Sources
 
-- [Helm Chart Repository Deprecation Update (2020-10-30)](https://helm.sh/blog/charts-repo-deprecation/)
-- [Helm community: stable repository charts — new locations](https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md)
+- [Helm Chart Repository Deprecation Update (2020-10-30)](https://helm.sh/blog/charts-repo-deprecation/) (accessed 2026-10-26)
+- [Helm community: stable repository charts — new locations](https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md) (accessed 2026-10-26)
 
 ## Migration
 

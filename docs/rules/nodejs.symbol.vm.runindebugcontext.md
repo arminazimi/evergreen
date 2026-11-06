@@ -39,7 +39,7 @@ Node.js removed vm.runInDebugContext (DEP0069: documentation-only since v8.0.0, 
 
 ## Sources
 
-- [Node.js deprecations: DEP0069](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0069](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

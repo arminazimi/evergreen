@@ -39,7 +39,7 @@ Node.js removed net._setSimultaneousAccepts (DEP0121: runtime deprecation since 
 
 ## Sources
 
-- [Node.js deprecations: DEP0121](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0121](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

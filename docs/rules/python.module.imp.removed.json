@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "What's New in Python 3.12",
-      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      "url": "https://docs.python.org/3/whatsnew/3.12.html",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "Python 3.11 documentation: imp — Access the import internals",
-      "url": "https://docs.python.org/3.11/library/imp.html"
+      "url": "https://docs.python.org/3.11/library/imp.html",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

@@ -40,7 +40,7 @@ The failure crate is officially end-of-life: its former maintainer marked it dep
 
 ## Sources
 
-- [RustSec advisory RUSTSEC-2020-0036](https://rustsec.org/advisories/RUSTSEC-2020-0036.html)
+- [RustSec advisory RUSTSEC-2020-0036](https://rustsec.org/advisories/RUSTSEC-2020-0036.html) (accessed 2026-10-17)
 
 ## Migration
 

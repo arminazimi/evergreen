@@ -40,7 +40,7 @@ AKS supports a generally available Kubernetes version for 12 months, with opt-in
 
 ## Sources
 
-- [Supported Kubernetes versions in Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions)
+- [Supported Kubernetes versions in Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions) (accessed 2026-10-26)
 
 ## Migration
 

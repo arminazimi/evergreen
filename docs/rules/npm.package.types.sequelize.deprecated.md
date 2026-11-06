@@ -40,8 +40,8 @@ npm marks @types/sequelize as deprecated: "This is a stub types definition. sequ
 
 ## Sources
 
-- [@types/sequelize on npm](https://www.npmjs.com/package/@types/sequelize)
-- [@types/sequelize version metadata](https://registry.npmjs.org/@types%2fsequelize)
+- [@types/sequelize on npm](https://www.npmjs.com/package/@types/sequelize) (accessed 2026-10-19)
+- [@types/sequelize version metadata](https://registry.npmjs.org/@types%2fsequelize) (accessed 2026-10-19)
 
 ## Migration
 

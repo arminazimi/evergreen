@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "natives package deprecation notice",
-      "url": "https://www.npmjs.com/package/natives"
+      "url": "https://www.npmjs.com/package/natives",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "natives registry metadata",
-      "url": "https://registry.npmjs.org/natives/latest"
+      "url": "https://registry.npmjs.org/natives/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

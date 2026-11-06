@@ -42,7 +42,7 @@ const rule = (overrides: Partial<RegistryV2Rule> = {}): RegistryV2Rule => ({
   severity: "high",
   replacement: "Demo 2",
   deadline: "2026-01-31",
-  sources: [{ title: "Demo lifecycle", url: "https://example.com/demo" }],
+  sources: [{ title: "Demo lifecycle", url: "https://example.com/demo", accessedAt: "2026-10-01" }],
   provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-02", reviewer: "someone" },
   ...overrides,
 });

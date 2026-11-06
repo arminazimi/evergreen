@@ -40,8 +40,8 @@ Python 3.12 deprecates asyncio.set_child_watcher() and asyncio.get_child_watcher
 
 ## Sources
 
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
-- [Python deprecations: pending removal in 3.14](https://docs.python.org/3/deprecations/pending-removal-in-3.14.html)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-10-21)
+- [Python deprecations: pending removal in 3.14](https://docs.python.org/3/deprecations/pending-removal-in-3.14.html) (accessed 2026-10-21)
 
 ## Migration
 

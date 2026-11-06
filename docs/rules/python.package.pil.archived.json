@@ -11,15 +11,18 @@
   "sources": [
     {
       "title": "PIL on PyPI",
-      "url": "https://pypi.org/project/pil/"
+      "url": "https://pypi.org/project/pil/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "PIL project status (PyPI Simple API)",
-      "url": "https://pypi.org/simple/pil/"
+      "url": "https://pypi.org/simple/pil/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Project status markers (PEP 792)",
-      "url": "https://packaging.python.org/specifications/project-status-markers/"
+      "url": "https://packaging.python.org/specifications/project-status-markers/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

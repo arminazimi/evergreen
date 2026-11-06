@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "Scala development guarantees — Scala 3 LTS",
-      "url": "https://scala-lang.org/development/"
+      "url": "https://scala-lang.org/development/",
+      "accessedAt": "2026-10-27"
     },
     {
       "title": "Scala 3.9 LTS released",
-      "url": "https://scala-lang.org/news/3.9/"
+      "url": "https://scala-lang.org/news/3.9/",
+      "accessedAt": "2026-10-27"
     }
   ],
   "provenance": {

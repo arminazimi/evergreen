@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Rust security policy",
-      "url": "https://www.rust-lang.org/policies/security"
+      "url": "https://www.rust-lang.org/policies/security",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "Rust release notes (release dates)",
-      "url": "https://github.com/rust-lang/rust/blob/master/RELEASES.md"
+      "url": "https://github.com/rust-lang/rust/blob/master/RELEASES.md",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

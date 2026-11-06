@@ -40,8 +40,8 @@ npm identifies popper.js as the legacy Popper v1 package and directs users to @p
 
 ## Sources
 
-- [popper.js package deprecation notice](https://www.npmjs.com/package/popper.js)
-- [popper.js version metadata](https://registry.npmjs.org/popper.js)
+- [popper.js package deprecation notice](https://www.npmjs.com/package/popper.js) (accessed 2026-10-16)
+- [popper.js version metadata](https://registry.npmjs.org/popper.js) (accessed 2026-10-16)
 
 ## Migration
 

@@ -40,8 +40,8 @@ General support ended for SLES 15 SP6 on 2025-12-31, SP5 on 2024-12-31, and SP4 
 
 ## Sources
 
-- [SUSE product support lifecycle](https://www.suse.com/lifecycle/)
-- [SLES 15 SP6 lifecycle and support](https://documentation.suse.com/sles/15-SP6/html/SLES-all/cha-upgrade-background.html)
+- [SUSE product support lifecycle](https://www.suse.com/lifecycle/) (accessed 2026-10-30)
+- [SLES 15 SP6 lifecycle and support](https://documentation.suse.com/sles/15-SP6/html/SLES-all/cha-upgrade-background.html) (accessed 2026-10-30)
 
 ## Migration
 

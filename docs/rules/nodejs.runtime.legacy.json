@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Node.js end-of-life releases",
-      "url": "https://nodejs.org/en/about/eol"
+      "url": "https://nodejs.org/en/about/eol",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

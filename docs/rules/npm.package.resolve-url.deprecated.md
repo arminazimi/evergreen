@@ -40,8 +40,8 @@ The maintainer deprecated resolve-url and recommends the platform URL API for re
 
 ## Sources
 
-- [resolve-url maintainer deprecation notice](https://github.com/lydell/resolve-url#deprecated)
-- [resolve-url registry metadata](https://registry.npmjs.org/resolve-url/latest)
+- [resolve-url maintainer deprecation notice](https://github.com/lydell/resolve-url#deprecated) (accessed 2026-10-16)
+- [resolve-url registry metadata](https://registry.npmjs.org/resolve-url/latest) (accessed 2026-10-16)
 
 ## Migration
 

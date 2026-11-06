@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Kubernetes Deprecated API Migration Guide",
-      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
-      "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+      "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

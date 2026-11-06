@@ -104,6 +104,20 @@ const invalidCases: [name: string, mutate: (registry: any) => void, expected: Re
     /sources\[0\]\.title is required/,
   ],
   [
+    "source without access date",
+    (r) => {
+      delete r.rules[0].sources[0].accessedAt;
+    },
+    /sources\[0\]\.accessedAt is required \(YYYY-MM-DD\)/,
+  ],
+  [
+    "source with an impossible access date",
+    (r) => {
+      r.rules[0].sources[0].accessedAt = "2026-02-30";
+    },
+    /sources\[0\]\.accessedAt must be a valid date/,
+  ],
+  [
     "versioned purl",
     (r) => {
       r.rules[0].purl = "pkg:npm/request@2.88.2";

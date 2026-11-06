@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "Go release history and support policy",
-      "url": "https://go.dev/doc/devel/release"
+      "url": "https://go.dev/doc/devel/release",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

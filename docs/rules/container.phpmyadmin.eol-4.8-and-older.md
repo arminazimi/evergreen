@@ -40,7 +40,7 @@ These phpMyAdmin release lines are unsupported: the vendor's downloads page supp
 
 ## Sources
 
-- [phpMyAdmin downloads and version support policy](https://www.phpmyadmin.net/downloads/)
+- [phpMyAdmin downloads and version support policy](https://www.phpmyadmin.net/downloads/) (accessed 2026-10-20)
 
 ## Migration
 

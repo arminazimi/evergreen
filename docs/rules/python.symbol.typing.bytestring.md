@@ -40,7 +40,7 @@ Python 3.9 deprecates typing.ByteString, to be removed in Python 3.17.
 
 ## Sources
 
-- [Python deprecations: pending removal in 3.17](https://docs.python.org/3/deprecations/pending-removal-in-3.17.html)
+- [Python deprecations: pending removal in 3.17](https://docs.python.org/3/deprecations/pending-removal-in-3.17.html) (accessed 2026-10-21)
 
 ## Migration
 

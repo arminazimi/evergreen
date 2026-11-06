@@ -40,8 +40,8 @@ MySQL 8.0 reached end of life on 2026-04-30 and no longer receives security or b
 
 ## Sources
 
-- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html)
-- [endoflife.date: MySQL](https://endoflife.date/mysql)
+- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-10-22)
+- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-10-22)
 
 ## Migration
 

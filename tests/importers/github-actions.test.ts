@@ -8,6 +8,7 @@ import { diffDrafts } from "../../tools/importers/diff.js";
 import { ACTION_CANDIDATES } from "../../tools/importers/github-actions-candidates.js";
 import { ACTION_NAME, githubActionsRuntimeImporter, RETIRED_RUNTIMES } from "../../tools/importers/github-actions.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
+import { withoutAccessDates } from "./evidence.js";
 import { ImporterError } from "../../tools/importers/types.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
@@ -61,7 +62,7 @@ test("drafts a rule for every candidate that still has releases on a retired run
   assert.equal(checkout.replacement, "actions/checkout@v5 or later");
   assert.equal(checkout.deadline, "2026-09-23");
   assert.deepEqual(checkout["x-github-actions"], { action: "actions/checkout", supportedFromMajor: 5 });
-  assert.deepEqual(checkout.sources, [
+  assert.deepEqual(withoutAccessDates(checkout.sources), [
     {
       title: "Node 20 is no longer available in GitHub Actions",
       url: "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",

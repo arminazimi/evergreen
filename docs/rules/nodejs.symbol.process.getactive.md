@@ -40,7 +40,7 @@ Node.js deprecates process._getActiveRequests and process._getActiveHandles (DEP
 
 ## Sources
 
-- [Node.js deprecations: DEP0161](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0161](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

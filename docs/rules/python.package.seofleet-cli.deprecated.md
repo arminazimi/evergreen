@@ -40,7 +40,7 @@ The maintainer renamed seofleet-cli to llmscout-cli and states that no further r
 
 ## Sources
 
-- [seofleet-cli deprecation notice](https://pypi.org/project/seofleet-cli/)
+- [seofleet-cli deprecation notice](https://pypi.org/project/seofleet-cli/) (accessed 2026-10-16)
 
 ## Migration
 

@@ -40,7 +40,7 @@ Microsoft's PowerShell support lifecycle lists 7.1 (built on .NET 5.0) as retire
 
 ## Sources
 
-- [PowerShell support lifecycle](https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)
+- [PowerShell support lifecycle](https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle) (accessed 2026-10-22)
 
 ## Migration
 

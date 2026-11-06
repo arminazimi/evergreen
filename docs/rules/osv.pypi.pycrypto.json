@@ -11,15 +11,18 @@
   "sources": [
     {
       "title": "GHSA-6528-wvf6-f6qg",
-      "url": "https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg"
+      "url": "https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg",
+      "accessedAt": "2026-10-27"
     },
     {
       "title": "GHSA-cq27-v7xp-c356",
-      "url": "https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356"
+      "url": "https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356",
+      "accessedAt": "2026-10-27"
     },
     {
       "title": "PYSEC-2018-97",
-      "url": "https://osv.dev/vulnerability/PYSEC-2018-97"
+      "url": "https://osv.dev/vulnerability/PYSEC-2018-97",
+      "accessedAt": "2026-10-27"
     }
   ],
   "provenance": {

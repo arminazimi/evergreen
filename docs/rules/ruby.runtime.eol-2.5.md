@@ -40,7 +40,7 @@ The Ruby maintenance branches page marks Ruby 2.5 as eol: normal maintenance end
 
 ## Sources
 
-- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/)
+- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/) (accessed 2026-10-20)
 
 ## Migration
 

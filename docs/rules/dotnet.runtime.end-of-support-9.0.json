@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": ".NET and .NET Core official support policy",
-      "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+      "accessedAt": "2026-10-18"
     },
     {
       "title": ".NET releases index (channel, support phase, end-of-life date)",
-      "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+      "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+      "accessedAt": "2026-10-18"
     }
   ],
   "provenance": {

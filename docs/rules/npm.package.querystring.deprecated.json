@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "querystring package deprecation notice",
-      "url": "https://www.npmjs.com/package/querystring"
+      "url": "https://www.npmjs.com/package/querystring",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "querystring registry metadata",
-      "url": "https://registry.npmjs.org/querystring/latest"
+      "url": "https://registry.npmjs.org/querystring/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

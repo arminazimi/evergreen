@@ -40,8 +40,8 @@ npm recommends replacing lodash.get with JavaScript's optional chaining operator
 
 ## Sources
 
-- [lodash.get package deprecation notice](https://www.npmjs.com/package/lodash.get)
-- [lodash.get registry metadata](https://registry.npmjs.org/lodash.get/latest)
+- [lodash.get package deprecation notice](https://www.npmjs.com/package/lodash.get) (accessed 2026-10-16)
+- [lodash.get registry metadata](https://registry.npmjs.org/lodash.get/latest) (accessed 2026-10-16)
 
 ## Migration
 

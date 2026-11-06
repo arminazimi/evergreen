@@ -40,7 +40,7 @@ CentOS Linux 8 reached end of life on 2021-12-31 and CentOS Linux 7 on 2024-06-3
 
 ## Sources
 
-- [CentOS Linux](https://www.centos.org/centos-linux/)
+- [CentOS Linux](https://www.centos.org/centos-linux/) (accessed 2026-10-30)
 
 ## Migration
 

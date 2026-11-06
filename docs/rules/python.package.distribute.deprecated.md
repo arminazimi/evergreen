@@ -40,7 +40,7 @@ The project describes Distribute as a deprecated Setuptools fork whose code was 
 
 ## Sources
 
-- [Distribute deprecation notice](https://pypi.org/project/distribute/)
+- [Distribute deprecation notice](https://pypi.org/project/distribute/) (accessed 2026-10-16)
 
 ## Migration
 

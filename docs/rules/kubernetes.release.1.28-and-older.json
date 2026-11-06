@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Kubernetes release history",
-      "url": "https://kubernetes.io/releases/"
+      "url": "https://kubernetes.io/releases/",
+      "accessedAt": "2026-11-01"
     }
   ],
   "provenance": {

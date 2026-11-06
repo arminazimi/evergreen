@@ -40,8 +40,8 @@ npm states that the unscoped node-pre-gyp package is deprecated and only @mapbox
 
 ## Sources
 
-- [node-pre-gyp package deprecation notice](https://www.npmjs.com/package/node-pre-gyp)
-- [node-pre-gyp version metadata](https://registry.npmjs.org/node-pre-gyp)
+- [node-pre-gyp package deprecation notice](https://www.npmjs.com/package/node-pre-gyp) (accessed 2026-10-16)
+- [node-pre-gyp version metadata](https://registry.npmjs.org/node-pre-gyp) (accessed 2026-10-16)
 
 ## Migration
 

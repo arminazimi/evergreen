@@ -12,19 +12,23 @@
   "sources": [
     {
       "title": "React Native Releases Working Group support policy",
-      "url": "https://github.com/reactwg/react-native-releases/blob/main/docs/support.md"
+      "url": "https://github.com/reactwg/react-native-releases/blob/main/docs/support.md",
+      "accessedAt": "2026-10-23"
     },
     {
       "title": "React Native releases overview",
-      "url": "https://reactnative.dev/releases/overview"
+      "url": "https://reactnative.dev/releases/overview",
+      "accessedAt": "2026-10-23"
     },
     {
       "title": "React Native upgrading guide",
-      "url": "https://reactnative.dev/docs/upgrading"
+      "url": "https://reactnative.dev/docs/upgrading",
+      "accessedAt": "2026-10-23"
     },
     {
       "title": "React Native Upgrade Helper",
-      "url": "https://react-native-community.github.io/upgrade-helper/"
+      "url": "https://react-native-community.github.io/upgrade-helper/",
+      "accessedAt": "2026-10-23"
     }
   ],
   "provenance": {

@@ -40,8 +40,8 @@ The latest github.com/golang/protobuf module declares: "Use the "google.golang.o
 
 ## Sources
 
-- [github.com/golang/protobuf v1.5.4 go.mod](https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod)
-- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation)
+- [github.com/golang/protobuf v1.5.4 go.mod](https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod) (accessed 2026-10-20)
+- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation) (accessed 2026-10-20)
 
 ## Migration
 

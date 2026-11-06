@@ -40,8 +40,8 @@ The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiser
 
 ## Sources
 
-- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/)
-- [Kubernetes v1.29: Mandala (release announcement, 2023-12-13)](https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/)
+- [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/) (accessed 2026-10-17)
+- [Kubernetes v1.29: Mandala (release announcement, 2023-12-13)](https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/) (accessed 2026-10-20)
 
 ## Migration
 

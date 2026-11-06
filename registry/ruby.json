@@ -19,7 +19,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-18"
         }
       ],
       "provenance": {
@@ -76,7 +77,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-18"
         }
       ],
       "provenance": {
@@ -133,7 +135,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-18"
         }
       ],
       "provenance": {
@@ -190,7 +193,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-18"
         }
       ],
       "provenance": {
@@ -247,7 +251,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -304,7 +309,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -361,7 +367,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -418,7 +425,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -475,7 +483,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -532,7 +541,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -589,7 +599,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -646,7 +657,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -703,15 +715,18 @@
       "sources": [
         {
           "title": "Ruby on Rails maintenance policy",
-          "url": "https://rubyonrails.org/maintenance"
+          "url": "https://rubyonrails.org/maintenance",
+          "accessedAt": "2026-10-23"
         },
         {
           "title": "Rails releases and end-of-support announcement",
-          "url": "https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement"
+          "url": "https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement",
+          "accessedAt": "2026-10-23"
         },
         {
           "title": "Upgrading Ruby on Rails",
-          "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"
+          "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html",
+          "accessedAt": "2026-10-23"
         }
       ],
       "provenance": {
@@ -775,11 +790,13 @@
       "sources": [
         {
           "title": "Ruby on Rails maintenance policy",
-          "url": "https://rubyonrails.org/maintenance"
+          "url": "https://rubyonrails.org/maintenance",
+          "accessedAt": "2026-10-23"
         },
         {
           "title": "Upgrading Ruby on Rails",
-          "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"
+          "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html",
+          "accessedAt": "2026-10-23"
         }
       ],
       "provenance": {
@@ -841,7 +858,8 @@
       "sources": [
         {
           "title": "RubyGems: json 2.17.1.1 is yanked",
-          "url": "https://rubygems.org/gems/json/versions/2.17.1.1"
+          "url": "https://rubygems.org/gems/json/versions/2.17.1.1",
+          "accessedAt": "2026-10-18"
         }
       ],
       "provenance": {

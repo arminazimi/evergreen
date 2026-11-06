@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/dotenv on npm",
-      "url": "https://www.npmjs.com/package/@types/dotenv"
+      "url": "https://www.npmjs.com/package/@types/dotenv",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/dotenv version metadata",
-      "url": "https://registry.npmjs.org/@types%2fdotenv"
+      "url": "https://registry.npmjs.org/@types%2fdotenv",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

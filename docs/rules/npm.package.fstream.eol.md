@@ -39,8 +39,8 @@ npm states that the fstream package is no longer supported.
 
 ## Sources
 
-- [fstream package deprecation notice](https://www.npmjs.com/package/fstream)
-- [fstream registry metadata](https://registry.npmjs.org/fstream/latest)
+- [fstream package deprecation notice](https://www.npmjs.com/package/fstream) (accessed 2026-10-16)
+- [fstream registry metadata](https://registry.npmjs.org/fstream/latest) (accessed 2026-10-16)
 
 ## Migration
 

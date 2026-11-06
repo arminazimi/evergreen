@@ -40,7 +40,7 @@ The maintainers renamed the pep8 project to pycodestyle to reduce confusion.
 
 ## Sources
 
-- [pycodestyle rename notice](https://pypi.org/project/pycodestyle/)
+- [pycodestyle rename notice](https://pypi.org/project/pycodestyle/) (accessed 2026-10-16)
 
 ## Migration
 

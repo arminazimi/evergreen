@@ -39,8 +39,8 @@ Packagist marks fzaninotto/faker as abandoned and no longer maintained.
 
 ## Sources
 
-- [fzaninotto/faker on Packagist](https://packagist.org/packages/fzaninotto/faker)
-- [fzaninotto/faker Composer metadata](https://repo.packagist.org/p2/fzaninotto/faker.json)
+- [fzaninotto/faker on Packagist](https://packagist.org/packages/fzaninotto/faker) (accessed 2026-10-20)
+- [fzaninotto/faker Composer metadata](https://repo.packagist.org/p2/fzaninotto/faker.json) (accessed 2026-10-20)
 
 ## Migration
 

@@ -40,7 +40,7 @@ The maintainer states that asyncio-requests is retired and that development cont
 
 ## Sources
 
-- [asyncio-gateway migration notice](https://pypi.org/project/asyncio-gateway/)
+- [asyncio-gateway migration notice](https://pypi.org/project/asyncio-gateway/) (accessed 2026-10-16)
 
 ## Migration
 

@@ -40,7 +40,7 @@ Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.
 
 ## Sources
 
-- [Alpine Linux releases](https://alpinelinux.org/releases/)
+- [Alpine Linux releases](https://alpinelinux.org/releases/) (accessed 2026-10-26)
 
 ## Migration
 

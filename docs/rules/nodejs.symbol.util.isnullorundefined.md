@@ -40,7 +40,7 @@ Node.js removed util.isNullOrUndefined (DEP0051: documentation-only since v4.0.0
 
 ## Sources
 
-- [Node.js deprecations: DEP0051](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0051](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

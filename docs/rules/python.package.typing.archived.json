@@ -11,15 +11,18 @@
   "sources": [
     {
       "title": "typing on PyPI",
-      "url": "https://pypi.org/project/typing/"
+      "url": "https://pypi.org/project/typing/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "typing project status (PyPI Simple API)",
-      "url": "https://pypi.org/simple/typing/"
+      "url": "https://pypi.org/simple/typing/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Project status markers (PEP 792)",
-      "url": "https://packaging.python.org/specifications/project-status-markers/"
+      "url": "https://packaging.python.org/specifications/project-status-markers/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

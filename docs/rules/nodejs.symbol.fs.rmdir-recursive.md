@@ -40,7 +40,7 @@ Node.js removed the recursive option of fs.rmdir() and fs.rmdirSync() (DEP0147: 
 
 ## Sources
 
-- [Node.js deprecations: DEP0147 fs.rmdir recursive](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0147 fs.rmdir recursive](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

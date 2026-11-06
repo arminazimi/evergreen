@@ -40,8 +40,8 @@ npm directs users of abab to the platform-native atob and btoa functions.
 
 ## Sources
 
-- [abab package deprecation notice](https://www.npmjs.com/package/abab)
-- [abab registry metadata](https://registry.npmjs.org/abab/latest)
+- [abab package deprecation notice](https://www.npmjs.com/package/abab) (accessed 2026-10-16)
+- [abab registry metadata](https://registry.npmjs.org/abab/latest) (accessed 2026-10-16)
 
 ## Migration
 

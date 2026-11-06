@@ -40,7 +40,7 @@ Node.js removed util.isNumber (DEP0052: documentation-only since v4.0.0, runtime
 
 ## Sources
 
-- [Node.js deprecations: DEP0052](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0052](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

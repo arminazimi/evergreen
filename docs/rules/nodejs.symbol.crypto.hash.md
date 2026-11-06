@@ -40,7 +40,7 @@ Node.js deprecates the crypto.Hash constructor (DEP0179: documentation-only sinc
 
 ## Sources
 
-- [Node.js deprecations: DEP0179](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0179](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

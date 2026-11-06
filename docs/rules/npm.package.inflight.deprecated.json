@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "inflight package deprecation notice",
-      "url": "https://www.npmjs.com/package/inflight"
+      "url": "https://www.npmjs.com/package/inflight",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "inflight registry metadata",
-      "url": "https://registry.npmjs.org/inflight/latest"
+      "url": "https://registry.npmjs.org/inflight/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

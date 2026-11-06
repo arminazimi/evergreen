@@ -40,7 +40,7 @@ Node.js removed util.isRegExp (DEP0055: documentation-only since v4.0.0, runtime
 
 ## Sources
 
-- [Node.js deprecations: DEP0055](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0055](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

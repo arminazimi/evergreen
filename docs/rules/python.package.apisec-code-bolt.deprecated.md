@@ -40,7 +40,7 @@ The maintainer states that apisec-code-bolt was renamed to apisec-surface and re
 
 ## Sources
 
-- [apisec-surface rename notice](https://pypi.org/project/apisec-surface/)
+- [apisec-surface rename notice](https://pypi.org/project/apisec-surface/) (accessed 2026-10-16)
 
 ## Migration
 

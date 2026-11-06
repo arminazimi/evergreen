@@ -40,7 +40,7 @@ Ubuntu 20.04 LTS, the newest release this range covers, stopped receiving standa
 
 ## Sources
 
-- [Ubuntu release cycle](https://ubuntu.com/about/release-cycle)
+- [Ubuntu release cycle](https://ubuntu.com/about/release-cycle) (accessed 2026-10-30)
 
 ## Migration
 

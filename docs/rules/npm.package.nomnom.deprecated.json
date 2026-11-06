@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "nomnom package deprecation notice",
-      "url": "https://www.npmjs.com/package/nomnom"
+      "url": "https://www.npmjs.com/package/nomnom",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "nomnom registry metadata",
-      "url": "https://registry.npmjs.org/nomnom/latest"
+      "url": "https://registry.npmjs.org/nomnom/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

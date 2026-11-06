@@ -39,9 +39,9 @@ PyPI marks pathlib as archived: the project does not expect to be updated in the
 
 ## Sources
 
-- [pathlib on PyPI](https://pypi.org/project/pathlib/)
-- [pathlib project status (PyPI Simple API)](https://pypi.org/simple/pathlib/)
-- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/)
+- [pathlib on PyPI](https://pypi.org/project/pathlib/) (accessed 2026-10-20)
+- [pathlib project status (PyPI Simple API)](https://pypi.org/simple/pathlib/) (accessed 2026-10-20)
+- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/) (accessed 2026-10-20)
 
 ## Migration
 

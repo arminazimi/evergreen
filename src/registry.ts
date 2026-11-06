@@ -224,7 +224,9 @@ function sourceIssues(source: unknown, sourceIndex: number, problem: Problem): v
   if (!isRecord(source) || !isNonEmptyString(source.url) || !/^https:\/\/\S+$/.test(source.url)) {
     problem(`sources[${sourceIndex}].url must be an https URL`);
   }
-  if (isRecord(source) && source.accessedAt !== undefined && !isIsoDate(source.accessedAt)) {
+  if (!isRecord(source) || source.accessedAt === undefined) {
+    problem(`sources[${sourceIndex}].accessedAt is required (YYYY-MM-DD)`);
+  } else if (!isIsoDate(source.accessedAt)) {
     problem(`sources[${sourceIndex}].accessedAt must be a valid date (YYYY-MM-DD)`);
   }
 }

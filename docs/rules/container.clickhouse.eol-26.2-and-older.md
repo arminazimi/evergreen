@@ -40,7 +40,7 @@ These ClickHouse release lines are listed as not supported with security updates
 
 ## Sources
 
-- [ClickHouse security policy: supported versions](https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md)
+- [ClickHouse security policy: supported versions](https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md) (accessed 2026-10-20)
 
 ## Migration
 

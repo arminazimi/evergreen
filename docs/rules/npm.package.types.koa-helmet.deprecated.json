@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/koa-helmet on npm",
-      "url": "https://www.npmjs.com/package/@types/koa-helmet"
+      "url": "https://www.npmjs.com/package/@types/koa-helmet",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/koa-helmet version metadata",
-      "url": "https://registry.npmjs.org/@types%2fkoa-helmet"
+      "url": "https://registry.npmjs.org/@types%2fkoa-helmet",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

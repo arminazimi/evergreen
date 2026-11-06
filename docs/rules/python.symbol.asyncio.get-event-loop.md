@@ -40,7 +40,7 @@ In Python 3.12 the default event loop policy's get_event_loop() emits a Deprecat
 
 ## Sources
 
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-10-21)
 
 ## Migration
 

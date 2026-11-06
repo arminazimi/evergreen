@@ -40,7 +40,7 @@ Node.js removed fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK (DEP0176: documentation-on
 
 ## Sources
 
-- [Node.js deprecations: DEP0176](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0176](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

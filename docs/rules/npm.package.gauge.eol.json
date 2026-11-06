@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "gauge package deprecation notice",
-      "url": "https://www.npmjs.com/package/gauge"
+      "url": "https://www.npmjs.com/package/gauge",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "gauge registry metadata",
-      "url": "https://registry.npmjs.org/gauge/latest"
+      "url": "https://registry.npmjs.org/gauge/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

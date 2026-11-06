@@ -40,8 +40,8 @@ Python 3.11 is scheduled to stop receiving security fixes from the Python core t
 
 ## Sources
 
-- [Status of Python versions](https://devguide.python.org/versions/)
-- [Python release cycle (machine-readable)](https://peps.python.org/api/release-cycle.json)
+- [Status of Python versions](https://devguide.python.org/versions/) (accessed 2026-10-16)
+- [Python release cycle (machine-readable)](https://peps.python.org/api/release-cycle.json) (accessed 2026-11-03)
 
 ## Migration
 

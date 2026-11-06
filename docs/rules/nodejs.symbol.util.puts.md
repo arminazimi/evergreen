@@ -40,7 +40,7 @@ Node.js removed util.puts (DEP0027: runtime deprecation since v0.11.3, end-of-li
 
 ## Sources
 
-- [Node.js deprecations: DEP0027](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0027](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

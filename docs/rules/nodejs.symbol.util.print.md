@@ -40,7 +40,7 @@ Node.js removed util.print (DEP0026: runtime deprecation since v0.11.3, end-of-l
 
 ## Sources
 
-- [Node.js deprecations: DEP0026](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0026](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

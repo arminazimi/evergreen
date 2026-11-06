@@ -40,8 +40,8 @@ npm marks @hapi/joi as deprecated and directs users to the joi package.
 
 ## Sources
 
-- [@hapi/joi package deprecation notice](https://www.npmjs.com/package/@hapi/joi)
-- [@hapi/joi registry metadata](https://registry.npmjs.org/@hapi%2fjoi/latest)
+- [@hapi/joi package deprecation notice](https://www.npmjs.com/package/@hapi/joi) (accessed 2026-10-16)
+- [@hapi/joi registry metadata](https://registry.npmjs.org/@hapi%2fjoi/latest) (accessed 2026-10-16)
 
 ## Migration
 

@@ -40,8 +40,8 @@ CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Project
 
 ## Sources
 
-- [CMake 3.31 release notes (CMakeFindFrameworks deprecated)](https://cmake.org/cmake/help/latest/release/3.31.html)
-- [CMakeFindFrameworks module documentation](https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html)
+- [CMake 3.31 release notes (CMakeFindFrameworks deprecated)](https://cmake.org/cmake/help/latest/release/3.31.html) (accessed 2026-10-19)
+- [CMakeFindFrameworks module documentation](https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html) (accessed 2026-10-19)
 
 ## Migration
 

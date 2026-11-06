@@ -40,7 +40,7 @@ Node.js removed util.isBoolean (DEP0045: documentation-only since v4.0.0, runtim
 
 ## Sources
 
-- [Node.js deprecations: DEP0045](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0045](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

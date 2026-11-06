@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "poetry-version-plugin deprecation notice",
-      "url": "https://pypi.org/project/poetry-version-plugin/"
+      "url": "https://pypi.org/project/poetry-version-plugin/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

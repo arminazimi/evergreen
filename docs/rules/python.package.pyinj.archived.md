@@ -40,9 +40,9 @@ PyPI marks pyinj as archived, and the maintainers state that the repository is n
 
 ## Sources
 
-- [pyinj archival and migration notice](https://pypi.org/project/pyinj/)
-- [pyinj project status (PyPI Simple API)](https://pypi.org/simple/pyinj/)
-- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/)
+- [pyinj archival and migration notice](https://pypi.org/project/pyinj/) (accessed 2026-10-16)
+- [pyinj project status (PyPI Simple API)](https://pypi.org/simple/pyinj/) (accessed 2026-10-16)
+- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/) (accessed 2026-10-16)
 
 ## Migration
 

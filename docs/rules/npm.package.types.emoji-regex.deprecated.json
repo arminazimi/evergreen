@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/emoji-regex on npm",
-      "url": "https://www.npmjs.com/package/@types/emoji-regex"
+      "url": "https://www.npmjs.com/package/@types/emoji-regex",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/emoji-regex version metadata",
-      "url": "https://registry.npmjs.org/@types%2femoji-regex"
+      "url": "https://registry.npmjs.org/@types%2femoji-regex",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

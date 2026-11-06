@@ -40,8 +40,8 @@ npm states that sntp moved to @hapi/sntp and that the old distribution is no lon
 
 ## Sources
 
-- [sntp package deprecation notice](https://www.npmjs.com/package/sntp)
-- [sntp registry metadata](https://registry.npmjs.org/sntp/latest)
+- [sntp package deprecation notice](https://www.npmjs.com/package/sntp) (accessed 2026-10-16)
+- [sntp registry metadata](https://registry.npmjs.org/sntp/latest) (accessed 2026-10-16)
 
 ## Migration
 

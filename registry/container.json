@@ -16,11 +16,13 @@
       "sources": [
         {
           "title": "Node.js end-of-life releases",
-          "url": "https://nodejs.org/en/about/eol"
+          "url": "https://nodejs.org/en/about/eol",
+          "accessedAt": "2026-10-16"
         },
         {
           "title": "Node.js Release Working Group schedule",
-          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -74,11 +76,13 @@
       "sources": [
         {
           "title": "Node.js end-of-life releases",
-          "url": "https://nodejs.org/en/about/eol"
+          "url": "https://nodejs.org/en/about/eol",
+          "accessedAt": "2026-10-16"
         },
         {
           "title": "Node.js Release Working Group schedule",
-          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+          "accessedAt": "2026-10-24"
         }
       ],
       "provenance": {
@@ -132,11 +136,13 @@
       "sources": [
         {
           "title": "Status of Python versions",
-          "url": "https://devguide.python.org/versions/"
+          "url": "https://devguide.python.org/versions/",
+          "accessedAt": "2026-10-16"
         },
         {
           "title": "Python release cycle (machine-readable)",
-          "url": "https://peps.python.org/api/release-cycle.json"
+          "url": "https://peps.python.org/api/release-cycle.json",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -190,11 +196,13 @@
       "sources": [
         {
           "title": "Status of Python versions",
-          "url": "https://devguide.python.org/versions/"
+          "url": "https://devguide.python.org/versions/",
+          "accessedAt": "2026-10-16"
         },
         {
           "title": "Python release cycle (machine-readable)",
-          "url": "https://peps.python.org/api/release-cycle.json"
+          "url": "https://peps.python.org/api/release-cycle.json",
+          "accessedAt": "2026-11-03"
         }
       ],
       "provenance": {
@@ -248,7 +256,8 @@
       "sources": [
         {
           "title": "PostgreSQL versioning policy",
-          "url": "https://www.postgresql.org/support/versioning/"
+          "url": "https://www.postgresql.org/support/versioning/",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -301,7 +310,8 @@
       "sources": [
         {
           "title": "PostgreSQL release policy (vendor)",
-          "url": "https://www.postgresql.org/support/versioning/"
+          "url": "https://www.postgresql.org/support/versioning/",
+          "accessedAt": "2026-10-24"
         }
       ],
       "provenance": {
@@ -355,7 +365,8 @@
       "sources": [
         {
           "title": "MySQL end-of-life notice",
-          "url": "https://www.mysql.com/support/eol-notice.html"
+          "url": "https://www.mysql.com/support/eol-notice.html",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -408,7 +419,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -461,7 +473,8 @@
       "sources": [
         {
           "title": "Ruby maintenance branches",
-          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+          "url": "https://www.ruby-lang.org/en/downloads/branches/",
+          "accessedAt": "2026-10-29"
         }
       ],
       "provenance": {
@@ -515,7 +528,8 @@
       "sources": [
         {
           "title": "Caddy release policy (vendor)",
-          "url": "https://github.com/caddyserver/caddy/security"
+          "url": "https://github.com/caddyserver/caddy/security",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -569,7 +583,8 @@
       "sources": [
         {
           "title": "Go release policy (vendor)",
-          "url": "https://go.dev/doc/devel/release#policy"
+          "url": "https://go.dev/doc/devel/release#policy",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -623,7 +638,8 @@
       "sources": [
         {
           "title": "MariaDB release policy (vendor)",
-          "url": "https://mariadb.org/about/#maintenance-policy"
+          "url": "https://mariadb.org/about/#maintenance-policy",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -677,7 +693,8 @@
       "sources": [
         {
           "title": "Redis release policy (vendor)",
-          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -731,7 +748,8 @@
       "sources": [
         {
           "title": "Redis release policy (vendor)",
-          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -785,7 +803,8 @@
       "sources": [
         {
           "title": "Apache ZooKeeper release policy (vendor)",
-          "url": "https://zookeeper.apache.org/releases/"
+          "url": "https://zookeeper.apache.org/releases/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -839,7 +858,8 @@
       "sources": [
         {
           "title": "Drupal release policy (vendor)",
-          "url": "https://www.drupal.org/about/core/policies/core-release-cycles/schedule"
+          "url": "https://www.drupal.org/about/core/policies/core-release-cycles/schedule",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -893,7 +913,8 @@
       "sources": [
         {
           "title": "Traefik release policy (vendor)",
-          "url": "https://doc.traefik.io/traefik/deprecation/releases"
+          "url": "https://doc.traefik.io/traefik/deprecation/releases",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -946,7 +967,8 @@
       "sources": [
         {
           "title": "ClickHouse security policy: supported versions",
-          "url": "https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md"
+          "url": "https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -1000,11 +1022,13 @@
       "sources": [
         {
           "title": "Couchbase software lifecycle schedules",
-          "url": "https://www.couchbase.com/support-policy/EOL/"
+          "url": "https://www.couchbase.com/support-policy/EOL/",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "Couchbase enterprise software support policy",
-          "url": "https://www.couchbase.com/support-policy/enterprise-software/"
+          "url": "https://www.couchbase.com/support-policy/enterprise-software/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -1057,7 +1081,8 @@
       "sources": [
         {
           "title": "Apache CouchDB security policy",
-          "url": "https://docs.couchdb.org/en/stable/cve/index.html"
+          "url": "https://docs.couchdb.org/en/stable/cve/index.html",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -1110,7 +1135,8 @@
       "sources": [
         {
           "title": "phpMyAdmin downloads and version support policy",
-          "url": "https://www.phpmyadmin.net/downloads/"
+          "url": "https://www.phpmyadmin.net/downloads/",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -1164,7 +1190,8 @@
       "sources": [
         {
           "title": "Ubuntu release cycle",
-          "url": "https://ubuntu.com/about/release-cycle"
+          "url": "https://ubuntu.com/about/release-cycle",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1217,7 +1244,8 @@
       "sources": [
         {
           "title": "Ubuntu release cycle",
-          "url": "https://ubuntu.com/about/release-cycle"
+          "url": "https://ubuntu.com/about/release-cycle",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1270,11 +1298,13 @@
       "sources": [
         {
           "title": "Debian LTS",
-          "url": "https://wiki.debian.org/LTS"
+          "url": "https://wiki.debian.org/LTS",
+          "accessedAt": "2026-10-26"
         },
         {
           "title": "Debian Releases",
-          "url": "https://www.debian.org/releases/"
+          "url": "https://www.debian.org/releases/",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1327,7 +1357,8 @@
       "sources": [
         {
           "title": "Alpine Linux releases",
-          "url": "https://alpinelinux.org/releases/"
+          "url": "https://alpinelinux.org/releases/",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1380,7 +1411,8 @@
       "sources": [
         {
           "title": "Alpine Linux releases",
-          "url": "https://alpinelinux.org/releases/"
+          "url": "https://alpinelinux.org/releases/",
+          "accessedAt": "2026-10-26"
         }
       ],
       "provenance": {
@@ -1432,11 +1464,13 @@
       "sources": [
         {
           "title": "Dockerfile reference: MAINTAINER (deprecated)",
-          "url": "https://docs.docker.com/reference/dockerfile/#maintainer-deprecated"
+          "url": "https://docs.docker.com/reference/dockerfile/#maintainer-deprecated",
+          "accessedAt": "2026-10-31"
         },
         {
           "title": "Docker build check: MaintainerDeprecated",
-          "url": "https://docs.docker.com/reference/build-checks/maintainer-deprecated/"
+          "url": "https://docs.docker.com/reference/build-checks/maintainer-deprecated/",
+          "accessedAt": "2026-10-31"
         }
       ],
       "provenance": {
@@ -1482,11 +1516,13 @@
       "sources": [
         {
           "title": "Docker build check: LegacyKeyValueFormat",
-          "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/"
+          "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+          "accessedAt": "2026-10-31"
         },
         {
           "title": "Dockerfile reference: ENV",
-          "url": "https://docs.docker.com/reference/dockerfile/#env"
+          "url": "https://docs.docker.com/reference/dockerfile/#env",
+          "accessedAt": "2026-10-31"
         }
       ],
       "provenance": {
@@ -1533,7 +1569,8 @@
       "sources": [
         {
           "title": "Ubuntu release cycle",
-          "url": "https://ubuntu.com/about/release-cycle"
+          "url": "https://ubuntu.com/about/release-cycle",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1581,11 +1618,13 @@
       "sources": [
         {
           "title": "Debian releases",
-          "url": "https://www.debian.org/releases/"
+          "url": "https://www.debian.org/releases/",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Debian Long Term Support",
-          "url": "https://wiki.debian.org/LTS"
+          "url": "https://wiki.debian.org/LTS",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1633,11 +1672,13 @@
       "sources": [
         {
           "title": "Red Hat Enterprise Linux 7 end of maintenance",
-          "url": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/rhel-7-end-of-maintenance"
+          "url": "https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/rhel-7-end-of-maintenance",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Red Hat product life cycles",
-          "url": "https://access.redhat.com/product-life-cycles"
+          "url": "https://access.redhat.com/product-life-cycles",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1685,7 +1726,8 @@
       "sources": [
         {
           "title": "CentOS Linux",
-          "url": "https://www.centos.org/centos-linux/"
+          "url": "https://www.centos.org/centos-linux/",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1733,11 +1775,13 @@
       "sources": [
         {
           "title": "Amazon Linux 2 release notes",
-          "url": "https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html"
+          "url": "https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "Amazon Linux 2023 release cadence",
-          "url": "https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html"
+          "url": "https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1785,7 +1829,8 @@
       "sources": [
         {
           "title": "Alpine Linux releases",
-          "url": "https://alpinelinux.org/releases/"
+          "url": "https://alpinelinux.org/releases/",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {
@@ -1833,11 +1878,13 @@
       "sources": [
         {
           "title": "SUSE product support lifecycle",
-          "url": "https://www.suse.com/lifecycle/"
+          "url": "https://www.suse.com/lifecycle/",
+          "accessedAt": "2026-10-30"
         },
         {
           "title": "SLES 15 SP6 lifecycle and support",
-          "url": "https://documentation.suse.com/sles/15-SP6/html/SLES-all/cha-upgrade-background.html"
+          "url": "https://documentation.suse.com/sles/15-SP6/html/SLES-all/cha-upgrade-background.html",
+          "accessedAt": "2026-10-30"
         }
       ],
       "provenance": {

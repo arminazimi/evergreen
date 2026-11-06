@@ -40,8 +40,8 @@ NuGet marks all 24 listed versions of Microsoft.Azure.Storage.Blob as deprecated
 
 ## Sources
 
-- [Microsoft.Azure.Storage.Blob on NuGet (deprecation metadata)](https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob)
-- [NuGet package deprecation](https://learn.microsoft.com/nuget/nuget-org/deprecate-packages)
+- [Microsoft.Azure.Storage.Blob on NuGet (deprecation metadata)](https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob) (accessed 2026-10-19)
+- [NuGet package deprecation](https://learn.microsoft.com/nuget/nuget-org/deprecate-packages) (accessed 2026-10-19)
 
 ## Migration
 

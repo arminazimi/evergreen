@@ -39,8 +39,8 @@ Angular's release schedule lists v22 with "LTS ends 2028-06", a month-precision 
 
 ## Sources
 
-- [Angular release and support schedule](https://angular.dev/reference/releases)
-- [Angular Update Guide](https://angular.dev/update-guide)
+- [Angular release and support schedule](https://angular.dev/reference/releases) (accessed 2026-10-24)
+- [Angular Update Guide](https://angular.dev/update-guide) (accessed 2026-10-24)
 
 ## Migration
 

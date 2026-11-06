@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "crypto-js on npm",
-      "url": "https://www.npmjs.com/package/crypto-js"
+      "url": "https://www.npmjs.com/package/crypto-js",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "crypto-js registry metadata",
-      "url": "https://registry.npmjs.org/crypto-js/latest"
+      "url": "https://registry.npmjs.org/crypto-js/latest",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

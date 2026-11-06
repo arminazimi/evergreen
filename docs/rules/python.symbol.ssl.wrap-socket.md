@@ -40,7 +40,7 @@ Python 3.12 removed ssl.wrap_socket, so using it raises an error.
 
 ## Sources
 
-- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html)
+- [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html) (accessed 2026-10-21)
 
 ## Migration
 

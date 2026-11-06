@@ -41,9 +41,9 @@ npm states that request-promise-native is deprecated because it extends the depr
 
 ## Sources
 
-- [request-promise-native package deprecation notice](https://www.npmjs.com/package/request-promise-native)
-- [request-promise-native registry metadata](https://registry.npmjs.org/request-promise-native/latest)
-- [Node.js 18 release announcement: global fetch](https://nodejs.org/en/blog/announcements/v18-release-announce)
+- [request-promise-native package deprecation notice](https://www.npmjs.com/package/request-promise-native) (accessed 2026-10-16)
+- [request-promise-native registry metadata](https://registry.npmjs.org/request-promise-native/latest) (accessed 2026-10-16)
+- [Node.js 18 release announcement: global fetch](https://nodejs.org/en/blog/announcements/v18-release-announce) (accessed 2026-10-16)
 
 ## Migration
 

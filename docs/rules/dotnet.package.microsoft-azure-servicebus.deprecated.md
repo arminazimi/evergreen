@@ -40,8 +40,8 @@ NuGet marks all 33 listed versions of Microsoft.Azure.ServiceBus as deprecated (
 
 ## Sources
 
-- [Microsoft.Azure.ServiceBus on NuGet (deprecation metadata)](https://www.nuget.org/packages/Microsoft.Azure.ServiceBus)
-- [NuGet package deprecation](https://learn.microsoft.com/nuget/nuget-org/deprecate-packages)
+- [Microsoft.Azure.ServiceBus on NuGet (deprecation metadata)](https://www.nuget.org/packages/Microsoft.Azure.ServiceBus) (accessed 2026-10-19)
+- [NuGet package deprecation](https://learn.microsoft.com/nuget/nuget-org/deprecate-packages) (accessed 2026-10-19)
 
 ## Migration
 

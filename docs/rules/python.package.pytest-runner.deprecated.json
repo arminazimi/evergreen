@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "pytest-runner deprecation notice",
-      "url": "https://pypi.org/project/pytest-runner/"
+      "url": "https://pypi.org/project/pytest-runner/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

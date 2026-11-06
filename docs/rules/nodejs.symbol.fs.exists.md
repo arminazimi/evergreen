@@ -40,7 +40,7 @@ Node.js documents fs.exists(path, callback) as deprecated (DEP0034, documentatio
 
 ## Sources
 
-- [Node.js deprecations: DEP0034 fs.exists](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0034 fs.exists](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

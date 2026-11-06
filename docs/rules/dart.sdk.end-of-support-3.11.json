@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Dart security policy",
-      "url": "https://dart.dev/security"
+      "url": "https://dart.dev/security",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Dart changelog",
-      "url": "https://dart.dev/changelog"
+      "url": "https://dart.dev/changelog",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

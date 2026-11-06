@@ -12,15 +12,18 @@
   "sources": [
     {
       "title": "request-promise package deprecation notice",
-      "url": "https://www.npmjs.com/package/request-promise"
+      "url": "https://www.npmjs.com/package/request-promise",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "request-promise registry metadata",
-      "url": "https://registry.npmjs.org/request-promise/latest"
+      "url": "https://registry.npmjs.org/request-promise/latest",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "Node.js 18 release announcement: global fetch",
-      "url": "https://nodejs.org/en/blog/announcements/v18-release-announce"
+      "url": "https://nodejs.org/en/blog/announcements/v18-release-announce",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Amazon Linux 2 release notes",
-      "url": "https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html"
+      "url": "https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "Amazon Linux 2023 release cadence",
-      "url": "https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html"
+      "url": "https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

@@ -40,8 +40,8 @@ npm marks @types/koa-useragent as deprecated: "This is a stub types definition. 
 
 ## Sources
 
-- [@types/koa-useragent on npm](https://www.npmjs.com/package/@types/koa-useragent)
-- [@types/koa-useragent version metadata](https://registry.npmjs.org/@types%2fkoa-useragent)
+- [@types/koa-useragent on npm](https://www.npmjs.com/package/@types/koa-useragent) (accessed 2026-10-19)
+- [@types/koa-useragent version metadata](https://registry.npmjs.org/@types%2fkoa-useragent) (accessed 2026-10-19)
 
 ## Migration
 

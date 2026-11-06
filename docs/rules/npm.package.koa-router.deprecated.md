@@ -40,8 +40,8 @@ npm marks koa-router as deprecated: "Please use @koa/router instead, starting fr
 
 ## Sources
 
-- [koa-router on npm](https://www.npmjs.com/package/koa-router)
-- [koa-router registry metadata](https://registry.npmjs.org/koa-router/latest)
+- [koa-router on npm](https://www.npmjs.com/package/koa-router) (accessed 2026-10-19)
+- [koa-router registry metadata](https://registry.npmjs.org/koa-router/latest) (accessed 2026-10-19)
 
 ## Migration
 

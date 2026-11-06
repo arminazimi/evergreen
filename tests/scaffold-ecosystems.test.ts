@@ -21,7 +21,13 @@ const rule = (id: string, purl: string, vers: string, title: string) => ({
   severity: "high",
   replacement: "A supported release",
   deadline: "2026-01-01",
-  sources: [{ title: "Support policy", url: "https://example.com/support-policy" }],
+  sources: [
+    {
+      title: "Support policy",
+      url: "https://example.com/support-policy",
+      accessedAt: "2026-10-16",
+    },
+  ],
   provenance: { observedAt: "2026-10-16", reviewedAt: "2026-10-16", reviewer: "scaffold-test" },
 });
 
@@ -112,7 +118,7 @@ test("${id} passes the full conformance suite", async () => {
 `;
 
 const expectedFinding = (ruleId: string, title: string, value: string, file: string, line: number) =>
-  `[{ id: "${ruleId}:${file}:${line}", ruleId: "${ruleId}", title: "${title}", summary: "${value}: ${title}.", severity: "high", location: { path: "${file}", line: ${line} }, replacement: "A supported release", sources: [{ title: "Support policy", url: "https://example.com/support-policy" }] }]`;
+  `[{ id: "${ruleId}:${file}:${line}", ruleId: "${ruleId}", title: "${title}", summary: "${value}: ${title}.", severity: "high", location: { path: "${file}", line: ${line} }, replacement: "A supported release", sources: [{ title: "Support policy", url: "https://example.com/support-policy", accessedAt: "2026-10-16" }] }]`;
 
 test("two different ecosystems, each filled in on top of a generated skeleton, compile together and pass full conformance", async () => {
   const checkout = await compileCheckout(roots);

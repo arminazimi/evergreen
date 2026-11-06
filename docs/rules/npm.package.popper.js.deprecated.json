@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "popper.js package deprecation notice",
-      "url": "https://www.npmjs.com/package/popper.js"
+      "url": "https://www.npmjs.com/package/popper.js",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "popper.js version metadata",
-      "url": "https://registry.npmjs.org/popper.js"
+      "url": "https://registry.npmjs.org/popper.js",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

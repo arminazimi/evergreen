@@ -40,7 +40,7 @@ The maintainer states that saroku was renamed and is no longer maintained under 
 
 ## Sources
 
-- [saroku rename notice](https://pypi.org/project/saroku/)
+- [saroku rename notice](https://pypi.org/project/saroku/) (accessed 2026-10-16)
 
 ## Migration
 

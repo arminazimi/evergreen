@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/react-virtualized-auto-sizer on npm",
-      "url": "https://www.npmjs.com/package/@types/react-virtualized-auto-sizer"
+      "url": "https://www.npmjs.com/package/@types/react-virtualized-auto-sizer",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/react-virtualized-auto-sizer version metadata",
-      "url": "https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer"
+      "url": "https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

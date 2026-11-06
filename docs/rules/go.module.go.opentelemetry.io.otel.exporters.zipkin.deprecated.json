@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "go.opentelemetry.io/otel/exporters/zipkin v1.47.0 go.mod",
-      "url": "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod"
+      "url": "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Go module deprecation reference",
-      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

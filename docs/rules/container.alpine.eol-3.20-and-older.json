@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "Alpine Linux releases",
-      "url": "https://alpinelinux.org/releases/"
+      "url": "https://alpinelinux.org/releases/",
+      "accessedAt": "2026-10-26"
     }
   ],
   "provenance": {

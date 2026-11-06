@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Kubernetes Deprecated API Migration Guide",
-      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/",
+      "accessedAt": "2026-10-17"
     },
     {
       "title": "Kubernetes v1.29: Mandala (release announcement, 2023-12-13)",
-      "url": "https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/"
+      "url": "https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

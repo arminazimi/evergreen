@@ -39,7 +39,7 @@ Node.js deprecates process._tickCallback (DEP0134: documentation-only since v12.
 
 ## Sources
 
-- [Node.js deprecations: DEP0134](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0134](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

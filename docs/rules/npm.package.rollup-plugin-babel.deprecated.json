@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "rollup-plugin-babel package deprecation notice",
-      "url": "https://www.npmjs.com/package/rollup-plugin-babel"
+      "url": "https://www.npmjs.com/package/rollup-plugin-babel",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "rollup-plugin-babel version metadata",
-      "url": "https://registry.npmjs.org/rollup-plugin-babel"
+      "url": "https://registry.npmjs.org/rollup-plugin-babel",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

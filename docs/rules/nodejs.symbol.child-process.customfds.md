@@ -40,7 +40,7 @@ Node.js removed the customFds option of child_process (DEP0006: documentation-on
 
 ## Sources
 
-- [Node.js deprecations: DEP0006](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0006](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

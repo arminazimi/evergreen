@@ -40,7 +40,7 @@ The maintainer renamed api-shield to waygate and states that no further releases
 
 ## Sources
 
-- [api-shield deprecation notice](https://pypi.org/project/api-shield/)
+- [api-shield deprecation notice](https://pypi.org/project/api-shield/) (accessed 2026-10-16)
 
 ## Migration
 

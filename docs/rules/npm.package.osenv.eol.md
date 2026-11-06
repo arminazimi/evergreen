@@ -39,8 +39,8 @@ npm states that the osenv package is no longer supported.
 
 ## Sources
 
-- [osenv package deprecation notice](https://www.npmjs.com/package/osenv)
-- [osenv registry metadata](https://registry.npmjs.org/osenv/latest)
+- [osenv package deprecation notice](https://www.npmjs.com/package/osenv) (accessed 2026-10-16)
+- [osenv registry metadata](https://registry.npmjs.org/osenv/latest) (accessed 2026-10-16)
 
 ## Migration
 

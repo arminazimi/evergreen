@@ -40,7 +40,7 @@ Node.js removed util.isBuffer (DEP0046: documentation-only since v4.0.0, runtime
 
 ## Sources
 
-- [Node.js deprecations: DEP0046](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0046](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

@@ -40,7 +40,7 @@ Node.js deprecates the crypto.Hmac constructor (DEP0181: documentation-only sinc
 
 ## Sources
 
-- [Node.js deprecations: DEP0181](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0181](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

@@ -40,8 +40,8 @@ npm marks @types/react-virtualized-auto-sizer as deprecated: "This is a stub typ
 
 ## Sources
 
-- [@types/react-virtualized-auto-sizer on npm](https://www.npmjs.com/package/@types/react-virtualized-auto-sizer)
-- [@types/react-virtualized-auto-sizer version metadata](https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer)
+- [@types/react-virtualized-auto-sizer on npm](https://www.npmjs.com/package/@types/react-virtualized-auto-sizer) (accessed 2026-10-19)
+- [@types/react-virtualized-auto-sizer version metadata](https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer) (accessed 2026-10-19)
 
 ## Migration
 

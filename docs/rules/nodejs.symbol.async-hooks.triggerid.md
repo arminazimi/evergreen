@@ -40,7 +40,7 @@ Node.js removed async_hooks.triggerId (DEP0071: runtime deprecation since v8.2.0
 
 ## Sources
 
-- [Node.js deprecations: DEP0071](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0071](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

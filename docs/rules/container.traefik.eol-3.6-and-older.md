@@ -40,7 +40,7 @@ These Traefik release lines no longer receive security fixes from the vendor: th
 
 ## Sources
 
-- [Traefik release policy (vendor)](https://doc.traefik.io/traefik/deprecation/releases)
+- [Traefik release policy (vendor)](https://doc.traefik.io/traefik/deprecation/releases) (accessed 2026-10-20)
 
 ## Migration
 

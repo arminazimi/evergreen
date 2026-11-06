@@ -40,7 +40,7 @@ The Kubernetes release history lists Kubernetes 1.33 as end-of-life on 2026-06-2
 
 ## Sources
 
-- [Kubernetes release history](https://kubernetes.io/releases/)
+- [Kubernetes release history](https://kubernetes.io/releases/) (accessed 2026-10-17)
 
 ## Migration
 

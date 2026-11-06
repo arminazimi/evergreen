@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "boom package deprecation notice",
-      "url": "https://www.npmjs.com/package/boom"
+      "url": "https://www.npmjs.com/package/boom",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "boom registry metadata",
-      "url": "https://registry.npmjs.org/boom/latest"
+      "url": "https://registry.npmjs.org/boom/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

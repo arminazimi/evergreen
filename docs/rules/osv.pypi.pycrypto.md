@@ -39,9 +39,9 @@ OSV lists GHSA-6528-wvf6-f6qg, GHSA-cq27-v7xp-c356, PYSEC-2018-97 against pycryp
 
 ## Sources
 
-- [GHSA-6528-wvf6-f6qg](https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg)
-- [GHSA-cq27-v7xp-c356](https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356)
-- [PYSEC-2018-97](https://osv.dev/vulnerability/PYSEC-2018-97)
+- [GHSA-6528-wvf6-f6qg](https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg) (accessed 2026-10-27)
+- [GHSA-cq27-v7xp-c356](https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356) (accessed 2026-10-27)
+- [PYSEC-2018-97](https://osv.dev/vulnerability/PYSEC-2018-97) (accessed 2026-10-27)
 
 ## Detected by
 

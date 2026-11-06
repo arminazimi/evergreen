@@ -21,7 +21,7 @@ const rule: RegistryV2Rule = {
   summary: "No longer supported",
   severity: "high",
   deadline: "2026-01-01",
-  sources: [{ title: "Policy", url: "https://example.com/policy" }],
+  sources: [{ title: "Policy", url: "https://example.com/policy", accessedAt: "2025-12-01" }],
   provenance: { observedAt: "2025-12-01", reviewedAt: "2026-02-01", reviewer: "test" },
 };
 

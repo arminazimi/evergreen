@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Apache CouchDB security policy",
-      "url": "https://docs.couchdb.org/en/stable/cve/index.html"
+      "url": "https://docs.couchdb.org/en/stable/cve/index.html",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

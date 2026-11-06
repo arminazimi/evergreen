@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "npmlog package deprecation notice",
-      "url": "https://www.npmjs.com/package/npmlog"
+      "url": "https://www.npmjs.com/package/npmlog",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "npmlog registry metadata",
-      "url": "https://registry.npmjs.org/npmlog/latest"
+      "url": "https://registry.npmjs.org/npmlog/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

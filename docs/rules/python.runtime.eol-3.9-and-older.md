@@ -40,8 +40,8 @@ These Python release lines no longer receive security or bug fixes from the Pyth
 
 ## Sources
 
-- [Status of Python versions](https://devguide.python.org/versions/)
-- [PEP 596 — Python 3.9 release schedule](https://peps.python.org/pep-0596/)
+- [Status of Python versions](https://devguide.python.org/versions/) (accessed 2026-10-16)
+- [PEP 596 — Python 3.9 release schedule](https://peps.python.org/pep-0596/) (accessed 2026-10-16)
 
 ## Migration
 

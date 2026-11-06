@@ -40,8 +40,8 @@ The Scala project's development guarantees page states that Scala 2.11 reached e
 
 ## Sources
 
-- [Scala development guarantees — Scala 2.11 status](https://scala-lang.org/development/)
-- [Scala 2 maintenance plans](https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html)
+- [Scala development guarantees — Scala 2.11 status](https://scala-lang.org/development/) (accessed 2026-10-27)
+- [Scala 2 maintenance plans](https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html) (accessed 2026-10-27)
 
 ## Migration
 

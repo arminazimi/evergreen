@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Scala development guarantees — Scala 2.11 status",
-      "url": "https://scala-lang.org/development/"
+      "url": "https://scala-lang.org/development/",
+      "accessedAt": "2026-10-27"
     },
     {
       "title": "Scala 2 maintenance plans",
-      "url": "https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html"
+      "url": "https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html",
+      "accessedAt": "2026-10-27"
     }
   ],
   "provenance": {

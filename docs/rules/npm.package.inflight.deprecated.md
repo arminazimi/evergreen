@@ -40,8 +40,8 @@ npm states that inflight is unsupported, leaks memory, and recommends lru-cache 
 
 ## Sources
 
-- [inflight package deprecation notice](https://www.npmjs.com/package/inflight)
-- [inflight registry metadata](https://registry.npmjs.org/inflight/latest)
+- [inflight package deprecation notice](https://www.npmjs.com/package/inflight) (accessed 2026-10-16)
+- [inflight registry metadata](https://registry.npmjs.org/inflight/latest) (accessed 2026-10-16)
 
 ## Migration
 

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "lodash.isequal package deprecation notice",
-      "url": "https://www.npmjs.com/package/lodash.isequal"
+      "url": "https://www.npmjs.com/package/lodash.isequal",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "lodash.isequal registry metadata",
-      "url": "https://registry.npmjs.org/lodash.isequal/latest"
+      "url": "https://registry.npmjs.org/lodash.isequal/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

@@ -124,7 +124,11 @@ After merge, the weekly [source check](../.github/workflows/sources.yml) watches
       "replacement": "Native fetch or a maintained HTTP client",
       "deadline": "2020-02-11",
       "sources": [
-        { "title": "request package deprecation notice", "url": "https://www.npmjs.com/package/request" }
+        {
+          "title": "request package deprecation notice",
+          "url": "https://www.npmjs.com/package/request",
+          "accessedAt": "2026-10-13"
+        }
       ],
       "provenance": {
         "observedAt": "2026-10-13",
@@ -175,7 +179,7 @@ A second, smaller example lives in [`examples/registry.v2.example.json`](../exam
 | `replacement` | no | What to move to. |
 | `requires` | no | The lowest runtime versions the replacement works on, such as `{ "node": "18.0.0" }`. Only `node` and `python` are known. A migration packet warns when the repository pins an older runtime. |
 | `deadline` | no | The date from the source, as `YYYY-MM-DD`. Omit it when the source gives none. |
-| `sources` | yes | At least one authoritative source, each with a `title` and an `https` `url` (and optionally `accessedAt`). |
+| `sources` | yes | At least one authoritative source, each with a `title`, an `https` `url`, and the `accessedAt` day you read it (`YYYY-MM-DD`). The date ships with every finding. |
 | `provenance` | yes | See below. |
 | `migration` | no | Constraints, ordered steps, and verification commands. Used by `evergreen context`. Step `targets` are `declaration`, `usages`, or `all`; step ids are unique within the rule. |
 | `usage` | no | Imports, calls, configuration keys, and deprecated symbols that show where a repository depends on the component. See [Symbol-level usage](#symbol-level-usage). |
@@ -221,7 +225,8 @@ A complete rule, also in [`examples/registry.v2.symbol.example.json`](../example
       "sources": [
         {
           "title": "React 18 upgrade guide: react-dom render",
-          "url": "https://react.dev/blog/2022/03/08/react-18-upgrade-guide"
+          "url": "https://react.dev/blog/2022/03/08/react-18-upgrade-guide",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {

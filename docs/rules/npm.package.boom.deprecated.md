@@ -40,8 +40,8 @@ npm states that boom moved to @hapi/boom and that the old distribution is no lon
 
 ## Sources
 
-- [boom package deprecation notice](https://www.npmjs.com/package/boom)
-- [boom registry metadata](https://registry.npmjs.org/boom/latest)
+- [boom package deprecation notice](https://www.npmjs.com/package/boom) (accessed 2026-10-16)
+- [boom registry metadata](https://registry.npmjs.org/boom/latest) (accessed 2026-10-16)
 
 ## Migration
 

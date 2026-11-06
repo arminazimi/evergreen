@@ -19,11 +19,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-18"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-18"
         }
       ],
       "provenance": {
@@ -83,11 +85,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-18"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-18"
         }
       ],
       "provenance": {
@@ -147,11 +151,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-17"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-17"
         }
       ],
       "provenance": {
@@ -210,11 +216,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-17"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-17"
         }
       ],
       "provenance": {
@@ -273,11 +281,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-17"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-17"
         }
       ],
       "provenance": {
@@ -336,11 +346,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-17"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-17"
         }
       ],
       "provenance": {
@@ -399,11 +411,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -463,11 +477,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -527,11 +543,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -591,11 +609,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -655,11 +675,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -719,11 +741,13 @@
       "sources": [
         {
           "title": ".NET and .NET Core official support policy",
-          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": ".NET releases index (channel, support phase, end-of-life date)",
-          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -783,15 +807,18 @@
       "sources": [
         {
           "title": "WindowsAzure.Storage on NuGet (deprecation metadata)",
-          "url": "https://www.nuget.org/packages/WindowsAzure.Storage"
+          "url": "https://www.nuget.org/packages/WindowsAzure.Storage",
+          "accessedAt": "2026-10-17"
         },
         {
           "title": "NuGet package deprecation",
-          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages",
+          "accessedAt": "2026-10-17"
         },
         {
           "title": "Azure SDK support policies",
-          "url": "https://azure.github.io/azure-sdk/policies_support.html"
+          "url": "https://azure.github.io/azure-sdk/policies_support.html",
+          "accessedAt": "2026-10-17"
         }
       ],
       "provenance": {
@@ -878,11 +905,13 @@
       "sources": [
         {
           "title": "Microsoft.Azure.DocumentDB on NuGet (deprecation metadata)",
-          "url": "https://www.nuget.org/packages/Microsoft.Azure.DocumentDB"
+          "url": "https://www.nuget.org/packages/Microsoft.Azure.DocumentDB",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "NuGet package deprecation",
-          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -946,11 +975,13 @@
       "sources": [
         {
           "title": "Microsoft.Azure.ServiceBus on NuGet (deprecation metadata)",
-          "url": "https://www.nuget.org/packages/Microsoft.Azure.ServiceBus"
+          "url": "https://www.nuget.org/packages/Microsoft.Azure.ServiceBus",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "NuGet package deprecation",
-          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -1020,11 +1051,13 @@
       "sources": [
         {
           "title": "Microsoft.Azure.Storage.Blob on NuGet (deprecation metadata)",
-          "url": "https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob"
+          "url": "https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "NuGet package deprecation",
-          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {

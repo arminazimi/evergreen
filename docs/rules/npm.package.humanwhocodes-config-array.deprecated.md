@@ -40,8 +40,8 @@ npm recommends replacing @humanwhocodes/config-array with @eslint/config-array.
 
 ## Sources
 
-- [@humanwhocodes/config-array package deprecation notice](https://www.npmjs.com/package/@humanwhocodes/config-array)
-- [@humanwhocodes/config-array registry metadata](https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest)
+- [@humanwhocodes/config-array package deprecation notice](https://www.npmjs.com/package/@humanwhocodes/config-array) (accessed 2026-10-16)
+- [@humanwhocodes/config-array registry metadata](https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest) (accessed 2026-10-16)
 
 ## Migration
 

@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "mysql:mysql-connector-java 8.0.33 POM on Maven Central",
-      "url": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom"
+      "url": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom",
+      "accessedAt": "2026-10-17"
     }
   ],
   "provenance": {

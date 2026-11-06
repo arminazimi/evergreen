@@ -40,8 +40,8 @@ The PHP release branches list marks PHP 7.0 as end of life: active support ended
 
 ## Sources
 
-- [PHP release branches](https://www.php.net/releases/branches.php)
-- [PHP supported versions](https://www.php.net/supported-versions.php)
+- [PHP release branches](https://www.php.net/releases/branches.php) (accessed 2026-10-20)
+- [PHP supported versions](https://www.php.net/supported-versions.php) (accessed 2026-10-20)
 
 ## Migration
 

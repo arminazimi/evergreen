@@ -40,7 +40,7 @@ Node.js deprecates calling Buffer() or new Buffer() in application code (DEP0005
 
 ## Sources
 
-- [Node.js deprecations: DEP0005 Buffer() constructor](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0005 Buffer() constructor](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

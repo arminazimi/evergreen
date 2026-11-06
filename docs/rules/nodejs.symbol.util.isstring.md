@@ -40,7 +40,7 @@ Node.js removed util.isString() (DEP0045 to DEP0058 group, end-of-life since v23
 
 ## Sources
 
-- [Node.js deprecations: DEP0045 to DEP0058 util.is* functions](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0045 to DEP0058 util.is* functions](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

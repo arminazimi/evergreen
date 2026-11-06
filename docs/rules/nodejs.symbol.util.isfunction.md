@@ -40,7 +40,7 @@ Node.js removed util.isFunction (DEP0049: documentation-only since v4.0.0, runti
 
 ## Sources
 
-- [Node.js deprecations: DEP0049](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0049](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

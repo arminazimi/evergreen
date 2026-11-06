@@ -40,7 +40,7 @@ Every Kubernetes minor before 1.29 has passed its published end-of-life date; th
 
 ## Sources
 
-- [Kubernetes release history](https://kubernetes.io/releases/)
+- [Kubernetes release history](https://kubernetes.io/releases/) (accessed 2026-11-01)
 
 ## Migration
 

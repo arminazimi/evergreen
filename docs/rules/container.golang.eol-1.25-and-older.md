@@ -40,7 +40,7 @@ These Go release lines no longer receive fixes from the vendor.
 
 ## Sources
 
-- [Go release policy (vendor)](https://go.dev/doc/devel/release#policy)
+- [Go release policy (vendor)](https://go.dev/doc/devel/release#policy) (accessed 2026-10-20)
 
 ## Migration
 

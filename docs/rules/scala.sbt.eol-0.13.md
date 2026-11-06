@@ -40,8 +40,8 @@ The sbt download page lists the 0.13.x series as end of life on 2018-11-30 after
 
 ## Sources
 
-- [sbt download — release timeline](https://www.scala-sbt.org/download/)
-- [Migrating from sbt 0.13.x](https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html)
+- [sbt download — release timeline](https://www.scala-sbt.org/download/) (accessed 2026-10-27)
+- [Migrating from sbt 0.13.x](https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html) (accessed 2026-10-27)
 
 ## Migration
 

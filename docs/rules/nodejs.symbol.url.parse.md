@@ -40,7 +40,7 @@ Node.js deprecates url.parse() because its behavior is not standardized and erro
 
 ## Sources
 
-- [Node.js deprecations: DEP0169 url.parse](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0169 url.parse](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

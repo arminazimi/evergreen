@@ -40,7 +40,7 @@ The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled
 
 ## Sources
 
-- [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)
+- [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule) (accessed 2026-10-18)
 
 ## Migration
 

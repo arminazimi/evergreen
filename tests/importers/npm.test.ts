@@ -8,6 +8,7 @@ import { diffDrafts } from "../../tools/importers/diff.js";
 import { NPM_CANDIDATES } from "../../tools/importers/npm-candidates.js";
 import { NPM_NAME, npmDeprecatedImporter, registryUrl, ruleSlug } from "../../tools/importers/npm.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
+import { withoutAccessDates } from "./evidence.js";
 import { ImporterError } from "../../tools/importers/types.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
@@ -43,7 +44,7 @@ test("drafts a deprecated rule for every candidate whose latest version carries 
     'npm marks request as deprecated: "request has been deprecated, see https://github.com/request/request/issues/3142"',
   );
   assert.deepEqual(request["x-npm"], { package: "request" });
-  assert.deepEqual(request.sources, [
+  assert.deepEqual(withoutAccessDates(request.sources), [
     { title: "request on npm", url: "https://www.npmjs.com/package/request" },
     { title: "request registry metadata", url: "https://registry.npmjs.org/request" },
   ]);

@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "socket.io-redis on npm",
-      "url": "https://www.npmjs.com/package/socket.io-redis"
+      "url": "https://www.npmjs.com/package/socket.io-redis",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "socket.io-redis version metadata",
-      "url": "https://registry.npmjs.org/socket.io-redis"
+      "url": "https://registry.npmjs.org/socket.io-redis",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

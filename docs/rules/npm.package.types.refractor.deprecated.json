@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/refractor on npm",
-      "url": "https://www.npmjs.com/package/@types/refractor"
+      "url": "https://www.npmjs.com/package/@types/refractor",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/refractor version metadata",
-      "url": "https://registry.npmjs.org/@types%2frefractor"
+      "url": "https://registry.npmjs.org/@types%2frefractor",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "PHP unsupported branches",
-      "url": "https://www.php.net/eol.php"
+      "url": "https://www.php.net/eol.php",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "PHP supported versions",
-      "url": "https://www.php.net/supported-versions.php"
+      "url": "https://www.php.net/supported-versions.php",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

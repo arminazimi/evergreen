@@ -39,9 +39,9 @@ PyPI marks google-cloud as archived: the project does not expect to be updated i
 
 ## Sources
 
-- [google-cloud on PyPI](https://pypi.org/project/google-cloud/)
-- [google-cloud project status (PyPI Simple API)](https://pypi.org/simple/google-cloud/)
-- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/)
+- [google-cloud on PyPI](https://pypi.org/project/google-cloud/) (accessed 2026-10-20)
+- [google-cloud project status (PyPI Simple API)](https://pypi.org/simple/google-cloud/) (accessed 2026-10-20)
+- [Project status markers (PEP 792)](https://packaging.python.org/specifications/project-status-markers/) (accessed 2026-10-20)
 
 ## Migration
 

@@ -40,8 +40,8 @@ npm states that @npmcli/move-file functionality moved to @npmcli/fs.
 
 ## Sources
 
-- [@npmcli/move-file package deprecation notice](https://www.npmjs.com/package/@npmcli/move-file)
-- [@npmcli/move-file registry metadata](https://registry.npmjs.org/@npmcli%2Fmove-file/latest)
+- [@npmcli/move-file package deprecation notice](https://www.npmjs.com/package/@npmcli/move-file) (accessed 2026-10-16)
+- [@npmcli/move-file registry metadata](https://registry.npmjs.org/@npmcli%2Fmove-file/latest) (accessed 2026-10-16)
 
 ## Migration
 

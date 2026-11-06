@@ -40,7 +40,7 @@ Node.js removed os.getNetworkInterfaces (DEP0023: runtime deprecation since v0.6
 
 ## Sources
 
-- [Node.js deprecations: DEP0023](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0023](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

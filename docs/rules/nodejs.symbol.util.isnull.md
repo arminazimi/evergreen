@@ -40,7 +40,7 @@ Node.js removed util.isNull (DEP0050: documentation-only since v4.0.0, runtime d
 
 ## Sources
 
-- [Node.js deprecations: DEP0050](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0050](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "CMake 3.31 release notes (CMakeFindFrameworks deprecated)",
-      "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+      "url": "https://cmake.org/cmake/help/latest/release/3.31.html",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "CMakeFindFrameworks module documentation",
-      "url": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html"
+      "url": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

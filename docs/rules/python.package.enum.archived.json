@@ -11,15 +11,18 @@
   "sources": [
     {
       "title": "enum on PyPI",
-      "url": "https://pypi.org/project/enum/"
+      "url": "https://pypi.org/project/enum/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "enum project status (PyPI Simple API)",
-      "url": "https://pypi.org/simple/enum/"
+      "url": "https://pypi.org/simple/enum/",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Project status markers (PEP 792)",
-      "url": "https://packaging.python.org/specifications/project-status-markers/"
+      "url": "https://packaging.python.org/specifications/project-status-markers/",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

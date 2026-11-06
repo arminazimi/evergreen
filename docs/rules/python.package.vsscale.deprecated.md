@@ -40,7 +40,7 @@ The maintainer states that vsscale is deprecated and directs users to vsjetpack.
 
 ## Sources
 
-- [vsscale deprecation notice](https://pypi.org/project/vsscale/)
+- [vsscale deprecation notice](https://pypi.org/project/vsscale/) (accessed 2026-10-16)
 
 ## Migration
 

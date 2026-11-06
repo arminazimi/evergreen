@@ -40,8 +40,8 @@ The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 202
 
 ## Sources
 
-- [PHP unsupported branches](https://www.php.net/eol.php)
-- [PHP supported versions](https://www.php.net/supported-versions.php)
+- [PHP unsupported branches](https://www.php.net/eol.php) (accessed 2026-10-19)
+- [PHP supported versions](https://www.php.net/supported-versions.php) (accessed 2026-10-19)
 
 ## Migration
 

@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "PowerShell support lifecycle",
-      "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+      "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle",
+      "accessedAt": "2026-10-22"
     }
   ],
   "provenance": {

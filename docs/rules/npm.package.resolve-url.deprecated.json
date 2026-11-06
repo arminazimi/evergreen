@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "resolve-url maintainer deprecation notice",
-      "url": "https://github.com/lydell/resolve-url#deprecated"
+      "url": "https://github.com/lydell/resolve-url#deprecated",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "resolve-url registry metadata",
-      "url": "https://registry.npmjs.org/resolve-url/latest"
+      "url": "https://registry.npmjs.org/resolve-url/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

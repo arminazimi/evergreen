@@ -19,11 +19,13 @@
       "sources": [
         {
           "title": "PHP unsupported branches",
-          "url": "https://www.php.net/eol.php"
+          "url": "https://www.php.net/eol.php",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "PHP supported versions",
-          "url": "https://www.php.net/supported-versions.php"
+          "url": "https://www.php.net/supported-versions.php",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -80,11 +82,13 @@
       "sources": [
         {
           "title": "PHP unsupported branches",
-          "url": "https://www.php.net/eol.php"
+          "url": "https://www.php.net/eol.php",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "PHP supported versions",
-          "url": "https://www.php.net/supported-versions.php"
+          "url": "https://www.php.net/supported-versions.php",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -141,11 +145,13 @@
       "sources": [
         {
           "title": "PHP unsupported branches",
-          "url": "https://www.php.net/eol.php"
+          "url": "https://www.php.net/eol.php",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "PHP supported versions",
-          "url": "https://www.php.net/supported-versions.php"
+          "url": "https://www.php.net/supported-versions.php",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -202,11 +208,13 @@
       "sources": [
         {
           "title": "PHP release branches",
-          "url": "https://www.php.net/releases/branches.php"
+          "url": "https://www.php.net/releases/branches.php",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "PHP supported versions",
-          "url": "https://www.php.net/supported-versions.php"
+          "url": "https://www.php.net/supported-versions.php",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -263,11 +271,13 @@
       "sources": [
         {
           "title": "PHP release branches",
-          "url": "https://www.php.net/releases/branches.php"
+          "url": "https://www.php.net/releases/branches.php",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "PHP supported versions",
-          "url": "https://www.php.net/supported-versions.php"
+          "url": "https://www.php.net/supported-versions.php",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -324,11 +334,13 @@
       "sources": [
         {
           "title": "PHP release branches",
-          "url": "https://www.php.net/releases/branches.php"
+          "url": "https://www.php.net/releases/branches.php",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "PHP supported versions",
-          "url": "https://www.php.net/supported-versions.php"
+          "url": "https://www.php.net/supported-versions.php",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -385,11 +397,13 @@
       "sources": [
         {
           "title": "PHP release branches",
-          "url": "https://www.php.net/releases/branches.php"
+          "url": "https://www.php.net/releases/branches.php",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "PHP supported versions",
-          "url": "https://www.php.net/supported-versions.php"
+          "url": "https://www.php.net/supported-versions.php",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -601,11 +615,13 @@
       "sources": [
         {
           "title": "swiftmailer/swiftmailer on Packagist",
-          "url": "https://packagist.org/packages/swiftmailer/swiftmailer"
+          "url": "https://packagist.org/packages/swiftmailer/swiftmailer",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "The end of Swiftmailer (Symfony Blog)",
-          "url": "https://symfony.com/blog/the-end-of-swiftmailer"
+          "url": "https://symfony.com/blog/the-end-of-swiftmailer",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -658,13 +674,19 @@
           "kind": "call",
           "language": "php",
           "module": "Swift_Mailer",
-          "targets": ["new Swift_Mailer", "Swift_Mailer::newInstance"]
+          "targets": [
+            "new Swift_Mailer",
+            "Swift_Mailer::newInstance"
+          ]
         },
         {
           "kind": "call",
           "language": "php",
           "module": "Swift_Message",
-          "targets": ["new Swift_Message", "Swift_Message::newInstance"]
+          "targets": [
+            "new Swift_Message",
+            "Swift_Message::newInstance"
+          ]
         }
       ]
     },
@@ -682,11 +704,13 @@
       "sources": [
         {
           "title": "zendframework/zend-stdlib on Packagist",
-          "url": "https://packagist.org/packages/zendframework/zend-stdlib"
+          "url": "https://packagist.org/packages/zendframework/zend-stdlib",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project!",
-          "url": "https://www.zendframework.com/blog/2020-01-24-laminas-launch.html"
+          "url": "https://www.zendframework.com/blog/2020-01-24-laminas-launch.html",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -734,7 +758,10 @@
           "kind": "call",
           "language": "php",
           "module": "Zend\\Stdlib",
-          "targets": ["Zend\\Stdlib\\ArrayUtils::merge", "new Zend\\Stdlib\\Parameters"]
+          "targets": [
+            "Zend\\Stdlib\\ArrayUtils::merge",
+            "new Zend\\Stdlib\\Parameters"
+          ]
         }
       ]
     },
@@ -750,11 +777,13 @@
       "sources": [
         {
           "title": "doctrine/cache on Packagist",
-          "url": "https://packagist.org/packages/doctrine/cache"
+          "url": "https://packagist.org/packages/doctrine/cache",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "doctrine/cache Composer metadata",
-          "url": "https://repo.packagist.org/p2/doctrine/cache.json"
+          "url": "https://repo.packagist.org/p2/doctrine/cache.json",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -799,11 +828,13 @@
       "sources": [
         {
           "title": "fzaninotto/faker on Packagist",
-          "url": "https://packagist.org/packages/fzaninotto/faker"
+          "url": "https://packagist.org/packages/fzaninotto/faker",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "fzaninotto/faker Composer metadata",
-          "url": "https://repo.packagist.org/p2/fzaninotto/faker.json"
+          "url": "https://repo.packagist.org/p2/fzaninotto/faker.json",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -849,11 +880,13 @@
       "sources": [
         {
           "title": "sensiolabs/security-checker on Packagist",
-          "url": "https://packagist.org/packages/sensiolabs/security-checker"
+          "url": "https://packagist.org/packages/sensiolabs/security-checker",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "sensiolabs/security-checker Composer metadata",
-          "url": "https://repo.packagist.org/p2/sensiolabs/security-checker.json"
+          "url": "https://repo.packagist.org/p2/sensiolabs/security-checker.json",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {

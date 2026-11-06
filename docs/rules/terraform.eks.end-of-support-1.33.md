@@ -40,7 +40,7 @@ Amazon EKS 1.33 reached the end of standard support on 2026-07-29 and is in exte
 
 ## Sources
 
-- [Amazon EKS: Understand the Kubernetes version lifecycle](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html)
+- [Amazon EKS: Understand the Kubernetes version lifecycle](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) (accessed 2026-10-26)
 
 ## Migration
 

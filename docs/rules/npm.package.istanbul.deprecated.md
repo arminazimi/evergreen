@@ -40,8 +40,8 @@ npm states that istanbul is no longer maintained and recommends nyc.
 
 ## Sources
 
-- [istanbul package deprecation notice](https://www.npmjs.com/package/istanbul)
-- [istanbul version metadata](https://registry.npmjs.org/istanbul)
+- [istanbul package deprecation notice](https://www.npmjs.com/package/istanbul) (accessed 2026-10-16)
+- [istanbul version metadata](https://registry.npmjs.org/istanbul) (accessed 2026-10-16)
 
 ## Migration
 

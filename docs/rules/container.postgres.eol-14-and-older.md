@@ -40,7 +40,7 @@ The PostgreSQL 14 release line is scheduled to stop receiving fixes from the ven
 
 ## Sources
 
-- [PostgreSQL release policy (vendor)](https://www.postgresql.org/support/versioning/)
+- [PostgreSQL release policy (vendor)](https://www.postgresql.org/support/versioning/) (accessed 2026-10-24)
 
 ## Migration
 

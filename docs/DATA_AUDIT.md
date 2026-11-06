@@ -42,7 +42,7 @@ So a report lines up with what the registry actually stores, these are the real 
 | `event` | The lifecycle event. | One of `deprecated`, `end-of-support`, `end-of-life`, `removed`, `scheduled-end-of-life` (`src/registry.ts:13`, `:128`). |
 | `severity` | How urgent the finding is. | One of `info`, `low`, `medium`, `high`, `critical` (`src/domain.ts:1`, enforced at `src/registry.ts:127`). |
 | `deadline` | The date the change takes effect. | Optional, but a real `YYYY-MM-DD` calendar date; a `scheduled-end-of-life` rule must carry it and be `severity: low` (`src/registry.ts:140`–`145`). |
-| `sources[]` | The pages the claim rests on. | At least one; each has a non-empty `title`, an `https` `url`, and an optional `accessedAt` that must be a `YYYY-MM-DD` date (`src/registry.ts:177`–`189`). |
+| `sources[]` | The pages the claim rests on. | At least one; each has a non-empty `title`, an `https` `url`, and an `accessedAt` that must be a `YYYY-MM-DD` date (`src/registry.ts:223`–`234`). |
 | `provenance` | Who checked it and when. | `observedAt` and `reviewedAt` are both real dates, `reviewedAt` must not precede `observedAt`, `reviewer` is required, and `importer` is optional (`src/registry.ts:191`–`204`). |
 | `freshness` | The review window for the registry file. | Rules reviewed longer ago than `freshness.maxReviewAgeDays` are stale; the default window is 365 days (`src/registry.ts:11`, `:264`–`275`). |
 

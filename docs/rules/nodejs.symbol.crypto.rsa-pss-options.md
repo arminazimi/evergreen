@@ -40,7 +40,7 @@ Node.js removed the hash and mgf1Hash options of RSA-PSS key generation (DEP0154
 
 ## Sources
 
-- [Node.js deprecations: DEP0154](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0154](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

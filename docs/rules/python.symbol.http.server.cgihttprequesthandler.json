@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "What's New in Python 3.13",
-      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      "url": "https://docs.python.org/3/whatsnew/3.13.html",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Python deprecations: pending removal in 3.15",
-      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

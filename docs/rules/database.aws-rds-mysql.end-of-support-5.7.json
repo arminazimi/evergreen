@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "MySQL on Amazon RDS versions",
-      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html"
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Concepts.VersionMgmt.html",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "Amazon RDS Extended Support",
-      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html"
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

@@ -40,7 +40,7 @@ The maintainers state that datacommons is no longer maintained or functional and
 
 ## Sources
 
-- [datacommons deprecation notice](https://pypi.org/project/datacommons/)
+- [datacommons deprecation notice](https://pypi.org/project/datacommons/) (accessed 2026-10-16)
 
 ## Migration
 

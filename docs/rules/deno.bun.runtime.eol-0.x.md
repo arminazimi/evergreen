@@ -40,7 +40,7 @@ Bun 0.x pre-release versions are obsolete and end-of-life following the Bun 1.0.
 
 ## Sources
 
-- [Bun 1.0.0 Release](https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0)
+- [Bun 1.0.0 Release](https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0) (accessed 2026-10-26)
 
 ## Migration
 

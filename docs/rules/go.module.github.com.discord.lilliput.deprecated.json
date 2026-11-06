@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "github.com/discord/lilliput v1.5.1 go.mod",
-      "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod"
+      "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod",
+      "accessedAt": "2026-10-20"
     },
     {
       "title": "Go module deprecation reference",
-      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

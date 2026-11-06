@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "@types/sequelize on npm",
-      "url": "https://www.npmjs.com/package/@types/sequelize"
+      "url": "https://www.npmjs.com/package/@types/sequelize",
+      "accessedAt": "2026-10-19"
     },
     {
       "title": "@types/sequelize version metadata",
-      "url": "https://registry.npmjs.org/@types%2fsequelize"
+      "url": "https://registry.npmjs.org/@types%2fsequelize",
+      "accessedAt": "2026-10-19"
     }
   ],
   "provenance": {

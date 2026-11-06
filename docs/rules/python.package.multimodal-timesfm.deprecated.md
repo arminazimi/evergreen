@@ -40,7 +40,7 @@ The maintainer states that multimodal-timesfm was renamed and is no longer maint
 
 ## Sources
 
-- [multimodal-timesfm rename notice](https://pypi.org/project/multimodal-timesfm/)
+- [multimodal-timesfm rename notice](https://pypi.org/project/multimodal-timesfm/) (accessed 2026-10-16)
 
 ## Migration
 

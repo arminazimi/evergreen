@@ -40,7 +40,7 @@ Spring Boot 1.x has reached the end of its open-source support lifecycle. Upgrad
 
 ## Sources
 
-- [Spring Boot support policy](https://spring.io/projects/spring-boot#support)
+- [Spring Boot support policy](https://spring.io/projects/spring-boot#support) (accessed 2026-10-25)
 
 ## Migration
 

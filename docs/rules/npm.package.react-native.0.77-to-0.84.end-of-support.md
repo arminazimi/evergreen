@@ -40,10 +40,10 @@ The React Native release schedule lists the 0.77.x through 0.84.x minor series a
 
 ## Sources
 
-- [React Native Releases Working Group support policy](https://github.com/reactwg/react-native-releases/blob/main/docs/support.md)
-- [React Native releases overview](https://reactnative.dev/releases/overview)
-- [React Native upgrading guide](https://reactnative.dev/docs/upgrading)
-- [React Native Upgrade Helper](https://react-native-community.github.io/upgrade-helper/)
+- [React Native Releases Working Group support policy](https://github.com/reactwg/react-native-releases/blob/main/docs/support.md) (accessed 2026-10-23)
+- [React Native releases overview](https://reactnative.dev/releases/overview) (accessed 2026-10-23)
+- [React Native upgrading guide](https://reactnative.dev/docs/upgrading) (accessed 2026-10-23)
+- [React Native Upgrade Helper](https://react-native-community.github.io/upgrade-helper/) (accessed 2026-10-23)
 
 ## Migration
 

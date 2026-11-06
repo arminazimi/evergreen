@@ -40,8 +40,8 @@ The Oracle Java SE Support Roadmap lists Java 22 to 24 as non-LTS releases whose
 
 ## Sources
 
-- [Oracle Java SE Support Roadmap](https://www.oracle.com/java/technologies/java-se-support-roadmap.html)
-- [Eclipse Temurin support](https://adoptium.net/support/)
+- [Oracle Java SE Support Roadmap](https://www.oracle.com/java/technologies/java-se-support-roadmap.html) (accessed 2026-10-17)
+- [Eclipse Temurin support](https://adoptium.net/support/) (accessed 2026-10-17)
 
 ## Migration
 

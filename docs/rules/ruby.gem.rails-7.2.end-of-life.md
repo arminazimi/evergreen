@@ -40,9 +40,9 @@ The Rails maintenance policy no longer lists Rails 7.2.x as supported. The Rails
 
 ## Sources
 
-- [Ruby on Rails maintenance policy](https://rubyonrails.org/maintenance)
-- [Rails releases and end-of-support announcement](https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement)
-- [Upgrading Ruby on Rails](https://guides.rubyonrails.org/upgrading_ruby_on_rails.html)
+- [Ruby on Rails maintenance policy](https://rubyonrails.org/maintenance) (accessed 2026-10-23)
+- [Rails releases and end-of-support announcement](https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement) (accessed 2026-10-23)
+- [Upgrading Ruby on Rails](https://guides.rubyonrails.org/upgrading_ruby_on_rails.html) (accessed 2026-10-23)
 
 ## Migration
 

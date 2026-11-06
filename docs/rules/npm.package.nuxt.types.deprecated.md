@@ -40,8 +40,8 @@ npm marks @nuxt/types as deprecated: "Nuxt 2 has reached EOL and is no longer ac
 
 ## Sources
 
-- [@nuxt/types on npm](https://www.npmjs.com/package/@nuxt/types)
-- [@nuxt/types registry metadata](https://registry.npmjs.org/@nuxt%2ftypes/latest)
+- [@nuxt/types on npm](https://www.npmjs.com/package/@nuxt/types) (accessed 2026-10-19)
+- [@nuxt/types registry metadata](https://registry.npmjs.org/@nuxt%2ftypes/latest) (accessed 2026-10-19)
 
 ## Migration
 

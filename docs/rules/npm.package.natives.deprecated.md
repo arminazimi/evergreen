@@ -40,8 +40,8 @@ npm states that natives relies on Node.js internals and will break, and directs 
 
 ## Sources
 
-- [natives package deprecation notice](https://www.npmjs.com/package/natives)
-- [natives registry metadata](https://registry.npmjs.org/natives/latest)
+- [natives package deprecation notice](https://www.npmjs.com/package/natives) (accessed 2026-10-16)
+- [natives registry metadata](https://registry.npmjs.org/natives/latest) (accessed 2026-10-16)
 
 ## Migration
 

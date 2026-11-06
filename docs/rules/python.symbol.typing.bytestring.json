@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Python deprecations: pending removal in 3.17",
-      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html"
+      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

@@ -13,7 +13,8 @@
   "sources": [
     {
       "title": "Go release policy (vendor)",
-      "url": "https://go.dev/doc/devel/release#policy"
+      "url": "https://go.dev/doc/devel/release#policy",
+      "accessedAt": "2026-10-20"
     }
   ],
   "provenance": {

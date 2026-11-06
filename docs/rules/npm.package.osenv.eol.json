@@ -11,11 +11,13 @@
   "sources": [
     {
       "title": "osenv package deprecation notice",
-      "url": "https://www.npmjs.com/package/osenv"
+      "url": "https://www.npmjs.com/package/osenv",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "osenv registry metadata",
-      "url": "https://registry.npmjs.org/osenv/latest"
+      "url": "https://registry.npmjs.org/osenv/latest",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

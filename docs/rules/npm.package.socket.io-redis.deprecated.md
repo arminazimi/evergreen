@@ -40,8 +40,8 @@ npm marks socket.io-redis as deprecated: "This package has been renamed to '@soc
 
 ## Sources
 
-- [socket.io-redis on npm](https://www.npmjs.com/package/socket.io-redis)
-- [socket.io-redis version metadata](https://registry.npmjs.org/socket.io-redis)
+- [socket.io-redis on npm](https://www.npmjs.com/package/socket.io-redis) (accessed 2026-10-19)
+- [socket.io-redis version metadata](https://registry.npmjs.org/socket.io-redis) (accessed 2026-10-19)
 
 ## Migration
 

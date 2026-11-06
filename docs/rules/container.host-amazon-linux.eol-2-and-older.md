@@ -40,8 +40,8 @@ Amazon Linux 2 reached the end of standard support on 2026-06-30, and Amazon Lin
 
 ## Sources
 
-- [Amazon Linux 2 release notes](https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html)
-- [Amazon Linux 2023 release cadence](https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html)
+- [Amazon Linux 2 release notes](https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html) (accessed 2026-10-30)
+- [Amazon Linux 2023 release cadence](https://docs.aws.amazon.com/linux/al2023/ug/release-cadence.html) (accessed 2026-10-30)
 
 ## Migration
 

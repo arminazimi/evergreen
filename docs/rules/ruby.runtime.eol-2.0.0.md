@@ -40,7 +40,7 @@ The Ruby maintenance branches page marks Ruby 2.0.0 as eol: normal maintenance e
 
 ## Sources
 
-- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/)
+- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/) (accessed 2026-10-20)
 
 ## Migration
 

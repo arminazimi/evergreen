@@ -40,7 +40,7 @@ Node.js deprecates crypto.fips (DEP0093: documentation-only since v10.0.0, runti
 
 ## Sources
 
-- [Node.js deprecations: DEP0093](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0093](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

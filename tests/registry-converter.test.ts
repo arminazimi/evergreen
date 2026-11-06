@@ -25,6 +25,12 @@ async function v1(name: string): Promise<{ schemaVersion: string; rules: Record<
   throw new Error(`No registry named ${name}`);
 }
 
+/** A converted rule as v1 knew it: v2 adds the day each source was retrieved. */
+function asV1View(rule: Parameters<typeof legacyRule>[0]): Record<string, unknown> {
+  const view = legacyRule(rule);
+  return { ...view, sources: rule.sources.map(({ accessedAt: _accessedAt, ...source }) => source) };
+}
+
 test("converts every bundled v1 registry to a valid v2 registry that reads back unchanged", async () => {
   for (const name of names) {
     const source = await v1(name);
@@ -33,7 +39,7 @@ test("converts every bundled v1 registry to a valid v2 registry that reads back 
     assert.deepEqual(registryV2Issues(converted), [], name);
     assert.equal(converted.ecosystem, name);
     assert.equal(converted.rules.length, source.rules.length);
-    converted.rules.forEach((rule, index) => assert.deepEqual(legacyRule(rule), source.rules[index], rule.id));
+    converted.rules.forEach((rule, index) => assert.deepEqual(asV1View(rule), source.rules[index], rule.id));
   }
 });
 

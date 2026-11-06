@@ -52,7 +52,7 @@ const rule = (overrides: Partial<RegistryV2Rule> = {}): RegistryV2Rule => ({
   severity: "high",
   replacement: "Demo 2 | or later",
   deadline: "2026-01-31",
-  sources: [{ title: "Demo lifecycle", url: "https://example.com/demo" }],
+  sources: [{ title: "Demo lifecycle", url: "https://example.com/demo", accessedAt: "2026-10-01" }],
   provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-02", reviewer: "someone" },
   ...overrides,
 });
@@ -538,10 +538,10 @@ test("every rule field is rendered in its context and escaped there", () => {
   );
 });
 
-test("a rule without requires or an access date says nothing about them", () => {
+test("a rule without requires says nothing about them and still shows the access date", () => {
   const page = renderRulePage(rule(), 365);
   assert.doesNotMatch(page, /Replacement requires/);
-  assert.doesNotMatch(page, /\(accessed /);
+  assert.match(page, /\(accessed 2026-10-01\)/);
 });
 
 test("every registry rule appears in the index and the sitemap", async () => {

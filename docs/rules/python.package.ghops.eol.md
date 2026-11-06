@@ -40,7 +40,7 @@ The maintainer states that ghops is deprecated and no longer maintained, and dir
 
 ## Sources
 
-- [ghops deprecation notice](https://pypi.org/project/ghops/)
+- [ghops deprecation notice](https://pypi.org/project/ghops/) (accessed 2026-10-16)
 
 ## Migration
 

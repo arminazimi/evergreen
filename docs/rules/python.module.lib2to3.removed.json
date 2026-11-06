@@ -12,11 +12,13 @@
   "sources": [
     {
       "title": "What's New in Python 3.13",
-      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      "url": "https://docs.python.org/3/whatsnew/3.13.html",
+      "accessedAt": "2026-10-30"
     },
     {
       "title": "What's New in Python 3.9",
-      "url": "https://docs.python.org/3/whatsnew/3.9.html"
+      "url": "https://docs.python.org/3/whatsnew/3.9.html",
+      "accessedAt": "2026-10-30"
     }
   ],
   "provenance": {

@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Angular release and support schedule",
-      "url": "https://angular.dev/reference/releases"
+      "url": "https://angular.dev/reference/releases",
+      "accessedAt": "2026-10-24"
     },
     {
       "title": "Angular Update Guide",
-      "url": "https://angular.dev/update-guide"
+      "url": "https://angular.dev/update-guide",
+      "accessedAt": "2026-10-24"
     }
   ],
   "provenance": {

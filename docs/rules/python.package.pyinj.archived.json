@@ -12,15 +12,18 @@
   "sources": [
     {
       "title": "pyinj archival and migration notice",
-      "url": "https://pypi.org/project/pyinj/"
+      "url": "https://pypi.org/project/pyinj/",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "pyinj project status (PyPI Simple API)",
-      "url": "https://pypi.org/simple/pyinj/"
+      "url": "https://pypi.org/simple/pyinj/",
+      "accessedAt": "2026-10-16"
     },
     {
       "title": "Project status markers (PEP 792)",
-      "url": "https://packaging.python.org/specifications/project-status-markers/"
+      "url": "https://packaging.python.org/specifications/project-status-markers/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

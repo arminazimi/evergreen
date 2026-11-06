@@ -39,8 +39,8 @@ npm states that the gauge package is no longer supported.
 
 ## Sources
 
-- [gauge package deprecation notice](https://www.npmjs.com/package/gauge)
-- [gauge registry metadata](https://registry.npmjs.org/gauge/latest)
+- [gauge package deprecation notice](https://www.npmjs.com/package/gauge) (accessed 2026-10-16)
+- [gauge registry metadata](https://registry.npmjs.org/gauge/latest) (accessed 2026-10-16)
 
 ## Migration
 

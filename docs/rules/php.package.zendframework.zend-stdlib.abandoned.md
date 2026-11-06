@@ -40,8 +40,8 @@ Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained,
 
 ## Sources
 
-- [zendframework/zend-stdlib on Packagist](https://packagist.org/packages/zendframework/zend-stdlib)
-- [Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project!](https://www.zendframework.com/blog/2020-01-24-laminas-launch.html)
+- [zendframework/zend-stdlib on Packagist](https://packagist.org/packages/zendframework/zend-stdlib) (accessed 2026-10-19)
+- [Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project!](https://www.zendframework.com/blog/2020-01-24-laminas-launch.html) (accessed 2026-10-19)
 
 ## Migration
 

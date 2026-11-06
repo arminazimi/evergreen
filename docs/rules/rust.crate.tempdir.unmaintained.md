@@ -40,7 +40,7 @@ The tempdir crate has been deprecated and its functionality merged into tempfile
 
 ## Sources
 
-- [RustSec advisory RUSTSEC-2018-0017](https://rustsec.org/advisories/RUSTSEC-2018-0017.html)
+- [RustSec advisory RUSTSEC-2018-0017](https://rustsec.org/advisories/RUSTSEC-2018-0017.html) (accessed 2026-10-17)
 
 ## Migration
 

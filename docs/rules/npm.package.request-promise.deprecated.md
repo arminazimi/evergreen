@@ -41,9 +41,9 @@ npm states that request-promise is deprecated because it extends the deprecated 
 
 ## Sources
 
-- [request-promise package deprecation notice](https://www.npmjs.com/package/request-promise)
-- [request-promise registry metadata](https://registry.npmjs.org/request-promise/latest)
-- [Node.js 18 release announcement: global fetch](https://nodejs.org/en/blog/announcements/v18-release-announce)
+- [request-promise package deprecation notice](https://www.npmjs.com/package/request-promise) (accessed 2026-10-16)
+- [request-promise registry metadata](https://registry.npmjs.org/request-promise/latest) (accessed 2026-10-16)
+- [Node.js 18 release announcement: global fetch](https://nodejs.org/en/blog/announcements/v18-release-announce) (accessed 2026-10-16)
 
 ## Migration
 

@@ -40,8 +40,8 @@ Packagist marks swiftmailer/swiftmailer as abandoned and no longer maintained, a
 
 ## Sources
 
-- [swiftmailer/swiftmailer on Packagist](https://packagist.org/packages/swiftmailer/swiftmailer)
-- [The end of Swiftmailer (Symfony Blog)](https://symfony.com/blog/the-end-of-swiftmailer)
+- [swiftmailer/swiftmailer on Packagist](https://packagist.org/packages/swiftmailer/swiftmailer) (accessed 2026-10-19)
+- [The end of Swiftmailer (Symfony Blog)](https://symfony.com/blog/the-end-of-swiftmailer) (accessed 2026-10-19)
 
 ## Migration
 

@@ -40,7 +40,7 @@ The Redis 6.2 release line is scheduled to stop receiving fixes from the vendor 
 
 ## Sources
 
-- [Redis release policy (vendor)](https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/)
+- [Redis release policy (vendor)](https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/) (accessed 2026-10-30)
 
 ## Migration
 

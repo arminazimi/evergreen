@@ -40,8 +40,8 @@ npm marks @types/koa-helmet as deprecated: "This is a stub types definition. koa
 
 ## Sources
 
-- [@types/koa-helmet on npm](https://www.npmjs.com/package/@types/koa-helmet)
-- [@types/koa-helmet version metadata](https://registry.npmjs.org/@types%2fkoa-helmet)
+- [@types/koa-helmet on npm](https://www.npmjs.com/package/@types/koa-helmet) (accessed 2026-10-19)
+- [@types/koa-helmet version metadata](https://registry.npmjs.org/@types%2fkoa-helmet) (accessed 2026-10-19)
 
 ## Migration
 

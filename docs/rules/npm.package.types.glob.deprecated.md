@@ -40,8 +40,8 @@ npm marks @types/glob as deprecated: "This is a stub types definition. glob prov
 
 ## Sources
 
-- [@types/glob on npm](https://www.npmjs.com/package/@types/glob)
-- [@types/glob version metadata](https://registry.npmjs.org/@types%2fglob)
+- [@types/glob on npm](https://www.npmjs.com/package/@types/glob) (accessed 2026-10-19)
+- [@types/glob version metadata](https://registry.npmjs.org/@types%2fglob) (accessed 2026-10-19)
 
 ## Migration
 

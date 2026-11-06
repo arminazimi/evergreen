@@ -40,8 +40,8 @@ npm marks tslint as deprecated: "TSLint has been deprecated in favor of ESLint. 
 
 ## Sources
 
-- [tslint on npm](https://www.npmjs.com/package/tslint)
-- [tslint version metadata](https://registry.npmjs.org/tslint)
+- [tslint on npm](https://www.npmjs.com/package/tslint) (accessed 2026-10-17)
+- [tslint version metadata](https://registry.npmjs.org/tslint) (accessed 2026-10-17)
 
 ## Migration
 

@@ -40,7 +40,7 @@ The maintainer has advised that ansi_term is deprecated and will not receive any
 
 ## Sources
 
-- [RustSec advisory RUSTSEC-2021-0139](https://rustsec.org/advisories/RUSTSEC-2021-0139.html)
+- [RustSec advisory RUSTSEC-2021-0139](https://rustsec.org/advisories/RUSTSEC-2021-0139.html) (accessed 2026-10-17)
 
 ## Migration
 

@@ -7,6 +7,7 @@ import type { RegistryV2 } from "../../src/registry.js";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { RUBY_BRANCHES_URL, rubyMaintenanceImporter } from "../../tools/importers/ruby-1.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
+import { withoutAccessDates } from "./evidence.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
 const recording = resolve("tests/importers/recordings/ruby-1.json");
@@ -58,7 +59,7 @@ test("drafts one end-of-life rule per eol release line from the recording", asyn
   assert.equal(eol32.severity, "high");
   assert.equal(eol32.replacement, "Ruby 3.4 or later");
   assert.equal(eol32.deadline, "2026-04-01");
-  assert.deepEqual(eol32.sources, [{ title: "Ruby maintenance branches", url: RUBY_BRANCHES_URL }]);
+  assert.deepEqual(withoutAccessDates(eol32.sources), [{ title: "Ruby maintenance branches", url: RUBY_BRANCHES_URL }]);
   assert.deepEqual(eol32.provenance, {
     observedAt: "2026-10-18",
     reviewedAt: "2026-10-18",

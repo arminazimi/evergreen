@@ -39,8 +39,8 @@ npm states that the npmlog package is no longer supported.
 
 ## Sources
 
-- [npmlog package deprecation notice](https://www.npmjs.com/package/npmlog)
-- [npmlog registry metadata](https://registry.npmjs.org/npmlog/latest)
+- [npmlog package deprecation notice](https://www.npmjs.com/package/npmlog) (accessed 2026-10-16)
+- [npmlog registry metadata](https://registry.npmjs.org/npmlog/latest) (accessed 2026-10-16)
 
 ## Migration
 

@@ -13,11 +13,13 @@
   "sources": [
     {
       "title": "Elixir security policy",
-      "url": "https://github.com/elixir-lang/elixir/security/policy"
+      "url": "https://github.com/elixir-lang/elixir/security/policy",
+      "accessedAt": "2026-10-26"
     },
     {
       "title": "Elixir v1.20.0 release",
-      "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.20.0"
+      "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.20.0",
+      "accessedAt": "2026-10-26"
     }
   ],
   "provenance": {

@@ -40,7 +40,7 @@ Since September 9, 2026, iOS and iPadOS apps uploaded to App Store Connect must 
 
 ## Sources
 
-- [iOS and iPadOS minimum system requirements — App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/?id=0992026a)
+- [iOS and iPadOS minimum system requirements — App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/?id=0992026a) (accessed 2026-10-20)
 
 ## Migration
 

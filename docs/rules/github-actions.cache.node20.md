@@ -40,8 +40,8 @@ This release uses a retired JavaScript runtime or cache service. Version 5 moved
 
 ## Sources
 
-- [Node 20 is no longer available in GitHub Actions](https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)
-- [actions/cache runtime and service guidance](https://github.com/actions/cache#whats-new)
+- [Node 20 is no longer available in GitHub Actions](https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) (accessed 2026-10-16)
+- [actions/cache runtime and service guidance](https://github.com/actions/cache#whats-new) (accessed 2026-10-16)
 
 ## Migration
 

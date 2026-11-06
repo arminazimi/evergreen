@@ -40,8 +40,8 @@ These Node.js release lines no longer receive security or bug fixes, so images t
 
 ## Sources
 
-- [Node.js end-of-life releases](https://nodejs.org/en/about/eol)
-- [Node.js Release Working Group schedule](https://github.com/nodejs/Release/blob/main/schedule.json)
+- [Node.js end-of-life releases](https://nodejs.org/en/about/eol) (accessed 2026-10-16)
+- [Node.js Release Working Group schedule](https://github.com/nodejs/Release/blob/main/schedule.json) (accessed 2026-10-16)
 
 ## Migration
 

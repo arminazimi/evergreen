@@ -40,7 +40,7 @@ Ruby 3.3 is in security maintenance and is scheduled to stop receiving fixes fro
 
 ## Sources
 
-- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/)
+- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/) (accessed 2026-10-29)
 
 ## Migration
 

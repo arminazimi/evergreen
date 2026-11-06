@@ -40,7 +40,7 @@ The project warns that nose has been in maintenance mode for years and recommend
 
 ## Sources
 
-- [nose note to users](https://nose.readthedocs.io/en/latest/)
+- [nose note to users](https://nose.readthedocs.io/en/latest/) (accessed 2026-10-16)
 
 ## Migration
 

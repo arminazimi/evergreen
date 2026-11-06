@@ -40,7 +40,7 @@ Node.js removed tls.SecurePair (DEP0043: documentation-only since v6.0.0, runtim
 
 ## Sources
 
-- [Node.js deprecations: DEP0043](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0043](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

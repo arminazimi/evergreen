@@ -40,9 +40,9 @@ CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_min
 
 ## Sources
 
-- [CMake 4.0 release notes (compatibility older than 3.5 removed)](https://cmake.org/cmake/help/latest/release/4.0.html)
-- [cmake_minimum_required (Changed in 4.0)](https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html)
-- [CMake 4.0.0 GitHub release](https://github.com/Kitware/CMake/releases/tag/v4.0.0)
+- [CMake 4.0 release notes (compatibility older than 3.5 removed)](https://cmake.org/cmake/help/latest/release/4.0.html) (accessed 2026-10-19)
+- [cmake_minimum_required (Changed in 4.0)](https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html) (accessed 2026-10-19)
+- [CMake 4.0.0 GitHub release](https://github.com/Kitware/CMake/releases/tag/v4.0.0) (accessed 2026-10-19)
 
 ## Migration
 

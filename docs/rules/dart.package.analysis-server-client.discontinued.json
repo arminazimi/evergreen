@@ -11,15 +11,18 @@
   "sources": [
     {
       "title": "analysis_server_client on pub.dev",
-      "url": "https://pub.dev/packages/analysis_server_client"
+      "url": "https://pub.dev/packages/analysis_server_client",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "analysis_server_client package metadata",
-      "url": "https://pub.dev/api/packages/analysis_server_client"
+      "url": "https://pub.dev/api/packages/analysis_server_client",
+      "accessedAt": "2026-10-21"
     },
     {
       "title": "Hosted Pub Repository Specification Version 2",
-      "url": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md"
+      "url": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md",
+      "accessedAt": "2026-10-21"
     }
   ],
   "provenance": {

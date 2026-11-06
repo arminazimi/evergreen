@@ -40,8 +40,8 @@ npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec.
 
 ## Sources
 
-- [sourcemap-codec package deprecation notice](https://www.npmjs.com/package/sourcemap-codec)
-- [sourcemap-codec registry metadata](https://registry.npmjs.org/sourcemap-codec/latest)
+- [sourcemap-codec package deprecation notice](https://www.npmjs.com/package/sourcemap-codec) (accessed 2026-10-16)
+- [sourcemap-codec registry metadata](https://registry.npmjs.org/sourcemap-codec/latest) (accessed 2026-10-16)
 
 ## Migration
 

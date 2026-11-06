@@ -40,8 +40,8 @@ npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema
 
 ## Sources
 
-- [@humanwhocodes/object-schema package deprecation notice](https://www.npmjs.com/package/@humanwhocodes/object-schema)
-- [@humanwhocodes/object-schema registry metadata](https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest)
+- [@humanwhocodes/object-schema package deprecation notice](https://www.npmjs.com/package/@humanwhocodes/object-schema) (accessed 2026-10-16)
+- [@humanwhocodes/object-schema registry metadata](https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest) (accessed 2026-10-16)
 
 ## Migration
 

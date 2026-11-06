@@ -40,8 +40,8 @@ npm marks @types/sanitize-filename as deprecated: "This is a stub types definiti
 
 ## Sources
 
-- [@types/sanitize-filename on npm](https://www.npmjs.com/package/@types/sanitize-filename)
-- [@types/sanitize-filename version metadata](https://registry.npmjs.org/@types%2fsanitize-filename)
+- [@types/sanitize-filename on npm](https://www.npmjs.com/package/@types/sanitize-filename) (accessed 2026-10-19)
+- [@types/sanitize-filename version metadata](https://registry.npmjs.org/@types%2fsanitize-filename) (accessed 2026-10-19)
 
 ## Migration
 

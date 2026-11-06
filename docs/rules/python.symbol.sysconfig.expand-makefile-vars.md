@@ -40,7 +40,7 @@ Python 3.14 deprecates sysconfig.expand_makefile_vars, to be removed in Python 3
 
 ## Sources
 
-- [Python deprecations: pending removal in 3.16](https://docs.python.org/3/deprecations/pending-removal-in-3.16.html)
+- [Python deprecations: pending removal in 3.16](https://docs.python.org/3/deprecations/pending-removal-in-3.16.html) (accessed 2026-10-21)
 
 ## Migration
 

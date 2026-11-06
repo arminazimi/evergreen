@@ -7,6 +7,7 @@ import type { RegistryV2 } from "../../src/registry.js";
 import { diffDrafts } from "../../tools/importers/diff.js";
 import { FIRST_DRAFTED_BRANCH, PHP_BRANCHES_URL, phpSupportedVersionsImporter } from "../../tools/importers/php-1.js";
 import { execute, runImporter } from "../../tools/importers/run.js";
+import { withoutAccessDates } from "./evidence.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
 const recording = resolve("tests/importers/recordings/php-1.json");
@@ -46,7 +47,7 @@ test("drafts one end-of-life rule per ended release line from the recording", as
   // Lowest state:"stable" branch still in active support (not security-only 8.2/8.3).
   assert.equal(eol81.replacement, "PHP 8.4 or later");
   assert.equal(eol81.deadline, "2025-12-31");
-  assert.deepEqual(eol81.sources, phpSupportedVersionsImporter.sources);
+  assert.deepEqual(withoutAccessDates(eol81.sources), phpSupportedVersionsImporter.sources);
   assert.deepEqual(eol81.provenance, {
     observedAt: "2026-10-19",
     reviewedAt: "2026-10-19",

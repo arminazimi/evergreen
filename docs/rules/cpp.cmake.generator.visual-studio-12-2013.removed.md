@@ -40,8 +40,8 @@ CMake 3.31 removed the Visual Studio 12 2013 generator. Projects and presets tha
 
 ## Sources
 
-- [CMake 3.31 release notes (Visual Studio 12 2013 generator removed)](https://cmake.org/cmake/help/latest/release/3.31.html)
-- [Visual Studio 12 2013 generator documentation](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html)
+- [CMake 3.31 release notes (Visual Studio 12 2013 generator removed)](https://cmake.org/cmake/help/latest/release/3.31.html) (accessed 2026-10-19)
+- [Visual Studio 12 2013 generator documentation](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html) (accessed 2026-10-19)
 
 ## Migration
 

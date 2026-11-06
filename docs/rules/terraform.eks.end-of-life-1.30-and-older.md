@@ -40,7 +40,7 @@ Amazon EKS lists 1.31 as the oldest minor version still in extended support, so 
 
 ## Sources
 
-- [Amazon EKS: Understand the Kubernetes version lifecycle](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html)
+- [Amazon EKS: Understand the Kubernetes version lifecycle](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) (accessed 2026-10-26)
 
 ## Migration
 

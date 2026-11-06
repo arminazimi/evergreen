@@ -40,8 +40,8 @@ The latest github.com/cncf/udpa/go module declares: "use github.com/cncf/xds/go 
 
 ## Sources
 
-- [github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe go.mod](https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod)
-- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation)
+- [github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe go.mod](https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod) (accessed 2026-10-20)
+- [Go module deprecation reference](https://go.dev/ref/mod#go-mod-file-module-deprecation) (accessed 2026-10-20)
 
 ## Migration
 

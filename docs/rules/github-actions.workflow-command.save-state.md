@@ -40,7 +40,7 @@ GitHub deprecated the ::save-state workflow command. Append to the GITHUB_STATE 
 
 ## Sources
 
-- [GitHub Actions: Deprecating save-state and set-output commands](https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/)
+- [GitHub Actions: Deprecating save-state and set-output commands](https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/) (accessed 2026-11-05)
 
 ## Migration
 

@@ -12,7 +12,8 @@
   "sources": [
     {
       "title": "Distribute deprecation notice",
-      "url": "https://pypi.org/project/distribute/"
+      "url": "https://pypi.org/project/distribute/",
+      "accessedAt": "2026-10-16"
     }
   ],
   "provenance": {

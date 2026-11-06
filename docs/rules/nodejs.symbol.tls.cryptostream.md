@@ -40,7 +40,7 @@ Node.js removed tls.CryptoStream (DEP0042: documentation-only since v0.11.3, end
 
 ## Sources
 
-- [Node.js deprecations: DEP0042](https://nodejs.org/api/deprecations.html)
+- [Node.js deprecations: DEP0042](https://nodejs.org/api/deprecations.html) (accessed 2026-10-21)
 
 ## Migration
 

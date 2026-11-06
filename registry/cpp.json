@@ -19,15 +19,18 @@
       "sources": [
         {
           "title": "CMake 4.0 release notes (compatibility older than 3.5 removed)",
-          "url": "https://cmake.org/cmake/help/latest/release/4.0.html"
+          "url": "https://cmake.org/cmake/help/latest/release/4.0.html",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "cmake_minimum_required (Changed in 4.0)",
-          "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+          "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "CMake 4.0.0 GitHub release",
-          "url": "https://github.com/Kitware/CMake/releases/tag/v4.0.0"
+          "url": "https://github.com/Kitware/CMake/releases/tag/v4.0.0",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -70,15 +73,18 @@
       "sources": [
         {
           "title": "CMake 3.31 release notes (compatibility older than 3.10 deprecated)",
-          "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+          "url": "https://cmake.org/cmake/help/latest/release/3.31.html",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "cmake_minimum_required (Changed in 3.31)",
-          "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+          "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "CMake 3.31.0 GitHub release",
-          "url": "https://github.com/Kitware/CMake/releases/tag/v3.31.0"
+          "url": "https://github.com/Kitware/CMake/releases/tag/v3.31.0",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -120,11 +126,13 @@
       "sources": [
         {
           "title": "CMake 3.31 release notes (Visual Studio 12 2013 generator removed)",
-          "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+          "url": "https://cmake.org/cmake/help/latest/release/3.31.html",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "Visual Studio 12 2013 generator documentation",
-          "url": "https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html"
+          "url": "https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -166,11 +174,13 @@
       "sources": [
         {
           "title": "CMake 4.0 release notes (FindGDAL deprecated)",
-          "url": "https://cmake.org/cmake/help/latest/release/4.0.html"
+          "url": "https://cmake.org/cmake/help/latest/release/4.0.html",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "FindGDAL module documentation",
-          "url": "https://cmake.org/cmake/help/latest/module/FindGDAL.html"
+          "url": "https://cmake.org/cmake/help/latest/module/FindGDAL.html",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {
@@ -213,11 +223,13 @@
       "sources": [
         {
           "title": "CMake 3.31 release notes (CMakeFindFrameworks deprecated)",
-          "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+          "url": "https://cmake.org/cmake/help/latest/release/3.31.html",
+          "accessedAt": "2026-10-19"
         },
         {
           "title": "CMakeFindFrameworks module documentation",
-          "url": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html"
+          "url": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html",
+          "accessedAt": "2026-10-19"
         }
       ],
       "provenance": {

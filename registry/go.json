@@ -19,7 +19,8 @@
       "sources": [
         {
           "title": "Go release history and support policy",
-          "url": "https://go.dev/doc/devel/release"
+          "url": "https://go.dev/doc/devel/release",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -76,7 +77,8 @@
       "sources": [
         {
           "title": "Go release history and support policy",
-          "url": "https://go.dev/doc/devel/release"
+          "url": "https://go.dev/doc/devel/release",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -133,7 +135,8 @@
       "sources": [
         {
           "title": "Go release history and support policy",
-          "url": "https://go.dev/doc/devel/release"
+          "url": "https://go.dev/doc/devel/release",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -190,7 +193,8 @@
       "sources": [
         {
           "title": "Go release history and support policy",
-          "url": "https://go.dev/doc/devel/release"
+          "url": "https://go.dev/doc/devel/release",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -247,7 +251,8 @@
       "sources": [
         {
           "title": "Go release history and support policy",
-          "url": "https://go.dev/doc/devel/release"
+          "url": "https://go.dev/doc/devel/release",
+          "accessedAt": "2026-10-16"
         }
       ],
       "provenance": {
@@ -304,7 +309,8 @@
       "sources": [
         {
           "title": "Go release history and support policy",
-          "url": "https://go.dev/doc/devel/release"
+          "url": "https://go.dev/doc/devel/release",
+          "accessedAt": "2026-10-17"
         }
       ],
       "provenance": {
@@ -360,11 +366,13 @@
       "sources": [
         {
           "title": "cloud.google.com/go/pubsub v1.51.1 go.mod",
-          "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod"
+          "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "Go module deprecation reference",
-          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -416,11 +424,13 @@
       "sources": [
         {
           "title": "github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe go.mod",
-          "url": "https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod"
+          "url": "https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "Go module deprecation reference",
-          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -471,11 +481,13 @@
       "sources": [
         {
           "title": "github.com/discord/lilliput v1.5.1 go.mod",
-          "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod"
+          "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "Go module deprecation reference",
-          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -527,11 +539,13 @@
       "sources": [
         {
           "title": "github.com/golang/protobuf v1.5.4 go.mod",
-          "url": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod"
+          "url": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "Go module deprecation reference",
-          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -583,11 +597,13 @@
       "sources": [
         {
           "title": "github.com/streadway/amqp v1.1.0 go.mod",
-          "url": "https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod"
+          "url": "https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "Go module deprecation reference",
-          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {
@@ -638,11 +654,13 @@
       "sources": [
         {
           "title": "go.opentelemetry.io/otel/exporters/zipkin v1.47.0 go.mod",
-          "url": "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod"
+          "url": "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod",
+          "accessedAt": "2026-10-20"
         },
         {
           "title": "Go module deprecation reference",
-          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation",
+          "accessedAt": "2026-10-20"
         }
       ],
       "provenance": {

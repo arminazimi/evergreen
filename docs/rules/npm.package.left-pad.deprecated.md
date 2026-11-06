@@ -40,7 +40,7 @@ The package author recommends the built-in String.prototype.padStart method.
 
 ## Sources
 
-- [left-pad package deprecation notice](https://www.npmjs.com/package/left-pad)
+- [left-pad package deprecation notice](https://www.npmjs.com/package/left-pad) (accessed 2026-10-13)
 
 ## Migration
 

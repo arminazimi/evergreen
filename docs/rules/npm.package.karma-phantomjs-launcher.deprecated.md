@@ -40,8 +40,8 @@ npm states that PhantomJS development stopped and recommends Puppeteer or a simi
 
 ## Sources
 
-- [karma-phantomjs-launcher package deprecation notice](https://www.npmjs.com/package/karma-phantomjs-launcher)
-- [karma-phantomjs-launcher registry metadata](https://registry.npmjs.org/karma-phantomjs-launcher/latest)
+- [karma-phantomjs-launcher package deprecation notice](https://www.npmjs.com/package/karma-phantomjs-launcher) (accessed 2026-10-16)
+- [karma-phantomjs-launcher registry metadata](https://registry.npmjs.org/karma-phantomjs-launcher/latest) (accessed 2026-10-16)
 
 ## Migration
 
