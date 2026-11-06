@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import type { FixRefusal } from "../src/fix/index.js";
+import { cleanup, repository } from "./codemod-helpers.js";
 import { runCli } from "./cli-runner.js";
 
 // Epic #1825: every refusal a codemod documents is reported with its reason under `refusals` in `fix --json`.
@@ -12,19 +12,11 @@ import { runCli } from "./cli-runner.js";
 // for all ten codemods, node-renames and python-renames included in their own files.
 
 const fixtures = resolve("tests/fixtures/fix");
-const roots: string[] = [];
 
-after(async () => {
-  await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
-});
+after(cleanup);
 
 async function refusalsFor(fixer: string, files: Record<string, string>): Promise<FixRefusal[]> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-json-refusals-"));
-  roots.push(root);
-  for (const [path, contents] of Object.entries(files)) {
-    await mkdir(dirname(join(root, path)), { recursive: true });
-    await writeFile(join(root, path), contents);
-  }
+  const root = await repository(files);
   const { stdout } = await runCli(["fix", root, "--json"]);
   const report = JSON.parse(stdout) as {
     schemaVersion: string;

@@ -1,68 +1,20 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import type { ScanResult, SymbolUsageMatcher } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
-import { planFixReport, pythonRenamesFixer } from "../src/fix/index.js";
-import type { FixerPatch, FixRefusal } from "../src/fix/index.js";
+import { pythonRenamesFixer } from "../src/fix/index.js";
+import type { FixRefusal } from "../src/fix/index.js";
 import { analyzePythonFile } from "../src/usage/python.js";
-import { parseSource } from "../src/usage/tree-sitter.js";
+import { apply, assertParses, cleanup, normalized, plan as planCodemod, repository } from "./codemod-helpers.js";
 import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
 const fixtures = resolve("tests/fixtures/fix/python-renames");
-const temporaryRoots: string[] = [];
 
-after(async () => {
-  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
-});
+after(cleanup);
 
-interface Plan {
-  root: string;
-  patches: FixerPatch[];
-  refusals: FixRefusal[];
-}
-
-async function plan(files: Record<string, string>): Promise<Plan> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-python-renames-"));
-  temporaryRoots.push(root);
-  for (const [path, contents] of Object.entries(files)) {
-    await mkdir(dirname(join(root, path)), { recursive: true });
-    await writeFile(join(root, path), contents);
-  }
-  const result = await scanRepository(root, detectors, { noCache: true });
-  const report = await planFixReport(result);
-  return {
-    root,
-    patches: report.patches.filter((patch) => patch.fixer === "python-renames"),
-    refusals: report.refusals.filter((refusal) => refusal.fixer === "python-renames"),
-  };
-}
-
-function normalized(text: string): string {
-  return text.replace(/\r\n/g, "\n");
-}
-
-async function apply(root: string, diff: string, file = "app.py"): Promise<string> {
-  const patch = join(root, "fix.patch");
-  await writeFile(patch, `${diff}\n`);
-  await execute("git", ["apply", "--check", patch], { cwd: root });
-  await execute("git", ["apply", patch], { cwd: root });
-  return normalized(await readFile(join(root, file), "utf8"));
-}
-
-async function assertParses(source: string): Promise<void> {
-  const tree = await parseSource("python", source);
-  assert.ok(tree);
-  assert.equal(tree.rootNode.hasError, false);
-  tree.delete();
-}
+const plan = (files: Record<string, string>) => planCodemod(files, "python-renames");
 
 for (const row of ["module-renames", "testcase-aliases"]) {
   test(`${row} is rewritten exactly, parses, and is idempotent`, async () => {
@@ -154,12 +106,9 @@ test("the method shape reports an alias call on any receiver inside a TestCase a
 });
 
 test("fix --json reports the refusal", async () => {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-python-renames-cli-"));
-  temporaryRoots.push(root);
-  await writeFile(
-    join(root, "app.py"),
-    await readFile(join(fixtures, "refusals", "assert-dict-contains-subset.py"), "utf8"),
-  );
+  const root = await repository({
+    "app.py": await readFile(join(fixtures, "refusals", "assert-dict-contains-subset.py"), "utf8"),
+  });
 
   const { stdout } = await runCli(["fix", root, "--json"]);
   const report = JSON.parse(stdout) as { schemaVersion: string; refusals: FixRefusal[] };
@@ -204,9 +153,9 @@ test("an alias imported from unittest is not treated as a TestCase base when the
 });
 
 test("targetsFor rewrites a usage a scan finding already carries", async () => {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-python-renames-finding-"));
-  temporaryRoots.push(root);
-  await writeFile(join(root, "app.py"), "import configparser\n\nparser = configparser.SafeConfigParser()\n");
+  const root = await repository({
+    "app.py": "import configparser\n\nparser = configparser.SafeConfigParser()\n",
+  });
   const location = { path: "app.py", line: 3, column: 10 };
   const result: ScanResult = {
     schemaVersion: "evergreen.scan.v1",
@@ -243,9 +192,9 @@ test("targetsFor rewrites a usage a scan finding already carries", async () => {
 });
 
 test("plan refuses a Python file with a syntax error", async () => {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-python-renames-safety-"));
-  temporaryRoots.push(root);
-  await writeFile(join(root, "app.py"), "import configparser\n\ndef broken(:\n    configparser.SafeConfigParser()\n");
+  const root = await repository({
+    "app.py": "import configparser\n\ndef broken(:\n    configparser.SafeConfigParser()\n",
+  });
   const location = { path: "app.py", line: 4, column: 5 };
   const result: ScanResult = {
     schemaVersion: "evergreen.scan.v1",

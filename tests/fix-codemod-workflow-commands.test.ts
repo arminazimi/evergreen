@@ -1,30 +1,20 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
-import { after, test } from "node:test";
-import { promisify } from "node:util";
+import { readFile, writeFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
+import { test } from "node:test";
 import { parseDocument } from "yaml";
 
 import { githubActionsDetector } from "../src/detectors/github-actions.js";
 import { scanRepository } from "../src/engine.js";
 import { planFixReport, renderPatches, workflowCommandsFixer } from "../src/fix/index.js";
+import { applyDiff as apply, repository as temporaryRepository } from "./codemod-helpers.js";
 
-const execute = promisify(execFile);
-const roots: string[] = [];
 const path = ".github/workflows/ci.yml";
 const prefix = "github-actions.workflow-command.";
-after(async () => {
-  await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
-});
 
-async function repository(contents: string, file = path): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-workflow-command-"));
-  roots.push(root);
-  await mkdir(dirname(join(root, file)), { recursive: true });
-  await writeFile(join(root, file), contents);
-  return root;
+/** Writes the workflow at the given path and returns the temporary repository. */
+function repository(contents: string, file = path): Promise<string> {
+  return temporaryRepository({ [file]: contents });
 }
 
 function workflow(
@@ -39,14 +29,6 @@ function workflow(
 
 async function report(root: string) {
   return planFixReport(await scanRepository(root, [githubActionsDetector]), [workflowCommandsFixer]);
-}
-
-async function apply(root: string, diff: string): Promise<void> {
-  await execute("git", ["init", "-q"], { cwd: root });
-  const patch = join(root, "change.patch");
-  await writeFile(patch, diff);
-  await execute("git", ["apply", "--check", patch], { cwd: root });
-  await execute("git", ["apply", patch], { cwd: root });
 }
 
 test("each command and quoting style produces applicable, parseable, idempotent patches without writing during planning", async () => {

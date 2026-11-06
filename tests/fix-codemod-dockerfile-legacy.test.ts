@@ -1,9 +1,6 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { promisify } from "node:util";
 import { after, test } from "node:test";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
@@ -11,22 +8,11 @@ import { parseDockerfile } from "../src/detectors/container/parse-dockerfile.js"
 import { scanRepository } from "../src/engine.js";
 import { dockerfileLegacyFixer } from "../src/fix/codemods/dockerfile-legacy.js";
 import { renderPatches } from "../src/fix/index.js";
+import { apply, cleanup, repository } from "./codemod-helpers.js";
 
-const execute = promisify(execFile);
 const fixtures = resolve("tests/fixtures/fix/dockerfile-legacy");
-const temporaryRoots: string[] = [];
 
-after(async () => {
-  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
-});
-
-async function repository(files: Record<string, string>): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-fix-dockerfile-legacy-"));
-  temporaryRoots.push(root);
-  for (const [path, contents] of Object.entries(files)) await writeFile(join(root, path), contents);
-  await execute("git", ["init", "-q"], { cwd: root });
-  return root;
-}
+after(cleanup);
 
 test("rewrites MAINTAINER and the legacy ENV form to the after fixture", async () => {
   const before = await readFile(join(fixtures, "before.image.fixture"), "utf8");
@@ -48,11 +34,7 @@ test("rewrites MAINTAINER and the legacy ENV form to the after fixture", async (
   );
   assert.ok(patches[0]!.diff.includes('\n+ENV MULTI="one two"\n'));
 
-  const patch = join(root, "fix.patch");
-  await writeFile(patch, renderPatches(patches));
-  await execute("git", ["apply", "--check", "fix.patch"], { cwd: root });
-  await execute("git", ["apply", "fix.patch"], { cwd: root });
-  assert.equal(await readFile(join(root, "Dockerfile"), "utf8"), after);
+  assert.equal(await apply(root, renderPatches(patches), "Dockerfile"), after);
 
   // The patched file still parses with the container detector's parser, and only the FROM remains a declaration.
   assert.deepEqual(parseDockerfile(after), [{ kind: "image", value: "node:24", line: 2 }]);

@@ -1,9 +1,6 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 import { parseAllDocuments } from "yaml";
 
@@ -11,25 +8,12 @@ import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import { MAXIMUM_DOCUMENTS, MAXIMUM_INPUT_BYTES } from "../src/detectors/kubernetes/parse-manifest.js";
 import type { Finding, ScanResult } from "../src/domain.js";
 import { scanRepository } from "../src/engine.js";
-import { kubernetesApiVersionFixer, kubernetesIngressV1Fixer, planFixReport, renderPatches } from "../src/fix/index.js";
+import { kubernetesApiVersionFixer, kubernetesIngressV1Fixer, planFixReport } from "../src/fix/index.js";
+import { applyPatches as apply, cleanup, repository } from "./codemod-helpers.js";
 
-const execute = promisify(execFile);
 const fixtures = resolve("tests/fixtures/fix/k8s-ingress-v1");
-const temporaryRoots: string[] = [];
 
-after(async () => {
-  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
-});
-
-async function repository(files: Record<string, string>): Promise<string> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-fix-k8s-ingress-v1-"));
-  temporaryRoots.push(root);
-  for (const [path, contents] of Object.entries(files)) {
-    await mkdir(dirname(join(root, path)), { recursive: true });
-    await writeFile(join(root, path), contents);
-  }
-  return root;
-}
+after(cleanup);
 
 interface Refusal {
   path: string;
@@ -48,14 +32,6 @@ async function plan(root: string): Promise<{
     refusals.push({ path: finding.location.path, line: finding.location.line, reason });
   });
   return { result, patches, refusals };
-}
-
-async function apply(root: string, patches: Awaited<ReturnType<typeof kubernetesIngressV1Fixer.plan>>): Promise<void> {
-  await writeFile(join(root, "fix.patch"), renderPatches(patches));
-  await execute("git", ["init", "-q"], { cwd: root });
-  await execute("git", ["config", "core.autocrlf", "false"], { cwd: root });
-  await execute("git", ["apply", "--check", "fix.patch"], { cwd: root });
-  await execute("git", ["apply", "fix.patch"], { cwd: root });
 }
 
 function finding(

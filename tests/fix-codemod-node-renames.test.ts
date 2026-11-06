@@ -1,43 +1,14 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { promisify } from "node:util";
 import { after, test } from "node:test";
 
-import { builtInDetectors as detectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
-import { planFixReport } from "../src/fix/index.js";
-import type { FilePatch, FixRefusal } from "../src/fix/index.js";
-import { grammarFor, parseSource } from "../src/usage/tree-sitter.js";
+import { apply, assertParses, cleanup, normalized, plan, repository } from "./codemod-helpers.js";
 import { runCli } from "./cli-runner.js";
 
-const execute = promisify(execFile);
 const fixtures = resolve("tests/fixtures/fix/node-renames");
-const temporaryRoots: string[] = [];
 
-after(async () => {
-  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
-});
-
-interface Plan {
-  root: string;
-  patches: FilePatch[];
-  refusals: FixRefusal[];
-}
-
-async function plan(files: Record<string, string>): Promise<Plan> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-node-renames-"));
-  temporaryRoots.push(root);
-  for (const [path, contents] of Object.entries(files)) await writeFile(join(root, path), contents);
-  const result = await scanRepository(root, detectors, { noCache: true });
-  return { root, ...(await planFixReport(result)) };
-}
-
-function normalized(text: string): string {
-  return text.replace(/\r\n/g, "\n");
-}
+after(cleanup);
 
 const keptRenames = [
   ["tmpDir", "tmpdir"],
@@ -60,49 +31,42 @@ for (const [extension, language] of [
       assert.ok(expected.includes(to), `the after fixture must use ${to}`);
     }
 
-    const { root, patches } = await plan({ [`index.${extension}`]: before });
+    const { root, patches } = await plan({ [`index.${extension}`]: before }, "node-renames");
     assert.equal(patches.length, 1);
     assert.equal(patches[0]!.path, `index.${extension}`);
-    const patch = join(root, "fix.patch");
-    await writeFile(patch, `${patches[0]!.diff}\n`);
-    await execute("git", ["apply", "--check", patch], { cwd: root });
-    await execute("git", ["apply", patch], { cwd: root });
-    assert.equal(normalized(await readFile(join(root, `index.${extension}`), "utf8")), normalized(expected));
-
-    const tree = await parseSource(grammarFor(language, `index.${extension}`)!, expected);
-    assert.ok(tree);
-    assert.equal(tree.rootNode.hasError, false);
-    tree.delete();
+    const fixed = await apply(root, patches[0]!.diff, `index.${extension}`);
+    assert.equal(fixed, normalized(expected));
+    await assertParses(fixed, language);
   });
 
   test(`plans nothing for already-rewritten ${extension}`, async () => {
     const expected = await readFile(join(fixtures, `after.${extension}`), "utf8");
-    assert.deepEqual((await plan({ [`index.${extension}`]: expected })).patches, []);
+    assert.deepEqual((await plan({ [`index.${extension}`]: expected }, "node-renames")).patches, []);
   });
 }
 
 test("refuses local bindings, optional calls, and computed member access", async () => {
-  const { refusals } = await plan({
-    "index.js": await readFile(join(fixtures, "refusals.js"), "utf8"),
-    "index.ts": await readFile(join(fixtures, "refusals.ts"), "utf8"),
-  });
+  const { refusals } = await plan(
+    {
+      "index.js": await readFile(join(fixtures, "refusals.js"), "utf8"),
+      "index.ts": await readFile(join(fixtures, "refusals.ts"), "utf8"),
+    },
+    "node-renames",
+  );
 
-  const ours = refusals.filter((refusal) => refusal.fixer === "node-renames");
-  assert.equal(ours.length, 10);
-  const reasons = ours.map((refusal) => refusal.reason);
+  assert.equal(refusals.length, 10);
+  const reasons = refusals.map((refusal) => refusal.reason);
   assert.equal(reasons.filter((reason) => reason.includes("local binding")).length, 4);
   assert.equal(reasons.filter((reason) => reason.includes("optional (`?.`)")).length, 4);
   assert.equal(reasons.filter((reason) => reason.includes("computed key")).length, 2);
-  assert.ok(ours.every((refusal) => refusal.ruleId === "nodejs.symbol.os.tmpdir"));
+  assert.ok(refusals.every((refusal) => refusal.ruleId === "nodejs.symbol.os.tmpdir"));
 });
 
 test("fix --json reports every refusal", async () => {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-node-renames-cli-"));
-  temporaryRoots.push(root);
-  await writeFile(join(root, "index.js"), await readFile(join(fixtures, "refusals.js"), "utf8"));
+  const root = await repository({ "index.js": await readFile(join(fixtures, "refusals.js"), "utf8") });
 
   const { stdout } = await runCli(["fix", root, "--json"]);
-  const report = JSON.parse(stdout) as { schemaVersion: string; refusals: FixRefusal[] };
+  const report = JSON.parse(stdout) as { schemaVersion: string; refusals: { fixer: string; reason: string }[] };
   assert.equal(report.schemaVersion, "evergreen.fix.v1");
   const ours = report.refusals.filter((refusal) => refusal.fixer === "node-renames");
   assert.ok(ours.length > 0);
@@ -112,9 +76,10 @@ test("fix --json reports every refusal", async () => {
 });
 
 test("plan refuses a file that does not end with a newline", async () => {
-  const { patches, refusals } = await plan({
-    "index.js": 'const os = require("os");\nconst tmp = os.tmpDir();',
-  });
+  const { patches, refusals } = await plan(
+    { "index.js": 'const os = require("os");\nconst tmp = os.tmpDir();' },
+    "node-renames",
+  );
   assert.deepEqual(patches, []);
   assert.ok(refusals.some((refusal) => refusal.reason.includes("does not end with a newline")));
 });

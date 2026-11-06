@@ -1,65 +1,15 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { builtInDetectors as detectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
-import { planFixReport } from "../src/fix/index.js";
-import type { FixerPatch, FixRefusal } from "../src/fix/index.js";
-import { parseSource } from "../src/usage/tree-sitter.js";
+import { apply, assertParses, cleanup, normalized, plan as planCodemod } from "./codemod-helpers.js";
 
-const execute = promisify(execFile);
 const fixtures = resolve("tests/fixtures/fix/python-utcnow");
-const temporaryRoots: string[] = [];
 
-after(async () => {
-  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
-});
+after(cleanup);
 
-interface Plan {
-  root: string;
-  patches: FixerPatch[];
-  refusals: FixRefusal[];
-}
-
-async function plan(files: Record<string, string>): Promise<Plan> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-python-utcnow-"));
-  temporaryRoots.push(root);
-  for (const [path, contents] of Object.entries(files)) {
-    await mkdir(dirname(join(root, path)), { recursive: true });
-    await writeFile(join(root, path), contents);
-  }
-  const result = await scanRepository(root, detectors, { noCache: true });
-  const report = await planFixReport(result);
-  return {
-    root,
-    patches: report.patches.filter((patch) => patch.fixer === "python-utcnow"),
-    refusals: report.refusals.filter((refusal) => refusal.fixer === "python-utcnow"),
-  };
-}
-
-function normalized(text: string): string {
-  return text.replace(/\r\n/g, "\n");
-}
-
-async function apply(root: string, diff: string, file = "app.py"): Promise<string> {
-  const patch = join(root, "fix.patch");
-  await writeFile(patch, `${diff}\n`);
-  await execute("git", ["apply", "--check", patch], { cwd: root });
-  await execute("git", ["apply", patch], { cwd: root });
-  return normalized(await readFile(join(root, file), "utf8"));
-}
-
-async function assertParses(source: string): Promise<void> {
-  const tree = await parseSource("python", source);
-  assert.ok(tree);
-  assert.equal(tree.rootNode.hasError, false);
-  tree.delete();
-}
+const plan = (files: Record<string, string>) => planCodemod(files, "python-utcnow");
 
 const rows = [
   "from-import-utcnow",

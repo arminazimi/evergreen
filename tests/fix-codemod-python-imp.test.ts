@@ -1,66 +1,17 @@
 import assert from "node:assert/strict";
-import { execFile } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
-import { promisify } from "node:util";
+import { readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import type { ScanResult } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
-import { planFixReport, pythonImpFixer } from "../src/fix/index.js";
-import type { FixerPatch, FixRefusal } from "../src/fix/index.js";
-import { parseSource } from "../src/usage/tree-sitter.js";
+import { pythonImpFixer } from "../src/fix/index.js";
+import { apply, assertParses, cleanup, normalized, plan as planCodemod, repository } from "./codemod-helpers.js";
 
-const execute = promisify(execFile);
 const fixtures = resolve("tests/fixtures/fix/python-imp");
-const temporaryRoots: string[] = [];
 
-after(async () => {
-  await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
-});
+after(cleanup);
 
-interface Plan {
-  root: string;
-  patches: FixerPatch[];
-  refusals: FixRefusal[];
-}
-
-async function plan(files: Record<string, string>): Promise<Plan> {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-python-imp-"));
-  temporaryRoots.push(root);
-  for (const [path, contents] of Object.entries(files)) {
-    await mkdir(dirname(join(root, path)), { recursive: true });
-    await writeFile(join(root, path), contents);
-  }
-  const result = await scanRepository(root, detectors, { noCache: true });
-  const report = await planFixReport(result);
-  return {
-    root,
-    patches: report.patches.filter((patch) => patch.fixer === "python-imp"),
-    refusals: report.refusals.filter((refusal) => refusal.fixer === "python-imp"),
-  };
-}
-
-function normalized(text: string): string {
-  return text.replace(/\r\n/g, "\n");
-}
-
-async function apply(root: string, diff: string): Promise<string> {
-  const patch = join(root, "fix.patch");
-  await writeFile(patch, `${diff}\n`);
-  await execute("git", ["apply", "--check", patch], { cwd: root });
-  await execute("git", ["apply", patch], { cwd: root });
-  return normalized(await readFile(join(root, "app.py"), "utf8"));
-}
-
-async function assertParses(source: string): Promise<void> {
-  const tree = await parseSource("python", source);
-  assert.ok(tree);
-  assert.equal(tree.rootNode.hasError, false);
-  tree.delete();
-}
+const plan = (files: Record<string, string>) => planCodemod(files, "python-imp");
 
 const rows = ["reload", "new-module", "get-magic", "get-tag", "cache-from-source", "source-from-cache"];
 
@@ -173,10 +124,10 @@ test("every needed import is added in rule order", async () => {
 });
 
 test("plan refuses a syntax error, a file without a final newline, a missing file, and a path outside the root", async () => {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-python-imp-safety-"));
-  temporaryRoots.push(root);
-  await writeFile(join(root, "syntax.py"), "import imp\n\ndef broken(:\n    imp.reload(x)\n");
-  await writeFile(join(root, "no-newline.py"), "import imp\n\nmodule = imp.reload(existing)");
+  const root = await repository({
+    "syntax.py": "import imp\n\ndef broken(:\n    imp.reload(x)\n",
+    "no-newline.py": "import imp\n\nmodule = imp.reload(existing)",
+  });
   const paths = ["syntax.py", "no-newline.py", "missing.py", "../outside.py"];
   const result: ScanResult = {
     schemaVersion: "evergreen.scan.v1",
