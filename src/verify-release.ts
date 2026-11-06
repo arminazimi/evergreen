@@ -49,9 +49,21 @@ export const UNCHECKED_OFFLINE: readonly string[] = [
   "GitHub build attestations for a standalone binary: run `gh attestation verify <file> --repo arminazimi/evergreen` (needs network)",
 ];
 
-async function dataSection(): Promise<ReleaseVerification["data"]> {
+/** The parts of the active-data status this report shows; `getDataStatus` returns them, tests can replace them. */
+export interface DataReport {
+  source: string;
+  version: string;
+  signer: { identity: string; issuer: string } | null;
+}
+
+export interface VerifyReleaseOptions {
+  /** Replaces the active-data report. Only tests use this. */
+  dataStatus?: () => Promise<DataReport>;
+}
+
+async function dataSection(readStatus: () => Promise<DataReport>): Promise<ReleaseVerification["data"]> {
   try {
-    const status = await getDataStatus();
+    const status = await readStatus();
     const signerNote = status.signer
       ? `signed by ${status.signer.identity} (${status.signer.issuer})`
       : status.source === "bundled"
@@ -76,7 +88,10 @@ async function dataSection(): Promise<ReleaseVerification["data"]> {
 }
 
 /** Verifies the installed package, or the package rooted at `root`, as far as local files allow. */
-export async function verifyInstalledRelease(root: string = installedPackageRoot()): Promise<ReleaseVerification> {
+export async function verifyInstalledRelease(
+  root: string = installedPackageRoot(),
+  options: VerifyReleaseOptions = {},
+): Promise<ReleaseVerification> {
   const pkg = await readPackageNameAndVersion(root);
   let files: ReleaseVerification["files"];
   try {
@@ -109,7 +124,7 @@ export async function verifyInstalledRelease(root: string = installedPackageRoot
     version: pkg.version,
     files,
     signature,
-    data: await dataSection(),
+    data: await dataSection(options.dataStatus ?? getDataStatus),
     unchecked: UNCHECKED_OFFLINE,
     ok: problems.length === 0,
   };

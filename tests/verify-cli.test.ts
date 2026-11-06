@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
 import { installedPackageRoot, RELEASE_MANIFEST_PATH, writeReleaseManifest } from "../src/release-manifest.js";
+import { verifyInstalledRelease } from "../src/verify-release.js";
 import { runCli } from "./cli-runner.js";
 
 const roots: string[] = [];
@@ -79,6 +80,26 @@ test("verify rejects extra paths, unknown flags, and a directory that is not a p
   const run = await runCli(["verify", missing], { cwd: missing });
   assert.equal(run.code, 2);
   assert.match(run.stderr, /not an Evergreen package/);
+});
+
+test("the report names a signed data bundle and survives a data read failure", async () => {
+  const root = await packageRoot();
+  const signed = await verifyInstalledRelease(root, {
+    dataStatus: async () => ({
+      source: "cache",
+      version: "2026.10.01",
+      signer: { identity: "release.yml@refs/tags/v9.9.9", issuer: "https://token.actions.githubusercontent.com" },
+    }),
+  });
+  assert.match(signed.data.note, /signed by release\.yml@refs\/tags\/v9\.9\.9/);
+
+  const failed = await verifyInstalledRelease(root, {
+    dataStatus: async () => {
+      throw new Error("cache unreadable");
+    },
+  });
+  assert.equal(failed.data.source, "unavailable");
+  assert.match(failed.data.note, /cache unreadable/);
 });
 
 test("the default target is the package that is running", async () => {
