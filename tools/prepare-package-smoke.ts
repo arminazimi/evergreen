@@ -1,7 +1,7 @@
 // Install the packed artifact against the same integrity-pinned dependency graph CI built.
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { z } from "zod";
 
@@ -21,7 +21,10 @@ export async function preparePackageSmoke(tarball: string, directory: string, ro
   if (original === undefined) {
     throw new Error("Package smoke requires the project's named package and version-3 lockfile");
   }
-  const archive = pathToFileURL(resolve(tarball)).href;
+  // npm file specs use filesystem paths. A file URL percent-encodes Windows short-path tildes,
+  // which npm treats as literal characters instead of decoding them.
+  const archivePath = relative(resolve(directory), resolve(tarball)).replaceAll("\\", "/");
+  const archive = `file:${archivePath}`;
   const manifest = {
     name: "evergreen-package-smoke",
     version: "0.0.0",

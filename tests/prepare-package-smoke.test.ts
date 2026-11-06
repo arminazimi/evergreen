@@ -11,7 +11,7 @@ import { preparePackageSmoke } from "../tools/prepare-package-smoke.js";
 const execute = promisify(execFile);
 
 test("the locked tarball installs offline and a changed tarball fails integrity verification", async () => {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-packed-smoke-"));
+  const root = await mkdtemp(join(tmpdir(), "evergreen-packed~smoke-"));
   const npm = (args: string[]) =>
     execute(process.platform === "win32" ? "npm.cmd" : "npm", args, {
       cwd: root,
