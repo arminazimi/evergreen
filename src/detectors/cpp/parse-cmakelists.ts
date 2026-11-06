@@ -107,116 +107,146 @@ function bracketComment(text: string, start: number): { equals: number; body: nu
   return text[index] === "[" ? { equals, body: index + 1 } : undefined;
 }
 
+/** A cursor over CMake source that collects commands; each reader returns false when the source is malformed. */
+class CommandScanner {
+  readonly commands: Token[][] = [];
+  private tokens: Token[] | undefined;
+  // A token read before the opening parenthesis: the command name.
+  private pending: Token | undefined;
+  private depth = 0;
+  private line = 1;
+  private index = 0;
+
+  constructor(private readonly text: string) {}
+
+  /** The commands, or undefined when the source ends inside a command or is otherwise malformed. */
+  scan(): Token[][] | undefined {
+    while (this.index < this.text.length) {
+      if (!this.step()) return undefined;
+    }
+    return this.tokens === undefined ? this.commands : undefined;
+  }
+
+  private step(): boolean {
+    const character = this.text.charAt(this.index);
+    if (character === "\n") {
+      this.line += 1;
+      this.index += 1;
+    } else if (/\s/.test(character)) {
+      this.index += 1;
+    } else if (character === "#") {
+      return this.skipComment();
+    } else if (character === "(") {
+      this.open();
+    } else if (character === ")") {
+      return this.close();
+    } else if (character === '"') {
+      return this.readQuoted();
+    } else {
+      this.readWord();
+    }
+    return true;
+  }
+
+  private emit(token: Token): void {
+    if (this.tokens) this.tokens.push(token);
+    else this.pending = token;
+  }
+
+  private skipComment(): boolean {
+    const { text } = this;
+    const bracket = bracketComment(text, this.index + 1);
+    if (!bracket) {
+      while (this.index < text.length && text[this.index] !== "\n") this.index += 1;
+      return true;
+    }
+    const close = `]${"=".repeat(bracket.equals)}]`;
+    const end = text.indexOf(close, bracket.body);
+    if (end < 0) return false;
+    for (let cursor = this.index; cursor < end + close.length; cursor += 1) {
+      if (text[cursor] === "\n") this.line += 1;
+    }
+    this.index = end + close.length;
+    return true;
+  }
+
+  private open(): void {
+    if (this.tokens === undefined) {
+      this.tokens = this.pending === undefined ? [] : [this.pending];
+      this.pending = undefined;
+      this.depth = 0;
+    } else {
+      this.depth += 1;
+    }
+    this.index += 1;
+  }
+
+  private close(): boolean {
+    if (this.tokens === undefined) return false;
+    if (this.depth > 0) {
+      this.depth -= 1;
+    } else {
+      this.commands.push(this.tokens);
+      this.tokens = undefined;
+    }
+    this.index += 1;
+    return true;
+  }
+
+  private readQuoted(): boolean {
+    const { text } = this;
+    const tokenLine = this.line;
+    let value = "";
+    let closed = false;
+    this.index += 1;
+    while (this.index < text.length) {
+      const next = text.charAt(this.index);
+      if (next === "\\") {
+        const escaped = text[this.index + 1];
+        if (escaped === undefined) break;
+        if (escaped === "\n") this.line += 1;
+        else value += escaped;
+        this.index += 2;
+        continue;
+      }
+      if (next === '"') {
+        this.index += 1;
+        closed = true;
+        break;
+      }
+      if (next === "\n") this.line += 1;
+      value += next;
+      this.index += 1;
+    }
+    if (!closed) return false;
+    this.emit({ value, quoted: true, line: tokenLine });
+    return true;
+  }
+
+  private readWord(): void {
+    const { text } = this;
+    const start = this.index;
+    while (this.index < text.length && !/[\s()"#]/.test(text.charAt(this.index))) this.index += 1;
+    if (this.index === start) {
+      // An unexpected character (for example a bracket argument) is not a token we can interpret.
+      this.index += 1;
+      return;
+    }
+    this.emit({ value: text.slice(start, this.index), quoted: false, line: this.line });
+  }
+}
+
 /**
  * Split CMake source into commands. Returns undefined when the source is malformed: an unterminated quoted
  * argument, an unterminated command, or a closing parenthesis outside a command.
  */
 function readCommands(contents: string): Token[][] | undefined {
-  const lines = contents.split(/\r?\n/);
   // A single overlong line cannot be read safely; keep its line number but drop its contents.
-  const text = lines.map((line) => (line.length > MAXIMUM_LINE_LENGTH ? "" : line)).join("\n");
-
-  const commands: Token[][] = [];
-  let tokens: Token[] | undefined;
-  // A token read before the opening parenthesis: the command name.
-  let pending: Token | undefined;
-  let depth = 0;
-  let line = 1;
-  let index = 0;
-
-  while (index < text.length) {
-    const character = text.charAt(index);
-    if (character === "\n") {
-      line += 1;
-      index += 1;
-      continue;
-    }
-    if (/\s/.test(character)) {
-      index += 1;
-      continue;
-    }
-    if (character === "#") {
-      const bracket = bracketComment(text, index + 1);
-      if (bracket) {
-        const close = `]${"=".repeat(bracket.equals)}]`;
-        const end = text.indexOf(close, bracket.body);
-        if (end < 0) return undefined;
-        for (let cursor = index; cursor < end + close.length; cursor += 1) {
-          if (text[cursor] === "\n") line += 1;
-        }
-        index = end + close.length;
-        continue;
-      }
-      while (index < text.length && text[index] !== "\n") index += 1;
-      continue;
-    }
-    if (character === "(") {
-      if (tokens === undefined) {
-        tokens = pending === undefined ? [] : [pending];
-        pending = undefined;
-        depth = 0;
-      } else {
-        depth += 1;
-      }
-      index += 1;
-      continue;
-    }
-    if (character === ")") {
-      if (tokens === undefined) return undefined;
-      if (depth > 0) {
-        depth -= 1;
-        index += 1;
-        continue;
-      }
-      commands.push(tokens);
-      tokens = undefined;
-      index += 1;
-      continue;
-    }
-    if (character === '"') {
-      const tokenLine = line;
-      let value = "";
-      let closed = false;
-      index += 1;
-      while (index < text.length) {
-        const next = text.charAt(index);
-        if (next === "\\") {
-          const escaped = text[index + 1];
-          if (escaped === undefined) break;
-          if (escaped === "\n") line += 1;
-          else value += escaped;
-          index += 2;
-          continue;
-        }
-        if (next === '"') {
-          index += 1;
-          closed = true;
-          break;
-        }
-        if (next === "\n") line += 1;
-        value += next;
-        index += 1;
-      }
-      if (!closed) return undefined;
-      const token: Token = { value, quoted: true, line: tokenLine };
-      if (tokens) tokens.push(token);
-      else pending = token;
-      continue;
-    }
-    const start = index;
-    const tokenLine = line;
-    while (index < text.length && !/[\s()"#]/.test(text.charAt(index))) index += 1;
-    if (index === start) {
-      // An unexpected character (for example a bracket argument) is not a token we can interpret.
-      index += 1;
-      continue;
-    }
-    const token: Token = { value: text.slice(start, index), quoted: false, line: tokenLine };
-    if (tokens) tokens.push(token);
-    else pending = token;
-  }
-
-  return tokens === undefined ? commands : undefined;
+  const text = contents
+    .split(/\r?\n/)
+    .map((line) => (line.length > MAXIMUM_LINE_LENGTH ? "" : line))
+    .join("\n");
+  return new CommandScanner(text).scan();
 }
 
 function cmakeMinimumRequired(args: readonly Token[]): CmakeMinimumVersionDeclaration | undefined {

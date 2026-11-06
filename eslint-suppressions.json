@@ -214,12 +214,6 @@
     }
   },
   "src/detectors/container/rootfs.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 1
-    },
     "@typescript-eslint/require-await": {
       "count": 2
     }

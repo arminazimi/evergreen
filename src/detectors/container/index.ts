@@ -316,6 +316,33 @@ function matchingOsRule(
   });
 }
 
+function rootfsRuleFinding(rule: RegistryV2Rule, path: string, line: number, summary: string): DetectorFinding {
+  return {
+    id: `${rule.id}:${path}:${line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary: `${summary} ${rule.summary}`,
+    severity: rule.severity,
+    location: { path, line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
+function osFinding(
+  snapshot: RootfsSnapshot,
+  osRules: ReadonlyMap<string, RegistryV2Rule[]>,
+): DetectorFinding | undefined {
+  const osRelease = snapshot.osRelease;
+  const osRule = osRelease === undefined ? undefined : matchingOsRule(osRules, osRelease);
+  if (!osRelease || !osRule) return undefined;
+  const description =
+    osRelease.prettyName ?? [osRelease.id, osRelease.versionId ?? osRelease.codename].filter(Boolean).join(" ");
+  return rootfsRuleFinding(osRule, osRelease.path, osRelease.line, `${osRelease.path} reports ${description}.`);
+}
+
 function rootfsFindings(
   snapshots: readonly RootfsSnapshot[],
   osRules: ReadonlyMap<string, RegistryV2Rule[]>,
@@ -323,39 +350,13 @@ function rootfsFindings(
 ): DetectorFinding[] {
   const findings: DetectorFinding[] = [];
   for (const snapshot of snapshots) {
-    const osRelease = snapshot.osRelease;
-    const osRule = osRelease === undefined ? undefined : matchingOsRule(osRules, osRelease);
-    if (osRelease && osRule) {
-      const description =
-        osRelease.prettyName ?? [osRelease.id, osRelease.versionId ?? osRelease.codename].filter(Boolean).join(" ");
-      findings.push({
-        id: `${osRule.id}:${osRelease.path}:${osRelease.line}`,
-        ruleId: osRule.id,
-        title: osRule.title,
-        summary: `${osRelease.path} reports ${description}. ${osRule.summary}`,
-        severity: osRule.severity,
-        location: { path: osRelease.path, line: osRelease.line },
-        ...(osRule.replacement ? { replacement: osRule.replacement } : {}),
-        ...(osRule.deadline ? { deadline: osRule.deadline } : {}),
-        ...(osRule.migration ? { migration: osRule.migration } : {}),
-        sources: osRule.sources,
-      });
-    }
+    const os = osFinding(snapshot, osRules);
+    if (os) findings.push(os);
     for (const evidence of snapshot.runtimes) {
       const rule = matchingRuntimeRule(runtimeRules.get(evidence.runtime) ?? [], evidence.runtime, evidence.version);
       if (!rule) continue;
-      findings.push({
-        id: `${rule.id}:${evidence.path}:${evidence.line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary: `${evidence.path} ships ${evidence.runtime} ${evidence.version}. ${rule.summary}`,
-        severity: rule.severity,
-        location: { path: evidence.path, line: evidence.line },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-      });
+      const summary = `${evidence.path} ships ${evidence.runtime} ${evidence.version}.`;
+      findings.push(rootfsRuleFinding(rule, evidence.path, evidence.line, summary));
     }
   }
   return findings;

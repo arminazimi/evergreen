@@ -171,3 +171,12 @@ test("bounds untrusted input without losing later lines", () => {
     assert.doesNotThrow(() => parseCmakeLists(junk));
   }
 });
+
+test("cmake commands: bracket comments, nested parentheses and unterminated sources", () => {
+  const nested =
+    "# note\n#[[ cmake_minimum_required(VERSION 1.0)\n]]\nset(X (a (b)))\ncmake_minimum_required(VERSION 3.16)\n";
+  assert.deepEqual(parseCmakeLists(nested), [{ kind: "cmake-minimum-required", value: "3.16", line: 5 }]);
+  assert.deepEqual(parseCmakeLists("#[==[ never closed\ncmake_minimum_required(VERSION 3.16)\n"), []);
+  assert.deepEqual(parseCmakeLists("cmake_minimum_required(VERSION 3.16))\n"), []);
+  assert.deepEqual(parseCmakeLists('set(a "unterminated\n'), []);
+});

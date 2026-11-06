@@ -60,38 +60,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/container/parse-devcontainer.ts",
-      "function": "stripJsoncComments",
-      "lines": 58,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/container/rootfs.ts",
-      "function": "readArchive",
-      "lines": 102,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/container/rootfs.ts",
-      "function": "runtimeEvidence",
-      "lines": 76,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/cpp/parse-cmakelists.ts",
-      "function": "readCommands",
-      "lines": 107,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/detectors/cpp/parse-conan.ts",
       "function": "scanPythonLine",
       "lines": 71,
@@ -517,62 +485,6 @@
     }
   ],
   "complexity": [
-    {
-      "file": "src/detectors/container/index.ts",
-      "function": "rootfsFindings",
-      "complexity": 16,
-      "owner": "#2257",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/container/parse-devcontainer.ts",
-      "function": "stripJsoncComments",
-      "complexity": 17,
-      "owner": "#2257",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/container/parse-image.ts",
-      "function": "parseImageReference",
-      "complexity": 21,
-      "owner": "#2257",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/container/rootfs.ts",
-      "function": "parseOsRelease",
-      "complexity": 16,
-      "owner": "#2257",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/container/rootfs.ts",
-      "function": "readArchive",
-      "complexity": 33,
-      "owner": "#2257",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/container/rootfs.ts",
-      "function": "runtimeEvidence",
-      "complexity": 38,
-      "owner": "#2257",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/cpp/parse-cmakelists.ts",
-      "function": "readCommands",
-      "complexity": 31,
-      "owner": "#2257",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
     {
       "file": "src/detectors/cpp/parse-conan.ts",
       "function": "parseConanfilePy",
