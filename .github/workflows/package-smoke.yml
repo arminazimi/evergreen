@@ -40,7 +40,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/evergreen-smoke"
           cp tests/fixtures/smoke/package.json.fixture "$RUNNER_TEMP/evergreen-smoke/package.json"
 
-      - name: Pack, install, and scan with the npm tarball # zizmor: ignore[adhoc-packages] -- installs the local npm pack tarball under test, not a registry package
+      - name: Pack, install, and scan with the npm tarball
         id: npm
         run: |
           set -euo pipefail
@@ -51,11 +51,11 @@ jobs:
           npm pack --ignore-scripts --pack-destination "$out"
           tarball="$(ls "$out"/evergreen-deprecation-*.tgz)"
           install_dir="$out/npm-install"
-          mkdir -p "$install_dir"
+          node dist/tools/prepare-package-smoke.js "$tarball" "$install_dir"
           (
             cd "$install_dir"
-            npm init -y >/dev/null
-            npm install --no-save --no-fund --no-audit "$tarball"
+            # The setup's npm ci populated these exact dependency integrities in the npm cache.
+            npm ci --offline --omit=dev --ignore-scripts --no-fund --no-audit
           )
           bin="$install_dir/node_modules/.bin/evergreen"
           version="$("$bin" --version)"
