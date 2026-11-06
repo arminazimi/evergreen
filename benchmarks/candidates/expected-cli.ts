@@ -3,7 +3,7 @@
 
 import { readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 
 import { builtInDetectors } from "../../src/detectors/index.js";
 import { scanRepository } from "../../src/engine.js";
@@ -31,6 +31,13 @@ try {
   if (command === "generate") {
     const [candidatesPath, checkoutsDir, outputDir] = rest;
     if (rest.length !== 3 || !candidatesPath || !checkoutsDir || !outputDir) throw new Error(USAGE);
+    const resolvedOutput = resolve(outputDir);
+    if (resolvedOutput === resolve(".")) {
+      throw new Error("Refusing to write the unreviewed batch into the repository root; choose a dedicated directory.");
+    }
+    if (resolvedOutput === resolve("benchmarks/public-repositories")) {
+      throw new Error("Refusing to write the unreviewed batch into the reviewed corpus.");
+    }
     // Record the bundled lifecycle data, not a maintainer's downloaded cache, so the batch is reproducible.
     process.env.EVERGREEN_DATA_DIR ??= join(tmpdir(), `evergreen-unreviewed-no-data-cache-${process.pid}`);
     const reviewed = await loadPublicCorpus();
