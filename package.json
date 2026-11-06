@@ -161,7 +161,7 @@
     "@biomejs/biome": "2.6.4",
     "@eslint/js": "^10.0.1",
     "@stryker-mutator/core": "^10.1.1",
-    "@types/node": "^24.0.0",
+    "@types/node": "^26.6.6",
     "@types/semver": "^7.8.0",
     "@vercel/ncc": "^0.45.0",
     "ajv": "^8.20.0",
