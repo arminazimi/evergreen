@@ -20,7 +20,7 @@ import type {
   DetectorInputs,
 } from "../sdk.js";
 
-interface GitHubActionRule extends DeprecationRule {
+export interface GitHubActionRule extends DeprecationRule {
   action: string;
   supportedFromMajor: number;
 }
@@ -304,6 +304,53 @@ function judgeSetupNode(
   }
 }
 
+async function loadRuntimeRules(file: string, purl: string, idPrefix: string): Promise<RegistryV2Rule[]> {
+  return validateRegistryV2(await loadDataFile(file)).rules.filter(
+    (rule) => rule.purl === purl && rule.id.startsWith(idPrefix),
+  );
+}
+
+/** A SHA-pinned reference that no comment or bundled map could resolve is reported, not judged. */
+export function unresolvedShaReference(
+  reference: ActionReference,
+  path: string,
+): DetectorUnclassifiedReference | undefined {
+  if (!SHA_PATTERN.test(reference.ref)) return undefined;
+  return {
+    component: reference.action,
+    reference: reference.ref.toLowerCase(),
+    reason: reference.comment ? "invalid-version-comment" : "unknown-sha",
+    location: { path, line: reference.line },
+  };
+}
+
+const VERSION_SOURCE_NOTE: Record<ResolvedReference["source"], string> = {
+  comment: " (VERSION from the trailing comment)",
+  map: " (VERSION from the bundled SHA map)",
+  tag: "",
+};
+
+export function outdatedActionFinding(
+  reference: ActionReference,
+  rule: GitHubActionRule,
+  resolved: ResolvedReference,
+  path: string,
+): DetectorFinding {
+  const note = VERSION_SOURCE_NOTE[resolved.source].replace("VERSION", resolved.version);
+  return {
+    id: `${rule.id}:${path}:${reference.line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary: `${reference.action}@${reference.ref}${note}: ${rule.summary}`,
+    severity: rule.severity,
+    location: { path, line: reference.line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
 export class GitHubActionsDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "github-actions";
@@ -324,64 +371,28 @@ export class GitHubActionsDetector implements Detector {
 
     for (const workflowFile of workflowFiles) {
       const contents = await readFile(workflowFile, "utf8");
+      const path = relativePosix(context.root, workflowFile);
       if (/setup-dotnet/i.test(contents)) {
-        dotnetRules ??= validateRegistryV2(await loadDataFile("registry/dotnet.json")).rules.filter(
-          (rule) => rule.purl === "pkg:generic/dotnet" && rule.id.startsWith("dotnet.runtime."),
-        );
-        judgeSetupDotnet(contents, relativePosix(context.root, workflowFile), dotnetRules, findings, unclassified);
+        dotnetRules ??= await loadRuntimeRules("registry/dotnet.json", "pkg:generic/dotnet", "dotnet.runtime.");
+        judgeSetupDotnet(contents, path, dotnetRules, findings, unclassified);
       }
-
       if (/setup-node/i.test(contents)) {
-        nodeRules ??= validateRegistryV2(await loadDataFile("registry/nodejs.json")).rules.filter(
-          (rule) => rule.purl === "pkg:generic/nodejs" && rule.id.startsWith("nodejs.runtime."),
-        );
-        judgeSetupNode(contents, relativePosix(context.root, workflowFile), nodeRules, findings, unclassified);
+        nodeRules ??= await loadRuntimeRules("registry/nodejs.json", "pkg:generic/nodejs", "nodejs.runtime.");
+        judgeSetupNode(contents, path, nodeRules, findings, unclassified);
       }
 
       for (const reference of parseActionReferences(contents)) {
         const rule = rulesByAction.get(reference.action);
         if (!rule) continue;
-
         const resolved = resolveReference(reference.ref, reference.comment, shaRegistry.get(reference.action));
         if (!resolved) {
-          if (SHA_PATTERN.test(reference.ref)) {
-            unclassified.push({
-              component: reference.action,
-              reference: reference.ref.toLowerCase(),
-              reason: reference.comment ? "invalid-version-comment" : "unknown-sha",
-              location: {
-                path: relativePosix(context.root, workflowFile),
-                line: reference.line,
-              },
-            });
-          }
+          const skipped = unresolvedShaReference(reference, path);
+          if (skipped) unclassified.push(skipped);
           continue;
         }
-
         const major = majorVersion(resolved.version);
-        if (major === undefined || major >= rule.supportedFromMajor) {
-          continue;
-        }
-
-        const path = relativePosix(context.root, workflowFile);
-        const summary =
-          resolved.source === "comment"
-            ? `${reference.action}@${reference.ref} (${resolved.version} from the trailing comment): ${rule.summary}`
-            : resolved.source === "map"
-              ? `${reference.action}@${reference.ref} (${resolved.version} from the bundled SHA map): ${rule.summary}`
-              : `${reference.action}@${reference.ref}: ${rule.summary}`;
-        findings.push({
-          id: `${rule.id}:${path}:${reference.line}`,
-          ruleId: rule.id,
-          title: rule.title,
-          summary,
-          severity: rule.severity,
-          location: { path, line: reference.line },
-          ...(rule.replacement ? { replacement: rule.replacement } : {}),
-          ...(rule.deadline ? { deadline: rule.deadline } : {}),
-          ...(rule.migration ? { migration: rule.migration } : {}),
-          sources: rule.sources,
-        });
+        if (major === undefined || major >= rule.supportedFromMajor) continue;
+        findings.push(outdatedActionFinding(reference, rule, resolved, path));
       }
     }
 

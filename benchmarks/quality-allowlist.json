@@ -213,14 +213,6 @@
     },
     {
       "file": "src/detectors/github-actions.ts",
-      "function": "GitHubActionsDetector.analyze",
-      "lines": 77,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/github-actions.ts",
       "function": "judgeSetupDotnet",
       "lines": 52,
       "owner": "#2049",
@@ -276,22 +268,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/detectors/json-lines.ts",
-      "function": "readJsonLines",
-      "lines": 140,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/json-lines.ts",
-      "function": "readJsonLines > readValue",
-      "lines": 64,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/detectors/kubernetes/index.ts",
       "function": "declarations",
       "lines": 51,
@@ -319,22 +295,6 @@
       "file": "src/detectors/kubernetes/parse-helm.ts",
       "function": "parseTemplate",
       "lines": 59,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/npm.ts",
-      "function": "NpmDetector.analyze",
-      "lines": 205,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/detectors/npm.ts",
-      "function": "stripJsonc",
-      "lines": 78,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -806,22 +766,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/detectors/github-actions-node.ts",
-      "function": "setupNodeVersions",
-      "complexity": 20,
-      "owner": "#2255",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/github-actions.ts",
-      "function": "GitHubActionsDetector.analyze",
-      "complexity": 16,
-      "owner": "#2255",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/detectors/go/parse-go-mod.ts",
       "function": "parseGoMod",
       "complexity": 19,
@@ -862,22 +806,6 @@
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
     {
-      "file": "src/detectors/json-lines.ts",
-      "function": "readJsonLines > readValue",
-      "complexity": 18,
-      "owner": "#2255",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/json-lines.ts",
-      "function": "readJsonLines > skip",
-      "complexity": 17,
-      "owner": "#2255",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
       "file": "src/detectors/kubernetes/index.ts",
       "function": "candidateFiles > walk",
       "complexity": 18,
@@ -914,30 +842,6 @@
       "function": "parseKustomization",
       "complexity": 21,
       "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/npm.ts",
-      "function": "NpmDetector.analyze",
-      "complexity": 41,
-      "owner": "#2255",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/npm.ts",
-      "function": "stripJsonc",
-      "complexity": 40,
-      "owner": "#2255",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/detectors/python.ts",
-      "function": "collectIniRuntime",
-      "complexity": 21,
-      "owner": "#2255",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
