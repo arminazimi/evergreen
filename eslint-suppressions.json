@@ -957,9 +957,6 @@
     },
     "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
-    },
-    "@typescript-eslint/restrict-plus-operands": {
-      "count": 1
     }
   },
   "tools/run-tests-sharding.ts": {

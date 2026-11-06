@@ -15,26 +15,13 @@
 
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync } from "node:fs";
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-/**
- * npm is not a dependency of this package, so it cannot be required. `npm_execpath` points at
- * npm's own CLI whenever npm runs this script; otherwise the npm installed beside Node is used
- * (the layout of the official installers and of actions/setup-node).
- */
-function npmCli(): string {
-  const fromEnv = process.env.npm_execpath;
-  if (fromEnv !== undefined && fromEnv.endsWith("npm-cli.js") && existsSync(fromEnv)) return fromEnv;
-  const besideNode =
-    process.platform === "win32"
-      ? join(dirname(process.execPath), "node_modules", "npm", "bin", "npm-cli.js")
-      : join(dirname(process.execPath), "..", "lib", "node_modules", "npm", "bin", "npm-cli.js");
-  return besideNode;
-}
+import { writeReleaseManifestFromPackList } from "./build-release-manifest.js";
+import { capture, npmCli } from "./npm-cli.js";
 
 export type CommandRunner = (command: string, args: readonly string[]) => Promise<void>;
 
@@ -59,24 +46,6 @@ export function runCommand(command: string, args: readonly string[]): Promise<vo
     child.on("exit", (code, signal) => {
       if (code === 0) {
         resolvePromise();
-        return;
-      }
-      reject(new Error(`${command} ${args.join(" ")} exited ${signal ?? code}`));
-    });
-  });
-}
-
-function capture(command: string, args: readonly string[]): Promise<string> {
-  return new Promise((resolvePromise, reject) => {
-    const child = spawn(command, [...args]);
-    let output = "";
-    child.stdout.on("data", (chunk: Buffer) => {
-      output += chunk;
-    });
-    child.on("error", reject);
-    child.on("exit", (code, signal) => {
-      if (code === 0) {
-        resolvePromise(output);
         return;
       }
       reject(new Error(`${command} ${args.join(" ")} exited ${signal ?? code}`));
@@ -120,7 +89,13 @@ async function restoreActionBundle(run: CommandRunner): Promise<void> {
 export async function compareCleanBuilds(options: ReproducibleBuildOptions = {}): Promise<ReproducibleBuildResult> {
   const run: CommandRunner = runCommand;
   const build = options.build ?? (() => cleanBuild(run));
-  const pack = options.pack ?? ((destination: string) => packTarball(run, destination));
+  // The manifest is part of the published tarball, so it is generated before each pack and must be deterministic too.
+  const pack =
+    options.pack ??
+    (async (destination: string) => {
+      await writeReleaseManifestFromPackList(process.cwd());
+      return packTarball(run, destination);
+    });
   const count = options.builds ?? 2;
   const directory = await mkdtemp(join(tmpdir(), "evergreen-reproducible-"));
   const hashes: string[] = [];

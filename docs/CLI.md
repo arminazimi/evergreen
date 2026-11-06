@@ -552,6 +552,24 @@ Checks the runtime, package, MCP, Skill, plugin, and CI setup around a repositor
 
 The command exits `1` when any check fails.
 
+### `verify`
+
+```bash
+evergreen verify [path]
+```
+
+Checks the installed Evergreen release against the release manifest the package ships (`dist/src/release-manifest.json`), then says plainly what it could not check. `path` is a package root, for checking an unpacked copy; it defaults to the package that is running.
+
+The manifest lists every shipped file with its SHA-256 and size, so the command exits `1` when a file was changed, shortened, or removed. When the package also carries `dist/src/release-manifest.json.sigstore.json`, its Sigstore signature is verified offline against the trusted root bundled with the package. A missing manifest or signature is reported as "not checked", not as a failure: versions released before manifests existed keep working. It also reports which lifecycle data is active and whether that data carries a signer.
+
+The command never uses the network. It cannot prove that the published tarball came from this repository, because that evidence lives outside the installed tree. The report names the exact commands that do check it:
+
+- `npm audit signatures` verifies the registry signature and the npm provenance attestation for a package in a project's `node_modules`.
+- `npm audit signatures --json` prints the same verification for a script.
+- `gh attestation verify <file> --repo arminazimi/evergreen` verifies a binary's GitHub build attestation.
+
+Exit codes: `0` when every checked file matches (or when the installation carries nothing this version can check), `1` when a file, the manifest, or the signature does not verify, and `2` for bad input.
+
 ### `capabilities`
 
 ```bash

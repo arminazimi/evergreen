@@ -38,6 +38,7 @@ import { command as setup } from "./setup.js";
 import { command as statusCard } from "./status-card.js";
 import { command as upgradeCheck } from "./upgrade-check.js";
 import { command as usage } from "./usage.js";
+import { command as verify } from "./verify.js";
 import { command as watch } from "./watch.js";
 
 export const commands: readonly CliCommand[] = [
@@ -79,5 +80,6 @@ export const commands: readonly CliCommand[] = [
   statusCard,
   upgradeCheck,
   usage,
+  verify,
   watch,
 ];

@@ -2,7 +2,7 @@
 # zsh completion for evergreen. Save it as _evergreen in a directory on $fpath, or: source <(evergreen completions zsh)
 _evergreen() {
   local -a commands
-  commands=('scan' 'baseline' 'forecast' 'forecast' 'countdown' 'plan' 'status-card' 'glance' 'lookup' 'drift' 'upgrade-check' 'inventory' 'badge' 'diff' 'drift' 'receipt' 'rollup' 'renovate-preset' 'dependabot-config' 'fix' 'check' 'check-snippet' 'guard' 'usage' 'mcp' 'data' 'watch' 'init' 'setup' 'new-detector' 'new-rule' 'rules' 'explain' 'context' 'doctor' 'report-issue' 'capabilities' 'completions' 'hook')
+  commands=('scan' 'baseline' 'forecast' 'forecast' 'countdown' 'plan' 'status-card' 'glance' 'lookup' 'drift' 'upgrade-check' 'inventory' 'badge' 'diff' 'drift' 'receipt' 'rollup' 'renovate-preset' 'dependabot-config' 'fix' 'check' 'check-snippet' 'guard' 'usage' 'mcp' 'data' 'watch' 'init' 'setup' 'new-detector' 'new-rule' 'rules' 'explain' 'context' 'doctor' 'report-issue' 'capabilities' 'completions' 'hook' 'verify')
   if (( CURRENT == 2 )); then
     compadd -a commands -- --help --version
     return
@@ -53,6 +53,7 @@ _evergreen() {
         report-issue) _arguments '--output' '--data-version' '*:path:_files' ;;
         capabilities) _arguments '--json' '*:path:_files' ;;
         hook) _arguments '--fail-on' '*:path:_files' ;;
+        verify) _arguments '--data-version' '*:path:_files' ;;
   esac
 }
 compdef _evergreen evergreen
