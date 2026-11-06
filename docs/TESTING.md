@@ -24,7 +24,7 @@ npm run check                             # build, Action bundle, tests, plugin 
 | --- | --- | --- |
 | Unit | `tests/*.test.ts` | A pure function, formatter, parser, or one module's contract. |
 | Detector and registry | `tests/<ecosystem>.test.ts`, `tests/registry-*.test.ts` | An ecosystem detector reads a manifest, or a registry rule/schema changes. |
-| Conformance | `src/conformance/`, `tests/conformance.test.ts` | A detector's shared guarantees: determinism, locations, evidence, zero findings, malformed input. |
+| Conformance | `src/conformance/`, `tests/conformance.test.ts`, `tests/conformance-builtins.test.ts` | A detector's shared guarantees: determinism, locations, evidence, valid fields, bounded inputs, zero findings, malformed input. |
 | Fixture-based | `tests/fixtures/`, `tests/*.test.ts` | A rule or detector has positive/negative boundaries that belong in a reviewable repository on disk. |
 | CLI end-to-end | `tests/cli*.test.ts`, `tests/*-e2e.test.ts` | The behavior crosses the process boundary: arguments, exit codes, stdout, JSON contracts. |
 | MCP | `tests/mcp*.test.ts` | A tool, resource, prompt, or annotation changes; use the in-memory transport. |
@@ -80,7 +80,9 @@ Use detector tests when the question is "does this ecosystem produce the right f
 
 ## Conformance tests
 
-Conformance is the shared harness every detector must pass: deterministic ordered output, locations that exist, authoritative evidence, no findings on a zero-finding fixture, and no throw on malformed input. It lives in `src/conformance/` and is exercised in `tests/conformance.test.ts`.
+Conformance is the shared harness every detector must pass: deterministic ordered output, locations that exist, authoritative evidence, findings with valid fields, bounded inputs, no findings on a zero-finding fixture, and no throw on malformed input. It lives in `src/conformance/` and is exercised in `tests/conformance.test.ts`.
+
+`tests/conformance-builtins.test.ts` is the one suite every registered detector runs. It reads `builtInDetectors`, so registering a detector adds it automatically, and it generates an empty repository, a repository whose every declared input is malformed, and one at the limits of the input, depth, and size checks. When the detector has `tests/fixtures/<id>`, a copy of those fixtures is also scanned and its findings checked for valid fields, evidence, existing locations, and stable order. Write an explicit expected-findings test in the detector's own file for what it reports; the shared suite checks how every detector reports.
 
 ```ts
 // tests/conformance.test.ts:37
