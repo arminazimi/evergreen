@@ -146,6 +146,63 @@ test("is deterministic", async () => {
   assert.deepEqual(parsePom(contents), parsePom(contents));
 });
 
+// xml.ts
+
+test("parseXml builds an element tree with one-based text lines and skips comments and processing instructions", () => {
+  const source = [
+    '<?xml version="1.0"?>',
+    '<project a=">">',
+    "  <!-- <c>ignored</c> -->",
+    "  <properties>",
+    "    <java.version>",
+    "      <![CDATA[ 17 ]]>",
+    "    </java.version>",
+    "  </properties>",
+    "  <empty/>",
+    "</project>",
+  ].join("\n");
+  assert.deepEqual(parseXml(source), {
+    name: "project",
+    text: "",
+    line: 2,
+    children: [
+      {
+        name: "properties",
+        text: "",
+        line: 4,
+        children: [{ name: "java.version", text: "17", line: 6, children: [] }],
+      },
+      { name: "empty", text: "", line: 9, children: [] },
+    ],
+  });
+});
+
+test("parseXml keeps ampersands inside CDATA and counts CRLF lines", () => {
+  assert.deepEqual(parseXml('<p a="1 > 0">\r\n<![CDATA[x & y]]>\r\n</p>'), {
+    name: "p",
+    text: "x & y",
+    line: 2,
+    children: [],
+  });
+});
+
+test("parseXml rejects entity references, declarations, and unbalanced markup", () => {
+  for (const source of [
+    "<project>&amp;</project>",
+    "<!DOCTYPE project><project/>",
+    "<project></other>",
+    "<project>",
+    "</project>",
+    "<a/><b/>",
+    "text<a/>",
+    "<project><a></project></a>",
+    "<project/><!-- unterminated",
+    "<project><![CDATA[x",
+  ]) {
+    assert.equal(parseXml(source), undefined, JSON.stringify(source));
+  }
+});
+
 // JDK versions
 
 test("reads the feature release of a JDK version text", () => {
@@ -259,6 +316,28 @@ test("a block comment or string that never ends yields nothing", async () => {
     assert.doesNotThrow(() => parseGradle(junk));
     assert.deepEqual(parseGradle(junk), [], JSON.stringify(junk));
   }
+});
+
+test("the gradle scanner keeps line numbers across comments and every string form", () => {
+  const source = [
+    'x = "not a real declaration: sourceCompatibility = 17"',
+    "// sourceCompatibility = 18",
+    'y = """',
+    "sourceCompatibility = 19",
+    '"""',
+    "sourceCompatibility = 20 // trailing comment",
+    "z = 'it\\'s'",
+  ].join("\n");
+  assert.deepEqual(parseGradle(source), [{ kind: "jdk", role: "compile-level", value: "20", major: 20, line: 6 }]);
+});
+
+test("the gradle scanner blanks a line comment at the end of the file and skips escaped newlines", () => {
+  assert.deepEqual(parseGradle("sourceCompatibility = 17\n// sourceCompatibility = 21"), [
+    { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 1 },
+  ]);
+  assert.deepEqual(parseGradle('x = "a\\\nsourceCompatibility = 17"\nsourceCompatibility = 21\n'), [
+    { kind: "jdk", role: "compile-level", value: "21", major: 21, line: 3 },
+  ]);
 });
 
 test("bounds gradle size, line length, and declaration count", () => {

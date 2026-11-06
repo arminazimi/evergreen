@@ -7,6 +7,7 @@ import { ruleVersion, splitApiVersion } from "../src/detectors/kubernetes/api-ve
 import { MAXIMUM_DOCUMENTS, MAXIMUM_INPUT_BYTES, parseManifest } from "../src/detectors/kubernetes/parse-manifest.js";
 import {
   MAXIMUM_ACTIONS,
+  MAXIMUM_DEPENDENCIES,
   MAXIMUM_DOCUMENTS as MAXIMUM_TEMPLATE_DOCUMENTS,
   MAXIMUM_INPUT_BYTES as MAXIMUM_CHART_BYTES,
   MAXIMUM_LINE_LENGTH,
@@ -235,6 +236,59 @@ test("malformed or oversized Chart.yaml returns nothing", async () => {
   }
 });
 
+test("skips unusable dependencies, keeps an omitted version, and reports the field that is templated", () => {
+  const source = [
+    "kubeVersion: '>=1.20.0'",
+    "dependencies:",
+    "  - version: 1.0.0",
+    "  - name: redis",
+    "    repository: https://charts.helm.sh/stable",
+    "  - name: mysql",
+    "    version: '{{ .Values.mysql }}'",
+    "    repository: '@stable'",
+    "  - name: postgresql",
+    "    version: 12.1.0",
+    "    repository: '{{ .Values.repo }}'",
+    "  - just a string",
+  ].join("\n");
+  assert.deepEqual(parseChart(source), {
+    kubeVersions: [{ kind: "kubeVersion", value: ">=1.20.0", line: 1 }],
+    dependencies: [
+      {
+        kind: "dependency",
+        name: "redis",
+        version: undefined,
+        repository: "https://charts.helm.sh/stable",
+        line: 4,
+      },
+    ],
+    unclassified: [
+      {
+        value: "{{ .Values.mysql }}",
+        line: 7,
+        reason: "the dependency field is a Helm template action, which Evergreen does not evaluate",
+      },
+      {
+        value: "{{ .Values.repo }}",
+        line: 11,
+        reason: "the dependency field is a Helm template action, which Evergreen does not evaluate",
+      },
+    ],
+  });
+});
+
+test("bounds the Chart.yaml dependency count", () => {
+  const dependency = "  - name: a\n    version: '1.0.0'\n    repository: 'https://charts.helm.sh/stable'\n";
+  assert.equal(
+    parseChart(`dependencies:\n${dependency.repeat(MAXIMUM_DEPENDENCIES)}`).dependencies.length,
+    MAXIMUM_DEPENDENCIES,
+  );
+  assert.equal(
+    parseChart(`dependencies:\n${dependency.repeat(MAXIMUM_DEPENDENCIES + 1)}`).dependencies.length,
+    MAXIMUM_DEPENDENCIES,
+  );
+});
+
 test("reads literal declarations from templates, including inside a .Values condition", async () => {
   assert.deepEqual(template(await fixture("positive", "helm", "mychart", "templates", "ingress.yaml")), [
     { value: "networking.k8s.io/v1beta1", resource: "Ingress", line: 2, kindLine: 3 },
@@ -319,6 +373,17 @@ test("reads several documents and counts every line, including multi-line action
     { value: "batch/v1beta1", resource: "CronJob", line: 4, kindLine: 5 },
     { value: "policy/v1beta1", resource: "PodSecurityPolicy", line: 10, kindLine: 11 },
   ]);
+});
+
+test("masks quoted and raw strings inside actions and needs whitespace after a trim marker", () => {
+  const source = [
+    '{{ printf "%s}}" "x" }}',
+    "{{ `raw }} content` }}",
+    "{{-3 }}",
+    "apiVersion: batch/v1beta1",
+    "kind: CronJob",
+  ].join("\n");
+  assert.deepEqual(template(source), [{ value: "batch/v1beta1", resource: "CronJob", line: 4, kindLine: 5 }]);
 });
 
 test("skips documents with a duplicated key, indented keys, or half declarations", () => {
@@ -468,6 +533,29 @@ test("rejects paths that are not local", () => {
   assert.deepEqual(kustomization("resources:\n  - ./base.d/a.yaml\n  - ../../shared\n"), [
     { kind: "resource", value: "./base.d/a.yaml", line: 2 },
     { kind: "resource", value: "../../shared", line: 3 },
+  ]);
+});
+
+test("reads a patchesJson6902 inline patch and refuses a block scalar target value", () => {
+  const source = [
+    "patchesJson6902:",
+    "  - target:",
+    "      group: apps",
+    "      version: v1",
+    "      kind: Deployment",
+    "    patch: |-",
+    "      apiVersion: batch/v1beta1",
+    "      kind: CronJob",
+    "  - target:",
+    "      group: apps",
+    "      version: |",
+    "        v1",
+    "      kind: Deployment",
+    "  - just a string",
+  ].join("\n");
+  assert.deepEqual(kustomization(source), [
+    { kind: "api", value: "apps/v1", resource: "Deployment", line: 4, kindLine: 5 },
+    { kind: "api", value: "batch/v1beta1", resource: "CronJob", line: 7, kindLine: 8 },
   ]);
 });
 

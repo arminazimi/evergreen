@@ -241,6 +241,46 @@ test("a Helm template is read as a template, and a chart's nested charts and tes
   assert.deepEqual(paths, ["chart/crds/crd.yaml", "chart/templates/job.yaml", "chart/values.yaml"]);
 });
 
+test("a chart's Chart.lock and non-YAML files under templates are not read", async () => {
+  const legacy = "apiVersion: batch/v1beta1\nkind: CronJob\n";
+  const root = await repository({
+    "chart/Chart.yaml": "apiVersion: v2\nname: chart\nversion: 0.1.0\n",
+    "chart/Chart.lock": "dependencies: []\n",
+    "chart/templates/notes.txt": legacy,
+    "chart/templates/job.yaml": legacy,
+    "chart/templates/nested/job.yaml": legacy,
+  });
+  assert.deepEqual(
+    (await kubernetesDetector.scan({ root })).map((finding) => finding.location.path),
+    ["chart/templates/job.yaml"],
+  );
+});
+
+test("analyze skips dependencies with no repository or an unknown one and reports an unpinned stable dependency", async () => {
+  const root = await repository({
+    "chart/Chart.yaml": [
+      "apiVersion: v2",
+      "name: chart",
+      "version: 0.1.0",
+      "dependencies:",
+      "  - name: no-repository",
+      '    version: "1.0.0"',
+      "  - name: unknown",
+      '    version: "1.0.0"',
+      '    repository: "https://charts.example.test/stable"',
+      "  - name: unpinned",
+      '    repository: "https://charts.helm.sh/stable"',
+      "",
+    ].join("\n"),
+  });
+  const analysis = await kubernetesDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [["kubernetes.helm.repository.stable.end-of-life", 10]],
+  );
+  assert.deepEqual(analysis.unclassified, []);
+});
+
 test("a file with template actions outside a chart is read as a template", async () => {
   const root = await repository({
     "templates/job.yaml": "apiVersion: batch/v1beta1\nkind: CronJob\nmetadata:\n  name: {{ .Release.Name }}\n",
