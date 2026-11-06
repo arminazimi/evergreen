@@ -161,8 +161,16 @@ export async function scanWithinMemoryLimit(
       }, timeoutSeconds * 1000);
       child.once("message", (message: ScanMessage) =>
         settle(() => {
-          if ("error" in message) reject(new CorpusScanError("crash", `scan failed: ${message.error}`));
-          else resolve(message.findings);
+          if ("error" in message) {
+            // The scan's own guard (src/usage/memory-guard.ts) sends its heap message over IPC.
+            reject(
+              isOutOfMemory(message.error)
+                ? new CorpusScanError("memory", `scan exceeded the ${options.memoryMb} MB per-repository memory limit`)
+                : new CorpusScanError("crash", `scan failed: ${message.error}`),
+            );
+          } else {
+            resolve(message.findings);
+          }
         }),
       );
       child.once("error", (error: unknown) => settle(() => reject(describeScanFailure(error, options.memoryMb))));

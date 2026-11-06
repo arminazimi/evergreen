@@ -108,14 +108,19 @@ test("a child that exits without reporting is a crash, never a silent pass", asy
   }
 });
 
-test("a child that exhausts its heap fails with the memory limit named", async () => {
+test("a scan that stops on its heap guard is reported as a memory failure", async () => {
+  // The guard in src/usage/memory-guard.ts sends its message over IPC; a real V8 abort cannot be
+  // tested this way (it would have to allocate past the process limit), so describeChildExit covers
+  // the abort itself.
   const worker = await workerEntry(`
-    const kept = [];
-    for (;;) kept.push(new Uint8Array(1024 * 1024));
+    process.send(
+      { error: "Scan stopped: the heap reached 900 MB of its 1024 MB limit." },
+      () => process.exit(1),
+    );
   `);
   try {
     await assert.rejects(
-      scanWithinMemoryLimit("/tmp/repo", { memoryMb: 64, scriptUrl: worker.url }),
+      scanWithinMemoryLimit("/tmp/repo", { memoryMb: 1024, scriptUrl: worker.url }),
       (error: unknown) => error instanceof CorpusScanError && error.kind === "memory",
     );
   } finally {
