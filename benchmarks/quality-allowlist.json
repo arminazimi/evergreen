@@ -246,7 +246,7 @@
     {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
-      "lines": 82,
+      "lines": 78,
       "owner": "#2049",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
@@ -688,15 +688,7 @@
     {
       "file": "src/drift/python.ts",
       "function": "collectRootFiles",
-      "complexity": 33,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/python.ts",
-      "function": "setupPythonVersions",
-      "complexity": 24,
+      "complexity": 31,
       "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."

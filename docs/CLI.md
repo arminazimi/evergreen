@@ -166,21 +166,6 @@ Resolves a product and optional version against the bundled lifecycle rules and 
 | --- | --- |
 | `--json` | Print the structured lookup result. |
 
-### `drift`
-
-```bash
-evergreen drift [path] [--json] [--check] [--runtime <id>] [--align <release>]
-```
-
-Reports every place a repository states a runtime version and whether those values select the same release line. Each pin carries its file and line, the source it came from, the value as written, and the release it resolves to offline; a floor above the lowest pin is reported as a floor conflict. Nothing is written. See [Drift](DRIFT.md) for the sources and granularity of each runtime.
-
-| Flag | What it does |
-| --- | --- |
-| `[path]` | Repository path. Default `.`. |
-| `--json` | Print the `evergreen.drift.v1` document defined by [`schemas/drift.v1.schema.json`](../schemas/drift.v1.schema.json). |
-| `--check` | Exit `1` when any runtime drifted or has a floor conflict. |
-| `--runtime <id>` | Report one runtime only. |
-| `--align <release>` | Print a unified diff that makes the pins Evergreen understands select `release`; requires `--runtime`. Refused pins are listed on stderr, and no file is written. |
 ### `upgrade-check`
 evergreen upgrade-check --to <runtime@version> [path] [--json]
 Answers from files already in the repository whether the project can move to a target runtime. It reads lockfiles and manifests only: no package manager runs, nothing is installed, and nothing is fetched.
@@ -217,28 +202,6 @@ Scans both refs and reports the findings the change introduced and the ones it f
 | --- | --- |
 | `[path]` | Repository path. Default `.`. |
 | `--json` | Print the structured diff. |
-
-### `drift`
-
-```bash
-evergreen drift [path] [--json] [--check] [--runtime <id>] [--align <release>]
-```
-
-Reports every runtime version a repository states and whether the values agree. It reads repository files and nothing else: no network, no commands, and no file is written. See [Runtime drift](DRIFT.md) for the sources each runtime reads and how it resolves them.
-Reports every place a repository states a runtime version, with its exact file and line, the release it resolves to offline, and whether the versions agree. It reads files only: nothing is executed, no network is used, and no file is written. See [Runtime drift](DRIFT.md) for the sources each runtime reads.
-
-| Flag | What it does |
-| --- | --- |
-| `[path]` | Repository path. Default `.`. |
-| `--json` | Print the `evergreen.drift.v1` document, which conforms to [`schemas/drift.v1.schema.json`](../schemas/drift.v1.schema.json). |
-| `--check` | Exit `1` when any runtime has more than one pinned release or a floor conflict. |
-| `--runtime <id>` | Report only this runtime, such as `java`. |
-| `--align <release>` | Print a unified diff for the pins of `--runtime` that can be rewritten to select `release`, and list the refused pins on stderr. Requires `--runtime`. |
-| `--json` | Print the drift report, which conforms to [`schemas/drift.v1.schema.json`](../schemas/drift.v1.schema.json). |
-| `--check` | Exit `1` when any runtime's pins disagree or a floor is above the lowest pinned release. |
-| `--runtime <id>` | Limit the report to one runtime, such as `rust`. |
-| `--runtime <id>` | Limit the report to one runtime, such as `go`. |
-| `--align <release>` | Print a unified diff that makes every understood pin select `<release>`. Requires `--runtime`; values it will not rewrite are listed on stderr. |
 
 ### `rollup`
 

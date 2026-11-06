@@ -142,7 +142,7 @@ Release granularity is `1.minor`: `go1.22.4` and the image tag `1.22.4-alpine` b
 The Go collector reuses the existing `go.mod` and `go.work` parsers and reads Dockerfile `FROM` lines with the container parser. It reports these values as unresolved, without a release: a floating image tag such as `golang:latest`, an image with no tag, a tag that is not `major.minor`, a `stable` or `oldstable` `go-version`, an expression that is not a `matrix` reference, a matrix entry that is not a plain version, and a `.go-version` or `.tool-versions` value that is not a Go version.
 `--align` rewrites `toolchain go1.x.y` lines, `.go-version`, the `golang` entry of `.tool-versions`, `FROM golang:<version>[-variant]` (keeping the variant suffix), and a single-value `actions/setup-go` `go-version`. It refuses floors, matrix and expression values, `go-version-file` pointers, and floating tags.
 ## Python
-Python pins are reported at `major.minor` granularity: `3.11.4`, `3.11`, and `python-3.11` all select `3.11`.
+Python pins are reported at `major.minor` granularity: `3.11.4`, `3.11`, and `python-3.11` all select `3.11`. Version files and manifests are read at any depth, so a monorepo reports each service.
 | `.python-version` | every line | yes |
 | `.tool-versions` | the `python` line, one pin per version | yes |
 | `runtime.txt` | `python-<version>` | yes |
