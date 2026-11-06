@@ -1,8 +1,9 @@
 import { openMemoryGuard } from "./usage/memory-guard.js";
-import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import type { CallUsageMatcher, ConfigUsageMatcher, ImportUsageMatcher, SourceLanguage, SourceUsage, SourceUsageAnalysis, SourceUsageContract, UsageMatcher } from "./domain.js";
+import type { ScanFileSystem } from "./file-system.js";
+import { nodeFileSystem } from "./node-file-system.js";
 import { type SourceFile, sourceFiles } from "./source-files.js";
 import { noteCappedUsage } from "./usage/binding-budget.js";
 import { checkoutSourceIgnored } from "./usage/checkout.js";
@@ -135,6 +136,8 @@ function rubyImports(lines: readonly string[], maskedLines: readonly string[]): 
 export interface SourceUsageOptions {
   parser?: boolean;
   skips?: string[];
+  /** Where files are read from. Defaults to the real filesystem. */
+  fileSystem?: ScanFileSystem;
 }
 
 /**
@@ -469,7 +472,7 @@ function openFileScan(file: SourceFile, lines: readonly string[], push: (contrac
 /** The usages of one file, from the parser when it read it and from the regex scanner when it did not. */
 async function scanSourceFile(file: SourceFile, contracts: readonly SourceUsageContract[], options: SourceUsageOptions, usage: UsageResults): Promise<void> {
   if ((file.language === "ruby" || file.language === "php") && checkoutSourceIgnored(file.path)) return;
-  const contents = await readFile(file.absolutePath, "utf8");
+  const contents = await (options.fileSystem ?? nodeFileSystem).readText(file.absolutePath);
   usage.startFile();
   // JavaScript, TypeScript, and Python import and call usages come from the parser when it can read the file;
   // otherwise (too large, over budget, or the runtime cannot load) the regex scanner below handles them.
@@ -504,7 +507,7 @@ function summarizeUsage(contracts: readonly SourceUsageContract[], usage: UsageR
 export async function analyzeSourceUsage(root: string, contracts: readonly SourceUsageContract[], options: SourceUsageOptions = {}): Promise<SourceUsageAnalysis[]> {
   const usage = openUsageResults(contracts);
   const relevantLanguages = new Set(contracts.flatMap((contract) => contract.matchers.map((matcher) => matcher.language)));
-  const files = await sourceFiles(resolve(root), { include: (language) => relevantLanguages.has(language) });
+  const files = await sourceFiles(resolve(root), { include: (language) => relevantLanguages.has(language) }, options.fileSystem ?? nodeFileSystem);
   const checkMemory = openMemoryGuard();
   for (const file of files) {
     checkMemory();

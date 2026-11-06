@@ -1,6 +1,7 @@
-import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
+import type { ScanFileSystem } from "../file-system.js";
+import { nodeFileSystem } from "../node-file-system.js";
 import { sourceFiles } from "../source-files.js";
 import { phpRequires } from "./php.js";
 import { rubyInvocations } from "./ruby-invocations.js";
@@ -23,11 +24,14 @@ const RUBY_DYNAMIC_REASON = "the argument is not a string literal, so Evergreen 
  * that were not scanned because a line or repository bound was hit.
  * `require_relative` is never unclassified: it names a local file, not a gem.
  */
-export async function findRubyDynamicReferences(root: string): Promise<RubyDynamicReference[]> {
+export async function findRubyDynamicReferences(
+  root: string,
+  fileSystem: ScanFileSystem = nodeFileSystem,
+): Promise<RubyDynamicReference[]> {
   const found: RubyDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "ruby" })) {
+  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "ruby" }, fileSystem)) {
     if (checkoutSourceIgnored(file.path)) continue;
-    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
+    const lines = (await fileSystem.readText(file.absolutePath)).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, "ruby", maskState));
@@ -74,11 +78,14 @@ export interface PhpDynamicReference {
  * `new $class` and `$class::method()`. A quoted path and a static `use` are never unclassified. PHP has no
  * `require_relative`. Reported only for files this scanner reads; the detector calls it when a finding has usage matchers.
  */
-export async function findPhpDynamicReferences(root: string): Promise<PhpDynamicReference[]> {
+export async function findPhpDynamicReferences(
+  root: string,
+  fileSystem: ScanFileSystem = nodeFileSystem,
+): Promise<PhpDynamicReference[]> {
   const found: PhpDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "php" })) {
+  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "php" }, fileSystem)) {
     if (checkoutSourceIgnored(file.path)) continue;
-    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
+    const lines = (await fileSystem.readText(file.absolutePath)).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, "php", maskState));
@@ -144,11 +151,14 @@ const DART_DYNAMIC_LOOKUP = /\bFunction\s*\.\s*apply\s*\(/g;
 const DART_MIRROR_LOOKUP = /\b(?:reflect|reflectClass|reflectType|currentMirrorSystem)\s*\(/g;
 
 /** Runtime lookup forms in Dart source that cannot be assigned to a package safely: `Function.apply`, and `dart:mirrors` reflection. */
-export async function findDartDynamicReferences(root: string): Promise<DartDynamicReference[]> {
+export async function findDartDynamicReferences(
+  root: string,
+  fileSystem: ScanFileSystem = nodeFileSystem,
+): Promise<DartDynamicReference[]> {
   const found: DartDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "dart" })) {
+  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "dart" }, fileSystem)) {
     if (checkoutSourceIgnored(file.path)) continue;
-    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
+    const lines = (await fileSystem.readText(file.absolutePath)).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, "dart", maskState));
@@ -189,11 +199,14 @@ const SWIFT_DYNAMIC_LOOKUP =
   /\b(?:NSClassFromString|NSProtocolFromString|NSSelectorFromString|Selector|objc_getClass|sel_registerName|dlsym)\s*\(/g;
 
 /** Runtime Objective-C lookup forms in Swift source that cannot be assigned to a package safely. */
-export async function findSwiftDynamicReferences(root: string): Promise<SwiftDynamicReference[]> {
+export async function findSwiftDynamicReferences(
+  root: string,
+  fileSystem: ScanFileSystem = nodeFileSystem,
+): Promise<SwiftDynamicReference[]> {
   const found: SwiftDynamicReference[] = [];
-  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "swift" })) {
+  for (const file of await sourceFiles(resolve(root), { include: (language) => language === "swift" }, fileSystem)) {
     if (checkoutSourceIgnored(file.path)) continue;
-    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
+    const lines = (await fileSystem.readText(file.absolutePath)).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, "swift", maskState));
