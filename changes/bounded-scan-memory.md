@@ -1,0 +1,1 @@
+- Keep `evergreen scan` memory bounded on large repositories by streaming source files instead of listing them all first. (#2520)
