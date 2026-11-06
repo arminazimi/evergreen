@@ -74,7 +74,7 @@ export async function createCleanSmokeProject(
   }
 
   const packageJsonPath = join(dir, "package.json");
-  const repoFixture = resolve("tests/fixtures/smoke/package.json");
+  const repoFixture = resolve("tests/fixtures/smoke/package.json.fixture");
   if (existsSync(repoFixture)) {
     await copyFile(repoFixture, packageJsonPath);
   } else {

@@ -14,6 +14,14 @@ import type { Finding } from "../src/domain.js";
 import { renderBadgeSvg } from "../src/badge.js";
 import { renderBadge, renderFailure, runGitHubAction } from "../src/github-action.js";
 
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const fixtureRoots: string[] = [];
+const smokeFixture = await copyFixtureTree(resolve("tests/fixtures/smoke"), fixtureRoots);
+after(async () => {
+  await Promise.all(fixtureRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
 const UPLOAD_ARTIFACT = "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9";
 
 const temporaryRoots: string[] = [];
@@ -321,7 +329,7 @@ test("action.yml declares the attribution input, on by default, and passes it to
 test("the Action runner warns about suppressions that expire soon, for the day it is given", async () => {
   const directory = await mkdtemp(join(tmpdir(), "evergreen-action-expiry-"));
   try {
-    const smoke = resolve("tests/fixtures/smoke");
+    const smoke = smokeFixture;
     const scan = await scanRepository(smoke, builtInDetectors);
     const baseline = join(directory, "baseline.json");
     await writeBaseline(baseline, createBaseline(scan, { owner: "platform", expires: "2026-11-05" }));
@@ -350,7 +358,7 @@ test("action.yml declares baseline-warn-days with a 14-day default and passes it
 test("the Action runner brings back an expired suppression and fails the job only under the fail policy", async () => {
   const directory = await mkdtemp(join(tmpdir(), "evergreen-action-policy-"));
   try {
-    const smoke = resolve("tests/fixtures/smoke");
+    const smoke = smokeFixture;
     const scan = await scanRepository(smoke, builtInDetectors);
     const baseline = join(directory, "baseline.json");
     await writeBaseline(baseline, createBaseline(scan, { expires: "2026-10-01" }));

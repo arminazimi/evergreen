@@ -92,6 +92,8 @@ npm run check
 
 `npm run check` builds the project, bundles the Action, runs every test, and checks generated plugin files. It is the same gate CI runs.
 
+While you work, `npm run check:fast` answers in under a minute: it builds, then runs the formatter check, lint, and only the tests that match the files you changed against `origin/main`. It does not replace `npm run check`; the merge queue and CI still run everything.
+
 CI also enforces test coverage floors (93% lines, 87% branches, 93% functions) with `npm run test:coverage`. New code should come with tests so the number stays up; raise the floors in `package.json` when coverage rises, never lower them to make a change pass.
 
 The pull request gate GitHub enforces is one status check, `ci-ok`. It runs after every other CI job and fails when any of them failed or was cancelled; a skipped job counts as passing. Only `ci-ok` is required by branch protection, so the jobs behind it can change without editing repository settings. Maintainers enable the merge queue in [MAINTAINERS.md](MAINTAINERS.md#branch-protection-and-the-merge-queue).

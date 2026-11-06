@@ -127,7 +127,7 @@
       "line": 16,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Inspected moditect/jfrunit@b676511be0506a8653358060eb2fdb4fe27873a3, .github/workflows/release.yml:16 directly on 2026-11-06: `run: echo ::set-output name=VERSION::${GITHUB_REF/refs\\/tags\\/v/}` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+        "note": "Reviewed the pinned workflow at https://github.com/moditect/jfrunit/blob/b676511be0506a8653358060eb2fdb4fe27873a3/.github/workflows/release.yml#L16: `run: echo ::set-output name=VERSION::${GITHUB_REF/refs\\/tags\\/v/}` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
       }
     }
   ]

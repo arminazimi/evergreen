@@ -1,9 +1,18 @@
+import { rm } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
 
 import { badgeState, renderBadgeEndpoint } from "../src/badge.js";
 import { runCli } from "./cli-runner.js";
+
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const fixtureRoots: string[] = [];
+const smokeFixture = await copyFixtureTree(resolve("tests/fixtures/smoke"), fixtureRoots);
+after(async () => {
+  await Promise.all(fixtureRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
 
 const endpoint = (findings: unknown[], stale = false) =>
   JSON.parse(renderBadgeEndpoint({ findings, data: { stale } } as never)) as Record<string, unknown>;
@@ -41,7 +50,7 @@ test("the endpoint records an expired failure", () => {
 });
 
 test("the CLI prints endpoint JSON for the scanned path", async () => {
-  const result = await runCli(["badge", resolve("tests/fixtures/smoke"), "--shields"]);
+  const result = await runCli(["badge", smokeFixture, "--shields"]);
   assert.equal(result.code, 0);
   const json = JSON.parse(result.stdout) as Record<string, unknown>;
   assert.equal(json.schemaVersion, 1);

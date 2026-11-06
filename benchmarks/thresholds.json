@@ -127,10 +127,10 @@
     }
   },
   "lastFullRun": {
-    "date": "2026-11-05",
-    "commit": "80d7173e",
+    "date": "2026-11-01",
+    "commit": "114f19b",
     "repositories": 557,
-    "findings": 3208,
+    "findings": 3156,
     "precision": 1,
     "recall": 1,
     "perDetector": {
@@ -145,7 +145,7 @@
         "falseNegatives": 0
       },
       "container": {
-        "truePositives": 368,
+        "truePositives": 365,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -180,7 +180,7 @@
         "falseNegatives": 0
       },
       "github-actions": {
-        "truePositives": 1262,
+        "truePositives": 1213,
         "falsePositives": 0,
         "falseNegatives": 0
       },

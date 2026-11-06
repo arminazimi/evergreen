@@ -91,6 +91,7 @@
     "check:dead-code": "knip --no-progress",
     "lint": "eslint \"src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0",
     "lint:baseline": "eslint \"src/**/*.ts\" \"tools/**/*.ts\" --max-warnings=0 --suppress-all",
+    "check:fast": "npm run build --silent && node dist/tools/check-fast.js",
     "check": "npm run format:check && npm run check:dead-code && npm run build && node dist/tools/check-pipeline.js",
     "check:rules": "npm run format:check --silent && npm run check:dead-code --silent && npm run lint --silent && npm run check:quality --silent",
     "check:reproducible": "npm run build --silent && node dist/tools/reproducible-build.js",

@@ -1,12 +1,20 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, rm } from "node:fs/promises";
 import { resolve } from "node:path";
-import { test } from "node:test";
+import { test, after } from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { runCli as runInProcess } from "./cli-runner.js";
 
-const smoke = resolve("tests/fixtures/smoke");
+import { copyFixtureTree } from "./fixture-copies.js";
+
+const fixtureRoots: string[] = [];
+const smokeFixture = await copyFixtureTree(resolve("tests/fixtures/smoke"), fixtureRoots);
+after(async () => {
+  await Promise.all(fixtureRoots.map((root) => rm(root, { recursive: true, force: true })));
+});
+
+const smoke = smokeFixture;
 const baseline = resolve("tests/fixtures/baselines/v0.1.0.json");
 
 const runCli = (...args: string[]) => runInProcess(args);

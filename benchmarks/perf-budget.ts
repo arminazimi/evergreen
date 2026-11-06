@@ -8,6 +8,8 @@ import { pathToFileURL } from "node:url";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 
+import { restoreFixtureNames } from "../src/fixture-names.js";
+
 /**
  * The scan performance budget, enforced by the `perf-budget` CI job on ubuntu-latest.
  *
@@ -94,6 +96,7 @@ export async function createCleanFixtureProject(fixtureDir = resolve("tests/fixt
   for (const entry of await readdir(fixtureDir)) {
     await copyFile(join(fixtureDir, entry), join(directory, entry));
   }
+  await restoreFixtureNames(directory);
   return { directory, cleanup: () => rm(directory, { recursive: true, force: true }) };
 }
 

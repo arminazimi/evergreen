@@ -76,14 +76,18 @@ jobs:
         env:
           FILE: ${{ steps.release.outputs.file }}
         run: |
-          node .github/scripts/smoke.mjs tests/fixtures/smoke -- env PATH=/usr/bin:/bin "$PWD/binaries/$FILE"
+          mkdir -p "$RUNNER_TEMP/evergreen-smoke"
+          cp tests/fixtures/smoke/package.json.fixture "$RUNNER_TEMP/evergreen-smoke/package.json"
+          node .github/scripts/smoke.mjs "$RUNNER_TEMP/evergreen-smoke" -- env PATH=/usr/bin:/bin "$PWD/binaries/$FILE"
       - name: Smoke test
         if: runner.os == 'Windows'
         shell: bash
         env:
           FILE: ${{ steps.release.outputs.file }}
         run: |
-          node .github/scripts/smoke.mjs tests/fixtures/smoke -- "$PWD/binaries/$FILE"
+          mkdir -p "$RUNNER_TEMP/evergreen-smoke"
+          cp tests/fixtures/smoke/package.json.fixture "$RUNNER_TEMP/evergreen-smoke/package.json"
+          node .github/scripts/smoke.mjs "$RUNNER_TEMP/evergreen-smoke" -- "$PWD/binaries/$FILE"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: binary-${{ matrix.target }}

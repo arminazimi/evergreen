@@ -388,7 +388,7 @@
       "line": 19,
       "groundTruthSource": {
         "kind": "maintainer-review",
-        "note": "Inspected starcoinorg/starcoin@57559ea1a32c3af5a81d84668c9d4a40511991ed, .github/workflows/auto_bump_homebrew.yml:19 directly on 2026-11-06: `printf \"::set-output name=%s::%s\\n\" tag-name \"${GITHUB_REF#refs/tags/}\"` emits the deprecated set-output command from a run step. GitHub independently documents this stdout command and its replacement at https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/. This expectation was checked against the pinned source and vendor notice, not inferred from scanner output."
+        "note": "Reviewed the pinned workflow at https://github.com/starcoinorg/starcoin/blob/57559ea1a32c3af5a81d84668c9d4a40511991ed/.github/workflows/auto_bump_homebrew.yml#L19: `printf \"::set-output name=%s::%s\\n\" tag-name \"${GITHUB_REF#refs/tags/}\"` emits the `set-output` workflow command from a run step. GitHub's retirement/deprecation notice is https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/"
       }
     }
   ]

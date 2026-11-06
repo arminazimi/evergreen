@@ -65,10 +65,12 @@ jobs:
         if: steps.release.outputs.create == 'true' || inputs.dry_run
         shell: bash
         env:
-          INPUT_PATH: tests/fixtures/smoke
+          INPUT_PATH: ${{ runner.temp }}/evergreen-smoke
           INPUT_FAIL-ON-SEVERITY: none
           GITHUB_STEP_SUMMARY: ${{ runner.temp }}/action-summary.md
         run: |
+          mkdir -p "$INPUT_PATH"
+          cp tests/fixtures/smoke/package.json.fixture "$INPUT_PATH/package.json"
           node dist/action/index.js | tee "$RUNNER_TEMP/action-output.txt"
           grep -E "Evergreen found [0-9]+ new lifecycle finding" "$RUNNER_TEMP/action-output.txt"
       - name: Commit the bundle on the release branch

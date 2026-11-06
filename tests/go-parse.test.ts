@@ -11,7 +11,7 @@ async function goModFixture(caseName: string): Promise<string> {
 }
 
 async function goWorkFixture(caseName: string): Promise<string> {
-  return readFile(resolve("tests/fixtures/go", caseName, "go.work"), "utf8");
+  return readFile(resolve("tests/fixtures/go", caseName, "go.work.fixture"), "utf8");
 }
 
 test("parses static go.mod declarations with exact lines", async () => {
