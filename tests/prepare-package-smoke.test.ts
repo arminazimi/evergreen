@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -11,7 +11,8 @@ import { preparePackageSmoke } from "../tools/prepare-package-smoke.js";
 const execute = promisify(execFile);
 
 test("the locked tarball installs offline and a changed tarball fails integrity verification", async () => {
-  const root = await mkdtemp(join(tmpdir(), "evergreen-packed~smoke-"));
+  // npm 11 rejects a --prefix reached through a symlink (macOS /var -> /private/var), so resolve it first.
+  const root = await mkdtemp(join(await realpath(tmpdir()), "evergreen-packed~smoke-"));
   const npm = (args: string[]) =>
     execute(process.platform === "win32" ? "npm.cmd" : "npm", args, {
       cwd: root,
