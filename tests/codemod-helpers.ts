@@ -7,7 +7,7 @@ import { promisify } from "node:util";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import type { SourceLanguage } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { planFixReport } from "../src/fix/index.js";
 import { renderPatches } from "../src/fix/index.js";
 import type { FilePatch, FixerPatch, FixRefusal } from "../src/fix/index.js";

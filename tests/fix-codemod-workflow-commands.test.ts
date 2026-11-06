@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { parseDocument } from "yaml";
 
 import { githubActionsDetector } from "../src/detectors/github-actions.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { planFixReport, renderPatches, workflowCommandsFixer } from "../src/fix/index.js";
 import { applyDiff as apply, repository as temporaryRepository } from "./codemod-helpers.js";
 

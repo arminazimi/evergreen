@@ -603,7 +603,7 @@ test("scan_repository takes an optional baseline and reports what it suppressed,
     assert.equal("suppressions" in plainContent, false, "no baseline, no suppression state");
 
     const { createBaseline } = await import("../src/baseline.js");
-    const { scanRepository } = await import("../src/engine.js");
+    const { scanRepository } = await import("../src/engine/index.js");
     const { builtInDetectors } = await import("../src/detectors/index.js");
     const { writeFile } = await import("node:fs/promises");
     const { join } = await import("node:path");

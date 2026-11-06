@@ -22,7 +22,7 @@ import { findingFingerprint } from "../src/baseline.js";
 import type { BaselineEntry } from "../src/baseline.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { Finding } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 
 const temporaryRoots: string[] = [];
 

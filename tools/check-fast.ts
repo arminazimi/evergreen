@@ -27,6 +27,22 @@ function isTestFile(file: string): boolean {
   return file.startsWith("tests/") && file.endsWith(".test.ts");
 }
 
+/**
+ * Test-name stems a source file can map to: its own file name and each directory between `src/`
+ * and the file. A module moved into a folder (`src/engine/detect.ts`) still maps to its area's
+ * tests (`tests/engine-*.test.ts`).
+ */
+function testStems(file: string): string[] {
+  const parts = file.replace(/\.ts$/, "").split("/");
+  const base = parts[parts.length - 1];
+  const stems = new Set<string>(base ? [base] : []);
+  for (let index = 1; index < parts.length - 1; index += 1) {
+    const directory = parts[index];
+    if (directory) stems.add(directory);
+  }
+  return [...stems];
+}
+
 /** Pick the test files a set of changed repository paths can affect. */
 export function selectAffectedTests(changedFiles: readonly string[], allTestFiles: readonly string[]): AffectedTests {
   const tests = new Set<string>();
@@ -43,10 +59,9 @@ export function selectAffectedTests(changedFiles: readonly string[], allTestFile
       unmapped.push(file);
       continue;
     }
-    const stem = basename(file, ".ts");
     const matches = allTestFiles.filter((test) => {
       const testStem = basename(test, ".test.ts");
-      return testStem === stem || testStem.startsWith(`${stem}-`);
+      return testStems(file).some((stem) => testStem === stem || testStem.startsWith(`${stem}-`));
     });
     if (matches.length === 0) unmapped.push(file);
     for (const match of matches) tests.add(match);

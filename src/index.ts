@@ -1,4 +1,4 @@
-export { scanRepository } from "./engine.js";
+export { scanRepository } from "./engine/index.js";
 export { capabilityManifestSchema, getCapabilityManifest } from "./capabilities.js";
 export type { Capability, CapabilityManifest, CapabilitySurface } from "./capabilities.js";
 export { analyzeSourceUsage } from "./source-usage.js";

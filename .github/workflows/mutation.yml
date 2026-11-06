@@ -31,8 +31,8 @@ jobs:
       matrix:
         include:
           - shard: engine
-            mutate: src/engine.ts
-            hash: src/engine.ts
+            mutate: src/engine/**/*.ts
+            hash: src/engine/**/*.ts
           - shard: baseline
             mutate: src/baseline.ts
             hash: src/baseline.ts

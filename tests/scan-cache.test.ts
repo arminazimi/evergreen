@@ -7,7 +7,7 @@ import { after, test } from "node:test";
 import { configureActiveData } from "../src/data-source.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { Finding } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { computeCacheKey, computeFileHash, ScanCache } from "../src/scan-cache.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
 import type { Detector } from "../src/sdk.js";

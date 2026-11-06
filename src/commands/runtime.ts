@@ -24,7 +24,13 @@ import { scanDemo } from "../demo.js";
 import { builtInDetectors } from "../detectors/index.js";
 import type { ScanSelection, ScanResult, Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import { applyScanSelection, findRepositories, renderMultiScanText, scanProjects, scanRepository } from "../engine.js";
+import {
+  applyScanSelection,
+  findRepositories,
+  renderMultiScanText,
+  scanProjects,
+  scanRepository,
+} from "../engine/index.js";
 import { invalidConfig, renderActionable, unreadablePath, type ActionableMessage } from "../errors.js";
 import { buildForecast } from "../forecast.js";
 import { hasPersonalConfig } from "../init-personal.js";

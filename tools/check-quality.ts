@@ -66,7 +66,13 @@ export const NETWORK_MODULES: readonly string[] = [
 /** Adapters translate one interface to a host; they must not import detectors. */
 export const ADAPTER_FILES: readonly string[] = ["src/cli.ts", "src/mcp.ts", "src/github-action.ts"];
 export const DETECTOR_DIR = "src/detectors/";
-export const ENGINE_FILES: readonly string[] = ["src/engine.ts", "src/domain.ts"];
+/** Exact engine files plus the engine directory, whose stage modules share the same boundary rules. */
+export const ENGINE_FILES: readonly string[] = ["src/domain.ts"];
+export const ENGINE_DIR = "src/engine/";
+
+export function isEngineFile(path: string): boolean {
+  return ENGINE_FILES.includes(path) || path.startsWith(ENGINE_DIR);
+}
 
 export interface SourceFile {
   /** Repository-relative path with forward slashes. */
@@ -311,9 +317,9 @@ export function measureFile(path: string, text: string): FileMeasure {
 
   for (const specifier of importedModules(file)) {
     const target = resolveSpecifier(path, specifier);
-    if (ENGINE_FILES.includes(path) && target.startsWith(DETECTOR_DIR)) bump(BOUNDARY_RULES.engineNoDetectors);
+    if (isEngineFile(path) && target.startsWith(DETECTOR_DIR)) bump(BOUNDARY_RULES.engineNoDetectors);
     if (ADAPTER_FILES.includes(path) && target.startsWith(DETECTOR_DIR)) bump(BOUNDARY_RULES.adaptersNoDetectors);
-    if ((path.startsWith(DETECTOR_DIR) || ENGINE_FILES.includes(path)) && NETWORK_MODULES.includes(target)) {
+    if ((path.startsWith(DETECTOR_DIR) || isEngineFile(path)) && NETWORK_MODULES.includes(target)) {
       bump(BOUNDARY_RULES.detectorsNoNetwork);
     }
   }
@@ -332,7 +338,7 @@ export function measureFile(path: string, text: string): FileMeasure {
     }
     if (ts.isNonNullExpression(node)) nonNull += 1;
     if (
-      (path.startsWith(DETECTOR_DIR) || ENGINE_FILES.includes(path)) &&
+      (path.startsWith(DETECTOR_DIR) || isEngineFile(path)) &&
       ts.isCallExpression(node) &&
       ts.isIdentifier(node.expression) &&
       node.expression.text === "fetch"

@@ -219,7 +219,7 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 
 ## Mutation testing baseline
 
-Line coverage shows which lines run; mutation testing asks whether the tests would notice a bug in them. `npm run test:mutation` runs [Stryker](https://stryker-mutator.io/) with the command runner over `src/engine.ts`, `src/baseline.ts`, `src/diff.ts`, and `src/vers/`, rebuilding with `tsc` and executing the unit tests that target those modules. The nightly [Mutation](../.github/workflows/mutation.yml) workflow publishes the score and surviving mutants in the job summary. It does not fail the build on the score yet.
+Line coverage shows which lines run; mutation testing asks whether the tests would notice a bug in them. `npm run test:mutation` runs [Stryker](https://stryker-mutator.io/) with the command runner over `src/engine/`, `src/baseline.ts`, `src/diff.ts`, and `src/vers/`, rebuilding with `tsc` and executing the unit tests that target those modules. The nightly [Mutation](../.github/workflows/mutation.yml) workflow publishes the score and surviving mutants in the job summary. It does not fail the build on the score yet.
 
 First measured score on 2026-10-30 (commit `470542f4`): **59.59%** (1,139 killed, 7 timed out, 777 survived; 1,923 mutants). Per-file: `src/vers/` 80.12%, `src/baseline.ts` 72.78%, `src/diff.ts` 57.94%, `src/engine.ts` 23.12%.
 

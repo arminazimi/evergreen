@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
 import { GoDetector } from "../src/detectors/go/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import { isUsageMatcher } from "../src/sdk.js";

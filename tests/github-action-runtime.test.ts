@@ -9,7 +9,7 @@ import { parse as parseYaml } from "yaml";
 
 import { createBaseline, writeBaseline } from "../src/baseline.js";
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import type { Finding } from "../src/domain.js";
 import { renderBadgeSvg } from "../src/badge.js";
 import { renderBadge, renderFailure, runGitHubAction } from "../src/github-action.js";

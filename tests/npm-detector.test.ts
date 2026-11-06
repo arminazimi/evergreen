@@ -6,7 +6,7 @@ import { after, test } from "node:test";
 
 import { declaresInput } from "../src/detector-inputs.js";
 import { NpmDetector, npmDetector } from "../src/detectors/npm/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 
 const temporaryRoots: string[] = [];
 

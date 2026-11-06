@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
 import { RubyDetector } from "../src/detectors/ruby/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { renderText } from "../src/reporters.js";
 import { isUsageMatcher } from "../src/sdk.js";

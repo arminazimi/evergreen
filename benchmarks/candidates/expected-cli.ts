@@ -6,7 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import { builtInDetectors } from "../../src/detectors/index.js";
-import { scanRepository } from "../../src/engine.js";
+import { scanRepository } from "../../src/engine/index.js";
 import { loadPublicCorpus } from "../public-corpus.js";
 import {
   countCorpus,

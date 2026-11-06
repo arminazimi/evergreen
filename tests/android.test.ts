@@ -14,7 +14,7 @@ import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { AndroidDetector, androidDetector } from "../src/detectors/android/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";

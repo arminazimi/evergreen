@@ -275,7 +275,7 @@ test("a baseline written by Evergreen 0.1.0 loads, matches today's fingerprints,
   );
 
   const { builtInDetectors } = await import("../src/detectors/index.js");
-  const { scanRepository } = await import("../src/engine.js");
+  const { scanRepository } = await import("../src/engine/index.js");
   const scan = await scanRepository(smoke, builtInDetectors);
   const remaining = applyBaseline(scan, old)
     .findings.map((finding) => finding.ruleId)
@@ -346,7 +346,7 @@ test("the CLI scans with a 0.1.0 baseline and reports only what the baseline doe
 
 test("the CLI accepts several --baseline files so a shared and a local baseline combine", async () => {
   const { builtInDetectors } = await import("../src/detectors/index.js");
-  const { scanRepository } = await import("../src/engine.js");
+  const { scanRepository } = await import("../src/engine/index.js");
   const directory = await mkdtemp(join(tmpdir(), "evergreen-multi-baseline-"));
   try {
     const scan = await scanRepository(smoke, builtInDetectors);
@@ -461,7 +461,7 @@ test("the CLI warns about a suppression that is about to expire, for the day it 
   const directory = await mkdtemp(join(tmpdir(), "evergreen-expiry-"));
   try {
     const { builtInDetectors } = await import("../src/detectors/index.js");
-    const { scanRepository } = await import("../src/engine.js");
+    const { scanRepository } = await import("../src/engine/index.js");
     const scan = await scanRepository(smoke, builtInDetectors);
     const path = join(directory, "baseline.json");
     await writeFile(
@@ -627,7 +627,7 @@ test("the CLI resurfaces an expired suppression by default and exits 1 only with
   const directory = await mkdtemp(join(tmpdir(), "evergreen-policy-"));
   try {
     const { builtInDetectors } = await import("../src/detectors/index.js");
-    const { scanRepository } = await import("../src/engine.js");
+    const { scanRepository } = await import("../src/engine/index.js");
     const scan = await scanRepository(smoke, builtInDetectors);
     const path = join(directory, "baseline.json");
     await writeFile(path, JSON.stringify(createBaseline(scan, { owner: "platform", expires: "2026-10-01" })));

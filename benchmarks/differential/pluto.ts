@@ -174,7 +174,7 @@ export async function main(argv: string[]): Promise<number> {
   const repository = values.get("--repository");
   if (!reportPath || !repository) throw new Error("--pluto and --repository are required.");
   const root = resolve(repository);
-  const { scanRepository } = await import("../../src/engine.js");
+  const { scanRepository } = await import("../../src/engine/index.js");
   const { builtInDetectors } = await import("../../src/detectors/index.js");
   const scan = await scanRepository(root, builtInDetectors);
   const result = report(

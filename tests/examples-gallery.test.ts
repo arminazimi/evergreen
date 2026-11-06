@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { copyFixtureTree } from "./fixture-copies.js";
 
 interface ExpectedFinding {

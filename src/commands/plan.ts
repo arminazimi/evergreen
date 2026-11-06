@@ -1,7 +1,7 @@
 import process from "node:process";
 
 import { builtInDetectors } from "../detectors/index.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import { buildPlan } from "../plan-build.js";
 import type { Plan } from "../plan.js";
 import { renderPlanText } from "../plan-render.js";

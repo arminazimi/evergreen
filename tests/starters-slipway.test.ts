@@ -8,7 +8,7 @@ import { parse as parseYaml } from "yaml";
 
 import { applyIgnore, loadConfig, matchesIgnorePattern } from "../src/config.js";
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 
 const starter = resolve("examples/starters/slipway");
 const sharedFixture = resolve("tests/fixtures/toolchain/slipway-site");

@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import type { ScanResult } from "./domain.js";
 import type { Detector } from "./sdk.js";
 import { builtInDetectors } from "./detectors/index.js";
-import { scanRepository } from "./engine.js";
+import { scanRepository } from "./engine/index.js";
 
 /** In-memory demo fixture files. Shipped in code so scanners do not flag Evergreen itself. */
 export const DEMO_FILES: Readonly<Record<string, string>> = Object.freeze({

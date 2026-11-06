@@ -219,7 +219,7 @@ test("boundary rules flag a detector importing the network and an adapter import
   );
   assert.equal(adapter.boundary.get("adapters-no-detectors"), 2);
 
-  const engine = measureFile("src/engine.ts", 'import type { D } from "./detectors/index.js";\n');
+  const engine = measureFile("src/engine/detect.ts", 'import type { D } from "../detectors/index.js";\n');
   assert.equal(engine.boundary.get("engine-no-detectors"), 1);
 
   const clean = measureFile(

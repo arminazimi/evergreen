@@ -5,7 +5,7 @@ import { after, test } from "node:test";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import { parseDockerfile } from "../src/detectors/container/parse-dockerfile.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { dockerfileLegacyFixer } from "../src/fix/codemods/dockerfile-legacy.js";
 import { renderPatches } from "../src/fix/index.js";
 import { apply, cleanup, repository } from "./codemod-helpers.js";

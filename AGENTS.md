@@ -38,7 +38,7 @@ Full detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 | Layer | Lives in | Owns | Must not |
 |---|---|---|---|
-| Scan engine | `src/engine.ts`, `src/domain.ts` | Detector attribution, sorting, output contracts | Import built-in detectors or contain ecosystem-specific logic |
+| Scan engine | `src/engine/`, `src/domain.ts` | Detector attribution, sorting, output contracts | Import built-in detectors or contain ecosystem-specific logic |
 | Detector SDK | `src/sdk.ts` | The public seam: API version, stable ID, one `scan` operation | Change without a versioned decision |
 | Detectors | `src/detectors/` | Reading manifests and lockfiles for one ecosystem | Make network calls or execute repository code |
 | Registry | `registry/*.json` | Reviewed lifecycle rules with authoritative sources | Contain executable logic or unsourced claims |

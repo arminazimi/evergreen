@@ -2,7 +2,7 @@ import process from "node:process";
 
 import { bundledRules } from "../check-dependency.js";
 import { builtInDetectors } from "../detectors/index.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import type { Forecast } from "../forecast.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "../forecast.js";
 import { renderForecastSvg } from "../forecast-svg.js";

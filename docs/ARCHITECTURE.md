@@ -38,7 +38,7 @@ A separate workspace package per layer is unnecessary while the interface and im
 |---|---|---|
 | Domain | [domain.ts](../src/domain.ts), [errors.ts](../src/errors.ts), [purl.ts](../src/purl.ts), [paths.ts](../src/paths.ts), [vers/](../src/vers) | Types, output contracts, pure helpers |
 | Detector SDK | [sdk.ts](../src/sdk.ts) | API version, stable detector ID, one `scan` operation |
-| Core | [engine.ts](../src/engine.ts), [source-usage.ts](../src/source-usage.ts), [usage/](../src/usage), [registry.ts](../src/registry.ts), [scan-cache.ts](../src/scan-cache.ts), [detector-inputs.ts](../src/detector-inputs.ts) | Detector attribution, sorting, repository traversal, usage matching, rule loading |
+| Core | [engine/](../src/engine), [source-usage.ts](../src/source-usage.ts), [usage/](../src/usage), [registry.ts](../src/registry.ts), [scan-cache.ts](../src/scan-cache.ts), [detector-inputs.ts](../src/detector-inputs.ts) | Detector attribution, sorting, repository traversal, usage matching, rule loading |
 | Detectors | [detectors/](../src/detectors) | Reading manifests and lockfiles for one ecosystem |
 | Services | [plan.ts](../src/plan.ts), [migration-packet.ts](../src/migration-packet.ts), [fix/](../src/fix), [sbom/](../src/sbom), [drift/](../src/drift), [export/](../src/export), [inventory/](../src/inventory), [baseline.ts](../src/baseline.ts), [diff.ts](../src/diff.ts), [forecast.ts](../src/forecast.ts), [receipt.ts](../src/receipt.ts), [agent-tools.ts](../src/agent-tools.ts) | Analysis built on a scan result. No argument parsing, no host protocol |
 | Reporters | [reporters.ts](../src/reporters.ts), [reporters/](../src/reporters), [mermaid.ts](../src/mermaid.ts) | Text, JSON, SARIF, HTML, and other formats |

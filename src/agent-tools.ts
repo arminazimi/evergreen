@@ -5,7 +5,7 @@ import { applyBaseline, findingFingerprint, readBaseline } from "./baseline.js";
 import { bundledRules } from "./check-dependency.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { DataInfo, Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
-import { scanRepository } from "./engine.js";
+import { scanRepository } from "./engine/index.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import type { Receipt } from "./receipt.js";
 import { buildReceipt } from "./receipt.js";

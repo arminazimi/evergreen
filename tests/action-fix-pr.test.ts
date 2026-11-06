@@ -11,7 +11,7 @@ import { publishFixPullRequest, renderFixPullRequestBody } from "../src/action-f
 import type { FixPullRequestOutcome, FixPullRequestTarget } from "../src/action-fix-pr.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { Finding, ScanResult } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 
 const roots: string[] = [];
 

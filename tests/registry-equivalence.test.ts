@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { test, after } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { legacyRule, registryV2Issues } from "../src/registry.js";
 import type { RegistryV2 } from "../src/registry.js";
 

@@ -7,7 +7,7 @@ import { setTimeout as delay } from "node:timers/promises";
 import { pathToFileURL } from "node:url";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 
 /**
  * Large-monorepo scan budget: a ≥100k-file repository must finish under 5 seconds mean wall time.

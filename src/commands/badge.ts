@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 
 import { badgeSnippet, isBadgeSnippetFormat, renderBadgeEndpoint, repositoryFromRemote } from "../badge.js";
 import { builtInDetectors } from "../detectors/index.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import type { CliCommand, CommandContext } from "./types.js";
 
 /** Indexed CLI argument; the loop bound already guarantees the index is in range. */

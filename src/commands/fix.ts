@@ -1,7 +1,7 @@
 import process from "node:process";
 
 import { builtInDetectors } from "../detectors/index.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import { applyOnBranch } from "../fix/git.js";
 import { planFixReport, planFixes, renderPatches } from "../fix/index.js";
 import { renderVerification, verifyFix } from "../fix/verify.js";

@@ -2,7 +2,7 @@
 
 import { builtInDetectors } from "../detectors/index.js";
 import type { ScanResult } from "../domain.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import { VERSION } from "../version.js";
 import { explainMessage, isHttpUrl } from "./diagnostics.js";
 import { DocumentStore, workspaceRootFrom } from "./documents.js";

@@ -220,7 +220,7 @@ test("nested crates are found, vendored and fixture directories and symbolic lin
   });
 });
 
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 
 test("every curated Rust rule has migration guidance with real verification commands", async () => {

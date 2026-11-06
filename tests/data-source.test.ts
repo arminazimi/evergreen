@@ -19,7 +19,7 @@ import {
 } from "../src/data-source.js";
 import type { DataSourceOptions } from "../src/data-source.js";
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { checkDependency } from "../src/check-dependency.js";
 
 const roots: string[] = [];

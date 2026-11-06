@@ -23,13 +23,13 @@ test("importSpecifiers reads static, re-export and dynamic imports", () => {
 test("a forbidden import is reported", () => {
   const graph = buildGraph(
     new Map([
-      ["src/engine.ts", 'import { d } from "./detectors/npm/index.js";'],
+      ["src/engine/detect.ts", 'import { d } from "../detectors/npm/index.js";'],
       ["src/detectors/npm/index.ts", 'import https from "node:https";'],
     ]),
   );
   assert.deepEqual(findViolations(graph), [
     "detectors-no-network: src/detectors/npm/index.ts -> node:https",
-    "engine-no-detectors: src/engine.ts -> src/detectors/npm/index.ts",
+    "engine-no-detectors: src/engine/detect.ts -> src/detectors/npm/index.ts",
   ]);
 });
 
@@ -58,20 +58,20 @@ test("compare flags new findings and stale baseline entries", () => {
 });
 
 test("the repository matches its architecture baseline", () => {
-  assert.equal(loadSources(process.cwd()).has("src/engine.ts"), true);
+  assert.equal(loadSources(process.cwd()).has("src/engine/index.ts"), true);
   assert.equal(main([]), 0);
 });
 
 test("domain, SDK, and core may not import the filesystem or network modules", () => {
   const graph = buildGraph(
     new Map([
-      ["src/engine.ts", 'import { readFile } from "node:fs/promises";'],
+      ["src/engine/report.ts", 'import { readFile } from "node:fs/promises";'],
       ["src/usage/walk.ts", 'import { get } from "node:https";'],
       ["src/node-file-system.ts", 'import { readFile } from "node:fs/promises";'],
     ]),
   );
   assert.deepEqual(findViolations(graph), [
-    "core-no-fs-or-network: src/engine.ts -> node:fs/promises",
+    "core-no-fs-or-network: src/engine/report.ts -> node:fs/promises",
     "core-no-fs-or-network: src/usage/walk.ts -> node:https",
   ]);
 });

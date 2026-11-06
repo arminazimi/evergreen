@@ -210,7 +210,7 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
     },
     {
       pattern:
-        /^src\/(engine|domain|sdk|paths|registry|data-source|package-files|version|index)\.ts$|^src\/detectors\/index\.ts$|^src\/conformance\/|^benchmarks\/(corpus-harness|public-repositories|public-corpus)\.ts$|^benchmarks\/thresholds\.(ts|json)$/,
+        /^src\/(engine|domain|sdk|paths|registry|data-source|package-files|version|index)\.ts$|^src\/engine\/|^src\/detectors\/index\.ts$|^src\/conformance\/|^benchmarks\/(corpus-harness|public-repositories|public-corpus)\.ts$|^benchmarks\/thresholds\.(ts|json)$/,
       ecosystems: CORPUS_ECOSYSTEMS,
       reason: "shared scan code or corpus scoring",
     },

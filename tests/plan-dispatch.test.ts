@@ -5,7 +5,7 @@ import { test, after } from "node:test";
 import { pathToFileURL } from "node:url";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { buildPlan } from "../src/plan-build.js";
 import type { Plan } from "../src/plan.js";
 

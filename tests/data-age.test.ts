@@ -12,7 +12,7 @@ import { checkDependency } from "../src/check-dependency.js";
 import { buildDataBundle, serializeDataBundle } from "../src/data-bundle.js";
 import { BUNDLE_FILE, cachedBundleDirectory, configureActiveData, SIGNATURE_FILE } from "../src/data-source.js";
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { renderCheckText, renderSarif, renderText } from "../src/reporters.js";
 import { runCli } from "./cli-runner.js";
 

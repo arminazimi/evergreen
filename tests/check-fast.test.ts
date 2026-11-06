@@ -15,6 +15,10 @@ test("a changed source file runs the tests named after it", () => {
     unmapped: [],
   });
   assert.deepEqual(selectAffectedTests(["src/detectors/npm.ts"], ALL).tests, ["tests/npm.test.ts"]);
+  assert.deepEqual(selectAffectedTests(["src/engine/detect.ts"], ALL).tests, [
+    "tests/engine-sorting.test.ts",
+    "tests/engine.test.ts",
+  ]);
 });
 
 test("files without a matching test are reported, and documentation is ignored", () => {

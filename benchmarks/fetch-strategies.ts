@@ -12,7 +12,7 @@ import { join, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { directorySize } from "./corpus-cost.js";
 import { fetchWith } from "./corpus-fetch.js";
 import type { FetchStrategy } from "./corpus-fetch.js";

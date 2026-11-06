@@ -23,7 +23,7 @@ import { pathToFileURL } from "node:url";
 
 import { bundledRules } from "../../src/check-dependency.js";
 import { builtInDetectors } from "../../src/detectors/index.js";
-import { scanRepository } from "../../src/engine.js";
+import { scanRepository } from "../../src/engine/index.js";
 import { createMigrationPacket } from "../../src/migration-packet.js";
 import { renderMigrationPrompt } from "../../src/migration-prompt.js";
 import { readPinnedRuntimes } from "../../src/runtime-pin.js";

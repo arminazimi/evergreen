@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { advisoryIdsByRuleId } from "../src/osv-advisories.js";
 import { DETECTOR_API_VERSION, defineDetector } from "../src/sdk.js";
 import type { Detector } from "../src/sdk.js";

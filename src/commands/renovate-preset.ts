@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { builtInDetectors } from "../detectors/index.js";
 import { bundledRules } from "../check-dependency.js";
 import { buildRenovatePreset } from "../renovate-preset.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import { afterGates } from "./runtime.js";
 import type { CliCommand } from "./types.js";
 

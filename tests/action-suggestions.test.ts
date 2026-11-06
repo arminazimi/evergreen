@@ -10,7 +10,7 @@ import { after, test } from "node:test";
 import { parse as parseYaml } from "yaml";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import {
   FIX_SUGGESTION_MARKER,
   planFixSuggestions,

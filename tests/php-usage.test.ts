@@ -5,7 +5,7 @@ import { dirname, join, resolve } from "node:path";
 import { after, before, test } from "node:test";
 
 import { PhpDetector } from "../src/detectors/php/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import { renderText } from "../src/reporters.js";

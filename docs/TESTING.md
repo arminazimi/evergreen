@@ -279,7 +279,7 @@ CI retries a failed test file once. A file that passes on retry is reported as f
 
 ### Mutation testing
 
-`npm run test:mutation` runs Stryker over `src/engine.ts`, `src/baseline.ts`, `src/diff.ts`, and `src/vers/**` (`stryker.config.json:11`). The nightly `mutation` workflow publishes the score and survivors; `break` is `null`, so it is a signal, not a merge gate. Use it when you touch ordering, baseline matching, diffs, or version ranges, and when a unit test feels like it asserts too little. A surviving mutant usually means a missing assertion, not a missing test file.
+`npm run test:mutation` runs Stryker over `src/engine/`, `src/baseline.ts`, `src/diff.ts`, and `src/vers/**` (`stryker.config.json:11`). The nightly `mutation` workflow publishes the score and survivors; `break` is `null`, so it is a signal, not a merge gate. Use it when you touch ordering, baseline matching, diffs, or version ranges, and when a unit test feels like it asserts too little. A surviving mutant usually means a missing assertion, not a missing test file.
 
 ## Anti-patterns
 

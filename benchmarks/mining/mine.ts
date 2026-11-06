@@ -15,7 +15,7 @@ import { promisify } from "node:util";
 
 import { builtInDetectors } from "../../src/detectors/index.js";
 import type { Finding } from "../../src/domain.js";
-import { scanRepository } from "../../src/engine.js";
+import { scanRepository } from "../../src/engine/index.js";
 
 const run = promisify(execFile);
 const SHA = /^[0-9a-f]{40}$/;

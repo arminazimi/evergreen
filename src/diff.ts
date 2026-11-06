@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { findingFingerprint } from "./baseline.js";
 import type { Detector } from "./sdk.js";
 import type { Finding } from "./domain.js";
-import { scanRepository } from "./engine.js";
+import { scanRepository } from "./engine/index.js";
 
 const MAX_ARCHIVE_BYTES = 1024 * 1024 * 1024;
 

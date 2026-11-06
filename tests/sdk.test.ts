@@ -6,7 +6,7 @@ import { after, test } from "node:test";
 
 import { todoCommentsDetector } from "../examples/detectors/todo-comments.js";
 import { CONFORMANCE_API_VERSION, runDetectorConformance } from "../src/conformance/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import {
   DETECTOR_API_VERSION,
   DetectorCompatibilityError,

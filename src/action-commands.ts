@@ -10,7 +10,7 @@ import { resolve } from "node:path";
 import { findingFingerprint } from "./baseline.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Finding } from "./domain.js";
-import { scanRepository } from "./engine.js";
+import { scanRepository } from "./engine/index.js";
 
 /** The command word at the start of a trimmed comment line. */
 export const COMMAND_PREFIX = "/evergreen";

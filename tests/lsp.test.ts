@@ -8,7 +8,7 @@ import { pathToFileURL } from "node:url";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { Finding, ScanResult } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import {
   EXPLAIN_FINDING_COMMAND,
   OPEN_EVIDENCE_COMMAND,

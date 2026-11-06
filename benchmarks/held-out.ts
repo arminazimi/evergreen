@@ -10,7 +10,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
 import { inBatches, resolveCorpusConcurrency } from "./corpus-harness.js";
 import { fetchWith, isCheckoutUsable, resolveFetchStrategy } from "./corpus-fetch.js";

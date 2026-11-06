@@ -94,8 +94,8 @@ unless it has an allowlist entry at its current value.
 one already in `devDependencies`.
 
 **Current.** 3,774 functions. **191** are over 15 and all are allowlisted at their value; **105** are over 20;
-the largest is 131. The count over 15 is unchanged from main. One function, `scanRepository` in `src/engine.ts`,
-went from 21 to 20 because an unused `&&` in a removed declaration no longer counts.
+the largest is 131. This change removes both `scanRepository` entries from the allowlist: the pipeline
+entry point and its per-detector closure moved into smaller `src/engine/` stage helpers, all at 15 or less.
 
 **Why these numbers.** ESLint's `complexity` rule defaults to 20. The target is stricter, at 15, with 20 kept as the
 number a reviewer may point to in the follow-up.
@@ -129,8 +129,8 @@ count.
 
 | Rule | Statement | Enforced by |
 | --- | --- | --- |
-| `engine-no-detectors` | `src/engine.ts` and `src/domain.ts` do not import `src/detectors/**`. | mechanical |
-| `no-network` | `src/detectors/**`, `src/engine.ts`, and `src/domain.ts` import none of `node:net`, `node:http`, `node:https`, `node:dgram`, `node:tls`, `node:child_process` (or the bare names), and call no `fetch(`. | mechanical, direct imports and calls only |
+| `engine-no-detectors` | `src/engine/` and `src/domain.ts` do not import `src/detectors/**`. | mechanical |
+| `no-network` | `src/detectors/**`, `src/engine/`, and `src/domain.ts` import none of `node:net`, `node:http`, `node:https`, `node:dgram`, `node:tls`, `node:child_process` (or the bare names), and call no `fetch(`. | mechanical, direct imports and calls only |
 | `registry-json-only` | `registry/**` holds JSON files only. | mechanical |
 | `adapters-no-detectors` | `src/cli.ts`, `src/mcp.ts`, and `src/github-action.ts` do not import `src/detectors/**`. | mechanical; the rule "owns no detector logic" is review |
 | Source usage holds no detector rules | `src/source-usage.ts` holds traversal and matching only. | **review** |
@@ -173,7 +173,7 @@ change without tests fails the floor.
 
 ## 7. Mutation score
 
-**Target.** On the mutated core (`src/engine.ts`, `src/baseline.ts`, `src/diff.ts`, `src/vers/**/*.ts`), each
+**Target.** On the mutated core (`src/engine/`, `src/baseline.ts`, `src/diff.ts`, `src/vers/**/*.ts`), each
 file's score may not fall below the value in
 [`benchmarks/mutation-baseline.json`](../benchmarks/mutation-baseline.json), and the overall score stays at **60% or
 more** (`break`), with **80%** the high-water mark.

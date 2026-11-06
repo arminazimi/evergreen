@@ -4,7 +4,7 @@ import { relative, resolve } from "node:path";
 import { builtInDetectors } from "../detectors/index.js";
 import type { ScanResult, Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import { parseBoundedJson, readBoundedFile } from "../package-files.js";
 import { buildReceipt } from "../receipt.js";
 import { renderReceiptMarkdown } from "../receipt-markdown.js";

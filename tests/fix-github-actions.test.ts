@@ -5,7 +5,7 @@ import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { githubActionsUsesFixer } from "../src/fix/github-actions.js";
 
 const fixtures = resolve("tests/fixtures/fix-github-actions");

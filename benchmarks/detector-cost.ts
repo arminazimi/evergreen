@@ -5,7 +5,7 @@ import { performance } from "node:perf_hooks";
 import { pathToFileURL } from "node:url";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { restoreFixtureNames } from "../src/fixture-names.js";
 import type { Detector } from "../src/sdk.js";
 import { countFiles } from "./monorepo.js";

@@ -3,7 +3,7 @@ import process from "node:process";
 import { builtInDetectors } from "../detectors/index.js";
 import type { Detector } from "../sdk.js";
 import { severityValues, type Finding, type ScanResult, type Severity } from "../domain.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import { failOpen, findingsForEdit, hostAdapters } from "./index.js";
 import type { HookResponse, HostAdapter } from "./types.js";
 

@@ -247,7 +247,7 @@ test("test fixture directories are not scanned", async () => {
   );
 });
 
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 
 test("every curated container image rule has migration guidance with real verification commands", async () => {

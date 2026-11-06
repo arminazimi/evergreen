@@ -5,7 +5,7 @@ import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { renameCodemods, renameCodemodsFixer } from "../src/fix/codemods/index.js";
 
 const fixtures = resolve("tests/fixtures/fix-codemods");

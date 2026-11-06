@@ -8,7 +8,7 @@ import { after, test } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { ScanResult } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import {
   CHECK_SNIPPET_SCHEMA_VERSION,
   MAX_SNIPPET_CONTENT_BYTES,

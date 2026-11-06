@@ -22,7 +22,7 @@ import { pathToFileURL } from "node:url";
 
 import { builtInDetectors } from "../../src/detectors/index.js";
 import { restoreFixtureNames } from "../../src/fixture-names.js";
-import { scanRepository } from "../../src/engine.js";
+import { scanRepository } from "../../src/engine/index.js";
 import { buildPlan } from "../../src/plan-build.js";
 import type { PlanArm, PlanArmScore, PlanResult } from "../../tools/benchmark-report.js";
 import type { AgentAdapter } from "../agent-migrations/run.js";

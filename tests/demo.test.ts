@@ -5,7 +5,7 @@ import { test, after } from "node:test";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanDemo } from "../src/demo.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket } from "../src/migration-packet.js";
 
 import { copyFixtureTree } from "./fixture-copies.js";

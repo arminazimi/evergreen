@@ -8,7 +8,7 @@ import { promisify } from "node:util";
 
 import { JavaDetector } from "../src/detectors/java/index.js";
 import type { Finding, ScanResult } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { javaFixer, planFixes, renderPatches } from "../src/fix/index.js";
 
 const execute = promisify(execFile);

@@ -7,7 +7,7 @@ import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import { prepareHcl } from "../src/detectors/terraform/hcl.js";
 import { parseTerraformFile } from "../src/detectors/terraform/parse-terraform.js";
 import type { Finding, ScanResult } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { terraformLegacyFixer } from "../src/fix/index.js";
 import { applyPatches as apply, cleanup, repository } from "./codemod-helpers.js";
 

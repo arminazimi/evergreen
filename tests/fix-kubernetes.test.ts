@@ -5,7 +5,7 @@ import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { kubernetesApiVersionFixer } from "../src/fix/kubernetes.js";
 
 const fixtures = resolve("tests/fixtures/fix-kubernetes");

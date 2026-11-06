@@ -156,22 +156,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/engine.ts",
-      "function": "scanRepository",
-      "lines": 334,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
-      "file": "src/engine.ts",
-      "function": "scanRepository > <anonymous>",
-      "lines": 224,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/export/cle.ts",
       "function": "exportCle",
       "lines": 65,
@@ -309,22 +293,6 @@
     }
   ],
   "complexity": [
-    {
-      "file": "src/engine.ts",
-      "function": "scanRepository",
-      "complexity": 18,
-      "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/engine.ts",
-      "function": "scanRepository > <anonymous>",
-      "complexity": 22,
-      "owner": "#2273",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
     {
       "file": "src/glance.ts",
       "function": "renderGlance",

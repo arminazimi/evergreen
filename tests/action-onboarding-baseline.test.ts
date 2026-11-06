@@ -9,7 +9,7 @@ import { after, test } from "node:test";
 
 import { applyBaseline, createBaseline, readBaseline, writeBaseline } from "../src/baseline.js";
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 
 const roots: string[] = [];
 

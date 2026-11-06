@@ -33,7 +33,7 @@ const ADAPTERS = [
 export const RULES: readonly BoundaryRule[] = [
   {
     id: "engine-no-detectors",
-    from: ["src/engine.ts", "src/domain.ts"],
+    from: ["src/engine/", "src/domain.ts"],
     to: ["src/detectors/", "src/scan-builtins.ts"],
     why: "the scan engine must not import built-in detectors",
   },
@@ -57,7 +57,7 @@ export const RULES: readonly BoundaryRule[] = [
   },
   {
     id: "core-no-adapters",
-    from: ["src/engine.ts", "src/domain.ts", "src/sdk.ts", "src/source-usage.ts"],
+    from: ["src/engine/", "src/domain.ts", "src/sdk.ts", "src/source-usage.ts"],
     to: [...ADAPTERS],
     why: "core layers must not import an adapter",
   },
@@ -70,7 +70,7 @@ export const RULES: readonly BoundaryRule[] = [
       "src/paths.ts",
       "src/vers/",
       "src/sdk.ts",
-      "src/engine.ts",
+      "src/engine/",
       "src/source-usage.ts",
       "src/source-files.ts",
       "src/scan-cache.ts",

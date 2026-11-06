@@ -21,7 +21,7 @@ import {
 } from "../src/data-source.js";
 import { getDataStatus } from "../src/data-status.js";
 import { builtInDetectors } from "../src/detectors/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 
 const execute = promisify(execFile);
 const roots: string[] = [];

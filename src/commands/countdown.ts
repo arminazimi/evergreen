@@ -9,7 +9,7 @@ import {
   runCountdown,
 } from "../countdown.js";
 import { builtInDetectors } from "../detectors/index.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import { buildForecast } from "../forecast.js";
 import { afterGates, preScanPhase, repositoryPhase } from "./runtime.js";
 import type { CliCommand } from "./types.js";

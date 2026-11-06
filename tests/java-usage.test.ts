@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { after, test } from "node:test";
 
 import { javaDetector } from "../src/detectors/java/index.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { isUsageMatcher } from "../src/sdk.js";
 import { analyzeSourceUsage } from "../src/source-usage.js";

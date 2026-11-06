@@ -5,7 +5,7 @@ import { basename, resolve } from "node:path";
 import { applyAsOf } from "../as-of.js";
 import { repositoryFromRemote } from "../badge.js";
 import { builtInDetectors } from "../detectors/index.js";
-import { scanRepository } from "../engine.js";
+import { scanRepository } from "../engine/index.js";
 import { buildGlanceFacts, renderGlance } from "../glance.js";
 import { isIsoDate } from "../registry.js";
 import type { CliCommand, CommandContext } from "./types.js";

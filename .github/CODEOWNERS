@@ -12,7 +12,7 @@
 /action.yml               @arminazimi
 
 # Core runtime — the scan engine, registry loader, and source usage that every entry point calls.
-/src/engine.ts            @arminazimi
+/src/engine/               @arminazimi
 /src/registry.ts          @arminazimi
 /src/source-usage.ts      @arminazimi
 

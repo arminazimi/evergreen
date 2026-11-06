@@ -6,7 +6,6 @@
   "files": [
     { "file": "src/baseline.ts", "score": 72.78 },
     { "file": "src/diff.ts", "score": 57.94 },
-    { "file": "src/engine.ts", "score": 23.93 },
     { "file": "src/vers/gem.ts", "score": 72.41 },
     { "file": "src/vers/maven.ts", "score": 83.1 },
     { "file": "src/vers/nuget.ts", "score": 84.56 },

@@ -43,6 +43,7 @@ test("a shared-file change runs the ecosystems that depend on it", () => {
     "swift",
   ]);
   assert.deepEqual(names(["src/engine.ts"]), [...CORPUS_ECOSYSTEMS]);
+  assert.deepEqual(names(["src/engine/detect.ts"]), [...CORPUS_ECOSYSTEMS]);
   assert.deepEqual(names(["src/detectors/index.ts"]), [...CORPUS_ECOSYSTEMS]);
 });
 

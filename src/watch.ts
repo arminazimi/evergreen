@@ -4,7 +4,7 @@ import { dirname, join, resolve } from "node:path";
 import type { Detector } from "./sdk.js";
 import type { Finding } from "./domain.js";
 import { personalDirectory } from "./init-personal.js";
-import { scanRepository } from "./engine.js";
+import { scanRepository } from "./engine/index.js";
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 

@@ -7,7 +7,7 @@ import { parseAllDocuments } from "yaml";
 import { builtInDetectors as detectors } from "../src/detectors/index.js";
 import { MAXIMUM_DOCUMENTS, MAXIMUM_INPUT_BYTES } from "../src/detectors/kubernetes/parse-manifest.js";
 import type { Finding, ScanResult } from "../src/domain.js";
-import { scanRepository } from "../src/engine.js";
+import { scanRepository } from "../src/engine/index.js";
 import { kubernetesApiVersionFixer, kubernetesIngressV1Fixer, planFixReport } from "../src/fix/index.js";
 import { applyPatches as apply, cleanup, repository } from "./codemod-helpers.js";
 
