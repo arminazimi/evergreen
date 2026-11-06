@@ -37,33 +37,42 @@ test("the publish workflow uses trusted publishing with least privilege and guar
     on: { workflow_call: { inputs: Record<string, { type?: string }> } };
     permissions: unknown;
     jobs: {
-      publish: {
-        permissions: Record<string, string>;
-        steps: Array<{ uses?: string; run?: string; with?: Record<string, unknown> }>;
-      };
+      smoke: unknown;
     };
   };
   const release = parse(releaseText) as {
     on: { push?: { tags?: string[] } };
-    jobs: Record<string, { uses?: string; permissions?: Record<string, string> }>;
+    jobs: Record<
+      string,
+      {
+        uses?: string;
+        permissions?: Record<string, string>;
+        steps?: Array<{ uses?: string; run?: string; with?: Record<string, unknown> }>;
+      }
+    >;
   };
+  // The publish step is in release.yml itself so OpenSSF Scorecard's Packaging check can see it.
+  const publishJob = release.jobs["npm-publish"]!;
   // The Release orchestrator owns the version-tag trigger and calls this stage.
   assert.ok(release.on.push?.tags?.every((tag) => tag.startsWith("v")));
   assert.equal(release.jobs["publish-npm"]?.uses, "./.github/workflows/publish.yml");
   assert.deepEqual(release.jobs["publish-npm"]?.permissions, { contents: "read", "id-token": "write" });
   assert.equal(workflow.on.workflow_call.inputs.dry_run?.type, "boolean");
   assert.deepEqual(workflow.permissions, {});
-  assert.deepEqual(workflow.jobs.publish.permissions, { contents: "read", "id-token": "write" });
+  assert.deepEqual(publishJob.permissions, { contents: "read", "id-token": "write" });
   // No stored npm credential, npm new enough for trusted publishing, and a provenance attestation.
-  assert.doesNotMatch(text, /NPM_TOKEN|NODE_AUTH_TOKEN|secrets\./);
-  const node = workflow.jobs.publish.steps.find((step) => step.uses === "$/.github/actions/setup");
+  assert.doesNotMatch(text + JSON.stringify(publishJob), /NPM_TOKEN|NODE_AUTH_TOKEN|secrets\./);
+  const node = publishJob.steps?.find((step) => step.uses?.startsWith("actions/setup-node@"));
   assert.ok(Number(node?.with?.["node-version"]) >= 24, "Node 24 ships npm 11.5.1 or newer");
-  const run = workflow.jobs.publish.steps.map((step) => step.run ?? "").join("\n");
+  assert.equal(node?.with?.["registry-url"], "https://registry.npmjs.org", "Scorecard's Packaging check needs it");
+  assert.match(releaseText, /uses: actions\/setup-node@[0-9a-f]{40}/, "setup-node is pinned");
+  const run = (publishJob.steps ?? []).map((step) => step.run ?? "").join("\n");
   assert.match(run, /npm publish --provenance --access public --tag next/);
   assert.match(run, /\*\)\s+npm publish --provenance --access public ;;/);
   // It refuses a tag that disagrees with package.json and a commit that is not on main.
-  assert.match(run, /GITHUB_REF_NAME/);
-  assert.match(run, /merge-base --is-ancestor/);
+  const guard = await read(".github/scripts/check-release-tip.sh");
+  assert.match(guard, /GITHUB_REF_NAME/);
+  assert.match(guard, /merge-base --is-ancestor/);
   // The docs name the calling workflow npm matches for trusted publishing.
   const docs = await read("docs/RELEASING.md");
   assert.match(docs, /workflow filename `release\.yml`/);

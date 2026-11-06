@@ -35,9 +35,7 @@ const release = parse(await read(".github/workflows/release.yml")) as {
 const buildAction = parse(await read(".github/workflows/release-build-action.yml")) as {
   jobs: Record<string, Job>;
 };
-const publish = parse(await read(".github/workflows/publish.yml")) as {
-  jobs: { publish: { steps: Step[] } };
-};
+const publish = release as unknown as { jobs: { "npm-publish": { steps: Step[] } } };
 
 const bundle = buildAction.jobs["action-bundle"]!;
 const bundleSteps = bundle.steps.map((step) => step.run ?? step.uses ?? "").join("\n");
@@ -69,16 +67,20 @@ test("the publish guard accepts only the release branch tip that adds the bundle
   // Windows runners have no bash; the guard runs as a bash step on Linux.
   if (process.platform === "win32") return t.skip("the guard is a bash step");
 
-  const step = publish.jobs.publish.steps.find(
-    (candidate) => candidate.name === "The tag must point at a release branch tip that adds the Action bundle",
+  const step = publish.jobs["npm-publish"].steps.find((candidate) =>
+    candidate.name?.includes("point at a release branch tip that adds the Action bundle"),
   );
-  assert.ok(step?.run, "publish.yml has the release branch guard");
-  const guard = step!.run!;
+  assert.equal(step?.run, "bash .github/scripts/check-release-tip.sh", "release.yml runs the release branch guard");
+  const guardPath = resolve(".github/scripts/check-release-tip.sh");
+  const guard = await read(".github/scripts/check-release-tip.sh");
+  assert.match(guard, /does not match package\.json version/, "the tag must match package.json");
   assert.match(guard, /git merge-base --is-ancestor "\$parent" origin\/main/, "the release commit is on main");
   assert.match(guard, /git diff --name-only "\$parent" "\$GITHUB_SHA"/, "only the bundle may differ from main");
   assert.match(guard, /\[ ! -f dist\/action\/index.js \]/, "the tag must ship the bundle");
 
-  const checkout = publish.jobs.publish.steps.find((candidate) => candidate.uses?.startsWith("actions/checkout"));
+  const checkout = publish.jobs["npm-publish"].steps.find((candidate) =>
+    candidate.uses?.startsWith("actions/checkout"),
+  );
   assert.equal(checkout?.with?.["fetch-depth"], 0, "the guard needs the parent commit");
 
   const root = await mkdtemp(join(tmpdir(), "evergreen-release-guard-"));
@@ -114,6 +116,7 @@ test("the publish guard accepts only the release branch tip that adds the bundle
 
     // A release branch that also changes source: reviewed nowhere, so it must not publish.
     await git("switch", "--quiet", "-c", "release/v1.2.4", mainSha);
+    await write("package.json", JSON.stringify({ version: "1.2.4" }));
     await write("src/extra.ts", "export const extra = 1;\n");
     await write("dist/action/index.js", "console.log('bundle');\n");
     const extra = await commit("chore(release): add the Action bundle for v1.2.4");
@@ -122,7 +125,7 @@ test("the publish guard accepts only the release branch tip that adds the bundle
     const guardRun = async (sha: string, tag: string) => {
       await git("checkout", "--quiet", "--detach", sha);
       try {
-        const result = await execute("bash", ["-eo", "pipefail", "-c", guard], {
+        const result = await execute("bash", [guardPath], {
           cwd: work,
           env: { ...process.env, GITHUB_SHA: sha, GITHUB_REF_NAME: tag },
         });

@@ -1,7 +1,6 @@
 name: Release
 
-# One release chain: verify → build → publish each channel (npm first) → smoke.
-# A version tag runs the full chain in this workflow; a failed stage is safe to re-run because
+# One release chain: verify → build → publish each channel (npm first) → smoke. A version tag runs the full chain in this workflow; a failed stage is safe to re-run because
 # successful jobs are not re-executed. On a push to main it builds the Action bundle onto
 # release/<tag>. A manual run with dry_run exercises every stage and publishes nothing. A manual
 # run with release_tag dry-runs the major tag only (plus notes).
@@ -31,10 +30,47 @@ permissions:
   contents: read
 
 jobs:
+  # The npm publish lives in this top-level workflow, not a reusable one: OpenSSF Scorecard's
+  # Packaging check only recognises a publish step (setup-node with registry-url plus npm publish)
+  # in a workflow file that has successful runs of its own. Trusted publishing matches this
+  # filename (release.yml) too.
+  npm-publish:
+    if: ${{ (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write # the npm trusted-publishing exchange and the provenance attestation; nothing else
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - run: npm ci
+      - name: The tag must match package.json and point at a release branch tip that adds the Action bundle
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        run: bash .github/scripts/check-release-tip.sh
+      - name: Publish (prepack runs npm run check)
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        env:
+          EVERGREEN_VERIFY_ACTION_BUNDLE: "1"
+        run: |
+          case "$GITHUB_REF_NAME" in
+            *-*) npm publish --provenance --access public --tag next ;;
+            *)   npm publish --provenance --access public ;;
+          esac
+      - name: Record dry-run stage
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "Publish stage (npm) dry run; nothing was published." >> "$GITHUB_STEP_SUMMARY"
+
   publish-npm:
-    if: >-
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
-      (github.event_name == 'workflow_dispatch' && inputs.dry_run)
+    needs: [npm-publish]
+    if: ${{ (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
     uses: ./.github/workflows/publish.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     permissions:
       contents: read

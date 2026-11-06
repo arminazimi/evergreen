@@ -1,10 +1,10 @@
 name: Publish to npm
 
-# npm publish stage of the release chain. release.yml calls this on a version tag and on a
-# dry-run dispatch. Trusted publishing exchanges this job's OIDC identity for a short-lived
-# publish credential. npm matches the calling workflow filename (release.yml) — see
-# docs/RELEASING.md. A failed later stage in the same Release run is safe to re-run: successful
-# jobs are not re-executed, so a completed publish is not repeated.
+# Smoke test and MCP Registry stages that follow the npm publish. release.yml calls this on a
+# version tag and on a dry-run dispatch, after its own npm-publish job: the publish itself lives
+# in release.yml because OpenSSF Scorecard only recognises a publish step in a workflow file that
+# has runs of its own (see docs/RELEASING.md). A failed later stage in the same Release run is safe
+# to re-run: successful jobs are not re-executed, so a completed publish is not repeated.
 #
 # One-time setup on npmjs.com (package -> Settings -> Trusted publisher -> GitHub Actions):
 #   organization or user: arminazimi    repository: evergreen    workflow filename: release.yml
@@ -20,81 +20,9 @@ on:
 permissions: {}
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      contents: read
-      id-token: write # the npm trusted-publishing exchange and the provenance attestation; nothing else
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          # Full history: the tag guard compares the tagged commit with its parent on main.
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: $/.github/actions/setup
-        with:
-          # Trusted publishing needs npm 11.5.1 or newer, which Node 24 ships.
-          node-version: 24
-          registry-url: https://registry.npmjs.org
-          package-manager-cache: false
-      - name: The tag must match package.json
-        if: ${{ !inputs.dry_run }}
-        run: |
-          expected="v$(node -p "require('./package.json').version")"
-          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
-            echo "Tag $GITHUB_REF_NAME does not match package.json version $expected." >&2
-            exit 1
-          fi
-      - name: The tag must point at a release branch tip that adds the Action bundle
-        if: ${{ !inputs.dry_run }}
-        shell: bash
-        run: |
-          # Release tags point at the tip of release/<tag>: the release commit on main plus the one
-          # commit that adds the compiled Action bundle. Accepting anything else would publish a tag
-          # whose Action cannot run, and anything but dist/action would ship code that never passed
-          # review on main.
-          git fetch --no-tags origin main
-          branch="release/$GITHUB_REF_NAME"
-          tip="$(git ls-remote --heads origin "refs/heads/$branch" | cut -f1)"
-          if [ "$tip" != "$GITHUB_SHA" ]; then
-            echo "$GITHUB_SHA is not the tip of $branch." >&2
-            echo "Tag the release branch tip: wait for the Release workflow, then tag $branch." >&2
-            exit 1
-          fi
-          parent="$(git rev-parse "$GITHUB_SHA^")"
-          if ! git merge-base --is-ancestor "$parent" origin/main; then
-            echo "$parent, the parent of $GITHUB_SHA, is not on main; tag the release commit's branch." >&2
-            exit 1
-          fi
-          changed="$(git diff --name-only "$parent" "$GITHUB_SHA")"
-          unexpected="$(printf '%s\n' "$changed" | grep -v -E '^dist/action/' || true)"
-          if [ -n "$unexpected" ]; then
-            echo "The commit $GITHUB_SHA changes more than the Action bundle:" >&2
-            echo "$unexpected" >&2
-            exit 1
-          fi
-          if [ ! -f dist/action/index.js ]; then
-            echo "The tag does not contain dist/action/index.js, so the Action would fail." >&2
-            exit 1
-          fi
-      - name: Publish (prepack runs npm run check)
-        if: ${{ !inputs.dry_run }}
-        env:
-          EVERGREEN_VERIFY_ACTION_BUNDLE: "1"
-        run: |
-          case "$GITHUB_REF_NAME" in
-            *-*) npm publish --provenance --access public --tag next ;;
-            *)   npm publish --provenance --access public ;;
-          esac
-      - name: Record dry-run stage
-        if: inputs.dry_run
-        run: echo "Publish stage (npm) dry run; nothing was published." >> "$GITHUB_STEP_SUMMARY"
-
   # Runs on a fresh machine against what is on the registry, not against this checkout, so a package that
   # installs but does not work (like 0.1.0, which shipped no `evergreen-deprecation` bin) fails the release.
   smoke:
-    needs: publish
     if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
