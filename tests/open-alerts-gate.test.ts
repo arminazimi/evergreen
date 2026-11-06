@@ -60,12 +60,24 @@ const baseline = (keys: string[]) => ({
   accepted: keys.map((key) => ({ key, reason: "accepted in a test" })),
 });
 
-test("the committed baseline is well formed and lists exactly the alerts open when the gate was added", () => {
+test("the committed baseline is well formed and can only shrink from the remaining alerts", () => {
   const committed = JSON.parse(readFileSync(baselinePath, "utf8"));
   assert.deepEqual(tool.validateBaseline(committed), []);
   const keys = committed.accepted.map((entry: { key: string }) => entry.key);
-  assert.equal(keys.length, 17);
+  const remaining = new Set(["code-scanning#21", "code-scanning#25", "code-scanning#26", "code-scanning#230"]);
+  assert.ok(
+    keys.every((key: string) => remaining.has(key)),
+    "fixed alerts must not return to the baseline",
+  );
   assert.equal(new Set(keys).size, keys.length);
+});
+
+test("a fixed CodeQL or Dependabot alert returning fails against the committed baseline", () => {
+  const committed = JSON.parse(readFileSync(baselinePath, "utf8"));
+  const result = runTool([codeScanningAlert(231)], [dependabotAlert(64)], committed);
+  assert.equal(result.status, 1, result.stdout + result.stderr);
+  assert.match(result.stdout, /New open alert::code-scanning#231/);
+  assert.match(result.stdout, /New open alert::dependabot#64/);
 });
 
 test("validateBaseline refuses a bad key, a duplicate, and an entry without a reason", () => {
