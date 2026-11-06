@@ -88,8 +88,9 @@ export async function loadUnreviewedCorpus(
 
   const entries: UnreviewedRepositoryEntry[] = [];
   const seen = new Set<string>();
+  const batchNames = new Set(ecosystems.map((ecosystem) => `${ecosystem}.json`));
   for (const item of listed) {
-    if (!item.isFile() || !item.name.endsWith(".json")) continue;
+    if (!item.isFile() || !batchNames.has(item.name)) continue;
     const file = join(root, item.name);
     const batch = unreviewedBatchSchema.parse(JSON.parse(await readFile(file, "utf8")));
     if (`${batch.ecosystem}.json` !== item.name) {
@@ -110,8 +111,9 @@ export async function loadUnreviewedCorpus(
 }
 
 /**
- * Writes one `<ecosystem>.json` batch file per ecosystem and removes older JSON batch files in the
- * same directory, so a rerun cannot leave a stale unreviewed entry behind. The README is untouched.
+ * Writes one `<ecosystem>.json` batch file per ecosystem and removes older ecosystem batch files in
+ * the same directory, so a rerun cannot leave a stale unreviewed entry behind. The README and any
+ * other JSON file are untouched.
  */
 export async function writeUnreviewedCorpus(
   directory: string,
@@ -120,9 +122,10 @@ export async function writeUnreviewedCorpus(
   const root = resolve(directory);
   await mkdir(root, { recursive: true });
   const existing = await readdir(root, { withFileTypes: true });
+  const batchNames = new Set(ecosystems.map((ecosystem) => `${ecosystem}.json`));
   await Promise.all(
     existing
-      .filter((item) => item.isFile() && item.name.endsWith(".json"))
+      .filter((item) => item.isFile() && batchNames.has(item.name))
       .map((item) => rm(join(root, item.name), { force: true })),
   );
 

@@ -125,9 +125,11 @@ test("unreviewed batches round-trip, reject reviewed state, and replace stale JS
   try {
     await writeFile(join(root, "README.md"), "keep me\n");
     await writeFile(join(root, "node.json"), '{"stale":true}\n');
+    await writeFile(join(root, "notes.json"), '{"keep":true}\n');
     const written = await writeUnreviewedCorpus(root, [entry("owner/one", 2)]);
     assert.deepEqual(written, [join(root, "node.json")]);
     assert.equal(await readFile(join(root, "README.md"), "utf8"), "keep me\n");
+    assert.equal(await readFile(join(root, "notes.json"), "utf8"), '{"keep":true}\n');
 
     const loaded = await loadUnreviewedCorpus(root);
     assert.equal(loaded.length, 1);
@@ -244,6 +246,11 @@ test("CLI generates a batch and reports the two scopes separately", async () => 
     await writeFile(partialInput, JSON.stringify(candidates(candidate("owner/one"), candidate("owner/missing"))));
     await assert.rejects(run(process.execPath, [cli, "generate", partialInput, checkouts, partialOutput]));
     await assert.rejects(readFile(join(partialOutput, "node.json")));
+    await assert.rejects(run(process.execPath, [cli, "generate", input, checkouts, "."]), /Refusing to write/);
+    await assert.rejects(
+      run(process.execPath, [cli, "generate", input, checkouts, "benchmarks/public-repositories"]),
+      /Refusing to write/,
+    );
     await assert.rejects(run(process.execPath, [cli, "generate", input, checkouts]));
     await assert.rejects(run(process.execPath, [cli]));
   } finally {
