@@ -243,3 +243,40 @@ test("the walk classifies every file name and directory edge exactly once", asyn
     "sdk.Dockerfile sdk.Dockerfile FROM",
   ]);
 });
+
+test("a netstandard target is a compatibility contract, not a runtime, and is never drift", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-netstandard-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, "lib"), { recursive: true });
+  await mkdir(join(root, "app"), { recursive: true });
+  await writeFile(
+    join(root, "lib", "Lib.csproj"),
+    "<Project><PropertyGroup><TargetFramework>netstandard2.0</TargetFramework></PropertyGroup></Project>\n",
+  );
+  await writeFile(
+    join(root, "app", "App.csproj"),
+    "<Project><PropertyGroup><TargetFramework>net8.0</TargetFramework></PropertyGroup></Project>\n",
+  );
+  const runtime = (await analyzeDrift(root, [dotnetCollector])).runtimes[0]!;
+  assert.deepEqual(runtime.releases, ["8.0"]);
+  assert.equal(runtime.drifted, false);
+  const standard = runtime.pins.find((pin) => pin.raw === "netstandard2.0");
+  assert.equal(standard?.release, undefined);
+  assert.match(standard?.unresolved ?? "", /compatibility contract/);
+});
+
+test("the setup-dotnet steps of one job install SDKs side by side and are alternatives", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-drift-setup-dotnet-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, ".github", "workflows"), { recursive: true });
+  const step = (version: string): string =>
+    `      - uses: actions/setup-dotnet@v4\n        with:\n          dotnet-version: ${version}\n`;
+  await writeFile(
+    join(root, ".github", "workflows", "ci.yml"),
+    `jobs:\n  build:\n    steps:\n${step("8.0.x")}${step("9.0.x")}${step("10.0.x")}`,
+  );
+  await writeFile(join(root, "global.json"), '{ "sdk": { "version": "9.0.100" } }\n');
+  assert.equal((await analyzeDrift(root, [dotnetCollector])).runtimes[0]!.drifted, false);
+  await writeFile(join(root, "global.json"), '{ "sdk": { "version": "6.0.100" } }\n');
+  assert.equal((await analyzeDrift(root, [dotnetCollector])).runtimes[0]!.drifted, true);
+});

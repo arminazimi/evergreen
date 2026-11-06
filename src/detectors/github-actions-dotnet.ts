@@ -12,6 +12,8 @@ export interface SetupDotnetVersion {
   value: string;
   line: number;
   expression: boolean;
+  /** The job the entry belongs to: every `setup-dotnet` step of one job installs SDKs side by side. */
+  job?: string;
 }
 
 const SETUP_DOTNET = /^actions\/setup-dotnet@/i;
@@ -31,6 +33,16 @@ function entriesOf(node: Node, lineOf: (offset: number) => number): SetupDotnetV
   return entries;
 }
 
+function stepVersions(step: unknown, lineOf: (offset: number) => number): SetupDotnetVersion[] {
+  if (!isMap(step)) return [];
+  const uses = step.get("uses");
+  if (typeof uses !== "string" || !SETUP_DOTNET.test(uses)) return [];
+  const inputs = step.get("with", true);
+  if (!isMap(inputs)) return [];
+  const version = inputs.get("dotnet-version", true);
+  return version && isScalar(version) ? entriesOf(version as Node, lineOf) : [];
+}
+
 export function setupDotnetVersions(contents: string): SetupDotnetVersion[] {
   const lineCounter = new LineCounter();
   const document = parseDocument(contents, { lineCounter, prettyErrors: false });
@@ -44,14 +56,11 @@ export function setupDotnetVersions(contents: string): SetupDotnetVersion[] {
     if (!isMap(job.value)) continue;
     const steps = job.value.get("steps", true);
     if (!isSeq(steps)) continue;
+    const jobName = isScalar(job.key) ? String(job.key.value) : undefined;
     for (const step of steps.items) {
-      if (!isMap(step)) continue;
-      const uses = step.get("uses");
-      if (typeof uses !== "string" || !SETUP_DOTNET.test(uses)) continue;
-      const inputs = step.get("with", true);
-      if (!isMap(inputs)) continue;
-      const version = inputs.get("dotnet-version", true);
-      if (version && isScalar(version)) versions.push(...entriesOf(version as Node, lineOf));
+      for (const entry of stepVersions(step, lineOf)) {
+        versions.push(jobName === undefined ? entry : { ...entry, job: jobName });
+      }
     }
   }
   return versions;

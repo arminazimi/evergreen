@@ -22,7 +22,7 @@ import type { DriftCollector, RuntimePin } from "./types.js";
  * code is never evaluated.
  *
  * Releases use `major.minor` granularity, so SDK `8.0.204`, the tag `8.0-alpine`, and `net8.0` all resolve to `8.0`.
- * `netstandard*` and `netcoreapp` below 5 resolve to their own names and are not compared with `netX.Y`. The entries
+ * `netcoreapp` below 5 resolves to its own name and is not compared with `netX.Y`; `netstandard*` is reported as unresolved. The entries
  * of one `<TargetFrameworks>` list share a group: they are reported individually but are alternatives, not drift.
  */
 
@@ -166,7 +166,11 @@ function resolveTargetFramework(moniker: string): Resolved {
     if (major < 5) return { release: value };
     return { release: `${major}.${Number(core[2])}` };
   }
-  if (value.startsWith("netstandard")) return { release: value };
+  if (value.startsWith("netstandard")) {
+    return {
+      unresolved: "netstandard is a compatibility contract that many runtimes satisfy, not a runtime to compare.",
+    };
+  }
   const modern = /^net(\d+)\.(\d+)(?:-.*)?$/.exec(value);
   if (modern && Number(modern[1]) >= 5) return { release: `${Number(modern[1])}.${Number(modern[2])}` };
   if (/^net4\d{1,2}(?:-.*)?$/.test(value) || /^net[1-3]\d?$/.test(value)) {
@@ -266,7 +270,8 @@ function collectDockerfile(pins: RuntimePin[], path: string, contents: string): 
 function collectWorkflow(pins: RuntimePin[], path: string, contents: string): void {
   for (const version of setupDotnetVersions(contents)) {
     const resolved = version.expression ? { unresolved: "the value is an expression." } : resolveVersion(version.value);
-    addPin(pins, path, version.line, "actions/setup-dotnet dotnet-version", version.value, resolved);
+    const group = version.job === undefined ? undefined : `${path}:job:${version.job}`;
+    addPin(pins, path, version.line, "actions/setup-dotnet dotnet-version", version.value, resolved, group);
   }
 }
 
