@@ -110,3 +110,11 @@ test("fix --json reports every refusal", async () => {
   assert.ok(ours.some((refusal) => refusal.reason.includes("optional (`?.`)")));
   assert.ok(ours.some((refusal) => refusal.reason.includes("computed key")));
 });
+
+test("plan refuses a file that does not end with a newline", async () => {
+  const { patches, refusals } = await plan({
+    "index.js": 'const os = require("os");\nconst tmp = os.tmpDir();',
+  });
+  assert.deepEqual(patches, []);
+  assert.ok(refusals.some((refusal) => refusal.reason.includes("does not end with a newline")));
+});
