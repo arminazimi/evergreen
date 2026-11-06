@@ -15,15 +15,10 @@ const fixtures = resolve("tests/fixtures/fix");
 const roots: string[] = [];
 
 after(async () => {
-  await Promise.all(
-    roots.map((root) => rm(root, { recursive: true, force: true })),
-  );
+  await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
 });
 
-async function refusalsFor(
-  fixer: string,
-  files: Record<string, string>,
-): Promise<FixRefusal[]> {
+async function refusalsFor(fixer: string, files: Record<string, string>): Promise<FixRefusal[]> {
   const root = await mkdtemp(join(tmpdir(), "evergreen-json-refusals-"));
   roots.push(root);
   for (const [path, contents] of Object.entries(files)) {
@@ -39,17 +34,12 @@ async function refusalsFor(
   return report.refusals.filter((refusal) => refusal.fixer === fixer);
 }
 
-function assertReasons(
-  refusals: FixRefusal[],
-  expected: Array<string | RegExp>,
-): void {
+function assertReasons(refusals: FixRefusal[], expected: Array<string | RegExp>): void {
   assert.ok(refusals.length > 0, "no refusals were reported");
   for (const reason of expected) {
     assert.ok(
       refusals.some((refusal) =>
-        typeof reason === "string"
-          ? refusal.reason.includes(reason)
-          : reason.test(refusal.reason),
+        typeof reason === "string" ? refusal.reason.includes(reason) : reason.test(refusal.reason),
       ),
       `missing refusal reason ${String(reason)}; got ${JSON.stringify(refusals.map((refusal) => refusal.reason))}`,
     );
@@ -58,14 +48,8 @@ function assertReasons(
 
 test("node-util-is refusals appear in fix --json", async () => {
   const refusals = await refusalsFor("node-util-is", {
-    "index.js": await readFile(
-      join(fixtures, "node-util-is", "refusals.js"),
-      "utf8",
-    ),
-    "destructured.js": await readFile(
-      join(fixtures, "node-util-is", "destructured.js"),
-      "utf8",
-    ),
+    "index.js": await readFile(join(fixtures, "node-util-is", "refusals.js"), "utf8"),
+    "destructured.js": await readFile(join(fixtures, "node-util-is", "destructured.js"), "utf8"),
   });
   assertReasons(refusals, [
     "no exact native equivalent of `util.isError`",
@@ -77,15 +61,9 @@ test("node-util-is refusals appear in fix --json", async () => {
 
 test("node-buffer refusals appear in fix --json", async () => {
   const refusals = await refusalsFor("node-buffer", {
-    "index.js": await readFile(
-      join(fixtures, "node-buffer", "refusals.js"),
-      "utf8",
-    ),
+    "index.js": await readFile(join(fixtures, "node-buffer", "refusals.js"), "utf8"),
   });
-  assertReasons(refusals, [
-    "is an identifier",
-    /binary expression|template literal|SlowBuffer/u,
-  ]);
+  assertReasons(refusals, ["is an identifier", /binary expression|template literal|SlowBuffer/u]);
 });
 
 test("python-utcnow refusals appear in fix --json", async () => {
@@ -98,14 +76,9 @@ test("python-utcnow refusals appear in fix --json", async () => {
 
 test("python-imp refusals appear in fix --json", async () => {
   const refusals = await refusalsFor("python-imp", {
-    "app.py":
-      "import imp\n\nfp = imp.find_module('x')\nm = imp.reload(a, file=b)\nn = imp.get_magic(1)\n",
+    "app.py": "import imp\n\nfp = imp.find_module('x')\nm = imp.reload(a, file=b)\nn = imp.get_magic(1)\n",
   });
-  assertReasons(refusals, [
-    "imp.find_module",
-    "keyword argument `file`",
-    "takes no arguments",
-  ]);
+  assertReasons(refusals, ["imp.find_module", "keyword argument `file`", "takes no arguments"]);
 });
 
 test("workflow-commands refusals appear in fix --json", async () => {
@@ -126,20 +99,14 @@ test("kubernetes-ingress-v1 refusals appear in fix --json", async () => {
 
 test("dockerfile-legacy refusals appear in fix --json", async () => {
   const refusals = await refusalsFor("dockerfile-legacy", {
-    Dockerfile:
-      'FROM node:24\nMAINTAINER Dev "Ops"\nENV A hello \\\nworld\nONBUILD ENV B c\n',
+    Dockerfile: 'FROM node:24\nMAINTAINER Dev "Ops"\nENV A hello \\\nworld\nONBUILD ENV B c\n',
   });
-  assertReasons(refusals, [
-    "contains a quote",
-    "continues on another line",
-    "ONBUILD trigger",
-  ]);
+  assertReasons(refusals, ["contains a quote", "continues on another line", "ONBUILD trigger"]);
 });
 
 test("terraform-legacy refusals appear in fix --json", async () => {
   const refusals = await refusalsFor("terraform-legacy", {
-    "main.tf":
-      'locals {\n  none = list()\n  odd  = map("a")\n  multi = list(\n    "a",\n  )\n}\n',
+    "main.tf": 'locals {\n  none = list()\n  odd  = map("a")\n  multi = list(\n    "a",\n  )\n}\n',
   });
   assert.ok(refusals.length >= 2);
   assert.ok(refusals.every((refusal) => refusal.reason.length > 0));
