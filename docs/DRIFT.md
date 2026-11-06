@@ -82,7 +82,7 @@ Each runtime is reported as its own block. Every pin carries its location, the s
 Release granularity differs by runtime. Each section below states the granularity it reports and the values it leaves unresolved.
 ## .NET
 .NET pins are reported at `major.minor` granularity: the SDK `8.0.204`, the image tag `8.0-alpine`, and the moniker `net8.0` all select `8.0`.
-`netstandard*` and `netcoreapp` below 5 resolve to their own names (`netstandard2.0`, `netcoreapp3.1`) and are not compared with `netX.Y` releases. .NET Framework monikers such as `net48` are reported as unresolved.
+`netcoreapp` below 5 resolves to its own name (`netcoreapp3.1`) and is not compared with `netX.Y` releases. `netstandard*` is a compatibility contract that many runtimes satisfy, so it is reported as unresolved and never counted as drift, as are .NET Framework monikers such as `net48`.
 **Pins**
 | Source | Field | Align |
 | --- | --- | --- |

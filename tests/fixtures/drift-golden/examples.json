@@ -10,6 +10,7 @@
           "source": "actions/setup-dotnet dotnet-version",
           "raw": "8.0.x",
           "kind": "pin",
+          "group": "dotnet/.github/workflows/ci.yml:job:build",
           "release": "8.0"
         },
         {
