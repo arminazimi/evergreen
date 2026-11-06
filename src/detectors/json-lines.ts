@@ -29,142 +29,174 @@ export interface ReadJsonLinesOptions {
   comments: boolean;
 }
 
+const ESCAPES: Record<string, string> = {
+  '"': '"',
+  "\\": "\\",
+  "/": "/",
+  b: "\b",
+  f: "\f",
+  n: "\n",
+  r: "\r",
+  t: "\t",
+};
+const LITERAL = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/;
+
+/** One pass over the text with a cursor and a line counter; every method either advances or throws `Malformed`. */
+class JsonReader {
+  private position = 0;
+  private line = 1;
+
+  constructor(
+    private readonly text: string,
+    private readonly allowComments: boolean,
+  ) {}
+
+  readDocument(): JsonNode | undefined {
+    const root = this.readValue(0);
+    this.skip();
+    return this.position === this.text.length ? root : undefined;
+  }
+
+  private fail(): never {
+    throw new Malformed();
+  }
+
+  private skip(): void {
+    while (this.skipOne()) {
+      // keep consuming whitespace and comments
+    }
+  }
+
+  /** Consumes one whitespace character or comment; false when the next character starts something else. */
+  private skipOne(): boolean {
+    const char = this.text[this.position];
+    if (char === "\n") {
+      this.line += 1;
+      this.position += 1;
+      return true;
+    }
+    if (char === " " || char === "\t" || char === "\r") {
+      this.position += 1;
+      return true;
+    }
+    if (!this.allowComments || char !== "/") return false;
+    const next = this.text[this.position + 1];
+    if (next === "/") return this.skipLineComment();
+    if (next === "*") return this.skipBlockComment();
+    return false;
+  }
+
+  private skipLineComment(): boolean {
+    while (this.position < this.text.length && this.text[this.position] !== "\n") this.position += 1;
+    return true;
+  }
+
+  private skipBlockComment(): boolean {
+    const end = this.text.indexOf("*/", this.position + 2);
+    if (end === -1) return this.fail();
+    for (const part of this.text.slice(this.position, end)) if (part === "\n") this.line += 1;
+    this.position = end + 2;
+    return true;
+  }
+
+  private readString(): string {
+    this.position += 1; // opening quote
+    let value = "";
+    for (;;) {
+      const char = this.text[this.position];
+      if (char === undefined || char === "\n") return this.fail();
+      this.position += 1;
+      if (char === '"') return value;
+      if (char < " ") this.fail();
+      value += char === "\\" ? this.readEscape() : char;
+    }
+  }
+
+  private readEscape(): string {
+    const escaped = this.text[this.position];
+    this.position += 1;
+    if (escaped === undefined) return this.fail();
+    const simple = ESCAPES[escaped];
+    if (simple !== undefined) return simple;
+    const digits = this.text.slice(this.position, this.position + 4);
+    if (escaped !== "u" || !/^[0-9a-fA-F]{4}$/.test(digits)) return this.fail();
+    this.position += 4;
+    return String.fromCharCode(Number.parseInt(digits, 16));
+  }
+
+  private readValue(depth: number): JsonNode {
+    if (depth > MAXIMUM_DEPTH) return this.fail();
+    this.skip();
+    const start = this.line;
+    const char = this.text[this.position];
+    if (char === '"') return { kind: "string", line: start, value: this.readString() };
+    if (char === "{") return this.readObject(start, depth);
+    if (char === "[") return this.readArray(start, depth);
+    return this.readLiteral(start);
+  }
+
+  /** After a member or item: consumes a comma (true) or the closing bracket (false); anything else is malformed. */
+  private nextOrClose(close: string): boolean {
+    this.skip();
+    const char = this.text[this.position];
+    if (char !== "," && char !== close) return this.fail();
+    this.position += 1;
+    return char === ",";
+  }
+
+  private readObject(start: number, depth: number): JsonNode {
+    this.position += 1;
+    const members: JsonMember[] = [];
+    this.skip();
+    if (this.text[this.position] === "}") {
+      this.position += 1;
+      return { kind: "object", line: start, members };
+    }
+    do members.push(this.readMember(depth));
+    while (this.nextOrClose("}"));
+    return { kind: "object", line: start, members };
+  }
+
+  private readMember(depth: number): JsonMember {
+    this.skip();
+    if (this.text[this.position] !== '"') this.fail();
+    const keyLine = this.line;
+    const key = this.readString();
+    this.skip();
+    if (this.text[this.position] !== ":") this.fail();
+    this.position += 1;
+    return { key, keyLine, value: this.readValue(depth + 1) };
+  }
+
+  private readArray(start: number, depth: number): JsonNode {
+    this.position += 1;
+    const items: JsonNode[] = [];
+    this.skip();
+    if (this.text[this.position] === "]") {
+      this.position += 1;
+      return { kind: "array", line: start, items };
+    }
+    do items.push(this.readValue(depth + 1));
+    while (this.nextOrClose("]"));
+    return { kind: "array", line: start, items };
+  }
+
+  private readLiteral(start: number): JsonNode {
+    const literal = LITERAL.exec(this.text.slice(this.position, this.position + 64));
+    if (!literal) return this.fail();
+    this.position += literal[0].length;
+    if (literal[0] === "true") return { kind: "boolean", line: start, value: true };
+    if (literal[0] === "false") return { kind: "boolean", line: start, value: false };
+    return { kind: "other", line: start };
+  }
+}
+
 /** Returns the root node, or `undefined` for anything that is not valid, bounded JSON. */
 export function readJsonLines(contents: string, options: ReadJsonLinesOptions): JsonNode | undefined {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return undefined;
   const text = contents.charCodeAt(0) === 0xfeff ? contents.slice(1) : contents;
-  let position = 0;
-  let line = 1;
-  const allowComments = options.comments;
-
-  const fail = (): never => {
-    throw new Malformed();
-  };
-  const skip = (): void => {
-    for (;;) {
-      const char = text[position];
-      if (char === "\n") {
-        line += 1;
-        position += 1;
-      } else if (char === " " || char === "\t" || char === "\r") {
-        position += 1;
-      } else if (allowComments && char === "/" && text[position + 1] === "/") {
-        while (position < text.length && text[position] !== "\n") position += 1;
-      } else if (allowComments && char === "/" && text[position + 1] === "*") {
-        const end = text.indexOf("*/", position + 2);
-        if (end === -1) fail();
-        for (const part of text.slice(position, end)) if (part === "\n") line += 1;
-        position = end + 2;
-      } else {
-        return;
-      }
-    }
-  };
-  const readString = (): string => {
-    position += 1; // opening quote
-    let value = "";
-    for (;;) {
-      const char = text[position];
-      if (char === undefined || char === "\n") return fail();
-      position += 1;
-      if (char === '"') return value;
-      if (char < " ") fail();
-      if (char !== "\\") {
-        value += char;
-        continue;
-      }
-      const escaped = text[position];
-      position += 1;
-      const simple: Record<string, string> = {
-        '"': '"',
-        "\\": "\\",
-        "/": "/",
-        b: "\b",
-        f: "\f",
-        n: "\n",
-        r: "\r",
-        t: "\t",
-      };
-      if (escaped !== undefined && simple[escaped] !== undefined) {
-        value += simple[escaped];
-      } else if (escaped === "u" && /^[0-9a-fA-F]{4}$/.test(text.slice(position, position + 4))) {
-        value += String.fromCharCode(Number.parseInt(text.slice(position, position + 4), 16));
-        position += 4;
-      } else {
-        fail();
-      }
-    }
-  };
-  const readValue = (depth: number): JsonNode => {
-    if (depth > MAXIMUM_DEPTH) return fail();
-    skip();
-    const start = line;
-    const char = text[position];
-    if (char === '"') return { kind: "string", line: start, value: readString() };
-    if (char === "{") {
-      position += 1;
-      const members: JsonMember[] = [];
-      skip();
-      if (text[position] === "}") {
-        position += 1;
-        return { kind: "object", line: start, members };
-      }
-      for (;;) {
-        skip();
-        if (text[position] !== '"') fail();
-        const keyLine = line;
-        const key = readString();
-        skip();
-        if (text[position] !== ":") fail();
-        position += 1;
-        members.push({ key, keyLine, value: readValue(depth + 1) });
-        skip();
-        if (text[position] === ",") {
-          position += 1;
-        } else if (text[position] === "}") {
-          position += 1;
-          return { kind: "object", line: start, members };
-        } else {
-          fail();
-        }
-      }
-    }
-    if (char === "[") {
-      position += 1;
-      const items: JsonNode[] = [];
-      skip();
-      if (text[position] === "]") {
-        position += 1;
-        return { kind: "array", line: start, items };
-      }
-      for (;;) {
-        items.push(readValue(depth + 1));
-        skip();
-        if (text[position] === ",") {
-          position += 1;
-        } else if (text[position] === "]") {
-          position += 1;
-          return { kind: "array", line: start, items };
-        } else {
-          fail();
-        }
-      }
-    }
-    const literal = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/.exec(
-      text.slice(position, position + 64),
-    );
-    if (!literal) return fail();
-    position += literal[0].length;
-    if (literal[0] === "true") return { kind: "boolean", line: start, value: true };
-    if (literal[0] === "false") return { kind: "boolean", line: start, value: false };
-    return { kind: "other", line: start };
-  };
-
   try {
-    const root = readValue(0);
-    skip();
-    if (position !== text.length) return undefined;
-    return root;
+    return new JsonReader(text, options.comments).readDocument();
   } catch (error) {
     if (error instanceof Malformed) return undefined;
     throw error;

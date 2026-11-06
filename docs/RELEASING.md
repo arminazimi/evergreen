@@ -121,12 +121,30 @@ Each stable or pre-release tag also produces binaries that need no Node.js, for 
     evergreen-<version>-<os>-<arch>
   ```
 
-  Binaries from releases up to and including v0.7.2 were signed with older identities: the monolithic `https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/heads/main`, and (after the stage split, while post-publish still ran via `workflow_run` on the default branch) `https://github.com/arminazimi/evergreen/.github/workflows/release-publish-binaries.yml@refs/heads/main`. Verify those with `--certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release\.yml@refs/heads/main$'` or `'^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/heads/main$'` respectively.
+  Binaries from releases up to and including v0.7.2 were signed with older identities: the monolithic `https://github.com/arminazimi/evergreen/.github/workflows/release.yml@refs/heads/main`, and (after the stage split, while post-publish still ran via `workflow_run` on the default branch) `https://github.com/arminazimi/evergreen/.github/workflows/release-publish-binaries.yml@refs/heads/main`. Verify those with `--certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release\.yml@refs/heads/main$'` or `'^https://github\.com/arminazimi/evergreen/\.github/workflows/release-publish-binaries\.yml@refs/heads/main$'` respectively. v0.7.0, v0.6.1, and v0.6.0 were cut before signing existed and carry signatures added later by the backfill described below.
 
   If no release exists for the tag yet, the job creates one; the following notes stage replaces its placeholder automatically as described in step 8.
 - **macOS.** The binaries are signed ad hoc, not notarized. Downloaded with `curl` or `gh release download` they run as they are; a browser download is quarantined, and `xattr -d com.apple.quarantine <file>` clears it.
 - **If a binary job fails.** The npm package is already published and is not affected. Fix the cause, then re-run the failed jobs of that same `Release` workflow run; `gh release upload --clobber` replaces files that were already attached.
 - **Trying it before a release.** From a built checkout with Node.js 25.5 or newer, `node .github/scripts/build-sea.mjs evergreen-test`, then `node .github/scripts/smoke.mjs tests/fixtures/smoke -- ./evergreen-test` (on macOS run `codesign --force --sign - evergreen-test` first). Use an official Node.js build; some distributions (Homebrew's, for one) are built without single-executable support.
+
+### Signing a release that predates the signing stage
+
+Use this only for a release cut before the signing stage landed; a normal release signs itself. Run *Release backfill signatures* from Actions, enter the tags (for example `v0.7.0 v0.6.1`), and turn *dry run* off. The workflow downloads the assets already attached to those releases, signs those exact bytes with keyless Sigstore (cosign), verifies every signature, and uploads a `.sigstore.json` bundle next to each asset. It never rebuilds or replaces an asset.
+
+A backfilled signature proves that the release workflow vouched for the published bytes when the repair ran. It is **not** build provenance: there is no SLSA `multiple.intoto.jsonl`, and Scorecard scores that release 8 rather than 10. Say so in the release notes; do not present a backfilled release as built-and-signed. Prefer the next normal release whenever one is due.
+
+Verify a backfilled asset with the identity of the workflow at the ref it ran from. The v0.7.0, v0.6.1, and v0.6.0 backfill on 2026-11-06 ran from the pull-request branch that introduced the workflow:
+
+```bash
+cosign verify-blob \
+  --bundle evergreen-<version>-<os>-<arch>.sigstore.json \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  --certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release-backfill-signatures\.yml@refs/heads/ci/2289-signed-releases$' \
+  evergreen-<version>-<os>-<arch>
+```
+
+Later backfills run from `main`; use the same command with `@refs/heads/main`.
 
 ## Rule data
 

@@ -199,6 +199,11 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
       reason: "workflow and composite action discovery",
     },
     {
+      pattern: /^src\/jsonc\.ts$/,
+      ecosystems: ["node"],
+      reason: "bun.lock comment and trailing-comma stripping",
+    },
+    {
       pattern: /^src\/detectors\/json-lines\.ts$/,
       ecosystems: ["cpp", "dart", "dotnet", "php", "swift"],
       reason: "JSON line locations",

@@ -4,10 +4,11 @@ import { resolve } from "node:path";
 import semver from "semver";
 import { parseAllDocuments } from "yaml";
 
-import type { DeprecationRule, Severity, UsageMatcher } from "../domain.js";
+import type { DeprecationRule, Severity, SourceUsage, UsageMatcher } from "../domain.js";
 import { relativePosix } from "../paths.js";
 import { parseVers, versContains } from "../vers/index.js";
 import { loadDataFile } from "../data-source.js";
+import { stripJsonc } from "../jsonc.js";
 import { analyzeSourceUsage, impactFor } from "../source-usage.js";
 import { discoverNpmWorkspaces, usagesOwnedBy } from "../workspaces.js";
 import { DETECTOR_API_VERSION, isDeprecationRule, isUsageMatcher } from "../sdk.js";
@@ -270,85 +271,6 @@ function packageFromBunDescriptor(rawKey: string): { name: string; version: stri
   return semver.valid(version) ? { name, version } : undefined;
 }
 
-function stripJsonc(contents: string): string {
-  let result = "";
-  let i = 0;
-  const len = contents.length;
-  let inString = false;
-
-  while (i < len) {
-    const char = contents.charAt(i);
-
-    if (inString) {
-      result += char;
-      if (char === "\\") {
-        i++;
-        if (i < len) result += contents.charAt(i);
-      } else if (char === '"') {
-        inString = false;
-      }
-      i++;
-      continue;
-    }
-
-    if (char === '"') {
-      inString = true;
-      result += char;
-      i++;
-    } else if (char === "/" && contents[i + 1] === "/") {
-      i += 2;
-      while (i < len && contents[i] !== "\n" && contents[i] !== "\r") {
-        i++;
-      }
-    } else if (char === "/" && contents[i + 1] === "*") {
-      i += 2;
-      while (i < len && !(contents[i] === "*" && contents[i + 1] === "/")) {
-        if (contents[i] === "\n" || contents[i] === "\r") {
-          result += contents[i];
-        }
-        i++;
-      }
-      if (i < len) i += 2;
-    } else if (char === ",") {
-      let nextPos = i + 1;
-      let isTrailing = false;
-      while (nextPos < len) {
-        const nextChar = contents.charAt(nextPos);
-        if (nextChar === " " || nextChar === "\t" || nextChar === "\n" || nextChar === "\r") {
-          nextPos++;
-        } else if (nextChar === "/" && contents[nextPos + 1] === "/") {
-          nextPos += 2;
-          while (nextPos < len && contents[nextPos] !== "\n" && contents[nextPos] !== "\r") {
-            nextPos++;
-          }
-        } else if (nextChar === "/" && contents[nextPos + 1] === "*") {
-          nextPos += 2;
-          while (nextPos < len && !(contents[nextPos] === "*" && contents[nextPos + 1] === "/")) {
-            nextPos++;
-          }
-          if (nextPos < len) nextPos += 2;
-        } else if (nextChar === "}" || nextChar === "]") {
-          isTrailing = true;
-          break;
-        } else {
-          break;
-        }
-      }
-      if (isTrailing) {
-        result += " ";
-      } else {
-        result += ",";
-      }
-      i++;
-    } else {
-      result += char;
-      i++;
-    }
-  }
-
-  return result;
-}
-
 function parseBunLock(contents: string, { versions: target, graph }: LockData): void {
   let lock: { packages?: Record<string, unknown>; workspaces?: Record<string, unknown> };
   try {
@@ -591,162 +513,29 @@ export class NpmDetector implements Detector {
     if (!rootManifest && workspaceDirectories.length === 0) return { findings: [], unclassified: [] };
 
     const unclassified: DetectorUnclassifiedReference[] = [];
-    const rootLockb = await readOptional(resolve(context.root, "bun.lockb"));
-    if (rootLockb !== undefined) {
-      unclassified.push({
-        component: "bun.lockb",
-        reference: "bun.lockb",
-        reason:
-          "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
-        location: { path: "bun.lockb", line: 1 },
-      });
+    if ((await readOptional(resolve(context.root, "bun.lockb"))) !== undefined) {
+      unclassified.push(binaryBunLockReference("bun.lockb"));
     }
 
     const [packageRules, nodeRules, rootLock] = await Promise.all([
-      loadRegistry("registry/npm.json", {
-        schemaVersion: "evergreen.npm-registry.v1",
-        isRule: (value): value is PackageRule =>
-          isDeprecationRule(value) &&
-          typeof (value as Partial<PackageRule>).package === "string" &&
-          ((value as Partial<PackageRule>).usage === undefined ||
-            ((value as Partial<PackageRule>).usage?.every(isUsageMatcher) ?? false)),
-      }),
-      loadRegistry("registry/nodejs.json", {
-        schemaVersion: "evergreen.nodejs-registry.v1",
-        isRule: (value): value is NodeRule =>
-          isDeprecationRule(value) &&
-          (typeof (value as Partial<NodeRule>).major === "number" ||
-            typeof (value as Partial<NodeRule>).maximumMajor === "number"),
-      }),
+      loadPackageRules(),
+      loadNodeRules(),
       collectLockData(context.root),
     ]);
 
-    // The root project is "", each workspace is its relative directory. A workspace without its own lockfile
-    // resolves against the root's, which is where npm, pnpm, and Yarn put the one shared lockfile.
-    const projects: Array<{
-      directory: string;
-      manifestPath: string;
-      contents: string;
-      manifest: PackageManifest;
-      resolved: ResolvedVersions;
-      graph: DependencyGraph;
-    }> = [];
-    const load = async (directory: string): Promise<void> => {
-      const manifestPath = resolve(context.root, directory, "package.json");
-      const contents = directory === "" ? rootManifest : await readOptional(manifestPath);
-      if (!contents) return;
-      let manifest: PackageManifest;
-      try {
-        const parsed: unknown = JSON.parse(contents);
-        if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed))
-          throw new SyntaxError("package.json must contain a JSON object");
-        manifest = parsed as PackageManifest;
-      } catch (error) {
-        // A malformed root manifest has always been an error; a malformed workspace manifest is skipped so one bad package does not hide the rest.
-        if (directory === "") throw error;
-        return;
-      }
-      const own =
-        directory === ""
-          ? { versions: new Map<string, Set<string>>(), graph: new Map<string, Set<string>>() }
-          : await collectLockData(resolve(context.root, directory));
-      if (directory !== "") {
-        const workspaceLockb = await readOptional(resolve(context.root, directory, "bun.lockb"));
-        if (workspaceLockb !== undefined) {
-          unclassified.push({
-            component: "bun.lockb",
-            reference: "bun.lockb",
-            reason:
-              "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
-            location: { path: relativePosix(context.root, resolve(context.root, directory, "bun.lockb")), line: 1 },
-          });
-        }
-      }
-      const resolved: ResolvedVersions = new Map(rootLock.versions);
-      for (const [name, versions] of own.versions)
-        resolved.set(name, new Set([...(resolved.get(name) ?? []), ...versions]));
-      const graph: DependencyGraph = new Map(rootLock.graph);
-      for (const [name, edges] of own.graph) graph.set(name, new Set([...(graph.get(name) ?? []), ...edges]));
-      projects.push({ directory, manifestPath, contents, manifest, resolved, graph });
-    };
-    await load("");
-    for (const directory of workspaceDirectories) await load(directory);
+    const projects: NpmProject[] = [];
+    for (const directory of ["", ...workspaceDirectories]) {
+      const project = await loadNpmProject(context.root, directory, rootManifest, rootLock, unclassified);
+      if (project) projects.push(project);
+    }
 
     const findings: DetectorFinding[] = [];
-    const endedRules = nodeRules.filter((rule) => !rule.scheduled);
-    const scheduledMajors = nodeRules.flatMap((rule) =>
-      rule.scheduled && rule.major !== undefined ? [rule.major] : [],
-    );
-    const newestRuleMajor = Math.max(0, ...endedRules.map((rule) => rule.major ?? 0));
+    const matched: MatchedPackageRule[] = [];
+    const runtime = runtimeRuleContext(nodeRules);
     const seenRuntimeRules = new Set<string>();
-    const matched: Array<{
-      rule: PackageRule;
-      project: (typeof projects)[number];
-      range: string;
-      section: string;
-      via?: string[];
-    }> = [];
-
     for (const project of projects) {
-      const declarations = manifestRuntimeDeclarations(
-        context.root,
-        project.manifestPath,
-        project.contents,
-        project.manifest,
-      );
-      for (const filename of [".nvmrc", ".node-version"] as const) {
-        const path = resolve(context.root, project.directory, filename);
-        const value = (await readOptional(path))?.trim();
-        if (value) declarations.push({ path, line: 1, value, kind: "pinned runtime" });
-      }
-      for (const declaration of declarations) {
-        for (const major of runtimeMajors(
-          declaration.value,
-          newestRuleMajor,
-          (major) => ruleForMajor(endedRules, major) !== undefined,
-          scheduledMajors,
-        )) {
-          const rule = ruleForMajor([...nodeRules], major);
-          const key = rule ? `${rule.id}:${declaration.path}:${declaration.line}` : "";
-          if (rule && !seenRuntimeRules.has(key)) {
-            findings.push(declarationFinding(context.root, declaration, rule, major));
-            seenRuntimeRules.add(key);
-          }
-        }
-      }
-
-      const declared = new Map<string, { range: string; section: string }>();
-      for (const section of dependencySections) {
-        for (const [name, range] of Object.entries(project.manifest[section] ?? {})) {
-          declared.set(name, { range, section });
-        }
-      }
-      for (const { vers, ...rule } of packageRules) {
-        const dependency = declared.get(rule.package);
-        if (!dependency) {
-          // Not declared here: report it when a lockfile shows a declared dependency pulling it in, with that path.
-          const via = shortestDependencyPath(project.graph, declared.keys(), rule.package);
-          const versions = [...(project.resolved.get(rule.package) ?? [])];
-          if (!via || versions.length === 0) continue;
-          if (vers && !parseVers(vers).all && !versions.some((version) => versContains(vers, version))) continue;
-          const root = required(declared.get(required(via[0], "dependency path")), "direct dependency");
-          matched.push({ rule, project, range: root.range, section: root.section, via });
-          continue;
-        }
-        if (vers && !parseVers(vers).all) {
-          const declaredRange = semver.validRange(dependency.range);
-          if (!declaredRange) continue;
-          const resolved = [...(project.resolved.get(rule.package) ?? [])].filter((version) =>
-            semver.satisfies(version, declaredRange),
-          );
-          const affected =
-            resolved.length > 0
-              ? resolved.some((version) => versContains(vers, version))
-              : declaredVersionsAffected(vers, declaredRange);
-          if (!affected) continue;
-        }
-        matched.push({ rule, project, range: dependency.range, section: dependency.section });
-      }
+      findings.push(...(await runtimeFindings(context.root, project, nodeRules, runtime, seenRuntimeRules)));
+      matched.push(...matchPackageRules(project, packageRules));
     }
 
     const matchedRules = [...new Map(matched.map((item) => [item.rule.id, item.rule])).values()];
@@ -760,36 +549,241 @@ export class NpmDetector implements Detector {
     const usagesByRule = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis.usages]));
     const projectDirectories = projects.map((project) => project.directory);
 
-    for (const { rule, project, range, section, via } of matched) {
-      const resolved = [...(project.resolved.get(rule.package) ?? [])].sort(semver.compare);
-      const resolvedText = resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile";
-      const line = declarationLine(project.contents, section, via?.[0] ?? rule.package);
-      const path = relativePosix(context.root, project.manifestPath);
-      // Each project reports the usages inside its own directory; the root keeps the ones outside every workspace.
-      const usages = usagesOwnedBy(required(usagesByRule.get(rule.id), "usage"), project.directory, projectDirectories);
-      findings.push({
-        id: `${rule.id}:${path}:${line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary: via
-          ? `${rule.package} is not declared directly; ${via[0]} (declared in ${section} as ${range}) pulls it in; resolved: ${resolvedText}. ${rule.summary}`
-          : `${rule.package} is declared in ${section} as ${range}; resolved: ${resolvedText}. ${rule.summary}`,
-        severity: rule.severity,
-        confidence: resolved.length > 0 ? "inferred-from-lock" : "range",
-        location: { path, line },
-        ...(via ? { dependencyPath: via } : {}),
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.requires ? { requires: rule.requires } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-        usages,
-        impact: impactFor(usages),
-      });
+    for (const item of matched) {
+      findings.push(matchedRuleFinding(context.root, item, usagesByRule, projectDirectories));
     }
-
     return { findings, unclassified };
   }
+}
+
+interface NpmProject {
+  directory: string;
+  manifestPath: string;
+  contents: string;
+  manifest: PackageManifest;
+  resolved: ResolvedVersions;
+  graph: DependencyGraph;
+}
+
+interface MatchedPackageRule {
+  rule: PackageRule;
+  project: NpmProject;
+  range: string;
+  section: string;
+  via?: string[];
+}
+
+function binaryBunLockReference(path: string): DetectorUnclassifiedReference {
+  return {
+    component: "bun.lockb",
+    reference: "bun.lockb",
+    reason:
+      "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
+    location: { path, line: 1 },
+  };
+}
+
+function loadPackageRules(): Promise<readonly PackageRule[]> {
+  return loadRegistry("registry/npm.json", {
+    schemaVersion: "evergreen.npm-registry.v1",
+    isRule: (value): value is PackageRule =>
+      isDeprecationRule(value) &&
+      typeof (value as Partial<PackageRule>).package === "string" &&
+      ((value as Partial<PackageRule>).usage === undefined ||
+        ((value as Partial<PackageRule>).usage?.every(isUsageMatcher) ?? false)),
+  });
+}
+
+function loadNodeRules(): Promise<readonly NodeRule[]> {
+  return loadRegistry("registry/nodejs.json", {
+    schemaVersion: "evergreen.nodejs-registry.v1",
+    isRule: (value): value is NodeRule =>
+      isDeprecationRule(value) &&
+      (typeof (value as Partial<NodeRule>).major === "number" ||
+        typeof (value as Partial<NodeRule>).maximumMajor === "number"),
+  });
+}
+
+function parsePackageManifest(contents: string): PackageManifest {
+  const parsed: unknown = JSON.parse(contents);
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed))
+    throw new SyntaxError("package.json must contain a JSON object");
+  return parsed as PackageManifest;
+}
+
+function mergeLockData(root: LockData, own: LockData): { resolved: ResolvedVersions; graph: DependencyGraph } {
+  const resolved: ResolvedVersions = new Map(root.versions);
+  for (const [name, versions] of own.versions)
+    resolved.set(name, new Set([...(resolved.get(name) ?? []), ...versions]));
+  const graph: DependencyGraph = new Map(root.graph);
+  for (const [name, edges] of own.graph) graph.set(name, new Set([...(graph.get(name) ?? []), ...edges]));
+  return { resolved, graph };
+}
+
+/**
+ * The root project is "", each workspace is its relative directory. A workspace without its own lockfile resolves
+ * against the root's, which is where npm, pnpm, and Yarn put the one shared lockfile.
+ */
+async function loadNpmProject(
+  root: string,
+  directory: string,
+  rootManifest: string | undefined,
+  rootLock: LockData,
+  unclassified: DetectorUnclassifiedReference[],
+): Promise<NpmProject | undefined> {
+  const manifestPath = resolve(root, directory, "package.json");
+  const contents = directory === "" ? rootManifest : await readOptional(manifestPath);
+  if (!contents) return undefined;
+  let manifest: PackageManifest;
+  try {
+    manifest = parsePackageManifest(contents);
+  } catch (error) {
+    // A malformed root manifest has always been an error; a malformed workspace manifest is skipped so one bad package does not hide the rest.
+    if (directory === "") throw error;
+    return undefined;
+  }
+  let own: LockData = { versions: new Map(), graph: new Map() };
+  if (directory !== "") {
+    own = await collectLockData(resolve(root, directory));
+    const lockbPath = resolve(root, directory, "bun.lockb");
+    if ((await readOptional(lockbPath)) !== undefined) {
+      unclassified.push(binaryBunLockReference(relativePosix(root, lockbPath)));
+    }
+  }
+  const { resolved, graph } = mergeLockData(rootLock, own);
+  return { directory, manifestPath, contents, manifest, resolved, graph };
+}
+
+interface RuntimeRuleContext {
+  endedRules: NodeRule[];
+  scheduledMajors: number[];
+  newestRuleMajor: number;
+}
+
+function runtimeRuleContext(nodeRules: readonly NodeRule[]): RuntimeRuleContext {
+  const endedRules = nodeRules.filter((rule) => !rule.scheduled);
+  const scheduledMajors = nodeRules.flatMap((rule) => (rule.scheduled && rule.major !== undefined ? [rule.major] : []));
+  const newestRuleMajor = Math.max(0, ...endedRules.map((rule) => rule.major ?? 0));
+  return { endedRules, scheduledMajors, newestRuleMajor };
+}
+
+async function runtimeFindings(
+  root: string,
+  project: NpmProject,
+  nodeRules: readonly NodeRule[],
+  { endedRules, scheduledMajors, newestRuleMajor }: RuntimeRuleContext,
+  seen: Set<string>,
+): Promise<DetectorFinding[]> {
+  const declarations = manifestRuntimeDeclarations(root, project.manifestPath, project.contents, project.manifest);
+  for (const filename of [".nvmrc", ".node-version"] as const) {
+    const path = resolve(root, project.directory, filename);
+    const value = (await readOptional(path))?.trim();
+    if (value) declarations.push({ path, line: 1, value, kind: "pinned runtime" });
+  }
+  const findings: DetectorFinding[] = [];
+  for (const declaration of declarations) {
+    const majors = runtimeMajors(
+      declaration.value,
+      newestRuleMajor,
+      (major) => ruleForMajor(endedRules, major) !== undefined,
+      scheduledMajors,
+    );
+    for (const major of majors) {
+      const rule = ruleForMajor([...nodeRules], major);
+      const key = rule ? `${rule.id}:${declaration.path}:${declaration.line}` : "";
+      if (!rule || seen.has(key)) continue;
+      findings.push(declarationFinding(root, declaration, rule, major));
+      seen.add(key);
+    }
+  }
+  return findings;
+}
+
+function declaredDependencies(manifest: PackageManifest): Map<string, { range: string; section: string }> {
+  const declared = new Map<string, { range: string; section: string }>();
+  for (const section of dependencySections) {
+    for (const [name, range] of Object.entries(manifest[section] ?? {})) {
+      declared.set(name, { range, section });
+    }
+  }
+  return declared;
+}
+
+/** A declared dependency matches when its resolved (or, absent a lock, declared) versions fall in the rule's range. */
+function declaredDependencyAffected(project: NpmProject, rulePackage: string, vers: string, range: string): boolean {
+  const declaredRange = semver.validRange(range);
+  if (!declaredRange) return false;
+  const resolved = [...(project.resolved.get(rulePackage) ?? [])].filter((version) =>
+    semver.satisfies(version, declaredRange),
+  );
+  return resolved.length > 0
+    ? resolved.some((version) => versContains(vers, version))
+    : declaredVersionsAffected(vers, declaredRange);
+}
+
+/** Not declared here: report it when a lockfile shows a declared dependency pulling it in, with that path. */
+function transitiveMatch(
+  project: NpmProject,
+  rule: PackageRule,
+  vers: string | undefined,
+  declared: Map<string, { range: string; section: string }>,
+): MatchedPackageRule | undefined {
+  const via = shortestDependencyPath(project.graph, declared.keys(), rule.package);
+  const versions = [...(project.resolved.get(rule.package) ?? [])];
+  if (!via || versions.length === 0) return undefined;
+  if (vers && !parseVers(vers).all && !versions.some((version) => versContains(vers, version))) return undefined;
+  const root = required(declared.get(required(via[0], "dependency path")), "direct dependency");
+  return { rule, project, range: root.range, section: root.section, via };
+}
+
+function matchPackageRules(project: NpmProject, packageRules: readonly PackageRule[]): MatchedPackageRule[] {
+  const declared = declaredDependencies(project.manifest);
+  const matched: MatchedPackageRule[] = [];
+  for (const { vers, ...rule } of packageRules) {
+    const dependency = declared.get(rule.package);
+    if (!dependency) {
+      const transitive = transitiveMatch(project, rule, vers, declared);
+      if (transitive) matched.push(transitive);
+      continue;
+    }
+    if (vers && !parseVers(vers).all && !declaredDependencyAffected(project, rule.package, vers, dependency.range))
+      continue;
+    matched.push({ rule, project, range: dependency.range, section: dependency.section });
+  }
+  return matched;
+}
+
+function matchedRuleFinding(
+  root: string,
+  { rule, project, range, section, via }: MatchedPackageRule,
+  usagesByRule: Map<string, SourceUsage[]>,
+  projectDirectories: string[],
+): DetectorFinding {
+  const resolved = [...(project.resolved.get(rule.package) ?? [])].sort(semver.compare);
+  const resolvedText = resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile";
+  const line = declarationLine(project.contents, section, via?.[0] ?? rule.package);
+  const path = relativePosix(root, project.manifestPath);
+  // Each project reports the usages inside its own directory; the root keeps the ones outside every workspace.
+  const usages = usagesOwnedBy(required(usagesByRule.get(rule.id), "usage"), project.directory, projectDirectories);
+  return {
+    id: `${rule.id}:${path}:${line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary: via
+      ? `${rule.package} is not declared directly; ${via[0]} (declared in ${section} as ${range}) pulls it in; resolved: ${resolvedText}. ${rule.summary}`
+      : `${rule.package} is declared in ${section} as ${range}; resolved: ${resolvedText}. ${rule.summary}`,
+    severity: rule.severity,
+    confidence: resolved.length > 0 ? "inferred-from-lock" : "range",
+    location: { path, line },
+    ...(via ? { dependencyPath: via } : {}),
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.requires ? { requires: rule.requires } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+    usages,
+    impact: impactFor(usages),
+  };
 }
 
 export const npmDetector = new NpmDetector();

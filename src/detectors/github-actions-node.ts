@@ -1,5 +1,5 @@
 import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
-import type { Node } from "yaml";
+import type { Node, Scalar, YAMLMap, YAMLSeq } from "yaml";
 
 /**
  * Reads the `node-version` input of `actions/setup-node` steps from one workflow file. The workflow is parsed, never
@@ -26,38 +26,50 @@ function textOf(node: Node): string | undefined {
   return undefined;
 }
 
+/** The `node-version` node of a `actions/setup-node` step, or undefined for any other step. */
+export function setupNodeInput(step: unknown): Scalar | undefined {
+  if (!isMap(step)) return undefined;
+  const uses = step.get("uses");
+  if (typeof uses !== "string" || !SETUP_NODE.test(uses)) return undefined;
+  const inputs = step.get("with", true);
+  if (!isMap(inputs)) return undefined;
+  const version = inputs.get("node-version", true) as Node | null;
+  return version && isScalar(version) ? version : undefined;
+}
+
+/** The list under `strategy.matrix.<key>` a `${{ matrix.<key> }}` input points at, if the job has one. */
+export function matrixList(job: YAMLMap, version: Scalar): YAMLSeq | undefined {
+  const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
+  if (key === undefined) return undefined;
+  const strategy = job.get("strategy", true);
+  const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
+  const list = isMap(matrix) ? matrix.get(key, true) : undefined;
+  return isSeq(list) ? list : undefined;
+}
+
 export function setupNodeVersions(contents: string): SetupNodeVersion[] {
   const lineCounter = new LineCounter();
   const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
   if (document.errors.length > 0 || !isMap(document.contents)) return [];
-  const lineOf = (node: Node): number => lineCounter.linePos(node.range?.[0] ?? 0).line;
-
   const jobs = document.contents.get("jobs", true);
   if (!isMap(jobs)) return [];
+
   const versions: SetupNodeVersion[] = [];
   const add = (node: Node | null | undefined): void => {
     if (!node) return;
     const value = textOf(node);
-    if (value !== undefined && value !== "")
-      versions.push({ value, line: lineOf(node), expression: value.includes("${{") });
+    if (value === undefined || value === "") return;
+    versions.push({ value, line: lineCounter.linePos(node.range?.[0] ?? 0).line, expression: value.includes("${{") });
   };
   for (const job of jobs.items) {
     if (!isMap(job.value)) continue;
-    const strategy = job.value.get("strategy", true);
-    const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
     const steps = job.value.get("steps", true);
     if (!isSeq(steps)) continue;
     for (const step of steps.items) {
-      if (!isMap(step)) continue;
-      const uses = step.get("uses");
-      if (typeof uses !== "string" || !SETUP_NODE.test(uses)) continue;
-      const inputs = step.get("with", true);
-      if (!isMap(inputs)) continue;
-      const version = inputs.get("node-version", true) as Node | null;
-      if (!version || !isScalar(version)) continue;
-      const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
-      const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
-      if (isSeq(list)) for (const item of list.items) add(item as Node);
+      const version = setupNodeInput(step);
+      if (!version) continue;
+      const list = matrixList(job.value, version);
+      if (list) for (const item of list.items) add(item as Node);
       else add(version);
     }
   }

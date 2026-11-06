@@ -53,7 +53,7 @@ jobs:
           sarif_file: results.sarif
 
       - name: Run analysis for the floor gate
-        # Second pass of the same pinned action, in JSON, so the step below can read every
+        # Second pass of the same pinned action, in JSON, so the floor job can read every
         # per-check score. The SARIF run above already published the results; this one does not.
         uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e # v2.5.0
         with:
@@ -61,8 +61,37 @@ jobs:
           results_format: json
           publish_results: false
 
+      - name: Upload the result for the floor gate
+        # Keep every step of this job to `uses:`. The Scorecard webapp rejects results from a
+        # workflow whose Scorecard job has a `run:` step, so the floor check lives in its own job.
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: scorecard-results-json
+          path: results.json
+          retention-days: 1
+
+  floor:
+    name: Check the scorecard floor
+    needs: analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Download the result
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: scorecard-results-json
+      - uses: $/.github/actions/setup
+        with:
+          package-manager-cache: false
+          install: "false"
       - name: Check scores against recorded targets
         # Fails this run, naming each check, when a score is below its recorded target in
         # tools/scorecard-floor.mjs. Targets only rise, never fall, without a written reason.
-        # Reads the results file of the step above; no network access.
+        # Reads the downloaded result; no network access.
         run: node tools/scorecard-floor.mjs results.json

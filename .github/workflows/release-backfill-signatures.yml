@@ -1,0 +1,106 @@
+name: Release backfill signatures
+
+# Repair releases that predate the signing stage. The job downloads the assets that are already
+# published, signs those exact bytes with keyless Sigstore (cosign) using this workflow's GitHub
+# OIDC identity, verifies every signature, and uploads the .sigstore.json bundles. It never rebuilds
+# or replaces an asset.
+#
+# This is not build provenance. A backfilled signature says the release workflow vouched for the
+# published bytes when the repair ran; it does not say the assets were built by that run. Use it only
+# for releases cut before signing landed, and say so in the release notes. docs/RELEASING.md,
+# "Signing a release that predates the signing stage", has the verification command and the identities.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: Space-separated release tags to repair (for example "v0.7.0 v0.6.1")
+        type: string
+        required: true
+      dry_run:
+        description: Sign and verify the downloaded copies; upload nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-backfill-signatures
+  cancel-in-progress: false
+
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      OIDC_ISSUER: https://token.actions.githubusercontent.com
+      # A manual run signs as this workflow on the default branch.
+      IDENTITY_PATTERN: ^https://github\.com/arminazimi/evergreen/\.github/workflows/release-backfill-signatures\.yml@refs/heads/main$
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - name: Sign and verify the published assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAGS: ${{ inputs.tags }}
+          DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          read -r -a tags <<< "$TAGS"
+          if [ "${#tags[@]}" -eq 0 ]; then
+            echo "No tags given." >&2
+            exit 2
+          fi
+
+          work="$(mktemp -d)"
+          for tag in "${tags[@]}"; do
+            case "$tag" in
+              v[0-9]*.[0-9]*.[0-9]*) ;;
+              *)
+                echo "Refusing a tag that is not a version tag: $tag" >&2
+                exit 2
+                ;;
+            esac
+
+            dir="$work/$tag"
+            mkdir -p "$dir"
+            gh release download "$tag" --dir "$dir" --clobber
+
+            signed=()
+            for file in "$dir"/*; do
+              name="$(basename "$file")"
+              case "$name" in
+                *.sigstore.json|*.intoto.jsonl) continue ;;
+              esac
+              if [ -e "${file}.sigstore.json" ]; then
+                echo "Already signed: $tag/$name"
+                continue
+              fi
+
+              cosign sign-blob --yes --bundle "${file}.sigstore.json" "$file"
+              cosign verify-blob \
+                --bundle "${file}.sigstore.json" \
+                --certificate-oidc-issuer "$OIDC_ISSUER" \
+                --certificate-identity-regexp "$IDENTITY_PATTERN" \
+                "$file"
+              signed+=("${file}.sigstore.json")
+            done
+
+            if [ "${#signed[@]}" -eq 0 ]; then
+              echo "Nothing to sign in $tag."
+              continue
+            fi
+            if [ "$DRY_RUN" = "true" ]; then
+              echo "Dry run: not uploading ${#signed[@]} signature file(s) to $tag."
+            else
+              gh release upload "$tag" "${signed[@]}" --clobber
+              echo "Uploaded ${#signed[@]} signature file(s) to $tag."
+            fi
+          done
