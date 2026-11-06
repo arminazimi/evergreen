@@ -88,9 +88,24 @@ function ruleFingerprints(text: string): Map<string, string> {
   const parsed = parseRegistry(text);
   if (!isRuleRegistry(parsed)) return fingerprints;
   for (const rule of parsed.rules) {
-    if (isRecord(rule) && typeof rule.id === "string") fingerprints.set(rule.id, stable(rule));
+    if (isRecord(rule) && typeof rule.id === "string") fingerprints.set(rule.id, fingerprint(rule));
   }
   return fingerprints;
+}
+
+/**
+ * What a rule means for a scan. A source's retrieval date is evidence metadata: refreshing it does not
+ * change which findings a detector reports, so it does not make fixtures run.
+ */
+function fingerprint(rule: UnknownRecord): string {
+  if (!Array.isArray(rule.sources)) return stable(rule);
+  const sources: unknown[] = rule.sources;
+  return stable({
+    ...rule,
+    sources: sources.map((source) =>
+      isRecord(source) ? Object.fromEntries(Object.entries(source).filter(([key]) => key !== "accessedAt")) : source,
+    ),
+  });
 }
 
 /** Paths in a diff that can affect rules: registry files and `tests/fixtures/<rule-id>/`. */

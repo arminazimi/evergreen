@@ -132,6 +132,12 @@ test("a new, changed, or reordered rule is reported; an unchanged or deleted one
   assert.deepEqual(changedRuleIds(registryText(), "{ not json"), []);
 });
 
+test("refreshing a source access date is not a rule change and does not run fixtures", () => {
+  const withoutDate = registryText().replace(/,\s*"accessedAt": "2026-01-01"/, "");
+  assert.deepEqual(changedRuleIds(withoutDate, registryText()), []);
+  assert.deepEqual(changedRuleIds(registryText(), withoutDate), []);
+});
+
 test("a changed rule is linted, tested, and named in the summary", async () => {
   const { root, base } = await repository();
   try {
