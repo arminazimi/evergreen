@@ -1,3 +1,6 @@
+import type { ImportReference } from "./imports.js";
+import { rubyInvocations } from "./ruby-invocations.js";
+
 interface RubyAlias {
   local: string;
   target: string;
@@ -79,4 +82,16 @@ export function rubyReceivers(target: string, aliases: readonly RubyAlias[]): st
     forms.push(form);
   }
   return forms;
+}
+
+/** `require`/`load`/`gem`/`autoload` of a string. `require_relative` is a local file, not a gem. Bindings stay empty; calls use the rule's qualified target. */
+export function rubyImports(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
+  const references: ImportReference[] = [];
+  for (const invocation of rubyInvocations(lines, maskedLines).invocations) {
+    if (invocation.argument.kind !== "literal" || invocation.kind === "require_relative") continue;
+    const module = invocation.argument.value.replace(/\.rb$/, "");
+    if (module.length === 0) continue;
+    references.push({ module, line: invocation.line, column: invocation.argument.column, bindings: [] });
+  }
+  return references;
 }
