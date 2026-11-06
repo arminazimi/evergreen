@@ -216,7 +216,8 @@ test("the same usage in two files is reported once per file, not collapsed acros
   const [analysis] = await analyzeSourceUsage(root, [requestContract]);
   const paths = new Set(analysis?.usages.map((usage) => usage.location.path));
   assert.deepEqual([...paths].sort(), ["a/one.ts", "b/two.ts"]);
-  const perFile = (path: string): number => analysis?.usages.filter((usage) => usage.location.path === path).length ?? 0;
+  const perFile = (path: string): number =>
+    analysis?.usages.filter((usage) => usage.location.path === path).length ?? 0;
   assert.equal(perFile("a/one.ts"), perFile("b/two.ts"));
   assert.ok(perFile("a/one.ts") >= 2);
 });
