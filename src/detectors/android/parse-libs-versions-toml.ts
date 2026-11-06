@@ -105,6 +105,15 @@ function stripComment(line: string): string | undefined {
 const SECTION = /^\s*\[\[?([^\]]+)\]\]?\s*$/;
 const ASSIGNMENT = /^\s*(agp|kotlin)\s*=\s*(?:"([^"]*)"|'([^']*)')\s*$/;
 
+/** Read an `agp` / `kotlin` literal assignment; undefined for anything else or a non-literal version. */
+function readVersionAssignment(line: string, lineNumber: number): AndroidVersionCatalogDeclaration | undefined {
+  const match = ASSIGNMENT.exec(line);
+  if (!match) return undefined;
+  const value = required(match[2] ?? match[3], "version value");
+  if (!value || value.includes("$") || !isLiteralVersion(value)) return undefined;
+  return { kind: match[1] as AndroidVersionCatalogKind, value, line: lineNumber };
+}
+
 /** Parse `libs.versions.toml` without file, network, or process I/O. */
 export function parseAndroidLibsVersionsToml(contents: string): AndroidVersionCatalogDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES || contents.includes("\0")) return [];
@@ -112,9 +121,8 @@ export function parseAndroidLibsVersionsToml(contents: string): AndroidVersionCa
 
   const found: AndroidVersionCatalogDeclaration[] = [];
   let section = "";
-  const lines = contents.split("\n");
 
-  for (const [lineIndex, raw] of lines.entries()) {
+  for (const [lineIndex, raw] of contents.split("\n").entries()) {
     if (raw.length > MAXIMUM_LINE_LENGTH) continue;
     const stripped = stripComment(raw.replace(/\r$/, ""));
     if (stripped === undefined) return [];
@@ -128,13 +136,10 @@ export function parseAndroidLibsVersionsToml(contents: string): AndroidVersionCa
     }
     if (section !== "versions") continue;
 
-    const match = ASSIGNMENT.exec(line);
-    if (!match) continue;
-    const key = match[1] as AndroidVersionCatalogKind;
-    const value = required(match[2] ?? match[3], "version value");
-    if (!value || value.includes("$") || !isLiteralVersion(value)) continue;
+    const declaration = readVersionAssignment(line, lineIndex + 1);
+    if (!declaration) continue;
     if (found.length >= MAXIMUM_DECLARATIONS) break;
-    found.push({ kind: key, value, line: lineIndex + 1 });
+    found.push(declaration);
   }
 
   return found.sort((left, right) => left.line - right.line || left.kind.localeCompare(right.kind));
