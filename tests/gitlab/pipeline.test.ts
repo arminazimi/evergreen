@@ -7,6 +7,8 @@ import { test } from "node:test";
 
 import { parseAllDocuments } from "yaml";
 
+import { restoreFixtureNames } from "../../src/fixture-names.js";
+
 interface Job {
   variables: Record<string, string>;
   script: string[];
@@ -34,6 +36,7 @@ async function runJob(fixture: string, inputs: Record<string, string> = {}) {
   const dir = await mkdtemp(join(tmpdir(), "evergreen-gitlab-"));
   try {
     await cp(join(fixtures, fixture), dir, { recursive: true });
+    await restoreFixtureNames(dir);
     const result = spawnSync("sh", ["-c", script], { cwd: dir, env: { ...process.env, ...env }, encoding: "utf8" });
     const report = await readFile(join(dir, env.EVERGREEN_REPORT!), "utf8").catch(() => undefined);
     const codeQuality = await readFile(join(dir, env.EVERGREEN_CODE_QUALITY_REPORT!), "utf8").then(

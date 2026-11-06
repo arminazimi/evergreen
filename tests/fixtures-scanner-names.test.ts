@@ -9,7 +9,9 @@ import { fixtureRealName, scannerRecognizesFixtureName } from "../src/fixture-na
 import { copyFixtureTree } from "./fixture-copies.js";
 
 test("no tracked fixture has a name dependency scanners recognize", () => {
-  const paths = execFileSync("git", ["ls-files", "-z", "--", "tests/fixtures/"], { encoding: "utf8" })
+  const paths = execFileSync("git", ["ls-files", "-z", "--", "tests/fixtures/", "tests/gitlab/fixtures/"], {
+    encoding: "utf8",
+  })
     .split("\0")
     .filter(Boolean);
   const recognized = paths.filter((path) => scannerRecognizesFixtureName(basename(path)));
