@@ -1,16 +1,15 @@
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 
-import { applyBaseline, findingFingerprint, readBaseline } from "./baseline.js";
+import { findingFingerprint } from "./baseline.js";
 import { bundledRules } from "./check-dependency.js";
-import { builtInDetectors } from "./detectors/index.js";
 import type { DataInfo, Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
-import { scanRepository } from "./engine/index.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import type { Receipt } from "./receipt.js";
 import { buildReceipt } from "./receipt.js";
 import { renderReceiptMarkdown } from "./receipt-markdown.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
+import { runScanRequest } from "./scan-request.js";
 import type { MigrationPacket } from "./migration-packet.js";
 
 /** A finding reduced to what a list of deprecations shows. */
@@ -81,13 +80,11 @@ export class EvergreenAgentTools {
   private readonly lastScan = new Map<string, ScanResult>();
 
   async scan(repositoryPath = ".", baselinePath?: string): Promise<ScanResult> {
-    let result = await scanRepository(repositoryPath, builtInDetectors);
-    if (baselinePath) {
-      // A baseline path is relative to the repository, as in the Action. The reference day is today in UTC.
-      result = applyBaseline(result, await readBaseline(resolve(repositoryPath, baselinePath)), {
-        today: new Date().toISOString().slice(0, 10),
-      });
-    }
+    // A baseline path is relative to the repository, as in the Action.
+    const { result } = await runScanRequest({
+      root: repositoryPath,
+      ...(baselinePath ? { baselinePath } : {}),
+    });
     this.remember(result);
     return result;
   }
@@ -131,7 +128,7 @@ export class EvergreenAgentTools {
     if (!observed) throw new FindingNotObservedError(findingId);
 
     const before = this.lastScan.get(root);
-    const result = await scanRepository(root, builtInDetectors);
+    const { result } = await runScanRequest({ root });
     const remainingFindings = result.findings.filter(
       (finding) => finding.ruleId === observed.ruleId && finding.location.path === observed.location.path,
     );

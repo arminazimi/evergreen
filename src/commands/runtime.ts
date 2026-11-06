@@ -22,15 +22,10 @@ import type { EvergreenConfig } from "../config.js";
 import { configureActiveData, DataPinError, getActiveData } from "../data-source.js";
 import { scanDemo } from "../demo.js";
 import { builtInDetectors } from "../detectors/index.js";
+import { scanWithBuiltIns } from "../scan-builtins.js";
 import type { ScanSelection, ScanResult, Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
-import {
-  applyScanSelection,
-  findRepositories,
-  renderMultiScanText,
-  scanProjects,
-  scanRepository,
-} from "../engine/index.js";
+import { applyScanSelection, findRepositories, renderMultiScanText, scanProjects } from "../engine/index.js";
 import { invalidConfig, renderActionable, unreadablePath, type ActionableMessage } from "../errors.js";
 import { buildForecast } from "../forecast.js";
 import { hasPersonalConfig } from "../init-personal.js";
@@ -573,7 +568,7 @@ async function scanWithFilters(
   const asOfValue = state.optionValue("--as-of") ?? state.optionValue("--today");
   let result = state.demo
     ? await scanDemo(builtInDetectors)
-    : await scanRepository(state.pathArgument, builtInDetectors, { noCache: state.noCache });
+    : await scanWithBuiltIns(state.pathArgument, { noCache: state.noCache });
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
   if (minSupportDays !== undefined)
     result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));

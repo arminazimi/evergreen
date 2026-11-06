@@ -1,0 +1,1 @@
+- Route the CLI, MCP server, language server, and GitHub Action through one shared scan request, so each returns the same findings for the same repository.

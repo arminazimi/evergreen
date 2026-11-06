@@ -2,13 +2,12 @@ import { resolve } from "node:path";
 
 import { matchesAgentAuthor, parseAgentAuthors } from "../agent-pr.js";
 import type { AgentIntroducedFindings } from "../agent-pr.js";
-import { evaluateBaseline, expiredSuppressionsFail, readBaseline } from "../baseline.js";
 import type { DiffResult } from "../diff.js";
 import type { DataInfo, Finding, ScanResult, SuppressionRef, SuppressionState } from "../domain.js";
-import { applyMinSupport } from "../min-support.js";
 import { relativePosix } from "../paths.js";
 import { required } from "../required.js";
-import { diffWithBuiltIns, scanWithBuiltIns } from "../scan-builtins.js";
+import { diffWithBuiltIns } from "../scan-builtins.js";
+import { runScanRequest } from "../scan-request.js";
 import type { GitHubActionOptions, PackageScanSummary } from "./types.js";
 
 type DiffSummary = Pick<DiffResult, "base" | "head" | "fixed" | "unchanged">;
@@ -38,7 +37,10 @@ function relocateFinding(finding: Finding, prefix: string): Finding {
     : finding.id;
   const usages = finding.usages?.map((usage) => ({
     ...usage,
-    location: { ...usage.location, path: prefixPath(prefix, usage.location.path) },
+    location: {
+      ...usage.location,
+      path: prefixPath(prefix, usage.location.path),
+    },
   }));
   return { ...finding, id, location, ...(usages ? { usages } : {}) };
 }
@@ -64,21 +66,14 @@ async function scanOneRoot(
   root: string,
   options: Pick<GitHubActionOptions, "baselinePath" | "today" | "baselineWarnDays" | "onExpired" | "minSupportDays">,
 ): Promise<{ result: ScanResult; expiredFailure: boolean }> {
-  let result = await scanWithBuiltIns(root);
-  let expiredFailure = false;
-  if (options.minSupportDays !== undefined) {
-    result = applyMinSupport(result, options.minSupportDays, options.today ?? new Date().toISOString().slice(0, 10));
-  }
-  if (options.baselinePath) {
-    const evaluated = evaluateBaseline(result, await readBaseline(resolve(root, options.baselinePath)), {
-      today: options.today ?? new Date().toISOString().slice(0, 10),
-      ...(options.baselineWarnDays === undefined ? {} : { warnWithinDays: options.baselineWarnDays }),
-      ...(options.onExpired === undefined ? {} : { onExpired: options.onExpired }),
-    });
-    result = evaluated.result;
-    expiredFailure = expiredSuppressionsFail(options.onExpired, evaluated.expired);
-  }
-  return { result, expiredFailure };
+  return runScanRequest({
+    root,
+    ...(options.baselinePath === undefined ? {} : { baselinePath: options.baselinePath }),
+    ...(options.today === undefined ? {} : { today: options.today }),
+    ...(options.baselineWarnDays === undefined ? {} : { baselineWarnDays: options.baselineWarnDays }),
+    ...(options.onExpired === undefined ? {} : { onExpired: options.onExpired }),
+    ...(options.minSupportDays === undefined ? {} : { minSupportDays: options.minSupportDays }),
+  });
 }
 
 async function scanDiffMode(root: string, options: GitHubActionOptions): Promise<ScanOutcome> {
@@ -92,7 +87,12 @@ async function scanDiffMode(root: string, options: GitHubActionOptions): Promise
     findings: compared.introduced,
     diagnostics: [],
   };
-  const diff = { base: compared.base, head: compared.head, fixed: compared.fixed, unchanged: compared.unchanged };
+  const diff = {
+    base: compared.base,
+    head: compared.head,
+    fixed: compared.fixed,
+    unchanged: compared.unchanged,
+  };
   const author = options.pullRequestAuthor;
   const agent =
     compared.introduced.length > 0 &&

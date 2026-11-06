@@ -1,8 +1,7 @@
 // The language-server class: JSON-RPC dispatch, initialization, commands, and stdio startup.
 
-import { builtInDetectors } from "../detectors/index.js";
 import type { ScanResult } from "../domain.js";
-import { scanRepository } from "../engine/index.js";
+import { runScanRequest } from "../scan-request.js";
 import { VERSION } from "../version.js";
 import { explainMessage, isHttpUrl } from "./diagnostics.js";
 import { DocumentStore, workspaceRootFrom } from "./documents.js";
@@ -70,7 +69,7 @@ export class EvergreenLanguageServer {
     this.store = new DocumentStore({
       write: this.write,
       log: this.log,
-      scan: options.scan ?? ((root) => scanRepository(root, builtInDetectors)),
+      scan: options.scan ?? (async (root) => (await runScanRequest({ root })).result),
       debounceMs: options.debounceMs ?? 250,
     });
     this.handlers = this.buildHandlers();
