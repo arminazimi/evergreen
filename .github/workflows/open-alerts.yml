@@ -39,7 +39,7 @@ jobs:
     permissions:
       # Checkout the repository, which holds the gate script and its baseline.
       contents: read
-      # Read open code-scanning alerts and Dependabot alerts. Nothing is written.
+      # Read open code-scanning alerts. Dependabot uses the step-scoped read token below.
       security-events: read
     env:
       GH_TOKEN: ${{ github.token }}
@@ -57,8 +57,11 @@ jobs:
             | jq -s 'add // []' > "$RUNNER_TEMP/code-scanning.json"
 
       - name: Read open Dependabot alerts
+        env:
+          GH_TOKEN: ${{ secrets.ALERTS_READ_TOKEN }}
         run: |
           set -euo pipefail
+          : "${GH_TOKEN:?ALERTS_READ_TOKEN must have Dependabot alerts read access}"
           gh api --paginate "repos/$REPOSITORY/dependabot/alerts?state=open&per_page=100" \
             | jq -s 'add // []' > "$RUNNER_TEMP/dependabot.json"
 

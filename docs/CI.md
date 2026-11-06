@@ -639,6 +639,15 @@ Checked with `gh run list --workflow <file> --limit 1` against `arminazimi/everg
 | Older success, still on its trigger | `data-release.yml` (last `data-v*` / release-related push 2026-10-21), `importers.yml` (last schedule 2026-10-27) |
 | No runs in this repository (expected) | `evergreen-reusable.yml` (`workflow_call` only), `scorecard-floor.yml` (first Saturday cron not yet due) |
 
+### Alert-reader access
+
+`open-alerts.yml` reads code-scanning alerts with its job-scoped `GITHUB_TOKEN` and
+`security-events: read`. GitHub requires a separate **Dependabot alerts: read** repository
+permission for its Dependabot REST endpoint. The existing `ALERTS_READ_TOKEN` repository secret
+is exposed only to that read step, on main pushes, scheduled runs, and manual dispatches. It is
+never passed to pull requests or repository code. A missing token or an API error fails the run;
+an unreadable alert list is never treated as empty. Rotate the secret if that read returns 403.
+
 ## Changing this page
 
 - **Accepted design.** After decision 0024 is accepted, workflow pull requests that move work
