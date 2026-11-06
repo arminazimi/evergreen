@@ -206,10 +206,11 @@ The benchmark (`benchmarks/monorepo.ts`) builds a temporary monorepo offline: a 
 | Peak resident set size | observational | 132 MB |
 | Findings (synthetic fixture) | > 0 | 9 |
 
-The 5-second ceiling is the product goal from the roadmap; the reference run sits well under it on the development machine. Raise the ceiling in `MONOREPO_BUDGET` in `benchmarks/monorepo.ts` in the same commit that intentionally regresses large-repo scans, state the reason, and update this table. Unit tests cover the evaluator and a small synthetic fixture; they do not create 100k files.
+The 5-second ceiling is the product goal from the roadmap; the reference run sits well under it on the development machine. Raise the ceiling in `MONOREPO_BUDGET` in `benchmarks/monorepo.ts` in the same commit that intentionally regresses large-repo scans, state the reason, and update this table. The benchmark also enforces a peak-memory ceiling (`maxPeakRssBytes`, 1536 MB; `--max-rss-mb` overrides it), and `--simulate-leak-mb N` retains N MB per measured run to prove the gate trips. The `perf-budget` CI job runs the synthetic fixture and a real monorepo (`babel/babel`, pinned by commit in `.github/workflows/ci.yml`, 768 MB ceiling); bump the pin deliberately. Unit tests cover the evaluator and a small synthetic fixture; they do not create 100k files.
 
 ```bash
 npm run benchmark:monorepo -- --check
 npm run benchmark:monorepo -- --files 5000 --runs 1 --warmup 0
+npm run benchmark:monorepo -- --check --simulate-leak-mb 1500   # a deliberate leak must fail the gate
 npm run benchmark:monorepo -- --path /path/to/local/monorepo --json
 ```

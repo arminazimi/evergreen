@@ -487,7 +487,7 @@ jobs:
   perf-budget:
     if: github.event_name != 'pull_request'
     needs: check
-    name: perf-budget (fixed fixture scan)
+    name: perf-budget (fixed fixture and monorepo scans)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -505,6 +505,17 @@ jobs:
           path: dist
       - name: Enforce the scan performance budget
         run: node dist/benchmarks/perf-budget.js --check
+      - name: Enforce the memory budget on a 100k-file monorepo
+        run: node dist/benchmarks/monorepo.js --check
+      - name: Check out a real monorepo pinned by commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: babel/babel
+          ref: 992afd97a0535c1fa8a3d9eb33e8b5fde4ad2c55
+          path: bench-target
+          persist-credentials: false
+      - name: Enforce the time and memory budget on the real monorepo
+        run: node dist/benchmarks/monorepo.js --path bench-target --min-files 10000 --max-rss-mb 768 --runs 1 --warmup 0 --check
 
   coverage-badge:
     if: github.event_name == 'push'
