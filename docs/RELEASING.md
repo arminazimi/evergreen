@@ -19,7 +19,7 @@ Every gate must pass on the commit you will tag. None of them is optional.
 | Public corpus | `npm run validate:public-repos` | Exact findings on every pinned public repository, and each detector's precision above its floor in `benchmarks/thresholds.json`. Needs network. |
 | Source freshness | `npm run check:sources` | No rule is stale and no source has moved or disappeared. Needs network. Review anything it reports before releasing. |
 | Package contents | `npm pack --dry-run` | Only `dist/src`, `examples`, `registry`, `schemas`, and `skills` ship; `registry/sources.lock.json` does not. |
-| Reproducible package | `npm run check:reproducible` | Two clean builds of the same commit pack to byte-identical npm tarballs. The release workflow runs the same check and fails on a mismatch. |
+| Reproducible package | `npm run check:reproducible` | Two clean builds of the same commit pack to byte-identical npm tarballs. CI records the tarball hash on Linux, Windows, and macOS and fails `ci-ok` when the runners disagree; the release workflow runs the local check and fails on a mismatch. |
 
 The last weekly runs of the corpus and source-freshness workflows should also be green. If either is red, fix or explain it before tagging.
 
@@ -45,6 +45,8 @@ npm ci && npm run check:reproducible
 ```
 
 The clone is the release branch tip: `git log -1` shows the commit that adds `dist/action/`, whose parent is the release commit on `main`. The printed SHA-256 must match the tarball npm serves for the version, which you can download and hash separately with `npm pack evergreen-deprecation@X.Y.Z` in an empty directory and `shasum -a 256 evergreen-deprecation-X.Y.Z.tgz`. npm normalizes the tar metadata (uid, gid, and mtimes) when packing, so the bytes depend on the shipped file contents only; a mismatch means the build is nondeterministic, and the check keeps both tarballs for diffing.
+
+Two builds on one machine share every host-dependent step, so CI also compares builds made elsewhere: the Linux, Windows, and macOS jobs pack the same commit with `npm run record:reproducible -- <file>` and `ci-ok` runs [`compare-build-hashes.mjs`](../tools/compare-build-hashes.mjs) on the records. A path, line ending, or file-ordering difference that only one host has fails the pull request or merge-queue run.
 
 An installed package carries `dist/src/release-manifest.json`, generated from the packed file list at publish time. `evergreen verify` checks every listed file offline and fails on a changed one; see [CLI](CLI.md#verify). It reports the npm registry signature and provenance attestation as unchecked because those live on the registry: `npm audit signatures` verifies them when the network is available.
 

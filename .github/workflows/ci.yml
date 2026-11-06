@@ -251,6 +251,19 @@ jobs:
           report-name: evergreen-report-${{ github.sha }}
           upload-sarif: ${{ github.event_name == 'push' }}
           upload-badge: ${{ github.event_name == 'push' }}
+      - name: Record the packed tarball hash
+        # ci-ok compares this record with the one check-cross-os uploads from Windows and macOS: two
+        # builds on one machine share any host-dependent step, so only another runner can prove it gone.
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
+        run: npm run record:reproducible --silent -- "$RUNNER_TEMP/reproducible.json"
+      - name: Upload the packed tarball hash
+        if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: reproducible-${{ runner.os }}
+          path: ${{ runner.temp }}/reproducible.json
+          retention-days: 1
+          if-no-files-found: error
 
   # Collect coverage once, unsharded. Check jobs already proved the suite on every shard;
   # this job only measures. V8 LCOV BRDA block ids are process-local, so merging partial
@@ -396,6 +409,17 @@ jobs:
         env:
           EVERGREEN_VERIFY_ACTION_BUNDLE: "${{ (startsWith(github.event.pull_request.title, 'chore: release') || startsWith(github.event.head_commit.message, 'chore: release')) && '1' || '' }}"
         run: npm run check
+      - name: Record the packed tarball hash
+        # The comparison runs in ci-ok against the Linux record from `check`. macOS joins on main and
+        # in the merge queue, where that scarce runner already runs the suite.
+        run: npm run record:reproducible --silent -- "$RUNNER_TEMP/reproducible.json"
+      - name: Upload the packed tarball hash
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: reproducible-${{ runner.os }}
+          path: ${{ runner.temp }}/reproducible.json
+          retention-days: 1
+          if-no-files-found: error
 
   # Documentation-only pull requests skip the test matrix and run these checks instead.
   docs:
@@ -562,11 +586,31 @@ jobs:
     needs: [changes, generated-files, check, coverage, docs, check-cross-os, site-budget, docs-doctor, self-scan, perf-budget, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read # download the build records the check jobs upload
     steps:
       - name: Fail when a needed job failed or was cancelled
         if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
         run: |
           echo "::error::A job that ci-ok needs failed or was cancelled."
           exit 1
+      - name: Check out the build-record comparison
+        # Only when both recording jobs succeeded; a docs-only change runs neither and has nothing to compare.
+        if: needs.check.result == 'success' && needs.check-cross-os.result == 'success'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Download the build records from every runner
+        if: needs.check.result == 'success' && needs.check-cross-os.result == 'success'
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: reproducible-*
+          path: ${{ runner.temp }}/reproducible
+          merge-multiple: true
+      - name: Compare the packed tarball hashes
+        # A host-dependent build step shows up here and nowhere else: each record comes from another runner.
+        if: needs.check.result == 'success' && needs.check-cross-os.result == 'success'
+        run: node tools/compare-build-hashes.mjs "$RUNNER_TEMP/reproducible"
       - name: Pass when every needed job succeeded or was skipped
         run: echo "Every needed job succeeded or was skipped."

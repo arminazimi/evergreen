@@ -77,6 +77,9 @@ Do not raise it to make a single change pass.
 - Quality gate against `origin/main`, dependency audit, Action cold-start budget, generated docs
   and data checks, coverage floors and per-file coverage diff — on the Linux Node 24 job.
 - Dogfood the Action against this repository's baseline on that same job.
+- Pack the npm tarball on Linux and on the cross-OS runner and compare the hashes in `ci-ok`, so a
+  build step that depends on the host — a path, a line ending, a file-ordering difference — fails
+  before merge (`record:reproducible`, [`compare-build-hashes.mjs`](../tools/compare-build-hashes.mjs)).
 - Decision-record presence when `schemas/`, `src/sdk.ts`, or `src/mcp.ts` change
   ([`decisions.yml`](../.github/workflows/decisions.yml)).
 - Rules lint when registry files change ([`rules.yml`](../.github/workflows/rules.yml)).
@@ -113,7 +116,8 @@ the site instead.
 
 - The full code gate from the pull-request lane, including Windows.
 - macOS with Node 24 (`check-cross-os`), because that runner is scarce and belongs on the landing
-  proof rather than every pull-request push.
+  proof rather than every pull-request push. Its tarball hash joins the Linux and Windows records,
+  so the merge-queue comparison covers all three runners.
 - Self-scan: fail on findings outside `.evergreen-baseline.json`.
 - Performance budget on the fixed fixture.
 - Package smoke (npm tarball, Docker image, local Action) when the lane still lists it on

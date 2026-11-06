@@ -3,6 +3,7 @@
 // and compare the hashes.
 //
 //   node dist/tools/reproducible-build.js
+//   node dist/tools/reproducible-build.js --record <file> [--label <name>]
 //
 // Each iteration wipes dist, rebuilds, and packs with `npm pack --ignore-scripts` (prepack
 // would run the whole check, which the caller already did). npm normalizes the tar metadata
@@ -11,13 +12,19 @@
 // kept in a temporary directory, named in the error, for unpacking and diffing. The default
 // build also removes the committed dist/action bundle, so it is restored from git afterwards.
 //
-// The release workflow runs this check on every release; a mismatch fails it.
+// `--record` is the other half of the check: it packs the tree the caller already built and
+// writes a small JSON record with the tarball hash. CI runs it on Linux, Windows, and macOS and
+// `tools/compare-build-hashes.mjs` fails unless every runner packed the same bytes. Two builds on
+// one machine cannot catch a host-dependent step; another runner can.
+//
+// The release workflow runs the local check on every release and the PR and merge-queue lanes run
+// the cross-runner comparison; either mismatch fails it.
 
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { writeReleaseManifestFromPackList } from "./build-release-manifest.js";
@@ -37,6 +44,28 @@ export interface ReproducibleBuildOptions {
 export interface ReproducibleBuildResult {
   /** SHA-256 of each packed tarball, in build order. */
   hashes: readonly string[];
+}
+
+/** One runner's packed tarball, written by `--record` and compared by `tools/compare-build-hashes.mjs`. */
+export interface BuildHashRecord {
+  /** Where the build ran, for the comparison message. CI passes the runner's OS. */
+  label: string;
+  /** SHA-256 of the packed tarball. */
+  sha256: string;
+  /** Node.js version that ran the build. */
+  node: string;
+  platform: NodeJS.Platform;
+  tarball: string;
+}
+
+export interface RecordHashOptions {
+  label?: string;
+  /** Pack the current tree into the destination and return the tarball file name. Defaults to npm pack. */
+  pack?: (destination: string) => Promise<string>;
+}
+
+function sha256(bytes: Uint8Array): string {
+  return createHash("sha256").update(bytes).digest("hex");
 }
 
 export function runCommand(command: string, args: readonly string[]): Promise<void> {
@@ -107,11 +136,7 @@ export async function compareCleanBuilds(options: ReproducibleBuildOptions = {})
       await build();
       const tarball = join(directory, await pack(directory));
       tarballs.push(tarball);
-      hashes.push(
-        createHash("sha256")
-          .update(await readFile(tarball))
-          .digest("hex"),
-      );
+      hashes.push(sha256(await readFile(tarball)));
     }
   } catch (error) {
     failure = error;
@@ -133,10 +158,56 @@ export async function compareCleanBuilds(options: ReproducibleBuildOptions = {})
   return { hashes };
 }
 
+/**
+ * Packs the tree the caller already built and records its tarball hash, for comparing builds made on
+ * different runners. The release manifest is written first, exactly as `prepack` does, so the bytes
+ * are what a publish from this tree would ship: run `npm run build` before calling it.
+ */
+export async function recordPackedHash(options: RecordHashOptions = {}): Promise<BuildHashRecord> {
+  const pack =
+    options.pack ??
+    (async (destination: string) => {
+      await writeReleaseManifestFromPackList(process.cwd());
+      return packTarball(runCommand, destination);
+    });
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-build-hash-"));
+  try {
+    const tarball = await pack(directory);
+    return {
+      label: options.label ?? process.platform,
+      sha256: sha256(await readFile(join(directory, tarball))),
+      node: process.version,
+      platform: process.platform,
+      tarball,
+    };
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+}
+
+/** The value after a `--flag` argument, or undefined when the flag is absent. */
+function flagValue(args: readonly string[], flag: string): string | undefined {
+  const index = args.indexOf(flag);
+  if (index === -1) return undefined;
+  const value = args[index + 1];
+  if (value === undefined || value.startsWith("--")) throw new Error(`${flag} needs a value`);
+  return value;
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
-    const { hashes } = await compareCleanBuilds();
-    console.log(`Two clean builds pack to byte-identical tarballs: sha256 ${hashes[0]}`);
+    const args = process.argv.slice(2);
+    const recordPath = flagValue(args, "--record");
+    if (recordPath === undefined) {
+      const { hashes } = await compareCleanBuilds();
+      console.log(`Two clean builds pack to byte-identical tarballs: sha256 ${hashes[0]}`);
+    } else {
+      const record = await recordPackedHash({ label: flagValue(args, "--label") ?? process.platform });
+      const target = resolve(recordPath);
+      await mkdir(dirname(target), { recursive: true });
+      await writeFile(target, `${JSON.stringify(record, null, 2)}\n`);
+      console.log(`Recorded the build on ${record.label}: sha256 ${record.sha256} (${record.tarball})`);
+    }
   } catch (error) {
     process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
     process.exitCode = 1;

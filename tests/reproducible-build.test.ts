@@ -1,16 +1,39 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { access, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
 
 import { parse } from "yaml";
 
-import { compareCleanBuilds } from "../tools/reproducible-build.js";
+import { compareCleanBuilds, recordPackedHash } from "../tools/reproducible-build.js";
 
 const { scripts } = JSON.parse(await readFile("package.json", "utf8")) as { scripts: Record<string, string> };
 
 test("check:reproducible builds once, then compares two clean builds", () => {
   assert.match(scripts["check:reproducible"]!, /^npm run build --silent && node dist\/tools\/reproducible-build\.js$/);
+});
+
+test("record:reproducible builds the tree, then records the packed hash for another runner", () => {
+  assert.equal(
+    scripts["record:reproducible"],
+    "npm run build --silent && node dist/tools/reproducible-build.js --record",
+  );
+});
+
+test("recording a packed build names the runner and hashes the tarball it packs", async () => {
+  const record = await recordPackedHash({
+    label: "Windows",
+    pack: async (destination) => {
+      await writeFile(join(destination, "evergreen-deprecation-0.0.0.tgz"), "packed");
+      return "evergreen-deprecation-0.0.0.tgz";
+    },
+  });
+  assert.equal(record.label, "Windows");
+  assert.equal(record.sha256, createHash("sha256").update("packed").digest("hex"));
+  assert.equal(record.tarball, "evergreen-deprecation-0.0.0.tgz");
+  assert.equal(record.node, process.version);
+  assert.equal(record.platform, process.platform);
 });
 
 test("two identical clean builds pass and report one shared hash", async () => {
@@ -98,4 +121,44 @@ test("the release workflow runs the reproducible check and fails the release on 
   );
   const runs = steps.map((step) => step.run ?? "").join("\n");
   assert.match(runs, /npm run check:reproducible --silent/);
+});
+
+test("CI records the tarball hash on Linux and the cross-OS runner, and ci-ok compares them", async () => {
+  const ci = parse(await readFile(".github/workflows/ci.yml", "utf8")) as {
+    jobs: Record<
+      string,
+      {
+        steps?: Array<{ name?: string; run?: string; uses?: string; with?: Record<string, unknown> }>;
+        permissions?: Record<string, string>;
+      }
+    >;
+  };
+  const recordStep = (job: string) => {
+    const steps = ci.jobs[job]?.steps ?? [];
+    assert.ok(
+      steps.some((step) => step.run?.includes("npm run record:reproducible")),
+      `${job} does not record the packed tarball hash`,
+    );
+    const upload = steps.find(
+      (step) => step.uses?.startsWith("actions/upload-artifact") && step.with?.name === "reproducible-${{ runner.os }}",
+    );
+    assert.ok(upload, `${job} does not upload the hash record as reproducible-\${{ runner.os }}`);
+  };
+  // `check` builds on Linux; check-cross-os builds on Windows for pull requests and macOS on main and
+  // in the merge queue. Both upload a record under the same artifact prefix.
+  recordStep("check");
+  recordStep("check-cross-os");
+
+  const ok = ci.jobs["ci-ok"];
+  assert.ok(ok, "ci.yml has no ci-ok job");
+  assert.equal(ok.permissions?.["actions"], "read");
+  const steps = ok.steps ?? [];
+  const download = steps.find((step) => step.uses?.startsWith("actions/download-artifact"));
+  assert.ok(download, "ci-ok does not download the build records");
+  assert.equal(download.with?.pattern, "reproducible-*");
+  assert.equal(download.with?.["merge-multiple"], true);
+  assert.ok(
+    steps.some((step) => step.run?.includes("node tools/compare-build-hashes.mjs")),
+    "ci-ok does not compare the recorded hashes",
+  );
 });

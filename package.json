@@ -97,6 +97,7 @@
     "check:architecture": "npm run build --silent && node dist/tools/check-architecture.js",
     "check:rules": "npm run format:check --silent && npm run check:dead-code --silent && npm run lint --silent && npm run check:quality --silent && npm run check:architecture --silent",
     "check:reproducible": "npm run build --silent && node dist/tools/reproducible-build.js",
+    "record:reproducible": "npm run build --silent && node dist/tools/reproducible-build.js --record",
     "check:action-bundle": "git diff --exit-code -- dist/action/index.js",
     "check:quality": "npm run build --silent && node dist/tools/check-quality.js",
     "check:mutation": "npm run build --silent && node dist/tools/mutation-baseline.js",
