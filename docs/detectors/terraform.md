@@ -33,7 +33,7 @@ A module's vendor comes from its `source`, never from the attribute name: the EK
 - A provider version constraint in `.terraform.lock.hcl`, `required_providers`, or plan JSON, when a reviewed rule covers it. The registry has no provider rules yet, so this produces findings only after one is added. Providers are matched as `pkg:generic/terraform-provider/<namespace>/<name>`, and only providers on `registry.terraform.io` are read.
 - A managed Kubernetes control-plane version on a supported resource or a known module, when a rule for that product covers the version's minor line. The bundled rules cover EKS, GKE, and AKS lines 1.33 and earlier. A line past standard support is `end-of-support` at **medium** severity; one past extended or long-term support is `end-of-life` at **high** severity. A catch-all rule per product covers every older line.
 - Resolved database `engine_version` on managed resources in a plan JSON file, judged against database runtime lifecycle rules.
-- Plan JSON findings carry plan evidence: the file path plus the JSON pointer (e.g., `/terraform_version`) or resource address (e.g., `aws_db_instance.legacy_db`).
+- Plan JSON findings carry plan evidence: the file path, the line where the JSON pointer (e.g., `/terraform_version`) or resource address (e.g., `aws_db_instance.legacy_db`) appears, and that pointer or address.
 
 Each finding carries its rule's sources, replacement, migration steps, and verification commands. A CLI finding raises the CLI pin, `required_version`, and the CI toolchain; a managed Kubernetes finding raises the control plane and then the node pools. Every rule's verification includes `terraform init -backend=false && terraform validate` and `terraform plan`. The detector reports no source usages.
 

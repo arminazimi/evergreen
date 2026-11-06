@@ -10,6 +10,8 @@
  * without throwing or crashing.
  */
 
+import { required } from "../../required.js";
+
 export const MAXIMUM_INPUT_BYTES = 10 * 1024 * 1024; // 10 MiB
 const MAXIMUM_DECLARATIONS = 500;
 const MAXIMUM_DEPTH = 10;
@@ -248,6 +250,36 @@ function collectResourceChanges(
     const declaration = engineFromResourceChange(resourceChanges[i], i, seenAddresses);
     if (declaration) declarations.push(declaration);
   }
+}
+
+/** The first 1-based line where each JSON string appears, for pointing a finding at its key or value. */
+export function jsonStringLines(contents: string): ReadonlyMap<string, number> {
+  const lines = new Map<string, number>();
+  let line = 1;
+  let consumed = 0;
+  for (const match of contents.matchAll(/"(?:[^"\\]|\\.)*"/g)) {
+    const index = required(match.index, "a JSON string match index");
+    for (let cursor = consumed; cursor < index; cursor += 1) {
+      if (contents.charCodeAt(cursor) === 10) line += 1;
+    }
+    consumed = index;
+    try {
+      const value: unknown = JSON.parse(match[0]);
+      if (typeof value === "string" && !lines.has(value)) lines.set(value, line);
+    } catch {
+      // Not a complete JSON string; keep scanning the rest of the document.
+    }
+  }
+  return lines;
+}
+
+/** The line where a plan declaration's JSON pointer or resource address is written, or 1 when it cannot be found. */
+export function planDeclarationLine(lines: ReadonlyMap<string, number>, declaration: TerraformPlanDeclaration): number {
+  const needle =
+    declaration.kind === "engine_version"
+      ? declaration.address
+      : declaration.pointer.slice(declaration.pointer.lastIndexOf("/") + 1);
+  return lines.get(needle) ?? 1;
 }
 
 /** Parse declarations from `terraform show -json` string output. */

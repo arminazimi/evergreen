@@ -1,0 +1,1 @@
+- Report the line of the JSON pointer or resource address in Terraform plan findings.

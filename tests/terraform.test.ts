@@ -13,6 +13,7 @@ import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { TerraformDetector, terraformDetector } from "../src/detectors/terraform/index.js";
+import { jsonStringLines, planDeclarationLine } from "../src/detectors/terraform/plan.js";
 import { scanRepository } from "../src/engine/index.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
@@ -515,16 +516,47 @@ test("reports findings from terraform plan JSON with pointer or resource address
   assert.ok(cliFinding);
   assert.equal(cliFinding.id, "terraform.cli.end-of-support-1.12:plan.json:/terraform_version");
   assert.equal(cliFinding.location.path, "plan.json");
+  assert.equal(cliFinding.location.line, 3);
   assert.match(cliFinding.summary, /^plan\.json \(\/terraform_version\) resolves Terraform 1\.12\.3\./);
 
   const dbFinding = findings.find((f) => f.ruleId === "database.postgresql.end-of-life-12");
   assert.ok(dbFinding);
   assert.equal(dbFinding.id, "database.postgresql.end-of-life-12:plan.json:aws_db_instance.legacy_db");
   assert.equal(dbFinding.location.path, "plan.json");
+  assert.equal(dbFinding.location.line, 8);
   assert.match(
     dbFinding.summary,
     /^plan\.json \(aws_db_instance\.legacy_db\) resolves aws_db_instance\.legacy_db engine postgres 12\.22\./,
   );
+});
+
+test("maps plan declarations to the line where their pointer or address is written", () => {
+  const contents = [
+    "{",
+    '  "terraform_version": "1.12.3",',
+    '  "broken": "\\q",',
+    '  "planned_values": { "root_module": { "resources": [',
+    '    { "address": "aws_db_instance.legacy_db" }',
+    "  ] } }",
+    "}",
+  ].join("\n");
+  const lines = jsonStringLines(contents);
+  assert.equal(lines.get("terraform_version"), 2);
+  assert.equal(lines.get("broken"), 3);
+  assert.equal(lines.get("aws_db_instance.legacy_db"), 5);
+  assert.equal(planDeclarationLine(lines, { kind: "cli_version", value: "1.12.3", pointer: "/terraform_version" }), 2);
+  assert.equal(
+    planDeclarationLine(lines, {
+      kind: "engine_version",
+      resource: "aws_db_instance",
+      name: "legacy_db",
+      engine: "postgres",
+      value: "12.22",
+      address: "aws_db_instance.legacy_db",
+    }),
+    5,
+  );
+  assert.equal(planDeclarationLine(lines, { kind: "cli_version", value: "9", pointer: "/missing" }), 1);
 });
 
 test("a repository with 600 unrelated *.json files plus one .tf file still reports the .tf finding", async () => {

@@ -801,19 +801,19 @@ test("analyze reads plan JSON for CLI, provider, and engine versions", async () 
       [
         "terraform.cli.legacy",
         "plan.json",
-        undefined,
+        1,
         "plan.json (/terraform_version) resolves Terraform 1.5.7. Terraform 1.5 is old.",
       ],
       [
         "terraform.database.postgres.12",
         "plan.json",
-        undefined,
+        1,
         "plan.json (aws_db_instance.a) resolves aws_db_instance.a engine postgres 12.4. PostgreSQL 12 is old.",
       ],
       [
         "terraform.provider.aws.v4",
         "plan.json",
-        undefined,
+        1,
         "plan.json (/configuration/provider_requirements/aws) constrains provider hashicorp/aws 4.67.0. AWS provider 4 is old.",
       ],
     ],

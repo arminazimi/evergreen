@@ -22,7 +22,7 @@ import type { ManagedKubernetesDeclaration, ManagedKubernetesProduct } from "./k
 import { parseTerraformLock } from "./parse-lock.js";
 import { parseTerraformFile, parseTerraformLegacy } from "./parse-terraform.js";
 import type { TerraformDeclaration, TerraformLegacyDeclaration } from "./parse-terraform.js";
-import { parseTerraformPlanJson } from "./plan.js";
+import { jsonStringLines, parseTerraformPlanJson, planDeclarationLine } from "./plan.js";
 import type { TerraformPlanDeclaration } from "./plan.js";
 import { parseTerraformVersionFile, parseToolVersionsTerraform } from "./parse-version-files.js";
 
@@ -270,14 +270,18 @@ function ruleDetails(
   };
 }
 
-/** A finding at a line of a file, or at a JSON pointer or address when `locationKey` is not a line. */
+/**
+ * A finding at a line of a file, or at a JSON pointer or address when `locationKey` is not a line. A plan JSON
+ * finding keeps the pointer or address in its id and names the line where that key or value appears.
+ */
 function ruleFinding(
   rule: RegistryV2Rule,
   path: string,
   locationKey: number | string,
   summary: string,
+  evidenceLine?: number,
 ): DetectorFinding {
-  const line = typeof locationKey === "number" ? locationKey : undefined;
+  const line = typeof locationKey === "number" ? locationKey : evidenceLine;
   return {
     id: `${rule.id}:${path}:${locationKey}`,
     ruleId: rule.id,
@@ -470,49 +474,41 @@ function scanConfigurationFile(scan: TerraformScan, path: string, contents: stri
   for (const declaration of parseManagedKubernetes(contents)) scanManagedKubernetes(scan, path, declaration);
 }
 
-/** One declaration read from a Terraform plan JSON file. */
-function scanPlanDeclaration(scan: TerraformScan, path: string, declaration: TerraformPlanDeclaration): void {
-  if (declaration.kind === "cli_version") {
-    const rule = ruleForDeclared(scan.cliRules, declaration.value);
-    if (rule) {
-      scan.findings.push(
-        ruleFinding(
-          rule,
-          path,
-          declaration.pointer,
-          `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`,
-        ),
-      );
-    }
-  } else if (declaration.kind === "provider_version") {
+/** The rule that covers one plan declaration, when a reviewed rule does. */
+function planDeclarationRule(scan: TerraformScan, declaration: TerraformPlanDeclaration): RegistryV2Rule | undefined {
+  if (declaration.kind === "cli_version") return ruleForDeclared(scan.cliRules, declaration.value);
+  if (declaration.kind === "provider_version") {
     const source = providerSource(declaration.source, declaration.provider);
-    if (!source) return;
-    const rule = ruleForDeclared(providerRules(scan, source.namespace, source.name), declaration.value);
-    if (rule) {
-      scan.findings.push(
-        ruleFinding(
-          rule,
-          path,
-          declaration.pointer,
-          `${path} (${declaration.pointer}) constrains provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`,
-        ),
-      );
-    }
-  } else {
-    const purl = ENGINE_PURLS[declaration.engine.toLowerCase()];
-    if (!purl) return;
-    const rule = ruleForPartialVersion(scan.byPurl.get(purlIdentity(purl)) ?? [], declaration.value);
-    if (rule) {
-      scan.findings.push(
-        ruleFinding(
-          rule,
-          path,
-          declaration.address,
-          `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`,
-        ),
-      );
-    }
+    return source ? ruleForDeclared(providerRules(scan, source.namespace, source.name), declaration.value) : undefined;
   }
+  const purl = ENGINE_PURLS[declaration.engine.toLowerCase()];
+  return purl ? ruleForPartialVersion(scan.byPurl.get(purlIdentity(purl)) ?? [], declaration.value) : undefined;
+}
+
+/** The finding summary for one plan declaration whose rule covers it. */
+function planDeclarationSummary(path: string, declaration: TerraformPlanDeclaration, rule: RegistryV2Rule): string {
+  if (declaration.kind === "cli_version") {
+    return `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`;
+  }
+  if (declaration.kind === "provider_version") {
+    const source = providerSource(declaration.source, declaration.provider);
+    const label = source ? `${source.namespace}/${source.name}` : declaration.provider;
+    return `${path} (${declaration.pointer}) constrains provider ${label} ${declaration.value}. ${rule.summary}`;
+  }
+  return `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`;
+}
+
+/** One declaration read from a Terraform plan JSON file. */
+function scanPlanDeclaration(
+  scan: TerraformScan,
+  path: string,
+  declaration: TerraformPlanDeclaration,
+  line: number,
+): void {
+  const rule = planDeclarationRule(scan, declaration);
+  if (!rule) return;
+  const key = declaration.kind === "engine_version" ? declaration.address : declaration.pointer;
+  scan.findings.push(ruleFinding(rule, path, key, planDeclarationSummary(path, declaration, rule), line));
 }
 
 /** Findings are ordered by file, then line, then id, so the output is the same on every platform. */
@@ -564,7 +560,12 @@ export class TerraformDetector implements Detector {
       const contents = await readText(file);
       if (contents === undefined) continue;
       const path = relativePosix(context.root, file);
-      for (const declaration of parseTerraformPlanJson(contents)) scanPlanDeclaration(scan, path, declaration);
+      const declarations = parseTerraformPlanJson(contents);
+      if (declarations.length === 0) continue;
+      const lines = jsonStringLines(contents);
+      for (const declaration of declarations) {
+        scanPlanDeclaration(scan, path, declaration, planDeclarationLine(lines, declaration));
+      }
     }
 
     scan.findings.sort(compareFindings);
