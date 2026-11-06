@@ -33,6 +33,12 @@ Detector "leaky" violated the "declared inputs" guarantee for fixture "leak": re
 
 Listing a directory or testing that a path exists is not a read, and files outside the scanned root (the bundled rules) are ignored. A detector that omits `inputs` makes no promise and passes the check. The declaration is what a tool needs to fetch only the files a detector reads; keep it as narrow as the detector's real behavior, and widen it in the same change that makes the detector read something new.
 
+## Detector limits
+
+`DETECTOR_LIMITS` (exported from `evergreen-deprecation/sdk`, typed as `DetectorLimits`) is the one place the bounds of `evergreen.detector.v1` are written down. A finding must not come from a file larger than `maximumFileBytes` (1,000,000), from a path more than `maximumDirectoryDepth` (32) directories below the root, or from a vendored or generated directory in `vendoredDirectories` (`node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`). `boundsCheck` reads the same constant, so the documented limit and the enforced limit cannot drift. A detector may be stricter, never looser.
+
+Together with the contract above, a detector's typed surface is: `inputs` (the files it reads), `DetectorFinding` (what it reports, with an optional `confidence` the engine derives when omitted), and `DETECTOR_LIMITS` (how far it may look). Start a new one with `new-detector`, which generates a skeleton that already satisfies all three.
+
 ## Registry validation
 
 The bundled registries use the shared `evergreen.registry.v2` format, keyed by Package URL and version range with provenance for every rule. See [Lifecycle rules](../RULES.md) for the format, the evidence policy, and how to write a rule. The v2 loader is internal to the bundled detectors for now; the public SDK validates the v1-style envelope below, so detectors outside this repository keep working unchanged.

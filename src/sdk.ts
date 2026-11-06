@@ -43,6 +43,23 @@ export interface DetectorInputs {
   readonly sourceExtensions?: readonly string[];
 }
 
+/** The bounds every detector keeps while it discovers and reads repository files. */
+export interface DetectorLimits {
+  /** A finding must not come from a file larger than this many bytes. */
+  readonly maximumFileBytes: number;
+  /** A finding must not come from a file nested in more directories than this, counted from the scanned root. */
+  readonly maximumDirectoryDepth: number;
+  /** Directory names whose contents are third-party or generated and never produce findings. */
+  readonly vendoredDirectories: readonly string[];
+}
+
+/** The limits of `evergreen.detector.v1`. Conformance enforces them; a detector may be stricter, never looser. */
+export const DETECTOR_LIMITS: DetectorLimits = Object.freeze({
+  maximumFileBytes: 1_000_000,
+  maximumDirectoryDepth: 32,
+  vendoredDirectories: Object.freeze([".venv", "build", "dist", "node_modules", "target", "vendor", "venv"]),
+});
+
 /** The stable interface an ecosystem detector implements. */
 export interface Detector {
   readonly apiVersion: typeof DETECTOR_API_VERSION;

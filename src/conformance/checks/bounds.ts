@@ -1,12 +1,13 @@
 import { stat } from "node:fs/promises";
 import { isAbsolute, relative, resolve, sep } from "node:path";
 
+import { DETECTOR_LIMITS } from "../../sdk.js";
 import type { ConformanceCheck } from "../index.js";
 
-export const CONFORMANCE_MAXIMUM_FILE_BYTES = 1_000_000;
-export const CONFORMANCE_MAXIMUM_DIRECTORY_DEPTH = 32;
+export const CONFORMANCE_MAXIMUM_FILE_BYTES = DETECTOR_LIMITS.maximumFileBytes;
+export const CONFORMANCE_MAXIMUM_DIRECTORY_DEPTH = DETECTOR_LIMITS.maximumDirectoryDepth;
 
-const vendoredDirectories = new Set([".venv", "build", "dist", "node_modules", "target", "vendor", "venv"]);
+const vendoredDirectories = new Set(DETECTOR_LIMITS.vendoredDirectories);
 
 export const boundsCheck: ConformanceCheck = {
   guarantee: "bounded discovery",

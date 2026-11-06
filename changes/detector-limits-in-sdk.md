@@ -1,0 +1,1 @@
+- Export `DETECTOR_LIMITS` from the detector SDK so the file-size, depth, and vendored-directory bounds are part of the typed contract. (#2092)
