@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { join, resolve, sep } from "node:path";
 import { test } from "node:test";
 
 import type { DirectoryEntry, ScanFileSystem } from "../src/file-system.js";
@@ -16,15 +17,17 @@ function memoryFileSystem(files: Record<string, string>): ScanFileSystem {
   };
   return {
     readDirectory(path) {
-      const prefix = path.endsWith("/") ? path : `${path}/`;
+      const prefix = path.endsWith(sep) ? path : `${path}${sep}`;
       const children = new Map<string, boolean>();
       for (const file of Object.keys(files)) {
         if (!file.startsWith(prefix)) continue;
         const rest = file.slice(prefix.length);
-        const slash = rest.indexOf("/");
+        const slash = rest.indexOf(sep);
         children.set(slash === -1 ? rest : rest.slice(0, slash), slash !== -1);
       }
-      return Promise.resolve([...children].map(([name, directory]) => entry(name, directory)));
+      return Promise.resolve(
+        [...children].map(([name, directory]) => entry(name, directory)),
+      );
     },
     readBytes: () => Promise.resolve(unsupported()),
     readText: (path) => Promise.resolve(files[path] ?? ""),
@@ -39,11 +42,20 @@ function memoryFileSystem(files: Record<string, string>): ScanFileSystem {
 }
 
 test("sourceFiles walks an injected file system without touching the disk", async () => {
+  // `resolve` anchors the root to a drive on Windows, so the fixture paths are built the same way.
+  const root = resolve("/repo");
   const fileSystem = memoryFileSystem({
-    "/repo/app.py": "import requests\n",
-    "/repo/lib/util.py": "x = 1\n",
-    "/repo/notes.txt": "hello",
+    [join(root, "app.py")]: "import requests\n",
+    [join(root, "lib", "util.py")]: "x = 1\n",
+    [join(root, "notes.txt")]: "hello",
   });
-  const found = await sourceFiles("/repo", { include: (language) => language === "python" }, fileSystem);
-  assert.deepEqual(found.map((file) => file.absolutePath).sort(), ["/repo/app.py", "/repo/lib/util.py"]);
+  const found = await sourceFiles(
+    root,
+    { include: (language) => language === "python" },
+    fileSystem,
+  );
+  assert.deepEqual(found.map((file) => file.absolutePath).sort(), [
+    join(root, "app.py"),
+    join(root, "lib", "util.py"),
+  ]);
 });
