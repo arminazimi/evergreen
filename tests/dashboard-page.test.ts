@@ -75,6 +75,7 @@ interface DashboardApi {
   runFacts(run: unknown): Array<{ label: string; value: string }>;
   rowModel(detector: unknown, sources: unknown): { id: string; cells: Cell[] };
   buildTable(doc: unknown, data: unknown): ElementNode;
+  buildEcosystems(doc: unknown, data: unknown): ElementNode;
   buildMinimums(doc: unknown, data: unknown): ElementNode;
   buildRun(doc: unknown, data: unknown, now?: Date): ElementNode;
   buildDefinitions(doc: unknown, data: unknown): ElementNode;
@@ -87,6 +88,11 @@ interface Data {
   referenceDay: string;
   run: Record<string, unknown> | null;
   detectors: Detector[];
+  corpus: {
+    file: string;
+    repositories: number;
+    ecosystems: Array<{ id: string; repositories: number; minimum: number; target: number }>;
+  };
   definitions: Record<string, { label: string; meaning: string; computation: string; source: string }>;
   limitations: string[];
   sources: Record<string, string>;
@@ -369,6 +375,30 @@ test("the page renders a semantic table with a caption and scope attributes", ()
   assert.equal(walk(minimums).filter((node) => node.tag === "tr").length, 3);
 });
 
+test("the corpus table lists every ecosystem with its count, minimum, and target", () => {
+  const doc = fakeDocument();
+  const table = api.buildEcosystems(doc, data);
+  assert.equal(table.tag, "table");
+  assert.ok(find(table, (node) => node.tag === "caption")!.children.length > 0);
+  const rows = walk(find(table, (node) => node.tag === "tbody")!).filter((node) => node.tag === "tr");
+  assert.equal(rows.length, data.corpus.ecosystems.length);
+  for (const [index, row] of rows.entries()) {
+    const ecosystem = data.corpus.ecosystems[index]!;
+    assert.equal(
+      find(row, (node) => node.tag === "th")!
+        .children.map(text)
+        .join(""),
+      ecosystem.id,
+    );
+    const cells = row.children.filter((node): node is ElementNode => node.kind === "element" && node.tag === "td");
+    assert.deepEqual(cells.map(text), [
+      api.formatCount(ecosystem.repositories),
+      api.formatCount(ecosystem.minimum),
+      api.formatCount(ecosystem.target),
+    ]);
+  }
+});
+
 test("the real data renders every detector with its counts", () => {
   const doc = fakeDocument();
   const table = api.buildTable(doc, data);
@@ -411,6 +441,7 @@ test("a page served over HTTP fills every section and hides the status", async (
     "status",
     "data-sections",
     "run",
+    "ecosystems-table",
     "detectors-table",
     "minimums-table",
     "definitions-list",
@@ -424,6 +455,7 @@ test("a page served over HTTP fills every section and hides the status", async (
   assert.equal(requested, "data.json");
   assert.match(text(byId.get("run")!), new RegExp(recorded.commit));
   assert.match(text(byId.get("run")!), /not measured/);
+  assert.ok(find(byId.get("ecosystems-table")!, (node) => node.tag === "table"));
   assert.ok(find(byId.get("detectors-table")!, (node) => node.tag === "table"));
   assert.ok(find(byId.get("minimums-table")!, (node) => node.tag === "table"));
   assert.match(text(byId.get("definitions-list")!), /truePositives|True positives/);
@@ -599,6 +631,7 @@ test("the page loads nothing from elsewhere and is not in the sitemap", async ()
     "status",
     "data-sections",
     "run",
+    "ecosystems-table",
     "detectors-table",
     "minimums-table",
     "definitions-list",

@@ -45,13 +45,16 @@ npm run build:dashboard    # writes data.json (gitignored; local preview)
 npm run check:dashboard    # fails if the sources would not produce a well-formed file
 ```
 
-The build reads `benchmarks/thresholds.json` and `benchmarks/public-repositories/`, never the clock or the
-network. Its reference day is the date of the last full run, so the published file does not change with the clock.
+The build reads `benchmarks/thresholds.json`, `benchmarks/corpus-targets.json`, and
+`benchmarks/public-repositories/`, never the clock or the network. Its reference day is the date of the last full
+run, so the published file does not change with the clock.
 
 ## What the page shows
 
 - The run metadata: date, commit, repositories, findings, and scan time. Scan time reads "not measured" because
   no committed file records it.
+- One table for the corpus: every ecosystem bucket's pinned repository count, the committed minimum CI enforces,
+  and the 200-repository goal from decision 0030.
 - One table for the ten detectors: configured level, earned level, precision, recall, true and false positives,
   and false negatives, plus the three evidence counts from decision 0013. A missing number reads
   "not measured", never 0 or 1.

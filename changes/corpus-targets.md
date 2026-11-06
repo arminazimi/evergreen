@@ -1,0 +1,1 @@
+- Fail CI when an ecosystem's pinned corpus falls below its committed minimum, and show each ecosystem's count on the accuracy dashboard. (#2121)

@@ -83,3 +83,9 @@ test("affected compares the corpus expectations with the committed snapshot befo
   assert.ok(index >= 0);
   assert.ok(index < job.steps.findIndex((step) => step.uses?.startsWith("actions/cache/restore@")));
 });
+
+test("affected compares each ecosystem's count with its committed target before any network step", () => {
+  const index = job.steps.findIndex((step) => step.run?.includes("benchmarks/corpus-targets.js"));
+  assert.ok(index >= 0);
+  assert.ok(index < job.steps.findIndex((step) => step.uses?.startsWith("actions/cache/restore@")));
+});

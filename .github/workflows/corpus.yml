@@ -72,6 +72,10 @@ jobs:
       # benchmarks/corpus-snapshot.json on purpose.
       - name: Compare the corpus expectations with the snapshot
         run: node dist/benchmarks/corpus-snapshot.js
+      # Offline and fast: fails when an ecosystem bucket holds fewer pinned repositories than
+      # benchmarks/corpus-targets.json records, so a pull request cannot quietly shrink the corpus.
+      - name: Compare the corpus counts with the committed targets
+        run: node dist/benchmarks/corpus-targets.js
       - name: Restore the corpus checkout cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:

@@ -6,6 +6,8 @@ import { test } from "node:test";
 import { promisify } from "node:util";
 
 import { loadPublicCorpus } from "../benchmarks/public-corpus.js";
+import { TARGETS_PATH } from "../benchmarks/corpus-targets.js";
+import type { CorpusTargets } from "../benchmarks/corpus-targets.js";
 import { countEvidence, earnedLevel } from "../benchmarks/thresholds.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 import {
@@ -21,9 +23,10 @@ import {
 const execute = promisify(execFile);
 const script = resolve("dist/tools/build-dashboard-data.js");
 const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
+const targets = JSON.parse(await readFile(resolve(TARGETS_PATH), "utf8")) as CorpusTargets;
 const corpus = (await loadPublicCorpus()).repositories;
 const runDate = thresholds.lastFullRun!.date;
-const build = (today = runDate) => buildDashboardData({ thresholds, corpus, today });
+const build = (today = runDate) => buildDashboardData({ thresholds, corpus, targets, today });
 
 test("every detector in thresholds.json has a row, with the configured level next to the earned level", () => {
   const data = build();
@@ -142,12 +145,28 @@ test("the evidence counts agree with the reviewed corpus", () => {
   });
 });
 
+test("the corpus section counts every bucket and carries its committed minimum and target", () => {
+  const data = build();
+  assert.equal(data.corpus.ecosystems.length, Object.keys(targets.minimum).length);
+  assert.equal(
+    data.corpus.ecosystems.reduce((sum, ecosystem) => sum + ecosystem.repositories, 0),
+    corpus.length,
+  );
+  for (const ecosystem of data.corpus.ecosystems) {
+    assert.equal(ecosystem.repositories, corpus.filter((entry) => entry.ecosystem === ecosystem.id).length);
+    assert.equal(ecosystem.minimum, targets.minimum[ecosystem.id]);
+    assert.equal(ecosystem.target, targets.target);
+    assert.ok(ecosystem.repositories >= ecosystem.minimum, `${ecosystem.id} is below its minimum`);
+  }
+});
+
 test("a detector with no run data has null run numbers, not zeros", () => {
   const { perDetector, ...rest } = thresholds.lastFullRun!;
   const { rust: _removed, ...others } = perDetector;
   const data = buildDashboardData({
     thresholds: { ...thresholds, lastFullRun: { ...rest, perDetector: others } },
     corpus,
+    targets,
     today: runDate,
   });
   assert.equal(data.detectors.find((detector) => detector.id === "rust")!.run, null);
@@ -156,10 +175,10 @@ test("a detector with no run data has null run numbers, not zeros", () => {
 
 test("with no recorded run there is no run block and every detector has no run numbers", () => {
   const { lastFullRun: _dropped, ...withoutRun } = thresholds;
-  const data = buildDashboardData({ thresholds: withoutRun, corpus, today: runDate });
+  const data = buildDashboardData({ thresholds: withoutRun, corpus, targets, today: runDate });
   assert.equal(data.run, null);
   assert.ok(data.detectors.every((detector) => detector.run === null));
-  assert.throws(() => buildDashboardData({ thresholds: withoutRun, corpus, today: "nope" }), /--today/);
+  assert.throws(() => buildDashboardData({ thresholds: withoutRun, corpus, targets, today: "nope" }), /--today/);
 });
 
 test("a zero denominator gives null, never 0, 1, or NaN", () => {
@@ -227,6 +246,9 @@ test("the definitions cover every metric, name a committed source, and the limit
     "zeroFindingRepositories",
     "runAge",
     "scanTime",
+    "corpusRepositories",
+    "corpusMinimum",
+    "corpusTarget",
   ];
   assert.deepEqual(Object.keys(data.definitions), keys);
   for (const [key, definition] of Object.entries(data.definitions)) {

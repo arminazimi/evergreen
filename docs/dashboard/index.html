@@ -42,6 +42,19 @@
         <div id="run"></div>
       </section>
 
+      <section aria-labelledby="corpus-heading">
+        <h2 id="corpus-heading">Corpus per ecosystem</h2>
+        <p>
+          How many pinned public repositories each ecosystem bucket holds, from
+          <a href="https://github.com/arminazimi/evergreen/blob/main/benchmarks/public-repositories">benchmarks/public-repositories/</a>.
+          <strong>Minimum</strong> is the committed floor CI enforces from
+          <a href="https://github.com/arminazimi/evergreen/blob/main/benchmarks/corpus-targets.json">benchmarks/corpus-targets.json</a>;
+          <strong>Target</strong> is the 200-repository goal in
+          <a href="https://github.com/arminazimi/evergreen/blob/main/docs/decisions/0030-corpus-selection-and-200-target.md">decision 0030</a>.
+        </p>
+        <div id="ecosystems-table" class="table-wrap" tabindex="0" role="group" aria-label="Corpus repositories per ecosystem"></div>
+      </section>
+
       <section aria-labelledby="detectors-heading">
         <h2 id="detectors-heading">Results per detector</h2>
         <p>

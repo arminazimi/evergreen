@@ -104,6 +104,16 @@ The search returns different results on another day, so the pinned list above, n
 
 Effect on the levels: `github-actions`, `nodejs`, `npm`, and `python` now meet `stable` on the corpus evidence, so none of them is grandfathered any more.
 
+## Corpus targets
+
+Decision 0030 sets 200 reviewed projects per bucket as the growth goal. Most buckets are below it, so the goal is
+not the CI floor: failing every pull request below 200 would block all work until the corpus grows.
+
+`benchmarks/corpus-targets.json` records the minimum each bucket must keep. It started at the counts when the
+check landed and rises as the corpus grows. `node dist/benchmarks/corpus-targets.js` fails when a bucket is below
+its minimum, before any network step in the corpus workflow; `--write` records the current counts as a reviewable
+change. The [dashboard](../dashboard/) shows every bucket's count next to its minimum and the 200 goal.
+
 ## The held-out set
 
 The main corpus is circular: its expected findings were written by reviewing the same commits Evergreen is scored on, so 1.0 shows that nothing regressed and not that Evergreen generalizes (issue #740, decision 0013). The held-out set (`benchmarks/held-out-repositories.json`) is separate: it is never used to write or tune a rule, and its ground truth was committed before Evergreen scanned it.
