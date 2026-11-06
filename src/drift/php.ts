@@ -1,8 +1,8 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 
-import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
-import type { Node } from "yaml";
+import { LineCounter, isMap, isNode, isScalar, isSeq, parseDocument } from "yaml";
+import type { YAMLMap } from "yaml";
 
 import { parseCircleci } from "../detectors/ci-images/parse-circleci.js";
 import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
@@ -299,7 +299,7 @@ function collectDockerfile(contents: string, path: string, pins: RuntimePin[]): 
 }
 
 /** The text a scalar was written as: YAML reads `8.3` as the number 8.3, so numbers use their source. */
-function textOf(node: Node): string | undefined {
+function textOf(node: unknown): string | undefined {
   if (!isScalar(node)) return undefined;
   if (typeof node.value === "string") return node.value.trim();
   if (typeof node.value === "number") return (node.source ?? String(node.value)).trim();
@@ -313,42 +313,52 @@ interface SetupPhpVersion {
   matrix: boolean;
 }
 
-function setupPhpVersions(contents: string): SetupPhpVersion[] {
+function phpNodeLine(counter: LineCounter, node: unknown): number {
+  return counter.linePos(isNode(node) ? (node.range?.[0] ?? 0) : 0).line;
+}
+
+function addSetupPhpVersion(versions: SetupPhpVersion[], node: unknown, counter: LineCounter, matrix: boolean): void {
+  if (node === undefined || node === null) return;
+  const value = textOf(node);
+  if (value === undefined || value === "") return;
+  versions.push({ value, line: phpNodeLine(counter, node), expression: value.includes("${{"), matrix });
+}
+
+function appendPhpVersionsOfStep(
+  versions: SetupPhpVersion[],
+  step: YAMLMap,
+  matrix: unknown,
+  counter: LineCounter,
+): void {
+  const uses = step.get("uses");
+  if (typeof uses !== "string" || !SETUP_PHP.test(uses)) return;
+  const inputs = step.get("with", true);
+  if (!isMap(inputs)) return;
+  const version = inputs.get("php-version", true);
+  if (!isScalar(version)) return;
+  const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
+  const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
+  if (isSeq(list)) for (const item of list.items) addSetupPhpVersion(versions, item, counter, true);
+  else addSetupPhpVersion(versions, version, counter, false);
+}
+
+function appendPhpVersionsOfJob(versions: SetupPhpVersion[], job: YAMLMap, counter: LineCounter): void {
+  const strategy = job.get("strategy", true);
+  const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
+  const steps = job.get("steps", true);
+  if (!isSeq(steps)) return;
+  for (const step of steps.items) if (isMap(step)) appendPhpVersionsOfStep(versions, step, matrix, counter);
+}
+
+export function setupPhpVersions(contents: string): SetupPhpVersion[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
   const lineCounter = new LineCounter();
   const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
   if (document.errors.length > 0 || !isMap(document.contents)) return [];
-  const lineOf = (node: Node): number => lineCounter.linePos(node.range?.[0] ?? 0).line;
-
   const jobs = document.contents.get("jobs", true);
   if (!isMap(jobs)) return [];
   const versions: SetupPhpVersion[] = [];
-  const add = (node: Node | null | undefined, matrix: boolean): void => {
-    if (!node) return;
-    const value = textOf(node);
-    if (value !== undefined && value !== "")
-      versions.push({ value, line: lineOf(node), expression: value.includes("${{"), matrix });
-  };
-  for (const job of jobs.items) {
-    if (!isMap(job.value)) continue;
-    const strategy = job.value.get("strategy", true);
-    const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
-    const steps = job.value.get("steps", true);
-    if (!isSeq(steps)) continue;
-    for (const step of steps.items) {
-      if (!isMap(step)) continue;
-      const uses = step.get("uses");
-      if (typeof uses !== "string" || !SETUP_PHP.test(uses)) continue;
-      const inputs = step.get("with", true);
-      if (!isMap(inputs)) continue;
-      const version = inputs.get("php-version", true) as Node | null;
-      if (!version || !isScalar(version)) continue;
-      const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
-      const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
-      if (isSeq(list)) for (const item of list.items) add(item as Node, true);
-      else add(version, false);
-    }
-  }
+  for (const job of jobs.items) if (isMap(job.value)) appendPhpVersionsOfJob(versions, job.value, lineCounter);
   return versions;
 }
 
@@ -404,34 +414,39 @@ function alignComposerPlatform(pin: RuntimePin, lineText: string, release: strin
   return `${lineText.slice(0, match.index)}${match[1]}${release}${match[3]}${lineText.slice(match.index + match[0].length)}`;
 }
 
-function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
+function alignPhpVersionLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const value = lineText.trim();
+  if (value !== pin.raw) return undefined;
+  const indent = lineText.slice(0, lineText.length - lineText.trimStart().length);
+  return `${indent}${value.startsWith("php-") ? "php-" : ""}${release}`;
+}
+
+function alignToolVersionsLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*php\s+)([^\s#]+)(\s*(?:#.*)?)$/.exec(lineText);
+  return match && match[2] === pin.raw ? `${match[1]}${release}${match[3]}` : undefined;
+}
+
+function alignSetupPhpLine(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  if (pin.raw.includes("${{")) return undefined;
+  const match = /^(\s*(?:-\s*)?php-version\s*:\s*)(["']?)([^"'\s#]+)\2(\s*(?:#.*)?)$/.exec(lineText);
+  return match && match[3] === pin.raw ? `${match[1]}${match[2]}${release}${match[2]}${match[4]}` : undefined;
+}
+
+type LineAligner = (pin: RuntimePin, lineText: string, release: string) => string | undefined;
+
+const ALIGNERS: Readonly<Record<string, LineAligner>> = {
+  [SOURCE_PHP_VERSION]: alignPhpVersionLine,
+  [SOURCE_TOOL_VERSIONS]: alignToolVersionsLine,
+  [SOURCE_COMPOSER_PLATFORM]: alignComposerPlatform,
+  [SOURCE_GITLAB]: alignCiImage,
+  [SOURCE_CIRCLECI]: alignCiImage,
+  [SOURCE_SETUP_PHP]: alignSetupPhpLine,
+};
+
+export function align(pin: RuntimePin, lineText: string, release: string): string | undefined {
   if (pin.kind === "floor" || !/^\d+\.\d+$/.test(release)) return undefined;
-
-  if (pin.source === SOURCE_PHP_VERSION) {
-    const value = lineText.trim();
-    if (value !== pin.raw) return undefined;
-    const indent = lineText.slice(0, lineText.length - lineText.trimStart().length);
-    return `${indent}${value.startsWith("php-") ? "php-" : ""}${release}`;
-  }
-
-  if (pin.source === SOURCE_TOOL_VERSIONS) {
-    const match = /^(\s*php\s+)([^\s#]+)(\s*(?:#.*)?)$/.exec(lineText);
-    return match && match[2] === pin.raw ? `${match[1]}${release}${match[3]}` : undefined;
-  }
-
-  if (pin.source === SOURCE_COMPOSER_PLATFORM) return alignComposerPlatform(pin, lineText, release);
-
   if (pin.source.endsWith(" FROM")) return alignImage(pin, lineText, release);
-
-  if (pin.source === SOURCE_GITLAB || pin.source === SOURCE_CIRCLECI) return alignCiImage(pin, lineText, release);
-
-  if (pin.source === SOURCE_SETUP_PHP) {
-    if (pin.raw.includes("${{")) return undefined;
-    const match = /^(\s*(?:-\s*)?php-version\s*:\s*)(["']?)([^"'\s#]+)\2(\s*(?:#.*)?)$/.exec(lineText);
-    return match && match[3] === pin.raw ? `${match[1]}${match[2]}${release}${match[2]}${match[4]}` : undefined;
-  }
-
-  return undefined;
+  return ALIGNERS[pin.source]?.(pin, lineText, release);
 }
 
 export const phpDriftCollector: DriftCollector = {

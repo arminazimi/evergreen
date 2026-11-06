@@ -1,8 +1,8 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 
-import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
-import type { Node } from "yaml";
+import { LineCounter, isMap, isNode, isScalar, isSeq, parseDocument } from "yaml";
+import type { YAMLMap } from "yaml";
 
 import { parseCircleci } from "../detectors/ci-images/parse-circleci.js";
 import { parseGitlabCi } from "../detectors/ci-images/parse-gitlab-ci.js";
@@ -220,52 +220,70 @@ interface SetupJavaVersion {
   group?: string;
 }
 
-function setupJavaVersions(contents: string): SetupJavaVersion[] {
+/** The text a version scalar was written as: YAML reads `21` as the number 21, so numbers use their source. */
+function setupJavaValue(node: unknown): string | undefined {
+  if (!isScalar(node)) return undefined;
+  if (typeof node.value === "string") return node.value.trim();
+  if (typeof node.value === "number") return (node.source ?? String(node.value)).trim();
+  return undefined;
+}
+
+function javaNodeLine(counter: LineCounter, node: unknown): number {
+  return counter.linePos(isNode(node) ? (node.range?.[0] ?? 0) : 0).line;
+}
+
+function addSetupJavaVersion(
+  versions: SetupJavaVersion[],
+  node: unknown,
+  counter: LineCounter,
+  direct: boolean,
+  group?: string,
+): void {
+  if (!isScalar(node)) return;
+  const value = setupJavaValue(node);
+  if (value === undefined || value === "") return;
+  versions.push({ value, line: javaNodeLine(counter, node), direct, ...(group === undefined ? {} : { group }) });
+}
+
+function appendJavaVersionsOfStep(
+  versions: SetupJavaVersion[],
+  step: YAMLMap,
+  matrix: unknown,
+  counter: LineCounter,
+): void {
+  const uses = step.get("uses");
+  if (typeof uses !== "string" || !SETUP_JAVA.test(uses)) return;
+  const inputs = step.get("with", true);
+  if (!isMap(inputs)) return;
+  const version = inputs.get("java-version", true);
+  if (!isScalar(version)) return;
+  const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
+  const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
+  if (list === undefined || list === null) {
+    addSetupJavaVersion(versions, version, counter, true);
+    return;
+  }
+  const group = `matrix:${key}@${javaNodeLine(counter, list)}`;
+  if (isSeq(list)) for (const item of list.items) addSetupJavaVersion(versions, item, counter, false, group);
+  else addSetupJavaVersion(versions, list, counter, false, group);
+}
+
+function appendJavaVersionsOfJob(versions: SetupJavaVersion[], job: YAMLMap, counter: LineCounter): void {
+  const strategy = job.get("strategy", true);
+  const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
+  const steps = job.get("steps", true);
+  if (!isSeq(steps)) return;
+  for (const step of steps.items) if (isMap(step)) appendJavaVersionsOfStep(versions, step, matrix, counter);
+}
+
+export function setupJavaVersions(contents: string): SetupJavaVersion[] {
   const lineCounter = new LineCounter();
   const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
   if (document.errors.length > 0 || !isMap(document.contents)) return [];
-  const lineOf = (node: Node): number => lineCounter.linePos(node.range?.[0] ?? 0).line;
   const jobs = document.contents.get("jobs", true);
   if (!isMap(jobs)) return [];
-
   const versions: SetupJavaVersion[] = [];
-  const add = (node: Node, direct: boolean, group?: string): void => {
-    if (!isScalar(node)) return;
-    const value =
-      typeof node.value === "string"
-        ? node.value.trim()
-        : typeof node.value === "number"
-          ? (node.source ?? String(node.value)).trim()
-          : undefined;
-    if (value === undefined || value === "") return;
-    versions.push({ value, line: lineOf(node), direct, ...(group === undefined ? {} : { group }) });
-  };
-
-  for (const job of jobs.items) {
-    if (!isMap(job.value)) continue;
-    const strategy = job.value.get("strategy", true);
-    const matrix = isMap(strategy) ? strategy.get("matrix", true) : undefined;
-    const steps = job.value.get("steps", true);
-    if (!isSeq(steps)) continue;
-    for (const step of steps.items) {
-      if (!isMap(step)) continue;
-      const uses = step.get("uses");
-      if (typeof uses !== "string" || !SETUP_JAVA.test(uses)) continue;
-      const inputs = step.get("with", true);
-      if (!isMap(inputs)) continue;
-      const version = inputs.get("java-version", true) as Node | null;
-      if (!version || !isScalar(version)) continue;
-      const key = typeof version.value === "string" ? MATRIX_REFERENCE.exec(version.value.trim())?.[1] : undefined;
-      const list = key !== undefined && isMap(matrix) ? matrix.get(key, true) : undefined;
-      if (list !== undefined && list !== null) {
-        const group = `matrix:${key}@${lineOf(list as Node)}`;
-        if (isSeq(list)) for (const item of list.items) add(item as Node, false, group);
-        else add(list as Node, false, group);
-      } else {
-        add(version, true);
-      }
-    }
-  }
+  for (const job of jobs.items) if (isMap(job.value)) appendJavaVersionsOfJob(versions, job.value, lineCounter);
   return versions;
 }
 

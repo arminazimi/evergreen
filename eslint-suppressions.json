@@ -320,16 +320,8 @@
     }
   },
   "src/drift/java.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
-    },
     "no-useless-escape": {
       "count": 3
-    }
-  },
-  "src/drift/php.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
     }
   },
   "src/drift/python.ts": {
@@ -338,11 +330,6 @@
     },
     "no-useless-assignment": {
       "count": 1
-    }
-  },
-  "src/drift/ruby.ts": {
-    "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 2
     }
   },
   "src/engine.ts": {

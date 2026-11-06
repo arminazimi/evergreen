@@ -46,6 +46,9 @@ const SKIPPED_DIRECTORIES = new Set([
   "testdata",
 ]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
+const AZURE_PIPELINES_NAME = /^azure-pipelines\.ya?ml$/;
+const ENVIRONMENT_NAME = /^environment\.ya?ml$/;
+const WORKFLOW_PATH = /^\.github\/workflows\/[^/]+\.ya?ml$/;
 const PYTHON_CI_IMAGES = new Set(["library/python", "cimg/python", "circleci/python"]);
 const PYTHON_IMAGE_PREFIX = /^(?:[a-z0-9.-]+\/)?(?:library\/|cimg\/|circleci\/)?python(?::|@|$)/i;
 
@@ -225,83 +228,97 @@ function collectPythonVersionFile(pins: RuntimePin[], path: string, lines: reado
   }
 }
 
-function collectRootFiles(pins: RuntimePin[], path: string, contents: string): void {
-  const name = basename(path);
-  const lines = contents.split(/\r?\n/);
-
-  if (name === ".python-version") {
-    collectPythonVersionFile(pins, path, lines);
-    return;
+function collectRuntimeTxt(pins: RuntimePin[], path: string, lines: readonly string[]): void {
+  for (const [index, line] of lines.entries()) {
+    const match = /^\s*python[-_]\s*(\S+)\s*$/.exec(line.replace(/#.*$/, ""));
+    const version = match?.[1];
+    if (version === undefined) continue;
+    addPin(pins, path, index + 1, "runtime.txt", line.trim(), "pin", resolvePython(version));
   }
+}
 
-  if (name === ".tool-versions") {
-    collectToolVersionsEntries(pins, path, lines);
-    return;
+function collectPipfile(pins: RuntimePin[], path: string, contents: string, lines: readonly string[]): void {
+  const document = parseToml(contents) as Record<string, unknown>;
+  const requires = document.requires;
+  if (typeof requires !== "object" || requires === null) return;
+  for (const key of ["python_version", "python_full_version"]) {
+    const value = Reflect.get(requires, key);
+    if (typeof value !== "string") continue;
+    const line = tomlLine(lines, "requires", key);
+    if (line !== undefined) addPin(pins, path, line, "Pipfile requires", value, "pin", resolvePython(value));
   }
+}
 
-  if (name === "runtime.txt") {
-    for (const [index, line] of lines.entries()) {
-      const match = /^\s*python[-_]\s*(\S+)\s*$/.exec(line.replace(/#.*$/, ""));
-      const version = match?.[1];
-      if (version === undefined) continue;
-      addPin(pins, path, index + 1, "runtime.txt", line.trim(), "pin", resolvePython(version));
-    }
-    return;
-  }
+function collectPyprojectRequires(
+  pins: RuntimePin[],
+  path: string,
+  document: Record<string, unknown>,
+  lines: readonly string[],
+): void {
+  const project = document.project;
+  const requires =
+    typeof project === "object" && project !== null ? Reflect.get(project, "requires-python") : undefined;
+  if (typeof requires !== "string") return;
+  const line = tomlLine(lines, "project", "requires-python");
+  if (line !== undefined)
+    addPin(pins, path, line, "pyproject.toml requires-python", requires, "floor", resolveFloor(requires));
+}
 
-  if (name === "Pipfile") {
-    const document = parseToml(contents) as Record<string, unknown>;
-    const requires = document.requires;
-    if (typeof requires !== "object" || requires === null) return;
-    for (const key of ["python_version", "python_full_version"]) {
-      const value = Reflect.get(requires, key);
-      if (typeof value !== "string") continue;
-      const line = tomlLine(lines, "requires", key);
-      if (line !== undefined) addPin(pins, path, line, "Pipfile requires", value, "pin", resolvePython(value));
-    }
-    return;
-  }
+function collectPoetryPython(
+  pins: RuntimePin[],
+  path: string,
+  document: Record<string, unknown>,
+  lines: readonly string[],
+): void {
+  const tool = document.tool;
+  const poetry = typeof tool === "object" && tool !== null ? Reflect.get(tool, "poetry") : undefined;
+  const dependencies = typeof poetry === "object" && poetry !== null ? Reflect.get(poetry, "dependencies") : undefined;
+  const python =
+    typeof dependencies === "object" && dependencies !== null ? Reflect.get(dependencies, "python") : undefined;
+  if (typeof python !== "string") return;
+  const line = tomlLine(lines, "tool.poetry.dependencies", "python");
+  if (line !== undefined)
+    addPin(pins, path, line, "pyproject.toml poetry python", python, "floor", resolveFloor(python));
+}
 
-  if (name === "pyproject.toml") {
-    const document = parseToml(contents) as Record<string, unknown>;
-    const project = document.project;
-    const requires =
-      typeof project === "object" && project !== null ? Reflect.get(project, "requires-python") : undefined;
-    if (typeof requires === "string") {
-      const line = tomlLine(lines, "project", "requires-python");
-      if (line !== undefined)
-        addPin(pins, path, line, "pyproject.toml requires-python", requires, "floor", resolveFloor(requires));
-    }
-    const tool = document.tool;
-    const poetry = typeof tool === "object" && tool !== null ? Reflect.get(tool, "poetry") : undefined;
-    const dependencies =
-      typeof poetry === "object" && poetry !== null ? Reflect.get(poetry, "dependencies") : undefined;
-    const python =
-      typeof dependencies === "object" && dependencies !== null ? Reflect.get(dependencies, "python") : undefined;
-    if (typeof python === "string") {
-      const line = tomlLine(lines, "tool.poetry.dependencies", "python");
-      if (line !== undefined)
-        addPin(pins, path, line, "pyproject.toml poetry python", python, "floor", resolveFloor(python));
-    }
-    return;
-  }
+function collectPyprojectToml(pins: RuntimePin[], path: string, contents: string, lines: readonly string[]): void {
+  const document = parseToml(contents) as Record<string, unknown>;
+  collectPyprojectRequires(pins, path, document, lines);
+  collectPoetryPython(pins, path, document, lines);
+}
 
-  if (name === "setup.cfg") {
-    const value = iniValue(lines, "options", "python_requires");
-    if (value !== undefined)
-      addPin(pins, path, value.line, "setup.cfg python_requires", value.value, "floor", resolveFloor(value.value));
-    return;
-  }
+function collectSetupCfg(pins: RuntimePin[], path: string, lines: readonly string[]): void {
+  const value = iniValue(lines, "options", "python_requires");
+  if (value !== undefined)
+    addPin(pins, path, value.line, "setup.cfg python_requires", value.value, "floor", resolveFloor(value.value));
+}
 
-  if (name === "setup.py") {
-    for (const [index, line] of lines.entries()) {
-      if (line.trimStart().startsWith("#")) continue;
-      const match = /\bpython_requires\s*=\s*(["'])([^"'\\\r\n]*)\1/.exec(line);
-      const requirement = match?.[2];
-      if (requirement === undefined) continue;
-      addPin(pins, path, index + 1, "setup.py python_requires", requirement, "floor", resolveFloor(requirement));
-    }
+function collectSetupPy(pins: RuntimePin[], path: string, lines: readonly string[]): void {
+  for (const [index, line] of lines.entries()) {
+    if (line.trimStart().startsWith("#")) continue;
+    const match = /\bpython_requires\s*=\s*(["'])([^"'\\\r\n]*)\1/.exec(line);
+    const requirement = match?.[2];
+    if (requirement === undefined) continue;
+    addPin(pins, path, index + 1, "setup.py python_requires", requirement, "floor", resolveFloor(requirement));
   }
+}
+
+type RootFileReader = (pins: RuntimePin[], path: string, contents: string, lines: readonly string[]) => void;
+
+const ROOT_FILE_READERS: Readonly<Record<string, RootFileReader>> = {
+  ".python-version": (pins, path, _contents, lines) => collectPythonVersionFile(pins, path, lines),
+  ".tool-versions": (pins, path, _contents, lines) => collectToolVersionsEntries(pins, path, lines),
+  "runtime.txt": (pins, path, _contents, lines) => collectRuntimeTxt(pins, path, lines),
+  Pipfile: collectPipfile,
+  "pyproject.toml": collectPyprojectToml,
+  "setup.cfg": (pins, path, _contents, lines) => collectSetupCfg(pins, path, lines),
+  "setup.py": (pins, path, _contents, lines) => collectSetupPy(pins, path, lines),
+};
+
+export function collectRootFiles(pins: RuntimePin[], path: string, contents: string): void {
+  const reader = ROOT_FILE_READERS[basename(path)];
+  if (reader === undefined) return;
+  reader(pins, path, contents, contents.split(/\r?\n/));
 }
 
 function collectDockerfile(pins: RuntimePin[], path: string, contents: string): void {
@@ -374,7 +391,7 @@ function stepVersions(counter: LineCounter, step: YAMLMap, matrix: unknown): Set
   return value === undefined || value === "" ? [] : [{ value, line: nodeLine(counter, version), matrix: false }];
 }
 
-function setupPythonVersions(contents: string): SetupVersion[] {
+export function setupPythonVersions(contents: string): SetupVersion[] {
   const lineCounter = new LineCounter();
   const document = parseDocument(contents, { lineCounter, prettyErrors: false, keepSourceTokens: true });
   if (document.errors.length > 0 || !isMap(document.contents)) return [];
@@ -515,47 +532,87 @@ function azureContainerImages(contents: string): Array<{ value: string; line: nu
   return references;
 }
 
-function collectAlignable(pin: RuntimePin, lineText: string, release: string): string | undefined {
-  if (pin.source === ".python-version") {
-    const match = /^(\s*)(python[-_]?)?(v?\d+(?:\.\d+)*)(\s*)$/i.exec(lineText);
-    if (!match) return undefined;
-    return `${match[1]}${match[2] ?? ""}${release}${match[4]}`;
-  }
-  if (pin.source === ".tool-versions") {
-    const match = /^(\s*python\s+)(\S+)(\s*(?:#.*)?\s*)$/i.exec(lineText);
-    if (!match) return undefined;
-    const [, prefix = "", , rest = ""] = match;
-    if (rest.replace(/#.*$/, "").trim() !== "") return undefined;
-    return `${prefix}${release}${rest}`;
-  }
-  if (pin.source === "runtime.txt") {
-    const match = /^(\s*python[-_])(\S+)(\s*)$/i.exec(lineText);
-    if (!match) return undefined;
-    return `${match[1]}${release}${match[3]}`;
-  }
-  if (pin.source === "Pipfile requires") {
-    const match = /^(\s*(?:python_version|python_full_version)\s*=\s*)(["'])([^"']*)\2(\s*(?:#.*)?)$/.exec(lineText);
-    if (!match) return undefined;
-    return `${match[1]}${match[2]}${release}${match[2]}${match[4]}`;
-  }
-  if (pin.source === "Dockerfile FROM") {
-    const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)([\s\S]*)$/i.exec(lineText);
-    if (!match) return undefined;
-    const [, prefix = "", original = "", rest = ""] = match;
-    const image = parseImageReference(original);
-    if (!image || !isPythonImage(image) || image.tag === undefined) return undefined;
-    const tag = image.tag.replace(/^\d+(?:\.\d+){0,2}/, release);
-    if (tag === image.tag) return undefined;
-    const colon = original.lastIndexOf(":");
-    const withoutTag = colon > original.lastIndexOf("/") ? original.slice(0, colon) : original;
-    return `${prefix}${withoutTag}:${tag}${rest}`;
-  }
-  if (pin.source === "setup-python python-version") {
-    const match = /^(\s*python-version\s*:\s*)(["']?)([^"'#\s]+)\2(\s*(?:#.*)?)$/.exec(lineText);
-    if (!match) return undefined;
-    return `${match[1]}${match[2]}${release}${match[2]}${match[4]}`;
-  }
-  return undefined;
+function alignPythonVersionLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*)(python[-_]?)?(v?\d+(?:\.\d+)*)(\s*)$/i.exec(lineText);
+  if (!match) return undefined;
+  return `${match[1]}${match[2] ?? ""}${release}${match[4]}`;
+}
+
+function alignToolVersionsLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*python\s+)(\S+)(\s*(?:#.*)?\s*)$/i.exec(lineText);
+  if (!match) return undefined;
+  const [, prefix = "", , rest = ""] = match;
+  if (rest.replace(/#.*$/, "").trim() !== "") return undefined;
+  return `${prefix}${release}${rest}`;
+}
+
+function alignRuntimeTxtLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*python[-_])(\S+)(\s*)$/i.exec(lineText);
+  if (!match) return undefined;
+  return `${match[1]}${release}${match[3]}`;
+}
+
+function alignPipfileLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*(?:python_version|python_full_version)\s*=\s*)(["'])([^"']*)\2(\s*(?:#.*)?)$/.exec(lineText);
+  if (!match) return undefined;
+  return `${match[1]}${match[2]}${release}${match[2]}${match[4]}`;
+}
+
+function alignDockerfileFromLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*FROM\s+(?:--\S+\s+)*)(\S+)([\s\S]*)$/i.exec(lineText);
+  if (!match) return undefined;
+  const [, prefix = "", original = "", rest = ""] = match;
+  const image = parseImageReference(original);
+  if (!image || !isPythonImage(image) || image.tag === undefined) return undefined;
+  const tag = image.tag.replace(/^\d+(?:\.\d+){0,2}/, release);
+  if (tag === image.tag) return undefined;
+  const colon = original.lastIndexOf(":");
+  const withoutTag = colon > original.lastIndexOf("/") ? original.slice(0, colon) : original;
+  return `${prefix}${withoutTag}:${tag}${rest}`;
+}
+
+function alignSetupPythonLine(_pin: RuntimePin, lineText: string, release: string): string | undefined {
+  const match = /^(\s*python-version\s*:\s*)(["']?)([^"'#\s]+)\2(\s*(?:#.*)?)$/.exec(lineText);
+  if (!match) return undefined;
+  return `${match[1]}${match[2]}${release}${match[2]}${match[4]}`;
+}
+
+type LineAligner = (pin: RuntimePin, lineText: string, release: string) => string | undefined;
+
+const ALIGNERS: Readonly<Record<string, LineAligner>> = {
+  ".python-version": alignPythonVersionLine,
+  ".tool-versions": alignToolVersionsLine,
+  "runtime.txt": alignRuntimeTxtLine,
+  "Pipfile requires": alignPipfileLine,
+  "Dockerfile FROM": alignDockerfileFromLine,
+  "setup-python python-version": alignSetupPythonLine,
+};
+
+export function collectAlignable(pin: RuntimePin, lineText: string, release: string): string | undefined {
+  return ALIGNERS[pin.source]?.(pin, lineText, release);
+}
+
+/** A reader the collector applies to the first file kind that matches; the order is the dispatch. */
+interface FileCollector {
+  matches(path: string, name: string): boolean;
+  collect(pins: RuntimePin[], path: string, contents: string): void;
+}
+
+const FILE_COLLECTORS: readonly FileCollector[] = [
+  { matches: (_path, name) => (ROOT_FILES as readonly string[]).includes(name), collect: collectRootFiles },
+  { matches: (_path, name) => DOCKERFILE_NAME.test(name), collect: collectDockerfile },
+  { matches: (_path, name) => name === ".gitlab-ci.yml", collect: collectGitlab },
+  {
+    matches: (path, name) => name === "config.yml" && path.endsWith(".circleci/config.yml"),
+    collect: collectCircleci,
+  },
+  { matches: (_path, name) => AZURE_PIPELINES_NAME.test(name), collect: collectAzure },
+  { matches: (_path, name) => ENVIRONMENT_NAME.test(name), collect: collectConda },
+  { matches: (path) => WORKFLOW_PATH.test(path), collect: collectWorkflow },
+];
+
+function fileCollector(path: string, name: string): FileCollector | undefined {
+  return FILE_COLLECTORS.find((candidate) => candidate.matches(path, name));
 }
 
 export const pythonCollector: DriftCollector = {
@@ -564,29 +621,10 @@ export const pythonCollector: DriftCollector = {
     const pins: RuntimePin[] = [];
     for (const file of await walk(root)) {
       const path = relativePosix(root, file);
-      const name = basename(file);
-      if ((ROOT_FILES as readonly string[]).includes(name)) {
-        const contents = await readOptional(file);
-        if (contents !== undefined) collectRootFiles(pins, path, contents);
-      } else if (DOCKERFILE_NAME.test(name)) {
-        const contents = await readOptional(file);
-        if (contents !== undefined) collectDockerfile(pins, path, contents);
-      } else if (name === ".gitlab-ci.yml") {
-        const contents = await readOptional(file);
-        if (contents !== undefined) collectGitlab(pins, path, contents);
-      } else if (name === "config.yml" && path.endsWith(".circleci/config.yml")) {
-        const contents = await readOptional(file);
-        if (contents !== undefined) collectCircleci(pins, path, contents);
-      } else if (/^azure-pipelines\.ya?ml$/.test(name)) {
-        const contents = await readOptional(file);
-        if (contents !== undefined) collectAzure(pins, path, contents);
-      } else if (/^environment\.ya?ml$/.test(name)) {
-        const contents = await readOptional(file);
-        if (contents !== undefined) collectConda(pins, path, contents);
-      } else if (/^\.github\/workflows\/[^/]+\.ya?ml$/.test(path)) {
-        const contents = await readOptional(file);
-        if (contents !== undefined) collectWorkflow(pins, path, contents);
-      }
+      const collector = fileCollector(path, basename(file));
+      if (collector === undefined) continue;
+      const contents = await readOptional(file);
+      if (contents !== undefined) collector.collect(pins, path, contents);
     }
     return pins;
   },

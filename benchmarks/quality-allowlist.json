@@ -244,14 +244,6 @@
       "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
     },
     {
-      "file": "src/drift/python.ts",
-      "function": "collectRootFiles",
-      "lines": 78,
-      "owner": "#2049",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-04. Over the 50-line function limit; split it in the function-size follow-up."
-    },
-    {
       "file": "src/engine.ts",
       "function": "scanRepository",
       "lines": 334,
@@ -642,70 +634,6 @@
       "function": "parseKustomization",
       "complexity": 21,
       "owner": "#2260",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/java.ts",
-      "function": "setupJavaVersions",
-      "complexity": 22,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/php.ts",
-      "function": "align",
-      "complexity": 17,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/php.ts",
-      "function": "setupPhpVersions",
-      "complexity": 21,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/python.ts",
-      "function": "collect",
-      "complexity": 17,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/python.ts",
-      "function": "collectAlignable",
-      "complexity": 20,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/python.ts",
-      "function": "collectRootFiles",
-      "complexity": 31,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/ruby.ts",
-      "function": "align",
-      "complexity": 17,
-      "owner": "#2266",
-      "expires": "2027-01-26",
-      "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
-    },
-    {
-      "file": "src/drift/ruby.ts",
-      "function": "setupRubyVersions",
-      "complexity": 21,
-      "owner": "#2266",
       "expires": "2027-01-26",
       "reason": "Measured 2026-11-02. Complexity over 15; reduce it in the complexity follow-up."
     },
