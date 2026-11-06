@@ -255,13 +255,13 @@ jobs:
         # ci-ok compares this record with the one check-cross-os uploads from Windows and macOS: two
         # builds on one machine share any host-dependent step, so only another runner can prove it gone.
         if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
-        run: npm run record:reproducible --silent -- "${{ runner.temp }}/reproducible.json"
+        run: npm run record:reproducible --silent -- "${{ runner.temp }}/reproducible-${{ runner.os }}.json" --label "${{ runner.os }}"
       - name: Upload the packed tarball hash
         if: runner.os == 'Linux' && matrix.node == 24 && matrix.shard == 0
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: reproducible-${{ runner.os }}
-          path: ${{ runner.temp }}/reproducible.json
+          path: ${{ runner.temp }}/reproducible-${{ runner.os }}.json
           retention-days: 1
           if-no-files-found: error
 
@@ -414,12 +414,12 @@ jobs:
         # in the merge queue, where that scarce runner already runs the suite. `runner.temp` keeps the
         # step shell-agnostic: the runner's default shell on Windows is PowerShell, which has no
         # RUNNER_TEMP variable.
-        run: npm run record:reproducible --silent -- "${{ runner.temp }}/reproducible.json"
+        run: npm run record:reproducible --silent -- "${{ runner.temp }}/reproducible-${{ runner.os }}.json" --label "${{ runner.os }}"
       - name: Upload the packed tarball hash
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: reproducible-${{ runner.os }}
-          path: ${{ runner.temp }}/reproducible.json
+          path: ${{ runner.temp }}/reproducible-${{ runner.os }}.json
           retention-days: 1
           if-no-files-found: error
 
