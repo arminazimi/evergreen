@@ -396,14 +396,24 @@
       "count": 1
     }
   },
-  "src/github-action.ts": {
+  "src/github-action/diff.ts": {
     "@typescript-eslint/no-unsafe-type-assertion": {
-      "count": 3
+      "count": 1
+    }
+  },
+  "src/github-action/inputs.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
+      "count": 1
     },
     "@typescript-eslint/restrict-template-expressions": {
       "count": 1
     },
     "preserve-caught-error": {
+      "count": 1
+    }
+  },
+  "src/github-action/render.ts": {
+    "@typescript-eslint/no-unsafe-type-assertion": {
       "count": 1
     }
   },
