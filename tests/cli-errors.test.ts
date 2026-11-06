@@ -15,7 +15,7 @@ import {
   unreadablePath,
   unsupportedNodeVersion,
 } from "../src/errors.js";
-
+import { ScanMemoryError } from "../src/usage/memory-guard.js";
 const roots: string[] = [];
 
 after(async () => {
@@ -119,4 +119,11 @@ test("--debug keeps the stack for unexpected failures", () => {
   const verbose = unexpectedFailure(error, true);
   assert.match(verbose.appendix, /at test/);
   assert.match(verbose.appendix, /open an issue with the stack trace/);
+});
+
+test("a memory-guard stop reads as a limit, not a bug", () => {
+  const failure = unexpectedFailure(new ScanMemoryError(80 * 1024 * 1024, 144 * 1024 * 1024), false);
+  assert.match(failure.message, /^Scan stopped: the heap reached 80 MB of its 144 MB limit/);
+  assert.match(failure.appendix, /--max-old-space-size/);
+  assert.doesNotMatch(failure.appendix, /open an issue/);
 });

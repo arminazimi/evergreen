@@ -1,3 +1,4 @@
+import { openMemoryGuard } from "./usage/memory-guard.js";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -708,7 +709,11 @@ export async function analyzeSourceUsage(root: string, contracts: readonly Sourc
   const usage = openUsageResults(contracts);
   const relevantLanguages = new Set(contracts.flatMap((contract) => contract.matchers.map((matcher) => matcher.language)));
   const files = await sourceFiles(resolve(root), { include: (language) => relevantLanguages.has(language) });
-  for (const file of files) await scanSourceFile(file, contracts, options, usage);
+  const checkMemory = openMemoryGuard();
+  for (const file of files) {
+    checkMemory();
+    await scanSourceFile(file, contracts, options, usage);
+  }
   return summarizeUsage(contracts, usage);
 }
 
