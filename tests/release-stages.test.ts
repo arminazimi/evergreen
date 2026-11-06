@@ -44,6 +44,7 @@ test("release.yml calls verify, build, publish-per-channel, and smoke stages", a
     "publish-container": "./.github/workflows/release-publish-container.yml",
     "publish-homebrew": "./.github/workflows/release-publish-homebrew.yml",
     "publish-binaries": "./.github/workflows/release-publish-binaries.yml",
+    sbom: "./.github/workflows/release-sbom.yml",
     smoke: "./.github/workflows/release-smoke.yml",
   };
   for (const [job, uses] of Object.entries(expected)) {
@@ -51,6 +52,7 @@ test("release.yml calls verify, build, publish-per-channel, and smoke stages", a
   }
   assert.deepEqual(orchestrator.jobs["publish-npm"]!.needs, ["npm-publish"]);
   assert.deepEqual(orchestrator.jobs["publish-binaries"]!.needs, ["publish-npm", "build-binaries"]);
+  assert.deepEqual(orchestrator.jobs.sbom!.needs, ["publish-binaries"]);
 
   for (const job of [
     "publish-npm",

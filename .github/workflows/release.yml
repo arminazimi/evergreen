@@ -1,11 +1,8 @@
 name: Release
 
-# One release chain: verify → build → publish each channel (npm first) → smoke. A version tag runs the full chain in this workflow; a failed stage is safe to re-run because
-# successful jobs are not re-executed. On a push to main it builds the Action bundle onto
-# release/<tag>. A manual run with dry_run exercises every stage and publishes nothing. A manual
-# run with release_tag dry-runs the major tag only (plus notes).
-#
-# npm trusted publishing: configure workflow filename release.yml on npmjs.com (this caller).
+# One release chain: verify → build → publish each channel (npm first) → binaries and SBOM → notes and smoke.
+# A version tag runs it; `dry_run` exercises every stage and publishes nothing. npm trusted publishing matches this filename.
+# See docs/RELEASING.md for the full chain and the dry_run/release_tag manual runs.
 on:
   push:
     branches: [main]
@@ -30,10 +27,7 @@ permissions:
   contents: read
 
 jobs:
-  # The npm publish lives in this top-level workflow, not a reusable one: OpenSSF Scorecard's
-  # Packaging check only recognises a publish step (setup-node with registry-url plus npm publish)
-  # in a workflow file that has successful runs of its own. Trusted publishing matches this
-  # filename (release.yml) too.
+  # The npm publish lives here, not in a reusable stage: Scorecard's Packaging check needs a publish in a workflow with its own runs.
   npm-publish:
     if: ${{ (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
     runs-on: ubuntu-latest
@@ -81,10 +75,8 @@ jobs:
   verify:
     needs: [publish-npm]
     if: >-
-      always() && !cancelled() &&
-      (needs.publish-npm.result == 'success' || needs.publish-npm.result == 'skipped') &&
-      (github.event_name == 'workflow_dispatch' ||
-       (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')))
+      always() && !cancelled() && (needs.publish-npm.result == 'success' || needs.publish-npm.result == 'skipped') &&
+      (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')))
     uses: ./.github/workflows/release-verify.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     with:
       dry_run: ${{ github.event_name == 'workflow_dispatch' }}
@@ -94,9 +86,7 @@ jobs:
       run_reproducible: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) }}
 
   build-action:
-    if: >-
-      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'workflow_dispatch' && inputs.dry_run)
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
     uses: ./.github/workflows/release-build-action.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     permissions:
       contents: write
@@ -176,10 +166,19 @@ jobs:
       dry_run: ${{ github.event_name == 'workflow_dispatch' }}
       release_sha: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.sha || '' }}
 
+  sbom:
+    needs: [publish-binaries]
+    if: ${{ always() && !cancelled() && needs.publish-binaries.result == 'success' }}
+    uses: ./.github/workflows/release-sbom.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
+    permissions:
+      contents: write
+      id-token: write
+    with:
+      dry_run: ${{ github.event_name == 'workflow_dispatch' }}
+
   release-notes:
     needs: [publish-binaries]
-    if: >-
-      always() && !cancelled() && needs.publish-binaries.result == 'success'
+    if: ${{ always() && !cancelled() && needs.publish-binaries.result == 'success' }}
     uses: ./.github/workflows/release-notes.yml # zizmor: ignore[self-repository] -- it calls a stage of this same release pipeline
     permissions:
       contents: write
