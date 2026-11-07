@@ -11,7 +11,7 @@ const FAMILY_LABEL: Record<Family, string> = {
 
 const ms = (value: number): string => (value >= 10_000 ? `${(value / 1000).toFixed(1)} s` : `${value} ms`);
 const timing = (time: TimingSummary): string => `${ms(time.totalMs)} / ${ms(time.medianMs)} / ${ms(time.maxMs)}`;
-const cell = (value: string): string => value.replace(/\|/g, "\\|");
+const cell = (value: string): string => value.replace(/\\/g, "\\\\").replace(/\|/g, "\\|");
 const label = (selection: string): string => (selection === "blind" ? "Blind" : "Targeted");
 
 function compared(counts: OutcomeCounts): number {
