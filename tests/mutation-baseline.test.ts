@@ -67,6 +67,7 @@ function cliOptions(overrides: Partial<CliOptions> = {}): CliOptions {
     date: null,
     summary: null,
     partial: false,
+    breakThreshold: null,
     ...overrides,
   };
 }
@@ -173,6 +174,25 @@ test("fails when the overall score falls below the baseline", () => {
   const result = compareMutationScores([score("src/engine.ts", 59, 41)], baseline);
   assert.equal(result.passed, false);
   assert.deepEqual(result.overall, { baseline: 60, score: 59, drop: 1 });
+});
+
+test("fails a complete report below the overall break threshold", () => {
+  const baseline = baselineOf({ "src/engine.ts": 50 }, 50);
+  const below = compareMutationScores([score("src/engine.ts", 59, 41)], baseline, { overallBreak: 60 });
+  assert.equal(below.passed, false);
+  assert.deepEqual(below.overallBreak, { threshold: 60, score: 59 });
+  assert.match(renderRatchetText(below), /overall: 59\.00% is below the 60\.00% break threshold/);
+
+  const atThreshold = compareMutationScores([score("src/engine.ts", 60, 40)], baseline, { overallBreak: 60 });
+  assert.equal(atThreshold.passed, true);
+  assert.equal(atThreshold.overallBreak, null);
+
+  const partial = compareMutationScores([score("src/engine.ts", 59, 41)], baseline, {
+    complete: false,
+    overallBreak: 60,
+  });
+  assert.equal(partial.passed, true);
+  assert.equal(partial.overallBreak, null);
 });
 
 test("fails a new file below the target and accepts one above it", () => {
@@ -305,6 +325,29 @@ test("main exits 1 when a file falls below its baseline and 0 when it holds", as
   }
 });
 
+test("main fails a complete report below the break threshold and rejects an out-of-range value", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "mutation-break-"));
+  try {
+    const reportPath = join(directory, "report.json");
+    const baselinePath = join(directory, "baseline.json");
+    await writeFile(reportPath, JSON.stringify(reportOf({ "src/engine.ts": [59, 41] })));
+    await writeFile(baselinePath, JSON.stringify(baselineOf({ "src/engine.ts": 50 }, 50)));
+    assert.equal(await main(["--report", reportPath, "--baseline", baselinePath, "--break", "60"]), 1);
+    await writeFile(reportPath, JSON.stringify(reportOf({ "src/engine.ts": [60, 40] })));
+    assert.equal(await main(["--report", reportPath, "--baseline", baselinePath, "--break", "60"]), 0);
+    await assert.rejects(() => main(["--break", "120"]), /between 0 and 100/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("the Stryker break threshold is set to the documented overall target", async () => {
+  const config = JSON.parse(await readFile("stryker.config.json", "utf8")) as {
+    thresholds: { break: number | null };
+  };
+  assert.equal(config.thresholds.break, 60);
+});
+
 test("main rejects an unknown argument and a missing value", async () => {
   await assert.rejects(() => main(["--bogus", "x"]), /Unknown argument/);
   await assert.rejects(() => main(["--report"]), /needs a value/);
@@ -332,15 +375,18 @@ test("renders every ratchet finding", () => {
     unbaselined: [score("src/vers/new.ts", 55, 45)],
     stale: ["src/diff.ts"],
     overall: { baseline: 30, score: 29, drop: 1 },
+    overallBreak: { threshold: 60, score: 29 },
   };
   const text = renderRatchetText(result);
   assert.match(text, /src\/vers\/new\.ts: 55\.00% is below the 60% target/);
   assert.match(text, /src\/diff\.ts: no mutants were reported/);
   assert.match(text, /overall: 30\.00% -> 29\.00%/);
+  assert.match(text, /overall: 29\.00% is below the 60\.00% break threshold/);
   const summary = renderRatchetSummary(result);
   assert.match(summary, /below 60%/);
   assert.match(summary, /stale entry/);
   assert.match(summary, /\*\*overall\*\*/);
+  assert.match(summary, /\*\*overall break\*\*/);
 });
 
 test("renders a lowered and a removed guard entry", () => {

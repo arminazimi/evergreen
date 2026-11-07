@@ -50,7 +50,7 @@ Before is `origin/main` measured by the same checker; after is this pull request
 | 4 | Type safety | Zero explicit `any` and zero `@ts-ignore` / `@ts-expect-error`; `as unknown as` and non-null assertions may not grow; `noImplicitOverride`, `noUnusedLocals`, `noUnusedParameters` on | `npm run check:quality`, `npm run build` | 0 `any`, 0 `@ts-ignore`, 9 `as unknown as`, 589 non-null | same counts, all allowlisted; three flags on | Enforced |
 | 5 | Boundaries | Import and trust rules in [AGENTS.md](../AGENTS.md#architecture-boundaries) hold; see the list below | `npm run check:quality` | 1 violation (adapter imports a detector) | allowlisted (1) | Partly enforced |
 | 6 | Coverage | Lines ≥93, branches ≥87, functions ≥93; no total falls below main | CI floors on pull requests and pushes; baseline check against main | 94.75 / 87.04 / 94.60 (2026-11-01) | 94.69 / 87.10 / 94.65 (2026-11-02) | Enforced on pull requests |
-| 7 | Mutation score | Each file's score may not fall; overall break at 60, high at 80, on the mutated core | nightly `mutation.yml` baseline check (not in `npm run check`); `ci.yml` guards the baseline on pull requests | not measured | 59.68% overall (2026-11-04); per-file baselines recorded | Ratchet enforced nightly; overall break pending #2282 |
+| 7 | Mutation score | Each file's score may not fall; overall break at 60, high at 80, on the mutated core | nightly `mutation.yml` report job (not in `npm run check`); `ci.yml` guards the baseline on pull requests | 59.68% overall (2026-11-04, before reporters) | 82.42% overall (2026-11-07); break at 60 | Enforced nightly |
 | 8 | Docs | Generated indexes, pages, LLM index, data API, and site build agree; links and accessibility clean | `npm run check`, the `check:*` steps in `ci.yml` | generated checks pass; site links report-only | generated checks now all gate CI; links report-only | Partly enforced |
 | 9 | Security | No high or critical advisory; no moderate or low advisory without an allowlist entry; runtime audit clean; Scorecard ≥6.0 | `npm audit` steps in `ci.yml`; `scorecard-floor.yml` (weekly) | runtime 0; root lockfile 5 medium, 2 low; Scorecard 4.8 | same advisories, allowlisted by id; floor alert added | Enforced; Scorecard alert fails until ≥6.0 |
 | 10 | Remaining debt | Every allowlist entry is at its measured value and expires by 2027-01-26 | remaining debt: run `npm run check:quality -- --report` | 191 functions over 15; 589 non-null in 140 files | same totals, per directory in the report | Report only |
@@ -186,18 +186,23 @@ difference. A new file without a baseline entry must meet the 60% target, and a 
 no mutants is stale and fails until it is removed. Pull requests cannot lower the ratchet: `ci.yml` runs the tool
 with `--against origin/main` and fails when a score falls or a live file's entry is removed. A maintainer records an
 improvement with `node dist/tools/mutation-baseline.js --update` from a complete report; it refuses to lower a
-score. The overall `thresholds.break` stays `null`; setting it is #2282. A full mutation run is not part of
-`npm run check`.
+score. The overall `thresholds.break` is 60. A shard covers only one slice of the scope, so the nightly shard jobs
+run with `stryker.shard.config.mjs`, which disables the break, and the `report` job applies the break to the merged
+report with `--break`. A full mutation run is not part of `npm run check`.
 
-**Current.** Measured 2026-11-04 from the nightly report: overall **59.68%**. Per file: engine 23.93%, diff 57.94%,
-semver 68.57%, gem 72.41%, baseline 72.78%, pep440 78.28%, maven 83.10%, nuget 84.56%. The two files below the 60%
-target are existing debt owned by #2103 (engine) and the test-quality epic (#1992). The reporters were measured
-2026-11-07 at 94.11% overall (lowest file: `html.ts`, 87.93%), with golden-output tests in
-`tests/reporters-golden.test.ts`.
+**Current.** Measured 2026-11-07 from a complete `workflow_dispatch` run on `main` (`b01aea5b`): overall **82.42%**
+(2649 killed or timed out, 565 survived or uncovered, 25 files). Per file, lowest first: `reporters/json.ts` 37.50%,
+`reporters/registry.ts` 48.10%, `diff.ts` 48.70%, `vers/semver.ts` 68.57%, `baseline.ts` 72.13%,
+`vers/gem.ts` 72.41%, `engine/discover.ts` 77.64%, `vers/nuget.ts` 82.73%, `engine/detect.ts` 82.81%,
+`vers/maven.ts` 83.51%, `engine/index.ts` 84.54%, `reporters/html.ts` 87.03%, `vers/pep440.ts` 87.37%. The
+reporters were re-measured after #2551 split the reporter contract. The per-file ratchet currently fails on
+`reporters/json.ts`, `reporters/registry.ts`, `diff.ts`, `baseline.ts`, and `vers/nuget.ts`; that is existing debt
+from #2551 (reporters) and the test-quality epic (#1992) (diff, baseline, nuget), not a break-threshold failure.
+The overall score is above the break, so the break check itself passes.
 
-**Condition to set the break threshold.** The overall score is 59.68% (2026-11-04). #2282 sets `thresholds.break`
-to 60, or to the measured score with a follow-up, and records the score and date here. That change makes the
-nightly job fail below the overall threshold; the per-file ratchet above already fails a fall.
+**When the break was set.** #2282 ran a complete mutation job on 2026-11-07 and set `thresholds.break` to 60 from a
+measured **82.42%** overall. The 2026-11-04 score of 59.68% was below 60 because the mutation scope did not include
+the reporters yet, not because the target changed.
 
 **Why these numbers.** They are Stryker's own defaults for `high` and `low`. Google's testing blog defines the
 mutation score as the ratio of mutants the tests detect.
@@ -338,7 +343,7 @@ description for the maintainer to approve.
 8. Triage the root lockfile's medium and low advisories, and the high advisories in `examples/` and `extensions/vscode/`.
 9. Add a docs test that every CLI command and flag is documented.
 10. Clean the Seaworthy and docs-doctor findings, then make them gate (see the condition in [Docs](#8-docs)).
-11. Set `thresholds.break` when the first complete mutation score exists (see [Mutation](#7-mutation-score)).
+11. ~~Set `thresholds.break` when the first complete mutation score exists~~ Done: break at 60 since 2026-11-07 (#2282).
 12. Raise the Scorecard score to 6.0 (see [Security](#9-security)).
 
 ## Peer comparison

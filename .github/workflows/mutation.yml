@@ -76,7 +76,10 @@ jobs:
           set -euo pipefail
           start=$(date +%s)
           set +e
-          npm run test:mutation -- \
+          # A shard covers one slice of the scope, so its partial score is not the overall score.
+          # stryker.shard.config.mjs reads the shared config and disables the break threshold; the
+          # report job enforces the overall break on the merged report.
+          npm run test:mutation -- stryker.shard.config.mjs \
             --mutate "$MUTATE" \
             --incrementalFile "reports/stryker-incremental-${SHARD}.json" \
             --commandRunner.command "$TEST_COMMAND"
@@ -322,8 +325,12 @@ jobs:
           EOF
       - name: Enforce the mutation score baseline
         # The baseline may only rise. A file below its recorded score fails with the file and the difference.
+        # The merged report is the only complete score, so this is also where the overall break applies.
         if: always() && hashFiles('artifacts/mutation-report.json') != ''
-        run: node dist/tools/mutation-baseline.js --report artifacts/mutation-report.json --summary "$GITHUB_STEP_SUMMARY"
+        run: |
+          set -euo pipefail
+          BREAK=$(node -p 'const { break: value } = require("./stryker.config.json").thresholds; Number.isFinite(value) ? value : 0')
+          node dist/tools/mutation-baseline.js --report artifacts/mutation-report.json --summary "$GITHUB_STEP_SUMMARY" --break "$BREAK"
       - name: Upload the combined mutation report
         if: always() && hashFiles('artifacts/mutation-report.json') != ''
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7

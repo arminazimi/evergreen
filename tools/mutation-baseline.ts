@@ -1,13 +1,15 @@
 // Enforces the per-file mutation score baselines in benchmarks/mutation-baseline.json.
 //
 //   node dist/tools/mutation-baseline.js --report artifacts/mutation-report.json
+//   node dist/tools/mutation-baseline.js --report artifacts/mutation-report.json --break 60
 //   node dist/tools/mutation-baseline.js --report artifacts/mutation-report.json --update --date 2026-11-04
 //   node dist/tools/mutation-baseline.js --against origin/main
 //
 // The nightly mutation workflow merges the shard reports and runs the check: a file whose score
-// fell below its baseline fails with the file and the difference. A new file must meet the 60%
-// target, and a baseline entry whose file stops producing mutants is stale and fails until it is
-// removed.
+// fell below its baseline fails with the file and the difference. With `--break`, a complete
+// report below the threshold also fails, which is the overall mutation break. A new file must meet
+// the 60% target, and a baseline entry whose file stops producing mutants is stale and fails until
+// it is removed.
 //
 // `--against` is the pull-request guard. It compares the committed baseline with a git ref and
 // fails when a score is lowered or an entry for a file that still exists is removed, so a change
@@ -79,6 +81,11 @@ export interface BaselineDrop {
   drop: number;
 }
 
+export interface OverallBreak {
+  threshold: number;
+  score: number;
+}
+
 export interface RatchetResult {
   passed: boolean;
   drops: ScoreDrop[];
@@ -87,12 +94,16 @@ export interface RatchetResult {
   /** Baseline entries whose file produced no mutant in the report. */
   stale: string[];
   overall: OverallDrop | null;
+  /** Set when a complete report scores below the configured overall break threshold. */
+  overallBreak: OverallBreak | null;
 }
 
 export interface RatchetOptions {
   tolerance?: number;
   /** False compares one shard report and skips the overall and stale checks. */
   complete?: boolean;
+  /** The Stryker `thresholds.break` value; a complete report below it fails. */
+  overallBreak?: number | null;
 }
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -228,12 +239,18 @@ export function compareMutationScores(
   const reported = new Set(scores.map((score) => score.file));
   const stale = complete ? baseline.files.filter((entry) => !reported.has(entry.file)).map((entry) => entry.file) : [];
   const overall = complete ? overallDrop(detected, undetected, baseline.overall, tolerance) : null;
+  const overallScore = percent(detected, undetected);
+  const threshold = options.overallBreak;
+  const overallBreak =
+    complete && typeof threshold === "number" && overallScore < threshold ? { threshold, score: overallScore } : null;
   return {
-    passed: drops.length === 0 && unbaselined.length === 0 && stale.length === 0 && overall === null,
+    passed:
+      drops.length === 0 && unbaselined.length === 0 && stale.length === 0 && overall === null && overallBreak === null,
     drops,
     unbaselined,
     stale,
     overall,
+    overallBreak,
   };
 }
 
@@ -356,6 +373,11 @@ export function renderRatchetText(result: RatchetResult): string {
       `  overall: ${formatPercent(result.overall.baseline)} -> ${formatPercent(result.overall.score)} (${formatDrop(result.overall.drop)} its baseline)`,
     );
   }
+  if (result.overallBreak !== null) {
+    lines.push(
+      `  overall: ${formatPercent(result.overallBreak.score)} is below the ${formatPercent(result.overallBreak.threshold)} break threshold`,
+    );
+  }
   lines.push(
     result.passed
       ? "Every mutation score held at or above its baseline."
@@ -385,6 +407,11 @@ export function renderRatchetSummary(result: RatchetResult): string {
       `| **overall** | ${formatPercent(result.overall.baseline)} | ${formatPercent(result.overall.score)} | −${result.overall.drop.toFixed(2)} pt |`,
     );
   }
+  if (result.overallBreak !== null) {
+    lines.push(
+      `| **overall break** | ${formatPercent(result.overallBreak.threshold)} | ${formatPercent(result.overallBreak.score)} | below break |`,
+    );
+  }
   lines.push("");
   return `${lines.join("\n")}\n`;
 }
@@ -408,13 +435,23 @@ export interface CliOptions {
   date: string | null;
   summary: string | null;
   partial: boolean;
+  /** Stryker's `thresholds.break`; a complete report below it fails. Null disables it. */
+  breakThreshold: number | null;
 }
 
-const VALUE_FLAGS = new Set(["--report", "--baseline", "--against", "--date", "--summary"]);
+const VALUE_FLAGS = new Set(["--report", "--baseline", "--against", "--date", "--summary", "--break"]);
 
 function applyFlag(options: CliOptions, flag: string): void {
   if (flag === "--update") options.update = true;
   else options.partial = true;
+}
+
+function parseBreakThreshold(flag: string, value: string): number {
+  const threshold = Number(value);
+  if (!Number.isFinite(threshold) || threshold < 0 || threshold > 100) {
+    throw new Error(`${flag} needs a number between 0 and 100.`);
+  }
+  return threshold;
 }
 
 function applyValue(options: CliOptions, flag: string, value: string): void {
@@ -422,6 +459,7 @@ function applyValue(options: CliOptions, flag: string, value: string): void {
   else if (flag === "--baseline") options.baseline = value;
   else if (flag === "--against") options.against = value;
   else if (flag === "--date") options.date = value;
+  else if (flag === "--break") options.breakThreshold = parseBreakThreshold(flag, value);
   else options.summary = value;
 }
 
@@ -434,6 +472,7 @@ function parseArguments(argv: readonly string[]): CliOptions {
     date: null,
     summary: null,
     partial: false,
+    breakThreshold: null,
   };
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
@@ -493,12 +532,19 @@ async function runCheck(options: CliOptions): Promise<number> {
   if (scores.length === 0) throw new Error(`${options.report} has no scored mutants.`);
   if (options.update) return runUpdate(options, scores);
   const baseline = parseMutationBaseline(await readJson(options.baseline));
-  const result = compareMutationScores(scores, baseline, { complete: !options.partial });
+  const result = compareMutationScores(scores, baseline, {
+    complete: !options.partial,
+    overallBreak: options.breakThreshold,
+  });
   process.stdout.write(renderRatchetText(result));
   if (options.summary !== null) await writeFile(options.summary, renderRatchetSummary(result), { flag: "a" });
   for (const drop of result.drops) {
     const message = `${formatPercent(drop.baseline)} -> ${formatPercent(drop.score)} (${formatDrop(drop.drop)} the baseline)`;
     process.stderr.write(`::error file=${drop.file},title=Mutation score fell::${message}\n`);
+  }
+  if (result.overallBreak !== null) {
+    const message = `${formatPercent(result.overallBreak.score)} is below the ${formatPercent(result.overallBreak.threshold)} break threshold`;
+    process.stderr.write(`::error title=Mutation score below break::${message}\n`);
   }
   return result.passed ? 0 : 1;
 }

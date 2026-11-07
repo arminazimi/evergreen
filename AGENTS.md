@@ -139,7 +139,7 @@ Reference quality is measured in [docs/QUALITY.md](docs/QUALITY.md) and enforced
 - **Type safety:** no explicit `any`, no `@ts-ignore` or `@ts-expect-error`; no new `as unknown as` or non-null assertion. `strict`, `noImplicitOverride`, `noUnusedLocals`, and `noUnusedParameters` stay on.
 - **Boundaries:** the six rules in [Architecture boundaries](#architecture-boundaries) hold.
 - **Coverage:** lines 93%, branches 87%, functions 93%. No pull request lowers a total below `main`.
-- **Mutation:** break at 60, high at 80, on the mutated core. The nightly run gates once its first complete score exists.
+- **Mutation:** break at 60, high at 80, on the mutated core. The nightly run fails a complete score below the break.
 - **Docs:** generated pages and indexes match their sources, and the documentation site builds.
 - **Security:** no runtime advisory and no high or critical advisory; a medium or low advisory only when it is listed by id. The OpenSSF Scorecard is 6.0 or more by v0.8.0.
 
