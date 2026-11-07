@@ -164,8 +164,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 1,
   });
   assert.deepEqual(counts(evidence["shell"]!), {
-    repositoriesWithFindings: 29,
-    expectedFindings: 102,
+    repositoriesWithFindings: 30,
+    expectedFindings: 104,
     zeroFindingRepositories: 9,
   });
   assert.deepEqual(counts(evidence["java"]!), {

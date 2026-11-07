@@ -244,7 +244,7 @@ The `swift` detector is **supported**: its level is recorded as `stable` in `ben
 
 ## Dart and Flutter detector
 
-The `dart` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Dart and Flutter](detectors/dart.md). Its lifecycle rules are in `registry/dart.json` and ship in the [data bundle](DATA.md).
+The `dart` detector is **supported**: its level is recorded as `stable` in `benchmarks/thresholds.json`, and the precision floor is enforced. Seventy-five public repositories are pinned for it in `benchmarks/public-repositories/`. Supported files, declaration forms, matching rules, and limits are documented in [Dart and Flutter](detectors/dart.md). Its lifecycle rules are in `registry/dart.json` and ship in the [data bundle](DATA.md).
 
 ## Elixir and Mix detector
 
