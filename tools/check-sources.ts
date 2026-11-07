@@ -303,7 +303,7 @@ export async function fetchObservation(url: string, timeoutMs = 15_000): Promise
   return last;
 }
 
-async function loadRegistries(directory: string): Promise<{ name: string; registry: RegistryV2 }[]> {
+export async function loadRegistries(directory: string): Promise<{ name: string; registry: RegistryV2 }[]> {
   const registries: { name: string; registry: RegistryV2 }[] = [];
   for (const file of (await readdir(directory))
     .filter((name) => name.endsWith(".json") && !name.startsWith("sources."))

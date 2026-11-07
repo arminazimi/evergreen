@@ -67,6 +67,17 @@
         <div id="detectors-table" class="table-wrap" tabindex="0" role="group" aria-label="Results per detector"></div>
       </section>
 
+      <section aria-labelledby="freshness-heading">
+        <h2 id="freshness-heading">Source freshness</h2>
+        <p>
+          Each importer reads one authoritative source. The target is the most days that may pass before a rule
+          drafted from it is reviewed again, from
+          <a href="https://github.com/arminazimi/evergreen/blob/main/tools/importers/freshness.json">tools/importers/freshness.json</a>.
+          A source over its target is marked <strong>missed</strong>, and the weekly workflow opens an issue for it.
+        </p>
+        <div id="freshness-table" class="table-wrap" tabindex="0" role="group" aria-label="Freshness per source"></div>
+      </section>
+
       <section aria-labelledby="minimums-heading">
         <h2 id="minimums-heading">Evidence required to earn a level</h2>
         <p>

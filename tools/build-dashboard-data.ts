@@ -20,6 +20,9 @@ import { corpusCounts, loadCorpusTargets, TARGETS_PATH } from "../benchmarks/cor
 import type { CorpusTargets } from "../benchmarks/corpus-targets.js";
 import { loadPublicCorpus, PUBLIC_CORPUS_DIR } from "../benchmarks/public-corpus.js";
 import { countEvidence, earnedLevel, evidenceMinimums } from "../benchmarks/thresholds.js";
+import { FRESHNESS_TARGETS_FILE, loadFreshnessTargets, measureFreshness } from "./importers/freshness.js";
+import type { SourceFreshness } from "./importers/freshness.js";
+import { loadRegistries } from "./check-sources.js";
 import type { Evidence, MaturityLevel, Thresholds } from "../benchmarks/thresholds.js";
 
 export const DASHBOARD_SCHEMA = "evergreen.dashboard-data.v1";
@@ -113,6 +116,11 @@ export interface DashboardEcosystem {
   target: number;
 }
 
+export interface DashboardFreshness {
+  file: string;
+  sources: SourceFreshness[];
+}
+
 export interface DashboardData {
   schemaVersion: typeof DASHBOARD_SCHEMA;
   referenceDay: string;
@@ -121,6 +129,8 @@ export interface DashboardData {
   /** null when benchmarks/thresholds.json records no full run. */
   run: DashboardRun | null;
   detectors: DashboardDetector[];
+  /** Per-importer freshness target and whether it is met, from tools/importers/freshness.json and registry/. */
+  sourceFreshness: DashboardFreshness;
   evidenceMinimums: typeof evidenceMinimums;
   definitions: Record<string, MetricDefinition>;
   limitations: string[];
@@ -132,6 +142,7 @@ export const limitations: readonly string[] = [
   "Scan time is not measured here. Median and p95 scan times are printed by the corpus harness but are not recorded in a committed file, so the dashboard does not show them.",
   "Evidence counts come from the corpus file as it is now, not as it was at the recorded run. The configured level is a promise recorded in benchmarks/thresholds.json; the earned level counts evidence only and does not check recall or blind selection, which the corpus does not record yet.",
   "A detector's configured level can be higher than its earned level: ADR 0013 lets the detectors that held the Supported label before the evidence rules existed keep it until the corpus grows.",
+  "Source freshness counts only rules whose provenance names an importer. Hand-written rules carry no importer, so an importer with no such rule shows no reviewed rules instead of a pass or a miss. Freshness is the newest review of a rule drafted from the source, not the last time the source was fetched.",
   "The corpus minimum is the committed floor CI enforces, not the 200-repository goal. Most buckets are below the goal, so a bucket above its minimum can still be far from 200; decision 0030 owns the goal.",
 ];
 
@@ -225,6 +236,20 @@ export const definitions: Readonly<Record<string, MetricDefinition>> = {
     computation: "Not measured: the corpus harness prints these numbers but no committed file records them.",
     source: "benchmarks/public-repositories.ts",
   },
+  freshnessTarget: {
+    label: "Freshness target",
+    meaning: "The most days that may pass before a rule drafted from this source is reviewed again.",
+    computation:
+      "The importer's entry in tools/importers/freshness.json. A maintainer changes it in a pull request; nothing computes it.",
+    source: FRESHNESS_TARGETS_FILE,
+  },
+  freshnessAge: {
+    label: "Days since review",
+    meaning: "How long ago a maintainer last reviewed a rule drafted from this source.",
+    computation:
+      "The whole days between the newest provenance.reviewedAt among the registry rules whose provenance.importer is this importer, and the reference day. A source over its target is a miss, and the weekly source-freshness workflow opens an issue for it.",
+    source: "registry/",
+  },
   corpusRepositories: {
     label: "Repositories",
     meaning: "Pinned public repositories in this ecosystem bucket.",
@@ -286,6 +311,8 @@ export function buildDashboardData(input: {
   corpus: readonly CorpusRepository[];
   targets: CorpusTargets;
   today: string;
+  /** Measured freshness; omitted means no importer targets are reported. */
+  freshness?: readonly SourceFreshness[];
 }): DashboardData {
   const { thresholds, corpus, targets, today } = input;
   const lastRun = thresholds.lastFullRun;
@@ -340,6 +367,7 @@ export function buildDashboardData(input: {
     },
     run,
     detectors,
+    sourceFreshness: { file: FRESHNESS_TARGETS_FILE, sources: [...(input.freshness ?? [])] },
     evidenceMinimums,
     definitions: { ...definitions },
     limitations: [...limitations],
@@ -352,7 +380,12 @@ export async function renderDashboardData(root: string, today: string): Promise<
   const corpus = (await loadPublicCorpus(root)).repositories;
   const day = today === "run-date" ? thresholds.lastFullRun?.date : today;
   if (day === undefined) throw new Error(`--today run-date needs a lastFullRun in ${THRESHOLDS_FILE}.`);
-  return `${JSON.stringify(buildDashboardData({ thresholds, corpus, targets, today: day }), null, 2)}\n`;
+  const freshness = measureFreshness(
+    await loadRegistries(resolve(root, "registry")),
+    await loadFreshnessTargets(root),
+    day,
+  );
+  return `${JSON.stringify(buildDashboardData({ thresholds, corpus, targets, today: day, freshness: freshness.sources }), null, 2)}\n`;
 }
 
 /** True when the rendered dashboard JSON has the shape Pages must publish. */

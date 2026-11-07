@@ -32,6 +32,10 @@ The diff classifies each draft as **added**, **changed** (split into dates, sour
 
 When two importers draft a rule for the same component and affected versions (same `purl` and `vers`) but differ in the event or the deadline, neither draft wins. The weekly workflow's `disagreements` job runs `node dist/tools/importers/disagreements.js all-drafts/*/drafts.json` over every importer's drafts and opens one issue per component with both claims and their sources, so a maintainer decides. Each issue holds a `evergreen-source-disagreement` marker: a component with an open or closed issue is not filed again, and at most 10 are open at once. The command exits with 10 when it finds a disagreement; `--dry-run` prints without opening issues.
 
+### Freshness targets
+
+Every importer has a freshness target in [`tools/importers/freshness.json`](../tools/importers/freshness.json): the most days that may pass before a rule drafted from that source is reviewed again. Freshness is the newest `provenance.reviewedAt` among registry rules whose `provenance.importer` is that importer, measured from committed files only. The [accuracy dashboard](dashboard/) lists every source with its target, its age, and `met`, `missed`, or `no reviewed rules` (hand-written rules carry no importer, so a source with none shows that instead of a pass). The Monday `freshness` job in [`sources.yml`](../.github/workflows/sources.yml) runs `node dist/tools/importers/freshness.js` and opens one issue per missed source, carrying an `evergreen-source-freshness` marker; a source with an open issue is not filed again, and at most 10 are open at once. The command exits with 10 on a miss; `--dry-run` prints without opening issues. To change a target, edit the JSON file in a pull request and say why; a new importer needs an entry, and a test fails without one.
+
 When you accept a draft:
 
 1. Check each source against the rule: the event, the affected versions, and the date.
