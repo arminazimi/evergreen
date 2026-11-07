@@ -9,125 +9,127 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 817 pinned repositories (5492 expected findings). The last full corpus run was commit `dcc9f320` on 2026-11-06 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 910 pinned repositories (5989 expected findings). The last full corpus run was commit `dcc9f320` on 2026-11-06 (557 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories/`](../benchmarks/public-repositories/). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
-| Repositories | 817 |
-| Expected findings | 5492 |
-| Products with findings | 152 |
-| Release lines with findings | 216 |
+| Repositories | 910 |
+| Expected findings | 5989 |
+| Products with findings | 153 |
+| Release lines with findings | 218 |
 
 ### By product
 
 | Product | Findings | Release lines | Repositories |
 | --- | ---: | ---: | ---: |
-| dockerfile | 783 | 2 | 43 |
-| actions/checkout | 765 | 1 | 253 |
+| actions/checkout | 947 | 1 | 303 |
+| dockerfile | 790 | 2 | 45 |
 | dotnet | 541 | 10 | 53 |
 | terraform | 471 | 4 | 13 |
-| nodejs | 357 | 8 | 82 |
+| nodejs | 361 | 8 | 84 |
 | cmake | 242 | 2 | 20 |
+| actions/setup-python | 233 | 1 | 98 |
 | ruby | 218 | 11 | 41 |
-| python | 134 | 2 | 86 |
-| actions/upload-artifact | 127 | 1 | 53 |
-| actions/cache | 118 | 1 | 48 |
-| actions/setup-python | 118 | 1 | 51 |
+| python | 210 | 2 | 130 |
+| actions/upload-artifact | 145 | 1 | 65 |
+| actions/cache | 124 | 1 | 52 |
+| actions/setup-node | 105 | 1 | 48 |
 | golang | 103 | 6 | 51 |
-| actions/setup-node | 100 | 1 | 45 |
 | aws-lambda-runtime/nodejs24.x | 74 | 1 | 1 |
 | library/ubuntu | 62 | 2 | 27 |
 | java | 60 | 3 | 13 |
-| github-actions/set-output | 55 | 1 | 18 |
+| github-actions/set-output | 57 | 1 | 20 |
+| actions/download-artifact | 51 | 1 | 36 |
+| docker/login-action | 48 | 1 | 30 |
+| library/node | 46 | 2 | 21 |
 | azure-pipelines/ubuntu-image | 44 | 2 | 22 |
-| library/node | 44 | 2 | 20 |
-| actions/download-artifact | 40 | 1 | 27 |
-| docker/login-action | 40 | 1 | 25 |
+| library/python | 40 | 2 | 32 |
+| docker/build-push-action | 38 | 1 | 23 |
 | actions/setup-go | 37 | 1 | 16 |
-| softprops/action-gh-release | 34 | 1 | 24 |
-| docker/build-push-action | 33 | 1 | 20 |
+| softprops/action-gh-release | 37 | 1 | 27 |
+| docker/setup-buildx-action | 34 | 1 | 22 |
 | library/alpine | 33 | 1 | 11 |
-| library/python | 31 | 2 | 24 |
-| docker/setup-buildx-action | 30 | 1 | 20 |
+| kubernetes/extensions/Deployment | 25 | 1 | 7 |
 | atty | 24 | 1 | 23 |
+| babel-eslint | 24 | 1 | 23 |
 | node-sass | 24 | 2 | 12 |
 | php | 24 | 2 | 17 |
-| babel-eslint | 23 | 1 | 22 |
-| kubernetes/extensions/Deployment | 22 | 1 | 6 |
+| docker/setup-qemu-action | 22 | 1 | 17 |
 | library/debian | 22 | 1 | 7 |
 | actions/setup-dotnet | 21 | 1 | 9 |
 | actions/setup-java | 21 | 1 | 12 |
 | aws-lambda-runtime/python3.14 | 21 | 1 | 1 |
 | library/golang | 21 | 1 | 14 |
-| docker/setup-qemu-action | 20 | 1 | 16 |
+| actions/github-script | 19 | 1 | 13 |
+| library/postgres | 17 | 2 | 13 |
 | next | 17 | 4 | 6 |
-| actions/github-script | 16 | 1 | 11 |
 | aws-lambda-runtime/nodejs14.x | 16 | 1 | 9 |
 | azure-pipelines/windows-image | 16 | 1 | 8 |
+| docker/metadata-action | 16 | 1 | 11 |
 | actions/create-github-app-token | 15 | 1 | 2 |
-| docker/metadata-action | 15 | 1 | 10 |
-| library/postgres | 15 | 2 | 11 |
+| astral-sh/setup-uv | 15 | 1 | 9 |
 | swiftmailer/swiftmailer | 15 | 1 | 14 |
 | @angular/core | 14 | 2 | 3 |
 | doctrine/cache | 14 | 1 | 12 |
 | fzaninotto/faker | 14 | 1 | 8 |
+| postgresql | 14 | 5 | 13 |
 | rails | 14 | 1 | 1 |
 | ansi_term | 13 | 1 | 13 |
+| kubernetes/extensions/Ingress | 13 | 1 | 9 |
+| aws-lambda-runtime/provided.al2023 | 12 | 1 | 3 |
 | failure | 12 | 1 | 6 |
 | ios | 12 | 1 | 4 |
-| kubernetes/extensions/Ingress | 12 | 1 | 8 |
-| postgresql | 12 | 4 | 11 |
 | powershell | 12 | 4 | 5 |
-| aws-lambda-runtime/provided.al2023 | 11 | 1 | 2 |
 | library/ruby | 11 | 1 | 8 |
+| actions/stale | 10 | 1 | 10 |
 | github.com/golang/protobuf | 10 | 1 | 4 |
+| vue | 10 | 1 | 10 |
 | xcode | 10 | 2 | 10 |
 | aws-lambda-runtime/nodejs12.x | 9 | 1 | 3 |
 | babel-preset-es2015 | 9 | 1 | 9 |
 | com.android.billingclient/billing | 9 | 5 | 7 |
 | kubernetes/apps/Deployment | 9 | 2 | 2 |
 | tempdir | 9 | 1 | 7 |
-| vue | 9 | 1 | 9 |
-| actions/stale | 8 | 1 | 8 |
 | aws-lambda-runtime/python3.8 | 8 | 1 | 3 |
 | aws-lambda-runtime/ruby4.0 | 8 | 1 | 1 |
 | dart | 8 | 1 | 4 |
+| kubernetes/storage.k8s.io/StorageClass | 8 | 1 | 2 |
 | mysql | 8 | 1 | 5 |
 | aws-lambda-runtime/nodejs22.x | 7 | 1 | 3 |
-| astral-sh/setup-uv | 6 | 1 | 3 |
-| kubernetes/storage.k8s.io/StorageClass | 6 | 1 | 1 |
-| rust | 6 | 1 | 5 |
+| rust | 7 | 1 | 6 |
+| actions/deploy-pages | 5 | 1 | 5 |
 | kubernetes/apiextensions.k8s.io/CustomResourceDefinition | 5 | 1 | 2 |
 | kubernetes/batch/CronJob | 5 | 1 | 3 |
 | kubernetes/extensions/PodSecurityPolicy | 5 | 1 | 1 |
 | library/redis | 5 | 1 | 3 |
+| django | 4 | 2 | 4 |
 | istanbul | 4 | 1 | 4 |
 | kubernetes/extensions/DaemonSet | 4 | 1 | 2 |
+| kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | 4 | 1 | 3 |
 | request | 4 | 1 | 4 |
 | rollup-plugin-terser | 4 | 1 | 4 |
 | aws-lambda-runtime/provided.al2 | 3 | 1 | 2 |
 | azure-pipelines/macos-image | 3 | 1 | 3 |
-| django | 3 | 2 | 3 |
 | kubernetes/extensions/ReplicaSet | 3 | 1 | 2 |
-| kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | 3 | 1 | 2 |
 | popper.js | 3 | 1 | 3 |
+| redis | 3 | 1 | 3 |
 | rollup-plugin-babel | 3 | 1 | 3 |
 | WindowsAzure.Storage | 3 | 1 | 3 |
-| actions/deploy-pages | 2 | 1 | 2 |
 | actions/labeler | 2 | 1 | 2 |
 | aws-lambda-runtime/nodejs16.x | 2 | 1 | 1 |
 | aws-lambda-runtime/nodejs20.x | 2 | 1 | 1 |
 | crypto-js | 2 | 1 | 2 |
 | github-actions/set-env | 2 | 1 | 1 |
 | hashicorp/setup-terraform | 2 | 1 | 2 |
+| karma-phantomjs-launcher | 2 | 1 | 2 |
 | kubernetes/apps/ReplicaSet | 2 | 1 | 1 |
+| kubernetes/apps/StatefulSet | 2 | 1 | 2 |
 | kubernetes/autoscaling/HorizontalPodAutoscaler | 2 | 2 | 2 |
 | kubernetes/policy/PodDisruptionBudget | 2 | 1 | 2 |
 | kubernetes/policy/PodSecurityPolicy | 2 | 1 | 1 |
 | library/mysql | 2 | 1 | 2 |
 | protractor | 2 | 1 | 2 |
 | pycrypto | 2 | 1 | 2 |
-| redis | 2 | 1 | 2 |
 | scala | 2 | 1 | 1 |
 | sensiolabs/security-checker | 2 | 1 | 1 |
 | tslint | 2 | 1 | 2 |
@@ -155,17 +157,16 @@ Measured on the public corpus of 817 pinned repositories (5492 expected findings
 | gulp-util | 1 | 1 | 1 |
 | helm-repository/stable | 1 | 1 | 1 |
 | i18next-parser | 1 | 1 | 1 |
-| karma-phantomjs-launcher | 1 | 1 | 1 |
 | koa-router | 1 | 1 | 1 |
 | kubernetes/admissionregistration.k8s.io/MutatingWebhookConfiguration | 1 | 1 | 1 |
 | kubernetes/admissionregistration.k8s.io/ValidatingWebhookConfiguration | 1 | 1 | 1 |
 | kubernetes/apps/DaemonSet | 1 | 1 | 1 |
-| kubernetes/apps/StatefulSet | 1 | 1 | 1 |
 | kubernetes/networking.k8s.io/Ingress | 1 | 1 | 1 |
 | kubernetes/rbac.authorization.k8s.io/ClusterRole | 1 | 1 | 1 |
 | lodash.isequal | 1 | 1 | 1 |
 | mysql/mysql-connector-java | 1 | 1 | 1 |
 | natives | 1 | 1 | 1 |
+| nose | 1 | 1 | 1 |
 | pytest-runner | 1 | 1 | 1 |
 | q | 1 | 1 | 1 |
 | react-beautiful-dnd | 1 | 1 | 1 |
@@ -179,65 +180,66 @@ Measured on the public corpus of 817 pinned repositories (5492 expected findings
 
 | Product | Release line | Rule | Event | Findings | Repositories |
 | --- | --- | --- | --- | ---: | ---: |
-| actions/checkout | Unsupported actions/checkout runtime | [`github-actions.checkout.node20`](rules/github-actions.checkout.node20.html) | end-of-support | 765 | 253 |
-| dockerfile | The Dockerfile legacy "ENV key value" form is deprecated | [`container.dockerfile.legacy-env-format`](rules/container.dockerfile.legacy-env-format.html) | deprecated | 762 | 37 |
+| actions/checkout | Unsupported actions/checkout runtime | [`github-actions.checkout.node20`](rules/github-actions.checkout.node20.html) | end-of-support | 947 | 303 |
+| dockerfile | The Dockerfile legacy "ENV key value" form is deprecated | [`container.dockerfile.legacy-env-format`](rules/container.dockerfile.legacy-env-format.html) | deprecated | 769 | 39 |
 | terraform | Interpolation-only strings are deprecated | [`terraform.syntax.interpolation-only`](rules/terraform.syntax.interpolation-only.html) | deprecated | 391 | 8 |
 | cmake | CMake policy versions older than 3.5 are removed | [`cpp.cmake.policy-below-3.5.removed`](rules/cpp.cmake.policy-below-3.5.removed.html) | removed | 239 | 19 |
+| actions/setup-python | Unsupported actions/setup-python runtime | [`github-actions.setup-python.node20`](rules/github-actions.setup-python.node20.html) | end-of-support | 233 | 98 |
 | dotnet | .NET 8 reaches end of support on 2026-11-10 | [`dotnet.runtime.end-of-support-8.0`](rules/dotnet.runtime.end-of-support-8.0.html) | scheduled-end-of-life | 181 | 21 |
-| actions/upload-artifact | Retired actions/upload-artifact release | [`github-actions.upload-artifact.retired`](rules/github-actions.upload-artifact.retired.html) | removed | 127 | 53 |
-| actions/cache | Unsupported actions/cache runtime | [`github-actions.cache.node20`](rules/github-actions.cache.node20.html) | end-of-support | 118 | 48 |
-| actions/setup-python | Unsupported actions/setup-python runtime | [`github-actions.setup-python.node20`](rules/github-actions.setup-python.node20.html) | end-of-support | 118 | 51 |
-| nodejs | Node.js 20 is end-of-life | [`nodejs.runtime.eol-20`](rules/nodejs.runtime.eol-20.html) | end-of-life | 115 | 51 |
-| python | Python 3.9 and older are end-of-life | [`python.runtime.eol-3.9-and-older`](rules/python.runtime.eol-3.9-and-older.html) | end-of-life | 104 | 71 |
-| actions/setup-node | Unsupported actions/setup-node runtime | [`github-actions.setup-node.node20`](rules/github-actions.setup-node.node20.html) | end-of-support | 100 | 45 |
+| python | Python 3.9 and older are end-of-life | [`python.runtime.eol-3.9-and-older`](rules/python.runtime.eol-3.9-and-older.html) | end-of-life | 154 | 104 |
+| actions/upload-artifact | Retired actions/upload-artifact release | [`github-actions.upload-artifact.retired`](rules/github-actions.upload-artifact.retired.html) | removed | 145 | 65 |
+| actions/cache | Unsupported actions/cache runtime | [`github-actions.cache.node20`](rules/github-actions.cache.node20.html) | end-of-support | 124 | 52 |
+| nodejs | Node.js 20 is end-of-life | [`nodejs.runtime.eol-20`](rules/nodejs.runtime.eol-20.html) | end-of-life | 118 | 52 |
+| actions/setup-node | Unsupported actions/setup-node runtime | [`github-actions.setup-node.node20`](rules/github-actions.setup-node.node20.html) | end-of-support | 105 | 48 |
 | ruby | Ruby 2.7 is end-of-life | [`ruby.runtime.eol-2.7`](rules/ruby.runtime.eol-2.7.html) | end-of-life | 99 | 17 |
 | nodejs | Legacy Node.js runtime is end-of-life | [`nodejs.runtime.legacy`](rules/nodejs.runtime.legacy.html) | end-of-life | 88 | 48 |
 | aws-lambda-runtime/nodejs24.x | AWS Lambda Node.js 24 runtime reaches end of life on 2028-04-30 | [`serverless.aws-lambda.nodejs24.x`](rules/serverless.aws-lambda.nodejs24.x.html) | scheduled-end-of-life | 74 | 1 |
 | terraform | The list() and map() functions were removed in Terraform 0.15 | [`terraform.function.list-map`](rules/terraform.function.list-map.html) | removed | 73 | 1 |
 | dotnet | .NET 9 reaches end of support on 2026-11-10 | [`dotnet.runtime.end-of-support-9.0`](rules/dotnet.runtime.end-of-support-9.0.html) | scheduled-end-of-life | 72 | 8 |
+| nodejs | Node.js 18 is end-of-life | [`nodejs.runtime.eol-18`](rules/nodejs.runtime.eol-18.html) | end-of-life | 66 | 47 |
 | dotnet | .NET Core 3.1 is no longer supported | [`dotnet.runtime.end-of-support-3.1`](rules/dotnet.runtime.end-of-support-3.1.html) | end-of-support | 65 | 17 |
-| nodejs | Node.js 18 is end-of-life | [`nodejs.runtime.eol-18`](rules/nodejs.runtime.eol-18.html) | end-of-life | 65 | 46 |
 | dotnet | .NET 7 is no longer supported | [`dotnet.runtime.end-of-support-7.0`](rules/dotnet.runtime.end-of-support-7.0.html) | end-of-support | 64 | 8 |
 | ruby | Ruby 3.2 is end-of-life | [`ruby.runtime.eol-3.2`](rules/ruby.runtime.eol-3.2.html) | end-of-life | 63 | 8 |
 | golang | Go 1.20 and older are no longer supported | [`go.runtime.end-of-support-1.20-and-older`](rules/go.runtime.end-of-support-1.20-and-older.html) | end-of-support | 59 | 34 |
-| github-actions/set-output | Deprecated GitHub Actions ::set-output command | [`github-actions.workflow-command.set-output`](rules/github-actions.workflow-command.set-output.html) | deprecated | 55 | 18 |
+| github-actions/set-output | Deprecated GitHub Actions ::set-output command | [`github-actions.workflow-command.set-output`](rules/github-actions.workflow-command.set-output.html) | deprecated | 57 | 20 |
+| python | Python 3.10 and older are end-of-life | [`python.runtime.eol-3.10-and-older`](rules/python.runtime.eol-3.10-and-older.html) | end-of-life | 56 | 44 |
 | library/ubuntu | Ubuntu image release lines 20.04 and older are past standard support end-of-life | [`container.ubuntu.eol-20.04-and-older`](rules/container.ubuntu.eol-20.04-and-older.html) | end-of-life | 53 | 23 |
+| actions/download-artifact | Retired actions/download-artifact release | [`github-actions.download-artifact.retired`](rules/github-actions.download-artifact.retired.html) | removed | 51 | 36 |
 | dotnet | .NET Core 2.0 is no longer supported | [`dotnet.runtime.end-of-support-2.0`](rules/dotnet.runtime.end-of-support-2.0.html) | end-of-support | 50 | 4 |
+| docker/login-action | Unsupported docker/login-action runtime | [`github-actions.login-action.node20`](rules/github-actions.login-action.node20.html) | end-of-support | 48 | 30 |
 | dotnet | .NET 5 is no longer supported | [`dotnet.runtime.end-of-support-5.0`](rules/dotnet.runtime.end-of-support-5.0.html) | end-of-support | 45 | 12 |
+| library/node | Node.js image release lines 21 and older are end-of-life | [`container.node.eol-21-and-older`](rules/container.node.eol-21-and-older.html) | end-of-life | 43 | 19 |
 | nodejs | Node.js 22 reaches end-of-life on 2027-04-30 | [`nodejs.runtime.eol-22`](rules/nodejs.runtime.eol-22.html) | scheduled-end-of-life | 43 | 24 |
 | dotnet | .NET 6 is no longer supported | [`dotnet.runtime.end-of-support-6.0`](rules/dotnet.runtime.end-of-support-6.0.html) | end-of-support | 41 | 12 |
-| library/node | Node.js image release lines 21 and older are end-of-life | [`container.node.eol-21-and-older`](rules/container.node.eol-21-and-older.html) | end-of-life | 41 | 18 |
-| actions/download-artifact | Retired actions/download-artifact release | [`github-actions.download-artifact.retired`](rules/github-actions.download-artifact.retired.html) | removed | 40 | 27 |
-| docker/login-action | Unsupported docker/login-action runtime | [`github-actions.login-action.node20`](rules/github-actions.login-action.node20.html) | end-of-support | 40 | 25 |
 | nodejs | Node.js 19 is end-of-life | [`nodejs.runtime.eol-19`](rules/nodejs.runtime.eol-19.html) | end-of-life | 39 | 35 |
+| docker/build-push-action | Unsupported docker/build-push-action runtime | [`github-actions.build-push-action.node20`](rules/github-actions.build-push-action.node20.html) | end-of-support | 38 | 23 |
 | actions/setup-go | Unsupported actions/setup-go runtime | [`github-actions.setup-go.node20`](rules/github-actions.setup-go.node20.html) | end-of-support | 37 | 16 |
-| softprops/action-gh-release | Unsupported softprops/action-gh-release runtime | [`github-actions.action-gh-release.node20`](rules/github-actions.action-gh-release.node20.html) | end-of-support | 34 | 24 |
-| docker/build-push-action | Unsupported docker/build-push-action runtime | [`github-actions.build-push-action.node20`](rules/github-actions.build-push-action.node20.html) | end-of-support | 33 | 20 |
+| softprops/action-gh-release | Unsupported softprops/action-gh-release runtime | [`github-actions.action-gh-release.node20`](rules/github-actions.action-gh-release.node20.html) | end-of-support | 37 | 27 |
+| library/python | Python image release lines 3.10 and older are end-of-life | [`container.python.eol-3.10-and-older`](rules/container.python.eol-3.10-and-older.html) | end-of-life | 36 | 29 |
+| docker/setup-buildx-action | Unsupported docker/setup-buildx-action runtime | [`github-actions.setup-buildx-action.node20`](rules/github-actions.setup-buildx-action.node20.html) | end-of-support | 34 | 22 |
 | library/alpine | Alpine Linux image release lines 3.20 and older are end-of-life | [`container.alpine.eol-3.20-and-older`](rules/container.alpine.eol-3.20-and-older.html) | end-of-life | 33 | 11 |
-| docker/setup-buildx-action | Unsupported docker/setup-buildx-action runtime | [`github-actions.setup-buildx-action.node20`](rules/github-actions.setup-buildx-action.node20.html) | end-of-support | 30 | 20 |
 | java | Java 18 to 20 are no longer supported | [`java.jdk.end-of-support-18-20`](rules/java.jdk.end-of-support-18-20.html) | end-of-support | 30 | 6 |
-| python | Python 3.10 and older are end-of-life | [`python.runtime.eol-3.10-and-older`](rules/python.runtime.eol-3.10-and-older.html) | end-of-life | 30 | 23 |
 | java | Java 12 to 16 are no longer supported | [`java.jdk.end-of-support-12-16`](rules/java.jdk.end-of-support-12-16.html) | end-of-support | 29 | 6 |
-| library/python | Python image release lines 3.10 and older are end-of-life | [`container.python.eol-3.10-and-older`](rules/container.python.eol-3.10-and-older.html) | end-of-life | 28 | 22 |
 | azure-pipelines/ubuntu-image | Azure Pipelines Ubuntu 20.04 hosted image is retired | [`ci-images.azure-pipelines.ubuntu-20.04`](rules/ci-images.azure-pipelines.ubuntu-20.04.html) | removed | 25 | 14 |
+| kubernetes/extensions/Deployment | Deployment extensions/v1beta1 is no longer served | [`kubernetes.extensions.deployment.v1beta1.removed`](rules/kubernetes.extensions.deployment.v1beta1.removed.html) | removed | 25 | 7 |
 | atty | atty is no longer maintained | [`rust.crate.atty.unmaintained`](rules/rust.crate.atty.unmaintained.html) | deprecated | 24 | 23 |
-| babel-eslint | babel-eslint is deprecated | [`npm.package.babel-eslint.deprecated`](rules/npm.package.babel-eslint.deprecated.html) | deprecated | 23 | 22 |
+| babel-eslint | babel-eslint is deprecated | [`npm.package.babel-eslint.deprecated`](rules/npm.package.babel-eslint.deprecated.html) | deprecated | 24 | 23 |
 | php | PHP 7.4 is end-of-life | [`php.runtime.eol-7.4`](rules/php.runtime.eol-7.4.html) | end-of-life | 23 | 16 |
-| kubernetes/extensions/Deployment | Deployment extensions/v1beta1 is no longer served | [`kubernetes.extensions.deployment.v1beta1.removed`](rules/kubernetes.extensions.deployment.v1beta1.removed.html) | removed | 22 | 6 |
+| docker/setup-qemu-action | Unsupported docker/setup-qemu-action runtime | [`github-actions.setup-qemu-action.node20`](rules/github-actions.setup-qemu-action.node20.html) | end-of-support | 22 | 17 |
 | library/debian | Debian image release lines 11 and older are end-of-life | [`container.debian.eol-11-and-older`](rules/container.debian.eol-11-and-older.html) | end-of-life | 22 | 7 |
 | actions/setup-dotnet | Unsupported actions/setup-dotnet runtime | [`github-actions.setup-dotnet.node20`](rules/github-actions.setup-dotnet.node20.html) | end-of-support | 21 | 9 |
 | actions/setup-java | Unsupported actions/setup-java runtime | [`github-actions.setup-java.node20`](rules/github-actions.setup-java.node20.html) | end-of-support | 21 | 12 |
 | aws-lambda-runtime/python3.14 | AWS Lambda Python 3.14 runtime reaches end of life on 2029-06-30 | [`serverless.aws-lambda.python3.14`](rules/serverless.aws-lambda.python3.14.html) | scheduled-end-of-life | 21 | 1 |
 | dockerfile | The Dockerfile MAINTAINER instruction is deprecated | [`container.dockerfile.maintainer`](rules/container.dockerfile.maintainer.html) | deprecated | 21 | 12 |
 | library/golang | Go image release lines 1.25 and older are end-of-life | [`container.golang.eol-1.25-and-older`](rules/container.golang.eol-1.25-and-older.html) | end-of-life | 21 | 14 |
-| docker/setup-qemu-action | Unsupported docker/setup-qemu-action runtime | [`github-actions.setup-qemu-action.node20`](rules/github-actions.setup-qemu-action.node20.html) | end-of-support | 20 | 16 |
+| actions/github-script | Unsupported actions/github-script runtime | [`github-actions.github-script.node20`](rules/github-actions.github-script.node20.html) | end-of-support | 19 | 13 |
 | azure-pipelines/ubuntu-image | Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal | [`ci-images.azure-pipelines.ubuntu-22.04`](rules/ci-images.azure-pipelines.ubuntu-22.04.html) | scheduled-end-of-life | 19 | 10 |
 | golang | Go 1.24 is no longer supported | [`go.runtime.end-of-support-1.24`](rules/go.runtime.end-of-support-1.24.html) | end-of-support | 18 | 7 |
-| actions/github-script | Unsupported actions/github-script runtime | [`github-actions.github-script.node20`](rules/github-actions.github-script.node20.html) | end-of-support | 16 | 11 |
 | aws-lambda-runtime/nodejs14.x | AWS Lambda Node.js 14 runtime is end-of-life | [`serverless.aws-lambda.nodejs14.x`](rules/serverless.aws-lambda.nodejs14.x.html) | end-of-life | 16 | 9 |
 | azure-pipelines/windows-image | Azure Pipelines Windows Server 2019 hosted image is retired | [`ci-images.azure-pipelines.windows-2019`](rules/ci-images.azure-pipelines.windows-2019.html) | removed | 16 | 8 |
+| docker/metadata-action | Unsupported docker/metadata-action runtime | [`github-actions.metadata-action.node20`](rules/github-actions.metadata-action.node20.html) | end-of-support | 16 | 11 |
 | actions/create-github-app-token | Unsupported actions/create-github-app-token runtime | [`github-actions.create-github-app-token.node20`](rules/github-actions.create-github-app-token.node20.html) | end-of-support | 15 | 2 |
-| docker/metadata-action | Unsupported docker/metadata-action runtime | [`github-actions.metadata-action.node20`](rules/github-actions.metadata-action.node20.html) | end-of-support | 15 | 10 |
+| astral-sh/setup-uv | Unsupported astral-sh/setup-uv runtime | [`github-actions.setup-uv.node20`](rules/github-actions.setup-uv.node20.html) | end-of-support | 15 | 9 |
 | swiftmailer/swiftmailer | swiftmailer/swiftmailer is abandoned | [`php.package.swiftmailer.swiftmailer.abandoned`](rules/php.package.swiftmailer.swiftmailer.abandoned.html) | deprecated | 15 | 14 |
 | doctrine/cache | doctrine/cache is abandoned | [`php.package.doctrine.cache.abandoned`](rules/php.package.doctrine.cache.abandoned.html) | deprecated | 14 | 12 |
 | dotnet | .NET Core 3.0 is no longer supported | [`dotnet.runtime.end-of-support-3.0`](rules/dotnet.runtime.end-of-support-3.0.html) | end-of-support | 14 | 6 |
@@ -246,41 +248,41 @@ Measured on the public corpus of 817 pinned repositories (5492 expected findings
 | rails | Rails 8.0 security support is scheduled to end | [`ruby.gem.rails-8.0.scheduled-end-of-life`](rules/ruby.gem.rails-8.0.scheduled-end-of-life.html) | scheduled-end-of-life | 14 | 1 |
 | ruby | Ruby 2.0.0 is end-of-life | [`ruby.runtime.eol-2.0.0`](rules/ruby.runtime.eol-2.0.0.html) | end-of-life | 14 | 2 |
 | ansi_term | ansi_term is no longer maintained | [`rust.crate.ansi-term.unmaintained`](rules/rust.crate.ansi-term.unmaintained.html) | deprecated | 13 | 13 |
+| kubernetes/extensions/Ingress | Ingress extensions/v1beta1 is no longer served | [`kubernetes.extensions.ingress.v1beta1.removed`](rules/kubernetes.extensions.ingress.v1beta1.removed.html) | removed | 13 | 9 |
 | @angular/core | @angular/core v20 reaches end of life on 2026-11-28 | [`npm.package.angular.core.v20.scheduled-end-of-life`](rules/npm.package.angular.core.v20.scheduled-end-of-life.html) | scheduled-end-of-life | 12 | 1 |
+| aws-lambda-runtime/provided.al2023 | AWS Lambda OS-only runtime provided.al2023 runtime reaches end of life on 2029-06-30 | [`serverless.aws-lambda.provided.al2023`](rules/serverless.aws-lambda.provided.al2023.html) | scheduled-end-of-life | 12 | 3 |
 | failure | failure is no longer maintained | [`rust.crate.failure.unmaintained`](rules/rust.crate.failure.unmaintained.html) | deprecated | 12 | 6 |
 | ios | iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads | [`swift.app-store.ios-below-13`](rules/swift.app-store.ios-below-13.html) | end-of-support | 12 | 4 |
-| kubernetes/extensions/Ingress | Ingress extensions/v1beta1 is no longer served | [`kubernetes.extensions.ingress.v1beta1.removed`](rules/kubernetes.extensions.ingress.v1beta1.removed.html) | removed | 12 | 8 |
 | node-sass | node-sass is deprecated | [`npm.package.node-sass.deprecated`](rules/npm.package.node-sass.deprecated.html) | deprecated | 12 | 12 |
 | node-sass | Node Sass is end-of-life | [`npm.package.node-sass.eol`](rules/npm.package.node-sass.eol.html) | end-of-life | 12 | 12 |
-| aws-lambda-runtime/provided.al2023 | AWS Lambda OS-only runtime provided.al2023 runtime reaches end of life on 2029-06-30 | [`serverless.aws-lambda.provided.al2023`](rules/serverless.aws-lambda.provided.al2023.html) | scheduled-end-of-life | 11 | 2 |
 | library/ruby | Ruby image release lines 3.2 and older are end-of-life | [`container.ruby.eol-3.2-and-older`](rules/container.ruby.eol-3.2-and-older.html) | end-of-life | 11 | 8 |
 | next | Next.js 15 is out of support | [`npm.package.next.15.support-end`](rules/npm.package.next.15.support-end.html) | end-of-support | 11 | 2 |
 | ruby | Ruby 3.1 is end-of-life | [`ruby.runtime.eol-3.1`](rules/ruby.runtime.eol-3.1.html) | end-of-life | 11 | 5 |
+| actions/stale | Unsupported actions/stale runtime | [`github-actions.stale.node20`](rules/github-actions.stale.node20.html) | end-of-support | 10 | 10 |
 | github.com/golang/protobuf | github.com/golang/protobuf is deprecated | [`go.module.github.com.golang.protobuf.deprecated`](rules/go.module.github.com.golang.protobuf.deprecated.html) | deprecated | 10 | 4 |
 | golang | Go 1.25 is no longer supported | [`go.runtime.end-of-support-1.25`](rules/go.runtime.end-of-support-1.25.html) | end-of-support | 10 | 8 |
+| vue | Vue 2 is end-of-life | [`npm.package.vue.eol-2`](rules/npm.package.vue.eol-2.html) | end-of-life | 10 | 10 |
 | aws-lambda-runtime/nodejs12.x | AWS Lambda Node.js 12 runtime is end-of-life | [`serverless.aws-lambda.nodejs12.x`](rules/serverless.aws-lambda.nodejs12.x.html) | end-of-life | 9 | 3 |
 | babel-preset-es2015 | babel-preset-es2015 is deprecated | [`npm.package.babel-preset-es2015.deprecated`](rules/npm.package.babel-preset-es2015.deprecated.html) | deprecated | 9 | 9 |
 | library/ubuntu | Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01 | [`container.ubuntu.eol-22.04`](rules/container.ubuntu.eol-22.04.html) | scheduled-end-of-life | 9 | 5 |
 | tempdir | tempdir is no longer maintained | [`rust.crate.tempdir.unmaintained`](rules/rust.crate.tempdir.unmaintained.html) | deprecated | 9 | 7 |
-| vue | Vue 2 is end-of-life | [`npm.package.vue.eol-2`](rules/npm.package.vue.eol-2.html) | end-of-life | 9 | 9 |
-| actions/stale | Unsupported actions/stale runtime | [`github-actions.stale.node20`](rules/github-actions.stale.node20.html) | end-of-support | 8 | 8 |
 | aws-lambda-runtime/python3.8 | AWS Lambda Python 3.8 runtime is end-of-life | [`serverless.aws-lambda.python3.8`](rules/serverless.aws-lambda.python3.8.html) | end-of-life | 8 | 3 |
 | aws-lambda-runtime/ruby4.0 | AWS Lambda Ruby 4.0 runtime reaches end of life on 2029-03-31 | [`serverless.aws-lambda.ruby4.0`](rules/serverless.aws-lambda.ruby4.0.html) | scheduled-end-of-life | 8 | 1 |
 | dart | Dart 3.8 no longer receives security updates | [`dart.sdk.end-of-support-3.8`](rules/dart.sdk.end-of-support-3.8.html) | end-of-support | 8 | 4 |
 | kubernetes/apps/Deployment | Deployment apps/v1beta1 is no longer served | [`kubernetes.apps.deployment.v1beta1.removed`](rules/kubernetes.apps.deployment.v1beta1.removed.html) | removed | 8 | 2 |
+| kubernetes/storage.k8s.io/StorageClass | StorageClass storage.k8s.io/v1beta1 is no longer served | [`kubernetes.storage-k8s-io.storageclass.v1beta1.removed`](rules/kubernetes.storage-k8s-io.storageclass.v1beta1.removed.html) | removed | 8 | 2 |
 | mysql | MySQL 5.7 is end-of-life | [`database.mysql.end-of-life-5.7`](rules/database.mysql.end-of-life-5.7.html) | end-of-life | 8 | 5 |
 | ruby | Ruby 2.6 is end-of-life | [`ruby.runtime.eol-2.6`](rules/ruby.runtime.eol-2.6.html) | end-of-life | 8 | 3 |
 | aws-lambda-runtime/nodejs22.x | AWS Lambda Node.js 22 runtime reaches end of life on 2027-04-30 | [`serverless.aws-lambda.nodejs22.x`](rules/serverless.aws-lambda.nodejs22.x.html) | scheduled-end-of-life | 7 | 3 |
 | golang | Go 1.22 is no longer supported | [`go.runtime.end-of-support-1.22`](rules/go.runtime.end-of-support-1.22.html) | end-of-support | 7 | 6 |
 | ruby | Ruby 2.5 is end-of-life | [`ruby.runtime.eol-2.5`](rules/ruby.runtime.eol-2.5.html) | end-of-life | 7 | 4 |
-| astral-sh/setup-uv | Unsupported astral-sh/setup-uv runtime | [`github-actions.setup-uv.node20`](rules/github-actions.setup-uv.node20.html) | end-of-support | 6 | 3 |
-| kubernetes/storage.k8s.io/StorageClass | StorageClass storage.k8s.io/v1beta1 is no longer served | [`kubernetes.storage-k8s-io.storageclass.v1beta1.removed`](rules/kubernetes.storage-k8s-io.storageclass.v1beta1.removed.html) | removed | 6 | 1 |
+| rust | Rust 1.98 and older are no longer supported | [`rust.toolchain.end-of-support-1.98-and-older`](rules/rust.toolchain.end-of-support-1.98-and-older.html) | end-of-support | 7 | 6 |
 | postgresql | PostgreSQL 13 is no longer a supported major version | [`database.postgresql.end-of-life-13`](rules/database.postgresql.end-of-life-13.html) | end-of-life | 6 | 6 |
 | powershell | PowerShell 7.2 (LTS) is no longer supported | [`shell.powershell.end-of-life-7.2`](rules/shell.powershell.end-of-life-7.2.html) | end-of-life | 6 | 1 |
 | ruby | Ruby 2.3 is end-of-life | [`ruby.runtime.eol-2.3`](rules/ruby.runtime.eol-2.3.html) | end-of-life | 6 | 3 |
 | ruby | Ruby 3.0 is end-of-life | [`ruby.runtime.eol-3.0`](rules/ruby.runtime.eol-3.0.html) | end-of-life | 6 | 5 |
-| rust | Rust 1.98 and older are no longer supported | [`rust.toolchain.end-of-support-1.98-and-older`](rules/rust.toolchain.end-of-support-1.98-and-older.html) | end-of-support | 6 | 5 |
 | xcode | Xcode older than 15 is not accepted for App Store uploads | [`swift.xcode.app-store-below-15`](rules/swift.xcode.app-store-below-15.html) | end-of-support | 6 | 6 |
+| actions/deploy-pages | Unsupported actions/deploy-pages runtime | [`github-actions.deploy-pages.node20`](rules/github-actions.deploy-pages.node20.html) | end-of-support | 5 | 5 |
 | com.android.billingclient/billing | Google Play Billing Library 8 reaches its new-app and update deadline on 2027-08-31 | [`android.play-billing.version-8`](rules/android.play-billing.version-8.html) | scheduled-end-of-life | 5 | 3 |
 | dotnet | .NET Core 2.1 is no longer supported | [`dotnet.runtime.end-of-support-2.1`](rules/dotnet.runtime.end-of-support-2.1.html) | end-of-support | 5 | 3 |
 | golang | Go 1.21 is no longer supported | [`go.runtime.end-of-support-1.21`](rules/go.runtime.end-of-support-1.21.html) | end-of-support | 5 | 3 |
@@ -292,6 +294,8 @@ Measured on the public corpus of 817 pinned repositories (5492 expected findings
 | golang | Go 1.23 is no longer supported | [`go.runtime.end-of-support-1.23`](rules/go.runtime.end-of-support-1.23.html) | end-of-support | 4 | 3 |
 | istanbul | istanbul is deprecated | [`npm.package.istanbul.deprecated`](rules/npm.package.istanbul.deprecated.html) | deprecated | 4 | 4 |
 | kubernetes/extensions/DaemonSet | DaemonSet extensions/v1beta1 is no longer served | [`kubernetes.extensions.daemonset.v1beta1.removed`](rules/kubernetes.extensions.daemonset.v1beta1.removed.html) | removed | 4 | 2 |
+| kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | ClusterRoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served | [`kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed`](rules/kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html) | removed | 4 | 3 |
+| library/python | Python image release line 3.11 reaches end-of-life on 2027-10-31 | [`container.python.eol-3.11-and-older`](rules/container.python.eol-3.11-and-older.html) | scheduled-end-of-life | 4 | 3 |
 | next | Next.js 14 is out of support | [`npm.package.next.14.support-end`](rules/npm.package.next.14.support-end.html) | end-of-support | 4 | 3 |
 | nodejs | Node.js 25 is end-of-life | [`nodejs.runtime.eol-25`](rules/nodejs.runtime.eol-25.html) | end-of-life | 4 | 2 |
 | powershell | PowerShell 7.0 (LTS) is no longer supported | [`shell.powershell.end-of-life-7.0`](rules/shell.powershell.end-of-life-7.0.html) | end-of-life | 4 | 2 |
@@ -302,24 +306,25 @@ Measured on the public corpus of 817 pinned repositories (5492 expected findings
 | aws-lambda-runtime/provided.al2 | AWS Lambda OS-only runtime provided.al2 runtime is end-of-life | [`serverless.aws-lambda.provided.al2`](rules/serverless.aws-lambda.provided.al2.html) | end-of-life | 3 | 2 |
 | azure-pipelines/macos-image | Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal | [`ci-images.azure-pipelines.macos-14`](rules/ci-images.azure-pipelines.macos-14.html) | scheduled-end-of-life | 3 | 3 |
 | cmake | CMake policy versions older than 3.10 are deprecated | [`cpp.cmake.policy-below-3.10.deprecated`](rules/cpp.cmake.policy-below-3.10.deprecated.html) | deprecated | 3 | 3 |
+| django | Django 4.2 LTS is end-of-life | [`python.package.django-4.2.eol`](rules/python.package.django-4.2.eol.html) | end-of-life | 3 | 3 |
 | kubernetes/extensions/ReplicaSet | ReplicaSet extensions/v1beta1 is no longer served | [`kubernetes.extensions.replicaset.v1beta1.removed`](rules/kubernetes.extensions.replicaset.v1beta1.removed.html) | removed | 3 | 2 |
-| kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding | ClusterRoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served | [`kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed`](rules/kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html) | removed | 3 | 2 |
 | library/node | Node.js image release line 22 reaches end-of-life on 2027-04-30 | [`container.node.eol-22-and-older`](rules/container.node.eol-22-and-older.html) | scheduled-end-of-life | 3 | 2 |
-| library/python | Python image release line 3.11 reaches end-of-life on 2027-10-31 | [`container.python.eol-3.11-and-older`](rules/container.python.eol-3.11-and-older.html) | scheduled-end-of-life | 3 | 2 |
+| library/postgres | PostgreSQL image release line 14 reaches end-of-life on 2026-11-12 | [`container.postgres.eol-14-and-older`](rules/container.postgres.eol-14-and-older.html) | scheduled-end-of-life | 3 | 3 |
 | popper.js | popper.js is deprecated | [`npm.package.popper.js.deprecated`](rules/npm.package.popper.js.deprecated.html) | deprecated | 3 | 3 |
+| redis | Redis 7.0 is end-of-life | [`database.redis.end-of-life-7.0`](rules/database.redis.end-of-life-7.0.html) | end-of-life | 3 | 3 |
 | rollup-plugin-babel | rollup-plugin-babel is deprecated | [`npm.package.rollup-plugin-babel.deprecated`](rules/npm.package.rollup-plugin-babel.deprecated.html) | deprecated | 3 | 3 |
 | terraform | Terraform CLI 1.12 is no longer a supported release line | [`terraform.cli.end-of-support-1.12`](rules/terraform.cli.end-of-support-1.12.html) | end-of-support | 3 | 2 |
 | WindowsAzure.Storage | WindowsAzure.Storage is deprecated on NuGet | [`dotnet.package.windowsazure-storage.deprecated`](rules/dotnet.package.windowsazure-storage.deprecated.html) | deprecated | 3 | 3 |
 | @angular/core | @angular/core v18 and older are no longer supported | [`npm.package.angular.core.v18-and-older.end-of-support`](rules/npm.package.angular.core.v18-and-older.end-of-support.html) | end-of-support | 2 | 2 |
-| actions/deploy-pages | Unsupported actions/deploy-pages runtime | [`github-actions.deploy-pages.node20`](rules/github-actions.deploy-pages.node20.html) | end-of-support | 2 | 2 |
 | actions/labeler | Unsupported actions/labeler runtime | [`github-actions.labeler.node20`](rules/github-actions.labeler.node20.html) | end-of-support | 2 | 2 |
 | aws-lambda-runtime/nodejs16.x | AWS Lambda Node.js 16 runtime is end-of-life | [`serverless.aws-lambda.nodejs16.x`](rules/serverless.aws-lambda.nodejs16.x.html) | end-of-life | 2 | 1 |
 | aws-lambda-runtime/nodejs20.x | AWS Lambda Node.js 20 runtime is end-of-life | [`serverless.aws-lambda.nodejs20.x`](rules/serverless.aws-lambda.nodejs20.x.html) | end-of-life | 2 | 1 |
 | crypto-js | crypto-js is deprecated | [`npm.package.crypto-js.deprecated`](rules/npm.package.crypto-js.deprecated.html) | deprecated | 2 | 2 |
-| django | Django 4.2 LTS is end-of-life | [`python.package.django-4.2.eol`](rules/python.package.django-4.2.eol.html) | end-of-life | 2 | 2 |
 | github-actions/set-env | Removed GitHub Actions ::set-env command | [`github-actions.workflow-command.set-env`](rules/github-actions.workflow-command.set-env.html) | removed | 2 | 1 |
 | hashicorp/setup-terraform | Unsupported hashicorp/setup-terraform runtime | [`github-actions.setup-terraform.node20`](rules/github-actions.setup-terraform.node20.html) | end-of-support | 2 | 2 |
+| karma-phantomjs-launcher | karma-phantomjs-launcher is deprecated | [`npm.package.karma-phantomjs-launcher.deprecated`](rules/npm.package.karma-phantomjs-launcher.deprecated.html) | deprecated | 2 | 2 |
 | kubernetes/apps/ReplicaSet | ReplicaSet apps/v1beta2 is no longer served | [`kubernetes.apps.replicaset.v1beta2.removed`](rules/kubernetes.apps.replicaset.v1beta2.removed.html) | removed | 2 | 1 |
+| kubernetes/apps/StatefulSet | StatefulSet apps/v1beta1 is no longer served | [`kubernetes.apps.statefulset.v1beta1.removed`](rules/kubernetes.apps.statefulset.v1beta1.removed.html) | removed | 2 | 2 |
 | kubernetes/policy/PodDisruptionBudget | PodDisruptionBudget policy/v1beta1 is no longer served | [`kubernetes.policy.poddisruptionbudget.v1beta1.removed`](rules/kubernetes.policy.poddisruptionbudget.v1beta1.removed.html) | removed | 2 | 2 |
 | kubernetes/policy/PodSecurityPolicy | PodSecurityPolicy policy/v1beta1 is no longer served | [`kubernetes.policy.podsecuritypolicy.v1beta1.removed`](rules/kubernetes.policy.podsecuritypolicy.v1beta1.removed.html) | removed | 2 | 1 |
 | library/mysql | MySQL image release lines 8.0 and older are past end-of-life | [`container.mysql.eol-8.0-and-older`](rules/container.mysql.eol-8.0-and-older.html) | end-of-life | 2 | 2 |
@@ -327,9 +332,9 @@ Measured on the public corpus of 817 pinned repositories (5492 expected findings
 | postgresql | PostgreSQL 10 is no longer a supported major version | [`database.postgresql.end-of-life-10`](rules/database.postgresql.end-of-life-10.html) | end-of-life | 2 | 2 |
 | postgresql | PostgreSQL 11 is no longer a supported major version | [`database.postgresql.end-of-life-11`](rules/database.postgresql.end-of-life-11.html) | end-of-life | 2 | 2 |
 | postgresql | PostgreSQL 12 is no longer a supported major version | [`database.postgresql.end-of-life-12`](rules/database.postgresql.end-of-life-12.html) | end-of-life | 2 | 2 |
+| postgresql | PostgreSQL 14 reaches the end of its support on 2026-11-12 | [`database.postgresql.end-of-life-14`](rules/database.postgresql.end-of-life-14.html) | scheduled-end-of-life | 2 | 2 |
 | protractor | Protractor is deprecated | [`npm.package.protractor.deprecated`](rules/npm.package.protractor.deprecated.html) | deprecated | 2 | 2 |
 | pycrypto | PyCrypto is obsolete and vulnerable | [`python.package.pycrypto.obsolete`](rules/python.package.pycrypto.obsolete.html) | end-of-life | 2 | 2 |
-| redis | Redis 7.0 is end-of-life | [`database.redis.end-of-life-7.0`](rules/database.redis.end-of-life-7.0.html) | end-of-life | 2 | 2 |
 | ruby | Ruby 2.1 is end-of-life | [`ruby.runtime.eol-2.1`](rules/ruby.runtime.eol-2.1.html) | end-of-life | 2 | 2 |
 | scala | Scala 2.11 reached end of life | [`scala.runtime.eol-2.11`](rules/scala.runtime.eol-2.11.html) | end-of-life | 2 | 1 |
 | sensiolabs/security-checker | sensiolabs/security-checker is abandoned | [`php.package.sensiolabs.security-checker.abandoned`](rules/php.package.sensiolabs.security-checker.abandoned.html) | deprecated | 2 | 1 |
@@ -364,24 +369,22 @@ Measured on the public corpus of 817 pinned repositories (5492 expected findings
 | helm-repository/stable | Helm stable chart repository is end of life | [`kubernetes.helm.repository.stable.end-of-life`](rules/kubernetes.helm.repository.stable.end-of-life.html) | end-of-life | 1 | 1 |
 | i18next-parser | i18next-parser is deprecated | [`npm.package.i18next-parser.deprecated`](rules/npm.package.i18next-parser.deprecated.html) | deprecated | 1 | 1 |
 | java | Java 22 to 24 are no longer supported | [`java.jdk.end-of-support-22-24`](rules/java.jdk.end-of-support-22-24.html) | end-of-support | 1 | 1 |
-| karma-phantomjs-launcher | karma-phantomjs-launcher is deprecated | [`npm.package.karma-phantomjs-launcher.deprecated`](rules/npm.package.karma-phantomjs-launcher.deprecated.html) | deprecated | 1 | 1 |
 | koa-router | koa-router is deprecated | [`npm.package.koa-router.deprecated`](rules/npm.package.koa-router.deprecated.html) | deprecated | 1 | 1 |
 | kubernetes/admissionregistration.k8s.io/MutatingWebhookConfiguration | MutatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served | [`kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed`](rules/kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed.html) | removed | 1 | 1 |
 | kubernetes/admissionregistration.k8s.io/ValidatingWebhookConfiguration | ValidatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served | [`kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed`](rules/kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed.html) | removed | 1 | 1 |
 | kubernetes/apps/DaemonSet | DaemonSet apps/v1beta2 is no longer served | [`kubernetes.apps.daemonset.v1beta2.removed`](rules/kubernetes.apps.daemonset.v1beta2.removed.html) | removed | 1 | 1 |
 | kubernetes/apps/Deployment | Deployment apps/v1beta2 is no longer served | [`kubernetes.apps.deployment.v1beta2.removed`](rules/kubernetes.apps.deployment.v1beta2.removed.html) | removed | 1 | 1 |
-| kubernetes/apps/StatefulSet | StatefulSet apps/v1beta1 is no longer served | [`kubernetes.apps.statefulset.v1beta1.removed`](rules/kubernetes.apps.statefulset.v1beta1.removed.html) | removed | 1 | 1 |
 | kubernetes/autoscaling/HorizontalPodAutoscaler | HorizontalPodAutoscaler autoscaling/v2beta1 is no longer served | [`kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed`](rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed.html) | removed | 1 | 1 |
 | kubernetes/autoscaling/HorizontalPodAutoscaler | HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served | [`kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed`](rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html) | removed | 1 | 1 |
 | kubernetes/networking.k8s.io/Ingress | Ingress networking.k8s.io/v1beta1 is no longer served | [`kubernetes.networking-k8s-io.ingress.v1beta1.removed`](rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html) | removed | 1 | 1 |
 | kubernetes/rbac.authorization.k8s.io/ClusterRole | ClusterRole rbac.authorization.k8s.io/v1beta1 is no longer served | [`kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed`](rules/kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed.html) | removed | 1 | 1 |
-| library/postgres | PostgreSQL image release line 14 reaches end-of-life on 2026-11-12 | [`container.postgres.eol-14-and-older`](rules/container.postgres.eol-14-and-older.html) | scheduled-end-of-life | 1 | 1 |
 | lodash.isequal | lodash.isequal is deprecated | [`npm.package.lodash-isequal.deprecated`](rules/npm.package.lodash-isequal.deprecated.html) | deprecated | 1 | 1 |
 | mysql/mysql-connector-java | mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j | [`java.maven.mysql.mysql-connector-java.relocated`](rules/java.maven.mysql.mysql-connector-java.relocated.html) | deprecated | 1 | 1 |
 | natives | natives is deprecated | [`npm.package.natives.deprecated`](rules/npm.package.natives.deprecated.html) | deprecated | 1 | 1 |
 | next | Next.js 12 is out of support | [`npm.package.next.12.support-end`](rules/npm.package.next.12.support-end.html) | end-of-support | 1 | 1 |
 | next | Next.js 13 is out of support | [`npm.package.next.13.support-end`](rules/npm.package.next.13.support-end.html) | end-of-support | 1 | 1 |
 | nodejs | Node.js 21 is end-of-life | [`nodejs.runtime.eol-21`](rules/nodejs.runtime.eol-21.html) | end-of-life | 1 | 1 |
+| nose | nose is maintenance-only | [`python.package.nose.maintenance-only`](rules/python.package.nose.maintenance-only.html) | deprecated | 1 | 1 |
 | php | PHP 7.3 is end-of-life | [`php.runtime.eol-7.3`](rules/php.runtime.eol-7.3.html) | end-of-life | 1 | 1 |
 | powershell | PowerShell 6.x is no longer supported | [`shell.powershell.end-of-life-6`](rules/shell.powershell.end-of-life-6.html) | end-of-life | 1 | 1 |
 | powershell | PowerShell 7.1 is no longer supported | [`shell.powershell.end-of-life-7.1`](rules/shell.powershell.end-of-life-7.1.html) | end-of-life | 1 | 1 |

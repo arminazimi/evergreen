@@ -95,13 +95,13 @@ test("the evidence counts agree with the reviewed corpus", () => {
   // The Ruby and PHP stable corpus added 48 and 96 repositories; the new repositories carry the other detectors' findings too (GitHub Actions, npm, C/C++, database, Terraform), recorded from a full offline scan.
   // The pinned Go, Java, and Rust workflows add 36 command findings in seven repositories (#2447).
   assert.deepEqual(counts(evidence["github-actions"]!), {
-    repositoriesWithFindings: 279,
-    expectedFindings: 1628,
+    repositoriesWithFindings: 333,
+    expectedFindings: 2007,
     zeroFindingRepositories: 4,
   });
   assert.deepEqual(counts(evidence["npm"]!), {
-    repositoriesWithFindings: 64,
-    expectedFindings: 139,
+    repositoriesWithFindings: 65,
+    expectedFindings: 142,
     zeroFindingRepositories: 18,
   });
   assert.deepEqual(counts(evidence["dotnet"]!), {
@@ -140,8 +140,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 1,
   });
   assert.deepEqual(counts(evidence["database"]!), {
-    repositoriesWithFindings: 18,
-    expectedFindings: 23,
+    repositoriesWithFindings: 21,
+    expectedFindings: 26,
     zeroFindingRepositories: 1,
   });
   assert.deepEqual(counts(evidence["shell"]!), {

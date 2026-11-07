@@ -6,24 +6,6 @@
   "expected": [
     {
       "ruleId": "github-actions.checkout.node20",
-      "path": ".github/workflows/build.yml",
-      "line": 24,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Read .github/workflows/build.yml:24 at this commit: `uses: actions/checkout@v3`; the declaration matches the rule's affected range."
-      }
-    },
-    {
-      "ruleId": "github-actions.setup-python.node20",
-      "path": ".github/workflows/build.yml",
-      "line": 26,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Read .github/workflows/build.yml:26 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
-      }
-    },
-    {
-      "ruleId": "github-actions.checkout.node20",
       "path": ".github/workflows/build_docker_image_master.yml",
       "line": 14,
       "groundTruthSource": {
@@ -60,6 +42,24 @@
     },
     {
       "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:24 at this commit: `uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/build.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build.yml:26 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
       "path": ".github/workflows/codeql-analysis.yml",
       "line": 41,
       "groundTruthSource": {
@@ -83,24 +83,6 @@
       "groundTruthSource": {
         "kind": "maintainer-review",
         "note": "Read Dockerfile:17 at this commit: `FROM python:3.10-slim`; the declaration matches the rule's affected range."
-      }
-    },
-    {
-      "ruleId": "python.package.django-2.2.eol",
-      "path": "pyproject.toml",
-      "line": 4,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Read pyproject.toml:4 at this commit: `description = \"Distributed Crawler Management Framework Based on Scrapy, Scrapyd, Scrapyd-Client, Scrapyd-API, Django and Vue.js.\"`; the declaration matches the rule's affected range."
-      }
-    },
-    {
-      "ruleId": "python.runtime.eol-3.9-and-older",
-      "path": "pyproject.toml",
-      "line": 24,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Read pyproject.toml:24 at this commit: `python = \"^3.7\"`; the declaration matches the rule's affected range."
       }
     },
     {
@@ -155,6 +137,24 @@
       "groundTruthSource": {
         "kind": "maintainer-review",
         "note": "Read Dockerfile:24 at this commit: `ENV GERAPY_PORT ${GERAPY_PORT:-8000}`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:24 at this commit: `python = \"^3.7\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.package.django-2.2.eol",
+      "path": "pyproject.toml",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pyproject.toml:27, which holds `django = \">=2.2,<3.0\"`; it matches the declared range of registry rule python.package.django-2.2.eol, whose sources are cited in the registry. The earlier label for this finding cited line 4, where Evergreen had reported it at the first line that merely mentioned the name; the declaration is on line 27, and the label was corrected after the line lookup was fixed (#2540). Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
       }
     }
   ]

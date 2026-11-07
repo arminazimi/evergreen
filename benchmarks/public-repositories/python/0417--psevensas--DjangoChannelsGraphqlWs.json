@@ -51,24 +51,6 @@
     },
     {
       "ruleId": "python.runtime.eol-3.9-and-older",
-      "path": "pyproject.toml",
-      "line": 48,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Read pyproject.toml:48 at this commit: `python = \"^3.8.0\"`; the declaration matches the rule's affected range."
-      }
-    },
-    {
-      "ruleId": "python.package.django-4.2.eol",
-      "path": "pyproject.toml",
-      "line": 36,
-      "groundTruthSource": {
-        "kind": "maintainer-review",
-        "note": "Read pyproject.toml:36 at this commit: `name = \"django-channels-graphql-ws\"`; the declaration matches the rule's affected range."
-      }
-    },
-    {
-      "ruleId": "python.runtime.eol-3.9-and-older",
       "path": ".python-version",
       "line": 2,
       "groundTruthSource": {
@@ -83,6 +65,24 @@
       "groundTruthSource": {
         "kind": "maintainer-review",
         "note": "Read .python-version:3 at this commit: `3.8.16`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read pyproject.toml:48 at this commit: `python = \"^3.8.0\"`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "python.package.django-4.2.eol",
+      "path": "pyproject.toml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pyproject.toml:52, which holds `Django = \"^4\"`; it matches the declared range of registry rule python.package.django-4.2.eol, whose sources are cited in the registry. The earlier label for this finding cited line 36, where Evergreen had reported it at the first line that merely mentioned the name; the declaration is on line 52, and the label was corrected after the line lookup was fixed (#2540). Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
       }
     }
   ]
