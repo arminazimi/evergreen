@@ -1,0 +1,62 @@
+{
+  "repository": "ivelum/djangoql",
+  "commit": "101d858f3a40dac75aafc17d7d21c634e674f379",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yaml:37, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 38,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yaml:38, which holds `- uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 45,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yaml:45, which holds `uses: actions/cache@v4`; it matches the declared range of registry rule github-actions.cache.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 148,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yaml:148, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 151,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yaml:151, which holds `uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 170,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yaml:170, which holds `uses: actions/cache@v4`; it matches the declared range of registry rule github-actions.cache.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

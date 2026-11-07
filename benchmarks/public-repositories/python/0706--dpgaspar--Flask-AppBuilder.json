@@ -1,0 +1,134 @@
+{
+  "repository": "dpgaspar/Flask-AppBuilder",
+  "commit": "30e13dc7916167fa159452322aa00d03999970f9",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:18, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:20, which holds `uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 58,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:58, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:60, which holds `uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 116,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:116, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 118,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:118, which holds `uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 175,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:175, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 177,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:177, which holds `uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 232,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:232, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 234,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:234, which holds `uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/codeql-analysis.yml:33, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.postgres.eol-14-and-older",
+      "path": "docker-compose.yml",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker-compose.yml:5, which holds `image: postgres:14`; it matches the declared range of registry rule container.postgres.eol-14-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-14",
+      "path": "docker-compose.yml",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker-compose.yml:5, which holds `image: postgres:14`; it matches the declared range of registry rule database.postgresql.end-of-life-14, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.py",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read setup.py:89, which holds `python_requires=\"~=3.7\",`; it matches the declared range of registry rule python.runtime.eol-3.9-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

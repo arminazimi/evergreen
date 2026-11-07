@@ -1,0 +1,215 @@
+{
+  "repository": "agentscope-ai/TuFT",
+  "commit": "72d3fbf8da6828435b4eeef16074f1795bcfda9c",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy-e2e.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/deploy-e2e.yml:40, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/deploy-e2e.yml",
+      "line": 41,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/deploy-e2e.yml:41, which holds `- uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy-e2e.yml",
+      "line": 102,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/deploy-e2e.yml:102, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/deploy-e2e.yml",
+      "line": 103,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/deploy-e2e.yml:103, which holds `- uses: actions/setup-python@v5`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/docker.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/docker.yml:40, which holds `uses: docker/login-action@v2`; it matches the declared range of registry rule github-actions.login-action.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/docker.yml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/docker.yml:48, which holds `uses: docker/metadata-action@v5`; it matches the declared range of registry rule github-actions.metadata-action.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/docker.yml",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/docker.yml:59, which holds `uses: docker/build-push-action@v4`; it matches the declared range of registry rule github-actions.build-push-action.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "database.redis.end-of-life-7.0",
+      "path": ".github/workflows/docker/docker-compose.yml",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/docker/docker-compose.yml:46, which holds `image: redis:7.0`; it matches the declared range of registry rule database.redis.end-of-life-7.0, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/install-script.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/install-script.yml:37, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/install-script.yml",
+      "line": 62,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/install-script.yml:62, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/install-script.yml",
+      "line": 188,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/install-script.yml:188, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/install-script.yml",
+      "line": 218,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/install-script.yml:218, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/install-script.yml",
+      "line": 290,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/install-script.yml:290, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/install-script.yml",
+      "line": 334,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/install-script.yml:334, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/publish.yml:33, which holds `uses: actions/upload-artifact@v4`; it matches the declared range of registry rule github-actions.upload-artifact.retired, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/publish.yml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/publish.yml:48, which holds `uses: actions/download-artifact@v4`; it matches the declared range of registry rule github-actions.download-artifact.retired, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/sphinx-doc.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/sphinx-doc.yml:32, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/sphinx-doc.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/sphinx-doc.yml:39, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/sphinx-doc.yml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/sphinx-doc.yml:48, which holds `uses: astral-sh/setup-uv@v5`; it matches the declared range of registry rule github-actions.setup-uv.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/sphinx-doc.yml",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/sphinx-doc.yml:85, which holds `uses: actions/upload-artifact@v4`; it matches the declared range of registry rule github-actions.upload-artifact.retired, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/unittest.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/unittest.yml:18, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/unittest.yml",
+      "line": 72,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/unittest.yml:72, which holds `uses: actions/upload-artifact@v4`; it matches the declared range of registry rule github-actions.upload-artifact.retired, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "src/tuft/console/docker/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read src/tuft/console/docker/Dockerfile:1, which holds `FROM python:3.10-slim`; it matches the declared range of registry rule container.python.eol-3.10-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

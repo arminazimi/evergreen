@@ -1,0 +1,89 @@
+{
+  "repository": "graphql-python/graphene-sqlalchemy",
+  "commit": "4ea6ee819600d65ad784c783a68321105a643d76",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/deploy.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/deploy.yml:13, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/deploy.yml",
+      "line": 15,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/deploy.yml:15, which holds `uses: actions/setup-python@v4`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lint.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/lint.yml:16, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/lint.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/lint.yml:18, which holds `uses: actions/setup-python@v4`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tests.yml",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yml:21, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/tests.yml",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yml:23, which holds `uses: actions/setup-python@v3`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/tests.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/tests.yml:37, which holds `uses: actions/upload-artifact@v4`; it matches the declared range of registry rule github-actions.upload-artifact.retired, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read tox.ini:2, which holds `envlist = pre-commit,py{39,310,311,312,313}-sql{12,13,14,20}`; it matches the declared range of registry rule python.runtime.eol-3.10-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "tox.ini",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read tox.ini:2, which holds `envlist = pre-commit,py{39,310,311,312,313}-sql{12,13,14,20}`; it matches the declared range of registry rule python.runtime.eol-3.9-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

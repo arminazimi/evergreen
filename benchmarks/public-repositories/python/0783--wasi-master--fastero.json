@@ -1,0 +1,17 @@
+{
+  "repository": "wasi-master/fastero",
+  "commit": "e3b43a2ebc2b23849232f9128247a541b63cc2ac",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "setup.cfg",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read setup.cfg:47, which holds `python_requires = >=3.7`; it matches the declared range of registry rule python.runtime.eol-3.9-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

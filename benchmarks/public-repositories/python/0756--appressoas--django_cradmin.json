@@ -1,0 +1,17 @@
+{
+  "repository": "appressoas/django_cradmin",
+  "commit": "3e5598ee110e9e79cb16767fe62b05770abe37f3",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "pyproject.toml",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pyproject.toml:8, which holds `requires-python = \">=3.10.0\"`; it matches the declared range of registry rule python.runtime.eol-3.10-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

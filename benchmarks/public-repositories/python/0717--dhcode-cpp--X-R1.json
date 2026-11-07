@@ -1,0 +1,17 @@
+{
+  "repository": "dhcode-cpp/X-R1",
+  "commit": "03d16fdd9b82245bfa6b0a570e88331e29f3a0e8",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "setup.py",
+      "line": 123,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read setup.py:123, which holds `python_requires=\">=3.10.9\",`; it matches the declared range of registry rule python.runtime.eol-3.10-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

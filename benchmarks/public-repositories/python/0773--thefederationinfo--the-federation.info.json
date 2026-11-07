@@ -1,0 +1,71 @@
+{
+  "repository": "thefederationinfo/the-federation.info",
+  "commit": "73d08e52c6f5b764fd04cd6f09624dc9fac727e1",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.postgres.eol-14-and-older",
+      "path": "docker-compose.yml",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker-compose.yml:43, which holds `image: docker.io/library/postgres:14`; it matches the declared range of registry rule container.postgres.eol-14-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-14",
+      "path": "docker-compose.yml",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker-compose.yml:43, which holds `image: docker.io/library/postgres:14`; it matches the declared range of registry rule database.postgresql.end-of-life-14, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "docker/app/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/app/Dockerfile:1, which holds `FROM docker.io/library/python:3.9 AS geoip`; it matches the declared range of registry rule container.python.eol-3.10-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "docker/app/Dockerfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/app/Dockerfile:6, which holds `FROM docker.io/library/python:3.9`; it matches the declared range of registry rule container.python.eol-3.10-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "npm.package.vue.eol-2",
+      "path": "package.json",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read package.json:21, which holds `\"vue\": \"^2.6.10\",`; it matches the declared range of registry rule npm.package.vue.eol-2, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read package.json:32, which holds `\"babel-eslint\": \"^10.0.3\",`; it matches the declared range of registry rule npm.package.babel-eslint.deprecated, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "npm.package.karma-phantomjs-launcher.deprecated",
+      "path": "package.json",
+      "line": 67,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read package.json:67, which holds `\"karma-phantomjs-launcher\": \"^1.0.4\",`; it matches the declared range of registry rule npm.package.karma-phantomjs-launcher.deprecated, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

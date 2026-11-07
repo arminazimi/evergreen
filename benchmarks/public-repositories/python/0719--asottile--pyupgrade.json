@@ -1,0 +1,7 @@
+{
+  "repository": "asottile/pyupgrade",
+  "commit": "97eaba254f199451b751377c258e3a35eac9efb7",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

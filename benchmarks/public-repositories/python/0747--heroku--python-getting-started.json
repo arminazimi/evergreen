@@ -1,0 +1,7 @@
+{
+  "repository": "heroku/python-getting-started",
+  "commit": "561bc55e4aaf22f98c040611fd613994547b31bb",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

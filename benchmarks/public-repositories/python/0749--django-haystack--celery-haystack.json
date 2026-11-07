@@ -1,0 +1,7 @@
+{
+  "repository": "django-haystack/celery-haystack",
+  "commit": "def20823844bde2a0b8bc8c16e8d4930346b7a1e",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

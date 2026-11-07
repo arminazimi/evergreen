@@ -1,0 +1,26 @@
+{
+  "repository": "alexandrainst/coral",
+  "commit": "6902e511de407ee604ab2add7ef10be27d50de34",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yaml:31, which holds `uses: astral-sh/setup-uv@v6`; it matches the declared range of registry rule github-actions.setup-uv.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 59,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yaml:59, which holds `uses: astral-sh/setup-uv@v6`; it matches the declared range of registry rule github-actions.setup-uv.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "repository": "plynx-team/plynx",
+  "commit": "4b01cdad967d6d1e96ebe24af8921b1c7c6bec1f",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "docker/backend/Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/backend/Dockerfile:2, which holds `FROM python:3.10-slim`; it matches the declared range of registry rule container.python.eol-3.10-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "docker/ui_dev/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/ui_dev/Dockerfile:1, which holds `FROM node:16-alpine`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ui_dev/Dockerfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/ui_dev/Dockerfile:3, which holds `ENV WDS_SOCKET_PORT 0`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ui_dev/Dockerfile",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/ui_dev/Dockerfile:4, which holds `ENV DISABLE_ESLINT_PLUGIN \"true\"`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "docker/ui/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/ui/Dockerfile:1, which holds `FROM node:16-alpine`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ui/Dockerfile",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/ui/Dockerfile:18, which holds `ENV NODE_OPTIONS \"--max-old-space-size=8192\"`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ui/Dockerfile",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/ui/Dockerfile:19, which holds `ENV NODE_ENV production`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "docker/ui/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/ui/Dockerfile:31, which holds `ENV NODE_ENV production`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kubernetes/backend-deployment.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read kubernetes/backend-deployment.yaml:1, which holds `apiVersion: extensions/v1beta1`; it matches the declared range of registry rule kubernetes.extensions.deployment.v1beta1.removed, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "kubernetes/fabric8-rbac.yaml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read kubernetes/fabric8-rbac.yaml:11, which holds `apiVersion: rbac.authorization.k8s.io/v1beta1`; it matches the declared range of registry rule kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kubernetes/frontend-deployment.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read kubernetes/frontend-deployment.yaml:1, which holds `apiVersion: extensions/v1beta1`; it matches the declared range of registry rule kubernetes.extensions.deployment.v1beta1.removed, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "kubernetes/googlecloud_hdd.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read kubernetes/googlecloud_hdd.yaml:14, which holds `apiVersion: storage.k8s.io/v1beta1`; it matches the declared range of registry rule kubernetes.storage-k8s-io.storageclass.v1beta1.removed, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "path": "kubernetes/googlecloud_ssd.yaml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read kubernetes/googlecloud_ssd.yaml:14, which holds `apiVersion: storage.k8s.io/v1beta1`; it matches the declared range of registry rule kubernetes.storage-k8s-io.storageclass.v1beta1.removed, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.apps.statefulset.v1beta1.removed",
+      "path": "kubernetes/mongo-statefulset.yaml",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read kubernetes/mongo-statefulset.yaml:28, which holds `apiVersion: apps/v1beta1`; it matches the declared range of registry rule kubernetes.apps.statefulset.v1beta1.removed, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "kubernetes/router.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read kubernetes/router.yaml:1, which holds `apiVersion: extensions/v1beta1`; it matches the declared range of registry rule kubernetes.extensions.ingress.v1beta1.removed, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "kubernetes/workers-deployment.yaml",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read kubernetes/workers-deployment.yaml:1, which holds `apiVersion: extensions/v1beta1`; it matches the declared range of registry rule kubernetes.extensions.deployment.v1beta1.removed, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "asottile/setup-py-upgrade",
+  "commit": "9f86ebff6c67c25b714db42ea3db6db345689837",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

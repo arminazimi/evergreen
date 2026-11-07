@@ -1,0 +1,17 @@
+{
+  "repository": "astroufsc/chimera",
+  "commit": "c7e6f0a85d63330733fea73dfa017f873fcf912d",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-uv.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/ci.yml:25, which holds `uses: astral-sh/setup-uv@v6`; it matches the declared range of registry rule github-actions.setup-uv.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

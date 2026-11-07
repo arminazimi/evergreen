@@ -1,0 +1,17 @@
+{
+  "repository": "SmallDoges/small-doge",
+  "commit": "0e305a735708fd277f5a8e9fd36954492aba28f1",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": "setup.py",
+      "line": 157,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read setup.py:157, which holds `python_requires=\">=3.10.9\",`; it matches the declared range of registry rule python.runtime.eol-3.10-and-older, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

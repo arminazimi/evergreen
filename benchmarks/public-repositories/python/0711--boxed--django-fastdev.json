@@ -1,0 +1,26 @@
+{
+  "repository": "boxed/django-fastdev",
+  "commit": "9d5593bedee5a3a0de9fe45100d6b0fdacc401e5",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/check_tests.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/check_tests.yml:14, which holds `uses: actions/checkout@v3`; it falls under registry rule github-actions.checkout.node20. Evergreen did not report it when scanned on 2026-11-07, found by an independent grep over the pinned files and recorded as a false negative; tracked in a separate issue. Checked by AI agent (Claude Code) under maintainer direction. Outcome: confirmed."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/check_tests.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/check_tests.yml:17, which holds `uses: actions/setup-python@v3`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources are cited in the registry. Checked by AI agent (Claude Code) under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "pfnet/pfrl",
+  "commit": "3578e33e4284b582c58da9b3e7e0ec5e37c29c3f",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

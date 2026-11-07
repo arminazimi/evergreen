@@ -1,0 +1,7 @@
+{
+  "repository": "ambient-innovation/ambient-package-update",
+  "commit": "39090b5b2a46e533491dd3535b4a6b31124a6d02",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

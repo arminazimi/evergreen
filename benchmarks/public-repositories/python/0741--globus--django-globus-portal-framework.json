@@ -1,0 +1,7 @@
+{
+  "repository": "globus/django-globus-portal-framework",
+  "commit": "53eae48c609cd29c70ef9839762b3030f1895297",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}

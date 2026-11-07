@@ -1,0 +1,7 @@
+{
+  "repository": "asottile/git-code-debt",
+  "commit": "a4660d1648ab6232e4015e1de80abf02bbc0e1df",
+  "ecosystem": "python",
+  "selection": "blind",
+  "expected": []
+}
