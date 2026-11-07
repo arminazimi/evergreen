@@ -56,6 +56,14 @@ The base is the last commit before 1 January of the year; when the repository ha
 
 On a terminal the cards play one at a time within six seconds. `--no-animation` prints them all at once, and piping the output does the same. `--svg wrapped.svg` writes one 1200×630 summary card with no script and no external references. `--json` prints the `evergreen.wrapped.v1` document. `docs/demos/wrapped.tape` records the play with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/wrapped.tape`.
 
+## Time-lapse of a repository aging
+
+```bash
+evergreen timelapse . --from 2026-11 --to 2028-10 --no-animation
+```
+
+Plays 24 monthly frames of the same repository: each frame is the scan projected onto that month's last day with `scan --as-of` logic, so finding counts stay honest. Affected files start dim and turn red as their deadlines pass, with a running count under the tree. `--svg timelapse.svg` writes a 1200×630 CSS animation of those frames for a README; `--json` prints `{ month, findings, files }` for each month. `docs/demos/timelapse.tape` records the play with [VHS](https://github.com/charmbracelet/vhs); regenerate the GIF with `vhs docs/demos/timelapse.tape`.
+
 ## Mermaid support windows
 
 ```bash

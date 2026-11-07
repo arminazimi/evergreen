@@ -172,6 +172,25 @@ Prints a year-in-review of lifecycle findings for a Git repository: how many wer
 
 On a terminal the cards play one at a time within six seconds. Off a terminal, or with `--no-animation`, the same content prints as static text. When the repository has no commit before the year, the command says so and compares against the first commit. [Showcase](SHOWCASE.md) shows the cards and [docs/demos/wrapped.tape](demos/wrapped.tape) records them.
 
+### `timelapse`
+
+```bash
+evergreen timelapse [path] [--from <YYYY-MM>] [--to <YYYY-MM>] [--svg <file>] [--json]
+```
+
+Plays a month-by-month time-lapse of how lifecycle findings age in a repository. The repository is scanned once; each month is projected with the same as-of logic as `scan --as-of` on that month's last day. Files that carry a finding whose deadline has been reached turn red, and a running count of appeared findings updates with each frame. Defaults cover this UTC month through 23 months ahead (24 frames).
+
+| Flag | What it does |
+| --- | --- |
+| `[path]` | Repository path. Default `.`. |
+| `--from <YYYY-MM>` | First month to show. Default: the current UTC month. |
+| `--to <YYYY-MM>` | Last month to show. Default: 23 months after `--from`. |
+| `--svg <file>` | Write a 1200×630 CSS-keyframe animation of the same frames. Cannot be combined with `--json`. |
+| `--json` | Print an array of `{ month, findings, files }`. |
+| `--no-animation` | Print every frame at once, even on a terminal. |
+
+On a terminal the frames play within six seconds. Off a terminal, under `CI`, or with `--no-animation`, the same content prints as static text. The SVG keeps the final frame under `prefers-reduced-motion` and avoids `<script>`, `<foreignObject>`, and external references so it survives GitHub's sanitizer. [Showcase](SHOWCASE.md) shows the play and [docs/demos/timelapse.tape](demos/timelapse.tape) records it.
+
 ### `lookup`
 
 ```bash
