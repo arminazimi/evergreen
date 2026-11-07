@@ -1,0 +1,17 @@
+{
+  "repository": "postprintum/devcomrade",
+  "commit": "8a8a78243fd23954df7dc531249a9c2aac4a1b03",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "Package/publish.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Package/publish.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

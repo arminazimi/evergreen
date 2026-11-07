@@ -1,0 +1,26 @@
+{
+  "repository": "rabbitmq/chocolatey-package",
+  "commit": "b0a37da6883fe597c5d3bb38fefbdbb16bf1b230",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Invoke-Validation.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Invoke-Validation.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Shared.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Shared.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

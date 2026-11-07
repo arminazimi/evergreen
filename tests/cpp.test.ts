@@ -290,14 +290,14 @@ test("a migration packet for a CMake finding names the file, steps, and verifica
   assert.ok(packet.verification.some((check) => check.command === "cmake -S . -B build"));
 });
 
-test("the detector is registered and C and C++ is experimental in the capability manifest", () => {
+test("the detector is registered and C and C++ is supported in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "cpp"));
   assert.deepEqual(
     getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "cpp"),
     {
       id: "cpp",
-      status: "experimental",
-      maturity: "experimental",
+      status: "supported",
+      maturity: "stable",
       detectorIds: ["cpp"],
     },
   );

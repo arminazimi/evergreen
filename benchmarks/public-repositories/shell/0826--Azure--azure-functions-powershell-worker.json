@@ -1,0 +1,53 @@
+{
+  "repository": "Azure/azure-functions-powershell-worker",
+  "commit": "2debea0f983f5016d3c54302c749e8f7e4690544",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "path": "test/E2E/Azure.Functions.PowerShellWorker.E2E/Azure.Functions.PowerShellWorker.E2E/Azure.Functions.PowerShellWorker.E2E.csproj",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/E2E/Azure.Functions.PowerShellWorker.E2E/Azure.Functions.PowerShellWorker.E2E/Azure.Functions.PowerShellWorker.E2E.csproj:16 at this commit: `<PackageReference Include=\"WindowsAzure.Storage\" Version=\"9.3.3\" />`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "test/E2E/TestFunctionApp/extensions.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test/E2E/TestFunctionApp/extensions.csproj:3 at this commit: `<TargetFramework>net6.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codeQL.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/codeQL.yml:52 at this commit: `- uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "src/Modules/Microsoft.Azure.Functions.PowerShellWorker/Microsoft.Azure.Functions.PowerShellWorker.psd1",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/Modules/Microsoft.Azure.Functions.PowerShellWorker/Microsoft.Azure.Functions.PowerShellWorker.psd1:30 at this commit: `PowerShellVersion = '6.2'`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "build.ps1",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read build.ps1:34 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

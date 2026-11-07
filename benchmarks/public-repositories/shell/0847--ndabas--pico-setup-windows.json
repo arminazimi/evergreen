@@ -1,0 +1,7 @@
+{
+  "repository": "ndabas/pico-setup-windows",
+  "commit": "d2d51c90dfa143409bdfa14ec06c304b2a9433fe",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": []
+}

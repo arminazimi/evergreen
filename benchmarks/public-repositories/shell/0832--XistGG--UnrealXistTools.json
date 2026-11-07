@@ -1,0 +1,17 @@
+{
+  "repository": "XistGG/UnrealXistTools",
+  "commit": "e93c3fd01a5ffb3346677e2870211d2357083f63",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "RunTests.ps1",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read RunTests.ps1:2 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "repository": "neilharvey94044/NPPES-Data-Load",
+  "commit": "a43337f5102f86d69486fae77cf74ebf9118176c",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "create-sampleFormat.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read create-sampleFormat.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Create-Tables.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Create-Tables.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "GeoCode-NPIData.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read GeoCode-NPIData.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Get-NPIData.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Get-NPIData.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Get-SQLCredential.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Get-SQLCredential.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Load-ZipcodeGeo.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Load-ZipcodeGeo.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Process-NPIData.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Process-NPIData.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Process-ProvLocData.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Process-ProvLocData.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Process-TaxonomyCodes.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Process-TaxonomyCodes.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Put-SQLCredential.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Put-SQLCredential.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Refactor-NPIData.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Refactor-NPIData.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "RunRefresh.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read RunRefresh.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "test_query.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read test_query.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "repository": "Flash0ver/F0.Analyzers",
+  "commit": "58a791daf8109a8852747a7f2ad528095362971d",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "source/example/F0.Analyzers.Example.CSharp9/F0.Analyzers.Example.CSharp9.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read source/example/F0.Analyzers.Example.CSharp9/F0.Analyzers.Example.CSharp9.csproj:4 at this commit: `<TargetFramework>net5.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "source/example/F0.Analyzers.Example.CSharp10/F0.Analyzers.Example.CSharp10.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read source/example/F0.Analyzers.Example.CSharp10/F0.Analyzers.Example.CSharp10.csproj:4 at this commit: `<TargetFramework>net6.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "global.json",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read global.json:3 at this commit: `\"version\": \"7.0.100\",`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "source/example/F0.Analyzers.Example.Tests/F0.Analyzers.Example.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read source/example/F0.Analyzers.Example.Tests/F0.Analyzers.Example.Tests.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "source/example/F0.Analyzers.Example/F0.Analyzers.Example.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read source/example/F0.Analyzers.Example/F0.Analyzers.Example.csproj:4 at this commit: `<TargetFramework>net7.0</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "source/performance/F0.CodeAnalysis.Benchmarking/F0.CodeAnalysis.Benchmarking.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read source/performance/F0.CodeAnalysis.Benchmarking/F0.CodeAnalysis.Benchmarking.csproj:4 at this commit: `<TargetFrameworks>net7.0;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "source/production/F0.Analyzers/F0.Analyzers.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read source/production/F0.Analyzers/F0.Analyzers.csproj:4 at this commit: `<TargetFrameworks>net7.0;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "source/test/F0.CodeAnalysis.Testing/F0.CodeAnalysis.Testing.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read source/test/F0.CodeAnalysis.Testing/F0.CodeAnalysis.Testing.csproj:4 at this commit: `<TargetFrameworks>net7.0;netstandard2.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build-vsix.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/build-vsix.yml:25 at this commit: `uses: actions/checkout@v4.0.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test-package.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test-package.yml:32 at this commit: `uses: actions/checkout@v4.0.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-dotnet.node20",
+      "path": ".github/workflows/test-package.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/test-package.yml:37 at this commit: `uses: actions/setup-dotnet@v3.2.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "scripts/Measure-Performance.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/Measure-Performance.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "scripts/Test-AnalyzerProject.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/Test-AnalyzerProject.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "scripts/Test-Coverage.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/Test-Coverage.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "scripts/Test-Mutation.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/Test-Mutation.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "scripts/Test-PackageLocally.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/Test-PackageLocally.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "scripts/Test-PublicApi.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/Test-PublicApi.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "scripts/Test-ReleaseTracking.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/Test-ReleaseTracking.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "scripts/Test-Unit.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/Test-Unit.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

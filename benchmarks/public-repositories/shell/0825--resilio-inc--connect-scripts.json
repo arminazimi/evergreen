@@ -1,0 +1,17 @@
+{
+  "repository": "resilio-inc/connect-scripts",
+  "commit": "ccb36fa123e75af533c01852fb89618296b34f87",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "Resilio Connect API/PowerShell/api_sample1.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Resilio Connect API/PowerShell/api_sample1.ps1:1 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

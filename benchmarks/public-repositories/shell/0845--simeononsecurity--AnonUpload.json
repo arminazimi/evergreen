@@ -1,0 +1,53 @@
+{
+  "repository": "simeononsecurity/AnonUpload",
+  "commit": "98345b632ac1cc3eb8101f197beb7f1fff8d835f",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/codacy-analysis.yml",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/codacy-analysis.yml:24 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/virustotal.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/virustotal.yml:13 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.first-interaction.node20",
+      "path": ".github/workflows/greetings.yml",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/greetings.yml:9 at this commit: `- uses: actions/first-interaction@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "github-actions.stale.node20",
+      "path": ".github/workflows/stale.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read .github/workflows/stale.yml:13 at this commit: `- uses: actions/stale@v1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "AnonUpload.psm1",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read AnonUpload.psm1:25 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

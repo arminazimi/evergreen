@@ -8,7 +8,7 @@ The detector's supported declarations, package URLs, what it reports, what it in
 
 ## C and C++ detector
 
-The `cpp` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories/`: four targeted migration cases and one blind, zero-finding repository. Their ground truth cites maintainer migration commits or upstream release notes, independently of Evergreen output. Precision on this corpus does not establish coverage of unsupported declaration forms. Its lifecycle rules are in `registry/cpp.json` and ship in the [data bundle](../DATA.md).
+The `cpp` detector is **supported**: its level is recorded as `stable` in `benchmarks/thresholds.json`. Fifteen public repositories are pinned under the `cpp` ecosystem, eleven of them chosen blind, with four zero-finding controls. Their ground truth cites maintainer migration commits or upstream release notes, independently of Evergreen output. Supported forms, limits, and validation counts are also on [C and C++](../detectors/cpp.md). Its lifecycle rules are in `registry/cpp.json` and ship in the [data bundle](../DATA.md).
 
 ### Supported files and declarations
 

@@ -26,12 +26,12 @@
       "repositories": 21
     },
     "dotnet": {
-      "findings": 547,
-      "repositories": 55
+      "findings": 581,
+      "repositories": 63
     },
     "github-actions": {
-      "findings": 2212,
-      "repositories": 355
+      "findings": 2251,
+      "repositories": 363
     },
     "go": {
       "findings": 114,
@@ -78,8 +78,8 @@
       "repositories": 23
     },
     "shell": {
-      "findings": 12,
-      "repositories": 5
+      "findings": 102,
+      "repositories": 29
     },
     "swift": {
       "findings": 66,

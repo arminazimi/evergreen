@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const shell: ManifestEcosystem = {
   id: "shell",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["shell"],
 };
 

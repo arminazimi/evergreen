@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Promote the `scala` and `java` detectors to stable, wire a `scala` public corpus ecosystem, and add 88 corpus repositories (8 Java, 80 Scala) with independent maintainer-review ground truth. (#1896)
+- Promote the C/C++ and Shell/PowerShell detectors to stable after growing their reviewed corpora to the Supported evidence gates. (#1897)
 - Replay the last data releases on pinned repositories (`npm run replay:data`, workflow `data-replay`) and fail when a finding changes for a reason no added, removed, or edited rule explains. (#2171)
 - Add `evergreen fix --show`, which plays the fixes as a before-and-after view: removed lines in red, added lines in green, refusals in dim text, and a final `12 → 3 findings` count computed on a temporary copy so the repository is never written in dry-run mode. (#1849)
 

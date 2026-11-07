@@ -96,12 +96,11 @@ test("the evidence counts agree with the reviewed corpus", () => {
   // Workflow-command rules add three set-output findings in actions/toolkit and dai-shi/reactive-react-redux, and 10 more set-output and set-env findings in six repositories already counted.
   // The Ruby and PHP stable corpus added 48 and 96 repositories; the new repositories carry the other detectors' findings too (GitHub Actions, npm, C/C++, database, Terraform), recorded from a full offline scan.
   // The pinned Go, Java, and Rust workflows add 36 command findings in seven repositories (#2447).
-  // The Java and Scala stable corpus (#1896) adds 8 Java and 80 Scala repositories; the Swift
-  // and .NET stable promotion (#1900) adds 63 Swift repositories. Together their pins carry
-  // GitHub Actions, container, .NET, PHP, Ruby, C/C++, and Terraform findings counted here.
+  // The Java and Scala stable corpus (#1896), Swift/.NET (#1900), and C/C++/Shell (#1897)
+  // promotions together raise cross-detector evidence counted here.
   assert.deepEqual(counts(evidence["github-actions"]!), {
-    repositoriesWithFindings: 373,
-    expectedFindings: 2405,
+    repositoriesWithFindings: 381,
+    expectedFindings: 2444,
     zeroFindingRepositories: 4,
   });
   assert.deepEqual(counts(evidence["npm"]!), {
@@ -110,8 +109,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 18,
   });
   assert.deepEqual(counts(evidence["dotnet"]!), {
-    repositoriesWithFindings: 56,
-    expectedFindings: 552,
+    repositoriesWithFindings: 64,
+    expectedFindings: 586,
     zeroFindingRepositories: 9,
   });
   assert.deepEqual(counts(evidence["php"]!), {
@@ -132,7 +131,7 @@ test("the evidence counts agree with the reviewed corpus", () => {
   assert.deepEqual(counts(evidence["cpp"]!), {
     repositoriesWithFindings: 21,
     expectedFindings: 247,
-    zeroFindingRepositories: 1,
+    zeroFindingRepositories: 4,
   });
   assert.deepEqual(counts(evidence["ci-images"]!), {
     repositoriesWithFindings: 29,
@@ -155,9 +154,9 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 1,
   });
   assert.deepEqual(counts(evidence["shell"]!), {
-    repositoriesWithFindings: 5,
-    expectedFindings: 12,
-    zeroFindingRepositories: 2,
+    repositoriesWithFindings: 29,
+    expectedFindings: 102,
+    zeroFindingRepositories: 9,
   });
   assert.deepEqual(counts(evidence["java"]!), {
     repositoriesWithFindings: 21,

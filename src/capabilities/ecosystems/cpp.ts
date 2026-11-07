@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const cpp: ManifestEcosystem = {
   id: "cpp",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["cpp"],
 };
 

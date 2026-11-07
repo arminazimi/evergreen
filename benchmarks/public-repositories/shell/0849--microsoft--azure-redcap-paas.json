@@ -1,0 +1,7 @@
+{
+  "repository": "microsoft/azure-redcap-paas",
+  "commit": "616a73de969f04a0a57b65e989758a568bea0ef8",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": []
+}

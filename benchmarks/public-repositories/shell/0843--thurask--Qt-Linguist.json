@@ -1,0 +1,17 @@
+{
+  "repository": "thurask/Qt-Linguist",
+  "commit": "55c18a0fa013f811f00e1b843d846154d0645484",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "scripts/build.ps1",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read scripts/build.ps1:21 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "repository": "jborean93/LocalKdc",
+  "commit": "3fa0cacd9c64808189aefbf99843ad222db9992e",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/LocalKdc/LocalKdc.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/LocalKdc/LocalKdc.csproj:4 at this commit: `<TargetFramework>net8.0-windows</TargetFramework>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/LocalKdc.Tests/LocalKdc.Tests.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/LocalKdc.Tests/LocalKdc.Tests.csproj:4 at this commit: `<TargetFrameworks>net8.0-windows</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "build.ps1",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read build.ps1:4 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

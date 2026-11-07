@@ -1,0 +1,17 @@
+{
+  "repository": "jwmoss/powershell_scripts",
+  "commit": "6fc36a47387c92128663942e8a5e22809a2f63e6",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "Samanage/Get-Hardware.ps1",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Samanage/Get-Hardware.ps1:19 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

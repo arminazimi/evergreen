@@ -21,7 +21,7 @@
     { "id": "bun", "status": "experimental", "maturity": "experimental", "detectorIds": ["deno"] },
     { "id": "ci-images", "status": "supported", "maturity": "stable", "detectorIds": ["ci-images"] },
     { "id": "container", "status": "supported", "maturity": "stable", "detectorIds": ["container"] },
-    { "id": "cpp", "status": "experimental", "maturity": "experimental", "detectorIds": ["cpp"] },
+    { "id": "cpp", "status": "supported", "maturity": "stable", "detectorIds": ["cpp"] },
     { "id": "dart", "status": "experimental", "maturity": "experimental", "detectorIds": ["dart"] },
     { "id": "deno", "status": "experimental", "maturity": "experimental", "detectorIds": ["deno"] },
     { "id": "dotnet", "status": "supported", "maturity": "stable", "detectorIds": ["dotnet"] },
@@ -41,7 +41,7 @@
     { "id": "swift", "status": "supported", "maturity": "stable", "detectorIds": ["swift"] },
     { "id": "terraform", "status": "experimental", "maturity": "experimental", "detectorIds": ["terraform"] },
     { "id": "database", "status": "experimental", "maturity": "experimental", "detectorIds": ["database"] },
-    { "id": "shell", "status": "experimental", "maturity": "experimental", "detectorIds": ["shell"] }
+    { "id": "shell", "status": "supported", "maturity": "stable", "detectorIds": ["shell"] }
   ],
   "capabilities": [
     { "id": "repository.scan", "status": "supported", "version": "1", "description": "Scan a local repository with all built-in lifecycle detectors.", "ecosystems": ["android","bun","ci-images","container","cpp","dart","database","deno","dotnet","elixir","github-actions","go","java","kubernetes","nodejs","npm","php","python","ruby","rust","scala","serverless","shell","swift","terraform"] },
