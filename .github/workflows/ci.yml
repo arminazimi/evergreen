@@ -571,6 +571,8 @@ jobs:
           path: dist
       - name: Enforce the scan performance budget
         run: node dist/benchmarks/perf-budget.js --check
+      - name: Enforce the per-detector scan budget
+        run: node dist/benchmarks/detector-budget.js --check
       - name: Enforce the CLI start-up budget
         run: node dist/benchmarks/startup.js --check
       - name: Enforce the memory budget on a 100k-file monorepo

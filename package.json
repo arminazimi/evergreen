@@ -105,6 +105,7 @@
     "check:sources": "npm run build --silent && node dist/tools/check-sources.js",
     "benchmark:usage": "npm run build --silent && node dist/benchmarks/source-usage.js",
     "benchmark:perf-budget": "npm run build --silent && node dist/benchmarks/perf-budget.js",
+    "benchmark:detector-budget": "npm run build --silent && node dist/benchmarks/detector-budget.js",
     "benchmark:startup": "npm run build --silent && node dist/benchmarks/startup.js",
     "benchmark:monorepo": "npm run build --silent && node dist/benchmarks/monorepo.js",
     "benchmark:detector-cost": "npm run build --silent && node dist/benchmarks/detector-cost.js",

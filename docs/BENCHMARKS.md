@@ -8,12 +8,12 @@ This page publishes the task set, the two arms, the scoring rules, and the repro
 
 ### Run metadata
 
-| Field | Value |
-|---|---|
-| Page published | 2026-11-01 |
-| Benchmark implementation at | commit `1acd0968` |
-| Measured run | none recorded |
-| Agents and model versions measured | none recorded |
+| Field                              | Value             |
+| ---------------------------------- | ----------------- |
+| Page published                     | 2026-11-01        |
+| Benchmark implementation at        | commit `1acd0968` |
+| Measured run                       | none recorded     |
+| Agents and model versions measured | none recorded     |
 
 A measured run needs real agent hosts and local clones of the pinned repositories. It is tracked separately in [#1534](https://github.com/arminazimi/evergreen/issues/1534), which will publish the per-agent tables and link them here.
 
@@ -21,24 +21,24 @@ A measured run needs real agent hosts and local clones of the pinned repositorie
 
 The 20 tasks live in [`benchmarks/agent-migrations/tasks.json`](../benchmarks/agent-migrations/tasks.json). Each task pins a public repository and commit, one finding (`ruleId`, path, and line) that a scan of that commit reports, an expected end state, at least one verification command, and the real migration commit used as evidence.
 
-| Group | Tasks |
-|---|---|
-| Rust crates (`atty`, `ansi_term`) | `hyperfine-atty`, `just-ansi-term`, `dust-ansi-term`, `wasm-pack-atty` |
-| Go runtime and container image | `bubbletea-go`, `caddy-go`, `lazygit-go`, `lazygit-go-image`, `node-exporter-go` |
-| .NET runtime | `sloth-dotnet`, `sourcelink-dotnet` |
-| Node.js container image | `homepage-node-image` |
-| Node.js CI workflows | `lighthouse-node`, `paperhanger-node` |
-| PHP and Ruby runtimes | `behat-php`, `packwerk-ruby` |
-| npm packages and Node.js | `auth0-request`, `outline-koa-router`, `fork-corner-node-sass`, `outline-crypto-js` |
+| Group                             | Tasks                                                                               |
+| --------------------------------- | ----------------------------------------------------------------------------------- |
+| Rust crates (`atty`, `ansi_term`) | `hyperfine-atty`, `just-ansi-term`, `dust-ansi-term`, `wasm-pack-atty`              |
+| Go runtime and container image    | `bubbletea-go`, `caddy-go`, `lazygit-go`, `lazygit-go-image`, `node-exporter-go`    |
+| .NET runtime                      | `sloth-dotnet`, `sourcelink-dotnet`                                                 |
+| Node.js container image           | `homepage-node-image`                                                               |
+| Node.js CI workflows              | `lighthouse-node`, `paperhanger-node`                                               |
+| PHP and Ruby runtimes             | `behat-php`, `packwerk-ruby`                                                        |
+| npm packages and Node.js          | `auth0-request`, `outline-koa-router`, `fork-corner-node-sass`, `outline-crypto-js` |
 
 The expected end state is checked with regular expressions over the named files: each `mustNotMatch` must be absent and each `mustMatch` must be present. The verification commands are the project's own build or test commands, such as `cargo test --all --locked`, `go build ./...`, `dotnet build`, `docker build .`, or `yarn tsc`; they run in the migrated worktree.
 
 ### The two arms
 
-| Arm | Prompt |
-|---|---|
-| `baseline` | The task title, rule id, and finding location, with an instruction to make the smallest change and run the verification commands. No packet. |
-| `packet` | A fresh offline scan of the worktree must report the same rule at the same path and line. The harness then builds the finding's migration packet (affected files and usages, constraints, pinned runtimes, and verification commands) and renders it as the agent prompt. |
+| Arm        | Prompt                                                                                                                                                                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `baseline` | The task title, rule id, and finding location, with an instruction to make the smallest change and run the verification commands. No packet.                                                                                                                              |
+| `packet`   | A fresh offline scan of the worktree must report the same rule at the same path and line. The harness then builds the finding's migration packet (affected files and usages, constraints, pinned runtimes, and verification commands) and renders it as the agent prompt. |
 
 Both prompts are written to a temporary file outside the worktree and its path is exported as `EVERGREEN_MIGRATION_PROMPT_FILE`, so the agent command does not need to embed a multi-line prompt in `argv`. The harness never fetches; the repository must already contain the pinned commit. Each arm gets its own detached `git worktree`, which is removed after the run unless `--keep-worktrees` is passed.
 
@@ -135,10 +135,10 @@ The same command also compares the two usage engines on the repository's own `sr
 
 On 2026-10-21 on the development machine:
 
-| Engine | Median | p95 | Cold first run |
-|---|---|---|---|
-| Regex | 26.93 ms | 31.86 ms | n/a |
-| Tree-sitter | 131.70 ms | 151.55 ms | 240.60 ms |
+| Engine      | Median    | p95       | Cold first run |
+| ----------- | --------- | --------- | -------------- |
+| Regex       | 26.93 ms  | 31.86 ms  | n/a            |
+| Tree-sitter | 131.70 ms | 151.55 ms | 240.60 ms      |
 
 Tree-sitter took about 4.9 times as long at the median, roughly 1.1 ms per file, in exchange for finding multi-line calls, aliases and re-exports and rejecting method calls that only share a name with an import (see `tests/usage-parity.test.ts`). The figures are reference points, not a CI gate.
 
@@ -172,12 +172,22 @@ Run `npm run benchmark:perf-budget` to reproduce it locally. The benchmark (`ben
 
 ### Budgets
 
-| Measurement | Budget | Reference (2026-10-28, macOS, Apple silicon, Node.js 22) |
-|---|---|---|
-| Mean wall time over the measured runs | 2,000 ms | 4–11 ms |
-| Peak resident set size | 768 MB | 87 MB |
+| Measurement                           | Budget   | Reference (2026-10-28, macOS, Apple silicon, Node.js 22) |
+| ------------------------------------- | -------- | -------------------------------------------------------- |
+| Mean wall time over the measured runs | 2,000 ms | 4–11 ms                                                  |
+| Peak resident set size                | 768 MB   | 87 MB                                                    |
 
 Both budgets carry roughly an order of magnitude of margin over the reference measurement so that runner noise never trips the gate — only a deliberate or catastrophic slowdown does. Raise a budget in the same commit that intentionally regresses scans, state the reason in that commit, and update this table; the ceilings live in `PERF_BUDGET` in `benchmarks/perf-budget.ts` and are enforced by `tests/perf-budget.test.ts`.
+
+### Per-detector budgets
+
+The same job also protects each detector's speed. `benchmarks/detector-budget.ts` scans a clean copy of the committed fixture corpus (`tests/fixtures`, every ecosystem side by side) with one detector at a time, caches off, and compares each detector's median wall time over five scans with its ceiling in `benchmarks/detector-budgets.json`. A slow change fails with the detector's name:
+
+```text
+::error::detector ruby: median scan time 1900 ms exceeded the 1250 ms budget
+```
+
+Ceilings are eight times the median measured over repeated local runs, with a 750 ms floor, so runner noise does not trip them. A detector over its ceiling is measured up to two more times and fails only when its best median is still over. Every built-in detector must have a ceiling and every ceiling must name a built-in detector, so a new detector cannot ship unbudgeted. Raise a ceiling in the commit that intentionally regresses that detector, with the reason. Run `npm run benchmark:detector-budget` locally; `--simulate-slowdown go:2000 --check` proves the gate trips.
 
 ### Verifying the gate trips
 
@@ -206,11 +216,11 @@ The benchmark (`benchmarks/monorepo.ts`) builds a temporary monorepo offline: a 
 
 ### Budget and reference
 
-| Measurement | Budget | Reference (2026-10-29, macOS, Apple silicon, Node.js 22.23) |
-|---|---|---|
-| Mean wall time over the measured runs (≥100,000 files, `noCache: true`) | 5,000 ms | 716 ms |
-| Peak resident set size | observational | 132 MB |
-| Findings (synthetic fixture) | > 0 | 9 |
+| Measurement                                                             | Budget        | Reference (2026-10-29, macOS, Apple silicon, Node.js 22.23) |
+| ----------------------------------------------------------------------- | ------------- | ----------------------------------------------------------- |
+| Mean wall time over the measured runs (≥100,000 files, `noCache: true`) | 5,000 ms      | 716 ms                                                      |
+| Peak resident set size                                                  | observational | 132 MB                                                      |
+| Findings (synthetic fixture)                                            | > 0           | 9                                                           |
 
 The 5-second ceiling is the product goal from the roadmap; the reference run sits well under it on the development machine. Raise the ceiling in `MONOREPO_BUDGET` in `benchmarks/monorepo.ts` in the same commit that intentionally regresses large-repo scans, state the reason, and update this table. The benchmark also enforces a peak-memory ceiling (`maxPeakRssBytes`, 1536 MB; `--max-rss-mb` overrides it), and `--simulate-leak-mb N` retains N MB per measured run to prove the gate trips. The `perf-budget` CI job runs the synthetic fixture and a real monorepo (`babel/babel`, pinned by commit in `.github/workflows/ci.yml`, 768 MB ceiling); bump the pin deliberately. Unit tests cover the evaluator and a small synthetic fixture; they do not create 100k files.
 

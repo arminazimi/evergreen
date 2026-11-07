@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "evergreen.detector-budgets.v1",
+  "corpus": "tests/fixtures",
+  "runs": 5,
+  "retries": 2,
+  "maxMedianWallMs": {
+    "android": 750,
+    "ci-images": 750,
+    "cle": 750,
+    "container": 1000,
+    "cpp": 1000,
+    "dart": 1000,
+    "database": 1500,
+    "deno": 1500,
+    "dotnet": 1000,
+    "elixir": 750,
+    "github-actions": 1000,
+    "go": 1000,
+    "java": 1000,
+    "kubernetes": 750,
+    "npm": 750,
+    "php": 2000,
+    "python": 1000,
+    "ruby": 1250,
+    "rust": 1000,
+    "scala": 1250,
+    "serverless": 750,
+    "shell": 750,
+    "swift": 750,
+    "terraform": 1500
+  }
+}
