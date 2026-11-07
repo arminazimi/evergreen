@@ -1,0 +1,71 @@
+{
+  "repository": "Automattic/simplenote-electron",
+  "commit": "a5a1a86f1ada16f97f14533491d1a85313c68edb",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".nvmrc",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .nvmrc reads `20.10.0`. This matches the nodejs.runtime.eol-20 lifecycle rule (Node.js / npm registry)."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "docker-compose.yml",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 5 of docker-compose.yml reads `    image: node:8.16.1`. This matches the container.node.eol-21-and-older lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "docker-compose.yml",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 12 of docker-compose.yml reads `    image: node:8.16.1`. This matches the container.node.eol-21-and-older lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 28 of package.json reads `    \"node\": \">= 12.14.1\",`. This matches the nodejs.runtime.eol-18 lifecycle rule (Node.js / npm registry)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 28 of package.json reads `    \"node\": \">= 12.14.1\",`. This matches the nodejs.runtime.eol-19 lifecycle rule (Node.js / npm registry)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 28 of package.json reads `    \"node\": \">= 12.14.1\",`. This matches the nodejs.runtime.eol-20 lifecycle rule (Node.js / npm registry)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.legacy",
+      "path": "package.json",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 28 of package.json reads `    \"node\": \">= 12.14.1\",`. This matches the nodejs.runtime.legacy lifecycle rule (Node.js / npm registry)."
+      }
+    }
+  ]
+}

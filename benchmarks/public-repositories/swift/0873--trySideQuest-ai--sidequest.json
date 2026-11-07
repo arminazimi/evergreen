@@ -1,0 +1,62 @@
+{
+  "repository": "trySideQuest-ai/sidequest",
+  "commit": "3405101c8bcaf1e4e2e3b64a18c2e918e67b76fe",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-app.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/release-app.yml reads `      - uses: actions/checkout@v4`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release-app.yml",
+      "line": 141,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 141 of .github/workflows/release-app.yml reads `        uses: softprops/action-gh-release@v2`. This matches the github-actions.action-gh-release.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-plugin.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/release-plugin.yml reads `      - uses: actions/checkout@v4`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/release-plugin.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/release-plugin.yml reads `        uses: actions/setup-python@v5`. This matches the github-actions.setup-python.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release-plugin.yml",
+      "line": 112,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 112 of .github/workflows/release-plugin.yml reads `        uses: softprops/action-gh-release@v2`. This matches the github-actions.action-gh-release.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `15.3`, an Xcode 15–25 release. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later starting April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "repository": "jihoonahn/DaySquare",
+  "commit": "1fb51aafb5609693d1b21c105a5d75fa02001bd5",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 18 of .github/workflows/release.yml reads `        uses: actions/checkout@v4`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.2.3`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    }
+  ]
+}

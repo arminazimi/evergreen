@@ -1,0 +1,7 @@
+{
+  "repository": "maplibre/maplibre-compose",
+  "commit": "9662e569207c32af9e40990084af60fd9148c7ee",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": []
+}

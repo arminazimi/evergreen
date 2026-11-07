@@ -1,0 +1,44 @@
+{
+  "repository": "dogo/AKSideMenu",
+  "commit": "9d51d81c923935829e8996788b21b2d25cd05e12",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "AKSideMenuExamples/Simple/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of AKSideMenuExamples/Simple/.ruby-version reads `3.1.2`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "AKSideMenuExamples/Storyboard/.ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of AKSideMenuExamples/Storyboard/.ruby-version reads `3.1.2`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 3 of Gemfile reads `ruby '3.1.2'`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "Gemfile.lock",
+      "line": 113,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 113 of Gemfile.lock reads `   ruby 3.1.2p20`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    }
+  ]
+}

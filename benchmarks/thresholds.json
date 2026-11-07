@@ -41,7 +41,7 @@
       "minPrecision": 0.95
     },
     "dotnet": {
-      "level": "beta",
+      "level": "stable",
       "stable": true,
       "minPrecision": 0.95
     },
@@ -116,7 +116,7 @@
       "minPrecision": 0.95
     },
     "swift": {
-      "level": "beta",
+      "level": "stable",
       "stable": true,
       "minPrecision": 0.95
     },

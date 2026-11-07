@@ -3,7 +3,7 @@ import type { ManifestEcosystem } from "../schema.js";
 const dotnet: ManifestEcosystem = {
   id: "dotnet",
   status: "supported",
-  maturity: "beta",
+  maturity: "stable",
   detectorIds: ["dotnet"],
 };
 

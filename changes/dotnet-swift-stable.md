@@ -1,0 +1,1 @@
+- Promote the `dotnet` and `swift` detectors to stable and add 63 Swift corpus repositories chosen by a blind selection rule fixed before scanning. (#1900)

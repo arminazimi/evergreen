@@ -1,0 +1,17 @@
+{
+  "repository": "nomasystems/xcresult-to-json",
+  "commit": "80188ef5f4507b5af53c36376fe3b06a00ff395d",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.xcode.app-store-below-15",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `14.2.0`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+      }
+    }
+  ]
+}

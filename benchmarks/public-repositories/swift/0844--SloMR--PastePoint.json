@@ -1,0 +1,17 @@
+{
+  "repository": "SloMR/PastePoint",
+  "commit": "eeafb60d0ec733e78a97cceba17d5c9f011271e2",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of rust-toolchain reads `1.98.1`. Independent check against the rust.toolchain.end-of-support-1.98-and-older registry rule."
+      }
+    }
+  ]
+}

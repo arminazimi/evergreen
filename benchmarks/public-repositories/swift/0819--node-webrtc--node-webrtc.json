@@ -1,0 +1,26 @@
+{
+  "repository": "node-webrtc/node-webrtc",
+  "commit": "1752376a389878b10e926a6ce28da87fc73de6bb",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.xcode.app-store-below-15",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `13.0`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+      }
+    },
+    {
+      "ruleId": "npm.package.domexception.deprecated",
+      "path": "package.json",
+      "line": 33,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 33 of package.json reads `    \"domexception\": \"^4.0.0\"`. This matches the npm.package.domexception.deprecated lifecycle rule (Node.js / npm registry)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "repository": "signalapp/ringrtc",
+  "commit": "84c5b2aff246392b365d73d6628529a149d6aed2",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/slow_tests.yml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 54 of .github/workflows/slow_tests.yml reads `    - uses: actions/github-script@v7`. This matches the github-actions.github-script.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.11-and-older",
+      "path": "call_sim/docker/pesq_mos/Dockerfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of call_sim/docker/pesq_mos/Dockerfile reads `FROM python:3.11`. This matches the container.python.eol-3.11-and-older lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "container.python.eol-3.11-and-older",
+      "path": "call_sim/docker/plc_mos/Dockerfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of call_sim/docker/plc_mos/Dockerfile reads `FROM python:3.11`. This matches the container.python.eol-3.11-and-older lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "call_sim/docker/signaling_server/Dockerfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of call_sim/docker/signaling_server/Dockerfile reads `FROM ubuntu:22.04 AS build-stage`. This matches the container.ubuntu.eol-22.04 lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "call_sim/docker/signaling_server/Dockerfile",
+      "line": 43,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 43 of call_sim/docker/signaling_server/Dockerfile reads `FROM ubuntu:22.04 AS run-stage`. This matches the container.ubuntu.eol-22.04 lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "call_sim/docker/visqol_mos/Dockerfile",
+      "line": 6,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 6 of call_sim/docker/visqol_mos/Dockerfile reads `FROM ubuntu:22.04 AS build-stage`. This matches the container.ubuntu.eol-22.04 lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "call_sim/docker/visqol_mos/Dockerfile",
+      "line": 46,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 46 of call_sim/docker/visqol_mos/Dockerfile reads `FROM ubuntu:22.04 AS run-stage`. This matches the container.ubuntu.eol-22.04 lifecycle rule."
+      }
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of rust-toolchain reads `1.97.1`. Independent check against the rust.toolchain.end-of-support-1.98-and-older registry rule."
+      }
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "src/android/build.gradle",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 29 of src/android/build.gradle reads `        targetSdk = 33`. Independent check against the android.target-sdk.existing.default-below-35 registry rule."
+      }
+    }
+  ]
+}
