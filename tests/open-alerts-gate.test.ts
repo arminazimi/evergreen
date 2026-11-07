@@ -64,7 +64,7 @@ test("the committed baseline is well formed and can only shrink from the remaini
   const committed = JSON.parse(readFileSync(baselinePath, "utf8"));
   assert.deepEqual(tool.validateBaseline(committed), []);
   const keys = committed.accepted.map((entry: { key: string }) => entry.key);
-  const remaining = new Set(["code-scanning#21", "code-scanning#25", "code-scanning#26", "code-scanning#230"]);
+  const remaining = new Set(["code-scanning#25", "code-scanning#26", "code-scanning#230"]);
   assert.ok(
     keys.every((key: string) => remaining.has(key)),
     "fixed alerts must not return to the baseline",

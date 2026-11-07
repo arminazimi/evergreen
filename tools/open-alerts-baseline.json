@@ -2,10 +2,6 @@
   "measurement": "Open code-scanning and Dependabot alerts on main when the gate was added (2026-11-05, issue #2070). This list may only shrink: remove an entry when its alert is fixed or dismissed.",
   "accepted": [
     {
-      "key": "code-scanning#21",
-      "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
-    },
-    {
       "key": "code-scanning#25",
       "reason": "Open on 2026-11-05 when the open-alerts gate was added (issue #2070). Accepted until it is fixed or dismissed;"
     },

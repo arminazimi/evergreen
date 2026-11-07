@@ -12,12 +12,14 @@
  */
 
 import { readFileSync } from "node:fs";
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { builtInDetectors } from "../../src/detectors/index.js";
 import { scanRepository } from "../../src/engine/index.js";
+import { restoreFixtureNames } from "../../src/fixture-names.js";
 
 export const SCHEMA_VERSION = "evergreen.agent-staleness.results.v1" as const;
 
@@ -101,6 +103,21 @@ function uniqueSorted(values: readonly string[]): string[] {
   return [...new Set(values)].sort(compareText);
 }
 
+/**
+ * Copy a task output tree, restore scanner-neutral fixture names (decision 0027), then scan.
+ * Seed outputs store `image.fixture` instead of `Dockerfile` so Scorecard does not alert on them.
+ */
+async function scanRestoredTaskRoot(source: string) {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-staleness-"));
+  try {
+    await cp(source, root, { recursive: true });
+    await restoreFixtureNames(root);
+    return await scanRepository(root, builtInDetectors, { noCache: true });
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+}
+
 /** Score one already-materialized task directory by scanning it offline. */
 export async function scoreTaskDirectory(input: {
   root: string;
@@ -109,7 +126,7 @@ export async function scoreTaskDirectory(input: {
   agent: string;
   arm: StalenessArm;
 }): Promise<TaskScanScore> {
-  const scan = await scanRepository(input.root, builtInDetectors, { noCache: true });
+  const scan = await scanRestoredTaskRoot(input.root);
   const ruleIds = uniqueSorted(scan.findings.map((finding) => finding.ruleId));
   return {
     taskId: input.taskId,
