@@ -1,0 +1,168 @@
+{
+  "repository": "nifty-lil-tricks/monitoring",
+  "commit": "993bcd10b8d1e649b2688d7751aabbdeed3e1515",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `deno 1.37.2`. Deno 1.x is outside the supported release lines after the Deno 2.0.0 release (https://github.com/denoland/deno/releases/tag/v2.0.0); the bundled rule covers the 1.x line."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 19,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 19 of .github/workflows/ci.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 71,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 71 of .github/workflows/ci.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/version_bump.yml",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 26 of .github/workflows/version_bump.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 88,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 88 of .github/workflows/ci.yml reads `uses: actions/create-github-app-token@v1`. Unsupported actions/create-github-app-token runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/version_bump.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 39 of .github/workflows/version_bump.yml reads `- uses: actions/create-github-app-token@v1`. Unsupported actions/create-github-app-token runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/ci.yml",
+      "line": 74,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 74 of .github/workflows/ci.yml reads `uses: actions/download-artifact@v3`. Retired actions/download-artifact release (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 22,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 22 of .github/workflows/ci.yml reads `uses: actions/setup-node@v3`. Unsupported actions/setup-node runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 85 of .github/workflows/ci.yml reads `uses: actions/setup-node@v3`. Unsupported actions/setup-node runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/version_bump.yml",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 32 of .github/workflows/version_bump.yml reads `uses: actions/setup-node@v3`. Unsupported actions/setup-node runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yml",
+      "line": 54,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 54 of .github/workflows/ci.yml reads `uses: actions/upload-artifact@v3`. Retired actions/upload-artifact release (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/ci.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/ci.yml reads `node-version: [\"18.x\", \"20.x\"]`. Node.js 18 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 89 of package.json reads `\"node\": \">=18\"`. Node.js 18 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 89 of package.json reads `\"node\": \">=18\"`. Node.js 19 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/ci.yml",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 14 of .github/workflows/ci.yml reads `node-version: [\"18.x\", \"20.x\"]`. Node.js 20 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 89,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 89 of package.json reads `\"node\": \">=18\"`. Node.js 20 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    }
+  ]
+}

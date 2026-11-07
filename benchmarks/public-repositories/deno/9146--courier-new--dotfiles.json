@@ -1,0 +1,48 @@
+{
+  "repository": "courier-new/dotfiles",
+  "commit": "bb2f95ac0147e53e00d67a485535d3ffd310ba5d",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 7,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 7 of .tool-versions reads `bun 1.0.25`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 10 of .tool-versions reads `elixir 1.16.0-otp-26`. Erlang/OTP 26 no longer receives security updates (https://github.com/erlang/otp/security/policy)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 9 of .tool-versions reads `erlang 26.2.1`. Erlang/OTP 26 no longer receives security updates (https://github.com/erlang/otp/security/policy)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.10-and-older",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://devguide.python.org/versions/",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `python 3.10.15`. Python 3.10 and older are end-of-life (https://devguide.python.org/versions/)."
+      }
+    }
+  ]
+}

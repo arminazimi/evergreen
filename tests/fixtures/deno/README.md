@@ -8,4 +8,5 @@ Each directory here is a small repository that the deno detector scans in `tests
 | `malformed/` | Broken or truncated deno declarations | no findings, and no crash |
 | `deno-1/` | Deno 1.x pin in deno.json | deno.runtime.eol-1.x |
 | `bun-1/` | Bun 1.0.x pin in .bun-version and Bun 0.x pin in bunfig.toml | deno.bun.runtime.eol-1.0 and deno.bun.runtime.eol-0.x |
+| `tool-versions/` | Deno 1.x and Bun 1.0.x and 0.x pins in .tool-versions | deno.runtime.eol-1.x, deno.bun.runtime.eol-1.0, and deno.bun.runtime.eol-0.x |
 | `negative/` | Range constraints, variables, and 'latest' | no findings |

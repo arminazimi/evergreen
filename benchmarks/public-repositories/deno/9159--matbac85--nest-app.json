@@ -1,0 +1,48 @@
+{
+  "repository": "matbac85/nest-app",
+  "commit": "0460768d21483921148827df6b4608351ab241f9",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 90,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 90 of Dockerfile reads `ENV LANG en_US.UTF-8`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 91,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 91 of Dockerfile reads `ENV LANGUAGE en_US:en`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "line": 92,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 92 of Dockerfile reads `ENV LC_ALL en_US.UTF-8`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `bun 1.0.31`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    }
+  ]
+}

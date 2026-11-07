@@ -1,0 +1,1 @@
+- Promote the Deno and Bun detector to stable, and judge exact `deno` and `bun` pins in `.tool-versions`. (#1895)

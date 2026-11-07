@@ -1,0 +1,6 @@
+deno system
+bun latest
+deno ^1.46.2
+bun >=1.0.0
+deno 1.46.x
+bun $BUN_VERSION

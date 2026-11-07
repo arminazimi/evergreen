@@ -1,0 +1,98 @@
+{
+  "repository": "lirsacc/siren-chorus",
+  "commit": "a779f98bdb01e9ea8ff883a7a5a973916384c824",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "Dockerfile",
+      "line": 8,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://go.dev/doc/devel/release#policy",
+        "note": "Reviewed at this commit: line 8 of Dockerfile reads `FROM golang:1.21 AS hivemind-bin`. Go image release lines 1.25 and older are end-of-life (https://go.dev/doc/devel/release#policy)."
+      }
+    },
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `bun 1.0.13`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/ci.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 34,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 34 of .github/workflows/ci.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 52,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 52 of .github/workflows/ci.yml reads `uses: actions/cache@v3`. Unsupported actions/cache runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 13 of .github/workflows/ci.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 30 of .github/workflows/ci.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 48,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 48 of .github/workflows/ci.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yml",
+      "line": 61,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 61 of .github/workflows/ci.yml reads `uses: actions/upload-artifact@v3`. Retired actions/upload-artifact release (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    }
+  ]
+}

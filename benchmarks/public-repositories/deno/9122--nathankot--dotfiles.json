@@ -1,0 +1,48 @@
+{
+  "repository": "nathankot/dotfiles",
+  "commit": "a7f04f90a8cd465412a5de70c91d82432d7745fc",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": "home/.tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+        "note": "Reviewed at this commit: line 2 of home/.tool-versions reads `deno 1.21.3`. Deno 1.x is outside the supported release lines after the Deno 2.0.0 release (https://github.com/denoland/deno/releases/tag/v2.0.0); the bundled rule covers the 1.x line."
+      }
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "go.mod",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://go.dev/doc/devel/release",
+        "note": "Reviewed at this commit: line 3 of go.mod reads `go 1.12`. Go 1.20 and older are no longer supported (https://go.dev/doc/devel/release)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://devguide.python.org/versions/",
+        "note": "Reviewed at this commit: line 1 of .python-version reads `3.7.5`. Python 3.9 and older are end-of-life (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "home/.tool-versions",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 3 of home/.tool-versions reads `ruby 3.1.2`. Ruby 3.1 is end-of-life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    }
+  ]
+}

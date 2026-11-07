@@ -1,0 +1,58 @@
+{
+  "repository": "kidpollo/fullstack-kitchen-sink-2024",
+  "commit": "38dddf111e171af5c7126249aee48ce8edf06ba7",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `bun 1.0.21`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `ruby 3.2.0`. Ruby 3.2 is end-of-life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "infra/modules/python-package/main.tf",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v0.12.14",
+        "note": "Reviewed at this commit: line 18 of infra/modules/python-package/main.tf reads `lambda_src_path = \"${var.py_code_path}\"`. Interpolation-only strings are deprecated (https://github.com/hashicorp/terraform/releases/tag/v0.12.14)."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "infra/modules/todo-table-stream/main.tf",
+      "line": 60,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v0.12.14",
+        "note": "Reviewed at this commit: line 60 of infra/modules/todo-table-stream/main.tf reads `\"${local.table_arn}\",`. Interpolation-only strings are deprecated (https://github.com/hashicorp/terraform/releases/tag/v0.12.14)."
+      }
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "infra/modules/ts-package/main.tf",
+      "line": 18,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v0.12.14",
+        "note": "Reviewed at this commit: line 18 of infra/modules/ts-package/main.tf reads `ts_code_path = \"${var.ts_code_path}\"`. Interpolation-only strings are deprecated (https://github.com/hashicorp/terraform/releases/tag/v0.12.14)."
+      }
+    }
+  ]
+}

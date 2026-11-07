@@ -1,0 +1,7 @@
+{
+  "repository": "mob-sakai/unity-changeset",
+  "commit": "d3befdfa090dd4879c3577a4fd56aafcc1604030",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": []
+}

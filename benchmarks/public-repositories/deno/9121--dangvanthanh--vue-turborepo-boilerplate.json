@@ -1,0 +1,48 @@
+{
+  "repository": "dangvanthanh/vue-turborepo-boilerplate",
+  "commit": "40012115390fee77775bbca1ce14e2233e349a63",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": "apps/api/.tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+        "note": "Reviewed at this commit: line 1 of apps/api/.tool-versions reads `deno 1.44.2`. Deno 1.x is outside the supported release lines after the Deno 2.0.0 release (https://github.com/denoland/deno/releases/tag/v2.0.0); the bundled rule covers the 1.x line."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 21 of package.json reads `\"node\": \">=18\"`. Node.js 18 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 21 of package.json reads `\"node\": \">=18\"`. Node.js 19 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 21,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 21 of package.json reads `\"node\": \">=18\"`. Node.js 20 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    }
+  ]
+}

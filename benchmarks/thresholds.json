@@ -36,8 +36,8 @@
       "minPrecision": 0.95
     },
     "deno": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "dotnet": {

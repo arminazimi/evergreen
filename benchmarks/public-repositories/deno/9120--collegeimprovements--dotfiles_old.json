@@ -1,0 +1,98 @@
+{
+  "repository": "collegeimprovements/dotfiles_old",
+  "commit": "32b95bf94089418c980349a6f9aa5a5bcc9b76d5",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.bun.runtime.eol-0.x",
+      "path": ".tool-versions",
+      "line": 12,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0",
+        "note": "Reviewed at this commit: line 12 of .tool-versions reads `bun 0.1.10`. Bun 0.x is an obsolete pre-release line after the Bun 1.0.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0); the bundled rule covers the 0.x line."
+      }
+    },
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": ".tool-versions",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+        "note": "Reviewed at this commit: line 11 of .tool-versions reads `deno 1.24.3`. Deno 1.x is outside the supported release lines after the Deno 2.0.0 release (https://github.com/denoland/deno/releases/tag/v2.0.0); the bundled rule covers the 1.x line."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".config/nvim/.tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .config/nvim/.tool-versions reads `elixir 1.14.0-otp-25`. Erlang/OTP 25 no longer receives security updates (https://github.com/erlang/otp/security/policy)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `erlang 26.0.2`. Erlang/OTP 26 no longer receives security updates (https://github.com/erlang/otp/security/policy)."
+      }
+    },
+    {
+      "ruleId": "elixir.erlang.eol-26",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/erlang/otp/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `elixir 1.15.4-otp-26`. Erlang/OTP 26 no longer receives security updates (https://github.com/erlang/otp/security/policy)."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.14",
+      "path": ".config/nvim/.tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 1 of .config/nvim/.tool-versions reads `elixir 1.14.0-otp-25`. Elixir 1.14 no longer receives security updates (https://github.com/elixir-lang/elixir/security/policy)."
+      }
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.15",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/elixir-lang/elixir/security/policy",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `elixir 1.15.4-otp-26`. Elixir 1.15 no longer receives security updates (https://github.com/elixir-lang/elixir/security/policy)."
+      }
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".tool-versions",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://devguide.python.org/versions/",
+        "note": "Reviewed at this commit: line 5 of .tool-versions reads `python 3.9.2`. Python 3.9 and older are end-of-life (https://devguide.python.org/versions/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.0",
+      "path": ".tool-versions",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 10 of .tool-versions reads `ruby 3.0.0`. Ruby 3.0 is end-of-life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    }
+  ]
+}

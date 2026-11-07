@@ -1,0 +1,28 @@
+{
+  "repository": "supafull/magnetic",
+  "commit": "13669d27f54ef392dca674f7b8aff6efeea6f99d",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "frontend/Dockerfile",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://nodejs.org/en/about/eol",
+        "note": "Reviewed at this commit: line 2 of frontend/Dockerfile reads `FROM node:20-slim AS base`. Node.js image release lines 21 and older are end-of-life (https://nodejs.org/en/about/eol)."
+      }
+    },
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `deno 1.44.1`. Deno 1.x is outside the supported release lines after the Deno 2.0.0 release (https://github.com/denoland/deno/releases/tag/v2.0.0); the bundled rule covers the 1.x line."
+      }
+    }
+  ]
+}

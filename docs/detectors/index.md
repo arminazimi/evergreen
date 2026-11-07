@@ -14,7 +14,7 @@ Each page documents one ecosystem detector: what it reads, what it reports, and 
 | [Container base images](container.md) | `FROM` lines in Dockerfiles/Containerfiles and `services.*.image` in Compose | Supported |
 | [Dart and Flutter](dart.md) | `pubspec.yaml`/`lock`, `.fvmrc`, `.fvm/fvm_config.json` | Supported |
 | [Database runtimes](database.md) | Compose image tags and managed DB versions in `*.tf` | Experimental |
-| [Deno and Bun](deno.md) | Exact runtime pins in `deno.json(c)`, `bunfig.toml`, `.bun-version` | Experimental |
+| [Deno and Bun](deno.md) | Exact runtime pins in `deno.json(c)`, `bunfig.toml`, `.bun-version`, `.tool-versions` | Supported |
 | [.NET](dotnet.md) | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, `packages.lock.json` | Beta |
 | [Elixir and Mix](elixir.md) | `.tool-versions`, `mix.exs`, `mix.lock` | Supported |
 | [Go](go.md) | `go.mod` and `go.work` directives and direct require | Supported |

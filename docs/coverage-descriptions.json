@@ -84,7 +84,7 @@
     {
       "ecosystems": ["deno", "bun"],
       "name": "Deno and Bun",
-      "coverage": "Exact runtime pins in `deno.json`, `deno.jsonc`, `bunfig.toml`, and `.bun-version`, for Deno and Bun release lines past end of life. Version ranges, floating aliases, and environment variables are not matched. See [Deno and Bun](detectors/deno.md)."
+      "coverage": "Exact runtime pins in `deno.json`, `deno.jsonc`, `bunfig.toml`, `.bun-version`, and `.tool-versions`, for Deno and Bun release lines past end of life. Version ranges, floating aliases, and environment variables are not matched. See [Deno and Bun](detectors/deno.md)."
     },
     {
       "ecosystems": ["database"],

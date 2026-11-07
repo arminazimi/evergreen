@@ -1,0 +1,88 @@
+{
+  "repository": "stadacone/orenda",
+  "commit": "feaa6ce97ecebc1bde639624391c2d70e524c680",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `bun 1.0.4`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/fly.yml",
+      "line": 11,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 11 of .github/workflows/fly.yml reads `- uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/rubyonrails.yml",
+      "line": 20,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 20 of .github/workflows/rubyonrails.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/rubyonrails.yml",
+      "line": 36,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+        "note": "Reviewed at this commit: line 36 of .github/workflows/rubyonrails.yml reads `uses: actions/checkout@v3`. Unsupported actions/checkout runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.2.2`. Ruby 3.2 is end-of-life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `ruby 3.2.2`. Ruby 3.2 is end-of-life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "Gemfile",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 5 of Gemfile reads `ruby \"3.2.2\"`. Ruby 3.2 is end-of-life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "Gemfile.lock",
+      "line": 403,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/",
+        "note": "Reviewed at this commit: line 403 of Gemfile.lock reads `ruby 3.2.2p53`. Ruby 3.2 is end-of-life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "repository": "denoland/setup-deno",
+  "commit": "22d081ff2d3a40755e97629de92e3bcbfa7cf2ed",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": ".tool-versions",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+        "note": "Reviewed at this commit: line 5 of .tool-versions reads `deno 1.43.1`. Deno 1.x is outside the supported release lines after the Deno 2.0.0 release (https://github.com/denoland/deno/releases/tag/v2.0.0); the bundled rule covers the 1.x line."
+      }
+    }
+  ]
+}

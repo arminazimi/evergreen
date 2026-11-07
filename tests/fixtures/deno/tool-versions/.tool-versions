@@ -1,0 +1,4 @@
+# Managed runtimes for this project.
+nodejs 20.11.0
+deno 1.46.2
+bun 1.0.29 0.8.1

@@ -1,0 +1,18 @@
+{
+  "repository": "keithamus/gnome-shell-duckduckgo-search-provider",
+  "commit": "6f3fbafa22d5311ce5cf96cd9eff19620a8c60e9",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/denoland/deno/releases/tag/v2.0.0",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `deno 1.1.1`. Deno 1.x is outside the supported release lines after the Deno 2.0.0 release (https://github.com/denoland/deno/releases/tag/v2.0.0); the bundled rule covers the 1.x line."
+      }
+    }
+  ]
+}

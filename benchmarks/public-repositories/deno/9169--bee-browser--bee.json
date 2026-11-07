@@ -1,0 +1,7 @@
+{
+  "repository": "bee-browser/bee",
+  "commit": "faef7663a0027eb1cae50361f1cd6848d8c6a193",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": []
+}

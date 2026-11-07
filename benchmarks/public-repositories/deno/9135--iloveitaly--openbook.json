@@ -1,0 +1,28 @@
+{
+  "repository": "iloveitaly/openbook",
+  "commit": "b26f05dc3cd4daff612cde6acb99429da23e9b5a",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 5 of .tool-versions reads `bun 1.0.2`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 87,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+        "note": "Reviewed at this commit: line 87 of package.json reads `\"node\": \"20.3.1\",`. Node.js 20 is end-of-life (https://github.com/nodejs/Release/blob/main/schedule.json)."
+      }
+    }
+  ]
+}

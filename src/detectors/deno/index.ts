@@ -10,11 +10,13 @@ import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { versContains } from "../../vers/index.js";
 import { parseBunVersion, parseBunfig, parseDenoJson } from "./parse.js";
+import type { DenoDeclaration } from "./parse.js";
+import { parseToolVersions } from "./parse-tool-versions.js";
 
 /**
  * Deno and Bun runtime detector.
  *
- * It reads runtime pins in `deno.json`, `deno.jsonc`, `bunfig.toml`, and `.bun-version`.
+ * It reads runtime pins in `deno.json`, `deno.jsonc`, `bunfig.toml`, `.bun-version`, and `.tool-versions`.
  * Exact version pins are matched against lifecycle rules for `pkg:generic/deno` and `pkg:generic/bun`.
  */
 
@@ -35,7 +37,7 @@ const SKIPPED_DIRECTORIES = new Set([
   "testdata",
 ]);
 
-const DENO_BUN_FILES = new Set(["deno.json", "deno.jsonc", "bunfig.toml", ".bun-version"]);
+const DENO_BUN_FILES = new Set(["deno.json", "deno.jsonc", "bunfig.toml", ".bun-version", ".tool-versions"]);
 
 const DENO_PURL = "pkg:generic/deno";
 const BUN_PURL = "pkg:generic/bun";
@@ -91,11 +93,19 @@ function firstMatchingRule(rules: readonly RegistryV2Rule[], version: string): R
   return undefined;
 }
 
+/** The declarations a recognized file names, keyed by its base name. */
+function declarationsFor(name: string, contents: string): DenoDeclaration[] {
+  if (name === ".bun-version") return parseBunVersion(contents);
+  if (name === ".tool-versions") return parseToolVersions(contents);
+  if (name === "bunfig.toml") return parseBunfig(contents);
+  return parseDenoJson(contents);
+}
+
 export class DenoDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "deno";
   readonly inputs: DetectorInputs = {
-    fileNames: ["deno.json", "deno.jsonc", "bunfig.toml", ".bun-version"],
+    fileNames: ["deno.json", "deno.jsonc", "bunfig.toml", ".bun-version", ".tool-versions"],
   };
 
   constructor(
@@ -140,12 +150,7 @@ export class DenoDetector implements Detector {
       const path = relativePosix(context.root, file);
       const name = basename(file);
 
-      const declarations =
-        name === ".bun-version"
-          ? parseBunVersion(contents)
-          : name === "bunfig.toml"
-            ? parseBunfig(contents)
-            : parseDenoJson(contents);
+      const declarations = declarationsFor(name, contents);
 
       for (const declaration of declarations) {
         if (!EXACT_VERSION.test(declaration.value)) continue;

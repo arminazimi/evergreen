@@ -37,6 +37,18 @@ test("deno detector identifies end-of-life Deno runtime pins", async () => {
   assert.equal(findings[0]?.location.line, 2);
 });
 
+test("deno detector identifies end-of-life runtime pins in .tool-versions", async () => {
+  const findings = await denoDetector.scan({ root: resolve(fixtures, "tool-versions") });
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [
+      ["deno.runtime.eol-1.x", ".tool-versions", 3],
+      ["deno.bun.runtime.eol-0.x", ".tool-versions", 4],
+      ["deno.bun.runtime.eol-1.0", ".tool-versions", 4],
+    ],
+  );
+});
+
 test("deno detector identifies end-of-life Bun runtime pins", async () => {
   const findings = await denoDetector.scan({ root: resolve(fixtures, "bun-1") });
   assert.equal(findings.length, 2);

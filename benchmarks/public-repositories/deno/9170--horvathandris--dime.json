@@ -1,0 +1,7 @@
+{
+  "repository": "horvathandris/dime",
+  "commit": "7c6b0b70fd36f580b2543acacbd3af438ec519e9",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": []
+}

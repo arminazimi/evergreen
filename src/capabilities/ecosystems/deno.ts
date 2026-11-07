@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const deno: ManifestEcosystem = {
   id: "deno",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["deno"],
 };
 

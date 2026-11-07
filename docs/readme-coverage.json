@@ -87,7 +87,7 @@
         "bun"
       ],
       "name": "Deno and Bun",
-      "reads": "`deno.json`, `deno.jsonc`, `bunfig.toml`, `.bun-version`: exact runtime pins",
+      "reads": "`deno.json`, `deno.jsonc`, `bunfig.toml`, `.bun-version`, `.tool-versions`: exact runtime pins",
       "reports": "Deno and Bun release lines past end of life. Version ranges, floating aliases, and environment variables are not matched. See [Deno and Bun](docs/detectors/deno.md)"
     },
     {

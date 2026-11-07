@@ -1,0 +1,28 @@
+{
+  "repository": "hack-dance/dashboard-demo",
+  "commit": "59763ca5f1b9c6853546c22fa665f5e1eb0124b5",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 3 of .tool-versions reads `bun 1.0.20`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    },
+    {
+      "ruleId": "npm.package.next.14.support-end",
+      "path": "package.json",
+      "line": 57,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://nextjs.org/support-policy",
+        "note": "Reviewed at this commit: line 57 of package.json reads `\"next\": \"v14.0.4\",`. Next.js 14 is out of support (https://nextjs.org/support-policy)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "repository": "edvardsanta/GenerateMarkdown",
+  "commit": "21d41a58ac781f901fe828427e51c4a4eab34f07",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://nodejs.org/en/about/eol",
+        "note": "Reviewed at this commit: line 1 of Dockerfile reads `FROM node:20.11.0`. Node.js image release lines 21 and older are end-of-life (https://nodejs.org/en/about/eol)."
+      }
+    },
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 2 of .tool-versions reads `bun 1.0.33`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    }
+  ]
+}

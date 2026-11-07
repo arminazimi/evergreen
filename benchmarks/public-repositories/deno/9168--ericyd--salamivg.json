@@ -1,0 +1,7 @@
+{
+  "repository": "ericyd/salamivg",
+  "commit": "7b72dc644e5cfecbf7cb39bec732e5cda08e8fe2",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": []
+}

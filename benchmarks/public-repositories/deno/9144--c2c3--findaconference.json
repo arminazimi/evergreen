@@ -1,0 +1,138 @@
+{
+  "repository": "c2c3/findaconference",
+  "commit": "e09c1973e85e849413fe1ca2e4d8a45fcadebf68",
+  "ecosystem": "deno",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 17 of server/Dockerfile reads `ENV NODE_ENV production`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 23,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 23 of server/Dockerfile reads `ENV GITHUB_CLIENT_ID $GITHUB_CLIENT_ID`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 24,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 24 of server/Dockerfile reads `ENV GITHUB_CLIENT_SECRET $GITHUB_CLIENT_SECRET`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 25 of server/Dockerfile reads `ENV AUTH_SECRET $AUTH_SECRET`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 26,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 26 of server/Dockerfile reads `ENV NEXTAUTH_URL $NEXTAUTH_URL`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 27,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 27 of server/Dockerfile reads `ENV ORIGIN https://${NEXTAUTH_URL}`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 28,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 28 of server/Dockerfile reads `ENV XFF_DEPTH 2`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 29,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 29 of server/Dockerfile reads `ENV PROTOCOL_HEADER \"X-Forwarded-Proto\"`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 30,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 30 of server/Dockerfile reads `ENV HOST_HEADER \"X-Forwarded-Host\"`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 31,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 31 of server/Dockerfile reads `ENV SERVERDEV false`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "server/Dockerfile",
+      "line": 32,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://docs.docker.com/reference/build-checks/legacy-key-value-format/",
+        "note": "Reviewed at this commit: line 32 of server/Dockerfile reads `ENV MONGO_URL $MONGO_URL`. The Dockerfile legacy \"ENV key value\" form is deprecated (https://docs.docker.com/reference/build-checks/legacy-key-value-format/)."
+      }
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "server/Dockerfile",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://nodejs.org/en/about/eol",
+        "note": "Reviewed at this commit: line 1 of server/Dockerfile reads `FROM node:21-alpine`. Node.js image release lines 21 and older are end-of-life (https://nodejs.org/en/about/eol)."
+      }
+    },
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": ".tool-versions",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0",
+        "note": "Reviewed at this commit: line 1 of .tool-versions reads `bun 1.0.17`. Bun 1.0.x is outside the supported release lines after the Bun 1.1.0 release (https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0); the bundled rule covers the 1.0.x line."
+      }
+    }
+  ]
+}
