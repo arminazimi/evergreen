@@ -1,0 +1,17 @@
+{
+  "repository": "block/echoapp",
+  "commit": "f74abb5bd83771644f7ba9781b89b133b6b89639",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "android/sample/build.gradle",
+      "line": 14,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 14 of android/sample/build.gradle reads `    targetSdk 34`. Independent check against the android.target-sdk.existing.default-below-35 registry rule."
+      }
+    }
+  ]
+}

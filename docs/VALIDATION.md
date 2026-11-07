@@ -198,7 +198,7 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 | dart | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
 | database | Experimental | 20 | 0 | 0 | 1.000 | 1.000 |
 | deno | Experimental | 0 | 0 | 0 | n/a | n/a |
-| dotnet | Beta | 304 | 0 | 0 | 1.000 | 1.000 |
+| dotnet | Supported | 304 | 0 | 0 | 1.000 | 1.000 |
 | elixir | Experimental | 0 | 0 | 0 | n/a | n/a |
 | github-actions | Supported | 1262 | 0 | 0 | 1.000 | 1.000 |
 | go | Supported | 111 | 0 | 0 | 1.000 | 1.000 |
@@ -213,7 +213,7 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 | scala | Experimental | 2 | 0 | 0 | 1.000 | 1.000 |
 | serverless | Beta | 168 | 0 | 0 | 1.000 | 1.000 |
 | shell | Experimental | 12 | 0 | 0 | 1.000 | 1.000 |
-| swift | Beta | 20 | 0 | 0 | 1.000 | 1.000 |
+| swift | Supported | 20 | 0 | 0 | 1.000 | 1.000 |
 | terraform | Experimental | 66 | 0 | 0 | 1.000 | 1.000 |
 <!-- accuracy-tables:end -->
 

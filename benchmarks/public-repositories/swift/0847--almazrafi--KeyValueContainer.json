@@ -1,0 +1,53 @@
+{
+  "repository": "almazrafi/KeyValueContainer",
+  "commit": "4f68529ae2f3aa44a68e6e4dd44f7c80d8989e20",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 37 of .github/workflows/ci.yml reads `      - uses: actions/checkout@v3`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 88,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 88 of .github/workflows/ci.yml reads `      - uses: actions/checkout@v3`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 101,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 101 of .github/workflows/ci.yml reads `      - uses: actions/checkout@v3`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.1.0`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "swift.xcode.app-store-below-15",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `14.1`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+      }
+    }
+  ]
+}

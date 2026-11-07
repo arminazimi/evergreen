@@ -1,6 +1,6 @@
 # Swift
 
-The `swift` detector reports Xcode pins and iOS app deployment targets that App Store Connect no longer accepts, as declared in `.xcode-version` and an application's `project.pbxproj`. It is **beta**: findings were checked against ground truth on enough repositories to measure them, and the precision floor in `benchmarks/thresholds.json` is enforced. The maturity rules are in [Decision 0013](../decisions/0013-detector-maturity.md).
+The `swift` detector reports Xcode pins and iOS app deployment targets that App Store Connect no longer accepts, as declared in `.xcode-version` and an application's `project.pbxproj`. It is **stable**: findings were checked against ground truth on a larger corpus, the precision floor in `benchmarks/thresholds.json` is enforced, and it is part of the documented product contract. The maturity rules are in [Decision 0013](../decisions/0013-detector-maturity.md).
 
 ## What it reads
 
@@ -53,4 +53,4 @@ The rules are in `registry/swift.json` and ship in the [data bundle](../DATA.md)
 
 ## Validation
 
-Thirteen public repositories at pinned commits cover the detector: six targeted (Formalist, Troop, xc, L10nLint, simperium-ios, and JohnSundell/Files) and seven chosen blind by the rule in [Validation](../VALIDATION.md#swift-blind-selection) (swift-paperless, SwiftStreamingMarkdown, mvi-swift, Stevenson, TvOSMoreButton, TM-SGNL-iOS, and BudouX.swift). Each expected finding was reviewed by hand against the file at that commit. Precision and recall are measured on the full public corpus and recorded with the beta promotion in `benchmarks/thresholds.json`.
+Eighty-five public repositories at pinned commits cover the detector. Six early entries were targeted (Formalist, Troop, xc, L10nLint, simperium-ios, and JohnSundell/Files). The rest were chosen blind by the rules in [Validation](../validation/ecosystems.md#swift-blind-selection), including a 2026-11-07 stable-promotion batch that walked GitHub code search for `.xcode-version` and older `IPHONEOS_DEPLOYMENT_TARGET` pins before Evergreen ran. Each expected finding was reviewed against the cited line at that commit. Precision and recall are measured on the full public corpus and recorded with the stable promotion in `benchmarks/thresholds.json`.

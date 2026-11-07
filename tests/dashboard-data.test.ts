@@ -42,9 +42,11 @@ test("every detector in thresholds.json has a row, with the configured level nex
     assert.deepEqual(detector.evidence, evidence);
     assert.equal(detector.earnedLevel, earnedLevel(evidence));
   }
-  assert.ok(
-    data.detectors.some((detector) => detector.level !== detector.earnedLevel),
-    "the real data has a gap between configured and earned",
+  // After #1900 every detector's configured level matches the evidence it earns. Gaps remain
+  // allowed in principle (grandfathered Supported, or an under-promoted beta); none are open today.
+  assert.deepEqual(
+    data.detectors.filter((detector) => detector.level !== detector.earnedLevel).map((detector) => detector.id),
+    [],
   );
 });
 
@@ -94,19 +96,20 @@ test("the evidence counts agree with the reviewed corpus", () => {
   // Workflow-command rules add three set-output findings in actions/toolkit and dai-shi/reactive-react-redux, and 10 more set-output and set-env findings in six repositories already counted.
   // The Ruby and PHP stable corpus added 48 and 96 repositories; the new repositories carry the other detectors' findings too (GitHub Actions, npm, C/C++, database, Terraform), recorded from a full offline scan.
   // The pinned Go, Java, and Rust workflows add 36 command findings in seven repositories (#2447).
+  // The Swift and .NET stable promotion (#1900) added 63 Swift corpus repositories; they also carry GitHub Actions, Ruby, npm, Node.js, container, Android, Rust, and .NET findings recorded from a full offline scan.
   assert.deepEqual(counts(evidence["github-actions"]!), {
-    repositoriesWithFindings: 333,
-    expectedFindings: 2007,
+    repositoriesWithFindings: 355,
+    expectedFindings: 2212,
     zeroFindingRepositories: 4,
   });
   assert.deepEqual(counts(evidence["npm"]!), {
-    repositoriesWithFindings: 65,
-    expectedFindings: 142,
+    repositoriesWithFindings: 66,
+    expectedFindings: 143,
     zeroFindingRepositories: 18,
   });
   assert.deepEqual(counts(evidence["dotnet"]!), {
-    repositoriesWithFindings: 54,
-    expectedFindings: 544,
+    repositoriesWithFindings: 55,
+    expectedFindings: 547,
     zeroFindingRepositories: 9,
   });
   assert.deepEqual(counts(evidence["php"]!), {
@@ -115,9 +118,14 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 53,
   });
   assert.deepEqual(counts(evidence["ruby"]!), {
-    repositoriesWithFindings: 41,
-    expectedFindings: 232,
+    repositoriesWithFindings: 57,
+    expectedFindings: 257,
     zeroFindingRepositories: 23,
+  });
+  assert.deepEqual(counts(evidence["swift"]!), {
+    repositoriesWithFindings: 55,
+    expectedFindings: 66,
+    zeroFindingRepositories: 15,
   });
   assert.deepEqual(counts(evidence["cpp"]!), {
     repositoriesWithFindings: 20,

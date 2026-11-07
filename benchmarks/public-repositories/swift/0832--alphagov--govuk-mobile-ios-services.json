@@ -1,0 +1,17 @@
+{
+  "repository": "alphagov/govuk-mobile-ios-services",
+  "commit": "dc4477f0d89f3cea8a492d8dbb62e13ece76df8b",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `15.3`, an Xcode 15–25 release. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later starting April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    }
+  ]
+}

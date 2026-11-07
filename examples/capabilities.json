@@ -24,7 +24,7 @@
     { "id": "cpp", "status": "experimental", "maturity": "experimental", "detectorIds": ["cpp"] },
     { "id": "dart", "status": "experimental", "maturity": "experimental", "detectorIds": ["dart"] },
     { "id": "deno", "status": "experimental", "maturity": "experimental", "detectorIds": ["deno"] },
-    { "id": "dotnet", "status": "supported", "maturity": "beta", "detectorIds": ["dotnet"] },
+    { "id": "dotnet", "status": "supported", "maturity": "stable", "detectorIds": ["dotnet"] },
     { "id": "elixir", "status": "experimental", "maturity": "experimental", "detectorIds": ["elixir"] },
     { "id": "github-actions", "status": "supported", "maturity": "stable", "detectorIds": ["github-actions"] },
     { "id": "go", "status": "supported", "maturity": "stable", "detectorIds": ["go"] },
@@ -38,7 +38,7 @@
     { "id": "rust", "status": "supported", "maturity": "stable", "detectorIds": ["rust"] },
     { "id": "scala", "status": "experimental", "maturity": "experimental", "detectorIds": ["scala"] },
     { "id": "serverless", "status": "supported", "maturity": "beta", "detectorIds": ["serverless"] },
-    { "id": "swift", "status": "supported", "maturity": "beta", "detectorIds": ["swift"] },
+    { "id": "swift", "status": "supported", "maturity": "stable", "detectorIds": ["swift"] },
     { "id": "terraform", "status": "experimental", "maturity": "experimental", "detectorIds": ["terraform"] },
     { "id": "database", "status": "experimental", "maturity": "experimental", "detectorIds": ["database"] },
     { "id": "shell", "status": "experimental", "maturity": "experimental", "detectorIds": ["shell"] }

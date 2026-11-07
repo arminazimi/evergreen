@@ -1,0 +1,98 @@
+{
+  "repository": "geko-tech/geko",
+  "commit": "2cfc89de10897650e4549cf5b15b08880f8eaaa0",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 37,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 37 of .github/workflows/docs.yml reads `        uses: actions/setup-node@v4`. This matches the github-actions.setup-node.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".github/workflows/docs.yml",
+      "line": 39,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 39 of .github/workflows/docs.yml reads `          node-version: 20`. This matches the nodejs.runtime.eol-20 lifecycle rule (Node.js / npm registry)."
+      }
+    },
+    {
+      "ruleId": "github-actions.configure-pages.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 42 of .github/workflows/docs.yml reads `        uses: actions/configure-pages@v4`. This matches the github-actions.configure-pages.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.deploy-pages.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 68,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 68 of .github/workflows/docs.yml reads `        uses: actions/deploy-pages@v4`. This matches the github-actions.deploy-pages.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/geko-pr.yml",
+      "line": 25,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 25 of .github/workflows/geko-pr.yml reads `      - uses: actions/cache@v4`. This matches the github-actions.cache.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/geko-pr.yml",
+      "line": 47,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 47 of .github/workflows/geko-pr.yml reads `        uses: actions/upload-artifact@v4`. This matches the github-actions.upload-artifact.retired lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/release_desktop.yml",
+      "line": 17,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 17 of .github/workflows/release_desktop.yml reads `      - uses: actions/create-github-app-token@v2`. This matches the github-actions.create-github-app-token.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 76 of .github/workflows/release.yml reads `        uses: actions/upload-artifact@v6`. This matches the github-actions.upload-artifact.retired lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/release.yml",
+      "line": 83,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 83 of .github/workflows/release.yml reads `        uses: actions/upload-artifact@v6`. This matches the github-actions.upload-artifact.retired lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.create-github-app-token.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 102,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 102 of .github/workflows/release.yml reads `      - uses: actions/create-github-app-token@v2`. This matches the github-actions.create-github-app-token.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    }
+  ]
+}

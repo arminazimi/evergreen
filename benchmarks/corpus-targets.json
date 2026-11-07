@@ -3,8 +3,8 @@
   "target": 200,
   "minimum": {
     "android": 12,
-    "ci-images": 12,
-    "container": 12,
+    "ci-images": 98,
+    "container": 42,
     "cpp": 12,
     "dart": 12,
     "database": 12,
@@ -16,14 +16,14 @@
     "kubernetes": 19,
     "node": 78,
     "node-actions": 34,
-    "php": 12,
+    "php": 108,
     "python": 200,
-    "ruby": 12,
+    "ruby": 60,
     "rust": 78,
     "scala": 0,
     "serverless": 21,
     "shell": 12,
-    "swift": 22,
+    "swift": 85,
     "terraform": 12
   }
 }

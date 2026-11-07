@@ -1,0 +1,26 @@
+{
+  "repository": "yoko-yan/ios-archi",
+  "commit": "9b01f084ce9fcef7c4d2322341d88115b1654c8e",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.1.3`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `15.4`, an Xcode 15–25 release. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later starting April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "repository": "ZhgChgLi/github-actions-ci-cd-demo",
+  "commit": "a6bcfc7ae1e7cb1d73437abb4f9e129c0c02fc1f",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/Automation-PullRequest-Daily.yml",
+      "line": 40,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 40 of .github/workflows/Automation-PullRequest-Daily.yml reads `        uses: actions/github-script@v7`. This matches the github-actions.github-script.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/Automation-PullRequest-Daily.yml",
+      "line": 85,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 85 of .github/workflows/Automation-PullRequest-Daily.yml reads `        uses: actions/github-script@v7`. This matches the github-actions.github-script.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/Automation-PullRequest-Daily.yml",
+      "line": 134,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 134 of .github/workflows/Automation-PullRequest-Daily.yml reads `        uses: actions/github-script@v7`. This matches the github-actions.github-script.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/Automation-PullRequest.yml",
+      "line": 129,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 129 of .github/workflows/Automation-PullRequest.yml reads `        uses: actions/github-script@v7`. This matches the github-actions.github-script.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CD-Deploy.yml",
+      "line": 96,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 96 of .github/workflows/CD-Deploy.yml reads `        uses: actions/checkout@v3`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/CD-Deploy.yml",
+      "line": 221,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 221 of .github/workflows/CD-Deploy.yml reads `        uses: actions/cache@v3`. This matches the github-actions.cache.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/CD-Deploy.yml",
+      "line": 232,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 232 of .github/workflows/CD-Deploy.yml reads `        uses: actions/cache@v3`. This matches the github-actions.cache.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/CD-Deploy.yml",
+      "line": 243,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 243 of .github/workflows/CD-Deploy.yml reads `        uses: actions/cache@v3`. This matches the github-actions.cache.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CI-Testing.yml",
+      "line": 76,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 76 of .github/workflows/CI-Testing.yml reads `        uses: actions/checkout@v3`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/CI-Testing.yml",
+      "line": 138,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 138 of .github/workflows/CI-Testing.yml reads `        uses: actions/cache@v3`. This matches the github-actions.cache.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/CI-Testing.yml",
+      "line": 149,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 149 of .github/workflows/CI-Testing.yml reads `        uses: actions/cache@v3`. This matches the github-actions.cache.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/CI-Testing.yml",
+      "line": 160,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 160 of .github/workflows/CI-Testing.yml reads `        uses: actions/cache@v3`. This matches the github-actions.cache.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/CI-Testing.yml",
+      "line": 278,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 278 of .github/workflows/CI-Testing.yml reads `        uses: actions/github-script@v6`. This matches the github-actions.github-script.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/Demo-Env-Vars-.yml",
+      "line": 42,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 42 of .github/workflows/Demo-Env-Vars-.yml reads `        uses: actions/github-script@v7`. This matches the github-actions.github-script.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.github-script.node20",
+      "path": ".github/workflows/Demo-Env-Vars-.yml",
+      "line": 94,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 94 of .github/workflows/Demo-Env-Vars-.yml reads `        uses: actions/github-script@v7`. This matches the github-actions.github-script.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.7",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `2.7.2`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.2.0`, an Xcode 15–25 release. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later starting April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "repository": "binishmaharjan/Hamro-Sahakarya",
+  "commit": "d51052e31cec01474c8b18fe7af14ba28a078de1",
+  "ecosystem": "swift",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pullRequest.yml",
+      "line": 16,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 16 of .github/workflows/pullRequest.yml reads `      - uses: actions/checkout@v3`. This matches the github-actions.checkout.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/pullRequest.yml",
+      "line": 35,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 35 of .github/workflows/pullRequest.yml reads `        uses: actions/cache@v2`. This matches the github-actions.cache.node20 lifecycle rule recorded in Evergreen's GitHub Actions registry (Node.js 20 runner and deprecated action majors)."
+      }
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".ruby-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.2.2`. The Ruby maintenance branches page marks this release line as end of life (https://www.ruby-lang.org/en/downloads/branches/)."
+      }
+    },
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: line 1 of .xcode-version reads `15.0.1`, an Xcode 15–25 release. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later starting April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+      }
+    }
+  ]
+}
