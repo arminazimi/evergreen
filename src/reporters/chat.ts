@@ -1,6 +1,6 @@
 import type { Finding, ScanResult } from "../domain.js";
 import { severityValues } from "../domain.js";
-import { escapeMarkdown, findingOrder, severityRank } from "./shared.js";
+import { REPORTER_API_VERSION, escapeMarkdown, findingOrder, severityRank, type Reporter } from "./shared.js";
 
 /** The most findings a chat or webhook message lists. The rest are counted, not listed, so one message stays small. */
 export const CHAT_MAX_FINDINGS = 20;
@@ -133,3 +133,17 @@ export function renderTeams(result: ScanResult): string {
   };
   return JSON.stringify(message, null, 2);
 }
+
+/** `--format slack`: Slack incoming-webhook payload. */
+export const slackReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "slack",
+  render: renderSlack,
+};
+
+/** `--format teams`: Microsoft Teams Adaptive Card payload. */
+export const teamsReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "teams",
+  render: renderTeams,
+};

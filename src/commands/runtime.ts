@@ -35,21 +35,15 @@ import { readPinnedRuntimes } from "../runtime-pin.js";
 import { isIsoDate } from "../registry.js";
 import { createIssueReport, ReportIssueError } from "../report-issue.js";
 import {
-  renderCodeQuality,
-  renderCompact,
+  formatCommandGates,
+  formatExpectedList,
+  getScanReporter,
+  KNOWN_FORMAT_IDS,
   renderFindingText,
-  renderHtml,
   renderJson,
-  renderJunit,
-  renderMarkdown,
   renderMigrationPacketText,
-  renderRdjson,
-  renderSarif,
-  renderScanMermaid,
-  renderSlack,
-  renderTeams,
   renderText,
-  renderWebhook,
+  scanOnlyFormatExtras,
 } from "../reporters.js";
 import { STATUS_FILE_NAME, writeStatusFile } from "../status-file.js";
 import { browseFindings, canBrowse } from "../tui.js";
@@ -288,21 +282,7 @@ export async function prepare(
 }
 
 /** Every `--format` value the reporters know; anything else is a usage error for any command. */
-const KNOWN_FORMATS = new Set([
-  "text",
-  "json",
-  "markdown",
-  "junit",
-  "sarif",
-  "rdjson",
-  "codequality",
-  "compact",
-  "html",
-  "slack",
-  "teams",
-  "webhook",
-  "mermaid",
-]);
+const KNOWN_FORMATS = KNOWN_FORMAT_IDS;
 
 /** The message a command with a narrow output set prints for a format outside it. */
 // Maps, not objects: a plain object answers for inherited names such as `constructor`, so a lookup by user input needs a Map.
@@ -317,30 +297,10 @@ const COMMAND_FORMATS: ReadonlyMap<string, { readonly allowed: readonly string[]
   ]);
 
 /** Formats only `scan` renders, with the commands besides `scan` and `receipt` that take them too. */
-const SCAN_ONLY_FORMATS: ReadonlyMap<string, readonly string[]> = new Map([
-  ["markdown", []],
-  ["junit", []],
-  ["sarif", []],
-  ["rdjson", []],
-  ["codequality", []],
-  ["compact", []],
-  ["slack", []],
-  ["teams", []],
-  ["webhook", []],
-  ["html", ["rollup"]],
-]);
+const SCAN_ONLY_FORMATS = scanOnlyFormatExtras();
 
 /** Formats whose list of commands is neither `scan` alone nor the scan set above. */
-const FORMAT_COMMANDS: ReadonlyMap<string, { readonly commands: readonly string[]; readonly rejection: string }> =
-  new Map([
-    [
-      "mermaid",
-      {
-        commands: ["scan", "forecast"],
-        rejection: "--format mermaid is only available for the scan and forecast commands.",
-      },
-    ],
-  ]);
+const FORMAT_COMMANDS = formatCommandGates();
 
 /** Flags only `scan` accepts, and the message each prints for another command. */
 const SCAN_ONLY_FLAGS: readonly { readonly taken: (state: Prepared) => boolean; readonly rejection: string }[] = [
@@ -368,7 +328,7 @@ function hasSelectors(state: Prepared): boolean {
 const USAGE_GATES: readonly ((state: Prepared) => string | undefined)[] = [
   (state) => {
     if (state.formatIndex === -1 || (state.format !== undefined && KNOWN_FORMATS.has(state.format))) return undefined;
-    return `Unknown format: ${state.format ?? ""} (expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, webhook, or mermaid).`;
+    return `Unknown format: ${state.format ?? ""} (expected ${formatExpectedList()}).`;
   },
   (state) => {
     const rule = COMMAND_FORMATS.get(state.command);
@@ -725,33 +685,27 @@ async function printByOwner(state: Gated, result: ScanResult, ctx: CommandContex
   return undefined;
 }
 
-/** The scan renders these from the findings alone. */
-const SCAN_RENDERERS: ReadonlyMap<string, (result: ScanResult) => string> = new Map([
-  ["sarif", renderSarif],
-  ["rdjson", renderRdjson],
-  ["codequality", renderCodeQuality],
-  ["compact", renderCompact],
-  ["markdown", renderMarkdown],
-  ["junit", renderJunit],
-  ["slack", renderSlack],
-  ["teams", renderTeams],
-  ["webhook", renderWebhook],
-]);
-
 /** The scan report in the format asked for; text and JSON are the fallback. */
 async function renderScanReport(state: Gated, result: ScanResult, asOfValue: string | undefined): Promise<string> {
   const { format, json, command } = state;
-  const render = format === undefined ? undefined : SCAN_RENDERERS.get(format);
-  if (render) return render(result);
   const asOf = asOfValue ?? new Date().toISOString().slice(0, 10);
-  if (format === "html")
-    return renderHtml(result, {
-      // Only the shareable HTML report carries a forecast; building it would otherwise slow every other format down.
-      forecast: command === "scan" ? buildForecast(result, await bundledRules(), asOf) : undefined,
-    });
-  if (format === "mermaid") return renderScanMermaid(result, asOf);
+  const firstRun = command === "scan" && !(await hasPersonalConfig());
+  if (format !== undefined) {
+    const reporter = getScanReporter(format);
+    if (reporter) {
+      if (format === "html") {
+        return reporter.render(result, {
+          // Only the shareable HTML report carries a forecast; building it would otherwise slow every other format down.
+          forecast: command === "scan" ? buildForecast(result, await bundledRules(), asOf) : undefined,
+        });
+      }
+      if (format === "mermaid") return reporter.render(result, { asOf });
+      if (format === "text") return reporter.render(result, { firstRun });
+      return reporter.render(result);
+    }
+  }
   if (json) return renderJson(result);
-  return renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
+  return renderText(result, { firstRun });
 }
 
 /** `--fail-on`: the policy gate on the scan's own severity floor. */

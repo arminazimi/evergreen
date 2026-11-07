@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 
 import type { ScanResult, Severity } from "../domain.js";
-import { findingOrder } from "./shared.js";
+import { REPORTER_API_VERSION, findingOrder, type Reporter } from "./shared.js";
 
 const CODE_QUALITY_SEVERITY: Record<Severity, "blocker" | "critical" | "major" | "minor" | "info"> = {
   critical: "blocker",
@@ -27,3 +27,10 @@ export function renderCodeQuality(result: ScanResult): string {
   }));
   return JSON.stringify(issues, null, 2);
 }
+
+/** `--format codequality`: GitLab Code Quality / CodeClimate JSON. */
+export const codeQualityReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "codequality",
+  render: renderCodeQuality,
+};

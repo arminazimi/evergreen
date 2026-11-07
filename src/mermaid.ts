@@ -2,6 +2,7 @@ import type { ScanResult } from "./domain.js";
 import { addDays } from "./forecast.js";
 import type { Forecast } from "./forecast.js";
 import { required } from "./required.js";
+import { REPORTER_API_VERSION, type Reporter } from "./reporters/shared.js";
 
 /** The most support-window bars a chart draws. The rest are counted in the line below it. */
 export const MERMAID_MAX_BARS = 40;
@@ -96,3 +97,14 @@ export function renderForecastMermaid(forecast: Forecast): string {
     }));
   return chart(windows, forecast.today);
 }
+
+/** `--format mermaid`: Gantt chart of support windows. Requires {@link ReporterOptions.asOf}. */
+export const mermaidReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "mermaid",
+  commands: ["scan", "forecast"],
+  commandRejection: "--format mermaid is only available for the scan and forecast commands.",
+  render(result, options = {}) {
+    return renderScanMermaid(result, required(options.asOf, "mermaid asOf"));
+  },
+};

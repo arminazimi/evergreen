@@ -8,8 +8,17 @@ export { renderJson } from "./reporters/json.js";
 export { renderJunit } from "./reporters/junit.js";
 export { renderMarkdown } from "./reporters/markdown.js";
 export { renderRdjson } from "./reporters/rdjson.js";
+export {
+  KNOWN_FORMAT_IDS,
+  SCAN_REPORTERS,
+  assertReporterContract,
+  formatCommandGates,
+  formatExpectedList,
+  getScanReporter,
+  scanOnlyFormatExtras,
+} from "./reporters/registry.js";
 export { renderSarif } from "./reporters/sarif.js";
-export { describeData } from "./reporters/shared.js";
+export { REPORTER_API_VERSION, describeData } from "./reporters/shared.js";
 export {
   deriveScanCoverage,
   renderCheckText,

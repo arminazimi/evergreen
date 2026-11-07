@@ -1,5 +1,5 @@
 import type { ScanResult } from "../domain.js";
-import { describeData, escapeMarkdown, findingOrder } from "./shared.js";
+import { REPORTER_API_VERSION, describeData, escapeMarkdown, findingOrder, type Reporter } from "./shared.js";
 
 /** Only trusted web schemes become Markdown links; unsafe or malformed URLs stay plain text. */
 function markdownSource(source: { title: string; url: string }): string {
@@ -65,3 +65,11 @@ export function renderMarkdown(result: ScanResult): string {
   }
   return lines.join("\n");
 }
+
+/** `--format markdown`: paste-ready table with evidence links. */
+export const markdownReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "markdown",
+  commands: ["scan", "receipt"],
+  render: renderMarkdown,
+};

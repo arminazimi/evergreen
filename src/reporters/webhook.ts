@@ -1,6 +1,7 @@
 import type { ScanResult } from "../domain.js";
 import { severityValues } from "../domain.js";
 import { sortedFindings } from "./chat.js";
+import { REPORTER_API_VERSION, type Reporter } from "./shared.js";
 
 /** The schema tag of the generic webhook payload. Consumers can check it before reading the rest. */
 export const WEBHOOK_SCHEMA_VERSION = "evergreen.webhook.v1";
@@ -39,3 +40,10 @@ export function renderWebhook(result: ScanResult): string {
   };
   return JSON.stringify(payload, null, 2);
 }
+
+/** `--format webhook`: generic JSON payload for any HTTP webhook consumer. */
+export const webhookReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "webhook",
+  render: renderWebhook,
+};

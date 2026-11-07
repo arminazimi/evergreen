@@ -1,5 +1,44 @@
-import type { DataInfo, Finding, Severity } from "../domain.js";
+import type { DataInfo, Finding, ScanResult, Severity } from "../domain.js";
 import { severityValues } from "../domain.js";
+import type { Forecast } from "../forecast.js";
+
+/** The reporter interface version every format declares. */
+export const REPORTER_API_VERSION = "evergreen.reporter.v1" as const;
+
+/**
+ * Options a scan reporter may receive beyond the result. Most formats ignore them; HTML, text, and
+ * Mermaid read the fields they need. The adapter builds forecast and as-of so reporters stay free of
+ * CLI and data-loading concerns.
+ */
+export interface ReporterOptions {
+  /** ISO calendar date for formats that pin "today" (Mermaid, HTML forecast). */
+  readonly asOf?: string | undefined;
+  /** Text: first-run guidance above the usual report. */
+  readonly firstRun?: boolean | undefined;
+  /** HTML: optional forecast chart above the findings. */
+  readonly forecast?: Forecast | undefined;
+}
+
+/**
+ * The stable interface every scan output format implements.
+ * A new format is one module that exports a {@link Reporter}, plus one line in the registry.
+ */
+export interface Reporter {
+  readonly apiVersion: typeof REPORTER_API_VERSION;
+  /** The `--format` value this reporter owns. */
+  readonly id: string;
+  /**
+   * Commands that may request this format with `--format <id>`.
+   * When omitted, only `scan` may (command-specific allow-lists such as `receipt` still apply).
+   */
+  readonly commands?: readonly string[];
+  /**
+   * When set, this format uses an explicit command list gate instead of the scan-only gate, and this
+   * is the usage rejection naming the commands that accept it.
+   */
+  readonly commandRejection?: string;
+  render(result: ScanResult, options?: ReporterOptions): string;
+}
 
 export const compare = (left: string, right: string): number => (left < right ? -1 : left > right ? 1 : 0);
 

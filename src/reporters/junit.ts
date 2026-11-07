@@ -1,5 +1,5 @@
 import type { ScanResult } from "../domain.js";
-import { findingOrder } from "./shared.js";
+import { REPORTER_API_VERSION, findingOrder, type Reporter } from "./shared.js";
 
 /** Strips characters XML 1.0 cannot represent, then escapes the rest for use in text or attribute values. */
 function escapeXml(value: string | number): string {
@@ -47,3 +47,10 @@ export function renderJunit(result: ScanResult): string {
     "</testsuites>",
   ].join("\n");
 }
+
+/** `--format junit`: one failed testcase per finding. */
+export const junitReporter: Reporter = {
+  apiVersion: REPORTER_API_VERSION,
+  id: "junit",
+  render: renderJunit,
+};
