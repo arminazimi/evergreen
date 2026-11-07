@@ -1,0 +1,89 @@
+{
+  "repository": "memsql/singlestore-spark-connector",
+  "commit": "9da5197965d0721f25f9603e8d7b280512749225",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/test-and-publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 242 of .github/workflows/test-and-publish.yml, which holds `uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2`; it matches the declared range of registry rule github-actions.action-gh-release.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 242
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish-glue-container.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 34 of .github/workflows/publish-glue-container.yml, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 34
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test-and-publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 79 of .github/workflows/test-and-publish.yml, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 79
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/test-and-publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 133 of .github/workflows/test-and-publish.yml, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 133
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/test-and-publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 236 of .github/workflows/test-and-publish.yml, which holds `uses: actions/download-artifact@v4`; it matches the declared range of registry rule github-actions.download-artifact.retired, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 236
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/publish-glue-container.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 53 of .github/workflows/publish-glue-container.yml, which holds `uses: actions/setup-java@v4`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 53
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/test-and-publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 87 of .github/workflows/test-and-publish.yml, which holds `uses: actions/setup-java@v4`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 87
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/test-and-publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 135 of .github/workflows/test-and-publish.yml, which holds `uses: actions/setup-java@v4`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 135
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/test-and-publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 222 of .github/workflows/test-and-publish.yml, which holds `uses: actions/upload-artifact@v4`; it matches the declared range of registry rule github-actions.upload-artifact.retired, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 222
+    }
+  ]
+}

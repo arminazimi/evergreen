@@ -1,0 +1,80 @@
+{
+  "repository": "lucidsoftware/relate",
+  "commit": "f3f9cf9873621873f54ee159bac096b5799dd9be",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/ci.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 23 of .github/workflows/ci.yaml, which holds `- uses: actions/cache@v3`; it matches the declared range of registry rule github-actions.cache.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 23
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/ci.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 48 of .github/workflows/ci.yaml, which holds `- uses: actions/cache@v3`; it matches the declared range of registry rule github-actions.cache.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 48
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 18 of .github/workflows/ci.yaml, which holds `- uses: actions/checkout@v3`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 18
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 47 of .github/workflows/ci.yaml, which holds `- uses: actions/checkout@v3`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 47
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 67 of .github/workflows/ci.yaml, which holds `- uses: actions/checkout@v3`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 67
+    },
+    {
+      "ruleId": "github-actions.download-artifact.retired",
+      "path": ".github/workflows/ci.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 69 of .github/workflows/ci.yaml, which holds `uses: actions/download-artifact@v3`; it matches the declared range of registry rule github-actions.download-artifact.retired, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 69
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/ci.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 19 of .github/workflows/ci.yaml, which holds `- uses: actions/setup-java@v3`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 19
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/ci.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 37 of .github/workflows/ci.yaml, which holds `- uses: actions/upload-artifact@v4`; it matches the declared range of registry rule github-actions.upload-artifact.retired, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 37
+    }
+  ]
+}

@@ -1,0 +1,638 @@
+{
+  "repository": "unitycatalog/unitycatalog",
+  "commit": "2a2c4106ec6bece027000d8e88f4cbb5f1947af9",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 30 of Dockerfile, which holds `FROM alpine:3.20@sha256:a4f4213abb84c497377b8544c81b3564f313746700372ec4fe84653e4fb03805 as runtime`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 30
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "ui/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of ui/Dockerfile, which holds `FROM node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/disabled_docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 103 of .github/workflows/disabled_docker-build.yml, which holds `uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2`; it matches the declared range of registry rule github-actions.build-push-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 103
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/disabled_ui-docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 51 of .github/workflows/disabled_ui-docker-build.yml, which holds `uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2`; it matches the declared range of registry rule github-actions.build-push-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 51
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/cross-spark-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 22 of .github/workflows/cross-spark-build.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 22
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 45 of .github/workflows/disabled_docker-build.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 45
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 72 of .github/workflows/disabled_docker-build.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 72
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_docs-generate.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 15 of .github/workflows/disabled_docs-generate.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 15
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_docs-generate.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 33 of .github/workflows/disabled_docs-generate.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 33
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_mlflow-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 34 of .github/workflows/disabled_mlflow-integration-tests.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 34
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_publish-swagger-docs.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 16 of .github/workflows/disabled_publish-swagger-docs.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 16
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_release-workflow.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of .github/workflows/disabled_release-workflow.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_tarball-gen-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 14 of .github/workflows/disabled_tarball-gen-tests.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 14
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_tutorial-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 18 of .github/workflows/disabled_tutorial-tests.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 18
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/disabled_ui-docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 21 of .github/workflows/disabled_ui-docker-build.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 21
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lint-check.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 17 of .github/workflows/lint-check.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 17
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lint-check.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 43 of .github/workflows/lint-check.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 43
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/python-client-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 17 of .github/workflows/python-client-tests.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 17
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-core-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 27 of .github/workflows/ucai-core-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 27
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-core-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 55 of .github/workflows/ucai-core-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 55
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests-oss.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 34 of .github/workflows/ucai-integration-tests-oss.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 34
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 34 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 34
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 60 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 60
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 86 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 86
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 112 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 112
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 138 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 138
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 164 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 164
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 190 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 190
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 216 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 216
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 242 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 242
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ucai-package-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 31 of .github/workflows/ucai-package-build.yml, which holds `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 31
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/unit-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 103 of .github/workflows/unit-tests.yml, which holds `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 103
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/disabled_docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 96 of .github/workflows/disabled_docker-build.yml, which holds `uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0`; it matches the declared range of registry rule github-actions.login-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 96
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/disabled_ui-docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 44 of .github/workflows/disabled_ui-docker-build.yml, which holds `uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0`; it matches the declared range of registry rule github-actions.login-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 44
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/disabled_docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 86 of .github/workflows/disabled_docker-build.yml, which holds `uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0`; it matches the declared range of registry rule github-actions.metadata-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 86
+    },
+    {
+      "ruleId": "github-actions.metadata-action.node20",
+      "path": ".github/workflows/disabled_ui-docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 35 of .github/workflows/disabled_ui-docker-build.yml, which holds `uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0`; it matches the declared range of registry rule github-actions.metadata-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 35
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/disabled_docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 79 of .github/workflows/disabled_docker-build.yml, which holds `uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0`; it matches the declared range of registry rule github-actions.setup-buildx-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 79
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/disabled_ui-docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 28 of .github/workflows/disabled_ui-docker-build.yml, which holds `uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0`; it matches the declared range of registry rule github-actions.setup-buildx-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 28
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/cross-spark-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 25 of .github/workflows/cross-spark-build.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 25
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/disabled_docs-generate.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 36 of .github/workflows/disabled_docs-generate.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 36
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/disabled_mlflow-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 36 of .github/workflows/disabled_mlflow-integration-tests.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 36
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/disabled_release-workflow.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 13 of .github/workflows/disabled_release-workflow.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 13
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/disabled_tarball-gen-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 17 of .github/workflows/disabled_tarball-gen-tests.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 17
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/disabled_tutorial-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 20 of .github/workflows/disabled_tutorial-tests.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 20
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/lint-check.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 46 of .github/workflows/lint-check.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 46
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/python-client-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 19 of .github/workflows/python-client-tests.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 19
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/ucai-core-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 57 of .github/workflows/ucai-core-tests.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 57
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/ucai-integration-tests-oss.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 36 of .github/workflows/ucai-integration-tests-oss.yml, which holds `uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 36
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/lint-check.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 20 of .github/workflows/lint-check.yml, which holds `uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0`; it matches the declared range of registry rule github-actions.setup-node.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 20
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/disabled_mlflow-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 41 of .github/workflows/disabled_mlflow-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 41
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/disabled_tarball-gen-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 26 of .github/workflows/disabled_tarball-gen-tests.yml, which holds `uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c # v4.9.1`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 26
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/disabled_tutorial-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 26 of .github/workflows/disabled_tutorial-tests.yml, which holds `uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c # v4.9.1`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 26
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-core-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 29 of .github/workflows/ucai-core-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 29
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-core-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 62 of .github/workflows/ucai-core-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 62
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests-oss.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 41 of .github/workflows/ucai-integration-tests-oss.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 41
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 36 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 36
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 62 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 62
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 88 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 88
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 114 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 114
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 140 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 140
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 166 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 166
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 192 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 192
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 218 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 218
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-integration-tests.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 244 of .github/workflows/ucai-integration-tests.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 244
+    },
+    {
+      "ruleId": "github-actions.setup-python.node20",
+      "path": ".github/workflows/ucai-package-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 33 of .github/workflows/ucai-package-build.yml, which holds `uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0`; it matches the declared range of registry rule github-actions.setup-python.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 33
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/disabled_docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 76 of .github/workflows/disabled_docker-build.yml, which holds `uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0`; it matches the declared range of registry rule github-actions.setup-qemu-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 76
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/disabled_ui-docker-build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 25 of .github/workflows/disabled_ui-docker-build.yml, which holds `uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0`; it matches the declared range of registry rule github-actions.setup-qemu-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 25
+    },
+    {
+      "ruleId": "github-actions.upload-artifact.retired",
+      "path": ".github/workflows/disabled_release-workflow.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 21 of .github/workflows/disabled_release-workflow.yml, which holds `uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # v2.3.1`; it matches the declared range of registry rule github-actions.upload-artifact.retired, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 21
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": ".github/workflows/lint-check.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 22 of .github/workflows/lint-check.yml, which holds `node-version: '18'`; it matches the declared range of registry rule nodejs.runtime.eol-18, whose sources record a Node.js release the Node.js release schedule marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 22
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/ai-review.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 291 of .github/workflows/ai-review.yml, which holds `node-version: \"22\"`; it matches the declared range of registry rule nodejs.runtime.eol-22, whose sources record a Node.js release the Node.js release schedule marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 291
+    }
+  ]
+}

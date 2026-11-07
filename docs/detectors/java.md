@@ -1,6 +1,6 @@
 # Java and Kotlin (JVM)
 
-The `java` detector reports JDK feature releases that are out of support, as pinned or targeted in a project, and Maven dependencies whose own POM says they moved. It is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced on the [public corpus](../VALIDATION.md#java-and-kotlin-corpus) (seventeen repositories, twelve chosen blind). The reasoning is in [Decision 0009](../decisions/0009-java-detector.md).
+The `java` detector reports JDK feature releases that are out of support, as pinned or targeted in a project, and Maven dependencies whose own POM says they moved. It is **stable**: its level is recorded as `stable` in `benchmarks/thresholds.json`, and the precision floor is enforced on the [public corpus](../VALIDATION.md#java-and-kotlin-corpus) (twenty-five repositories, twenty chosen blind). The reasoning is in [Decision 0009](../decisions/0009-java-detector.md).
 
 ## What it reads
 
@@ -45,4 +45,4 @@ The rules are in `registry/java.json` and ship in the [data bundle](../DATA.md).
 
 ## Validation
 
-Seventeen public repositories at pinned commits cover this detector: five targeted and twelve chosen blind by the rule in [Validation](../VALIDATION.md#java-and-kotlin-blind-selection). Every expected finding has a `maintainer-review` note naming the path and line. Recall was checked by hand over the blind repositories by searching every `pom.xml`, Gradle script, and version pin for JDK declarations and comparing the hits with the report. The one declaration not reported is a `java.version` inside a Maven `<profile>` (`eh3rrera/graphql-java-spring-boot-example`), which the detector intentionally does not judge (see above), so that repository is a zero-finding entry.
+Twenty-five public repositories at pinned commits cover this detector: five targeted and twenty chosen blind by the rules in [Validation](../VALIDATION.md#java-and-kotlin-blind-selection) (2026-10-23 beta set and 2026-11-07 stable expansion). Every expected finding has a `maintainer-review` note naming the path and line. Recall was checked by hand over the blind repositories by searching every `pom.xml`, Gradle script, and version pin for JDK declarations and comparing the hits with the report. The one declaration not reported is a `java.version` inside a Maven `<profile>` (`eh3rrera/graphql-java-spring-boot-example`), which the detector intentionally does not judge (see above). Four Java-ecosystem repositories have an empty expected list (including the JDK 21 LTS control `danvega/spring-boot-testing`).

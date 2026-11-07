@@ -115,3 +115,9 @@ Every corpus entry now records `selection`: the 84 entries that predate the fiel
 ## Update 2026-10-23 (issue #740)
 
 The corpus has 455 repositories, 155 of them added blind in this pass, and `github-actions`, `nodejs`, `npm`, and `python` each meet `stable` on the counted evidence, so no detector is grandfathered. A separate held-out set (`benchmarks/held-out-repositories.json`) has ground truth committed before the scan; its first result (recall 0.75, precision 0.96 on its scope) is in [VALIDATION.md](../VALIDATION.md#the-held-out-set). The full run is recorded twice a month by the `record` job in `.github/workflows/corpus.yml`.
+
+## Update 2026-11-07: Java and Kotlin, and Scala and sbt, promoted to stable (#1896)
+
+The Java corpus grew from seventeen repositories to twenty-five: five targeted and twenty chosen blind (twelve from the 2026-10-23 beta rule, eight from the 2026-11-07 stable-expansion rule in [Validation](../VALIDATION.md#java-and-kotlin-blind-selection)). Counts for the `java` detector on 2026-11-07: twenty-one repositories with findings, 71 expected findings, four zero-finding repositories, and twenty of twenty-five repositories blind, which meets every row of the stable column. Offline validate on the Java bucket reported precision 1 and recall 1 for `java`.
+
+The Scala corpus was created from scratch the same day: eighty repositories chosen blind by the rule in [Validation](../VALIDATION.md#scala-and-sbt-blind-selection). Counts for the `scala` detector on 2026-11-07: fifty-one repositories with findings, 77 expected findings, twelve zero-finding repositories, and all eighty repositories blind, which meets every row of the stable column. Offline validate on the Scala bucket reported precision 1 and recall 1 for `scala`. Scala 2.12 / 2.13 / 3.3 pins are included as controls that the detector intentionally does not judge.

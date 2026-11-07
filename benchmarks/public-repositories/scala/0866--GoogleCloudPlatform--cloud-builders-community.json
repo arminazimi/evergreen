@@ -1,0 +1,674 @@
+{
+  "repository": "GoogleCloudPlatform/cloud-builders-community",
+  "commit": "e210dd2d9b8dd1c2a11b6bcb64e47922c0b016f8",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "alcide/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of alcide/Dockerfile, which holds `FROM alpine:3.10 AS build`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "envsubst/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of envsubst/Dockerfile, which holds `FROM alpine:3.8`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "esy/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 13 of esy/Dockerfile, which holds `FROM alpine:3.9`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 13
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "kustomize/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of kustomize/Dockerfile, which holds `FROM alpine:3.12 AS build`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "packer/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of packer/Dockerfile, which holds `FROM alpine:3.18 AS build`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "terraform/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of terraform/Dockerfile, which holds `FROM alpine:3.12 AS build`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "vault/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of vault/Dockerfile, which holds `FROM alpine:3.9`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "velero/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of velero/Dockerfile, which holds `FROM alpine:3.10`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "protoc/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of protoc/Dockerfile, which holds `FROM debian:buster-slim`; it matches the declared range of registry rule container.debian.eol-11-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "boot/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 10 of boot/Dockerfile, which holds `ENV BOOT_HOME /.boot`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 10
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "boot/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of boot/Dockerfile, which holds `ENV BOOT_AS_ROOT yes`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "boot/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 12 of boot/Dockerfile, which holds `ENV BOOT_LOCAL_REPO /m2`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 12
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "boot/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 14 of boot/Dockerfile, which holds `ENV BOOT_VERSION 2.7.2`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 14
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "boot/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 15 of boot/Dockerfile, which holds `ENV BOOT_CLOJURE_VERSION 1.8.0`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 15
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "gcloud-sops/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of gcloud-sops/Dockerfile, which holds `ENV VER 3.7.1`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "jmeter/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 5 of jmeter/Dockerfile, which holds `ENV JMETER_HOME /opt/apache-jmeter-${JMETER_VERSION}`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 5
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "jmeter/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 6 of jmeter/Dockerfile, which holds `ENV JMETER_BIN  ${JMETER_HOME}/bin`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 6
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "jmeter/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 7 of jmeter/Dockerfile, which holds `ENV MIRROR_HOST http://mirrors.ocf.berkeley.edu/apache/jmeter`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 7
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "jmeter/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 8 of jmeter/Dockerfile, which holds `ENV JMETER_DOWNLOAD_URL ${MIRROR_HOST}/binaries/apache-jmeter-${JMETER_VERSION}.tgz`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 8
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "jmeter/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 9 of jmeter/Dockerfile, which holds `ENV JMETER_PLUGINS_DOWNLOAD_URL http://repo1.maven.org/maven2/kg/apc`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 9
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "jmeter/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 10 of jmeter/Dockerfile, which holds `ENV JMETER_PLUGINS_FOLDER ${JMETER_HOME}/lib/ext/`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 10
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "jmeter/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 27 of jmeter/Dockerfile, which holds `ENV PATH $PATH:$JMETER_BIN`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 27
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "mortar/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of mortar/Dockerfile, which holds `ENV VER 0.3.2`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "mortar/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 4 of mortar/Dockerfile, which holds `ENV VERSION v${VER}`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 4
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "sonarqube/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 7 of sonarqube/Dockerfile, which holds `ENV SONARQUBE_SCANNER_HOME /opt/sonar-scanner-${SONARQUBE_SCANNER_CLI_VERSION}-linux`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 7
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "sonarqube/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 8 of sonarqube/Dockerfile, which holds `ENV SONARQUBE_SCANNER_BIN ${SONARQUBE_SCANNER_HOME}/bin`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 8
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "sonarqube/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 9 of sonarqube/Dockerfile, which holds `ENV SONAR_SCANNER_CLI_DOWNLOAD_URL \"https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONARQUBE_SCANNER_CLI_VERSION}-linux....`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 9
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "sonarqube/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 24 of sonarqube/Dockerfile, which holds `ENV PATH $PATH:$SONARQUBE_SCANNER_BIN`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 24
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "webdev/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 2 of webdev/Dockerfile, which holds `ENV PATH $PATH:/root/.pub-cache/bin`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 2
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "windows-builder/images/docker-windows/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 6 of windows-builder/images/docker-windows/Dockerfile, which holds `ENV DOCKER_DOWNLOAD_URL https://download.docker.com/win/static/test/x86_64/docker-17.11.0-ce-rc3.zip`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 6
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "yarn-puppeteer/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 19 of yarn-puppeteer/Dockerfile, which holds `ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 19
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "yarn-puppeteer/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 20 of yarn-puppeteer/Dockerfile, which holds `ENV JEST_PUPPETEER_CONFIG jest-puppeteer.config.ci.js`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 20
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "yarn-puppeteer/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 21 of yarn-puppeteer/Dockerfile, which holds `ENV CI true`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 21
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "yarn-puppeteer/examples/hello_world/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of yarn-puppeteer/examples/hello_world/Dockerfile, which holds `ENV PATH $PATH:/nodejs/bin`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "yarn-puppeteer/examples/hello_world/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 15 of yarn-puppeteer/examples/hello_world/Dockerfile, which holds `ENV PATH $PATH:/yarn/bin`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 15
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "flutter/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of flutter/Dockerfile, which holds `MAINTAINER Chinmay Garde <chinmaygarde@google.com>`; it matches the declared range of registry rule container.dockerfile.maintainer, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "container.dockerfile.maintainer",
+      "path": "remote-builder/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 2 of remote-builder/Dockerfile, which holds `MAINTAINER Vic Iglesias <viglesias@google.com>`; it matches the declared range of registry rule container.dockerfile.maintainer, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 2
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "docker-reuse/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of docker-reuse/Dockerfile, which holds `FROM golang:1.17 AS build`; it matches the declared range of registry rule container.golang.eol-1.25-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "docker-reuse/examples/hello-world/deployment/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of docker-reuse/examples/hello-world/deployment/Dockerfile, which holds `FROM golang:1.15 as builder`; it matches the declared range of registry rule container.golang.eol-1.25-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "gcluster/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of gcluster/Dockerfile, which holds `FROM golang:1.25.1-bookworm as builder`; it matches the declared range of registry rule container.golang.eol-1.25-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "klar/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of klar/Dockerfile, which holds `FROM golang:1.13-alpine as builder`; it matches the declared range of registry rule container.golang.eol-1.25-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.golang.eol-1.25-and-older",
+      "path": "ko/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of ko/Dockerfile, which holds `FROM golang:1.16 AS kosource`; it matches the declared range of registry rule container.golang.eol-1.25-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "compodoc/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of compodoc/Dockerfile, which holds `FROM node:10.15.1-alpine`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "docker-reuse/examples/multistage/docker/server-modules/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of docker-reuse/examples/multistage/docker/server-modules/Dockerfile, which holds `FROM node:17-alpine`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "docker-reuse/examples/multistage/docker/server/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of docker-reuse/examples/multistage/docker/server/Dockerfile, which holds `FROM node:17-alpine`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "esy/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of esy/Dockerfile, which holds `FROM node:12.4-alpine as build`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "npm-jasmine-node/examples/hello-world/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of npm-jasmine-node/examples/hello-world/Dockerfile, which holds `FROM node:4.2.3`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "airflow/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of airflow/Dockerfile, which holds `FROM python:3.7`; it matches the declared range of registry rule container.python.eol-3.10-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "dataflow-python/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of dataflow-python/Dockerfile, which holds `FROM python:2`; it matches the declared range of registry rule container.python.eol-3.10-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "dataflow-python3/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of dataflow-python3/Dockerfile, which holds `FROM python:3.7`; it matches the declared range of registry rule container.python.eol-3.10-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "kondunite/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of kondunite/Dockerfile, which holds `FROM python:3.7-alpine`; it matches the declared range of registry rule container.python.eol-3.10-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.ruby.eol-3.2-and-older",
+      "path": "fastlane/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of fastlane/Dockerfile, which holds `FROM ruby:2.6.0-alpine`; it matches the declared range of registry rule container.ruby.eol-3.2-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "docker-compose/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of docker-compose/Dockerfile, which holds `FROM ubuntu:bionic`; it matches the declared range of registry rule container.ubuntu.eol-20.04-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "earthly/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of earthly/Dockerfile, which holds `FROM ubuntu:bionic`; it matches the declared range of registry rule container.ubuntu.eol-20.04-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "jsonnet/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of jsonnet/Dockerfile, which holds `FROM ubuntu:xenial`; it matches the declared range of registry rule container.ubuntu.eol-20.04-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "replicated-cli/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of replicated-cli/Dockerfile, which holds `FROM ubuntu:18.04`; it matches the declared range of registry rule container.ubuntu.eol-20.04-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "docker-reuse/examples/hello-world/app/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of docker-reuse/examples/hello-world/app/go.mod, which holds `go 1.15`; it matches the declared range of registry rule go.runtime.end-of-support-1.20-and-older, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.20-and-older. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "pack/example/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of pack/example/go.mod, which holds `go 1.13`; it matches the declared range of registry rule go.runtime.end-of-support-1.20-and-older, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.20-and-older. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "slackbot/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of slackbot/go.mod, which holds `go 1.14`; it matches the declared range of registry rule go.runtime.end-of-support-1.20-and-older, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.20-and-older. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "windows-builder/builder/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of windows-builder/builder/go.mod, which holds `go 1.13`; it matches the declared range of registry rule go.runtime.end-of-support-1.20-and-older, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.20-and-older. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "kondunite/examples/manifests/wordpress.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 22 of kondunite/examples/manifests/wordpress.yaml, which holds `apiVersion: extensions/v1beta1`; it matches the declared range of registry rule kubernetes.extensions.ingress.v1beta1.removed, whose sources record the vendor lifecycle fact cited by registry rule kubernetes.extensions.ingress.v1beta1.removed. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 22
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "replicated-cli/examples/replicated.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 90 of replicated-cli/examples/replicated.yaml, which holds `apiVersion: extensions/v1beta1`; it matches the declared range of registry rule kubernetes.extensions.ingress.v1beta1.removed, whose sources record the vendor lifecycle fact cited by registry rule kubernetes.extensions.ingress.v1beta1.removed. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 90
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "replicated-lint/examples/replicated.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 90 of replicated-lint/examples/replicated.yaml, which holds `apiVersion: extensions/v1beta1`; it matches the declared range of registry rule kubernetes.extensions.ingress.v1beta1.removed, whose sources record the vendor lifecycle fact cited by registry rule kubernetes.extensions.ingress.v1beta1.removed. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 90
+    },
+    {
+      "ruleId": "scala.sbt.eol-0.13",
+      "path": "scala-sbt/examples/play2/project/build.properties",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of scala-sbt/examples/play2/project/build.properties, which holds `sbt.version=0.13.16`; it matches the declared range of registry rule scala.sbt.eol-0.13, whose sources record an sbt 0.13.x release the sbt download page lists as end of life on 2018-11-30. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terraform/examples/gcs_backend/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 2 of terraform/examples/gcs_backend/main.tf, which holds `project     = \"${var.project-name}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 2
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terraform/examples/gcs_backend/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of terraform/examples/gcs_backend/main.tf, which holds `region      = \"${var.region}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terraform/examples/gcs_backend/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 9 of terraform/examples/gcs_backend/main.tf, which holds `zone               = \"${var.region}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 9
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terraform/examples/local_backend/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 2 of terraform/examples/local_backend/main.tf, which holds `project     = \"${var.project-name}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 2
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terraform/examples/local_backend/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of terraform/examples/local_backend/main.tf, which holds `region      = \"${var.region}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terraform/examples/local_backend/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 9 of terraform/examples/local_backend/main.tf, which holds `zone               = \"${var.region}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 9
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terragrunt/examples/gcs_backend/modules/pubsub/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 2 of terragrunt/examples/gcs_backend/modules/pubsub/main.tf, which holds `region = \"${var.gcp_region}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 2
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terragrunt/examples/gcs_backend/modules/pubsub/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 10 of terragrunt/examples/gcs_backend/modules/pubsub/main.tf, which holds `name = \"${var.name}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 10
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terragrunt/examples/gcs_backend/modules/pubsub/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of terragrunt/examples/gcs_backend/modules/pubsub/main.tf, which holds `project = \"${var.project_id}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "terraform.syntax.interpolation-only",
+      "path": "terragrunt/examples/gcs_backend/modules/pubsub/main.tf",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 13 of terragrunt/examples/gcs_backend/modules/pubsub/main.tf, which holds `example-tag = \"${var.tag}\"`; it matches the declared range of registry rule terraform.syntax.interpolation-only, whose sources record a Terraform provider or module pin the terraform lifecycle rules mark as retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 13
+    }
+  ]
+}

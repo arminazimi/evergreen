@@ -1,0 +1,7 @@
+{
+  "repository": "nulab/scala-oauth2-provider",
+  "commit": "ad54cbd909c4a9cd1a651840777c41f2d503c8ff",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

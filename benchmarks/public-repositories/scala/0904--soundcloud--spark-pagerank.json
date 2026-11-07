@@ -1,0 +1,7 @@
+{
+  "repository": "soundcloud/spark-pagerank",
+  "commit": "4e1a037c47ff25a4c8e58fbf2e131f4dcf83474c",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,26 @@
+{
+  "repository": "actionml/universal-recommender",
+  "commit": "b1db0e66ab4df429e3e92674417445cc74fdb61d",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "build.sbt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of build.sbt, which holds `scalaVersion := \"2.11.11\"`; it matches the declared range of registry rule scala.runtime.eol-2.11, whose sources record a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "build.sbt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 13 of build.sbt, which holds `scalaVersion in ThisBuild := \"2.11.11\"`; it matches the declared range of registry rule scala.runtime.eol-2.11, whose sources record a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 13
+    }
+  ]
+}

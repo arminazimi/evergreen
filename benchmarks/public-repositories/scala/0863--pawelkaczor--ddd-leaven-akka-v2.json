@@ -1,0 +1,35 @@
+{
+  "repository": "pawelkaczor/ddd-leaven-akka-v2",
+  "commit": "8dca13682a22e2bfdbd025df958ccb3d1fec5d3e",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "commons/stress-test/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of commons/stress-test/Dockerfile, which holds `FROM debian:jessie`; it matches the declared range of registry rule container.debian.eol-11-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "commons/stress-test/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 4 of commons/stress-test/Dockerfile, which holds `ENV REFRESHED_AT 2015-06-15`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 4
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "commons/stress-test/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 6 of commons/stress-test/Dockerfile, which holds `ENV DEBIAN_FRONTEND noninteractive`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 6
+    }
+  ]
+}

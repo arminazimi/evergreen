@@ -1,0 +1,1 @@
+- Promote the `scala` and `java` detectors to stable, wire a `scala` public corpus ecosystem, and add 88 corpus repositories (8 Java, 80 Scala) with independent maintainer-review ground truth. (#1896)

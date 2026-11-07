@@ -1,6 +1,6 @@
 # Scala and sbt
 
-The `scala` detector reports Scala and sbt releases that no longer receive maintenance, as declared in `.scala-version`, `build.sbt`, and `project/build.properties`. It is **experimental**: it is not yet held to the precision floor that stable detectors are (see [Decision 0013](../decisions/0013-detector-maturity.md)). Its lifecycle rules are in `registry/scala.json` and ship with the package (see [Lifecycle data](../DATA.md)).
+The `scala` detector reports Scala and sbt releases that no longer receive maintenance, as declared in `.scala-version`, `build.sbt`, and `project/build.properties`. It is **stable**: its level is recorded as `stable` in `benchmarks/thresholds.json`, and the precision floor is enforced on the [public corpus](../VALIDATION.md#scala-and-sbt-corpus) (see [Decision 0013](../decisions/0013-detector-maturity.md)). Its lifecycle rules are in `registry/scala.json` and ship with the package (see [Lifecycle data](../DATA.md)).
 
 ## What it reads
 
@@ -41,3 +41,7 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 - `build.sbt` is read line by line, not as a Scala AST. A `scalaVersion` that spans lines, uses a non-string literal, or is computed is not matched.
 - Cross-building (`crossScalaVersions`) is not read.
 - Monorepos are scanned file by file; findings in nested projects are reported like any other.
+
+## Validation
+
+Eighty public repositories at pinned commits cover this detector, chosen blind by the 2026-11-07 rule in [Validation](../VALIDATION.md#scala-and-sbt-blind-selection). The set includes `.scala-version`, `build.sbt` `scalaVersion`, and `project/build.properties` `sbt.version` declaration forms, plus Scala 2.12 / 2.13 / 3.3 pins as zero-finding or no-scala-finding controls (those lines are intentionally not judged). Every expected finding has a `maintainer-review` note naming the path and line against the Scala development guarantees and sbt download pages.

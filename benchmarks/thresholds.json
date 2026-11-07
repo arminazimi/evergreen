@@ -56,7 +56,7 @@
       "minPrecision": 0.95
     },
     "java": {
-      "level": "beta",
+      "level": "stable",
       "stable": true,
       "minPrecision": 0.95
     },
@@ -101,8 +101,8 @@
       "minPrecision": 0.95
     },
     "scala": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "serverless": {

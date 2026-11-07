@@ -1,0 +1,53 @@
+{
+  "repository": "twitter/scalding",
+  "commit": "6d4cfd0e2753d4f8a88c4671d7a1a0796a24a91e",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/CI.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 111 of .github/workflows/CI.yml, which holds `uses: actions/checkout@v2`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 111
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 16 of .github/workflows/publish.yml, which holds `uses: actions/checkout@v2`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 16
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/CI.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 115 of .github/workflows/CI.yml, which holds `- uses: actions/setup-java@v2`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 115
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 20 of .github/workflows/publish.yml, which holds `- uses: actions/setup-java@v2`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 20
+    },
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "build.sbt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 60 of build.sbt, which holds `scalaVersion := \"2.11.12\",`; it matches the declared range of registry rule scala.runtime.eol-2.11, whose sources record a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 60
+    }
+  ]
+}

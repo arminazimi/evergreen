@@ -1,0 +1,53 @@
+{
+  "repository": "clab/dynet",
+  "commit": "22b44958476731af4d1fdbc553626eca3a27e808",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 2 of CMakeLists.txt, which holds `cmake_minimum_required(VERSION 2.8 FATAL_ERROR)`; it matches the declared range of registry rule cpp.cmake.policy-below-3.5.removed, whose sources record the vendor lifecycle fact cited by registry rule cpp.cmake.policy-below-3.5.removed. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 2
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "contrib/c/CMakeLists.txt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of contrib/c/CMakeLists.txt, which holds `cmake_minimum_required(VERSION 2.8)`; it matches the declared range of registry rule cpp.cmake.policy-below-3.5.removed, whose sources record the vendor lifecycle fact cited by registry rule cpp.cmake.policy-below-3.5.removed. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "contrib/swig/CMakeLists.txt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of contrib/swig/CMakeLists.txt, which holds `cmake_minimum_required(VERSION 2.8)`; it matches the declared range of registry rule cpp.cmake.policy-below-3.5.removed, whose sources record the vendor lifecycle fact cited by registry rule cpp.cmake.policy-below-3.5.removed. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "examples/CMakeLists.txt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of examples/CMakeLists.txt, which holds `CMAKE_MINIMUM_REQUIRED(VERSION 2.8)`; it matches the declared range of registry rule cpp.cmake.policy-below-3.5.removed, whose sources record the vendor lifecycle fact cited by registry rule cpp.cmake.policy-below-3.5.removed. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "tutorial/CMakeLists.txt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of tutorial/CMakeLists.txt, which holds `CMAKE_MINIMUM_REQUIRED(VERSION 2.8)`; it matches the declared range of registry rule cpp.cmake.policy-below-3.5.removed, whose sources record the vendor lifecycle fact cited by registry rule cpp.cmake.policy-below-3.5.removed. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    }
+  ]
+}

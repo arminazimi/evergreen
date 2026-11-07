@@ -1,0 +1,35 @@
+{
+  "repository": "spark-jobserver/spark-jobserver",
+  "commit": "f58280bbe4ecfef110bdf425f5aafccfbaa1bdba",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.test",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 36 of Dockerfile.test, which holds `ENV SPARK_HOME /tmp/spark-2.4.4-bin-hadoop2.7`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 36
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile.test",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 37 of Dockerfile.test, which holds `ENV JAVA_OPTIONS \"-Xmx1500m -Dakka.test.timefactor=3\"`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 37
+    },
+    {
+      "ruleId": "container.zookeeper.eol-3.7-and-older",
+      "path": "docker-setups/hdfs_with_zookeeper/docker-compose.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 26 of docker-setups/hdfs_with_zookeeper/docker-compose.yml, which holds `image: zookeeper:3.5.6`; it matches the declared range of registry rule container.zookeeper.eol-3.7-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 26
+    }
+  ]
+}

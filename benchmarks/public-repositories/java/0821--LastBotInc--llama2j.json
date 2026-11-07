@@ -1,0 +1,35 @@
+{
+  "repository": "LastBotInc/llama2j",
+  "commit": "51d08b4de67d26533c1be19af615c148bd3e38b5",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:12, which holds `<java.version>20</java.version>`; it matches the declared range of registry rule java.jdk.end-of-support-18-20, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 12
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:13, which holds `<maven.compiler.source>20</maven.compiler.source>`; it matches the declared range of registry rule java.jdk.end-of-support-18-20, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 13
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:14, which holds `<maven.compiler.target>20</maven.compiler.target>`; it matches the declared range of registry rule java.jdk.end-of-support-18-20, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 14
+    }
+  ]
+}

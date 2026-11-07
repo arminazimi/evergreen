@@ -1,0 +1,35 @@
+{
+  "repository": "allenai/pnp",
+  "commit": "d67bce256309855bdb5547d779c995e93bf70db5",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "src/main/docker/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 24 of src/main/docker/Dockerfile, which holds `ENV CONFIG_ENV ${CONFIG_ENV:-dev}`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 24
+    },
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "src/main/docker/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 31 of src/main/docker/Dockerfile, which holds `ENV JVM_ARGS ${JVM_ARGS:--Dlogback.appname=pnp}`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 31
+    },
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "build.sbt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of build.sbt, which holds `scalaVersion := \"2.11.8\"`; it matches the declared range of registry rule scala.runtime.eol-2.11, whose sources record a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    }
+  ]
+}

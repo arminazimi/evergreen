@@ -1,0 +1,26 @@
+{
+  "repository": "pathikrit/better-files",
+  "commit": "faffdb87ec0656f56c9f8e2f0dd9e846285bf4f2",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 25 of .github/workflows/build.yml, which holds `- uses: actions/checkout@v3`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 25
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 46 of .github/workflows/build.yml, which holds `- uses: actions/checkout@v3`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 46
+    }
+  ]
+}

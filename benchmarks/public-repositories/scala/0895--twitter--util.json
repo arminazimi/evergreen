@@ -1,0 +1,35 @@
+{
+  "repository": "twitter/util",
+  "commit": "8ea6954b5f8afc602fc5abe66e3987272305ec32",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/continuous-integration.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 37 of .github/workflows/continuous-integration.yml, which holds `uses: actions/cache@v2`; it matches the declared range of registry rule github-actions.cache.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 37
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/continuous-integration.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 28 of .github/workflows/continuous-integration.yml, which holds `- uses: actions/checkout@v2.3.4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 28
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/continuous-integration.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 29 of .github/workflows/continuous-integration.yml, which holds `- uses: actions/setup-java@v1`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 29
+    }
+  ]
+}

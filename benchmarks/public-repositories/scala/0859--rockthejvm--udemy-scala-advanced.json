@@ -1,0 +1,17 @@
+{
+  "repository": "rockthejvm/udemy-scala-advanced",
+  "commit": "1f06e20443b8d211b78d7aae4abedee02cec3095",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "scala.runtime.eos-3.0-3.2",
+      "path": "build.sbt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 5 of build.sbt, which holds `scalaVersion := \"3.0.2\"`; it matches the declared range of registry rule scala.runtime.eos-3.0-3.2, whose sources record a Scala 3.0\u20133.2 release the Scala development guarantees page lists as frozen (non-LTS minors stop receiving patches once the next minor ships). Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 5
+    }
+  ]
+}

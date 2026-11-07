@@ -1,0 +1,35 @@
+{
+  "repository": "JPro-one/HelloJPro-Maven",
+  "commit": "1174288f3e11a61b7baeae1ebee5031e032a0fad",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/main.yml:19, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Action ref whose Node.js 20 runner requirement is documented in the action release notes. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 19
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/main.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read .github/workflows/main.yml:21, which holds `uses: actions/setup-java@v4`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Action ref whose Node.js 20 runner requirement is documented in the action release notes. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 21
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:13, which holds `<java.version>22</java.version>`; it matches the declared range of registry rule java.jdk.end-of-support-22-24, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 13
+    }
+  ]
+}

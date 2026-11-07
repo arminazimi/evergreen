@@ -1,0 +1,17 @@
+{
+  "repository": "mosh-hamedani/spring-store",
+  "commit": "d640769fe544944df61d827aa0692826cb7bd2b2",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:30, which holds `<java.version>23</java.version>`; it matches the declared range of registry rule java.jdk.end-of-support-22-24, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 30
+    }
+  ]
+}

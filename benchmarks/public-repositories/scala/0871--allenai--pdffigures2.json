@@ -1,0 +1,7 @@
+{
+  "repository": "allenai/pdffigures2",
+  "commit": "3d7ad46753d4a315cccd1c2bcab398380e88c534",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

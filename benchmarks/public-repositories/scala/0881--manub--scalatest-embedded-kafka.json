@@ -1,0 +1,7 @@
+{
+  "repository": "manub/scalatest-embedded-kafka",
+  "commit": "a02a82ab174eb5a14bb774e49661e47e6cf1511a",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

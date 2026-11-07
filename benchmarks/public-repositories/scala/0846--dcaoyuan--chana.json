@@ -1,0 +1,17 @@
+{
+  "repository": "dcaoyuan/chana",
+  "commit": "a9babdcd3069a1be58e98283584ec999b393cc3f",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "scala.sbt.eol-0.13",
+      "path": "project/build.properties",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of project/build.properties, which holds `sbt.version=0.13.8`; it matches the declared range of registry rule scala.sbt.eol-0.13, whose sources record an sbt 0.13.x release the sbt download page lists as end of life on 2018-11-30. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    }
+  ]
+}

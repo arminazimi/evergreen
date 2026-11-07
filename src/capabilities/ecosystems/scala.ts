@@ -2,8 +2,8 @@ import type { ManifestEcosystem } from "../schema.js";
 
 const scala: ManifestEcosystem = {
   id: "scala",
-  status: "experimental",
-  maturity: "experimental",
+  status: "supported",
+  maturity: "stable",
   detectorIds: ["scala"],
 };
 

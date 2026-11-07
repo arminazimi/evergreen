@@ -1,0 +1,7 @@
+{
+  "repository": "Netflix/edda",
+  "commit": "89bc270963a510244fd9740485e6289403dbd673",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

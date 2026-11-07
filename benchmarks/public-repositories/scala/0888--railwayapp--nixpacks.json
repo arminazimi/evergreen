@@ -1,0 +1,503 @@
+{
+  "repository": "railwayapp/nixpacks",
+  "commit": "144b4f9ab1c3943af4dfe76d3c79d91263f5b465",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "base/debian/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of base/debian/Dockerfile, which holds `FROM debian:bullseye-slim`; it matches the declared range of registry rule container.debian.eol-11-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/node-react-router-v7-framework/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of examples/node-react-router-v7-framework/Dockerfile, which holds `FROM node:20-alpine AS development-dependencies-env`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/node-react-router-v7-framework/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 6 of examples/node-react-router-v7-framework/Dockerfile, which holds `FROM node:20-alpine AS production-dependencies-env`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 6
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/node-react-router-v7-framework/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of examples/node-react-router-v7-framework/Dockerfile, which holds `FROM node:20-alpine AS build-env`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/node-react-router-v7-framework/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 17 of examples/node-react-router-v7-framework/Dockerfile, which holds `FROM node:20-alpine`; it matches the declared range of registry rule container.node.eol-21-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 17
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "examples/csharp-api/csharp-api.csproj",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 4 of examples/csharp-api/csharp-api.csproj, which holds `<TargetFramework>net6.0</TargetFramework>`; it matches the declared range of registry rule dotnet.runtime.end-of-support-6.0, whose sources record the vendor lifecycle fact cited by registry rule dotnet.runtime.end-of-support-6.0. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 4
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "examples/csharp-cli/csharp-cli.csproj",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 5 of examples/csharp-cli/csharp-cli.csproj, which holds `<TargetFramework>net6.0</TargetFramework>`; it matches the declared range of registry rule dotnet.runtime.end-of-support-6.0, whose sources record the vendor lifecycle fact cited by registry rule dotnet.runtime.end-of-support-6.0. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 5
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "examples/fsharp-api/fsharp-api.fsproj",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of examples/fsharp-api/fsharp-api.fsproj, which holds `<TargetFramework>net6.0</TargetFramework>`; it matches the declared range of registry rule dotnet.runtime.end-of-support-6.0, whose sources record the vendor lifecycle fact cited by registry rule dotnet.runtime.end-of-support-6.0. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "examples/fsharp-cli/fsharp-cli.fsproj",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of examples/fsharp-cli/fsharp-cli.fsproj, which holds `<TargetFramework>net6.0</TargetFramework>`; it matches the declared range of registry rule dotnet.runtime.end-of-support-6.0, whose sources record the vendor lifecycle fact cited by registry rule dotnet.runtime.end-of-support-6.0. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-7.0",
+      "path": "examples/csharp-api/global.json",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of examples/csharp-api/global.json, which holds `\"version\": \"7.0.0\"`; it matches the declared range of registry rule dotnet.runtime.end-of-support-7.0, whose sources record the vendor lifecycle fact cited by registry rule dotnet.runtime.end-of-support-7.0. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 47 of .github/workflows/release.yml, which holds `uses: softprops/action-gh-release@v2`; it matches the declared range of registry rule github-actions.action-gh-release.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 47
+    },
+    {
+      "ruleId": "github-actions.action-gh-release.node20",
+      "path": ".github/workflows/release.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 150 of .github/workflows/release.yml, which holds `uses: softprops/action-gh-release@v2`; it matches the declared range of registry rule github-actions.action-gh-release.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 150
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 52 of .github/workflows/publish.yml, which holds `uses: docker/build-push-action@v6`; it matches the declared range of registry rule github-actions.build-push-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 52
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 60 of .github/workflows/publish.yml, which holds `uses: docker/build-push-action@v6`; it matches the declared range of registry rule github-actions.build-push-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 60
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 94 of .github/workflows/publish.yml, which holds `uses: docker/build-push-action@v5`; it matches the declared range of registry rule github-actions.build-push-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 94
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 102 of .github/workflows/publish.yml, which holds `uses: docker/build-push-action@v5`; it matches the declared range of registry rule github-actions.build-push-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 102
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/ci.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 149 of .github/workflows/ci.yml, which holds `- uses: actions/cache@v4`; it matches the declared range of registry rule github-actions.cache.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 149
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/docs.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 34 of .github/workflows/docs.yml, which holds `uses: actions/cache@v4`; it matches the declared range of registry rule github-actions.cache.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 34
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 25 of .github/workflows/ci.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 25
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 54 of .github/workflows/ci.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 54
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 98 of .github/workflows/ci.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 98
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 138 of .github/workflows/ci.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 138
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 179 of .github/workflows/ci.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 179
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 209 of .github/workflows/ci.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 209
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/docs.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 23 of .github/workflows/docs.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 23
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 29 of .github/workflows/publish.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 29
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 32 of .github/workflows/release.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 32
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 106 of .github/workflows/release.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 106
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/update-nixpkgs-archive.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 19 of .github/workflows/update-nixpkgs-archive.yml, which holds `uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 19
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 41 of .github/workflows/publish.yml, which holds `uses: docker/login-action@v3`; it matches the declared range of registry rule github-actions.login-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 41
+    },
+    {
+      "ruleId": "github-actions.login-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 88 of .github/workflows/publish.yml, which holds `uses: docker/login-action@v3`; it matches the declared range of registry rule github-actions.login-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 88
+    },
+    {
+      "ruleId": "github-actions.setup-buildx-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 38 of .github/workflows/publish.yml, which holds `uses: docker/setup-buildx-action@v3`; it matches the declared range of registry rule github-actions.setup-buildx-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 38
+    },
+    {
+      "ruleId": "github-actions.setup-qemu-action.node20",
+      "path": ".github/workflows/publish.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 34 of .github/workflows/publish.yml, which holds `uses: docker/setup-qemu-action@v3`; it matches the declared range of registry rule github-actions.setup-qemu-action.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 34
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "examples/go-cmd/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of examples/go-cmd/go.mod, which holds `go 1.18`; it matches the declared range of registry rule go.runtime.end-of-support-1.20-and-older, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.20-and-older. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "examples/go-custom-version/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of examples/go-custom-version/go.mod, which holds `go 1.18`; it matches the declared range of registry rule go.runtime.end-of-support-1.20-and-older, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.20-and-older. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "examples/go-gin/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of examples/go-gin/go.mod, which holds `go 1.18`; it matches the declared range of registry rule go.runtime.end-of-support-1.20-and-older, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.20-and-older. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.20-and-older",
+      "path": "examples/go-mod/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of examples/go-mod/go.mod, which holds `go 1.17`; it matches the declared range of registry rule go.runtime.end-of-support-1.20-and-older, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.20-and-older. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.23",
+      "path": "examples/go-v123/go.mod",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of examples/go-v123/go.mod, which holds `go 1.23`; it matches the declared range of registry rule go.runtime.end-of-support-1.23, whose sources record the vendor lifecycle fact cited by registry rule go.runtime.end-of-support-1.23. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "php.package.laravel.framework-11.end-of-support",
+      "path": "examples/php-laravel-83/composer.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1131 of examples/php-laravel-83/composer.lock, which holds `\"version\": \"v11.23.5\",`; it matches the declared range of registry rule php.package.laravel.framework-11.end-of-support, whose sources record a PHP release the PHP unsupported branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1131
+    },
+    {
+      "ruleId": "php.package.laravel.framework-11.end-of-support",
+      "path": "examples/php-laravel-84/composer.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1059 of examples/php-laravel-84/composer.lock, which holds `\"version\": \"v11.37.0\",`; it matches the declared range of registry rule php.package.laravel.framework-11.end-of-support, whose sources record a PHP release the PHP unsupported branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1059
+    },
+    {
+      "ruleId": "ruby.runtime.eol-2.6",
+      "path": "examples/ruby-2/.ruby-version",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of examples/ruby-2/.ruby-version, which holds `2.6.6`; it matches the declared range of registry rule ruby.runtime.eol-2.6, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby-execjs/Gemfile.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of examples/ruby-execjs/Gemfile.lock, which holds `ruby 3.1.2p20`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby-local-deps/Gemfile.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 17 of examples/ruby-local-deps/Gemfile.lock, which holds `ruby 3.1.2p20`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 17
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby-rails-api-app/.ruby-version",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of examples/ruby-rails-api-app/.ruby-version, which holds `3.1.2`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby-rails-api-app/Gemfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 4 of examples/ruby-rails-api-app/Gemfile, which holds `ruby \"3.1.2\"`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 4
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby-rails-api-app/Gemfile.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 159 of examples/ruby-rails-api-app/Gemfile.lock, which holds `ruby 3.1.2`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 159
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby-sinatra/Gemfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 4 of examples/ruby-sinatra/Gemfile, which holds `ruby '3.1.2'`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 4
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby-sinatra/Gemfile.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 28 of examples/ruby-sinatra/Gemfile.lock, which holds `ruby 3.1.2p20`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 28
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby-with-node/Gemfile.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of examples/ruby-with-node/Gemfile.lock, which holds `ruby 3.1.2p20`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.1",
+      "path": "examples/ruby/Gemfile.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of examples/ruby/Gemfile.lock, which holds `ruby 3.1.2p20`; it matches the declared range of registry rule ruby.runtime.eol-3.1, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "examples/ruby-3/.ruby-version",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of examples/ruby-3/.ruby-version, which holds `3.2.1`; it matches the declared range of registry rule ruby.runtime.eol-3.2, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "examples/ruby-rails-postgres/.ruby-version",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of examples/ruby-rails-postgres/.ruby-version, which holds `3.2.1`; it matches the declared range of registry rule ruby.runtime.eol-3.2, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "examples/ruby-rails-postgres/Gemfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 4 of examples/ruby-rails-postgres/Gemfile, which holds `ruby \"3.2.1\"`; it matches the declared range of registry rule ruby.runtime.eol-3.2, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 4
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "examples/ruby-rails-postgres/Gemfile.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 246 of examples/ruby-rails-postgres/Gemfile.lock, which holds `ruby 3.2.1p31`; it matches the declared range of registry rule ruby.runtime.eol-3.2, whose sources record a Ruby release the Ruby maintenance branches page marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 246
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "Cargo.toml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 41 of Cargo.toml, which holds `tempdir = \"0.3.7\"`; it matches the declared range of registry rule rust.crate.tempdir.unmaintained, whose sources record a Rust toolchain or crate the Rust lifecycle rules mark as unmaintained or past support. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 41
+    }
+  ]
+}

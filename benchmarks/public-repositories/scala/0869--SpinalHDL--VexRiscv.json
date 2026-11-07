@@ -1,0 +1,53 @@
+{
+  "repository": "SpinalHDL/VexRiscv",
+  "commit": "baf7dc82f855eddaf5b0a20a6802c526f127e38a",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/scala.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 22 of .github/workflows/scala.yml, which holds `uses: actions/cache@v4`; it matches the declared range of registry rule github-actions.cache.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 22
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/scala.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 30 of .github/workflows/scala.yml, which holds `uses: actions/cache@v4`; it matches the declared range of registry rule github-actions.cache.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 30
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/scala.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 39 of .github/workflows/scala.yml, which holds `uses: actions/cache@v4`; it matches the declared range of registry rule github-actions.cache.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 39
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/scala.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 11 of .github/workflows/scala.yml, which holds `- uses: actions/checkout@v4`; it matches the declared range of registry rule github-actions.checkout.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 11
+    },
+    {
+      "ruleId": "github-actions.setup-java.node20",
+      "path": ".github/workflows/scala.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 16 of .github/workflows/scala.yml, which holds `uses: actions/setup-java@v4`; it matches the declared range of registry rule github-actions.setup-java.node20, whose sources record a GitHub Actions ref the actions lifecycle rules mark as using a retired Node runtime or retired action major. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 16
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "repository": "DomainDrivers/dd-java",
+  "commit": "62b637474765a82ded04d29bb238e88f51e9e7a5",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:17, which holds `<java.version>20</java.version>`; it matches the declared range of registry rule java.jdk.end-of-support-18-20, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 17
+    }
+  ]
+}

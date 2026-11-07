@@ -23,6 +23,7 @@ export type CorpusEcosystem =
   | "php"
   | "ruby"
   | "rust"
+  | "scala"
   | "dotnet"
   | "swift";
 

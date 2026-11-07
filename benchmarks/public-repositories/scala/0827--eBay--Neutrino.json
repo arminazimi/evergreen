@@ -1,0 +1,44 @@
+{
+  "repository": "eBay/Neutrino",
+  "commit": "5e969ef70d61748bce0ed303a07cf1c12a2f2d5a",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.dockerfile.legacy-env-format",
+      "path": "Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 17 of Dockerfile, which holds `ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64`; it matches the declared range of registry rule container.dockerfile.legacy-env-format, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 17
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 3 of Dockerfile, which holds `FROM ubuntu:14.04`; it matches the declared range of registry rule container.ubuntu.eol-20.04-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 3
+    },
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "build.sbt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 10 of build.sbt, which holds `scalaVersion := \"2.11.7\"`; it matches the declared range of registry rule scala.runtime.eol-2.11, whose sources record a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 10
+    },
+    {
+      "ruleId": "scala.sbt.eol-0.13",
+      "path": "project/build.properties",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of project/build.properties, which holds `sbt.version=0.13.7`; it matches the declared range of registry rule scala.sbt.eol-0.13, whose sources record an sbt 0.13.x release the sbt download page lists as end of life on 2018-11-30. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    }
+  ]
+}

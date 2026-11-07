@@ -149,14 +149,14 @@ test("a migration packet for a Scala finding names the file, steps, and verifica
   assert.ok(packet.verification.some((check) => check.command === "scala -version"));
 });
 
-test("the detector is registered and Scala is experimental in the capability manifest", () => {
+test("the detector is registered and Scala is stable in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "scala"));
   assert.deepEqual(
     getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "scala"),
     {
       id: "scala",
-      status: "experimental",
-      maturity: "experimental",
+      status: "supported",
+      maturity: "stable",
       detectorIds: ["scala"],
     },
   );

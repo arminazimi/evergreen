@@ -1,0 +1,26 @@
+{
+  "repository": "aselab/scala-activerecord",
+  "commit": "cce43fdde25e4db25fa7c35a81180c97bb24c6e8",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "scalatraSbt/src/sbt-test/generator/simple/build.sbt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 5 of scalatraSbt/src/sbt-test/generator/simple/build.sbt, which holds `scalaVersion := \"2.11.8\"`; it matches the declared range of registry rule scala.runtime.eol-2.11, whose sources record a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 5
+    },
+    {
+      "ruleId": "scala.sbt.eol-0.13",
+      "path": "scalatraSbt/src/sbt-test/generator/simple/project/build.properties",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of scalatraSbt/src/sbt-test/generator/simple/project/build.properties, which holds `sbt.version=0.13.12`; it matches the declared range of registry rule scala.sbt.eol-0.13, whose sources record an sbt 0.13.x release the sbt download page lists as end of life on 2018-11-30. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    }
+  ]
+}

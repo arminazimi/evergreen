@@ -1,0 +1,26 @@
+{
+  "repository": "freechat-fun/freechat",
+  "commit": "eb3bbd1260d37a9499a34b057574e9ab8b86e766",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "freechat-sdk/bash/Dockerfile",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 1 of freechat-sdk/bash/Dockerfile, which holds `FROM alpine:3.12.0`; it matches the declared range of registry rule container.alpine.eol-3.20-and-older, whose sources record a container base image or Dockerfile form the container lifecycle rules mark as end-of-life or retired. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 1
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-22",
+      "path": ".github/workflows/build.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 75 of .github/workflows/build.yml, which holds `- 22`; it matches the declared range of registry rule nodejs.runtime.eol-22, whose sources record a Node.js release the Node.js release schedule marks as end-of-life. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 75
+    }
+  ]
+}

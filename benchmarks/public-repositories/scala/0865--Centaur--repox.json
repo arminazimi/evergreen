@@ -1,0 +1,7 @@
+{
+  "repository": "Centaur/repox",
+  "commit": "714a17dcdcbae13f59963874412a17818525d3e8",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "arhelmus/akka-http-rest",
+  "commit": "e03f4cae34250444bd73cd775b5e4263c3625618",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

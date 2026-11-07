@@ -1,0 +1,7 @@
+{
+  "repository": "enragedginger/akka-quartz-scheduler",
+  "commit": "b2906c86246bab452ee7d82c8a377e7f124ca01d",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

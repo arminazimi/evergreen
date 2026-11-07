@@ -1,0 +1,35 @@
+{
+  "repository": "weltraumpirat/hexagonal_ddd",
+  "commit": "a1bbdc5da7406f047269d270969ed9750bb92fa8",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "container.mysql.eol-8.0-and-older",
+      "path": "docker/docker-compose.yml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read docker/docker-compose.yml:4, which holds `image: mysql:5.6.36`; it matches the declared range of registry rule container.mysql.eol-8.0-and-older, whose sources record a container base image or Dockerfile form the vendor lifecycle page or Dockerfile reference marks as end-of-life or legacy. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 4
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:12, which holds `<java.version>13</java.version>`; it matches the declared range of registry rule java.jdk.end-of-support-12-16, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 12
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:40, which holds `<release>13</release>`; it matches the declared range of registry rule java.jdk.end-of-support-12-16, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 40
+    }
+  ]
+}

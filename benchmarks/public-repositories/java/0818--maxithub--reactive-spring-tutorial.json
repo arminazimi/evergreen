@@ -1,0 +1,17 @@
+{
+  "repository": "maxithub/reactive-spring-tutorial",
+  "commit": "92194cc4390a6ff6b8fb00d0b82d15d6d6009266",
+  "ecosystem": "java",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pom.xml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read pom.xml:18, which holds `<java.version>13</java.version>`; it matches the declared range of registry rule java.jdk.end-of-support-12-16, whose sources record a non-LTS JDK feature release the Oracle Java SE Support Roadmap lists as superseded. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 18
+    }
+  ]
+}

@@ -38,6 +38,14 @@ Moved to [Ecosystem corpora: Java and Kotlin corpus](validation/ecosystems.md#ja
 
 Moved to [Ecosystem corpora: Java and Kotlin blind selection](validation/ecosystems.md#java-and-kotlin-blind-selection).
 
+## Scala and sbt corpus
+
+Moved to [Ecosystem corpora: Scala and sbt corpus](validation/ecosystems.md#scala-and-sbt-corpus).
+
+## Scala and sbt blind selection
+
+Moved to [Ecosystem corpora: Scala and sbt blind selection](validation/ecosystems.md#scala-and-sbt-blind-selection).
+
 ## Ruby corpus
 
 Moved to [Ecosystem corpora: Ruby corpus](validation/ecosystems.md#ruby-corpus).
@@ -202,7 +210,7 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 | elixir | Experimental | 0 | 0 | 0 | n/a | n/a |
 | github-actions | Supported | 1262 | 0 | 0 | 1.000 | 1.000 |
 | go | Supported | 111 | 0 | 0 | 1.000 | 1.000 |
-| java | Beta | 61 | 0 | 0 | 1.000 | 1.000 |
+| java | Supported | 61 | 0 | 0 | 1.000 | 1.000 |
 | kubernetes | Beta | 80 | 0 | 0 | 1.000 | 1.000 |
 | nodejs | Supported | 349 | 0 | 0 | 1.000 | 1.000 |
 | npm | Supported | 108 | 0 | 0 | 1.000 | 1.000 |
@@ -210,7 +218,7 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 | python | Supported | 135 | 0 | 0 | 1.000 | 1.000 |
 | ruby | Supported | 24 | 0 | 0 | 1.000 | 1.000 |
 | rust | Supported | 63 | 0 | 0 | 1.000 | 1.000 |
-| scala | Experimental | 2 | 0 | 0 | 1.000 | 1.000 |
+| scala | Supported | 2 | 0 | 0 | 1.000 | 1.000 |
 | serverless | Beta | 168 | 0 | 0 | 1.000 | 1.000 |
 | shell | Experimental | 12 | 0 | 0 | 1.000 | 1.000 |
 | swift | Beta | 20 | 0 | 0 | 1.000 | 1.000 |

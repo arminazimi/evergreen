@@ -1,0 +1,7 @@
+{
+  "repository": "yahoo/CMAK",
+  "commit": "30abfde3d303134db171f140784c5d506885eaf8",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": []
+}

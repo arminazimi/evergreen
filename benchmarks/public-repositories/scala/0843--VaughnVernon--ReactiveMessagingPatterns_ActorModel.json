@@ -1,0 +1,17 @@
+{
+  "repository": "VaughnVernon/ReactiveMessagingPatterns_ActorModel",
+  "commit": "6cc24764ae85d0d9e14429c6f07af3cfd282874f",
+  "ecosystem": "scala",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "build.sbt",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 5 of build.sbt, which holds `scalaVersion := \"2.11.7\"`; it matches the declared range of registry rule scala.runtime.eol-2.11, whose sources record a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 5
+    }
+  ]
+}
