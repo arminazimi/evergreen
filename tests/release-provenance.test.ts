@@ -117,6 +117,17 @@ test("the slsa-verifier install is pinned and checked against its release checks
   assert.doesNotMatch(install.run ?? "", /GITHUB_PATH/);
 });
 
+test("a dry run generates and verifies no provenance", () => {
+  for (const job of [
+    container.jobs.provenance,
+    container.jobs.verify,
+    binaries.jobs.provenance,
+    binaries.jobs.verify,
+  ]) {
+    assert.match(job?.if ?? "", /!inputs\.dry_run/);
+  }
+});
+
 test("each verifier expects the builder that produced the provenance", () => {
   assert.equal(binaries.jobs.provenance!.uses, genericGenerator);
   assert.equal(container.jobs.provenance!.uses, containerGenerator);
