@@ -35,7 +35,7 @@ Targets:
 | `.agents/plugins/marketplace.json` | `npm run build:plugins` | Codex marketplace install | 1 | Agents (plugin hosts) | Keep. |
 | `src/usage/vendor/tree-sitter/*.wasm.b64`, `manifest.json` | `node dist/tools/sync-tree-sitter-wasm.js` (source: an installed `@vscode/tree-sitter-wasm@0.3.1`; `tools/verify-tree-sitter-wasm.ts` checks the payloads offline) | `src/usage/tree-sitter.ts`, `tests/tree-sitter-vendor.test.ts`, `tests/package-contents.test.ts` | new | npm package, tests | Keep. The loader decodes the base64 payloads at runtime, so they must ship. |
 | `dist/action/index.js` | `npm run build:action` (`ncc`), on the `release/<tag>` branch by the Release workflow | `action.yml`, GitHub Action consumers, `tests/data-age.test.ts` (through `dist/src/action.js`), `npm run check:action-bundle` (with `EVERGREEN_VERIFY_ACTION_BUNDLE=1`, on a release tag) | 117 | Action | Release time, off `main`. `main` does not carry it and no pull request commits it; release tags point at a `release/<tag>` commit that adds it. |
-| `CHANGELOG.md` | `node dist/tools/changelog.js --write` (`tools/changelog.ts`), at release | Release readers, `docs/CHANGELOG.md` | 164 | Release readers | Release time. Not listed in AGENTS.md. Add it there in a follow-up. |
+| `CHANGELOG.md` | `node dist/tools/changelog.js --write` (`tools/changelog.ts`), at release | Release readers, `docs/CHANGELOG.md` | 164 | Release readers | Release time. A pull request adds a fragment under `changes/` instead; CI (`generated-files`) refuses any edit to this file unless the pull request title starts with `chore: release`. |
 
 ## Dated snapshots
 

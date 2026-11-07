@@ -134,7 +134,9 @@ jobs:
       - name: Refuse newly committed generated files
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
-        run: node tools/check-generated-files.mjs --base "$BASE_SHA"
+          # Only the release pull request may edit CHANGELOG.md; everything else adds a fragment under changes/.
+          RELEASE: "${{ (startsWith(github.event.pull_request.title, 'chore: release') || startsWith(github.event.merge_group.head_commit.message, 'chore: release')) && '1' || '' }}"
+        run: node tools/check-generated-files.mjs --base "$BASE_SHA" ${RELEASE:+--release}
 
   check:
     # Two time-balanced shards per Node version cut suite wall time; shard 0 of Node 24 owns

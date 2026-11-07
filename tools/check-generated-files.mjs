@@ -5,7 +5,8 @@
 // The list of outputs comes from the inventory in docs/generated-files.md: every path that page
 // marks Build time or Release time must not be added by a pull request. A new file that carries a
 // generated-file marker in its opening lines is refused too, so an output under a new name is
-// caught as well.
+// caught as well. A pull request must also leave the Release time outputs (CHANGELOG.md, the action
+// bundle) alone, even to edit them, unless it is the release pull request and passes `--release`.
 //
 // It reads git and file contents only: no network, no child processes other than git, and it never
 // executes repository or fixture code. Exit codes: 0 when nothing offending was added, 1 when a
@@ -69,6 +70,28 @@ export function matchGeneratedPath(filePath) {
     }
   }
   return undefined;
+}
+
+/**
+ * The files a change set touches in any way (added, modified, deleted, renamed) that the inventory marks
+ * Release time. Only the release pull request may change these; every other change adds a fragment under
+ * `changes/` instead.
+ */
+export function touchedReleaseFiles(base, root = process.cwd()) {
+  const output = execFileSync("git", ["-C", root, "diff", "--name-only", "-M", base, "HEAD"], {
+    encoding: "utf8",
+  });
+  return output
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0 && matchGeneratedPath(line)?.target === "Release time")
+    .sort((left, right) => left.localeCompare(right));
+}
+
+/** The message for a Release time output a pull request edited. */
+export function describeRelease(file) {
+  const entry = matchGeneratedPath(file);
+  return `"${file}" is generated at ${entry?.target} (see ${INVENTORY}); only the release pull request (title starts with "chore: release") may change it. Add a fragment under changes/ instead (see changes/README.md).`;
 }
 
 /** The first opening line that carries a generated-file marker, or undefined. */
@@ -144,11 +167,13 @@ export function describeFinding(finding) {
   return `"${finding.path}" looks generated: its header says "${finding.marker}". Commit the source, not the output (see ${INVENTORY}).`;
 }
 
-export const USAGE = "usage: node tools/check-generated-files.mjs [--base <git-ref>]";
+export const USAGE = "usage: node tools/check-generated-files.mjs [--base <git-ref>] [--release]";
 
 export function main(args = process.argv.slice(2)) {
   if (args.includes("--help") || args.includes("-h")) {
-    process.stdout.write(`${USAGE}\n\nCompares the added files against ${INVENTORY}.\n`);
+    process.stdout.write(
+      `${USAGE}\n\nCompares the added files against ${INVENTORY}, and refuses any edit to a Release time output unless --release is given (the release pull request).\n`,
+    );
     return 0;
   }
 
@@ -165,7 +190,16 @@ export function main(args = process.argv.slice(2)) {
   }
 
   const findings = inspectAdditions(files);
-  if (findings.length === 0) {
+  const release = args.includes("--release");
+  let touched;
+  try {
+    touched = release ? [] : touchedReleaseFiles(base);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    process.stderr.write(`check-generated-files: cannot diff against "${base}": ${message.split("\n")[0]}\n${USAGE}\n`);
+    return 2;
+  }
+  if (findings.length === 0 && touched.length === 0) {
     process.stdout.write(
       `No generated files were added (${files.length} added file(s) checked against ${GENERATED_PATHS.length} inventoried paths).\n`,
     );
@@ -173,12 +207,16 @@ export function main(args = process.argv.slice(2)) {
   }
 
   const annotate = process.env.GITHUB_ACTIONS === "true";
+  for (const file of touched) {
+    const message = describeRelease(file);
+    process.stderr.write(annotate ? `::error file=${file}::${message}\n` : `error: ${message}\n`);
+  }
   for (const finding of findings) {
     const message = describeFinding(finding);
     process.stderr.write(annotate ? `::error file=${finding.path}::${message}\n` : `error: ${message}\n`);
   }
   process.stderr.write(
-    `\n${findings.length} generated file(s) added. Commit the source and regenerate locally; do not commit the output.\n`,
+    `\n${findings.length} generated file(s) added, ${touched.length} release output(s) edited. Commit the source and regenerate locally; do not commit the output.\n`,
   );
   return 1;
 }

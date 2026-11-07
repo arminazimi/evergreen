@@ -208,3 +208,44 @@ test("ci.yml runs the guard on pull requests and ci-ok requires it", () => {
   const list = Array.isArray(needs) ? needs : needs === undefined ? [] : [needs];
   assert.ok(list.includes("generated-files"), "ci-ok must depend on generated-files");
 });
+
+test("the command refuses an edit to a Release time output unless --release is given", () => {
+  const root = repository();
+  writeFileSync(join(root, "CHANGELOG.md"), "# Changelog\n");
+  git(root, "add", "-A");
+  commit(root, "add changelog");
+  const base = git(root, "rev-parse", "HEAD").trim();
+  writeFileSync(join(root, "CHANGELOG.md"), "# Changelog\n\n- Added a thing.\n");
+  git(root, "add", "-A");
+  commit(root, "edit changelog");
+
+  const refused = runTool(root, "--base", base);
+  assert.equal(refused.status, 1, refused.stderr);
+  assert.match(refused.stderr, /CHANGELOG\.md" is generated at Release time/);
+  assert.match(refused.stderr, /changes\//);
+  assert.match(refused.stderr, /1 release output\(s\) edited/);
+
+  const release = runTool(root, "--base", base, "--release");
+  assert.equal(release.status, 0, release.stderr);
+});
+
+test("the command leaves a change that adds a changelog fragment alone", () => {
+  const root = repository();
+  const base = git(root, "rev-parse", "HEAD").trim();
+  mkdirSync(join(root, "changes"), { recursive: true });
+  writeFileSync(join(root, "changes", "a-fragment.md"), "- Add a thing. (#1)\n");
+  git(root, "add", "-A");
+  commit(root, "add fragment");
+
+  const run = runTool(root, "--base", base);
+  assert.equal(run.status, 0, run.stderr);
+});
+
+test("ci.yml passes --release to the guard only for the release pull request", () => {
+  const text = readFileSync(workflowPath, "utf8");
+  assert.match(text, /check-generated-files\.mjs --base "\$BASE_SHA" \$\{RELEASE:\+--release\}/);
+  assert.match(
+    text,
+    /startsWith\(github\.event\.pull_request\.title, 'chore: release'\)[^\n]*merge_group\.head_commit\.message/,
+  );
+});
