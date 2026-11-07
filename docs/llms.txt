@@ -34,7 +34,7 @@ Three commands cover most agent use: `npx evergreen-deprecation check pkg:npm/le
 - [PHP detector](https://arminazimi.github.io/evergreen/compatibility/php.html): the PHP declarations Evergreen reads, what it reports, and its false-positive boundaries.
 - [Ruby detector](https://arminazimi.github.io/evergreen/compatibility/ruby.html): the Ruby declarations Evergreen reads, what it reports, and its false-positive boundaries.
 - [Android detector](https://arminazimi.github.io/evergreen/compatibility/android.html): the Android Gradle declarations Evergreen reads, what it reports, and its false-positive boundaries.
-- [C and C++ detector](https://arminazimi.github.io/evergreen/compatibility/cpp.html): the CMake, Conan, and vcpkg declarations Evergreen reads, what it reports, and its limits.
+- [C and C++](https://arminazimi.github.io/evergreen/detectors/cpp.html): the CMake, Conan, and vcpkg declarations Evergreen reads, what it reports, and its limits.
 - [CI runner images detector](https://arminazimi.github.io/evergreen/compatibility/ci-runner-images.html): the hosted Azure, GitLab, and CircleCI image declarations Evergreen reads and its limits.
 - [Evergreen compared with other tools](https://arminazimi.github.io/evergreen/compare/index.html): what Evergreen answers versus Renovate, Dependabot, and endoflife.date, and where each is stronger.
 - [Agent Skill](https://arminazimi.github.io/evergreen/AGENT_SKILLS.html): the portable skill for coding agents and how its triggering is evaluated.

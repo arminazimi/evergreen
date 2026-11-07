@@ -1,0 +1,71 @@
+{
+  "repository": "jborean93/PSOpenAD",
+  "commit": "c1029096127ebad4ed62623012b4d04a0bec6dd3",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/PSOpenAD.Module/PSOpenAD.Module.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/PSOpenAD.Module/PSOpenAD.Module.csproj:4 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/PSOpenAD/PSOpenAD.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/PSOpenAD/PSOpenAD.csproj:4 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/units/PSOpenADTests/PSOpenADTests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/units/PSOpenADTests/PSOpenADTests.csproj:3 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "build.ps1",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read build.ps1:4 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/common.ps1",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/common.ps1:9 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/CoverageReport.ps1",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/CoverageReport.ps1:2 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/InvokeBuild.ps1",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/InvokeBuild.ps1:4 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

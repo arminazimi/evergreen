@@ -122,7 +122,7 @@ The C and C++ detector follows the same layout. Its entry point, `src/detectors/
 - A vcpkg dependency with no `version>=` matches only a rule that covers every version of that package. `cmake_minimum_required` matches `pkg:generic/cmake`. A Conan requirement matches `pkg:conan/<name>`. A vcpkg dependency matches `pkg:vcpkg/<name>`. Language standards, compiler checks, and `builtin-baseline` match the generic Package URLs named in the detector.
 - Generator and module rules are not matched yet: the CMake parser does not emit those declarations. There is no source-usage pass.
 
-The detector is experimental. Its five-repository public corpus includes a zero-finding case and independent ground-truth sources. The user-facing list of supported forms, lifecycle data sources, and limits is in [Compatibility](../compatibility/cpp.md#c-and-c-detector).
+The detector is supported. Its public corpus and the user-facing list of supported forms, lifecycle data sources, and limits are in [C and C++](cpp.md) and [Compatibility](../compatibility/cpp.md#c-and-c-detector).
 
 ## Serverless runtimes detector layout
 

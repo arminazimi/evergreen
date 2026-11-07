@@ -1,0 +1,7 @@
+{
+  "repository": "kaitai-io/kaitai_struct_cpp_stl_runtime",
+  "commit": "4ca1ba36d2e8816bae3875378c55cf2d01c3971e",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": []
+}

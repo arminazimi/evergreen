@@ -1,0 +1,17 @@
+{
+  "repository": "assarbad/msvc-undoc",
+  "commit": "5423c9f0390e770b8b6c667209aacaa33970643f",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-6",
+      "path": "tools/helpers/get-help-output.ps1",
+      "line": 13,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/helpers/get-help-output.ps1:13 at this commit: `#Requires -Version 6.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

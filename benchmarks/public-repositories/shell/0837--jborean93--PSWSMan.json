@@ -1,0 +1,98 @@
+{
+  "repository": "jborean93/PSWSMan",
+  "commit": "f2aed831e1118696eb2cc1bfa0845cc834bc2c95",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/PSWSMan.Lib/PSWSMan.Lib.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/PSWSMan.Lib/PSWSMan.Lib.csproj:4 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/PSWSMan.Loader/PSWSMan.Loader.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/PSWSMan.Loader/PSWSMan.Loader.csproj:4 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "src/PSWSMan/PSWSMan.csproj",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read src/PSWSMan/PSWSMan.csproj:4 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/units/PSWSMan.Authentication.Tests/PSWSMan.Authentication.Tests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/units/PSWSMan.Authentication.Tests/PSWSMan.Authentication.Tests.csproj:3 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/units/PSWSMan.Connection.Tests/PSWSMan.Connection.Tests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/units/PSWSMan.Connection.Tests/PSWSMan.Connection.Tests.csproj:3 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "tests/units/PSWSMan.Lib.Tests/PSWSMan.Lib.Tests.csproj",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tests/units/PSWSMan.Lib.Tests/PSWSMan.Lib.Tests.csproj:3 at this commit: `<TargetFrameworks>net8.0</TargetFrameworks>`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "build.ps1",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read build.ps1:4 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/common.ps1",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/common.ps1:10 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/CoverageReport.ps1",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/CoverageReport.ps1:2 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/InvokeBuild.ps1",
+      "line": 4,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/InvokeBuild.ps1:4 at this commit: `#Requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

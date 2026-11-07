@@ -5,7 +5,7 @@
     "android": 12,
     "ci-images": 12,
     "container": 12,
-    "cpp": 12,
+    "cpp": 15,
     "dart": 12,
     "database": 12,
     "deno": 0,
@@ -22,7 +22,7 @@
     "rust": 78,
     "scala": 0,
     "serverless": 21,
-    "shell": 12,
+    "shell": 43,
     "swift": 22,
     "terraform": 12
   }

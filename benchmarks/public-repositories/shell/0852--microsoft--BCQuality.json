@@ -1,0 +1,53 @@
+{
+  "repository": "microsoft/BCQuality",
+  "commit": "634aba3df9af1b4579e8a735b186e3efdbf47de2",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/Bounded-Results.ps1",
+      "line": 2,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/Bounded-Results.ps1:2 at this commit: `#requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/Get-KnowledgeArticles.ps1",
+      "line": 10,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/Get-KnowledgeArticles.ps1:10 at this commit: `#requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/Review-FixtureText.ps1",
+      "line": 3,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/Review-FixtureText.ps1:3 at this commit: `#requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/Search-Knowledge.ps1",
+      "line": 9,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/Search-Knowledge.ps1:9 at this commit: `#requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.2",
+      "path": "tools/Test-KnowledgeRetrieval.ps1",
+      "line": 5,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read tools/Test-KnowledgeRetrieval.ps1:5 at this commit: `#requires -Version 7.2`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

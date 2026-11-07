@@ -8,6 +8,7 @@ Each page documents one ecosystem detector: what it reads, what it reports, and 
 
 | Detector | What it reads | Maturity |
 | --- | --- | --- |
+| [C and C++](cpp.md) | `CMakeLists.txt`, `conanfile.txt`/`py`, `vcpkg.json` | Supported |
 | [CI runner images](ci-images.md) | `pool.vmImage` in `azure-pipelines.yml` (GitLab and CircleCI images are read, not judged) | Supported |
 | [Container base images](container.md) | `FROM` lines in Dockerfiles/Containerfiles and `services.*.image` in Compose | Supported |
 | [Dart and Flutter](dart.md) | `pubspec.yaml`/`lock`, `.fvmrc`, `.fvm/fvm_config.json` | Experimental |
@@ -23,7 +24,7 @@ Each page documents one ecosystem detector: what it reads, what it reports, and 
 | [Rust](rust.md) | `rust-toolchain(.toml)`, `Cargo.toml`, `Cargo.lock` | Supported |
 | [Scala and sbt](scala.md) | `.scala-version`, `build.sbt`, `project/build.properties` | Experimental |
 | [Serverless runtimes](serverless.md) | SAM/CloudFormation Runtime, `serverless.yml`, Terraform runtimes | Beta |
-| [Shell and PowerShell](shell.md) | `#Requires -Version`, `PowerShellVersion`, powershell image tags | Experimental |
+| [Shell and PowerShell](shell.md) | `#Requires -Version`, `PowerShellVersion`, powershell image tags | Supported |
 | [Swift](swift.md) | `.swift-version`, `.xcode-version`, `Package.swift`, `Package.resolved`, `IPHONEOS_DEPLOYMENT_TARGET` | Beta |
 | [Terraform](terraform.md) | `*.tf`, `.terraform.lock.hcl`, `.terraform-version`, `.tool-versions` | Experimental |
 

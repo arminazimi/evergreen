@@ -21,8 +21,8 @@
       "minPrecision": 0.95
     },
     "cpp": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "dart": {
@@ -111,8 +111,8 @@
       "minPrecision": 0.95
     },
     "shell": {
-      "level": "experimental",
-      "stable": false,
+      "level": "stable",
+      "stable": true,
       "minPrecision": 0.95
     },
     "swift": {

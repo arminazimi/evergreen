@@ -1,7 +1,7 @@
 {% raw %}
 # Shell and PowerShell
 
-The `shell` detector reports PowerShell releases that are past end of support, as declared by the minimum version a script, module manifest, or CI container asks for. It is **experimental**: it is not yet held to the precision floor that stable detectors are (see [Decision 0013](../decisions/0013-detector-maturity.md)). Its lifecycle rules are in `registry/shell.json` and ship in the [data bundle](../DATA.md).
+The `shell` detector reports PowerShell releases that are past end of support, as declared by the minimum version a script, module manifest, or CI container asks for. It is **supported**: it is scored on the [public corpus](../VALIDATION.md) and held to the corpus precision and recall floors. Its lifecycle rules are in `registry/shell.json` and ship in the [data bundle](../DATA.md).
 
 ## What it reads
 
@@ -47,7 +47,7 @@ Each finding carries its rule's sources, replacement, migration steps, and verif
 - Every file is read on its own: findings in `examples/` or test directories are reported like any other.
 - A repository with more than 2,000 matching files is read only up to that limit, in sorted path order.
 
-## Evidence
+## Validation
 
-Five public repositories are pinned in `benchmarks/public-repositories/` under the `shell` ecosystem: four targeted repositories with `#Requires -Version` declarations on retired releases and one blind, zero-finding repository. Each expected finding is a reviewed line at the pinned commit, checked against Microsoft's lifecycle table and not against Evergreen output. Precision on this corpus does not establish coverage of the unsupported forms above.
+The corpus holds 43 pinned shell ecosystem repositories: 29 with reviewed shell findings and nine with none. Across every ecosystem the corpus expects 102 `shell` findings. Of the 43 shell entries, 39 were selected blind (91%). Every expected finding was checked by reading its line at the pinned commit against Microsoft's [PowerShell support lifecycle](https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle), not against Evergreen's output. Method and selection rules are in [Validation](../VALIDATION.md). Precision on this corpus does not establish coverage of the unsupported forms above.
 {% endraw %}

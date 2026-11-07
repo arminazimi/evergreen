@@ -1,0 +1,35 @@
+{
+  "repository": "michevnew/PowerShell",
+  "commit": "bf8c644b2831a29836b4ce1dc9e497196124a124",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Report_Forms.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Report_Forms.ps1:1 at this commit: `#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.1",
+      "path": "Graph_Devices_MemberOf.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Graph_Devices_MemberOf.ps1:1 at this commit: `#Requires -Version 7.1`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.1",
+      "path": "GraphSDK_devices_MemberOf.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read GraphSDK_devices_MemberOf.ps1:1 at this commit: `#Requires -Version 7.1`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

@@ -39,7 +39,7 @@
       ],
       "name": "C and C++",
       "reads": "`CMakeLists.txt`, `conanfile.txt`, `conanfile.py`, and `vcpkg.json`",
-      "reports": "CMake policy compatibility removals and deprecations, at the exact declaration. Other declarations require a matching reviewed rule. See [C and C++](docs/COMPATIBILITY.md#c-and-c-detector)"
+      "reports": "CMake policy compatibility removals and deprecations, at the exact declaration. Other declarations require a matching reviewed rule. See [C and C++](docs/detectors/cpp.md)"
     },
     {
       "ecosystems": [

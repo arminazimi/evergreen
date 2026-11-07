@@ -1,0 +1,35 @@
+{
+  "repository": "JamesNK/Newtonsoft.Json.Schema",
+  "commit": "5456c4bffe9a0b18ecd70ee056fc43f8a19ebf7a",
+  "ecosystem": "shell",
+  "selection": "blind",
+  "expected": [
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Build/build.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Build/build.ps1:1 at this commit: `\ufeff#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Build/localbuild.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Build/localbuild.ps1:1 at this commit: `\ufeff#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "Build/runbuild.ps1",
+      "line": 1,
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Read Build/runbuild.ps1:1 at this commit: `\ufeff#Requires -Version 7.0`; the declaration matches the rule's affected range."
+      }
+    }
+  ]
+}

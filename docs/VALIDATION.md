@@ -70,6 +70,26 @@ Moved to [Ecosystem corpora: .NET blind selection](validation/ecosystems.md#net-
 
 Moved to [Ecosystem corpora: CI runner images corpus](validation/ecosystems.md#ci-runner-images-corpus).
 
+## C and C++ corpus
+
+Issue #1897 promotes the C/C++ detector to stable. The corpus already held twelve C/C++ ecosystem entries (four targeted migration pins and eight blind pins from the 300-repository pass). The gap for Supported was zero-finding controls: only `catchorg/Catch2` had an empty `expected` list.
+
+The blind zero-finding rule, fixed on 2026-11-07 before Evergreen ran on these additions: for each of `cmake_minimum_required(VERSION 3.20`, `cmake_minimum_required(VERSION 3.22`, and `cmake_minimum_required(VERSION 3.25`, run `gh search code <query> --filename CMakeLists.txt --limit 50`, walk the results in order, and keep unique repositories that are not forks, not archived, not larger than 5,000 KB on GitHub, and not already in the corpus. Pin each at its default-branch commit that day. Scan in walk order and keep a repository only when every detector reports nothing; stop as soon as the C/C++ ecosystem has four empty `expected` lists. The three additions are, in order: `j2kun/mlir-tutorial`, `rogerorr/NtTrace`, and `jagheterfredrik/meb-preheat`. Later walk hits that produced findings (for example `innobi/pantab`) were not kept. The search returns different results on another day, so the pinned list, not a re-run, is the record.
+
+Across the 15 C/C++ corpus entries, four have no findings at all, and 11 of the 15 were selected blind (73%). Corpus-wide the harness expects 242 `cpp` findings in 20 repositories. A narrowed offline run of the `cpp` and `shell` ecosystems on 2026-11-07 reported 11 true positives for `cpp` on those entries, no false positives, and no false negatives.
+
+## Shell and PowerShell corpus
+
+Issue #1897 promotes the Shell detector to stable. The corpus already held twelve shell ecosystem entries (four targeted and eight blind). Counts before this issue: five repositories with shell findings, twelve expected shell findings, and two zero-finding controls.
+
+The blind finding rule, fixed on 2026-11-07 before Evergreen ran on these additions: for each query below, run `gh search code <query> --limit 50` with the listed path filter, walk the results in order, and keep unique repositories that are not forks, not archived, not larger than 5,000 KB on GitHub, and not already in the corpus, taking up to eight repositories per query until twenty-eight were kept. Pin each at its default-branch commit that day. Queries: `#Requires -Version 6.0` / `7.0` / `7.1` / `7.2` / `7.3` (`--extension ps1`), `#requires -Version 6` (`--extension psm1`), `PowerShellVersion = '7.0'` and `PowerShellVersion = '6.0'` (`--filename *.psd1`), and `mcr.microsoft.com/powershell:7.2` / `7.3` (`--extension yml`). After the first scan, repositories whose findings were almost entirely other detectors (for example `Contrast-Security-OSS/agent-operator`) were dropped so the shell sample stayed reviewable; every kept entry still came from that walk and was not chosen by its Evergreen score.
+
+The blind zero-finding rule, fixed the same day: the same walk for `#Requires -Version 7.4`, `#Requires -Version 7.5`, and `PowerShellVersion = '7.4'`, then keep empty `expected` lists until the shell ecosystem has at least four zero-finding repositories. Kept zeros from that walk include `arnobpl/SymlinkCreator`, `ndabas/pico-setup-windows`, `microsoft/azure-redcap-paas`, `agadiffe/WindowsMize`, `kaitai-io/kaitai_struct_cpp_stl_runtime`, and `hcoona/cxx-for-java-developers`.
+
+Ground truth: every finding in the kept repositories, from every detector, was read at its pinned line and recorded with a `maintainer-review` note quoting the path and line. PowerShell dates come from Microsoft's [PowerShell support lifecycle](https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle); other detectors cite their own vendor sources. Nothing in these entries is taken from Evergreen's output alone.
+
+Across the 43 shell corpus entries, 29 have expected shell findings, nine have none, and 39 of the 43 were selected blind (91%). The corpus expects 102 shell findings in total. A narrowed offline run of the `cpp` and `shell` ecosystems on 2026-11-07 reported 102 true positives for `shell`, no false positives, and no false negatives.
+
 ## Go corpus
 
 Issue #1892 added 31 Go entries: 24 blind and seven targeted. The targeted entries exercise multi-module repositories: `minio/minio` (twelve `go.mod` files, including five toolchain pins), `etcd-io/etcd` (five modules requiring the deprecated `github.com/golang/protobuf`), `hashicorp/vault` (three modules with the same requirement), `moby/moby` (four modules), `cli/cli` (a test module), and `containerd/containerd` (one module). `prometheus/prometheus` is a targeted zero-finding companion: it declares Go modules but no release line or module rule applies at the pin.
@@ -194,7 +214,7 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 | android | Experimental | 10 | 0 | 0 | 1.000 | 1.000 |
 | ci-images | Supported | 13 | 0 | 0 | 1.000 | 1.000 |
 | container | Supported | 368 | 0 | 0 | 1.000 | 1.000 |
-| cpp | Experimental | 19 | 0 | 0 | 1.000 | 1.000 |
+| cpp | Supported | 19 | 0 | 0 | 1.000 | 1.000 |
 | dart | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
 | database | Experimental | 20 | 0 | 0 | 1.000 | 1.000 |
 | deno | Experimental | 0 | 0 | 0 | n/a | n/a |
@@ -212,7 +232,7 @@ Measured on 557 pinned repositories at commit `dcc9f320` on 2026-11-06. Regenera
 | rust | Supported | 63 | 0 | 0 | 1.000 | 1.000 |
 | scala | Experimental | 2 | 0 | 0 | 1.000 | 1.000 |
 | serverless | Beta | 168 | 0 | 0 | 1.000 | 1.000 |
-| shell | Experimental | 12 | 0 | 0 | 1.000 | 1.000 |
+| shell | Supported | 12 | 0 | 0 | 1.000 | 1.000 |
 | swift | Beta | 20 | 0 | 0 | 1.000 | 1.000 |
 | terraform | Experimental | 66 | 0 | 0 | 1.000 | 1.000 |
 <!-- accuracy-tables:end -->
