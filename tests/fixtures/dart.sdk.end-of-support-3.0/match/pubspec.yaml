@@ -1,0 +1,6 @@
+name: evergreen_rule_fixture
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: 3.0.7
