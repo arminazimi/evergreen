@@ -144,8 +144,8 @@ test("the evidence counts agree with the reviewed corpus", () => {
     zeroFindingRepositories: 20,
   });
   assert.deepEqual(counts(evidence["dart"]!), {
-    repositoriesWithFindings: 30,
-    expectedFindings: 136,
+    repositoriesWithFindings: 31,
+    expectedFindings: 138,
     zeroFindingRepositories: 18,
   });
   assert.deepEqual(counts(evidence["android"]!), {

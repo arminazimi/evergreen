@@ -50,6 +50,24 @@
       "line": 17
     },
     {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "examples/dart/pubspec.lock",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 12 of examples/dart/pubspec.lock, which holds `dart: \">=2.16.1 <3.0.0\"`; it matches the declared range of registry rule dart.sdk.end-of-support-2-and-older, whose sources record a Dart SDK release the Dart security support policy marks as past support. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 12
+    },
+    {
+      "ruleId": "dart.sdk.end-of-support-2-and-older",
+      "path": "examples/dart/pubspec.yaml",
+      "groundTruthSource": {
+        "kind": "maintainer-review",
+        "note": "Reviewed at this commit: read line 7 of examples/dart/pubspec.yaml, which holds `sdk: '>=2.16.1 <3.0.0'`; it matches the declared range of registry rule dart.sdk.end-of-support-2-and-older, whose sources record a Dart SDK release the Dart security support policy marks as past support. Checked by AI agent under maintainer direction on 2026-11-07 by reading the cited line in the pinned checkout. Outcome: confirmed."
+      },
+      "line": 7
+    },
+    {
       "ruleId": "dotnet.runtime.end-of-support-6.0",
       "path": "examples/csharp-api/csharp-api.csproj",
       "groundTruthSource": {

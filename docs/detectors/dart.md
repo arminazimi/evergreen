@@ -50,4 +50,4 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 
 ## Evidence
 
-The Dart corpus holds 75 repositories: 55 selected blind (73%), 136 expected Dart findings in 30 repositories, and 18 repositories with no expected finding of any detector. The selection rules and counts are in [Validation: Dart corpus](../validation/ecosystems.md#dart-corpus).
+The Dart corpus holds 75 repositories: 55 selected blind (73%), and the reviewed corpus expects 138 Dart findings across 31 repositories (including Dart findings declared in other ecosystems' pins). 18 Dart-bucket repositories have no expected finding of any detector. The selection rules and counts are in [Validation: Dart corpus](../validation/ecosystems.md#dart-corpus).

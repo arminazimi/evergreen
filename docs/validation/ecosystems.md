@@ -150,7 +150,7 @@ Because the corpus scans every detector, every finding is recorded, not only the
 
 ## Dart corpus
 
-Issue #1894 promoted the `dart` detector to stable. The corpus holds 75 pinned Dart repositories: 55 selected blind (73%) and 20 targeted. 30 have expected Dart findings (136 in total); 18 have no expected findings of any detector.
+Issue #1894 promoted the `dart` detector to stable. The corpus holds 75 pinned Dart repositories: 55 selected blind (73%) and 20 targeted. Across the whole corpus the detector expects 138 findings in 31 repositories (30 of them in the Dart bucket, plus a Dart SDK pin in `railwayapp/nixpacks`); 18 Dart-bucket repositories have no expected findings of any detector.
 
 **Blind rule (fixed 2026-11-07 before Evergreen ran on these additions):** GitHub repository search `--language=Dart --stars='>=80' --archived=false`, sorted by stars descending. Walk results in order; keep a repository when its default branch contains a `pubspec.yaml`, it is not a fork, it is not already in the corpus, and it is not a meta list such as `awesome-flutter`. Skip `flutter/flutter` (over the 100,000 KB size cap). Take the first 48. Pin each at its default-branch HEAD commit SHA on that day.
 
